@@ -1,10 +1,4 @@
-import {
-  ActionReducerMap,
-  createSelector,
-  createFeatureSelector,
-  ActionReducer,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducerMap, createSelector, createFeatureSelector, ActionReducer, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 
 /**
@@ -14,15 +8,15 @@ import { environment } from '../../environments/environment';
  * notation packages up all of the exports into a single object.
  */
 
-import * as fromIdentityReducer from '../../../../../libs/security/app-context/reducers/identity.reducer';
+import * as fromUserContextReducer from './app-context/reducers/user-context.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 
-export interface State {
-  identity: fromIdentityReducer.State;
+export interface AppState {
+  userContext: fromUserContextReducer.State;
 }
 
 /**
@@ -30,13 +24,13 @@ export interface State {
  * These reducer functions are called with each dispatched action
  * and the current or initial state and return a new immutable state.
  */
-export const reducers: ActionReducerMap<State> = {
-  identity: fromIdentityReducer.reducer
+export const reducers: ActionReducerMap<AppState> = {
+  userContext: fromUserContextReducer.reducer
 };
 
 // console.log all actions
-export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function(state: State, action: any): State {
+export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState> {
+  return function(state: AppState, action: any): AppState {
     console.log('state', state);
     console.log('action', action);
 
@@ -49,16 +43,14 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
  * the root meta-reducer. To add more meta-reducers, provide an array of meta-reducers
  * that will be composed to form the root meta-reducer.
  */
-export const metaReducers: MetaReducer<State>[] = !environment.production
+export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? [logger]
   : [];
 
 /**
- * Layout Reducers
+ * User Context Reducers
  */
-export const getIdentityState = createFeatureSelector<fromIdentityReducer.State>('identity');
+export const getUserContextState = createFeatureSelector<fromUserContextReducer.State>('userContext');
 
-export const getGettingIdentity = createSelector(
-  getIdentityState,
-  fromIdentityReducer.getGettingIdentity
-);
+export const getGettingUserContext = createSelector(getUserContextState, fromUserContextReducer.getGettingUserContext);
+export const getGettingUserContextError = createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextError);

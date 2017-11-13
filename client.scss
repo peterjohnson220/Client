@@ -1,1 +1,16 @@
 @import '~bootstrap/scss/bootstrap';
+
+
+$fa-font-path: '~font-awesome/fonts/';
+@import '~font-awesome/scss/font-awesome';
+
+//TODO: Find the appropriate place for these
+html, body {
+  height: 100%;
+}
+
+.pf-avatar{
+  width: 33px;
+  height: 33px;
+  border-radius: 33px;
+}

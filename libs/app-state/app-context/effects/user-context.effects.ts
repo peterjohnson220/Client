@@ -7,21 +7,21 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { CompanySecurityApiService } from '../../../data/payfactors-api';
-import * as identityActions from '../actions/identity.actions';
+import { CompanySecurityApiService } from '../../../data/payfactors-api/index';
+import * as userContextActions from '../actions/user-context.actions';
 
 
 @Injectable()
-export class IdentityEffects {
+export class UserContextEffects {
 
   @Effect()
-  getIdentity$ = this.actions$
-    .ofType(identityActions.GET_IDENTITY)
+  getUserContext$ = this.actions$
+    .ofType(userContextActions.GET_USER_CONTEXT)
     .switchMap(() =>
       this.companySecurityApiService
         .getIdentity()
-        .map((identity: any) => new identityActions.GetIdentitySuccess(identity))
-        .catch(error => of(new identityActions.GetIdentityError()))
+        .map((identity: any) => new userContextActions.GetUserContextSuccess(identity))
+        .catch(() => of(new userContextActions.GetUserContextError()))
     );
 
   constructor(

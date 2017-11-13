@@ -1,10 +1,23 @@
-<pf-layout-wrapper-header></pf-layout-wrapper-header>
-
-<div class="container-fluid h-100">
-  <div class="row">
-    <div class="col-3">
-      <pf-layout-wrapper-sidebar></pf-layout-wrapper-sidebar>
-    </div>
-    <div class="col-9" style="background: teal"></div>
+<!--Identity Loading-->
+<ng-container *ngIf="(gettingUserContext$ | async) && !(gettingUserContextError$ | async)">
+  <div class="d-flex h-100 justify-content-center align-items-center">
+    <h2><pf-loading-indicator></pf-loading-indicator></h2>
   </div>
-</div>
+</ng-container>
+
+<!--Identity Error-->
+<ng-container *ngIf="!(gettingUserContext$ | async) && (gettingUserContextError$ | async)">
+
+  <!--TODO: Navigate to an Unauthorized Page? / Show an Error Message only?-->
+  Error!
+
+</ng-container>
+
+<!--Layout Wrapper-->
+<ng-container *ngIf="!(gettingUserContext$ | async) && !(gettingUserContextError$ | async)">
+  <pf-layout-wrapper-header></pf-layout-wrapper-header>
+
+  <pf-layout-wrapper-sidebar></pf-layout-wrapper-sidebar>
+
+  <ng-content></ng-content>
+</ng-container>

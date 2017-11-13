@@ -1,17 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { LayoutWrapperModule } from '../../../../libs/ui/layout-wrapper';
-import { IdentityEffects } from '../../../../libs/security/app-context/effects';
-import { environment } from '../environments/environment';
-import { PayfactorsApiModule } from '../../../../libs/data/payfactors-api';
+import { PFLayoutWrapperModule } from '../../../../libs/ui/layout-wrapper';
+import { PFApiModule } from '../../../../libs/data/payfactors-api';
+import { PFAppStateModule } from '../../../../libs/app-state/app-state.module';
 
 import { AppComponent } from './app.component';
-import { reducers, metaReducers } from './reducers';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -19,17 +15,18 @@ import { reducers, metaReducers } from './reducers';
     AppComponent
   ],
   imports: [
+    // Angular
     BrowserModule,
-    LayoutWrapperModule,
-    PayfactorsApiModule,
 
-    StoreModule.forRoot(reducers, { metaReducers }),
+    // PF Modules
+    // PFLayoutWrapperModule,
+    PFApiModule,
+    PFAppStateModule,
 
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    // Routing
+    AppRoutingModule
 
-    EffectsModule.forRoot([IdentityEffects]),
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
