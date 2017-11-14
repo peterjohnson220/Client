@@ -4,24 +4,29 @@ import { NgModule } from '@angular/core';
 
 import { PFLayoutWrapperModule } from '../../../../libs/ui/layout-wrapper';
 import { PFApiModule } from '../../../../libs/data/payfactors-api';
-import { PFAppStateModule } from '../../../../libs/app-state/app-state.module';
+import { PFStateModule } from '../../../../libs/state/state.module';
+import { PfSecurityModule } from '../../../../libs/security/security.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { MainComponent } from './main.component';
+import { PFCommonUIModule } from '../../../../libs/ui/common/common-ui-module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MainComponent
   ],
   imports: [
     // Angular
     BrowserModule,
 
     // PF Modules
-    // PFLayoutWrapperModule,
+    PfSecurityModule,
+    PFLayoutWrapperModule,
     PFApiModule,
-    PFAppStateModule,
+    PFStateModule,
+    PFCommonUIModule,
 
     // Routing
     AppRoutingModule

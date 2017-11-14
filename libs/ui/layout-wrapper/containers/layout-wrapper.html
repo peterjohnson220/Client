@@ -1,23 +1,9 @@
-<!--Identity Loading-->
-<ng-container *ngIf="(gettingUserContext$ | async) && !(gettingUserContextError$ | async)">
-  <div class="d-flex h-100 justify-content-center align-items-center">
-    <h2><pf-loading-indicator></pf-loading-indicator></h2>
-  </div>
-</ng-container>
+<pf-layout-wrapper-header
+  [avatarSource]="avatarSource"
+  [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+  [userContext]="userContext$ | async">
+</pf-layout-wrapper-header>
 
-<!--Identity Error-->
-<ng-container *ngIf="!(gettingUserContext$ | async) && (gettingUserContextError$ | async)">
+<pf-layout-wrapper-sidebar></pf-layout-wrapper-sidebar>
 
-  <!--TODO: Navigate to an Unauthorized Page? / Show an Error Message only?-->
-  Error!
-
-</ng-container>
-
-<!--Layout Wrapper-->
-<ng-container *ngIf="!(gettingUserContext$ | async) && !(gettingUserContextError$ | async)">
-  <pf-layout-wrapper-header></pf-layout-wrapper-header>
-
-  <pf-layout-wrapper-sidebar></pf-layout-wrapper-sidebar>
-
-  <ng-content></ng-content>
-</ng-container>
+<ng-content></ng-content>

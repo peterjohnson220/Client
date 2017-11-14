@@ -3,10 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromUserContextActions from '../../../app-state/app-context/actions/user-context.actions';
-import * as fromAppState from '../../../app-state/app-state';
+import * as fromAppState from '../../../state/state';
+import { environment } from '../../../../environments/environment';
 
 import * as fromHeaderActions from '../actions/header.actions';
+import { UserContext, NavigationLink } from '../../../models';
+import * as fromLayoutReducer from '../reducers';
 
 @Component({
   selector: 'pf-layout-wrapper',
@@ -14,18 +16,28 @@ import * as fromHeaderActions from '../actions/header.actions';
   styleUrls: ['./layout-wrapper.scss']
 })
 export class LayoutWrapperComponent implements OnInit {
-  gettingUserContext$: Observable<boolean>;
-  gettingUserContextError$: Observable<boolean>;
+  // Loading/Errors
+  gettingHeaderDropdownNavigationLinks$: Observable<boolean>;
+  gettingHeaderDropdownNavigationLinksError$: Observable<boolean>;
+
+  userContext$: Observable<UserContext>;
+  headerDropdownNaivgationLinks$: Observable<NavigationLink[]>;
+
+  avatarSource: string = environment.avatarSource;
 
   constructor(
-    private store: Store<fromAppState.AppState>
+    private store: Store<fromAppState.AppState>,
+    private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
   ) {
-    this.gettingUserContext$ = store.select(fromAppState.getGettingUserContext);
-    this.gettingUserContextError$ = store.select(fromAppState.getGettingUserContextError);
+    // Loading / Errors
+    this.gettingHeaderDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinks);
+    this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
+
+    this.userContext$ = store.select(fromAppState.getUserContext);
+    this.headerDropdownNaivgationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromUserContextActions.GetUserContext());
     this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
   }
 }

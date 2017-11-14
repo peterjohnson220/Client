@@ -21,9 +21,14 @@
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../client.scss",
+        "../../../styles/client.scss",
         "styles.scss"
       ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../../../styles"
+        ]
+      },
       "scripts": [],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {

@@ -1,3 +1,7 @@
-<!--<pf-layout-wrapper>-->
+<ng-container *ngIf="(gettingUserContext$ | async); else routerOutlet">
+  <pf-loading-user-context *ngIf="gettingUserContext$ | async"></pf-loading-user-context>
+</ng-container>
+
+<ng-template #routerOutlet>
   <router-outlet></router-outlet>
-<!--</pf-layout-wrapper>-->
+</ng-template>

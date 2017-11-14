@@ -5,12 +5,14 @@ import { UserContext } from '../../../models/';
 export interface State {
   gettingUserContext: boolean;
   gettingUserContextError: boolean;
+  gettingUserContextAttempted: boolean;
   userContext: UserContext;
 }
 
 export const initialState: State = {
   gettingUserContext: false,
   gettingUserContextError: false,
+  gettingUserContextAttempted: false,
   userContext: null
 };
 
@@ -28,6 +30,7 @@ export function reducer(state = initialState, action: userContextActions.Actions
       return {
         ...state,
         gettingUserContext: false,
+        gettingUserContextAttempted: true,
         userContext: action.payload
       };
     }
@@ -35,6 +38,7 @@ export function reducer(state = initialState, action: userContextActions.Actions
       return {
         ...state,
         gettingUserContext: false,
+        gettingUserContextAttempted: true,
         gettingUserContextError: true
       };
     }
@@ -46,4 +50,5 @@ export function reducer(state = initialState, action: userContextActions.Actions
 
 export const getGettingUserContext = (state: State) => state.gettingUserContext;
 export const getGettingUserContextError = (state: State) => state.gettingUserContextError;
+export const getGettingUserContextAttempted = (state: State) => state.gettingUserContextAttempted;
 export const getUserContext = (state: State) => state.userContext;

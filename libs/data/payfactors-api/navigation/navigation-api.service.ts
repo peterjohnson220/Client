@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { NavigationLink } from '../../../models/navigation';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class NavigationApiService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private payfactorsApiService: PayfactorsApiService
+  ) {}
 
   getHeaderDropdownNavigationLinks() {
-    return this.http.get<NavigationLink[]>('/odata/Navigation.GetHeaderDropdownNavigationLinks');
+    return this.payfactorsApiService.get<NavigationLink[]>('Navigation.GetHeaderDropdownNavigationLinks');
   }
 
 }

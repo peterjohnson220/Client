@@ -1,4 +1,4 @@
-export class NavigationLink {
+export interface NavigationLink {
   Name: string;
   Url: string;
   NgAppLink: boolean;

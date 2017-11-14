@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { UserContextEffects } from './app-context/effects';
-import { reducers, metaReducers } from './app-state';
+import { reducers, metaReducers } from './state';
 import { environment } from '../../environments/environment';
 
 
@@ -21,4 +21,4 @@ import { environment } from '../../environments/environment';
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ]
 })
-export class PFAppStateModule {}
+export class PFStateModule {}

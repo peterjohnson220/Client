@@ -44,7 +44,7 @@ export function logger(reducer: ActionReducer<AppState>): ActionReducer<AppState
  * that will be composed to form the root meta-reducer.
  */
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
-  ? [logger]
+  ? []
   : [];
 
 /**
@@ -52,5 +52,7 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
  */
 export const getUserContextState = createFeatureSelector<fromUserContextReducer.State>('userContext');
 
+export const getUserContext = createSelector(getUserContextState, fromUserContextReducer.getUserContext);
 export const getGettingUserContext = createSelector(getUserContextState, fromUserContextReducer.getGettingUserContext);
 export const getGettingUserContextError = createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextError);
+export const getGettingUserContextAttempted = createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextAttempted);

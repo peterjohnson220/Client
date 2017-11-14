@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { UserContext } from '../../../models/security';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class CompanySecurityApiService {
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private payfactorsApiService: PayfactorsApiService
+  ) {}
 
   getIdentity() {
-    return this.http.get<UserContext>('/odata/CompanySecurity.GetIdentity');
+    return this.payfactorsApiService.get<UserContext>('CompanySecurity.GetIdentity');
   }
 
 }
