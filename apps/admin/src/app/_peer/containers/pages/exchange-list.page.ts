@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./exchange-list.page.scss']
 })
 export class ExchangeListPageComponent {
-  title = 'app';
+
 }

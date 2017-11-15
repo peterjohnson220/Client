@@ -9,10 +9,7 @@ export const routes: Routes = [
     path: '',
     component: MainComponent,
     canActivate: [UserContextGuard],
-    children: [
-      { path: '', redirectTo: 'peer-admin', pathMatch: 'full'},
-      { path: 'peer-admin', loadChildren: 'apps/admin/src/app/_peer/admin-peer.module#AdminPeerModule' }
-    ]
+    children: []
   }
 ];
 
