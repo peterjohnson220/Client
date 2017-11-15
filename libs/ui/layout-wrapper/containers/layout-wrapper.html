@@ -1,9 +1,13 @@
-<pf-layout-wrapper-header
-  [avatarSource]="avatarSource"
-  [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
-  [userContext]="userContext$ | async">
-</pf-layout-wrapper-header>
-
-<pf-layout-wrapper-sidebar></pf-layout-wrapper-sidebar>
-
-<ng-content></ng-content>
+<div class="flex-column-container">
+  <div class="header">
+    <pf-layout-wrapper-header
+    [avatarSource]="avatarSource"
+    [companyLogoSource]="companyLogoSource"
+    [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+    [userContext]="userContext$ | async">
+    </pf-layout-wrapper-header>
+  </div>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</div>

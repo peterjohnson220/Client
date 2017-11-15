@@ -1,0 +1,34 @@
+$theme-colors: (
+  "primary": #1872ae
+);
+
+$navbar-dark-color: #FFF;
+$navbar-dark-hover-color: $navbar-dark-color;
+
+$fa-font-path: '~font-awesome/fonts/';
+
+@import '../../node_modules/bootstrap/scss/bootstrap';
+@import '../../node_modules/font-awesome/scss/font-awesome';
+
+
+//Payfactors
+@import 'flex.scss';
+
+
+
+
+//TODO: Find the appropriate place for these
+html, body {
+  height: 100%;
+  //overflow: hidden;
+  font-size: 13px;
+}
+
+.pf-avatar{
+  width: 33px;
+  height: 33px;
+  border-radius: 33px;
+}
+
+
+

@@ -1,0 +1,13 @@
+@import 'colors';
+
+.page-header{
+  background: $grey;
+  border-bottom: 1px solid $border-grey;
+  height: 67px;
+  flex-shrink: 0;
+}
+
+.page-content{
+  height: 100%;
+  overflow-y: auto;
+}

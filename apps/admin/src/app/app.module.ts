@@ -22,11 +22,11 @@ import { PFCommonUIModule } from '../../../../libs/ui/common/common-ui-module';
     BrowserModule,
 
     // PF Modules
+    PFCommonUIModule,
     PfSecurityModule,
     PFLayoutWrapperModule,
     PFApiModule,
     PFStateModule,
-    PFCommonUIModule,
 
     // Routing
     AppRoutingModule

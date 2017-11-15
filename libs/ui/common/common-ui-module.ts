@@ -4,13 +4,22 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoadingIndicatorComponent, LoadingUserContextComponent } from './loading';
+import { PageWithTitleBarComponent } from './page-layout';
+
+const components = [
+  // Loading
+  LoadingIndicatorComponent, LoadingUserContextComponent,
+
+  // Page Layouts
+  PageWithTitleBarComponent
+];
 
 @NgModule({
   imports:      [
     CommonModule,
     NgbModule.forRoot()
   ],
-  declarations: [ LoadingIndicatorComponent, LoadingUserContextComponent ],
-  exports:      [ LoadingIndicatorComponent, LoadingUserContextComponent ]
+  declarations: components,
+  exports: components
 })
 export class PFCommonUIModule { }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from '../../../../libs/security/guards/user-context.guard';
+import { UserContextGuard } from '../../../../libs/security';
 import { MainComponent } from './main.component';
 
 export const routes: Routes = [

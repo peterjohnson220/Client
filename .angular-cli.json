@@ -21,12 +21,12 @@
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../styles/client.scss",
+        "../../../assets/scss/client.scss",
         "styles.scss"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../styles"
+          "../../../assets/scss"
         ]
       },
       "scripts": [],

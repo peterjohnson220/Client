@@ -9,6 +9,7 @@ import { NavigationLink, UserContext } from '../../../../models';
 })
 export class HeaderComponent {
   @Input() avatarSource: string;
+  @Input() companyLogoSource: string;
   @Input() gettingDropDownNavigationLinks: boolean;
   @Input() gettingDropdownNavigationLinksError: boolean;
 

@@ -24,6 +24,7 @@ export class LayoutWrapperComponent implements OnInit {
   headerDropdownNaivgationLinks$: Observable<NavigationLink[]>;
 
   avatarSource: string = environment.avatarSource;
+  companyLogoSource: string = environment.companyLogoSource;
 
   constructor(
     private store: Store<fromAppState.AppState>,
