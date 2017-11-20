@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ExchangeListItem } from '../../../../../../libs/models';
+import { ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeListActions from '../actions/exchange-list.actions';
 

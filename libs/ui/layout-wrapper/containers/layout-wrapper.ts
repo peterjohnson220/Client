@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromAppState from '../../../state/state';
-import { environment } from '../../../../environments/environment';
+import * as fromRootState from '../../../state/state';
+import { environment } from 'environments/environment';
 
 import * as fromHeaderActions from '../actions/header.actions';
 import { UserContext, NavigationLink } from '../../../models';
@@ -27,14 +27,14 @@ export class LayoutWrapperComponent implements OnInit {
   companyLogoSource: string = environment.companyLogoSource;
 
   constructor(
-    private store: Store<fromAppState.AppState>,
+    private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
   ) {
     // Loading / Errors
     this.gettingHeaderDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinks);
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
 
-    this.userContext$ = store.select(fromAppState.getUserContext);
+    this.userContext$ = store.select(fromRootState.getUserContext);
     this.headerDropdownNaivgationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
   }
 

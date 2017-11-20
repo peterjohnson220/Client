@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { PFCommonUIModule } from '../common/common-ui-module';
+import { PfCommonUIModule } from '../common/common-ui-module';
 
 import { HeaderComponent, SidebarComponent } from './components';
 import { LayoutWrapperComponent } from './containers';
@@ -15,8 +15,9 @@ import { reducers } from './reducers';
 @NgModule({
   imports:      [
     CommonModule,
-    PFCommonUIModule,
     NgbModule,
+
+    PfCommonUIModule,
 
     StoreModule.forFeature('layoutWrapper', reducers),
     EffectsModule.forFeature([HeaderEffects]),
@@ -24,4 +25,4 @@ import { reducers } from './reducers';
   declarations: [ HeaderComponent, SidebarComponent, LayoutWrapperComponent ],
   exports:      [ HeaderComponent, SidebarComponent, LayoutWrapperComponent ]
 })
-export class PFLayoutWrapperModule { }
+export class PfLayoutWrapperModule { }

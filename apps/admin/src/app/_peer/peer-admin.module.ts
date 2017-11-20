@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 
-import { PFCommonUIModule } from '../../../../../libs/ui/common';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ExchangeGridComponent } from './components';
-import { ExchangeListPageComponent } from './containers/pages/';
+import { ExchangeListPageComponent } from './containers';
+import { ExchangeListEffects } from './effects';
+import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
+
 
 @NgModule({
   imports: [
@@ -16,12 +21,14 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 
     // 3rd Party
     GridModule,
+    StoreModule.forFeature('peerAdmin', reducers),
+    EffectsModule.forFeature([ExchangeListEffects]),
 
     // Routing
     PeerAdminRoutingModule,
 
     // Payfactors
-    PFCommonUIModule
+    PfCommonUIModule
   ],
   declarations: [
     // Components
@@ -32,6 +39,9 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
   ]
 })
 export class PeerAdminModule { }
+
+
+
 
 
 

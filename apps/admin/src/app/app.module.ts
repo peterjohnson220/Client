@@ -1,13 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { GridModule } from '@progress/kendo-angular-grid';
-
-import { PFLayoutWrapperModule } from '../../../../libs/ui/layout-wrapper';
-import { PFApiModule } from '../../../../libs/data/payfactors-api';
-import { PFStateModule } from '../../../../libs/state/state.module';
+import { PfLayoutWrapperModule } from '../../../../libs/ui/layout-wrapper';
+import { PfApiModule } from '../../../../libs/data/payfactors-api';
+import { PfStateModule } from '../../../../libs/state/state.module';
 import { PfSecurityModule } from '../../../../libs/security/security.module';
-import { PFCommonUIModule } from '../../../../libs/ui/common/common-ui-module';
+import { PfCommonUIModule } from '../../../../libs/ui/common/common-ui-module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,14 +21,12 @@ import { MainComponent } from './main.component';
     // Angular
     BrowserModule,
 
-
-
     // PF Modules
-    PFCommonUIModule,
+    PfCommonUIModule,
     PfSecurityModule,
-    PFLayoutWrapperModule,
-    PFApiModule,
-    PFStateModule,
+    PfLayoutWrapperModule,
+    PfApiModule,
+    PfStateModule,
 
     // Routing
     AppRoutingModule

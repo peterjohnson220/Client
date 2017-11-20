@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeListItem } from '../../../../../../libs/models';
+import { ExchangeListItem } from 'libs/models';
 
 export const LOADING_EXCHANGES  = '[Peer Admin/Exchange List] Loading Exchanges';
 export const LOADING_EXCHANGES_SUCCESS  = '[Peer Admin/Exchange List] Loading Exchanges Success';

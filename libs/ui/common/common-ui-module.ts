@@ -24,4 +24,4 @@ const components = [
   declarations: components,
   exports: components
 })
-export class PFCommonUIModule { }
+export class PfCommonUIModule { }

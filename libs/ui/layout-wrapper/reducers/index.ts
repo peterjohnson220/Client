@@ -8,7 +8,7 @@ export interface LayoutWrapperState {
   header: fromHeaderReducer.State;
 }
 
-export interface State extends fromRoot.AppState {
+export interface State extends fromRoot.State {
   layoutWrapper: LayoutWrapperState;
 }
 

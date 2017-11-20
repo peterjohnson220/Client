@@ -21,4 +21,4 @@ import { environment } from '../../environments/environment';
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ]
 })
-export class PFStateModule {}
+export class PfStateModule {}
