@@ -29,10 +29,10 @@ export const selectExchangeListState = createSelector(selectPeerAdminState, (sta
 
 // Entity Adapter Selectors
 export const {
-  selectIds,
-  selectEntities,
-  selectAll,
-  selectTotal
+  selectIds: getExchangeListItemIds,
+  selectEntities: getExchangeLisItemsDictionary,
+  selectAll: getExchangeListItems,
+  selectTotal: getExchangeListItemsTotal
 } = fromExchangeListReducer.adapter.getSelectors(selectExchangeListState);
 
 export const getExchangeListLoading = createSelector(selectExchangeListState, fromExchangeListReducer.getLoading);

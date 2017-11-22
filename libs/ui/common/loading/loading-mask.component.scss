@@ -1,0 +1,21 @@
+@import 'colors';
+
+.loading-blanket{
+  background-color: $loading-backround-color;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  font-size: 20px;
+  opacity: 0.8;
+  position: absolute;
+  z-index: 100;
+  text-align: center;
+}
+
+.loading-blanket-center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}

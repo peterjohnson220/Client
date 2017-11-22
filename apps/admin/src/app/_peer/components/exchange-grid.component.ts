@@ -1,6 +1,6 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 
-import { ExchangeListItem } from '../../../../../../libs/models';
+import { ExchangeListItem } from 'libs/models';
 
 @Component({
   selector: 'pf-exchange-grid',
@@ -12,6 +12,8 @@ export class ExchangeGridComponent {
   @Input() loading: boolean;
   @Input() loadingError: boolean;
   @Input() exchangeListItems: ExchangeListItem[];
+
+  @Output() reload = new EventEmitter();
 }
 
 

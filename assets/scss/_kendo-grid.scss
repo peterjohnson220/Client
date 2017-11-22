@@ -1,0 +1,29 @@
+:host ::ng-deep .k-widget.k-grid{
+  height: 100%;
+}
+
+:host ::ng-deep .k-grid tbody td{
+  border-left-width: 0;
+  border-top: 1px solid #eceeef;
+}
+
+:host ::ng-deep .k-grid tbody tr:hover{
+  background-color: rgba(0,0,0,.075);
+}
+
+:host ::ng-deep .k-grid th {
+  border-left-width: 1px;
+}
+
+:host ::ng-deep .k-grid .k-alt{
+  background: none;
+}
+
+:host ::ng-deep .k-grid-header-wrap{
+  font-weight:bold;
+  background: #FFFFFF;
+}
+
+:host ::ng-deep .k-pager-wrap{
+  min-height: 44px;
+}

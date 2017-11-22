@@ -3,5 +3,5 @@ export interface ExchangeListItem {
   ExchangeName: string;
   CreatedBy: string;
   CreatedDate: Date;
-  CompanyNames: string [];
+  NumberOfCompanies: number;
 }

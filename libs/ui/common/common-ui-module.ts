@@ -4,12 +4,16 @@ import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoadingIndicatorComponent, LoadingUserContextComponent } from './loading';
+import { ErrorIndicatorComponent } from './error';
+import { LoadingIndicatorComponent, LoadingUserContextComponent, LoadingMaskComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
 
 const components = [
+  // Error
+  ErrorIndicatorComponent,
+  
   // Loading
-  LoadingIndicatorComponent, LoadingUserContextComponent,
+  LoadingIndicatorComponent, LoadingUserContextComponent, LoadingMaskComponent,
 
   // Page Layouts
   PageWithTitleBarComponent

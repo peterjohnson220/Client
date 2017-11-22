@@ -6,13 +6,15 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
 export class NavigationApiService {
+  private endpoint = 'Navigation';
 
   constructor(
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
   getHeaderDropdownNavigationLinks() {
-    return this.payfactorsApiService.get<NavigationLink[]>('Navigation.GetHeaderDropdownNavigationLinks');
+    return this.payfactorsApiService
+      .get<NavigationLink[]>(`${this.endpoint}.GetHeaderDropdownNavigationLinks`);
   }
 
 }
