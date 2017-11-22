@@ -8,13 +8,12 @@ import { ExchangeListItem } from 'libs/models/peer/exchange-list-item.model';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 
-
 @Component({
   selector: 'pf-exchange-list-page',
   templateUrl: './exchange-list.page.html',
   styleUrls: ['./exchange-list.page.scss']
 })
-export class ExchangeListPageComponent implements OnInit{
+export class ExchangeListPageComponent implements OnInit {
   exchangeListLoading$: Observable<boolean>;
   exchangeListLoadingError$: Observable<boolean>;
   exchangeListItems$: Observable<ExchangeListItem[]>;
@@ -26,7 +25,7 @@ export class ExchangeListPageComponent implements OnInit{
   }
 
   // Events
-  handleExchangeGridReload(){
+  handleExchangeGridReload() {
     this.store.dispatch(new fromExchangeListActions.LoadingExchanges());
   }
 
