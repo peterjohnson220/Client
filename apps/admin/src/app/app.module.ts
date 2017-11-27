@@ -9,13 +9,13 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MainComponent } from './main.component';
+import { AppWrapperComponent } from './app-wrapper.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    AppWrapperComponent
   ],
   imports: [
     // Angular

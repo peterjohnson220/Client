@@ -11,7 +11,7 @@ import { PageWithTitleBarComponent } from './page-layout';
 const components = [
   // Error
   ErrorIndicatorComponent,
-  
+
   // Loading
   LoadingIndicatorComponent, LoadingUserContextComponent, LoadingMaskComponent,
 

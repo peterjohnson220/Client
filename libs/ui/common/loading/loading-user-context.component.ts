@@ -19,7 +19,7 @@ export class LoadingUserContextComponent implements OnInit {
     this.gettingUserContext$ = store.select(fromRootState.getGettingUserContext);
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.store.dispatch(new fromUserContextActions.GetUserContext());
   }
 }

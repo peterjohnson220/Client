@@ -13,7 +13,7 @@ export class ExchangeApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getAllExchanges(): Observable<ExchangeListItem[]>{
+  getAllExchanges(): Observable<ExchangeListItem[]> {
     return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`);
   }
 }

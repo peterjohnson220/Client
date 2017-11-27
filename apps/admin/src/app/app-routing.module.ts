@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { UserContextGuard } from 'libs/security';
 
-import { MainComponent } from './main.component';
+import { AppWrapperComponent } from './app-wrapper.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
