@@ -1,34 +1,13 @@
-$theme-colors: (
-  "primary": #1872ae
-);
+// Overrides
+@import "bootstrap-overrides";
+@import "font-awesome-overrides";
 
-$navbar-dark-color: #FFF;
-$navbar-dark-hover-color: $navbar-dark-color;
-
-$fa-font-path: '~font-awesome/fonts/';
-
+// 3rd Party
 @import '~bootstrap/scss/bootstrap';
 @import '~font-awesome/scss/font-awesome';
 @import "~@progress/kendo-theme-bootstrap/scss/all";
 
-
-//Payfactors
+// Payfactors
+@import 'base.scss';
+@import 'common.scss';
 @import 'flex.scss';
-
-
-
-//TODO: Find the appropriate place for these
-html, body {
-  height: 100%;
-  //overflow: hidden;
-  font-size: 13px;
-}
-
-.pf-avatar{
-  width: 33px;
-  height: 33px;
-  border-radius: 33px;
-}
-
-
-
