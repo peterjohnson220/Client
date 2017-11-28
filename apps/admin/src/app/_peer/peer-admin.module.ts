@@ -7,17 +7,19 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ExchangeGridComponent } from './components';
+import { ExchangeGridComponent, CreateExchangeModalComponent } from './components';
 import { ExchangeListPageComponent } from './containers';
 import { ExchangeListEffects } from './effects';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     GridModule,
@@ -33,6 +35,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
   declarations: [
     // Components
     ExchangeGridComponent,
+    CreateExchangeModalComponent,
 
     // Pages
     ExchangeListPageComponent

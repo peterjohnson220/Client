@@ -4,14 +4,18 @@
     Peer Exchanges
   </ng-container>
 
-  <ng-container page-content>
+  <ng-container page-actions>
+    <button type="button" class="btn btn-primary" (click)="openCreateExchangeModal()">Create</button>
+  </ng-container>
 
+  <ng-container page-content>
     <pf-exchange-grid
       [loading]="exchangeListLoading$ | async"
       [exchangeListItems]="exchangeListItems$ | async"
       [loadingError]="exchangeListLoadingError$ | async"
       (reload)="handleExchangeGridReload()">
     </pf-exchange-grid>
+    <pf-create-exchange-modal></pf-create-exchange-modal>
 
   </ng-container>
 

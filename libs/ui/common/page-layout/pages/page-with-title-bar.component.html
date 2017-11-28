@@ -1,6 +1,7 @@
 <div class="flex-column-container">
-  <div class="page-header d-flex align-items-center px-2">
+  <div class="page-header d-flex justify-content-between align-items-center px-2">
     <h3><ng-content select="[page-title]"></ng-content></h3>
+    <ng-content select="[page-actions]"></ng-content>
   </div>
 
   <div class="page-content p-2">
