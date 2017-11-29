@@ -1,0 +1,15 @@
+<div ngbDropdown>
+  <a ngbDropdownToggle class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+    <span>{{appUser.firstName}} {{appUser.lastName}}</span>
+    <img class="avatar" [src]="avatarUrl">
+  </a>
+  <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" style="margin-right: 5px;">
+    <h5 class="dropdown-header">{{appUser.firstName}} {{appUser.lastName}}</h5>
+    <div class="dropdown-divider"></div>
+    <ng-template ngFor let-navigationLink [ngForOf]="navigationLinks">
+      <a class="dropdown-item" href="{{navigationLink.Url}}">{{navigationLink.Name}}</a>
+    </ng-template>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item dropdown-footer" href="#"><i class="fa fa-lg fa-sign-out" style="margin-right:3px;"></i>Log Out</a>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+app-right-sidebar {
+display:block;
+}
+.right-sidebar-block {
+  color: #636c72;
+  display: block;
+  float: right;
+  width: 250px;
+  height: 100%;
+  -webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
+  transition: width .5s;
+  overflow: auto;
+  margin-left: -40px;
+  z-index: 9999;
+}
+.right-sidebar-fixed {
+  position: fixed;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  -webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
+  transition: width .5s;
+  background-color: #fff;
+  color: #636c72;
+  z-index: 9999 !important;
+  margin-left: 5px;
+}
+
+.right-sidebar-closed {
+  width: 0px;
+}
+
+.right-sidebar-dock-block {
+  display: block;
+  float: right;
+  margin-left: 40px;
+  height: 100%
+}
+
+.right-sidebar-dock-fixed {
+  background-color: rgba(0,0,0,.3);
+  height: 100%;
+  width: 40px;
+  position: fixed;
+  right: 0;
+  z-index: 9999;
+}
+
+.right-sidebar-content {
+  min-width: 250px !important;
+  display: inline-block;
+  padding: 5px;
+  overflow: auto;
+}
+
+.open-sidebar-icon {
+  color: white;
+  position: fixed;
+  right: 10px;
+  top: 70px;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.close-sidebar-icon {
+  text-align: right;
+  width: 100%;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .right-sidebar-block {
+    position: fixed;
+    z-index: 9999;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .right-sidebar-dock {
+    display: none;
+  }
+
+  .right-sidebar-block {
+    display:none;
+  }
+}

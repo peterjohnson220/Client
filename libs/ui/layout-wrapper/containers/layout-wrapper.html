@@ -1,14 +1,38 @@
-<div class="flex-column-container">
+<!--<div class="flex-column-container">
   <div class="header">
-    <pf-layout-wrapper-header
-    [avatarSource]="avatarSource"
-    [companyLogoSource]="companyLogoSource"
-    [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
-    [userContext]="userContext$ | async">
+    <pf-layout-wrapper-header [avatarSource]="avatarSource"
+                              [companyLogoSource]="companyLogoSource"
+                              [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+                              [userContext]="userContext$ | async">
     </pf-layout-wrapper-header>
   </div>
-  layout wrapper new
+  <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
+  <pf-layout-wrapper-right-sidebar></pf-layout-wrapper-right-sidebar>
   <div class="content">
     <ng-content></ng-content>
+  </div>
+</div>-->
+
+<div class="container-fluid">
+  <pf-layout-wrapper-header [avatarSource]="avatarSource"
+                            [companyLogoSource]="companyLogoSource"
+                            [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+                            [userContext]="userContext$ | async">
+  </pf-layout-wrapper-header>
+  <div id="wrapper" class="page-container" [class.toggledLeft]="leftSidebarToggle" style="padding-left: 57px;">
+    <div id="left-sidebar-wrapper" [class.left-sidebar-enabled]="leftSidebarToggle">
+      <div id="left-sidebar-dock">
+      </div>
+      <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle"></pf-layout-wrapper-left-sidebar>
+      <div id="left-sidebar-footer" style="background-color: #283B4A; width:52px; position: fixed; left: 0; transition: width .5s;" [class.left-sidebar-enabled]="leftSidebarToggle">
+        <i (click)="leftSidebarToggle = !leftSidebarToggle" id="left-sidebar-toggle" class="fa fa-lg" [class.left-sidebar-enabled-footer]="leftSidebarToggle" [ngClass]="{'fa-angle-double-left': leftSidebarToggle, 'fa-angle-double-right': !leftSidebarToggle}" style="position:absolute; left: 20px; bottom: 10px; transition: left .5s;"></i>
+      </div>
+    </div>
+    <div id="page-content-wrapper" class="page-container">
+      <ng-content></ng-content>
+    </div>
+    <div id="right-sidebar-wrapper">
+      <pf-layout-wrapper-right-sidebar></pf-layout-wrapper-right-sidebar>
+    </div>
   </div>
 </div>

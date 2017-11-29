@@ -1,4 +1,4 @@
-.header{
+/*.header{
   height: 47px;
   flex-shrink: 0;
 }
@@ -6,4 +6,115 @@
 .content{
   height: 100%;
   overflow-y: auto;
+}*/
+
+#wrapper {
+  padding-right: 0;
+  padding-bottom: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 60px;
+  transition: padding .5s;
+}
+
+.left-sidebar-enabled {
+  width: 200px !important;
+}
+
+.left-sidebar-enabled-footer {
+  left: 170px !important;
+}
+
+#wrapper.toggledLeft {
+  padding-left: 200px !important;
+}
+
+#wrapper.toggledRight {
+  padding-right: 200px;
+}
+
+#left-sidebar-wrapper {
+  z-index: 1000;
+  width: 53px;
+  margin: 0 0 0 -200px;
+  position: absolute;
+  left: 200px;
+  bottom: 0;
+  top: 60px;
+  transition: width .5s;
+}
+
+
+#left-sidebar-dock {
+  background: #283B4A;
+  position: fixed;
+  width: 53px;
+  height: 100vh;
+  transition: width .5s;
+}
+
+#wrapper.toggledLeft #left-sidebar-dock {
+  width: 200px;
+}
+
+#right-sidebar-wrapper {
+  z-index: 1000;
+  width: 40px;
+  background: #283B4A;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  height: 100vh;
+}
+
+#page-content-wrapper {
+  overflow: hidden;
+}
+
+#page-content-wrappper #leftBarOpen {
+  width: auto;
+  position: relative;
+  margin-left: 200px;
+}
+
+#page-content-wrappper #RightBarOpen {
+  width: auto;
+  position: relative;
+  margin-right: 200px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+  position: relative;
+  margin-right: 0;
+}
+
+#left-sidebar-footer {
+  position: absolute;
+  bottom: 0px;
+  right: 3px;
+  text-align: right;
+  padding: 5px 15px 0 0;
+  width: 100%;
+  border-top: 1px solid #242A34;
+  min-height: 40px;
+  color: #496375;
+}
+
+#sidebar-footer i:hover {
+  color: #fff;
+}
+
+#sidebar-toggle {
+  font-size: 26px;
+  cursor: pointer;
+  color: #8b989f
+}
+
+#sidebar-toggle:hover {
+  color: white;
 }

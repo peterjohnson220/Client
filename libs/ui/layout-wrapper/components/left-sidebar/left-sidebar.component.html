@@ -1,0 +1,18 @@
+<ul class="left-sidebar-nav"  [class.left-sidebar-nav-enabled]="leftSidebarToggle" style="padding-top: 10px;">
+  <ng-container *ngFor="let sidebarLink of sidebarLinks">
+    
+    <li *ngIf="sidebarLink.Name == 'New Project'" class="sidebar-brand">
+      <a href="{{sidebarLink.Url}}"><img height="33" src="../../../img/plus.png" /> <span [hidden]="!leftSidebarToggle">Create New Project</span></a>
+    </li>
+    <li *ngIf="sidebarLink.Name != 'New Project'">
+      <ng-template [ngIf]="!leftSidebarToggle">
+        <a  *ngIf="sidebarLink.NgAppLink" placement="right" [ngbTooltip]="sidebarLink.Name"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i></a>
+        <a *ngIf="!sidebarLink.NgAppLink" href="{{sidebarLink.Url}}" ><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i></a>
+      </ng-template>
+      <ng-template [ngIf]="leftSidebarToggle">
+        <a *ngIf="sidebarLink.NgAppLink"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i> {{sidebarLink.Name}}</a>
+        <a *ngIf="!sidebarLink.NgAppLink" href="{{sidebarLink.Url}}"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i> {{sidebarLink.Name}}</a>
+      </ng-template>
+    </li>
+  </ng-container>
+</ul>
