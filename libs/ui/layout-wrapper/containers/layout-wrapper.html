@@ -19,7 +19,7 @@
                             [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
                             [userContext]="userContext$ | async">
   </pf-layout-wrapper-header>
-  <div id="wrapper" class="page-container" [class.toggledLeft]="leftSidebarToggle" style="padding-left: 57px;">
+  <div id="wrapper" class="page-container" [class.toggledLeft]="leftSidebarToggle" style="padding-left: 57px;" [style.background-image]="pageContainerBackgroundImage">
     <div id="left-sidebar-wrapper" [class.left-sidebar-enabled]="leftSidebarToggle">
       <div id="left-sidebar-dock">
       </div>

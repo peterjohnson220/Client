@@ -24,6 +24,7 @@ export class LayoutWrapperComponent implements OnInit {
   headerDropdownNaivgationLinks$: Observable<NavigationLink[]>;
 
   avatarSource: string = environment.avatarSource;
+  pageContainerBackgroundImage: string = "url('./assets/images/Elegant_Background-8.jpg')";
   companyLogoSource: string = environment.companyLogoSource;
 
   constructor(
