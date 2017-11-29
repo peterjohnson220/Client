@@ -4,7 +4,7 @@ display:block;
 .right-sidebar-block {
   color: #636c72;
   position:absolute;
-  width: 250px;
+  width: 300px;
   height: 100%;
   -webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
   transition: width .5s;
@@ -15,7 +15,7 @@ display:block;
 .right-sidebar-fixed {
   position: fixed;
   right: 0;
-  width: 250px;
+  width: 300px;
   height: 100%;
   -webkit-transition: width .5s; /* For Safari 3.1 to 6.0 */
   transition: width .5s;
@@ -46,7 +46,7 @@ display:block;
 }
 
 .right-sidebar-content {
-  min-width: 250px !important;
+  min-width: 300px !important;
   display: inline-block;
   padding: 5px;
   overflow: auto;

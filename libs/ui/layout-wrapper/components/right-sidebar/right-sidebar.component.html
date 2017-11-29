@@ -7,8 +7,8 @@
   <div class="right-sidebar-fixed" [ngClass]="show ? '' : 'right-sidebar-closed'">
     <div class="right-sidebar-content">
       <i (click)="toggleRightSidebar()" [style.visibility]="show ? 'visible' : 'hidden'" class="fa fa-times fa-lg close-sidebar-icon"></i>
-
-      <h5>right-sidebar content goes here</h5>
+      
+      <ng-content></ng-content>
 
     </div>
   </div>

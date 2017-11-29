@@ -29,10 +29,15 @@
       </div>
     </div>
     <div id="page-content-wrapper" class="page-container">
-      <ng-content></ng-content>
+      <ng-content select="[mainContent]"></ng-content>
     </div>
     <div id="right-sidebar-wrapper">
-      <pf-layout-wrapper-right-sidebar></pf-layout-wrapper-right-sidebar>
+      <pf-layout-wrapper-right-sidebar>
+        <ng-content select="[rightSidebarContent]"></ng-content>
+      </pf-layout-wrapper-right-sidebar>
     </div>
+  </div>
+  <div class="footer">
+    <pf-layout-wrapper-footer></pf-layout-wrapper-footer>
   </div>
 </div>

@@ -1,0 +1,5 @@
+<div class="tile" [ngClass]="tile.cssClass" [ngStyle]="{'background-color' : tile.bgColor}" (click)="tileClick()">
+  <h4>{{tile.name}}</h4>
+  <div>{{tile.tileData}}</div>
+  <ng-template tileItem></ng-template>
+</div>

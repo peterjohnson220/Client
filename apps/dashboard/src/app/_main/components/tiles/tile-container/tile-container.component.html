@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="row">
+    <ng-template ngFor let-tile [ngForOf]="tiles | orderBy: ['position']" >
+      <pf-tile [tile]="tile" [ngClass]="tile.size == 1 ? 'tile-col col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12' : 'tile-col col-xl-6 col-lg-6 col-md-4 col-sm-6 col-12'"></pf-tile>
+    </ng-template>
+  </div>
+</div>

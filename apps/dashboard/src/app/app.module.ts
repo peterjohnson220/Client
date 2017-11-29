@@ -11,11 +11,13 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
 
+import { TimelinePanelComponent, TimelineActivityComponent } from './_main/containers/recent-activity';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppWrapperComponent
+    AppWrapperComponent,
+    TimelinePanelComponent, TimelineActivityComponent
   ],
   imports: [
     // Angular
