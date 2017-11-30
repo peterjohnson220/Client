@@ -23,6 +23,6 @@ import { reducers } from './reducers';
     EffectsModule.forFeature([HeaderEffects]),
   ],
   declarations: [HeaderComponent, UserMenuComponent, LayoutWrapperComponent],
-  exports: [HeaderComponent, LayoutWrapperComponent ]
+  exports: [LayoutWrapperComponent ]
 })
 export class PfLayoutWrapperModule { }
