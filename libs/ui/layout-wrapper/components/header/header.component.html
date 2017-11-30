@@ -1,25 +1,10 @@
-<nav class="navbar navbar-expand navbar-dark bg-primary">
-  <a href="/marketdata/home.asp" class="navbar-brand mr-auto">
-    <img height="35" [src]="companyLogoSource + 'PayFactorsLogo_White.png'" />
+<nav class="navbar navbar-toggleable fixed-top navbar-inverse flex-row">
+  <a class="navbar-brand mr-auto">
+    <img class="logo-style" [src]="payfactorsLogo" />
   </a>
-
   <ul class="navbar-nav">
-    <li class="nav-item" ngbDropdown placement="bottom-right">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
-          <img class="pf-avatar" [src]="avatarSource + userContext.UserPicture" />
-        </a>
-        <div class="dropdown-menu" ngbDropdownMenu>
-          <span class="dropdown-header">{{ userContext.Name }}</span>
-          <div class="dropdown-divider"></div>
-
-          <!-- Temporary href conditional while current NG app still exists-->
-          <a *ngFor="let dropdownNavigationLink of dropdownNavigationLinks"
-             class="dropdown-item"
-             [href]="dropdownNavigationLink.NgAppLink ? '/ng/' + dropdownNavigationLink.Url : dropdownNavigationLink.Url">
-            {{dropdownNavigationLink.Name}}
-          </a>
-
-        </div>
+    <li class="nav-item">
+      <pf-layout-wrapper-user-menu></pf-layout-wrapper-user-menu>
     </li>
   </ul>
 </nav>
