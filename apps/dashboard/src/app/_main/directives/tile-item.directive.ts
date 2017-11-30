@@ -1,7 +1,7 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[tileItem]',
+  selector: '[pfTileItem]',
 })
 export class TileItemDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }

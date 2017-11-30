@@ -7,8 +7,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class RightSidebarComponent implements OnInit {
-  private show: boolean = false;
-  
+  private show = false;
   constructor() { }
 
   ngOnInit() {
@@ -17,8 +16,7 @@ export class RightSidebarComponent implements OnInit {
   toggleRightSidebar() {
     if (this.show) {
       this.show = false;
-    }
-    else {
+    } else {
       this.show = true;
     }
   }

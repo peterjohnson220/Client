@@ -27,7 +27,7 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Pages
-    DashboardPageComponent, TileContainerComponent, TileComponent, TileItemComponent, UserVoiceIndicatorComponent, 
+    DashboardPageComponent, TileContainerComponent, TileComponent, TileItemComponent, UserVoiceIndicatorComponent,
     TileItemDirective, OrderByPipe
   ],
   entryComponents: [TileItemComponent],

@@ -7,7 +7,5 @@ export class Tile {
   public size: number = 1,
   public cssClass?: string,
   public bgColor?: string,
-  public tileData?: any){}
+  public tileData?: any) {}
 }
-
-

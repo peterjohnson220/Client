@@ -1,4 +1,4 @@
-export class TimelineActivity{
+export class TimelineActivity {
   Type: string;
   SubType: string;
   PostedBy: string;

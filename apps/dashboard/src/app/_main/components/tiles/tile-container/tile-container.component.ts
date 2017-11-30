@@ -10,7 +10,7 @@ import { Tile } from '../../../models';
 })
 export class TileContainerComponent implements OnInit {
   tiles: Tile[];
-  
+
   constructor(private tileService: TileService) {}
 
   ngOnInit() {

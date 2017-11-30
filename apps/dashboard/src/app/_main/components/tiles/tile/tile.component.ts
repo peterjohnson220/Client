@@ -27,8 +27,7 @@ export class TileComponent implements OnInit {
     this.loadTileItemComponent();
   }
 
-  loadTileItemComponent()
-  {
+  loadTileItemComponent() {
     const viewContainerRef = this.adHost.viewContainerRef;
     viewContainerRef.clear();
 
