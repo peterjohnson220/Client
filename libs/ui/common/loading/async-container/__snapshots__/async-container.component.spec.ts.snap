@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Async Container should not show the pf-loading-mask, when it is not loading and has not had a loading error 1`] = `
+<pf-async-container
+  reload={[Function EventEmitter]}
+>
+  
+  
+  
+  
+</pf-async-container>
+`;
+
+exports[`Async Container should show the pf-loading-mask, when it is loading 1`] = `
+<pf-async-container
+  loading={[Function Boolean]}
+  reload={[Function EventEmitter]}
+>
+  <pf-loading-mask>
+    
+  
+  </pf-loading-mask>
+  
+  
+  
+</pf-async-container>
+`;
+
+exports[`Async Container should show the pf-loading-mask, when there is a loading error 1`] = `
+<pf-async-container
+  loadingError={[Function Boolean]}
+  reload={[Function EventEmitter]}
+>
+  <pf-loading-mask>
+    
+  
+  </pf-loading-mask>
+  
+  
+  
+</pf-async-container>
+`;

@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Grid should compile 1`] = `
+<pf-exchange-grid
+  exchangeListItems={[Function Array]}
+  loading={[Function Boolean]}
+  reload={[Function EventEmitter]}
+>
+  <pf-loading-mask>
+    
+  
+  </pf-loading-mask>
+  
+  <kendo-grid>
+    
+  
+    
+    <kendo-grid-column
+      field="ExchangeName"
+      title="Exchange Name"
+    />
+    
+  
+    
+    <kendo-grid-column
+      field="CreatedBy"
+      title="Created By"
+    />
+    
+  
+    
+    <kendo-grid-column
+      field="CreatedDate"
+      title="Created Date"
+    >
+      
+      
+      
+      
+    
+    </kendo-grid-column>
+    
+  
+    
+    <kendo-grid-column
+      class="text-center"
+      field="NumberOfCompanies"
+      title="Exchange Companies"
+    >
+      
+    
+    </kendo-grid-column>
+    
+  
+    
+    
+    
+  
+  </kendo-grid>
+  
+</pf-exchange-grid>
+`;

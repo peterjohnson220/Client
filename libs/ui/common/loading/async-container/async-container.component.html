@@ -1,0 +1,8 @@
+<pf-loading-mask
+  *ngIf="loading || loadingError"
+  [error]="loadingError"
+  [errorMessage]="loadingErrorMessage"
+  (reload)="reload.emit();">
+</pf-loading-mask>
+
+<ng-content></ng-content>

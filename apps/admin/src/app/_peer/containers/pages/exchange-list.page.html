@@ -6,12 +6,17 @@
 
   <ng-container page-content>
 
-    <pf-exchange-grid
+    <pf-async-container
       [loading]="exchangeListLoading$ | async"
-      [exchangeListItems]="exchangeListItems$ | async"
       [loadingError]="exchangeListLoadingError$ | async"
+      [loadingErrorMessage]="'Error Loading Exchanges'"
       (reload)="handleExchangeGridReload()">
-    </pf-exchange-grid>
+
+      <pf-exchange-grid
+        [exchangeListItems]="exchangeListItems$ | async">
+      </pf-exchange-grid>
+
+    </pf-async-container>
 
   </ng-container>
 

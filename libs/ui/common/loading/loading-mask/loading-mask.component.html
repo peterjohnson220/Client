@@ -8,7 +8,7 @@
     <ng-container *ngIf="error">
 
       <div class="d-flex flex-column align-items-center alert alert-danger">
-        <pf-error-indicator [message]="errorMessage"></pf-error-indicator>
+        <pf-error-indicator [message]="errorMessage || 'Error loading content.'"></pf-error-indicator>
 
         <ng-container *ngIf="!hideReloadButton">
           <button class="btn btn-danger mt-3" (click)="reload.emit()">Reload</button>

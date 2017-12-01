@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading Mask should show the pf-error-indicator and no reload button, when there is a loading error and hiding reload button 1`] = `
+<pf-loading-mask
+  error={[Function Boolean]}
+  hideReloadButton={[Function Boolean]}
+  reload={[Function EventEmitter]}
+>
+  <div
+    class="loading-blanket"
+  >
+    
+    
+    <div
+      class="loading-blanket-center"
+    >
+      
+  
+      
+      
+      
+  
+      
+      
+      
+      
+  
+        
+      <div
+        class="d-flex flex-column align-items-center alert alert-danger"
+      >
+        
+          
+        <pf-error-indicator />
+        
+  
+          
+        
+        
+        
+      </div>
+      
+  
+      
+      
+  
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-loading-mask>
+`;
+
+exports[`Loading Mask should show the pf-error-indicator and reload button, when there is a loading error 1`] = `
+<pf-loading-mask
+  error={[Function Boolean]}
+  reload={[Function EventEmitter]}
+>
+  <div
+    class="loading-blanket"
+  >
+    
+    
+    <div
+      class="loading-blanket-center"
+    >
+      
+  
+      
+      
+      
+  
+      
+      
+      
+      
+  
+        
+      <div
+        class="d-flex flex-column align-items-center alert alert-danger"
+      >
+        
+          
+        <pf-error-indicator />
+        
+  
+          
+        
+        
+        
+            
+        <button
+          class="btn btn-danger mt-3"
+        >
+          Reload
+        </button>
+        
+          
+        
+        
+      </div>
+      
+  
+      
+      
+  
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-loading-mask>
+`;
+
+exports[`Loading Mask should show the pf-loading-indicator, when there is no loading error 1`] = `
+<pf-loading-mask
+  error="false"
+  reload={[Function EventEmitter]}
+>
+  <div
+    class="loading-blanket"
+  >
+    
+    
+    <div
+      class="loading-blanket-center"
+    >
+      
+  
+      
+      
+      
+      
+        
+      <pf-loading-indicator />
+      
+      
+      
+  
+      
+      
+      
+  
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-loading-mask>
+`;
