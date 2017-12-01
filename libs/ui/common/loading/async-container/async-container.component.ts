@@ -9,6 +9,7 @@ export class AsyncContainerComponent {
   @Input() loading: boolean;
   @Input() loadingError: boolean;
   @Input() loadingErrorMessage: string;
+  @Input() hideReloadButton: boolean;
 
   @Output() reload = new EventEmitter();
 }
