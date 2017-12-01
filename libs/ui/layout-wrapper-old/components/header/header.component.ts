@@ -8,8 +8,6 @@ import { NavigationLink, UserContext } from '../../../../models';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  payfactorsLogo = './assets/images/PayFactors-logo-onBlue-RGB_0313.png';
-
   @Input() avatarSource: string;
   @Input() companyLogoSource: string;
   @Input() gettingDropDownNavigationLinks: boolean;
