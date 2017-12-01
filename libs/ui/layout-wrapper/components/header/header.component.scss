@@ -1,9 +1,10 @@
+@import 'colors';
+
 .navbar{
   padding: 0 0.35rem 0 0.65rem;
   flex-shrink: 0;
   height: 60px;
-  min-width: 600px;
-  vertical-align: top
+  background-color:$header-background-color;
 }
 
 //Downsized image blurriness fix
