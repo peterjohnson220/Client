@@ -1,0 +1,11 @@
+<pf-loading-mask
+  *ngIf="loading || loadingError"
+  [error]="loadingError"
+  [errorMessage]="'Error retrieving dashboard tiles'"
+  (reload)="reload.emit()">
+</pf-loading-mask>
+
+<h1>Tiles</h1>
+
+{{ tiles | json }}
+

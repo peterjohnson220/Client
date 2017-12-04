@@ -24,7 +24,3 @@ export type Actions
   = LoadingExchanges
   | LoadingExchangesSuccess
   | LoadingExchangesError;
-
-
-
-

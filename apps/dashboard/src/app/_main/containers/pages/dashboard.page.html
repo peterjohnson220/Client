@@ -1,1 +1,22 @@
-Payfactors Dashboard
+<pf-page-with-title-bar>
+
+  <ng-container page-title>
+    Payfactors Dashboard
+  </ng-container>
+
+  <ng-container page-content>
+
+    <pf-dashboard-tile-grid
+      [loading]="tilesLoading$ | async"
+      [tiles]="tiles$ | async"
+      [loadingError]="tilesLoadingError$ | async"
+      (reload)="handleTilesReload()">
+    </pf-dashboard-tile-grid>
+
+  </ng-container>
+
+</pf-page-with-title-bar>
+
+
+
+
