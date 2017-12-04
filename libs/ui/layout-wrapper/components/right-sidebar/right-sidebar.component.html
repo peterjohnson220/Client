@@ -1,18 +1,7 @@
-<div class="right-sidebar-dock-block">
-  <div class="right-sidebar-dock-fixed">
-    <i (click)="toggleRightSidebar()" class="fa fa-plus fa-lg open-sidebar-icon"></i>
+<div class="right-sidebar-dock">
+    <i (click)="rightSidebarToggle = !rightSidebarToggle" [style.visibility]="rightSidebarToggle ? 'hidden' : 'visible'" class="fa fa-plus fa-lg open-sidebar-icon"></i>
+  <div class="right-sidebar-content" [ngClass]="{'right-sidebar-open': rightSidebarToggle, 'right-sidebar-close': !rightSidebarToggle}">
+    <i (click)="rightSidebarToggle = !rightSidebarToggle"  class="fa fa-times fa-lg close-sidebar-icon"></i>
+    <ng-content></ng-content>
   </div>
 </div>
-<div class="right-sidebar-block" [ngClass]="show ? '' : 'right-sidebar-closed'">
-  <div class="right-sidebar-fixed" [ngClass]="show ? '' : 'right-sidebar-closed'">
-    <div class="right-sidebar-content">
-      <i (click)="toggleRightSidebar()" [style.visibility]="show ? 'visible' : 'hidden'" class="fa fa-times fa-lg close-sidebar-icon"></i>
-      
-      <ng-content></ng-content>
-
-    </div>
-  </div>
-</div>
-
-
-

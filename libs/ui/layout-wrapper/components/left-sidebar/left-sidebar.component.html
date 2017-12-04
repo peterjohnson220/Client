@@ -1,19 +1,16 @@
-<ul class="left-sidebar-nav pt-2 pl-0 m-0"  [class.left-sidebar-nav-open]="leftSidebarToggle">
+<ul class="left-sidebar-nav pt-2 pl-0 m-0" [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
   <ng-container *ngFor="let sidebarLink of sidebarLinks">
     <li class="pt-3 pb-3 pl-2 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
-        <a *ngIf="sidebarLink.NgAppLink" placement="right" [ngbTooltip]="sidebarLink.Name"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i></a>
-        <a *ngIf="!sidebarLink.NgAppLink" href="{{sidebarLink.Url}}" ><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i></a>
+        <a *ngIf="sidebarLink.NgAppLink" placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i></a>
       </ng-template>
       <ng-template [ngIf]="leftSidebarToggle">
-        <a *ngIf="sidebarLink.NgAppLink"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i> {{sidebarLink.Name}}</a>
-        <a *ngIf="!sidebarLink.NgAppLink" href="{{sidebarLink.Url}}"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass" aria-hidden="true"></i> {{sidebarLink.Name}}</a>
+        <a *ngIf="sidebarLink.NgAppLink" href="{{sidebarLink.Url}}"><i class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i> {{sidebarLink.Name}}</a>
       </ng-template>
     </li>
   </ng-container>
 </ul>
-<div id="left-sidebar-footer" [class.left-sidebar-nav-open]="leftSidebarToggle">
-  <i (click)="leftSidebarToggle = !leftSidebarToggle" id="left-sidebar-toggle" class="fa fa-lg"
-     [class.left-sidebar-footer-open]="leftSidebarToggle"
-     [ngClass]="{'fa-angle-double-left': leftSidebarToggle, 'fa-angle-double-right': !leftSidebarToggle}"></i>
+<div class="left-sidebar-footer" [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
+  <i id="left-sidebar-toggle" (click)="leftSidebarToggle = !leftSidebarToggle"  class="fa fa-lg"
+     [ngClass]="{'fa-angle-double-left left-sidebar-icon-open': leftSidebarToggle, 'fa-angle-double-right left-sidebar-icon-close': !leftSidebarToggle}"></i>
 </div>

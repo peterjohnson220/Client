@@ -1,66 +1,79 @@
 .left-sidebar-nav {
-  width: 50px;
-  transition: width .5s;
+  transition-duration: .5s;
   list-style: none;
 }
 
+.left-sidebar-nav-close {
+  width: 50px;
+}
+
 .left-sidebar-nav-open {
-  width: 200px !important;
+  width: 200px;
   white-space: nowrap;
   overflow: hidden;
 }
 
-    .left-sidebar-nav li  a {
-      display: block;
-      text-decoration: none;
-      color: #8B989F;
-    }
+.left-sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #8B989F;
+}
 
-      .left-sidebar-nav li a i {
-        color: #496375;
-        width: 30px;
-        text-align: center;
-      }
-
-      .left-sidebar-nav li a:hover {
-        text-decoration: none;
-        color: #fff;
-        cursor: pointer;
-      }
-
-      .left-sidebar-nav li a i:hover {
-        color: #fff;
-      }
-
-      .left-sidebar-nav li a:active,
-      .sidebar-nav li a:focus {
-        text-decoration: none;
-      }
-
-#left-sidebar-footer {
-  position: fixed;
-  bottom: 0px;
-  left: 0;
-  border-top: 1px solid #242A34;
-  height: 40px;
+.left-sidebar-nav li a i {
+  width: 30px;
+  text-align: center;
   color: #496375;
-  background-color: #283B4A;
-  width:50px;
-  transition: width .5s;
-  z-index: 1;
 }
 
-#left-sidebar-footer > i{
-  position:absolute;
-  left: 20px;
-  bottom: 20px;
-  transition: left .5s;
-}
-
-#left-sidebar-footer i:hover {
+.left-sidebar-nav li a:hover {
+  text-decoration: none;
+  cursor: pointer;
   color: #fff;
 }
 
+.left-sidebar-nav li a:hover i {
+  color: #fff;
+}
+
+.left-sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.left-sidebar-footer {
+  position: fixed;
+  bottom: 0px;
+  border-top: 1px solid #242A34;
+  height: 40px;
+  transition-duration: .5s;
+  z-index: 1;
+  color: #496375;
+  background-color: #283B4A;
+}
+
+.left-sidebar-footer > i {
+  position: absolute;
+  bottom: 20px;
+  transition-duration: .5s;
+}
+
+.left-sidebar-footer i:hover {
+  color: #fff;
+}
+
+.left-sidebar-footer-close {
+  left: 0;
+  width: 50px;
+}
+
 .left-sidebar-footer-open {
-  left: 170px !important;
+  width: 200px;
+}
+
+.left-sidebar-icon-close {
+  left: 20px;
+}
+
+.left-sidebar-icon-open {
+  left: 170px;
 }
