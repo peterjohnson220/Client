@@ -1,38 +1,28 @@
 @import 'colors';
 
-.flex-row-nowrap{
-  display:flex;
-  flex-flow: row nowrap;
-}
-.flex-1
-{
-  flex: 1;
-}
-
-.left-sidebar
-{
-  background: $left-sidebar-color;
-}
-
-.right-sidebar
-{
-  background: $right-sidebar-color;
-}
-
-.wrapper
-{
-  display:flex;
+.wrapper {
+  display: flex;
   flex-flow: column nowrap;
   min-height: 100vh;
 }
 
-header{
-  height:60px;
+header {
+  height: 60px;
 }
 
-main{
-  flex:1;
+.flex-row-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
 }
 
+.flex-1 {
+  flex: 1;
+}
 
+.left-sidebar {
+  background: $left-sidebar-color;
+}
 
+.right-sidebar {
+  background: $right-sidebar-color;
+}

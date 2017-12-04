@@ -13,11 +13,4 @@ export class RightSidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleRightSidebar() {
-    if (this.show) {
-      this.show = false;
-    } else {
-      this.show = true;
-    }
-  }
 }

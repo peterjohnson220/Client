@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" style=" min-height: 100vh;">
   <header>
     <div class="flex-row-nowrap">
         <pf-layout-wrapper-header [avatarSource]="avatarSource"
@@ -8,13 +8,17 @@
         </pf-layout-wrapper-header>
     </div>
   </header>
-  <main class="flex-row-nowrap">
+  <main class="flex-row-nowrap flex-1">
     <div class="left-sidebar">
       <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
     </div>
-    <div class="flex-1"><ng-content></ng-content></div>
+    <div class="flex-1">
+      <ng-content select="[mainContent]"></ng-content>
+    </div>
     <div class="right-sidebar">
-      <pf-layout-wrapper-right-sidebar></pf-layout-wrapper-right-sidebar>
+      <pf-layout-wrapper-right-sidebar>
+        <ng-content select="[rightSidebarContent]"></ng-content>
+      </pf-layout-wrapper-right-sidebar>
     </div>
   </main>
   <footer>

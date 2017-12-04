@@ -1,7 +1,10 @@
+$right-sidebar-open-width: 350px;
+
 .right-sidebar-dock {
   min-width: 35px;
   height: 100%;
 }
+
 .close-sidebar-icon {
   text-align: right;
   width: 100%;
@@ -9,7 +12,7 @@
 }
 
 .open-sidebar-icon {
-  color: white;
+  color: #fff;
   position: fixed;
   right: 10px;
   top: 70px;
@@ -17,19 +20,28 @@
 }
 
 .right-sidebar-content {
-  height:100%;
-  background-color:#fff;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .right-sidebar-close {
   width: 0;
+  transition: .5s;
   overflow: hidden;
+}
+
+.right-sidebar-open {
+  width: $right-sidebar-open-width;
+  overflow: auto;
   transition: .5s;
 }
 
-.right-sidebar-open
-{
-  width: 300px;
-  overflow:auto;
-  transition: .5s;
+.sidebar-width {
+  width: $right-sidebar-open-width;
+}
+
+.displayNone {
+  display: none;
 }
