@@ -1,12 +1,27 @@
-<div class="flex-column-container">
-  <div class="header">
-    <pf-layout-wrapper-header [avatarSource]="avatarSource"
-                              [companyLogoSource]="companyLogoSource"
-                              [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
-                              [userContext]="userContext$ | async">
-    </pf-layout-wrapper-header>
-  </div>
-  <div class="content">
-    <ng-content></ng-content>
-  </div>
+<div class="wrapper">
+  <header>
+    <div class="flex-row-nowrap">
+        <pf-layout-wrapper-header [avatarSource]="avatarSource"
+                                  [companyLogoSource]="companyLogoSource"
+                                  [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+                                  [userContext]="userContext$ | async">
+        </pf-layout-wrapper-header>
+    </div>
+  </header>
+  <main class="flex-row-nowrap">
+    <div class="left-sidebar">
+      <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
+    </div>
+    <div class="flex-1"><ng-content></ng-content></div>
+    <div class="right-sidebar">
+      <pf-layout-wrapper-right-sidebar></pf-layout-wrapper-right-sidebar>
+    </div>
+  </main>
+  <footer>
+    <div class="flex-row-nowrap">
+      <div class="flex-1">
+        <pf-layout-wrapper-footer></pf-layout-wrapper-footer>
+      </div>
+    </div>
+  </footer>
 </div>

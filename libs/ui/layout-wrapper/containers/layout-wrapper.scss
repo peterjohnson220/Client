@@ -1,9 +1,38 @@
-.header{
-  height: 47px;
-  flex-shrink: 0;
+@import 'colors';
+
+.flex-row-nowrap{
+  display:flex;
+  flex-flow: row nowrap;
+}
+.flex-1
+{
+  flex: 1;
 }
 
-.content{
-  height: 100%;
-  overflow-y: auto;
+.left-sidebar
+{
+  background: $left-sidebar-color;
 }
+
+.right-sidebar
+{
+  background: $right-sidebar-color;
+}
+
+.wrapper
+{
+  display:flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+header{
+  height:60px;
+}
+
+main{
+  flex:1;
+}
+
+
+

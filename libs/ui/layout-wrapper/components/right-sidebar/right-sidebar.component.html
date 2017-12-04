@@ -1,0 +1,18 @@
+<div class="right-sidebar-dock-block">
+  <div class="right-sidebar-dock-fixed">
+    <i (click)="toggleRightSidebar()" class="fa fa-plus fa-lg open-sidebar-icon"></i>
+  </div>
+</div>
+<div class="right-sidebar-block" [ngClass]="show ? '' : 'right-sidebar-closed'">
+  <div class="right-sidebar-fixed" [ngClass]="show ? '' : 'right-sidebar-closed'">
+    <div class="right-sidebar-content">
+      <i (click)="toggleRightSidebar()" [style.visibility]="show ? 'visible' : 'hidden'" class="fa fa-times fa-lg close-sidebar-icon"></i>
+      
+      <ng-content></ng-content>
+
+    </div>
+  </div>
+</div>
+
+
+
