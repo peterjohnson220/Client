@@ -25,4 +25,4 @@ import { reducers } from './reducers';
   declarations: [ HeaderComponent, LayoutWrapperComponent ],
   exports:      [ LayoutWrapperComponent ]
 })
-export class PfLayoutWrapperModule { }
+export class PfLayoutWrapperOldModule { }
