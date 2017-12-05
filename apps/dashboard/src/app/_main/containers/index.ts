@@ -1,3 +1,2 @@
 export * from './pages';
-export * from './recent-activity';
-
+export * from './timeline-activity';

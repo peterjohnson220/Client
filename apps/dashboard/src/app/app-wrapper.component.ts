@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TimelinePanelComponent } from './_main/containers/recent-activity';
+import { TimelinePanelComponent } from './_main/containers/timeline-activity';
 
 
 @Component({

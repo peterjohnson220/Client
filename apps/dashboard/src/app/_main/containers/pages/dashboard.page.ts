@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
 })
 export class DashboardPageComponent {
 
-  constructor() {}
+  constructor() {
+    document.body.style.backgroundImage = `url('./assets/images/Elegant_Background-8.jpg')`;
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'repeat';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundSize = 'auto';
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'pf-layout-wrapper-user-menu',
   templateUrl: './user-menu.component.html',
-  styleUrls: ['./user-menu.component.css']
+  styleUrls: ['./user-menu.component.scss']
 })
 export class UserMenuComponent implements OnInit {
   appUser = {
@@ -17,7 +18,7 @@ export class UserMenuComponent implements OnInit {
     { Name: 'Company Admin', Url: '#' },
     { Name: 'Site Admin', Url: '#' }];
 
-  avatarUrl = 'https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/default_user.png';
+  avatarUrl = environment.avatarSource;
 
   constructor() { }
 

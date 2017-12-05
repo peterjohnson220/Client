@@ -7,8 +7,6 @@ import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class LeftSidebarComponent implements OnInit {
-  @Input() leftSidebarToggle: boolean;
-
   sidebarLinks: any = [
     { Name: 'Employees', Url: 'test url', NgAppLink: true, IconClass: 'fa-users' },
     { Name: 'Structures', Url: 'test url', NgAppLink: true, IconClass: 'fa-bar-chart' },
