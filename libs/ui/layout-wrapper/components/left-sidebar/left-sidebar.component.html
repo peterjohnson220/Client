@@ -1,7 +1,7 @@
 <ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4"
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
   <ng-container *ngFor="let sidebarLink of sidebarLinks">
-    <li class="pt-2 pb-2 pl-2 pr-0">
+    <li class="py-2 pl-2 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
         <a *ngIf="sidebarLink.NgAppLink" placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i
           class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i></a>
