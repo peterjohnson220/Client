@@ -13,6 +13,7 @@ import { ExchangeListEffects } from './effects';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PfFormsModule } from '../../../../../libs/forms/forms.module';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     PeerAdminRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: [
     // Components

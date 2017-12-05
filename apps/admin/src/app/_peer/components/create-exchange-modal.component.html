@@ -8,18 +8,17 @@
   <div class="modal-body">
     <div class="form-group" [formGroup]="createExchangeForm">
       <label class="form-control-label" for="exchange-name">Please give the new exchange a name:</label>
-      <input type="text" class="form-control" formControlName="name" id="exchange-name" [class.is-valid]="name.valid && (name.dirty || name.touched)" [class.is-invalid]="name.invalid && (name.dirty || name.touched)" required>
-      <div *ngIf="name.valid && (name.dirty || name.touched)" class="valid-feedback">This name is available.</div>
-      <ng-container *ngIf="name.errors && (name.dirty || name.touched)">
-        <div *ngIf="name.errors.required && (name.dirty || name.touched)" class="invalid-feedback">Name is required.</div>
-        <div *ngIf="name.errors.unavailable && (name.dirty || name.touched)" class="invalid-feedback">This name is not available.</div>
+      <input type="text" class="form-control" formControlName="name" id="exchange-name" pfValidatable>
+      <div class="valid-feedback">This name is valid.</div>
+      <ng-container *ngIf="name.errors">
+        <div *ngIf="name.errors.required" class="invalid-feedback">Name is required.</div>
+        <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
       </ng-container>
       <small class="form-text text-muted">An exchange name is required and must be unique.</small>
     </div>
-
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-    <button type="button" class="btn btn-primary" [disabled]="!name.valid || !(name.dirty || name.touched)" (click)="createExchange()">Create</button>
+    <button type="button" class="btn btn-primary" [disabled]="creating || !name.valid || !(name.dirty || name.touched)" (click)="createExchange()">Create</button>
   </div>
 </ng-template>

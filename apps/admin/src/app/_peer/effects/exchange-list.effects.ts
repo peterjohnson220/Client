@@ -27,6 +27,18 @@ export class ExchangeListEffects {
         .catch(error => of(new fromExchangeListActions.LoadingExchangesError()))
     );
 
+  @Effect()
+  upsertExchange$: Observable<Action> = this.actions$
+    .ofType(fromExchangeListActions.UPSERTING_EXCHANGE)
+    .switchMap((action: fromExchangeListActions.UpsertingExchange) =>
+      this.exchangeApiService.upsertExchange(action.payload)
+        .mergeMap((exchangeListItem: any) => [
+          new fromExchangeListActions.UpsertingExchangeSuccess(exchangeListItem),
+          new fromExchangeListActions.LoadingExchanges()
+        ])
+        .catch(error => of(new fromExchangeListActions.UpsertingExchangeError(error)))
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService

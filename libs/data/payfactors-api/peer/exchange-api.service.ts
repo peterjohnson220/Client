@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeListItem } from '../../../models/peer/exchange-list-item.model';
+import { ExchangeListItem, UpsertExchangeRequest } from '../../../models/peer';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -13,21 +13,11 @@ export class ExchangeApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getAllExchanges(): Observable<ExchangeListItem[]>{
+  upsertExchange(exchangeListItem: UpsertExchangeRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchange`, exchangeListItem);
+  }
+
+  getAllExchanges(): Observable<ExchangeListItem[]> {
     return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

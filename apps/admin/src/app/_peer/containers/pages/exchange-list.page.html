@@ -15,10 +15,15 @@
       [loadingError]="exchangeListLoadingError$ | async"
       (reload)="handleExchangeGridReload()">
     </pf-exchange-grid>
-    <pf-create-exchange-modal></pf-create-exchange-modal>
+    <pf-create-exchange-modal
+      [creating]="creatingExchange$ | async"
+      [isOpen$]="createExchangeModalOpen$"
+      [error$]="creatingExchangeError$"
+      [errorMessage$]="creatingExchangeErrorMessage$"
+      (createExchangeEvent)="handleCreateExchange($event)"
+      (onModalDismissed)="handleCreateExchangeModalDismissed($)">
+    </pf-create-exchange-modal>
 
   </ng-container>
 
 </pf-page-with-title-bar>
-
-
