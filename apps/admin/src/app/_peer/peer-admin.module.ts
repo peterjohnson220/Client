@@ -7,7 +7,6 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ExchangeGridComponent } from './components';
 import { ExchangeListPageComponent } from './containers';
 import { ExchangeListEffects } from './effects';
 import { reducers } from './reducers';
@@ -31,19 +30,8 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     PfCommonUIModule
   ],
   declarations: [
-    // Components
-    ExchangeGridComponent,
-
     // Pages
     ExchangeListPageComponent
   ]
 })
 export class PeerAdminModule { }
-
-
-
-
-
-
-
-
