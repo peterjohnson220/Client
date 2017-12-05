@@ -55,5 +55,5 @@ export function generateMockUserContext(): UserContext {
     UserIdentifier: '',
     UserPicture: 'FakePicture.Jpg',
     WorkflowStepInfo: null
-  }
+  };
 }
