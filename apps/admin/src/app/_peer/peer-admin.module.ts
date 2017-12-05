@@ -7,7 +7,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ExchangeGridComponent, CreateExchangeModalComponent } from './components';
+import { CreateExchangeModalComponent } from './components';
 import { ExchangeListPageComponent } from './containers';
 import { ExchangeListEffects } from './effects';
 import { reducers } from './reducers';
@@ -36,7 +36,6 @@ import { PfFormsModule } from '../../../../../libs/forms/forms.module';
   ],
   declarations: [
     // Components
-    ExchangeGridComponent,
     CreateExchangeModalComponent,
 
     // Pages
