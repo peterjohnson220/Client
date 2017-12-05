@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Indicator should show the error message 1`] = `
+<pf-error-indicator
+  message={[Function String]}
+>
+  <span
+    class="error-message"
+  >
+    <i
+      aria-hidden="true"
+      class="fa fa-exclamation-triangle"
+    />
+     Example error message
+  </span>
+  
+</pf-error-indicator>
+`;
