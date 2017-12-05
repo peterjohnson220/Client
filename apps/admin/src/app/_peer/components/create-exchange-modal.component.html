@@ -8,13 +8,12 @@
   <div class="modal-body">
     <div class="form-group" [formGroup]="createExchangeForm">
       <label class="form-control-label" for="exchange-name">Please give the new exchange a name:</label>
-      <input type="text" class="form-control" formControlName="name" id="exchange-name" pfValidatable>
-      <div class="valid-feedback">This name is valid.</div>
+      <input type="text" class="form-control" placeholder="Exchange Name" formControlName="name" id="exchange-name" [pfValidatable]="attemptedSubmit">
       <ng-container *ngIf="name.errors">
         <div *ngIf="name.errors.required" class="invalid-feedback">Name is required.</div>
         <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
       </ng-container>
-      <small class="form-text text-muted">An exchange name is required and must be unique.</small>
+      <small *ngIf="!attemptedSubmit || !name.errors" class="form-text text-muted">An exchange name is required and must be unique.</small>
     </div>
   </div>
   <div class="modal-footer">

@@ -19,6 +19,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   private errorMessageSubscription: Subscription;
   private errorValidationMessage: string;
   private hasDismissed = false;
+  private attemptedSubmit = false;
   private modalRef: NgbModalRef;
 
   @ViewChild('content') modal: any;
@@ -42,6 +43,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   }
 
   createExchange() {
+    this.attemptedSubmit = true;
     this.createExchangeEvent.emit(this.name.value);
   }
 
@@ -52,6 +54,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
     }
 
     if (modalActive || this.hasDismissed) {
+      this.attemptedSubmit = false;
       this.createExchangeForm.reset();
     }
   }
@@ -68,7 +71,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
         this.cleanModal();
       } else {
         this.hasDismissed = false;
-        this.modalRef = this.modalService.open(this.modal);
+        this.modalRef = this.modalService.open(this.modal, { backdrop: 'static' });
         this.modalRef.result.then(() => {
           this.modalDismissed();
         }, () => {
