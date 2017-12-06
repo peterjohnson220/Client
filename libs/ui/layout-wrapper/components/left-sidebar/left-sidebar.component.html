@@ -3,12 +3,12 @@
   <ng-container *ngFor="let sidebarLink of sidebarLinks">
     <li class="py-2 pl-2 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
-        <a *ngIf="sidebarLink.NgAppLink" placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i
+        <a placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i
           class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i></a>
       </ng-template>
       <ng-template [ngIf]="leftSidebarToggle">
-        <a *ngIf="sidebarLink.NgAppLink" href="{{sidebarLink.Url}}"><i class="fa fa-lg"
-                                                                       [ngClass]="sidebarLink.IconClass"></i>
+        <a href="{{sidebarLink.Url}}"><i class="fa fa-lg"
+                                         [ngClass]="sidebarLink.IconClass"></i>
           {{sidebarLink.Name}}</a>
       </ng-template>
     </li>

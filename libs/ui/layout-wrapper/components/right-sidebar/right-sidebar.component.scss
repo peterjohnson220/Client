@@ -39,9 +39,5 @@ $right-sidebar-open-width: 350px;
 }
 
 .sidebar-width {
-  width: $right-sidebar-open-width;
-}
-
-.displayNone {
-  display: none;
+  min-width: $right-sidebar-open-width;
 }
