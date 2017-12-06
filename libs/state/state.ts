@@ -1,4 +1,7 @@
 import { ActionReducerMap, createSelector, createFeatureSelector, ActionReducer, MetaReducer } from '@ngrx/store';
+
+import { storeFreeze } from 'ngrx-store-freeze';
+
 import { environment } from '../../environments/environment';
 
 import * as fromUserContextReducer from './app-context/reducers/user-context.reducer';
@@ -11,6 +14,7 @@ export const reducers: ActionReducerMap<State> = {
   userContext: fromUserContextReducer.reducer
 };
 
+// If you wish to have all actions and states logged to the console, add this to your metaReducers for development
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
   return function(state: State, action: any): State {
     console.log('state', state);
@@ -21,7 +25,7 @@ export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
 }
 
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? []
+  ? [storeFreeze]
   : [];
 
 /**
