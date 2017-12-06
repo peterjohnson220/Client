@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { NavigationLink, UserContext } from '../../../../models';
+import { environment } from 'environments/environment';
+import { NavigationLink, UserContext } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-header',
@@ -8,10 +9,8 @@ import { NavigationLink, UserContext } from '../../../../models';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  @Input() avatarSource: string;
-  @Input() companyLogoSource: string;
-  @Input() gettingDropDownNavigationLinks: boolean;
-  @Input() gettingDropdownNavigationLinksError: boolean;
+  avatarSource: string = environment.avatarSource;
+  companyLogoSource: string = environment.companyLogoSource;
 
   @Input() dropdownNavigationLinks: NavigationLink[];
   @Input() userContext: UserContext;
