@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { PfLayoutWrapperModuleOld } from 'libs/ui/layout-wrapper-old';
+import { PfLayoutWrapperOldModule } from 'libs/ui/layout-wrapper-old';
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfSecurityModule } from 'libs/security/security.module';
@@ -24,7 +24,7 @@ import { AppWrapperComponent } from './app-wrapper.component';
     // PF Modules
     PfCommonUIModule,
     PfSecurityModule,
-    PfLayoutWrapperModuleOld,
+    PfLayoutWrapperOldModule,
     PfApiModule,
     PfStateModule,
 
