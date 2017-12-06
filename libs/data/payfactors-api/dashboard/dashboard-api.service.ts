@@ -6,7 +6,6 @@ import { DashboardTile } from '../../../models/dashboard';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-
 @Injectable()
 export class DashboardApiService {
   private endpoint = 'Dashboard';

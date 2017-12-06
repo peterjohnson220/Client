@@ -13,11 +13,11 @@ import 'rxjs/add/operator/toArray';
 import { DashboardApiService } from 'libs/data/payfactors-api';
 import { DashboardTile } from 'libs/models';
 
-import * as fromDashboardActions from '../actions/dashboard.actions';
+import * as fromDashboardActions from '../actions/tile-grid.actions';
 
 @Injectable()
-export class DashboardEffects {
- @Effect()
+export class TileGridEffects {
+  @Effect()
   loadTiles$: Observable<Action> = this.actions$
     .ofType(fromDashboardActions.LOADING_TILES)
     .switchMap(() =>

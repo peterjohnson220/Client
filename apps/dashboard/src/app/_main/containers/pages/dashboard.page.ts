@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { DashboardTile } from 'libs/models/dashboard';
 
-import * as fromDashboardActions from '../../actions/dashboard.actions';
-import * as fromDashboardReducer from '../../reducers';
+import * as fromTileGridActions from '../../actions/tile-grid.actions';
+import * as fromTileGridReducer from '../../reducers/tile-grid/index';
 
 @Component({
   selector: 'pf-dashboard-page',
@@ -18,20 +18,19 @@ export class DashboardPageComponent implements OnInit {
   tilesLoadingError$: Observable<boolean>;
   tiles$: Observable<DashboardTile[]>;
 
-  constructor(private store: Store<fromDashboardReducer.State>) {
-    this.tilesLoading$ = this.store.select(fromDashboardReducer.getTilesLoading);
-    this.tilesLoadingError$ = this.store.select(fromDashboardReducer.getTilesLoadingError);
-    this.tiles$ = this.store.select(fromDashboardReducer.getTiles);
+  constructor(private store: Store<fromTileGridReducer.State>) {
+    this.tilesLoading$ = this.store.select(fromTileGridReducer.getTilesLoading);
+    this.tilesLoadingError$ = this.store.select(fromTileGridReducer.getTilesLoadingError);
+    this.tiles$ = this.store.select(fromTileGridReducer.getTiles);
   }
 
   // Events
-  handleTilesReload() {
-    this.store.dispatch(new fromDashboardActions.LoadingTiles());
+  handleTilesGridReload() {
+    this.store.dispatch(new fromTileGridActions.LoadingTiles());
   }
-
 
   // Lifecycle
   ngOnInit() {
-    this.store.dispatch(new fromDashboardActions.LoadingTiles());
+    this.store.dispatch(new fromTileGridActions.LoadingTiles());
   }
 }

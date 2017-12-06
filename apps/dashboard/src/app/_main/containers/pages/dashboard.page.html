@@ -6,12 +6,12 @@
 
   <ng-container page-content>
 
-    <pf-dashboard-tile-grid
+    <pf-tile-grid
       [loading]="tilesLoading$ | async"
       [tiles]="tiles$ | async"
       [loadingError]="tilesLoadingError$ | async"
-      (reload)="handleTilesReload()">
-    </pf-dashboard-tile-grid>
+      (reload)="handleTilesGridReload()">
+    </pf-tile-grid>
 
   </ng-container>
 

@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { DashboardTile  } from 'libs/models/dashboard/dashboard-tile.model';
+import { DashboardTile } from 'libs/models/dashboard';
 
-export const LOADING_TILES =  '[Main Dashboard/Tiles] Loading Tiles';
-export const LOADING_TILES_SUCCESS =  '[Main Dashboard/Tiles] Loading Tiles Success';
-export const LOADING_TILES_ERROR =  '[Main Dashboard/Tiles] Loading Tiles Error';
+export const LOADING_TILES =  '[Dashboard Tile Grid/Tiles] Loading Tiles';
+export const LOADING_TILES_SUCCESS =  '[Dashboard Tile Grid/Tiles] Loading Tiles Success';
+export const LOADING_TILES_ERROR =  '[Dashboard Tile Grid/Tiles] Loading Tiles Error';
 
 export class LoadingTiles implements Action {
   readonly type = LOADING_TILES;

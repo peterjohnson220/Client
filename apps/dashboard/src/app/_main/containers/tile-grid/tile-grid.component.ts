@@ -1,9 +1,9 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 
-import { DashboardTile } from 'libs/models/index';
+import { DashboardTile } from 'libs/models/dashboard';
 
 @Component({
-  selector: 'pf-dashboard-tile-grid',
+  selector: 'pf-tile-grid',
   templateUrl: './tile-grid.component.html',
   styleUrls: ['./tile-grid.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

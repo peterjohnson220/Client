@@ -7,11 +7,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { DashboardPageComponent } from './containers';
-import { DashboardEffects } from './effects/dashboard.effects';
-import { reducers } from './reducers';
+import { TileGridEffects } from './effects/tile-grid.effects';
+import { reducers } from './reducers/tile-grid';
 import { MainRoutingModule } from './main-routing.module';
-import { TileGridComponent } from './components/tile-grid';
-
+import { TileGridComponent } from './containers/tile-grid';
 
 @NgModule({
   imports: [
@@ -19,8 +18,8 @@ import { TileGridComponent } from './components/tile-grid';
     CommonModule,
 
     // 3rd Party
-    StoreModule.forFeature('dashboard', reducers),
-    EffectsModule.forFeature([DashboardEffects]),
+    StoreModule.forFeature('tileGrid', reducers),
+    EffectsModule.forFeature([TileGridEffects]),
 
     // Routing
     MainRoutingModule,

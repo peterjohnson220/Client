@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { DashboardTile } from 'libs/models';
 
-import * as fromDashboardActions from '../actions/dashboard.actions';
+import * as fromTileGridActions from '../../actions/tile-grid.actions';
 
 export interface State extends EntityState<DashboardTile> {
   loading: boolean;
@@ -22,23 +22,23 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(
   state = initialState,
-  action: fromDashboardActions.Actions
+  action: fromTileGridActions.Actions
 ): State {
     switch (action.type) {
-      case fromDashboardActions.LOADING_TILES: {
+      case fromTileGridActions.LOADING_TILES: {
         return {
           ...state,
           loading: true,
           loadingError: false
         };
       }
-      case fromDashboardActions.LOADING_TILES_SUCCESS: {
+      case fromTileGridActions.LOADING_TILES_SUCCESS: {
         return {
           ...adapter.addAll(action.payload, state),
           loading: false
         };
       }
-      case fromDashboardActions.LOADING_TILES_ERROR: {
+      case fromTileGridActions.LOADING_TILES_ERROR: {
         return {
             ...state,
             loading: false,
