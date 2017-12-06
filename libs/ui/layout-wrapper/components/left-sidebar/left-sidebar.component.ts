@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'pf-layout-wrapper-left-sidebar',
@@ -23,7 +23,7 @@ export class LeftSidebarComponent implements OnInit {
     { Name: 'Referrals', Url: 'test url', NgAppLink: true, IconClass: 'fa-thumbs-o-up' },
     { Name: 'Ideas', Url: 'test url', NgAppLink: true, IconClass: 'fa-lightbulb-o' }
   ];
-  sidebarToggle = true;
+
   constructor() { }
 
   ngOnInit() {

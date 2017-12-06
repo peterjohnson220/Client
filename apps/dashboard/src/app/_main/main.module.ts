@@ -8,6 +8,7 @@ import { OrderByPipe } from './pipes';
 import { TileService } from './services';
 
 import { DashboardPageComponent } from './containers';
+import { TimelinePanelComponent, TimelineActivityComponent } from './containers/timeline-activity';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -24,7 +25,12 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Pages
-    DashboardPageComponent, TileContainerComponent, TileComponent, UserVoiceIndicatorComponent,
+    DashboardPageComponent,
+    TimelinePanelComponent,
+    TimelineActivityComponent,
+    TileContainerComponent,
+    TileComponent,
+    UserVoiceIndicatorComponent,
     OrderByPipe
   ],
   providers: [ TileService ]

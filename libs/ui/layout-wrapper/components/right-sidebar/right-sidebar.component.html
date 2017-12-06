@@ -3,7 +3,7 @@
      class="fa fa-plus fa-lg open-sidebar-icon"></i>
   <div class="right-sidebar-content"
        [ngClass]="{'right-sidebar-open': rightSidebarToggle, 'right-sidebar-close': !rightSidebarToggle}">
-    <div class="sidebar-width" [class.displayNone]="!rightSidebarToggle">
+    <div class="sidebar-width" [class.d-none]="!rightSidebarToggle">
       <i (click)="rightSidebarToggle = !rightSidebarToggle" class="fa fa-times fa-lg close-sidebar-icon p-2"
          [style.visibility]="rightSidebarToggle ? 'visible' : 'hidden'"></i>
       <ng-content></ng-content>
