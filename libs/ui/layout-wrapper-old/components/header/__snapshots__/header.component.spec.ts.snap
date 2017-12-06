@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should prepend /ng/ to the dropdown url, when the navigation link is an NgAppLink 1`] = `
+<pf-layout-wrapper-header
+  avatarSource={[Function String]}
+  companyLogoSource={[Function String]}
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark bg-primary"
+  >
+    
+    
+    <a
+      class="navbar-brand mr-auto"
+      href="/marketdata/home.asp"
+    >
+      
+      
+      <img
+        height="35"
+        src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/company_logos/PayFactorsLogo_White.png"
+      />
+      
+    
+    </a>
+    
+  
+    
+    <ul
+      class="navbar-nav"
+    >
+      
+      
+      <li
+        class="nav-item"
+        ngbdropdown=""
+        placement="bottom-right"
+      >
+        
+          
+        <a
+          class="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+          ngbdropdowntoggle=""
+        >
+          
+            
+          <img
+            class="pf-avatar"
+            src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/FakePicture.Jpg"
+          />
+          
+          
+        </a>
+        
+          
+        <div
+          class="dropdown-menu"
+          ngbdropdownmenu=""
+        >
+          
+            
+          <span
+            class="dropdown-header"
+          >
+            John Doe
+          </span>
+          
+            
+          <div
+            class="dropdown-divider"
+          />
+          
+  
+            
+          
+            
+          
+          <a
+            class="dropdown-item"
+            href="/ng/company-admin"
+          >
+            
+              I am an Ng AppLink
+            
+          </a>
+          
+  
+          
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </nav>
+  
+</pf-layout-wrapper-header>
+`;
+
+exports[`Header should show a list of dropdown navigation links, when provided 1`] = `
+<pf-layout-wrapper-header
+  avatarSource={[Function String]}
+  companyLogoSource={[Function String]}
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark bg-primary"
+  >
+    
+    
+    <a
+      class="navbar-brand mr-auto"
+      href="/marketdata/home.asp"
+    >
+      
+      
+      <img
+        height="35"
+        src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/company_logos/PayFactorsLogo_White.png"
+      />
+      
+    
+    </a>
+    
+  
+    
+    <ul
+      class="navbar-nav"
+    >
+      
+      
+      <li
+        class="nav-item"
+        ngbdropdown=""
+        placement="bottom-right"
+      >
+        
+          
+        <a
+          class="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+          ngbdropdowntoggle=""
+        >
+          
+            
+          <img
+            class="pf-avatar"
+            src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/FakePicture.Jpg"
+          />
+          
+          
+        </a>
+        
+          
+        <div
+          class="dropdown-menu"
+          ngbdropdownmenu=""
+        >
+          
+            
+          <span
+            class="dropdown-header"
+          >
+            John Doe
+          </span>
+          
+            
+          <div
+            class="dropdown-divider"
+          />
+          
+  
+            
+          
+            
+          
+          <a
+            class="dropdown-item"
+            href="https://www.payfactors.com"
+          >
+            
+              I am a link
+            
+          </a>
+          <a
+            class="dropdown-item"
+            href="https://www.google.com"
+          >
+            
+              I am a Link 2
+            
+          </a>
+          <a
+            class="dropdown-item"
+            href="https://www.angular.io"
+          >
+            
+              I am a Link 3
+            
+          </a>
+          
+  
+          
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </nav>
+  
+</pf-layout-wrapper-header>
+`;
+
+exports[`Header should show the app users name and picture 1`] = `
+<pf-layout-wrapper-header
+  avatarSource={[Function String]}
+  companyLogoSource={[Function String]}
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark bg-primary"
+  >
+    
+    
+    <a
+      class="navbar-brand mr-auto"
+      href="/marketdata/home.asp"
+    >
+      
+      
+      <img
+        height="35"
+        src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/company_logos/PayFactorsLogo_White.png"
+      />
+      
+    
+    </a>
+    
+  
+    
+    <ul
+      class="navbar-nav"
+    >
+      
+      
+      <li
+        class="nav-item"
+        ngbdropdown=""
+        placement="bottom-right"
+      >
+        
+          
+        <a
+          class="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+          ngbdropdowntoggle=""
+        >
+          
+            
+          <img
+            class="pf-avatar"
+            src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/FakePicture.Jpg"
+          />
+          
+          
+        </a>
+        
+          
+        <div
+          class="dropdown-menu"
+          ngbdropdownmenu=""
+        >
+          
+            
+          <span
+            class="dropdown-header"
+          >
+            John Doe
+          </span>
+          
+            
+          <div
+            class="dropdown-divider"
+          />
+          
+  
+            
+          
+            
+          
+          
+  
+          
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </nav>
+  
+</pf-layout-wrapper-header>
+`;

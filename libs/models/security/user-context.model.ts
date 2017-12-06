@@ -17,7 +17,6 @@ export interface UserContext {
   WorkflowStepInfo: WorkflowStepInfo;
 }
 
-
 interface ConfigSetting {
   Name: string;
   Value: string;
@@ -30,11 +29,31 @@ interface EmployeeAcknowledgementInfo {
   HasAcknowledged: boolean;
 }
 
-
 interface WorkflowStepInfo {
   WorkflowId: number;
   IsResubmission: boolean;
   IsFirstStep: boolean;
   IsFirstRecipent: boolean;
   IsLastStep: boolean;
+}
+
+export function generateMockUserContext(): UserContext {
+  return {
+    AccessLevel: 'Admin',
+    CompanyId: 13,
+    ConfigSettings: [],
+    EmailAddress: 'johndoe@payfactors.com',
+    EmployeeAcknowledgementInfo: null,
+    FirstName: 'John',
+    ImpersonatorId: 0,
+    IsPublic: false,
+    LastName: 'Doe',
+    Name: 'John Doe',
+    Permissions: [],
+    SystemUserGroupsId: 1,
+    UserId: 1,
+    UserIdentifier: '',
+    UserPicture: 'FakePicture.Jpg',
+    WorkflowStepInfo: null
+  };
 }

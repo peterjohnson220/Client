@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page With Title Bar should transclude into slots 1`] = `
+<ng-component>
+  
+      <pf-page-with-title-bar>
+    <div
+      class="flex-column-container"
+    >
+      
+    
+      <div
+        class="page-header d-flex align-items-center px-2"
+      >
+        
+      
+        <h3>
+          
+          I am a page title
+        </h3>
+        
+    
+      </div>
+      
+  
+    
+      <div
+        class="page-content p-2"
+      >
+        
+      
+        
+        <h1>
+          I am the page content
+        </h1>
+        
+    
+      </div>
+      
+  
+    </div>
+    
+  
+  </pf-page-with-title-bar>
+</ng-component>
+`;
