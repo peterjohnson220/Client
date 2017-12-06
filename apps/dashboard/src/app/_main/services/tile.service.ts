@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Tile } from '../models/tile.model';
-import { TileItem } from '../models/tile-item.model';
 
 @Injectable()
 export class TileService {
