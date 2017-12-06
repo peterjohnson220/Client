@@ -18,6 +18,9 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-    <button type="button" class="btn btn-primary" [disabled]="creating || !name.valid || !(name.dirty || name.touched)" (click)="createExchange()">Create</button>
+    <button type="button" class="btn btn-primary" [disabled]="creating || !name.valid || !(name.dirty || name.touched)" (click)="createExchange()">
+      <span *ngIf="creating"><pf-loading-indicator></pf-loading-indicator> Creating...</span>
+      <span *ngIf="!creating">Create</span>
+    </button>
   </div>
 </ng-template>

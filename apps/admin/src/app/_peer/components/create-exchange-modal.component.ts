@@ -36,13 +36,13 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
 
   get name() { return this.createExchangeForm.get('name'); }
 
-  createForm(): any {
+  createForm(): void {
     this.createExchangeForm = this.fb.group({
       'name': ['', [CustomValidators.required]]
     });
   }
 
-  createExchange() {
+  createExchange(): void {
     this.attemptedSubmit = true;
     this.createExchangeEvent.emit(this.name.value);
   }
