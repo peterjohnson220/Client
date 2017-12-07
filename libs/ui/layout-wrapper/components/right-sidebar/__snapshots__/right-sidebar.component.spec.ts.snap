@@ -1,5 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`right-sidebar should show correct html when rightSidebarToggle is false 1`] = `
+<pf-layout-wrapper-right-sidebar
+  rightSidebarToggle="false"
+>
+  <div
+    class="right-sidebar-dock"
+  >
+    
+    
+    <i
+      class="fa fa-plus fa-lg open-sidebar-icon"
+      style="visibility: visible;"
+    />
+    
+    
+    <div
+      class="right-sidebar-content right-sidebar-close"
+      ng-reflect-klass="right-sidebar-content"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      
+      <div
+        class="sidebar-width d-none"
+      >
+        
+        
+        <i
+          class="fa fa-times fa-lg close-sidebar-icon p-2"
+          style="visibility: hidden;"
+        />
+        
+        
+        
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-layout-wrapper-right-sidebar>
+`;
+
 exports[`right-sidebar should show correct html when rightSidebarToggle is true 1`] = `
 <pf-layout-wrapper-right-sidebar
   rightSidebarToggle={[Function Boolean]}
@@ -73,6 +119,8 @@ exports[`right-sidebar should transclude 1`] = `
           <i
             class="fa fa-times fa-lg close-sidebar-icon p-2"
           />
+          
+        
           
         
           

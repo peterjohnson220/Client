@@ -2,11 +2,10 @@
 
 exports[`timeline-activity should show correct html when Type is ActivityPost 1`] = `
 <pf-timeline-activity
-  avatarUrl={[Function String]}
   timelineActivities={[Function Array]}
 >
   <div
-    class="container px-1"
+    class="px-1"
   >
     
     
@@ -59,7 +58,7 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/john.png"
             />
             
@@ -148,7 +147,7 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/adam.jpg"
             />
             
@@ -233,7 +232,7 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -311,7 +310,7 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/sue.gif"
             />
             
@@ -390,7 +389,7 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -447,11 +446,10 @@ exports[`timeline-activity should show correct html when Type is ActivityPost 1`
 
 exports[`timeline-activity should show correct html when Type is CommunityPost 1`] = `
 <pf-timeline-activity
-  avatarUrl={[Function String]}
   timelineActivities={[Function Array]}
 >
   <div
-    class="container px-1"
+    class="px-1"
   >
     
     
@@ -504,7 +502,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/john.png"
             />
             
@@ -593,7 +591,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/adam.jpg"
             />
             
@@ -678,7 +676,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -756,7 +754,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/sue.gif"
             />
             
@@ -835,7 +833,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -892,11 +890,10 @@ exports[`timeline-activity should show correct html when Type is CommunityPost 1
 
 exports[`timeline-activity should show correct html when Type is CommunityPost and SubType is Reply 1`] = `
 <pf-timeline-activity
-  avatarUrl={[Function String]}
   timelineActivities={[Function Array]}
 >
   <div
-    class="container px-1"
+    class="px-1"
   >
     
     
@@ -949,7 +946,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/john.png"
             />
             
@@ -1038,7 +1035,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/adam.jpg"
             />
             
@@ -1123,7 +1120,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -1201,7 +1198,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/sue.gif"
             />
             
@@ -1280,7 +1277,7 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -1337,11 +1334,10 @@ exports[`timeline-activity should show correct html when Type is CommunityPost a
 
 exports[`timeline-activity should show correct html when Type is ResourcesPost 1`] = `
 <pf-timeline-activity
-  avatarUrl={[Function String]}
   timelineActivities={[Function Array]}
 >
   <div
-    class="container px-1"
+    class="px-1"
   >
     
     
@@ -1394,7 +1390,7 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/john.png"
             />
             
@@ -1483,7 +1479,7 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/adam.jpg"
             />
             
@@ -1568,7 +1564,7 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -1646,7 +1642,7 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/sue.gif"
             />
             
@@ -1725,7 +1721,7 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -1782,11 +1778,10 @@ exports[`timeline-activity should show correct html when Type is ResourcesPost 1
 
 exports[`timeline-activity should show timeline activities 1`] = `
 <pf-timeline-activity
-  avatarUrl={[Function String]}
   timelineActivities={[Function Array]}
 >
   <div
-    class="container px-1"
+    class="px-1"
   >
     
     
@@ -1839,7 +1834,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/john.png"
             />
             
@@ -1928,7 +1923,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/adam.jpg"
             />
             
@@ -2013,7 +2008,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             
@@ -2091,7 +2086,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/sue.gif"
             />
             
@@ -2170,7 +2165,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
             
             
             <img
-              class="avatar"
+              class="pf-avatar"
               src="/assets/favicon.ico"
             />
             

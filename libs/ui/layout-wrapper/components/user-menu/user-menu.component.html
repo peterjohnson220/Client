@@ -1,15 +1,20 @@
-<div ngbDropdown placement="bottom-right">
-  <a ngbDropdownToggle class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-    <span>{{appUser.firstName}} {{appUser.lastName}}</span>
-    <img class="pf-avatar" [src]="avatarUrl">
-  </a>
-  <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right mr-1">
-    <h5 class="dropdown-header pt-0 pb-0 pl-3">{{appUser.firstName}} {{appUser.lastName}}</h5>
-    <div class="dropdown-divider"></div>
-    <ng-template ngFor let-navigationLink [ngForOf]="navigationLinks">
-      <a class="dropdown-item pl-4" href="{{navigationLink.Url}}">{{navigationLink.Name}}</a>
-    </ng-template>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item pt-0 pb-0 pl-2 mt-0 mb-0" href="#"><i class="fa fa-lg fa-sign-out"></i>Log Out</a>
-  </div>
-</div>
+<ul class="navbar-nav">
+  <li class="nav-item" ngbDropdown placement="bottom-right">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
+      <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }}</span>
+      <pf-layout-wrapper-user-menu-avatar
+        [userContext]="userContext">
+      </pf-layout-wrapper-user-menu-avatar>
+    </a>
+    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+      <ng-template ngFor let-dropdownNavigationLink [ngForOf]="dropdownNavigationLinks">
+        <div *ngIf="dropdownNavigationLink.Name ==='Log Out' || dropdownNavigationLink.Name ==='Referrals'" class="dropdown-divider"></div>
+        <!-- Temporary href conditional while current NG app still exists-->
+        <a class="dropdown-item" [href]="dropdownNavigationLink.NgAppLink ? '/ng/' + dropdownNavigationLink.Url : dropdownNavigationLink.Url">
+          <i *ngIf="dropdownNavigationLink.Name ==='Log Out'"  class="fa fa-lg fa-sign-out"></i>
+          {{dropdownNavigationLink.Name}}
+        </a>
+      </ng-template>
+    </div>
+  </li>
+</ul>

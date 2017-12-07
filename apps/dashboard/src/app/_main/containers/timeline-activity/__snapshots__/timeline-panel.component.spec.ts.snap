@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`timeline-panel should show basic html 1`] = `
+exports[`timeline-panel should show timeline-activity 1`] = `
 <pf-timeline-panel>
   <div
     class="card px-1 py-3"

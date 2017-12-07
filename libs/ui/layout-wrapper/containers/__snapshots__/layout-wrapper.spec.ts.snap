@@ -16,10 +16,10 @@ exports[`Layout Wrapper should transclude 1`] = `
           class="flex-row-nowrap"
         >
           
-          
+        
           <pf-layout-wrapper-header>
             
-          
+        
           </pf-layout-wrapper-header>
           
       

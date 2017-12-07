@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+
 import { TimelineActivity } from '../../models/timeline-activity.model';
 
 @Component({
   selector: 'pf-timeline-activity',
   templateUrl: './timeline-activity.component.html',
-  styleUrls: ['./timeline-activity.component.css']
+  styleUrls: ['./timeline-activity.component.scss']
 })
 export class TimelineActivityComponent implements OnInit {
-  avatarUrl: string;
   timelineActivities: TimelineActivity[];
 
   constructor( ) { }
 
   ngOnInit() {
-      this.avatarUrl = 'https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/default_user.png';
-
       this.timelineActivities = [];
 
       this.timelineActivities.push({

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Left Sidebar should show correct html, when sidebar toggle is false 1`] = `
+exports[`left-sidebar should show correct html when leftSidebarToggle is false 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle="false"
   sidebarLinks={[Function Array]}
@@ -97,7 +97,7 @@ exports[`Left Sidebar should show correct html, when sidebar toggle is false 1`]
 </pf-layout-wrapper-left-sidebar>
 `;
 
-exports[`Left Sidebar should show correct html, when sidebar toggle is true 1`] = `
+exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle={[Function Boolean]}
   sidebarLinks={[Function Array]}

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header should show the logo 1`] = `
+exports[`header should show the logo 1`] = `
 <pf-layout-wrapper-header
   payfactorsLogo={[Function String]}
 >
@@ -11,6 +11,7 @@ exports[`Header should show the logo 1`] = `
     
     <a
       class="navbar-brand mr-auto"
+      href="/marketdata/home.asp"
     >
       
       
@@ -22,24 +23,12 @@ exports[`Header should show the logo 1`] = `
     
     </a>
     
+  
     
-    <ul
-      class="navbar-nav"
-    >
-      
-      
-      <li
-        class="nav-item"
-      >
-        
-        
-        <pf-layout-wrapper-user-menu />
-        
-      
-      </li>
+    <pf-layout-wrapper-user-menu>
       
     
-    </ul>
+    </pf-layout-wrapper-user-menu>
     
   
   </nav>
