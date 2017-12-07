@@ -9,7 +9,7 @@ exports[`User Menu Avatar should show the user avatar when one exists 1`] = `
   
   <img
     class="pf-avatar"
-    src="sourceFakePicture.Jpg"
+    src="https://testsource/avatars/FakePicture.Jpg"
   />
   
 </pf-layout-wrapper-user-menu-avatar>
