@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { NavigationLink, UserContext } from '../../../../models';
+import { NavigationLink, UserContext } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-user-menu',
@@ -9,7 +9,6 @@ import { NavigationLink, UserContext } from '../../../../models';
 })
 export class UserMenuComponent {
 
-  @Input() avatarSource: string;
   @Input() userContext: UserContext;
   @Input() dropdownNavigationLinks: NavigationLink[];
 

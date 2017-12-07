@@ -23,7 +23,7 @@ describe('User Menu', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show the app users name and picture', () => {
+  it('should show the app users name', () => {
 
     instance.userContext = generateMockUserContext();
     instance.dropdownNavigationLinks = [];
@@ -74,7 +74,7 @@ describe('User Menu', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show an divider for referrals for log out', () => {
+  it('should show a divider for referrals', () => {
 
     instance.userContext = generateMockUserContext();
 
@@ -87,4 +87,16 @@ describe('User Menu', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show a divider for log out', () => {
+
+    instance.userContext = generateMockUserContext();
+
+    const dropDownLink1 = { ...generateMockNavigationLink(), Name: 'Log Out', Url: 'logout', NgAppLink: false };
+
+    instance.dropdownNavigationLinks = [dropDownLink1];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });

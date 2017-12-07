@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'environments/environment';
 
-import { UserContext } from '../../../../models';
+import { UserContext } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-user-menu-avatar',
@@ -9,7 +10,7 @@ import { UserContext } from '../../../../models';
 })
 export class UserMenuAvatarComponent {
 
-  @Input() avatarSource: string;
+  avatarUrl = environment.avatarSource;
   @Input() userContext: UserContext;
 
   constructor() { }

@@ -2,13 +2,13 @@
 
 exports[`User Menu Avatar should show the user avatar when one exists 1`] = `
 <pf-layout-wrapper-user-menu-avatar
-  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
   userContext={[Function Object]}
 >
   
   <img
     class="pf-avatar"
-    src="sourceFakePicture.Jpg"
+    src="undefinedFakePicture.Jpg"
   />
   
 </pf-layout-wrapper-user-menu-avatar>
@@ -16,7 +16,7 @@ exports[`User Menu Avatar should show the user avatar when one exists 1`] = `
 
 exports[`User Menu Avatar should show the users initials when user picture is null 1`] = `
 <pf-layout-wrapper-user-menu-avatar
-  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
   userContext={[Function Object]}
 >
   <div
@@ -31,7 +31,7 @@ exports[`User Menu Avatar should show the users initials when user picture is nu
 
 exports[`User Menu Avatar should show the users initials when user picture is set to default avatar 1`] = `
 <pf-layout-wrapper-user-menu-avatar
-  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
   userContext={[Function Object]}
 >
   <div
