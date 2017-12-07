@@ -22,6 +22,7 @@ describe('User Menu Avatar', () => {
     fixture = TestBed.createComponent(UserMenuAvatarComponent);
     instance = fixture.componentInstance;
   });
+
   it('should show the user avatar when one exists', () => {
 
     instance.userContext = generateMockUserContext();
