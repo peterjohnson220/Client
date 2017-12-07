@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Menu Avatar should show the user avatar when one exists 1`] = `
+<pf-layout-wrapper-user-menu-avatar
+  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
+  userContext={[Function Object]}
+>
+  
+  <img
+    class="pf-avatar"
+    src="https://testsource/avatars/FakePicture.Jpg"
+  />
+  
+</pf-layout-wrapper-user-menu-avatar>
+`;
+
+exports[`User Menu Avatar should show the users initials when user picture is null 1`] = `
+<pf-layout-wrapper-user-menu-avatar
+  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
+  userContext={[Function Object]}
+>
+  <div
+    class="pf-avatar no-avatar"
+  >
+    JD
+  </div>
+  
+  
+</pf-layout-wrapper-user-menu-avatar>
+`;
+
+exports[`User Menu Avatar should show the users initials when user picture is set to default avatar 1`] = `
+<pf-layout-wrapper-user-menu-avatar
+  avatarSource={[Function String]}
+  avatarUrl={[Function String]}
+  userContext={[Function Object]}
+>
+  <div
+    class="pf-avatar no-avatar"
+  >
+    JD
+  </div>
+  
+  
+</pf-layout-wrapper-user-menu-avatar>
+`;

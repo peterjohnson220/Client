@@ -1,0 +1,516 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Menu should prepend /ng/ to the dropdown url, when the navigation link is an NgAppLink 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+          
+        
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="/ng/company-admin"
+        >
+          
+            
+          
+          
+            I am an Ng AppLink
+          
+        </a>
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show a divider for log out 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+          
+        
+        <div
+          class="dropdown-divider"
+        />
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="logout"
+        >
+          
+            
+          
+          <i
+            class="fa fa-lg fa-sign-out"
+          />
+          
+            Log Out
+          
+        </a>
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show a divider for referrals 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+          
+        
+        <div
+          class="dropdown-divider"
+        />
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="referrals"
+        >
+          
+            
+          
+          
+            Referrals
+          
+        </a>
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show a list of dropdown navigation links, when provided 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+          
+        
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="https://www.payfactors.com"
+        >
+          
+            
+          
+          
+            I am a link
+          
+        </a>
+        
+        
+        
+          
+        
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="https://www.google.com"
+        >
+          
+            
+          
+          
+            I am a Link 2
+          
+        </a>
+        
+        
+        
+          
+        
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="https://www.angular.io"
+        >
+          
+            
+          
+          
+            I am a Link 3
+          
+        </a>
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show an icon for log out 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+          
+        
+        <div
+          class="dropdown-divider"
+        />
+        
+          
+        
+          
+        <a
+          class="dropdown-item"
+          href="logout"
+        >
+          
+            
+          
+          <i
+            class="fa fa-lg fa-sign-out"
+          />
+          
+            Log Out
+          
+        </a>
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show the app users name 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    
+    
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      
+      
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        
+        
+        <span
+          class="text-white pr-1"
+        >
+          John Doe
+        </span>
+        
+        
+        <pf-layout-wrapper-user-menu-avatar>
+          
+        
+        </pf-layout-wrapper-user-menu-avatar>
+        
+      
+      </a>
+      
+      
+      <div
+        class="dropdown-menu dropdown-menu-right"
+        ngbdropdownmenu=""
+      >
+        
+        
+        
+        
+      
+      </div>
+      
+    
+    </li>
+    
+  
+  </ul>
+  
+</pf-layout-wrapper-user-menu>
+`;
