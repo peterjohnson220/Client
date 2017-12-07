@@ -25,6 +25,7 @@ describe('User Menu Avatar', () => {
   it('should show the user avatar when one exists', () => {
 
     instance.userContext = generateMockUserContext();
+    instance.avatarSource = 'source';
 
     fixture.detectChanges();
 
@@ -35,6 +36,7 @@ describe('User Menu Avatar', () => {
 
     instance.userContext = generateMockUserContext();
     instance.userContext.UserPicture = 'default_user.png';
+    instance.avatarSource = 'source';
 
     fixture.detectChanges();
 
@@ -45,6 +47,7 @@ describe('User Menu Avatar', () => {
 
     instance.userContext = generateMockUserContext();
     instance.userContext.UserPicture = null;
+    instance.avatarSource = 'source';
 
     fixture.detectChanges();
 
