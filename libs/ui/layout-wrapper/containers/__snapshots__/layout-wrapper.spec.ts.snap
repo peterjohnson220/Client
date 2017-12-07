@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout Wrapper should transclude 1`] = `
+<ng-component>
+  
+      <pf-layout-wrapper>
+    <div
+      class="wrapper"
+    >
+      
+    
+      <header>
+        
+      
+        <div
+          class="flex-row-nowrap"
+        >
+          
+          
+          <pf-layout-wrapper-header>
+            
+          
+          </pf-layout-wrapper-header>
+          
+      
+        </div>
+        
+    
+      </header>
+      
+    
+      <main
+        class="flex-row-nowrap flex-1"
+      >
+        
+      
+        <div
+          class="left-sidebar"
+        >
+          
+        
+          <pf-layout-wrapper-left-sidebar />
+          
+      
+        </div>
+        
+      
+        <div
+          class="flex-1"
+        >
+          
+        
+          
+          I am the main content
+          
+      
+        </div>
+        
+      
+        <div
+          class="right-sidebar"
+        >
+          
+        
+          <pf-layout-wrapper-right-sidebar>
+            
+          
+            
+            I am the right sidebar content
+            
+        
+          </pf-layout-wrapper-right-sidebar>
+          
+      
+        </div>
+        
+    
+      </main>
+      
+    
+      <footer>
+        
+      
+        <div
+          class="flex-row-nowrap"
+        >
+          
+        
+          <div
+            class="flex-1"
+          >
+            
+          
+            <pf-layout-wrapper-footer />
+            
+        
+          </div>
+          
+      
+        </div>
+        
+    
+      </footer>
+      
+  
+    </div>
+    
+  
+  </pf-layout-wrapper>\`
+    
+</ng-component>
+`;

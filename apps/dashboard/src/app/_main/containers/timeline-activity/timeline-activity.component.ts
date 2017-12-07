@@ -7,8 +7,8 @@ import { TimelineActivity } from '../../models/timeline-activity.model';
   styleUrls: ['./timeline-activity.component.css']
 })
 export class TimelineActivityComponent implements OnInit {
-  private avatarUrl: string;
-  private timelineActivities: TimelineActivity[];
+  avatarUrl: string;
+  timelineActivities: TimelineActivity[];
 
   constructor( ) { }
 

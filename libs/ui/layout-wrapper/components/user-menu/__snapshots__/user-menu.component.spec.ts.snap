@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`user-menu should show a list of dropdown navigation links 1`] = `
+<pf-layout-wrapper-user-menu
+  appUser={[Function Object]}
+  avatarUrl={[Function String]}
+  navigationLinks={[Function Array]}
+>
+  <div
+    ngbdropdown=""
+    placement="bottom-right"
+  >
+    
+    
+    <a
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="nav-link dropdown-toggle"
+      data-toggle="dropdown"
+      ngbdropdowntoggle=""
+      role="button"
+    >
+      
+      
+      <span>
+        John Doe
+      </span>
+      
+      
+      <img
+        class="pf-avatar"
+        src="https://f7021091349f6caaffd2-5b56effc7aa76a3323ddc3429496d092.ssl.cf5.rackcdn.com/avatars/"
+      />
+      
+    
+    </a>
+    
+    
+    <div
+      class="dropdown-menu dropdown-menu-right mr-1"
+      ngbdropdownmenu=""
+    >
+      
+      
+      <h5
+        class="dropdown-header pt-0 pb-0 pl-3"
+      >
+        John Doe
+      </h5>
+      
+      
+      <div
+        class="dropdown-divider"
+      />
+      
+      
+      
+      
+        
+      <a
+        class="dropdown-item pl-4"
+        href="https://www.payfactors.com"
+      >
+        I am a link
+      </a>
+      
+      
+      
+        
+      <a
+        class="dropdown-item pl-4"
+        href="https://www.google.com"
+      >
+        I am a Link 2
+      </a>
+      
+      
+      
+        
+      <a
+        class="dropdown-item pl-4"
+        href="https://www.angular.io"
+      >
+        I am a Link 3
+      </a>
+      
+      
+      
+      
+      <div
+        class="dropdown-divider"
+      />
+      
+      
+      <a
+        class="dropdown-item pt-0 pb-0 pl-2 mt-0 mb-0"
+        href="#"
+      >
+        <i
+          class="fa fa-lg fa-sign-out"
+        />
+        Log Out
+      </a>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`user-menu should show the app users name and picture 1`] = `
+<pf-layout-wrapper-user-menu
+  appUser={[Function Object]}
+  avatarUrl={[Function String]}
+  navigationLinks={[Function Array]}
+>
+  <div
+    ngbdropdown=""
+    placement="bottom-right"
+  >
+    
+    
+    <a
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="nav-link dropdown-toggle"
+      data-toggle="dropdown"
+      ngbdropdowntoggle=""
+      role="button"
+    >
+      
+      
+      <span>
+        John Doe
+      </span>
+      
+      
+      <img
+        class="pf-avatar"
+        src="FakePicture.Jpg"
+      />
+      
+    
+    </a>
+    
+    
+    <div
+      class="dropdown-menu dropdown-menu-right mr-1"
+      ngbdropdownmenu=""
+    >
+      
+      
+      <h5
+        class="dropdown-header pt-0 pb-0 pl-3"
+      >
+        John Doe
+      </h5>
+      
+      
+      <div
+        class="dropdown-divider"
+      />
+      
+      
+      
+      
+      
+      <div
+        class="dropdown-divider"
+      />
+      
+      
+      <a
+        class="dropdown-item pt-0 pb-0 pl-2 mt-0 mb-0"
+        href="#"
+      >
+        <i
+          class="fa fa-lg fa-sign-out"
+        />
+        Log Out
+      </a>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-layout-wrapper-user-menu>
+`;

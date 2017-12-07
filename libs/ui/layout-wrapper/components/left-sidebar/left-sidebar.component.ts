@@ -6,6 +6,7 @@ import { Component, OnInit} from '@angular/core';
   styleUrls: ['./left-sidebar.component.scss']
 })
 export class LeftSidebarComponent implements OnInit {
+  leftSidebarToggle = false;
   sidebarLinks: any = [
     { Name: 'Employees', Url: 'test url', NgAppLink: true, IconClass: 'fa-users' },
     { Name: 'Structures', Url: 'test url', NgAppLink: true, IconClass: 'fa-bar-chart' },
