@@ -1,2 +1,6 @@
-<div *ngIf="!userContext.UserPicture || userContext.UserPicture ==='default_user.png'" class="pf-avatar no-avatar">{{ userContext.FirstName | slice:0:1 }}{{ userContext.LastName | slice:0:1 }}</div>
-<img *ngIf="userContext.UserPicture && userContext.UserPicture !=='default_user.png'" class="pf-avatar" [src]="avatarSource + userContext.UserPicture" />
+<div *ngIf="!userContext.UserPicture || userContext.UserPicture ==='default_user.png'" class="pf-avatar no-avatar">
+  {{ userContext.FirstName | slice:0:1 }}{{ userContext.LastName | slice:0:1 }}
+</div>
+<img *ngIf="userContext.UserPicture && userContext.UserPicture !=='default_user.png'"
+     class="pf-avatar"
+     [src]="avatarUrl + userContext.UserPicture" />
