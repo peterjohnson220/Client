@@ -1,0 +1,15 @@
+@import 'colors';
+
+.user-voice-container{
+	opacity: 0.75;
+	background-color: transparent;
+}
+
+.user-voice-container:hover {
+    opacity: 1.0;
+}
+
+.icon-orange {
+    color: $user-voice-icon-color;
+}
+
