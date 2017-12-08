@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Voice Indicator should show the link to user voice 1`] = `
+<pf-user-voice-indicator
+  userContext={[Function Object]}
+  userVoiceForumId={[Function Number]}
+  userVoiceUrl={[Function String]}
+>
+  <div
+    class="user-voice-container"
+  >
+    
+    
+    <a
+      href="/payfactors/UserVoice/Redirect?userId=1&url=http://payfactors.uservoice.com/forums/268517"
+    >
+      
+      
+      <span
+        class="fa-stack fa-2x"
+      >
+        
+        
+        <i
+          class="fa fa-circle fa-stack-2x icon-orange"
+        />
+        
+        
+        <i
+          class="fa fa-circle-thin fa-stack-2x text-white"
+        />
+        
+        
+        <i
+          class="fa fa-lightbulb-o fa-stack-1x text-white"
+        />
+        
+      
+      </span>
+      
+    
+    </a>
+    
+  
+  </div>
+  
+</pf-user-voice-indicator>
+`;
