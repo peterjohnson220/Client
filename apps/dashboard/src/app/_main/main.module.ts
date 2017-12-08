@@ -5,6 +5,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { DashboardPageComponent } from './containers';
 import { TimelineActivityComponent } from './containers/timeline-activity';
+import { UserVoiceIndicatorComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -22,7 +23,11 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Pages
     DashboardPageComponent,
-    TimelineActivityComponent
+
+    // Components
+    TimelineActivityComponent,
+    UserVoiceIndicatorComponent
   ]
 })
-export class MainModule { }
+export class MainModule {
+}
