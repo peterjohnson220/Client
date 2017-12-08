@@ -1,25 +1,48 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { LeftSidebarComponent } from './left-sidebar.component';
 
-describe('LeftSidebarComponent', () => {
-  let component: LeftSidebarComponent;
+describe('left-sidebar', () => {
   let fixture: ComponentFixture<LeftSidebarComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LeftSidebarComponent ]
-    })
-    .compileComponents();
-  }));
+  let instance: LeftSidebarComponent;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        LeftSidebarComponent,
+      ],
+      // Shallow Testing
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
+
     fixture = TestBed.createComponent(LeftSidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    instance = fixture.componentInstance;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should show correct html when leftSidebarToggle is true', () => {
+
+    const link1 = { Name: 'Link1Name', Url: 'Link 1 URL', NgAppLink: true, IconClass: 'fa-users' };
+    const link2 = { Name: 'Link2Name', Url: 'Link 2 URL', NgAppLink: true, IconClass: 'fa-calculator' };
+
+    instance.leftSidebarToggle = true;
+    instance.sidebarLinks = [link1, link2];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
+
+  it('should show correct html when leftSidebarToggle is false', () => {
+
+    const link1 = { Name: 'Link1Name', Url: 'Link 1 URL', NgAppLink: true, IconClass: 'fa-users' };
+    const link2 = { Name: 'Link2Name', Url: 'Link 2 URL', NgAppLink: true, IconClass: 'fa-calculator' };
+
+    instance.leftSidebarToggle = false;
+    instance.sidebarLinks = [link1, link2];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

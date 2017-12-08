@@ -6,7 +6,7 @@ import { Component, OnInit} from '@angular/core';
   styleUrls: ['./right-sidebar.component.scss']
 })
 export class RightSidebarComponent implements OnInit {
-
+  rightSidebarToggle = false;
   constructor() { }
 
   ngOnInit() {

@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRootState from '../../../state/state';
-import { environment } from 'environments/environment';
 
 import * as fromHeaderActions from '../actions/header.actions';
 import { UserContext, NavigationLink } from '../../../models';
@@ -22,10 +21,6 @@ export class LayoutWrapperComponent implements OnInit {
 
   userContext$: Observable<UserContext>;
   headerDropdownNaivgationLinks$: Observable<NavigationLink[]>;
-
-  avatarSource: string = environment.avatarSource;
-  pageContainerBackgroundImage = `url('./assets/images/Elegant_Background-8.jpg')`;
-  companyLogoSource: string = environment.companyLogoSource;
 
   constructor(
     private store: Store<fromRootState.State>,

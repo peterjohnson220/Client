@@ -1,4 +1,4 @@
-<div class="container px-1">
+<div class="px-1">
   <ul class="timeline">
     <li *ngFor="let activity of timelineActivities">
       <div class="timeline-icon">
@@ -11,7 +11,7 @@
       </div>
       <div class="timeline-panel">
         <div class="timeline-header d-inline-flex  align-items-center">
-          <img class="avatar" [src]="activity.AvatarUrl">
+          <img class="pf-avatar" [src]="activity.AvatarUrl">
           <h6 class="pl-2"><a href="#" class="pr-2">{{ activity.PostedBy }}</a></h6><h6>{{ activity.PostedTime }}</h6>
         </div>
         <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>

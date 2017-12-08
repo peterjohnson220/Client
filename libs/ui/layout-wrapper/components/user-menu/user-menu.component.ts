@@ -1,28 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'environments/environment';
+import { Component, Input } from '@angular/core';
+
+import { NavigationLink, UserContext } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-user-menu',
   templateUrl: './user-menu.component.html',
   styleUrls: ['./user-menu.component.scss']
 })
-export class UserMenuComponent implements OnInit {
-  appUser = {
-    firstName: 'John',
-    lastName: 'Doe'
-  };
+export class UserMenuComponent {
 
-  navigationLinks = [
-    { Name: 'Unimpersonate', Url: '#' },
-    { Name: 'User Settings', Url: '#' },
-    { Name: 'Company Admin', Url: '#' },
-    { Name: 'Site Admin', Url: '#' }];
-
-  avatarUrl = environment.avatarSource;
+  @Input() userContext: UserContext;
+  @Input() dropdownNavigationLinks: NavigationLink[];
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

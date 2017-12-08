@@ -1,18 +1,16 @@
 <div class="wrapper">
   <header>
     <div class="flex-row-nowrap">
-        <pf-layout-wrapper-header [avatarSource]="avatarSource"
-                                  [companyLogoSource]="companyLogoSource"
-                                  [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
-                                  [userContext]="userContext$ | async">
-        </pf-layout-wrapper-header>
+      <pf-layout-wrapper-header [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+                                [userContext]="userContext$ | async">
+      </pf-layout-wrapper-header>
     </div>
   </header>
   <main class="flex-row-nowrap flex-1">
     <div class="left-sidebar">
       <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
     </div>
-    <div class="flex-1 relative">
+    <div class="flex-1 position-relative">
       <ng-content select="[mainContent]"></ng-content>
     </div>
     <div class="right-sidebar">

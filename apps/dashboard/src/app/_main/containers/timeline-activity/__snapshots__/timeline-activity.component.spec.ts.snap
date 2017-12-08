@@ -1,0 +1,2221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`timeline-activity should show correct html when Type is ActivityPost 1`] = `
+<pf-timeline-activity
+  timelineActivities={[Function Array]}
+>
+  <div
+    class="px-1"
+  >
+    
+    
+    <ul
+      class="timeline"
+    >
+      
+      
+      
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-comments"
+          />
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/john.png"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                John Clark
+              </a>
+            </h6>
+            <h6>
+              3m ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Replied To Mike Davidson's post
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-commenting-o"
+          />
+          
+              
+          
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/adam.jpg"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Mike Davidson
+              </a>
+            </h6>
+            <h6>
+              5h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Posted to the 
+              <a
+                href="#"
+              >
+                Payfactors Community.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              11h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added new 
+              <a
+                href="#"
+              >
+                Release Notes.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-share"
+          />
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/sue.gif"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Sue Jones
+              </a>
+            </h6>
+            <h6>
+              2d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Shared 
+              <a
+                href="#"
+              >
+                Retail Jobs 2018
+              </a>
+               project with you.
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              7d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added a new 
+              <a
+                href="#"
+              >
+                Video.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </div>
+  
+  
+</pf-timeline-activity>
+`;
+
+exports[`timeline-activity should show correct html when Type is CommunityPost 1`] = `
+<pf-timeline-activity
+  timelineActivities={[Function Array]}
+>
+  <div
+    class="px-1"
+  >
+    
+    
+    <ul
+      class="timeline"
+    >
+      
+      
+      
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-comments"
+          />
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/john.png"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                John Clark
+              </a>
+            </h6>
+            <h6>
+              3m ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Replied To Mike Davidson's post
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-commenting-o"
+          />
+          
+              
+          
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/adam.jpg"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Mike Davidson
+              </a>
+            </h6>
+            <h6>
+              5h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Posted to the 
+              <a
+                href="#"
+              >
+                Payfactors Community.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              11h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added new 
+              <a
+                href="#"
+              >
+                Release Notes.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-share"
+          />
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/sue.gif"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Sue Jones
+              </a>
+            </h6>
+            <h6>
+              2d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Shared 
+              <a
+                href="#"
+              >
+                Retail Jobs 2018
+              </a>
+               project with you.
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              7d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added a new 
+              <a
+                href="#"
+              >
+                Video.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </div>
+  
+  
+</pf-timeline-activity>
+`;
+
+exports[`timeline-activity should show correct html when Type is CommunityPost and SubType is Reply 1`] = `
+<pf-timeline-activity
+  timelineActivities={[Function Array]}
+>
+  <div
+    class="px-1"
+  >
+    
+    
+    <ul
+      class="timeline"
+    >
+      
+      
+      
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-comments"
+          />
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/john.png"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                John Clark
+              </a>
+            </h6>
+            <h6>
+              3m ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Replied To Mike Davidson's post
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-commenting-o"
+          />
+          
+              
+          
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/adam.jpg"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Mike Davidson
+              </a>
+            </h6>
+            <h6>
+              5h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Posted to the 
+              <a
+                href="#"
+              >
+                Payfactors Community.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              11h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added new 
+              <a
+                href="#"
+              >
+                Release Notes.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-share"
+          />
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/sue.gif"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Sue Jones
+              </a>
+            </h6>
+            <h6>
+              2d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Shared 
+              <a
+                href="#"
+              >
+                Retail Jobs 2018
+              </a>
+               project with you.
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              7d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added a new 
+              <a
+                href="#"
+              >
+                Video.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </div>
+  
+  
+</pf-timeline-activity>
+`;
+
+exports[`timeline-activity should show correct html when Type is ResourcesPost 1`] = `
+<pf-timeline-activity
+  timelineActivities={[Function Array]}
+>
+  <div
+    class="px-1"
+  >
+    
+    
+    <ul
+      class="timeline"
+    >
+      
+      
+      
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-comments"
+          />
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/john.png"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                John Clark
+              </a>
+            </h6>
+            <h6>
+              3m ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Replied To Mike Davidson's post
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-commenting-o"
+          />
+          
+              
+          
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/adam.jpg"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Mike Davidson
+              </a>
+            </h6>
+            <h6>
+              5h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Posted to the 
+              <a
+                href="#"
+              >
+                Payfactors Community.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              11h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added new 
+              <a
+                href="#"
+              >
+                Release Notes.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-share"
+          />
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/sue.gif"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Sue Jones
+              </a>
+            </h6>
+            <h6>
+              2d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Shared 
+              <a
+                href="#"
+              >
+                Retail Jobs 2018
+              </a>
+               project with you.
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              7d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added a new 
+              <a
+                href="#"
+              >
+                Video.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </div>
+  
+  
+</pf-timeline-activity>
+`;
+
+exports[`timeline-activity should show timeline activities 1`] = `
+<pf-timeline-activity
+  timelineActivities={[Function Array]}
+>
+  <div
+    class="px-1"
+  >
+    
+    
+    <ul
+      class="timeline"
+    >
+      
+      
+      
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-comments"
+          />
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/john.png"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                John Clark
+              </a>
+            </h6>
+            <h6>
+              3m ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Replied To Mike Davidson's post
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+          
+              
+          
+          <i
+            class="fa fa-circle-thinner fa-commenting-o"
+          />
+          
+              
+          
+          
+            
+          
+            
+          
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/adam.jpg"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Mike Davidson
+              </a>
+            </h6>
+            <h6>
+              5h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Posted to the 
+              <a
+                href="#"
+              >
+                Payfactors Community.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          <div
+            class="timeline-body p-3"
+          >
+            <span>
+              Loriem Ipsum is simple a dummy text of the printing and typesetting industry.
+            </span>
+          </div>
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              11h ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added new 
+              <a
+                href="#"
+              >
+                Release Notes.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-share"
+          />
+          
+            
+          
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/sue.gif"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Sue Jones
+              </a>
+            </h6>
+            <h6>
+              2d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Shared 
+              <a
+                href="#"
+              >
+                Retail Jobs 2018
+              </a>
+               project with you.
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      <li>
+        
+        
+        <div
+          class="timeline-icon"
+        >
+          
+            
+          
+          
+            
+          
+          
+            
+          
+          <i
+            class="fa fa-circle-thinner fa-info"
+          />
+          
+        
+        </div>
+        
+        
+        <div
+          class="timeline-panel"
+        >
+          
+          
+          <div
+            class="timeline-header d-inline-flex  align-items-center"
+          >
+            
+            
+            <img
+              class="pf-avatar"
+              src="/assets/favicon.ico"
+            />
+            
+            
+            <h6
+              class="pl-2"
+            >
+              <a
+                class="pr-2"
+                href="#"
+              >
+                Payfactors
+              </a>
+            </h6>
+            <h6>
+              7d ago
+            </h6>
+            
+          
+          </div>
+          
+          
+          <h6
+            class="timeline-source py-1"
+          >
+            <span>
+              Added a new 
+              <a
+                href="#"
+              >
+                Video.
+              </a>
+            </span>
+          </h6>
+          
+          
+          
+          
+        
+        </div>
+        
+      
+      </li>
+      
+    
+    </ul>
+    
+  
+  </div>
+  
+  
+</pf-timeline-activity>
+`;
