@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { CustomValidators } from 'libs/forms/validators/custom-validators.validator';
+import { UpsertExchangeRequest } from '../../../../../../libs/models/peer';
 
 @Component({
   selector: 'pf-create-exchange-modal',
@@ -14,23 +13,19 @@ import { CustomValidators } from 'libs/forms/validators/custom-validators.valida
 })
 export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   private createExchangeForm: FormGroup;
-  private modalOpenSubscription: Subscription;
   private errorSubscription: Subscription;
   private errorMessageSubscription: Subscription;
   private errorValidationMessage: string;
-  private hasDismissed = false;
   private attemptedSubmit = false;
-  private modalRef: NgbModalRef;
 
-  @ViewChild('content') modal: any;
   @Output() createExchangeEvent = new EventEmitter();
-  @Output() onModalDismissed = new EventEmitter();
-  @Input() creating: boolean;
+  @Output() modalDismissedEvent = new EventEmitter();
+  @Input() creatingExchange: boolean;
   @Input() isOpen$: Observable<boolean>;
   @Input() error$: Observable<boolean>;
   @Input() errorMessage$: Observable<string>;
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.createForm();
   }
 
@@ -42,43 +37,23 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  createExchange(): void {
+  handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    this.createExchangeEvent.emit(this.name.value);
+    const newExchange: UpsertExchangeRequest = {
+      ExchangeId: 0,
+      ExchangeName: this.name.value,
+      CompanyIds: []
+    };
+    this.createExchangeEvent.emit(newExchange);
   }
 
-  cleanModal(): void {
-    const modalActive = this.modalRef;
-    if (!this.hasDismissed && modalActive) {
-      this.modalRef.close();
-    }
-
-    if (modalActive || this.hasDismissed) {
-      this.attemptedSubmit = false;
-      this.createExchangeForm.reset();
-    }
-  }
-
-  modalDismissed(): void {
-    this.hasDismissed = true;
-    this.onModalDismissed.emit();
+  handleModalDismissed(): void {
+    this.attemptedSubmit = false;
+    this.modalDismissedEvent.emit();
   }
 
   // Lifecycle
   ngOnInit(): void {
-    this.modalOpenSubscription = this.isOpen$.subscribe(open => {
-      if (!open) {
-        this.cleanModal();
-      } else {
-        this.hasDismissed = false;
-        this.modalRef = this.modalService.open(this.modal, { backdrop: 'static' });
-        this.modalRef.result.then(() => {
-          this.modalDismissed();
-        }, () => {
-          this.modalDismissed();
-        });
-      }
-    });
     this.errorMessageSubscription = this.errorMessage$.subscribe(errorMessage => {
       this.errorValidationMessage = errorMessage;
     });
@@ -90,7 +65,6 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.modalOpenSubscription.unsubscribe();
     this.errorMessageSubscription.unsubscribe();
     this.errorSubscription.unsubscribe();
   }

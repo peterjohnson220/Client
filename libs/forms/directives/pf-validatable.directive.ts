@@ -1,4 +1,6 @@
-import { ContentChild, Directive, DoCheck, ElementRef, Input, Renderer2 } from '@angular/core';
+import {
+  ContentChild, Directive, DoCheck, ElementRef, Input, Renderer2
+} from '@angular/core';
 import { FormControlName } from '@angular/forms';
 
 @Directive({
@@ -14,11 +16,11 @@ export class PfValidatableDirective implements DoCheck {
 
   ngDoCheck(): void {
     const isDirty = (this.control.dirty || this.control.touched) && this.shouldValidate;
-    if (!isDirty) {
+/*    if (!isDirty) {
+      this._renderer.removeClass(this._el.nativeElement, 'is-invalid');
       return;
-    }
-
-    if (this.control.valid) {
+    }*/
+    if (this.control.valid || !isDirty) {
       this._renderer.removeClass(this._el.nativeElement, 'is-invalid');
       // this._renderer.addClass(this._el.nativeElement, 'is-valid');
     } else {

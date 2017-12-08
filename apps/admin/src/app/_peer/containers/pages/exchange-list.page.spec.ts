@@ -55,4 +55,32 @@ describe('Exchange List Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch an OpenCreateExchangeModal action when openCreateExchangeModal is called', () => {
+    const action = new fromExchangeListActions.OpenCreateExchangeModal();
+
+    instance.openCreateExchangeModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an CloseCreateExchangeModal action when handleCreateExchangeModalDismissed is called', () => {
+    const action = new fromExchangeListActions.CloseCreateExchangeModal();
+
+    instance.handleCreateExchangeModalDismissed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an UpsertingExchange action with payload when handleCreateExchange is called', () => {
+    const newExchange = {
+      ExchangeId: 0,
+      ExchangeName: 'test',
+      CompanyIds: []
+    };
+    const action = new fromExchangeListActions.UpsertingExchange(newExchange);
+
+    instance.handleCreateExchange(newExchange);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

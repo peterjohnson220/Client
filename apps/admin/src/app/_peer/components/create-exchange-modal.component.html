@@ -1,26 +1,20 @@
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title">Create New Exchange</h4>
-    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group" [formGroup]="createExchangeForm">
+<pf-modal-form
+  [title]="'Create New Exchange'"
+  [primaryButtonText]="'Create'"
+  [submitting]="creatingExchange"
+  [isOpen$]="isOpen$"
+  [formGroup]="createExchangeForm"
+  (onSubmit)="handleFormSubmit($event)"
+  (onDismiss)="handleModalDismissed($event)">
+  <ng-container form-content>
+    <div class="form-group">
       <label class="form-control-label" for="exchange-name">Please give the new exchange a name:</label>
       <input type="text" class="form-control" placeholder="Exchange Name" formControlName="name" id="exchange-name" [pfValidatable]="attemptedSubmit">
       <ng-container *ngIf="name.errors">
         <div *ngIf="name.errors.required" class="invalid-feedback">Name is required.</div>
         <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
       </ng-container>
-      <small *ngIf="!attemptedSubmit || !name.errors" class="form-text text-muted">An exchange name is required and must be unique.</small>
+      <span *ngIf="!attemptedSubmit || !name.errors" class="pf-form-text text-muted">An exchange name is required and must be unique.</span>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
-    <button type="button" class="btn btn-primary" [disabled]="creating || !name.valid || !(name.dirty || name.touched)" (click)="createExchange()">
-      <span *ngIf="creating"><pf-loading-indicator></pf-loading-indicator> Creating...</span>
-      <span *ngIf="!creating">Create</span>
-    </button>
-  </div>
-</ng-template>
+  </ng-container>
+</pf-modal-form>

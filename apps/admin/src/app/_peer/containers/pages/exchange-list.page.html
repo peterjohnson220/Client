@@ -14,14 +14,6 @@
       [loadingError]="exchangeListLoadingError$ | async"
       [loadingErrorMessage]="'Error Loading Exchanges'"
       (reload)="handleExchangeGridReload()">
-    <pf-create-exchange-modal
-      [creating]="creatingExchange$ | async"
-      [isOpen$]="createExchangeModalOpen$"
-      [error$]="creatingExchangeError$"
-      [errorMessage$]="creatingExchangeErrorMessage$"
-      (createExchangeEvent)="handleCreateExchange($event)"
-      (onModalDismissed)="handleCreateExchangeModalDismissed($)">
-    </pf-create-exchange-modal>
 
       <kendo-grid [data]="exchangeListItems$ | async"
                   [resizable]="true"
@@ -54,3 +46,12 @@
   </ng-container>
 
 </pf-page-with-title-bar>
+
+<pf-create-exchange-modal
+  [creatingExchange]="creatingExchange$ | async"
+  [isOpen$]="createExchangeModalOpen$"
+  [error$]="creatingExchangeError$"
+  [errorMessage$]="creatingExchangeErrorMessage$"
+  (createExchangeEvent)="handleCreateExchange($event)"
+  (modalDismissedEvent)="handleCreateExchangeModalDismissed($event)">
+</pf-create-exchange-modal>

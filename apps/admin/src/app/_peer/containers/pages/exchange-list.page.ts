@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { ExchangeListItem, UpsertExchangeRequest } from 'libs/models/peer';
-
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
-import { CreateExchangeModalComponent } from '../../components/create-exchange-modal.component';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -22,7 +20,6 @@ export class ExchangeListPageComponent implements OnInit {
   creatingExchangeError$: Observable<boolean>;
   creatingExchangeErrorMessage$: Observable<string>;
   createExchangeModalOpen$: Observable<boolean>;
-  @ViewChild(CreateExchangeModalComponent) createExchangeModal;
 
   constructor(private store: Store<fromPeerAdminReducer.State>) {
     this.exchangeListLoading$ = this.store.select(fromPeerAdminReducer.getExchangeListLoading);
@@ -43,17 +40,12 @@ export class ExchangeListPageComponent implements OnInit {
     this.store.dispatch(new fromExchangeListActions.LoadingExchanges());
   }
 
-  handleCreateExchangeModalDismissed() {
-    this.store.dispatch(new fromExchangeListActions.CloseCreateExchangeModal);
+  handleCreateExchange(newExchange: UpsertExchangeRequest) {
+    this.store.dispatch(new fromExchangeListActions.UpsertingExchange(newExchange));
   }
 
-  handleCreateExchange(name: string) {
-    const newExchange: UpsertExchangeRequest = {
-      ExchangeId: 0,
-      ExchangeName: name,
-      CompanyIds: []
-    };
-    this.store.dispatch(new fromExchangeListActions.UpsertingExchange(newExchange));
+  handleCreateExchangeModalDismissed() {
+    this.store.dispatch(new fromExchangeListActions.CloseCreateExchangeModal);
   }
 
   // Lifecycle
