@@ -9,8 +9,8 @@ export interface TimelineActivity {
 }
 
 
-export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubType'): TimelineActivity[] {
-  return [{
+export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubType'): TimelineActivity {
+  return {
     Type: type,
     SubType: subType,
     PostedBy: 'John Clark',
@@ -18,5 +18,5 @@ export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubT
     Subject: 'Replied To Mike Davidson\'s post',
     Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
     AvatarUrl: '/assets/john.png'
-  }];
+  };
 }

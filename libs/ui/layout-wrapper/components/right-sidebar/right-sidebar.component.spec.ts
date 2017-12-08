@@ -34,9 +34,7 @@ describe('Right Sidebar', () => {
     expect(hostComponent).toMatchSnapshot();
   });
 
-  it('should set style.visibility to hidden for openSidebarIcon, add right-sidebar-open class to rightSidebarTransitionWrapper,' +
-    ' set style.visibility to visible for closeSidebarIcon' +
-    ' when rightSidebarToggle is true', () => {
+  it('Should apply the correct visibility styles and classes when rightSidebarToggle is true', () => {
 
     instance.rightSidebarToggle = true;
 
@@ -45,9 +43,7 @@ describe('Right Sidebar', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should set style.visibility to visible for openSidebarIcon, add right-sidebar-close class to rightSidebarTransitionWrapper,' +
-    ' add d-none class to rightSidebarContentWrapper, and set style.visibility to hidden for closeSidebarIcon' +
-    ' when rightSidebarToggle is false', () => {
+  it('Should apply the correct visibility styles and classes when rightSidebarToggle is false', () => {
 
     instance.rightSidebarToggle = false;
 
