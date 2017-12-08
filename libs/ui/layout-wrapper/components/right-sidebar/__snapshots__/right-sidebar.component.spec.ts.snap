@@ -1,52 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`right-sidebar should show correct html when rightSidebarToggle is false 1`] = `
-<pf-layout-wrapper-right-sidebar
-  rightSidebarToggle="false"
->
-  <div
-    class="right-sidebar-dock"
-  >
-    
-    
-    <i
-      class="fa fa-plus fa-lg open-sidebar-icon"
-      style="visibility: visible;"
-    />
-    
-    
-    <div
-      class="right-sidebar-content right-sidebar-close"
-      ng-reflect-klass="right-sidebar-content"
-      ng-reflect-ng-class="[object Object]"
-    >
-      
-      
-      <div
-        class="sidebar-width d-none"
-      >
-        
-        
-        <i
-          class="fa fa-times fa-lg close-sidebar-icon p-2"
-          style="visibility: hidden;"
-        />
-        
-        
-        
-      
-      </div>
-      
-    
-    </div>
-    
-  
-  </div>
-  
-</pf-layout-wrapper-right-sidebar>
-`;
-
-exports[`right-sidebar should show correct html when rightSidebarToggle is true 1`] = `
+exports[`Right Sidebar should set style.visibility to hidden for openSidebarIcon, add right-sidebar-open class to rightSidebarTransitionWrapper, set style.visibility to visible for closeSidebarIcon when rightSidebarToggle is true 1`] = `
 <pf-layout-wrapper-right-sidebar
   rightSidebarToggle={[Function Boolean]}
 >
@@ -57,12 +11,14 @@ exports[`right-sidebar should show correct html when rightSidebarToggle is true 
     
     <i
       class="fa fa-plus fa-lg open-sidebar-icon"
+      id="openSidebarIcon"
       style="visibility: hidden;"
     />
     
     
     <div
       class="right-sidebar-content right-sidebar-open"
+      id="rightSidebarTransitionWrapper"
       ng-reflect-klass="right-sidebar-content"
       ng-reflect-ng-class="[object Object]"
     >
@@ -70,11 +26,13 @@ exports[`right-sidebar should show correct html when rightSidebarToggle is true 
       
       <div
         class="sidebar-width"
+        id="rightSidebarContentWrapper"
       >
         
         
         <i
           class="fa fa-times fa-lg close-sidebar-icon p-2"
+          id="closeSidebarIcon"
           style="visibility: visible;"
         />
         
@@ -92,7 +50,57 @@ exports[`right-sidebar should show correct html when rightSidebarToggle is true 
 </pf-layout-wrapper-right-sidebar>
 `;
 
-exports[`right-sidebar should transclude 1`] = `
+exports[`Right Sidebar should set style.visibility to visible for openSidebarIcon, add right-sidebar-close class to rightSidebarTransitionWrapper, add d-none class to rightSidebarContentWrapper, and set style.visibility to hidden for closeSidebarIcon when rightSidebarToggle is false 1`] = `
+<pf-layout-wrapper-right-sidebar
+  rightSidebarToggle="false"
+>
+  <div
+    class="right-sidebar-dock"
+  >
+    
+    
+    <i
+      class="fa fa-plus fa-lg open-sidebar-icon"
+      id="openSidebarIcon"
+      style="visibility: visible;"
+    />
+    
+    
+    <div
+      class="right-sidebar-content right-sidebar-close"
+      id="rightSidebarTransitionWrapper"
+      ng-reflect-klass="right-sidebar-content"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      
+      <div
+        class="sidebar-width d-none"
+        id="rightSidebarContentWrapper"
+      >
+        
+        
+        <i
+          class="fa fa-times fa-lg close-sidebar-icon p-2"
+          id="closeSidebarIcon"
+          style="visibility: hidden;"
+        />
+        
+        
+        
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-layout-wrapper-right-sidebar>
+`;
+
+exports[`Right Sidebar should transclude 1`] = `
 <ng-component>
   
       <pf-layout-wrapper-right-sidebar>
@@ -103,29 +111,30 @@ exports[`right-sidebar should transclude 1`] = `
     
       <i
         class="fa fa-plus fa-lg open-sidebar-icon"
+        id="openSidebarIcon"
       />
       
     
       <div
         class="right-sidebar-content"
+        id="rightSidebarTransitionWrapper"
       >
         
       
         <div
           class="sidebar-width"
+          id="rightSidebarContentWrapper"
         >
           
         
           <i
             class="fa fa-times fa-lg close-sidebar-icon p-2"
+            id="closeSidebarIcon"
           />
           
         
           
-        
-          
-          Transclusion works for right-sidebar component!
-          
+        Transclusion Works!
       
           
       

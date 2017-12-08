@@ -1,6 +1,76 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`left-sidebar should show correct html when leftSidebarToggle is false 1`] = `
+exports[`Left Sidebar should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes when leftSidebarToggle is false 1`] = `
+<pf-layout-wrapper-left-sidebar
+  leftSidebarToggle="false"
+  sidebarLinks={[Function Array]}
+>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-close"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <i
+      class="fa fa-lg fa-angle-double-right left-sidebar-icon-close"
+      ng-reflect-klass="fa fa-lg"
+      ng-reflect-ng-class="[object Object]"
+    />
+    
+  
+  </div>
+  
+</pf-layout-wrapper-left-sidebar>
+`;
+
+exports[`Left Sidebar should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes when leftSidebarToggle is true 1`] = `
+<pf-layout-wrapper-left-sidebar
+  leftSidebarToggle={[Function Boolean]}
+  sidebarLinks={[Function Array]}
+>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-open"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <i
+      class="fa fa-lg fa-angle-double-left left-sidebar-icon-open"
+      ng-reflect-klass="fa fa-lg"
+      ng-reflect-ng-class="[object Object]"
+    />
+    
+  
+  </div>
+  
+</pf-layout-wrapper-left-sidebar>
+`;
+
+exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle is false 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle="false"
   sidebarLinks={[Function Array]}
@@ -25,7 +95,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is false 1
       
           
       <a
-        href="Link 1 URL"
+        href="Mock Link1 URL"
         placement="right"
       >
         <i
@@ -56,7 +126,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is false 1
       
           
       <a
-        href="Link 2 URL"
+        href="Mock Link2 URL"
         placement="right"
       >
         <i
@@ -97,7 +167,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is false 1
 </pf-layout-wrapper-left-sidebar>
 `;
 
-exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`] = `
+exports[`Left Sidebar should show sidebar link names when leftSidebarToggle is true 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle={[Function Boolean]}
   sidebarLinks={[Function Array]}
@@ -125,7 +195,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`
       
           
       <a
-        href="Link 1 URL"
+        href="Mock Link1 URL"
       >
         <i
           class="fa fa-lg fa-users"
@@ -133,7 +203,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`
           ng-reflect-ng-class="fa-users"
         />
         
-            Link1Name
+            Mock Link1 Name
       </a>
       
         
@@ -157,7 +227,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`
       
           
       <a
-        href="Link 2 URL"
+        href="Mock Link2 URL"
       >
         <i
           class="fa fa-lg fa-calculator"
@@ -165,7 +235,7 @@ exports[`left-sidebar should show correct html when leftSidebarToggle is true 1`
           ng-reflect-ng-class="fa-calculator"
         />
         
-            Link2Name
+            Mock Link2 Name
       </a>
       
         

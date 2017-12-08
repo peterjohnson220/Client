@@ -5,13 +5,13 @@ import { RightSidebarComponent } from './right-sidebar.component';
 @Component({
   template: `
     <pf-layout-wrapper-right-sidebar>
-      <ng-container rightSidebarContent>Transclusion works for right-sidebar component!</ng-container>
+      Transclusion Works!
     </pf-layout-wrapper-right-sidebar>`
 })
 class TestHostComponent {
 }
 
-describe('right-sidebar', () => {
+describe('Right Sidebar', () => {
   let fixture: ComponentFixture<RightSidebarComponent>;
   let instance: RightSidebarComponent;
 
@@ -34,7 +34,9 @@ describe('right-sidebar', () => {
     expect(hostComponent).toMatchSnapshot();
   });
 
-  it('should show correct html when rightSidebarToggle is true', () => {
+  it('should set style.visibility to hidden for openSidebarIcon, add right-sidebar-open class to rightSidebarTransitionWrapper,' +
+    ' set style.visibility to visible for closeSidebarIcon' +
+    ' when rightSidebarToggle is true', () => {
 
     instance.rightSidebarToggle = true;
 
@@ -43,7 +45,9 @@ describe('right-sidebar', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show correct html when rightSidebarToggle is false', () => {
+  it('should set style.visibility to visible for openSidebarIcon, add right-sidebar-close class to rightSidebarTransitionWrapper,' +
+    ' add d-none class to rightSidebarContentWrapper, and set style.visibility to hidden for closeSidebarIcon' +
+    ' when rightSidebarToggle is false', () => {
 
     instance.rightSidebarToggle = false;
 

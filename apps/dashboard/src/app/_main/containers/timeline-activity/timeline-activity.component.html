@@ -1,23 +1,34 @@
-<div class="px-1">
-  <ul class="timeline">
-    <li *ngFor="let activity of timelineActivities">
-      <div class="timeline-icon">
-          <ng-container *ngIf="activity.Type === 'CommunityPost'">
-            <i *ngIf="activity.SubType !== 'Reply'" class="fa fa-circle-thinner fa-commenting-o"></i>
-            <i *ngIf="activity.SubType === 'Reply'" class="fa fa-circle-thinner fa-comments"></i>
-          </ng-container>
-          <i *ngIf="activity.Type === 'ActivityPost'" class="fa fa-circle-thinner fa-share"></i>
-          <i *ngIf="activity.Type === 'ResourcesPost'" class="fa fa-circle-thinner fa-info"></i>
-      </div>
-      <div class="timeline-panel">
-        <div class="timeline-header d-inline-flex  align-items-center">
-          <img class="pf-avatar" [src]="activity.AvatarUrl">
-          <h6 class="pl-2"><a href="#" class="pr-2">{{ activity.PostedBy }}</a></h6><h6>{{ activity.PostedTime }}</h6>
-        </div>
-        <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>
-        <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body"></span></div>
-      </div>
-    </li>
-  </ul>
+<div class="card px-1 py-3">
+  <div class="card-header d-flex align-items-center pl-1">
+    <i class="fa fa-2x fa-commenting-o px-2" aria-hidden="true"></i>
+    <h4>Recent Activity</h4>
+  </div>
+  <div class="card-block pt-3 pb-1">
+    <div class="px-1">
+      <ul class="timeline">
+        <li *ngFor="let activity of timelineActivities">
+          <div class="timeline-icon">
+            <ng-container *ngIf="activity.Type === 'CommunityPost'">
+              <i *ngIf="activity.SubType !== 'Reply'" class="fa fa-circle-thinner fa-commenting-o"></i>
+              <i *ngIf="activity.SubType === 'Reply'" class="fa fa-circle-thinner fa-comments"></i>
+            </ng-container>
+            <i *ngIf="activity.Type === 'ActivityPost'" class="fa fa-circle-thinner fa-share"></i>
+            <i *ngIf="activity.Type === 'ResourcesPost'" class="fa fa-circle-thinner fa-info"></i>
+          </div>
+          <div class="timeline-panel">
+            <div class="timeline-header d-inline-flex  align-items-center">
+              <img class="pf-avatar" [src]="activity.AvatarUrl">
+              <h6 class="pl-2"><a href="#" class="pr-2">{{ activity.PostedBy }}</a></h6><h6>{{ activity.PostedTime
+              }}</h6>
+            </div>
+            <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>
+            <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body"></span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-primary">Show More</button>
+  </div>
 </div>
-

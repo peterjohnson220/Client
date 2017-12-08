@@ -12,8 +12,7 @@ import {
   UserMenuComponent,
   UserMenuAvatarComponent,
   LeftSidebarComponent,
-  RightSidebarComponent,
-  FooterComponent
+  RightSidebarComponent
 } from './components';
 import { LayoutWrapperComponent } from './containers';
 import { HeaderEffects } from './effects';
@@ -35,7 +34,6 @@ import { reducers } from './reducers';
     UserMenuAvatarComponent,
     LeftSidebarComponent,
     RightSidebarComponent,
-    FooterComponent,
     LayoutWrapperComponent ],
   exports: [ LayoutWrapperComponent ]
 })
