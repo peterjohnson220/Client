@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 import { Tile } from '../../../models/tile.model';
 
 @Component({
@@ -8,13 +9,10 @@ import { Tile } from '../../../models/tile.model';
 })
 
 
-export class TileComponent implements OnInit {
+export class TileComponent {
 
   @Input() tile: Tile;
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 }
