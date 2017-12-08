@@ -1,11 +1,10 @@
-export class Tile {
-  constructor(
-  public id: number,
-  public name: string,
-  public url: string,
-  public position: number,
-  public size: number = 1,
-  public cssClass?: string,
-  public bgColor?: string,
-  public tileData?: any) {}
+export interface Tile {
+  id: number;
+  name: string;
+  url: string;
+  position: number;
+  size: number;
+  cssClass?: string;
+  bgColor?: string;
+  tileData?: any;
 }

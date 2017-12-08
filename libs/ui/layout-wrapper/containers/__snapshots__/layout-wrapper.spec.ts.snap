@@ -91,10 +91,19 @@ exports[`Layout Wrapper should transclude 1`] = `
           >
             
           
-            <pf-layout-wrapper-footer>
+            <div
+              class="d-flex flex-column justify-content-center text-center footer-container"
+            >
+              
+            
+              <span
+                class="text-white"
+              >
+                © 2017 Payfactors All rights reserved.
+              </span>
               
           
-            </pf-layout-wrapper-footer>
+            </div>
             
         
           </div>

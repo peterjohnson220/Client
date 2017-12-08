@@ -5,35 +5,32 @@ import { TimelineActivity } from '../../models/timeline-activity.model';
 @Component({
   selector: 'pf-timeline-activity',
   templateUrl: './timeline-activity.component.html',
-  styleUrls: ['./timeline-activity.component.scss']
+  styleUrls: [ './timeline-activity.component.scss' ]
 })
 export class TimelineActivityComponent implements OnInit {
   timelineActivities: TimelineActivity[];
 
-  constructor( ) { }
+  constructor() {
+    this.timelineActivities = [];
+    this.timelineActivities.push({
+      Type: 'CommunityPost',
+      SubType: 'Reply',
+      PostedBy: 'John Clark',
+      PostedTime: '3m ago',
+      Subject: 'Replied To Mike Davidson\'s post',
+      Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
+      AvatarUrl: '/assets/john.png'
+    });
 
-  ngOnInit() {
-      this.timelineActivities = [];
-
-      this.timelineActivities.push({
-        Type: 'CommunityPost',
-        SubType: 'Reply',
-        PostedBy: 'John Clark',
-        PostedTime: '3m ago',
-        Subject: 'Replied To Mike Davidson\'s post',
-        Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
-        AvatarUrl: '/assets/john.png'
-      });
-
-      this.timelineActivities.push({
-        Type: 'CommunityPost',
-        SubType: null,
-        PostedBy: 'Mike Davidson',
-        PostedTime: '5h ago',
-        Subject: 'Posted to the <a href="#">Payfactors Community.</a>',
-        Body: 'Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
-        AvatarUrl: '/assets/adam.jpg'
-      });
+    this.timelineActivities.push({
+      Type: 'CommunityPost',
+      SubType: null,
+      PostedBy: 'Mike Davidson',
+      PostedTime: '5h ago',
+      Subject: 'Posted to the <a href="#">Payfactors Community.</a>',
+      Body: 'Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
+      AvatarUrl: '/assets/adam.jpg'
+    });
 
     this.timelineActivities.push({
       Type: 'ResourcesPost',
@@ -64,8 +61,9 @@ export class TimelineActivityComponent implements OnInit {
       Body: null,
       AvatarUrl: '/assets/favicon.ico'
     });
+  }
 
-
+  ngOnInit() {
   }
 }
 

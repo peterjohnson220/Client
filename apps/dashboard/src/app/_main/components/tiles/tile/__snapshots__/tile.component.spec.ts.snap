@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tile should show correct tile values 1`] = `
+exports[`tile should show tile name and tile data 1`] = `
 <pf-tile
   tile={[Function Object]}
 >
@@ -18,7 +18,7 @@ exports[`tile should show correct tile values 1`] = `
     
     
     <div>
-      
+      test tile data
     </div>
     
   

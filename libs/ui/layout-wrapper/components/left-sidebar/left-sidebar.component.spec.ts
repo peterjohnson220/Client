@@ -2,9 +2,13 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { LeftSidebarComponent } from './left-sidebar.component';
 
-describe('left-sidebar', () => {
+describe('Left Sidebar', () => {
   let fixture: ComponentFixture<LeftSidebarComponent>;
   let instance: LeftSidebarComponent;
+
+  const mockLinks = [
+    { Name: 'Mock Link1 Name', Url: 'Mock Link1 URL', NgAppLink: true, IconClass: 'fa-users' },
+    { Name: 'Mock Link2 Name', Url: 'Mock Link2 URL', NgAppLink: true, IconClass: 'fa-calculator' } ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,30 +23,45 @@ describe('left-sidebar', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show correct html when leftSidebarToggle is true', () => {
-
-    const link1 = { Name: 'Link1Name', Url: 'Link 1 URL', NgAppLink: true, IconClass: 'fa-users' };
-    const link2 = { Name: 'Link2Name', Url: 'Link 2 URL', NgAppLink: true, IconClass: 'fa-calculator' };
+  it('should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes' +
+    ' when leftSidebarToggle is true', () => {
 
     instance.leftSidebarToggle = true;
-    instance.sidebarLinks = [link1, link2];
+    instance.sidebarLinks = [];
 
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show correct html when leftSidebarToggle is false', () => {
-
-    const link1 = { Name: 'Link1Name', Url: 'Link 1 URL', NgAppLink: true, IconClass: 'fa-users' };
-    const link2 = { Name: 'Link2Name', Url: 'Link 2 URL', NgAppLink: true, IconClass: 'fa-calculator' };
+  it('should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes' +
+    ' when leftSidebarToggle is false', () => {
 
     instance.leftSidebarToggle = false;
-    instance.sidebarLinks = [link1, link2];
+    instance.sidebarLinks = [];
 
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show sidebar link names when leftSidebarToggle is true', () => {
+
+    instance.leftSidebarToggle = true;
+    instance.sidebarLinks = mockLinks;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not show sidebar link names when leftSidebarToggle is false', () => {
+
+    instance.leftSidebarToggle = false;
+    instance.sidebarLinks = mockLinks;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });

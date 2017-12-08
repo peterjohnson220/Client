@@ -23,7 +23,7 @@ describe('tile-container', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show tiles when service is provided', () => {
+  it('should show tiles when tile service is provided', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

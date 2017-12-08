@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tile-container should show tiles when service is provided 1`] = `
+exports[`tile-container should show tiles when tile service is provided 1`] = `
 <pf-tile-container
   tileService={[Function TileService]}
   tiles={[Function Array]}

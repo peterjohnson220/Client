@@ -22,7 +22,7 @@ describe('tile', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show correct tile values', () => {
+  it('should show tile name and tile data', () => {
 
     const tile: Tile = {
       id: 1,
@@ -31,7 +31,8 @@ describe('tile', () => {
       position: 0,
       size: 2,
       cssClass: 'test cssClass',
-      bgColor: 'test bgColor'
+      bgColor: 'test bgColor',
+      tileData: ['test tile data']
     };
 
     instance.tile = tile;

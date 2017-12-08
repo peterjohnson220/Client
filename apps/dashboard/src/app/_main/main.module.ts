@@ -6,7 +6,7 @@ import { TileContainerComponent, TileComponent, UserVoiceIndicatorComponent } fr
 import { TileService } from './services';
 
 import { DashboardPageComponent } from './containers';
-import { TimelinePanelComponent, TimelineActivityComponent } from './containers/timeline-activity';
+import { TimelineActivityComponent } from './containers/timeline-activity';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -24,7 +24,6 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Pages
     DashboardPageComponent,
-    TimelinePanelComponent,
     TimelineActivityComponent,
     TileContainerComponent,
     TileComponent,
