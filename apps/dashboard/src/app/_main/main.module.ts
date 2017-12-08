@@ -22,6 +22,8 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Pages
     DashboardPageComponent,
+
+    // Components
     UserVoiceIndicatorComponent
   ]
 })
