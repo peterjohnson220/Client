@@ -5,8 +5,8 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../../reducers/index';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
 

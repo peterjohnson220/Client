@@ -1,0 +1,45 @@
+.side{
+  width: 230px;
+  height: 100%;
+  background: white;
+  border-right: 2px solid #D7DBDE;
+}
+
+.content{
+  height: 100%;
+  flex-grow: 1;
+  background: #E0E3E9;
+}
+
+
+.side-list{
+  list-style: none;
+  margin-top: 2rem;
+  padding-left: 0;
+  color: #747474;
+}
+
+.side-list li{
+  padding: .5rem 2rem;
+  margin: 1rem 0;
+}
+
+.side-list li.active{
+  background-color: #fafbfc;
+  border-left: 5px #13527d solid;
+  font-weight: bold;
+  color: #4a4a4a;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.inner-content{
+  background: white;
+  height: 100%;
+  margin: 1.5rem;
+  box-shadow: 0px 0px 10px 1px #d0d0d0;
+}

@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { ExchangeListItem } from 'libs/models/peer/exchange-list-item.model';
 
-import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../../reducers/index';
 
 @Component({
   selector: 'pf-exchange-list-page',

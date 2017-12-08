@@ -32,6 +32,15 @@ describe('Page With Title Bar', () => {
     instance = fixture.componentInstance;
   });
 
+  it('should show the back button, when provided a return Url', () => {
+
+    instance.returnUrl = '/returnToThis/Path';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should transclude into slots', () => {
 
     const hostComponent = TestBed.createComponent(TestHostComponent);

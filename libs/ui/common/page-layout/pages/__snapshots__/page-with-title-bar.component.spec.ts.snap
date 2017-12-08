@@ -1,5 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Page With Title Bar should show the back button, when provided a return Url 1`] = `
+<pf-page-with-title-bar
+  returnUrl={[Function String]}
+>
+  <div
+    class="flex-column-container"
+  >
+    
+    
+    <div
+      class="page-header d-flex align-items-center px-2"
+    >
+      
+  
+      
+      
+      <button
+        class="btn btn-secondary mr-2"
+      >
+        
+        
+        <i
+          aria-hidden="true"
+          class="fa fa-long-arrow-left"
+        />
+        
+      
+      </button>
+      
+  
+      
+      <h3 />
+      
+    
+    </div>
+    
+  
+    
+    <div
+      class="page-content p-2"
+    >
+      
+      
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-page-with-title-bar>
+`;
+
 exports[`Page With Title Bar should transclude into slots 1`] = `
 <ng-component>
   
@@ -13,6 +66,11 @@ exports[`Page With Title Bar should transclude into slots 1`] = `
         class="page-header d-flex align-items-center px-2"
       >
         
+  
+      
+        
+        
+  
       
         <h3>
           

@@ -7,7 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorIndicatorComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
-import { PageWithTitleBarComponent } from './page-layout';
+import { PageWithTitleBarComponent, ExperimentalDashboardComponent } from './page-layout';
 
 const components = [
   // Error
@@ -17,7 +17,7 @@ const components = [
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent
+  PageWithTitleBarComponent, ExperimentalDashboardComponent
 ];
 
 @NgModule({
