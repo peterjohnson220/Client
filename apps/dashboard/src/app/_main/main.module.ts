@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { DashboardPageComponent } from './containers';
+import { UserVoiceIndicatorComponent } from './components';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -20,7 +21,10 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Pages
-    DashboardPageComponent
+    DashboardPageComponent,
+
+    // Components
+    UserVoiceIndicatorComponent
   ]
 })
 export class MainModule { }
