@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { TileContainerComponent, TileComponent, UserVoiceIndicatorComponent } from './components';
-
-import { OrderByPipe } from './pipes';
 import { TileService } from './services';
 
 import { DashboardPageComponent } from './containers';
@@ -30,8 +28,7 @@ import { MainRoutingModule } from './main-routing.module';
     TimelineActivityComponent,
     TileContainerComponent,
     TileComponent,
-    UserVoiceIndicatorComponent,
-    OrderByPipe
+    UserVoiceIndicatorComponent
   ],
   providers: [ TileService ]
 })

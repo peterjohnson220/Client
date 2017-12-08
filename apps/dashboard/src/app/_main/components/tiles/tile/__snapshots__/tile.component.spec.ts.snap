@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tile should show correct tile values 1`] = `
+<pf-tile
+  tile={[Function Object]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-style="[object Object]"
+  >
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+    
+    <div>
+      
+    </div>
+    
+  
+  </div>
+  
+</pf-tile>
+`;
+
+exports[`tile-container should show correct tile values 1`] = `
+<pf-tile
+  tile={[Function Object]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-style="[object Object]"
+  >
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+    
+    <div>
+      
+    </div>
+    
+  
+  </div>
+  
+</pf-tile>
+`;
