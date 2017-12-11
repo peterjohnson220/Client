@@ -24,10 +24,11 @@ import { MainRoutingModule } from './main-routing.module';
   declarations: [
     // Pages
     DashboardPageComponent,
+    // Components
     TimelineActivityComponent,
     TileContainerComponent,
     TileComponent,
-    UserVoiceIndicatorComponent
+    UserVoiceIndicatorComponent,
   ],
   providers: [ TileService ]
 })

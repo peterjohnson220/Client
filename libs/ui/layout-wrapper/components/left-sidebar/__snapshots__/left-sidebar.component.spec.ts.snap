@@ -1,6 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Left Sidebar should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes when leftSidebarToggle is false 1`] = `
+exports[`Left Sidebar should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes
+    when leftSidebarToggle is false 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle="false"
   sidebarLinks={[Function Array]}
@@ -35,7 +36,8 @@ exports[`Left Sidebar should add left-sidebar-nav-close, left-sidebar-footer-clo
 </pf-layout-wrapper-left-sidebar>
 `;
 
-exports[`Left Sidebar should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes when leftSidebarToggle is true 1`] = `
+exports[`Left Sidebar should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes
+    when leftSidebarToggle is true 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle={[Function Boolean]}
   sidebarLinks={[Function Array]}

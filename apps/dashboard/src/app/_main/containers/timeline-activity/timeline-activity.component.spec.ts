@@ -22,31 +22,31 @@ describe('timeline-activity', () => {
   });
 
   it('should show timeline activities', () => {
-    instance.timelineActivities = getMockTimelineActivities();
+    instance.timelineActivities = [getMockTimelineActivities()];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show an icon with class fa-commenting-o when Type is CommunityPost and SubType is not Reply', () => {
-    instance.timelineActivities = getMockTimelineActivities('CommunityPost');
+    instance.timelineActivities = [getMockTimelineActivities('CommunityPost')];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show an icon with class fa-comments when Type is CommunityPost and SubType is Reply', () => {
-    instance.timelineActivities = getMockTimelineActivities('CommunityPost', 'Reply');
+    instance.timelineActivities = [getMockTimelineActivities('CommunityPost', 'Reply')];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show an icon with fa-share when Type is ActivityPost', () => {
-    instance.timelineActivities = getMockTimelineActivities('ActivityPost');
+    instance.timelineActivities = [getMockTimelineActivities('ActivityPost')];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show an icon with fa-info when Type is ResourcesPost', () => {
-    instance.timelineActivities = getMockTimelineActivities('ResourcesPost');
+    instance.timelineActivities = [getMockTimelineActivities('ResourcesPost')];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

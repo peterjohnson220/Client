@@ -23,8 +23,8 @@ describe('Left Sidebar', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes' +
-    ' when leftSidebarToggle is true', () => {
+  it(`should add left-sidebar-nav-open, left-sidebar-footer-open, and left-sidebar-icon-open classes
+    when leftSidebarToggle is true`, () => {
 
     instance.leftSidebarToggle = true;
     instance.sidebarLinks = [];
@@ -34,8 +34,8 @@ describe('Left Sidebar', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes' +
-    ' when leftSidebarToggle is false', () => {
+  it(`should add left-sidebar-nav-close, left-sidebar-footer-close, and left-sidebar-icon-close classes
+    when leftSidebarToggle is false`, () => {
 
     instance.leftSidebarToggle = false;
     instance.sidebarLinks = [];

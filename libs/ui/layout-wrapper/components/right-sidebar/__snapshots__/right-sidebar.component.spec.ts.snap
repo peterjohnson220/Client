@@ -1,56 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Right Sidebar should set style.visibility to hidden for openSidebarIcon, add right-sidebar-open class to rightSidebarTransitionWrapper, set style.visibility to visible for closeSidebarIcon when rightSidebarToggle is true 1`] = `
-<pf-layout-wrapper-right-sidebar
-  rightSidebarToggle={[Function Boolean]}
->
-  <div
-    class="right-sidebar-dock"
-  >
-    
-    
-    <i
-      class="fa fa-plus fa-lg open-sidebar-icon"
-      id="openSidebarIcon"
-      style="visibility: hidden;"
-    />
-    
-    
-    <div
-      class="right-sidebar-content right-sidebar-open"
-      id="rightSidebarTransitionWrapper"
-      ng-reflect-klass="right-sidebar-content"
-      ng-reflect-ng-class="[object Object]"
-    >
-      
-      
-      <div
-        class="sidebar-width"
-        id="rightSidebarContentWrapper"
-      >
-        
-        
-        <i
-          class="fa fa-times fa-lg close-sidebar-icon p-2"
-          id="closeSidebarIcon"
-          style="visibility: visible;"
-        />
-        
-        
-        
-      
-      </div>
-      
-    
-    </div>
-    
-  
-  </div>
-  
-</pf-layout-wrapper-right-sidebar>
-`;
-
-exports[`Right Sidebar should set style.visibility to visible for openSidebarIcon, add right-sidebar-close class to rightSidebarTransitionWrapper, add d-none class to rightSidebarContentWrapper, and set style.visibility to hidden for closeSidebarIcon when rightSidebarToggle is false 1`] = `
+exports[`Right Sidebar Should apply the correct visibility styles and classes when rightSidebarToggle is false 1`] = `
 <pf-layout-wrapper-right-sidebar
   rightSidebarToggle="false"
 >
@@ -84,6 +34,56 @@ exports[`Right Sidebar should set style.visibility to visible for openSidebarIco
           class="fa fa-times fa-lg close-sidebar-icon p-2"
           id="closeSidebarIcon"
           style="visibility: hidden;"
+        />
+        
+        
+        
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-layout-wrapper-right-sidebar>
+`;
+
+exports[`Right Sidebar Should apply the correct visibility styles and classes when rightSidebarToggle is true 1`] = `
+<pf-layout-wrapper-right-sidebar
+  rightSidebarToggle={[Function Boolean]}
+>
+  <div
+    class="right-sidebar-dock"
+  >
+    
+    
+    <i
+      class="fa fa-plus fa-lg open-sidebar-icon"
+      id="openSidebarIcon"
+      style="visibility: hidden;"
+    />
+    
+    
+    <div
+      class="right-sidebar-content right-sidebar-open"
+      id="rightSidebarTransitionWrapper"
+      ng-reflect-klass="right-sidebar-content"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      
+      <div
+        class="sidebar-width"
+        id="rightSidebarContentWrapper"
+      >
+        
+        
+        <i
+          class="fa fa-times fa-lg close-sidebar-icon p-2"
+          id="closeSidebarIcon"
+          style="visibility: visible;"
         />
         
         
