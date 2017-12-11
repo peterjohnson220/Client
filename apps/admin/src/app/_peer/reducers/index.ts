@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromExchangeListReducer from './exchange-list.reducer';
+import * as fromManageExchangeReducer from './manage-exchange.reducer';
 
 // Feature area state
 export interface PeerAdminState {
   exchangeList: fromExchangeListReducer.State;
+  manageExchange: fromManageExchangeReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,7 +20,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  exchangeList: fromExchangeListReducer.reducer
+  exchangeList: fromExchangeListReducer.reducer,
+  manageExchange: fromManageExchangeReducer.reducer
 };
 
 // Select Feature Area
@@ -26,8 +29,9 @@ export const selectPeerAdminState = createFeatureSelector<PeerAdminState>('peerA
 
 // Feature Selectors
 export const selectExchangeListState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeList);
+export const selectManageExchangeState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.manageExchange);
 
-// Entity Adapter Selectors
+// Exchange List Selectors
 export const {
   selectIds: getExchangeListItemIds,
   selectEntities: getExchangeLisItemsDictionary,
@@ -38,5 +42,10 @@ export const {
 export const getExchangeListLoading = createSelector(selectExchangeListState, fromExchangeListReducer.getLoading);
 export const getExchangeListLoadingError = createSelector(selectExchangeListState, fromExchangeListReducer.getLoadingError);
 
+
+// Manage Exchange Selectors
+export const getManageExchange = createSelector(selectManageExchangeState, fromManageExchangeReducer.getExchange);
+export const getManageExchangeLoading = createSelector(selectManageExchangeState, fromManageExchangeReducer.getLoading);
+export const getManageExchangeLoadingError = createSelector(selectManageExchangeState, fromManageExchangeReducer.getLoadingError);
 
 

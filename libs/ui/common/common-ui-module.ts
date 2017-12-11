@@ -4,20 +4,20 @@ import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ErrorIndicatorComponent } from './error';
+import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
-import { PageWithTitleBarComponent, ExperimentalDashboardComponent } from './page-layout';
+import { PageWithTitleBarComponent } from './page-layout';
 
 const components = [
   // Error
-  ErrorIndicatorComponent,
+  ErrorIndicatorComponent, NotFoundErrorPageComponent,
 
   // Loading
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent, ExperimentalDashboardComponent
+  PageWithTitleBarComponent
 ];
 
 @NgModule({

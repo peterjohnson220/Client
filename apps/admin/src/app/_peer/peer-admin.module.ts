@@ -9,6 +9,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent } from './containers';
 import { ExchangeListEffects } from './effects';
+import { ExchangeExistsGuard } from './guards/exchange-exists.guard';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 
@@ -27,11 +28,15 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     PeerAdminRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
   ],
   declarations: [
     // Pages
     ExchangeListPageComponent, ManageExchangePageComponent
+  ],
+  providers: [
+    // Guards
+    ExchangeExistsGuard,
   ]
 })
 export class PeerAdminModule { }

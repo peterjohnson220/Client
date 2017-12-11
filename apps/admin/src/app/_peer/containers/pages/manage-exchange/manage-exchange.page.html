@@ -1,14 +1,9 @@
-<!--<pf-page-with-title-bar [returnUrl]="'/peer/exchanges'">-->
-  <!--<ng-container page-title>-->
-    <!--Manage Exchange-->
-  <!--</ng-container>-->
+<pf-page-with-title-bar [returnUrl]="'/peer/exchanges'">
+  <ng-container page-title>
+    {{ (exchange$ | async).ExchangeName }}
+  </ng-container>
 
-  <!--<ng-container page-content>-->
-    <!--Hi I am the manage exchange page!-->
-  <!--</ng-container>-->
-<!--</pf-page-with-title-bar>-->
-
-
-<pf-experimental-dashboard>
-
-</pf-experimental-dashboard>
+  <ng-container page-content>
+    Hi I am the manage exchange page!
+  </ng-container>
+</pf-page-with-title-bar>

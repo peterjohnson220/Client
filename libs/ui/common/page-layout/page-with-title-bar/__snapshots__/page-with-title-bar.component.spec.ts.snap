@@ -17,7 +17,7 @@ exports[`Page With Title Bar should show the back button, when provided a return
       
       
       <button
-        class="btn btn-secondary mr-2"
+        class="btn btn-secondary back-btn"
       >
         
         
