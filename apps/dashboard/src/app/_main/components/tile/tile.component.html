@@ -1,7 +1,7 @@
 <div [ngSwitch]="tile.type">
   <!-- Tile Container -->
   <h1>{{ tile.label }}</h1>
-
+  <i>{{ tile.iconClass }}</i>
   <!-- Tile Inner Content -->
   <pf-dashboard-tile-data-insights *ngSwitchCase="tileType.DataInsights"
                                    [payload]="tile.payload">
