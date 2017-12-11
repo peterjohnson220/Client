@@ -5,15 +5,24 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from 'libs/ui/common';
-
-import { DashboardPageComponent } from './containers';
-import { TileGridEffects } from './effects/tile-grid.effects';
-import { reducers } from './reducers/tile-grid';
 import { MainRoutingModule } from './main-routing.module';
-import { TileComponent } from './components/tile/tile.component';
+
+// Effects
+import { TileGridEffects } from './effects/tile-grid.effects';
+
+// Reducers
+import { reducers } from './reducers/tile-grid';
+
+// Containers
+import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers/tile-grid';
+import { TimelineActivityComponent } from './containers/timeline-activity';
+
+// Components
+import { TileComponent } from './components/tile/tile.component';
 import { TileEmployeesComponent } from './components/tile/employees';
 import { TileDataInsightsComponent } from './components/tile/data-insights';
+import { UserVoiceIndicatorComponent } from './components';
 
 @NgModule({
   imports: [
@@ -33,10 +42,14 @@ import { TileDataInsightsComponent } from './components/tile/data-insights';
   declarations: [
     // Pages
     DashboardPageComponent,
+    // Components
     TileComponent,
     TileGridComponent,
-    TileEmployeesComponent,
-    TileDataInsightsComponent
+    TileDataInsightsComponent,
+    TileEmployeesComponent,    
+    TimelineActivityComponent,
+    UserVoiceIndicatorComponent
   ]
 })
-export class MainModule { }
+export class MainModule {
+}
