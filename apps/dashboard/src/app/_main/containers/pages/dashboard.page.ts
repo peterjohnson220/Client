@@ -3,10 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { DashboardTile } from 'libs/models/dashboard';
-
 import * as fromTileGridActions from '../../actions/tile-grid.actions';
 import * as fromTileGridReducer from '../../reducers/tile-grid/index';
+import { Tile } from '../../models';
 
 @Component({
   selector: 'pf-dashboard-page',
@@ -16,7 +15,7 @@ import * as fromTileGridReducer from '../../reducers/tile-grid/index';
 export class DashboardPageComponent implements OnInit {
   tilesLoading$: Observable<boolean>;
   tilesLoadingError$: Observable<boolean>;
-  tiles$: Observable<DashboardTile[]>;
+  tiles$: Observable<Tile[]>;
 
   constructor(private store: Store<fromTileGridReducer.State>) {
     this.tilesLoading$ = this.store.select(fromTileGridReducer.getTilesLoading);

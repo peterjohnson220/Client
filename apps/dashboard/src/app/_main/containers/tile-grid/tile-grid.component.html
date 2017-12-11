@@ -4,7 +4,9 @@
  [loadingErrorMessage]="'Error retrieving dashboard tiles'"
  (reload)="reload.emit()"
 >
-  <h1>Tiles</h1>
-  <pre>{{ tiles | json }}</pre>
+  <ol>
+    <li *ngFor="let tile of tiles">
+      <pf-tile [tile]="tile"></pf-tile>
+    </li>
+  </ol>
 </pf-async-container>
-

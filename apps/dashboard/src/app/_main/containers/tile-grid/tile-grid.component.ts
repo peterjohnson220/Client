@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 
-import { DashboardTile } from 'libs/models/dashboard';
+import { Tile } from '../../models';
 
 @Component({
   selector: 'pf-tile-grid',
@@ -11,6 +11,9 @@ import { DashboardTile } from 'libs/models/dashboard';
 export class TileGridComponent {
   @Input() loading: boolean;
   @Input() loadingError: boolean;
-  @Input() tiles: DashboardTile[];
+  @Input() tiles: Tile[];
   @Output() reload = new EventEmitter();
+
+  constructor() {
+  }
 }

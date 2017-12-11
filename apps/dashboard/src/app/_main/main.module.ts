@@ -10,7 +10,10 @@ import { DashboardPageComponent } from './containers';
 import { TileGridEffects } from './effects/tile-grid.effects';
 import { reducers } from './reducers/tile-grid';
 import { MainRoutingModule } from './main-routing.module';
+import { TileComponent } from './components/tile/tile.component';
 import { TileGridComponent } from './containers/tile-grid';
+import { TileEmployeesComponent } from './components/tile/employees';
+import { TileDataInsightsComponent } from './components/tile/data-insights';
 
 @NgModule({
   imports: [
@@ -30,7 +33,10 @@ import { TileGridComponent } from './containers/tile-grid';
   declarations: [
     // Pages
     DashboardPageComponent,
-    TileGridComponent
+    TileComponent,
+    TileGridComponent,
+    TileEmployeesComponent,
+    TileDataInsightsComponent
   ]
 })
 export class MainModule { }

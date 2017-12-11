@@ -1,17 +1,17 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { DashboardTile } from 'libs/models';
+import { Tile } from '../../models';
 
 import * as fromTileGridActions from '../../actions/tile-grid.actions';
 
-export interface State extends EntityState<DashboardTile> {
+export interface State extends EntityState<Tile> {
   loading: boolean;
   loadingError: boolean;
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<DashboardTile> = createEntityAdapter<DashboardTile>({
-  selectId: (dashboardTile: DashboardTile) => dashboardTile.TileId
+export const adapter: EntityAdapter<Tile> = createEntityAdapter<Tile>({
+  selectId: (dashboardTile: Tile) => dashboardTile.tileId
 });
 
 export const initialState: State = adapter.getInitialState({

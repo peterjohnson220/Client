@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { DashboardTile } from 'libs/models/dashboard';
+import { Tile } from '../models';
 
 export const LOADING_TILES =  '[Dashboard Tile Grid/Tiles] Loading Tiles';
 export const LOADING_TILES_SUCCESS =  '[Dashboard Tile Grid/Tiles] Loading Tiles Success';
@@ -13,11 +13,13 @@ export class LoadingTiles implements Action {
 export class LoadingTilesSuccess implements Action {
   readonly type = LOADING_TILES_SUCCESS;
 
-  constructor(public payload: DashboardTile[]) {}
+  constructor(public payload: Tile[]) {}
 }
 
 export class LoadingTilesError implements Action {
   readonly type = LOADING_TILES_ERROR;
+
+  constructor(public any: Error) {}
 }
 
 export type Actions

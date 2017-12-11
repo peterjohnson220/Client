@@ -1,0 +1,13 @@
+<div [ngSwitch]="tile.type">
+  <!-- Tile Container -->
+  <h1>{{ tile.label }}</h1>
+
+  <!-- Tile Inner Content -->
+  <pf-dashboard-tile-data-insights *ngSwitchCase="tileType.DataInsights"
+                                   [payload]="tile.payload">
+  </pf-dashboard-tile-data-insights>
+
+  <pf-dashboard-tile-employees *ngSwitchCase="tileType.Employees"
+                               [payload]="tile.payload">
+  </pf-dashboard-tile-employees>
+</div>
