@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { Tile } from '../../models';
+import { Tile } from '../models';
 
-import * as fromTileGridActions from '../../actions/tile-grid.actions';
+import * as fromTileGridActions from '../actions/tile-grid.actions';
 
 export interface State extends EntityState<Tile> {
   loading: boolean;

@@ -1,8 +1,6 @@
-<ng-container page-content>
-  <pf-tile-grid
-      [loading]="tilesLoading$ | async"
-      [tiles]="tiles$ | async"
-      [loadingError]="tilesLoadingError$ | async"
-      (reload)="handleTilesGridReload()">
-    </pf-tile-grid>
-</ng-container>
+<pf-tile-grid
+  [loading]="tilesLoading$ | async"
+  [tiles]="tiles$ | async"
+  [loadingError]="tilesLoadingError$ | async"
+  (reload)="handleTilesGridReload()">
+</pf-tile-grid>

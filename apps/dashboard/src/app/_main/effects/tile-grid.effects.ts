@@ -55,7 +55,7 @@ export class TileGridEffects {
 
   mapDashboardTilesToTiles(dashboardTiles: DashboardTile[]): Tile[] {
     const tileType = new TileType();
-    const tilesToReturn: Array<Tile> = [];
+    const tilesToReturn: Tile[] = [];
     dashboardTiles.forEach((dashboardTile) => {
       const tileToPush = TileGridEffects.mapDashboardTileToTile(dashboardTile);
       if (tileType.AllTypes.indexOf(tileToPush.type) !== -1) {

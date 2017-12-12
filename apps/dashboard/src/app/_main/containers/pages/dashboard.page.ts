@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromTileGridActions from '../../actions/tile-grid.actions';
-import * as fromTileGridReducer from '../../reducers/tile-grid/index';
+import * as fromTileGridReducer from '../../reducers';
 import { Tile } from '../../models';
 
 @Component({

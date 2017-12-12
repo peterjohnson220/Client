@@ -6,8 +6,4 @@ export class Tile {
   iconClass: string;
   payload: any;
   tileId: number;
-
-  constructor() {
-    this.payload = { hey: 'now'};
-  }
 }

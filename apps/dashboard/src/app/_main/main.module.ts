@@ -5,13 +5,12 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from 'libs/ui/common';
-import { MainRoutingModule } from './main-routing.module';
 
 // Effects
 import { TileGridEffects } from './effects/tile-grid.effects';
 
 // Reducers
-import { reducers } from './reducers/tile-grid';
+import { reducers } from './reducers';
 
 // Containers
 import { DashboardPageComponent } from './containers';
@@ -23,6 +22,9 @@ import { TileComponent } from './components/tile/tile.component';
 import { TileEmployeesComponent } from './components/tile/employees';
 import { TileDataInsightsComponent } from './components/tile/data-insights';
 import { UserVoiceIndicatorComponent } from './components';
+
+// Routing
+import { MainRoutingModule } from './main-routing.module';
 
 @NgModule({
   imports: [
@@ -46,7 +48,7 @@ import { UserVoiceIndicatorComponent } from './components';
     TileComponent,
     TileGridComponent,
     TileDataInsightsComponent,
-    TileEmployeesComponent,    
+    TileEmployeesComponent,
     TimelineActivityComponent,
     UserVoiceIndicatorComponent
   ]
