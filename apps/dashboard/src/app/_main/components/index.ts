@@ -1,3 +1,3 @@
-export * from './tiles';
+export * from './tile';
 export * from './user-voice';
 

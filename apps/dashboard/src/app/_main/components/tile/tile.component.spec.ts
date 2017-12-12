@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TileComponent } from './tile.component';
-import { Tile } from '../../../models/tile.model';
+import { Tile } from '../../models/tile.model';
 
 describe('tile', () => {
   let fixture: ComponentFixture<TileComponent>;

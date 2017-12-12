@@ -34,7 +34,7 @@ $right-sidebar-open-width: 350px;
 
 .right-sidebar-open {
   width: $right-sidebar-open-width;
-  overflow: auto;
+  overflow: hidden;
   transition: .5s;
 }
 

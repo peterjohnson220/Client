@@ -1,25 +1,25 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { TileContainerComponent } from './tile-container.component';
-import { TileService } from '../../../services';
+import { TileGridComponent } from './tile-grid.component';
+import { TileService } from '../../services/index';
 
-describe('tile-container', () => {
-  let fixture: ComponentFixture<TileContainerComponent>;
-  let instance: TileContainerComponent;
+describe('tile-grid', () => {
+  let fixture: ComponentFixture<TileGridComponent>;
+  let instance: TileGridComponent;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TileContainerComponent
+        TileGridComponent
       ],
       providers: [TileService],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    fixture = TestBed.createComponent(TileContainerComponent);
+    fixture = TestBed.createComponent(TileGridComponent);
     instance = fixture.componentInstance;
   });
 

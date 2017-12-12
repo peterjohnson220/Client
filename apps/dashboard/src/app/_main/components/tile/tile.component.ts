@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Tile } from '../../../models/tile.model';
+import { Tile } from '../../models/tile.model';
 
 @Component({
   selector: 'pf-tile',
