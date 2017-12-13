@@ -46,7 +46,7 @@ exports[`Layout Wrapper should transclude 1`] = `
         
       
         <div
-          class="flex-1"
+          class="flex-1 position-relative"
         >
           
         

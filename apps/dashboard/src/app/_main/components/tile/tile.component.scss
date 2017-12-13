@@ -1,0 +1,27 @@
+@import 'colors';
+
+.tile {
+  border-radius: 2px;
+  border: solid 2px rgba(0, 0, 0, 0);
+  height: 200px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tile:hover {
+  border: solid 2px #c7c2c2;
+}
+
+.tileBlue {
+  background-color: $tile-blue-color;
+}
+
+.tileLightBlue {
+  background-color: $tile-light-blue-color;
+}
+
+.tileGreen {
+  background-color: $tile-green-color;
+}
+
+
