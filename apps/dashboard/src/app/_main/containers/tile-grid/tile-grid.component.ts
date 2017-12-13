@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
 import { TileService } from '../../services/tile.service';
 import { Tile } from '../../models';
 
 @Component({
-  selector: 'pf-tile-container',
+  selector: 'pf-tile-grid',
   templateUrl: './tile-grid.component.html',
   styleUrls: [ './tile-grid.component.scss' ]
 })

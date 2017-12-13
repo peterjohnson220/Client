@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+
 import { TileGridComponent } from './tile-grid.component';
 import { TileService } from '../../services/index';
 

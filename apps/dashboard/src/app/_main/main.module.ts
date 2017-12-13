@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
+
 import { TileComponent, UserVoiceIndicatorComponent } from './components';
 import { TileService } from './services';
-
 import { DashboardPageComponent, TileGridComponent } from './containers';
 import { TimelineActivityComponent } from './containers/timeline-activity';
 import { MainRoutingModule } from './main-routing.module';
@@ -22,9 +22,12 @@ import { MainRoutingModule } from './main-routing.module';
     PfCommonUIModule
   ],
   declarations: [
-    // Containers
+    // Pages
     DashboardPageComponent,
+
+    // Containers
     TileGridComponent,
+
     // Components
     TimelineActivityComponent,
     TileComponent,

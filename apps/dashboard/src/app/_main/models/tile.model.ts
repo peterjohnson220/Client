@@ -1,10 +1,10 @@
 export interface Tile {
-  id: number;
-  name: string;
-  url: string;
-  position: number;
-  size: number;
-  cssClass?: string;
-  bgColor?: string;
-  tileData?: any;
+  Id: number;
+  Name: string;
+  Url: string;
+  Position: number;
+  Size: number;
+  CssClass?: string;
+  BgColor?: string;
+  TileData?: any;
 }

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`tile-grid should show tiles when tile service is provided 1`] = `
-<pf-tile-container
+<pf-tile-grid
   tileService={[Function TileService]}
   tiles={[Function Array]}
 >
@@ -17,14 +17,6 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
       
       
       
-        
-      <pf-tile
-        class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
-        ng-reflect-klass="tile-text-color m-0 p-2"
-        ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
-      />
-      
-      
       
         
       <pf-tile
@@ -32,6 +24,17 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
         ng-reflect-klass="tile-text-color m-0 p-2"
         ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
       />
+      
+      
+      
+      
+        
+      <pf-tile
+        class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
+        ng-reflect-klass="tile-text-color m-0 p-2"
+        ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
+      />
+      
       
       
       
@@ -44,12 +47,14 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
       
       
       
+      
         
       <pf-tile
         class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
         ng-reflect-klass="tile-text-color m-0 p-2"
         ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
       />
+      
       
       
       
@@ -62,14 +67,6 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
       
       
       
-        
-      <pf-tile
-        class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
-        ng-reflect-klass="tile-text-color m-0 p-2"
-        ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
-      />
-      
-      
       
         
       <pf-tile
@@ -80,6 +77,17 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
       
       
       
+      
+        
+      <pf-tile
+        class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
+        ng-reflect-klass="tile-text-color m-0 p-2"
+        ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
+      />
+      
+      
+      
+      
         
       <pf-tile
         class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
@@ -89,12 +97,14 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
       
       
       
+      
         
       <pf-tile
         class="tile-text-color m-0 p-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12"
         ng-reflect-klass="tile-text-color m-0 p-2"
         ng-reflect-ng-class="col-xl-3 col-lg-3 col-md-4 col"
       />
+      
       
       
       
@@ -113,5 +123,5 @@ exports[`tile-grid should show tiles when tile service is provided 1`] = `
   
   </div>
   
-</pf-tile-container>
+</pf-tile-grid>
 `;

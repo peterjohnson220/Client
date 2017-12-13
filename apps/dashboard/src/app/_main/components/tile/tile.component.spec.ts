@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+
 import { TileComponent } from './tile.component';
 import { Tile } from '../../models/tile.model';
 
@@ -25,14 +25,14 @@ describe('tile', () => {
   it('should show tile name and tile data', () => {
 
     const tile: Tile = {
-      id: 1,
-      name: 'test tile',
-      url: 'test tile url',
-      position: 0,
-      size: 2,
-      cssClass: 'test cssClass',
-      bgColor: 'test bgColor',
-      tileData: ['test tile data']
+      Id: 1,
+      Name: 'test tile',
+      Url: 'test tile url',
+      Position: 0,
+      Size: 2,
+      CssClass: 'test cssClass',
+      BgColor: 'test bgColor',
+      TileData: ['test tile data']
     };
 
     instance.tile = tile;
