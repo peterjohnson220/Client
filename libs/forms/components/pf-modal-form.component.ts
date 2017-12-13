@@ -1,6 +1,6 @@
 import {
   Component, Input, OnDestroy, OnInit, Output,
-  EventEmitter, TemplateRef, ViewChild, ElementRef
+  EventEmitter, TemplateRef, ViewChild
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
