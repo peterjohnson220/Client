@@ -34,12 +34,13 @@ export class TileGridEffects {
   ) {}
 
   static mapDashboardTileToTile(dashboardTile: DashboardTile): Tile {
-    const tile = new Tile();
-    tile.label = dashboardTile.TileName;
-    tile.iconClass = dashboardTile.IconClass;
-    tile.tileId = dashboardTile.TileId;
-    tile.type = TileGridEffects.mapTileNameToTileType(dashboardTile.TileName);
-    return tile;
+    return {
+      label: dashboardTile.TileName,
+      iconClass: dashboardTile.IconClass,
+      tileId: dashboardTile.TileId,
+      type: TileGridEffects.mapTileNameToTileType(dashboardTile.TileName),
+      payload: undefined
+    };
   }
 
   static mapTileNameToTileType(label: string): TileTypes {
@@ -48,6 +49,22 @@ export class TileGridEffects {
         return TileTypes.Employees;
       case 'Data Insights':
         return TileTypes.DataInsights;
+      case 'Job Descriptions':
+        return TileTypes.JobDescriptions;
+      case 'Jobs':
+        return TileTypes.MyJobs;
+      case 'Pay Markets':
+        return TileTypes.PayMarkets;
+      case 'Pricing Projects':
+        return TileTypes.PricingProjects;
+      case 'Resources':
+        return TileTypes.Resources;
+      case 'Service':
+        return TileTypes.Service;
+      case 'Structures':
+        return TileTypes.Structures;
+      case 'Surveys':
+        return TileTypes.Structures;
       default:
         return TileTypes.Unknown;
     }

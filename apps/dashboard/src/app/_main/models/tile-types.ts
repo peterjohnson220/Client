@@ -1,5 +1,13 @@
 export enum TileTypes {
   Unknown = 0,
   DataInsights,
-  Employees
+  Employees,
+  JobDescriptions,
+  MyJobs,
+  PayMarkets,
+  PricingProjects,
+  Resources,
+  Service,
+  Structures,
+  Surveys
 }

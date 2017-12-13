@@ -1,6 +1,6 @@
 import { TileTypes } from './tile-types';
 
-export class Tile {
+export interface Tile {
   type: TileTypes;
   label: string;
   iconClass: string;
