@@ -1,0 +1,23 @@
+<pf-async-container
+  [loading]="exchangeCompaniesLoading$ | async"
+  [loadingError]="exchangeCompaniesLoadingError$ | async"
+  [loadingErrorMessage]="'Error loading exchange companies'"
+  (reload)="handleExchangeCompaniesGridReload()">
+
+  <kendo-grid [data]="exchangeCompanies$ | async">
+
+    <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+
+    <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
+
+    <kendo-grid-column field="JobCount" title="Job Count"></kendo-grid-column>
+
+    <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
+
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+      <kendo-pager-info></kendo-pager-info>
+    </ng-template>
+
+  </kendo-grid>
+
+</pf-async-container>

@@ -7,11 +7,11 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ExchangeListPageComponent, ManageExchangePageComponent } from './containers';
-import { ExchangeListEffects } from './effects';
-import { ExchangeExistsGuard } from './guards/exchange-exists.guard';
+import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent } from './containers';
+import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
+import { ExchangeExistsGuard } from './guards/';
 import { reducers } from './reducers';
-import { PeerAdminRoutingModule } from './peer-admin-routing.module';
+import { PeerAdminRoutingModule } from './peer-admin-routing.module';;
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     // 3rd Party
     GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeListEffects]),
+    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects]),
 
     // Routing
     PeerAdminRoutingModule,
@@ -31,6 +31,9 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     PfCommonUIModule,
   ],
   declarations: [
+    // Containers
+    ExchangeCompaniesComponent,
+
     // Pages
     ExchangeListPageComponent, ManageExchangePageComponent
   ],
