@@ -7,22 +7,35 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from '../common/common-ui-module';
 
-import { HeaderComponent, UserMenuComponent } from './components';
+import {
+  HeaderComponent,
+  UserMenuComponent,
+  UserMenuAvatarComponent,
+  LeftSidebarComponent,
+  RightSidebarComponent
+} from './components';
 import { LayoutWrapperComponent } from './containers';
 import { HeaderEffects } from './effects';
 import { reducers } from './reducers';
 
 @NgModule({
-  imports:      [
+  imports: [
     CommonModule,
     NgbModule,
 
     PfCommonUIModule,
 
     StoreModule.forFeature('layoutWrapper', reducers),
-    EffectsModule.forFeature([HeaderEffects]),
+    EffectsModule.forFeature([ HeaderEffects ]),
   ],
-  declarations: [HeaderComponent, UserMenuComponent, LayoutWrapperComponent],
-  exports: [LayoutWrapperComponent ]
+  declarations: [
+    HeaderComponent,
+    UserMenuComponent,
+    UserMenuAvatarComponent,
+    LeftSidebarComponent,
+    RightSidebarComponent,
+    LayoutWrapperComponent ],
+  exports: [ LayoutWrapperComponent ]
 })
-export class PfLayoutWrapperModule { }
+export class PfLayoutWrapperModule {
+}

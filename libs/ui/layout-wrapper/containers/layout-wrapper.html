@@ -1,12 +1,31 @@
-<div class="flex-column-container">
-  <div class="header">
-    <pf-layout-wrapper-header [avatarSource]="avatarSource"
-                              [companyLogoSource]="companyLogoSource"
-                              [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
-                              [userContext]="userContext$ | async">
-    </pf-layout-wrapper-header>
-  </div>
-  <div class="content">
-    <ng-content></ng-content>
-  </div>
+<div class="wrapper">
+  <header>
+    <div class="flex-row-nowrap">
+      <pf-layout-wrapper-header [dropdownNavigationLinks]="headerDropdownNaivgationLinks$ | async"
+                                [userContext]="userContext$ | async">
+      </pf-layout-wrapper-header>
+    </div>
+  </header>
+  <main class="flex-row-nowrap flex-1">
+    <div class="left-sidebar">
+      <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
+    </div>
+    <div class="flex-1">
+      <ng-content select="[mainContent]"></ng-content>
+    </div>
+    <div class="right-sidebar">
+      <pf-layout-wrapper-right-sidebar>
+        <ng-content select="[rightSidebarContent]"></ng-content>
+      </pf-layout-wrapper-right-sidebar>
+    </div>
+  </main>
+  <footer>
+    <div class="flex-row-nowrap">
+      <div class="flex-1">
+        <div class="d-flex flex-column justify-content-center text-center footer-container">
+          <span class="text-white">© 2017 Payfactors All rights reserved.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 </div>
