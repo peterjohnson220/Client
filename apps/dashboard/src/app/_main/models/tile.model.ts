@@ -8,3 +8,16 @@ export interface Tile {
   BgColor?: string;
   TileData?: any;
 }
+
+export function generateMockTile(): Tile {
+  return {
+    Id: 1,
+    Name: 'test tile',
+    Url: 'test tile url',
+    Position: 0,
+    Size: 2,
+    CssClass: 'test cssClass',
+    BgColor: 'test bgColor',
+    TileData: [ 'test tile data' ]
+  };
+}

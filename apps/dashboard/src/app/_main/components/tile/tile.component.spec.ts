@@ -2,9 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { TileComponent } from './tile.component';
-import { Tile } from '../../models/tile.model';
+import { generateMockTile } from '../../models';
 
-describe('tile', () => {
+describe('Tile', () => {
   let fixture: ComponentFixture<TileComponent>;
   let instance: TileComponent;
 
@@ -23,21 +23,10 @@ describe('tile', () => {
   });
 
   it('should show tile name and tile data', () => {
-
-    const tile: Tile = {
-      Id: 1,
-      Name: 'test tile',
-      Url: 'test tile url',
-      Position: 0,
-      Size: 2,
-      CssClass: 'test cssClass',
-      BgColor: 'test bgColor',
-      TileData: ['test tile data']
-    };
-
-    instance.tile = tile;
+    instance.tile = generateMockTile();
 
     fixture.detectChanges();
+
     expect(fixture).toMatchSnapshot();
   });
 });
