@@ -28,7 +28,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     PeerAdminRoutingModule,
 
     // Payfactors
-    PfCommonUIModule,
+    PfCommonUIModule
   ],
   declarations: [
     // Containers

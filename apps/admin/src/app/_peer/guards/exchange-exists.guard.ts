@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 
-import { ExchangeApiService } from '../../../../../../libs/data/payfactors-api/peer';
+import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import { Exchange } from 'libs/models/peer';
 
 import * as fromManageExchangeActions from '../actions/manage-exchange.actions';

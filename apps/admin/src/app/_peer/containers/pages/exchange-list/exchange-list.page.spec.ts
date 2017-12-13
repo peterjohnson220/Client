@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
 
 import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../../reducers/index';
+import * as fromPeerAdminReducer from '../../../reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
 describe('Exchange List Page', () => {
