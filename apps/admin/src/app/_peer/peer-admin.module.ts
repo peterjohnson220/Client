@@ -11,7 +11,7 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
 import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards/';
 import { reducers } from './reducers';
-import { PeerAdminRoutingModule } from './peer-admin-routing.module';;
+import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 
 
 @NgModule({

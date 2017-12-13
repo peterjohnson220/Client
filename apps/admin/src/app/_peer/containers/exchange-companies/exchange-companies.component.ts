@@ -28,7 +28,7 @@ export class ExchangeCompaniesComponent implements OnInit {
     this.exchangeCompaniesLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesLoadingError);
     this.exchangeCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompanies);
 
-    this.exchangeId = this.route.snapshot.params['id'];
+    this.exchangeId = this.route.snapshot.params.id;
   }
 
   // Events

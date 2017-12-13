@@ -9,3 +9,17 @@ export interface Exchange {
   EditDate?: Date;
   EditUser?: number;
 }
+
+export function generateMockExchange(): Exchange {
+  return {
+    ExchangeId: 1,
+    ExchangeName: 'Mock Exchange',
+    ExchangeManagerUserId: null,
+    Status: 'Active',
+    ExchangeType: 'Type',
+    CreateDate: new Date(1512056138449),
+    CreateUser: 2437,
+    EditDate: null,
+    EditUser: null
+  };
+}

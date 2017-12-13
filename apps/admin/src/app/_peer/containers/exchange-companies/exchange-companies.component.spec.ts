@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
@@ -14,7 +14,8 @@ describe('Exchange Commpanies', () => {
   let fixture: ComponentFixture<ExchangeCompaniesComponent>;
   let instance: ExchangeCompaniesComponent;
   let store: Store<fromRootState.State>;
-  let router: Router;
+  let activatedRoute: ActivatedRoute;
+  let routeIdParam: number;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -28,12 +29,19 @@ describe('Exchange Commpanies', () => {
       declarations: [
         ExchangeCompaniesComponent
       ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { id : 1 } } },
+        }
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
-    router = TestBed.get(Router);
+    activatedRoute = TestBed.get(ActivatedRoute);
+    routeIdParam = activatedRoute.snapshot.params.id;
 
     spyOn(store, 'dispatch');
 
@@ -41,16 +49,16 @@ describe('Exchange Commpanies', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch a LoadingExchangeCompanies action upon Init', () => {
-    const action = new fromExchangeCompaniesActions.LoadingExchangeCompanies();
-
+  it('should dispatch a LoadingExchangeCompanies action with an exchange Id upon Init', () => {
     fixture.detectChanges();
+
+    const action = new fromExchangeCompaniesActions.LoadingExchangeCompanies(routeIdParam);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a LoadingExchangeCompanies action when handleExchangeGridReload is called', () => {
-    const action = new fromExchangeCompaniesActions.LoadingExchanges();
+  it('should dispatch a LoadingExchangeCompanies action when handleExchangeCompaniesGridReload is called', () => {
+    const action = new fromExchangeCompaniesActions.LoadingExchangeCompanies(routeIdParam);
 
     instance.handleExchangeCompaniesGridReload();
 
