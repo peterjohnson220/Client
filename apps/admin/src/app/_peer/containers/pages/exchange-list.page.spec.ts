@@ -42,7 +42,7 @@ describe('Exchange List Page', () => {
   it('should dispatch a LoadingExchanges action upon Init', () => {
     const action = new fromExchangeListActions.LoadingExchanges();
 
-    fixture.detectChanges();
+       fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

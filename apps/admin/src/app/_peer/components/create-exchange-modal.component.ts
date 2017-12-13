@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { CustomValidators } from 'libs/forms/validators/custom-validators.validator';
-import { UpsertExchangeRequest } from '../../../../../../libs/models/peer';
+import { UpsertExchangeRequest } from 'libs/models/peer';
 
 @Component({
   selector: 'pf-create-exchange-modal',

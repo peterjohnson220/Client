@@ -1,6 +1,6 @@
 import {
   Component, Input, OnDestroy, OnInit, Output,
-  EventEmitter, TemplateRef, ViewChild
+  EventEmitter, TemplateRef, ViewChild, ElementRef
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -18,6 +18,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   private attemptedSubmit = false;
   private modalOpenSubscription: Subscription;
   @Input() title: string;
+  @Input() modalId: string;
   @Input() primaryButtonText = 'Submit';
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
   @Input() submitting: boolean;
@@ -47,11 +48,14 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
 
   // lifecycle events
   ngOnInit(): void {
+    if (!this.modalId) {
+      this.modalId = this.title.replace(/ /g, '');
+    }
     this.modalOpenSubscription = this.isOpen$.subscribe(open => {
       if (!open) {
         this.cleanUpModal();
       } else {
-        this.activeModal = this.modalService.open(this.templateRef, { backdrop: 'static' });
+        this.activeModal = this.modalService.open(this.templateRef, { backdrop: 'static', container: `#${this.modalId}.modal-container` });
       }
     });
   }
