@@ -16,11 +16,11 @@ import * as fromExchangeListActions from '../actions/exchange-list.actions';
   styleUrls: ['./create-exchange-modal.component.scss']
 })
 export class CreateExchangeModalComponent implements OnInit, OnDestroy {
-  private createExchangeForm: FormGroup;
-  private errorSubscription: Subscription;
-  private errorMessageSubscription: Subscription;
-  private errorValidationMessage: string;
-  private attemptedSubmit = false;
+  createExchangeForm: FormGroup;
+  errorSubscription: Subscription;
+  errorMessageSubscription: Subscription;
+  errorValidationMessage: string;
+  attemptedSubmit = false;
   private creatingExchange$: Observable<boolean>;
   private creatingExchangeError$: Observable<boolean>;
   private creatingExchangeErrorMessage$: Observable<string>;

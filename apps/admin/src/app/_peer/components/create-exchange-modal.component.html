@@ -4,8 +4,8 @@
   [submitting]="creatingExchange$ | async"
   [isOpen$]="createExchangeModalOpen$"
   [formGroup]="createExchangeForm"
-  (onSubmit)="handleFormSubmit($event)"
-  (onDismiss)="handleModalDismissed($event)">
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
   <ng-container form-content>
     <div class="form-group">
       <label class="form-control-label" for="exchange-name">Please give the new exchange a name:</label>
