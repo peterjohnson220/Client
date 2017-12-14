@@ -1,5 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+
+import { generateMockSidebarLink } from 'libs/models';
+
 import { LeftSidebarComponent } from './left-sidebar.component';
 
 describe('Left Sidebar', () => {
@@ -27,7 +30,7 @@ describe('Left Sidebar', () => {
     when leftSidebarToggle is true`, () => {
 
     instance.leftSidebarToggle = true;
-    instance.sidebarLinks = [];
+    instance.sidebarNavigationLinks = [];
 
     fixture.detectChanges();
 
@@ -38,7 +41,7 @@ describe('Left Sidebar', () => {
     when leftSidebarToggle is false`, () => {
 
     instance.leftSidebarToggle = false;
-    instance.sidebarLinks = [];
+    instance.sidebarNavigationLinks = [];
 
     fixture.detectChanges();
 
@@ -48,7 +51,7 @@ describe('Left Sidebar', () => {
   it('should show sidebar link names when leftSidebarToggle is true', () => {
 
     instance.leftSidebarToggle = true;
-    instance.sidebarLinks = mockLinks;
+    instance.sidebarNavigationLinks = mockLinks;
 
     fixture.detectChanges();
 
@@ -58,10 +61,35 @@ describe('Left Sidebar', () => {
   it('should not show sidebar link names when leftSidebarToggle is false', () => {
 
     instance.leftSidebarToggle = false;
-    instance.sidebarLinks = mockLinks;
+    instance.sidebarNavigationLinks = mockLinks;
 
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should include ng app root in url when sidebar link is ng app', () => {
+
+    instance.leftSidebarToggle = false;
+    instance.ngAppRoot = '\\ngapproot\\';
+    const sidebarLink1 = { Name: 'Mock Link1 Name', Url: 'Mock Link1 URL', NgAppLink: true, IconClass: 'fa-users' };
+    instance.sidebarNavigationLinks = [sidebarLink1];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not include ng app root in url when sidebar link is not ng app', () => {
+
+    instance.leftSidebarToggle = false;
+    instance.ngAppRoot = '\\ngapproot\\';
+    const sidebarLink1 = { Name: 'Mock Link1 Name', Url: 'Mock Link1 URL', NgAppLink: false, IconClass: 'fa-users' };
+    instance.sidebarNavigationLinks = [sidebarLink1];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

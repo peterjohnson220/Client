@@ -4,7 +4,8 @@ exports[`Left Sidebar should add left-sidebar-nav-close, left-sidebar-footer-clo
     when leftSidebarToggle is false 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle="false"
-  sidebarLinks={[Function Array]}
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
 >
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
@@ -40,7 +41,8 @@ exports[`Left Sidebar should add left-sidebar-nav-open, left-sidebar-footer-open
     when leftSidebarToggle is true 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle={[Function Boolean]}
-  sidebarLinks={[Function Array]}
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
 >
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
@@ -72,10 +74,81 @@ exports[`Left Sidebar should add left-sidebar-nav-open, left-sidebar-footer-open
 </pf-layout-wrapper-left-sidebar>
 `;
 
-exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle is false 1`] = `
+exports[`Left Sidebar should include ng app root in url when sidebar link is ng app 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle="false"
-  sidebarLinks={[Function Array]}
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
+>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    
+    
+    
+      
+    <li
+      class="py-2 pl-2 pr-0"
+    >
+      
+        
+      
+      
+          
+      <a
+        href="\\\\ngapproot\\\\Mock Link1 URL"
+        placement="right"
+      >
+        
+            
+        <i
+          class="fa-users"
+          ng-reflect-ng-class="fa-users"
+        />
+        
+          
+      </a>
+      
+        
+      
+        
+      
+      
+      
+    </li>
+    
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-close"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <i
+      class="fa fa-lg fa-angle-double-right left-sidebar-icon-close"
+      ng-reflect-klass="fa fa-lg"
+      ng-reflect-ng-class="[object Object]"
+    />
+    
+  
+  </div>
+  
+</pf-layout-wrapper-left-sidebar>
+`;
+
+exports[`Left Sidebar should not include ng app root in url when sidebar link is not ng app 1`] = `
+<pf-layout-wrapper-left-sidebar
+  leftSidebarToggle="false"
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
 >
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
@@ -100,11 +173,84 @@ exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle 
         href="Mock Link1 URL"
         placement="right"
       >
+        
+            
         <i
-          class="fa fa-lg fa-users"
-          ng-reflect-klass="fa fa-lg"
+          class="fa-users"
           ng-reflect-ng-class="fa-users"
         />
+        
+          
+      </a>
+      
+        
+      
+        
+      
+      
+      
+    </li>
+    
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-close"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <i
+      class="fa fa-lg fa-angle-double-right left-sidebar-icon-close"
+      ng-reflect-klass="fa fa-lg"
+      ng-reflect-ng-class="[object Object]"
+    />
+    
+  
+  </div>
+  
+</pf-layout-wrapper-left-sidebar>
+`;
+
+exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle is false 1`] = `
+<pf-layout-wrapper-left-sidebar
+  leftSidebarToggle="false"
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
+>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    
+    
+    
+      
+    <li
+      class="py-2 pl-2 pr-0"
+    >
+      
+        
+      
+      
+          
+      <a
+        href="/ng/Mock Link1 URL"
+        placement="right"
+      >
+        
+            
+        <i
+          class="fa-users"
+          ng-reflect-ng-class="fa-users"
+        />
+        
+          
       </a>
       
         
@@ -128,14 +274,17 @@ exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle 
       
           
       <a
-        href="Mock Link2 URL"
+        href="/ng/Mock Link2 URL"
         placement="right"
       >
+        
+            
         <i
-          class="fa fa-lg fa-calculator"
-          ng-reflect-klass="fa fa-lg"
+          class="fa-calculator"
           ng-reflect-ng-class="fa-calculator"
         />
+        
+          
       </a>
       
         
@@ -172,7 +321,8 @@ exports[`Left Sidebar should not show sidebar link names when leftSidebarToggle 
 exports[`Left Sidebar should show sidebar link names when leftSidebarToggle is true 1`] = `
 <pf-layout-wrapper-left-sidebar
   leftSidebarToggle={[Function Boolean]}
-  sidebarLinks={[Function Array]}
+  ngAppRoot={[Function String]}
+  sidebarNavigationLinks={[Function Array]}
 >
   <ul
     class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
@@ -197,11 +347,12 @@ exports[`Left Sidebar should show sidebar link names when leftSidebarToggle is t
       
           
       <a
-        href="Mock Link1 URL"
+        href="/ng/Mock Link1 URL"
       >
+        
+            
         <i
-          class="fa fa-lg fa-users"
-          ng-reflect-klass="fa fa-lg"
+          class="fa-users"
           ng-reflect-ng-class="fa-users"
         />
         
@@ -229,11 +380,12 @@ exports[`Left Sidebar should show sidebar link names when leftSidebarToggle is t
       
           
       <a
-        href="Mock Link2 URL"
+        href="/ng/Mock Link2 URL"
       >
+        
+            
         <i
-          class="fa fa-lg fa-calculator"
-          ng-reflect-klass="fa fa-lg"
+          class="fa-calculator"
           ng-reflect-ng-class="fa-calculator"
         />
         

@@ -1,14 +1,15 @@
 <ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4"
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
-  <ng-container *ngFor="let sidebarLink of sidebarLinks">
+  <ng-container *ngFor="let sidebarLink of sidebarNavigationLinks">
     <li class="py-2 pl-2 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
-        <a placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i
-          class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i></a>
+        <a placement="right" [ngbTooltip]="sidebarLink.Name" [href]="sidebarLink.NgAppLink ? ngAppRoot  + sidebarLink.Url : sidebarLink.Url">
+          <i [ngClass]="sidebarLink.IconClass"></i>
+        </a>
       </ng-template>
       <ng-template [ngIf]="leftSidebarToggle">
-        <a href="{{sidebarLink.Url}}"><i class="fa fa-lg"
-                                         [ngClass]="sidebarLink.IconClass"></i>
+        <a [href]="sidebarLink.NgAppLink ? ngAppRoot  + sidebarLink.Url : sidebarLink.Url">
+          <i [ngClass]="sidebarLink.IconClass"></i>
           {{sidebarLink.Name}}</a>
       </ng-template>
     </li>
