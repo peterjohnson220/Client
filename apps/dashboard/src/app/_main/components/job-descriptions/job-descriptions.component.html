@@ -1,0 +1,18 @@
+<kendo-chart (seriesClick)="onSeriesClick($event)" (legendItemClick)="onLegendClick($event)" [transitions]="true">
+  <kendo-chart-area background="none"></kendo-chart-area>
+  <kendo-chart-series>
+    <kendo-chart-series-item [highlight]="highlight"
+      type="donut" [data]="chartComponentData"
+      categoryField="kind" field="share">
+      <kendo-chart-series-item-tooltip>
+        <ng-template let-category="category" let-value="value" let-data="test" >
+          {{getTooltip(category) }}
+        </ng-template>
+      </kendo-chart-series-item-tooltip>
+    </kendo-chart-series-item>
+  </kendo-chart-series>
+  <kendo-chart-legend [visible]="true" position="left" [labels]="labels"></kendo-chart-legend>
+</kendo-chart>
+<button *ngIf="chartDetail" (click)="onChartBackButtonClick()" class="btn" style="float:right;">
+  <i class="fa fa-arrow-circle-left"></i>
+</button>
