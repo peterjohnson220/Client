@@ -13,11 +13,11 @@ import { UpsertExchangeRequest } from 'libs/models/peer';
   styleUrls: ['./create-exchange-modal.component.scss']
 })
 export class CreateExchangeModalComponent implements OnInit, OnDestroy {
-  private createExchangeForm: FormGroup;
-  private errorSubscription: Subscription;
-  private errorMessageSubscription: Subscription;
-  private errorValidationMessage: string;
-  private attemptedSubmit = false;
+  createExchangeForm: FormGroup;
+  errorSubscription: Subscription;
+  errorMessageSubscription: Subscription;
+  errorValidationMessage: string;
+  attemptedSubmit = false;
 
   @Input() creatingExchange: boolean;
   @Input() isOpen$: Observable<boolean>;
