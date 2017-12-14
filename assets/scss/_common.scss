@@ -3,3 +3,8 @@
   height: 33px;
   border-radius: 33px;
 }
+
+.pf-form-text {
+  @extend .form-text;
+  font-size: .875rem;
+}

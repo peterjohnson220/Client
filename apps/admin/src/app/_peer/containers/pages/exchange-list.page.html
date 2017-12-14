@@ -4,8 +4,11 @@
     Peer Exchanges
   </ng-container>
 
-  <ng-container page-content>
+  <ng-container page-actions>
+    <button type="button" class="btn btn-primary" (click)="openCreateExchangeModal()">Create</button>
+  </ng-container>
 
+  <ng-container page-content>
     <pf-async-container
       [loading]="exchangeListLoading$ | async"
       [loadingError]="exchangeListLoadingError$ | async"
@@ -44,4 +47,11 @@
 
 </pf-page-with-title-bar>
 
-
+<pf-create-exchange-modal
+  [creatingExchange]="creatingExchange$ | async"
+  [isOpen$]="createExchangeModalOpen$"
+  [error$]="creatingExchangeError$"
+  [errorMessage$]="creatingExchangeErrorMessage$"
+  (createExchangeEvent)="handleCreateExchange($event)"
+  (modalDismissedEvent)="handleCreateExchangeModalDismissed($event)">
+</pf-create-exchange-modal>
