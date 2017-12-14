@@ -32,7 +32,7 @@ export class ExchangeListEffects {
     .ofType(fromExchangeListActions.UPSERTING_EXCHANGE)
     .switchMap((action: fromExchangeListActions.UpsertingExchange) =>
       this.exchangeApiService.upsertExchange(action.payload)
-        .mergeMap((exchangeListItem: any) => [
+        .mergeMap((exchangeListItem: ExchangeListItem) => [
           new fromExchangeListActions.UpsertingExchangeSuccess(exchangeListItem),
           new fromExchangeListActions.LoadingExchanges()
         ])

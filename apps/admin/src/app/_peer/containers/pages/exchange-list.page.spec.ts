@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
+import { generateMockUpsertExchangeRequest } from '../../../../../../../libs/models/peer';
 
 
 describe('Exchange List Page', () => {
@@ -72,11 +73,7 @@ describe('Exchange List Page', () => {
   });
 
   it('should dispatch an UpsertingExchange action with payload when handleCreateExchange is called', () => {
-    const newExchange = {
-      ExchangeId: 0,
-      ExchangeName: 'test',
-      CompanyIds: []
-    };
+    const newExchange = generateMockUpsertExchangeRequest();
     const action = new fromExchangeListActions.UpsertingExchange(newExchange);
 
     instance.handleCreateExchange(newExchange);

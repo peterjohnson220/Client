@@ -4,8 +4,3 @@ $theme-colors: (
 
 $navbar-dark-color: #FFF;
 $navbar-dark-hover-color: $navbar-dark-color;
-
-.pf-form-text {
-  @extend .form-text;
-  font-size: .875rem;
-}

@@ -1,1 +1,1 @@
-export * from './custom-validators.validator';
+export * from './pf-validators';

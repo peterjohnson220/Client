@@ -17,6 +17,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   private activeModal: NgbModalRef;
   private attemptedSubmit = false;
   private modalOpenSubscription: Subscription;
+
   @Input() title: string;
   @Input() modalId: string;
   @Input() primaryButtonText = 'Submit';
@@ -27,6 +28,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+
   constructor(private modalService: NgbModal) {  }
 
   dismiss(): void {
@@ -46,9 +48,10 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  // lifecycle events
+  // Lifecycle events
   ngOnInit(): void {
     if (!this.modalId) {
+      // If a modalId is not provided, strip whitespace from the title of the modal and use that
       this.modalId = this.title.replace(/ /g, '');
     }
     this.modalOpenSubscription = this.isOpen$.subscribe(open => {

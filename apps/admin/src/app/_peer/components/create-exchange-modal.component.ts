@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-import { CustomValidators } from 'libs/forms/validators/custom-validators.validator';
+import { PfValidators } from 'libs/forms/validators/pf-validators';
 import { UpsertExchangeRequest } from 'libs/models/peer';
 
 @Component({
@@ -18,12 +19,13 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   private errorValidationMessage: string;
   private attemptedSubmit = false;
 
-  @Output() createExchangeEvent = new EventEmitter();
-  @Output() modalDismissedEvent = new EventEmitter();
   @Input() creatingExchange: boolean;
   @Input() isOpen$: Observable<boolean>;
   @Input() error$: Observable<boolean>;
   @Input() errorMessage$: Observable<string>;
+
+  @Output() createExchangeEvent = new EventEmitter();
+  @Output() modalDismissedEvent = new EventEmitter();
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -33,7 +35,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
 
   createForm(): void {
     this.createExchangeForm = this.fb.group({
-      'name': ['', [CustomValidators.required]]
+      'name': ['', [PfValidators.required]]
     });
   }
 

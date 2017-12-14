@@ -16,6 +16,7 @@ export class PfValidatableDirective implements DoCheck {
 
   ngDoCheck(): void {
     const isDirty = (this.control.dirty || this.control.touched) && this.shouldValidate;
+    // I left the comments below in case we'd want to use the bootstrap 'is-valid' utility classes down the road.
     if (this.control.valid || !isDirty) {
       this._renderer.removeClass(this._el.nativeElement, 'is-invalid');
       // this._renderer.addClass(this._el.nativeElement, 'is-valid');

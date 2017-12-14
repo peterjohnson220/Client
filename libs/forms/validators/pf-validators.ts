@@ -4,7 +4,7 @@ interface ValidationResult {
   [key: string]: boolean;
 }
 
-export class CustomValidators {
+export class PfValidators {
   static required(control: FormControl): ValidationResult {
     return !control.value || control.value.trim() === '' ? {'required': true} : null;
   }
