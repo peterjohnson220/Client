@@ -4,12 +4,10 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-
+import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
-import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
-
 
 describe('Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
