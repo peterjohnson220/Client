@@ -49,7 +49,8 @@ describe('Create Exchange Modal', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  // TODO: Couldn't get this to work within a reasonable amount of time. The error message is not getting set and I couldn't figure out why. (JP)
+  // TODO: Couldn't get this to work within a reasonable amount of time.
+  // TODO: The error message is not getting set and I couldn't figure out why. (JP)
 /*  it('should not show the form text and should show the error messages if there is an error$ and the form has been submitted', () => {
     // instance.name.setValue('test');
     instance.attemptedSubmit = true;
