@@ -3,17 +3,16 @@
 exports[`Create Exchange Modal should not show the form text and should show a required error message once a submit has been attempted 1`] = `
 <pf-create-exchange-modal
   attemptedSubmit={[Function Boolean]}
-  createExchangeEvent={[Function EventEmitter]}
   createExchangeForm={[Function FormGroup]}
-  creatingExchange="false"
-  error$={[Function ScalarObservable]}
-  errorMessage$={[Function ScalarObservable]}
+  createExchangeModalOpen$={[Function Store]}
+  creatingExchange$={[Function Store]}
+  creatingExchangeError$={[Function Store]}
+  creatingExchangeErrorMessage$={[Function Store]}
   errorMessageSubscription={[Function Subscriber]}
   errorSubscription={[Function Subscriber]}
-  errorValidationMessage={[Function String]}
+  errorValidationMessage=""
   fb={[Function FormBuilder]}
-  isOpen$={[Function ScalarObservable]}
-  modalDismissedEvent={[Function EventEmitter]}
+  store={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
@@ -81,17 +80,16 @@ exports[`Create Exchange Modal should not show the form text and should show a r
 exports[`Create Exchange Modal should show the form text and no error messages when a submit has not been attempted 1`] = `
 <pf-create-exchange-modal
   attemptedSubmit="false"
-  createExchangeEvent={[Function EventEmitter]}
   createExchangeForm={[Function FormGroup]}
-  creatingExchange="false"
-  error$={[Function ScalarObservable]}
-  errorMessage$={[Function ScalarObservable]}
+  createExchangeModalOpen$={[Function Store]}
+  creatingExchange$={[Function Store]}
+  creatingExchangeError$={[Function Store]}
+  creatingExchangeErrorMessage$={[Function Store]}
   errorMessageSubscription={[Function Subscriber]}
   errorSubscription={[Function Subscriber]}
-  errorValidationMessage={[Function String]}
+  errorValidationMessage=""
   fb={[Function FormBuilder]}
-  isOpen$={[Function ScalarObservable]}
-  modalDismissedEvent={[Function EventEmitter]}
+  store={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"

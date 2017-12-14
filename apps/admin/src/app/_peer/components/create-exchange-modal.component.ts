@@ -1,11 +1,14 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { PfValidators } from 'libs/forms/validators/pf-validators';
 import { UpsertExchangeRequest } from 'libs/models/peer';
+import * as fromPeerAdminReducer from '../reducers';
+import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
 @Component({
   selector: 'pf-create-exchange-modal',
@@ -18,16 +21,16 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   private errorMessageSubscription: Subscription;
   private errorValidationMessage: string;
   private attemptedSubmit = false;
+  private creatingExchange$: Observable<boolean>;
+  private creatingExchangeError$: Observable<boolean>;
+  private creatingExchangeErrorMessage$: Observable<string>;
+  private createExchangeModalOpen$: Observable<boolean>;
 
-  @Input() creatingExchange: boolean;
-  @Input() isOpen$: Observable<boolean>;
-  @Input() error$: Observable<boolean>;
-  @Input() errorMessage$: Observable<string>;
-
-  @Output() createExchangeEvent = new EventEmitter();
-  @Output() modalDismissedEvent = new EventEmitter();
-
-  constructor(private fb: FormBuilder) {
+  constructor(private store: Store<fromPeerAdminReducer.State>, private fb: FormBuilder) {
+    this.creatingExchange$ = this.store.select(fromPeerAdminReducer.getExchangeListUpserting);
+    this.creatingExchangeError$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingError);
+    this.creatingExchangeErrorMessage$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingErrorMessage);
+    this.createExchangeModalOpen$ = this.store.select(fromPeerAdminReducer.getExchangeListCreateExchangeModalOpen);
     this.createForm();
   }
 
@@ -46,20 +49,20 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
       ExchangeName: this.name.value,
       CompanyIds: []
     };
-    this.createExchangeEvent.emit(newExchange);
+    this.store.dispatch(new fromExchangeListActions.UpsertingExchange(newExchange));
   }
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
-    this.modalDismissedEvent.emit();
+    this.store.dispatch(new fromExchangeListActions.CloseCreateExchangeModal);
   }
 
   // Lifecycle
   ngOnInit(): void {
-    this.errorMessageSubscription = this.errorMessage$.subscribe(errorMessage => {
+    this.errorMessageSubscription = this.creatingExchangeErrorMessage$.subscribe(errorMessage => {
       this.errorValidationMessage = errorMessage;
     });
-    this.errorSubscription = this.error$.subscribe(error => {
+    this.errorSubscription = this.creatingExchangeError$.subscribe(error => {
       if (error) {
         this.name.setErrors({'error': this.errorValidationMessage});
       }
