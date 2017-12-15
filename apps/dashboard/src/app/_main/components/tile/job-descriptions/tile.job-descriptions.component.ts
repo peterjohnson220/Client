@@ -3,8 +3,8 @@ import 'hammerjs';
 
 @Component({
   selector: 'pf-tile-job-descriptions',
-  templateUrl: './job-descriptions.component.html',
-  styleUrls: [ './job-descriptions.component.scss' ]
+  templateUrl: './tile.job-descriptions.component.html',
+  styleUrls: [ './tile.job-descriptions.component.scss' ]
 })
 
 export class JobDescriptionsComponent {

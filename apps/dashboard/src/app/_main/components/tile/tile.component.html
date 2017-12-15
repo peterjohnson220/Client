@@ -1,4 +1,5 @@
 <div class="tile m-0 p-1" [ngClass]="tile.CssClass" [ngStyle]="{'background-color' : tile.BgColor}">
   <h4>{{tile.Name}}</h4>
-  <div>{{tile.TileData}}</div>
+  <pf-tile-job-descriptions *ngIf="tile.Name === 'Job Descriptions'"></pf-tile-job-descriptions>
+
 </div>
