@@ -4,3 +4,6 @@
   [tiles]="tileGridTiles$ | async"
   (reload)="handleTilesGridReload()">
 </pf-tile-grid>
+<div class="user-voice-container">
+  <pf-user-voice-indicator [userContext]="userContext$ | async"></pf-user-voice-indicator>
+</div>

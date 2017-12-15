@@ -1,10 +1,13 @@
-<div [ngSwitch]="tile.PreviewType">
-  <h1>{{ tile.TileName }}</h1>
+<div class="tile m-0 p-1"
+     [ngSwitch]="tile.PreviewType"
+     [ngClass]="tile.CssClass"
+     >
+
+  <h4>{{ tile.Label }}</h4>
 
   <!-- Tile Inner Content -->
   <pf-tile-preview-chart *ngSwitchCase="tileContentType.Chart"
                          [iconClass]="tile.IconClass">
-
   </pf-tile-preview-chart>
 
   <pf-tile-preview-icon *ngSwitchCase="tileContentType.Icon"
@@ -14,4 +17,5 @@
   <pf-tile-preview-list *ngSwitchCase="tileContentType.List"
                         [iconClass]="tile.IconClass">
   </pf-tile-preview-list>
+
 </div>

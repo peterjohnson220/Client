@@ -37,6 +37,15 @@ export class TileGridEffects {
   mapUserTileDtosToTiles(userTileDtos: UserTileDto[]): Tile[] {
     return userTileDtos
       .map(dt => TileMapper.mapUserTileDtoToTile(dt))
-      .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1);
+      .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1)
+      .sort((tile1, tile2) => {
+        if (tile1.Order > tile2.Order) {
+          return 1;
+        }
+        if (tile1.Order < tile2.Order) {
+          return -1;
+        }
+        return 0;
+      });
   }
 }

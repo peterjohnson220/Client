@@ -10,7 +10,7 @@ exports[`Page With Title Bar should transclude into slots 1`] = `
       
     
       <div
-        class="page-header d-flex align-items-center px-2"
+        class="page-header d-flex justify-content-between align-items-center px-2"
       >
         
       
@@ -18,6 +18,8 @@ exports[`Page With Title Bar should transclude into slots 1`] = `
           
           I am a page title
         </h3>
+        
+      
         
     
       </div>

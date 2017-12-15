@@ -4,11 +4,10 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-
+import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
-
 
 describe('Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
@@ -42,7 +41,7 @@ describe('Exchange List Page', () => {
   it('should dispatch a LoadingExchanges action upon Init', () => {
     const action = new fromExchangeListActions.LoadingExchanges();
 
-    fixture.detectChanges();
+       fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
@@ -55,4 +54,28 @@ describe('Exchange List Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch an OpenCreateExchangeModal action when openCreateExchangeModal is called', () => {
+    const action = new fromExchangeListActions.OpenCreateExchangeModal();
+
+    instance.openCreateExchangeModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an CloseCreateExchangeModal action when handleCreateExchangeModalDismissed is called', () => {
+    const action = new fromExchangeListActions.CloseCreateExchangeModal();
+
+    instance.handleCreateExchangeModalDismissed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an UpsertingExchange action with payload when handleCreateExchange is called', () => {
+    const newExchange = generateMockUpsertExchangeRequest();
+    const action = new fromExchangeListActions.UpsertingExchange(newExchange);
+
+    instance.handleCreateExchange(newExchange);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

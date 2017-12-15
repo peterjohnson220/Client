@@ -1,5 +1,4 @@
 import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
-
 import { Tile } from '../../models';
 
 @Component({
@@ -13,7 +12,4 @@ export class TileGridComponent {
   @Input() loadingError: boolean;
   @Input() tiles: Tile[];
   @Output() reload = new EventEmitter();
-
-  constructor() {
-  }
 }

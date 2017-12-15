@@ -25,7 +25,7 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
       
       
       <div
-        class="sidebar-width d-none"
+        class="sidebar-width"
         id="rightSidebarContentWrapper"
       >
         

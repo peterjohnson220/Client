@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile should show tile name and tile data 1`] = `
+<pf-tile
+  tile={[Function Object]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-style="[object Object]"
+  >
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+    
+    <div>
+      test tile data
+    </div>
+    
+  
+  </div>
+  
+</pf-tile>
+`;

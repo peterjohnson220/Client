@@ -12,21 +12,20 @@ import { TileGridEffects } from './effects/tile-grid.effects';
 // Reducers
 import { reducers } from './reducers';
 
+// Routing
+import { MainRoutingModule } from './main-routing.module';
+
 // Containers
 import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers/tile-grid';
 import { TimelineActivityComponent } from './containers/timeline-activity';
 
-// Routing
-import { MainRoutingModule } from './main-routing.module';
-
 // Components
-import { TileComponent } from './components/tile/tile.component';
+import { TileComponent } from './components/tile';
 import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 import { UserVoiceIndicatorComponent } from './components';
-
 
 @NgModule({
   imports: [
@@ -53,7 +52,8 @@ import { UserVoiceIndicatorComponent } from './components';
     TilePreviewIconComponent,
     TilePreviewListComponent,
     TimelineActivityComponent,
-    UserVoiceIndicatorComponent
+    TileComponent,
+    UserVoiceIndicatorComponent,
   ]
 })
 export class MainModule {
