@@ -1,6 +1,6 @@
 <pf-tile-grid
-  [loading]="tilesLoading$ | async"
-  [tiles]="tiles$ | async"
-  [loadingError]="tilesLoadingError$ | async"
+  [loading]="tileGridLoading$ | async"
+  [loadingError]="tileGridLoadingError$ | async"
+  [tiles]="tileGridTiles$ | async"
   (reload)="handleTilesGridReload()">
 </pf-tile-grid>

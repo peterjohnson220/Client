@@ -1,13 +1,17 @@
-<div [ngSwitch]="tile.type">
-  <!-- Tile Container -->
-  <h1>{{ tile.label }}</h1>
-  <i>{{ tile.iconClass }}</i>
-  <!-- Tile Inner Content -->
-  <pf-dashboard-tile-data-insights *ngSwitchCase="tileType.DataInsights"
-                                   [payload]="tile.payload">
-  </pf-dashboard-tile-data-insights>
+<div [ngSwitch]="tile.PreviewType">
+  <h1>{{ tile.TileName }}</h1>
 
-  <pf-dashboard-tile-employees *ngSwitchCase="tileType.Employees"
-                               [payload]="tile.payload">
-  </pf-dashboard-tile-employees>
+  <!-- Tile Inner Content -->
+  <pf-tile-preview-chart *ngSwitchCase="tileContentType.Chart"
+                         [iconClass]="tile.IconClass">
+
+  </pf-tile-preview-chart>
+
+  <pf-tile-preview-icon *ngSwitchCase="tileContentType.Icon"
+                        [iconClass]="tile.IconClass">
+  </pf-tile-preview-icon>
+
+  <pf-tile-preview-list *ngSwitchCase="tileContentType.List"
+                        [iconClass]="tile.IconClass">
+  </pf-tile-preview-list>
 </div>

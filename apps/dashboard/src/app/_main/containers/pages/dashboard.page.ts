@@ -13,14 +13,14 @@ import { Tile } from '../../models';
   styleUrls: ['./dashboard.page.scss']
 })
 export class DashboardPageComponent implements OnInit {
-  tilesLoading$: Observable<boolean>;
-  tilesLoadingError$: Observable<boolean>;
-  tiles$: Observable<Tile[]>;
+  tileGridLoading$: Observable<boolean>;
+  tileGridLoadingError$: Observable<boolean>;
+  tileGridTiles$: Observable<Tile[]>;
 
   constructor(private store: Store<fromTileGridReducer.State>) {
-    this.tilesLoading$ = this.store.select(fromTileGridReducer.getTilesLoading);
-    this.tilesLoadingError$ = this.store.select(fromTileGridReducer.getTilesLoadingError);
-    this.tiles$ = this.store.select(fromTileGridReducer.getTiles);
+    this.tileGridLoading$ = this.store.select(fromTileGridReducer.getTileGridLoading);
+    this.tileGridLoadingError$ = this.store.select(fromTileGridReducer.getTileGridLoadingError);
+    this.tileGridTiles$ = this.store.select(fromTileGridReducer.getTileGridTiles);
   }
 
   // Events

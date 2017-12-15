@@ -1,1 +1,1 @@
-export * from './dashboard-tile.model';
+export * from './user-tile-dto.model';

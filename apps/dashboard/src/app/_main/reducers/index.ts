@@ -7,35 +7,30 @@ import * as fromRoot from 'libs/state/state';
 import * as fromTileGridReducer from './tile-grid.reducer';
 
 // Feature area state
-export interface TileGridState {
-  tiles: fromTileGridReducer.State;
+export interface DashboardMainState {
+  tileGrid: fromTileGridReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  tileGrid: TileGridState;
+  dashboardMain: DashboardMainState;
 }
 
 // Feature area reducers
 export const reducers = {
-  tiles: fromTileGridReducer.reducer
+  tileGrid: fromTileGridReducer.reducer
 };
 
 // Select Feature Area
-export const selectTileGridState = createFeatureSelector<TileGridState>('tileGrid');
+export const selectDashboardMainState = createFeatureSelector<DashboardMainState>('dashboardMain');
 
 // Feature Selectors
-export const selectTilesState = createSelector(selectTileGridState, (state: TileGridState) => state.tiles);
+export const selectTileGridState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tileGrid);
 
 // Entity Adapter Selectors
 export const {
-  selectIds: getTilesIds,
-  selectEntities: getTilesDictionary,
-  selectAll: getTiles,
-  selectTotal: getTilesTotal
-} = fromTileGridReducer.adapter.getSelectors(selectTilesState);
+  selectAll: getTileGridTiles,
+} = fromTileGridReducer.adapter.getSelectors(selectTileGridState);
 
-export const getTilesLoading = createSelector(selectTilesState, fromTileGridReducer.getLoading);
-export const getTilesLoadingError = createSelector(selectTilesState, fromTileGridReducer.getLoadingError);
-
-
+export const getTileGridLoading = createSelector(selectTileGridState, fromTileGridReducer.getLoading);
+export const getTileGridLoadingError = createSelector(selectTileGridState, fromTileGridReducer.getLoadingError);

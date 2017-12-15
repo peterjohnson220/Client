@@ -17,14 +17,16 @@ import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers/tile-grid';
 import { TimelineActivityComponent } from './containers/timeline-activity';
 
-// Components
-import { TileComponent } from './components/tile/tile.component';
-import { TileEmployeesComponent } from './components/tile/employees';
-import { TileDataInsightsComponent } from './components/tile/data-insights';
-import { UserVoiceIndicatorComponent } from './components';
-
 // Routing
 import { MainRoutingModule } from './main-routing.module';
+
+// Components
+import { TileComponent } from './components/tile/tile.component';
+import { TilePreviewChartComponent } from './components/tile-preview/chart';
+import { TilePreviewIconComponent } from './components/tile-preview/icon';
+import { TilePreviewListComponent } from './components/tile-preview/list';
+import { UserVoiceIndicatorComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -32,7 +34,7 @@ import { MainRoutingModule } from './main-routing.module';
     CommonModule,
 
     // 3rd Party
-    StoreModule.forFeature('tileGrid', reducers),
+    StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects]),
 
     // Routing
@@ -47,8 +49,9 @@ import { MainRoutingModule } from './main-routing.module';
     // Components
     TileComponent,
     TileGridComponent,
-    TileDataInsightsComponent,
-    TileEmployeesComponent,
+    TilePreviewChartComponent,
+    TilePreviewIconComponent,
+    TilePreviewListComponent,
     TimelineActivityComponent,
     UserVoiceIndicatorComponent
   ]

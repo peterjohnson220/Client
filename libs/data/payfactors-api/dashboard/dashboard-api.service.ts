@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { DashboardTile } from '../../../models/dashboard';
+import { UserTileDto } from '../../../models/dashboard';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -14,7 +14,7 @@ export class DashboardApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  getUserDashboardTiles(): Observable<DashboardTile[]> {
-    return this.payfactorsApiService.get<DashboardTile[]>(`${this.endpoint}.GetUserTiles`);
+  getUserDashboardTiles(): Observable<UserTileDto[]> {
+    return this.payfactorsApiService.get<UserTileDto[]>(`${this.endpoint}.GetUserTiles`);
   }
 }
