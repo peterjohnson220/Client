@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pf-tile-preview-icon',
   templateUrl: './tile-preview-icon.component.html',
-  styleUrls: ['./tile-preview-icon.component.scss']
+  styleUrls: ['./tile-preview-icon.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewIconComponent {
   @Input() iconClass: string;
