@@ -47,11 +47,4 @@
 
 </pf-page-with-title-bar>
 
-<pf-create-exchange-modal
-  [creatingExchange]="creatingExchange$ | async"
-  [isOpen$]="createExchangeModalOpen$"
-  [error$]="creatingExchangeError$"
-  [errorMessage$]="creatingExchangeErrorMessage$"
-  (createExchangeEvent)="handleCreateExchange($event)"
-  (modalDismissedEvent)="handleCreateExchangeModalDismissed()">
-</pf-create-exchange-modal>
+<pf-create-exchange-modal></pf-create-exchange-modal>
