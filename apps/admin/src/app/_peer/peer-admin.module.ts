@@ -9,8 +9,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { CreateExchangeModalComponent } from './components';
-import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent } from './containers';
+import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
+         CreateExchangeModalComponent } from './containers';
 import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -36,10 +36,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
   ],
   declarations: [
     // Containers
-    ExchangeCompaniesComponent,
-
-    // Components
-    CreateExchangeModalComponent,
+    ExchangeCompaniesComponent, CreateExchangeModalComponent,
 
     // Pages
     ExchangeListPageComponent, ManageExchangePageComponent
