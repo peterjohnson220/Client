@@ -4,7 +4,6 @@
   border-radius: 33px;
 }
 
-
 // Overwriting the compiled Boostrap sytling manually for our secondary buttons right now. There is no easy way to
 // customize the border colors after overriding the secondary theme color. https://github.com/twbs/bootstrap/issues/23450
 .btn-secondary{
@@ -18,6 +17,11 @@
   border-color: #adadad;
 }
 
-.btn-secondary:focus{
+.btn-secondary:focus {
   box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5)
+}
+
+.pf-form-text {
+  @extend .form-text;
+  font-size: .875rem;
 }

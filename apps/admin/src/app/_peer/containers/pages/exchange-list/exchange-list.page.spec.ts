@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
+import { ExchangeListItem, generateMockExchangeListItem, generateMockUpsertExchangeRequest } from 'libs/models/peer';
 
 import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
@@ -51,7 +51,7 @@ describe('Exchange List Page', () => {
   it('should dispatch a LoadingExchanges action upon Init', () => {
     const action = new fromExchangeListActions.LoadingExchanges();
 
-    fixture.detectChanges();
+       fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
@@ -64,6 +64,7 @@ describe('Exchange List Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+
   it('should tell the Router to navigate to the exchange passed to handleCellClick', () => {
     spyOn(router, 'navigate');
 
@@ -72,6 +73,31 @@ describe('Exchange List Page', () => {
     instance.handleCellClick({ dataItem: exchangeListItem });
 
     expect(router.navigate).toHaveBeenCalledWith(['/peer/exchange', 1]);
+  });
+
+  it('should dispatch an OpenCreateExchangeModal action when openCreateExchangeModal is called', () => {
+    const action = new fromExchangeListActions.OpenCreateExchangeModal();
+
+    instance.openCreateExchangeModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an CloseCreateExchangeModal action when handleCreateExchangeModalDismissed is called', () => {
+    const action = new fromExchangeListActions.CloseCreateExchangeModal();
+
+    instance.handleCreateExchangeModalDismissed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an UpsertingExchange action with payload when handleCreateExchange is called', () => {
+    const newExchange = generateMockUpsertExchangeRequest();
+    const action = new fromExchangeListActions.UpsertingExchange(newExchange);
+
+    instance.handleCreateExchange(newExchange);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
 });

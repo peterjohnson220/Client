@@ -16,6 +16,10 @@ export class PayfactorsApiService {
       .map(this.extractValueFromOdata);
   }
 
+  post<T>(url: string, options: any = {}): Observable<T> {
+    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, options).map(this.extractValueFromOdata);
+  }
+
   private extractValueFromOdata(response: any) {
     return typeof response.value !== 'undefined' ? response.value : false || response || {};
   }

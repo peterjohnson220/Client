@@ -40,8 +40,28 @@ export const {
   selectAll: getExchangeListItems,
 } = fromExchangeListReducer.adapter.getSelectors(selectExchangeListState);
 
-export const getExchangeListLoading = createSelector(selectExchangeListState, fromExchangeListReducer.getLoading);
-export const getExchangeListLoadingError = createSelector(selectExchangeListState, fromExchangeListReducer.getLoadingError);
+export const getExchangeListLoading = createSelector(
+    selectExchangeListState, fromExchangeListReducer.getLoading
+);
+
+export const getExchangeListLoadingError = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getLoadingError
+);
+
+export const getExchangeListUpserting = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getUpserting
+);
+
+export const getExchangeListUpsertingError = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getUpsertingError
+);
+
+export const getExchangeListUpsertingErrorMessage = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getUpsertingErrorMessage
+);
+export const getExchangeListCreateExchangeModalOpen = createSelector(
+  selectExchangeListState, fromExchangeListReducer.getCreateExchangeModalOpen
+);
 
 
 // Manage Exchange Selectors

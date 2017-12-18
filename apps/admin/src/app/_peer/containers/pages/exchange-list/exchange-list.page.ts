@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeListItem } from 'libs/models/peer/exchange-list-item.model';
+import { ExchangeListItem, UpsertExchangeRequest } from 'libs/models/peer';
 
 import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../../reducers/index';
-
+import * as fromPeerAdminReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -19,6 +18,10 @@ export class ExchangeListPageComponent implements OnInit {
   exchangeListLoading$: Observable<boolean>;
   exchangeListLoadingError$: Observable<boolean>;
   exchangeListItems$: Observable<ExchangeListItem[]>;
+  creatingExchange$: Observable<boolean>;
+  creatingExchangeError$: Observable<boolean>;
+  creatingExchangeErrorMessage$: Observable<string>;
+  createExchangeModalOpen$: Observable<boolean>;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -27,6 +30,14 @@ export class ExchangeListPageComponent implements OnInit {
     this.exchangeListLoading$ = this.store.select(fromPeerAdminReducer.getExchangeListLoading);
     this.exchangeListLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeListLoadingError);
     this.exchangeListItems$ = this.store.select(fromPeerAdminReducer.getExchangeListItems);
+    this.creatingExchange$ = this.store.select(fromPeerAdminReducer.getExchangeListUpserting);
+    this.creatingExchangeError$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingError);
+    this.creatingExchangeErrorMessage$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingErrorMessage);
+    this.createExchangeModalOpen$ = this.store.select(fromPeerAdminReducer.getExchangeListCreateExchangeModalOpen);
+  }
+
+  openCreateExchangeModal() {
+    this.store.dispatch(new fromExchangeListActions.OpenCreateExchangeModal);
   }
 
   // Events
@@ -35,7 +46,15 @@ export class ExchangeListPageComponent implements OnInit {
   }
 
   handleCellClick(cellClickEvent: any) {
-    this.router.navigate(['/peer/exchange', cellClickEvent.dataItem.ExchangeId]);
+    this.router.navigate([ '/peer/exchange', cellClickEvent.dataItem.ExchangeId ]);
+  }
+
+  handleCreateExchange(newExchange: UpsertExchangeRequest) {
+    this.store.dispatch(new fromExchangeListActions.UpsertingExchange(newExchange));
+  }
+
+  handleCreateExchangeModalDismissed() {
+    this.store.dispatch(new fromExchangeListActions.CloseCreateExchangeModal);
   }
 
   // Lifecycle

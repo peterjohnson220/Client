@@ -8,6 +8,7 @@ import { PageWithTitleBarComponent } from './page-with-title-bar.component';
   template: `
     <pf-page-with-title-bar>
       <ng-container page-title>I am a page title</ng-container>
+      <ng-container page-actions><button>I am a page action</button></ng-container>
       <ng-container page-content><h1>I am the page content</h1></ng-container>
     </pf-page-with-title-bar>`
 })
