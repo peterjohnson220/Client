@@ -1,20 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-
-import { TileService } from '../../services/tile.service';
+import { Component, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
 import { Tile } from '../../models';
 
 @Component({
   selector: 'pf-tile-grid',
   templateUrl: './tile-grid.component.html',
-  styleUrls: [ './tile-grid.component.scss' ]
+  styleUrls: ['./tile-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TileGridComponent implements OnInit {
-  tiles: Tile[];
-
-  constructor(private tileService: TileService) {
-  }
-
-  ngOnInit() {
-    this.tiles = this.tileService.getTiles();
-  }
+export class TileGridComponent {
+  @Input() loading: boolean;
+  @Input() loadingError: boolean;
+  @Input() tiles: Tile[];
+  @Output() reload = new EventEmitter();
 }

@@ -1,4 +1,21 @@
-<div class="tile m-0 p-1" [ngClass]="tile.CssClass" [ngStyle]="{'background-color' : tile.BgColor}">
-  <h4>{{tile.Name}}</h4>
-  <div>{{tile.TileData}}</div>
+<div class="tile m-0 p-1"
+     [ngSwitch]="tile.PreviewType"
+     [ngClass]="tile.CssClass"
+     >
+
+  <h4>{{ tile.Label }}</h4>
+
+  <!-- Tile Inner Content -->
+  <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
+                         [iconClass]="tile.IconClass">
+  </pf-tile-preview-chart>
+
+  <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
+                        [iconClass]="tile.IconClass">
+  </pf-tile-preview-icon>
+
+  <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"
+                        [iconClass]="tile.IconClass">
+  </pf-tile-preview-list>
+
 </div>
