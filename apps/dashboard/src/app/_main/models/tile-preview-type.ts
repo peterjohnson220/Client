@@ -1,11 +1,7 @@
 import { TilePreviewTypes } from './tile-preview-types';
 
 export class TilePreviewType {
-  AllTypes: [
-    TilePreviewTypes.Chart,
-    TilePreviewTypes.Icon,
-    TilePreviewTypes.List
-    ];
+  AllTypes: TilePreviewTypes[];
 
   Chart: TilePreviewTypes.Chart;
   Icon: TilePreviewTypes.Icon;

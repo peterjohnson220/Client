@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Tile } from '../../models';
-import { TilePreviewType } from '../../models/tile-preview-type';
+import { TilePreviewType } from '../../models';
 
 @Component({
   selector: 'pf-tile',
@@ -9,6 +9,6 @@ import { TilePreviewType } from '../../models/tile-preview-type';
   styleUrls: ['./tile.component.scss']
 })
 export class TileComponent {
-  tileContentType: TilePreviewType = new TilePreviewType();
+  tilePreviewType: TilePreviewType = new TilePreviewType();
   @Input() tile: Tile;
 }
