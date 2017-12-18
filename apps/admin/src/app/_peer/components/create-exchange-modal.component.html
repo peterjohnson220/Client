@@ -1,8 +1,8 @@
 <pf-modal-form
   [title]="'Create New Exchange'"
   [primaryButtonText]="'Create'"
-  [submitting]="creatingExchange"
-  [isOpen$]="isOpen$"
+  [submitting]="creatingExchange$ | async"
+  [isOpen$]="createExchangeModalOpen$"
   [formGroup]="createExchangeForm"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
