@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { PfValidatableDirective } from './index';
+import { PfValidatableDirective } from './directives';
 import { PfModalFormComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
 

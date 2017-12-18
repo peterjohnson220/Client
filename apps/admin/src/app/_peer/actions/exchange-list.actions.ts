@@ -60,7 +60,3 @@ export type Actions
   | UpsertingExchange
   | UpsertingExchangeSuccess
   | UpsertingExchangeError;
-
-
-
-

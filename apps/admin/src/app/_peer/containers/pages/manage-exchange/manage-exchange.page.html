@@ -1,0 +1,13 @@
+<pf-page-with-title-bar [returnUrl]="'/peer/exchanges'">
+  <ng-container page-title>
+    Manage Exchange - {{ (exchange$ | async).ExchangeName }}
+  </ng-container>
+
+  <ng-container page-content>
+
+    <div class="h-50 w-100">
+      <pf-exchange-companies></pf-exchange-companies>
+    </div>
+
+  </ng-container>
+</pf-page-with-title-bar>

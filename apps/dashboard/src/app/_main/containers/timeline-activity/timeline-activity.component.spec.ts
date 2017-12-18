@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TimelineActivityComponent } from './timeline-activity.component';
-import { getMockTimelineActivities } from '../../models/timeline-activity.model';
+import { getMockTimelineActivities } from '../../models';
 
 describe('timeline-activity', () => {
   let fixture: ComponentFixture<TimelineActivityComponent>;
