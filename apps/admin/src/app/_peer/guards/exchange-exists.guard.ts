@@ -37,7 +37,7 @@ export class ExchangeExistsGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot) {
-    return this.exchangeExists(route.params['id']);
+    return this.exchangeExists(route.params.id);
   }
 
 }
