@@ -8,6 +8,7 @@ import { PageWithTitleBarComponent } from './page-with-title-bar.component';
   template: `
     <pf-page-with-title-bar>
       <ng-container page-title>I am a page title</ng-container>
+      <ng-container page-actions><button>I am a page action</button></ng-container>
       <ng-container page-content><h1>I am the page content</h1></ng-container>
     </pf-page-with-title-bar>`
 })
@@ -30,6 +31,15 @@ describe('Page With Title Bar', () => {
 
     fixture = TestBed.createComponent(PageWithTitleBarComponent);
     instance = fixture.componentInstance;
+  });
+
+  it('should show the back button, when provided a return Url', () => {
+
+    instance.returnUrl = '/returnToThis/Path';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 
   it('should transclude into slots', () => {

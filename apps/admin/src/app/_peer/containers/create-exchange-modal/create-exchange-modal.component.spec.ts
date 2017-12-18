@@ -6,9 +6,10 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
+
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
-import * as fromExchangeListActions from '../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../reducers';
+import * as fromExchangeListActions from '../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../reducers';
 
 describe('Create Exchange Modal', () => {
   let fixture: ComponentFixture<CreateExchangeModalComponent>;

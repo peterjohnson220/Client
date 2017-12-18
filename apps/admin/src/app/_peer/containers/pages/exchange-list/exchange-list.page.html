@@ -15,10 +15,12 @@
       [loadingErrorMessage]="'Error Loading Exchanges'"
       (reload)="handleExchangeGridReload()">
 
-      <kendo-grid [data]="exchangeListItems$ | async"
+      <kendo-grid class="row-click-navigates"
+                  [data]="exchangeListItems$ | async"
                   [resizable]="true"
                   [pageable]="true"
-                  [pageSize]="(exchangeListItems$ | async).length">
+                  [pageSize]="(exchangeListItems$ | async).length"
+                  (cellClick)="handleCellClick($event)">
 
         <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
 

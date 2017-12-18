@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pf-page-with-title-bar',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./page-with-title-bar.component.scss']
 })
 export class PageWithTitleBarComponent {
-
+  @Input() returnUrl: string;
 }

@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
 import { PfValidators } from 'libs/forms/validators/pf-validators';
-import { UpsertExchangeRequest } from 'libs/models/peer';
-import * as fromPeerAdminReducer from '../reducers';
-import * as fromExchangeListActions from '../actions/exchange-list.actions';
+import { UpsertExchangeRequest } from 'libs/models/peer/index';
+
+import * as fromExchangeListActions from '../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../reducers';
 
 @Component({
   selector: 'pf-create-exchange-modal',

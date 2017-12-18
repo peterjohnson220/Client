@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page With Title Bar should show the back button, when provided a return Url 1`] = `
+<pf-page-with-title-bar
+  returnUrl={[Function String]}
+>
+  <div
+    class="flex-column-container"
+  >
+    
+    
+    <div
+      class="page-header d-flex justify-content-between align-items-center px-2"
+    >
+      
+  
+      
+      <div
+        class="d-flex"
+      >
+        
+        
+        
+        <button
+          class="btn btn-secondary back-btn"
+        >
+          
+          
+          <i
+            aria-hidden="true"
+            class="fa fa-long-arrow-left"
+          />
+          
+        
+        </button>
+        
+  
+        
+        <h3 />
+        
+      
+      </div>
+      
+  
+      
+      <div>
+        
+        
+        
+      
+      </div>
+      
+  
+    
+    </div>
+    
+  
+    
+    <div
+      class="page-content p-2"
+    >
+      
+      
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-page-with-title-bar>
+`;
+
+exports[`Page With Title Bar should transclude into slots 1`] = `
+<ng-component>
+  
+      <pf-page-with-title-bar>
+    <div
+      class="flex-column-container"
+    >
+      
+    
+      <div
+        class="page-header d-flex justify-content-between align-items-center px-2"
+      >
+        
+  
+      
+        <div
+          class="d-flex"
+        >
+          
+        
+          
+          
+  
+        
+          <h3>
+            
+            I am a page title
+          </h3>
+          
+      
+        </div>
+        
+  
+      
+        <div>
+          
+        
+          
+          <button>
+            I am a page action
+          </button>
+          
+      
+        </div>
+        
+  
+    
+      </div>
+      
+  
+    
+      <div
+        class="page-content p-2"
+      >
+        
+      
+        
+        <h1>
+          I am the page content
+        </h1>
+        
+    
+      </div>
+      
+  
+    </div>
+    
+  
+  </pf-page-with-title-bar>
+</ng-component>
+`;
