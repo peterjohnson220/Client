@@ -21,10 +21,10 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   errorMessageSubscription: Subscription;
   errorValidationMessage: string;
   attemptedSubmit = false;
-  private creatingExchange$: Observable<boolean>;
+  creatingExchange$: Observable<boolean>;
+  createExchangeModalOpen$: Observable<boolean>;
   private creatingExchangeError$: Observable<boolean>;
   private creatingExchangeErrorMessage$: Observable<string>;
-  private createExchangeModalOpen$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerAdminReducer.State>, private fb: FormBuilder) {
     this.creatingExchange$ = this.store.select(fromPeerAdminReducer.getExchangeListUpserting);
