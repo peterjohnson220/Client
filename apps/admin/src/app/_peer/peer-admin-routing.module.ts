@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'exchanges', pathMatch: 'full' },
   { path: 'exchanges', component: ExchangeListPageComponent },
   { path: 'exchange/:id', component: ManageExchangePageComponent, canActivate: [ExchangeExistsGuard] },
+  { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 
