@@ -3,9 +3,9 @@ import { TilePreviewTypes } from './tile-preview-types';
 export class TilePreviewType {
   AllTypes: TilePreviewTypes[];
 
-  Chart: TilePreviewTypes.Chart;
-  Icon: TilePreviewTypes.Icon;
-  List: TilePreviewTypes.List;
+  Chart = TilePreviewTypes.Chart;
+  Icon = TilePreviewTypes.Icon;
+  List = TilePreviewTypes.List;
 
   constructor() {
     this.AllTypes = [
