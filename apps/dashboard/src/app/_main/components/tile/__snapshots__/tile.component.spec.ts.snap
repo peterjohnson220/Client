@@ -3,24 +3,40 @@
 exports[`Tile should show tile name and tile data 1`] = `
 <pf-tile
   tile={[Function Object]}
+  tileContentType={[Function TilePreviewType]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
     ng-reflect-klass="tile m-0 p-1"
     ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-style="[object Object]"
+    ng-reflect-ng-switch="1"
   >
     
+  
     
     <h4>
       test tile
     </h4>
     
+  
     
-    <div>
-      test tile data
-    </div>
     
+    
+    
+    
+  
+    
+    
+    <pf-tile-preview-icon>
+      
+    
+    </pf-tile-preview-icon>
+    
+  
+    
+    
+    
+  
   
   </div>
   
