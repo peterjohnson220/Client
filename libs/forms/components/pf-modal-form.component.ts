@@ -28,7 +28,6 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-
   constructor(private modalService: NgbModal) {  }
 
   dismiss(): void {
@@ -37,14 +36,16 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.attemptedSubmit = true;
-    this.onSubmit.emit();
+    if (this.formGroup.valid) {
+      this.onSubmit.emit();
+    }
   }
 
   cleanUpModal(): void {
     if (this.activeModal) {
+      this.activeModal.close();
       this.attemptedSubmit = false;
       this.formGroup.reset();
-      this.activeModal.close();
     }
   }
 
@@ -59,6 +60,11 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
         this.cleanUpModal();
       } else {
         this.activeModal = this.modalService.open(this.templateRef, { backdrop: 'static', container: `#${this.modalId}.modal-container` });
+        this.activeModal.result.then(() => {
+          this.onDismiss.emit();
+        }, () => {
+          this.onDismiss.emit();
+        });
       }
     });
   }
