@@ -3,7 +3,7 @@
 exports[`Tile should show tile name and tile data 1`] = `
 <pf-tile
   tile={[Function Object]}
-  tileContentType={[Function TilePreviewType]}
+  tilePreviewType={[Function TilePreviewType]}
 >
   <div
     class="tile m-0 p-1 test cssClass"
