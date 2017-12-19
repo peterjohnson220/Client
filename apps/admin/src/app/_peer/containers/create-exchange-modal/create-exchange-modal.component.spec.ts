@@ -8,8 +8,8 @@ import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
-import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
+import * as fromExchangeListReducer from 'libs/shared/peer/reducers';
 
 describe('Create Exchange Modal', () => {
   let fixture: ComponentFixture<CreateExchangeModalComponent>;
@@ -22,7 +22,7 @@ describe('Create Exchange Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
+          peerAdmin: combineReducers(fromExchangeListReducer.reducers)
         }),
         ReactiveFormsModule
       ],
