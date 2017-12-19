@@ -5,6 +5,7 @@
   border-bottom: 1px solid $border-grey;
   height: 67px;
   flex-shrink: 0;
+  padding: 0 0.85rem;
 }
 
 .page-header h3{
@@ -20,4 +21,5 @@
   height: 100%;
   overflow-y: auto;
   position: relative;
+  padding: .5rem 0.85rem;
 }
