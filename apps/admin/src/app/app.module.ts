@@ -10,6 +10,7 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
+import { PfFormsModule } from 'libs/forms/forms.module';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AppWrapperComponent } from './app-wrapper.component';
     PfLayoutWrapperOldModule,
     PfApiModule,
     PfStateModule,
+    PfFormsModule,
 
     // Routing
     AppRoutingModule

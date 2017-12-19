@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange List Page should pass the exchange name to the page title transclusion area 1`] = `
+<pf-manage-exchange-page
+  exchange$={[Function ScalarObservable]}
+  store={[Function Object]}
+>
+  <pf-page-with-title-bar>
+    
+    
+    
+    
+      Manage Exchange - Mock Exchange
+    
+    
+  
+    
+    
+    
+  
+      
+    <div
+      class="h-50 w-100"
+    >
+      
+        
+      <pf-exchange-companies />
+      
+      
+    </div>
+    
+  
+    
+    
+  
+  </pf-page-with-title-bar>
+  
+</pf-manage-exchange-page>
+`;

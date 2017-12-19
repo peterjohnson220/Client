@@ -7,6 +7,10 @@
   border-top: 1px solid #eceeef;
 }
 
+:host ::ng-deep .k-grid.row-click-navigates tbody{
+  cursor: pointer;
+}
+
 :host ::ng-deep .k-grid tbody tr:hover{
   background-color: rgba(0,0,0,.075);
 }

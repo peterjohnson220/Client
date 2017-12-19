@@ -8,7 +8,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/toArray';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
@@ -25,6 +24,18 @@ export class ExchangeListEffects {
       this.exchangeApiService.getAllExchanges()
         .map((exchangeListItems: ExchangeListItem[]) => new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems))
         .catch(error => of(new fromExchangeListActions.LoadingExchangesError()))
+    );
+
+  @Effect()
+  upsertExchange$: Observable<Action> = this.actions$
+    .ofType(fromExchangeListActions.UPSERTING_EXCHANGE)
+    .switchMap((action: fromExchangeListActions.UpsertingExchange) =>
+      this.exchangeApiService.upsertExchange(action.payload)
+        .mergeMap((exchangeListItem: ExchangeListItem) => [
+          new fromExchangeListActions.UpsertingExchangeSuccess(exchangeListItem),
+          new fromExchangeListActions.LoadingExchanges()
+        ])
+        .catch(error => of(new fromExchangeListActions.UpsertingExchangeError(error)))
     );
 
   constructor(

@@ -1,23 +1,30 @@
+import { TileTypes } from './tile-types';
+import { TilePreviewTypes } from './tile-preview-types';
+
 export interface Tile {
   Id: number;
-  Name: string;
-  Url: string;
-  Position: number;
+  Label: string;
+  Type: TileTypes;
+  PreviewType: TilePreviewTypes;
+  IconClass: string;
+  CssClass: string;
+  Payload: any;
   Size: number;
-  CssClass?: string;
-  BgColor?: string;
-  TileData?: any;
+  Order: number;
+  Url: string;
 }
 
 export function generateMockTile(): Tile {
   return {
     Id: 1,
-    Name: 'test tile',
+    Label: 'test tile',
+    Type: TileTypes.PayMarkets,
+    PreviewType: TilePreviewTypes.Icon,
+    IconClass: 'fa fa-file-text-o',
     Url: 'test tile url',
-    Position: 0,
+    Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    BgColor: 'test bgColor',
-    TileData: [ 'test tile data' ]
+    Payload: [ 'test tile data' ]
   };
 }
