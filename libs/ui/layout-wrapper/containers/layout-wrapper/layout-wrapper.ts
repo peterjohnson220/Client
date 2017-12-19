@@ -3,13 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromRootState from '../../../state/state';
+import * as fromRootState from '../../../../state/state';
 
-import * as fromHeaderActions from '../actions/header.actions';
-import * as fromLeftSidebarActions from '../actions/left-sidebar.actions';
-import { UserContext, NavigationLink } from '../../../models';
-import * as fromLayoutReducer from '../reducers';
-import { SidebarLink } from '../../../models/navigation/sidebar-link.model';
+import * as fromHeaderActions from '../../actions/header.actions';
+import { UserContext, NavigationLink } from '../../../../models';
+import * as fromLayoutReducer from '../../reducers';
 
 @Component({
   selector: 'pf-layout-wrapper',
@@ -23,7 +21,6 @@ export class LayoutWrapperComponent implements OnInit {
 
   userContext$: Observable<UserContext>;
   headerDropdownNavigationLinks$: Observable<NavigationLink[]>;
-  leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -35,11 +32,9 @@ export class LayoutWrapperComponent implements OnInit {
 
     this.userContext$ = store.select(fromRootState.getUserContext);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
-    this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
   }
 
   ngOnInit() {
     this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
-    this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
   }
 }

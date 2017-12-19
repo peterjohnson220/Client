@@ -11,10 +11,12 @@ import {
   HeaderComponent,
   UserMenuComponent,
   UserMenuAvatarComponent,
-  LeftSidebarComponent,
   RightSidebarComponent
 } from './components';
-import { LayoutWrapperComponent } from './containers';
+import {
+  LayoutWrapperComponent,
+  LeftSidebarComponent
+} from './containers';
 import { HeaderEffects, LeftSidebarEffects } from './effects';
 import { reducers } from './reducers';
 
