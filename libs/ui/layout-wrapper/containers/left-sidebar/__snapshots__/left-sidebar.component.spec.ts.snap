@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Left Sidebar should show ul of sidebar closed 1`] = `
+<pf-layout-wrapper-left-sidebar
+  gettingSidebarNavigationLinks$={[Function Store]}
+  gettingSidebarNavigationLinksError$={[Function Store]}
+  layoutStore={[Function Store]}
+  leftSidebarNavigationLinks$={[Function Store]}
+  leftSidebarToggle="false"
+  ngAppRoot={[Function String]}
+  reload={[Function EventEmitter]}
+  store={[Function Store]}
+>
+  <pf-async-container>
+    
+  
+    <ul
+      class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
+      ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+    
+      
+      
+  
+    </ul>
+    
+  
+    <div
+      class="left-sidebar-footer left-sidebar-footer-close"
+      ng-reflect-klass="left-sidebar-footer"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+    
+      <i
+        class="fa fa-lg fa-angle-double-right left-sidebar-icon-close"
+        ng-reflect-klass="fa fa-lg"
+        ng-reflect-ng-class="[object Object]"
+      />
+      
+  
+    </div>
+    
+  
+  </pf-async-container>
+  
+</pf-layout-wrapper-left-sidebar>
+`;
+
+exports[`Left Sidebar should show ul of sidebar open 1`] = `
+<pf-layout-wrapper-left-sidebar
+  gettingSidebarNavigationLinks$={[Function Store]}
+  gettingSidebarNavigationLinksError$={[Function Store]}
+  layoutStore={[Function Store]}
+  leftSidebarNavigationLinks$={[Function Store]}
+  leftSidebarToggle={[Function Boolean]}
+  ngAppRoot={[Function String]}
+  reload={[Function EventEmitter]}
+  store={[Function Store]}
+>
+  <pf-async-container>
+    
+  
+    <ul
+      class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
+      ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+    
+      
+      
+  
+    </ul>
+    
+  
+    <div
+      class="left-sidebar-footer left-sidebar-footer-open"
+      ng-reflect-klass="left-sidebar-footer"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+    
+      <i
+        class="fa fa-lg fa-angle-double-left left-sidebar-icon-open"
+        ng-reflect-klass="fa fa-lg"
+        ng-reflect-ng-class="[object Object]"
+      />
+      
+  
+    </div>
+    
+  
+  </pf-async-container>
+  
+</pf-layout-wrapper-left-sidebar>
+`;

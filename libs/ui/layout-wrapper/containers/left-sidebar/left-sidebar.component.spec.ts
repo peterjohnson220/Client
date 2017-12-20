@@ -39,9 +39,32 @@ describe('Left Sidebar', () => {
   it('should dispatch a GetLeftSidebarNavigationLinks action upon Init', () => {
     const action = new fromLeftSidebarActions.GetLeftSidebarNavigationLinks();
 
-    fixture.detectChanges();
+    instance.ngOnInit();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch a GetLeftSidebarNavigationLinks action upon reload', () => {
+    const action = new fromLeftSidebarActions.GetLeftSidebarNavigationLinks();
+
+    instance.handleSidebarNavigationLinksReload();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should show ul of sidebar closed', () => {
+    instance.leftSidebarToggle = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show ul of sidebar open', () => {
+    instance.leftSidebarToggle = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
