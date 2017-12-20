@@ -11,11 +11,13 @@ import {
   HeaderComponent,
   UserMenuComponent,
   UserMenuAvatarComponent,
-  LeftSidebarComponent,
   RightSidebarComponent
 } from './components';
-import { LayoutWrapperComponent } from './containers';
-import { HeaderEffects } from './effects';
+import {
+  LayoutWrapperComponent,
+  LeftSidebarComponent
+} from './containers';
+import { HeaderEffects, LeftSidebarEffects } from './effects';
 import { reducers } from './reducers';
 
 @NgModule({
@@ -26,7 +28,7 @@ import { reducers } from './reducers';
     PfCommonUIModule,
 
     StoreModule.forFeature('layoutWrapper', reducers),
-    EffectsModule.forFeature([ HeaderEffects ]),
+    EffectsModule.forFeature([ HeaderEffects, LeftSidebarEffects ]),
   ],
   declarations: [
     HeaderComponent,

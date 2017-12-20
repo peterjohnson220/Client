@@ -5,5 +5,6 @@ export const environment = {
   production: false,
   payfactorsApiUrl: '/odata/',
   userVoiceUrl: 'http://payfactors.uservoice.com/forums/',
-  userVoiceForumId: 268517
+  userVoiceForumId: 268517,
+  ngAppRoot: '/ng/'
 };
