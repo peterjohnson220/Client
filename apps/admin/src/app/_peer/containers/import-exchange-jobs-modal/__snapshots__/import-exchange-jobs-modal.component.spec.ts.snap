@@ -7,9 +7,11 @@ exports[`Create Exchange Modal should clear the form when dismiss is called 1`] 
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
   storedDataFile="null"
+  storedDataFileSubscription={[Function Subscriber]}
   uploadingFile$={[Function Store]}
   uploadingFileError$={[Function Store]}
   validationResults$={[Function Store]}
@@ -64,7 +66,6 @@ exports[`Create Exchange Modal should clear the form when dismiss is called 1`] 
         
       </div>
       
-  
         
       <pf-validation-results />
       
@@ -88,9 +89,11 @@ exports[`Create Exchange Modal should create an empty form 1`] = `
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
   storedDataFile="null"
+  storedDataFileSubscription={[Function Subscriber]}
   uploadingFile$={[Function Store]}
   uploadingFileError$={[Function Store]}
   validationResults$={[Function Store]}
@@ -145,7 +148,6 @@ exports[`Create Exchange Modal should create an empty form 1`] = `
         
       </div>
       
-  
         
       <pf-validation-results />
       
@@ -169,9 +171,11 @@ exports[`Create Exchange Modal should initialize an empty modal 1`] = `
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
   storedDataFile="null"
+  storedDataFileSubscription={[Function Subscriber]}
   uploadingFile$={[Function Store]}
   uploadingFileError$={[Function Store]}
   validationResults$={[Function Store]}
@@ -226,7 +230,170 @@ exports[`Create Exchange Modal should initialize an empty modal 1`] = `
         
       </div>
       
+        
+      <pf-validation-results />
+      
+      
+    </pf-async-container>
+    
   
+    
+    
+  
+  
+  </pf-modal-form>
+  
+</pf-import-exchange-jobs-modal>
+`;
+
+exports[`Create Exchange Modal should set the file to invalid when the state changes 1`] = `
+<pf-import-exchange-jobs-modal
+  attemptedSubmit="false"
+  formBuilder={[Function FormBuilder]}
+  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsForm={[Function FormGroup]}
+  importingExchangeJobs$={[Function Store]}
+  isFileValidSubscription={[Function Subscriber]}
+  modalDismissedEvent={[Function EventEmitter]}
+  store={[Function Store]}
+  storedDataFile="null"
+  storedDataFileSubscription={[Function Subscriber]}
+  uploadingFile$={[Function Store]}
+  uploadingFileError$={[Function Store]}
+  validationResults$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-dirty ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Import Exchange Jobs"
+  >
+    
+  
+    
+    
+    
+  
+      
+    <pf-async-container>
+      
+  
+        
+      <div
+        class="form-group"
+      >
+        
+          
+        <label
+          class="form-control-label"
+          for="file-upload"
+        >
+          Please select a data file to import:
+        </label>
+        
+          
+        <input
+          class="form-control file-upload ng-untouched ng-pristine ng-valid"
+          formcontrolname="fileUpload"
+          id="file-upload"
+          ng-reflect-name="fileUpload"
+          type="file"
+        />
+        
+          
+        <input
+          class="ng-untouched ng-pristine ng-invalid"
+          formcontrolname="isFileValid"
+          name="isFileValid"
+          ng-reflect-name="isFileValid"
+          type="hidden"
+          value=""
+        />
+        
+        
+      </div>
+      
+        
+      <pf-validation-results />
+      
+      
+    </pf-async-container>
+    
+  
+    
+    
+  
+  
+  </pf-modal-form>
+  
+</pf-import-exchange-jobs-modal>
+`;
+
+exports[`Create Exchange Modal should set the file to valid when the state changes 1`] = `
+<pf-import-exchange-jobs-modal
+  attemptedSubmit="false"
+  formBuilder={[Function FormBuilder]}
+  importExchangeJobsEvent={[Function EventEmitter]}
+  importExchangeJobsForm={[Function FormGroup]}
+  importingExchangeJobs$={[Function Store]}
+  isFileValidSubscription={[Function Subscriber]}
+  modalDismissedEvent={[Function EventEmitter]}
+  store={[Function Store]}
+  storedDataFile="null"
+  storedDataFileSubscription={[Function Subscriber]}
+  uploadingFile$={[Function Store]}
+  uploadingFileError$={[Function Store]}
+  validationResults$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-dirty ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Import Exchange Jobs"
+  >
+    
+  
+    
+    
+    
+  
+      
+    <pf-async-container>
+      
+  
+        
+      <div
+        class="form-group"
+      >
+        
+          
+        <label
+          class="form-control-label"
+          for="file-upload"
+        >
+          Please select a data file to import:
+        </label>
+        
+          
+        <input
+          class="form-control file-upload ng-untouched ng-pristine ng-valid"
+          formcontrolname="fileUpload"
+          id="file-upload"
+          ng-reflect-name="fileUpload"
+          type="file"
+        />
+        
+          
+        <input
+          class="ng-untouched ng-pristine ng-invalid"
+          formcontrolname="isFileValid"
+          name="isFileValid"
+          ng-reflect-name="isFileValid"
+          type="hidden"
+          value=""
+        />
+        
+        
+      </div>
+      
         
       <pf-validation-results />
       

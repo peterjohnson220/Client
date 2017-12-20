@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
 
 import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
@@ -113,5 +114,19 @@ describe('Create Exchange Modal', () => {
     expect(instance.attemptedSubmit).toBe(true);
     instance.handleModalDismissed();
     expect(instance.attemptedSubmit).toBe(false);
+  });
+
+  it('should set the file to valid when the state changes', () => {
+    instance.isFileValidSubscription = of(true).subscribe();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should set the file to invalid when the state changes', () => {
+    instance.isFileValidSubscription = of(false).subscribe();
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });
