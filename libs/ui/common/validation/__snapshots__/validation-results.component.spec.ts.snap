@@ -1,0 +1,410 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`header should default to not hiding validation messages when empty 1`] = `
+<pf-validation-results
+  hideIfEmpty="false"
+  validationResults={[Function Array]}
+>
+  <div
+    class="table validation-results"
+  >
+    
+    
+    <table
+      class="table"
+    >
+      
+      
+      <thead>
+        
+      
+        <tr>
+          
+        
+          <th
+            width="10%"
+          >
+            Type
+          </th>
+          
+        
+          <th>
+            Message
+          </th>
+          
+      
+        </tr>
+        
+      
+      </thead>
+      
+      
+      <tbody>
+        
+      
+        
+        
+      
+        
+        <tr>
+          
+        
+          <td
+            colspan="100%"
+          >
+            
+          
+            <p>
+              No Messages.
+            </p>
+            
+        
+          </td>
+          
+      
+        </tr>
+        
+      
+      </tbody>
+      
+    
+    </table>
+    
+  
+  </div>
+  
+</pf-validation-results>
+`;
+
+exports[`header should default to not hiding when empty 1`] = `
+<pf-validation-results
+  hideIfEmpty="false"
+  validationResults={[Function Array]}
+>
+  <div
+    class="table validation-results"
+  >
+    
+    
+    <table
+      class="table"
+    >
+      
+      
+      <thead>
+        
+      
+        <tr>
+          
+        
+          <th
+            width="10%"
+          >
+            Type
+          </th>
+          
+        
+          <th>
+            Message
+          </th>
+          
+      
+        </tr>
+        
+      
+      </thead>
+      
+      
+      <tbody>
+        
+      
+        
+        
+      
+        
+        <tr>
+          
+        
+          <td
+            colspan="100%"
+          >
+            
+          
+            <p>
+              No Messages.
+            </p>
+            
+        
+          </td>
+          
+      
+        </tr>
+        
+      
+      </tbody>
+      
+    
+    </table>
+    
+  
+  </div>
+  
+</pf-validation-results>
+`;
+
+exports[`header should not show table when hide if empty is set 1`] = `
+<pf-validation-results
+  hideIfEmpty={[Function Boolean]}
+  validationResults={[Function Array]}
+>
+  
+  
+</pf-validation-results>
+`;
+
+exports[`header should show an empty grid message 1`] = `
+<pf-validation-results
+  hideIfEmpty="false"
+  validationResults={[Function Array]}
+>
+  <div
+    class="table validation-results"
+  >
+    
+    
+    <table
+      class="table"
+    >
+      
+      
+      <thead>
+        
+      
+        <tr>
+          
+        
+          <th
+            width="10%"
+          >
+            Type
+          </th>
+          
+        
+          <th>
+            Message
+          </th>
+          
+      
+        </tr>
+        
+      
+      </thead>
+      
+      
+      <tbody>
+        
+      
+        
+        
+      
+        
+        <tr>
+          
+        
+          <td
+            colspan="100%"
+          >
+            
+          
+            <p>
+              No Messages.
+            </p>
+            
+        
+          </td>
+          
+      
+        </tr>
+        
+      
+      </tbody>
+      
+    
+    </table>
+    
+  
+  </div>
+  
+</pf-validation-results>
+`;
+
+exports[`header should show validation results 1`] = `
+<pf-validation-results
+  hideIfEmpty="false"
+  validationResults={[Function Array]}
+>
+  <div
+    class="table validation-results"
+  >
+    
+    
+    <table
+      class="table"
+    >
+      
+      
+      <thead>
+        
+      
+        <tr>
+          
+        
+          <th
+            width="10%"
+          >
+            Type
+          </th>
+          
+        
+          <th>
+            Message
+          </th>
+          
+      
+        </tr>
+        
+      
+      </thead>
+      
+      
+      <tbody>
+        
+      
+        
+        <tr>
+          
+        
+          <td>
+            
+          
+            <span>
+              <i
+                aria-hidden="true"
+                class="fa fa-check-circle text-success"
+                ng-reflect-ng-class="fa fa-check-circle text-succes"
+              />
+            </span>
+            
+        
+          </td>
+          
+        
+          <td
+            class="vertical-center"
+          >
+            
+          success message
+        
+          </td>
+          
+      
+        </tr>
+        <tr>
+          
+        
+          <td>
+            
+          
+            <span>
+              <i
+                aria-hidden="true"
+                class="fa fa-info-circle text-info"
+                ng-reflect-ng-class="fa fa-info-circle text-info"
+              />
+            </span>
+            
+        
+          </td>
+          
+        
+          <td
+            class="vertical-center"
+          >
+            
+          info message
+        
+          </td>
+          
+      
+        </tr>
+        <tr>
+          
+        
+          <td>
+            
+          
+            <span>
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-triangle text-warning"
+                ng-reflect-ng-class="fa fa-exclamation-triangle tex"
+              />
+            </span>
+            
+        
+          </td>
+          
+        
+          <td
+            class="vertical-center"
+          >
+            
+          warning message
+        
+          </td>
+          
+      
+        </tr>
+        <tr>
+          
+        
+          <td>
+            
+          
+            <span>
+              <i
+                aria-hidden="true"
+                class="fa fa-exclamation-circle text-danger"
+                ng-reflect-ng-class="fa fa-exclamation-circle text-"
+              />
+            </span>
+            
+        
+          </td>
+          
+        
+          <td
+            class="vertical-center"
+          >
+            
+          error message
+        
+          </td>
+          
+      
+        </tr>
+        
+      
+        
+        
+      
+      </tbody>
+      
+    
+    </table>
+    
+  
+  </div>
+  
+</pf-validation-results>
+`;
