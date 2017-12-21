@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ProductAssetsPageComponent } from './containers';
+import { CompInfluencersPageComponent } from './containers';
 import { CompInfluencersRoutingModule } from './comp-influencers-routing.module';
+
+import { ProductAssetsListComponent} from './components';
 
 
 @NgModule({
@@ -20,7 +22,10 @@ import { CompInfluencersRoutingModule } from './comp-influencers-routing.module'
   ],
   declarations: [
     // Pages
-    ProductAssetsPageComponent
+    CompInfluencersPageComponent,
+
+    // Components
+    ProductAssetsListComponent
   ]
 })
 export class CompInfluencersModule { }

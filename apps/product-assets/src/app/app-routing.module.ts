@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UserContextGuard } from 'libs/security';
 
 import { AppWrapperComponent } from './app-wrapper.component';
+import { NotFoundErrorPageComponent } from '../../../../libs/ui/common/error/pages';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,9 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/product-assets/src/app/_comp-influencers/comp-influencers.module#CompInfluencersModule' }
+      { path: '', loadChildren: 'apps/product-assets/src/app/_comp-influencers/comp-influencers.module#CompInfluencersModule' },
+      { path: 'comp-influencers', loadChildren: 'apps/product-assets/src/app/_comp-influencers/comp-influencers.module#CompInfluencersModule' },
+      { path: '**', component: NotFoundErrorPageComponent }
     ]
   }
 ];

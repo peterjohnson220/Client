@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProductAssetsPageComponent } from './containers/pages';
+import { CompInfluencersPageComponent } from './containers/pages';
 
 const routes: Routes = [
-  { path: '', component: ProductAssetsPageComponent }
+  { path: '', component: CompInfluencersPageComponent }
 ];
 
 @NgModule({
