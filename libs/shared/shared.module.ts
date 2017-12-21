@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+
+import { StoreModule } from '@ngrx/store';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { ExchangeListComponent } from './peer';
 import { PfCommonUIModule } from '../ui/common';
 import { PfApiModule } from '../data/payfactors-api';
 import { PfStateModule } from '../state/state.module';
 import { reducers } from './peer/reducers';
-import { StoreModule } from '@ngrx/store';
-import { GridModule } from '@progress/kendo-angular-grid';
 
 
 const declarations = [
@@ -27,12 +27,7 @@ const declarations = [
     // Payfactors
     PfCommonUIModule,
     PfApiModule,
-    PfStateModule,
-
-    // Routing
-    // PeerAdminRoutingModule,
-    // Routing
-    RouterModule
+    PfStateModule
   ],
   declarations: declarations,
   exports: declarations
