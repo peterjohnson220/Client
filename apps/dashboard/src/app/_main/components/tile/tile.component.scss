@@ -3,7 +3,7 @@
 .tile {
   border-radius: 2px;
   border: solid 2px rgba(0, 0, 0, 0);
-  height: 200px;
+  height: 250px;
   text-align: left;
   cursor: pointer;
 }
@@ -24,4 +24,7 @@
   background-color: $tile-green-color;
 }
 
+h1{
+  font-size: 2rem;
+}
 

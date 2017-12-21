@@ -3,11 +3,11 @@
      [ngClass]="tile.CssClass"
      >
 
-  <h4>{{ tile.Label }}</h4>
+  <h1>{{ tile.Label }}</h1>
 
   <!-- Tile Inner Content -->
   <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
-                         [iconClass]="tile.IconClass">
+                         [iconClass]="tile.IconClass" [chartComponentData]="tile.Payload">
   </pf-tile-preview-chart>
 
   <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"

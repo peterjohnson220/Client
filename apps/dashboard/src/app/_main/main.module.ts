@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ChartModule } from '@progress/kendo-angular-charts';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -35,6 +36,7 @@ import { UserVoiceIndicatorComponent } from './components';
     // 3rd Party
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects]),
+    ChartModule,
 
     // Routing
     MainRoutingModule,
