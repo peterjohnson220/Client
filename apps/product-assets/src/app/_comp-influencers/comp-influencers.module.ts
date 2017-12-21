@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { GridModule } from '@progress/kendo-angular-grid';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { CompInfluencersPageComponent } from './containers';
@@ -13,6 +15,9 @@ import { ProductAssetsListComponent} from './components';
   imports: [
     // Angular
     CommonModule,
+
+    // 3rd Party
+    GridModule,
 
     // Routing
     CompInfluencersRoutingModule,

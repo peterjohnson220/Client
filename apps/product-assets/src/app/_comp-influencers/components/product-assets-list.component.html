@@ -1,3 +1,33 @@
-this is the product assets list
+product assets list component
 
 
+
+
+<pf-async-container
+  [loading]="productAssetListLoading$ | async"
+  [loadingError]="productAssetListLoadingError$ | async"
+  [loadingErrorMessage]="'Error Loading Comp Influencers'"
+  (reload)="handleProductAssetGridReload()">
+
+  <kendo-grid class="row-click-navigates"
+              [data]="productAssetListItems$ | async"
+              [resizable]="true"
+              [pageable]="false"
+              (cellClick)="handleCellClick($event)">
+
+    <kendo-grid-column field="ThumbnailUrl" title="Thumbnail"></kendo-grid-column>
+    <kendo-grid-column field="Title" title="Title"></kendo-grid-column>
+    <kendo-grid-column field="Description" title="Description"></kendo-grid-column>
+    <kendo-grid-column field="Url" title="Url"></kendo-grid-column>
+
+    <kendo-grid-column field="CreateDate" title="Created Date" [width]="250">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.CreateDate | date:'MM/dd/yyyy' }}
+      </ng-template>
+    </kendo-grid-column>
+
+
+  </kendo-grid>
+
+
+</pf-async-container>
