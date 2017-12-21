@@ -22,7 +22,7 @@ describe('Create Exchange Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromExchangeListReducer.reducers)
+          sharedPeer: combineReducers(fromExchangeListReducer.reducers)
         }),
         ReactiveFormsModule
       ],

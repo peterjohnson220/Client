@@ -2,30 +2,17 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
-
-import * as fromRootState from 'libs/state/state';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
-
-import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
-import * as fromSharedPeerReducer from 'libs/shared/peer/reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
-describe('Admin Exchange List Page', () => {
+describe('Company Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
   let instance: ExchangeListPageComponent;
-  let store: Store<fromRootState.State>;
   let router: Router;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromSharedPeerReducer.reducers)
-        })
-      ],
       providers: [
         {
           provide: Router,
@@ -39,10 +26,7 @@ describe('Admin Exchange List Page', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    store = TestBed.get(Store);
     router = TestBed.get(Router);
-
-    spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeListPageComponent);
     instance = fixture.componentInstance;
@@ -55,15 +39,7 @@ describe('Admin Exchange List Page', () => {
 
     instance.handleCellClick(exchangeListItem.ExchangeId);
 
-    expect(router.navigate).toHaveBeenCalledWith(['peer/exchange', exchangeListItem.ExchangeId]);
-  });
-
-  it('should dispatch an OpenCreateExchangeModal action when openCreateExchangeModal is called', () => {
-    const action = new fromExchangeListActions.OpenCreateExchangeModal();
-
-    instance.openCreateExchangeModal();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(router.navigate).toHaveBeenCalledWith(['exchange', exchangeListItem.ExchangeId]);
   });
 
 });
