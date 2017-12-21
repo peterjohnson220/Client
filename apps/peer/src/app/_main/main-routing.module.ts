@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ExchangeListPageComponent } from './containers/pages';
-import { NotFoundErrorPageComponent } from '../../../../../libs/ui/common/error/pages';
+import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 
 const routes: Routes = [
   { path: '', redirectTo: 'exchanges', pathMatch: 'full' },

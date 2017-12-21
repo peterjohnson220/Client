@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
 })
 export class ExchangeListPageComponent {
 
-  constructor() {}
+  constructor(private router: Router) {}
+
+  handleCellClick(exchangeId: number): void {
+    this.router.navigate([ 'exchange', exchangeId ]);
+  }
 }

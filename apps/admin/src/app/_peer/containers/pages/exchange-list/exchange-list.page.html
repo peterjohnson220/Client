@@ -9,7 +9,7 @@
   </ng-container>
 
   <ng-container page-content>
-    <pf-exchange-list></pf-exchange-list>
+    <pf-exchange-list (onCellClick)="handleCellClick($event)"></pf-exchange-list>
   </ng-container>
 
 </pf-page-with-title-bar>

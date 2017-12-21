@@ -1,12 +1,11 @@
 import {
-  Component, OnDestroy, OnInit
+  Component, EventEmitter, OnDestroy, OnInit, Output
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { ExchangeListItem } from '../../../models/peer';
 import * as fromSharedPeerReducer from '../../peer/reducers';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import * as fromExchangeListActions from '../actions';
 
 @Component({
@@ -19,15 +18,15 @@ export class ExchangeListComponent implements OnInit, OnDestroy {
   exchangeListLoadingError$: Observable<boolean>;
   exchangeListItems$: Observable<ExchangeListItem[]>;
 
+  @Output() onCellClick = new EventEmitter();
+
   constructor(
-    private store: Store<fromSharedPeerReducer.State>,
-    private router: Router
+    private store: Store<fromSharedPeerReducer.State>
   ) {
     this.exchangeListLoading$ = this.store.select(fromSharedPeerReducer.getExchangeListLoading);
     this.exchangeListLoadingError$ = this.store.select(fromSharedPeerReducer.getExchangeListLoadingError);
     this.exchangeListItems$ = this.store.select(fromSharedPeerReducer.getExchangeListItems);
   }
-
 
   // Events
   handleExchangeGridReload() {
@@ -35,9 +34,8 @@ export class ExchangeListComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick(cellClickEvent: any): void {
-    console.log('cellClickEvent: ', cellClickEvent);
-    console.log('currentRoute: ', this.router);
-    this.router.navigate([ 'peer/exchange', cellClickEvent.dataItem.ExchangeId ]);
+    const exchangeId = cellClickEvent.dataItem.ExchangeId;
+    this.onCellClick.emit(exchangeId);
   }
 
   // Lifecycle events

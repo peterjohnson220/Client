@@ -11,7 +11,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent } from './containers';
-import { ExchangeCompaniesEffects } from './effects';
+import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
@@ -24,8 +24,9 @@ import { PfSharedModule } from 'libs/shared';
     ReactiveFormsModule,
 
     // 3rd Party
+    GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeCompaniesEffects]),
+    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects]),
 
     // Routing
     PeerAdminRoutingModule,

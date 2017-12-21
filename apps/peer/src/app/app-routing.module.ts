@@ -11,8 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/peer/src/app/_main/main.module#MainModule' },
-      { path: 'peer', redirectTo: '', pathMatch: 'prefix'}
+      { path: '', loadChildren: 'apps/peer/src/app/_main/main.module#MainModule' }
     ]
   }
 ];
