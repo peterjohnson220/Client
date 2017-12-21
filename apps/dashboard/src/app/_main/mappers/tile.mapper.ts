@@ -13,7 +13,7 @@ export class TileMapper {
       Order: dashboardTile.UserOrder,
       Type: TileMapper.mapTileNameToTileType(dashboardTile.TileName),
       PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
-      Payload: undefined,
+      Payload: dashboardTile.Payload,
       Size: 1,
       CssClass: undefined
     };

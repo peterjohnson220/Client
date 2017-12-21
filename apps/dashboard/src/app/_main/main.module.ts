@@ -27,6 +27,9 @@ import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 import { UserVoiceIndicatorComponent } from './components';
 
+// 3rd party
+import { ChartsModule } from '@progress/kendo-angular-charts';
+
 @NgModule({
   imports: [
     // Angular
@@ -35,6 +38,7 @@ import { UserVoiceIndicatorComponent } from './components';
     // 3rd Party
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects]),
+    ChartsModule,
 
     // Routing
     MainRoutingModule,
