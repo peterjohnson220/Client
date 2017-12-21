@@ -8,7 +8,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
 import { TileGridEffects } from './effects/tile-grid.effects';
-
+import { UserVoiceEffects } from './effects/user-voice.effects';
 // Reducers
 import { reducers } from './reducers';
 
@@ -19,13 +19,14 @@ import { MainRoutingModule } from './main-routing.module';
 import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers/tile-grid';
 import { TimelineActivityComponent } from './containers/timeline-activity';
+import { UserVoiceIndicatorComponent } from './containers/user-voice';
 
 // Components
 import { TileComponent } from './components/tile';
 import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
-import { UserVoiceIndicatorComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { UserVoiceIndicatorComponent } from './components';
 
     // 3rd Party
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects]),
 
     // Routing
     MainRoutingModule,
@@ -46,6 +47,7 @@ import { UserVoiceIndicatorComponent } from './components';
     // Pages
     DashboardPageComponent,
     // Components
+    UserVoiceIndicatorComponent,
     TileComponent,
     TileGridComponent,
     TilePreviewChartComponent,
@@ -53,7 +55,6 @@ import { UserVoiceIndicatorComponent } from './components';
     TilePreviewListComponent,
     TimelineActivityComponent,
     TileComponent,
-    UserVoiceIndicatorComponent,
   ]
 })
 export class MainModule {
