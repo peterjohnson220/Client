@@ -94,6 +94,14 @@ export function reducer(
         isFileValid: false
       };
     }
+    case fromImportExchangeJobsActions.IMPORTING_EXCHANGE_JOBS_ERROR: {
+      return {
+        ...state,
+        uploadingFile: false,
+        uploadingFileError: false,
+        importingJobs: false
+      };
+    }
     case fromImportExchangeJobsActions.OPENING_IMPORT_EXCHANGE_JOBS_MODAL: {
       return {
         ...state,

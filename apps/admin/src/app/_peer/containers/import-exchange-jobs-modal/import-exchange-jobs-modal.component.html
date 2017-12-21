@@ -11,10 +11,11 @@
   <ng-container form-content>
 
     <pf-async-container
-      [loading]="(uploadingFile$ | async) || (attemptedSubmit)"
+      [loading]="uploadingFile$ | async"
       [loadingError]="uploadingFileError$ | async"
       [loadingErrorMessage]="'Error Uploading File'"
-      [hideReloadButton]="true">
+      [reloadText]="'Try Again'"
+      (reload)="handleUploadingFileErrorRetry()">
 
       <div class="form-group">
         <label class="form-control-label" for="file-upload">Please select a data file to import:</label>

@@ -25,6 +25,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   importExchangeJobsForm: FormGroup;
   attemptedSubmit = false;
   storedDataFile: string;
+  currentFile: any;
 
   @Output() importExchangeJobsEvent = new EventEmitter();
   @Output() modalDismissedEvent = new EventEmitter();
@@ -49,21 +50,30 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   fileChanged(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-      const validateExchangeJobsRequest: ValidateExchangeJobsRequest = {
-        ExchangeId: this.exchangeId,
-        File: fileList[0]
-      };
-      this.store.dispatch(new fromImportExchangeJobActions.UploadingFile(validateExchangeJobsRequest));
+      this.currentFile = fileList[ 0 ];
+      this.dispatchUploadingFileAction();
     } else {
       this.store.dispatch(new fromImportExchangeJobActions.FileCleared());
     }
+  }
+
+  handleUploadingFileErrorRetry(): void {
+    this.dispatchUploadingFileAction();
+  }
+
+  dispatchUploadingFileAction(): void {
+    const validateExchangeJobsRequest: ValidateExchangeJobsRequest = {
+      ExchangeId: this.exchangeId,
+      File: this.currentFile
+    };
+    this.store.dispatch(new fromImportExchangeJobActions.UploadingFile(validateExchangeJobsRequest));
   }
 
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
     const importExchangeJobsRequest: ImportExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
-      StoredDataFile: this.storedDataFile
+      StoredDataFile: this.currentFile
     };
     this.store.dispatch(new fromImportExchangeJobActions.ImportingExchangeJobs(importExchangeJobsRequest));
   }
