@@ -12,7 +12,7 @@ import { ImportExchangeJobsModalComponent } from './import-exchange-jobs-modal.c
 import * as fromImportExchangeJobActions from '../../actions/import-exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 
-describe('Create Exchange Modal', () => {
+describe('Import Exchange Jobs Modal', () => {
   let fixture: ComponentFixture<ImportExchangeJobsModalComponent>;
   let instance: ImportExchangeJobsModalComponent;
   let store: Store<fromRootState.State>;

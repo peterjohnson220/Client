@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
@@ -12,11 +11,10 @@ import * as fromImportExchangeJobActions from '../../../actions/import-exchange-
 import * as fromPeerAdminReducer from '../../../reducers';
 import { ManageExchangePageComponent } from './manage-exchange.page';
 
-describe('Exchange List Page', () => {
+describe('Manage Exchange Page', () => {
   let fixture: ComponentFixture<ManageExchangePageComponent>;
   let instance: ManageExchangePageComponent;
   let store: Store<fromRootState.State>;
-  let router: Router;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -29,7 +27,6 @@ describe('Exchange List Page', () => {
       ],
       providers: [
         {
-          provide: Router,
           useValue: { navigate: jest.fn() },
         }
       ],
@@ -41,7 +38,6 @@ describe('Exchange List Page', () => {
     });
 
     store = TestBed.get(Store);
-    router = TestBed.get(Router);
 
     spyOn(store, 'dispatch');
 

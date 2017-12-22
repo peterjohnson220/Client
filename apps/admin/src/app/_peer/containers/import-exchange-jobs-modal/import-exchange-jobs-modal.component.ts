@@ -27,10 +27,10 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   storedDataFile: string;
   currentFile: any;
 
-  @Output() importExchangeJobsEvent = new EventEmitter();
-  @Output() modalDismissedEvent = new EventEmitter();
   @Input() exchangeId: number;
   @Input() isOpen$: Observable<boolean>;
+  @Output() importExchangeJobsEvent = new EventEmitter();
+  @Output() modalDismissedEvent = new EventEmitter();
 
   constructor(private store: Store<fromPeerAdminReducer.State>, private formBuilder: FormBuilder) {
     this.uploadingFile$ = this.store.select(fromPeerAdminReducer.getImportExchangeJobsUploadingFile);
@@ -73,7 +73,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
     this.attemptedSubmit = true;
     const importExchangeJobsRequest: ImportExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
-      StoredDataFile: this.currentFile
+      StoredDataFile: this.storedDataFile
     };
     this.store.dispatch(new fromImportExchangeJobActions.ImportingExchangeJobs(importExchangeJobsRequest));
   }

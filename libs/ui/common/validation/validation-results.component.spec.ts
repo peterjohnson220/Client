@@ -4,7 +4,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ValidationResultsComponent } from './validation-results.component';
 import { ValidationResultItemTypeEnum } from 'libs/models';
 
-describe('header', () => {
+describe('Validation Results Component', () => {
   let fixture: ComponentFixture<ValidationResultsComponent>;
   let instance: ValidationResultsComponent;
 

@@ -37,8 +37,6 @@ export class ExchangeApiService {
   }
 
   importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {
-    const url = `${this.endpoint}/ImportExchangeJobs?exchangeId=${importExchangeJobsRequest.ExchangeId}
-      &storedDataFile=${importExchangeJobsRequest.StoredDataFile}`;
-    return this.payfactorsApiService.post(url);
+    return this.payfactorsApiService.post(`${this.endpoint}/ImportExchangeJobs`, importExchangeJobsRequest);
   }
 }
