@@ -12,8 +12,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/product-assets/src/app/_comp-influencers/comp-influencers.module#CompInfluencersModule' },
-      { path: 'comp-influencers', loadChildren: 'apps/product-assets/src/app/_comp-influencers/comp-influencers.module#CompInfluencersModule' },
+      { path: '', loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule' },
+      { path: 'pay-intelligence', loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule' },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

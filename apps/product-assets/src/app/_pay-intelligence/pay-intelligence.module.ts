@@ -5,8 +5,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { CompInfluencersPageComponent } from './containers';
-import { CompInfluencersRoutingModule } from './comp-influencers-routing.module';
+import { PayIntelligencePageComponent } from './containers';
+import { PayIntelligenceRoutingModule } from './pay-intelligence-routing.module';
 
 import { ProductAssetsListComponent} from './components';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,20 +26,20 @@ import { ProductAssetsListEffects } from './effects';
     EffectsModule.forFeature([ProductAssetsListEffects]),
 
     // Routing
-    CompInfluencersRoutingModule,
+    PayIntelligenceRoutingModule,
 
     // Payfactors
     PfCommonUIModule
   ],
   declarations: [
     // Pages
-    CompInfluencersPageComponent,
+    PayIntelligencePageComponent,
 
     // Components
     ProductAssetsListComponent
   ]
 })
-export class CompInfluencersModule { }
+export class PayIntelligenceModule { }
 
 
 
