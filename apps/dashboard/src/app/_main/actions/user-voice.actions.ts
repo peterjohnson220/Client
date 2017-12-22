@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { UserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
 
 export const LOADING_USER_VOICE =  '[Dashboard/User Voice] Loading User Voice';
