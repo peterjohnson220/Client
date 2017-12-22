@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ProductAsset } from '../models';
+import { ProductAsset } from '../../../../../../libs/models/product-assets/index';
 
 export const LOADING_PRODUCT_ASSETS  = '[Product Assets] Loading Product Assets';
 export const LOADING_PRODUCT_ASSETS_SUCCESS  = '[Product Assets] Loading Product Assets Success';

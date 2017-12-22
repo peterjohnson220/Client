@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { ProductAsset } from '..//models';
+import { ProductAsset } from 'libs/models/product-assets';
 
 import * as fromProductAssetsActions from '../actions';
 import * as fromProductAssetsReducer from '../reducers';
@@ -19,7 +19,7 @@ export class ProductAssetsListComponent implements OnInit {
   productAssetListItems$: Observable<ProductAsset[]>;
 
   constructor(
-    private store: Store<fromProductAssetsReducer.ProductAssetsState>,
+    private store: Store<fromProductAssetsReducer.State>,
     private router: Router
   ) {
     this.productAssetListLoading$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoading);

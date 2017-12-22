@@ -12,6 +12,11 @@ export interface ProductAssetsState {
   productAssetList: fromProductAssetListReducer.State;
 }
 
+// Extend root state with feature area state
+export interface State extends fromRoot.State {
+  productAssets: ProductAssetsState;
+}
+
 // Feature area reducers
 export const reducers = {
   productAssetList: fromProductAssetListReducer.reducer,

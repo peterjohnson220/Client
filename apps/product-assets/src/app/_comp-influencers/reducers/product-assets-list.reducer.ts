@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ProductAsset } from '../models';
+import { ProductAsset } from 'libs/models/product-assets';
 
 import * as fromProductAssetListActions from '../actions/';
 
@@ -12,7 +12,7 @@ export interface State extends EntityState<ProductAsset> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<ProductAsset> = createEntityAdapter<ProductAsset>({
-  selectId: (productAsset: ProductAsset) => productAsset.Id
+  selectId: (productAsset: ProductAsset) => productAsset.ProductAssetId
 });
 
 

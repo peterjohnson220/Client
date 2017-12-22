@@ -1,11 +1,11 @@
 export interface ProductAsset {
-  Id: number;
-  ProductAssetType: any;
+  ProductAssetId: number;
   Title: string;
   Description: string;
   Url: string;
   ThumbnailUrl: string;
-  CreateDate: Date;
+  ProductAssetType: any;
+  CreatedDate: Date;
   Pinned: boolean;
   PinnedDate: Date;
 }
