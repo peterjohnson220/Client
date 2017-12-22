@@ -24,7 +24,6 @@ export class UserVoiceEffects {
       this.navigationApiService
         .getUserVoiceLink()
         .map((userVoiceLink: any) => new fromUserVoiceActions.LoadingUserVoiceSuccess(userVoiceLink))
-        .do(console.log)
         .catch(error => of (new fromUserVoiceActions.LoadingUserVoiceError(error)))
     );
 
