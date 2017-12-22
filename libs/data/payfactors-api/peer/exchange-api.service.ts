@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest } from '../../../models/peer';
+import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from '../../../models/peer';
 
 
 @Injectable()
@@ -29,7 +29,7 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<Exchange>(`${this.endpoint}/GetExchange`, { params: { exchangeId: exchangeId } });
   }
 
-  validateExchangeJobs(validateExchangeJobsRequest: ValidateExchangeJobsRequest): Observable<any> {
+  validateExchangeJobs(validateExchangeJobsRequest: ValidateExchangeJobsRequest): Observable<ExchangeJobsValidationResultModel> {
     const url = `${this.endpoint}/ValidateExchangeJobs?exchangeId=${validateExchangeJobsRequest.ExchangeId}`;
     const formData: FormData = new FormData();
     formData.append('file', validateExchangeJobsRequest.File);
