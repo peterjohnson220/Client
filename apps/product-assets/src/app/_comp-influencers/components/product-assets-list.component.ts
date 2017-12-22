@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+// import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { ProductAsset } from 'libs/models/product-assets';
@@ -19,8 +19,8 @@ export class ProductAssetsListComponent implements OnInit {
   productAssetListItems$: Observable<ProductAsset[]>;
 
   constructor(
-    private store: Store<fromProductAssetsReducer.State>,
-    private router: Router
+    private store: Store<fromProductAssetsReducer.State>// ,
+    // private router: Router
   ) {
     this.productAssetListLoading$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoading);
     this.productAssetListLoadingError$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoadingError);

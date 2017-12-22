@@ -9,6 +9,10 @@ import { CompInfluencersPageComponent } from './containers';
 import { CompInfluencersRoutingModule } from './comp-influencers-routing.module';
 
 import { ProductAssetsListComponent} from './components';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers } from './reducers';
+import { StoreModule } from '@ngrx/store';
+import { ProductAssetsListEffects } from './effects';
 
 
 @NgModule({
@@ -18,6 +22,8 @@ import { ProductAssetsListComponent} from './components';
 
     // 3rd Party
     GridModule,
+    StoreModule.forFeature('productAssets', reducers),
+    EffectsModule.forFeature([ProductAssetsListEffects]),
 
     // Routing
     CompInfluencersRoutingModule,
