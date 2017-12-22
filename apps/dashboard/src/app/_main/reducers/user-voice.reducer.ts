@@ -1,5 +1,6 @@
+import { UserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
+
 import * as fromUserVoiceActions from '../actions/user-voice.actions';
-import { UserVoiceLink } from '../../../../../../libs/models/navigation/user-voice-link.model';
 
 export interface State {
   loading: boolean;
