@@ -14,7 +14,7 @@
         <div *ngIf="name.errors.required" class="invalid-feedback">Name is required.</div>
         <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
       </ng-container>
-      <span *ngIf="!attemptedSubmit || !name.errors" class="pf-form-text text-muted">An exchange name is required and must be unique.</span>
+      <span *ngIf="!attemptedSubmit || !name.errors" class="pf-placeholder"></span>
     </div>
   </ng-container>
 </pf-modal-form>
