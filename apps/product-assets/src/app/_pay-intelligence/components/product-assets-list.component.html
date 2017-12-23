@@ -1,34 +1,15 @@
-product assets list component
-
-
-
-
 <pf-async-container
   [loading]="productAssetListLoading$ | async"
   [loadingError]="productAssetListLoadingError$ | async"
   [loadingErrorMessage]="'Error Loading Comp Influencers'"
   (reload)="handleProductAssetGridReload()">
 
-    <kendo-grid class="row-click-navigates"
-                [data]="productAssetListItems$ | async"
-                [resizable]="true"
-                [pageable]="false"
-                (cellClick)="handleCellClick($event)">
-
-      <kendo-grid-column field="ThumbnailUrl" title="Thumbnail"></kendo-grid-column>
-      <kendo-grid-column field="Title" title="Title"></kendo-grid-column>
-      <kendo-grid-column field="Description" title="Description"></kendo-grid-column>
-      <kendo-grid-column field="Url" title="Url"></kendo-grid-column>
-
-      <kendo-grid-column field="CreatedDate" title="Created Date" [width]="250">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          {{ dataItem.CreatedDate | date:'MM/dd/yyyy' }}
-        </ng-template>
-      </kendo-grid-column>
-
-
-    </kendo-grid>
-
-
+      <div class="productAssetItem" *ngFor="let productAsset of productAssetListItems$ | async" (click)="handleClick(productAsset)">
+        <h4>
+          <img [src]="productAsset.ThumbnailUrl" class="thumbnail-image" />
+          {{productAsset.Title}}
+        </h4>
+        <div>{{productAsset.Description}}</div>
+      </div>
 
 </pf-async-container>

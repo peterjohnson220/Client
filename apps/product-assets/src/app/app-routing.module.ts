@@ -12,9 +12,18 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule' },
-      { path: 'pay-intelligence', loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule' },
-      { path: '**', component: NotFoundErrorPageComponent }
+      {
+        path: '',
+        loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule'
+      },
+      {
+        path: 'pay-intelligence',
+        loadChildren: 'apps/product-assets/src/app/_pay-intelligence/pay-intelligence.module#PayIntelligenceModule'
+      },
+      {
+        path: '**',
+        component: NotFoundErrorPageComponent
+      }
     ]
   }
 ];

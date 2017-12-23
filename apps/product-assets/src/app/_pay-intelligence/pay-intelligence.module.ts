@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { GridModule } from '@progress/kendo-angular-grid';
+// import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -21,7 +21,7 @@ import { ProductAssetsListEffects } from './effects';
     CommonModule,
 
     // 3rd Party
-    GridModule,
+    // GridModule,
     StoreModule.forFeature('productAssets', reducers),
     EffectsModule.forFeature([ProductAssetsListEffects]),
 

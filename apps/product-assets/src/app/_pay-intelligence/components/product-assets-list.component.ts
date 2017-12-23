@@ -32,9 +32,9 @@ export class ProductAssetsListComponent implements OnInit {
     this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());
   }
 
-  handleCellClick(cellClickEvent: any) {
+  handleClick(productAsset: ProductAsset) {
     // this.router.navigate([ '/product-assets', cellClickEvent.dataItem.AssetId ]);
-    alert(cellClickEvent.dataItem.Title + ' clicked');
+    alert(productAsset.Title + ' clicked');
   }
   // Lifecycle
   ngOnInit() {
