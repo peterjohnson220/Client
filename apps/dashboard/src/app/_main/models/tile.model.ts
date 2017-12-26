@@ -1,11 +1,13 @@
 import { TileTypes } from './tile-types';
 import { TilePreviewTypes } from './tile-preview-types';
+import { TilePreviewChartTypes } from './tile-preview-chart-types';
 
 export interface Tile {
   Id: number;
   Label: string;
   Type: TileTypes;
   PreviewType: TilePreviewTypes;
+  ChartType?: TilePreviewChartTypes;
   IconClass: string;
   CssClass: string;
   Payload: any;

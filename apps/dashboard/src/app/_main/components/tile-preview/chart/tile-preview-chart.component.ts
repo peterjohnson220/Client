@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { TilePreviewChart } from '../../../models';
+
 import 'hammerjs';
+
 
 @Component({
   selector: 'pf-tile-preview-chart',
@@ -9,11 +13,13 @@ import 'hammerjs';
 })
 export class TilePreviewChartComponent {
   @Input() iconClass: string;
-  @Input() chartComponentData: any[];
+  @Input() chartComponentData: TilePreviewChart[];
+  @Input() chartType: string;
 
-  public chartData: any[] = [];
   public chartDetailData: any[] = [];
-  chartDetail = false;
+  public chartData: any[] = [];
+
+  showChartDetail = false;
 
   private labels: any = {
     padding: 3,
@@ -27,80 +33,39 @@ export class TilePreviewChartComponent {
   };
 
   private onSeriesClick(e): void {
-    console.log(e.category + ' onSeriesClick');
-
     this.loadChartDetail(e.category);
   }
 
   private onLegendClick(e): void {
-    console.log(e.text + ' legend click');
     e.preventDefault();
 
     this.loadChartDetail(e.text);
   }
 
   private onChartBackButtonClick() {
-    console.log('Back button click');
-    this.chartDetail = false;
+    this.showChartDetail = false;
     this.chartComponentData = this.chartData;
   }
 
   private loadChartDetail(chartItem) {
-    switch (chartItem) {
-      case 'Not Started':
-        console.log('Loading Not Started Detail');
+    if (!this.showChartDetail) {
 
-        this.chartDetail = true;
-        this.chartComponentData = [];
-        this.chartDetailData = [];
-        this.chartDetailData.push({ categoryName: 'Not Started Detail', dataValue: .122 });
-        this.chartComponentData = this.chartDetailData;
-        break;
-      case 'Draft':
-        console.log('Loading Draft Detail');
+      this.chartData = this.chartComponentData;
+      this.showChartDetail = true;
+      this.chartDetailData = this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData;
 
-        this.chartDetail = true;
-        this.chartComponentData = [];
-        this.chartDetailData = [];
-        this.chartDetailData.push({ categoryName: 'Draft Detail', dataValue: .122 });
-        this.chartComponentData = this.chartDetailData;
-        break;
-      case 'Published':
-        console.log('Loading Published Detail');
+      const previewChartArray: TilePreviewChart[] = [];
+      for (const item of this.chartDetailData) {
+        const previewChartItem: TilePreviewChart = { CategoryValue: item.Value, CategoryName: item.Key };
+        previewChartArray.push(previewChartItem);
+      }
 
-        this.chartDetail = true;
-        this.chartComponentData = [];
-        this.chartDetailData = [];
-        this.chartDetailData.push({ categoryName: 'Published Detail', dataValue: .122 });
-        this.chartComponentData = this.chartDetailData;
-        break;
-      case 'In Review':
-        console.log('Loading In Review Detail');
-
-        this.chartDetail = true;
-        this.chartComponentData = [];
-        this.chartDetailData = [];
-        this.chartDetailData.push({ categoryName: 'In Review Detail', dataValue: .122 });
-        this.chartComponentData = this.chartDetailData;
-        break;
+      this.chartComponentData = previewChartArray;
     }
   }
-
 
   getTooltip(category) {
     return `data for ${category}`;
   }
 
-  constructor() {
-    this.chartData = [ {
-      categoryName: 'Not Started', categoryField: 0.175, field: '#4472C3'
-    }, {
-      categoryName: 'Draft', categoryField: 0.238, field: '#A3A3A3'
-    }, {
-      categoryName: 'Published', categoryField: 0.118, field: '#5A99D3'
-    }, {
-      categoryName: 'In Review', categoryField: 0.052, field: '#264478'
-    } ];
-
-  }
 }

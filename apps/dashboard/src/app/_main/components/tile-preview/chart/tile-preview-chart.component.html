@@ -1,13 +1,13 @@
-<button *ngIf="chartDetail" (click)="onChartBackButtonClick()" class="btn chartDetailBackButton">
-  <i class="fa fa-arrow-circle-left"></i>
+<button *ngIf="showChartDetail" (click)="onChartBackButtonClick()" class="btn chartDetailBackButton">
+  <i class="fa fa-arrow-circle-left"></i> Back to Statuses
 </button>
 <div>
   <kendo-chart (seriesClick)="onSeriesClick($event)" (legendItemClick)="onLegendClick($event)" [transitions]="true">
     <kendo-chart-area background="none" [height]="200" [margin]="0"></kendo-chart-area>
     <kendo-chart-series>
       <kendo-chart-series-item [highlight]="highlight"
-                               type="donut" [data]="chartData"
-                               categoryField="categoryName" field="categoryField">
+                               [type]="chartType" [data]="chartComponentData"
+                               categoryField="CategoryName" field="CategoryValue">
         <kendo-chart-series-item-tooltip>
           <!--<ng-template let-category="category" let-value="value" let-data="test">-->
             <!--{{getTooltip(category) }}-->
@@ -18,4 +18,3 @@
     <kendo-chart-legend [padding]="0" [visible]="true" position="left" [labels]="labels"></kendo-chart-legend>
   </kendo-chart>
 </div>
-<span>{{ iconClass }}</span>
