@@ -46,7 +46,6 @@ export function reducer(
         uploadingFileError: false,
         storedDataFile: action.payload.StoredDataFile,
         validationResults: action.payload.ValidationResults,
-        importingJobs: false,
         isFileValid: fileValid
       };
     }
@@ -75,12 +74,7 @@ export function reducer(
     case fromImportExchangeJobsActions.IMPORTING_EXCHANGE_JOBS: {
       return {
         ...state,
-        uploadingFile: false,
-        uploadingFileError: false,
-        storedDataFile: null,
-        validationResults: [],
-        importingJobs: true,
-        isFileValid: true
+        importingJobs: true
       };
     }
     case fromImportExchangeJobsActions.IMPORTING_EXCHANGE_JOBS_SUCCESS: {
