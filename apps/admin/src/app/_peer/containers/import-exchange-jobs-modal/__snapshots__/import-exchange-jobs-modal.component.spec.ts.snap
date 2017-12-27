@@ -1,12 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Create Exchange Modal should clear the form when dismiss is called 1`] = `
+exports[`Import Exchange Jobs Modal should clear the form when dismiss is called 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
@@ -17,7 +18,7 @@ exports[`Create Exchange Modal should clear the form when dismiss is called 1`] 
   validationResults$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-dirty ng-invalid"
+    class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
@@ -58,9 +59,10 @@ exports[`Create Exchange Modal should clear the form when dismiss is called 1`] 
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
+          ng-reflect-model="false"
           ng-reflect-name="isFileValid"
           type="hidden"
-          value=""
+          value="false"
         />
         
         
@@ -82,13 +84,14 @@ exports[`Create Exchange Modal should clear the form when dismiss is called 1`] 
 </pf-import-exchange-jobs-modal>
 `;
 
-exports[`Create Exchange Modal should create an empty form 1`] = `
+exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
@@ -99,7 +102,7 @@ exports[`Create Exchange Modal should create an empty form 1`] = `
   validationResults$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-dirty ng-invalid"
+    class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
@@ -140,9 +143,10 @@ exports[`Create Exchange Modal should create an empty form 1`] = `
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
+          ng-reflect-model="false"
           ng-reflect-name="isFileValid"
           type="hidden"
-          value=""
+          value="false"
         />
         
         
@@ -164,13 +168,14 @@ exports[`Create Exchange Modal should create an empty form 1`] = `
 </pf-import-exchange-jobs-modal>
 `;
 
-exports[`Create Exchange Modal should initialize an empty modal 1`] = `
+exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
@@ -181,7 +186,7 @@ exports[`Create Exchange Modal should initialize an empty modal 1`] = `
   validationResults$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-dirty ng-invalid"
+    class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
@@ -222,9 +227,10 @@ exports[`Create Exchange Modal should initialize an empty modal 1`] = `
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
+          ng-reflect-model="false"
           ng-reflect-name="isFileValid"
           type="hidden"
-          value=""
+          value="false"
         />
         
         
@@ -246,13 +252,14 @@ exports[`Create Exchange Modal should initialize an empty modal 1`] = `
 </pf-import-exchange-jobs-modal>
 `;
 
-exports[`Create Exchange Modal should set the file to invalid when the state changes 1`] = `
+exports[`Import Exchange Jobs Modal should set the file to invalid when the state changes 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValid="false"
   isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
@@ -263,7 +270,7 @@ exports[`Create Exchange Modal should set the file to invalid when the state cha
   validationResults$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-dirty ng-invalid"
+    class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
@@ -304,9 +311,10 @@ exports[`Create Exchange Modal should set the file to invalid when the state cha
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
           name="isFileValid"
+          ng-reflect-model="false"
           ng-reflect-name="isFileValid"
           type="hidden"
-          value=""
+          value="false"
         />
         
         
@@ -328,24 +336,25 @@ exports[`Create Exchange Modal should set the file to invalid when the state cha
 </pf-import-exchange-jobs-modal>
 `;
 
-exports[`Create Exchange Modal should set the file to valid when the state changes 1`] = `
+exports[`Import Exchange Jobs Modal should set the file to valid when the state changes 1`] = `
 <pf-import-exchange-jobs-modal
   attemptedSubmit="false"
   formBuilder={[Function FormBuilder]}
   importExchangeJobsEvent={[Function EventEmitter]}
   importExchangeJobsForm={[Function FormGroup]}
   importingExchangeJobs$={[Function Store]}
+  isFileValid={[Function Boolean]}
   isFileValidSubscription={[Function Subscriber]}
   modalDismissedEvent={[Function EventEmitter]}
   store={[Function Store]}
-  storedDataFile="null"
+  storedDataFile={[Function String]}
   storedDataFileSubscription={[Function Subscriber]}
   uploadingFile$={[Function Store]}
   uploadingFileError$={[Function Store]}
   validationResults$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-dirty ng-invalid"
+    class="ng-untouched ng-pristine ng-valid"
     ng-reflect-form="[object Object]"
     title="Import Exchange Jobs"
   >
@@ -383,12 +392,13 @@ exports[`Create Exchange Modal should set the file to valid when the state chang
         
           
         <input
-          class="ng-untouched ng-pristine ng-invalid"
+          class="ng-untouched ng-pristine ng-valid"
           formcontrolname="isFileValid"
           name="isFileValid"
+          ng-reflect-model="true"
           ng-reflect-name="isFileValid"
           type="hidden"
-          value=""
+          value="true"
         />
         
         

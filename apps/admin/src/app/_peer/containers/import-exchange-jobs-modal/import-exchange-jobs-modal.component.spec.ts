@@ -3,9 +3,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 
-import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest } from 'libs/models/peer';
+import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from 'libs/models/peer';
+import { ValidationResultItemTypeEnum } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 
 import { ImportExchangeJobsModalComponent } from './import-exchange-jobs-modal.component';
@@ -36,8 +36,6 @@ describe('Import Exchange Jobs Modal', () => {
 
     store = TestBed.get(Store);
 
-    spyOn(store, 'dispatch');
-
     fixture = TestBed.createComponent(ImportExchangeJobsModalComponent);
     instance = fixture.componentInstance;
   });
@@ -49,6 +47,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a FileCleared action when handleModalDismissed is called', () => {
+    spyOn(store, 'dispatch');
     const action = new fromImportExchangeJobActions.FileCleared();
 
     instance.handleModalDismissed();
@@ -57,6 +56,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a FileCleared action when the file is changed to nothing', () => {
+    spyOn(store, 'dispatch');
     const action = new fromImportExchangeJobActions.FileCleared();
 
     instance.fileChanged({ target: { files: [] }});
@@ -65,6 +65,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a UploadingFile action when the file is changed to a new file', () => {
+    spyOn(store, 'dispatch');
     const mockFileChangeEvent = { target: { files: [ { File: {} }] }};
     const expectedValidateExchangeJobsRequest: ValidateExchangeJobsRequest = {
       ExchangeId: undefined,
@@ -78,6 +79,7 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should dispatch a ImportExchangeJobs action when submitted', () => {
+    spyOn(store, 'dispatch');
     instance.exchangeId = 1;
     instance.storedDataFile = '';
     const mockImportExchangeJobsRequest: ImportExchangeJobsRequest = {
@@ -117,16 +119,30 @@ describe('Import Exchange Jobs Modal', () => {
   });
 
   it('should set the file to valid when the state changes', () => {
-    instance.isFileValidSubscription = of(true).subscribe();
+    const exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel  = {
+      StoredDataFile: 'test',
+      ValidationResults: [{
+        Type: ValidationResultItemTypeEnum.Info,
+        Message: 'test'
+      }]
+    };
+    const action = new fromImportExchangeJobActions.UploadingFileSuccess(exchangeJobsValidationResultModel);
+    store.dispatch(action);
     fixture.detectChanges();
-
     expect(fixture).toMatchSnapshot();
   });
 
   it('should set the file to invalid when the state changes', () => {
-    instance.isFileValidSubscription = of(false).subscribe();
+    const exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel  = {
+      StoredDataFile: null,
+      ValidationResults: [{
+        Type: ValidationResultItemTypeEnum.Error,
+        Message: 'test'
+      }]
+    };
+    const action = new fromImportExchangeJobActions.UploadingFileSuccess(exchangeJobsValidationResultModel);
+    store.dispatch(action);
     fixture.detectChanges();
-
     expect(fixture).toMatchSnapshot();
   });
 });

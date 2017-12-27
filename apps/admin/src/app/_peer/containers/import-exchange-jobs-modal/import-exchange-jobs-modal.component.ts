@@ -25,6 +25,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   importExchangeJobsForm: FormGroup;
   attemptedSubmit = false;
   storedDataFile: string;
+  isFileValid: boolean;
   currentFile: any;
 
   @Input() exchangeId: number;
@@ -43,7 +44,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   createForm(): void {
     this.importExchangeJobsForm = this.formBuilder.group({
       'fileUpload': ['', false], // Needed so the file upload is part of the form and can be reset on dismiss.
-      'isFileValid': ['', [Validators.required]] // Reactive forms do not support file uploads, uses a hidden input.
+      'isFileValid': ['', [Validators.requiredTrue]] // Reactive forms do not support file uploads, uses a hidden input.
     });
   }
 
@@ -62,6 +63,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   }
 
   dispatchUploadingFileAction(): void {
+    console.log(this.currentFile);
     const validateExchangeJobsRequest: ValidateExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
       File: this.currentFile
@@ -71,6 +73,7 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
 
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
+    console.log(this.currentFile);
     const importExchangeJobsRequest: ImportExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
       StoredDataFile: this.storedDataFile
@@ -86,15 +89,12 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.storedDataFileSubscription = this.store.select(fromPeerAdminReducer.getStoredDataFile).subscribe(sd => this.storedDataFile = sd);
-    this.isFileValidSubscription = this.store.select(fromPeerAdminReducer.getIsFileValid).subscribe( isFileValid => {
-      if (isFileValid) {
-        this.importExchangeJobsForm.controls['isFileValid'].setValue('true');
-      } else {
-        this.importExchangeJobsForm.controls['isFileValid'].setValue(null);
-      }
-      this.importExchangeJobsForm.markAsDirty();
-    });
+    this.storedDataFileSubscription = this.store.select(fromPeerAdminReducer.getStoredDataFile).subscribe(sd =>
+      this.storedDataFile = sd
+    );
+    this.isFileValidSubscription = this.store.select(fromPeerAdminReducer.getIsFileValid).subscribe(isFileValid =>
+      this.isFileValid = isFileValid
+    );
   }
 
   ngOnDestroy(): void {
