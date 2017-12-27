@@ -14,4 +14,5 @@ export interface UserTileDto {
   Sidebar: boolean;
   NgAppLink: boolean;
   Payload: any;
+  chartType: string;
 }

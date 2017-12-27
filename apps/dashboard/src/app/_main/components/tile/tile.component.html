@@ -7,7 +7,7 @@
 
   <!-- Tile Inner Content -->
   <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
-                         [iconClass]="tile.IconClass" [chartComponentData]="tile.Payload">
+                         [iconClass]="tile.IconClass" [chartType]="tile.Payload.ChartType" [chartComponentData]="tile.Payload">
   </pf-tile-preview-chart>
 
   <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"

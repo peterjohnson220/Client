@@ -1,6 +1,8 @@
 import { Tile, TileTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
 import { TilePreviewTypes } from '../models/tile-preview-types';
+import { TilePreviewChartTypes } from '../models/tile-preview-chart-types';
+
 
 export class TileMapper {
 
@@ -15,6 +17,7 @@ export class TileMapper {
       PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
       Payload: dashboardTile.Payload,
       Size: 1,
+      ChartType: undefined,
       CssClass: undefined
     };
     return this.mapTileStylesFromTileType(tile);
@@ -78,6 +81,13 @@ export class TileMapper {
 
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tileGreen';
+        tile.ChartType = TilePreviewChartTypes.donut;
+        tile.Payload.ChartType = TilePreviewChartTypes.donut;
+        this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
+        this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
+        this.SetChartLegendColor(tile, 'Published', '#5A99D3');
+        this.SetChartLegendColor(tile, 'In Review', '#264478');
+
         break;
 
       case TileTypes.MyJobs:
@@ -115,5 +125,12 @@ export class TileMapper {
         tile.Size = 1;
     }
     return tile;
+  }
+
+  static SetChartLegendColor(tile: Tile, categoryName, color) {
+    const chartCategory = tile.Payload.filter(x => x.CategoryName === categoryName);
+    if (chartCategory.length > 0) {
+      chartCategory[0].color = color;
+    }
   }
 }

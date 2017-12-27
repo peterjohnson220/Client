@@ -8,9 +8,9 @@
     </button>
   </div>
   <div class="modal-body">
-    <div [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
       <ng-content select="[form-content]"></ng-content>
-    </div>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>

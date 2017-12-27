@@ -71,7 +71,11 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.errorMessageSubscription.unsubscribe();
-    this.errorSubscription.unsubscribe();
+    if (this.errorMessageSubscription) {
+      this.errorMessageSubscription.unsubscribe();
+    }
+    if (this.errorSubscription) {
+      this.errorSubscription.unsubscribe();
+    }
   }
 }

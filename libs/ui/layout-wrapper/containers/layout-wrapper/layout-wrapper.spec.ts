@@ -3,9 +3,9 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { LayoutWrapperComponent } from './layout-wrapper';
-import * as fromRootState from '../../../state/state';
-import * as fromLayoutReducer from '../../layout-wrapper/reducers';
-import * as fromHeaderActions from '../../layout-wrapper/actions/header.actions';
+import * as fromRootState from '../../../../state/state';
+import * as fromLayoutReducer from '../../reducers';
+import * as fromHeaderActions from '../../actions/header.actions';
 
 // Host Component for testing transclusion
 @Component({

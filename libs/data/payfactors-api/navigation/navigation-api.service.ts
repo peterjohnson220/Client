@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { NavigationLink } from '../../../models/navigation';
+import { NavigationLink, SidebarLink } from '../../../models/navigation';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -17,4 +17,8 @@ export class NavigationApiService {
       .get<NavigationLink[]>(`${this.endpoint}.GetHeaderDropdownNavigationLinks`);
   }
 
+  getSideBarLinks() {
+    return this.payfactorsApiService
+      .get<SidebarLink[]>(`${this.endpoint}.GetSideBarLinks`);
+  }
 }

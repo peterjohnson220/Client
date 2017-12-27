@@ -1,14 +1,20 @@
+<pf-async-container
+  [loading]="gettingSidebarNavigationLinks$ | async"
+  [loadingError]="gettingSidebarNavigationLinksError$ | async"
+  (reload)="handleSidebarNavigationLinksReload()"
+>
 <ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4"
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
-  <ng-container *ngFor="let sidebarLink of sidebarLinks">
+  <ng-container *ngFor="let sidebarLink of leftSidebarNavigationLinks$ | async">
     <li class="py-2 pl-2 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
-        <a placement="right" [ngbTooltip]="sidebarLink.Name" href="{{sidebarLink.Url}}"><i
-          class="fa fa-lg" [ngClass]="sidebarLink.IconClass"></i></a>
+        <a placement="right" [ngbTooltip]="sidebarLink.Name" [href]="getSidebarHref(sidebarLink)">
+          <i [ngClass]="sidebarLink.IconClass"></i>
+        </a>
       </ng-template>
       <ng-template [ngIf]="leftSidebarToggle">
-        <a href="{{sidebarLink.Url}}"><i class="fa fa-lg"
-                                         [ngClass]="sidebarLink.IconClass"></i>
+        <a [href]="getSidebarHref(sidebarLink)">
+          <i [ngClass]="sidebarLink.IconClass"></i>
           {{sidebarLink.Name}}</a>
       </ng-template>
     </li>
@@ -19,3 +25,4 @@
   <i (click)="leftSidebarToggle = !leftSidebarToggle" class="fa fa-lg"
      [ngClass]="{'fa-angle-double-left left-sidebar-icon-open': leftSidebarToggle, 'fa-angle-double-right left-sidebar-icon-close': !leftSidebarToggle}"></i>
 </div>
+</pf-async-container>
