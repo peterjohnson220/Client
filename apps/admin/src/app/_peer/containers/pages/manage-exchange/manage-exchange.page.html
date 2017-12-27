@@ -1,13 +1,24 @@
 <pf-page-with-title-bar [returnUrl]="'/peer/exchanges'">
+
   <ng-container page-title>
     Manage Exchange - {{ (exchange$ | async).ExchangeName }}
   </ng-container>
 
-  <ng-container page-content>
+  <ng-container page-actions>
+    <button type="button" class="btn btn-primary" (click)="openImportExchangeJobsModal()">Import Exchange Jobs</button>
+  </ng-container>
 
+  <ng-container page-content>
     <div class="h-50 w-100">
       <pf-exchange-companies></pf-exchange-companies>
     </div>
-
   </ng-container>
+
 </pf-page-with-title-bar>
+
+<pf-import-exchange-jobs-modal
+  [exchangeId]="(exchange$ | async).ExchangeId"
+  [isOpen$]="importExchangeJobsModalOpen$"
+  (importExchangeJobsEvent)="handleImportExchangeJobs($event)"
+  (modalDismissedEvent)="handleImportExchangeJobsModalDismissed($event)">
+</pf-import-exchange-jobs-modal>

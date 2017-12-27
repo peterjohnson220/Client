@@ -11,7 +11,7 @@
         <pf-error-indicator [message]="loadingErrorMessage || 'Error loading content.'"></pf-error-indicator>
 
         <ng-container *ngIf="!hideReloadButton">
-          <button class="btn btn-danger mt-3" (click)="reload.emit()">Reload</button>
+          <button class="btn btn-danger mt-3" (click)="reload.emit()">{{ reloadText }}</button>
         </ng-container>
       </div>
 
