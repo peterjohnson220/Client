@@ -15,6 +15,7 @@ import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
+import { PfSharedModule } from 'libs/shared';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfSharedModule
   ],
   declarations: [
     // Containers

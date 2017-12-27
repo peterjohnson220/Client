@@ -13,8 +13,8 @@ import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
+import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
 
-import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
 @Injectable()
 export class ExchangeListEffects {
