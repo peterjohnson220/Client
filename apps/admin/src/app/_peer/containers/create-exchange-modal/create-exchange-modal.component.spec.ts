@@ -4,12 +4,11 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
-
-import { CreateExchangeModalComponent } from './create-exchange-modal.component';
-import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
+import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromExchangeListReducer from 'libs/shared/peer/reducers';
+import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
+import { CreateExchangeModalComponent } from './create-exchange-modal.component';
 
 describe('Create Exchange Modal', () => {
   let fixture: ComponentFixture<CreateExchangeModalComponent>;

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
-describe('Company Exchange List Page', () => {
+describe('Peer - Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
   let instance: ExchangeListPageComponent;
   let router: Router;

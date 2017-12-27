@@ -6,12 +6,11 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
-
 import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
 import * as fromSharedPeerReducer from 'libs/shared/peer/reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
-describe('Admin Exchange List Page', () => {
+describe('Admin - Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
   let instance: ExchangeListPageComponent;
   let store: Store<fromRootState.State>;

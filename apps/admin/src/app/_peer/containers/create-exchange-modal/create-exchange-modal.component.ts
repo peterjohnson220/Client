@@ -5,11 +5,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-import { PfValidators } from 'libs/forms/validators/pf-validators';
-import { UpsertExchangeRequest } from 'libs/models/peer/index';
-
 import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
 import * as fromExchangeListReducer from 'libs/shared/peer/reducers';
+import { PfValidators } from 'libs/forms/validators/pf-validators';
+import { UpsertExchangeRequest } from 'libs/models/peer/index';
 
 @Component({
   selector: 'pf-create-exchange-modal',
