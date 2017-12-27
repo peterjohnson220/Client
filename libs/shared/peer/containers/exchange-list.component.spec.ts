@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
@@ -14,7 +13,6 @@ describe('Shared Exchange List Component', () => {
   let fixture: ComponentFixture<ExchangeListComponent>;
   let instance: ExchangeListComponent;
   let store: Store<fromRootState.State>;
-  let router: Router;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -25,12 +23,6 @@ describe('Shared Exchange List Component', () => {
           sharedPeer: combineReducers(fromSharedPeerReducer.reducers)
         })
       ],
-      providers: [
-        {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        }
-      ],
       declarations: [
         ExchangeListComponent
       ],
@@ -39,7 +31,6 @@ describe('Shared Exchange List Component', () => {
     });
 
     store = TestBed.get(Store);
-    router = TestBed.get(Router);
 
     spyOn(store, 'dispatch');
 
