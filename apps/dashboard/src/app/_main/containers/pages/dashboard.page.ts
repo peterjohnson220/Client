@@ -27,13 +27,12 @@ export class DashboardPageComponent {
   }
 
   inflateUserVoiceModel(): void {
-    this.userVoiceModel = {
-      userId: 0,
-      userVoiceUrl: environment.userVoiceUrl,
-      userVoiceForumId: environment.userVoiceForumId
-    };
     this.userContext$.subscribe(userContext =>
-      this.userVoiceModel.userId = userContext.UserId
+      this.userVoiceModel = {
+        userId: userContext.UserId,
+        userVoiceUrl: environment.userVoiceUrl,
+        userVoiceForumId: environment.userVoiceForumId
+      }
     );
   }
 }
