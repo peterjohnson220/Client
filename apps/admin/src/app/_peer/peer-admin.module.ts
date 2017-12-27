@@ -11,10 +11,11 @@ import { PfFormsModule } from 'libs/forms';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent } from './containers';
-import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
+import { ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
+import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
     // 3rd Party
     GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects]),
+    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects]),
 
     // Routing
     PeerAdminRoutingModule,
@@ -37,6 +38,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
   declarations: [
     // Containers
     ExchangeCompaniesComponent, CreateExchangeModalComponent,
+    AddCompaniesModalComponent,
 
     // Pages
     ExchangeListPageComponent, ManageExchangePageComponent

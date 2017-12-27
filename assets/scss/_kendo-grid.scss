@@ -1,3 +1,4 @@
+@import "~@progress/kendo-theme-bootstrap/scss/_variables/";
 :host ::ng-deep .k-widget.k-grid{
   height: 100%;
 }
@@ -11,15 +12,22 @@
   cursor: pointer;
 }
 
-:host ::ng-deep .k-grid tbody tr:hover{
-  background-color: rgba(0,0,0,.075);
+:host ::ng-deep .k-grid tbody tr {
+  &:hover.k-state-selected {
+    background-color: rgba( $selected-bg, .25 );
+  }
+  &:not(.k-state-selected), &.k-alt:not(.k-state-selected) {
+    &:hover {
+      background-color: rgba(0,0,0,.075);
+    }
+  }
 }
 
 :host ::ng-deep .k-grid th {
   border-left-width: 1px;
 }
 
-:host ::ng-deep .k-grid .k-alt{
+:host ::ng-deep .k-grid .k-alt:not(.k-state-selected) {
   background: none;
 }
 

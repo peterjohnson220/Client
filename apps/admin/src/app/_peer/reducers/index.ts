@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromExchangeListReducer from './exchange-list.reducer';
 import * as fromManageExchangeReducer from './manage-exchange.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
+import * as fromAvailableCompaniesReducer from './available-companies.reducer';
 
 // Feature area state
 export interface PeerAdminState {
   exchangeList: fromExchangeListReducer.State;
   manageExchange: fromManageExchangeReducer.State;
   exchangeCompanies: fromExchangeCompaniesReducer.State;
+  availableCompanies: fromAvailableCompaniesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -25,6 +27,7 @@ export const reducers = {
   exchangeList: fromExchangeListReducer.reducer,
   manageExchange: fromManageExchangeReducer.reducer,
   exchangeCompanies: fromExchangeCompaniesReducer.reducer,
+  availableCompanies: fromAvailableCompaniesReducer.reducer,
 };
 
 // Select Feature Area
@@ -34,6 +37,7 @@ export const selectPeerAdminState = createFeatureSelector<PeerAdminState>('peerA
 export const selectExchangeListState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeList);
 export const selectManageExchangeState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.manageExchange);
 export const selectExchangeCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeCompanies);
+export const selectAvailableCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.availableCompanies);
 
 // Exchange List Selectors
 export const {
@@ -77,3 +81,20 @@ export const {
 
 export const getExchangeCompaniesLoading = createSelector(selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoading);
 export const getExchangeCompaniesLoadingError = createSelector(selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoadingError);
+
+// Available Companies Selectors
+export const {
+  selectAll: getAvailableCompanies,
+
+} = fromAvailableCompaniesReducer.adapter.getSelectors(selectAvailableCompaniesState);
+
+export const getAvailableCompaniesLoading = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getLoading);
+export const getAvailableCompaniesLoadingError = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getLoadingError);
+export const getTotalAvailableCompanies = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getTotal);
+export const getAvailableCompaniesGrid = createSelector(
+  getAvailableCompanies,
+  getTotalAvailableCompanies,
+  (data, total) => {
+    return {data: data, total: total};
+  }
+);

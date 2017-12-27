@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest } from '../../../models/peer';
+import {
+  ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest,
+  AvailableCompany
+} from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { State } from '@progress/kendo-data-query';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 @Injectable()
 export class ExchangeApiService {
@@ -21,6 +26,18 @@ export class ExchangeApiService {
 
   getCompanies(exchangeId: number): Observable<ExchangeCompany[]> {
     return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
+  }
+
+  getAvailableCompanies(exchangeId: number): Observable<GridDataResult> {
+    const testState: State = {
+      skip: 0,
+      take: 20
+    };
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
+        params: { exchangeId: exchangeId, listState: JSON.stringify(testState)}
+      },
+      (payload: any): GridDataResult => ({ total: payload.Count, data: JSON.parse(payload.Data)})
+    );
   }
 
   getExchange(exchangeId: number): Observable<Exchange> {
