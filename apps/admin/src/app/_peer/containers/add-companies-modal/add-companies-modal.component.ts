@@ -3,11 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs, SelectionEvent } from '@progress/kendo-angular-grid';
+import {
+  GridDataResult, PageChangeEvent, RowArgs, RowClassArgs,
+  SelectionEvent
+} from '@progress/kendo-angular-grid';
 
 import { AvailableCompany } from 'libs/models/peer/index';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
+import { State } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'pf-add-companies-modal',
@@ -18,6 +22,7 @@ export class AddCompaniesModalComponent implements OnInit {
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   availableCompanies$: Observable<AvailableCompany[]>;
+  gridState: State = { skip: 0, take: 20 };
   view$: Observable<GridDataResult>;
   exchangeId: number;
   selections: number[] = [];
@@ -43,14 +48,34 @@ export class AddCompaniesModalComponent implements OnInit {
   }
 
   pageChange(event: PageChangeEvent): void {
-    // this.skip = event.skip;
+    this.gridState.skip = event.skip;
     // this.loadItems();
     console.log('pageChangeEvent: ', event);
   }
 
   selectionChange(event: SelectionEvent): void {
     console.log('selectionChangeEvent: ', event);
+    const test = x => x.index;
+    // const isDeselection = event.deselectedRows.find((x: RowArgs) => x.index === event.index) > 0;
     // this.selections = event.selectedRows.map(row => row.dataItem.CompanyId);
+  }
+  onSelectedKeysChange(event: any): void {
+    console.log('onSelectedKeysChange: ', event);
+  }
+  cellClick(event: any): void {
+    console.log('Cell Click: ', event);
+    if (event.dataItem.CompanyId % 3 === 0) {
+      return;
+    }
+    const selectedCompanyId = event.dataItem.CompanyId;
+    const companySelected = this.selections.indexOf(selectedCompanyId) >= 0;
+    console.log('selections before cell click: ', this.selections);
+    if (companySelected) {
+      this.selections = this.selections.filter(selection => selection !== selectedCompanyId);
+    } else {
+      this.selections.push(selectedCompanyId);
+    }
+    console.log('selections after cell click: ', this.selections);
   }
 
   isRowSelected(event: any): void {
@@ -59,9 +84,10 @@ export class AddCompaniesModalComponent implements OnInit {
   }
 
   rowClass(context: RowClassArgs): string {
-     console.log('rowClass: ', context);
-     if (context.dataItem.CompanyId % 2 === 0) {
-       return 'k-grid-ignore-click';
+     // console.log('rowClass: ', context);
+     if (context.dataItem.CompanyId % 3 === 0) {
+       // return 'k-grid-ignore-click disabled';
+       return 'row-disabled';
      }
 
      return '';

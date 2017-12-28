@@ -18,11 +18,13 @@
     }"
     [kendoGridSelectBy]="selectionKey"
     [selectedKeys]="selections"
+    (selectedKeysChange)="onSelectedKeysChange($event)"
     (pageChange)="pageChange($event)"
     [rowClass]="rowClass"
     (selectionChange)="selectionChange($event)"
+    (cellClick)="cellClick($event)"
     >
-    <kendo-grid-checkbox-column></kendo-grid-checkbox-column>
+    <!--<kendo-grid-checkbox-column></kendo-grid-checkbox-column>-->
     <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
 
     <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>

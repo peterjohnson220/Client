@@ -21,6 +21,9 @@
       background-color: rgba(0,0,0,.075);
     }
   }
+  &:hover.row-disabled, &:hover.row-disabled.k-alt {
+    background: none;
+  }
 }
 
 :host ::ng-deep .k-grid th {
