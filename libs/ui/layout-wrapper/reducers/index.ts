@@ -3,9 +3,11 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from '../../../state/state';
 
 import * as fromHeaderReducer from './header.reducer';
+import * as fromLeftSidebarReducer from './left-sidebar.reducer';
 
 export interface LayoutWrapperState {
   header: fromHeaderReducer.State;
+  leftSidebar: fromLeftSidebarReducer.State;
 }
 
 export interface State extends fromRoot.State {
@@ -13,7 +15,8 @@ export interface State extends fromRoot.State {
 }
 
 export const reducers = {
-  header: fromHeaderReducer.reducer
+  header: fromHeaderReducer.reducer,
+  leftSidebar: fromLeftSidebarReducer.reducer
 };
 
 export const selectLayoutWrapperState = createFeatureSelector<LayoutWrapperState>('layoutWrapper');
@@ -39,3 +42,22 @@ export const getGettingHeaderDropdownNavigationLinksError = createSelector(
   fromHeaderReducer.getGettingDropdownNavigationLinksError
 );
 
+export const selectLeftSidebarState = createSelector(
+  selectLayoutWrapperState,
+  (state: LayoutWrapperState) => state.leftSidebar
+);
+
+export const getGettingLeftSidebarNavigationLinks = createSelector(
+  selectLeftSidebarState,
+  fromLeftSidebarReducer.getGettingLeftSidebarNavigationLinks
+);
+
+export const getLeftSidebarNavigationLinks = createSelector(
+  selectLeftSidebarState,
+  fromLeftSidebarReducer.getLeftSidebarNavigationLinks
+);
+
+export const getGettingLeftSidebarNavigationLinksError = createSelector(
+  selectLeftSidebarState,
+  fromLeftSidebarReducer.getGettingLeftSidebarNavigationLinksError
+);

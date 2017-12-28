@@ -3,11 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromRootState from '../../../state/state';
+import * as fromRootState from '../../../../state/state';
 
-import * as fromHeaderActions from '../actions/header.actions';
-import { UserContext, NavigationLink } from '../../../models';
-import * as fromLayoutReducer from '../reducers';
+import * as fromHeaderActions from '../../actions/header.actions';
+import { UserContext, NavigationLink } from '../../../../models';
+import * as fromLayoutReducer from '../../reducers';
 
 @Component({
   selector: 'pf-layout-wrapper',
@@ -20,7 +20,7 @@ export class LayoutWrapperComponent implements OnInit {
   gettingHeaderDropdownNavigationLinksError$: Observable<boolean>;
 
   userContext$: Observable<UserContext>;
-  headerDropdownNaivgationLinks$: Observable<NavigationLink[]>;
+  headerDropdownNavigationLinks$: Observable<NavigationLink[]>;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -31,7 +31,7 @@ export class LayoutWrapperComponent implements OnInit {
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
 
     this.userContext$ = store.select(fromRootState.getUserContext);
-    this.headerDropdownNaivgationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
+    this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
   }
 
   ngOnInit() {
