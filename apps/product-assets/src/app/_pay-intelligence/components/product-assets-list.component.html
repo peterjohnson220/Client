@@ -4,7 +4,7 @@
   [loadingErrorMessage]="'Error Loading Comp Influencers'"
   (reload)="handleProductAssetGridReload()">
 
-      <div class="productAssetItem" *ngFor="let productAsset of productAssetListItems$ | async" (click)="handleClick(productAsset)">
+      <div  class="card productAssetItem" *ngFor="let productAsset of productAssetListItems$ | async" (click)="handleClick(productAsset)">
         <h4>
           <img [src]="productAsset.ThumbnailUrl" class="thumbnail-image" />
           {{productAsset.Title}}
