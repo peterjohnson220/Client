@@ -1,7 +1,7 @@
 <pf-async-container
   [loading]="productAssetListLoading$ | async"
   [loadingError]="productAssetListLoadingError$ | async"
-  [loadingErrorMessage]="'Error Loading Comp Influencers'"
+  [loadingErrorMessage]="'Error Loading Pay Intelligence'"
   (reload)="handleProductAssetGridReload()">
 
       <div  class="card productAssetItem" *ngFor="let productAsset of productAssetListItems$ | async" (click)="handleClick(productAsset)">
