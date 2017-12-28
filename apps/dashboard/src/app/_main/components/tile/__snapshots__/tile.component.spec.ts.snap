@@ -12,7 +12,12 @@ exports[`Tile should show tile name and tile data 1`] = `
     ng-reflect-ng-switch="1"
   >
     
-  
+    
+    <a
+      class="tileAnchorOverlay"
+      href="test tile url"
+    />
+    
     
     <h4>
       test tile
