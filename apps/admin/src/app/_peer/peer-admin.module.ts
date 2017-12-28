@@ -11,7 +11,10 @@ import { PfFormsModule } from 'libs/forms';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
-import { ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffect, AvailableCompaniesEffects } from './effects';
+import {
+  ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
+  ManageExchangeEffects
+} from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';

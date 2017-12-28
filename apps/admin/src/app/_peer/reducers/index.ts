@@ -42,13 +42,6 @@ export const getManageExchange = createSelector(selectManageExchangeState, fromM
 export const selectAvailableCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.availableCompanies);
 
 // Exchange List Selectors
-export const {
-  selectAll: getExchangeListItems,
-} = fromExchangeListReducer.adapter.getSelectors(selectExchangeListState);
-
-export const getExchangeListLoading = createSelector(
-    selectExchangeListState, fromExchangeListReducer.getLoading
-);
 export const getManageExchangeLoading = createSelector(
   selectManageExchangeState, fromManageExchangeReducer.getLoading
 );
