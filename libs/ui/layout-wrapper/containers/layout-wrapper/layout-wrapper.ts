@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -15,12 +15,14 @@ import * as fromLayoutReducer from '../../reducers';
   styleUrls: ['./layout-wrapper.scss']
 })
 export class LayoutWrapperComponent implements OnInit {
+  userContext$: Observable<UserContext>;
+
   // Loading/Errors
   gettingHeaderDropdownNavigationLinks$: Observable<boolean>;
   gettingHeaderDropdownNavigationLinksError$: Observable<boolean>;
-
-  userContext$: Observable<UserContext>;
   headerDropdownNavigationLinks$: Observable<NavigationLink[]>;
+
+  @Input() displayRightSideBar: boolean;
 
   constructor(
     private store: Store<fromRootState.State>,

@@ -13,7 +13,7 @@
     <div class="flex-1 position-relative">
       <ng-content select="[mainContent]"></ng-content>
     </div>
-    <div class="right-sidebar">
+    <div class="right-sidebar" *ngIf="displayRightSideBar">
       <pf-layout-wrapper-right-sidebar>
         <ng-content select="[rightSidebarContent]"></ng-content>
       </pf-layout-wrapper-right-sidebar>
