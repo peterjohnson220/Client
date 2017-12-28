@@ -8,6 +8,7 @@ export interface Tile {
   Type: TileTypes;
   PreviewType: TilePreviewTypes;
   ChartType?: TilePreviewChartTypes;
+  ChartLabel?: string;
   IconClass: string;
   CssClass: string;
   Payload: any;

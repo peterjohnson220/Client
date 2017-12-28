@@ -1,20 +1,23 @@
-<button *ngIf="showChartDetail" (click)="onChartBackButtonClick()" class="btn chartDetailBackButton">
+<button *ngIf="showChartDetail" (click)="chartBackButtonClick()" class="btn chartDetailBackButton p-1">
   <i class="fa fa-arrow-circle-left"></i> Back to Statuses
 </button>
 <div>
-  <kendo-chart (seriesClick)="onSeriesClick($event)" (legendItemClick)="onLegendClick($event)" [transitions]="true">
+  <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true"
+               class="chart">
     <kendo-chart-area background="none" [height]="200" [margin]="0"></kendo-chart-area>
     <kendo-chart-series>
-      <kendo-chart-series-item [highlight]="highlight"
+      <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
                                [type]="chartType" [data]="chartComponentData"
                                categoryField="CategoryName" field="CategoryValue">
         <kendo-chart-series-item-tooltip>
-          <!--<ng-template let-category="category" let-value="value" let-data="test">-->
-            <!--{{getTooltip(category) }}-->
-          <!--</ng-template>-->
+          <ng-template let-category="category" let-value="value">
+            {{category}} : {{value}}%
+          </ng-template>
         </kendo-chart-series-item-tooltip>
       </kendo-chart-series-item>
     </kendo-chart-series>
-    <kendo-chart-legend [padding]="0" [visible]="true" position="left" [labels]="labels"></kendo-chart-legend>
+    <kendo-chart-legend [padding]="0" [visible]="true" position="left" [offsetX]="0" [labels]="legendlabelStyle">
+    </kendo-chart-legend>
   </kendo-chart>
 </div>
+<h2 class="pr-5 chartLabel">{{chartLabel}}</h2>

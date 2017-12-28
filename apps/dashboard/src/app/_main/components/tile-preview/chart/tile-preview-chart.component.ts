@@ -4,7 +4,6 @@ import { TilePreviewChart } from '../../../models';
 
 import 'hammerjs';
 
-
 @Component({
   selector: 'pf-tile-preview-chart',
   templateUrl: './tile-preview-chart.component.html',
@@ -12,37 +11,42 @@ import 'hammerjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewChartComponent {
-  @Input() iconClass: string;
   @Input() chartComponentData: TilePreviewChart[];
   @Input() chartType: string;
+  @Input() chartLabel: string;
 
   public chartDetailData: any[] = [];
   public chartData: any[] = [];
 
   showChartDetail = false;
 
-  private labels: any = {
+  private legendlabelStyle: any = {
     padding: 3,
     font: 'bold 1rem',
     color: '#fff'
   };
 
-  private highlight: any = {
+  private seriesItemHighlightStyle: any = {
     opacity: 1,
+    color: '#fff',
     border: '#000'
   };
 
-  private onSeriesClick(e): void {
-    this.loadChartDetail(e.category);
+  private seriesClick(e): void {
+    if (e.value > 0) {
+      this.loadChartDetail(e.category);
+    }
   }
 
-  private onLegendClick(e): void {
+  private legendClick(e): void {
     e.preventDefault();
 
-    this.loadChartDetail(e.text);
+    if (e.series.data.filter(p => p.CategoryName === e.text)[0].CategoryValue > 0) {
+      this.loadChartDetail(e.text);
+    }
   }
 
-  private onChartBackButtonClick() {
+  private chartBackButtonClick() {
     this.showChartDetail = false;
     this.chartComponentData = this.chartData;
   }
@@ -63,9 +67,4 @@ export class TilePreviewChartComponent {
       this.chartComponentData = previewChartArray;
     }
   }
-
-  getTooltip(category) {
-    return `data for ${category}`;
-  }
-
 }

@@ -14,10 +14,11 @@ export class TileMapper {
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
       Type: TileMapper.mapTileNameToTileType(dashboardTile.TileName),
-      PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
+      PreviewType: TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
       Payload: dashboardTile.Payload,
       Size: 1,
       ChartType: undefined,
+      ChartLabel: undefined,
       CssClass: undefined
     };
     return this.mapTileStylesFromTileType(tile);
@@ -82,7 +83,8 @@ export class TileMapper {
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tileGreen';
         tile.ChartType = TilePreviewChartTypes.donut;
-        tile.Payload.ChartType = TilePreviewChartTypes.donut;
+        tile.ChartLabel = 'Job Description Statuses';
+
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
         this.SetChartLegendColor(tile, 'Published', '#5A99D3');
@@ -130,7 +132,7 @@ export class TileMapper {
   static SetChartLegendColor(tile: Tile, categoryName, color) {
     const chartCategory = tile.Payload.filter(x => x.CategoryName === categoryName);
     if (chartCategory.length > 0) {
-      chartCategory[0].color = color;
+      chartCategory[ 0 ].color = color;
     }
   }
 }
