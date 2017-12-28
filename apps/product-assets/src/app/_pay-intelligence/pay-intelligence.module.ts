@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// import { GridModule } from '@progress/kendo-angular-grid';
-
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { PayIntelligencePageComponent } from './containers';
