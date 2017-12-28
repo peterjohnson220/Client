@@ -1,0 +1,25 @@
+<div class="table validation-results" *ngIf="isTableVisible()">
+  <table class="table">
+    <thead>
+    <tr>
+      <th width="10%">Type</th>
+      <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let validationResult of validationResults">
+      <td>
+        <span><i [ngClass]="getTypeIconClass(validationResult)" aria-hidden="true"></i></span>
+      </td>
+      <td class="vertical-center">
+        {{ validationResult.Message }}
+      </td>
+    </tr>
+    <tr *ngIf="validationResults.length == 0">
+      <td colspan="100%">
+        <p>No Messages.</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

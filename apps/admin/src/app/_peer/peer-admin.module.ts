@@ -10,8 +10,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
-         CreateExchangeModalComponent } from './containers';
-import { ExchangeListEffects, ExchangeCompaniesEffects } from './effects';
+         CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
+import { ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
@@ -26,7 +26,7 @@ import { PfSharedModule } from 'libs/shared';
     // 3rd Party
     GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects]),
+    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects]),
 
     // Routing
     PeerAdminRoutingModule,
@@ -38,10 +38,13 @@ import { PfSharedModule } from 'libs/shared';
   ],
   declarations: [
     // Containers
-    ExchangeCompaniesComponent, CreateExchangeModalComponent,
+    ExchangeCompaniesComponent,
+    CreateExchangeModalComponent,
+    ImportExchangeJobsModalComponent,
 
     // Pages
-    ExchangeListPageComponent, ManageExchangePageComponent
+    ExchangeListPageComponent,
+    ManageExchangePageComponent
   ],
   providers: [
     // Guards

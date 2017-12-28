@@ -8,6 +8,7 @@ import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
+import { ValidationResultsComponent } from './validation';
 
 const components = [
   // Error
@@ -17,7 +18,10 @@ const components = [
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent
+  PageWithTitleBarComponent,
+
+  // Validation
+  ValidationResultsComponent
 ];
 
 @NgModule({
