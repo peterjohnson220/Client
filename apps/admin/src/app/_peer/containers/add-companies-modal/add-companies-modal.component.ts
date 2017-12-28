@@ -11,7 +11,8 @@ import {
 import { AvailableCompany } from 'libs/models/peer/index';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
-import { State } from '@progress/kendo-data-query';
+import { FilterDescriptor, State } from '@progress/kendo-data-query';
+import { CompositeFilterDescriptor } from '@progress/kendo-data-query/dist/es/filtering/filter-descriptor.interface';
 
 @Component({
   selector: 'pf-add-companies-modal',
@@ -46,21 +47,32 @@ export class AddCompaniesModalComponent implements OnInit {
 
   // Events
 
-  updateSearchFilter(newSearchTerm: string){
+  updateSearchFilter(newSearchTerm: string) {
     // this.listFilter = newSearchTerm;
-    console.log('newSearchTerm: ',newSearchTerm);
+    console.log('newSearchTerm: ', newSearchTerm);
+    const filterDescriptor: FilterDescriptor = {
+      operator: 'contains',
+      field: 'CompanyName',
+      value: newSearchTerm
+    };
+    const compositeFilterDescriptor: CompositeFilterDescriptor = {
+      filters: [],
+      logic: 'and'
+    };
+    compositeFilterDescriptor.filters.push(filterDescriptor);
     this.gridState.skip = 0;
+    this.gridState.filter = compositeFilterDescriptor;
     // this.jobDescriptionService.updateJobDescriptionGridSearchTerm(newSearchTerm);
     // this.jobDescriptionService.getCompanyJobViewList(this.listFilter, this.gridState);
   }
 
   handleAvailableCompaniesGridReload() {
-    this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(this.exchangeId));
+    this.loadAvailableCompanies();
   }
 
   pageChange(event: PageChangeEvent): void {
     this.gridState.skip = event.skip;
-    // this.loadItems();
+    this.loadAvailableCompanies();
     console.log('pageChangeEvent: ', event);
   }
 
@@ -104,15 +116,18 @@ export class AddCompaniesModalComponent implements OnInit {
      return '';
   }
 
-  private loadItems(): void {
-    /*    this.gridView = {
-          data: this.items.slice(this.skip, this.skip + this.pageSize),
-          total: this.items.length
-        };*/
-  }
   // Lifecycle
   ngOnInit() {
-    this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(this.exchangeId));
+    this.loadAvailableCompanies();
+  }
+
+  private loadAvailableCompanies(): void {
+    this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
+      {
+        exchangeId: this.exchangeId,
+        listState: JSON.stringify(this.gridState)
+      }
+    ));
   }
 
 }

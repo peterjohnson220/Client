@@ -10,7 +10,8 @@ export const LOADING_AVAILABLE_COMPANIES_ERROR  = '[Peer Admin/AVAILABLE Compani
 export class LoadingAvailableCompanies implements Action {
   readonly type = LOADING_AVAILABLE_COMPANIES;
 
-  constructor(public payload: number) {}
+  // TODO: model?
+  constructor(public payload: any) {}
 }
 
 export class LoadingAvailableCompaniesSuccess implements Action {

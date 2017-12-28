@@ -30,15 +30,11 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
   }
 
-  getAvailableCompanies(exchangeId: number): Observable<GridDataResult> {
-    const testState: State = {
-      skip: 0,
-      take: 20
-    };
+  getAvailableCompanies(payload: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
-        params: { exchangeId: exchangeId, listState: JSON.stringify(testState)}
+        params: payload
       },
-      (payload: any): GridDataResult => ({ total: payload.Count, data: JSON.parse(payload.Data)})
+      (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
     );
   }
 

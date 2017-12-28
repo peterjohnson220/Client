@@ -20,8 +20,8 @@ export class AvailableCompaniesEffects {
   loadAvailableCompanies$: Observable<Action> = this.actions$
     .ofType(fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES)
     .map((action: fromAvailableCompaniesActions.LoadingAvailableCompanies) => action.payload)
-    .switchMap(exchangeId =>
-      this.exchangeApiService.getAvailableCompanies(exchangeId)
+    .switchMap(payload =>
+      this.exchangeApiService.getAvailableCompanies(payload)
         .map((availableCompaniesResult: GridDataResult) => new fromAvailableCompaniesActions
           .LoadingAvailableCompaniesSuccess(availableCompaniesResult))
         .catch(error => of(new fromAvailableCompaniesActions.LoadingAvailableCompaniesError()))

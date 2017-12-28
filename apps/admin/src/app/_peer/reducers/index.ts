@@ -87,12 +87,14 @@ export const getExchangeCompaniesLoadingError = createSelector(
 
 // Available Companies Selectors
 export const {
-  selectAll: getAvailableCompanies,
-
+  selectAll: getAvailableCompanies
 } = fromAvailableCompaniesReducer.adapter.getSelectors(selectAvailableCompaniesState);
 
 export const getAvailableCompaniesLoading = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getLoading);
-export const getAvailableCompaniesLoadingError = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getLoadingError);
+export const getAvailableCompaniesLoadingError = createSelector(
+  selectAvailableCompaniesState,
+  fromAvailableCompaniesReducer.getLoadingError
+);
 export const getTotalAvailableCompanies = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getTotal);
 export const getAvailableCompaniesGrid = createSelector(
   getAvailableCompanies,
