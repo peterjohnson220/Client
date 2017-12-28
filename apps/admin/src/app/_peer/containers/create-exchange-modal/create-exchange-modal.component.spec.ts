@@ -4,12 +4,11 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
-
+import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
+import * as fromExchangeListReducer from 'libs/shared/peer/reducers';
+import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
-import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../reducers';
 
 describe('Create Exchange Modal', () => {
   let fixture: ComponentFixture<CreateExchangeModalComponent>;
@@ -22,7 +21,7 @@ describe('Create Exchange Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
+          sharedPeer: combineReducers(fromExchangeListReducer.reducers)
         }),
         ReactiveFormsModule
       ],

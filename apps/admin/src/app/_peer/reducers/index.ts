@@ -4,16 +4,16 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromExchangeListReducer from './exchange-list.reducer';
 import * as fromManageExchangeReducer from './manage-exchange.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
+import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';
 
 // Feature area state
 export interface PeerAdminState {
-  exchangeList: fromExchangeListReducer.State;
   manageExchange: fromManageExchangeReducer.State;
   exchangeCompanies: fromExchangeCompaniesReducer.State;
+  importExchangeJobs: fromImportExchangeJobsReducer.State;
   availableCompanies: fromAvailableCompaniesReducer.State;
 }
 
@@ -24,9 +24,9 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  exchangeList: fromExchangeListReducer.reducer,
   manageExchange: fromManageExchangeReducer.reducer,
   exchangeCompanies: fromExchangeCompaniesReducer.reducer,
+  importExchangeJobs: fromImportExchangeJobsReducer.reducer,
   availableCompanies: fromAvailableCompaniesReducer.reducer,
 };
 
@@ -34,9 +34,11 @@ export const reducers = {
 export const selectPeerAdminState = createFeatureSelector<PeerAdminState>('peerAdmin');
 
 // Feature Selectors
-export const selectExchangeListState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeList);
 export const selectManageExchangeState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.manageExchange);
 export const selectExchangeCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeCompanies);
+export const selectImportExchangeJobsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.importExchangeJobs);
+// Manage Exchange Selectors
+export const getManageExchange = createSelector(selectManageExchangeState, fromManageExchangeReducer.getExchange);
 export const selectAvailableCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.availableCompanies);
 
 // Exchange List Selectors
@@ -47,40 +49,48 @@ export const {
 export const getExchangeListLoading = createSelector(
     selectExchangeListState, fromExchangeListReducer.getLoading
 );
-
-export const getExchangeListLoadingError = createSelector(
-  selectExchangeListState, fromExchangeListReducer.getLoadingError
+export const getManageExchangeLoading = createSelector(
+  selectManageExchangeState, fromManageExchangeReducer.getLoading
+);
+export const getManageExchangeLoadingError = createSelector(
+  selectManageExchangeState, fromManageExchangeReducer.getLoadingError
 );
 
-export const getExchangeListUpserting = createSelector(
-  selectExchangeListState, fromExchangeListReducer.getUpserting
+// Import Exchange Job Selectors
+export const getImportExchangeJobsModalOpen = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getImportExchangeJobsModalOpen
 );
-
-export const getExchangeListUpsertingError = createSelector(
-  selectExchangeListState, fromExchangeListReducer.getUpsertingError
+export const getImportExchangeJobsUploadingFile = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getUploadingFile
 );
-
-export const getExchangeListUpsertingErrorMessage = createSelector(
-  selectExchangeListState, fromExchangeListReducer.getUpsertingErrorMessage
+export const getImportExchangeJobsUploadingFileError = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getUploadingFileError
 );
-export const getExchangeListCreateExchangeModalOpen = createSelector(
-  selectExchangeListState, fromExchangeListReducer.getCreateExchangeModalOpen
+export const getStoredDataFile = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getStoredDataFile
 );
-
-
-// Manage Exchange Selectors
-export const getManageExchange = createSelector(selectManageExchangeState, fromManageExchangeReducer.getExchange);
-export const getManageExchangeLoading = createSelector(selectManageExchangeState, fromManageExchangeReducer.getLoading);
-export const getManageExchangeLoadingError = createSelector(selectManageExchangeState, fromManageExchangeReducer.getLoadingError);
+export const getValidationResults = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getValidationResults
+);
+export const getImportingJobs = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getImportingJobs
+);
+export const getIsFileValid = createSelector(
+  selectImportExchangeJobsState, fromImportExchangeJobsReducer.getIsFileValid
+);
 
 // Exchange Companies Selectors
-// Exchange List Selectors
 export const {
   selectAll: getExchangeCompanies
 } = fromExchangeCompaniesReducer.adapter.getSelectors(selectExchangeCompaniesState);
 
-export const getExchangeCompaniesLoading = createSelector(selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoading);
-export const getExchangeCompaniesLoadingError = createSelector(selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoadingError);
+export const getExchangeCompaniesLoading = createSelector(
+  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoading
+);
+export const getExchangeCompaniesLoadingError = createSelector(
+  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoadingError
+);
+
 
 // Available Companies Selectors
 export const {
