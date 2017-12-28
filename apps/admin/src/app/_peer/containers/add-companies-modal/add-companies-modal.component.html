@@ -3,7 +3,11 @@
   [loadingError]="availableCompaniesLoadingError$ | async"
   [loadingErrorMessage]="'Error loading exchange companies'"
   (reload)="handleAvailableCompaniesGridReload()">
-
+  <pf-input-debounce id="search-box"
+                  (valueChanged)="updateSearchFilter($event)"
+                  [delay]="400" [inputValue]="savedSearchTerm"
+                  [placeholderText]="'Search for a Company Name...'">
+  </pf-input-debounce>
   <kendo-grid
     [data]="view$ | async"
     [pageSize]="21"

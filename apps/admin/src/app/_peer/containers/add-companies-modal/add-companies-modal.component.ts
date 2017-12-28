@@ -26,9 +26,7 @@ export class AddCompaniesModalComponent implements OnInit {
   view$: Observable<GridDataResult>;
   exchangeId: number;
   selections: number[] = [];
-  selectionKey(context: RowArgs): number {
-    return context.dataItem.CompanyId;
-  }
+  savedSearchTerm: string;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -42,7 +40,20 @@ export class AddCompaniesModalComponent implements OnInit {
     this.exchangeId = this.route.snapshot.params.id;
   }
 
+  selectionKey(context: RowArgs): number {
+    return context.dataItem.CompanyId;
+  }
+
   // Events
+
+  updateSearchFilter(newSearchTerm: string){
+    // this.listFilter = newSearchTerm;
+    console.log('newSearchTerm: ',newSearchTerm);
+    this.gridState.skip = 0;
+    // this.jobDescriptionService.updateJobDescriptionGridSearchTerm(newSearchTerm);
+    // this.jobDescriptionService.getCompanyJobViewList(this.listFilter, this.gridState);
+  }
+
   handleAvailableCompaniesGridReload() {
     this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(this.exchangeId));
   }
@@ -103,4 +114,5 @@ export class AddCompaniesModalComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(this.exchangeId));
   }
+
 }
