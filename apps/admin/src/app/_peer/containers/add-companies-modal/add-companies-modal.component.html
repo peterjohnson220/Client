@@ -17,7 +17,7 @@
         <label for="search-box">Search for and select the companies that will be part of this Peer Exchange.</label>
         <pf-input-debounce id="search-box"
                            (valueChanged)="updateSearchFilter($event)"
-                           [delay]="400" [inputValue]="savedSearchTerm"
+                           [delay]="400" [inputValue]="searchTerm"
                            [placeholderText]="'Search for a Company Name...'">
         </pf-input-debounce>
       </div>
@@ -62,12 +62,12 @@
 
     </pf-async-container>
     <div class="form-group">
-      <input type="hidden" name="hasSelections" formControlName="hasSelections" [pfValidatable]="attemptedSubmit"/>
-      <ng-container *ngIf="hasSelections.errors && attemptedSubmit">
-        <div *ngIf="hasSelections.errors.requiredTrue" class="invalid-feedback">A selection is required.</div>
-        <div *ngIf="hasSelections.errors.error" class="invalid-feedback">{{hasSelections.errors.error}}</div>
+      <input type="hidden" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
+        <div *ngIf="selectionsControl.errors.selectionRequired" class="invalid-feedback">A selection is required.</div>
+        <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>
-      <span *ngIf="!attemptedSubmit || !hasSelections.errors" class="pf-placeholder"></span>
+      <span *ngIf="!attemptedSubmit || !selectionsControl.errors" class="pf-placeholder"></span>
     </div>
   </ng-container>
 </pf-modal-form>

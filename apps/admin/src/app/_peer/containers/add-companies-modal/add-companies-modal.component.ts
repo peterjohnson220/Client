@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import {
   GridDataResult, PageChangeEvent, RowArgs, RowClassArgs
 } from '@progress/kendo-angular-grid';
@@ -11,28 +12,32 @@ import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { GridFilterService } from 'libs/shared/grid';
+import { PfValidators } from 'libs/forms/validators';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
+
 
 @Component({
   selector: 'pf-add-companies-modal',
   templateUrl: './add-companies-modal.component.html',
   styleUrls: ['./add-companies-modal.component.scss']
 })
-export class AddCompaniesModalComponent implements OnInit {
+export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   addCompaniesModalOpen$: Observable<boolean>;
   addingCompanies$: Observable<boolean>;
   addingCompaniesError$: Observable<boolean>;
-  gridState: State = { skip: 0, take: 5 };
   view$: Observable<GridDataResult>;
-  exchangeId: number;
-  selections: number[] = [];
-  savedSearchTerm: string;
-  attemptedSubmit = false;
+  addCompaniesModalOpenSubscription: Subscription;
+  addCompaniesErrorSubscription: Subscription;
   addCompaniesForm: FormGroup;
+  gridState: State = { skip: 0, take: 5 };
+  attemptedSubmit = false;
+  selections: number[] = [];
+  exchangeId: number;
+  searchTerm: string;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -54,11 +59,11 @@ export class AddCompaniesModalComponent implements OnInit {
     const numberOfSelections = this.selections ? this.selections.length : 0;
     return `Add (${numberOfSelections})`;
   }
-  get hasSelections() { return this.addCompaniesForm.get('hasSelections'); }
+  get selectionsControl() { return this.addCompaniesForm.get('selections'); }
 
   createForm(): void {
     this.addCompaniesForm = this.fb.group({
-      'hasSelections': [false, [Validators.requiredTrue]]
+      'selections': [[], [PfValidators.selectionRequired]]
     });
   }
 
@@ -75,7 +80,6 @@ export class AddCompaniesModalComponent implements OnInit {
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
-    // TODO: Clear out selections because we are using requiredTrue... Trying using array input or something
     this.selections = [];
   }
 
@@ -116,9 +120,8 @@ export class AddCompaniesModalComponent implements OnInit {
     } else {
       this.selections.push(selectedCompanyId);
     }
-    // TODO: Is there a function that does both?
-    this.hasSelections.markAsTouched();
-    this.hasSelections.setValue(this.selections && this.selections.length > 0);
+    this.selectionsControl.markAsTouched();
+    this.selectionsControl.setValue(this.selections || []);
   }
 
   rowClass(context: RowClassArgs): string {
@@ -127,11 +130,21 @@ export class AddCompaniesModalComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
-    this.addCompaniesModalOpen$.subscribe(isOpen => {
+    this.addCompaniesModalOpenSubscription = this.addCompaniesModalOpen$.subscribe(isOpen => {
       if (isOpen) {
         this.loadAvailableCompanies();
       }
     });
+    this.addCompaniesErrorSubscription = this.addingCompaniesError$.subscribe(error => {
+      if (error) {
+        this.selectionsControl.setErrors({'error': 'There was an error adding the selected companies.'});
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.addCompaniesModalOpenSubscription.unsubscribe();
+    this.addCompaniesErrorSubscription.unsubscribe();
   }
 
   // Private Methods
