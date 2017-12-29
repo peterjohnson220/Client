@@ -2,8 +2,6 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { AvailableCompany } from 'libs/models/peer';
 import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';
-import { GridDataResult } from '@progress/kendo-angular-grid';
-import { of } from 'rxjs/observable/of';
 
 // Extended entity state
 export interface State extends EntityState<AvailableCompany> {
@@ -38,9 +36,7 @@ export function reducer(
       };
     }
     case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
-      console.log('loading success payload: ', action.payload);
       const companies: AvailableCompany[] = action.payload.data;
-      console.log('loading success companies: ', companies);
       return {
         ...adapter.addAll(companies, state),
         total: action.payload.total,

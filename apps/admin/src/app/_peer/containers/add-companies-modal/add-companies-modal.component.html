@@ -36,17 +36,15 @@
         }"
         [sortable]="true"
         [sort]="gridState.sort"
-        (sortChange)="handleSortChanged($event)"
         [kendoGridSelectBy]="selectionKey"
         [selectedKeys]="selections"
-        (selectedKeysChange)="onSelectedKeysChange($event)"
-        (pageChange)="pageChange($event)"
         [rowClass]="rowClass"
-        (selectionChange)="selectionChange($event)"
+        (pageChange)="pageChange($event)"
+        (sortChange)="handleSortChanged($event)"
         (cellClick)="cellClick($event)"
       >
 
-        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company Name" [width]="275"></kendo-grid-column>
 
         <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
 

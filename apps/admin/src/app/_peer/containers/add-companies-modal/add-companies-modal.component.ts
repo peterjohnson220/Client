@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import {
-  GridDataResult, PageChangeEvent, RowArgs, RowClassArgs,
-  SelectionEvent
+  GridDataResult, PageChangeEvent, RowArgs, RowClassArgs
 } from '@progress/kendo-angular-grid';
+import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { AvailableCompany } from 'libs/models/peer/index';
-import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
-import * as fromPeerAdminReducer from '../../reducers';
-import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-query';
-import { CompositeFilterDescriptor } from '@progress/kendo-data-query/dist/es/filtering/filter-descriptor.interface';
+import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { GridFilterService } from 'libs/shared/grid';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AddExchangeCompaniesRequest, UpsertExchangeRequest } from 'libs/models/peer';
-import * as fromExchangeListActions from '../../../../../../../libs/shared/peer/actions/exchange-list.actions';
-import { PfValidators } from '../../../../../../../libs/forms/validators/pf-validators';
+import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
+import * as fromPeerAdminReducer from '../../reducers';
 
 @Component({
   selector: 'pf-add-companies-modal',
@@ -28,7 +23,6 @@ import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.
 export class AddCompaniesModalComponent implements OnInit {
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
-  availableCompanies$: Observable<AvailableCompany[]>;
   addCompaniesModalOpen$: Observable<boolean>;
   addingCompanies$: Observable<boolean>;
   addingCompaniesError$: Observable<boolean>;
@@ -47,7 +41,6 @@ export class AddCompaniesModalComponent implements OnInit {
   ) {
     this.availableCompaniesLoading$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesLoading);
     this.availableCompaniesLoadingError$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesLoadingError);
-    this.availableCompanies$ = this.store.select(fromPeerAdminReducer.getAvailableCompanies);
     this.view$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGrid);
     this.addCompaniesModalOpen$ = this.store.select(fromPeerAdminReducer.getAddExchangeCompaniesModalOpen);
     this.addingCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAdding);
@@ -69,6 +62,7 @@ export class AddCompaniesModalComponent implements OnInit {
     });
   }
 
+  // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
     const addCompaniesRequest: AddExchangeCompaniesRequest = {
@@ -84,11 +78,12 @@ export class AddCompaniesModalComponent implements OnInit {
     // TODO: Clear out selections because we are using requiredTrue... Trying using array input or something
     this.selections = [];
   }
+
+  // Grid
   selectionKey(context: RowArgs): number {
     return context.dataItem.CompanyId;
   }
 
-  // Events
   updateSearchFilter(newSearchTerm: string) {
     this.gridState.skip = 0;
     GridFilterService.updateFilter('CompanyName', newSearchTerm, this.gridState);
@@ -102,57 +97,32 @@ export class AddCompaniesModalComponent implements OnInit {
   pageChange(event: PageChangeEvent): void {
     this.gridState.skip = event.skip;
     this.loadAvailableCompanies();
-    console.log('pageChangeEvent: ', event);
   }
 
   handleSortChanged(sort: SortDescriptor[]) {
+    this.gridState.skip = 0;
     this.gridState.sort = sort;
-    console.log('onSortChange: ', sort);
     this.loadAvailableCompanies();
   }
 
-  selectionChange(event: SelectionEvent): void {
-    console.log('selectionChangeEvent: ', event);
-    const test = x => x.index;
-    // const isDeselection = event.deselectedRows.find((x: RowArgs) => x.index === event.index) > 0;
-    // this.selections = event.selectedRows.map(row => row.dataItem.CompanyId);
-  }
-  onSelectedKeysChange(event: any): void {
-    console.log('onSelectedKeysChange: ', event);
-  }
   cellClick(event: any): void {
-    console.log('Cell Click: ', event);
     if (event.dataItem.InExchange) {
       return;
     }
     const selectedCompanyId = event.dataItem.CompanyId;
     const companySelected = this.selections.indexOf(selectedCompanyId) >= 0;
-    console.log('selections before cell click: ', this.selections);
     if (companySelected) {
       this.selections = this.selections.filter(selection => selection !== selectedCompanyId);
     } else {
       this.selections.push(selectedCompanyId);
     }
-    const hasSelections = this.selections && this.selections.length > 0;
     // TODO: Is there a function that does both?
     this.hasSelections.markAsTouched();
-    this.hasSelections.setValue(hasSelections);
-    console.log('selections after cell click: ', this.selections);
-  }
-
-  isRowSelected(event: any): void {
-    /*console.log('rowSelectedEvent: ', event);
-    return this.selections && this.selections.indexOf(event.dataItem.CompanyId) >= 0;*/
+    this.hasSelections.setValue(this.selections && this.selections.length > 0);
   }
 
   rowClass(context: RowClassArgs): string {
-     // console.log('rowClass: ', context);
-     if (context.dataItem.InExchange) {
-       // return 'k-grid-ignore-click disabled';
-       return 'row-disabled';
-     }
-
-     return '';
+     return context.dataItem.InExchange ? 'row-disabled' : '';
   }
 
   // Lifecycle
@@ -164,6 +134,7 @@ export class AddCompaniesModalComponent implements OnInit {
     });
   }
 
+  // Private Methods
   private loadAvailableCompanies(): void {
     this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
       {
@@ -172,5 +143,4 @@ export class AddCompaniesModalComponent implements OnInit {
       }
     ));
   }
-
 }
