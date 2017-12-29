@@ -26,6 +26,7 @@ import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 import { UserVoiceIndicatorComponent } from './components';
+import { DashboardEffects } from './effects/dashboard.effects';
 
 @NgModule({
   imports: [
@@ -34,7 +35,7 @@ import { UserVoiceIndicatorComponent } from './components';
 
     // 3rd Party
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects]),
+    EffectsModule.forFeature([TileGridEffects, DashboardEffects]),
 
     // Routing
     MainRoutingModule,

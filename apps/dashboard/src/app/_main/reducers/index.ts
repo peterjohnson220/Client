@@ -5,9 +5,11 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromTileGridReducer from './tile-grid.reducer';
+import * as fromDashboardReducer from './dashboard.reducer';
 
 // Feature area state
 export interface DashboardMainState {
+  features: fromDashboardReducer.State;
   tileGrid: fromTileGridReducer.State;
 }
 
@@ -18,6 +20,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  features: fromDashboardReducer.reducer,
   tileGrid: fromTileGridReducer.reducer
 };
 
@@ -26,8 +29,19 @@ export const selectDashboardMainState = createFeatureSelector<DashboardMainState
 
 // Feature Selectors
 export const selectTileGridState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tileGrid);
+export const selectFeatureState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.features);
 
 // Entity Adapter Selectors
+
+// Feature
+export const {
+  selectAll: getFeatures,
+} = fromDashboardReducer.adapter.getSelectors(selectFeatureState);
+
+export const getFeaturesLoading = createSelector(selectFeatureState, fromDashboardReducer.getLoading);
+export const getFeaturesLoadingError = createSelector(selectFeatureState, fromDashboardReducer.getLoadingError);
+
+// TileGrid
 export const {
   selectAll: getTileGridTiles,
 } = fromTileGridReducer.adapter.getSelectors(selectTileGridState);

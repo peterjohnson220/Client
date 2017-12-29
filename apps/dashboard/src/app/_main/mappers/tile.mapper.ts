@@ -1,6 +1,5 @@
-import { Tile, TileTypes } from '../models';
+import { Tile, TileTypes, TilePreviewTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
-import { TilePreviewTypes } from '../models/tile-preview-types';
 
 export class TileMapper {
 

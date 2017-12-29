@@ -16,7 +16,7 @@ import * as fromLayoutReducer from '../../reducers';
 })
 export class LayoutWrapperComponent implements OnInit {
   userContext$: Observable<UserContext>;
-
+  displayRightSideBar$: Observable<boolean>;
   // Loading/Errors
   gettingHeaderDropdownNavigationLinks$: Observable<boolean>;
   gettingHeaderDropdownNavigationLinksError$: Observable<boolean>;
@@ -27,6 +27,7 @@ export class LayoutWrapperComponent implements OnInit {
   constructor(
     private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
+
   ) {
     // Loading / Errors
     this.gettingHeaderDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinks);

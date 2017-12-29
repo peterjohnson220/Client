@@ -1,4 +1,9 @@
-<pf-tile-grid> </pf-tile-grid>
-<div class="user-voice-container">
-  <pf-user-voice-indicator [model]="userVoiceModel"></pf-user-voice-indicator>
-</div>
+<pf-async-container
+  [loading]="loading$ | async"
+  [loadingError]="loadingError$ | async"
+  [loadingErrorMessage]="'Error retrieving dashboard tiles.'"
+  (reload)="handleFeaturesReload()">
+
+  <pf-tile-grid></pf-tile-grid>
+  <pf-user-voice-indicator class="user-voice-container" [model]="userVoiceModel"></pf-user-voice-indicator>
+</pf-async-container>
