@@ -26,6 +26,7 @@ import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 import { UserVoiceIndicatorComponent } from './components';
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { UserVoiceIndicatorComponent } from './components';
     CommonModule,
 
     // 3rd Party
+    DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects]),
 
