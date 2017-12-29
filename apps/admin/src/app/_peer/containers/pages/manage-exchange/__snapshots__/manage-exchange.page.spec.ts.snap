@@ -3,10 +3,12 @@
 exports[`Exchange List Page should pass the exchange name to the page title transclusion area 1`] = `
 <pf-manage-exchange-page
   exchange$={[Function ScalarObservable]}
-  store={[Function Object]}
+  importExchangeJobsModalOpen$={[Function Store]}
+  store={[Function Store]}
 >
   <pf-page-with-title-bar>
     
+  
     
     
     
@@ -17,7 +19,20 @@ exports[`Exchange List Page should pass the exchange name to the page title tran
     
     
     
+      
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      Import Exchange Jobs
+    </button>
+    
+    
+    
   
+    
+    
+    
       
     <div
       class="h-50 w-100"
@@ -29,11 +44,16 @@ exports[`Exchange List Page should pass the exchange name to the page title tran
       
     </div>
     
+    
+    
   
-    
-    
   
   </pf-page-with-title-bar>
+  
+  <pf-import-exchange-jobs-modal>
+    
+  
+  </pf-import-exchange-jobs-modal>
   
 </pf-manage-exchange-page>
 `;
