@@ -3,7 +3,7 @@
   [loadingError]="exchangeCompaniesLoadingError$ | async"
   [loadingErrorMessage]="'Error loading exchange companies'"
   (reload)="handleExchangeCompaniesGridReload()">
-
+  <button type="button" class="btn btn-primary" (click)="openAddExchangeCompaniesModal()">Add Companies</button>
   <kendo-grid [data]="exchangeCompanies$ | async">
 
     <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
@@ -21,3 +21,5 @@
   </kendo-grid>
 
 </pf-async-container>
+
+<pf-add-companies-modal></pf-add-companies-modal>

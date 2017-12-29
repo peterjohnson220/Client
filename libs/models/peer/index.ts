@@ -6,3 +6,4 @@ export * from './validate-exchange-jobs.request';
 export * from './exchange-jobs-validation-result.model';
 export * from './import-exchange-jobs.request';
 export * from './available-company.model';
+export * from './add-exchange-companies-request.model';

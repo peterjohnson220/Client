@@ -1,46 +1,76 @@
-<pf-async-container
-  [loading]="availableCompaniesLoading$ | async"
-  [loadingError]="availableCompaniesLoadingError$ | async"
-  [loadingErrorMessage]="'Error loading exchange companies'"
-  (reload)="handleAvailableCompaniesGridReload()">
-  <pf-input-debounce id="search-box"
-                  (valueChanged)="updateSearchFilter($event)"
-                  [delay]="400" [inputValue]="savedSearchTerm"
-                  [placeholderText]="'Search for a Company Name...'">
-  </pf-input-debounce>
-  <kendo-grid
-    [data]="view$ | async"
-    [pageSize]="21"
-    [skip]="0"
-    [resizable]="true"
-    [pageable]="{
-      buttonCount: 2,
-      info: true
-    }"
-    [selectable]="{
-      checkboxOnly: true
-    }"
-    [kendoGridSelectBy]="selectionKey"
-    [selectedKeys]="selections"
-    (selectedKeysChange)="onSelectedKeysChange($event)"
-    (pageChange)="pageChange($event)"
-    [rowClass]="rowClass"
-    (selectionChange)="selectionChange($event)"
-    (cellClick)="cellClick($event)"
-    >
-    <!--<kendo-grid-checkbox-column></kendo-grid-checkbox-column>-->
-    <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Add Companies'"
+  [primaryButtonText]="primaryButtonText"
+  [submitting]="addingCompanies$ | async"
+  [isOpen$]="addCompaniesModalOpen$"
+  [formGroup]="addCompaniesForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+  <ng-container form-content>
+    <pf-async-container
+      [loading]="availableCompaniesLoading$ | async"
+      [loadingError]="availableCompaniesLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange companies'"
+      (reload)="handleAvailableCompaniesGridReload()">
+      <div class="form-group">
+        <label for="search-box">Search for and select the companies that will be part of this Peer Exchange.</label>
+        <pf-input-debounce id="search-box"
+                           (valueChanged)="updateSearchFilter($event)"
+                           [delay]="400" [inputValue]="savedSearchTerm"
+                           [placeholderText]="'Search for a Company Name...'">
+        </pf-input-debounce>
+      </div>
 
-    <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
+      <kendo-grid
+        [data]="view$ | async"
+        [pageSize]="gridState.take"
+        [skip]="gridState.skip"
+        [resizable]="true"
+        [pageable]="{
+          buttonCount: 5,
+          info: true
+        }"
+        [selectable]="{
+          checkboxOnly: true
+        }"
+        [sortable]="true"
+        [sort]="gridState.sort"
+        (sortChange)="handleSortChanged($event)"
+        [kendoGridSelectBy]="selectionKey"
+        [selectedKeys]="selections"
+        (selectedKeysChange)="onSelectedKeysChange($event)"
+        (pageChange)="pageChange($event)"
+        [rowClass]="rowClass"
+        (selectionChange)="selectionChange($event)"
+        (cellClick)="cellClick($event)"
+      >
 
-    <kendo-grid-column field="JobCount" title="Job Count"></kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
 
-    <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
+        <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
 
-<!--    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-      <kendo-pager-info></kendo-pager-info>
-    </ng-template>-->
+        <kendo-grid-column field="Revenue" title="Revenue"></kendo-grid-column>
 
-  </kendo-grid>
+        <kendo-grid-column field="FTEs" title="FTEs"></kendo-grid-column>
 
-</pf-async-container>
+        <kendo-grid-column field="City" title="City"></kendo-grid-column>
+
+        <kendo-grid-column field="State" title="State"></kendo-grid-column>
+
+        <kendo-grid-column field="Zip" title="Zip"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+    <div class="form-group">
+      <input type="hidden" name="hasSelections" formControlName="hasSelections" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="hasSelections.errors && attemptedSubmit">
+        <div *ngIf="hasSelections.errors.requiredTrue" class="invalid-feedback">A selection is required.</div>
+        <div *ngIf="hasSelections.errors.error" class="invalid-feedback">{{hasSelections.errors.error}}</div>
+      </ng-container>
+      <span *ngIf="!attemptedSubmit || !hasSelections.errors" class="pf-placeholder"></span>
+    </div>
+  </ng-container>
+</pf-modal-form>
+

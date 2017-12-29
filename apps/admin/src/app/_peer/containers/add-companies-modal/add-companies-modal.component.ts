@@ -11,8 +11,14 @@ import {
 import { AvailableCompany } from 'libs/models/peer/index';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
-import { FilterDescriptor, State } from '@progress/kendo-data-query';
+import { FilterDescriptor, SortDescriptor, State } from '@progress/kendo-data-query';
 import { CompositeFilterDescriptor } from '@progress/kendo-data-query/dist/es/filtering/filter-descriptor.interface';
+import { GridFilterService } from 'libs/shared/grid';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AddExchangeCompaniesRequest, UpsertExchangeRequest } from 'libs/models/peer';
+import * as fromExchangeListActions from '../../../../../../../libs/shared/peer/actions/exchange-list.actions';
+import { PfValidators } from '../../../../../../../libs/forms/validators/pf-validators';
+import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 
 @Component({
   selector: 'pf-add-companies-modal',
@@ -23,47 +29,70 @@ export class AddCompaniesModalComponent implements OnInit {
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   availableCompanies$: Observable<AvailableCompany[]>;
-  gridState: State = { skip: 0, take: 20 };
+  addCompaniesModalOpen$: Observable<boolean>;
+  addingCompanies$: Observable<boolean>;
+  addingCompaniesError$: Observable<boolean>;
+  gridState: State = { skip: 0, take: 5 };
   view$: Observable<GridDataResult>;
   exchangeId: number;
   selections: number[] = [];
   savedSearchTerm: string;
+  attemptedSubmit = false;
+  addCompaniesForm: FormGroup;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) {
     this.availableCompaniesLoading$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesLoading);
     this.availableCompaniesLoadingError$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesLoadingError);
     this.availableCompanies$ = this.store.select(fromPeerAdminReducer.getAvailableCompanies);
     this.view$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGrid);
+    this.addCompaniesModalOpen$ = this.store.select(fromPeerAdminReducer.getAddExchangeCompaniesModalOpen);
+    this.addingCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAdding);
+    this.addingCompaniesError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAddingError);
 
     this.exchangeId = this.route.snapshot.params.id;
+    this.createForm();
   }
 
+  get primaryButtonText(): string {
+    const numberOfSelections = this.selections ? this.selections.length : 0;
+    return `Add (${numberOfSelections})`;
+  }
+  get hasSelections() { return this.addCompaniesForm.get('hasSelections'); }
+
+  createForm(): void {
+    this.addCompaniesForm = this.fb.group({
+      'hasSelections': [false, [Validators.requiredTrue]]
+    });
+  }
+
+  handleFormSubmit(): void {
+    this.attemptedSubmit = true;
+    const addCompaniesRequest: AddExchangeCompaniesRequest = {
+      ExchangeId: this.exchangeId,
+      CompanyIds: this.selections
+    };
+    this.store.dispatch(new fromExchangeCompaniesActions.AddingExchangeCompanies(addCompaniesRequest));
+  }
+
+  handleModalDismissed(): void {
+    this.attemptedSubmit = false;
+    this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
+    // TODO: Clear out selections because we are using requiredTrue... Trying using array input or something
+    this.selections = [];
+  }
   selectionKey(context: RowArgs): number {
     return context.dataItem.CompanyId;
   }
 
   // Events
-
   updateSearchFilter(newSearchTerm: string) {
-    // this.listFilter = newSearchTerm;
-    console.log('newSearchTerm: ', newSearchTerm);
-    const filterDescriptor: FilterDescriptor = {
-      operator: 'contains',
-      field: 'CompanyName',
-      value: newSearchTerm
-    };
-    const compositeFilterDescriptor: CompositeFilterDescriptor = {
-      filters: [],
-      logic: 'and'
-    };
-    compositeFilterDescriptor.filters.push(filterDescriptor);
     this.gridState.skip = 0;
-    this.gridState.filter = compositeFilterDescriptor;
-    // this.jobDescriptionService.updateJobDescriptionGridSearchTerm(newSearchTerm);
-    // this.jobDescriptionService.getCompanyJobViewList(this.listFilter, this.gridState);
+    GridFilterService.updateFilter('CompanyName', newSearchTerm, this.gridState);
+    this.loadAvailableCompanies();
   }
 
   handleAvailableCompaniesGridReload() {
@@ -74,6 +103,12 @@ export class AddCompaniesModalComponent implements OnInit {
     this.gridState.skip = event.skip;
     this.loadAvailableCompanies();
     console.log('pageChangeEvent: ', event);
+  }
+
+  handleSortChanged(sort: SortDescriptor[]) {
+    this.gridState.sort = sort;
+    console.log('onSortChange: ', sort);
+    this.loadAvailableCompanies();
   }
 
   selectionChange(event: SelectionEvent): void {
@@ -87,7 +122,7 @@ export class AddCompaniesModalComponent implements OnInit {
   }
   cellClick(event: any): void {
     console.log('Cell Click: ', event);
-    if (event.dataItem.CompanyId % 3 === 0) {
+    if (event.dataItem.InExchange) {
       return;
     }
     const selectedCompanyId = event.dataItem.CompanyId;
@@ -98,6 +133,10 @@ export class AddCompaniesModalComponent implements OnInit {
     } else {
       this.selections.push(selectedCompanyId);
     }
+    const hasSelections = this.selections && this.selections.length > 0;
+    // TODO: Is there a function that does both?
+    this.hasSelections.markAsTouched();
+    this.hasSelections.setValue(hasSelections);
     console.log('selections after cell click: ', this.selections);
   }
 
@@ -108,7 +147,7 @@ export class AddCompaniesModalComponent implements OnInit {
 
   rowClass(context: RowClassArgs): string {
      // console.log('rowClass: ', context);
-     if (context.dataItem.CompanyId % 3 === 0) {
+     if (context.dataItem.InExchange) {
        // return 'k-grid-ignore-click disabled';
        return 'row-disabled';
      }
@@ -118,7 +157,11 @@ export class AddCompaniesModalComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
-    this.loadAvailableCompanies();
+    this.addCompaniesModalOpen$.subscribe(isOpen => {
+      if (isOpen) {
+        this.loadAvailableCompanies();
+      }
+    });
   }
 
   private loadAvailableCompanies(): void {

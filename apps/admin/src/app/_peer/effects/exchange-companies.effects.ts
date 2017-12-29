@@ -12,6 +12,7 @@ import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeCompany } from 'libs/models';
 
 import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
+import 'rxjs/add/operator/concatMap';
 
 @Injectable()
 export class ExchangeCompaniesEffects {
@@ -24,6 +25,21 @@ export class ExchangeCompaniesEffects {
       this.exchangeApiService.getCompanies(exchangeId)
         .map((exchangeCompanies: ExchangeCompany[]) => new fromExchangeCompaniesActions.LoadingExchangeCompaniesSuccess(exchangeCompanies))
         .catch(error => of(new fromExchangeCompaniesActions.LoadingExchangeCompaniesError()))
+    );
+
+  @Effect()
+  addExchangeCompanies$: Observable<Action> = this.actions$
+    .ofType(fromExchangeCompaniesActions.ADDING_EXCHANGE_COMPANIES)
+    .map((action: fromExchangeCompaniesActions.AddingExchangeCompanies) => action.payload)
+    .switchMap(payload =>
+      this.exchangeApiService.addCompanies(payload)
+        .concatMap(() => {
+          return [
+            new fromExchangeCompaniesActions.AddingExchangeCompaniesSuccess,
+            new fromExchangeCompaniesActions.LoadingExchangeCompanies(payload.ExchangeId)
+          ];
+        })
+        .catch(error => of(new fromExchangeCompaniesActions.AddingExchangeCompaniesError))
     );
 
   constructor(

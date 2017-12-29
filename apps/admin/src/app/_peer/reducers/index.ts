@@ -84,6 +84,18 @@ export const getExchangeCompaniesLoadingError = createSelector(
   selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoadingError
 );
 
+export const getAddExchangeCompaniesModalOpen = createSelector(
+  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAddModalOpen
+);
+
+export const getExchangeCompaniesAdding = createSelector(
+  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAdding
+);
+
+export const getExchangeCompaniesAddingError = createSelector(
+  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAddingError
+);
+
 
 // Available Companies Selectors
 export const {

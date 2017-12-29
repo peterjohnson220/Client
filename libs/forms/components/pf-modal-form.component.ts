@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
@@ -18,6 +18,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   private attemptedSubmit = false;
   private modalOpenSubscription: Subscription;
 
+  @Input() size = 'sm';
   @Input() title: string;
   @Input() modalId: string;
   @Input() primaryButtonText = 'Submit';
@@ -59,7 +60,11 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
       if (!open) {
         this.cleanUpModal();
       } else {
-        this.activeModal = this.modalService.open(this.templateRef, { backdrop: 'static', container: `#${this.modalId}.modal-container` });
+        this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
+          backdrop: 'static',
+          container: `#${this.modalId}.modal-container`,
+          size: this.size
+        });
         this.activeModal.result.then(() => {
           this.onDismiss.emit();
         }, () => {

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import {
   ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest,
-  AvailableCompany
+  AvailableCompany, AddExchangeCompaniesRequest
 } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from '../../../models/peer';
@@ -36,6 +36,10 @@ export class ExchangeApiService {
       },
       (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
     );
+  }
+
+  addCompanies(addExchangeCompaniesRequest: AddExchangeCompaniesRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddCompanies`, addExchangeCompaniesRequest);
   }
 
   getExchange(exchangeId: number): Observable<Exchange> {
