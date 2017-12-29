@@ -31,12 +31,12 @@ export class TileGridEffects {
 
   @Effect()
   reorderTiles$: Observable<Action> = this.actions$
-    .ofType(fromDashboardActions.REORDER_TILES)
-    .switchMap((action: fromDashboardActions.ReorderTiles) =>
+    .ofType(fromTileGridActions.REORDER_TILES)
+    .switchMap((action: fromTileGridActions.ReorderTiles) =>
       this.dashboardApiService.reorderDashboardTiles(action.payload)
-        .map((userTileDtos: UserTileDto[]) => this.mapUserTileDtosToTiles(userTileDtos))
-        .map((tiles: Tile[]) => new fromDashboardActions.ReorderTilesSuccess(tiles))
-        .catch(error => of (new fromDashboardActions.ReorderTilesError(error)))
+        .map((userTileDtos: UserTileDto[]) => this.MapUserTileDtosToTiles(userTileDtos))
+        .map((tiles: Tile[]) => new fromTileGridActions.ReorderTilesSuccess(tiles))
+        .catch(error => of (new fromTileGridActions.ReorderTilesError(error)))
     );
 
   constructor(
