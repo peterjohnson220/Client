@@ -6,7 +6,7 @@ export class TileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     const tile = {
-      Id: dashboardTile.TileId,
+      Id: dashboardTile.UserTileId,
       Label: dashboardTile.TileName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
@@ -41,7 +41,7 @@ export class TileMapper {
       case 'Structures':
         return TileTypes.Structures;
       case 'Surveys':
-        return TileTypes.Structures;
+        return TileTypes.Surveys;
       default:
         return TileTypes.Unknown;
     }
@@ -57,7 +57,6 @@ export class TileMapper {
       case TileTypes.DataInsights:
       case TileTypes.PricingProjects:
       case TileTypes.Resources:
-      case TileTypes.Structures:
       case TileTypes.Surveys:
         return TilePreviewTypes.List;
 

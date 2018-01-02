@@ -21,4 +21,10 @@ export class NavigationApiService {
     return this.payfactorsApiService
       .get<SidebarLink[]>(`${this.endpoint}.GetSideBarLinks`);
   }
+
+  getUserVoiceLink() {
+    return this.payfactorsApiService
+      .get<NavigationLink>(`${this.endpoint}.GetUserVoiceNavigationLink`);
+  }
+
 }
