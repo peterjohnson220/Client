@@ -2,6 +2,7 @@
 
 exports[`Tile should show tile name and tile data 1`] = `
 <pf-tile
+  ngAppRoot={[Function String]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -12,7 +13,12 @@ exports[`Tile should show tile name and tile data 1`] = `
     ng-reflect-ng-switch="1"
   >
     
-  
+    
+    <a
+      class="tile-anchor-overlay"
+      href="test tile url"
+    />
+    
     
     <h4>
       test tile
