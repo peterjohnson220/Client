@@ -14,16 +14,22 @@ export class AppWrapperComponent {
   displayRightSideBar: boolean;
   constructor(private featureStore: Store<fromFeatureReducer.State>) {
     this.features$ = this.featureStore.select(fromFeatureReducer.getFeatures);
-    this.features$.subscribe(features => this.displayRightSideBar = AppWrapperComponent.shouldDisplayRightSideBar(features));
+    this.features$.subscribe(features =>
+      this.displayRightSideBar = AppWrapperComponent.ShouldDisplayRightSideBar(features)
+    );
   }
 
-  static shouldDisplayRightSideBar(feature): boolean {
-    const requiredTilesTypesForSideBar = [
+  static ShouldDisplayRightSideBar(features): boolean {
+    const featuresInRightSideBar = [
       FeatureTypes.Activity,
       FeatureTypes.Community,
       FeatureTypes.JobDescriptions
     ];
-    return feature.filter(t => requiredTilesTypesForSideBar.indexOf(t.Type) !== -1).length ===
-      requiredTilesTypesForSideBar.length;
+    const minimumFeaturesThreshold = 1;
+    return this.MinimumNumberOfFeaturesMet(features, featuresInRightSideBar, minimumFeaturesThreshold);
+  }
+
+  static MinimumNumberOfFeaturesMet(allFeatures, requiredFeatures, minThreshold): boolean {
+    return allFeatures.filter(feature => requiredFeatures.indexOf(feature.Type) !== -1).length >= minThreshold;
   }
 }
