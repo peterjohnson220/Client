@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { NavigationLink, SidebarLink, UserVoiceLink } from '../../../models/navigation';
+import { NavigationLink, SidebarLink } from '../../../models/navigation';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -24,7 +24,7 @@ export class NavigationApiService {
 
   getUserVoiceLink() {
     return this.payfactorsApiService
-      .get<UserVoiceLink>(`${this.endpoint}.GetUserVoiceNavigationLink`);
+      .get<NavigationLink>(`${this.endpoint}.GetUserVoiceNavigationLink`);
   }
 
 }

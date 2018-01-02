@@ -1,11 +1,11 @@
-import { UserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
+import { NavigationLink } from 'libs/models';
 
 import * as fromUserVoiceActions from '../actions/user-voice.actions';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  userVoiceLink: UserVoiceLink;
+  userVoiceLink: NavigationLink;
 }
 
 export const initialState: State = {

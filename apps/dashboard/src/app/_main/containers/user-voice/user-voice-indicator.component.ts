@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { UserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
+import { NavigationLink } from 'libs/models';
 
 import { UserVoiceModel } from '../../models/user-voice.model';
 import * as fromUserVoiceReducer from '../../reducers';
@@ -18,7 +18,7 @@ export class UserVoiceIndicatorComponent implements OnInit {
 
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
-  userVoiceLink$: Observable<UserVoiceLink>;
+  userVoiceLink$: Observable<NavigationLink>;
   @Input() model: UserVoiceModel;
 
   constructor(private store: Store<fromUserVoiceReducer.State>) {

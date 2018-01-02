@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { UserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
+import { NavigationLink } from 'libs/models';
 
 export const LOADING_USER_VOICE =  '[Dashboard/User Voice] Loading User Voice';
 export const LOADING_USER_VOICE_SUCCESS =  '[Dashboard/User Voice] Loading User Voice Success';
@@ -13,7 +13,7 @@ export class LoadingUserVoice implements Action {
 export class LoadingUserVoiceSuccess implements Action {
   readonly type = LOADING_USER_VOICE_SUCCESS;
 
-  constructor(public payload: UserVoiceLink) {}
+  constructor(public payload: NavigationLink) {}
 }
 
 export class LoadingUserVoiceError implements Action {
