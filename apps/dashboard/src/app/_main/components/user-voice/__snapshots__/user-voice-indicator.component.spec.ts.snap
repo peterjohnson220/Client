@@ -2,9 +2,7 @@
 
 exports[`User Voice Indicator should show the link to user voice 1`] = `
 <pf-user-voice-indicator
-  userContext={[Function Object]}
-  userVoiceForumId={[Function Number]}
-  userVoiceUrl={[Function String]}
+  model={[Function Object]}
 >
   <div
     class="user-voice-container"

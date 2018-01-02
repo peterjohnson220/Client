@@ -1,14 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { generateMockUserContext, generateMockNavigationLink } from 'libs/models';
-
-import { UserMenuComponent } from './user-menu.component';
 import { UserVoiceIndicatorComponent } from './user-voice-indicator.component';
+import { generateMockUserVoiceModel } from '../../models';
 
 describe('User Voice Indicator', () => {
-  let fixture: ComponentFixture<UserMenuComponent>;
-  let instance: UserMenuComponent;
+  let fixture: ComponentFixture<UserVoiceIndicatorComponent>;
+  let instance: UserVoiceIndicatorComponent;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -26,7 +24,7 @@ describe('User Voice Indicator', () => {
 
   it('should show the link to user voice', () => {
 
-    instance.userContext = generateMockUserContext();
+    instance.model = generateMockUserVoiceModel();
 
     fixture.detectChanges();
 
