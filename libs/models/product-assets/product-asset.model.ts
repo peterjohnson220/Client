@@ -5,7 +5,7 @@ export interface ProductAsset {
   Url: string;
   ThumbnailUrl: string;
   ProductAssetType: any;
-  CreatedDate: Date;
+  CreateDate: Date;
   Pinned: boolean;
   PinnedDate: Date;
 }
