@@ -15,7 +15,7 @@ export class DashboardApiService {
   ) {}
 
   getUserDashboardTiles(): Observable<UserTileDto[]> {
-    return this.payfactorsApiService.get<UserTileDto[]>(`${this.endpoint}.GetUserTiles`);
+    return this.payfactorsApiService.get<UserTileDto[]>(`${this.endpoint}.GetUserTiles`, { params: { getTilePreviewData: true } });
   }
 
   reorderDashboardTiles(request: ReorderTileRequest): Observable<any> {
