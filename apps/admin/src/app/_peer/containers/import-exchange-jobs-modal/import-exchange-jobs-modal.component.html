@@ -5,8 +5,8 @@
   [submitting]="(importingExchangeJobs$ | async)"
   [isOpen$]="isOpen$"
   [formGroup]="importExchangeJobsForm"
-  (onSubmit)="handleFormSubmit($event)"
-  (onDismiss)="handleModalDismissed($event)">
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
 
   <ng-container form-content>
 

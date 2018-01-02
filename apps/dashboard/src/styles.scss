@@ -1,4 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~dragula/dist/dragula.min.css';
 body {
   background: url('./assets/images/Elegant_Background-8.jpg') repeat fixed center;
+}
+
+/* font awesome specific */
+.fa-6x{
+  font-size: 6em;
+}
+.fa-7x{
+  font-size: 7em;
+}
+.fa-8x{
+  font-size: 8em;
+}
+.fa-9x{
+  font-size: 9em;
+}
+.fa-10x{
+  font-size: 10em;
+}
+.fa-11x{
+  font-size: 11em;
 }

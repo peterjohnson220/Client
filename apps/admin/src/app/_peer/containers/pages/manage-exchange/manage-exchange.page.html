@@ -19,6 +19,6 @@
 <pf-import-exchange-jobs-modal
   [exchangeId]="(exchange$ | async).ExchangeId"
   [isOpen$]="importExchangeJobsModalOpen$"
-  (importExchangeJobsEvent)="handleImportExchangeJobs($event)"
-  (modalDismissedEvent)="handleImportExchangeJobsModalDismissed($event)">
+  (importExchangeJobsEvent)="handleImportExchangeJobs()"
+  (modalDismissedEvent)="handleImportExchangeJobsModalDismissed()">
 </pf-import-exchange-jobs-modal>
