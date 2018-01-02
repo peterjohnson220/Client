@@ -1,10 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { Observable } from 'rxjs/Observable';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import { generateMockUserVoiceLink } from 'libs/models/navigation/user-voice-link.model';
+import { generateMockUserVoiceModel } from '../../models';
 import { UserVoiceIndicatorComponent } from './user-voice-indicator.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromUserVoiceReducer from '../../reducers';
