@@ -10,8 +10,8 @@ import { DragulaModule } from 'ng2-dragula';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { TileGridEffects } from './effects/tile-grid.effects';
 import { DashboardEffects } from './effects/dashboard.effects';
+import { TileGridEffects, UserVoiceEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -21,15 +21,16 @@ import { MainRoutingModule } from './main-routing.module';
 
 // Containers
 import { DashboardPageComponent } from './containers';
-import { TileGridComponent } from './containers/tile-grid';
-import { TimelineActivityComponent } from './containers/timeline-activity';
+import { TileGridComponent } from './containers';
+import { TimelineActivityComponent } from './containers';
+import { UserVoiceIndicatorComponent } from './containers';
 
 // Components
-import { TileComponent } from './components/tile';
-import { TilePreviewChartComponent } from './components/tile-preview/chart';
-import { TilePreviewIconComponent } from './components/tile-preview/icon';
-import { TilePreviewListComponent } from './components/tile-preview/list';
-import { UserVoiceIndicatorComponent } from './components';
+import { TileComponent } from './components';
+import { TilePreviewChartComponent } from './components';
+import { TilePreviewIconComponent } from './components';
+import { TilePreviewListComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { UserVoiceIndicatorComponent } from './components';
     // 3rd Party
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects, DashboardEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
 
     // Routing
     MainRoutingModule,
