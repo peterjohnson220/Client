@@ -45,7 +45,6 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   cleanUpModal(): void {
     if (this.activeModal) {
       this.activeModal.close();
-      this.attemptedSubmit = false;
       this.formGroup.reset();
     }
   }
@@ -66,7 +65,10 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
           size: this.size
         });
         this.activeModal.result.then(() => {
-          this.onDismiss.emit();
+          if (this.attemptedSubmit) {
+            this.attemptedSubmit = false;
+            this.onDismiss.emit();
+          }
         }, () => {
           this.onDismiss.emit();
         });

@@ -17,6 +17,14 @@ export class GridFilterService {
     }
   }
 
+  static clearFilters(gridState: State): void {
+    if (!gridState.filter) {
+      return;
+    }
+
+    gridState.filter.filters = [];
+  }
+
   private static addColumnFilter(columnName: string, value: string, compositeFilter: CompositeFilterDescriptor) {
     const hasValue = value && value.length > 0;
     if (!hasValue) {

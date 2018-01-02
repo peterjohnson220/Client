@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -10,6 +10,7 @@ import {
 } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
+import { PfInputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { GridFilterService } from 'libs/shared/grid';
 import { PfValidators } from 'libs/forms/validators';
@@ -24,6 +25,7 @@ import * as fromPeerAdminReducer from '../../reducers';
   styleUrls: ['./add-companies-modal.component.scss']
 })
 export class AddCompaniesModalComponent implements OnInit, OnDestroy {
+  @ViewChild(PfInputDebounceComponent) debouncedSearchTerm: PfInputDebounceComponent;
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   addCompaniesModalOpen$: Observable<boolean>;
@@ -38,6 +40,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   selections: number[] = [];
   exchangeId: number;
   searchTerm: string;
+  gridReset = false;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -80,7 +83,11 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
+    this.gridState.skip = 0;
     this.selections = [];
+    // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
+    this.debouncedSearchTerm.clearValue();
+    this.gridReset = true;
   }
 
   // Grid
@@ -132,7 +139,11 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.addCompaniesModalOpenSubscription = this.addCompaniesModalOpen$.subscribe(isOpen => {
       if (isOpen) {
-        this.loadAvailableCompanies();
+        if (!this.gridReset) {
+          this.loadAvailableCompanies();
+        } else {
+          this.gridReset = false;
+        }
       }
     });
     this.addCompaniesErrorSubscription = this.addingCompaniesError$.subscribe(error => {
