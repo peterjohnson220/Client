@@ -25,11 +25,6 @@ describe('Manage Exchange Page', () => {
           peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         })
       ],
-      providers: [
-        {
-          useValue: { navigate: jest.fn() },
-        }
-      ],
       declarations: [
         ManageExchangePageComponent
       ],
