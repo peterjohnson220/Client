@@ -1,5 +1,5 @@
-<div class="user-voice-container">
-  <a href="/payfactors/UserVoice/Redirect?userId={{ model.userId }}&url={{ model.userVoiceUrl }}{{ model.userVoiceForumId }}">
+<div *ngIf="(userVoiceLink$ | async)?.Url " class="user-voice-container">
+  <a href="{{ (userVoiceLink$ | async)?.Url }}?userId={{ model.userId }}&url={{ model.userVoiceUrl }}{{ model.userVoiceForumId }}">
     <span class="fa-stack fa-2x">
       <i class="fa fa-circle fa-stack-2x user-voice-icon-color"></i>
       <i class="fa fa-circle-thin fa-stack-2x text-white"></i>
