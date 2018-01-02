@@ -8,6 +8,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/common/common.module';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
@@ -36,6 +37,7 @@ import { AddCompaniesModalComponent } from './containers/add-companies-modal';
     PeerAdminRoutingModule,
 
     // Payfactors
+    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
     PfSharedModule

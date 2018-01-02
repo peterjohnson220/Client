@@ -8,8 +8,10 @@
   border-top: 1px solid #eceeef;
 }
 
-:host ::ng-deep .k-grid.row-click-navigates tbody{
-  cursor: pointer;
+:host ::ng-deep .k-grid {
+  &.row-click-navigates tbody, &.row-click-selects tbody {
+    cursor: pointer;
+  }
 }
 
 :host ::ng-deep .k-grid tbody tr {

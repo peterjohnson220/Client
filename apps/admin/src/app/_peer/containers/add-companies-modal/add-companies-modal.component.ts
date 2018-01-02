@@ -35,12 +35,11 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   addCompaniesModalOpenSubscription: Subscription;
   addCompaniesErrorSubscription: Subscription;
   addCompaniesForm: FormGroup;
-  gridState: State = { skip: 0, take: 5 };
+  gridState: State = { skip: 0, take: 10 };
   attemptedSubmit = false;
   selections: number[] = [];
   exchangeId: number;
   searchTerm: string;
-  gridReset = false;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -83,11 +82,12 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
-    this.gridState.skip = 0;
     this.selections = [];
     // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
-    this.debouncedSearchTerm.clearValue();
-    this.gridReset = true;
+    this.debouncedSearchTerm.setSilently('');
+    GridFilterService.clearFilters(this.gridState);
+    this.gridState.skip = 0;
+    this.gridState.sort = [];
   }
 
   // Grid
@@ -139,11 +139,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.addCompaniesModalOpenSubscription = this.addCompaniesModalOpen$.subscribe(isOpen => {
       if (isOpen) {
-        if (!this.gridReset) {
-          this.loadAvailableCompanies();
-        } else {
-          this.gridReset = false;
-        }
+        this.loadAvailableCompanies();
       }
     });
     this.addCompaniesErrorSubscription = this.addingCompaniesError$.subscribe(error => {

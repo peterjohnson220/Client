@@ -84,6 +84,10 @@ export class PfInputDebounceComponent implements OnInit, ControlValueAccessor {
     this.clearEvent.next('');
   }
 
+  setSilently(newValue: string) {
+    this.inputValue = newValue;
+  }
+
   onKey() {
     this.propogateChange(this.inputValue);
   }

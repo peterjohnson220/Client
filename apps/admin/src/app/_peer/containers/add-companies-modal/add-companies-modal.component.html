@@ -14,7 +14,6 @@
       [loadingErrorMessage]="'Error loading exchange companies'"
       (reload)="handleAvailableCompaniesGridReload()">
       <div class="form-group">
-        <label for="search-box">Search for and select the companies that will be part of this Peer Exchange.</label>
         <pf-input-debounce id="search-box"
                            (valueChanged)="updateSearchFilter($event)"
                            [delay]="400" [inputValue]="searchTerm"
@@ -23,6 +22,7 @@
       </div>
 
       <kendo-grid
+        class="row-click-selects"
         [data]="view$ | async"
         [pageSize]="gridState.take"
         [skip]="gridState.skip"
@@ -34,6 +34,8 @@
         [selectable]="{
           checkboxOnly: true
         }"
+        [scrollable]="true"
+        [height]="400"
         [sortable]="true"
         [sort]="gridState.sort"
         [kendoGridSelectBy]="selectionKey"
@@ -48,7 +50,11 @@
 
         <kendo-grid-column field="Industry" title="Industry" [width]="100"></kendo-grid-column>
 
-        <kendo-grid-column field="Revenue" title="Revenue"></kendo-grid-column>
+        <kendo-grid-column field="Revenue" title="Revenue">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.Revenue | humanizeNumber}}
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="FTEs" title="FTEs"></kendo-grid-column>
 
@@ -64,10 +70,8 @@
     <div class="form-group">
       <input type="hidden" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
-        <div *ngIf="selectionsControl.errors.selectionRequired" class="invalid-feedback">A selection is required.</div>
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>
-      <span *ngIf="!attemptedSubmit || !selectionsControl.errors" class="pf-placeholder"></span>
     </div>
   </ng-container>
 </pf-modal-form>
