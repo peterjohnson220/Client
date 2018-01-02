@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
-import { ExchangeApiService } from './peer';
+import { ExchangeApiService, ExchangeCompanyApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
 
@@ -13,6 +13,7 @@ import { DashboardApiService } from './dashboard';
     CompanySecurityApiService,
     DashboardApiService,
     ExchangeApiService,
+    ExchangeCompanyApiService,
     NavigationApiService,
     PayfactorsApiService,
   ]

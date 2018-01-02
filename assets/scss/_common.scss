@@ -21,7 +21,8 @@
   box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5)
 }
 
-.pf-form-text {
-  @extend .form-text;
-  font-size: .875rem;
+// This helper class can be used when you want an empty html element to act as a placeholder for positioning purposes
+.pf-placeholder:after {
+  content: ".";
+  visibility: hidden;
 }

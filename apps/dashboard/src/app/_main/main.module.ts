@@ -7,8 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { TileGridEffects } from './effects/tile-grid.effects';
-import { UserVoiceEffects } from './effects/user-voice.effects';
+import { TileGridEffects, UserVoiceEffects } from './effects';
+
 // Reducers
 import { reducers } from './reducers';
 
@@ -27,6 +27,7 @@ import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 
+import { DragulaModule } from 'ng2-dragula';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { TilePreviewListComponent } from './components/tile-preview/list';
     CommonModule,
 
     // 3rd Party
+    DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects]),
 
@@ -47,7 +49,6 @@ import { TilePreviewListComponent } from './components/tile-preview/list';
     // Pages
     DashboardPageComponent,
     // Components
-    UserVoiceIndicatorComponent,
     TileComponent,
     TileGridComponent,
     TilePreviewChartComponent,
@@ -55,6 +56,7 @@ import { TilePreviewListComponent } from './components/tile-preview/list';
     TilePreviewListComponent,
     TimelineActivityComponent,
     TileComponent,
+    UserVoiceIndicatorComponent,
   ]
 })
 export class MainModule {

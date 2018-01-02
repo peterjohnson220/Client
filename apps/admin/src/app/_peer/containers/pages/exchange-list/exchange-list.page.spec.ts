@@ -6,12 +6,11 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
-
-import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
-import * as fromPeerAdminReducer from '../../../reducers';
+import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
+import * as fromSharedPeerReducer from 'libs/shared/peer/reducers';
 import { ExchangeListPageComponent } from './exchange-list.page';
 
-describe('Exchange List Page', () => {
+describe('Admin - Exchange List Page', () => {
   let fixture: ComponentFixture<ExchangeListPageComponent>;
   let instance: ExchangeListPageComponent;
   let store: Store<fromRootState.State>;
@@ -23,7 +22,7 @@ describe('Exchange List Page', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
+          peerAdmin: combineReducers(fromSharedPeerReducer.reducers)
         })
       ],
       providers: [
@@ -48,31 +47,14 @@ describe('Exchange List Page', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch a LoadingExchanges action upon Init', () => {
-    const action = new fromExchangeListActions.LoadingExchanges();
-
-       fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch a LoadingExchanges action when handleExchangeGridReload is called', () => {
-    const action = new fromExchangeListActions.LoadingExchanges();
-
-    instance.handleExchangeGridReload();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-
   it('should tell the Router to navigate to the exchange passed to handleCellClick', () => {
     spyOn(router, 'navigate');
 
     const exchangeListItem: ExchangeListItem = generateMockExchangeListItem();
 
-    instance.handleCellClick({ dataItem: exchangeListItem });
+    instance.handleCellClick(exchangeListItem.ExchangeId);
 
-    expect(router.navigate).toHaveBeenCalledWith(['/peer/exchange', 1]);
+    expect(router.navigate).toHaveBeenCalledWith(['peer/exchange', exchangeListItem.ExchangeId]);
   });
 
   it('should dispatch an OpenCreateExchangeModal action when openCreateExchangeModal is called', () => {
