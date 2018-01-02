@@ -2,6 +2,7 @@
 
 exports[`Tile should show tile name and tile data 1`] = `
 <pf-tile
+  ngAppRoot={[Function String]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
