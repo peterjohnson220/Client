@@ -26,8 +26,3 @@
   content: ".";
   visibility: hidden;
 }
-
-// Overwriting the default bootstrap styling of highlighting the currently focused element for the close button in modals
-.modal-header button.close:focus {
-  outline: none;
-}
