@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import { ProductAsset } from 'libs/models/product-assets';
+import { ProductAsset } from 'libs/models/product-assets/index';
 
-import * as fromProductAssetsActions from '../actions';
-import * as fromProductAssetsReducer from '../reducers';
+import * as fromProductAssetsActions from '../../actions/index';
+import * as fromProductAssetsReducer from '../../reducers/index';
 
 @Component({
   selector: 'pf-product-assets-list-component',

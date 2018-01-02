@@ -6,8 +6,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ProductAssetsListComponent} from './components';
-import { PayIntelligencePageComponent } from './containers';
+import { PayIntelligencePageComponent, ProductAssetsListComponent } from './containers';
 import { ProductAssetsListEffects } from './effects';
 import { PayIntelligenceRoutingModule } from './pay-intelligence-routing.module';
 import { reducers } from './reducers';
