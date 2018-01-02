@@ -30,9 +30,6 @@ export class ProductAssetsListComponent implements OnInit {
     this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());
   }
 
-  handleClick(productAsset: ProductAsset) {
-    window.open(productAsset.Url, '_blank');
-  }
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());

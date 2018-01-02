@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { UserContextGuard } from 'libs/security';
 
 import { AppWrapperComponent } from './app-wrapper.component';
-import { NotFoundErrorPageComponent } from '../../../../libs/ui/common/error/pages';
+
 
 export const routes: Routes = [
   {

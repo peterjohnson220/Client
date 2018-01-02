@@ -4,12 +4,34 @@
   [loadingErrorMessage]="'Error Loading Pay Intelligence'"
   (reload)="handleProductAssetGridReload()">
 
-      <div  class="card productAssetItem" *ngFor="let productAsset of productAssetListItems$ | async" (click)="handleClick(productAsset)">
-        <h4>
-          <img [src]="productAsset.ThumbnailUrl" class="thumbnail-image" />
-          {{productAsset.Title}}
-        </h4>
-        <div>{{productAsset.Description}}</div>
-      </div>
+  <div class="card-columns">
+
+
+
+    <div class="card" *ngFor="let productAsset of productAssetListItems$ | async">
+
+      <a href="{{productAsset.Url}}" target="_blank">
+
+        <div class="card-block">
+
+          <div>
+            <img [src]="productAsset.ThumbnailUrl" class="thumbnail-image" />
+            <br /><br />
+            <h3>{{productAsset.Title}}</h3>
+          </div>
+
+          <div class="description">
+            {{productAsset.Description}}
+          </div>
+
+        </div>
+
+      </a>
+
+    </div>
+
+
+
+</div>
 
 </pf-async-container>

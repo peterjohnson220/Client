@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { PayIntelligencePageComponent } from './containers';
-import { PayIntelligenceRoutingModule } from './pay-intelligence-routing.module';
-
 import { ProductAssetsListComponent} from './components';
-import { EffectsModule } from '@ngrx/effects';
-import { reducers } from './reducers';
-import { StoreModule } from '@ngrx/store';
+import { PayIntelligencePageComponent } from './containers';
 import { ProductAssetsListEffects } from './effects';
+import { PayIntelligenceRoutingModule } from './pay-intelligence-routing.module';
+import { reducers } from './reducers';
 
 
 @NgModule({
@@ -38,11 +38,3 @@ import { ProductAssetsListEffects } from './effects';
   ]
 })
 export class PayIntelligenceModule { }
-
-
-
-
-
-
-
-
