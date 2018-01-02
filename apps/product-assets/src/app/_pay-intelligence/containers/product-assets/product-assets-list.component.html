@@ -6,15 +6,11 @@
 
   <div class="card-columns">
 
-
-
     <div class="card" *ngFor="let productAsset of productAssetListItems$ | async">
 
       <a href="{{productAsset.Url}}" target="_blank">
 
-
-
-          <div>
+          <div class="thumbnail-and-title">
             <img [src]="productAsset.ThumbnailUrl" class="thumbnail-image" />
             <br /><br />
             <h3>{{productAsset.Title}}</h3>
@@ -24,14 +20,10 @@
             {{productAsset.Description}}
           </div>
 
-
-
       </a>
 
     </div>
 
-
-
-</div>
+  </div>
 
 </pf-async-container>
