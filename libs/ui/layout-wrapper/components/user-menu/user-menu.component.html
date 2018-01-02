@@ -6,7 +6,7 @@
         [userContext]="userContext">
       </pf-layout-wrapper-user-menu-avatar>
     </a>
-    <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right">
+    <div ngbDropdownMenu class="dropdown-menu">
       <ng-template ngFor let-dropdownNavigationLink [ngForOf]="dropdownNavigationLinks">
         <div *ngIf="dropdownNavigationLink.Name ==='Log Out' || dropdownNavigationLink.Name ==='Referrals'" class="dropdown-divider"></div>
         <!-- Temporary href conditional while current NG app still exists-->
