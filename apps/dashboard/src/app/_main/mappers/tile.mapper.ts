@@ -15,7 +15,8 @@ export class TileMapper {
       PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
       Payload: undefined,
       Size: 1,
-      CssClass: undefined
+      CssClass: undefined,
+      NgAppLink: dashboardTile.NgAppLink
     };
     return this.mapTileStylesFromTileType(tile);
   }

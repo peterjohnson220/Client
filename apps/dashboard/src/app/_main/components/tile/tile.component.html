@@ -2,7 +2,7 @@
      [ngSwitch]="tile.PreviewType"
      [ngClass]="tile.CssClass"
      >
-  <a [href]="tile.Url" class="tile-anchor-overlay"></a>
+  <a [href]="tile.NgAppLink ? '/ng/' + tile.Url : tile.Url" class="tile-anchor-overlay"></a>
   <h4>{{ tile.Label }}</h4>
 
   <!-- Tile Inner Content -->
