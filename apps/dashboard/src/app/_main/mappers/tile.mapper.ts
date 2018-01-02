@@ -8,7 +8,7 @@ export class TileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     const tile = {
-      Id: dashboardTile.TileId,
+      Id: dashboardTile.UserTileId,
       Label: dashboardTile.TileName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,

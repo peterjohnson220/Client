@@ -26,6 +26,7 @@ import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
 import { UserVoiceIndicatorComponent } from './components';
+import { DragulaModule } from 'ng2-dragula';
 
 // 3rd party
 import { ChartsModule } from '@progress/kendo-angular-charts';
@@ -36,6 +37,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
     CommonModule,
 
     // 3rd Party
+    DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects]),
     ChartsModule,

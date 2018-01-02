@@ -45,6 +45,11 @@ export function reducer(
             loadingError: true
           };
       }
+      case fromTileGridActions.REORDER_TILES_SUCCESS : {
+        return {
+          ...adapter.addAll(action.payload, state)
+        };
+      }
       default: {
         return state;
       }
