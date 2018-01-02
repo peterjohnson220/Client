@@ -14,7 +14,7 @@ exports[`Tile should show tile name and tile data 1`] = `
     
     
     <a
-      class="tileAnchorOverlay"
+      class="tile-anchor-overlay"
       href="test tile url"
     />
     
