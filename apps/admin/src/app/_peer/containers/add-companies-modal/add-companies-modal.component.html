@@ -72,8 +72,8 @@
 
     </pf-async-container>
 
-    <div class="form-group">
-      <input type="hidden" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>

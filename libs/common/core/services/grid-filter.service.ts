@@ -1,6 +1,34 @@
 import { CompositeFilterDescriptor, FilterDescriptor, State } from '@progress/kendo-data-query';
 
 export class GridFilterService {
+  static getMockGridState(columnName?: string, skip?: number): State {
+    const field = columnName || 'test';
+    return {
+      skip: skip || 10,
+      sort: [{field: field, dir: 'asc'}],
+      filter: {
+        filters: [{
+          field: field,
+          logic: 'and',
+          value: 'test',
+          filters: []
+        }],
+        logic: 'and'
+      }
+    };
+  }
+
+  static getMockEmptyGridState(): State {
+    return {
+      skip: 0,
+      sort: [],
+      filter: {
+        filters: [],
+        logic: 'and'
+      }
+    };
+  }
+
   static updateFilter(columnName: string, value: string, gridState: State): void {
     this.assumeCompositeFilter(gridState);
     const compositeFilter = gridState.filter;

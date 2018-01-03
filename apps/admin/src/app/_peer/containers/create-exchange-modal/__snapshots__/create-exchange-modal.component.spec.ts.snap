@@ -131,10 +131,8 @@ exports[`Create Exchange Modal should show the form text and no error messages w
         
       
       <span
-        class="pf-form-text text-muted"
-      >
-        An exchange name is required and must be unique.
-      </span>
+        class="pf-placeholder"
+      />
       
       
     </div>
