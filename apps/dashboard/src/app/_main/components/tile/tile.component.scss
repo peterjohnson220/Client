@@ -12,16 +12,22 @@
   border: solid 2px #c7c2c2;
 }
 
-.tileBlue {
+.tile-blue {
   background-color: $tile-blue-color;
 }
 
-.tileLightBlue {
+.tile-lightblue {
   background-color: $tile-light-blue-color;
 }
 
-.tileGreen {
+.tile-green {
   background-color: $tile-green-color;
 }
 
-
+.tile-anchor-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}

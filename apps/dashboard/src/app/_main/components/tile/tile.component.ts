@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 
+import { environment } from 'environments/environment';
+
 import { Tile } from '../../models';
 import { TilePreviewType } from '../../models';
+
 
 @Component({
   selector: 'pf-tile',
@@ -10,5 +13,6 @@ import { TilePreviewType } from '../../models';
 })
 export class TileComponent {
   tilePreviewType: TilePreviewType = new TilePreviewType();
+  ngAppRoot = environment.ngAppRoot;
   @Input() tile: Tile;
 }
