@@ -1,15 +1,15 @@
-a:link, a:visited, a:hover {
+.card {
+  min-height: 260px;
+  padding: 10px;
+}
+
+.card a {
   color: #212529;
   text-decoration: none;
 }
 
 .card-columns{
   column-count: 2;
-}
-
-.card {
-  min-height: 260px;
-  padding: 10px;
 }
 
 .thumbnail-image {
