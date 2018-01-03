@@ -9,12 +9,8 @@ import 'rxjs/add/operator/debounceTime';
 @Component({
   selector: 'pf-input-debounce',
   styles: [`
-        .input-group{
+        .input-group {
             width:100%
-        }
-        .input-group-addon{
-            width: 36px !important;
-            cursor: pointer;
         }
         .form-control::-ms-clear {
             display: none;
@@ -31,7 +27,7 @@ import 'rxjs/add/operator/debounceTime';
            (keyup)="onKey()"
            [(ngModel)]="inputValue"
            focus>
-    <div (click)="clearValue()" class="input-group-addon">
+    <div (click)="clearValue()" class="input-group-addon input-group-append">
       <i class="fa fa-times" aria-hidden="true"></i>
     </div>
   </div>
