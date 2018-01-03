@@ -1,5 +1,17 @@
+import { TileTypes } from './tile-types';
+import { TilePreviewTypes } from './tile-preview-types';
+import { Key } from 'readline';
+
 export interface TilePreviewChart {
   CategoryName: string;
   CategoryValue: number;
-  DetailData?: [string, string][];
+  DetailData?: { Key: string, Value: number }[];
+
 }
+
+export function generateMockTilePreviewChart(categoryName: string, categoryValue: number = 0, detailKey: string = '', detailValue: number = 0): TilePreviewChart {
+  return {
+    CategoryName: categoryName,
+    CategoryValue: categoryValue,
+    DetailData: [{Key: detailKey, Value: detailValue}]
+  }

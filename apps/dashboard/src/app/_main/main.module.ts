@@ -7,7 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { TileGridEffects } from './effects/tile-grid.effects';
+import { TileGridEffects, UserVoiceEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -19,13 +19,14 @@ import { MainRoutingModule } from './main-routing.module';
 import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers/tile-grid';
 import { TimelineActivityComponent } from './containers/timeline-activity';
+import { UserVoiceIndicatorComponent } from './containers/user-voice';
 
 // Components
 import { TileComponent } from './components/tile';
 import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
-import { UserVoiceIndicatorComponent } from './components';
+
 import { DragulaModule } from 'ng2-dragula';
 
 // 3rd party
@@ -39,7 +40,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
     // 3rd Party
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects]),
     ChartsModule,
 
     // Routing

@@ -19,7 +19,8 @@ export class TileMapper {
       Size: 1,
       ChartType: undefined,
       ChartLabel: undefined,
-      CssClass: undefined
+      CssClass: undefined,
+      NgAppLink: dashboardTile.NgAppLink
     };
     return this.mapTileStylesFromTileType(tile);
   }
@@ -72,15 +73,15 @@ export class TileMapper {
   static mapTileStylesFromTileType(tile: Tile): Tile {
     switch (tile.Type) {
       case TileTypes.DataInsights:
-        tile.CssClass = 'tileGreen';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Employees:
-        tile.CssClass = 'tileBlue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.JobDescriptions:
-        tile.CssClass = 'tileGreen';
+        tile.CssClass = 'tile-green';
         tile.ChartType = TilePreviewChartTypes.donut;
         tile.ChartLabel = 'Job Description Statuses';
 
@@ -88,41 +89,40 @@ export class TileMapper {
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
         this.SetChartLegendColor(tile, 'Published', '#5A99D3');
         this.SetChartLegendColor(tile, 'In Review', '#264478');
-
         break;
 
       case TileTypes.MyJobs:
-        tile.CssClass = 'tileLightBlue';
+        tile.CssClass = 'tile-lightblue';
         tile.Size = 2;
         break;
 
       case TileTypes.PayMarkets:
-        tile.CssClass = 'tileBlue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.PricingProjects:
-        tile.CssClass = 'tileLightBlue';
+        tile.CssClass = 'tile-lightblue';
         tile.Size = 2;
         break;
 
       case TileTypes.Resources:
-        tile.CssClass = 'tileBlue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.Service:
-        tile.CssClass = 'tileGreen';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Structures:
-        tile.CssClass = 'tileGreen';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Surveys:
-        tile.CssClass = 'tileBlue';
+        tile.CssClass = 'tile-blue';
         break;
 
       default:
-        tile.CssClass = 'tileGreen';
+        tile.CssClass = 'tile-green';
         tile.Size = 1;
     }
     return tile;

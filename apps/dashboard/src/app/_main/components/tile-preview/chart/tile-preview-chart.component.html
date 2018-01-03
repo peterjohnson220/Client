@@ -1,10 +1,9 @@
-<button *ngIf="showChartDetail" (click)="chartBackButtonClick()" class="btn chartDetailBackButton p-1">
-  <i class="fa fa-arrow-circle-left"></i> Back to Statuses
+<button *ngIf="showChartDetail" (click)="chartBackButtonClick()" class="btn chart-detail-back-button p-1">
+  <i class="fa fa-arrow-circle-left"></i> Back
 </button>
-<div>
-  <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true"
-               class="chart">
-    <kendo-chart-area background="none" [height]="200" [margin]="0"></kendo-chart-area>
+<div class="chart-container">
+  <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true">
+    <kendo-chart-area background="none" [height]="180" [margin]="0"></kendo-chart-area>
     <kendo-chart-series>
       <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
                                [type]="chartType" [data]="chartComponentData"
@@ -20,4 +19,4 @@
     </kendo-chart-legend>
   </kendo-chart>
 </div>
-<h2 class="pr-5 chartLabel">{{chartLabel}}</h2>
+<h2 class="pr-5 chart-label">{{chartLabel}}</h2>

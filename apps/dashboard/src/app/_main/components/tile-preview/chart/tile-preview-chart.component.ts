@@ -15,7 +15,6 @@ export class TilePreviewChartComponent {
   @Input() chartType: string;
   @Input() chartLabel: string;
 
-  public chartDetailData: any[] = [];
   public chartData: any[] = [];
 
   showChartDetail = false;
@@ -33,38 +32,33 @@ export class TilePreviewChartComponent {
   };
 
   private seriesClick(e): void {
-    if (e.value > 0) {
       this.loadChartDetail(e.category);
-    }
   }
 
   private legendClick(e): void {
-    e.preventDefault();
+    e.preventDefault(); // prevent default chart behavior of removing item from series
 
-    if (e.series.data.filter(p => p.CategoryName === e.text)[0].CategoryValue > 0) {
+    if (e.series.data.filter(p => p.CategoryName === e.text)[ 0 ].CategoryValue > 0) {
       this.loadChartDetail(e.text);
     }
   }
 
-  private chartBackButtonClick() {
+  public chartBackButtonClick() {
     this.showChartDetail = false;
     this.chartComponentData = this.chartData;
   }
 
-  private loadChartDetail(chartItem) {
+  public loadChartDetail(chartItem) {
     if (!this.showChartDetail) {
 
       this.chartData = this.chartComponentData;
       this.showChartDetail = true;
-      this.chartDetailData = this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData;
 
-      const previewChartArray: TilePreviewChart[] = [];
-      for (const item of this.chartDetailData) {
-        const previewChartItem: TilePreviewChart = { CategoryValue: item.Value, CategoryName: item.Key };
-        previewChartArray.push(previewChartItem);
-      }
-
-      this.chartComponentData = previewChartArray;
+    this.chartComponentData = (<[ any ]>this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
+        .reduce((array, item) => {
+          array.push({ CategoryValue: item.Value, CategoryName: item.Key });
+          return array;
+        }, []);
     }
   }
 }
