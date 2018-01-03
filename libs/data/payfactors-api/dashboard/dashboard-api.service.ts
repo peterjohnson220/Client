@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { UserTileDto } from '../../../models/dashboard';
-
 import { PayfactorsApiService } from '../payfactors-api.service';
+
+import { ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
 
 @Injectable()
 export class DashboardApiService {
@@ -16,5 +16,14 @@ export class DashboardApiService {
 
   getUserDashboardTiles(): Observable<UserTileDto[]> {
     return this.payfactorsApiService.get<UserTileDto[]>(`${this.endpoint}.GetUserTiles`);
+  }
+
+  reorderDashboardTiles(request: ReorderTileRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.ReArrangeTile`,
+      {
+        movedUserTileId: request.movedUserTileId,
+        newNextUserTileId: request.newNextUserTileId
+      }
+    );
   }
 }
