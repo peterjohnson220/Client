@@ -1,7 +1,7 @@
 <pf-async-container
   [loading]="loading$ | async"
   [loadingError]="loadingError$ | async"
-  [loadingErrorMessage]="'Error retrieving dashboard tiles.'"
+  [loadingErrorMessage]="'Error loading dashboard.'"
   (reload)="handleFeaturesReload()">
 
   <pf-tile-grid></pf-tile-grid>

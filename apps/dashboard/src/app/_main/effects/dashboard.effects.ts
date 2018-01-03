@@ -15,7 +15,8 @@ import { UserTileDto } from 'libs/models';
 
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import { Feature } from '../models';
-import { FeatureMapper } from '../mappers/feature.mapper';
+import { UserTileDtoToFeatureMapper } from '../mappers/usertiledto-to-feature.mapper';
+
 
 @Injectable()
 export class DashboardEffects {
@@ -24,7 +25,7 @@ export class DashboardEffects {
     .ofType(fromDashboardActions.LOADING_FEATURES)
     .switchMap(() =>
       this.dashboardApiService.getUserDashboardTiles()
-        .map((userTileDtos: UserTileDto[]) => this.mapUserTileDtosToFeatures(userTileDtos))
+        .map((userTileDtos: UserTileDto[]) => this.mapToFeatures(userTileDtos))
         .map((features: Feature[]) => new fromDashboardActions.LoadingFeaturesSuccess(features))
         .catch(error => of (new fromDashboardActions.LoadingFeaturesError(error)))
     );
@@ -32,10 +33,11 @@ export class DashboardEffects {
   constructor(
     private actions$: Actions,
     private dashboardApiService: DashboardApiService
-  ) {}
+  ) {
+  }
 
-  mapUserTileDtosToFeatures(userTileDtos: UserTileDto[]): Feature[] {
+  mapToFeatures(userTileDtos: UserTileDto[]): Feature[] {
       return userTileDtos
-        .map(dto => FeatureMapper.MapUserTileDtoToFeature(dto));
+        .map(dto => UserTileDtoToFeatureMapper.mapToFeature(dto));
   }
 }

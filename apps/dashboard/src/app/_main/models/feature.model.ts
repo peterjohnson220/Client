@@ -3,9 +3,8 @@ import { TileTypes } from './tile-types';
 import { Tile } from './tile.model';
 
 export interface Feature {
-  Type: FeatureTypes;
-  TileType: TileTypes;
-  Tile: Tile;
-  HasAccess: boolean;
-  Url: string;
+  type: FeatureTypes;
+  tileType: TileTypes;
+  hasAccess: boolean;
+  url: string;
 }

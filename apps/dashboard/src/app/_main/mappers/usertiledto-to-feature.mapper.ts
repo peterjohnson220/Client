@@ -1,24 +1,21 @@
 import { Feature, FeatureTypes, TileTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
-import { TileMapper } from './tile.mapper';
 
-export class FeatureMapper {
-
-  static MapUserTileDtoToFeature(userTileDto: UserTileDto): Feature {
-    const featureType = this.MapTileNameToFeatureType(userTileDto.TileName);
-    const tileType = this.MapFeatureTypeToTileType(featureType);
-    const tile = tileType === TileTypes.Unknown ? null : TileMapper.mapUserTileDtoToTile(userTileDto);
+export class UserTileDtoToFeatureMapper {
+  static mapToFeature(userTileDto: UserTileDto): Feature {
+    const featureType = UserTileDtoToFeatureMapper.mapTileNameToFeatureType(userTileDto.TileName);
+    const tileType = UserTileDtoToFeatureMapper.mapFeatureTypeToTileType(featureType);
+    // const tile = tileType === TileTypes.Unknown ? null : TileMapper.mapUserTileDtoToTile(userTileDto);
 
     return {
-      Type: featureType,
-      TileType: tileType,
-      Tile: tile,
-      HasAccess: userTileDto.Enabled,
-      Url: userTileDto.Url
+      type: featureType,
+      tileType: tileType,
+      hasAccess: userTileDto.Enabled,
+      url: userTileDto.Url
     };
   }
 
-  static MapTileNameToFeatureType(label: string): FeatureTypes {
+  static mapTileNameToFeatureType(label: string): FeatureTypes {
     switch (label) {
       case 'Activity':
         return FeatureTypes.Activity;
@@ -49,7 +46,7 @@ export class FeatureMapper {
     }
   }
 
-  static MapFeatureTypeToTileType(featureType: FeatureTypes): TileTypes {
+  static mapFeatureTypeToTileType(featureType: FeatureTypes): TileTypes {
     switch (featureType) {
       case FeatureTypes.Employees:
         return TileTypes.Employees;
