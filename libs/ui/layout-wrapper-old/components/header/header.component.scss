@@ -1,0 +1,14 @@
+.navbar{
+  padding: 0 0.35rem 0 0.85rem;
+  flex-shrink: 0;
+}
+
+//Downsized image blurriness fix
+.navbar-brand img{
+  image-rendering: -webkit-optimize-contrast;
+  margin-bottom: 0.2rem;
+}
+
+.dropdown-header{
+  font-size: 1rem;
+}

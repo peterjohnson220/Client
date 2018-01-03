@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Exchange Modal should not show the form text and should show a required error message once a submit has been attempted 1`] = `
+<pf-create-exchange-modal
+  attemptedSubmit={[Function Boolean]}
+  createExchangeForm={[Function FormGroup]}
+  createExchangeModalOpen$={[Function Store]}
+  creatingExchange$={[Function Store]}
+  creatingExchangeError$={[Function Store]}
+  creatingExchangeErrorMessage$={[Function Store]}
+  errorMessageSubscription={[Function Subscriber]}
+  errorSubscription={[Function Subscriber]}
+  errorValidationMessage=""
+  fb={[Function FormBuilder]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Create New Exchange"
+  >
+    
+    
+    
+    
+      
+    <div
+      class="form-group"
+    >
+      
+        
+      <label
+        class="col-form-label"
+        for="exchange-name"
+      >
+        Please give the new exchange a name:
+      </label>
+      
+        
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="name"
+        id="exchange-name"
+        ng-reflect-name="name"
+        pffocus=""
+        placeholder="Exchange Name"
+        type="text"
+      />
+      
+        
+      
+      
+      
+          
+      
+      <div
+        class="invalid-feedback"
+      >
+        Name is required.
+      </div>
+      
+          
+      
+      
+        
+      
+        
+      
+      
+      
+    </div>
+    
+    
+    
+  
+  </pf-modal-form>
+  
+</pf-create-exchange-modal>
+`;
+
+exports[`Create Exchange Modal should show the form text and no error messages when a submit has not been attempted 1`] = `
+<pf-create-exchange-modal
+  attemptedSubmit="false"
+  createExchangeForm={[Function FormGroup]}
+  createExchangeModalOpen$={[Function Store]}
+  creatingExchange$={[Function Store]}
+  creatingExchangeError$={[Function Store]}
+  creatingExchangeErrorMessage$={[Function Store]}
+  errorMessageSubscription={[Function Subscriber]}
+  errorSubscription={[Function Subscriber]}
+  errorValidationMessage=""
+  fb={[Function FormBuilder]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Create New Exchange"
+  >
+    
+    
+    
+    
+      
+    <div
+      class="form-group"
+    >
+      
+        
+      <label
+        class="col-form-label"
+        for="exchange-name"
+      >
+        Please give the new exchange a name:
+      </label>
+      
+        
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="name"
+        id="exchange-name"
+        ng-reflect-name="name"
+        pffocus=""
+        placeholder="Exchange Name"
+        type="text"
+      />
+      
+        
+      
+      
+        
+      
+      <span
+        class="pf-placeholder"
+      />
+      
+      
+    </div>
+    
+    
+    
+  
+  </pf-modal-form>
+  
+</pf-create-exchange-modal>
+`;

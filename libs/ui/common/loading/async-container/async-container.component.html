@@ -1,0 +1,23 @@
+<div *ngIf="loading || loadingError" class="loading-blanket">
+  <div class="loading-blanket-center">
+
+    <ng-container *ngIf="!loadingError">
+      <pf-loading-indicator></pf-loading-indicator>
+    </ng-container>
+
+    <ng-container *ngIf="loadingError">
+
+      <div class="d-flex flex-column align-items-center alert alert-danger">
+        <pf-error-indicator [message]="loadingErrorMessage || 'Error loading content.'"></pf-error-indicator>
+
+        <ng-container *ngIf="!hideReloadButton">
+          <button class="btn btn-danger mt-3" (click)="reload.emit()">{{ reloadText }}</button>
+        </ng-container>
+      </div>
+
+    </ng-container>
+
+  </div>
+</div>
+
+<ng-content></ng-content>

@@ -4,19 +4,24 @@ import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ErrorIndicatorComponent } from './error';
-import { LoadingIndicatorComponent, LoadingUserContextComponent, LoadingMaskComponent } from './loading';
+import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
+import { LoadingIndicatorComponent, LoadingUserContextComponent,
+         AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
+import { ValidationResultsComponent } from './validation';
 
 const components = [
   // Error
-  ErrorIndicatorComponent,
-  
+  ErrorIndicatorComponent, NotFoundErrorPageComponent,
+
   // Loading
-  LoadingIndicatorComponent, LoadingUserContextComponent, LoadingMaskComponent,
+  AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
 
   // Page Layouts
-  PageWithTitleBarComponent
+  PageWithTitleBarComponent,
+
+  // Validation
+  ValidationResultsComponent
 ];
 
 @NgModule({

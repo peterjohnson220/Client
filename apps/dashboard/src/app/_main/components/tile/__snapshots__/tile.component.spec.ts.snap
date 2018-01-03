@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile should show tile name and tile data 1`] = `
+<pf-tile
+  ngAppRoot={[Function String]}
+  tile={[Function Object]}
+  tilePreviewType={[Function TilePreviewType]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-switch="1"
+  >
+    
+    
+    <a
+      class="tile-anchor-overlay"
+      href="test tile url"
+    />
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+  
+    
+    
+    
+    
+    
+  
+    
+    
+    <pf-tile-preview-icon>
+      
+    
+    </pf-tile-preview-icon>
+    
+  
+    
+    
+    
+  
+  
+  </div>
+  
+</pf-tile>
+`;

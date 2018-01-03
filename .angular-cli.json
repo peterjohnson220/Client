@@ -33,6 +33,106 @@
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
+        "staging": "../../../environments/environment.staging.ts",
+        "prod": "../../../environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "dashboard",
+      "root": "apps/dashboard/src",
+      "outDir": "dist/apps/dashboard",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "web.config"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "../../../test.ts",
+      "tsconfig": "../../../tsconfig.app.json",
+      "testTsconfig": "../../../tsconfig.spec.json",
+      "prefix": "pf",
+      "styles": [
+        "../../../assets/scss/client.scss",
+        "styles.scss"
+      ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../../../assets/scss"
+        ]
+      },
+      "scripts": [],
+      "environmentSource": "../../../environments/environment.ts",
+      "environments": {
+        "dev": "../../../environments/environment.ts",
+        "staging": "../../../environments/environment.staging.ts",
+        "prod": "../../../environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "peer",
+      "root": "apps/peer/src",
+      "outDir": "dist/apps/peer",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "web.config"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "../../../test.ts",
+      "tsconfig": "../../../tsconfig.app.json",
+      "testTsconfig": "../../../tsconfig.spec.json",
+      "prefix": "pf",
+      "styles": [
+        "../../../assets/scss/client.scss",
+        "styles.scss"
+      ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../../../assets/scss"
+        ]
+      },
+      "scripts": [],
+      "environmentSource": "../../../environments/environment.ts",
+      "environments": {
+        "dev": "../../../environments/environment.ts",
+        "staging": "../../../environments/environment.staging.ts",
+        "prod": "../../../environments/environment.prod.ts"
+      }
+    },
+    {
+      "name": "product-assets",
+      "root": "apps/product-assets/src",
+      "outDir": "dist/apps/product-assets",
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "web.config"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "../../../test.ts",
+      "tsconfig": "../../../tsconfig.app.json",
+      "testTsconfig": "../../../tsconfig.spec.json",
+      "prefix": "pf",
+      "styles": [
+        "../../../assets/scss/client.scss",
+        "styles.scss"
+      ],
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "../../../assets/scss"
+        ]
+      },
+      "scripts": [],
+      "environmentSource": "../../../environments/environment.ts",
+      "environments": {
+        "dev": "../../../environments/environment.ts",
+        "staging": "../../../environments/environment.staging.ts",
         "prod": "../../../environments/environment.prod.ts"
       }
     }

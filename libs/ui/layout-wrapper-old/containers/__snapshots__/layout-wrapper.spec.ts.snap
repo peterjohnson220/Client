@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout Wrapper should transclude 1`] = `
+<ng-component>
+  
+      <pf-layout-wrapper>
+    <div
+      class="flex-column-container"
+    >
+      
+    
+      <div
+        class="header"
+      >
+        
+      
+        <pf-layout-wrapper-header>
+          
+      
+        </pf-layout-wrapper-header>
+        
+    
+      </div>
+      
+    
+      <div
+        class="content"
+      >
+        
+      
+        <h1>
+          Transclusion Works!
+        </h1>
+        
+    
+      </div>
+      
+  
+    </div>
+    
+  
+  </pf-layout-wrapper>
+</ng-component>
+`;

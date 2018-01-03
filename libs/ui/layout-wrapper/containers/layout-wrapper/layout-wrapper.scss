@@ -1,0 +1,33 @@
+@import 'colors';
+
+.wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+header {
+  height: 47px;
+}
+
+.flex-row-nowrap {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.left-sidebar {
+  background: $left-sidebar-color;
+}
+
+.right-sidebar {
+  background: $right-sidebar-color;
+}
+
+.footer-container {
+  background-color: #1F2F3D;
+  opacity: 0.5;
+}

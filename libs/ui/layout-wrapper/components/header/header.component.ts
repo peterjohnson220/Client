@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { NavigationLink, UserContext } from '../../../../models';
+import { NavigationLink, UserContext } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-header',
@@ -8,8 +8,8 @@ import { NavigationLink, UserContext } from '../../../../models';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  @Input() avatarSource: string;
-  @Input() companyLogoSource: string;
+  payfactorsLogo = './assets/images/PayFactors-logo-onBlue-RGB_0313.png';
+
   @Input() gettingDropDownNavigationLinks: boolean;
   @Input() gettingDropdownNavigationLinksError: boolean;
 

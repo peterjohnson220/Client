@@ -1,0 +1,33 @@
+@import 'colors';
+
+.tile {
+  border-radius: 2px;
+  border: solid 2px rgba(0, 0, 0, 0);
+  height: 200px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tile:hover {
+  border: solid 2px #c7c2c2;
+}
+
+.tile-blue {
+  background-color: $tile-blue-color;
+}
+
+.tile-lightblue {
+  background-color: $tile-light-blue-color;
+}
+
+.tile-green {
+  background-color: $tile-green-color;
+}
+
+.tile-anchor-overlay{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}

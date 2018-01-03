@@ -1,0 +1,23 @@
+<ng-template>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      {{title}}
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+      <ng-content select="[form-content]"></ng-content>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>
+    <button type="button" class="btn btn-primary" [disabled]="submitting || !formGroup.valid || !(formGroup.dirty || formGroup.touched)" (click)="submit()">
+      <span *ngIf="submitting"><pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}</span>
+      <span *ngIf="!submitting">{{primaryButtonText}}</span>
+    </button>
+  </div>
+</ng-template>
+<div [id]="modalId" class="modal-container"></div>

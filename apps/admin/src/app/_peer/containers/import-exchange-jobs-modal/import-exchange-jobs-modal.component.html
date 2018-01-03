@@ -1,0 +1,32 @@
+<pf-modal-form
+  [title]="'Import Exchange Jobs'"
+  [primaryButtonText]="'Import'"
+  [primaryButtonTextSubmitting]="'Importing'"
+  [submitting]="(importingExchangeJobs$ | async)"
+  [isOpen$]="isOpen$"
+  [formGroup]="importExchangeJobsForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <pf-async-container
+      [loading]="uploadingFile$ | async"
+      [loadingError]="uploadingFileError$ | async"
+      [loadingErrorMessage]="'Error Uploading File'"
+      [reloadText]="'Try Again'"
+      (reload)="handleUploadingFileErrorRetry()">
+
+      <div class="form-group">
+        <label class="col-form-label" for="file-upload">Please select a data file to import:</label>
+        <input type="file" class="form-control file-upload" id="file-upload" formControlName="fileUpload"
+               (change)="fileChanged($event)">
+        <input type="hidden" name="isFileValid" formControlName="isFileValid" [ngModel]="isFileValid" />
+      </div>
+      <pf-validation-results [validationResults]="(validationResults$ | async)"
+                             [hideIfEmpty]="true"></pf-validation-results>
+    </pf-async-container>
+
+  </ng-container>
+
+</pf-modal-form>

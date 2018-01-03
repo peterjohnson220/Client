@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`header should show the logo 1`] = `
+<pf-layout-wrapper-header
+  payfactorsLogo={[Function String]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    
+    
+    <a
+      class="navbar-brand mr-auto"
+      href="/marketdata/home.asp"
+    >
+      
+      
+      <img
+        class="logo-style"
+        src="payfactorsLogoUrl"
+      />
+      
+    
+    </a>
+    
+  
+    
+    <pf-layout-wrapper-user-menu>
+      
+    
+    </pf-layout-wrapper-user-menu>
+    
+  
+  </nav>
+  
+</pf-layout-wrapper-header>
+`;

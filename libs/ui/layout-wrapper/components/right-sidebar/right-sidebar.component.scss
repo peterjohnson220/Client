@@ -1,0 +1,43 @@
+$right-sidebar-open-width: 350px;
+
+.right-sidebar-dock {
+  min-width: 35px;
+  height: 100%;
+}
+
+.close-sidebar-icon {
+  text-align: right;
+  width: 100%;
+  cursor: pointer;
+}
+
+.open-sidebar-icon {
+  color: #fff;
+  position: fixed;
+  right: 10px;
+  top: 70px;
+  cursor: pointer;
+}
+
+.right-sidebar-content {
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.right-sidebar-close {
+  width: 0;
+  transition: .5s;
+  overflow: hidden;
+}
+
+.right-sidebar-open {
+  width: $right-sidebar-open-width;
+  overflow: hidden;
+  transition: .5s;
+}
+
+.sidebar-width {
+  min-width: $right-sidebar-open-width;
+}
