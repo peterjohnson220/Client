@@ -66,7 +66,7 @@ export class TileGridComponent implements OnInit {
     const [tile] = args;
     const tileIndex = TileGridComponent.getTileIndex(tile);
     const nextTileIndex = tileIndex < (this.tiles.length - 1) ? tileIndex + 1 : null;
-    const nextTileId = nextTileIndex !== null ? this.tiles[nextTileIndex].Id : null;
+    const nextTileId = nextTileIndex !== null ? this.tiles[nextTileIndex].id : null;
     const reorderTileRequest: ReorderTileRequest = {
       movedUserTileId: this.movedTileId,
       newNextUserTileId: nextTileId
@@ -77,7 +77,7 @@ export class TileGridComponent implements OnInit {
   private onOver(args) {
     const [tile] = args;
     const movedTileIndex = TileGridComponent.getTileIndex(tile);
-    this.movedTileId = this.tiles[movedTileIndex].Id;
+    this.movedTileId = this.tiles[movedTileIndex].id;
   }
 
   handleTilesGridReload() {

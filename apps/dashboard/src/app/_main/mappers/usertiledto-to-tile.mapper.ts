@@ -1,27 +1,26 @@
 import { Tile, TileTypes, TilePreviewTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
 
-export class TileMapper {
+export class UserTileToTileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
-    const tile = {
-      Id: dashboardTile.UserTileId,
-      Label: dashboardTile.TileName,
-      IconClass: dashboardTile.IconClass,
-      Url: dashboardTile.Url,
-      Order: dashboardTile.UserOrder,
-      Type: TileMapper.mapTileNameToTileType(dashboardTile.TileName),
-      PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
-      Payload: undefined,
-      Size: 1,
-      CssClass: undefined,
-      NgAppLink: dashboardTile.NgAppLink
-    };
-    return this.mapTileStylesFromTileType(tile);
+    return this.setTileStylesProperties({
+      id: dashboardTile.UserTileId,
+      label: dashboardTile.TileName,
+      iconClass: dashboardTile.IconClass,
+      url: dashboardTile.Url,
+      order: dashboardTile.UserOrder,
+      type: this.mapTileTypeFromTileName(dashboardTile.TileName),
+      previewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
+      payload: undefined,
+      size: 1,
+      cssClass: undefined,
+      ngAppLink: dashboardTile.NgAppLink
+    });
   }
 
-  static mapTileNameToTileType(label: string): TileTypes {
-    switch (label) {
+  static mapTileTypeFromTileName(tileName: string): TileTypes {
+    switch (tileName) {
       case 'Employees':
         return TileTypes.Employees;
       case 'Data Insights':
@@ -47,7 +46,7 @@ export class TileMapper {
     }
   }
 
-  static mapTileTypeToTileContentType(tileType: TileTypes): TilePreviewTypes {
+  static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
     switch (tileType) {
       case TileTypes.Employees:
       case TileTypes.JobDescriptions:
@@ -65,53 +64,53 @@ export class TileMapper {
     }
   }
 
-  static mapTileStylesFromTileType(tile: Tile): Tile {
-    switch (tile.Type) {
+  static setTileStylesProperties(tile: Tile): Tile {
+    switch (tile.type) {
       case TileTypes.DataInsights:
-        tile.CssClass = 'tile-green';
+        tile.cssClass = 'tile-green';
         break;
 
       case TileTypes.Employees:
-        tile.CssClass = 'tile-blue';
+        tile.cssClass = 'tile-blue';
         break;
 
       case TileTypes.JobDescriptions:
-        tile.CssClass = 'tile-green';
+        tile.cssClass = 'tile-green';
         break;
 
       case TileTypes.MyJobs:
-        tile.CssClass = 'tile-lightblue';
-        tile.Size = 2;
+        tile.cssClass = 'tile-lightblue';
+        tile.size = 2;
         break;
 
       case TileTypes.PayMarkets:
-        tile.CssClass = 'tile-blue';
+        tile.cssClass = 'tile-blue';
         break;
 
       case TileTypes.PricingProjects:
-        tile.CssClass = 'tile-lightblue';
-        tile.Size = 2;
+        tile.cssClass = 'tile-lightblue';
+        tile.size = 2;
         break;
 
       case TileTypes.Resources:
-        tile.CssClass = 'tile-blue';
+        tile.cssClass = 'tile-blue';
         break;
 
       case TileTypes.Service:
-        tile.CssClass = 'tile-green';
+        tile.cssClass = 'tile-green';
         break;
 
       case TileTypes.Structures:
-        tile.CssClass = 'tile-green';
+        tile.cssClass = 'tile-green';
         break;
 
       case TileTypes.Surveys:
-        tile.CssClass = 'tile-blue';
+        tile.cssClass = 'tile-blue';
         break;
 
       default:
-        tile.CssClass = 'tile-green';
-        tile.Size = 1;
+        tile.cssClass = 'tile-green';
+        tile.size = 1;
     }
     return tile;
   }

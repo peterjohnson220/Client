@@ -5,7 +5,6 @@ export class UserTileDtoToFeatureMapper {
   static mapToFeature(userTileDto: UserTileDto): Feature {
     const featureType = UserTileDtoToFeatureMapper.mapTileNameToFeatureType(userTileDto.TileName);
     const tileType = UserTileDtoToFeatureMapper.mapFeatureTypeToTileType(featureType);
-    // const tile = tileType === TileTypes.Unknown ? null : TileMapper.mapUserTileDtoToTile(userTileDto);
 
     return {
       type: featureType,

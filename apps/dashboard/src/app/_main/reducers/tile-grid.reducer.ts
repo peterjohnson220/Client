@@ -11,7 +11,7 @@ export interface State extends EntityState<Tile> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<Tile> = createEntityAdapter<Tile>({
-  selectId: (tile: Tile) => tile.Id
+  selectId: (tile: Tile) => tile.id
 });
 
 export const initialState: State = adapter.getInitialState({

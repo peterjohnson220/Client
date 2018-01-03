@@ -2,31 +2,31 @@ import { TileTypes } from './tile-types';
 import { TilePreviewTypes } from './tile-preview-types';
 
 export interface Tile {
-  Id: number;
-  Label: string;
-  Type: TileTypes;
-  PreviewType: TilePreviewTypes;
-  IconClass: string;
-  CssClass: string;
-  Payload: any;
-  Size: number;
-  Order: number;
-  Url: string;
-  NgAppLink: boolean;
+  id: number;
+  label: string;
+  type: TileTypes;
+  previewType: TilePreviewTypes;
+  iconClass: string;
+  cssClass: string;
+  payload: any;
+  size: number;
+  order: number;
+  url: string;
+  ngAppLink: boolean;
 }
 
 export function generateMockTile(): Tile {
   return {
-    Id: 1,
-    Label: 'test tile',
-    Type: TileTypes.PayMarkets,
-    PreviewType: TilePreviewTypes.Icon,
-    IconClass: 'fa fa-file-text-o',
-    Url: 'test tile url',
-    NgAppLink: false,
-    Order: 0,
-    Size: 2,
-    CssClass: 'test cssClass',
-    Payload: [ 'test tile data' ]
+    id: 1,
+    label: 'test tile',
+    type: TileTypes.PayMarkets,
+    previewType: TilePreviewTypes.Icon,
+    iconClass: 'fa fa-file-text-o',
+    url: 'test tile url',
+    ngAppLink: false,
+    order: 0,
+    size: 2,
+    cssClass: 'test cssClass',
+    payload: [ 'test tile data' ]
   };
 }

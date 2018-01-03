@@ -15,7 +15,7 @@ import { UserTileDto } from 'libs/models';
 
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import { Feature } from '../models';
-import { UserTileDtoToFeatureMapper } from '../mappers/usertiledto-to-feature.mapper';
+import { UserTileDtoToFeatureMapper } from '../mappers';
 
 
 @Injectable()
