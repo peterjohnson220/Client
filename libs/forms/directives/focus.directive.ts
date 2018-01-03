@@ -1,7 +1,7 @@
 import { Directive, ElementRef, AfterViewChecked } from '@angular/core';
 
 @Directive({
-  selector: '[focus]'
+  selector: '[pfFocus]'
 })
 export class FocusDirective implements AfterViewChecked {
 

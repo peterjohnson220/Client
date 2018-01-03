@@ -30,7 +30,7 @@ exports[`Create Exchange Modal should not show the form text and should show a r
       
         
       <label
-        class="form-control-label"
+        class="col-form-label"
         for="exchange-name"
       >
         Please give the new exchange a name:
@@ -39,10 +39,10 @@ exports[`Create Exchange Modal should not show the form text and should show a r
         
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        focus=""
         formcontrolname="name"
         id="exchange-name"
         ng-reflect-name="name"
+        pffocus=""
         placeholder="Exchange Name"
         type="text"
       />
@@ -108,7 +108,7 @@ exports[`Create Exchange Modal should show the form text and no error messages w
       
         
       <label
-        class="form-control-label"
+        class="col-form-label"
         for="exchange-name"
       >
         Please give the new exchange a name:
@@ -117,10 +117,10 @@ exports[`Create Exchange Modal should show the form text and no error messages w
         
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        focus=""
         formcontrolname="name"
         id="exchange-name"
         ng-reflect-name="name"
+        pffocus=""
         placeholder="Exchange Name"
         type="text"
       />
@@ -131,10 +131,8 @@ exports[`Create Exchange Modal should show the form text and no error messages w
         
       
       <span
-        class="pf-form-text text-muted"
-      >
-        An exchange name is required and must be unique.
-      </span>
+        class="pf-placeholder"
+      />
       
       
     </div>
