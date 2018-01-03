@@ -10,9 +10,9 @@ import {
 } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
+import { GridFilterService } from 'libs/common/core/services';
 import { PfInputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
-import { GridFilterService } from 'libs/shared/grid';
 import { PfValidators } from 'libs/forms/validators';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';

@@ -2,17 +2,21 @@
   [size]="'lg'"
   [title]="'Add Companies'"
   [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="'Adding'"
   [submitting]="addingCompanies$ | async"
   [isOpen$]="addCompaniesModalOpen$"
   [formGroup]="addCompaniesForm"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
+
   <ng-container form-content>
+
     <pf-async-container
       [loading]="availableCompaniesLoading$ | async"
       [loadingError]="availableCompaniesLoadingError$ | async"
       [loadingErrorMessage]="'Error loading exchange companies'"
       (reload)="handleAvailableCompaniesGridReload()">
+
       <div class="form-group">
         <pf-input-debounce id="search-box"
                            (valueChanged)="updateSearchFilter($event)"
@@ -67,12 +71,15 @@
       </kendo-grid>
 
     </pf-async-container>
+
     <div class="form-group">
       <input type="hidden" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>
     </div>
+
   </ng-container>
+
 </pf-modal-form>
 
