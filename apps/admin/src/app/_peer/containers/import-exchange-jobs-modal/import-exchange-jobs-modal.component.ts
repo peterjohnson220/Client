@@ -38,7 +38,6 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
     this.uploadingFileError$ = this.store.select(fromPeerAdminReducer.getImportExchangeJobsUploadingFileError);
     this.validationResults$ = this.store.select(fromPeerAdminReducer.getValidationResults);
     this.importingExchangeJobs$ = this.store.select(fromPeerAdminReducer.getImportingJobs);
-    this.createForm();
   }
 
   createForm(): void {
@@ -63,7 +62,6 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   }
 
   dispatchUploadingFileAction(): void {
-    console.log(this.currentFile);
     const validateExchangeJobsRequest: ValidateExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
       File: this.currentFile
@@ -73,7 +71,6 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
 
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    console.log(this.currentFile);
     const importExchangeJobsRequest: ImportExchangeJobsRequest = {
       ExchangeId: this.exchangeId,
       StoredDataFile: this.storedDataFile
@@ -89,6 +86,8 @@ export class ImportExchangeJobsModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.createForm();
+
     this.storedDataFileSubscription = this.store.select(fromPeerAdminReducer.getStoredDataFile).subscribe(sd =>
       this.storedDataFile = sd
     );

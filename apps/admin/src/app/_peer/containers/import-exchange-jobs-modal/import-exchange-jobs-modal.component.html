@@ -18,7 +18,7 @@
       (reload)="handleUploadingFileErrorRetry()">
 
       <div class="form-group">
-        <label class="form-control-label" for="file-upload">Please select a data file to import:</label>
+        <label class="col-form-label" for="file-upload">Please select a data file to import:</label>
         <input type="file" class="form-control file-upload" id="file-upload" formControlName="fileUpload"
                (change)="fileChanged($event)">
         <input type="hidden" name="isFileValid" formControlName="isFileValid" [ngModel]="isFileValid" />
