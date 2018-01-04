@@ -101,10 +101,6 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.loadAvailableCompanies();
   }
 
-  handleAvailableCompaniesGridReload() {
-    this.loadAvailableCompanies();
-  }
-
   pageChange(event: PageChangeEvent): void {
     this.gridState.skip = event.skip;
     this.loadAvailableCompanies();
@@ -155,7 +151,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   }
 
   // Private Methods
-  private loadAvailableCompanies(): void {
+  loadAvailableCompanies(): void {
     this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
       {
         exchangeId: this.exchangeId,

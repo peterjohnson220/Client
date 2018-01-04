@@ -1,6 +1,8 @@
 import { CompositeFilterDescriptor, FilterDescriptor, State } from '@progress/kendo-data-query';
 
 export class GridFilterService {
+
+  // MOCKS
   static getMockGridState(columnName?: string, skip?: number): State {
     const field = columnName || 'test';
     return {
@@ -9,15 +11,21 @@ export class GridFilterService {
       filter: {
         filters: [{
           field: field,
-          logic: 'and',
-          value: 'test',
-          filters: []
+          operator: 'contains',
+          value: 'test'
         }],
         logic: 'and'
       }
     };
   }
-
+  static getMockFilter(columnName: string, operator?: string): FilterDescriptor {
+    operator = operator || 'contains';
+    return {
+      operator: operator,
+      field: columnName,
+      value: 'test'
+    };
+  }
   static getMockEmptyGridState(): State {
     return {
       skip: 0,

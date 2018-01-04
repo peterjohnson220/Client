@@ -15,7 +15,7 @@
       [loading]="availableCompaniesLoading$ | async"
       [loadingError]="availableCompaniesLoadingError$ | async"
       [loadingErrorMessage]="'Error loading exchange companies'"
-      (reload)="handleAvailableCompaniesGridReload()">
+      (reload)="loadAvailableCompanies()">
 
       <div class="form-group">
         <pf-input-debounce id="search-box"

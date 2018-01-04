@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Add Companies Modal should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true 1`] = `
+exports[`Add Companies Modal should add company to selections and update selectionsControl when the cellClick event is triggered 1`] = `
 <pf-add-companies-modal
   addCompaniesErrorSubscription={[Function Subscriber]}
   addCompaniesForm={[Function FormGroup]}
-  addCompaniesModalOpen$={[Function ScalarObservable]}
+  addCompaniesModalOpen$={[Function Store]}
   addCompaniesModalOpenSubscription={[Function Subscriber]}
   addingCompanies$={[Function Store]}
   addingCompaniesError$={[Function Store]}
   attemptedSubmit="false"
   availableCompaniesLoading$={[Function Store]}
   availableCompaniesLoadingError$={[Function Store]}
-  debouncedSearchTerm="undefined"
+  debouncedSearchTerm={[Function Object]}
   exchangeId={[Function Number]}
   fb={[Function FormBuilder]}
   gridState={[Function Object]}
@@ -21,7 +21,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   view$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-pristine ng-invalid"
+    class="ng-pristine ng-touched ng-valid"
     ng-reflect-form="[object Object]"
     title="Add Companies"
   >
@@ -123,15 +123,170 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   
       
     <div
-      class="form-group"
+      class="form-group hidden-form-control"
     >
       
         
       <input
-        class="form-control ng-untouched ng-pristine ng-invalid"
+        class="form-control ng-pristine ng-touched ng-valid"
         formcontrolname="selections"
         name="hasSelections"
         ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
+        type="hidden"
+        value="1"
+      />
+      
+        
+      
+      
+      
+    </div>
+    
+  
+    
+    
+  
+  
+  </pf-modal-form>
+  
+  
+</pf-add-companies-modal>
+`;
+
+exports[`Add Companies Modal should remove company from selections if it has already been added and update selectionsControl when the cellClick event is triggered 1`] = `
+<pf-add-companies-modal
+  addCompaniesErrorSubscription={[Function Subscriber]}
+  addCompaniesForm={[Function FormGroup]}
+  addCompaniesModalOpen$={[Function Store]}
+  addCompaniesModalOpenSubscription={[Function Subscriber]}
+  addingCompanies$={[Function Store]}
+  addingCompaniesError$={[Function Store]}
+  attemptedSubmit="false"
+  availableCompaniesLoading$={[Function Store]}
+  availableCompaniesLoadingError$={[Function Store]}
+  debouncedSearchTerm={[Function Object]}
+  exchangeId={[Function Number]}
+  fb={[Function FormBuilder]}
+  gridState={[Function Object]}
+  route={[Function Object]}
+  selections={[Function Array]}
+  store={[Function Store]}
+  view$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-pristine ng-invalid ng-touched"
+    ng-reflect-form="[object Object]"
+    title="Add Companies"
+  >
+    
+  
+    
+    
+    
+  
+      
+    <pf-async-container>
+      
+  
+        
+      <div
+        class="form-group"
+      >
+        
+          
+        <pf-input-debounce
+          id="search-box"
+        >
+          
+          
+        </pf-input-debounce>
+        
+        
+      </div>
+      
+  
+        
+      <kendo-grid
+        class="row-click-selects"
+      >
+        
+  
+          
+        <kendo-grid-column
+          field="CompanyName"
+          title="Company Name"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="Industry"
+          title="Industry"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="Revenue"
+          title="Revenue"
+        >
+          
+            
+          
+          
+          
+        </kendo-grid-column>
+        
+  
+          
+        <kendo-grid-column
+          field="FTEs"
+          title="FTEs"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="City"
+          title="City"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="State"
+          title="State"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="Zip"
+          title="Zip"
+        />
+        
+  
+        
+      </kendo-grid>
+      
+  
+      
+    </pf-async-container>
+    
+  
+      
+    <div
+      class="form-group hidden-form-control"
+    >
+      
+        
+      <input
+        class="form-control ng-pristine ng-invalid ng-touched"
+        formcontrolname="selections"
+        name="hasSelections"
+        ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
         type="hidden"
         value=""
       />
@@ -153,18 +308,18 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
 </pf-add-companies-modal>
 `;
 
-exports[`Add Companies Modal should show error message when addingCompaniesError$ is true and a submit has been attempted 1`] = `
+exports[`Add Companies Modal should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true 1`] = `
 <pf-add-companies-modal
   addCompaniesErrorSubscription={[Function Subscriber]}
   addCompaniesForm={[Function FormGroup]}
-  addCompaniesModalOpen$={[Function Store]}
+  addCompaniesModalOpen$={[Function ScalarObservable]}
   addCompaniesModalOpenSubscription={[Function Subscriber]}
   addingCompanies$={[Function Store]}
-  addingCompaniesError$={[Function ScalarObservable]}
-  attemptedSubmit={[Function Boolean]}
+  addingCompaniesError$={[Function Store]}
+  attemptedSubmit="false"
   availableCompaniesLoading$={[Function Store]}
   availableCompaniesLoadingError$={[Function Store]}
-  debouncedSearchTerm="undefined"
+  debouncedSearchTerm={[Function Object]}
   exchangeId={[Function Number]}
   fb={[Function FormBuilder]}
   gridState={[Function Object]}
@@ -276,7 +431,7 @@ exports[`Add Companies Modal should show error message when addingCompaniesError
   
       
     <div
-      class="form-group"
+      class="form-group hidden-form-control"
     >
       
         
@@ -285,19 +440,13 @@ exports[`Add Companies Modal should show error message when addingCompaniesError
         formcontrolname="selections"
         name="hasSelections"
         ng-reflect-name="selections"
-        ng-reflect-pf-validatable="true"
+        ng-reflect-pf-validatable="false"
         type="hidden"
         value=""
       />
       
         
       
-      
-      
-          
-      
-      
-        
       
       
     </div>

@@ -9,3 +9,17 @@ export interface AvailableCompany {
   ZipCode: string;
   InExchange: boolean;
 }
+
+export function generateMockAvailableCompany(): AvailableCompany {
+  return {
+    CompanyId: 1,
+    CompanyName: 'Mock Company',
+    Industry: 'Mock Industry',
+    Revenue: 100000000,
+    FTEs: 'Mock FTEs',
+    City: 'Mock City',
+    State: 'Mock State',
+    ZipCode: 'Mock Zip Code',
+    InExchange: false
+  };
+}
