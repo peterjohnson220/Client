@@ -1,5 +1,5 @@
 import { Feature, FeatureTypes, TileTypes } from '../models';
-import { UserTileDto } from '../../../../../../libs/models';
+import { UserTileDto } from 'libs/models';
 
 export class UserTileDtoToFeatureMapper {
   static mapToFeature(userTileDto: UserTileDto): Feature {

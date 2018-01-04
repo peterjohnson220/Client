@@ -10,8 +10,7 @@ import { DragulaModule } from 'ng2-dragula';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { DashboardEffects } from './effects/dashboard.effects';
-import { TileGridEffects, UserVoiceEffects } from './effects';
+import { DashboardEffects, TileGridEffects, UserVoiceEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
