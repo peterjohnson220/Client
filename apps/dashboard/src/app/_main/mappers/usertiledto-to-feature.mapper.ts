@@ -7,10 +7,10 @@ export class UserTileDtoToFeatureMapper {
     const tileType = UserTileDtoToFeatureMapper.mapFeatureTypeToTileType(featureType);
 
     return {
-      type: featureType,
-      tileType: tileType,
-      hasAccess: userTileDto.Enabled,
-      url: userTileDto.Url
+      Type: featureType,
+      TileType: tileType,
+      HasAccess: userTileDto.Enabled,
+      Url: userTileDto.Url
     };
   }
 

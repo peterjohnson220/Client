@@ -11,7 +11,7 @@ export interface State extends EntityState<Feature> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<Feature> = createEntityAdapter<Feature>({
-  selectId: (feature: Feature) => feature.type
+  selectId: (feature: Feature) => feature.Type
 });
 
 export const initialState: State = adapter.getInitialState({

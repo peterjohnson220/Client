@@ -5,17 +5,17 @@ export class UserTileToTileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     return this.setTileStylesProperties({
-      id: dashboardTile.UserTileId,
-      label: dashboardTile.TileName,
-      iconClass: dashboardTile.IconClass,
-      url: dashboardTile.Url,
-      order: dashboardTile.UserOrder,
-      type: this.mapTileTypeFromTileName(dashboardTile.TileName),
-      previewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
-      payload: undefined,
-      size: 1,
-      cssClass: undefined,
-      ngAppLink: dashboardTile.NgAppLink
+      Id: dashboardTile.UserTileId,
+      Label: dashboardTile.TileName,
+      IconClass: dashboardTile.IconClass,
+      Url: dashboardTile.Url,
+      Order: dashboardTile.UserOrder,
+      Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
+      PreviewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
+      Payload: undefined,
+      Size: 1,
+      CssClass: undefined,
+      NgAppLink: dashboardTile.NgAppLink
     });
   }
 
@@ -65,52 +65,52 @@ export class UserTileToTileMapper {
   }
 
   static setTileStylesProperties(tile: Tile): Tile {
-    switch (tile.type) {
+    switch (tile.Type) {
       case TileTypes.DataInsights:
-        tile.cssClass = 'tile-green';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Employees:
-        tile.cssClass = 'tile-blue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.JobDescriptions:
-        tile.cssClass = 'tile-green';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.MyJobs:
-        tile.cssClass = 'tile-lightblue';
-        tile.size = 2;
+        tile.CssClass = 'tile-lightblue';
+        tile.Size = 2;
         break;
 
       case TileTypes.PayMarkets:
-        tile.cssClass = 'tile-blue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.PricingProjects:
-        tile.cssClass = 'tile-lightblue';
-        tile.size = 2;
+        tile.CssClass = 'tile-lightblue';
+        tile.Size = 2;
         break;
 
       case TileTypes.Resources:
-        tile.cssClass = 'tile-blue';
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.Service:
-        tile.cssClass = 'tile-green';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Structures:
-        tile.cssClass = 'tile-green';
+        tile.CssClass = 'tile-green';
         break;
 
       case TileTypes.Surveys:
-        tile.cssClass = 'tile-blue';
+        tile.CssClass = 'tile-blue';
         break;
 
       default:
-        tile.cssClass = 'tile-green';
-        tile.size = 1;
+        tile.CssClass = 'tile-green';
+        tile.Size = 1;
     }
     return tile;
   }

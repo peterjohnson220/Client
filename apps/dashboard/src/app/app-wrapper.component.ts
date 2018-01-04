@@ -30,6 +30,6 @@ export class AppWrapperComponent {
   }
 
   static MinimumNumberOfFeaturesMet(allFeatures, requiredFeatures, minThreshold): boolean {
-    return allFeatures.filter(feature => requiredFeatures.indexOf(feature.type) !== -1).length >= minThreshold;
+    return allFeatures.filter(feature => requiredFeatures.indexOf(feature.Type) !== -1).length >= minThreshold;
   }
 }

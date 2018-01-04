@@ -47,6 +47,6 @@ export class TileGridEffects {
   mapToTiles(userTileDtos: UserTileDto[]): Tile[] {
     return userTileDtos
       .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt))
-      .filter(t => new TileType().AllTypes.indexOf(t.type) !== -1);
+      .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1);
   }
 }

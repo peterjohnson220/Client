@@ -1,21 +1,21 @@
 <div class="tile m-0 p-1"
-     [ngSwitch]="tile.previewType"
-     [ngClass]="tile.cssClass"
+     [ngSwitch]="tile.PreviewType"
+     [ngClass]="tile.CssClass"
      >
-  <a [href]="tile.ngAppLink ? ngAppRoot + tile.url : tile.url" class="tile-anchor-overlay"></a>
-  <h4>{{ tile.label }}</h4>
+  <a [href]="tile.NgAppLink ? ngAppRoot + tile.Url : tile.Url" class="tile-anchor-overlay"></a>
+  <h4>{{ tile.Label }}</h4>
 
   <!-- Tile Inner Content -->
   <pf-tile-preview-chart *ngSwitchCase="tilePreviewType.Chart"
-                         [iconClass]="tile.iconClass">
+                         [iconClass]="tile.IconClass">
   </pf-tile-preview-chart>
 
   <pf-tile-preview-icon *ngSwitchCase="tilePreviewType.Icon"
-                        [iconClass]="tile.iconClass">
+                        [iconClass]="tile.IconClass">
   </pf-tile-preview-icon>
 
   <pf-tile-preview-list *ngSwitchCase="tilePreviewType.List"
-                        [iconClass]="tile.iconClass">
+                        [iconClass]="tile.IconClass">
   </pf-tile-preview-list>
 
 </div>
