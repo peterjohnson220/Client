@@ -9,55 +9,7 @@ exports[`Tile Preview Chart should show chart label 1`] = `
   showChartDetail="false"
 >
   
-  <div
-    class="chart-container"
-  >
-    
-    
-    <kendo-chart>
-      
-      
-      <kendo-chart-area
-        background="none"
-      />
-      
-      
-      <kendo-chart-series>
-        
-        
-        <kendo-chart-series-item
-          categoryfield="CategoryName"
-          field="CategoryValue"
-        >
-          
-          
-          <kendo-chart-series-item-tooltip>
-            
-            
-            
-            
-          
-          </kendo-chart-series-item-tooltip>
-          
-        
-        </kendo-chart-series-item>
-        
-      
-      </kendo-chart-series>
-      
-      
-      <kendo-chart-legend
-        position="left"
-      >
-        
-      
-      </kendo-chart-legend>
-      
-    
-    </kendo-chart>
-    
   
-  </div>
   <h2
     class="pr-5 chart-label"
   >

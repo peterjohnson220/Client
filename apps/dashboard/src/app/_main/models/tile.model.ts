@@ -11,7 +11,7 @@ export interface Tile {
   ChartLabel?: string;
   IconClass: string;
   CssClass: string;
-  Payload: any;
+  TilePreviewData: any;
   Size: number;
   Order: number;
   Url: string;
@@ -30,6 +30,6 @@ export function generateMockTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    Payload: [ 'test tile data' ]
+    TilePreviewData: [ 'test tile data' ]
   };
 }

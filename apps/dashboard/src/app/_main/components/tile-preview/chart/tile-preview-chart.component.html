@@ -1,7 +1,7 @@
 <button *ngIf="showChartDetail" (click)="chartBackButtonClick()" class="btn chart-detail-back-button p-1">
   <i class="fa fa-arrow-circle-left"></i> Back
 </button>
-<div class="chart-container" *ngIf="chartComponentData.length > 0">
+<div class="chart-container" *ngIf="chartComponentData && chartComponentData.length > 0">
   <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true">
     <kendo-chart-area background="none" [height]="170"></kendo-chart-area>
     <kendo-chart-series>

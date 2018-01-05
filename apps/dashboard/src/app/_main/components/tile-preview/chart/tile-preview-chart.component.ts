@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { TilePreviewChart } from '../../../models';
-
 import 'hammerjs';
+
+import { TilePreviewChart } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-chart',
@@ -32,7 +32,7 @@ export class TilePreviewChartComponent {
   };
 
   private seriesClick(e): void {
-      this.loadChartDetail(e.category);
+    this.loadChartDetail(e.category);
   }
 
   private legendClick(e): void {
@@ -54,7 +54,7 @@ export class TilePreviewChartComponent {
       this.chartData = this.chartComponentData;
       this.showChartDetail = true;
 
-    this.chartComponentData = (<[ any ]>this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
+      this.chartComponentData = (<[ any ]>this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
         .reduce((array, item) => {
           array.push({ CategoryValue: item.Value, CategoryName: item.Key });
           return array;

@@ -1,4 +1,4 @@
 export enum TilePreviewChartTypes {
-  donut = 'donut',
-  pie = 'pie'
+  Donut = 'donut',
+  Pie = 'pie'
 }

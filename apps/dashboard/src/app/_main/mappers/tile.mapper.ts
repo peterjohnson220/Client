@@ -15,7 +15,7 @@ export class TileMapper {
       Order: dashboardTile.UserOrder,
       Type: TileMapper.mapTileNameToTileType(dashboardTile.TileName),
       PreviewType: TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
-      Payload: dashboardTile.Payload,
+      TilePreviewData: dashboardTile.TilePreviewData,
       Size: 1,
       ChartType: undefined,
       ChartLabel: undefined,
@@ -82,7 +82,7 @@ export class TileMapper {
 
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tile-green';
-        tile.ChartType = TilePreviewChartTypes.donut;
+        tile.ChartType = TilePreviewChartTypes.Donut;
         tile.ChartLabel = 'Job Description Statuses';
 
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
@@ -129,7 +129,7 @@ export class TileMapper {
   }
 
   static SetChartLegendColor(tile: Tile, categoryName, color) {
-    const chartCategory = tile.Payload.filter(x => x.CategoryName === categoryName);
+    const chartCategory = tile.TilePreviewData.filter(x => x.CategoryName === categoryName);
     if (chartCategory.length > 0) {
       chartCategory[ 0 ].color = color;
     }

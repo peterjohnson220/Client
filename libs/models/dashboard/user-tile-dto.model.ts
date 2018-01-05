@@ -13,6 +13,6 @@ export interface UserTileDto {
   Url: string;
   Sidebar: boolean;
   NgAppLink: boolean;
-  Payload: any;
-  chartType: string;
+  TilePreviewData: any;
+  ChartType: string;
 }
