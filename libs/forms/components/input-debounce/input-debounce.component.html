@@ -2,12 +2,12 @@
        (keyup)="onKey()"
        [placeholder]="placeholderText"
        [(ngModel)]="inputValue"
-       focus>
+       pfFocus>
 <div *ngIf="!hideClearBtn" class="input-group">
   <input type="text" class="form-control" [placeholder]="placeholderText"
          (keyup)="onKey()"
          [(ngModel)]="inputValue"
-         focus>
+         pfFocus>
   <div (click)="clearValue()" class="input-group-append">
       <span class="input-group-text">
         <i class="fa fa-times" aria-hidden="true"></i>
