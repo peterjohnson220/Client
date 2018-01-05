@@ -1,3 +1,4 @@
+// https://stackoverflow.com/questions/43059961/anagular2-pipes-currency-abbreviation (JP)
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'humanizeNumber' })

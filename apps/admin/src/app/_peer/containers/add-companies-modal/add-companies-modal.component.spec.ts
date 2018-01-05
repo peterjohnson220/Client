@@ -14,7 +14,7 @@ import {
 import { PfCommonModule } from 'libs/common';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
-import { GridFilterService } from 'libs/common/core/services';
+import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { PfInputDebounceComponent } from 'libs/forms/components';
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
@@ -158,7 +158,7 @@ describe('Add Companies Modal', () => {
 
   it('should reset gridState and selections when handleModalDismissed is triggered', () => {
     instance.selections = [1, 2];
-    instance.gridState = GridFilterService.getMockGridState();
+    instance.gridState = KendoGridFilterHelper.getMockGridState();
     fixture.detectChanges();
 
     instance.handleModalDismissed();
@@ -166,13 +166,13 @@ describe('Add Companies Modal', () => {
     fixture.detectChanges();
 
     expect(instance.selections).toEqual([]);
-    expect(instance.gridState).toEqual(GridFilterService.getMockEmptyGridState());
+    expect(instance.gridState).toEqual(KendoGridFilterHelper.getMockEmptyGridState());
   });
 
   it('should update gridState and call loadAvailableCompanies when updateSearchFilter is triggered', () => {
-    const expectedGridState = GridFilterService.getMockEmptyGridState();
-    expectedGridState.filter.filters.push(GridFilterService.getMockFilter('CompanyName'));
-    instance.gridState = GridFilterService.getMockEmptyGridState();
+    const expectedGridState = KendoGridFilterHelper.getMockEmptyGridState();
+    expectedGridState.filter.filters.push(KendoGridFilterHelper.getMockFilter('CompanyName'));
+    instance.gridState = KendoGridFilterHelper.getMockEmptyGridState();
     instance.gridState.skip = 10;
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,

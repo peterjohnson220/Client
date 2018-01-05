@@ -11,9 +11,9 @@ export class PayfactorsApiService {
     private http: HttpClient
   ) {}
 
-  get<T>(url: string, options: any = {}, map = this.extractValueFromOdata): Observable<T> {
+  get<T>(url: string, options: any = {}, mappingFn = this.extractValueFromOdata): Observable<T> {
     return this.http.get<T>(`${environment.payfactorsApiUrl}${url}`, options)
-      .map(map);
+      .map(mappingFn);
   }
 
   post<T>(url: string, options: any = {}): Observable<T> {

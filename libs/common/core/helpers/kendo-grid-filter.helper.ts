@@ -1,6 +1,6 @@
 import { CompositeFilterDescriptor, FilterDescriptor, State } from '@progress/kendo-data-query';
 
-export class GridFilterService {
+export class KendoGridFilterHelper {
 
   // MOCKS
   static getMockGridState(columnName?: string, skip?: number): State {

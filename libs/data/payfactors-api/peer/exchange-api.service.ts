@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import {
   ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest,
-  AvailableCompany, AddExchangeCompaniesRequest
+  AddExchangeCompaniesRequest
 } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from '../../../models/peer';
-import { State } from '@progress/kendo-data-query';
-import { GridDataResult } from '@progress/kendo-angular-grid';
-
 
 @Injectable()
 export class ExchangeApiService {

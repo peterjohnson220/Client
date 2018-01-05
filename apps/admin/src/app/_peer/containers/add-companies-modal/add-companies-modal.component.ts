@@ -5,19 +5,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import {
-  GridDataResult, PageChangeEvent, RowArgs, RowClassArgs
-} from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { GridFilterService } from 'libs/common/core/services';
-import { PfInputDebounceComponent } from 'libs/forms/components';
+import { KendoGridFilterHelper } from 'libs/common/core/helpers';
+import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
+
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
-
 
 @Component({
   selector: 'pf-add-companies-modal',
@@ -25,7 +23,7 @@ import * as fromPeerAdminReducer from '../../reducers';
   styleUrls: ['./add-companies-modal.component.scss']
 })
 export class AddCompaniesModalComponent implements OnInit, OnDestroy {
-  @ViewChild(PfInputDebounceComponent) debouncedSearchTerm: PfInputDebounceComponent;
+  @ViewChild(InputDebounceComponent) debouncedSearchTerm: InputDebounceComponent;
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   addCompaniesModalOpen$: Observable<boolean>;
@@ -85,7 +83,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.selections = [];
     // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
     this.debouncedSearchTerm.setSilently('');
-    GridFilterService.clearFilters(this.gridState);
+    KendoGridFilterHelper.clearFilters(this.gridState);
     this.gridState.skip = 0;
     this.gridState.sort = [];
   }
@@ -97,7 +95,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
 
   updateSearchFilter(newSearchTerm: string) {
     this.gridState.skip = 0;
-    GridFilterService.updateFilter('CompanyName', newSearchTerm, this.gridState);
+    KendoGridFilterHelper.updateFilter('CompanyName', newSearchTerm, this.gridState);
     this.loadAvailableCompanies();
   }
 

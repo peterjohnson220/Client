@@ -8,7 +8,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfCommonModule } from 'libs/common/common.module';
+import { PfCommonModule } from 'libs/common';
+import { PfSharedModule } from 'libs/shared';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
@@ -19,7 +20,6 @@ import {
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
-import { PfSharedModule } from 'libs/shared';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 
 @NgModule({

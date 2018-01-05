@@ -1,4 +1,4 @@
-import { Component, Input, Output, ElementRef, EventEmitter, OnInit, forwardRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
@@ -7,41 +7,17 @@ import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'pf-input-debounce',
-  styles: [`
-        .input-group {
-            width:100%
-        }
-        .form-control::-ms-clear {
-            display: none;
-        }
-    `],
-  template: `
-    <input *ngIf="hideClearBtn" type="text" class="form-control"
-           (keyup)="onKey()"
-           [placeholder]="placeholderText"
-           [(ngModel)]="inputValue"
-           focus>
-  <div *ngIf="!hideClearBtn" class="input-group">
-    <input type="text" class="form-control" [placeholder]="placeholderText"
-           (keyup)="onKey()"
-           [(ngModel)]="inputValue"
-           focus>
-    <div (click)="clearValue()" class="input-group-append">
-      <span class="input-group-text">
-        <i class="fa fa-times" aria-hidden="true"></i>
-      </span>
-    </div>
-  </div>
-  `,
+  templateUrl: './input-debounce.component.html',
+  styleUrls: ['./input-debounce.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PfInputDebounceComponent),
+      useExisting: forwardRef(() => InputDebounceComponent),
       multi: true
     }
   ]
 })
-export class PfInputDebounceComponent implements OnInit, ControlValueAccessor {
+export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   private keyUpEvents;
   private pasteEvents;
   private eventStream;
@@ -98,5 +74,4 @@ export class PfInputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnTouched() {}
-
 }

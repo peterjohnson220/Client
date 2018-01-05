@@ -7,11 +7,11 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
-
-import { AvailableCompany } from 'libs/models/peer';
-import { ExchangeApiService } from 'libs/data/payfactors-api';
-import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+
+import { ExchangeApiService } from 'libs/data/payfactors-api';
+
+import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';
 
 @Injectable()
 export class AvailableCompaniesEffects {
