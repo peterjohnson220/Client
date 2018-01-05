@@ -15,4 +15,9 @@ export class PfValidators {
       return blackListed ? {'notBlackListed': {valid: false}} : null;
     };
   }
+
+  static selectionRequired(control: FormControl): ValidationResult {
+    const hasSelection = control.value && control.value.length > 0;
+    return !hasSelection ? {'selectionRequired': true} : null;
+  }
 }

@@ -1,0 +1,16 @@
+<input *ngIf="hideClearBtn" type="text" class="form-control"
+       (keyup)="onKey()"
+       [placeholder]="placeholderText"
+       [(ngModel)]="inputValue"
+       focus>
+<div *ngIf="!hideClearBtn" class="input-group">
+  <input type="text" class="form-control" [placeholder]="placeholderText"
+         (keyup)="onKey()"
+         [(ngModel)]="inputValue"
+         focus>
+  <div (click)="clearValue()" class="input-group-append">
+      <span class="input-group-text">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </span>
+  </div>
+</div>

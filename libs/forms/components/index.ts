@@ -1,1 +1,2 @@
-export * from './pf-modal-form.component';
+export * from './pf-modal-form';
+export * from './input-debounce';

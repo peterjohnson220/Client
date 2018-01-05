@@ -8,14 +8,19 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/common';
+import { PfSharedModule } from 'libs/shared';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
-import { ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects } from './effects';
+import {
+  ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
+  ManageExchangeEffects
+} from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
-import { PfSharedModule } from 'libs/shared';
+import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 
 @NgModule({
   imports: [
@@ -26,12 +31,13 @@ import { PfSharedModule } from 'libs/shared';
     // 3rd Party
     GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects]),
+    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects, AvailableCompaniesEffects]),
 
     // Routing
     PeerAdminRoutingModule,
 
     // Payfactors
+    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
     PfSharedModule
@@ -41,6 +47,7 @@ import { PfSharedModule } from 'libs/shared';
     ExchangeCompaniesComponent,
     CreateExchangeModalComponent,
     ImportExchangeJobsModalComponent,
+    AddCompaniesModalComponent,
 
     // Pages
     ExchangeListPageComponent,
