@@ -215,8 +215,8 @@ describe('Add Companies Modal', () => {
     expect(instance.loadAvailableCompanies).toBeCalled();
   });
 
-  it('should update gridState.sort, reset gridState.skip, and call loadAvailableCompanies when the ' +
-    'handleSortChanged event is triggered', () => {
+  it(`should update gridState.sort, reset gridState.skip, and call loadAvailableCompanies when the
+    handleSortChanged event is triggered`, () => {
     spyOn(instance, 'loadAvailableCompanies');
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
     instance.gridState.skip = 10;
@@ -259,8 +259,8 @@ describe('Add Companies Modal', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should remove company from selections if it has already been added and update selectionsControl ' +
-    'when the cellClick event is triggered', () => {
+  it(`should remove company from selections if it has already been added and update selectionsControl
+    when the cellClick event is triggered`, () => {
     const expectedSelections = [];
     const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
     instance.selections = [mockAvailableCompany.CompanyId];

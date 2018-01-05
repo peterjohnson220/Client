@@ -154,7 +154,8 @@ exports[`Add Companies Modal should add company to selections and update selecti
 </pf-add-companies-modal>
 `;
 
-exports[`Add Companies Modal should remove company from selections if it has already been added and update selectionsControl when the cellClick event is triggered 1`] = `
+exports[`Add Companies Modal should remove company from selections if it has already been added and update selectionsControl
+    when the cellClick event is triggered 1`] = `
 <pf-add-companies-modal
   addCompaniesErrorSubscription={[Function Subscriber]}
   addCompaniesForm={[Function FormGroup]}
