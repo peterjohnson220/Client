@@ -8,12 +8,14 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
+import 'rxjs/add/operator/concatMap';
 import { of } from 'rxjs/observable/of';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeJobsValidationResultModel } from 'libs/models';
 
 import * as fromImportExchangeJobActionActions from '../actions/import-exchange-jobs.actions';
+import * as fromExchangeJobActions from '../actions/exchange-jobs.actions';
 
 @Injectable()
 export class ManageExchangeEffects {
@@ -34,8 +36,11 @@ export class ManageExchangeEffects {
     .ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS)
     .switchMap((action: fromImportExchangeJobActionActions.ImportingExchangeJobs) =>
       this.exchangeApiService.importExchangeJobs(action.payload)
-        .map((exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel) => {
-          return new fromImportExchangeJobActionActions.ImportingExchangeJobsSuccess(exchangeJobsValidationResultModel);
+        .concatMap((exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel) => {
+          return [
+            new fromImportExchangeJobActionActions.ImportingExchangeJobsSuccess(exchangeJobsValidationResultModel),
+            new fromExchangeJobActions.LoadingExchangeJobs(action.payload.ExchangeId),
+          ];
         })
         .catch(error => of(new fromImportExchangeJobActionActions.ImportingExchangeJobsError()))
     );
