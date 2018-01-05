@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { ExchangeCompany } from 'libs/models';
-import { AddExchangeCompaniesRequest } from '../../../../../../libs/models/peer';
+import { AddExchangeCompaniesRequest } from 'libs/models/peer';
 
 export const LOADING_EXCHANGE_COMPANIES  = '[Peer Admin/Exchange Companies] Loading Exchange Companies';
 export const LOADING_EXCHANGE_COMPANIES_SUCCESS  = '[Peer Admin/Exchange Companies] Loading Exchange Companies Success';
@@ -60,7 +60,3 @@ export type Actions
   | AddingExchangeCompanies
   | AddingExchangeCompaniesSuccess
   | AddingExchangeCompaniesError;
-
-
-
-

@@ -25,7 +25,3 @@ export type Actions
   = LoadingAvailableCompanies
   | LoadingAvailableCompaniesSuccess
   | LoadingAvailableCompaniesError;
-
-
-
-

@@ -150,7 +150,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.addCompaniesErrorSubscription.unsubscribe();
   }
 
-  // Private Methods
+  // Helper methods
   loadAvailableCompanies(): void {
     this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
       {
