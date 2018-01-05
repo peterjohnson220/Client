@@ -35,6 +35,16 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
         >
           
             Companies
+            
+          
+            
+          <button
+            class="import-button btn btn-sm btn-primary float-right"
+            type="button"
+          >
+            Add Companies
+          </button>
+          
           
         </div>
         
@@ -63,6 +73,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
         >
           
             Jobs
+            
+          
             
           <button
             class="import-button btn btn-sm btn-primary float-right"

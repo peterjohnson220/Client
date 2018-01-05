@@ -65,12 +65,4 @@ describe('Exchange Commpanies', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a OpenAddExchangeCompaniesModal action when openAddExchangeCompaniesModal is called', () => {
-    const action = new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal;
-
-    instance.openAddExchangeCompaniesModal();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
 });

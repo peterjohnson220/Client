@@ -54,7 +54,7 @@ import { AddCompaniesModalComponent } from './containers/add-companies-modal';
     CreateExchangeModalComponent,
     ImportExchangeJobsModalComponent,
     AddCompaniesModalComponent,
-    ExchangeJobsComponent
+    ExchangeJobsComponent,
 
     // Pages
     ExchangeListPageComponent,
