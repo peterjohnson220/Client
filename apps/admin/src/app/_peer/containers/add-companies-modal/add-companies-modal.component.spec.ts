@@ -146,7 +146,6 @@ describe('Add Companies Modal', () => {
   });
 
   it('should call debouncedSearchTerm.setSilently when handleModalDismissed is triggered', () => {
-    // instance.debouncedSearchTerm = pfInputDebounce;
     spyOn(instance.debouncedSearchTerm, 'setSilently');
     fixture.detectChanges();
 
@@ -290,6 +289,7 @@ describe('Add Companies Modal', () => {
 
     expect(instance.primaryButtonText).toEqual(expectedPrimaryButtonTextAfter);
   });
+  // TODO: Was unable to get the subscription to fire the second time, preventing the text from appearing (JP)
 /*  it('should show error message when addingCompaniesError$ is true and a submit has been attempted', () => {
     spyOn(instance, 'addingCompaniesError$').and.returnValue(of(true));
     instance.selectionsControl.setValue([1]);
@@ -309,37 +309,6 @@ describe('Add Companies Modal', () => {
     // instance.addingCompaniesError$ = of(true);
 
     // fixture.detectChanges();
-
-
-
-
     // expect(fixture).toMatchSnapshot();
-  });*/
-
-/*  it('should not show the form text and should show a required error message once a submit has been attempted', () => {
-    fixture.detectChanges();
-
-    // trigger handleFormSubmit
-    instance.handleFormSubmit();
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should dispatch an CloseCreateExchangeModal action when handleModalDismissed is called', () => {
-    const action = new fromExchangeListActions.CloseCreateExchangeModal();
-
-    instance.handleModalDismissed();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch an UpsertingExchange action with payload when handleFormSubmit is called', () => {
-    const action = new fromExchangeListActions.UpsertingExchange(generateMockUpsertExchangeRequest());
-    instance.name.setValue('test');
-    instance.handleFormSubmit();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
   });*/
 });

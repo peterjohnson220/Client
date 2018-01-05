@@ -26,8 +26,10 @@ import 'rxjs/add/operator/debounceTime';
            (keyup)="onKey()"
            [(ngModel)]="inputValue"
            focus>
-    <div (click)="clearValue()" class="input-group-addon input-group-append">
-      <i class="fa fa-times" aria-hidden="true"></i>
+    <div (click)="clearValue()" class="input-group-append">
+      <span class="input-group-text">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </span>
     </div>
   </div>
   `,
