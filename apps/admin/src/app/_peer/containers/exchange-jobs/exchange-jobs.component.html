@@ -1,0 +1,21 @@
+<pf-async-container
+  [loading]="exchangeJobsLoading$ | async"
+  [loadingError]="exchangeJobsLoadingError$ | async"
+  [loadingErrorMessage]="'Error loading exchange jobs'"
+  (reload)="handleExchangeJobsGridReload()">
+
+  <kendo-grid [data]="exchangeJobs$ | async">
+
+    <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
+
+    <kendo-grid-column field="JobFamily" title="Job Family"></kendo-grid-column>
+
+    <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
+
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+      <kendo-pager-info></kendo-pager-info>
+    </ng-template>
+
+  </kendo-grid>
+
+</pf-async-container>

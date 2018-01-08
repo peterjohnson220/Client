@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import {  generateMockExchange } from 'libs/models/peer';
 
 import * as fromImportExchangeJobActions from '../../../actions/import-exchange-jobs.actions';
+import * as fromExchangeCompaniesActions from '../../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
 import { ManageExchangePageComponent } from './manage-exchange.page';
 
@@ -68,6 +69,14 @@ describe('Manage Exchange Page', () => {
     const action = new fromImportExchangeJobActions.ClosingImportExchangeJobsModal();
 
     instance.handleImportExchangeJobs();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a OpenAddExchangeCompaniesModal action when openAddExchangeCompaniesModal is called', () => {
+    const action = new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal();
+
+    instance.openAddExchangeCompaniesModal();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
