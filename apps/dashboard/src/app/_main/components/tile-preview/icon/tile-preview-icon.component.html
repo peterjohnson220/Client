@@ -1,2 +1,10 @@
-<i class="fa {{ iconClass }} fa-10x preview-tile-icon" aria-hidden="true"></i>
-
+<i class="fa {{ model.iconClass }} {{ model.iconSize }} {{ model.cssClassName }}" aria-hidden="true"></i>
+<div *ngIf="model.containsPayLoad">
+  <h2 class="text-center" *ngIf="model.title != undefined">{{ model.title }}</h2>
+  <h3 class="text-center" *ngIf="model.subTitle != undefined">{{ model.subTitle }}</h3>
+  <div *ngIf="model.detailsDictionary != undefined">
+    <div *ngFor="let key of objectKeys(model.detailsDictionary)">
+      {{ key + ':' + model.detailsDictionary[key] }}
+    </div>
+  </div>
+</div>

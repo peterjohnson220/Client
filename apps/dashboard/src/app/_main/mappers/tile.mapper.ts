@@ -87,6 +87,16 @@ export class TileMapper {
 
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
+        tile.IconClass = 'fa-home';
+        tile.Payload = {
+          title: 'Boston',
+          subTitle: 'Default Market',
+          payloadDetails: {
+            industry: 'Software',
+            size: '10',
+            location: 'Back Bay'
+          }
+        };
         break;
 
       case TileTypes.PricingProjects:
