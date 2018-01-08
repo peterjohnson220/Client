@@ -1,0 +1,73 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Add Jobs'"
+  [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="'Adding'"
+  [submitting]="addingJobs$ | async"
+  [isOpen$]="addJobsModalOpen$"
+  [formGroup]="addJobsForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <pf-async-container
+      [loading]="availableJobsLoading$ | async"
+      [loadingError]="availableJobsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange jobs'"
+      (reload)="loadAvailableJobs()">
+
+      <div class="form-group">
+        <pf-input-debounce id="search-box"
+                           (valueChanged)="updateSearchFilter($event)"
+                           [delay]="400" [inputValue]="searchTerm"
+                           [placeholderText]="'Search for a Job Title...'">
+        </pf-input-debounce>
+      </div>
+
+      <kendo-grid
+        class="row-click-selects"
+        [data]="view$ | async"
+        [pageSize]="gridState.take"
+        [skip]="gridState.skip"
+        [resizable]="true"
+        [pageable]="{
+          buttonCount: 5,
+          info: true
+        }"
+        [selectable]="{
+          checkboxOnly: true
+        }"
+        [scrollable]="true"
+        [height]="400"
+        [sortable]="true"
+        [sort]="gridState.sort"
+        [kendoGridSelectBy]="selectionKey"
+        [selectedKeys]="selections"
+        [rowClass]="rowClass"
+        (pageChange)="pageChange($event)"
+        (sortChange)="handleSortChanged($event)"
+        (cellClick)="cellClick($event)"
+      >
+
+        <kendo-grid-column field="JobTitle" title="Job Title" [width]="200"></kendo-grid-column>
+
+        <kendo-grid-column field="JobFamily" title="Job Family" [width]="100"></kendo-grid-column>
+
+        <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
+        <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
+      </ng-container>
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>
+

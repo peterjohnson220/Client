@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Exchange } from 'libs/models/peer';
 import * as fromImportExchangeJobsActions from '../../../actions/import-exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
+import * as fromAvailableJobsActions from '../../../actions/available-jobs.actions';
 
 @Component({
   selector: 'pf-manage-exchange-page',
@@ -28,6 +29,11 @@ export class ManageExchangePageComponent {
   handleImportExchangeJobs() {
     this.store.dispatch(new fromImportExchangeJobsActions.ClosingImportExchangeJobsModal());
     // TODO: Dispatch load jobs action in next item.
+  }
+
+  // TODO: This should be on the exchange-jobs container instead
+  openAddExchangeJobsModal(): void {
+    this.store.dispatch(new fromAvailableJobsActions.OpenAddExchangeJobsModal);
   }
 
   handleImportExchangeJobsModalDismissed() {
