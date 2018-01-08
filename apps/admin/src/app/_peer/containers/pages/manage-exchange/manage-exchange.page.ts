@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { Exchange } from 'libs/models/peer';
+import * as fromExchangeCompaniesActions from '../../../actions/exchange-companies.actions';
 import * as fromImportExchangeJobsActions from '../../../actions/import-exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
 
@@ -23,6 +24,10 @@ export class ManageExchangePageComponent {
 
   openImportExchangeJobsModal() {
     this.store.dispatch(new fromImportExchangeJobsActions.OpeningImportExchangeJobsModal());
+  }
+
+  openAddExchangeCompaniesModal(): void {
+    this.store.dispatch(new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal());
   }
 
   handleImportExchangeJobs() {

@@ -6,13 +6,13 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
+import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers/index';
-import { ExchangeCompaniesComponent } from './exchange-companies.component';
+import { ExchangeJobsComponent } from './exchange-jobs.component';
 
-describe('Exchange Commpanies', () => {
-  let fixture: ComponentFixture<ExchangeCompaniesComponent>;
-  let instance: ExchangeCompaniesComponent;
+describe('Exchange Jobs', () => {
+  let fixture: ComponentFixture<ExchangeJobsComponent>;
+  let instance: ExchangeJobsComponent;
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
@@ -27,7 +27,7 @@ describe('Exchange Commpanies', () => {
         })
       ],
       declarations: [
-        ExchangeCompaniesComponent
+        ExchangeJobsComponent
       ],
       providers: [
         {
@@ -45,22 +45,22 @@ describe('Exchange Commpanies', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(ExchangeCompaniesComponent);
+    fixture = TestBed.createComponent(ExchangeJobsComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch a LoadingExchangeCompanies action with an exchange Id upon Init', () => {
+  it('should dispatch a LoadingExchangeJobs action with the exchange id on init', () => {
     fixture.detectChanges();
 
-    const action = new fromExchangeCompaniesActions.LoadingExchangeCompanies(routeIdParam);
+    const action = new fromExchangeJobsActions.LoadingExchangeJobs(routeIdParam);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a LoadingExchangeCompanies action when handleExchangeCompaniesGridReload is called', () => {
-    const action = new fromExchangeCompaniesActions.LoadingExchangeCompanies(routeIdParam);
+  it('should dispatch a LoadingExchangeJobs action when handleExchangeJobsGridReload is called', () => {
+    const action = new fromExchangeJobsActions.LoadingExchangeJobs(routeIdParam);
 
-    instance.handleExchangeCompaniesGridReload();
+    instance.handleExchangeJobsGridReload();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

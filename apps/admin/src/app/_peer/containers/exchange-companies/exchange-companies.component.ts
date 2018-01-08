@@ -36,9 +36,6 @@ export class ExchangeCompaniesComponent implements OnInit {
     this.store.dispatch(new fromExchangeCompaniesActions.LoadingExchangeCompanies(this.exchangeId));
   }
 
-  openAddExchangeCompaniesModal(): void {
-    this.store.dispatch(new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal);
-  }
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromExchangeCompaniesActions.LoadingExchangeCompanies(this.exchangeId));
