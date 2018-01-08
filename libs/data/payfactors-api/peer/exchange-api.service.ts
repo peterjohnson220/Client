@@ -16,16 +16,12 @@ export class ExchangeApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  upsertExchange(exchangeListItem: UpsertExchangeRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchange`, exchangeListItem);
+  addCompanies(addExchangeCompaniesRequest: AddExchangeCompaniesRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddCompanies`, addExchangeCompaniesRequest);
   }
 
   getAllExchanges(): Observable<ExchangeListItem[]> {
     return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`);
-  }
-
-  getCompanies(exchangeId: number): Observable<ExchangeCompany[]> {
-    return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
   }
 
   getAvailableCompanies(payload: any): Observable<GridDataResult> {
@@ -36,12 +32,24 @@ export class ExchangeApiService {
     );
   }
 
-  addCompanies(addExchangeCompaniesRequest: AddExchangeCompaniesRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/AddCompanies`, addExchangeCompaniesRequest);
+  getCompanies(exchangeId: number): Observable<ExchangeCompany[]> {
+    return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
   }
 
   getExchange(exchangeId: number): Observable<Exchange> {
     return this.payfactorsApiService.get<Exchange>(`${this.endpoint}/GetExchange`, { params: { exchangeId: exchangeId } });
+  }
+
+  getExchangeJobs(exchangeId: number): Observable<ExchangeJob[]> {
+    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetExchangeJobs`, { params: { exchangeId: exchangeId } });
+  }
+
+  importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ImportExchangeJobs`, importExchangeJobsRequest);
+  }
+
+  upsertExchange(exchangeListItem: UpsertExchangeRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchange`, exchangeListItem);
   }
 
   validateExchangeJobs(validateExchangeJobsRequest: ValidateExchangeJobsRequest): Observable<ExchangeJobsValidationResultModel> {
@@ -51,11 +59,4 @@ export class ExchangeApiService {
     return this.payfactorsApiService.post(url, formData);
   }
 
-  importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ImportExchangeJobs`, importExchangeJobsRequest);
-  }
-  
-  getExchangeJobs(exchangeId: number): Observable<ExchangeJob[]> {
-    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetExchangeJobs`, { params: { exchangeId: exchangeId } });
-  }
 }
