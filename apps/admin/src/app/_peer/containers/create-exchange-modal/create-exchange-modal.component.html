@@ -8,8 +8,8 @@
   (onDismiss)="handleModalDismissed()">
   <ng-container form-content>
     <div class="form-group">
-      <label class="form-control-label" for="exchange-name">Please give the new exchange a name:</label>
-      <input type="text" class="form-control" [readonly]="creatingExchange$ | async" placeholder="Exchange Name" formControlName="name" id="exchange-name" [pfValidatable]="attemptedSubmit" focus>
+      <label class="col-form-label" for="exchange-name">Please give the new exchange a name:</label>
+      <input type="text" class="form-control" [readonly]="creatingExchange$ | async" placeholder="Exchange Name" formControlName="name" id="exchange-name" [pfValidatable]="attemptedSubmit" pfFocus>
       <ng-container *ngIf="name.errors && attemptedSubmit">
         <div *ngIf="name.errors.required" class="invalid-feedback">Name is required.</div>
         <div *ngIf="name.errors.error" class="invalid-feedback">{{name.errors.error}}</div>
