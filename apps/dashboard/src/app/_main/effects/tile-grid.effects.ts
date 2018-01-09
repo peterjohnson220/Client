@@ -13,30 +13,30 @@ import 'rxjs/add/operator/toArray';
 import { DashboardApiService } from 'libs/data/payfactors-api';
 import { UserTileDto } from 'libs/models';
 import { Tile, TileType } from '../models';
-import { TileMapper } from '../mappers';
+import { UserTileToTileMapper } from '../mappers';
 
-import * as fromDashboardActions from '../actions/tile-grid.actions';
+import * as fromTileGridActions from '../actions/tile-grid.actions';
 
 @Injectable()
 export class TileGridEffects {
   @Effect()
   loadTiles$: Observable<Action> = this.actions$
-    .ofType(fromDashboardActions.LOADING_TILES)
+    .ofType(fromTileGridActions.LOADING_TILES)
     .switchMap(() =>
       this.dashboardApiService.getUserDashboardTiles()
-        .map((userTileDtos: UserTileDto[]) => this.mapUserTileDtosToTiles(userTileDtos))
-        .map((tiles: Tile[]) => new fromDashboardActions.LoadingTilesSuccess(tiles))
-        .catch(error => of (new fromDashboardActions.LoadingTilesError(error)))
+        .map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos))
+        .map((tiles: Tile[]) => new fromTileGridActions.LoadingTilesSuccess(tiles))
+        .catch(error => of (new fromTileGridActions.LoadingTilesError(error)))
     );
 
   @Effect()
   reorderTiles$: Observable<Action> = this.actions$
-    .ofType(fromDashboardActions.REORDER_TILES)
-    .switchMap((action: fromDashboardActions.ReorderTiles) =>
+    .ofType(fromTileGridActions.REORDER_TILES)
+    .switchMap((action: fromTileGridActions.ReorderTiles) =>
       this.dashboardApiService.reorderDashboardTiles(action.payload)
-        .map((userTileDtos: UserTileDto[]) => this.mapUserTileDtosToTiles(userTileDtos))
-        .map((tiles: Tile[]) => new fromDashboardActions.ReorderTilesSuccess(tiles))
-        .catch(error => of (new fromDashboardActions.ReorderTilesError(error)))
+        .map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos))
+        .map((tiles: Tile[]) => new fromTileGridActions.ReorderTilesSuccess(tiles))
+        .catch(error => of (new fromTileGridActions.ReorderTilesError(error)))
     );
 
   constructor(
@@ -44,9 +44,9 @@ export class TileGridEffects {
     private dashboardApiService: DashboardApiService
   ) {}
 
-  mapUserTileDtosToTiles(userTileDtos: UserTileDto[]): Tile[] {
+  mapToTiles(userTileDtos: UserTileDto[]): Tile[] {
     return userTileDtos
-      .map(dt => TileMapper.mapUserTileDtoToTile(dt))
+      .map(dt => UserTileToTileMapper.mapUserTileDtoToTile(dt))
       .filter(t => new TileType().AllTypes.indexOf(t.Type) !== -1);
   }
 }
