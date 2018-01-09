@@ -11,12 +11,11 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/toArray';
 
 import { DashboardApiService } from 'libs/data/payfactors-api';
-import { UserTileDto } from 'libs/models';
+import { UserFeatureDto } from 'libs/models';
 
 import * as fromDashboardActions from '../actions/dashboard.actions';
 import { Feature } from '../models';
-import { UserTileDtoToFeatureMapper } from '../mappers';
-
+import { UserFeatureDtoToFeatureMapper } from '../mappers';
 
 @Injectable()
 export class DashboardEffects {
@@ -24,8 +23,8 @@ export class DashboardEffects {
   loadFeatures$: Observable<Action> = this.actions$
     .ofType(fromDashboardActions.LOADING_FEATURES)
     .switchMap(() =>
-      this.dashboardApiService.getUserDashboardTiles()
-        .map((userTileDtos: UserTileDto[]) => this.mapToFeatures(userTileDtos))
+      this.dashboardApiService.getUserFeatures()
+        .map((userFeatureDtos: UserFeatureDto[]) => this.mapToFeatures(userFeatureDtos))
         .map((features: Feature[]) => new fromDashboardActions.LoadingFeaturesSuccess(features))
         .catch(error => of (new fromDashboardActions.LoadingFeaturesError(error)))
     );
@@ -36,8 +35,8 @@ export class DashboardEffects {
   ) {
   }
 
-  mapToFeatures(userTileDtos: UserTileDto[]): Feature[] {
-      return userTileDtos
-        .map(dto => UserTileDtoToFeatureMapper.mapToFeature(dto));
+  mapToFeatures(userFeatureDtos: UserFeatureDto[]): Feature[] {
+      return userFeatureDtos
+        .map(dto => UserFeatureDtoToFeatureMapper.mapToFeature(dto));
   }
 }

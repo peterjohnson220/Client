@@ -2,8 +2,7 @@ import { FeatureTypes } from './feature-types';
 import { TileTypes } from './tile-types';
 
 export interface Feature {
+  Name: string;
   Type: FeatureTypes;
-  TileType: TileTypes;
-  HasAccess: boolean;
   Url: string;
 }
