@@ -38,16 +38,15 @@
         [selectable]="{
           checkboxOnly: true
         }"
-        [scrollable]="true"
         [height]="400"
         [sortable]="true"
         [sort]="(gridState$ | async)?.sort"
         [kendoGridSelectBy]="selectionKey"
         [selectedKeys]="selections$ | async"
         [rowClass]="rowClass"
-        (pageChange)="pageChange($event)"
+        (pageChange)="handlePageChange($event)"
         (sortChange)="handleSortChanged($event)"
-        (cellClick)="cellClick($event)"
+        (cellClick)="handleCellClick($event)"
       >
 
         <kendo-grid-column field="CompanyName" title="Company Name" [width]="200"></kendo-grid-column>

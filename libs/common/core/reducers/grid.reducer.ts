@@ -30,15 +30,22 @@ export const initialGridState: IGridState = {
   selections: []
 };
 
-export const createGridReducer = (gridType: GridTypeEnum, featureReducer: ActionReducerMap<any>) => {
+export const createGridReducer = (gridType: GridTypeEnum, featureReducer: ActionReducerMap<any>, gridStateOverride?: any) => {
+  const initState = {
+    ...initialGridState,
+    grid: {
+      ...initialGridState.grid,
+      ...gridStateOverride
+    }
+  };
   return combineReducers({
     feature: featureReducer,
-    grid: getGridReducer(gridType)
+    grid: getGridReducer(gridType, initState)
   });
 };
 
-const getGridReducer = (gridType: GridTypeEnum) => {
-  return (state = initialGridState, action: GridActions): IGridState => {
+const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initialGridState) => {
+  return (state = initialState, action: GridActions): IGridState => {
     switch (action.type) {
       case `${gridType}_${fromGridActions.UPDATE_GRID}`: {
         const gridState: State = action.payload;
@@ -50,7 +57,7 @@ const getGridReducer = (gridType: GridTypeEnum) => {
       }
       case `${gridType}_${fromGridActions.RESET_GRID}`: {
         return {
-          ...initialGridState
+          ...initialState
         };
       }
       case `${gridType}_${fromGridActions.TOGGLE_ROW_SELECTION}`: {
@@ -90,7 +97,7 @@ const getGridReducer = (gridType: GridTypeEnum) => {
         const newGridState = JSON.parse(JSON.stringify(state.grid));
         const payload = action.payload;
         newGridState.skip = 0;
-        newGridState.sort = payload.sort;
+        newGridState.sort = payload;
         return {
           ...state,
           grid: newGridState

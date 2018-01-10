@@ -6,6 +6,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import 'rxjs/add/operator/take';
 
 import {
   AvailableCompany, generateMockAddExchangeCompaniesRequest,
@@ -15,7 +16,7 @@ import { PfCommonModule } from 'libs/common';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
 import { KendoGridFilterHelper } from 'libs/common/core/helpers';
-import { PfInputDebounceComponent } from 'libs/forms/components';
+import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
@@ -50,7 +51,7 @@ describe('Add Companies Modal', () => {
           useValue: { snapshot: { params: { id : 1 } } },
         },
         {
-          provide: PfInputDebounceComponent,
+          provide: InputDebounceComponent,
           useValue: {setSilently(test: string) {}}
         }
       ],
@@ -66,7 +67,11 @@ describe('Add Companies Modal', () => {
 
     fixture = TestBed.createComponent(AddCompaniesModalComponent);
     instance = fixture.componentInstance;
-    instance.debouncedSearchTerm = TestBed.get(PfInputDebounceComponent);
+    instance.debouncedSearchTerm = TestBed.get(InputDebounceComponent);
+
+    instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
+    instance.selections$ = of([]);
+    instance.gridState$.take(1);
   });
 
   it('should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true', () => {
@@ -79,7 +84,7 @@ describe('Add Companies Modal', () => {
   it('should dispatch a LoadingAvailableCompanies action when the modal is opened', () => {
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(instance.gridState)
+      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
     });
     instance.addCompaniesModalOpen$ = of(true);
     fixture.detectChanges();
@@ -101,7 +106,7 @@ describe('Add Companies Modal', () => {
     const payload = generateMockAddExchangeCompaniesRequest();
     const action = new fromExchangeCompaniesActions.AddingExchangeCompanies(payload);
 
-    instance.selections = [1, 2];
+    instance.selections$ = of([1, 2]);
 
     fixture.detectChanges();
 
@@ -157,23 +162,28 @@ describe('Add Companies Modal', () => {
   });
 
   it('should reset gridState and selections when handleModalDismissed is triggered', () => {
-    instance.selections = [1, 2];
-    instance.gridState = KendoGridFilterHelper.getMockGridState();
+    const exptectedGridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
+    const expectedSelections$ = of([]);
+    instance.selections$ = of([1, 2]);
+    instance.gridState$ = of(KendoGridFilterHelper.getMockGridState());
     fixture.detectChanges();
 
     instance.handleModalDismissed();
 
     fixture.detectChanges();
 
-    expect(instance.selections).toEqual([]);
-    expect(instance.gridState).toEqual(KendoGridFilterHelper.getMockEmptyGridState());
+    fixture.whenStable().then(() => {
+      expect(instance.selections$).toEqual(expectedSelections$);
+      expect(instance.gridState$).toEqual(exptectedGridState$);
+    });
   });
 
   it('should update gridState and call loadAvailableCompanies when updateSearchFilter is triggered', () => {
     const expectedGridState = KendoGridFilterHelper.getMockEmptyGridState();
     expectedGridState.filter.filters.push(KendoGridFilterHelper.getMockFilter('CompanyName'));
-    instance.gridState = KendoGridFilterHelper.getMockEmptyGridState();
-    instance.gridState.skip = 10;
+    const currentGridState = KendoGridFilterHelper.getMockEmptyGridState();
+    currentGridState.skip = 10;
+    instance.gridState$ = of(currentGridState);
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,
       listState: JSON.stringify(expectedGridState)
@@ -184,14 +194,16 @@ describe('Add Companies Modal', () => {
 
     fixture.detectChanges();
 
-    expect(instance.gridState).toEqual(expectedGridState);
-    expect(store.dispatch).toBeCalledWith(action);
+    fixture.whenStable().then(() => {
+      expect(instance.gridState$).toEqual(of(expectedGridState));
+      expect(store.dispatch).toBeCalledWith(action);
+    });
   });
 
   it('should dispatch LoadingAvaliableCompanies action when loadAvailableCompanies is called', () => {
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(instance.gridState)
+      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
     });
     fixture.detectChanges();
 
@@ -207,28 +219,39 @@ describe('Add Companies Modal', () => {
     const expectedSkip = 20;
     fixture.detectChanges();
 
-    instance.pageChange({skip: expectedSkip, take: 10});
+    instance.handlePageChange({skip: expectedSkip, take: 10});
 
     fixture.detectChanges();
 
-    expect(instance.gridState.skip).toEqual(expectedSkip);
-    expect(instance.loadAvailableCompanies).toBeCalled();
+    fixture.whenStable().then(() => {
+      instance.gridState$.take(1).subscribe(state => {
+        expect(state.skip).toEqual(expectedSkip);
+      });
+      expect(instance.loadAvailableCompanies).toBeCalled();
+    });
   });
 
   it(`should update gridState.sort, reset gridState.skip, and call loadAvailableCompanies when the
     handleSortChanged event is triggered`, () => {
     spyOn(instance, 'loadAvailableCompanies');
+
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
-    instance.gridState.skip = 10;
+    const currentGridState = KendoGridFilterHelper.getMockEmptyGridState();
+    currentGridState.skip = 10;
+    instance.gridState$ = of(currentGridState);
     fixture.detectChanges();
 
     instance.handleSortChanged(expectedSort);
 
     fixture.detectChanges();
 
-    expect(instance.gridState.skip).toEqual(0);
-    expect(instance.gridState.sort).toEqual(expectedSort);
-    expect(instance.loadAvailableCompanies).toBeCalled();
+    fixture.whenStable().then(() => {
+      instance.gridState$.take(1).subscribe(state => {
+        expect(state.skip).toEqual(0);
+        expect(state.sort).toEqual(expectedSort);
+      });
+      expect(instance.loadAvailableCompanies).toBeCalled();
+    });
   });
 
   it('should not update selections when the cellClick event is triggered if the company is already in the exchange', () => {
@@ -237,7 +260,7 @@ describe('Add Companies Modal', () => {
     mockAvailableCompany.InExchange = true;
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableCompany});
 
     fixture.detectChanges();
 
@@ -246,17 +269,19 @@ describe('Add Companies Modal', () => {
 
   it('should add company to selections and update selectionsControl when the cellClick event is triggered', () => {
     const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
-    const expectedSelections = [mockAvailableCompany.CompanyId];
+    const expectedSelections$ = of([mockAvailableCompany.CompanyId]);
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableCompany});
 
     fixture.detectChanges();
 
-    expect(instance.selections).toEqual(expectedSelections);
+    fixture.whenStable().then(() => {
+      expect(instance.selections$).toEqual(expectedSelections$);
 
-    // expecting the selections input to have a value of 1 and have the ng-touched class.
-    expect(fixture).toMatchSnapshot();
+      // expecting the selections input to have a value of 1 and have the ng-touched class.
+      expect(fixture).toMatchSnapshot();
+    });
   });
 
   it(`should remove company from selections if it has already been added and update selectionsControl
@@ -266,7 +291,7 @@ describe('Add Companies Modal', () => {
     instance.selections = [mockAvailableCompany.CompanyId];
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableCompany});
 
     fixture.detectChanges();
 

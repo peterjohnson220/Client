@@ -107,7 +107,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.loadAvailableJobs();
   }
 
-  pageChange(event: PageChangeEvent): void {
+  handlePageChange(event: PageChangeEvent): void {
     this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.AvailableJobs, event));
     this.loadAvailableJobs();
   }
@@ -117,7 +117,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.loadAvailableJobs();
   }
 
-  cellClick(event: any): void {
+  handleCellClick(event: any): void {
     if (event.dataItem.InExchange) {
       return;
     }

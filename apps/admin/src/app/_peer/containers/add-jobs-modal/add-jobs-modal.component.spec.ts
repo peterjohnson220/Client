@@ -1,4 +1,3 @@
-/*
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -7,25 +6,26 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import 'rxjs/add/operator/take';
 
 import {
-  AvailableCompany, generateMockAddExchangeCompaniesRequest,
-  generateMockAvailableCompany
+  AvailableJob, generateMockAddExchangeJobsRequest,
+  generateMockAvailableJob
 } from 'libs/models/peer';
 import { PfCommonModule } from 'libs/common';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
 import { KendoGridFilterHelper } from 'libs/common/core/helpers';
-import { PfInputDebounceComponent } from 'libs/forms/components';
+import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromPeerAdminReducer from '../../reducers';
-import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
-import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
-import { AddCompaniesModalComponent } from './add-companies-modal.component';
+import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
+import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
+import { AddJobsModalComponent } from './add-jobs-modal.component';
 
 
-describe('Add Companies Modal', () => {
-  let fixture: ComponentFixture<AddCompaniesModalComponent>;
-  let instance: AddCompaniesModalComponent;
+describe('Add Jobs Modal', () => {
+  let fixture: ComponentFixture<AddJobsModalComponent>;
+  let instance: AddJobsModalComponent;
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
@@ -42,7 +42,7 @@ describe('Add Companies Modal', () => {
         PfCommonModule
       ],
       declarations: [
-        AddCompaniesModalComponent,
+        AddJobsModalComponent,
         PfValidatableDirective
       ],
       providers: [
@@ -51,7 +51,7 @@ describe('Add Companies Modal', () => {
           useValue: { snapshot: { params: { id : 1 } } },
         },
         {
-          provide: PfInputDebounceComponent,
+          provide: InputDebounceComponent,
           useValue: {setSilently(test: string) {}}
         }
       ],
@@ -65,44 +65,48 @@ describe('Add Companies Modal', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(AddCompaniesModalComponent);
+    fixture = TestBed.createComponent(AddJobsModalComponent);
     instance = fixture.componentInstance;
-    instance.debouncedSearchTerm = TestBed.get(PfInputDebounceComponent);
+    instance.debouncedSearchTerm = TestBed.get(InputDebounceComponent);
+
+    instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
+    instance.selections$ = of([]);
+    instance.gridState$.take(1);
   });
 
-  it('should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true', () => {
-    instance.addCompaniesModalOpen$ = of(true);
+  it('should show a modal with a search bar and a companies grid when addJobsModalOpen$ is true', () => {
+    instance.addJobsModalOpen$ = of(true);
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadingAvailableCompanies action when the modal is opened', () => {
-    const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
+  it('should dispatch a LoadingAvailableJobs action when the modal is opened', () => {
+    const action = new fromAvailableJobsActions.LoadingAvailableJobs({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(instance.gridState)
+      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
     });
-    instance.addCompaniesModalOpen$ = of(true);
+    instance.addJobsModalOpen$ = of(true);
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should call selectionsControl.setErrors when addingCompaniesError$ is true', () => {
-    const error = {'error': 'There was an error adding the selected companies.'};
+  it('should call selectionsControl.setErrors when addingJobsError$ is true', () => {
+    const error = {'error': 'There was an error adding the selected jobs.'};
     spyOn(instance.selectionsControl, 'setErrors');
-    instance.addingCompaniesError$ = of(true);
+    instance.addingJobsError$ = of(true);
 
     fixture.detectChanges();
 
     expect(instance.selectionsControl.setErrors).toHaveBeenCalledWith(error);
   });
 
-  it('should dispatch a AddingExchangeCompanies action when the handleFormSubmit event is triggered', () => {
-    const payload = generateMockAddExchangeCompaniesRequest();
-    const action = new fromExchangeCompaniesActions.AddingExchangeCompanies(payload);
+  it('should dispatch a AddingExchangeJobs action when the handleFormSubmit event is triggered', () => {
+    const payload = generateMockAddExchangeJobsRequest();
+    const action = new fromExchangeJobsActions.AddingExchangeJobs(payload);
 
-    instance.selections = [1, 2];
+    instance.selections$ = of([1, 2]);
 
     fixture.detectChanges();
 
@@ -135,8 +139,8 @@ describe('Add Companies Modal', () => {
     expect(instance.attemptedSubmit).toBe(false);
   });
 
-  it('should dispatch a CloseAddExchangeCompaniesModal event when handleModalDismissed is triggered', () => {
-    const action = new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal;
+  it('should dispatch a CloseAddExchangeJobsModal event when handleModalDismissed is triggered', () => {
+    const action = new fromExchangeJobsActions.CloseAddExchangeJobsModal;
     fixture.detectChanges();
 
     instance.handleModalDismissed();
@@ -158,24 +162,29 @@ describe('Add Companies Modal', () => {
   });
 
   it('should reset gridState and selections when handleModalDismissed is triggered', () => {
-    instance.selections = [1, 2];
-    instance.gridState = KendoGridFilterHelper.getMockGridState();
+    const exptectedGridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
+    const expectedSelections$ = of([]);
+    instance.selections$ = of([1, 2]);
+    instance.gridState$ = of(KendoGridFilterHelper.getMockGridState());
     fixture.detectChanges();
 
     instance.handleModalDismissed();
 
     fixture.detectChanges();
 
-    expect(instance.selections).toEqual([]);
-    expect(instance.gridState).toEqual(KendoGridFilterHelper.getMockEmptyGridState());
+    fixture.whenStable().then(() => {
+      expect(instance.selections$).toEqual(expectedSelections$);
+      expect(instance.gridState$).toEqual(exptectedGridState$);
+    });
   });
 
-  it('should update gridState and call loadAvailableCompanies when updateSearchFilter is triggered', () => {
+  it('should update gridState and call loadAvailableJobs when updateSearchFilter is triggered', () => {
     const expectedGridState = KendoGridFilterHelper.getMockEmptyGridState();
     expectedGridState.filter.filters.push(KendoGridFilterHelper.getMockFilter('CompanyName'));
-    instance.gridState = KendoGridFilterHelper.getMockEmptyGridState();
-    instance.gridState.skip = 10;
-    const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
+    const currentGridState = KendoGridFilterHelper.getMockEmptyGridState();
+    currentGridState.skip = 10;
+    instance.gridState$ = of(currentGridState);
+    const action = new fromAvailableJobsActions.LoadingAvailableJobs({
       exchangeId: instance.exchangeId,
       listState: JSON.stringify(expectedGridState)
     });
@@ -185,89 +194,104 @@ describe('Add Companies Modal', () => {
 
     fixture.detectChanges();
 
-    expect(instance.gridState).toEqual(expectedGridState);
-    expect(store.dispatch).toBeCalledWith(action);
+    fixture.whenStable().then(() => {
+      expect(instance.gridState$).toEqual(of(expectedGridState));
+      expect(store.dispatch).toBeCalledWith(action);
+    });
   });
 
-  it('should dispatch LoadingAvaliableCompanies action when loadAvailableCompanies is called', () => {
-    const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
+  it('should dispatch LoadingAvaliableJobs action when loadAvailableJobs is called', () => {
+    const action = new fromAvailableJobsActions.LoadingAvailableJobs({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(instance.gridState)
+      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
     });
     fixture.detectChanges();
 
-    instance.loadAvailableCompanies();
+    instance.loadAvailableJobs();
 
     fixture.detectChanges();
 
     expect(store.dispatch).toBeCalledWith(action);
   });
 
-  it('should update gridState.skip and call loadAvailableCompanies when the pageChange event is triggered', () => {
-    spyOn(instance, 'loadAvailableCompanies');
+  it('should update gridState.skip and call loadAvailableJobs when the pageChange event is triggered', () => {
+    spyOn(instance, 'loadAvailableJobs');
     const expectedSkip = 20;
     fixture.detectChanges();
 
-    instance.pageChange({skip: expectedSkip, take: 10});
+    instance.handlePageChange({skip: expectedSkip, take: 10});
 
     fixture.detectChanges();
 
-    expect(instance.gridState.skip).toEqual(expectedSkip);
-    expect(instance.loadAvailableCompanies).toBeCalled();
+    fixture.whenStable().then(() => {
+      instance.gridState$.take(1).subscribe(state => {
+        expect(state.skip).toEqual(expectedSkip);
+      });
+      expect(instance.loadAvailableJobs).toBeCalled();
+    });
   });
 
-  it(`should update gridState.sort, reset gridState.skip, and call loadAvailableCompanies when the
+  it(`should update gridState.sort, reset gridState.skip, and call loadAvailableJobs when the
     handleSortChanged event is triggered`, () => {
-    spyOn(instance, 'loadAvailableCompanies');
+    spyOn(instance, 'loadAvailableJobs');
+
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
-    instance.gridState.skip = 10;
+    const currentGridState = KendoGridFilterHelper.getMockEmptyGridState();
+    currentGridState.skip = 10;
+    instance.gridState$ = of(currentGridState);
     fixture.detectChanges();
 
     instance.handleSortChanged(expectedSort);
 
     fixture.detectChanges();
 
-    expect(instance.gridState.skip).toEqual(0);
-    expect(instance.gridState.sort).toEqual(expectedSort);
-    expect(instance.loadAvailableCompanies).toBeCalled();
+    fixture.whenStable().then(() => {
+      instance.gridState$.take(1).subscribe(state => {
+        expect(state.skip).toEqual(0);
+        expect(state.sort).toEqual(expectedSort);
+      });
+      expect(instance.loadAvailableJobs).toBeCalled();
+    });
   });
 
-  it('should not update selections when the cellClick event is triggered if the company is already in the exchange', () => {
-    const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
+  it('should not update selections when the cellClick event is triggered if the job is already in the exchange', () => {
+    const mockAvailableJob: AvailableJob = generateMockAvailableJob();
     const expectedSelections = [];
-    mockAvailableCompany.InExchange = true;
+    mockAvailableJob.InExchange = true;
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableJob});
 
     fixture.detectChanges();
 
     expect(instance.selections).toEqual(expectedSelections);
   });
 
-  it('should add company to selections and update selectionsControl when the cellClick event is triggered', () => {
-    const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
-    const expectedSelections = [mockAvailableCompany.CompanyId];
+  it('should add job to selections and update selectionsControl when the cellClick event is triggered', () => {
+    const mockAvailableJob: AvailableJob = generateMockAvailableJob();
+    const expectedSelections$ = of([mockAvailableJob.MDJobsBaseId]);
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableJob});
 
     fixture.detectChanges();
 
-    expect(instance.selections).toEqual(expectedSelections);
+    fixture.whenStable().then(() => {
+      expect(instance.selections$).toEqual(expectedSelections$);
 
-    // expecting the selections input to have a value of 1 and have the ng-touched class.
-    expect(fixture).toMatchSnapshot();
+      // expecting the selections input to have a value of 1 and have the ng-touched class.
+      expect(fixture).toMatchSnapshot();
+    });
   });
 
-  it(`should remove company from selections if it has already been added and update selectionsControl
+  it(`should remove job from selections if it has already been added and update selectionsControl
     when the cellClick event is triggered`, () => {
     const expectedSelections = [];
-    const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
-    instance.selections = [mockAvailableCompany.CompanyId];
+    const mockAvailableJob: AvailableJob = generateMockAvailableJob();
+    instance.selections = [mockAvailableJob.MDJobsBaseId];
     fixture.detectChanges();
 
-    instance.cellClick({dataItem: mockAvailableCompany});
+    instance.handleCellClick({dataItem: mockAvailableJob});
 
     fixture.detectChanges();
 
@@ -291,26 +315,25 @@ describe('Add Companies Modal', () => {
     expect(instance.primaryButtonText).toEqual(expectedPrimaryButtonTextAfter);
   });
   // TODO: Was unable to get the subscription to fire the second time, preventing the text from appearing (JP)
-/!*  it('should show error message when addingCompaniesError$ is true and a submit has been attempted', () => {
-    spyOn(instance, 'addingCompaniesError$').and.returnValue(of(true));
-    instance.selectionsControl.setValue([1]);
-    instance.selectionsControl.markAsDirty();
-    instance.selectionsControl.markAsTouched();
+  /*  it('should show error message when addingJobsError$ is true and a submit has been attempted', () => {
+      spyOn(instance, 'addingJobsError$').and.returnValue(of(true));
+      instance.selectionsControl.setValue([1]);
+      instance.selectionsControl.markAsDirty();
+      instance.selectionsControl.markAsTouched();
 
-    // instance.addingCompaniesError$ = of(false);
-    instance.addCompaniesModalOpen$ = of(true);
-    instance.attemptedSubmit = true;
+      // instance.addingJobsError$ = of(false);
+      instance.addJobsModalOpen$ = of(true);
+      instance.attemptedSubmit = true;
 
-    fixture.detectChanges();
-    instance.addCompaniesModalOpen$ = of(true);
+      fixture.detectChanges();
+      instance.addJobsModalOpen$ = of(true);
 
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-    // instance.addCompaniesModalOpen$ = of(true);
-    // instance.addingCompaniesError$ = of(true);
+      fixture.detectChanges();
+      expect(fixture).toMatchSnapshot();
+      // instance.addJobsModalOpen$ = of(true);
+      // instance.addingJobsError$ = of(true);
 
-    // fixture.detectChanges();
-    // expect(fixture).toMatchSnapshot();
-  });*!/
+      // fixture.detectChanges();
+      // expect(fixture).toMatchSnapshot();
+    });*/
 });
-*/

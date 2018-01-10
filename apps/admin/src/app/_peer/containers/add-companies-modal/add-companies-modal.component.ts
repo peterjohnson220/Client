@@ -106,7 +106,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.loadAvailableCompanies();
   }
 
-  pageChange(event: PageChangeEvent): void {
+  handlePageChange(event: PageChangeEvent): void {
     this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.AvailableCompanies, event));
     this.loadAvailableCompanies();
   }
@@ -116,7 +116,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.loadAvailableCompanies();
   }
 
-  cellClick(event: any): void {
+  handleCellClick(event: any): void {
     if (event.dataItem.InExchange) {
       return;
     }
