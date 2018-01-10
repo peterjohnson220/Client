@@ -14,8 +14,10 @@ import { AddExchangeJobsRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
 
 import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
+import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 // TODO: import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers';
+import { GridTypeEnum } from 'libs/models/common';
 
 @Component({
   selector: 'pf-add-jobs-modal',
@@ -33,9 +35,13 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   addJobsModalOpenSubscription: Subscription;
   addJobsErrorSubscription: Subscription;
   addJobsForm: FormGroup;
-  gridState: State = { skip: 0, take: 10 };
+  gridState: State = {};
+  gridState$: Observable<State>;
+  gridStateSubscription: Subscription;
+  selections: number[];
+  selections$: Observable<number[]>;
+  selectionsSubscription: Subscription;
   attemptedSubmit = false;
-  selections: number[] = [];
   exchangeId: number;
   searchTerm: string;
 
@@ -50,14 +56,20 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.addJobsModalOpen$ = this.store.select(fromPeerAdminReducer.getAddExchangeJobsModalOpen);
     this.addingJobs$ = this.store.select(fromPeerAdminReducer.getExchangeJobsAdding);
     this.addingJobsError$ = this.store.select(fromPeerAdminReducer.getExchangeJobsAddingError);
+    this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridState);
+    this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridSelections);
 
     this.exchangeId = this.route.snapshot.params.id;
     this.createForm();
   }
 
-  get primaryButtonText(): string {
-    const numberOfSelections = this.selections ? this.selections.length : 0;
-    return `Add (${numberOfSelections})`;
+  get primaryButtonText() {
+    const numOfSelections = this.selections ? this.selections.length : 0;
+    return `Add (${numOfSelections})`;
+  }
+  get primaryButtonTextSubmitting() {
+    const numOfSelections = this.selections ? this.selections.length : 0;
+    return `Adding (${numOfSelections})`;
   }
   get selectionsControl() { return this.addJobsForm.get('selections'); }
 
@@ -82,12 +94,9 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.attemptedSubmit = false;
     // TODO: USE fromExchangeJobsActions when available
     this.store.dispatch(new fromAvailableJobsActions.CloseAddExchangeJobsModal);
-    this.selections = [];
     // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
     this.debouncedSearchTerm.setSilently('');
-    KendoGridFilterHelper.clearFilters(this.gridState);
-    this.gridState.skip = 0;
-    this.gridState.sort = [];
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableJobs));
   }
 
   // Grid
@@ -98,17 +107,20 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   updateSearchFilter(newSearchTerm: string) {
     this.gridState.skip = 0;
     KendoGridFilterHelper.updateFilter('JobTitle', newSearchTerm, this.gridState);
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
     this.loadAvailableJobs();
   }
 
   pageChange(event: PageChangeEvent): void {
     this.gridState.skip = event.skip;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
     this.loadAvailableJobs();
   }
 
   handleSortChanged(sort: SortDescriptor[]) {
     this.gridState.skip = 0;
     this.gridState.sort = sort;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
     this.loadAvailableJobs();
   }
 
@@ -117,14 +129,8 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
       return;
     }
     const selectedMDJobsBaseId = event.dataItem.MDJobsBaseId;
-    const availableJobSelected = this.selections.indexOf(selectedMDJobsBaseId) >= 0;
-    if (availableJobSelected) {
-      this.selections = this.selections.filter(selection => selection !== selectedMDJobsBaseId);
-    } else {
-      this.selections.push(selectedMDJobsBaseId);
-    }
+    this.store.dispatch(new fromGridActions.ToggleRowSelection(GridTypeEnum.AvailableJobs, selectedMDJobsBaseId));
     this.selectionsControl.markAsTouched();
-    this.selectionsControl.setValue(this.selections || []);
   }
 
   rowClass(context: RowClassArgs): string {
@@ -143,11 +149,19 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
         this.selectionsControl.setErrors({'error': 'There was an error adding the selected jobs.'});
       }
     });
+    this.gridStateSubscription = this.gridState$.subscribe(state => {
+      this.gridState = JSON.parse(JSON.stringify(state));
+    });
+    this.selectionsSubscription = this.selections$.subscribe(selections => {
+      this.selections = selections;
+    });
   }
 
   ngOnDestroy() {
     this.addJobsModalOpenSubscription.unsubscribe();
     this.addJobsErrorSubscription.unsubscribe();
+    this.gridStateSubscription.unsubscribe();
+    this.selectionsSubscription.unsubscribe();
   }
 
   // Helper methods
