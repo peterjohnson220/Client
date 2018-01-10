@@ -1,6 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { AvailableCompany } from 'libs/models/peer';
+import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+import { GridTypeEnum } from 'libs/models/common';
+
 import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';
 
 // Extended entity state
@@ -23,38 +26,37 @@ export const initialState: State = adapter.getInitialState({
 });
 
 // Reducer
-export function reducer(
-  state = initialState,
-  action: fromAvailableCompaniesActions.Actions
-): State {
-  switch (action.type) {
-    case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES: {
-      return {
-        ...adapter.removeAll(state),
-        loading: true,
-        loadingError: false
-      };
+export const reducer = createGridReducer(
+  GridTypeEnum.AvailableCompanies,
+  (state = initialState, action: fromAvailableCompaniesActions.Actions): State => {
+    switch (action.type) {
+      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES: {
+        return {
+          ...adapter.removeAll(state),
+          loading: true,
+          loadingError: false
+        };
+      }
+      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
+        const companies: AvailableCompany[] = action.payload.data;
+        return {
+          ...adapter.addAll(companies, state),
+          total: action.payload.total,
+          loading: false
+        };
+      }
+      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_ERROR: {
+        return {
+          ...state,
+          loading: false,
+          loadingError: true
+        };
+      }
+      default: {
+        return state;
+      }
     }
-    case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
-      const companies: AvailableCompany[] = action.payload.data;
-      return {
-        ...adapter.addAll(companies, state),
-        total: action.payload.total,
-        loading: false
-      };
-    }
-    case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        loadingError: true
-      };
-    }
-    default: {
-      return state;
-    }
-  }
-}
+});
 
 // Selector Functions
 export const getTotal = (state: State) => state.total;

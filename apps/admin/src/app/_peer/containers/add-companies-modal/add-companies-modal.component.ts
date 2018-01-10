@@ -11,7 +11,9 @@ import { SortDescriptor, State } from '@progress/kendo-data-query';
 import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
-import { PfValidators } from 'libs/forms/validators';
+import { PfValidators } from 'libs/forms/validators';;
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
@@ -33,9 +35,13 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   addCompaniesModalOpenSubscription: Subscription;
   addCompaniesErrorSubscription: Subscription;
   addCompaniesForm: FormGroup;
-  gridState: State = { skip: 0, take: 10 };
+  gridState: State;
+  gridState$: Observable<State>;
+  gridStateSubscription: Subscription;
   attemptedSubmit = false;
   selections: number[] = [];
+  selections$: Observable<number[]>;
+  selectionsSubscription: Subscription;
   exchangeId: number;
   searchTerm: string;
 
@@ -50,14 +56,19 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.addCompaniesModalOpen$ = this.store.select(fromPeerAdminReducer.getAddExchangeCompaniesModalOpen);
     this.addingCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAdding);
     this.addingCompaniesError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAddingError);
-
+    this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridState);
+    this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridSelections)
     this.exchangeId = this.route.snapshot.params.id;
     this.createForm();
   }
 
-  get primaryButtonText(): string {
-    const numberOfSelections = this.selections ? this.selections.length : 0;
-    return `Add (${numberOfSelections})`;
+  get primaryButtonText() {
+    const numOfSelections = this.selections ? this.selections.length : 0;
+    return `Add (${numOfSelections})`;
+  }
+  get primaryButtonTextSubmitting() {
+    const numOfSelections = this.selections ? this.selections.length : 0;
+    return `Adding (${numOfSelections})`;
   }
   get selectionsControl() { return this.addCompaniesForm.get('selections'); }
 
@@ -80,12 +91,9 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
-    this.selections = [];
     // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
     this.debouncedSearchTerm.setSilently('');
-    KendoGridFilterHelper.clearFilters(this.gridState);
-    this.gridState.skip = 0;
-    this.gridState.sort = [];
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableCompanies));
   }
 
   // Grid
@@ -96,17 +104,20 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   updateSearchFilter(newSearchTerm: string) {
     this.gridState.skip = 0;
     KendoGridFilterHelper.updateFilter('CompanyName', newSearchTerm, this.gridState);
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
     this.loadAvailableCompanies();
   }
 
   pageChange(event: PageChangeEvent): void {
     this.gridState.skip = event.skip;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
     this.loadAvailableCompanies();
   }
 
   handleSortChanged(sort: SortDescriptor[]) {
     this.gridState.skip = 0;
     this.gridState.sort = sort;
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
     this.loadAvailableCompanies();
   }
 
@@ -115,14 +126,8 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
       return;
     }
     const selectedCompanyId = event.dataItem.CompanyId;
-    const companySelected = this.selections.indexOf(selectedCompanyId) >= 0;
-    if (companySelected) {
-      this.selections = this.selections.filter(selection => selection !== selectedCompanyId);
-    } else {
-      this.selections.push(selectedCompanyId);
-    }
+    this.store.dispatch(new fromGridActions.ToggleRowSelection(GridTypeEnum.AvailableCompanies, selectedCompanyId));
     this.selectionsControl.markAsTouched();
-    this.selectionsControl.setValue(this.selections || []);
   }
 
   rowClass(context: RowClassArgs): string {
@@ -140,6 +145,12 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
       if (error) {
         this.selectionsControl.setErrors({'error': 'There was an error adding the selected companies.'});
       }
+    });
+    this.gridStateSubscription = this.gridState$.subscribe(state => {
+      this.gridState = JSON.parse(JSON.stringify(state));
+    });
+    this.selectionsSubscription = this.selections$.subscribe(selections => {
+      this.selections = selections;
     });
   }
 

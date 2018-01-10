@@ -17,7 +17,7 @@ export interface PeerAdminState {
   manageExchange: fromManageExchangeReducer.State;
   exchangeCompanies: fromExchangeCompaniesReducer.State;
   importExchangeJobs: fromImportExchangeJobsReducer.State;
-  availableCompanies: fromAvailableCompaniesReducer.State;
+  availableCompanies: IFeatureGridState<fromAvailableCompaniesReducer.State>;
   availableJobs: IFeatureGridState<fromAvailableJobsReducer.State>;
 }
 
@@ -104,16 +104,26 @@ export const getExchangeCompaniesAddingError = createSelector(
 );
 
 // Available Companies Selectors
+export const selectAvailableCompaniesFeatureState = createSelector(
+  selectAvailableCompaniesState,
+  (state: IFeatureGridState<fromAvailableCompaniesReducer.State>) => state.feature
+);
+export const selectAvailableCompaniesGridState = createSelector(
+  selectAvailableCompaniesState,
+  (state: IFeatureGridState<fromAvailableCompaniesReducer.State>) => state.grid
+);
 export const {
   selectAll: getAvailableCompanies
-} = fromAvailableCompaniesReducer.adapter.getSelectors(selectAvailableCompaniesState);
+} = fromAvailableCompaniesReducer.adapter.getSelectors(selectAvailableCompaniesFeatureState);
 
-export const getAvailableCompaniesLoading = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getLoading);
+export const getAvailableCompaniesLoading = createSelector(selectAvailableCompaniesFeatureState, fromAvailableCompaniesReducer.getLoading);
 export const getAvailableCompaniesLoadingError = createSelector(
-  selectAvailableCompaniesState,
+  selectAvailableCompaniesFeatureState,
   fromAvailableCompaniesReducer.getLoadingError
 );
-export const getTotalAvailableCompanies = createSelector(selectAvailableCompaniesState, fromAvailableCompaniesReducer.getTotal);
+export const getTotalAvailableCompanies = createSelector(selectAvailableCompaniesFeatureState, fromAvailableCompaniesReducer.getTotal);
+export const getAvailableCompaniesGridState = createSelector(selectAvailableCompaniesGridState, fromGridReducer.getGridState);
+export const getAvailableCompaniesGridSelections = createSelector(selectAvailableCompaniesGridState, fromGridReducer.getGridSelections);
 export const getAvailableCompaniesGrid = createSelector(
   getAvailableCompanies,
   getTotalAvailableCompanies,
