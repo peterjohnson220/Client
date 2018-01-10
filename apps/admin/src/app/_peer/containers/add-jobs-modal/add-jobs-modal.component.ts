@@ -8,15 +8,15 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
+import { GridTypeEnum } from 'libs/models/common';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeJobsRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
+import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 
 import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
-// TODO: import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
+import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers';
-import { GridTypeEnum } from 'libs/models/common';
 
 @Component({
   selector: 'pf-add-jobs-modal',
@@ -83,14 +83,12 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
       ExchangeId: this.exchangeId,
       MDJobsBaseIds: this.selections
     };
-    // TODO: USE fromExchangeJobsActions when available
-    this.store.dispatch(new fromAvailableJobsActions.AddingExchangeJobs(addJobsRequest));
+    this.store.dispatch(new fromExchangeJobsActions.AddingExchangeJobs(addJobsRequest));
   }
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
-    // TODO: USE fromExchangeJobsActions when available
-    this.store.dispatch(new fromAvailableJobsActions.CloseAddExchangeJobsModal);
+    this.store.dispatch(new fromExchangeJobsActions.CloseAddExchangeJobsModal);
     // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
     this.debouncedSearchTerm.setSilently('');
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableJobs));

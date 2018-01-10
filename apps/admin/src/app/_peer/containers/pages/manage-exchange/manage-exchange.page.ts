@@ -4,10 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { Exchange } from 'libs/models/peer';
+
 import * as fromExchangeCompaniesActions from '../../../actions/exchange-companies.actions';
 import * as fromImportExchangeJobsActions from '../../../actions/import-exchange-jobs.actions';
+import * as fromExchangeJobsActions from '../../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
-import * as fromAvailableJobsActions from '../../../actions/available-jobs.actions';
 
 @Component({
   selector: 'pf-manage-exchange-page',
@@ -36,9 +37,8 @@ export class ManageExchangePageComponent {
     // TODO: Dispatch load jobs action in next item.
   }
 
-  // TODO: This should be on the exchange-jobs container instead
   openAddExchangeJobsModal(): void {
-    this.store.dispatch(new fromAvailableJobsActions.OpenAddExchangeJobsModal);
+    this.store.dispatch(new fromExchangeJobsActions.OpenAddExchangeJobsModal);
   }
 
   handleImportExchangeJobsModalDismissed() {

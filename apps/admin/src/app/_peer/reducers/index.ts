@@ -112,22 +112,41 @@ export const selectAvailableCompaniesFeatureState = createSelector(
   selectAvailableCompaniesState,
   (state: IFeatureGridState<fromAvailableCompaniesReducer.State>) => state.feature
 );
+
 export const selectAvailableCompaniesGridState = createSelector(
   selectAvailableCompaniesState,
   (state: IFeatureGridState<fromAvailableCompaniesReducer.State>) => state.grid
 );
+
 export const {
   selectAll: getAvailableCompanies
 } = fromAvailableCompaniesReducer.adapter.getSelectors(selectAvailableCompaniesFeatureState);
 
-export const getAvailableCompaniesLoading = createSelector(selectAvailableCompaniesFeatureState, fromAvailableCompaniesReducer.getLoading);
+export const getAvailableCompaniesLoading = createSelector(
+  selectAvailableCompaniesFeatureState,
+  fromAvailableCompaniesReducer.getLoading
+);
+
 export const getAvailableCompaniesLoadingError = createSelector(
   selectAvailableCompaniesFeatureState,
   fromAvailableCompaniesReducer.getLoadingError
 );
-export const getTotalAvailableCompanies = createSelector(selectAvailableCompaniesFeatureState, fromAvailableCompaniesReducer.getTotal);
-export const getAvailableCompaniesGridState = createSelector(selectAvailableCompaniesGridState, fromGridReducer.getGridState);
-export const getAvailableCompaniesGridSelections = createSelector(selectAvailableCompaniesGridState, fromGridReducer.getGridSelections);
+
+export const getTotalAvailableCompanies = createSelector(
+  selectAvailableCompaniesFeatureState,
+  fromAvailableCompaniesReducer.getTotal
+);
+
+export const getAvailableCompaniesGridState = createSelector(
+  selectAvailableCompaniesGridState,
+  fromGridReducer.getGridState
+);
+
+export const getAvailableCompaniesGridSelections = createSelector(
+  selectAvailableCompaniesGridState,
+  fromGridReducer.getGridSelections
+);
+
 export const getAvailableCompaniesGrid = createSelector(
   getAvailableCompanies,
   getTotalAvailableCompanies,
@@ -144,8 +163,21 @@ export const {
 export const getExchangeJobsLoading = createSelector(
   selectExchangeJobsState, fromExchangeJobsReducer.getLoading
 );
+
 export const getExchangeJobsLoadingError = createSelector(
   selectExchangeJobsState, fromExchangeJobsReducer.getLoadingError
+);
+
+export const getAddExchangeJobsModalOpen = createSelector(
+  selectExchangeJobsState, fromExchangeJobsReducer.getAddModalOpen
+);
+
+export const getExchangeJobsAdding = createSelector(
+  selectExchangeJobsState, fromExchangeJobsReducer.getAdding
+);
+
+export const getExchangeJobsAddingError = createSelector(
+  selectExchangeJobsState, fromExchangeJobsReducer.getAddingError
 );
 
 // Available Jobs Selectors
@@ -158,32 +190,29 @@ export const selectAvailableJobsGridState = createSelector(
   (state: IFeatureGridState<fromAvailableJobsReducer.State>) => state.grid
 );
 
-// TODO: Use exchange-jobs reducer when avail
-// Exchange Jobs Selectors
-export const getAddExchangeJobsModalOpen = createSelector(
-  selectAvailableJobsFeatureState, fromAvailableJobsReducer.getAddModalOpen
-);
-
-export const getExchangeJobsAdding = createSelector(
-  selectAvailableJobsFeatureState, fromAvailableJobsReducer.getAdding
-);
-
-export const getExchangeJobsAddingError = createSelector(
-  selectAvailableJobsFeatureState, fromAvailableJobsReducer.getAddingError
-);
-
 export const {
   selectAll: getAvailableJobs
 } = fromAvailableJobsReducer.adapter.getSelectors(selectAvailableJobsFeatureState);
 
-export const getAvailableJobsLoading = createSelector(selectAvailableJobsFeatureState, fromAvailableJobsReducer.getLoading);
+export const getAvailableJobsLoading = createSelector(
+  selectAvailableJobsFeatureState,
+  fromAvailableJobsReducer.getLoading
+);
+
 export const getAvailableJobsLoadingError = createSelector(
   selectAvailableJobsFeatureState,
   fromAvailableJobsReducer.getLoadingError
 );
+
 export const getTotalAvailableJobs = createSelector(selectAvailableJobsFeatureState, fromAvailableJobsReducer.getTotal);
+
 export const getAvailableJobsGridState = createSelector(selectAvailableJobsGridState, fromGridReducer.getGridState);
-export const getAvailableJobsGridSelections = createSelector(selectAvailableJobsGridState, fromGridReducer.getGridSelections);
+
+export const getAvailableJobsGridSelections = createSelector(
+  selectAvailableJobsGridState,
+  fromGridReducer.getGridSelections
+);
+
 export const getAvailableJobsGrid = createSelector(
   getAvailableJobs,
   getTotalAvailableJobs,

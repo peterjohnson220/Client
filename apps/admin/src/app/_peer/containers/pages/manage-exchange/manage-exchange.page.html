@@ -10,7 +10,7 @@
         <div class="card-header">
           Companies
           <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
-          <button type="button" class="import-button btn btn-sm btn-primary float-right" (click)="openAddExchangeCompaniesModal()">Add Companies</button>
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeCompaniesModal()">Add Companies</button>
         </div>
         <div class="card-body d-flex">
           <pf-exchange-companies></pf-exchange-companies>
@@ -20,15 +20,14 @@
         <div class="card-header">
           Jobs
           <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
-          <button type="button" class="import-button btn btn-sm btn-primary float-right" (click)="openImportExchangeJobsModal()">Import</button>
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeJobsModal()">Add Jobs</button>
+          <button type="button" class="btn btn-sm btn-secondary float-right" (click)="openImportExchangeJobsModal()">Import</button>
         </div>
         <div class="card-body d-flex">
           <pf-exchange-jobs></pf-exchange-jobs>
         </div>
       </div>
 
-      <!--TODO: This should be on the exchange-jobs container instead-->
-      <button type="button" class="btn btn-primary" (click)="openAddExchangeJobsModal()">Add Jobs</button>
     </div>
   </ng-container>
 

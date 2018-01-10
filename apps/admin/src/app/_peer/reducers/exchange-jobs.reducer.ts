@@ -8,6 +8,9 @@ import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
 export interface State extends EntityState<ExchangeJob> {
   loading: boolean;
   loadingError: boolean;
+  addModalOpen: boolean;
+  adding: boolean;
+  addingError: boolean;
 }
 
 // Create entity adapter
@@ -18,7 +21,10 @@ export const adapter: EntityAdapter<ExchangeJob> = createEntityAdapter<ExchangeJ
 // Initial State
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  addModalOpen: false,
+  adding: false,
+  addingError: false
 });
 
 // Reducer
@@ -47,6 +53,38 @@ export function reducer(
         loadingError: true
       };
     }
+    case fromExchangeJobsActions.OPEN_ADD_EXCHANGE_JOBS_MODAL: {
+      return {
+        ...state,
+        addModalOpen: true
+      };
+    }
+    case fromExchangeJobsActions.CLOSE_ADD_EXCHANGE_JOBS_MODAL: {
+      return {
+        ...state,
+        addModalOpen: false
+      };
+    }
+    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS: {
+      return {
+        ...state,
+        adding: true
+      };
+    }
+    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_SUCCESS: {
+      return {
+        ...state,
+        adding: false,
+        addModalOpen: false
+      };
+    }
+    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_ERROR: {
+      return {
+        ...state,
+        adding: false,
+        addingError: true
+      };
+    }
     default: {
       return state;
     }
@@ -56,3 +94,6 @@ export function reducer(
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getAddModalOpen = (state: State) => state.addModalOpen;
+export const getAdding = (state: State) => state.adding;
+export const getAddingError = (state: State) => state.addingError;
