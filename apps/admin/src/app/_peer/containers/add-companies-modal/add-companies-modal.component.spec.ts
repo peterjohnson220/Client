@@ -71,7 +71,6 @@ describe('Add Companies Modal', () => {
 
     instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
     instance.selections$ = of([]);
-    instance.gridState$.take(1);
   });
 
   it('should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true', () => {

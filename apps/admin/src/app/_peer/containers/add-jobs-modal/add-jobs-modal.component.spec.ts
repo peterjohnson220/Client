@@ -71,11 +71,10 @@ describe('Add Jobs Modal', () => {
 
     instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
     instance.selections$ = of([]);
-    instance.gridState$.take(1);
+    instance.addJobsModalOpen$ = of(true);
   });
 
   it('should show a modal with a search bar and a companies grid when addJobsModalOpen$ is true', () => {
-    instance.addJobsModalOpen$ = of(true);
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

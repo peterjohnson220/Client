@@ -1,6 +1,6 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Add Jobs'"
+  [title]="'Add Exchange Jobs'"
   [primaryButtonText]="primaryButtonText"
   [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
   [submitting]="addingJobs$ | async"
@@ -49,9 +49,9 @@
         (cellClick)="handleCellClick($event)"
       >
 
-        <kendo-grid-column field="JobTitle" title="Job Title" [width]="200"></kendo-grid-column>
+        <kendo-grid-column field="JobTitle" title="Job Title" [width]="300"></kendo-grid-column>
 
-        <kendo-grid-column field="JobFamily" title="Job Family" [width]="100"></kendo-grid-column>
+        <kendo-grid-column field="JobFamily" title="Job Family" [width]="300"></kendo-grid-column>
 
         <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
 

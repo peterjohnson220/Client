@@ -5,7 +5,7 @@ exports[`Add Jobs Modal should remove job from selections if it has already been
 <pf-add-jobs-modal
   addJobsErrorSubscription={[Function Subscriber]}
   addJobsForm={[Function FormGroup]}
-  addJobsModalOpen$={[Function Store]}
+  addJobsModalOpen$={[Function ScalarObservable]}
   addJobsModalOpenSubscription={[Function Subscriber]}
   addingJobs$={[Function Store]}
   addingJobsError$={[Function Store]}
@@ -26,7 +26,7 @@ exports[`Add Jobs Modal should remove job from selections if it has already been
   <pf-modal-form
     class="ng-pristine ng-invalid ng-touched"
     ng-reflect-form="[object Object]"
-    title="Add Jobs"
+    title="Add Exchange Jobs"
   >
     
   
@@ -149,7 +149,7 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
-    title="Add Jobs"
+    title="Add Exchange Jobs"
   >
     
   

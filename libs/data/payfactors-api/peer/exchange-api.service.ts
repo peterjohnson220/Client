@@ -66,7 +66,7 @@ export class ExchangeApiService {
   importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ImportExchangeJobs`, importExchangeJobsRequest);
   }
-  
+
   getExchangeJobs(exchangeId: number): Observable<ExchangeJob[]> {
     return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetExchangeJobs`, { params: { exchangeId: exchangeId } });
   }

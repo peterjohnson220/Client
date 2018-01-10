@@ -38,7 +38,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
       ManageExchangeEffects,
       AvailableCompaniesEffects,
       ExchangeJobsEffects,
-	  AvailableJobsEffects
+      AvailableJobsEffects
     ]),
 
     // Routing
