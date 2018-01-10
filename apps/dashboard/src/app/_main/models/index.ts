@@ -1,3 +1,6 @@
+export * from './feature.model';
+export * from './feature-type';
+export * from './feature-types';
 export * from './tile.model';
 export * from './tile-preview-type';
 export * from './tile-preview-types';
