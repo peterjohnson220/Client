@@ -1,28 +1,26 @@
-import { Tile, TileTypes } from '../models';
+import { Tile, TileTypes, TilePreviewTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
-import { TilePreviewTypes } from '../models/tile-preview-types';
 
-export class TileMapper {
+export class UserTileToTileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
-    const tile = {
+    return this.setTileStylesProperties({
       Id: dashboardTile.UserTileId,
       Label: dashboardTile.TileName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
-      Type: TileMapper.mapTileNameToTileType(dashboardTile.TileName),
-      PreviewType:  TileMapper.mapTileTypeToTileContentType(TileMapper.mapTileNameToTileType(dashboardTile.TileName)),
+      Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
+      PreviewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
       Payload: undefined,
       Size: 1,
       CssClass: undefined,
       NgAppLink: dashboardTile.NgAppLink
-    };
-    return this.mapTileStylesFromTileType(tile);
+    });
   }
 
-  static mapTileNameToTileType(label: string): TileTypes {
-    switch (label) {
+  static mapTileTypeFromTileName(tileName: string): TileTypes {
+    switch (tileName) {
       case 'Employees':
         return TileTypes.Employees;
       case 'Data Insights':
@@ -48,7 +46,7 @@ export class TileMapper {
     }
   }
 
-  static mapTileTypeToTileContentType(tileType: TileTypes): TilePreviewTypes {
+  static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
     switch (tileType) {
       case TileTypes.Employees:
       case TileTypes.JobDescriptions:
@@ -66,7 +64,7 @@ export class TileMapper {
     }
   }
 
-  static mapTileStylesFromTileType(tile: Tile): Tile {
+  static setTileStylesProperties(tile: Tile): Tile {
     switch (tile.Type) {
       case TileTypes.DataInsights:
         tile.CssClass = 'tile-green';

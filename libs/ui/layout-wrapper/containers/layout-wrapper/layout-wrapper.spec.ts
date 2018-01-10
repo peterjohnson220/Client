@@ -49,7 +49,6 @@ describe('Layout Wrapper', () => {
 
   it('should transclude', () => {
     const hostComponent = TestBed.createComponent(TestHostComponent);
-
     fixture.detectChanges();
 
     expect(hostComponent).toMatchSnapshot();
@@ -61,6 +60,20 @@ describe('Layout Wrapper', () => {
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('rightSideBar should be hidden when displayRightSideBar is false', () => {
+    const hostComponent = TestBed.createComponent(TestHostComponent);
+    instance.displayRightSideBar = false;
+    fixture.detectChanges();
+    expect(hostComponent).toMatchSnapshot();
+  });
+
+  it('rightSideBar should be displayed when displayRightSideBar is true', () => {
+    const hostComponent = TestBed.createComponent(TestHostComponent);
+    instance.displayRightSideBar = true;
+    fixture.detectChanges();
+    expect(hostComponent).toMatchSnapshot();
   });
 
 });

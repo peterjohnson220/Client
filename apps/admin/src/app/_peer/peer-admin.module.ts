@@ -12,10 +12,10 @@ import { PfCommonModule } from 'libs/common';
 import { PfSharedModule } from 'libs/shared';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
-         CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
+         CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
-  ManageExchangeEffects, AvailableJobsEffects
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -37,7 +37,9 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
       ExchangeCompaniesEffects,
       ManageExchangeEffects,
       AvailableCompaniesEffects,
-      AvailableJobsEffects]),
+      ExchangeJobsEffects,
+	  AvailableJobsEffects
+    ]),
 
     // Routing
     PeerAdminRoutingModule,
@@ -54,6 +56,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
     CreateExchangeModalComponent,
     ImportExchangeJobsModalComponent,
     AddCompaniesModalComponent,
+    ExchangeJobsComponent,
     AddJobsModalComponent,
 
     // Pages

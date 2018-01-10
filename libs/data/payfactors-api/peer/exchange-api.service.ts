@@ -5,7 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import {
   ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest,
-  AddExchangeCompaniesRequest, AddExchangeJobsRequest
+  AddExchangeCompaniesRequest, ExchangeJob, AddExchangeJobsRequest
 } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from '../../../models/peer';
@@ -65,5 +65,9 @@ export class ExchangeApiService {
 
   importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/ImportExchangeJobs`, importExchangeJobsRequest);
+  }
+  
+  getExchangeJobs(exchangeId: number): Observable<ExchangeJob[]> {
+    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetExchangeJobs`, { params: { exchangeId: exchangeId } });
   }
 }
