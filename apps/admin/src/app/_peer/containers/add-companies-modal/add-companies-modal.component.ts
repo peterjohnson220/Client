@@ -8,10 +8,9 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
-import { PfValidators } from 'libs/forms/validators';;
+import { PfValidators } from 'libs/forms/validators';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 
@@ -35,9 +34,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   addCompaniesModalOpenSubscription: Subscription;
   addCompaniesErrorSubscription: Subscription;
   addCompaniesForm: FormGroup;
-  gridState: State;
   gridState$: Observable<State>;
-  gridStateSubscription: Subscription;
   attemptedSubmit = false;
   selections: number[] = [];
   selections$: Observable<number[]>;
@@ -57,7 +54,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.addingCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAdding);
     this.addingCompaniesError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAddingError);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridState);
-    this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridSelections)
+    this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridSelections);
     this.exchangeId = this.route.snapshot.params.id;
     this.createForm();
   }
@@ -102,22 +99,20 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   }
 
   updateSearchFilter(newSearchTerm: string) {
-    this.gridState.skip = 0;
-    KendoGridFilterHelper.updateFilter('CompanyName', newSearchTerm, this.gridState);
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.AvailableCompanies,
+      {columnName: 'CompanyName', value: newSearchTerm}
+    ));
     this.loadAvailableCompanies();
   }
 
   pageChange(event: PageChangeEvent): void {
-    this.gridState.skip = event.skip;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
+    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.AvailableCompanies, event));
     this.loadAvailableCompanies();
   }
 
   handleSortChanged(sort: SortDescriptor[]) {
-    this.gridState.skip = 0;
-    this.gridState.sort = sort;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableCompanies, this.gridState));
+    this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.AvailableCompanies, sort));
     this.loadAvailableCompanies();
   }
 
@@ -146,9 +141,6 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
         this.selectionsControl.setErrors({'error': 'There was an error adding the selected companies.'});
       }
     });
-    this.gridStateSubscription = this.gridState$.subscribe(state => {
-      this.gridState = JSON.parse(JSON.stringify(state));
-    });
     this.selectionsSubscription = this.selections$.subscribe(selections => {
       this.selections = selections;
     });
@@ -157,15 +149,18 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.addCompaniesModalOpenSubscription.unsubscribe();
     this.addCompaniesErrorSubscription.unsubscribe();
+    this.selectionsSubscription.unsubscribe();
   }
 
   // Helper methods
   loadAvailableCompanies(): void {
-    this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
-      {
-        exchangeId: this.exchangeId,
-        listState: JSON.stringify(this.gridState)
-      }
-    ));
+    this.gridState$.take(1).subscribe(gridState => {
+      this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
+        {
+          exchangeId: this.exchangeId,
+          listState: JSON.stringify(gridState)
+        }
+      ));
+    });
   }
 }

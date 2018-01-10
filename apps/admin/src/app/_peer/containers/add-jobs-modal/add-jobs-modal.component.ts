@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeJobsRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
@@ -35,9 +34,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   addJobsModalOpenSubscription: Subscription;
   addJobsErrorSubscription: Subscription;
   addJobsForm: FormGroup;
-  gridState: State = {};
   gridState$: Observable<State>;
-  gridStateSubscription: Subscription;
   selections: number[];
   selections$: Observable<number[]>;
   selectionsSubscription: Subscription;
@@ -105,22 +102,20 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   }
 
   updateSearchFilter(newSearchTerm: string) {
-    this.gridState.skip = 0;
-    KendoGridFilterHelper.updateFilter('JobTitle', newSearchTerm, this.gridState);
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.AvailableJobs,
+      {columnName: 'JobTitle', value: newSearchTerm}
+      ));
     this.loadAvailableJobs();
   }
 
   pageChange(event: PageChangeEvent): void {
-    this.gridState.skip = event.skip;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
+    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.AvailableJobs, event));
     this.loadAvailableJobs();
   }
 
   handleSortChanged(sort: SortDescriptor[]) {
-    this.gridState.skip = 0;
-    this.gridState.sort = sort;
-    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.AvailableJobs, this.gridState));
+    this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.AvailableJobs, sort));
     this.loadAvailableJobs();
   }
 
@@ -149,9 +144,6 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
         this.selectionsControl.setErrors({'error': 'There was an error adding the selected jobs.'});
       }
     });
-    this.gridStateSubscription = this.gridState$.subscribe(state => {
-      this.gridState = JSON.parse(JSON.stringify(state));
-    });
     this.selectionsSubscription = this.selections$.subscribe(selections => {
       this.selections = selections;
     });
@@ -160,17 +152,18 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.addJobsModalOpenSubscription.unsubscribe();
     this.addJobsErrorSubscription.unsubscribe();
-    this.gridStateSubscription.unsubscribe();
     this.selectionsSubscription.unsubscribe();
   }
 
   // Helper methods
   loadAvailableJobs(): void {
-    this.store.dispatch(new fromAvailableJobsActions.LoadingAvailableJobs(
-      {
-        exchangeId: this.exchangeId,
-        listState: JSON.stringify(this.gridState)
-      }
-    ));
+    this.gridState$.take(1).subscribe(gridState => {
+      this.store.dispatch(new fromAvailableJobsActions.LoadingAvailableJobs(
+        {
+          exchangeId: this.exchangeId,
+          listState: JSON.stringify(gridState)
+        }
+      ));
+    });
   }
 }

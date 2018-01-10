@@ -4,6 +4,7 @@ import { combineReducers } from '@ngrx/store';
 import { ActionReducerMap } from '@ngrx/store/src/models';
 import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 import { GridTypeEnum } from '../../../models/common';
+import { KendoGridFilterHelper } from '../helpers';
 
 export interface IFeatureGridState<T> {
   feature: T;
@@ -64,6 +65,35 @@ const getGridReducer = (gridType: GridTypeEnum) => {
         return {
           ...state,
           selections: newSelections
+        };
+      }
+      case `${gridType}_${fromGridActions.UPDATE_FILTER}`: {
+        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const payload = action.payload;
+        KendoGridFilterHelper.updateFilter(payload.columnName, payload.value, newGridState);
+        newGridState.skip = 0;
+        return {
+          ...state,
+          grid: newGridState
+        };
+      }
+      case `${gridType}_${fromGridActions.PAGE_CHANGE}`: {
+        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const payload = action.payload;
+        newGridState.skip = payload.skip;
+        return {
+          ...state,
+          grid: newGridState
+        };
+      }
+      case `${gridType}_${fromGridActions.SORT_CHANGE}`: {
+        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const payload = action.payload;
+        newGridState.skip = 0;
+        newGridState.sort = payload.sort;
+        return {
+          ...state,
+          grid: newGridState
         };
       }
       default: {
