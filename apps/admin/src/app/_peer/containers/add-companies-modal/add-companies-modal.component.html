@@ -19,9 +19,11 @@
 
       <div class="form-group">
         <pf-input-debounce id="search-box"
-                           (valueChanged)="updateSearchFilter($event)"
-                           [delay]="400" [inputValue]="searchTerm"
-                           [placeholderText]="'Search for a Company Name...'">
+                           [focus]="true"
+                           [delay]="400"
+                           [inputValue]="searchTerm"
+                           [placeholderText]="'Search for a Company Name...'"
+                           (valueChanged)="updateSearchFilter($event)">
         </pf-input-debounce>
       </div>
 
