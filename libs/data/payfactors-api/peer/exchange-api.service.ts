@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import {
-  ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest,
-  AddExchangeCompaniesRequest, ExchangeJob
-} from '../../../models/peer';
+import { MappingHelper } from '../../../common/core/helpers';
+import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest, AddExchangeCompaniesRequest, ExchangeJob,
+         ValidateExchangeJobsRequest, ImportExchangeJobsRequest,
+         ExchangeJobsValidationResultModel } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ExchangeJobsValidationResultModel } from '../../../models/peer';
+
 
 @Injectable()
 export class ExchangeApiService {
@@ -28,7 +28,7 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
         params: payload
       },
-      (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
+      MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
