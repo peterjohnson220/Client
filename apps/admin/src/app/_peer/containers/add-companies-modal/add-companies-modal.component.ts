@@ -111,7 +111,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.loadAvailableCompanies();
   }
 
-  handleSortChanged(sort: SortDescriptor[]) {
+  handleSortChange(sort: SortDescriptor[]) {
     this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.AvailableCompanies, sort));
     this.loadAvailableCompanies();
   }
@@ -158,7 +158,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
         {
           exchangeId: this.exchangeId,
-          listState: JSON.stringify(gridState)
+          listState: gridState
         }
       ));
     });

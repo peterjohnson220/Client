@@ -112,7 +112,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.loadAvailableJobs();
   }
 
-  handleSortChanged(sort: SortDescriptor[]) {
+  handleSortChange(sort: SortDescriptor[]) {
     this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.AvailableJobs, sort));
     this.loadAvailableJobs();
   }
@@ -159,7 +159,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromAvailableJobsActions.LoadingAvailableJobs(
         {
           exchangeId: this.exchangeId,
-          listState: JSON.stringify(gridState)
+          listState: gridState
         }
       ));
     });

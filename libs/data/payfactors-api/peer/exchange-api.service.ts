@@ -29,8 +29,12 @@ export class ExchangeApiService {
   }
 
   getAvailableCompanies(payload: any): Observable<GridDataResult> {
+    const params = {
+      ...payload,
+      listState: JSON.stringify(payload.listState)
+    };
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
-        params: payload
+        params: params
       },
       (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
     );
@@ -41,8 +45,12 @@ export class ExchangeApiService {
   }
 
   getAvailableJobs(payload: any): Observable<GridDataResult> {
+    const params = {
+      ...payload,
+      listState: JSON.stringify(payload.listState)
+    };
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableJobs`, {
-        params: payload
+        params: params
       },
       (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
     );

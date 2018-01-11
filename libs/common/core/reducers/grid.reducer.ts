@@ -1,8 +1,10 @@
-import { GridActions } from '../actions/grid.actions';
-import { State } from '@progress/kendo-data-query/';
 import { combineReducers } from '@ngrx/store';
 import { ActionReducerMap } from '@ngrx/store/src/models';
+import { State } from '@progress/kendo-data-query/';
+
 import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+
+import { GridActions } from '../actions/grid.actions';
 import { GridTypeEnum } from '../../../models/common';
 import { KendoGridFilterHelper } from '../helpers';
 
@@ -16,7 +18,6 @@ export interface IGridState {
   selections: any [];
 }
 
-// Create entity adapter
 export const initialGridState: IGridState = {
   grid: {
     skip: 0,

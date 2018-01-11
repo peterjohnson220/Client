@@ -1,13 +1,13 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { AvailableJob } from 'libs/models/peer';
-import * as fromAvailableJobsActions from '../actions/available-jobs.actions';
-import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
+import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+
+import * as fromAvailableJobsActions from '../actions/available-jobs.actions';
 
 // Extended entity state
 export interface State extends EntityState<AvailableJob> {
-  // TODO: Should this stuff also be in the grid reducer?
   total: number;
   loading: boolean;
   loadingError: boolean;
@@ -53,8 +53,6 @@ export const reducer = createGridReducer(
           loadingError: true
         };
       }
-      // TODO: MOVE TO exchange-jobs reducer when avail -
-
       default: {
         return state;
       }

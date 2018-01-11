@@ -17,6 +17,7 @@ import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
 import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
+
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
@@ -83,7 +84,7 @@ describe('Add Jobs Modal', () => {
   it('should dispatch a LoadingAvailableJobs action when the modal is opened', () => {
     const action = new fromAvailableJobsActions.LoadingAvailableJobs({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
+      listState: KendoGridFilterHelper.getMockEmptyGridState()
     });
     instance.addJobsModalOpen$ = of(true);
     fixture.detectChanges();
@@ -202,7 +203,7 @@ describe('Add Jobs Modal', () => {
   it('should dispatch LoadingAvaliableJobs action when loadAvailableJobs is called', () => {
     const action = new fromAvailableJobsActions.LoadingAvailableJobs({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
+      listState: KendoGridFilterHelper.getMockEmptyGridState()
     });
     fixture.detectChanges();
 
@@ -231,7 +232,7 @@ describe('Add Jobs Modal', () => {
   });
 
   it(`should update gridState.sort, reset gridState.skip, and call loadAvailableJobs when the
-    handleSortChanged event is triggered`, () => {
+    handleSortChange event is triggered`, () => {
     spyOn(instance, 'loadAvailableJobs');
 
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
@@ -240,7 +241,7 @@ describe('Add Jobs Modal', () => {
     instance.gridState$ = of(currentGridState);
     fixture.detectChanges();
 
-    instance.handleSortChanged(expectedSort);
+    instance.handleSortChange(expectedSort);
 
     fixture.detectChanges();
 

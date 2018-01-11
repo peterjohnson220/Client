@@ -2,6 +2,8 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
+import * as fromGridReducer from 'libs/common/core/reducers/grid.reducer';
+import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
 
 // Import feature reducers
 import * as fromManageExchangeReducer from './manage-exchange.reducer';
@@ -10,8 +12,6 @@ import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';
 import * as fromExchangeJobsReducer from './exchange-jobs.reducer';
 import * as fromAvailableJobsReducer from './available-jobs.reducer';
-import * as fromGridReducer from 'libs/common/core/reducers/grid.reducer';
-import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerAdminState {

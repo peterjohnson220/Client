@@ -17,6 +17,7 @@ import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
 import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
+
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
@@ -83,7 +84,7 @@ describe('Add Companies Modal', () => {
   it('should dispatch a LoadingAvailableCompanies action when the modal is opened', () => {
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
+      listState: KendoGridFilterHelper.getMockEmptyGridState()
     });
     instance.addCompaniesModalOpen$ = of(true);
     fixture.detectChanges();
@@ -202,7 +203,7 @@ describe('Add Companies Modal', () => {
   it('should dispatch LoadingAvaliableCompanies action when loadAvailableCompanies is called', () => {
     const action = new fromAvailableCompaniesActions.LoadingAvailableCompanies({
       exchangeId: instance.exchangeId,
-      listState: JSON.stringify(KendoGridFilterHelper.getMockEmptyGridState())
+      listState: KendoGridFilterHelper.getMockEmptyGridState()
     });
     fixture.detectChanges();
 
@@ -231,7 +232,7 @@ describe('Add Companies Modal', () => {
   });
 
   it(`should update gridState.sort, reset gridState.skip, and call loadAvailableCompanies when the
-    handleSortChanged event is triggered`, () => {
+    handleSortChange event is triggered`, () => {
     spyOn(instance, 'loadAvailableCompanies');
 
     const expectedSort: SortDescriptor[] = [{field: 'CompanyName', dir: 'asc'}];
@@ -240,7 +241,7 @@ describe('Add Companies Modal', () => {
     instance.gridState$ = of(currentGridState);
     fixture.detectChanges();
 
-    instance.handleSortChanged(expectedSort);
+    instance.handleSortChange(expectedSort);
 
     fixture.detectChanges();
 
