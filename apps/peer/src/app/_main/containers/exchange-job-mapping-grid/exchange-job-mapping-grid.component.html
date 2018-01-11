@@ -3,7 +3,7 @@
   [loadingError]="loadingExchangeJobMappingsError$ | async"
   [hideReloadButton]="true">
 
-  <kendo-grid class="row-click-navigates"
+  <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
               [data]="exchangeJobMappingsGridData$ | async"
               [pageSize]="(exchangeJobMappingsGridState$ | async)?.take"
               [skip]="(exchangeJobMappingsGridState$ | async)?.skip"

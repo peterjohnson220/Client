@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
-import { GridTypeEnum } from '../../../models/common';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor } from '@progress/kendo-data-query';
+
+import { GridTypeEnum } from '../../../models/common';
 
 export class GridAction implements Action {
   readonly type: string;

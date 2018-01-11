@@ -1,8 +1,8 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { PageWithTitleBarComponent } from './page-with-title-bar.component';
-import { By } from '@angular/platform-browser';
 
 // Host Component for testing transclusion
 @Component({
