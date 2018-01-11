@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
-import * as fromExchangeListReducer from 'libs/shared/peer/reducers';
+import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
+import * as fromExchangeListReducer from 'libs/features/peer/reducers';
 import { PfValidators } from 'libs/forms/validators/pf-validators';
 import { UpsertExchangeRequest } from 'libs/models/peer/index';
 
