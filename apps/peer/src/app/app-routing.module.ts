@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
+import { UserContextGuard } from 'libs/security/index';
 
-import { AppWrapperComponent } from './app-wrapper.component';
+import { AppWrapperComponent } from 'libs/features/app-root/app-wrapper.component';
 
 export const routes: Routes = [
   {

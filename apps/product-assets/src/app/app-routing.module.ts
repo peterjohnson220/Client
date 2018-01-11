@@ -3,9 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { UserContextGuard } from 'libs/security';
-
-import { AppWrapperComponent } from './app-wrapper.component';
-
+import { AppWrapperComponent } from 'libs/features';
 
 export const routes: Routes = [
   {
