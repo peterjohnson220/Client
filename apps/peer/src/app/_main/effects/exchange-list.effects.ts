@@ -12,7 +12,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
-import * as fromExchangeListActions from 'libs/shared/peer/actions/exchange-list.actions';
+import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
 
 @Injectable()
 export class ExchangeListEffects {
@@ -25,7 +25,7 @@ export class ExchangeListEffects {
         .map((exchangeListItems: ExchangeListItem[]) => {
           return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
         })
-        .catch(error => of(new fromExchangeListActions.LoadingExchangesError()))
+        .catch(() => of(new fromExchangeListActions.LoadingExchangesError()))
     );
 
   constructor(

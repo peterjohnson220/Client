@@ -9,7 +9,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/common';
-import { PfSharedModule } from 'libs/shared';
+import { PfSharedPeerModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent } from './containers';
@@ -48,7 +48,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfSharedModule
+    PfSharedPeerModule
   ],
   declarations: [
     // Containers

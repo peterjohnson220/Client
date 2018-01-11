@@ -23,3 +23,7 @@
   position: relative;
   padding: .5rem 0.85rem;
 }
+
+:host ::ng-deep .space-out-children > *{
+  margin-left: 0.5rem;
+}

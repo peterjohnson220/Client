@@ -73,4 +73,3 @@ export type GridActions = UpdateGrid
   | UpdateFilter
   | PageChange
   | SortChange;
-

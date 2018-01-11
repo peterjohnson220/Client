@@ -1,11 +1,9 @@
 // Overrides
-@import "bootstrap-overrides";
-@import "font-awesome-overrides";
+@import 'bootstrap-overrides';
 
 // 3rd Party
 @import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/scss/font-awesome';
-@import "~@progress/kendo-theme-bootstrap/scss/all";
+@import '~@progress/kendo-theme-bootstrap/scss/all';
 
 // Payfactors
 @import 'base.scss';

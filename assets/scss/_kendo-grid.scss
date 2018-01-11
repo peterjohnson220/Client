@@ -44,3 +44,8 @@
 :host ::ng-deep .k-pager-wrap{
   min-height: 44px;
 }
+
+:host ::ng-deep .k-grid.no-wrap-ellipsis-values tbody td{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
