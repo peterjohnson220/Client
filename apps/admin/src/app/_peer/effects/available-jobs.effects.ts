@@ -21,7 +21,7 @@ export class AvailableJobsEffects {
     .ofType(fromAvailableJobsActions.LOADING_AVAILABLE_JOBS)
     .map((action: fromAvailableJobsActions.LoadingAvailableJobs) => action.payload)
     .switchMap(payload =>
-      this.exchangeApiService.getAvailableJobs(payload)
+      this.exchangeApiService.getAvailableJobs(payload.exchangeId, payload.listState)
         .map((availableJobsResult: GridDataResult) => new fromAvailableJobsActions
           .LoadingAvailableJobsSuccess(availableJobsResult))
         .catch(error => of(new fromAvailableJobsActions.LoadingAvailableJobsError()))
