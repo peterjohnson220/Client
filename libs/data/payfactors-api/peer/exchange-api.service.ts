@@ -40,7 +40,7 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableJobs`, {
         params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
       },
-      (result: any): GridDataResult => ({ total: result.Count, data: JSON.parse(result.Data)})
+      MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 

@@ -26,43 +26,45 @@ const initialState: State = adapter.getInitialState({
 
 
 // Reducer function
-export const reducer = createGridReducer(
-  GridTypeEnum.ExchangeJobMapping,
-  (state = initialState,  action: fromExchangeJobMappingActions.Actions): State => {
-    switch (action.type) {
-      case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS: {
-        return {
-          ...adapter.removeAll(state),
-          loading: true,
-          loadingError: false
-        };
+export function reducer(state, action) {
+  return createGridReducer(
+    GridTypeEnum.ExchangeJobMapping,
+    (featureState = initialState,  featureAction: fromExchangeJobMappingActions.Actions): State => {
+      switch (featureAction.type) {
+        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS: {
+          return {
+            ...adapter.removeAll(featureState),
+            loading: true,
+            loadingError: false
+          };
+        }
+        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
+          const exchangeJobMappings: ExchangeJobMapping[] = featureAction.payload.data;
+          return {
+            ...adapter.addAll(exchangeJobMappings, featureState),
+            total: featureAction.payload.total,
+            loading: false
+          };
+        }
+        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_ERROR: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: true
+          };
+        }
+        case fromExchangeJobMappingActions.UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY: {
+          return {
+            ...featureState,
+            query: featureAction.payload
+          };
+        }
+        default: {
+          return featureState;
+        }
       }
-      case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
-        const exchangeJobMappings: ExchangeJobMapping[] = action.payload.data;
-        return {
-          ...adapter.addAll(exchangeJobMappings, state),
-          total: action.payload.total,
-          loading: false
-        };
-      }
-      case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_ERROR: {
-        return {
-          ...state,
-          loading: false,
-          loadingError: true
-        };
-      }
-      case fromExchangeJobMappingActions.UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY: {
-        return {
-          ...state,
-          query: action.payload
-        };
-      }
-      default: {
-        return state;
-      }
-  }
-}, {take: 20});
+    }, {take: 20})(state, action);
+}
 
 // Selector functions
 export const getLoading = (state: State) => state.loading;

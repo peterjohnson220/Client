@@ -26,38 +26,39 @@ export const initialState: State = adapter.getInitialState({
 });
 
 // Reducer
-export const reducer = createGridReducer(
-  GridTypeEnum.AvailableJobs,
-  (state = initialState, action: fromAvailableJobsActions.Actions): State => {
-    switch (action.type) {
-      case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS: {
-        return {
-          ...adapter.removeAll(state),
-          loading: true,
-          loadingError: false
-        };
+export function reducer(state, action) {
+  return createGridReducer(
+    GridTypeEnum.AvailableJobs,
+    (featureState = initialState, featureAction: fromAvailableJobsActions.Actions): State => {
+      switch (featureAction.type) {
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS: {
+          return {
+            ...adapter.removeAll(featureState),
+            loading: true,
+            loadingError: false
+          };
+        }
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_SUCCESS: {
+          const jobs: AvailableJob[] = featureAction.payload.data;
+          return {
+            ...adapter.addAll(jobs, featureState),
+            total: featureAction.payload.total,
+            loading: false
+          };
+        }
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_ERROR: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: true
+          };
+        }
+        default: {
+          return featureState;
+        }
       }
-      case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_SUCCESS: {
-        const jobs: AvailableJob[] = action.payload.data;
-        const newState = {
-          ...adapter.addAll(jobs, state),
-          total: action.payload.total,
-          loading: false
-        };
-        return newState;
-      }
-      case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_ERROR: {
-        return {
-          ...state,
-          loading: false,
-          loadingError: true
-        };
-      }
-      default: {
-        return state;
-      }
-    }
-});
+    })(state, action);
+}
 
 // Selector Functions
 export const getTotal = (state: State) => state.total;

@@ -26,37 +26,39 @@ export const initialState: State = adapter.getInitialState({
 });
 
 // Reducer
-export const reducer = createGridReducer(
-  GridTypeEnum.AvailableCompanies,
-  (state = initialState, action: fromAvailableCompaniesActions.Actions): State => {
-    switch (action.type) {
-      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES: {
-        return {
-          ...adapter.removeAll(state),
-          loading: true,
-          loadingError: false
-        };
+export function reducer(state, action) {
+  return createGridReducer(
+    GridTypeEnum.AvailableCompanies,
+    (featureState = initialState, featureAction: fromAvailableCompaniesActions.Actions): State => {
+      switch (featureAction.type) {
+        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES: {
+          return {
+            ...adapter.removeAll(featureState),
+            loading: true,
+            loadingError: false
+          };
+        }
+        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
+          const companies: AvailableCompany[] = featureAction.payload.data;
+          return {
+            ...adapter.addAll(companies, featureState),
+            total: featureAction.payload.total,
+            loading: false
+          };
+        }
+        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_ERROR: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: true
+          };
+        }
+        default: {
+          return featureState;
+        }
       }
-      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
-        const companies: AvailableCompany[] = action.payload.data;
-        return {
-          ...adapter.addAll(companies, state),
-          total: action.payload.total,
-          loading: false
-        };
-      }
-      case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_ERROR: {
-        return {
-          ...state,
-          loading: false,
-          loadingError: true
-        };
-      }
-      default: {
-        return state;
-      }
-    }
-});
+    })(state, action);
+}
 
 // Selector Functions
 export const getTotal = (state: State) => state.total;
