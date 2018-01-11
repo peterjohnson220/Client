@@ -1,0 +1,21 @@
+<pf-page-with-title-bar [returnUrl]="'/exchanges'" (returning)="handleBackToListNavigation()">
+  <ng-container page-title>
+    Exchange to Company Job Association
+  </ng-container>
+
+  <ng-container page-actions>
+
+    <div class="omni-box">
+      <pf-input-debounce
+        [focus]="false"
+        [placeholderText]="'Search for an Exchange Job Title...'"
+        (valueChanged)="handleSearchChanged($event)">
+      </pf-input-debounce>
+    </div>
+
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-exchange-job-mapping-grid [exchangeId]="exchangeId"></pf-exchange-job-mapping-grid>
+  </ng-container>
+</pf-page-with-title-bar>

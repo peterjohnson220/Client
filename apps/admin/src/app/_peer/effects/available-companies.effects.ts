@@ -24,7 +24,7 @@ export class AvailableCompaniesEffects {
       this.exchangeApiService.getAvailableCompanies(payload)
         .map((availableCompaniesResult: GridDataResult) => new fromAvailableCompaniesActions
           .LoadingAvailableCompaniesSuccess(availableCompaniesResult))
-        .catch(error => of(new fromAvailableCompaniesActions.LoadingAvailableCompaniesError()))
+        .catch(() => of(new fromAvailableCompaniesActions.LoadingAvailableCompaniesError()))
     );
 
   constructor(
@@ -32,5 +32,3 @@ export class AvailableCompaniesEffects {
     private exchangeApiService: ExchangeApiService
   ) {}
 }
-
-
