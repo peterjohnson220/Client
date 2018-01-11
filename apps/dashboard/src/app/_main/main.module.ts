@@ -26,8 +26,10 @@ import { TileComponent } from './components/tile';
 import { TilePreviewChartComponent } from './components/tile-preview/chart';
 import { TilePreviewIconComponent } from './components/tile-preview/icon';
 import { TilePreviewListComponent } from './components/tile-preview/list';
-
 import { DragulaModule } from 'ng2-dragula';
+
+// Pipes
+import { TruncateAfterPipe } from '../../../../../libs/shared/pipes';
 
 @NgModule({
   imports: [
@@ -46,6 +48,7 @@ import { DragulaModule } from 'ng2-dragula';
     PfCommonUIModule
   ],
   declarations: [
+    TruncateAfterPipe,
     // Pages
     DashboardPageComponent,
     // Components

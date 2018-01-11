@@ -1,6 +1,6 @@
 import { Tile, TileTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
-import { TilePreviewTypes } from '../models/tile-preview-types';
+import { TilePreviewTypes } from '../models';
 
 export class TileMapper {
 
@@ -88,15 +88,6 @@ export class TileMapper {
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'fa-home';
-        tile.Payload = {
-          title: 'Boston',
-          subTitle: 'Default Market',
-          payloadDetails: {
-            industry: 'Software',
-            size: '10',
-            location: 'Back Bay'
-          }
-        };
         break;
 
       case TileTypes.PricingProjects:

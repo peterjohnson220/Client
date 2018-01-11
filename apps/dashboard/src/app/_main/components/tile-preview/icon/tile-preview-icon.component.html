@@ -1,10 +1,11 @@
-<i class="fa {{ model.iconClass }} {{ model.iconSize }} {{ model.cssClassName }}" aria-hidden="true"></i>
-<div *ngIf="model.containsPayLoad">
-  <h2 class="text-center" *ngIf="model.title != undefined">{{ model.title }}</h2>
-  <h3 class="text-center" *ngIf="model.subTitle != undefined">{{ model.subTitle }}</h3>
-  <div *ngIf="model.detailsDictionary != undefined">
-    <div *ngFor="let key of objectKeys(model.detailsDictionary)">
-      {{ key + ':' + model.detailsDictionary[key] }}
+<i class="fa {{ model.IconClass }} {{ model.IconSize }} {{ model.CssClassName }}" aria-hidden="true"></i>
+<div *ngIf="model.ContainsPayLoad">
+  <h2 class="text-center" *ngIf="model.Title != undefined">{{ model.Title | TruncateAfter:20 }}</h2>
+  <h3 class="text-center" *ngIf="model.SubTitle != undefined">{{ model.SubTitle | TruncateAfter:45 }}</h3>
+  <div class="preview-tile-icon-payload-dictionary" *ngIf="model.DetailsDictionary != undefined">
+    <div *ngFor="let key of objectKeys(model.DetailsDictionary)">
+      <strong>{{ key }}:&nbsp;</strong>
+      {{ model.DetailsDictionary[key] | TruncateAfter: (30 - key.length) }}
     </div>
   </div>
 </div>

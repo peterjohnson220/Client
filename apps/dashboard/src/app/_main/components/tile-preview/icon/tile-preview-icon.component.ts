@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { TilePreviewIcon } from '../../../models/tile-preview-icon.model';
+import { TilePreviewIcon } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-icon',

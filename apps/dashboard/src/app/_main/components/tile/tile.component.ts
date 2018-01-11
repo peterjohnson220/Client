@@ -2,10 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { environment } from 'environments/environment';
 
-import { Tile, TilePreviewTypes } from '../../models';
-import { TilePreviewType } from '../../models';
-import { TilePreviewBase } from '../../models/tile-preview-base.model';
-import { TilePreviewIcon } from '../../models/tile-preview-icon.model';
+import { Tile, TilePreviewTypes, TilePreviewBase, TilePreviewIcon, TilePreviewType } from '../../models';
 
 @Component({
   selector: 'pf-tile',
@@ -19,35 +16,35 @@ export class TileComponent implements OnInit {
   ngAppRoot = environment.ngAppRoot;
   previewModel: TilePreviewBase;
 
-  static generatePreviewModelForIcon(tile: Tile): TilePreviewIcon {
-   if (tile.Payload === undefined) {
-      return {
-        containsPayLoad: false,
-        iconClass: tile.IconClass,
-        iconSize: 'fa-10x',
-        cssClassName: 'preview-tile-icon'
-      };
-    }
-    return {
-      containsPayLoad: true,
-      iconClass: tile.IconClass,
-      iconSize: 'fa-4x',
-      cssClassName: 'preview-tile-icon-details',
-      title: tile.Payload.title,
-      subTitle: tile.Payload.subTitle,
-      detailsDictionary: tile.Payload.payloadDetails
-    };
-  }
-
   static generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
         return TileComponent.generatePreviewModelForIcon(tile);
       default:
         return {
-          iconClass: tile.IconClass
+          IconClass: tile.IconClass
         };
     }
+  }
+
+  static generatePreviewModelForIcon(tile: Tile): TilePreviewIcon {
+    if (tile.Payload === undefined) {
+      return {
+        ContainsPayLoad: false,
+        IconClass: tile.IconClass,
+        IconSize: 'fa-10x',
+        CssClassName: 'preview-tile-icon'
+      };
+    }
+    return {
+      ContainsPayLoad: true,
+      IconClass: tile.IconClass,
+      IconSize: 'fa-4x',
+      CssClassName: 'preview-tile-icon-small',
+      Title: tile.Payload.Title,
+      SubTitle: tile.Payload.SubTitle,
+      DetailsDictionary: tile.Payload.PayloadDetails
+    };
   }
 
   ngOnInit(): void {

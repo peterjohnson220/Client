@@ -11,12 +11,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
 import { PfFormsModule } from 'libs/forms/forms.module';
+import { TruncateAfterPipe } from '../../../../libs/shared/pipes';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AppWrapperComponent
+    AppWrapperComponent,
+    TruncateAfterPipe
   ],
   imports: [
     // Angular

@@ -1,12 +1,16 @@
-.preview-tile-icon, .preview-tile-icon-details {
+.preview-tile-icon, .preview-tile-icon-small {
   display: block;
   text-align: center;
   padding-top: 15px;
 }
 
-.preview-tile-icon-details {
+.preview-tile-icon-small {
   padding: 0;
   margin-top: -5px;
+}
+
+.preview-tile-icon-payload-dictionary {
+  padding: 0 15px;
 }
 
 h2 {
@@ -17,6 +21,6 @@ h2 {
 
 h3 {
   font-size: 10px;
-  padding: 0;
+  padding: 0 0 10px 0;
   margin: 0;
 }

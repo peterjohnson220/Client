@@ -1,8 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tile should show tile name and tile data 1`] = `
+exports[`Tile should show tile preview chart when that type is given 1`] = `
 <pf-tile
   ngAppRoot={[Function String]}
+  previewModel={[Function Object]}
+  tile={[Function Object]}
+  tilePreviewType={[Function TilePreviewType]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-switch="0"
+  >
+    
+    
+    <a
+      class="tile-anchor-overlay"
+      href="test tile url"
+    />
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+  
+    
+    
+    
+    
+    <pf-tile-preview-chart>
+      
+    
+    </pf-tile-preview-chart>
+    
+  
+    
+    
+    
+  
+    
+    
+    
+  
+  
+  </div>
+  
+</pf-tile>
+`;
+
+exports[`Tile should show tile preview icon when that type is given 1`] = `
+<pf-tile
+  ngAppRoot={[Function String]}
+  previewModel={[Function Object]}
   tile={[Function Object]}
   tilePreviewType={[Function TilePreviewType]}
 >
@@ -41,6 +92,56 @@ exports[`Tile should show tile name and tile data 1`] = `
   
     
     
+    
+  
+  
+  </div>
+  
+</pf-tile>
+`;
+
+exports[`Tile should show tile preview list when that type is given 1`] = `
+<pf-tile
+  ngAppRoot={[Function String]}
+  previewModel={[Function Object]}
+  tile={[Function Object]}
+  tilePreviewType={[Function TilePreviewType]}
+>
+  <div
+    class="tile m-0 p-1 test cssClass"
+    ng-reflect-klass="tile m-0 p-1"
+    ng-reflect-ng-class="test cssClass"
+    ng-reflect-ng-switch="2"
+  >
+    
+    
+    <a
+      class="tile-anchor-overlay"
+      href="test tile url"
+    />
+    
+    
+    <h4>
+      test tile
+    </h4>
+    
+  
+    
+    
+    
+    
+    
+  
+    
+    
+    
+  
+    
+    
+    <pf-tile-preview-list>
+      
+    
+    </pf-tile-preview-list>
     
   
   
