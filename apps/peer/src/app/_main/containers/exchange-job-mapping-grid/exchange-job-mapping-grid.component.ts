@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +26,6 @@ export class ExchangeJobMappingGridComponent implements OnInit {
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
-    private route: ActivatedRoute,
     private exchangeJobMappingService: ExchangeJobMappingService
   ) {
     this.loadingExchangeJobMappings$ = this.store.select(fromPeerMainReducer.getExchangeJobMappingsLoading);
