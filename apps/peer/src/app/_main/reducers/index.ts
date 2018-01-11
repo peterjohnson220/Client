@@ -10,7 +10,7 @@ import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {
-  exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingReducer.State>
+  exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -83,4 +83,4 @@ export const getExchangeJobMappingGridStateAndQuery = createSelector(
   (gridState, query)  => {
     return { gridState, query };
   }
-)
+);

@@ -10,7 +10,7 @@ export class PageWithTitleBarComponent {
   @Output() returning = new EventEmitter();
 
   // Events
-  handleBackButtonClicked(){
+  handleBackButtonClicked() {
     this.returning.emit();
   }
 }

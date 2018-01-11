@@ -6,7 +6,7 @@ import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeJobMappingActions from '../actions/exchange-job-mapping.actions';
 
-export interface State extends EntityState<ExchangeJobMapping>{
+export interface State extends EntityState<ExchangeJobMapping> {
   loading: boolean;
   loadingError: boolean;
   total: number;

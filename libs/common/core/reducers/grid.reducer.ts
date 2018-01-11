@@ -30,20 +30,6 @@ export const initialGridState: IGridState = {
   selections: []
 };
 
-export const createGridReducer = (gridType: GridTypeEnum, featureReducer: ActionReducerMap<any>, gridStateOverride?: any) => {
-  const initState = {
-    ...initialGridState,
-    grid: {
-      ...initialGridState.grid,
-      ...gridStateOverride
-    }
-  };
-  return combineReducers({
-    feature: featureReducer,
-    grid: getGridReducer(gridType, initState)
-  });
-};
-
 const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initialGridState) => {
   return (state = initialState, action: GridActions): IGridState => {
     switch (action.type) {
@@ -108,6 +94,20 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
       }
     }
   };
+};
+
+export const createGridReducer = (gridType: GridTypeEnum, featureReducer: ActionReducerMap<any>, gridStateOverride?: any) => {
+  const initState = {
+    ...initialGridState,
+    grid: {
+      ...initialGridState.grid,
+      ...gridStateOverride
+    }
+  };
+  return combineReducers({
+    feature: featureReducer,
+    grid: getGridReducer(gridType, initState)
+  });
 };
 
 // Selector Functions
