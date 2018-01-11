@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
 import * as fromExchangeListReducer from 'libs/features/peer/reducers';
 import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
+
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
 
 describe('Create Exchange Modal', () => {
