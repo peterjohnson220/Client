@@ -1,0 +1,11 @@
+@import 'kendo-grid';
+
+
+:host ::ng-deep .k-grid tbody td{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.badge{
+  width: 75px;
+}
