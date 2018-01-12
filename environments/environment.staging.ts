@@ -6,5 +6,8 @@ export const environment = {
   payfactorsApiUrl: '/odata/',
   userVoiceUrl: 'http://payfactors.uservoice.com/forums/',
   userVoiceForumId: 268517,
-  ngAppRoot: '/ng/'
+  ngAppRoot: '/ng/',
+  mapboxConfig: {
+    accessToken: 'pk.eyJ1IjoianByZWhlbW9wZiIsImEiOiJjajh1a3VqZDMxMmt0MzRxenFsem9oaTN1In0.06ePvHZIgOD5IHAYad8JHQ'
+  }
 };
