@@ -1,21 +1,21 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { AvailableCompany } from 'libs/models/peer';
-import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+import { AvailableJob } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
+import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
 
-import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';
+import * as fromAvailableJobsActions from '../actions/available-jobs.actions';
 
 // Extended entity state
-export interface State extends EntityState<AvailableCompany> {
+export interface State extends EntityState<AvailableJob> {
   total: number;
   loading: boolean;
   loadingError: boolean;
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<AvailableCompany> = createEntityAdapter<AvailableCompany>({
-  selectId: (availableCompany: AvailableCompany) => availableCompany.CompanyId
+export const adapter: EntityAdapter<AvailableJob> = createEntityAdapter<AvailableJob>({
+  selectId: (availableJob: AvailableJob) => availableJob.MDJobsBaseId
 });
 
 // Initial State
@@ -28,25 +28,25 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(state, action) {
   return createGridReducer(
-    GridTypeEnum.AvailableCompanies,
-    (featureState = initialState, featureAction: fromAvailableCompaniesActions.Actions): State => {
+    GridTypeEnum.AvailableJobs,
+    (featureState = initialState, featureAction: fromAvailableJobsActions.Actions): State => {
       switch (featureAction.type) {
-        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES: {
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS: {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
             loadingError: false
           };
         }
-        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_SUCCESS: {
-          const companies: AvailableCompany[] = featureAction.payload.data;
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_SUCCESS: {
+          const jobs: AvailableJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(companies, featureState),
+            ...adapter.addAll(jobs, featureState),
             total: featureAction.payload.total,
             loading: false
           };
         }
-        case fromAvailableCompaniesActions.LOADING_AVAILABLE_COMPANIES_ERROR: {
+        case fromAvailableJobsActions.LOADING_AVAILABLE_JOBS_ERROR: {
           return {
             ...featureState,
             loading: false,

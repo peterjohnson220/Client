@@ -26,6 +26,20 @@ export class ExchangeJobsEffects {
         .catch(error => of(new fromExchangeJobsActions.LoadingExchangeJobsError()))
     );
 
+  @Effect()
+  addExchangeJobs$: Observable<Action> = this.actions$
+    .ofType(fromExchangeJobsActions.ADDING_EXCHANGE_JOBS)
+    .map((action: fromExchangeJobsActions.AddingExchangeJobs) => action.payload)
+    .switchMap(payload => this.exchangeApiService.addJobs(payload)
+      .concatMap(() => {
+        return [
+          new fromExchangeJobsActions.AddingExchangeJobsSuccess,
+          new fromExchangeJobsActions.LoadingExchangeJobs(payload.ExchangeId)
+        ];
+      })
+      .catch(error => of(new fromExchangeJobsActions.AddingExchangeJobsError()))
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService

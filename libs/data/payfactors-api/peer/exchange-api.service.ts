@@ -6,7 +6,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { MappingHelper } from '../../../common/core/helpers';
 import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest, AddExchangeCompaniesRequest, ExchangeJob,
          ValidateExchangeJobsRequest, ImportExchangeJobsRequest,
-         ExchangeJobsValidationResultModel } from '../../../models/peer';
+         ExchangeJobsValidationResultModel, AddExchangeJobsRequest } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 
@@ -24,9 +24,9 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`);
   }
 
-  getAvailableCompanies(payload: any): Observable<GridDataResult> {
+  getAvailableCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
-        params: payload
+        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
       },
       MappingHelper.mapListAreaResultToGridDataResult
     );
@@ -34,6 +34,18 @@ export class ExchangeApiService {
 
   getCompanies(exchangeId: number): Observable<ExchangeCompany[]> {
     return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
+  }
+
+  getAvailableJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableJobs`, {
+        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  addJobs(addExchangeJobsRequest: AddExchangeJobsRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddJobs`, addExchangeJobsRequest);
   }
 
   getExchange(exchangeId: number): Observable<Exchange> {
@@ -58,5 +70,4 @@ export class ExchangeApiService {
     formData.append('file', validateExchangeJobsRequest.File);
     return this.payfactorsApiService.post(url, formData);
   }
-
 }

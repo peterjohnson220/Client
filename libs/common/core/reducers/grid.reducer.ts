@@ -18,7 +18,6 @@ export interface IGridState {
   selections: any [];
 }
 
-// Create entity adapter
 export const initialGridState: IGridState = {
   grid: {
     skip: 0,

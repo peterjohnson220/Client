@@ -39,7 +39,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
           
             
           <button
-            class="import-button btn btn-sm btn-primary float-right"
+            class="btn btn-sm btn-primary float-right"
             type="button"
           >
             Add Companies
@@ -77,7 +77,15 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
           
             
           <button
-            class="import-button btn btn-sm btn-primary float-right"
+            class="btn btn-sm btn-primary float-right"
+            type="button"
+          >
+            Add Jobs
+          </button>
+          
+            
+          <button
+            class="btn btn-sm btn-secondary float-right"
             type="button"
           >
             Import
@@ -100,6 +108,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
         
       </div>
       
+  
       
     </div>
     
@@ -113,6 +122,8 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
     
   
   </pf-import-exchange-jobs-modal>
+  
+  <pf-add-jobs-modal />
   
 </pf-manage-exchange-page>
 `;

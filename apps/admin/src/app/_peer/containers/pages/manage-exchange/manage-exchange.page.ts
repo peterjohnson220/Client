@@ -4,8 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { Exchange } from 'libs/models/peer';
+
 import * as fromExchangeCompaniesActions from '../../../actions/exchange-companies.actions';
 import * as fromImportExchangeJobsActions from '../../../actions/import-exchange-jobs.actions';
+import * as fromExchangeJobsActions from '../../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
 
 @Component({
@@ -33,6 +35,10 @@ export class ManageExchangePageComponent {
   handleImportExchangeJobs() {
     this.store.dispatch(new fromImportExchangeJobsActions.ClosingImportExchangeJobsModal());
     // TODO: Dispatch load jobs action in next item.
+  }
+
+  openAddExchangeJobsModal(): void {
+    this.store.dispatch(new fromExchangeJobsActions.OpenAddExchangeJobsModal);
   }
 
   handleImportExchangeJobsModalDismissed() {

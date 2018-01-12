@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Add Companies Modal should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true 1`] = `
-<pf-add-companies-modal
-  addCompaniesErrorSubscription={[Function Subscriber]}
-  addCompaniesForm={[Function FormGroup]}
-  addCompaniesModalOpen$={[Function ScalarObservable]}
-  addCompaniesModalOpenSubscription={[Function Subscriber]}
-  addingCompanies$={[Function Store]}
-  addingCompaniesError$={[Function Store]}
+exports[`Add Jobs Modal should show a modal with a search bar and a companies grid when addJobsModalOpen$ is true 1`] = `
+<pf-add-jobs-modal
+  addJobsErrorSubscription={[Function Subscriber]}
+  addJobsForm={[Function FormGroup]}
+  addJobsModalOpen$={[Function ScalarObservable]}
+  addJobsModalOpenSubscription={[Function Subscriber]}
+  addingJobs$={[Function Store]}
+  addingJobsError$={[Function Store]}
   attemptedSubmit="false"
-  availableCompaniesLoading$={[Function Store]}
-  availableCompaniesLoadingError$={[Function Store]}
+  availableJobsLoading$={[Function Store]}
+  availableJobsLoadingError$={[Function Store]}
   debouncedSearchTerm={[Function Object]}
   exchangeId={[Function Number]}
   fb={[Function FormBuilder]}
@@ -25,7 +25,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
-    title="Add Companies"
+    title="Add Exchange Jobs"
   >
     
   
@@ -44,7 +44,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
         
           
         <pf-input-debounce
-          id="search-box"
+          id="search-jobs"
         >
           
           
@@ -62,56 +62,22 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   
           
         <kendo-grid-column
-          field="CompanyName"
-          title="Company Name"
+          field="JobTitle"
+          title="Job Title"
         />
         
   
           
         <kendo-grid-column
-          field="Industry"
-          title="Industry"
+          field="JobFamily"
+          title="Job Family"
         />
         
   
           
         <kendo-grid-column
-          field="Revenue"
-          title="Revenue"
-        >
-          
-            
-          
-          
-          
-        </kendo-grid-column>
-        
-  
-          
-        <kendo-grid-column
-          field="FTEs"
-          title="FTEs"
-        />
-        
-  
-          
-        <kendo-grid-column
-          field="City"
-          title="City"
-        />
-        
-  
-          
-        <kendo-grid-column
-          field="State"
-          title="State"
-        />
-        
-  
-          
-        <kendo-grid-column
-          field="Zip"
-          title="Zip"
+          field="JobLevel"
+          title="Job Level"
         />
         
   
@@ -154,5 +120,5 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   </pf-modal-form>
   
   
-</pf-add-companies-modal>
+</pf-add-jobs-modal>
 `;

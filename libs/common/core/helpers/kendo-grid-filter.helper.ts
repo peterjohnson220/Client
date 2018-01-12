@@ -7,7 +7,7 @@ export class KendoGridFilterHelper {
     const field = columnName || 'test';
     return {
       skip: skip || 10,
-      sort: [{field: field, dir: 'asc'}],
+      take: 10,
       filter: {
         filters: [{
           field: field,
@@ -15,7 +15,8 @@ export class KendoGridFilterHelper {
           value: 'test'
         }],
         logic: 'and'
-      }
+      },
+      sort: [{field: field, dir: 'asc'}]
     };
   }
   static getMockFilter(columnName: string, operator?: string): FilterDescriptor {
@@ -29,11 +30,12 @@ export class KendoGridFilterHelper {
   static getMockEmptyGridState(): State {
     return {
       skip: 0,
-      sort: [],
+      take: 10,
       filter: {
         filters: [],
         logic: 'and'
-      }
+      },
+      sort: []
     };
   }
 

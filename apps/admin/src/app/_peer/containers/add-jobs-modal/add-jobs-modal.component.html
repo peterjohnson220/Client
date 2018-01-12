@@ -1,29 +1,27 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Add Companies'"
+  [title]="'Add Exchange Jobs'"
   [primaryButtonText]="primaryButtonText"
   [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
-  [submitting]="addingCompanies$ | async"
-  [isOpen$]="addCompaniesModalOpen$"
-  [formGroup]="addCompaniesForm"
+  [submitting]="addingJobs$ | async"
+  [isOpen$]="addJobsModalOpen$"
+  [formGroup]="addJobsForm"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
 
   <ng-container form-content>
 
     <pf-async-container
-      [loading]="availableCompaniesLoading$ | async"
-      [loadingError]="availableCompaniesLoadingError$ | async"
-      [loadingErrorMessage]="'Error loading exchange companies'"
-      (reload)="loadAvailableCompanies()">
+      [loading]="availableJobsLoading$ | async"
+      [loadingError]="availableJobsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange jobs'"
+      (reload)="loadAvailableJobs()">
 
       <div class="form-group">
-        <pf-input-debounce id="search-box"
-                           [focus]="true"
-                           [delay]="400"
-                           [inputValue]="searchTerm"
-                           [placeholderText]="'Search for a Company Name...'"
-                           (valueChanged)="updateSearchFilter($event)">
+        <pf-input-debounce id="search-jobs"
+                           (valueChanged)="updateSearchFilter($event)"
+                           [delay]="400" [inputValue]="searchTerm"
+                           [placeholderText]="'Search for a Job Title...'">
         </pf-input-debounce>
       </div>
 
@@ -51,23 +49,11 @@
         (cellClick)="handleCellClick($event)"
       >
 
-        <kendo-grid-column field="CompanyName" title="Company Name" [width]="200"></kendo-grid-column>
+        <kendo-grid-column field="JobTitle" title="Job Title" [width]="300"></kendo-grid-column>
 
-        <kendo-grid-column field="Industry" title="Industry" [width]="100"></kendo-grid-column>
+        <kendo-grid-column field="JobFamily" title="Job Family" [width]="300"></kendo-grid-column>
 
-        <kendo-grid-column field="Revenue" title="Revenue">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            {{dataItem.Revenue | humanizeNumber}}
-          </ng-template>
-        </kendo-grid-column>
-
-        <kendo-grid-column field="FTEs" title="FTEs"></kendo-grid-column>
-
-        <kendo-grid-column field="City" title="City"></kendo-grid-column>
-
-        <kendo-grid-column field="State" title="State"></kendo-grid-column>
-
-        <kendo-grid-column field="Zip" title="Zip"></kendo-grid-column>
+        <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
 
       </kendo-grid>
 

@@ -15,12 +15,13 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
-  ManageExchangeEffects, ExchangeJobsEffects
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
+import { AddJobsModalComponent } from './containers/add-jobs-modal';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { AddCompaniesModalComponent } from './containers/add-companies-modal';
       ExchangeCompaniesEffects,
       ManageExchangeEffects,
       AvailableCompaniesEffects,
-      ExchangeJobsEffects
+      ExchangeJobsEffects,
+      AvailableJobsEffects
     ]),
 
     // Routing
@@ -55,6 +57,7 @@ import { AddCompaniesModalComponent } from './containers/add-companies-modal';
     ImportExchangeJobsModalComponent,
     AddCompaniesModalComponent,
     ExchangeJobsComponent,
+    AddJobsModalComponent,
 
     // Pages
     ExchangeListPageComponent,
