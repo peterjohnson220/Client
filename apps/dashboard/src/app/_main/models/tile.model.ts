@@ -76,9 +76,9 @@ export function generateMockIconTileWithPayload(): Tile {
     Size: 2,
     CssClass: 'test cssClass',
     Payload: {
-      title: 'Boston',
-      subTitle: 'Default Market',
-      payloadDetails: {
+      Title: 'Boston',
+      SubTitle: 'Default Market',
+      PayloadDetails: {
         Industry: 'Software',
         Size: '10',
         Location: 'Back Bay'
