@@ -1,5 +1,5 @@
 export interface ExchangeJob {
-  ExchangeJobId: number;
+  ExchangeJob_ID: number;
   JobTitle: string;
   JobFamily: string;
   JobLevel: string;

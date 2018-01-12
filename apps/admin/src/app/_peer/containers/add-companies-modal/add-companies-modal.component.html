@@ -28,7 +28,7 @@
       </div>
 
       <kendo-grid
-        class="row-click-selects"
+        class="row-click-selects no-wrap-ellipsis-values"
         [data]="view$ | async"
         [pageSize]="(gridState$ | async)?.take"
         [skip]="(gridState$ | async)?.skip"

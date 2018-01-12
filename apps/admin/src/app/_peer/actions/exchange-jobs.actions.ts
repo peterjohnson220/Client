@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeJob } from 'libs/models';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+
 import { AddExchangeJobsRequest } from 'libs/models/peer';
 
 export const LOADING_EXCHANGE_JOBS  = '[Peer Admin/Exchange Jobs] Loading Exchange Jobs';
@@ -15,13 +16,13 @@ export const ADDING_EXCHANGE_JOBS_ERROR = '[Peer Admin/Exchange Jobs] Adding Exc
 export class LoadingExchangeJobs implements Action {
   readonly type = LOADING_EXCHANGE_JOBS;
 
-  constructor(public payload: number) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadingExchangeJobsSuccess implements Action {
   readonly type = LOADING_EXCHANGE_JOBS_SUCCESS;
 
-  constructor(public payload: ExchangeJob[]) {}
+  constructor(public payload: GridDataResult) {}
 }
 
 export class LoadingExchangeJobsError implements Action {
