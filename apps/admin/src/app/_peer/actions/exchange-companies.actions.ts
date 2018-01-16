@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AddExchangeCompaniesRequest } from 'libs/models/peer';
