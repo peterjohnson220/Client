@@ -5,7 +5,7 @@
   (reload)="handleExchangeJobsGridReload()">
 
   <kendo-grid
-    [data]="view$ | async"
+    [data]="exchangeJobsGrid$ | async"
     [pageSize]="(gridState$ | async)?.take"
     [skip]="(gridState$ | async)?.skip"
     [pageable]="{

@@ -5,7 +5,7 @@
   (reload)="handleExchangeCompaniesGridReload()">
 
   <kendo-grid
-    [data]="view$ | async"
+    [data]="exchangeCompaniesGrid$ | async"
     [pageSize]="(gridState$ | async)?.take"
     [skip]="(gridState$ | async)?.skip"
     [pageable]="{

@@ -6,14 +6,14 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers/index';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
-import { GridHelperService } from '../../../../../../admin/src/app/_peer/services';
-import { GridTypeEnum } from "../../../../../../../libs/models/common";
-import * as fromGridActions from "../../../../../../../libs/common/core/actions/grid.actions";
+import { GridHelperService } from '../../services';
 
 describe('Exchange Jobs', () => {
   let fixture: ComponentFixture<ExchangeJobsComponent>;

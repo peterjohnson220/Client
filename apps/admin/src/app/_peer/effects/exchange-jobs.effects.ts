@@ -23,7 +23,7 @@ export class ExchangeJobsEffects {
     .ofType(fromExchangeJobsActions.LOADING_EXCHANGE_JOBS)
     .map((action: fromExchangeJobsActions.LoadingExchangeJobs) => action.payload)
     .switchMap(payload => {
-        return this.exchangeApiService.getExchangeJobs(payload)
+        return this.exchangeApiService.getExchangeJobs(payload.exchangeId, payload.listState)
           .map((exchangeJobsResult: GridDataResult) => new fromExchangeJobsActions
             .LoadingExchangeJobsSuccess(exchangeJobsResult))
           .catch(error => of(new fromExchangeJobsActions.LoadingExchangeJobsError()));

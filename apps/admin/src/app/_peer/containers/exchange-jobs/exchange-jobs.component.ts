@@ -22,7 +22,7 @@ export class ExchangeJobsComponent implements OnInit {
   exchangeJobsLoading$: Observable<boolean>;
   exchangeJobsLoadingError$: Observable<boolean>;
   exchangeJobs$: Observable<ExchangeJob[]>;
-  view$: Observable<GridDataResult>;
+  exchangeJobsGrid$: Observable<GridDataResult>;
   gridState$: Observable<State>;
   exchangeId: number;
 
@@ -34,7 +34,7 @@ export class ExchangeJobsComponent implements OnInit {
     this.exchangeJobsLoading$ = this.store.select(fromPeerAdminReducer.getExchangeJobsLoading);
     this.exchangeJobsLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobsLoadingError);
     this.exchangeJobs$ = this.store.select(fromPeerAdminReducer.getExchangeJobs);
-    this.view$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGrid);
+    this.exchangeJobsGrid$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGrid);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGridState);
 
     this.exchangeId = this.route.snapshot.params.id;

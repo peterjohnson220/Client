@@ -7,13 +7,13 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
+import { GridTypeEnum } from 'libs/models/common';
+import * as fromGridActions from 'libs/common/core/actions/grid.actions';
 
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers/index';
 import { ExchangeCompaniesComponent } from './exchange-companies.component';
-import { GridHelperService } from '../../../../../../admin/src/app/_peer/services';
-import { GridTypeEnum } from "../../../../../../../libs/models/common";
-import * as fromGridActions from "../../../../../../../libs/common/core/actions/grid.actions";
+import { GridHelperService } from '../../services';
 
 describe('Exchange Commpanies', () => {
   let fixture: ComponentFixture<ExchangeCompaniesComponent>;

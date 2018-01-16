@@ -22,7 +22,7 @@ export class ExchangeCompaniesComponent implements OnInit {
   exchangeCompaniesLoading$: Observable<boolean>;
   exchangeCompaniesLoadingError$: Observable<boolean>;
   exchangeCompanies$: Observable<ExchangeCompany[]>;
-  view$: Observable<GridDataResult>;
+  exchangeCompaniesGrid$: Observable<GridDataResult>;
   gridState$: Observable<State>;
   exchangeId: number;
 
@@ -34,7 +34,7 @@ export class ExchangeCompaniesComponent implements OnInit {
     this.exchangeCompaniesLoading$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesLoading);
     this.exchangeCompaniesLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesLoadingError);
     this.exchangeCompanies$ = this.store.select(fromPeerAdminReducer.getExchangeCompanies);
-    this.view$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGrid);
+    this.exchangeCompaniesGrid$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGrid);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGridState);
 
     this.exchangeId = this.route.snapshot.params.id;

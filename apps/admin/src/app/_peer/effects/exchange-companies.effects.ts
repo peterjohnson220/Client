@@ -23,7 +23,7 @@ export class ExchangeCompaniesEffects {
     .ofType(fromExchangeCompaniesActions.LOADING_EXCHANGE_COMPANIES)
     .map((action: fromExchangeCompaniesActions.LoadingExchangeCompanies) => action.payload)
     .switchMap(payload => {
-        return this.exchangeApiService.getCompanies(payload)
+        return this.exchangeApiService.getCompanies(payload.exchangeId, payload.listState)
           .map((exchangeCompaniesResult: GridDataResult) => {
             return new fromExchangeCompaniesActions.LoadingExchangeCompaniesSuccess(exchangeCompaniesResult);
           })
