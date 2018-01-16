@@ -56,7 +56,10 @@
     "ngrx-store-freeze": "0.2.0",
     "ts-node": "4.1.0",
     "tslint": "5.8.0",
-    "typescript": "2.5.3"
+    "typescript": "2.5.3",
+    "@types/uglify-js": "2.6.30",
+    "uglify-es": "3.3.5",
+    "uglifyjs-webpack-plugin": "1.1.6"
   },
   "jest": {
     "preset": "jest-preset-angular",
