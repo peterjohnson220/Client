@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 
 // PF
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -31,6 +32,7 @@ import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 
 
+
 @NgModule({
   imports: [
     // Angular
@@ -40,6 +42,7 @@ import { TilePreviewListComponent } from './components';
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
+    ChartsModule,
 
     // Routing
     MainRoutingModule,

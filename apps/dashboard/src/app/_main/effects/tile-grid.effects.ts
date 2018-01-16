@@ -22,8 +22,8 @@ export class TileGridEffects {
   @Effect()
   loadTiles$: Observable<Action> = this.actions$
     .ofType(fromTileGridActions.LOADING_TILES)
-    .switchMap(() =>
-      this.dashboardApiService.getUserDashboardTiles()
+    .switchMap((action: fromTileGridActions.LoadingTiles) =>
+      this.dashboardApiService.getUserDashboardTiles(action.includeTilePreviewData)
         .map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos))
         .map((tiles: Tile[]) => new fromTileGridActions.LoadingTilesSuccess(tiles))
         .catch(error => of (new fromTileGridActions.LoadingTilesError(error)))

@@ -1,5 +1,6 @@
 import { Tile, TileTypes, TilePreviewTypes } from '../models';
 import { UserTileDto } from '../../../../../../libs/models';
+import { TilePreviewChartTypes } from '../models/tile-preview-chart-types';
 
 export class UserTileToTileMapper {
 
@@ -12,8 +13,10 @@ export class UserTileToTileMapper {
       Order: dashboardTile.UserOrder,
       Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
       PreviewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
-      Payload: undefined,
+      TilePreviewData: dashboardTile.TilePreviewData,
       Size: 1,
+      ChartType: undefined,
+      ChartLabel: undefined,
       CssClass: undefined,
       NgAppLink: dashboardTile.NgAppLink
     });
@@ -76,6 +79,13 @@ export class UserTileToTileMapper {
 
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tile-green';
+        tile.ChartType = TilePreviewChartTypes.Donut;
+        tile.ChartLabel = 'Job Description Statuses';
+
+        this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
+        this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
+        this.SetChartLegendColor(tile, 'Published', '#5A99D3');
+        this.SetChartLegendColor(tile, 'In Review', '#264478');
         break;
 
       case TileTypes.MyJobs:
@@ -113,5 +123,12 @@ export class UserTileToTileMapper {
         tile.Size = 1;
     }
     return tile;
+  }
+
+  static SetChartLegendColor(tile: Tile, categoryName, color) {
+    const chartCategory = tile.TilePreviewData.filter(x => x.CategoryName === categoryName);
+    if (chartCategory.length > 0) {
+      chartCategory[ 0 ].color = color;
+    }
   }
 }
