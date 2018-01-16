@@ -57,7 +57,7 @@ export class TileGridComponent implements OnInit {
 
   // Lifecycle
   ngOnInit() {
-    this.store.dispatch(new fromTileGridActions.LoadingTiles());
+    this.store.dispatch(new fromTileGridActions.LoadingTiles(true));
     this.setTiles();
   }
 
@@ -81,6 +81,6 @@ export class TileGridComponent implements OnInit {
   }
 
   handleTilesGridReload() {
-    this.store.dispatch(new fromTileGridActions.LoadingTiles());
+    this.store.dispatch(new fromTileGridActions.LoadingTiles(true));
   }
 }

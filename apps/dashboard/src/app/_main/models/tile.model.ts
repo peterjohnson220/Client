@@ -1,14 +1,17 @@
 import { TileTypes } from './tile-types';
 import { TilePreviewTypes } from './tile-preview-types';
+import { TilePreviewChartTypes } from './tile-preview-chart-types';
 
 export interface Tile {
   Id: number;
   Label: string;
   Type: TileTypes;
   PreviewType: TilePreviewTypes;
+  ChartType?: TilePreviewChartTypes;
+  ChartLabel?: string;
   IconClass: string;
   CssClass: string;
-  Payload: any;
+  TilePreviewData: any;
   Size: number;
   Order: number;
   Url: string;
@@ -27,6 +30,6 @@ export function generateMockTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    Payload: [ 'test tile data' ]
+    TilePreviewData: [ 'test tile data' ]
   };
 }

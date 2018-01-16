@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tile Preview Chart should show chart label 1`] = `
+<pf-tile-preview-chart
+  chartData={[Function Array]}
+  chartLabel={[Function String]}
+  legendlabelStyle={[Function Object]}
+  seriesItemHighlightStyle={[Function Object]}
+  showChartDetail="false"
+>
+  
+  
+  <h2
+    class="pr-5 chart-label"
+  >
+    test chart label
+  </h2>
+  
+</pf-tile-preview-chart>
+`;
