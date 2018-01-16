@@ -31,11 +31,11 @@ export class TilePreviewChartComponent {
     border: '#000'
   };
 
-  private seriesClick(e): void {
+  public seriesClick(e): void {
     this.loadChartDetail(e.category);
   }
 
-  private legendClick(e): void {
+  public legendClick(e): void {
     e.preventDefault(); // prevent default chart behavior of removing item from series
 
     if (e.series.data.filter(p => p.CategoryName === e.text)[ 0 ].CategoryValue > 0) {
