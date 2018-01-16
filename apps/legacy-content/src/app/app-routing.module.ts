@@ -11,7 +11,7 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
-      { path: 'peer', loadChildren: 'apps/projects/src/app/_peer/peer.module#PeerModule' }
+      { path: 'peer', loadChildren: 'apps/legacy-content/src/app/_peer/peer.module#PeerModule' }
     ]
   }
 ];

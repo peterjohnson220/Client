@@ -137,9 +137,9 @@
       }
     },
     {
-      "name": "projects",
-      "root": "apps/projects/src",
-      "outDir": "dist/apps/projects",
+      "name": "legacy-content",
+      "root": "apps/legacy-content/src",
+      "outDir": "dist/apps/legacy-content",
       "assets": [
         "assets",
         "favicon.ico",
