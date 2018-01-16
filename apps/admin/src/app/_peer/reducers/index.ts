@@ -16,11 +16,11 @@ import * as fromAvailableJobsReducer from './available-jobs.reducer';
 // Feature area state
 export interface PeerAdminState {
   manageExchange: fromManageExchangeReducer.State;
-  exchangeCompanies: fromExchangeCompaniesReducer.State;
+  exchangeCompanies: IFeatureGridState<fromExchangeCompaniesReducer.State>;
   importExchangeJobs: fromImportExchangeJobsReducer.State;
   availableCompanies: IFeatureGridState<fromAvailableCompaniesReducer.State>;
   availableJobs: IFeatureGridState<fromAvailableJobsReducer.State>;
-  exchangeJobs: fromExchangeJobsReducer.State;
+  exchangeJobs: IFeatureGridState<fromExchangeJobsReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -84,27 +84,53 @@ export const getIsFileValid = createSelector(
 );
 
 // Exchange Companies Selectors
+
+export const selectExchangeCompaniesFeatureState = createSelector(
+  selectExchangeCompaniesState,
+  (state: IFeatureGridState<fromExchangeCompaniesReducer.State>) => state.feature
+);
+export const selectExchangeCompaniesGridState = createSelector(
+  selectExchangeCompaniesState,
+  (state: IFeatureGridState<fromExchangeCompaniesReducer.State>) => state.grid
+);
+
 export const {
   selectAll: getExchangeCompanies
-} = fromExchangeCompaniesReducer.adapter.getSelectors(selectExchangeCompaniesState);
+} = fromExchangeCompaniesReducer.adapter.getSelectors(selectExchangeCompaniesFeatureState);
 
 export const getExchangeCompaniesLoading = createSelector(
-  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoading
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getLoading
 );
 export const getExchangeCompaniesLoadingError = createSelector(
-  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getLoadingError
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getLoadingError
 );
 
 export const getAddExchangeCompaniesModalOpen = createSelector(
-  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAddModalOpen
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getAddModalOpen
 );
 
 export const getExchangeCompaniesAdding = createSelector(
-  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAdding
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getAdding
 );
 
 export const getExchangeCompaniesAddingError = createSelector(
-  selectExchangeCompaniesState, fromExchangeCompaniesReducer.getAddingError
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getAddingError
+);
+
+export const getTotalExchangeCompanies = createSelector(
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getTotal
+);
+
+export const getExchangeCompaniesGridState = createSelector(
+  selectExchangeCompaniesGridState, fromGridReducer.getGridState
+);
+
+export const getExchangeCompaniesGrid = createSelector(
+  getExchangeCompanies,
+  getTotalExchangeCompanies,
+  (data, total) => {
+    return {data: data, total: total};
+  }
 );
 
 // Available Companies Selectors
@@ -156,29 +182,55 @@ export const getAvailableCompaniesGrid = createSelector(
 );
 
 // Exchange Jobs Selectors
+export const selectExchangeJobsFeatureState = createSelector(
+  selectExchangeJobsState,
+  (state: IFeatureGridState<fromExchangeJobsReducer.State>) => state.feature
+);
+export const selectExchangeJobsGridState = createSelector(
+  selectExchangeJobsState,
+  (state: IFeatureGridState<fromExchangeJobsReducer.State>) => state.grid
+);
+
 export const {
   selectAll: getExchangeJobs
-} = fromExchangeJobsReducer.adapter.getSelectors(selectExchangeJobsState);
+} = fromExchangeJobsReducer.adapter.getSelectors(selectExchangeJobsFeatureState);
 
 export const getExchangeJobsLoading = createSelector(
-  selectExchangeJobsState, fromExchangeJobsReducer.getLoading
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getLoading
 );
 
 export const getExchangeJobsLoadingError = createSelector(
-  selectExchangeJobsState, fromExchangeJobsReducer.getLoadingError
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getLoadingError
 );
 
 export const getAddExchangeJobsModalOpen = createSelector(
-  selectExchangeJobsState, fromExchangeJobsReducer.getAddModalOpen
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getAddModalOpen
 );
 
 export const getExchangeJobsAdding = createSelector(
-  selectExchangeJobsState, fromExchangeJobsReducer.getAdding
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getAdding
 );
 
 export const getExchangeJobsAddingError = createSelector(
-  selectExchangeJobsState, fromExchangeJobsReducer.getAddingError
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getAddingError
 );
+
+export const getTotalExchangeJobs = createSelector(
+  selectExchangeJobsFeatureState, fromExchangeJobsReducer.getTotal
+);
+
+export const getExchangeJobsGridState = createSelector(
+  selectExchangeJobsGridState, fromGridReducer.getGridState
+);
+
+export const getExchangeJobsGrid = createSelector(
+  getExchangeJobs,
+  getTotalExchangeJobs,
+  (data, total) => {
+    return {data: data, total: total};
+  }
+);
+
 
 // Available Jobs Selectors
 export const selectAvailableJobsFeatureState = createSelector(

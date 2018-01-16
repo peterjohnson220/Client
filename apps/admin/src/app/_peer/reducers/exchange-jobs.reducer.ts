@@ -1,6 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ExchangeJob } from 'libs/models';
+import { GridTypeEnum } from 'libs/models/common';
+import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
 
 import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
 
@@ -11,11 +13,12 @@ export interface State extends EntityState<ExchangeJob> {
   addModalOpen: boolean;
   adding: boolean;
   addingError: boolean;
+  total: number;
 }
 
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeJob> = createEntityAdapter<ExchangeJob>({
-  selectId: (exchangeJob: ExchangeJob) => exchangeJob.ExchangeJobId
+  selectId: (exchangeJob: ExchangeJob) => exchangeJob.ExchangeJob_ID
 });
 
 // Initial State
@@ -24,71 +27,75 @@ export const initialState: State = adapter.getInitialState({
   loadingError: false,
   addModalOpen: false,
   adding: false,
-  addingError: false
+  addingError: false,
+  total: 0
 });
 
 // Reducer
-export function reducer(
-  state = initialState,
-  action: fromExchangeJobsActions.Actions
-): State {
-  switch (action.type) {
-    case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS: {
-      return {
-        ...adapter.removeAll(state),
-        loading: true,
-        loadingError: false
-      };
-    }
-    case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS_SUCCESS: {
-      return {
-        ...adapter.addAll(action.payload, state),
-        loading: false
-      };
-    }
-    case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        loadingError: true
-      };
-    }
-    case fromExchangeJobsActions.OPEN_ADD_EXCHANGE_JOBS_MODAL: {
-      return {
-        ...state,
-        addModalOpen: true
-      };
-    }
-    case fromExchangeJobsActions.CLOSE_ADD_EXCHANGE_JOBS_MODAL: {
-      return {
-        ...state,
-        addModalOpen: false
-      };
-    }
-    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS: {
-      return {
-        ...state,
-        adding: true
-      };
-    }
-    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_SUCCESS: {
-      return {
-        ...state,
-        adding: false,
-        addModalOpen: false
-      };
-    }
-    case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_ERROR: {
-      return {
-        ...state,
-        adding: false,
-        addingError: true
-      };
-    }
-    default: {
-      return state;
-    }
-  }
+export function reducer(state, action) {
+  return createGridReducer(
+    GridTypeEnum.ExchangeJobs,
+    (featureState = initialState, featureAction: fromExchangeJobsActions.Actions): State => {
+      switch (featureAction.type) {
+        case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS: {
+          return {
+            ...adapter.removeAll(featureState),
+            loading: true,
+            loadingError: false
+          };
+        }
+        case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS_SUCCESS: {
+          const jobs: ExchangeJob[] = featureAction.payload.data;
+          return {
+            ...adapter.addAll(jobs, featureState),
+            loading: false,
+            total: featureAction.payload.total,
+          };
+        }
+        case fromExchangeJobsActions.LOADING_EXCHANGE_JOBS_ERROR: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: true
+          };
+        }
+        case fromExchangeJobsActions.OPEN_ADD_EXCHANGE_JOBS_MODAL: {
+          return {
+            ...featureState,
+            addModalOpen: true
+          };
+        }
+        case fromExchangeJobsActions.CLOSE_ADD_EXCHANGE_JOBS_MODAL: {
+          return {
+            ...featureState,
+            addModalOpen: false
+          };
+        }
+        case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS: {
+          return {
+            ...featureState,
+            adding: true
+          };
+        }
+        case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_SUCCESS: {
+          return {
+            ...featureState,
+            adding: false,
+            addModalOpen: false
+          };
+        }
+        case fromExchangeJobsActions.ADDING_EXCHANGE_JOBS_ERROR: {
+          return {
+            ...featureState,
+            adding: false,
+            addingError: true
+          };
+        }
+        default: {
+          return featureState;
+        }
+      }
+    })(state, action);
 }
 
 // Selector Functions
@@ -97,3 +104,4 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getAddModalOpen = (state: State) => state.addModalOpen;
 export const getAdding = (state: State) => state.adding;
 export const getAddingError = (state: State) => state.addingError;
+export const getTotal = (state: State) => state.total;

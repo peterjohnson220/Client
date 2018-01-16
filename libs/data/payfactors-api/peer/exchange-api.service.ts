@@ -32,8 +32,12 @@ export class ExchangeApiService {
     );
   }
 
-  getCompanies(exchangeId: number): Observable<ExchangeCompany[]> {
-    return this.payfactorsApiService.get<ExchangeCompany[]>(`${this.endpoint}/GetCompanies`, { params: { exchangeId: exchangeId } });
+  getCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetCompanies`, {
+        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
   }
 
   getAvailableJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
@@ -52,8 +56,12 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<Exchange>(`${this.endpoint}/GetExchange`, { params: { exchangeId: exchangeId } });
   }
 
-  getExchangeJobs(exchangeId: number): Observable<ExchangeJob[]> {
-    return this.payfactorsApiService.get<ExchangeJob[]>(`${this.endpoint}/GetExchangeJobs`, { params: { exchangeId: exchangeId } });
+  getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetExchangeJobs`, {
+        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
   }
 
   importExchangeJobs(importExchangeJobsRequest: ImportExchangeJobsRequest): Observable<any> {

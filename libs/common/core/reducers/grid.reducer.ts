@@ -21,7 +21,7 @@ export interface IGridState {
 export const initialGridState: IGridState = {
   grid: {
     skip: 0,
-    take: 10,
+    take: 20,
     filter: {
       filters: [],
       logic: 'and'
