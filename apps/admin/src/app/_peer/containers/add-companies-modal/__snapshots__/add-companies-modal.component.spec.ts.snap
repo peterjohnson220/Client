@@ -56,7 +56,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
   
         
       <kendo-grid
-        class="row-click-selects"
+        class="row-click-selects no-wrap-ellipsis-values"
       >
         
   
