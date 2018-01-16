@@ -6,13 +6,12 @@ import { Observable } from 'rxjs/Observable';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { ExchangeJob } from 'libs/models';
-import { GridTypeEnum } from 'libs/models/common';
-
-import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
+import { GridTypeEnum, ExchangeJob } from 'libs/models';
 import * as fromGridActions from 'libs/common/core/actions/grid.actions';
-import * as fromPeerAdminReducer from '../../reducers';
+
 import { GridHelperService } from '../../services';
+import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 
 @Component({
   selector: 'pf-exchange-jobs',
@@ -23,10 +22,9 @@ export class ExchangeJobsComponent implements OnInit {
   exchangeJobsLoading$: Observable<boolean>;
   exchangeJobsLoadingError$: Observable<boolean>;
   exchangeJobs$: Observable<ExchangeJob[]>;
-  exchangeId: number;
-
   view$: Observable<GridDataResult>;
   gridState$: Observable<State>;
+  exchangeId: number;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,

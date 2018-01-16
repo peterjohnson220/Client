@@ -11,9 +11,9 @@ import 'rxjs/add/operator/concatMap';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
-import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
-import { GridHelperService } from '../services/grid-helper.service';
 
+import { GridHelperService } from '../services/grid-helper.service';
+import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
 
 @Injectable()
 export class ExchangeCompaniesEffects {

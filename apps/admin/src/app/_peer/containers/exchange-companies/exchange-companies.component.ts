@@ -6,15 +6,12 @@ import { Observable } from 'rxjs/Observable';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { GridTypeEnum } from 'libs/models/common';
-
+import { GridTypeEnum, ExchangeCompany } from 'libs/models';
 import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+
 import { GridHelperService } from '../../services';
-
-import { ExchangeCompany } from 'libs/models';
-
-import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 
 @Component({
   selector: 'pf-exchange-companies',
@@ -25,10 +22,9 @@ export class ExchangeCompaniesComponent implements OnInit {
   exchangeCompaniesLoading$: Observable<boolean>;
   exchangeCompaniesLoadingError$: Observable<boolean>;
   exchangeCompanies$: Observable<ExchangeCompany[]>;
-  exchangeId: number;
-
   view$: Observable<GridDataResult>;
   gridState$: Observable<State>;
+  exchangeId: number;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,

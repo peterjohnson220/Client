@@ -12,7 +12,7 @@ import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers/index';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
 import { GridHelperService } from '../../../../../../admin/src/app/_peer/services';
-import {GridTypeEnum} from "../../../../../../../libs/models/common";
+import { GridTypeEnum } from "../../../../../../../libs/models/common";
 import * as fromGridActions from "../../../../../../../libs/common/core/actions/grid.actions";
 
 describe('Exchange Jobs', () => {
@@ -21,7 +21,6 @@ describe('Exchange Jobs', () => {
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
-
   let gridHelperService: GridHelperService;
 
   // Configure Testing Module for before each test

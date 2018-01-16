@@ -14,8 +14,8 @@ import { of } from 'rxjs/observable/of';
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeJobsValidationResultModel } from 'libs/models';
 
-import * as fromImportExchangeJobActionActions from '../actions/import-exchange-jobs.actions';
 import { GridHelperService } from '../services/grid-helper.service';
+import * as fromImportExchangeJobActionActions from '../actions/import-exchange-jobs.actions';
 
 @Injectable()
 export class ManageExchangeEffects {

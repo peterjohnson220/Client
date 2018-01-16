@@ -12,8 +12,8 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 
-import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
 import { GridHelperService } from '../services/grid-helper.service';
+import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
 
 @Injectable()
 export class ExchangeJobsEffects {

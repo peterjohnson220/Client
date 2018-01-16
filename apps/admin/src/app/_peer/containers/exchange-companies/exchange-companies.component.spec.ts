@@ -12,7 +12,7 @@ import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.
 import * as fromPeerAdminReducer from '../../reducers/index';
 import { ExchangeCompaniesComponent } from './exchange-companies.component';
 import { GridHelperService } from '../../../../../../admin/src/app/_peer/services';
-import {GridTypeEnum} from "../../../../../../../libs/models/common";
+import { GridTypeEnum } from "../../../../../../../libs/models/common";
 import * as fromGridActions from "../../../../../../../libs/common/core/actions/grid.actions";
 
 describe('Exchange Commpanies', () => {

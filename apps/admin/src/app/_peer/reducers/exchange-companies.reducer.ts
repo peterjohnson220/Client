@@ -3,6 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { ExchangeCompany } from 'libs/models';
 import { GridTypeEnum } from 'libs/models/common';
 import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+
 import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
 
 // Extended entity state

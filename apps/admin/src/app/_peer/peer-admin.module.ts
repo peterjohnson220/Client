@@ -62,7 +62,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
 
     // Pages
     ExchangeListPageComponent,
-    ManageExchangePageComponent,
+    ManageExchangePageComponent
   ],
   providers: [
     // Guards
