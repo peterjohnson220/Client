@@ -5,11 +5,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 
+import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 
-import { ExchangeListPageComponent, ExchangeJobMappingPageComponent, ExchangeJobMappingGridComponent } from './containers';
+import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
+         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingEffects } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
@@ -31,11 +33,12 @@ import { MainRoutingModule } from './main-routing.module';
     // Payfactors
     PfCommonUIModule,
     PfSharedPeerModule,
-    PfFormsModule
+    PfFormsModule,
+    PfKendoExtensions
   ],
   declarations: [
     // Containers
-    ExchangeJobMappingGridComponent,
+    ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent
