@@ -6,14 +6,5 @@ export interface TilePreviewIcon extends TilePreviewBase {
   IconSize: string;
   Title?: string;
   SubTitle?: string;
-  DetailsDictionary?: Object;
-}
-
-export function generateMockTilePreviewIcon(): TilePreviewIcon {
-  return {
-    IconClass: 'fa-home',
-    ContainsPayLoad: false,
-    CssClassName: '',
-    IconSize: ''
-  };
+  DetailData?: Object;
 }

@@ -28,7 +28,8 @@ export class TileComponent implements OnInit {
   }
 
   static generatePreviewModelForIcon(tile: Tile): TilePreviewIcon {
-    if (tile.Payload === undefined) {
+
+    if (tile.TilePreviewData === undefined || tile.TilePreviewData === null || tile.TilePreviewData.length === 0) {
       return {
         ContainsPayLoad: false,
         IconClass: tile.IconClass,
@@ -36,14 +37,18 @@ export class TileComponent implements OnInit {
         CssClassName: 'preview-tile-icon'
       };
     }
+    const previewData = tile.TilePreviewData[0];
+    const title = previewData.Title !== undefined ? previewData.Title : undefined;
+    const subTitle = previewData.SubTitle !== undefined ? previewData.SubTitle : undefined;
+    const detailData = previewData.DetailData !== undefined && previewData.DetailData.length > 0 ? previewData.DetailData :  undefined;
     return {
       ContainsPayLoad: true,
       IconClass: tile.IconClass,
       IconSize: 'fa-4x',
       CssClassName: 'preview-tile-icon-small',
-      Title: tile.Payload.Title,
-      SubTitle: tile.Payload.SubTitle,
-      DetailsDictionary: tile.Payload.PayloadDetails
+      Title: title,
+      SubTitle: subTitle,
+      DetailData: detailData,
     };
   }
 
