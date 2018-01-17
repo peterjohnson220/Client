@@ -69,6 +69,16 @@ export const getExchangeJobMappingsQuery = createSelector(
   fromExchangeJobMappingReducer.getQuery
 );
 
+export const getSelectedExchangeJobMapping = createSelector(
+  selectExchangeJobMappingsFeatureState,
+  fromExchangeJobMappingReducer.getSelectedMapping
+);
+
+export const getExchangeJobMappingPageRowIndexToScrollTo = createSelector(
+  selectExchangeJobMappingsFeatureState,
+  fromExchangeJobMappingReducer.getPageRowIndexToScrollTo
+);
+
 export const getExchangeJobMappingsGridData = createSelector(
   getExchangeJobMappings,
   getExchangeJobMappingsTotal,
