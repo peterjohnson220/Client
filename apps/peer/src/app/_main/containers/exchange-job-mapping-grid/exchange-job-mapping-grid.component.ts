@@ -7,7 +7,7 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum } from 'libs/models/common';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../reducers';

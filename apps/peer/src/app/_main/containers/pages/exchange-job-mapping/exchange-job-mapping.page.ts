@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { GridTypeEnum } from 'libs/models/common';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../../reducers';

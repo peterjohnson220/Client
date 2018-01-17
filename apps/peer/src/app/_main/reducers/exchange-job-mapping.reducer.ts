@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ExchangeJobMapping } from 'libs/models/peer';
-import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeJobMappingActions from '../actions/exchange-job-mapping.actions';

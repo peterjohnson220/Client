@@ -7,7 +7,7 @@ import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum } from 'libs/models/common';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';

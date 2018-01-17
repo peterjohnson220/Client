@@ -5,8 +5,8 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromExchangeJobMappingReducer from './exchange-job-mapping.reducer';
-import * as fromGridReducer from 'libs/common/core/reducers/grid.reducer';
-import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {

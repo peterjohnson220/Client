@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { MappingHelper } from '../../../common/core/helpers';
+import { MappingHelper } from '../../../core/helpers';
 import { ExchangeListItem, ExchangeCompany, ExchangeJobMapping } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 

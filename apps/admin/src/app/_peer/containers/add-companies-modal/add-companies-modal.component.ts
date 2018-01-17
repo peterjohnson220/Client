@@ -12,7 +12,7 @@ import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
 import { GridTypeEnum } from 'libs/models/common';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';

@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { AvailableCompany } from 'libs/models/peer';
-import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromAvailableCompaniesActions from '../actions/available-companies.actions';

@@ -2,11 +2,11 @@ import { State } from '@progress/kendo-data-query/';
 import { combineReducers } from '@ngrx/store';
 import { ActionReducerMap } from '@ngrx/store/src/models';
 
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import { GridActions } from '../actions/grid.actions';
 import { KendoGridFilterHelper } from '../helpers';
-import { GridTypeEnum } from '../../../models/common';
+import { GridTypeEnum } from '../../models/common';
 
 export interface IFeatureGridState<T> {
   feature: T;
