@@ -4,7 +4,20 @@
   [loadingErrorMessage]="'Error loading exchange companies'"
   (reload)="handleExchangeCompaniesGridReload()">
 
-  <kendo-grid [data]="exchangeCompanies$ | async">
+  <kendo-grid
+    [data]="exchangeCompaniesGrid$ | async"
+    [pageSize]="(gridState$ | async)?.take"
+    [skip]="(gridState$ | async)?.skip"
+    [pageable]="{
+          buttonCount: 5,
+          info: true
+        }"
+    [sortable]="true"
+    [scrollable]="true"
+    [sort]="(gridState$ | async)?.sort"
+    (pageChange)="handlePageChange($event)"
+    (sortChange)="handleSortChange($event)"
+  >
 
     <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
 
@@ -14,10 +27,8 @@
 
     <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
 
-    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
-      <kendo-pager-info></kendo-pager-info>
-    </ng-template>
-
   </kendo-grid>
 
 </pf-async-container>
+
+<pf-add-companies-modal></pf-add-companies-modal>

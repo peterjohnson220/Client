@@ -214,8 +214,8 @@ exports[`Validation Results Component should show validation results 1`] = `
             <span>
               <i
                 aria-hidden="true"
-                class="fa fa-check-circle text-success"
-                ng-reflect-ng-class="fa fa-check-circle text-succes"
+                class="far fa-check-circle text-success"
+                ng-reflect-ng-class="far fa-check-circle text-succe"
               />
             </span>
             
@@ -242,8 +242,8 @@ exports[`Validation Results Component should show validation results 1`] = `
             <span>
               <i
                 aria-hidden="true"
-                class="fa fa-info-circle text-info"
-                ng-reflect-ng-class="fa fa-info-circle text-info"
+                class="fas fa-info-circle text-info"
+                ng-reflect-ng-class="fas fa-info-circle text-info"
               />
             </span>
             
@@ -270,8 +270,8 @@ exports[`Validation Results Component should show validation results 1`] = `
             <span>
               <i
                 aria-hidden="true"
-                class="fa fa-exclamation-triangle text-warning"
-                ng-reflect-ng-class="fa fa-exclamation-triangle tex"
+                class="fas fa-exclamation-triangle text-warning"
+                ng-reflect-ng-class="fas fa-exclamation-triangle te"
               />
             </span>
             
@@ -298,8 +298,8 @@ exports[`Validation Results Component should show validation results 1`] = `
             <span>
               <i
                 aria-hidden="true"
-                class="fa fa-exclamation-circle text-danger"
-                ng-reflect-ng-class="fa fa-exclamation-circle text-"
+                class="fas fa-exclamation-circle text-danger"
+                ng-reflect-ng-class="fas fa-exclamation-circle text"
               />
             </span>
             

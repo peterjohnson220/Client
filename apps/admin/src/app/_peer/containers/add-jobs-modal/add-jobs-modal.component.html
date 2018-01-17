@@ -1,0 +1,73 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Add Exchange Jobs'"
+  [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
+  [submitting]="addingJobs$ | async"
+  [isOpen$]="addJobsModalOpen$"
+  [formGroup]="addJobsForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <pf-async-container
+      [loading]="availableJobsLoading$ | async"
+      [loadingError]="availableJobsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange jobs'"
+      (reload)="loadAvailableJobs()">
+
+      <div class="form-group">
+        <pf-input-debounce id="search-jobs"
+                           (valueChanged)="updateSearchFilter($event)"
+                           [delay]="400" [inputValue]="searchTerm"
+                           [placeholderText]="'Search for a Job Title...'"
+                           [focus]="true">
+        </pf-input-debounce>
+      </div>
+
+      <kendo-grid
+        class="row-click-selects"
+        [data]="view$ | async"
+        [pageSize]="(gridState$ | async)?.take"
+        [skip]="(gridState$ | async)?.skip"
+        [resizable]="true"
+        [pageable]="{
+          buttonCount: 5,
+          info: true
+        }"
+        [selectable]="{
+          checkboxOnly: true
+        }"
+        [height]="400"
+        [sortable]="true"
+        [sort]="(gridState$ | async)?.sort"
+        [kendoGridSelectBy]="selectionKey"
+        [selectedKeys]="selections$ | async"
+        [rowClass]="rowClass"
+        (pageChange)="handlePageChange($event)"
+        (sortChange)="handleSortChange($event)"
+        (cellClick)="handleCellClick($event)"
+      >
+
+        <kendo-grid-column field="JobTitle" title="Job Title" [width]="300"></kendo-grid-column>
+
+        <kendo-grid-column field="JobFamily" title="Job Family" [width]="300"></kendo-grid-column>
+
+        <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [ngModel]="selections$ | async" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
+        <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
+      </ng-container>
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>
+

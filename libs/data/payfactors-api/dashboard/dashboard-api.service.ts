@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
+import { UserFeatureDto, ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
 
 @Injectable()
 export class DashboardApiService {
@@ -14,8 +14,9 @@ export class DashboardApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  getUserDashboardTiles(): Observable<UserTileDto[]> {
-    return this.payfactorsApiService.get<UserTileDto[]>(`${this.endpoint}.GetUserTiles`);
+  getUserDashboardTiles(includeTilePreviewData: boolean): Observable<UserTileDto[]> {
+    return this.payfactorsApiService.get<UserTileDto[]>
+    (`${this.endpoint}.GetUserTiles`, { params: { includeTilePreviewData: includeTilePreviewData } });
   }
 
   reorderDashboardTiles(request: ReorderTileRequest): Observable<any> {
@@ -25,5 +26,9 @@ export class DashboardApiService {
         newNextUserTileId: request.newNextUserTileId
       }
     );
+  }
+
+  getUserFeatures(): Observable<UserFeatureDto[]> {
+    return this.payfactorsApiService.get<UserFeatureDto[]>(`${this.endpoint}.GetUserFeatures`);
   }
 }

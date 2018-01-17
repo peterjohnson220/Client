@@ -9,7 +9,7 @@ exports[`Error Indicator should show the error message 1`] = `
   >
     <i
       aria-hidden="true"
-      class="fa fa-exclamation-triangle"
+      class="far fa-exclamation-triangle"
     />
      Example error message
   </span>

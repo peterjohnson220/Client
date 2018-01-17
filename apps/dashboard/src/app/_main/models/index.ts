@@ -1,3 +1,6 @@
+export * from './feature.model';
+export * from './feature-type';
+export * from './feature-types';
 export * from './tile.model';
 export * from './tile-preview-base.model';
 export * from './tile-preview-icon.model';
@@ -7,3 +10,4 @@ export * from './tile-type';
 export * from './tile-types';
 export * from './timeline-activity.model';
 export * from './user-voice.model';
+export * from './tile-preview-chart.model';

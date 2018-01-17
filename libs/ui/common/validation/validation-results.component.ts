@@ -22,13 +22,13 @@ export class ValidationResultsComponent implements OnInit {
   getTypeIconClass(validationResultItem: ValidationResultItem) {
     switch (validationResultItem.Type) {
       case ValidationResultItemTypeEnum.Success:
-        return 'fa fa-check-circle text-success';
+        return 'far fa-check-circle text-success';
       case ValidationResultItemTypeEnum.Info:
-        return 'fa fa-info-circle text-info';
+        return 'fas fa-info-circle text-info';
       case ValidationResultItemTypeEnum.Warning:
-        return 'fa fa-exclamation-triangle text-warning';
+        return 'fas fa-exclamation-triangle text-warning';
       case ValidationResultItemTypeEnum.Error:
-        return 'fa fa-exclamation-circle text-danger';
+        return 'fas fa-exclamation-circle text-danger';
     }
   }
 }

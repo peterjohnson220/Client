@@ -7,10 +7,12 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/concatMap';
+import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
-import { ExchangeCompany } from 'libs/models';
 
+import { GridHelperService } from '../services/grid-helper.service';
 import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
 
 @Injectable()
@@ -20,15 +22,32 @@ export class ExchangeCompaniesEffects {
   loadExchangeCompanies$: Observable<Action> = this.actions$
     .ofType(fromExchangeCompaniesActions.LOADING_EXCHANGE_COMPANIES)
     .map((action: fromExchangeCompaniesActions.LoadingExchangeCompanies) => action.payload)
-    .switchMap(exchangeId =>
-      this.exchangeApiService.getCompanies(exchangeId)
-        .map((exchangeCompanies: ExchangeCompany[]) => new fromExchangeCompaniesActions.LoadingExchangeCompaniesSuccess(exchangeCompanies))
-        .catch(error => of(new fromExchangeCompaniesActions.LoadingExchangeCompaniesError()))
+    .switchMap(payload => {
+        return this.exchangeApiService.getCompanies(payload.exchangeId, payload.listState)
+          .map((exchangeCompaniesResult: GridDataResult) => {
+            return new fromExchangeCompaniesActions.LoadingExchangeCompaniesSuccess(exchangeCompaniesResult);
+          })
+          .catch(error => of(new fromExchangeCompaniesActions.LoadingExchangeCompaniesError()));
+      }
+    );
+
+  @Effect()
+  addExchangeCompanies$: Observable<Action> = this.actions$
+    .ofType(fromExchangeCompaniesActions.ADDING_EXCHANGE_COMPANIES)
+    .map((action: fromExchangeCompaniesActions.AddingExchangeCompanies) => action.payload)
+    .switchMap(payload =>
+      this.exchangeApiService.addCompanies(payload)
+        .map(() => {
+          this.gridHelperService.loadExchangeCompanies(payload.ExchangeId);
+          return new fromExchangeCompaniesActions.AddingExchangeCompaniesSuccess;
+        })
+        .catch(error => of(new fromExchangeCompaniesActions.AddingExchangeCompaniesError))
     );
 
   constructor(
     private actions$: Actions,
-    private exchangeApiService: ExchangeApiService
+    private exchangeApiService: ExchangeApiService,
+    private gridHelperService: GridHelperService
   ) {}
 }
 

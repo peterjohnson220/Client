@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add Jobs Modal should show a modal with a search bar and a companies grid when addJobsModalOpen$ is true 1`] = `
+<pf-add-jobs-modal
+  addJobsErrorSubscription={[Function Subscriber]}
+  addJobsForm={[Function FormGroup]}
+  addJobsModalOpen$={[Function ScalarObservable]}
+  addJobsModalOpenSubscription={[Function Subscriber]}
+  addingJobs$={[Function Store]}
+  addingJobsError$={[Function Store]}
+  attemptedSubmit="false"
+  availableJobsLoading$={[Function Store]}
+  availableJobsLoadingError$={[Function Store]}
+  debouncedSearchTerm={[Function Object]}
+  exchangeId={[Function Number]}
+  fb={[Function FormBuilder]}
+  gridState$={[Function ScalarObservable]}
+  route={[Function Object]}
+  selections={[Function Array]}
+  selections$={[Function ScalarObservable]}
+  selectionsSubscription={[Function Subscriber]}
+  store={[Function Store]}
+  view$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Add Exchange Jobs"
+  >
+    
+  
+    
+    
+    
+  
+      
+    <pf-async-container>
+      
+  
+        
+      <div
+        class="form-group"
+      >
+        
+          
+        <pf-input-debounce
+          id="search-jobs"
+        >
+          
+          
+        </pf-input-debounce>
+        
+        
+      </div>
+      
+  
+        
+      <kendo-grid
+        class="row-click-selects"
+      >
+        
+  
+          
+        <kendo-grid-column
+          field="JobTitle"
+          title="Job Title"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="JobFamily"
+          title="Job Family"
+        />
+        
+  
+          
+        <kendo-grid-column
+          field="JobLevel"
+          title="Job Level"
+        />
+        
+  
+        
+      </kendo-grid>
+      
+  
+      
+    </pf-async-container>
+    
+  
+      
+    <div
+      class="form-group hidden-form-control"
+    >
+      
+        
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="selections"
+        name="hasSelections"
+        ng-reflect-model=""
+        ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
+        type="hidden"
+        value=""
+      />
+      
+        
+      
+      
+      
+    </div>
+    
+  
+    
+    
+  
+  
+  </pf-modal-form>
+  
+  
+</pf-add-jobs-modal>
+`;

@@ -26,3 +26,11 @@
   content: ".";
   visibility: hidden;
 }
+
+tr.row-disabled {
+  @extend .text-muted;
+  cursor: not-allowed;
+  &:hover {
+    background: none;
+  }
+}

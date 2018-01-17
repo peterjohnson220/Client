@@ -1,3 +1,4 @@
+@import "~@progress/kendo-theme-bootstrap/scss/_variables/";
 :host ::ng-deep .k-widget.k-grid{
   height: 100%;
 }
@@ -7,19 +8,31 @@
   border-top: 1px solid #eceeef;
 }
 
-:host ::ng-deep .k-grid.row-click-navigates tbody{
-  cursor: pointer;
+:host ::ng-deep .k-grid {
+  &.row-click-navigates tbody, &.row-click-selects tbody {
+    cursor: pointer;
+  }
 }
 
-:host ::ng-deep .k-grid tbody tr:hover{
-  background-color: rgba(0,0,0,.075);
+:host ::ng-deep .k-grid tbody tr {
+  &:hover.k-state-selected {
+    background-color: rgba( $selected-bg, .25 );
+  }
+  &:not(.k-state-selected), &.k-alt:not(.k-state-selected) {
+    &:hover {
+      background-color: rgba(0,0,0,.075);
+    }
+  }
+  &:hover.row-disabled, &:hover.row-disabled.k-alt {
+    background: none;
+  }
 }
 
 :host ::ng-deep .k-grid th {
   border-left-width: 1px;
 }
 
-:host ::ng-deep .k-grid .k-alt{
+:host ::ng-deep .k-grid .k-alt:not(.k-state-selected) {
   background: none;
 }
 
@@ -30,4 +43,9 @@
 
 :host ::ng-deep .k-pager-wrap{
   min-height: 44px;
+}
+
+:host ::ng-deep .k-grid.no-wrap-ellipsis-values tbody td{
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
