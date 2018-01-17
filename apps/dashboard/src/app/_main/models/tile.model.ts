@@ -46,7 +46,7 @@ export function generateMockIconTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: [ 'test tile data' ]
+    TilePreviewData: undefined
   };
 }
 
@@ -78,15 +78,15 @@ export function generateMockIconTileWithPayload(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: {
+    TilePreviewData: [{
       Title: 'Boston',
       SubTitle: 'Default Market',
-      PayloadDetails: {
-        Industry: 'Software',
-        Size: '10',
-        Location: 'Back Bay'
-      }
-    }
+      DetailData: [
+        { Key: 'Industry', Value: 'Software' },
+        { Key: 'Size', Value: '10' },
+        { Key: 'Location', Value: 'Back Bay' }
+      ]
+    }]
   };
 }
 

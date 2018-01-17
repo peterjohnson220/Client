@@ -4,7 +4,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TileComponent } from '../../tile';
 import { TilePreviewIconComponent } from './tile-preview-icon.component';
 import {  generateMockIconTile, generateMockIconTileWithPayload,  TilePreviewIcon } from '../../../models';
-import { TruncateAfterPipe } from '../../../../../../../../libs/shared/pipes';
+import { TruncateAfterPipe } from 'libs/shared/pipes';
 
 
 describe('TilePreviewIcon', () => {

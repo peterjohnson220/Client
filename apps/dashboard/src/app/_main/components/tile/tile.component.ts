@@ -29,7 +29,10 @@ export class TileComponent implements OnInit {
 
   static generatePreviewModelForIcon(tile: Tile): TilePreviewIcon {
 
-    if (tile.TilePreviewData === undefined || tile.TilePreviewData === null || tile.TilePreviewData.length === 0) {
+    if (tile.TilePreviewData === undefined ||
+        tile.TilePreviewData === null ||
+        tile.TilePreviewData.length === 0 ||
+        tile.TilePreviewData[0] === undefined) {
       return {
         ContainsPayLoad: false,
         IconClass: tile.IconClass,

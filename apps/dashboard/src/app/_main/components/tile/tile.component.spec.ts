@@ -56,9 +56,9 @@ describe('Tile', () => {
     expect(tilePreviewIconWithPayload.IconClass).toEqual(instance.tile.IconClass);
     expect(tilePreviewIconWithPayload.IconSize).toEqual('fa-4x');
     expect(tilePreviewIconWithPayload.CssClassName).toEqual('preview-tile-icon-small');
-    expect(tilePreviewIconWithPayload.Title).toEqual(instance.tile.Payload.Title);
-    expect(tilePreviewIconWithPayload.SubTitle).toEqual(instance.tile.Payload.SubTitle);
-    expect(tilePreviewIconWithPayload.DetailsDictionary).toEqual(instance.tile.Payload.PayloadDetails);
+    expect(tilePreviewIconWithPayload.Title).toEqual(instance.tile.TilePreviewData[0].Title);
+    expect(tilePreviewIconWithPayload.SubTitle).toEqual(instance.tile.TilePreviewData[0].SubTitle);
+    expect(tilePreviewIconWithPayload.DetailData).toEqual(instance.tile.TilePreviewData[0].DetailData);
   });
 
   it('should show tile preview list when that type is given', () => {
