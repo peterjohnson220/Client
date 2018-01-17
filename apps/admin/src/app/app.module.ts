@@ -10,7 +10,7 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
-   imports: [
+  imports: [
     // Angular
     BrowserModule,
 
