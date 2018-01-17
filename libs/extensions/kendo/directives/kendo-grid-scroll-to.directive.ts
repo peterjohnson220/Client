@@ -4,7 +4,9 @@ import { Input, Directive, ElementRef, AfterViewInit, OnChanges, SimpleChanges }
   selector: '[pfKendoScrollTo]'
 })
 export class KendoGridScrollToDirective implements AfterViewInit, OnChanges {
+  /* tslint:disable:no-input-rename */
   @Input('pfKendoScrollTo') rowNumber: number;
+  /* tslint:disable:no-input-rename */
   @Input('pfKendoScrollToEnabled') enabled = true;
 
   gridContent: any;
