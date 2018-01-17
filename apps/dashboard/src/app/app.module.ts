@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

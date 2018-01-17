@@ -26,13 +26,13 @@ import { TimelineActivityComponent } from './containers';
 import { UserVoiceIndicatorComponent } from './containers';
 
 // Components
-import { TileComponent } from './components/tile';
-import { TilePreviewChartComponent } from './components/tile-preview/chart';
-import { TilePreviewIconComponent } from './components/tile-preview/icon';
-import { TilePreviewListComponent } from './components/tile-preview/list';
+import { TileComponent } from './components';
+import { TilePreviewChartComponent } from './components';
+import { TilePreviewIconComponent } from './components';
+import { TilePreviewListComponent } from './components';
 
 // Pipes
-import { TruncateAfterPipe } from '../../../../../libs/shared/pipes';
+import { TruncateAfterPipe } from 'libs/shared/pipes';
 
 @NgModule({
   imports: [
