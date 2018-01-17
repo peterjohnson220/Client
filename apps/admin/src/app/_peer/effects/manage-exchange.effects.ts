@@ -14,8 +14,8 @@ import { of } from 'rxjs/observable/of';
 import { ExchangeApiService } from 'libs/data/payfactors-api';
 import { ExchangeJobsValidationResultModel } from 'libs/models';
 
+import { GridHelperService } from '../services/grid-helper.service';
 import * as fromImportExchangeJobActionActions from '../actions/import-exchange-jobs.actions';
-import * as fromExchangeJobActions from '../actions/exchange-jobs.actions';
 
 @Injectable()
 export class ManageExchangeEffects {
@@ -34,15 +34,15 @@ export class ManageExchangeEffects {
   @Effect()
   importingFile: Observable<Action> = this.actions$
     .ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS)
-    .switchMap((action: fromImportExchangeJobActionActions.ImportingExchangeJobs) =>
-      this.exchangeApiService.importExchangeJobs(action.payload)
-        .concatMap((exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel) => {
-          return [
-            new fromImportExchangeJobActionActions.ImportingExchangeJobsSuccess(exchangeJobsValidationResultModel),
-            new fromExchangeJobActions.LoadingExchangeJobs(action.payload.ExchangeId),
-          ];
-        })
-        .catch(error => of(new fromImportExchangeJobActionActions.ImportingExchangeJobsError()))
+    .map((action: fromImportExchangeJobActionActions.ImportingExchangeJobs) => action.payload)
+    .switchMap((payload) => {
+        return this.exchangeApiService.importExchangeJobs(payload)
+          .map((exchangeJobsValidationResultModel) => {
+            this.gridHelperService.loadExchangeJobs(payload.ExchangeId);
+            return new fromImportExchangeJobActionActions.ImportingExchangeJobsSuccess(exchangeJobsValidationResultModel);
+          })
+          .catch(error => of(new fromImportExchangeJobActionActions.ImportingExchangeJobsError()));
+      }
     );
 
   @Effect()
@@ -52,7 +52,8 @@ export class ManageExchangeEffects {
 
   constructor(
     private actions$: Actions,
-    private exchangeApiService: ExchangeApiService
+    private exchangeApiService: ExchangeApiService,
+    private gridHelperService: GridHelperService
   ) {}
 }
 

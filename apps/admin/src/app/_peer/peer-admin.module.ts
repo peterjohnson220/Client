@@ -19,6 +19,7 @@ import {
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
+import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 import { AddJobsModalComponent } from './containers/add-jobs-modal';
@@ -66,6 +67,9 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
   providers: [
     // Guards
     ExchangeExistsGuard,
+
+    // Services
+    GridHelperService
   ]
 })
 export class PeerAdminModule { }

@@ -57,7 +57,7 @@ export function reducer(state, action) {
           return featureState;
         }
       }
-    })(state, action);
+    }, {take: 8})(state, action);
 }
 
 // Selector Functions
