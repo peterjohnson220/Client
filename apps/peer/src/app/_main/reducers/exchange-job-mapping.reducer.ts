@@ -5,7 +5,6 @@ import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeJobMappingActions from '../actions/exchange-job-mapping.actions';
-import { UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO } from '../actions/exchange-job-mapping.actions';
 
 export interface State extends EntityState<ExchangeJobMapping> {
   loading: boolean;

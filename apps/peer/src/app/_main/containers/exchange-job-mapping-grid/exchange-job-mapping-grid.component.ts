@@ -6,8 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { GridTypeEnum } from 'libs/models/common';
-import { ExchangeJobMapping } from 'libs/models/peer';
+import { GridTypeEnum, ExchangeJobMapping} from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';

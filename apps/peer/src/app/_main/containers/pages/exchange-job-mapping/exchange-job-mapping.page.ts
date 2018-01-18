@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -9,7 +10,6 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromExchangeJobMappingActions from '../../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'pf-exchange-job-mapping-page',

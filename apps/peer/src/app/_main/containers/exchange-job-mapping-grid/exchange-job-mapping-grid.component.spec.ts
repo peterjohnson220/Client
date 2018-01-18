@@ -6,8 +6,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
-import { GridTypeEnum } from 'libs/models/common';
-import { generateMockExchangeJobMapping } from 'libs/models/peer';
+import { GridTypeEnum, generateMockExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';

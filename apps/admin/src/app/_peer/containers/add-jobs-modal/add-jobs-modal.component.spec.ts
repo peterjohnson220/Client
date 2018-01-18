@@ -13,10 +13,9 @@ import {
   generateMockAvailableJob
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
-import { KendoGridFilterHelper } from 'libs/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
