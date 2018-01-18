@@ -79,6 +79,10 @@
     "setupTestFrameworkScriptFile": "<rootDir>/setupJest.ts",
     "modulePathIgnorePatterns": [
       "dist"
+    ],
+    "collectCoverageFrom": [
+      "**/*.component.ts",
+      "**/*.page.ts"
     ]
   }
 }
