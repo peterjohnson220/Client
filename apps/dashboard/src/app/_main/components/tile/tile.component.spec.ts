@@ -2,7 +2,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { TileComponent } from './tile.component';
-import { generateMockChartTile, generateMockIconTile, generateMockListTile, generateMockIconTileWithPayload } from '../../models';
+import {
+  generateMockChartTile, generateMockIconTile, generateMockListTile, generateMockIconTileWithPayload,
+  generateTilePreviewIconFromTile
+} from '../../models';
 
 describe('Tile', () => {
   let fixture: ComponentFixture<TileComponent>;
@@ -41,8 +44,8 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with no payload', () => {
     instance.tile = generateMockIconTile();
     fixture.detectChanges();
-    const tilePreviewIcon = TileComponent.generatePreviewModelForIcon(instance.tile);
-    expect(tilePreviewIcon.ContainsPayLoad).toEqual(false);
+    const tilePreviewIcon = generateTilePreviewIconFromTile(instance.tile);
+    expect(tilePreviewIcon.ContainsDetailData).toEqual(false);
     expect(tilePreviewIcon.IconClass).toEqual(instance.tile.IconClass);
     expect(tilePreviewIcon.IconSize).toEqual('fa-10x');
     expect(tilePreviewIcon.CssClassName).toEqual('preview-tile-icon');
@@ -51,8 +54,8 @@ describe('Tile', () => {
   it('generatePreviewModelForIcon should generate properly with payload', () => {
     instance.tile = generateMockIconTileWithPayload();
     fixture.detectChanges();
-    const tilePreviewIconWithPayload = TileComponent.generatePreviewModelForIcon(instance.tile);
-    expect(tilePreviewIconWithPayload.ContainsPayLoad).toEqual(true);
+    const tilePreviewIconWithPayload = generateTilePreviewIconFromTile(instance.tile);
+    expect(tilePreviewIconWithPayload.ContainsDetailData).toEqual(true);
     expect(tilePreviewIconWithPayload.IconClass).toEqual(instance.tile.IconClass);
     expect(tilePreviewIconWithPayload.IconSize).toEqual('fa-4x');
     expect(tilePreviewIconWithPayload.CssClassName).toEqual('preview-tile-icon-small');

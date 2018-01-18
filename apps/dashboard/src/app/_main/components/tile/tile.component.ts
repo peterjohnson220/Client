@@ -3,8 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
 
 import {
-  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewIcon, TilePreviewType,
-  TilePreviewChart
+  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
+  generateTilePreviewIconFromTile, generateTilePreviewChartFromTile
 } from '../../models';
 
 @Component({
@@ -22,50 +22,14 @@ export class TileComponent implements OnInit {
   static generatePreviewModel(tile: Tile): TilePreviewBase {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
-        return TileComponent.generatePreviewModelForIcon(tile);
+        return generateTilePreviewIconFromTile(tile);
       case TilePreviewTypes.Chart:
-        return TileComponent.generatePreviewModelForChart(tile);
+        return generateTilePreviewChartFromTile(tile);
       default:
         return {
           IconClass: tile.IconClass
         };
     }
-  }
-
-  static generatePreviewModelForIcon(tile: Tile): TilePreviewIcon {
-
-    if (tile.TilePreviewData === undefined ||
-        tile.TilePreviewData === null ||
-        tile.TilePreviewData.length === 0 ||
-        tile.TilePreviewData[0] === undefined) {
-      return {
-        ContainsPayLoad: false,
-        IconClass: tile.IconClass,
-        IconSize: 'fa-10x',
-        CssClassName: 'preview-tile-icon'
-      };
-    }
-    const previewData = tile.TilePreviewData[0];
-    const title = previewData.Title !== undefined ? previewData.Title : undefined;
-    const subTitle = previewData.SubTitle !== undefined ? previewData.SubTitle : undefined;
-    const detailData = previewData.DetailData !== undefined && previewData.DetailData.length > 0 ? previewData.DetailData :  undefined;
-    return {
-      ContainsPayLoad: true,
-      IconClass: tile.IconClass,
-      IconSize: 'fa-4x',
-      CssClassName: 'preview-tile-icon-small',
-      Title: title,
-      SubTitle: subTitle,
-      DetailData: detailData,
-    };
-  }
-
-  static generatePreviewModelForChart(tile: Tile): TilePreviewChart {
-    return {
-      ChartType: tile.ChartType,
-      ChartLabel: tile.ChartLabel,
-      ChartComponentData: tile.TilePreviewData,
-    };
   }
 
   ngOnInit(): void {

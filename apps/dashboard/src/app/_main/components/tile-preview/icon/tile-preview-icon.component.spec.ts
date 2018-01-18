@@ -1,12 +1,11 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-
-import { TileComponent } from '../../tile';
 import { TilePreviewIconComponent } from './tile-preview-icon.component';
-import {  generateMockIconTile, generateMockIconTileWithPayload,  TilePreviewIcon } from '../../../models';
+import {
+  generateMockIconTile, generateMockIconTileWithPayload, generateTilePreviewIconFromTile,
+  TilePreviewIcon
+} from '../../../models';
 import { TruncateAfterPipe } from 'libs/common/core/pipes';
-
-
 
 describe('TilePreviewIcon', () => {
   let fixture: ComponentFixture<TilePreviewIconComponent>;
@@ -29,7 +28,7 @@ describe('TilePreviewIcon', () => {
 
   it('should show just icon and when no payload is given', () => {
     const tile = generateMockIconTile();
-    instance.model = TileComponent.generatePreviewModelForIcon(tile);
+    instance.model = generateTilePreviewIconFromTile(tile);
 
     fixture.detectChanges();
 
@@ -38,7 +37,7 @@ describe('TilePreviewIcon', () => {
 
   it('should show more than just an icon and when a payload is given', () => {
     const tile = generateMockIconTileWithPayload();
-    instance.model = TileComponent.generatePreviewModelForIcon(tile);
+    instance.model = generateTilePreviewIconFromTile(tile);
 
     fixture.detectChanges();
 

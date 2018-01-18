@@ -1,5 +1,5 @@
 <i class="fa {{ model.IconClass }} {{ model.IconSize }} {{ model.CssClassName }}" aria-hidden="true"></i>
-<div *ngIf="model.ContainsPayLoad">
+<div *ngIf="model.ContainsDetailData">
   <h2 class="text-center" *ngIf="model.Title !== undefined">{{ model.Title | TruncateAfter:20 }}</h2>
   <h3 class="text-center" *ngIf="model.SubTitle !== undefined">{{ model.SubTitle | TruncateAfter:45 }}</h3>
   <div class="preview-tile-icon-payload-dictionary" *ngIf="model.DetailData != undefined">
