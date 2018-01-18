@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { TilePreviewIcon } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-list',
@@ -7,5 +8,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewListComponent {
-  @Input() iconClass: string;
+  @Input() model: TilePreviewIcon;
 }

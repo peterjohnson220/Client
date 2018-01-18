@@ -2,7 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { environment } from 'environments/environment';
 
-import { Tile, TilePreviewTypes, TilePreviewBase, TilePreviewIcon, TilePreviewType } from '../../models';
+import {
+  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewIcon, TilePreviewType,
+  TilePreviewChart
+} from '../../models';
 
 @Component({
   selector: 'pf-tile',
@@ -20,6 +23,8 @@ export class TileComponent implements OnInit {
     switch (tile.PreviewType) {
       case TilePreviewTypes.Icon:
         return TileComponent.generatePreviewModelForIcon(tile);
+      case TilePreviewTypes.Chart:
+        return TileComponent.generatePreviewModelForChart(tile);
       default:
         return {
           IconClass: tile.IconClass
@@ -52,6 +57,14 @@ export class TileComponent implements OnInit {
       Title: title,
       SubTitle: subTitle,
       DetailData: detailData,
+    };
+  }
+
+  static generatePreviewModelForChart(tile: Tile): TilePreviewChart {
+    return {
+      ChartType: tile.ChartType,
+      ChartLabel: tile.ChartLabel,
+      ChartComponentData: tile.TilePreviewData,
     };
   }
 

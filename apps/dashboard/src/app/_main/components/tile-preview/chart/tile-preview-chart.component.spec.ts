@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { TilePreviewChartComponent } from './tile-preview-chart.component';
-import { generateMockTilePreviewChart } from '../../../models';
+import { generateMockTilePreviewChartData } from '../../../models';
 
 describe('Tile Preview Chart', () => {
   let fixture: ComponentFixture<TilePreviewChartComponent>;
@@ -23,7 +23,10 @@ describe('Tile Preview Chart', () => {
   });
 
   it('should show chart label', () => {
-    instance.chartLabel = 'test chart label';
+    instance.model = {
+      ChartType: 'test',
+      ChartLabel: 'test chart label',
+      ChartComponentData: undefined};
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -33,13 +36,17 @@ describe('Tile Preview Chart', () => {
 
     const categoryName = 'test category';
     const categoryValue = 55;
-
-    instance.chartComponentData = [generateMockTilePreviewChart(categoryName, categoryValue)];
+    const chartComponentData = [generateMockTilePreviewChartData(categoryName, categoryValue)];
+    instance.model = {
+      ChartType: 'test',
+      ChartLabel: 'test chart label',
+      ChartComponentData: chartComponentData
+    };
     instance.loadChartDetail(categoryName);
     instance.chartBackButtonClick();
 
-    expect(instance.chartComponentData[0].CategoryName).toMatch(categoryName);
-    expect(instance.chartComponentData[0].CategoryValue.toString()).toMatch(categoryValue.toString());
+    expect(instance.model.ChartComponentData[0].CategoryName).toMatch(categoryName);
+    expect(instance.model.ChartComponentData[0].CategoryValue.toString()).toMatch(categoryValue.toString());
   });
 
   it('should load chart detail data on loadChartDetail()', () => {
@@ -47,11 +54,15 @@ describe('Tile Preview Chart', () => {
     const categoryName = 'test category';
     const detailKey = 'test detail key';
     const detailValue = 55;
-
-    instance.chartComponentData = [generateMockTilePreviewChart(categoryName, 0, detailKey, detailValue)];
+    const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
+    instance.model = {
+      ChartType: 'test',
+      ChartLabel: 'test chart label',
+      ChartComponentData: chartComponentData
+    };
     instance.loadChartDetail(categoryName);
 
-    expect(instance.chartComponentData[0].CategoryName).toMatch(detailKey);
-    expect(instance.chartComponentData[0].CategoryValue.toString()).toMatch(detailValue.toString());
+    expect(instance.model.ChartComponentData[0].CategoryName).toMatch(detailKey);
+    expect(instance.model.ChartComponentData[0].CategoryValue.toString()).toMatch(detailValue.toString());
   });
 });

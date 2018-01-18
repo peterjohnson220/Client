@@ -1,17 +1,8 @@
-export interface TilePreviewChart {
-  CategoryName: string;
-  CategoryValue: number;
-  DetailData?: { Key: string, Value: number }[];
+import { TilePreviewBase } from './tile-preview-base.model';
+import { TilePreviewChartData } from './tile-preview-chart-data.model';
 
-}
-
-export function generateMockTilePreviewChart(categoryName: string,
-                                             categoryValue: number = 0,
-                                             detailKey: string = '',
-                                             detailValue: number = 0): TilePreviewChart {
-  return {
-    CategoryName: categoryName,
-    CategoryValue: categoryValue,
-    DetailData: [ { Key: detailKey, Value: detailValue } ]
-  };
+export interface TilePreviewChart extends  TilePreviewBase {
+  ChartType: string;
+  ChartLabel: string;
+  ChartComponentData: TilePreviewChartData[];
 }

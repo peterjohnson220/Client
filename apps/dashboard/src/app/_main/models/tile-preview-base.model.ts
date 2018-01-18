@@ -1,3 +1,3 @@
 export interface TilePreviewBase {
-  IconClass: string;
+  IconClass?: string;
 }
