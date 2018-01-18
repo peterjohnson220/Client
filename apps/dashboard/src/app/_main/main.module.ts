@@ -32,7 +32,7 @@ import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 
 // Pipes
-import { TruncateAfterPipe } from 'libs/shared/pipes';
+import { TruncateAfterPipe } from 'libs/common/core/pipes';
 
 @NgModule({
   imports: [
