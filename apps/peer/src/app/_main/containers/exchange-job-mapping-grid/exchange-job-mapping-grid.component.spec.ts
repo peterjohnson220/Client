@@ -7,8 +7,10 @@ import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum } from 'libs/models/common';
+import { generateMockExchangeJobMapping } from 'libs/models/peer';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
+import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 import { ExchangeJobMappingGridComponent } from './exchange-job-mapping-grid.component';
@@ -61,6 +63,9 @@ describe('Peer - Exchange Job Mapping Grid', () => {
   });
 
   it('should dispatch a page change grid action when handlePageChanged is called', () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
+
     const pageChangeEvent: PageChangeEvent = { skip: 10, take: 20 };
     const action = new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, pageChangeEvent);
 
@@ -86,6 +91,9 @@ describe('Peer - Exchange Job Mapping Grid', () => {
   });
 
   it('should dispatch a sort change grid action when handleSortChanged is called', () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
+
     const sortDescriptor: SortDescriptor[] = [{ field: 'Status', dir: 'asc' }];
     const action = new fromGridActions.SortChange(GridTypeEnum.ExchangeJobMapping, sortDescriptor);
 
@@ -110,6 +118,44 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalledWith(instance.exchangeId);
   });
 
+  it('should dispatch a SelectExchangeJobMapping action with the dataItem received, when handling a cell click', () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
 
+    const event = { dataItem: generateMockExchangeJobMapping(), rowIndex: 1 };
+    const action = new fromExchangeJobMappingActions.SelectExchangeJobMapping(event.dataItem);
+
+    instance.exchangeJobMappingGridState = { skip: 0 };
+    instance.handleCellClick(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a UpdatePageRowIndexToScrollTo action with the pageRowIndex (rowIndex - skip), when handling a cell click', () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
+
+    const action = new fromExchangeJobMappingActions.UpdatePageRowIndexToScrollTo(30);
+
+    const event = { rowIndex: 70 };
+    instance.exchangeJobMappingGridState = { skip: 40 };
+    instance.handleCellClick(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should emit a rowSelected event, when handling a cell click', () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
+
+    const event = { rowIndex: 70 };
+    instance.exchangeJobMappingGridState = { skip: 40 };
+
+    spyOn(instance.rowSelected, 'emit');
+
+    instance.handleCellClick({});
+
+    expect(instance.rowSelected.emit).toHaveBeenCalled();
+  });
 
 });

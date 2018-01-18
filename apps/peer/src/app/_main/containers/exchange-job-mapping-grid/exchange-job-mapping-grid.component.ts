@@ -7,12 +7,12 @@ import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum } from 'libs/models/common';
+import { ExchangeJobMapping } from 'libs/models/peer';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
-import { ExchangeJobMapping } from '../../../../../../../libs/models/peer';
 
 @Component({
   selector: 'pf-exchange-job-mapping-grid',

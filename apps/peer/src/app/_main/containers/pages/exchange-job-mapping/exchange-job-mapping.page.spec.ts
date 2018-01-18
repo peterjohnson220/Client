@@ -10,8 +10,8 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingActions from '../../../actions/exchange-job-mapping.actions';
 import * as fromPeerMainReducer from '../../../reducers';
-import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
 import { ExchangeJobMappingService } from '../../../services';
+import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
 
 describe('Peer - Exchange Job Mapping Page', () => {
   let fixture: ComponentFixture<ExchangeJobMappingPageComponent>;
@@ -65,6 +65,14 @@ describe('Peer - Exchange Job Mapping Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should dispatch a UpdateExchangeJobMappingsQuery action with an empty string when handleBackToListNavigation is called', () => {
+    const action = new fromExchangeJobMappingActions.UpdateExchangeJobMappingsQuery('');
+
+    instance.handleBackToListNavigation();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
   it('should dispatch a page change grid action when handleSearchChanged is called', () => {
     const action = new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, { skip: 0, take: 20 });
 
@@ -88,6 +96,44 @@ describe('Peer - Exchange Job Mapping Page', () => {
     instance.handleSearchChanged('New Search');
 
     expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalledWith(activatedRoute.snapshot.params.id);
+  });
+
+  it('should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true', () => {
+    instance.collapse = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch an UpdatePageRowIndexToScrollTo action with null, when handling exchange job mapping info closed', () => {
+    const action = new fromExchangeJobMappingActions.UpdatePageRowIndexToScrollTo(null);
+
+    instance.handleExchangeJobMappingInfoClosed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should set collapse to false after the exchange job mapping info is closed', () => {
+    instance.collapse = true;
+
+    instance.handleExchangeJobMappingInfoClosed();
+
+    expect(instance.collapse).toBe(false);
+  });
+
+  it('should disable grid scroll to if a row is selected when the grid is collapsed', () => {
+    instance.collapse = true;
+
+    instance.handleGridRowSelected();
+
+    expect(instance.disableGridScollTo).toBe(true);
+  });
+
+  it('should collapse the grid when a grid row is selected', () => {
+    instance.handleGridRowSelected();
+
+    expect(instance.collapse).toBe(true);
   });
 
 });
