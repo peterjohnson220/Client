@@ -5,8 +5,8 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromExchangeJobMappingReducer from './exchange-job-mapping.reducer';
-import * as fromGridReducer from 'libs/common/core/reducers/grid.reducer';
-import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {
@@ -67,6 +67,16 @@ export const getExchangeJobMappingsGridState = createSelector(
 export const getExchangeJobMappingsQuery = createSelector(
   selectExchangeJobMappingsFeatureState,
   fromExchangeJobMappingReducer.getQuery
+);
+
+export const getSelectedExchangeJobMapping = createSelector(
+  selectExchangeJobMappingsFeatureState,
+  fromExchangeJobMappingReducer.getSelectedMapping
+);
+
+export const getExchangeJobMappingPageRowIndexToScrollTo = createSelector(
+  selectExchangeJobMappingsFeatureState,
+  fromExchangeJobMappingReducer.getPageRowIndexToScrollTo
 );
 
 export const getExchangeJobMappingsGridData = createSelector(

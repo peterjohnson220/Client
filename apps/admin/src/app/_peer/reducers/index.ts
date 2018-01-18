@@ -2,8 +2,8 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
-import * as fromGridReducer from 'libs/common/core/reducers/grid.reducer';
-import { IFeatureGridState } from 'libs/common/core/reducers/grid.reducer';
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
 import * as fromManageExchangeReducer from './manage-exchange.reducer';
