@@ -7,24 +7,29 @@
 }
 
 .tile-small {
-  flex: 1;
-  min-width: 200px;
-  max-width: 100%;
+  min-width: 215px;
 }
 
 .tile-large {
-  flex: 1;
-  min-width: 400px;
-  max-width: 100%;
+  min-width: 430px;
 }
 
-
 @media screen and (max-width: 991px) {
+  .tile-large {
+    min-width: 215px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tile-small {
+    flex: 1;
+    min-width: 215px;
+    max-width: 100%;
+  }
 
   .tile-large {
     flex: 1;
-    min-width: 200px;
+    min-width: 215px;
     max-width: 100%;
-
   }
 }
