@@ -95,6 +95,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
+        tile.IconClass = 'fa-home';
         break;
 
       case TileTypes.PricingProjects:

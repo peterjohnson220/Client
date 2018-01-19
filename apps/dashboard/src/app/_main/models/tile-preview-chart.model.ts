@@ -1,17 +1,17 @@
-export interface TilePreviewChart {
-  CategoryName: string;
-  CategoryValue: number;
-  DetailData?: { Key: string, Value: number }[];
+import { Tile } from './tile.model';
+import { TilePreviewBase } from './tile-preview-base.model';
+import { TilePreviewChartData } from './tile-preview-chart-data.model';
 
+export interface TilePreviewChart extends  TilePreviewBase {
+  ChartType: string;
+  ChartLabel: string;
+  ChartComponentData: TilePreviewChartData[];
 }
 
-export function generateMockTilePreviewChart(categoryName: string,
-                                             categoryValue: number = 0,
-                                             detailKey: string = '',
-                                             detailValue: number = 0): TilePreviewChart {
+export function generateTilePreviewChartFromTile(tile: Tile): TilePreviewChart {
   return {
-    CategoryName: categoryName,
-    CategoryValue: categoryValue,
-    DetailData: [ { Key: detailKey, Value: detailValue } ]
+    ChartType: tile.ChartType,
+    ChartLabel: tile.ChartLabel,
+    ChartComponentData: tile.TilePreviewData,
   };
 }

@@ -18,7 +18,23 @@ export interface Tile {
   NgAppLink: boolean;
 }
 
-export function generateMockTile(): Tile {
+export function generateMockChartTile(): Tile {
+  return {
+    Id: 1,
+    Label: 'test tile',
+    Type: TileTypes.PayMarkets,
+    PreviewType: TilePreviewTypes.Chart,
+    IconClass: 'fa fa-file-text-o',
+    Url: 'test tile url',
+    NgAppLink: false,
+    Order: 0,
+    Size: 2,
+    CssClass: 'test cssClass',
+    TilePreviewData: undefined
+  };
+}
+
+export function generateMockIconTile(): Tile {
   return {
     Id: 1,
     Label: 'test tile',
@@ -30,6 +46,47 @@ export function generateMockTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: [ 'test tile data' ]
+    TilePreviewData: undefined
   };
 }
+
+export function generateMockListTile(): Tile {
+  return {
+    Id: 1,
+    Label: 'test tile',
+    Type: TileTypes.PayMarkets,
+    PreviewType: TilePreviewTypes.List,
+    IconClass: 'fa fa-file-text-o',
+    Url: 'test tile url',
+    NgAppLink: false,
+    Order: 0,
+    Size: 2,
+    CssClass: 'test cssClass',
+    TilePreviewData: undefined
+  };
+}
+
+export function generateMockIconTileWithPayload(): Tile {
+  return {
+    Id: 1,
+    Label: 'test tile',
+    Type: TileTypes.PayMarkets,
+    PreviewType: TilePreviewTypes.Icon,
+    IconClass: 'fa fa-file-text-o',
+    Url: 'test tile url',
+    NgAppLink: false,
+    Order: 0,
+    Size: 2,
+    CssClass: 'test cssClass',
+    TilePreviewData: [{
+      Title: 'Boston',
+      SubTitle: 'Default Market',
+      DetailData: [
+        { Key: 'Industry', Value: 'Software' },
+        { Key: 'Size', Value: '10' },
+        { Key: 'Location', Value: 'Back Bay' }
+      ]
+    }]
+  };
+}
+

@@ -31,7 +31,8 @@ import { TilePreviewChartComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 
-
+// Pipes
+import { TruncateAfterPipe } from 'libs/common/core/pipes';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { TilePreviewListComponent } from './components';
     PfCommonUIModule
   ],
   declarations: [
+    TruncateAfterPipe,
     // Pages
     DashboardPageComponent,
     // Components

@@ -11,9 +11,7 @@ import { TilePreviewChart } from '../../../models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewChartComponent {
-  @Input() chartComponentData: TilePreviewChart[];
-  @Input() chartType: string;
-  @Input() chartLabel: string;
+  @Input() model: TilePreviewChart;
 
   public chartData: any[] = [];
 
@@ -45,16 +43,16 @@ export class TilePreviewChartComponent {
 
   public chartBackButtonClick() {
     this.showChartDetail = false;
-    this.chartComponentData = this.chartData;
+    this.model.ChartComponentData = this.chartData;
   }
 
   public loadChartDetail(chartItem) {
     if (!this.showChartDetail) {
 
-      this.chartData = this.chartComponentData;
+      this.chartData = this.model.ChartComponentData;
       this.showChartDetail = true;
 
-      this.chartComponentData = (<[ any ]>this.chartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
+      this.model.ChartComponentData = (<[ any ]>this.model.ChartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData)
         .reduce((array, item) => {
           array.push({ CategoryValue: item.Value, CategoryName: item.Key });
           return array;
