@@ -8,11 +8,12 @@ import { PfLayoutWrapperOldModule } from 'libs/ui/layout-wrapper-old';
 
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
+import { AppNoWrapperComponent } from './app-no-wrapper.component';
 
 
 const declarations = [
   // declarations
-  AppComponent, AppWrapperComponent
+  AppComponent, AppWrapperComponent, AppNoWrapperComponent
 ];
 
 @NgModule({

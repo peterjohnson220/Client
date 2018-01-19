@@ -1,0 +1,509 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Exchange Job Mapping Info should show dashes for all company job info except job description, when no information exists 1`] = `
+<pf-exchange-job-mapping-info
+  closeClicked={[Function EventEmitter]}
+  selectedExchangeJobMapping$={[Function ScalarObservable]}
+  store={[Function Store]}
+>
+  <div
+    class="mapping-info-container card h-100"
+  >
+    
+    
+    <div
+      class="card-header"
+    >
+      
+      
+      <div
+        class="align-self-center"
+      >
+        
+        Mapping Information
+      
+      </div>
+      
+      
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+        
+        Close
+      
+      </button>
+      
+    
+    </div>
+    
+    
+    <div
+      class="card-body d-flex"
+    >
+      
+      
+      <div
+        class="info-container"
+      >
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Exchange Job:
+          </div>
+          
+          
+          <div>
+            Exchange Test Job
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Family:
+          </div>
+          
+          
+          <div>
+            Exchange Test Family
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Level:
+          </div>
+          
+          
+          <div>
+            II
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Description:
+          </div>
+          
+          
+          <div
+            class="job-description-container"
+          >
+            
+            Lorem Ipsum
+          
+          </div>
+          
+        
+        </div>
+        
+      
+      </div>
+      
+  
+      
+      <div
+        class="vertical-separator"
+      />
+      
+  
+      
+      <div
+        class="info-container"
+      >
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Company Job:
+          </div>
+          
+          
+          <div>
+            
+            
+            
+            
+              --
+            
+            
+            
+            
+            
+          
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Family:
+          </div>
+          
+          
+          <div>
+            --
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Level:
+          </div>
+          
+          
+          <div>
+            --
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Description:
+          </div>
+          
+          
+          <div
+            class="job-description-container"
+          >
+            
+            
+          
+          </div>
+          
+        
+        </div>
+        
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+  
+</pf-exchange-job-mapping-info>
+`;
+
+exports[`Peer - Exchange Job Mapping Info should show the exchange job mapping info 1`] = `
+<pf-exchange-job-mapping-info
+  closeClicked={[Function EventEmitter]}
+  selectedExchangeJobMapping$={[Function ScalarObservable]}
+  store={[Function Store]}
+>
+  <div
+    class="mapping-info-container card h-100"
+  >
+    
+    
+    <div
+      class="card-header"
+    >
+      
+      
+      <div
+        class="align-self-center"
+      >
+        
+        Mapping Information
+      
+      </div>
+      
+      
+      <button
+        class="btn btn-secondary btn-sm"
+      >
+        
+        Close
+      
+      </button>
+      
+    
+    </div>
+    
+    
+    <div
+      class="card-body d-flex"
+    >
+      
+      
+      <div
+        class="info-container"
+      >
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Exchange Job:
+          </div>
+          
+          
+          <div>
+            Exchange Test Job
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Family:
+          </div>
+          
+          
+          <div>
+            Exchange Test Family
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Level:
+          </div>
+          
+          
+          <div>
+            II
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Description:
+          </div>
+          
+          
+          <div
+            class="job-description-container"
+          >
+            
+            Lorem Ipsum
+          
+          </div>
+          
+        
+        </div>
+        
+      
+      </div>
+      
+  
+      
+      <div
+        class="vertical-separator"
+      />
+      
+  
+      
+      <div
+        class="info-container"
+      >
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Company Job:
+          </div>
+          
+          
+          <div>
+            
+            
+            
+            
+            
+  
+              A100 -
+              Company Job Title
+  
+            
+            
+            
+            
+            
+          
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Family:
+          </div>
+          
+          
+          <div>
+            Company Job Family
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Level:
+          </div>
+          
+          
+          <div>
+            I
+          </div>
+          
+        
+        </div>
+        
+        
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          
+          
+          <div
+            class="label"
+          >
+            Job Description:
+          </div>
+          
+          
+          <div
+            class="job-description-container"
+          >
+            
+            Lorem Ipsum
+          
+          </div>
+          
+        
+        </div>
+        
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+  
+</pf-exchange-job-mapping-info>
+`;

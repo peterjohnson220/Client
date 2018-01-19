@@ -13,12 +13,11 @@ import {
   generateMockAvailableCompany
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
-import { PfCommonModule } from 'libs/common';
+import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
-import { KendoGridFilterHelper } from 'libs/common/core/helpers';
 import { InputDebounceComponent } from 'libs/forms/components';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';

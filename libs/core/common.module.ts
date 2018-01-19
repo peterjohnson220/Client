@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { HumanizeNumberPipe } from './core/pipes';
+import { HumanizeNumberPipe } from './pipes';
 
 
 const declarations = [

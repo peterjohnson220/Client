@@ -4,6 +4,8 @@
   [hideReloadButton]="true">
 
   <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+              [pfKendoScrollTo]="pageRowIndexToScrollTo"
+              [pfKendoScrollToEnabled]="!disableScrollTo"
               [data]="exchangeJobMappingsGridData$ | async"
               [pageSize]="(exchangeJobMappingsGridState$ | async)?.take"
               [skip]="(exchangeJobMappingsGridState$ | async)?.skip"
@@ -14,8 +16,13 @@
                   }"
               [resizable]="true"
               [sortable]="true"
+              [selectable]="{
+                mode: 'single'
+              }"
+              [kendoGridSelectBy]="'ExchangeJobId'"
               (pageChange)="handlePageChanged($event)"
-              (sortChange)="handleSortChanged($event)">
+              (sortChange)="handleSortChanged($event)"
+              (cellClick)="handleCellClick($event)">
 
     <kendo-grid-column field="Status" title="Status" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>

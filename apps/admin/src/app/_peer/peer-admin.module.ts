@@ -8,7 +8,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
-import { PfCommonModule } from 'libs/common';
+import { PfCommonModule } from 'libs/core';
 import { PfSharedPeerModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,

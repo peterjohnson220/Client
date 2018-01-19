@@ -12,7 +12,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeJobsRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
-import * as fromGridActions from 'libs/common/core/actions/grid.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';

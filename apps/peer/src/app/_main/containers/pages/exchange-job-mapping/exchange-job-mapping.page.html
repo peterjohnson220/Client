@@ -16,6 +16,23 @@
   </ng-container>
 
   <ng-container page-content>
-    <pf-exchange-job-mapping-grid [exchangeId]="exchangeId"></pf-exchange-job-mapping-grid>
+
+    <div class="flex-column-container">
+      <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
+        <pf-exchange-job-mapping-grid
+          [exchangeId]="exchangeId"
+          [disableScrollTo]="disableGridScollTo"
+          [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async"
+          (rowSelected)="handleGridRowSelected()">
+        </pf-exchange-job-mapping-grid>
+      </div>
+
+      <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
+        <pf-exchange-job-mapping-info
+          (closeClicked)="handleExchangeJobMappingInfoClosed()">
+        </pf-exchange-job-mapping-info>
+      </div>
+    </div>
+
   </ng-container>
 </pf-page-with-title-bar>

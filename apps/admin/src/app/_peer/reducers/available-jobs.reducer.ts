@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { AvailableJob } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
-import { createGridReducer } from 'libs/common/core/reducers/grid.reducer';
+import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 
 import * as fromAvailableJobsActions from '../actions/available-jobs.actions';
 

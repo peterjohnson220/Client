@@ -10,6 +10,8 @@ export interface ExchangeJobMapping {
   ExchangeJobFamily: string;
   ExchangeJobLevel: string;
   CompanyJobFamily: string;
+  CompanyJobDescription: string;
+  ExchangeJobDescription: string;
   Status: boolean;
 }
 
@@ -26,6 +28,8 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     ExchangeJobFamily: 'Exchange Test Family',
     ExchangeJobLevel: 'II',
     CompanyJobFamily: 'Company Job Family',
+    CompanyJobDescription: 'Lorem Ipsum',
+    ExchangeJobDescription: 'Lorem Ipsum',
     Status: true
   };
 }
