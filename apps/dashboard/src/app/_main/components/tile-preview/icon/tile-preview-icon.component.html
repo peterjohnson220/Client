@@ -1,11 +1,11 @@
 <i class="fa {{ model.IconClass }} {{ model.IconSize }} {{ model.CssClassName }} text-center m-0 p-0" aria-hidden="true"></i>
 <div *ngIf="model.ContainsDetailData">
   <h2 class="text-center m-0 p-0" *ngIf="model.Title !== undefined">{{ model.Title | TruncateAfter:20 }}</h2>
-  <h3 class="text-center m-0 pb-2" *ngIf="model.SubTitle !== undefined">{{ model.SubTitle | TruncateAfter:45 }}</h3>
+  <h3 class="text-center m-0 pb-2" *ngIf="model.SubTitle !== undefined">{{ model.SubTitle | TruncateAfter:40 }}</h3>
   <div class="p-0 px-3" *ngIf="model.DetailData != undefined">
     <div *ngFor="let detailData of model.DetailData">
       <strong>{{ detailData.Key }}:&nbsp;</strong>
-      {{ detailData.Value | TruncateAfter: 30 - detailData.Key.length }}
+      {{ detailData.Value | TruncateAfter: 25 - detailData.Key.length }}
     </div>
   </div>
 </div>

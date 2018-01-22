@@ -10,3 +10,4 @@ import { TilePreviewIcon } from '../../../models';
 export class TilePreviewIconComponent {
   @Input() model: TilePreviewIcon;
 }
+
