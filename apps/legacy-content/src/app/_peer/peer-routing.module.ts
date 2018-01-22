@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+
 import { AddDataCutPageComponent } from './containers/pages/add-data-cut';
 
 const routes: Routes = [
