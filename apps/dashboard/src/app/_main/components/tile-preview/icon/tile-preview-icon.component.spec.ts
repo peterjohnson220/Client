@@ -5,7 +5,8 @@ import {
   generateMockIconTile, generateMockIconTileWithPayload, generateTilePreviewIconFromTile,
   TilePreviewIcon
 } from '../../../models';
-import { TruncateAfterPipe } from 'libs/common/core/pipes';
+import { TruncateAfterPipe } from 'libs/core/pipes';
+
 
 describe('TilePreviewIcon', () => {
   let fixture: ComponentFixture<TilePreviewIconComponent>;
