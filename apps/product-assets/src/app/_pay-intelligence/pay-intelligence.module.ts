@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { PfFormsModule } from 'libs/forms';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
@@ -26,7 +27,8 @@ import { reducers } from './reducers';
     PayIntelligenceRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: [
     // Pages
