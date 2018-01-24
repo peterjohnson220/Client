@@ -1,0 +1,65 @@
+.card-header{
+  height: 38px;
+  min-height: 38px;
+}
+
+.card-body{
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: .25rem;
+}
+
+.mapping-info-container{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.mapping-info-container .card-header{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1.25rem;
+}
+
+.vertical-separator{
+  border-left: 1px solid #cccccc;
+}
+
+.info-container{
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  flex: 0 0 50%;
+}
+
+%info-row-shared{
+  display: flex;
+  padding: .65rem .25rem;
+  border-bottom: 1px solid #cccccc;
+
+  .label{
+    font-weight: bold;
+    width: 25%;
+  }
+}
+
+.info-row{
+  @extend %info-row-shared;
+  min-height: 40px;
+}
+
+.info-row-flex-column{
+  @extend %info-row-shared;
+  flex-direction: column;
+  border-bottom: none;
+}
+
+.job-description-container{
+  padding-right: 1rem;
+  margin-right: -1rem;
+  margin-top: .5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  line-height: 1.7;
+}

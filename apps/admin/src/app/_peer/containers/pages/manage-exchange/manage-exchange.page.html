@@ -4,13 +4,30 @@
     Manage Exchange - {{ (exchange$ | async).ExchangeName }}
   </ng-container>
 
-  <ng-container page-actions>
-    <button type="button" class="btn btn-primary" (click)="openImportExchangeJobsModal()">Import Exchange Jobs</button>
-  </ng-container>
-
   <ng-container page-content>
-    <div class="h-50 w-100">
-      <pf-exchange-companies></pf-exchange-companies>
+    <div class="card-group h-100 w-100">
+      <div class="card">
+        <div class="card-header">
+          Companies
+          <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeCompaniesModal()">Add Companies</button>
+        </div>
+        <div class="card-body d-flex">
+          <pf-exchange-companies></pf-exchange-companies>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          Jobs
+          <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
+          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeJobsModal()">Add Jobs</button>
+          <button type="button" class="btn btn-sm btn-secondary float-right" (click)="openImportExchangeJobsModal()">Import</button>
+        </div>
+        <div class="card-body d-flex">
+          <pf-exchange-jobs></pf-exchange-jobs>
+        </div>
+      </div>
+
     </div>
   </ng-container>
 
@@ -22,3 +39,5 @@
   (importExchangeJobsEvent)="handleImportExchangeJobs()"
   (modalDismissedEvent)="handleImportExchangeJobsModalDismissed()">
 </pf-import-exchange-jobs-modal>
+
+<pf-add-jobs-modal></pf-add-jobs-modal>

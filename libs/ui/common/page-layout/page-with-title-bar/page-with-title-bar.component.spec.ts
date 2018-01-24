@@ -1,5 +1,6 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { PageWithTitleBarComponent } from './page-with-title-bar.component';
 
@@ -47,6 +48,22 @@ describe('Page With Title Bar', () => {
     const hostComponent = TestBed.createComponent(TestHostComponent);
 
     expect(hostComponent).toMatchSnapshot();
+  });
+
+  it('should emit a returning event, when the back button is clicked', () => {
+    // Back button only shows if there is a return url
+    instance.returnUrl = 'abc';
+
+    // Spy on the emit method for the returning EventEmitter
+    spyOn(instance.returning, 'emit');
+
+    fixture.detectChanges();
+
+    // Find the reload button in the template and trigger a click
+    const backButton = fixture.debugElement.query(By.css('.back-btn'));
+    backButton.triggerEventHandler('click', null);
+
+    expect(instance.returning.emit).toHaveBeenCalled();
   });
 
 });

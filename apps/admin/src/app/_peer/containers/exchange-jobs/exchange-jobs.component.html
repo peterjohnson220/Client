@@ -1,0 +1,30 @@
+<pf-async-container
+  [loading]="exchangeJobsLoading$ | async"
+  [loadingError]="exchangeJobsLoadingError$ | async"
+  [loadingErrorMessage]="'Error loading exchange jobs'"
+  (reload)="handleExchangeJobsGridReload()">
+
+  <kendo-grid
+    [data]="exchangeJobsGrid$ | async"
+    [pageSize]="(gridState$ | async)?.take"
+    [skip]="(gridState$ | async)?.skip"
+    [pageable]="{
+          buttonCount: 5,
+          info: true
+        }"
+    [sortable]="true"
+    [scrollable]="true"
+    [sort]="(gridState$ | async)?.sort"
+    (pageChange)="handlePageChange($event)"
+    (sortChange)="handleSortChange($event)"
+  >
+
+    <kendo-grid-column field="Job_Title" title="Job Title"></kendo-grid-column>
+
+    <kendo-grid-column field="Job_Family" title="Job Family"></kendo-grid-column>
+
+    <kendo-grid-column field="Job_Level" title="Job Level"></kendo-grid-column>
+
+  </kendo-grid>
+
+</pf-async-container>

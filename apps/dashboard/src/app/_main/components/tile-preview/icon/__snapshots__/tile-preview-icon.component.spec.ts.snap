@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TilePreviewIcon should show just icon and when no payload is given 1`] = `
+<pf-tile-preview-icon
+  model={[Function Object]}
+>
+  <i
+    aria-hidden="true"
+    class="fa fa fa-file-text-o fa-10x preview-tile-icon text-center m-0 p-0"
+  />
+  
+  
+</pf-tile-preview-icon>
+`;
+
+exports[`TilePreviewIcon should show more than just an icon and when a payload is given 1`] = `
+<pf-tile-preview-icon
+  model={[Function Object]}
+>
+  <i
+    aria-hidden="true"
+    class="fa fa fa-file-text-o fa-4x preview-tile-icon-small text-center m-0 p-0"
+  />
+  <div>
+    
+    
+    
+    <h2
+      class="text-center m-0 p-0"
+    >
+      Boston
+    </h2>
+    
+    
+    
+    <h3
+      class="text-center m-0 pb-2"
+    >
+      Default Market
+    </h3>
+    
+    
+    
+    <div
+      class="p-0 px-3"
+    >
+      
+      
+      
+      <div>
+        
+        
+        <strong>
+          Industry: 
+        </strong>
+        
+        Software
+      
+      </div>
+      <div>
+        
+        
+        <strong>
+          Size: 
+        </strong>
+        
+        10
+      
+      </div>
+      <div>
+        
+        
+        <strong>
+          Location: 
+        </strong>
+        
+        Back Bay
+      
+      </div>
+      
+    
+    </div>
+    
+  
+  </div>
+  
+</pf-tile-preview-icon>
+`;

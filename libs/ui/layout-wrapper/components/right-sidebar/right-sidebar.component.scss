@@ -41,3 +41,15 @@ $right-sidebar-open-width: 350px;
 .sidebar-width {
   min-width: $right-sidebar-open-width;
 }
+
+@media screen and (max-width: 768px) {
+  .right-sidebar-close {
+    position: fixed;
+    right: 0;
+  }
+
+  .right-sidebar-open {
+    position: fixed;
+    right: 0;
+  }
+}

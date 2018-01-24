@@ -8,14 +8,21 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonModule } from 'libs/core';
+import { PfSharedPeerModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
-         CreateExchangeModalComponent, ImportExchangeJobsModalComponent } from './containers';
-import { ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects } from './effects';
+         CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent } from './containers';
+import {
+  ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects
+} from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
+import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
-import { PfSharedModule } from 'libs/shared';
+import { AddCompaniesModalComponent } from './containers/add-companies-modal';
+import { AddJobsModalComponent } from './containers/add-jobs-modal';
 
 @NgModule({
   imports: [
@@ -26,21 +33,32 @@ import { PfSharedModule } from 'libs/shared';
     // 3rd Party
     GridModule,
     StoreModule.forFeature('peerAdmin', reducers),
-    EffectsModule.forFeature([ExchangeListEffects, ExchangeCompaniesEffects, ManageExchangeEffects]),
+    EffectsModule.forFeature([
+      ExchangeListEffects,
+      ExchangeCompaniesEffects,
+      ManageExchangeEffects,
+      AvailableCompaniesEffects,
+      ExchangeJobsEffects,
+      AvailableJobsEffects
+    ]),
 
     // Routing
     PeerAdminRoutingModule,
 
     // Payfactors
+    PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    PfSharedModule
+    PfSharedPeerModule
   ],
   declarations: [
     // Containers
     ExchangeCompaniesComponent,
     CreateExchangeModalComponent,
     ImportExchangeJobsModalComponent,
+    AddCompaniesModalComponent,
+    ExchangeJobsComponent,
+    AddJobsModalComponent,
 
     // Pages
     ExchangeListPageComponent,
@@ -49,6 +67,9 @@ import { PfSharedModule } from 'libs/shared';
   providers: [
     // Guards
     ExchangeExistsGuard,
+
+    // Services
+    GridHelperService
   ]
 })
 export class PeerAdminModule { }

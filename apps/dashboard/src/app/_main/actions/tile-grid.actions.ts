@@ -12,6 +12,8 @@ export const REORDER_TILES_ERROR = '[Dashboard Tile Grid/Tiles] Reorder Tiles Er
 
 export class LoadingTiles implements Action {
   readonly type = LOADING_TILES;
+
+  constructor(public includeTilePreviewData: boolean) {}
 }
 
 export class LoadingTilesSuccess implements Action {

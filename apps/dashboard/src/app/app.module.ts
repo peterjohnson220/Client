@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
@@ -11,7 +12,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +20,7 @@ import { AppWrapperComponent } from './app-wrapper.component';
   imports: [
     // Angular
     BrowserModule,
+    BrowserAnimationsModule,
 
     // PF Modules
     PfCommonUIModule,

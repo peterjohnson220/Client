@@ -4,6 +4,19 @@
     Pay Intelligence
   </ng-container>
 
+  <ng-container page-actions>
+
+    <div class="resource-search-box">
+      <pf-input-debounce id="search-box"
+                         [focus]="false"
+                         [delay]="300"
+                         [placeholderText]="'Search for a Resource...'"
+                         (valueChanged)="updateSearchTerm($event)">
+      </pf-input-debounce>
+    </div>
+
+  </ng-container>
+
   <ng-container page-content>
 
     <pf-product-assets-list-component></pf-product-assets-list-component>

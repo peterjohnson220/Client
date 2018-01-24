@@ -1,3 +1,35 @@
 .tile-text-color {
   color: #fff;
 }
+
+.tile-text-color {
+  color: #fff;
+}
+
+.tile-small {
+  min-width: 215px;
+}
+
+.tile-large {
+  min-width: 430px;
+}
+
+@media screen and (max-width: 991px) {
+  .tile-large {
+    min-width: 215px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tile-small {
+    flex: 1;
+    min-width: 215px;
+    max-width: 100%;
+  }
+
+  .tile-large {
+    flex: 1;
+    min-width: 215px;
+    max-width: 100%;
+  }
+}

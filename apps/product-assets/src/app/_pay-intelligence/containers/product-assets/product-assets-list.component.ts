@@ -15,7 +15,10 @@ import * as fromProductAssetsReducer from '../../reducers';
 export class ProductAssetsListComponent implements OnInit {
   productAssetListLoading$: Observable<boolean>;
   productAssetListLoadingError$: Observable<boolean>;
+  // Holds the original list of assets.
   productAssetListItems$: Observable<ProductAsset[]>;
+  // Holds the active list of assets to be displayed, includes any search filters.
+  activeProductAssetListItems$: Observable<ProductAsset[]>;
 
   constructor(
     private store: Store<fromProductAssetsReducer.State>
@@ -23,6 +26,7 @@ export class ProductAssetsListComponent implements OnInit {
     this.productAssetListLoading$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoading);
     this.productAssetListLoadingError$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoadingError);
     this.productAssetListItems$ = this.store.select(fromProductAssetsReducer.getProductAssetListItems);
+    this.activeProductAssetListItems$ = this.productAssetListItems$;
   }
 
   // Events
@@ -33,5 +37,10 @@ export class ProductAssetsListComponent implements OnInit {
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());
+  }
+
+  // Search
+  updateSearchItems(searchTerm: string) {
+    this.activeProductAssetListItems$ = this.productAssetListItems$.map(productAssets => productAssets.filter(productAsset => new RegExp(searchTerm, 'gi').test(productAsset.Title)));
   }
 }
