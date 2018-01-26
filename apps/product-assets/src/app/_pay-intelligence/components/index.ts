@@ -1,1 +1,1 @@
-export * from './product-assets-list.component';
+export * from './tableau-report-embed.component';

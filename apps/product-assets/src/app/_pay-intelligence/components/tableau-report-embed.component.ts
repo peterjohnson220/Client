@@ -1,46 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Component, AfterViewChecked } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as fromProductAssetsReducer from '../reducers';
 
-import { ProductAsset } from 'libs/models/product-assets';
-
-import * as fromProductAssetsActions from '../../actions';
-import * as fromProductAssetsReducer from '../../reducers';
+declare var tableau: any;
 
 @Component({
-  selector: 'pf-product-assets-list-component',
-  templateUrl: './product-assets-list.component.html',
-  styleUrls: ['./product-assets-list.component.scss']
+  selector: 'pf-tableau-report-embed-component',
+  templateUrl: './tableau-report-embed.component.html',
+  styleUrls: ['./tableau-report-embed.component.scss']
 })
-export class ProductAssetsListComponent implements OnInit {
-  productAssetListLoading$: Observable<boolean>;
-  productAssetListLoadingError$: Observable<boolean>;
-  // Holds the original list of assets.
-  productAssetListItems$: Observable<ProductAsset[]>;
-  // Holds the active list of assets to be displayed, includes any search filters.
-  activeProductAssetListItems$: Observable<ProductAsset[]>;
+export class TableauReportEmbedComponent implements AfterViewChecked {
+
 
   constructor(
     private store: Store<fromProductAssetsReducer.State>
   ) {
-    this.productAssetListLoading$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoading);
-    this.productAssetListLoadingError$ = this.store.select(fromProductAssetsReducer.getProductAssetListLoadingError);
-    this.productAssetListItems$ = this.store.select(fromProductAssetsReducer.getProductAssetListItems);
-    this.activeProductAssetListItems$ = this.productAssetListItems$;
+
   }
 
   // Events
-  handleProductAssetGridReload() {
-    this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());
+  initViz() {
+    var containerDiv = document.getElementById("vizContainer");
+    //var url = "http://public.tableau.com/views/RegionalSampleWorkbook/Storms";
+    var url = "https://stagereports.payfactors.com/t/CompDashboards/views/MinimumWage/StateDashboard";
+
+    var options = {
+      hideToolbar: true,
+      /*onFirstInteractive: function () {
+        console.log("Run this code when the viz has finished loading.");
+      }*/
+    };
+
+    // var viz = new tableau.Viz(containerDiv, url);
+    var viz = new tableau.Viz(containerDiv, url, options);
   }
 
   // Lifecycle
-  ngOnInit() {
-    this.store.dispatch(new fromProductAssetsActions.LoadingProductAssets());
+  ngAfterViewChecked () {
+    this.initViz();
   }
 
-  // Search
-  updateSearchItems(searchTerm: string) {
-    this.activeProductAssetListItems$ = this.productAssetListItems$.map(productAssets => productAssets.filter(productAsset => new RegExp(searchTerm, 'gi').test(productAsset.Title)));
-  }
 }

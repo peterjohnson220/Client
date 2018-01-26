@@ -1,18 +1,8 @@
 .card {
-  min-height: 260px;
   padding: 10px;
-}
-
-.card a {
-  color: #212529;
-  text-decoration: none;
-}
-
-.card-columns{
-  column-count: 2;
-}
-
-.thumbnail-image {
-  height: 190px;
-  max-width: 190px;
+  max-width: 1000px;
+  margin: 0 auto;
+  float: none;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
