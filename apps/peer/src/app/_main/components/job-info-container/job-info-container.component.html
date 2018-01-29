@@ -1,0 +1,20 @@
+<div class="info-container">
+  <div class="info-row">
+    <div class="label">{{job.JobType}} Job:</div>
+    <div>{{ job.JobTitle }} <ng-container *ngIf="showJobCode"> - {{job.JobCode}}</ng-container></div>
+  </div>
+  <div class="info-row">
+    <div class="label">Job Family:</div>
+    <div>{{ job.JobFamily }}</div>
+  </div>
+  <div class="info-row">
+    <div class="label">Job Level:</div>
+    <div>{{ job.JobLevel }}</div>
+  </div>
+  <div class="info-row-flex-column flex-grow-1">
+    <div class="label">Job Description:</div>
+    <div class="job-description-container">
+      {{ job.JobDescription }}
+    </div>
+  </div>
+</div>

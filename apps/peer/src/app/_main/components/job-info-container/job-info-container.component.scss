@@ -1,0 +1,44 @@
+@import 'colors';
+
+:host{
+  flex: 0 0 50%;
+}
+
+.info-container{
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 100%;
+}
+
+.job-description-container{
+  padding-right: 1rem;
+  margin-right: -1rem;
+  margin-top: .5rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  line-height: 1.7;
+}
+
+%info-row-shared{
+  display: flex;
+  padding: .65rem .25rem;
+  border-bottom: 1px solid $border-grey;
+
+  .label{
+    font-weight: bold;
+    width: 25%;
+  }
+}
+
+.info-row{
+  @extend %info-row-shared;
+  min-height: 40px;
+}
+
+.info-row-flex-column{
+  @extend %info-row-shared;
+  flex-direction: column;
+  border-bottom: none;
+}
