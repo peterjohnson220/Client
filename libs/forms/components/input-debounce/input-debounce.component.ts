@@ -22,17 +22,17 @@ import 'rxjs/add/operator/distinctUntilChanged';
   ]
 })
 export class InputDebounceComponent implements OnInit, ControlValueAccessor {
-  private keyUpEvents;
-  private pasteEvents;
+  private inputEvents;
   private eventStream;
   private clearEvent;
+  private innerValue;
 
-  @Input() inputValue: string;
   @Input() placeholderText = 'Search...';
   @Input() delay = 300;
   @Input() hideClearBtn = false;
-  @Input() distinctUntilChanged = true;
+  @Input() distinctUntilChanged = false;
   @Input() focus = false;
+  @Input() disabled = false;
   @Output() valueChanged = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
@@ -42,11 +42,10 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   propogateChange = (_: any) => { };
 
   ngOnInit() {
-    this.keyUpEvents = Observable.fromEvent(this.elementRef.nativeElement, 'keyup');
-    this.pasteEvents = Observable.fromEvent(this.elementRef.nativeElement, 'paste');
+    this.inputEvents = Observable.fromEvent(this.elementRef.nativeElement, 'input');
 
-    this.eventStream = Observable.merge(this.keyUpEvents, this.pasteEvents, this.clearEvent)
-      .map(() => this.inputValue)
+    this.eventStream = Observable.merge(this.inputEvents, this.clearEvent)
+      .map(() => this.innerValue)
       .debounceTime(this.delay);
 
 
@@ -58,20 +57,20 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   }
 
   clearValue() {
-    this.inputValue = '';
+    this.innerValue = '';
     this.clearEvent.next('');
   }
 
-  setSilently(newValue: string) {
-    this.inputValue = newValue;
+  onKey() {
+    this.propogateChange(this.innerValue);
   }
 
-  onKey() {
-    this.propogateChange(this.inputValue);
+  onPaste() {
+    this.propogateChange(this.innerValue);
   }
 
   writeValue(value: any) {
-    this.inputValue = value;
+    this.innerValue = value;
   }
 
   registerOnChange(fn) {
