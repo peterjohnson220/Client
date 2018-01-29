@@ -1,6 +1,5 @@
-import { Component, AfterViewChecked } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as fromProductAssetsReducer from '../reducers';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 declare var tableau: any;
 
@@ -9,26 +8,36 @@ declare var tableau: any;
   templateUrl: './tableau-report-embed.component.html',
   styleUrls: ['./tableau-report-embed.component.scss']
 })
-export class TableauReportEmbedComponent implements AfterViewChecked {
+export class TableauReportEmbedComponent implements OnInit {
 
+  reportName: string;
+  reportServer: string;
 
   constructor(
-    private store: Store<fromProductAssetsReducer.State>
+    private route: ActivatedRoute
   ) {
-
+    this.reportServer = 'https://stagereports.payfactors.com/';
+    this.reportServer = 'https://reports.payfactors.com/';
   }
 
   // Events
   initViz() {
-    var containerDiv = document.getElementById("vizContainer");
-    //var url = "http://public.tableau.com/views/RegionalSampleWorkbook/Storms";
-    var url = "https://stagereports.payfactors.com/t/CompDashboards/views/MinimumWage/StateDashboard";
+    var containerDiv = document.getElementById('vizContainer');
+    var url = '';
+
+    if (this.reportName === 'cola') {
+      url = this.reportServer + 't/CompDashboards/views/COLA/COLA';
+    } else if (this.reportName === 'minwage') {
+      url = this.reportServer + 't/CompDashboards/views/MinimumWage/StateDashboard';
+    } else {
+      containerDiv.innerHTML = 'Invalid report specified';
+      return;
+    }
 
     var options = {
-      hideToolbar: true,
-      /*onFirstInteractive: function () {
-        console.log("Run this code when the viz has finished loading.");
-      }*/
+      hideToolbar: true/*,
+      width: "1080px",
+      height: "750px"*/
     };
 
     // var viz = new tableau.Viz(containerDiv, url);
@@ -36,8 +45,8 @@ export class TableauReportEmbedComponent implements AfterViewChecked {
   }
 
   // Lifecycle
-  ngAfterViewChecked () {
+  ngOnInit () {
+    this.reportName = this.route.snapshot.paramMap.get('report');
     this.initViz();
   }
-
 }

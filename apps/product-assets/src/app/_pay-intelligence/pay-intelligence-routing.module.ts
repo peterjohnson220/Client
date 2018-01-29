@@ -11,7 +11,7 @@ import {
 
 const routes: Routes = [
   { path: '', component: PayIntelligencePageComponent },
-  { path: 'data-insight', component: TableauReportPageComponent },
+  { path: 'data-insights/:report', component: TableauReportPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 
