@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { environment } from 'environments/environment';
+
 declare var tableau: any;
 
 @Component({
@@ -11,13 +13,11 @@ declare var tableau: any;
 export class TableauReportEmbedComponent implements OnInit {
 
   reportName: string;
-  reportServer: string;
 
   constructor(
     private route: ActivatedRoute
   ) {
-    this.reportServer = 'https://stagereports.payfactors.com/';
-    this.reportServer = 'https://reports.payfactors.com/';
+
   }
 
   // Events
@@ -26,18 +26,16 @@ export class TableauReportEmbedComponent implements OnInit {
     var url = '';
 
     if (this.reportName === 'cola') {
-      url = this.reportServer + 't/CompDashboards/views/COLA/COLA';
+      url = `${environment.tableauReportingServer}t/CompDashboards/views/COLA/COLA`;
     } else if (this.reportName === 'minwage') {
-      url = this.reportServer + 't/CompDashboards/views/MinimumWage/StateDashboard';
+      url = `${environment.tableauReportingServer}t/CompDashboards/views/MinimumWage/StateDashboard`;
     } else {
       containerDiv.innerHTML = 'Invalid report specified';
       return;
     }
 
     var options = {
-      hideToolbar: true/*,
-      width: "1080px",
-      height: "750px"*/
+      hideToolbar: true
     };
 
     // var viz = new tableau.Viz(containerDiv, url);
