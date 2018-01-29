@@ -29,6 +29,7 @@
 
       <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
         <pf-exchange-job-mapping-info
+          [exchangeId]="exchangeId"
           (closeClicked)="handleExchangeJobMappingInfoClosed()">
         </pf-exchange-job-mapping-info>
       </div>
