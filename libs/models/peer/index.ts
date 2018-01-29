@@ -11,3 +11,4 @@ export * from './add-exchange-companies-request.model';
 export * from './exchange-job.model';
 export * from './available-job.model';
 export * from './add-exchange-jobs-request.model';
+export * from './company-job-to-map-to.model';
