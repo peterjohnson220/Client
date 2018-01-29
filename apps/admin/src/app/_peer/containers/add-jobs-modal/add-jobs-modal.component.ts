@@ -88,9 +88,8 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
+    this.searchTerm = '';
     this.store.dispatch(new fromExchangeJobsActions.CloseAddExchangeJobsModal);
-    // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
-    this.debouncedSearchTerm.setSilently('');
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableJobs));
   }
 
