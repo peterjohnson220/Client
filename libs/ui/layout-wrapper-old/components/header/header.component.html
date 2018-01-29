@@ -6,7 +6,7 @@
   <ul class="navbar-nav">
     <li class="nav-item" ngbDropdown placement="bottom-right">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
-          <img class="pf-avatar" [src]="avatarSource + userContext.UserPicture" />
+          <img class="pf-avatar" [src]="(avatarSource + (userContext.UserPicture ? userContext.UserPicture : 'default_user.png'))" />
         </a>
         <div class="dropdown-menu" ngbDropdownMenu>
           <span class="dropdown-header">{{ userContext.Name }}</span>

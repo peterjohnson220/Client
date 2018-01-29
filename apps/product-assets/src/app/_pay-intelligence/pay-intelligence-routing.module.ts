@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PayIntelligencePageComponent } from './containers/pages';
+import { PayIntelligencePageComponent, TableauReportPageComponent } from './containers/pages';
+import { NotFoundErrorPageComponent } from '../../../../../libs/ui/common/error/pages';
 
 const routes: Routes = [
-  { path: '', component: PayIntelligencePageComponent }
+  { path: '', component: PayIntelligencePageComponent },
+  { path: 'data-insights/:report', component: TableauReportPageComponent },
+  { path: '**', component: NotFoundErrorPageComponent }
 ];
 
 @NgModule({
