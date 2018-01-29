@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
 import { GridTypeEnum } from 'libs/models/common';
