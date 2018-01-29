@@ -7,7 +7,8 @@ import { PfFormsModule } from 'libs/forms';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { PayIntelligencePageComponent, ProductAssetsListComponent } from './containers';
+import { TableauReportEmbedComponent} from './components';
+import { PayIntelligencePageComponent, ProductAssetsListComponent, TableauReportPageComponent } from './containers';
 import { ProductAssetsListEffects } from './effects';
 import { PayIntelligenceRoutingModule } from './pay-intelligence-routing.module';
 import { reducers } from './reducers';
@@ -33,9 +34,13 @@ import { reducers } from './reducers';
   declarations: [
     // Pages
     PayIntelligencePageComponent,
+    TableauReportPageComponent,
 
     // Components
-    ProductAssetsListComponent
+    ProductAssetsListComponent,
+
+    // Containers
+    TableauReportEmbedComponent
   ]
 })
 export class PayIntelligenceModule { }
