@@ -4,3 +4,4 @@ export * from './peer';
 export * from './product-assets';
 export * from './security';
 export * from './api.module';
+export * from './legacy-content';

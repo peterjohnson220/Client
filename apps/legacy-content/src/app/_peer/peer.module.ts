@@ -10,6 +10,7 @@ import { PfSharedPeerModule } from 'libs/features';
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { environment } from 'environments/environment';
+import { WindowCommunicationService } from 'libs/data/payfactors-api';
 
 @NgModule({
   imports: [
@@ -33,6 +34,9 @@ import { environment } from 'environments/environment';
 
     // Pages
     AddDataCutPageComponent
+  ],
+  providers: [
+    WindowCommunicationService
   ]
 })
 export class PeerModule { }
