@@ -6,7 +6,7 @@
 
   <div class="card-columns">
 
-    <div class="card" *ngFor="let productAsset of activeProductAssetListItems$ | async">
+    <div class="card" *ngFor="let productAsset of productAssetListItems$ | async">
 
       <a href="{{productAsset.Url}}" target="_blank">
 
