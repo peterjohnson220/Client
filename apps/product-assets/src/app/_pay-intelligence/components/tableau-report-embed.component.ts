@@ -26,9 +26,9 @@ export class TableauReportEmbedComponent implements OnInit {
     var url = '';
 
     if (this.reportName === 'cola') {
-      url = `${environment.tableauReportingServer}t/CompDashboards/views/COLA/COLA`;
+      url = `${environment.tableauPublicReportingServer}views/CostofLivingAdjustment/COLA`;
     } else if (this.reportName === 'minwage') {
-      url = `${environment.tableauReportingServer}t/CompDashboards/views/MinimumWage/StateDashboard`;
+      url = `${environment.tableauPublicReportingServer}views/MinimumWage_22/StateDashboard`;
     } else {
       containerDiv.innerHTML = 'Invalid report specified';
       return;
