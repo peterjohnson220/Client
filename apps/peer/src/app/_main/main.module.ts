@@ -11,7 +11,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 
-import { CompanyJobMapResultComponent, JobInfoContainerComponent } from './components';
+import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects } from './effects';
@@ -41,7 +41,7 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Components
-    CompanyJobMapResultComponent, JobInfoContainerComponent,
+    CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent,

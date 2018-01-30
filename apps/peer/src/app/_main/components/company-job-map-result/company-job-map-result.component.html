@@ -37,38 +37,13 @@
     </div>
 
     <div class="apply-mapping-container">
-      <button *ngIf="!companyJobToMapTo.Mapped && ((applyingMapping && selectedMapping) || (!applyingMapping))"
-              class="btn btn-sm btn-outline-primary"
-              [ngClass]="{
-                'btn-outline-primary': !selectedMapping || applyingMappingError,
-                'btn-primary': selectedMapping && !applyingMappingError
-               }"
-              (click)="handleApplyMappingClicked(companyJobToMapTo.CompanyJobId)">
-
-        <span *ngIf="(!applyingMapping && !applyingMappingError) || (applyingMappingError && !selectedMapping)">
-          Apply Mapping
-        </span>
-
-        <span *ngIf="applyingMappingError && selectedMapping">
-          Retry
-        </span>
-
-        <span *ngIf="applyingMapping">
-          <pf-loading-indicator></pf-loading-indicator> Applying Mapping...
-        </span>
-
-      </button>
-
-      <button *ngIf="companyJobToMapTo.Mapped && (!applyingMapping)"
-              type="button"
-              class="btn btn-sm btn-outline-dark"
-              disabled>
-        Mapped
-      </button>
-
-      <span *ngIf="applyingMappingError && selectedMapping" class="error-applying-message text-danger">
-        <i class="fal fa-exclamation-triangle"></i> Error Applying Mapping
-      </span>
+      <pf-apply-mapping-button
+        [mapped]="companyJobToMapTo.Mapped"
+        [applyingMapping]="applyingMapping"
+        [applyingMappingError]="applyingMappingError"
+        [selectedMapping]="selectedMapping"
+        (applyMapping)="handleApplyMapping(companyJobToMapTo.CompanyJobId)">
+      </pf-apply-mapping-button>
     </div>
   </div>
 

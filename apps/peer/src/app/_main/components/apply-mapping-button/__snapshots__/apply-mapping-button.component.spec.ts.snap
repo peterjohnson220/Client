@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Apply Mapping Button should show a disabled Mapped button, when mapped is true 1`] = `
+<pf-apply-mapping-button
+  applyMapping={[Function EventEmitter]}
+  mapped={[Function Boolean]}
+>
+  
+  
+  <button
+    class="btn btn-sm btn-outline-dark"
+    disabled=""
+    type="button"
+  >
+    
+    Mapped
+  
+  </button>
+  
+  
+  
+</pf-apply-mapping-button>
+`;
+
+exports[`Peer - Apply Mapping Button should show an apply mapping button with a .btn-primary class, when it is the selected mapping 1`] = `
+<pf-apply-mapping-button
+  applyMapping={[Function EventEmitter]}
+  selectedMapping={[Function Boolean]}
+>
+  <button
+    class="btn btn-sm btn-primary"
+    ng-reflect-klass="btn btn-sm btn-outline-primary"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
+    
+    
+    <span>
+      
+      Apply Mapping
+    
+    </span>
+    
+  
+    
+    
+    
+  
+    
+    
+    
+  
+  
+  </button>
+  
+  
+  
+  
+  
+</pf-apply-mapping-button>
+`;
+
+exports[`Peer - Apply Mapping Button should show an apply mapping button, when using the defaults 1`] = `
+<pf-apply-mapping-button
+  applyMapping={[Function EventEmitter]}
+>
+  <button
+    class="btn btn-sm btn-outline-primary"
+    ng-reflect-klass="btn btn-sm btn-outline-primary"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
+    
+    
+    <span>
+      
+      Apply Mapping
+    
+    </span>
+    
+  
+    
+    
+    
+  
+    
+    
+    
+  
+  
+  </button>
+  
+  
+  
+  
+  
+</pf-apply-mapping-button>
+`;
+
+exports[`Peer - Apply Mapping Button should show an applying mapping... button with a loading indicator,
+      when it is the selected mapping and we are applying the mapping 1`] = `
+<pf-apply-mapping-button
+  applyMapping={[Function EventEmitter]}
+  applyingMapping={[Function Boolean]}
+  selectedMapping={[Function Boolean]}
+>
+  <button
+    class="btn btn-sm btn-primary"
+    ng-reflect-klass="btn btn-sm btn-outline-primary"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
+    
+    
+    
+  
+    
+    
+    
+  
+    
+    
+    <span>
+      
+            
+      <pf-loading-indicator />
+       Applying Mapping...
+    
+    </span>
+    
+  
+  
+  </button>
+  
+  
+  
+  
+  
+</pf-apply-mapping-button>
+`;
+
+exports[`Peer - Apply Mapping Button should show an error message under a Retry button, when an error has occurred and it is the selected mapping 1`] = `
+<pf-apply-mapping-button
+  applyMapping={[Function EventEmitter]}
+  applyingMappingError={[Function Boolean]}
+  selectedMapping={[Function Boolean]}
+>
+  <button
+    class="btn btn-sm btn-outline-primary"
+    ng-reflect-klass="btn btn-sm btn-outline-primary"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
+    
+    
+    
+  
+    
+    
+    <span>
+      
+            Retry
+    
+    </span>
+    
+  
+    
+    
+    
+  
+  
+  </button>
+  
+  
+  
+  <span
+    class="error-applying-message text-danger"
+  >
+    
+    
+    <i
+      class="fal fa-exclamation-triangle"
+    />
+     Error Applying Mapping
+  
+  </span>
+  
+</pf-apply-mapping-button>
+`;

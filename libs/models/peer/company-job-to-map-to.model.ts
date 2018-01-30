@@ -12,6 +12,6 @@ export function generateMockCompanyJobToMapTo(): CompanyJobToMapTo {
     JobCode: '1001',
     JobTitle: 'MockCompanyJob',
     JobDescription: 'Lorem Ipsum',
-    Mapped: true
+    Mapped: false
   };
 }
