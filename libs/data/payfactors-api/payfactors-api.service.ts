@@ -16,8 +16,8 @@ export class PayfactorsApiService {
       .map(mappingFn);
   }
 
-  post<T>(url: string, options: any = {}): Observable<T> {
-    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, options).map(this.extractValueFromOdata);
+  post<T>(url: string, body: any = {}): Observable<T> {
+    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
   }
 
   private extractValueFromOdata(response: any) {

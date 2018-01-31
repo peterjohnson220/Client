@@ -1,12 +1,16 @@
 <input *ngIf="hideClearBtn" type="text" class="form-control"
        (keyup)="onKey()"
+       (paste)="onPaste()"
        [placeholder]="placeholderText"
-       [(ngModel)]="inputValue"
+       [(ngModel)]="innerValue"
+       [disabled]="disabled"
        [pfFocus]="focus">
 <div *ngIf="!hideClearBtn" class="input-group">
   <input type="text" class="form-control" [placeholder]="placeholderText"
          (keyup)="onKey()"
-         [(ngModel)]="inputValue"
+         (paste)="onPaste()"
+         [(ngModel)]="innerValue"
+         [disabled]="disabled"
          [pfFocus]="focus">
   <div (click)="clearValue()" class="input-group-append">
       <span class="input-group-text">

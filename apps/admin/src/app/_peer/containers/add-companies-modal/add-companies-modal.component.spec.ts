@@ -14,16 +14,15 @@ import {
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
 import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
+import { InputDebounceComponent } from 'libs/forms/components';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
-import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableCompaniesActions from '../../actions/available-companies.actions';
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import { AddCompaniesModalComponent } from './add-companies-modal.component';
-
 
 describe('Add Companies Modal', () => {
   let fixture: ComponentFixture<AddCompaniesModalComponent>;
@@ -41,20 +40,21 @@ describe('Add Companies Modal', () => {
           peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         }),
         ReactiveFormsModule,
+        FormsModule,
         PfCommonModule
       ],
       declarations: [
         AddCompaniesModalComponent,
-        PfValidatableDirective
+        PfValidatableDirective,
+
+        // Since the input debounce is part of the form we need to know how to get its value. It needs to be
+        // a declaration for this test.
+        InputDebounceComponent
       ],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id : 1 } } },
-        },
-        {
-          provide: InputDebounceComponent,
-          useValue: {setSilently(test: string) {}}
         }
       ],
       // Shallow Testing
@@ -69,7 +69,6 @@ describe('Add Companies Modal', () => {
 
     fixture = TestBed.createComponent(AddCompaniesModalComponent);
     instance = fixture.componentInstance;
-    instance.debouncedSearchTerm = TestBed.get(InputDebounceComponent);
 
     instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
     instance.selections$ = of([]);
@@ -155,16 +154,16 @@ describe('Add Companies Modal', () => {
     expect(store.dispatch).toBeCalledWith(action);
   });
 
-  it('should call debouncedSearchTerm.setSilently when handleModalDismissed is triggered', () => {
-    spyOn(instance.debouncedSearchTerm, 'setSilently');
-
+  it('should set the searchTerm to blank, when the modal is dismissed', () => {
     fixture.detectChanges();
+
+    instance.searchTerm = 'Fake search term';
 
     instance.handleModalDismissed();
 
     fixture.detectChanges();
 
-    expect(instance.debouncedSearchTerm.setSilently).toBeCalledWith('');
+    expect(instance.searchTerm).toBe('');
   });
 
   it('should dispatch fromGridActions.ResetGrid when handleModalDismissed is triggered', () => {

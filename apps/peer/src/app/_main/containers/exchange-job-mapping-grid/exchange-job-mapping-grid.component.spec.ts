@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum, generateMockExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';
+import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 import { ExchangeJobMappingGridComponent } from './exchange-job-mapping-grid.component';
@@ -122,7 +122,7 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     fixture.detectChanges();
 
     const event = { dataItem: generateMockExchangeJobMapping(), rowIndex: 1 };
-    const action = new fromExchangeJobMappingActions.SelectExchangeJobMapping(event.dataItem);
+    const action = new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem);
 
     instance.exchangeJobMappingGridState = { skip: 0 };
     instance.handleCellClick(event);
@@ -134,27 +134,13 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     // Trigger ngOnInit so that ngOnDestory doesn't fail
     fixture.detectChanges();
 
-    const action = new fromExchangeJobMappingActions.UpdatePageRowIndexToScrollTo(30);
+    const action = new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(30);
 
     const event = { rowIndex: 70 };
     instance.exchangeJobMappingGridState = { skip: 40 };
     instance.handleCellClick(event);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should emit a rowSelected event, when handling a cell click', () => {
-    // Trigger ngOnInit so that ngOnDestory doesn't fail
-    fixture.detectChanges();
-
-    const event = { rowIndex: 70 };
-    instance.exchangeJobMappingGridState = { skip: 40 };
-
-    spyOn(instance.rowSelected, 'emit');
-
-    instance.handleCellClick({});
-
-    expect(instance.rowSelected.emit).toHaveBeenCalled();
   });
 
 });
