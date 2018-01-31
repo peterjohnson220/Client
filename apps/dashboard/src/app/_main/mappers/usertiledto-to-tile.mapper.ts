@@ -59,7 +59,6 @@ export class UserTileToTileMapper {
       case TileTypes.DataInsights:
       case TileTypes.PricingProjects:
       case TileTypes.Resources:
-      case TileTypes.Surveys:
         return TilePreviewTypes.List;
 
       default:
@@ -117,6 +116,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.Surveys:
         tile.CssClass = 'tile-blue';
+        tile.IconClass = 'fa-book';
         break;
 
       default:
