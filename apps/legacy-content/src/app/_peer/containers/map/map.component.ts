@@ -1,30 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { ExchangeMapFilter, ExchangeMapSummary, MapChunk } from 'libs/models/peer';
+
+import * as fromPeerDataReducers from '../../reducers';
+import * as fromPeerMapActions from '../../actions/peer-map.actions';
 
 @Component({
   selector: 'pf-peer-data-cut-map',
   templateUrl: './map.component.html',
   styleUrls: [ './map.component.scss' ]
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   paymarket = 'Boston';
   mapStyle = 'mapbox://styles/mapbox/light-v9';
-  earthquakes = {
-    'type': 'FeatureCollection',
-    'crs': { 'type': 'name', 'properties': { 'name': 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+  companyJobId: number;
+  companyPayMarketId: number;
+  peerMapData$: Observable<MapChunk[]>;
+  peerMapSummary$: Observable<ExchangeMapSummary>;
+  peerMapFilter$: Observable<ExchangeMapFilter>;
+  peerMapLoading$: Observable<boolean>;
+  peerMapLoadingError$: Observable<boolean>;
 
-    'features': [
-      {
-        'type': 'Feature',
-        'properties': { 'Primary ID': '1.26', 'Secondary ID': '7km NE of Lake Arrowhead, California' },
-        'geometry': { 'type': 'Point', 'coordinates': [ -117.1413333, 34.297 ] }
-      },
-      {
-        'type': 'Feature',
-        'properties': { 'Primary ID': '1.87', 'Secondary ID': '13km NNE of Pahala, Hawaii' },
-        'geometry': { 'type': 'Point', 'coordinates': [ -155.434494, 19.3199997 ] }
-      }
-     ]
-  };
+  constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
+    this.peerMapData$ = this.store.select(fromPeerDataReducers.getPeerMapData);
+    this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
+    this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
+    this.peerMapLoading$ = this.store.select(fromPeerDataReducers.getPeerMapLoading);
+    this.peerMapLoadingError$ = this.store.select(fromPeerDataReducers.getPeerMapLoadingError);
+  }
 
-  constructor() { }
+  ngOnInit(): void {
+    const queryParamMap = this.route.snapshot.queryParamMap;
+    const companyJobId = +queryParamMap.get('companyJobId') || 0;
+    const companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
+    console.log('companyJobId: ', companyJobId);
+    console.log('companyPayMarketId: ', companyPayMarketId);
+    this.store.dispatch(new fromPeerMapActions.LoadingInitialPeerMapFilter({
+      CompanyJobId: companyJobId,
+      CompanyPayMarketId: companyPayMarketId
+    }));
+
+    this.peerMapData$.subscribe(x => {
+      console.log('mapData: ', x);
+    });
+  }
+
+  loadMap(): void {
+    this.store.dispatch(new fromPeerMapActions.LoadingPeerMap);
+  }
 }

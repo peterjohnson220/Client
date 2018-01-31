@@ -11,3 +11,6 @@ export * from './add-exchange-companies-request.model';
 export * from './exchange-job.model';
 export * from './available-job.model';
 export * from './add-exchange-jobs-request.model';
+export * from './initial-map-filter-request.model';
+export * from './exchange-map-filter.model';
+export * from './exchange-map-response.model';

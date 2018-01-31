@@ -11,12 +11,21 @@ import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './conta
 import { PeerRoutingModule } from './peer-routing.module';
 import { environment } from 'environments/environment';
 import { GeocoderDirective } from './directives';
+import { reducers } from './reducers';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { PeerMapEffects } from './effects';
+import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     // Angular
     CommonModule,
 
     // 3rd party
+    StoreModule.forFeature('peerData', reducers),
+    EffectsModule.forFeature([
+      PeerMapEffects
+    ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
 
     // Routing

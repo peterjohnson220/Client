@@ -4,21 +4,17 @@
   [center]="[-103.59179687498357, 40.66995747013945]"
   [attributionControl]="false"
 >
-  <mgl-control pfGeocoder [payMarket]="paymarket">
-
-  </mgl-control>
+  <mgl-control pfGeocoder [payMarket]="paymarket"></mgl-control>
   <mgl-geojson-source
-    id="earthquakes"
-    [data]="earthquakes"
-    [cluster]="true"
-    [clusterMaxZoom]="14"
-    [clusterRadius]="50"
+    [id]="'incumbents'"
+    [data]="peerMapData$ | async"
+    type="geojson"
   >
   </mgl-geojson-source>
   <mgl-layer
-    id="clusters"
+    id="peerdata"
     type="circle"
-    source="earthquakes"
+    source="incumbents"
     [filter]="['has', 'point_count']"
     [paint]="{
         'circle-color': {
@@ -45,7 +41,7 @@
   <mgl-layer
     id="cluster-count"
     type="symbol"
-    source="earthquakes"
+    source="incumbents"
     [filter]="['has', 'point_count']"
     [layout]="{
         'text-field': '{point_count_abbreviated}',
@@ -57,7 +53,7 @@
   <mgl-layer
     id="unclustered-point"
     type="circle"
-    source="earthquakes"
+    source="incumbents"
     [filter]="['!has', 'point_count']"
     [paint]="{
         'circle-color': '#11b4da',
