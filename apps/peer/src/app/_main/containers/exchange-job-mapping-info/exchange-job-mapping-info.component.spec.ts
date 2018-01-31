@@ -3,15 +3,14 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/Observable/of';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockExchangeJobMapping } from 'libs/models/peer';
 
+import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingInfoComponent } from './exchange-job-mapping-info.component';
-import { generateMockExchangeJobMapping } from '../../../../../../../libs/models/peer';
-import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 
 describe('Peer - Exchange Job Mapping Info', () => {
   let fixture: ComponentFixture<ExchangeJobMappingInfoComponent>;
