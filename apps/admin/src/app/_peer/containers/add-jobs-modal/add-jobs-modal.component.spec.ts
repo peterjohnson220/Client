@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
@@ -14,16 +14,15 @@ import {
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
 import { PfCommonModule, KendoGridFilterHelper } from 'libs/core';
+import { InputDebounceComponent } from 'libs/forms/components';
 import { PfValidatableDirective } from 'libs/forms/directives';
 import * as fromRootState from 'libs/state/state';
-import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromAvailableJobsActions from '../../actions/available-jobs.actions';
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import { AddJobsModalComponent } from './add-jobs-modal.component';
-
 
 describe('Add Jobs Modal', () => {
   let fixture: ComponentFixture<AddJobsModalComponent>;
@@ -41,20 +40,21 @@ describe('Add Jobs Modal', () => {
           peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         }),
         ReactiveFormsModule,
+        FormsModule,
         PfCommonModule
       ],
       declarations: [
         AddJobsModalComponent,
-        PfValidatableDirective
+        PfValidatableDirective,
+
+        // Since the input debounce is part of the form we need to know how to get its value. It needs to be
+        // a declaration for this test.
+        InputDebounceComponent
       ],
       providers: [
         {
           provide: ActivatedRoute,
           useValue: { snapshot: { params: { id : 1 } } },
-        },
-        {
-          provide: InputDebounceComponent,
-          useValue: {setSilently(test: string) {}}
         }
       ],
       // Shallow Testing
@@ -69,7 +69,6 @@ describe('Add Jobs Modal', () => {
 
     fixture = TestBed.createComponent(AddJobsModalComponent);
     instance = fixture.componentInstance;
-    instance.debouncedSearchTerm = TestBed.get(InputDebounceComponent);
 
     instance.gridState$ = of(KendoGridFilterHelper.getMockEmptyGridState());
     instance.selections$ = of([]);
@@ -165,16 +164,16 @@ describe('Add Jobs Modal', () => {
     expect(store.dispatch).toBeCalledWith(action);
   });
 
-  it('should call debouncedSearchTerm.setSilently when handleModalDismissed is triggered', () => {
-    spyOn(instance.debouncedSearchTerm, 'setSilently');
-
+  it('should set the searchTerm to blank, when the modal is dismissed', () => {
     fixture.detectChanges();
+
+    instance.searchTerm = 'Fake search term';
 
     instance.handleModalDismissed();
 
     fixture.detectChanges();
 
-    expect(instance.debouncedSearchTerm.setSilently).toBeCalledWith('');
+    expect(instance.searchTerm).toBe('');
   });
 
   it('should dispatch fromGridActions.ResetGrid action when handleModalDismissed is triggered', () => {

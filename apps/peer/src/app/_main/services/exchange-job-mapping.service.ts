@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromPeerMainReducer from '../reducers';
-import * as fromExchangeJobMappingActions from '../actions/exchange-job-mapping.actions';
+import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 
 @Injectable()
 export class ExchangeJobMappingService {
@@ -18,7 +18,19 @@ export class ExchangeJobMappingService {
 
   loadExchangeJobMappings(exchangeId: number): void {
     this.exchangeJobMappingsGridStateAndQuery$.take(1).subscribe(gridStateAnyQuery => {
-      this.store.dispatch(new fromExchangeJobMappingActions.LoadingExchangeJobMappings(
+      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(
+        {
+          exchangeId: exchangeId,
+          listState: gridStateAnyQuery.gridState,
+          query: gridStateAnyQuery.query
+        }
+      ));
+    });
+  }
+
+  loadExchangeJobMappingsAfterMap(exchangeId: number): void {
+    this.exchangeJobMappingsGridStateAndQuery$.take(1).subscribe(gridStateAnyQuery => {
+      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(
         {
           exchangeId: exchangeId,
           listState: gridStateAnyQuery.gridState,

@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
-import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeCompaniesRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
 import { GridTypeEnum } from 'libs/models/common';
@@ -24,7 +23,6 @@ import * as fromPeerAdminReducer from '../../reducers';
   styleUrls: ['./add-companies-modal.component.scss']
 })
 export class AddCompaniesModalComponent implements OnInit, OnDestroy {
-  @ViewChild(InputDebounceComponent) debouncedSearchTerm: InputDebounceComponent;
   availableCompaniesLoading$: Observable<boolean>;
   availableCompaniesLoadingError$: Observable<boolean>;
   addCompaniesModalOpen$: Observable<boolean>;
@@ -87,9 +85,8 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
+    this.searchTerm = '';
     this.store.dispatch(new fromExchangeCompaniesActions.CloseAddExchangeCompaniesModal);
-    // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
-    this.debouncedSearchTerm.setSilently('');
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableCompanies));
   }
 

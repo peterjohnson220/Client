@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { SortDescriptor, State } from '@progress/kendo-data-query';
 import { GridTypeEnum, ExchangeJobMapping} from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import * as fromExchangeJobMappingActions from '../../actions/exchange-job-mapping.actions';
+import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 
@@ -22,7 +22,6 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   @Input() exchangeId: number;
   @Input() disableScrollTo: boolean;
   @Input() pageRowIndexToScrollTo: number;
-  @Output() rowSelected = new EventEmitter();
 
   loadingExchangeJobMappings$: Observable<boolean>;
   loadingExchangeJobMappingsError$: Observable<boolean>;
@@ -58,9 +57,8 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   // CellClickEvent Interface is missing dataItem. Defining type as any to avoid error
   handleCellClick(event: any) {
     const pageRowIndex = event.rowIndex - this.exchangeJobMappingGridState.skip;
-    this.store.dispatch(new fromExchangeJobMappingActions.SelectExchangeJobMapping(event.dataItem));
-    this.store.dispatch(new fromExchangeJobMappingActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
-    this.rowSelected.emit();
+    this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem));
+    this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
   }
 
   // Lifecycle

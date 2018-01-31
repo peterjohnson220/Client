@@ -4,7 +4,7 @@ import { ExchangeJobMapping } from 'libs/models/peer';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
-import * as fromExchangeJobMappingActions from '../actions/exchange-job-mapping.actions';
+import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 
 export interface State extends EntityState<ExchangeJobMapping> {
   loading: boolean;
@@ -33,16 +33,23 @@ const initialState: State = adapter.getInitialState({
 export function reducer(state, action) {
   return createGridReducer(
     GridTypeEnum.ExchangeJobMapping,
-    (featureState = initialState,  featureAction: fromExchangeJobMappingActions.Actions): State => {
+    (featureState = initialState,  featureAction: fromExchangeJobMappingGridActions.Actions): State => {
       switch (featureAction.type) {
-        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS: {
+        case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS: {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
             loadingError: false
           };
         }
-        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
+        case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_AFTER_MAP: {
+          return {
+            ...featureState,
+            loading: true,
+            loadingError: false
+          };
+        }
+        case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
           const exchangeJobMappings: ExchangeJobMapping[] = featureAction.payload.data;
           return {
             ...adapter.addAll(exchangeJobMappings, featureState),
@@ -50,26 +57,32 @@ export function reducer(state, action) {
             loading: false
           };
         }
-        case fromExchangeJobMappingActions.LOADING_EXCHANGE_JOB_MAPPINGS_ERROR: {
+        case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_ERROR: {
           return {
             ...featureState,
             loading: false,
             loadingError: true
           };
         }
-        case fromExchangeJobMappingActions.UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY: {
+        case fromExchangeJobMappingGridActions.UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY: {
           return {
             ...featureState,
             query: featureAction.payload
           };
         }
-        case fromExchangeJobMappingActions.SELECT_EXCHANGE_JOB_MAPPING: {
+        case fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING: {
           return {
             ...featureState,
             selectedMapping: featureAction.payload
           };
         }
-        case fromExchangeJobMappingActions.UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO: {
+        case fromExchangeJobMappingGridActions.RESELECT_EXCHANGE_JOB_MAPPING: {
+          return {
+            ...featureState,
+            selectedMapping: findSelectedJobMapping(Object.values(featureState.entities), featureState.selectedMapping)
+          };
+        }
+        case fromExchangeJobMappingGridActions.UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO: {
           return {
             ...featureState,
             pageRowIndexToScrollTo: featureAction.payload
@@ -89,3 +102,11 @@ export const getTotal = (state: State) => state.total;
 export const getQuery = (state: State) => state.query;
 export const getSelectedMapping = (state: State) => state.selectedMapping;
 export const getPageRowIndexToScrollTo = (state: State) => state.pageRowIndexToScrollTo;
+
+
+// Helper functions
+function findSelectedJobMapping(exchangeJobMappings: ExchangeJobMapping[], selectedJobMapping: ExchangeJobMapping) {
+  if (!selectedJobMapping) { return null; }
+
+  return exchangeJobMappings.find(ejm => ejm.ExchangeJobId === selectedJobMapping.ExchangeJobId);
+}

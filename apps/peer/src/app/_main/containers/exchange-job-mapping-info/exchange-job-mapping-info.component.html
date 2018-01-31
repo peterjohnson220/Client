@@ -1,66 +1,67 @@
-<div class="mapping-info-container card h-100">
-  <div class="card-header">
-    <div class="align-self-center">
-      Mapping Information
+  <div class="mapping-info-container card h-100">
+    <div class="card-header">
+      <div class="align-self-center">
+        Mapping Information
+      </div>
+      <button (click)="close()" class="btn btn-secondary btn-sm">
+        Close
+      </button>
     </div>
-    <button (click)="close()" class="btn btn-secondary btn-sm">
-      Close
-    </button>
+    <div class="card-body d-flex">
+
+      <pf-job-info-container
+        [job]="exchangeJobInfo">
+      </pf-job-info-container>
+
+      <div class="vertical-separator"></div>
+
+      <pf-job-info-container
+        *ngIf="selectedExchangeJobMapping.Mapped"
+        [job]="companyJobInfo"
+        [showJobCode]="true">
+      </pf-job-info-container>
+
+      <div class="company-job-mapping-container" *ngIf="!selectedExchangeJobMapping.Mapped">
+        <pf-input-debounce
+          [placeholderText]="'Search for a Company Job..'"
+          [(ngModel)]="companyJobQuery"
+          [disabled]="applyingMapping$ | async"
+          (valueChanged)="handleSearchValueChanged($event)">
+        </pf-input-debounce>
+
+        <div class="mapping-results-container" [class.remove-scroll]="companyJobsToMapToLoading$ | async">
+          <pf-async-container
+            [loading]="companyJobsToMapToLoading$ | async"
+            [loadingError]="companyJobsToMapToLoadingError$ | async"
+            [hideReloadButton]="true">
+
+            <ng-container *ngIf="(companyJobsToMapTo$ | async).length">
+
+              <pf-company-job-map-result
+                *ngFor="let companyJobToMapTo of companyJobsToMapTo$ | async"
+                [companyJobToMapTo]=companyJobToMapTo
+                [applyingMapping]="applyingMapping$ | async"
+                [applyingMappingError]="applyingMappingError$ | async"
+                [selectedMapping]="(selectedMappingCompanyJobId$ | async) == companyJobToMapTo.CompanyJobId"
+                (applyMapping)="handleApplyMapping($event)">
+              </pf-company-job-map-result>
+
+            </ng-container>
+
+            <ng-container *ngIf="!(companyJobsToMapTo$ | async).length && !(companyJobsToMapToLoading$ | async)">
+
+              <div class="d-flex flex-column mt-5 align-items-center">
+                <h5 class="mb-1">No Results</h5>
+                <h5><small class="text-muted">Please change your filter criteria to search again.</small></h5>
+              </div>
+
+            </ng-container>
+
+          </pf-async-container>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
-  <div class="card-body d-flex">
-    <div class="info-container">
-      <div class="info-row">
-        <div class="label">Exchange Job:</div>
-        <div>{{ (selectedExchangeJobMapping$ | async)?.ExchangeJobTitle }}</div>
-      </div>
-      <div class="info-row">
-        <div class="label">Job Family:</div>
-        <div>{{ (selectedExchangeJobMapping$ | async)?.ExchangeJobFamily }}</div>
-      </div>
-      <div class="info-row">
-        <div class="label">Job Level:</div>
-        <div>{{ (selectedExchangeJobMapping$ | async)?.ExchangeJobLevel }}</div>
-      </div>
-      <div class="info-row-flex-column flex-grow-1">
-        <div class="label">Job Description:</div>
-        <div class="job-description-container">
-          {{ (selectedExchangeJobMapping$ | async)?.ExchangeJobDescription }}
-        </div>
-      </div>
-    </div>
-
-    <div class="vertical-separator"></div>
-
-    <div class="info-container">
-      <div class="info-row">
-        <div class="label">Company Job:</div>
-        <div>
-          <ng-container *ngIf="(selectedExchangeJobMapping$ | async)?.CompanyJobCode; else noCompanyJob">
-
-            {{ (selectedExchangeJobMapping$ | async)?.CompanyJobCode }} -
-            {{ (selectedExchangeJobMapping$ | async)?.CompanyJobTitle }}
-
-          </ng-container>
-          <ng-template #noCompanyJob>
-            --
-          </ng-template>
-        </div>
-      </div>
-      <div class="info-row">
-        <div class="label">Job Family:</div>
-        <div>{{ (selectedExchangeJobMapping$ | async)?.CompanyJobFamily || '--' }}</div>
-      </div>
-      <div class="info-row">
-        <div class="label">Job Level:</div>
-        <div>{{ (selectedExchangeJobMapping$ | async)?.CompanyJobLevel || '--' }}</div>
-      </div>
-      <div class="info-row-flex-column flex-grow-1">
-        <div class="label">Job Description:</div>
-        <div class="job-description-container">
-          {{ (selectedExchangeJobMapping$ | async)?.CompanyJobDescription }}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-

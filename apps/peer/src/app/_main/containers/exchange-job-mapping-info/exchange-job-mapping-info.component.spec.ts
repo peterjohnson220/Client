@@ -3,13 +3,12 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeJobMapping, generateMockExchangeJobMapping } from 'libs/models/peer';
 
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingInfoComponent } from './exchange-job-mapping-info.component';
+import { generateMockExchangeJobMapping } from '../../../../../../../libs/models/peer';
 
 describe('Peer - Exchange Job Mapping Info', () => {
   let fixture: ComponentFixture<ExchangeJobMappingInfoComponent>;
@@ -42,6 +41,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it('should emit a closeClicked event, when the close button is clicked', () => {
     // Spy on the emit method for the closeClicked EventEmitter
     spyOn(instance.closeClicked, 'emit');
+    instance.selectedExchangeJobMapping = generateMockExchangeJobMapping();
 
     fixture.detectChanges();
 
@@ -51,33 +51,5 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     expect(instance.closeClicked.emit).toHaveBeenCalled();
   });
-
-  it('should show the exchange job mapping info', () => {
-    const exchangeJobMapping: ExchangeJobMapping = generateMockExchangeJobMapping();
-    instance.selectedExchangeJobMapping$ = of(exchangeJobMapping);
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-
-  it('should show dashes for all company job info except job description, when no information exists', () => {
-    const exchangeJobMapping: ExchangeJobMapping = {
-      ...generateMockExchangeJobMapping(),
-      CompanyJobDescription: '',
-      CompanyJobCode: '',
-      CompanyJobFamily: '',
-      CompanyJobLevel: '',
-      CompanyJobTitle: ''
-    };
-
-    instance.selectedExchangeJobMapping$ = of(exchangeJobMapping);
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
 
 });
