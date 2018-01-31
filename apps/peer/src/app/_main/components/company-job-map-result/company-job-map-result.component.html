@@ -10,23 +10,7 @@
         <ng-container
           *ngIf="companyJobToMapTo.JobDescription && companyJobToMapTo.JobDescription.length; else noJobDescription">
 
-          <ng-container
-            *ngIf="!showFullJobDescription && companyJobToMapTo.JobDescription.length > jobDescriptionMaxLength; else fullJobDescription">
-            {{companyJobToMapTo.JobDescription.substr(0, jobDescriptionMaxLength) + '...'}}
-          </ng-container>
-
-          <ng-template #fullJobDescription>
-            {{companyJobToMapTo.JobDescription}}
-          </ng-template>
-
-          <div *ngIf="companyJobToMapTo.JobDescription.length > jobDescriptionMaxLength"
-               class="toggle-jd-view-link"
-               (click)="showFullJobDescription = !showFullJobDescription">
-
-            View {{showFullJobDescription ? 'Less' : 'More'}}
-
-          </div>
-
+          <pf-ellipsis-view-more [content]="companyJobToMapTo.JobDescription" [maxLength]="175"></pf-ellipsis-view-more>
         </ng-container>
 
         <ng-template #noJobDescription>

@@ -15,9 +15,6 @@ export class CompanyJobMapResultComponent {
   @Output() applyMapping = new EventEmitter();
   @Output() clicked = new EventEmitter();
 
-  showFullJobDescription: boolean;
-  jobDescriptionMaxLength = 175;
-
   constructor() {}
 
   handleApplyMappingClicked(companyJobId: number) {
