@@ -32,47 +32,6 @@ describe('Peer - Company Job Map Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show a ellipsis after the Job Description, when the job description exceeds the max length', () => {
-    instance.companyJobToMapTo = {...generateMockCompanyJobToMapTo(), JobDescription: 'Dummy Job Description' };
-    instance.jobDescriptionMaxLength = 13;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show the full Job Description, when the job description is less than the max length', () => {
-    instance.companyJobToMapTo = {...generateMockCompanyJobToMapTo(), JobDescription: 'Dummy Job Description' };
-    instance.jobDescriptionMaxLength = 50;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show a View less link, when we are showing the full job description', () => {
-    instance.companyJobToMapTo = {...generateMockCompanyJobToMapTo(), JobDescription: 'Dummy Job Description' };
-    instance.jobDescriptionMaxLength = 13;
-    instance.showFullJobDescription = true;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should set showFullJobDescription to true, when clicking the View More link', () => {
-    instance.companyJobToMapTo = {...generateMockCompanyJobToMapTo(), JobDescription: 'Dummy Job Description' };
-    instance.jobDescriptionMaxLength = 13;
-
-    fixture.detectChanges();
-
-    const viewMoreLink = fixture.debugElement.query(By.css('.toggle-jd-view-link'));
-    viewMoreLink.triggerEventHandler('click', null);
-
-    expect(instance.showFullJobDescription).toBe(true);
-  });
-
-
   it('should emit an applyMapping event with the companyJobId of the result, when handleApplyMapping is triggered', () => {
     spyOn(instance.applyMapping, 'emit');
 
