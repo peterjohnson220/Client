@@ -49,3 +49,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+:host ::ng-deep .k-pager-wrap .k-link{
+  padding: 0.4rem;
+}
