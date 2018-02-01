@@ -70,6 +70,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       if (sm) {
         this.selectedExchangeJobMapping = sm;
         this.companyJobQuery = '';
+        this.debouncedQueryValue = '';
 
         this.buildJobModels(sm);
 
