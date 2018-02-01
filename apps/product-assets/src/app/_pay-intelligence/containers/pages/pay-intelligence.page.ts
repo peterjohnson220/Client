@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { InputDebounceComponent } from 'libs/forms/components';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { InputDebounceComponent } from 'libs/forms/components';
 
 import * as fromProductAssetsReducer from '../../reducers';
 import * as fromProductAssetsActions from '../../actions';

@@ -45,6 +45,8 @@ export function reducer(
         ...adapter.addAll(action.payload, state),
         loading: false,
         filteredProductAssetsList: action.payload,
+        // Compares the current date with the asset date and determines if any assets in the array are within 90 days of the current date.
+        // (1000 * 3600 * 24 * 90) = 90 days in milliseconds.
         whatsNewEnabled: action.payload.filter(e => (Date.now() - (new Date(e.CreateDate.toString()).getTime())) <= (1000 * 3600 * 24 * 90)).length > 0
       };
     }
@@ -64,6 +66,8 @@ export function reducer(
     case fromProductAssetListActions.SHOW_NEW_ASSETS: {
       return {
         ...state,
+        // Filters on assets that were created within 90 days of the current date.
+        // (1000 * 3600 * 24 * 90) = 90 days in milliseconds.
         filteredProductAssetsList: Object.values(state.entities).filter(e => (Date.now() - (new Date(e.CreateDate.toString()).getTime())) <= (1000 * 3600 * 24 * 90))
       };
     }
