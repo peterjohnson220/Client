@@ -31,6 +31,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   exchangeJobInfo: Job;
   companyJobInfo: Job;
   companyJobQuery: string;
+  debouncedQueryValue: string;
 
   constructor(private store: Store<fromPeerMainReducer.State>) {
     this.selectedExchangeJobMapping$ = this.store.select(fromPeerMainReducer.getSelectedExchangeJobMapping);
@@ -43,9 +44,11 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   }
 
   handleSearchValueChanged(value: string) {
+    this.debouncedQueryValue = value || this.selectedExchangeJobMapping.ExchangeJobTitle;
+
     this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: this.exchangeId,
-      query: value
+      query: this.debouncedQueryValue
     }));
   }
 
