@@ -7,6 +7,7 @@ export const LOADING_PEER_MAP_SUCCESS  = '[Peer Add Data Cut/Map] Loading Peer M
 export const LOADING_PEER_MAP_ERROR  = '[Peer Add Data Cut/Map] Loading Peer Map Error';
 export const LOADING_INITIAL_PEER_MAP_FILTER = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter';
 export const LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter Success';
+export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Peer Add Data Cut/Map] Update Peer Map Filter Bounds';
 
 export class LoadingPeerMap implements Action {
   readonly type = LOADING_PEER_MAP;
@@ -36,9 +37,16 @@ export class LoadingInitialPeerMapFilterSuccess implements Action {
   constructor(public payload: ExchangeMapFilter) { }
 }
 
+export class UpdatePeerMapFilterBounds implements Action {
+  readonly type = UPDATE_PEER_MAP_FILTER_BOUNDS;
+
+  constructor(public payload: any) { }
+}
+
 export type Actions
   = LoadingPeerMap
   | LoadingPeerMapSuccess
   | LoadingPeerMapError
   | LoadingInitialPeerMapFilter
-  | LoadingInitialPeerMapFilterSuccess;
+  | LoadingInitialPeerMapFilterSuccess
+  | UpdatePeerMapFilterBounds;

@@ -3,22 +3,21 @@
   [zoom]="[3]"
   [center]="[-103.59179687498357, 40.66995747013945]"
   [attributionControl]="false"
+  (moveEnd)="handleMoveEndEvent($event)"
 >
-  <mgl-control pfGeocoder [payMarket]="paymarket"></mgl-control>
   <mgl-geojson-source
     [id]="'incumbents'"
-    [data]="peerMapData$ | async"
-    type="geojson"
+    [data]="peerMapCollection$ | async"
   >
   </mgl-geojson-source>
   <mgl-layer
     id="peerdata"
     type="circle"
     source="incumbents"
-    [filter]="['has', 'point_count']"
+    [filter]="['has', 'SalaryCount']"
     [paint]="{
         'circle-color': {
-            property: 'point_count',
+            property: 'SalaryCount',
             type: 'interval',
             stops: [
                 [0, '#51bbd6'],
@@ -27,7 +26,7 @@
             ]
         },
         'circle-radius': {
-            property: 'point_count',
+            property: 'SalaryCount',
             type: 'interval',
             stops: [
                 [0, 20],
@@ -42,9 +41,9 @@
     id="cluster-count"
     type="symbol"
     source="incumbents"
-    [filter]="['has', 'point_count']"
+    [filter]="['has', 'SalaryCount']"
     [layout]="{
-        'text-field': '{point_count_abbreviated}',
+        'text-field': '{SalaryCount}',
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
         'text-size': 12
       }"
@@ -54,7 +53,7 @@
     id="unclustered-point"
     type="circle"
     source="incumbents"
-    [filter]="['!has', 'point_count']"
+    [filter]="['!has', 'SalaryCount']"
     [paint]="{
         'circle-color': '#11b4da',
         'circle-radius': 4,

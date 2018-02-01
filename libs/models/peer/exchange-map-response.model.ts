@@ -1,12 +1,16 @@
+import { Feature, Point } from 'geojson';
+
 export interface ExchangeMapResponse {
   MapSummary: ExchangeMapSummary;
   MapChunks: MapChunk[];
+  FeatureCollection: Feature<Point>[];
 }
 
 export function generateMockExchangeMapResponse(): ExchangeMapResponse {
   return {
     MapSummary: generateMockExchangeMapSummary(),
-    MapChunks: [generateMockMapChunk()]
+    MapChunks: [generateMockMapChunk()],
+    FeatureCollection: []
   };
 }
 

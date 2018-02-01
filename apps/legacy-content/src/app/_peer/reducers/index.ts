@@ -28,11 +28,9 @@ export const selectPeerPeerDataState = createFeatureSelector<PeerDataState>('pee
 export const selectMapState = createSelector(selectPeerPeerDataState, (state: PeerDataState) => state.map);
 
 // Map Data Selectors
-export const {
-  selectAll: getPeerMapData
-} = fromPeerMapReducer.adapter.getSelectors(selectMapState);
-
 export const getPeerMapLoading = createSelector(selectMapState, fromPeerMapReducer.getLoading);
 export const getPeerMapLoadingError = createSelector(selectMapState, fromPeerMapReducer.getLoadingError);
 export const getPeerMapSummary = createSelector(selectMapState, fromPeerMapReducer.getMapSummary);
 export const getPeerMapFilter = createSelector(selectMapState, fromPeerMapReducer.getMapFilter);
+export const getPeerMapCollection = createSelector(selectMapState, fromPeerMapReducer.getMapCollection);
+export const getPeerMapBounds = createSelector(selectMapState, fromPeerMapReducer.getMapBounds);

@@ -15,7 +15,7 @@ import { reducers } from './reducers';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { PeerMapEffects } from './effects';
-import { RouterModule } from '@angular/router';
+
 @NgModule({
   imports: [
     // Angular

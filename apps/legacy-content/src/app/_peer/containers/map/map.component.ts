@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { FeatureCollection, Point } from 'geojson';
+import { ɵa } from 'ngx-mapbox-gl/';
 
-import { ExchangeMapFilter, ExchangeMapSummary, MapChunk } from 'libs/models/peer';
+import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerDataReducers from '../../reducers';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
@@ -19,18 +21,23 @@ export class MapComponent implements OnInit {
   mapStyle = 'mapbox://styles/mapbox/light-v9';
   companyJobId: number;
   companyPayMarketId: number;
-  peerMapData$: Observable<MapChunk[]>;
+  peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   peerMapFilter$: Observable<ExchangeMapFilter>;
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
+  peerMapBounds$: Observable<number[]>;
+  peerMapBounds: number[];
+
+  @ViewChild('mgl-map') map: ɵa;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
-    this.peerMapData$ = this.store.select(fromPeerDataReducers.getPeerMapData);
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
     this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
     this.peerMapLoading$ = this.store.select(fromPeerDataReducers.getPeerMapLoading);
     this.peerMapLoadingError$ = this.store.select(fromPeerDataReducers.getPeerMapLoadingError);
+    this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
+    this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
   }
 
   ngOnInit(): void {
@@ -43,13 +50,42 @@ export class MapComponent implements OnInit {
       CompanyJobId: companyJobId,
       CompanyPayMarketId: companyPayMarketId
     }));
+    this.peerMapBounds$.subscribe(bounds => {
+      if (!!bounds || bounds.length === 0) {
+        return;
+      }
 
-    this.peerMapData$.subscribe(x => {
-      console.log('mapData: ', x);
+      const castBounds: any = bounds;
+      const eventData: any = { ignoreMoveEvent: true};
+      this.map.mapInstance.fitBounds(castBounds, {}, eventData);
     });
+    // this.peerMapData$.subscribe(x => {
+    //   this.markers.next(new FeatureCollection(x.map(m => {
+    //     const coords = [m.Location.Lon, m.Location.Lat];
+    //     const incumbentCount = m.Stats.SalaryCount;
+    //     const desc = JSON.stringify(m.Stats)
+    //     return new GeoJson(coords, incumbentCount, {message: incumbentCount, id: m.Id, description: desc});
+    //   })));
+    // });
   }
 
   loadMap(): void {
     this.store.dispatch(new fromPeerMapActions.LoadingPeerMap);
   }
+
+  handleMoveEndEvent(e: any) {
+    if (!!e.ignoreMoveEvent) {
+      return;
+    }
+
+    //TODO: Make this work better.
+    console.log('moveEnd: ', e);
+    const bounds = e.target.getBounds();
+    console.log('moveEnd: ', bounds);
+
+    this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(bounds));
+    this.loadMap();
+  }
+
+
 }
