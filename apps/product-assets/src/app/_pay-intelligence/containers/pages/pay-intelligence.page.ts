@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InputDebounceComponent } from 'libs/forms/components';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -12,10 +12,10 @@ import * as fromProductAssetsActions from '../../actions';
   styleUrls: ['./pay-intelligence.page.scss']
 })
 export class PayIntelligencePageComponent implements OnInit{
-  @ViewChild(InputDebounceComponent) debouncedSearchTerm: InputDebounceComponent;
   showWhatsNewLink: boolean;
   showLoadAllLink: boolean;
   whatsNewEnabled$: Observable<boolean>;
+  searchTerm: string;
 
   constructor(
     private store: Store<fromProductAssetsReducer.State>
@@ -48,7 +48,7 @@ export class PayIntelligencePageComponent implements OnInit{
     this.store.dispatch(new fromProductAssetsActions.ShowNewAssets());
     this.showWhatsNewLink = false;
     this.showLoadAllLink = true;
-    this.debouncedSearchTerm.setSilently('');
+    this.searchTerm = '';
   }
 
   // Triggers an action to show all items on the page.
@@ -56,6 +56,6 @@ export class PayIntelligencePageComponent implements OnInit{
     this.store.dispatch(new fromProductAssetsActions.LoadAllAssets());
     this.showLoadAllLink = false;
     this.showWhatsNewLink = true;
-    this.debouncedSearchTerm.setSilently('');
+    this.searchTerm = '';
   }
 }
