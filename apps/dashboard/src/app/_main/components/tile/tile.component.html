@@ -18,4 +18,8 @@
                         [model]="previewModel">
   </pf-tile-preview-list>
 
+  <pf-tile-preview-place-holder *ngSwitchCase="tilePreviewType.PlaceHolder"
+                                [model]="previewModel">
+  </pf-tile-preview-place-holder>
+
 </div>

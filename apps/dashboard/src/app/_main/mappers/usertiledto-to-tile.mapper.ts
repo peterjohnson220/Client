@@ -53,7 +53,6 @@ export class UserTileToTileMapper {
     switch (tileType) {
       case TileTypes.Employees:
       case TileTypes.JobDescriptions:
-      case TileTypes.MyJobs:
         return TilePreviewTypes.Chart;
 
       case TileTypes.DataInsights:
@@ -61,6 +60,9 @@ export class UserTileToTileMapper {
       case TileTypes.Resources:
       case TileTypes.Surveys:
         return TilePreviewTypes.List;
+
+      case TileTypes.MyJobs:
+        return TilePreviewTypes.PlaceHolder;
 
       default:
         return TilePreviewTypes.Icon;
