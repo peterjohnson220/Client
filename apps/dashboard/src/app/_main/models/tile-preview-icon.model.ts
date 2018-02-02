@@ -1,5 +1,6 @@
 import { TilePreviewBase } from './tile-preview-base.model';
 import { Tile } from './tile.model';
+import { TilePreviewTypes } from './tile-preview-types';
 
 export interface TilePreviewIcon extends TilePreviewBase {
   IconClass: string;
@@ -17,6 +18,7 @@ export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
     tile.TilePreviewData.length === 0 ||
     tile.TilePreviewData[0] === undefined) {
     return {
+      PreviewType: TilePreviewTypes.Icon,
       ContainsDetailData: false,
       IconClass: tile.IconClass,
       IconSize: 'fa-10x',
@@ -29,6 +31,7 @@ export function generateTilePreviewIconFromTile(tile: Tile): TilePreviewIcon {
   const subTitle = previewData.SubTitle !== undefined ? previewData.SubTitle : undefined;
   const detailData = previewData.DetailData !== undefined && previewData.DetailData.length > 0 ? previewData.DetailData :  undefined;
   return {
+    PreviewType: TilePreviewTypes.Icon,
     ContainsDetailData: true,
     IconClass: tile.IconClass,
     IconSize: 'fa-4x',
