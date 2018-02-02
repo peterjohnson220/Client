@@ -3,11 +3,16 @@ import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
 
+export interface MapBounds {
+  center: number[];
+  bounds: number[];
+}
+
 export interface State {
   mapCollection: FeatureCollection<Point>;
   mapSummary: ExchangeMapSummary;
   mapFilter: ExchangeMapFilter;
-  mapBounds: number[];
+  mapBounds: MapBounds;
   loading: boolean;
   loadingError: boolean;
   boundsChanged: boolean;
@@ -18,10 +23,14 @@ export const initialState: State = {
   mapCollection: null,
   mapFilter: {
     States: [],
-    Cities: []
+    Cities: [],
+    ClusterPrecision: 1
   },
   mapSummary: null,
-  mapBounds: [],
+  mapBounds: {
+    center: [],
+    bounds: []
+  },
   loading: false,
   loadingError: false,
   boundsChanged: false
@@ -48,15 +57,22 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
       const tl = mapSummary.TopLeft;
       const br = mapSummary.BottomRight;
-      console.log('mapCollection: ', mapCollection);
-      console.log('payload: ', action.payload);
+      const mapFilter = {
+        ...state.mapFilter,
+        TopLeft: tl,
+        BottomRight: br
+      };
       return {
         ...state,
         mapCollection: mapCollection,
         mapSummary: mapSummary,
         loading: false,
         loadingError: false,
-        mapBounds: [tl.Lon, br.Lat, br.Lon, tl.Lat],
+        mapFilter: mapFilter,
+        mapBounds: {
+          center: [mapSummary.Center.Lon, mapSummary.Center.Lat],
+          bounds: [tl.Lon, br.Lat, br.Lon, tl.Lat]
+        },
         boundsChanged: true
       };
     }
@@ -69,7 +85,11 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS: {
-      const mapFilter: ExchangeMapFilter = action.payload;
+      const mapFilterFromServer: ExchangeMapFilter = action.payload;
+      const mapFilter = {
+        ...mapFilterFromServer,
+        ClusterPrecision: initialState.mapFilter.ClusterPrecision
+      };
       return {
         ...state,
         mapFilter: mapFilter,
@@ -77,15 +97,25 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
-      const bounds = swapBounds(action.payload);
+      const bounds = swapBounds(action.payload.bounds);
+      const zoom = action.payload.zoom;
+      const zoomPercentage = zoom / 20;
+      const prec = zoom <= 0 ? 1 : Math.round(zoomPercentage * 12);
       const mapFilter = {
         ...state.mapFilter,
         TopLeft: bounds.TopLeft,
-        BottomRight: bounds.BottomRight
+        BottomRight: bounds.BottomRight,
+        ClusterPrecision: prec
       };
       return {
         ...state,
         mapFilter: mapFilter,
+        boundsChanged: false
+      };
+    }
+    case fromPeerMapActions.SKIP_MAP_QUERY: {
+      return {
+        ...state,
         boundsChanged: false
       };
     }
@@ -101,16 +131,14 @@ export const getMapFilter = (state: State) => state.mapFilter;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
-export const getMapBounds = (state: State) => state.mapBounds;
+export const getMapBounds = (state: State) => state.mapBounds.bounds;
+export const getMapCenter = (state: State) => state.mapBounds.center;
+export const getBoundsChanged = (state: State) => state.boundsChanged;
 
 
 function swapBounds(bounds: any): any {
   const ne = bounds._ne;
   const sw = bounds._sw;
-  console.log('leftBound: ', sw.lng);
-  console.log('rightBound: ', ne.lng);
-  console.log('topBound: ', ne.lat);
-  console.log('bottomBound: ', sw.lat);
   const swappedBounds = {
     TopLeft: {
       Lat: ne.lat,

@@ -8,6 +8,7 @@ export const LOADING_PEER_MAP_ERROR  = '[Peer Add Data Cut/Map] Loading Peer Map
 export const LOADING_INITIAL_PEER_MAP_FILTER = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter';
 export const LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter Success';
 export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Peer Add Data Cut/Map] Update Peer Map Filter Bounds';
+export const SKIP_MAP_QUERY = '[Peer Add Data Cut/Map] Skip Map Query';
 
 export class LoadingPeerMap implements Action {
   readonly type = LOADING_PEER_MAP;
@@ -43,10 +44,16 @@ export class UpdatePeerMapFilterBounds implements Action {
   constructor(public payload: any) { }
 }
 
+export class SkipMapQuery implements Action {
+  readonly type = SKIP_MAP_QUERY;
+  readonly payload = null;
+}
+
 export type Actions
   = LoadingPeerMap
   | LoadingPeerMapSuccess
   | LoadingPeerMapError
   | LoadingInitialPeerMapFilter
   | LoadingInitialPeerMapFilterSuccess
-  | UpdatePeerMapFilterBounds;
+  | UpdatePeerMapFilterBounds
+  | SkipMapQuery;

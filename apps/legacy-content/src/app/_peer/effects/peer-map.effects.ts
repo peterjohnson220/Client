@@ -44,10 +44,10 @@ export class PeerMapEffects {
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError()))
     );
 
-  // @Effect()
-  // updateFilterBounds$: Observable<Action> = this.actions$
-  //   .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
-  //   .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
+  @Effect()
+  updateFilterBounds$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
+    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
 
   constructor(
     private actions$: Actions,

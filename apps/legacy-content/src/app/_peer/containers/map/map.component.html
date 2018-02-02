@@ -3,8 +3,13 @@
   [zoom]="[3]"
   [center]="[-103.59179687498357, 40.66995747013945]"
   [attributionControl]="false"
+  [fitBounds]="peerMapBounds$ | async"
+  [fitBoundsOptions]="{padding: 100}"
+  [centerWithPanTo]="peerMapCenter$ | async"
+  [maxZoom]="10"
   (moveEnd)="handleMoveEndEvent($event)"
 >
+  <mgl-control pfGeocoder></mgl-control>
   <mgl-geojson-source
     [id]="'incumbents'"
     [data]="peerMapCollection$ | async"
@@ -21,8 +26,8 @@
             type: 'interval',
             stops: [
                 [0, '#51bbd6'],
-                [100, '#f1f075'],
-                [750, '#f28cb1']
+                [5, '#f1f075'],
+                [10, '#f28cb1']
             ]
         },
         'circle-radius': {
@@ -30,8 +35,8 @@
             type: 'interval',
             stops: [
                 [0, 20],
-                [100, 30],
-                [750, 40]
+                [5, 30],
+                [10, 40]
             ]
         }
       }"

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -26,7 +26,7 @@ import { PeerMapEffects } from './effects';
     EffectsModule.forFeature([
       PeerMapEffects
     ]),
-    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
+    NgxMapboxGLModule,
 
     // Routing
     PeerRoutingModule,

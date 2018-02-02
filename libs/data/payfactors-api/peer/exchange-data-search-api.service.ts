@@ -14,7 +14,6 @@ export class ExchangeDataSearchApiService {
 
   // TODO: request model
   getInitialMapFilter(initialMapFilterRequest: InitialMapFilterRequest): Observable<ExchangeMapFilter> {
-    console.log('payload: ', initialMapFilterRequest);
     return this.payfactorsApiService.get(`${this.endpoint}/GetInitialMapFilter`, {
       params: {
         CompanyJobId: initialMapFilterRequest.CompanyJobId,
@@ -23,7 +22,6 @@ export class ExchangeDataSearchApiService {
     });
   }
   getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<any> {
-    console.log('getMapData: ', exchangeMapFilter);
     return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeMapFilter);
   }
 }

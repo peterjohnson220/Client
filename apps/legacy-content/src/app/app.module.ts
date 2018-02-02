@@ -7,6 +7,8 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
+import { environment } from '../../../../environments/environment';
+import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 @NgModule({
   imports: [
@@ -20,7 +22,13 @@ import { AppRoutingModule } from './app-routing.module';
     PfAppRootModule,
 
     // Routing
-    AppRoutingModule
+    AppRoutingModule,
+
+
+    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken})
+  ],
+  providers: [
+    MapService
   ],
   bootstrap: [AppComponent]
 })
