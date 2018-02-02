@@ -132,6 +132,11 @@ export const getExchangeJobsInfoSelectedMappingCompanyJobId = createSelector(
   fromExchangeJobMappingInfoReducer.getSelectedMappingCompanyJobId
 );
 
+export const getExchangeJobsInfoEditingMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getEditingMapping
+);
+
 export const {
   selectAll: getCompanyJobsToMapTo
 } = fromExchangeJobMappingInfoReducer.adapter.getSelectors(selectExchangeJobMappingInfoState);

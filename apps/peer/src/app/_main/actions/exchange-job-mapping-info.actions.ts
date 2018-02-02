@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyJobToMapTo } from 'libs/models/peer';
+import { CompanyJobToMapTo, UpsertExchangeJobMapRequest } from 'libs/models/peer';
 
 export const LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY =
   '[Peer Main/Exchange Job Mapping Info] Load Company Jobs To Map To By Query';
@@ -12,6 +12,8 @@ export const SELECT_COMPANY_JOB = '[Peer Main/Exchange Job Mapping Info] Select 
 export const APPLY_MAPPING = '[Peer Main/Exchange Job Mapping Info] Apply Mapping';
 export const APPLY_MAPPING_SUCCESS = '[Peer Main/Exchange Job Mapping Info] Apply Mapping Success';
 export const APPLY_MAPPING_ERROR = '[Peer Main/Exchange Job Mapping Info] Apply Mapping Error';
+export const EDIT_MAPPING = '[Peer Main/Exchange Job Mapping Info] Edit Mapping';
+export const CANCEL_EDIT_MAPPING = '[Peer Main/Exchange Job Mapping Info] Cancel Edit Mapping';
 
 export class LoadCompanyJobsToMapToByQuery implements Action {
   readonly type = LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY;
@@ -38,7 +40,7 @@ export class SelectCompanyJob implements Action {
 export class ApplyMapping implements Action {
   readonly type = APPLY_MAPPING;
 
-  constructor(public payload: any) {}
+  constructor(public payload: UpsertExchangeJobMapRequest) {}
 }
 
 export class ApplyMappingSuccess implements Action {
@@ -49,6 +51,14 @@ export class ApplyMappingError implements Action {
   readonly type = APPLY_MAPPING_ERROR;
 }
 
+export class EditMapping implements Action {
+  readonly type = EDIT_MAPPING;
+}
+
+export class CancelEditMapping implements Action {
+  readonly type = CANCEL_EDIT_MAPPING;
+}
+
 export type Actions
   = LoadCompanyJobsToMapToByQuery
   | LoadCompanyJobsToMapToByQuerySuccess
@@ -56,4 +66,6 @@ export type Actions
   | SelectCompanyJob
   | ApplyMapping
   | ApplyMappingSuccess
-  | ApplyMappingError;
+  | ApplyMappingError
+  | EditMapping
+  | CancelEditMapping;
