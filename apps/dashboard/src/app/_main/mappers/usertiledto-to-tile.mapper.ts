@@ -79,7 +79,7 @@ export class UserTileToTileMapper {
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tile-green';
         tile.ChartType = TilePreviewChartTypes.Donut;
-        tile.ChartLabel = 'Job Description Statuses';
+        tile.ChartLabel = 'Job Description Status';
 
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
