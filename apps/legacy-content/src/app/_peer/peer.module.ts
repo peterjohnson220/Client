@@ -6,11 +6,11 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { environment } from 'environments/environment';
-import { WindowCommunicationService } from 'libs/data/payfactors-api';
 
 @NgModule({
   imports: [

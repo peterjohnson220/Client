@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { WindowCommunicationService } from 'libs/data/payfactors-api/';
+import { WindowCommunicationService } from 'libs/core/services';
 
 @Component({
   selector: 'pf-add-data-cut-page',
