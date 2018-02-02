@@ -41,3 +41,11 @@ export const getProductAssetListLoading = createSelector(
 export const getProductAssetListLoadingError = createSelector(
   selectProductAssetListState, fromProductAssetListReducer.getLoadingError
 );
+
+export const getProductAssetListWhatsNewEnabled = createSelector(
+  selectProductAssetListState, fromProductAssetListReducer.getWhatsNewEnabled
+);
+
+export const getFilteredProductAssetList = createSelector(
+  selectProductAssetListState, fromProductAssetListReducer.getFilteredProductAssetsList
+);
