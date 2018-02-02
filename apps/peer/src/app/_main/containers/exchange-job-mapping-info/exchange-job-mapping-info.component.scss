@@ -19,8 +19,11 @@
 
 .mapping-info-container .card-header{
   display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 1.25rem;
+  padding: 0.5rem .5rem 0.5rem 1.25rem;
+}
+
+.mapping-info-container .card-header .btn{
+  margin-left: 0.5rem;
 }
 
 .vertical-separator{
@@ -31,9 +34,6 @@
 .remove-scroll{
   overflow: hidden;
 }
-
-
-// Potentially moving these
 
 .company-job-mapping-container{
   flex-basis: 50%;
@@ -48,4 +48,15 @@
   margin-top: 0.5rem;
   position: relative;
   height: 100%;
+}
+
+.close-btn{
+  cursor: pointer;
+  padding: .25rem 0.75rem;
+  margin-left: 0.5rem;
+  align-self: center;
+}
+
+.close-btn:hover{
+  background-color: $selection-hover-background;
 }

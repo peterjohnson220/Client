@@ -17,21 +17,28 @@ import * as fromPeerMainReducer from '../../reducers';
 export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   @Input() exchangeId: number;
   @Output() closeClicked = new EventEmitter();
+  @Output() editMappingClicked = new EventEmitter();
 
+  // Observables
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
-  selectedExchangeJobMappingSubscription$: Subscription;
   companyJobsToMapTo$: Observable<CompanyJobToMapTo[]>;
   companyJobsToMapToLoading$: Observable<boolean>;
   companyJobsToMapToLoadingError$: Observable<boolean>;
   applyingMapping$: Observable<boolean>;
   applyingMappingError$: Observable<boolean>;
   selectedMappingCompanyJobId$: Observable<number>;
+  editingMapping$: Observable<boolean>;
+
+  // Subscriptions
+  selectedExchangeJobMappingSubscription: Subscription;
+  editingMappingSubscription: Subscription;
 
   selectedExchangeJobMapping: ExchangeJobMapping;
   exchangeJobInfo: Job;
   companyJobInfo: Job;
   companyJobQuery: string;
   debouncedQueryValue: string;
+  editingMapping: boolean;
 
   constructor(private store: Store<fromPeerMainReducer.State>) {
     this.selectedExchangeJobMapping$ = this.store.select(fromPeerMainReducer.getSelectedExchangeJobMapping);
@@ -41,6 +48,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.applyingMapping$ = this.store.select(fromPeerMainReducer.getExchangeJobsInfoApplyingMapping);
     this.applyingMappingError$ = this.store.select(fromPeerMainReducer.getExchangeJobsInfoApplyingMappingError);
     this.selectedMappingCompanyJobId$ = this.store.select(fromPeerMainReducer.getExchangeJobsInfoSelectedMappingCompanyJobId);
+    this.editingMapping$ = this.store.select(fromPeerMainReducer.getExchangeJobsInfoEditingMapping);
   }
 
   handleSearchValueChanged(value: string) {
@@ -54,38 +62,57 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
 
   handleApplyMapping(companyJobId: number) {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.ApplyMapping({
-      exchangeId: this.exchangeId,
-      exchangeJobId: this.selectedExchangeJobMapping.ExchangeJobId,
-      companyJobId: companyJobId
+      ExchangeJobToCompanyJobId: this.selectedExchangeJobMapping.ExchangeJobToCompanyJobId,
+      ExchangeId: this.exchangeId,
+      ExchangeJobId: this.selectedExchangeJobMapping.ExchangeJobId,
+      CompanyJobId: companyJobId
     }));
   }
 
+  toggleEditing() {
+    if (this.editingMapping) {
+      this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelEditMapping());
+    } else {
+      this.dispatchLoadCompanyJobsToMapToByQuery();
+      this.store.dispatch(new fromExchangeJobMappingInfoActions.EditMapping());
+    }
+  }
+
   close() {
+    this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelEditMapping());
     this.closeClicked.emit();
   }
 
   // Lifecycle
   ngOnInit() {
-    this.selectedExchangeJobMappingSubscription$ = this.selectedExchangeJobMapping$.subscribe(sm => {
+    this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(sm => {
       if (sm) {
         this.selectedExchangeJobMapping = sm;
         this.companyJobQuery = '';
         this.debouncedQueryValue = '';
 
+        this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelEditMapping());
         this.buildJobModels(sm);
 
         if (!sm.Mapped) {
-          this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
-            exchangeId: this.exchangeId,
-            query: sm.ExchangeJobTitle
-          }));
+          this.dispatchLoadCompanyJobsToMapToByQuery();
         }
       }
     });
+
+    this.editingMappingSubscription = this.editingMapping$.subscribe(em => this.editingMapping = em);
   }
 
   ngOnDestroy() {
-    this.selectedExchangeJobMappingSubscription$.unsubscribe();
+    this.selectedExchangeJobMappingSubscription.unsubscribe();
+    this.editingMappingSubscription.unsubscribe();
+  }
+
+  private dispatchLoadCompanyJobsToMapToByQuery(): void {
+    this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
+      exchangeId: this.exchangeId,
+      query: this.selectedExchangeJobMapping.ExchangeJobTitle
+    }));
   }
 
   private buildJobModels(ejm: ExchangeJobMapping): void {

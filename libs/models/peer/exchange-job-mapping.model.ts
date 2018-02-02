@@ -13,6 +13,7 @@ export interface ExchangeJobMapping {
   CompanyJobDescription: string;
   ExchangeJobDescription: string;
   Mapped: boolean;
+  ExchangeJobToCompanyJobId: number;
 }
 
 export function generateMockExchangeJobMapping(): ExchangeJobMapping {
@@ -30,6 +31,7 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     CompanyJobFamily: 'Company Job Family',
     CompanyJobDescription: 'Lorem Ipsum',
     ExchangeJobDescription: 'Lorem Ipsum',
-    Mapped: true
+    Mapped: true,
+    ExchangeJobToCompanyJobId: 345
   };
 }

@@ -62,7 +62,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(selectedMapping => {
       this.disableGridScollTo = this.collapse;
       this.collapse = !!selectedMapping;
-
     });
   }
 
