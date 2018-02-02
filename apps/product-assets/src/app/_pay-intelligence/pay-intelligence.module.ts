@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -18,6 +19,7 @@ import { reducers } from './reducers';
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
 
     // 3rd Party
     // GridModule,

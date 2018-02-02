@@ -8,6 +8,8 @@ import * as fromProductAssetListActions from '../actions/';
 export interface State extends EntityState<ProductAsset> {
   loading: boolean;
   loadingError: boolean;
+  whatsNewEnabled: boolean;
+  filteredProductAssetsList: ProductAsset[];
 }
 
 // Create entity adapter
@@ -19,7 +21,9 @@ export const adapter: EntityAdapter<ProductAsset> = createEntityAdapter<ProductA
 // Initial State
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  whatsNewEnabled: false,
+  filteredProductAssetsList: null
 });
 
 
@@ -39,7 +43,11 @@ export function reducer(
     case fromProductAssetListActions.LOADING_PRODUCT_ASSETS_SUCCESS: {
       return {
         ...adapter.addAll(action.payload, state),
-        loading: false
+        loading: false,
+        filteredProductAssetsList: action.payload,
+        // Compares the current date with the asset date and determines if any assets in the array are within 90 days of the current date.
+        // (1000 * 3600 * 24 * 90) = 90 days in milliseconds.
+        whatsNewEnabled: action.payload.filter(e => (Date.now() - (new Date(e.CreateDate.toString()).getTime())) <= (1000 * 3600 * 24 * 90)).length > 0
       };
     }
     case fromProductAssetListActions.LOADING_PRODUCT_ASSETS_ERROR: {
@@ -48,6 +56,26 @@ export function reducer(
         loading: false,
         loadingError: true
       };
+    }
+    case fromProductAssetListActions.FILTER_PRODUCT_ASSETS: {
+      return {
+        ...state,
+        filteredProductAssetsList: Object.values(state.entities).filter(e => new RegExp(action.payload, 'gi').test(e.Title))
+      };
+    }
+    case fromProductAssetListActions.SHOW_NEW_ASSETS: {
+      return {
+        ...state,
+        // Filters on assets that were created within 90 days of the current date.
+        // (1000 * 3600 * 24 * 90) = 90 days in milliseconds.
+        filteredProductAssetsList: Object.values(state.entities).filter(e => (Date.now() - (new Date(e.CreateDate.toString()).getTime())) <= (1000 * 3600 * 24 * 90))
+      };
+    }
+    case fromProductAssetListActions.LOAD_ALL_ASSETS: {
+      return {
+        ...state,
+        filteredProductAssetsList: Object.values(state.entities)
+      }
     }
     default: {
       return state;
@@ -58,4 +86,6 @@ export function reducer(
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getWhatsNewEnabled = (state: State) => state.whatsNewEnabled;
+export const getFilteredProductAssetsList = (state: State) => state.filteredProductAssetsList;
 

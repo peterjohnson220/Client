@@ -6,20 +6,30 @@
 
   <ng-container page-actions>
 
-    <div class="resource-search-box">
-      <pf-input-debounce id="search-box"
-                         [focus]="false"
-                         [delay]="300"
-                         [placeholderText]="'Search for a Resource...'"
-                         (valueChanged)="updateSearchTerm($event)">
-      </pf-input-debounce>
+    <div>
+      <div class="resource-search-box">
+        <pf-input-debounce id="search-box"
+                          [focus]="false"
+                          [delay]="300"
+                          [(ngModel)]="searchTerm"
+                          [placeholderText]="'Search for a Resource...'"
+                          (valueChanged)="updateSearchTerm($event)">
+        </pf-input-debounce>
+      </div>
+
+      <div class="anchors">
+        <a *ngIf="showWhatsNewLink" (click)=showNewItems()>What's New?</a>
+        <a *ngIf="showLoadAllLink" (click)=showAllItems()>Load All Resources</a>
+      </div>
     </div>
 
   </ng-container>
 
   <ng-container page-content>
 
-    <pf-product-assets-list-component></pf-product-assets-list-component>
+    <pf-product-assets-list-component>
+        
+    </pf-product-assets-list-component>
 
   </ng-container>
 
