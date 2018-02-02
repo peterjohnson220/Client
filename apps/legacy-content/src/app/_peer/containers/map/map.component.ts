@@ -29,6 +29,9 @@ export class MapComponent implements OnInit {
   peerMapCenter$: Observable<number[]>;
   peerMapBoundsChanged$: Observable<boolean>;
 
+  peerMapBounds: number[];
+  peerMapCenter: number[];
+
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
     this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
@@ -50,6 +53,15 @@ export class MapComponent implements OnInit {
       CompanyJobId: companyJobId,
       CompanyPayMarketId: companyPayMarketId
     }));
+    this.peerMapBounds$.filter(x => !!x).take(1).subscribe(bounds => {
+        this.peerMapBounds = bounds;
+    });
+    this.peerMapCenter$.filter(x => !!x).take(1).subscribe(center => {
+      this.peerMapCenter = center;
+    });
+    // this.peerMapBoundsChanged$.filter(x => !!x).take(1).subscribe(() => {
+    //
+    // });
   }
 
   loadMap(): void {
@@ -72,6 +84,5 @@ export class MapComponent implements OnInit {
       }
     });
   }
-
 
 }

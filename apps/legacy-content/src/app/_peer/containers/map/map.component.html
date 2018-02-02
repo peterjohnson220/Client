@@ -3,9 +3,9 @@
   [zoom]="[3]"
   [center]="[-103.59179687498357, 40.66995747013945]"
   [attributionControl]="false"
-  [fitBounds]="peerMapBounds$ | async"
+  [fitBounds]="peerMapBounds"
   [fitBoundsOptions]="{padding: 100}"
-  [centerWithPanTo]="peerMapCenter$ | async"
+  [centerWithPanTo]="peerMapCenter"
   [maxZoom]="10"
   (moveEnd)="handleMoveEndEvent($event)"
 >
@@ -26,8 +26,8 @@
             type: 'interval',
             stops: [
                 [0, '#51bbd6'],
-                [5, '#f1f075'],
-                [10, '#f28cb1']
+                [500, '#f1f075'],
+                [1000, '#f28cb1']
             ]
         },
         'circle-radius': {
@@ -35,8 +35,8 @@
             type: 'interval',
             stops: [
                 [0, 20],
-                [5, 30],
-                [10, 40]
+                [500, 30],
+                [1000, 40]
             ]
         }
       }"
