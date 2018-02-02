@@ -51,7 +51,6 @@ export class UserTileToTileMapper {
 
   static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
     switch (tileType) {
-      case TileTypes.Employees:
       case TileTypes.JobDescriptions:
         return TilePreviewTypes.Chart;
 
@@ -59,6 +58,7 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.List;
 
       case TileTypes.MyJobs:
+      case TileTypes.Employees:
         return TilePreviewTypes.PlaceHolder;
 
       default:
