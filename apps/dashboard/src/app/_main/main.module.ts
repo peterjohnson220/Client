@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -44,6 +45,7 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
     ChartsModule,
+    NgbModule,
 
     // Routing
     MainRoutingModule,

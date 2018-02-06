@@ -1,2 +1,16 @@
-<h2>List</h2>
-<span>{{ model.IconClass }}</span>
+<a *ngIf="model.DetailData" class="btn new-pricing-projects-button p-1" href="/marketdata/marketdata.asp?usersession_id=">
+  <i class="fa fa-plus"></i> New
+</a>
+
+<table style="z-index:9999; position:relative" class="mt-1">
+  <tr *ngIf="model.DetailData">
+    <th *ngFor="let dataItem of model.DetailData[0].Data">{{dataItem.ColumnName}}</th>
+  </tr>
+  <tr *ngFor="let data of model.DetailData">
+    <td *ngFor="let dataItem of data.Data" >
+      <p *ngIf="dataItem.TileListItemType=='Text'" placement="top" [ngbTooltip]="dataItem.TooltipText">{{dataItem.Text}}</p>
+      <a *ngIf="dataItem.TileListItemType=='Link'" href="{{dataItem.Url}}">{{dataItem.Text}}</a>
+      <i *ngIf="dataItem.TileListItemType=='Icon'" [ngClass]="dataItem.Text"></i>
+    </td>
+  </tr>
+</table>

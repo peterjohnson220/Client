@@ -1,0 +1,58 @@
+@import 'colors';
+
+.new-pricing-projects-button
+{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
+  color: #1F2F3D;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+table {
+  width: 100%;
+  font-size: .85rem;
+}
+th{
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: orange;
+}
+
+tr {
+  border-bottom:1px solid #ccc;
+}
+
+td {
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: .9rem;
+}
+
+td > i{
+  float:right;
+}
+
+td > p{
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+td > a{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: white;
+}
+
+td > a:hover{
+  color:black;
+}
