@@ -73,6 +73,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     if (this.editingMapping) {
       this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelEditMapping());
     } else {
+      this.companyJobQuery = '';
+      this.debouncedQueryValue = '';
       this.dispatchLoadCompanyJobsToMapToByQuery();
       this.store.dispatch(new fromExchangeJobMappingInfoActions.EditMapping());
     }
