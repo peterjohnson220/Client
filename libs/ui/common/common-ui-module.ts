@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
@@ -31,8 +29,7 @@ const components = [
 @NgModule({
   imports:      [
     CommonModule,
-    RouterModule,
-    NgbModule.forRoot()
+    RouterModule
   ],
   declarations: components,
   exports: components
