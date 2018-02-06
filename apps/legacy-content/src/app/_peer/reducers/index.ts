@@ -36,3 +36,4 @@ export const getPeerMapCollection = createSelector(selectMapState, fromPeerMapRe
 export const getPeerMapBounds = createSelector(selectMapState, fromPeerMapReducer.getMapBounds);
 export const getPeerMapCenter = createSelector(selectMapState, fromPeerMapReducer.getMapCenter);
 export const getPeerMapBoundsChanged = createSelector(selectMapState, fromPeerMapReducer.getBoundsChanged);
+export const canLoadPeerMap = createSelector(selectMapState, fromPeerMapReducer.canLoadMap);

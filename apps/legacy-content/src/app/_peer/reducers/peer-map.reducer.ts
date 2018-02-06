@@ -16,6 +16,7 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   boundsChanged: boolean;
+  shouldUpdateBounds: boolean;
 }
 
 // Initial State
@@ -28,12 +29,13 @@ export const initialState: State = {
   },
   mapSummary: null,
   mapBounds: {
-    center: [],
-    bounds: []
+    center: [0, 0],
+    bounds: [-170.7209751306477, -35.63559826346304, -38.812569718836016, 69.64917040751254]
   },
   loading: false,
   loadingError: false,
-  boundsChanged: false
+  boundsChanged: true,
+  shouldUpdateBounds: true
 }
 
 // Reducer
@@ -62,6 +64,11 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         TopLeft: tl,
         BottomRight: br
       };
+      const mapBounds = {...state.mapBounds};
+      if (state.shouldUpdateBounds) {
+        mapBounds.center = [mapSummary.Center.Lon, mapSummary.Center.Lat];
+        mapBounds.bounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
+      }
       return {
         ...state,
         mapCollection: mapCollection,
@@ -69,11 +76,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loading: false,
         loadingError: false,
         mapFilter: mapFilter,
-        mapBounds: {
-          center: [mapSummary.Center.Lon, mapSummary.Center.Lat],
-          bounds: [tl.Lon, br.Lat, br.Lon, tl.Lat]
-        },
-        boundsChanged: true
+        mapBounds: mapBounds,
+        boundsChanged: true,
+        shouldUpdateBounds: false
       };
     }
     case fromPeerMapActions.LOADING_PEER_MAP_ERROR: {
@@ -134,7 +139,7 @@ export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds.bounds;
 export const getMapCenter = (state: State) => state.mapBounds.center;
 export const getBoundsChanged = (state: State) => state.boundsChanged;
-
+export const canLoadMap = (state: State) => !state.boundsChanged && !state.loading;
 
 function swapBounds(bounds: any): any {
   const ne = bounds._ne;

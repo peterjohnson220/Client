@@ -49,6 +49,14 @@ export class PeerMapEffects {
     .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
     .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
 
+  // @Effect()
+  // updateFilterBounds$: Observable<Action> = this.actions$
+  //   .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
+  //   .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapBoundsChanged), (action, peerMapLoading) => peerMapLoading)
+  //   .switchMap<boolean, fromPeerMapActions.LoadingPeerMap | fromPeerMapActions.SkipMapQuery>(isLoading => {
+  //     return !isLoading ? of(new fromPeerMapActions.LoadingPeerMap) : of(new fromPeerMapActions.SkipMapQuery);
+  //   });
+
   constructor(
     private actions$: Actions,
     private store: Store<fromPeerDataReducers.State>,

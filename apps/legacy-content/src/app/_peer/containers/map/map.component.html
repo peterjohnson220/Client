@@ -1,11 +1,10 @@
 <mgl-map
   [style]="mapStyle"
   [zoom]="[3]"
-  [center]="[-103.59179687498357, 40.66995747013945]"
+  [center]="peerMapCenter$ | async"
   [attributionControl]="false"
-  [fitBounds]="peerMapBounds"
+  [fitBounds]="peerMapBounds$ | async"
   [fitBoundsOptions]="{padding: 100}"
-  [centerWithPanTo]="peerMapCenter"
   [maxZoom]="10"
   (moveEnd)="handleMoveEndEvent($event)"
 >
@@ -19,6 +18,7 @@
     id="peerdata"
     type="circle"
     source="incumbents"
+    (click)="handleLayerClickEvent($event)"
     [filter]="['has', 'SalaryCount']"
     [paint]="{
         'circle-color': {

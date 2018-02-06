@@ -27,10 +27,7 @@ export class MapComponent implements OnInit {
   peerMapBounds$: Observable<number[]>;
 
   peerMapCenter$: Observable<number[]>;
-  peerMapBoundsChanged$: Observable<boolean>;
-
-  peerMapBounds: number[];
-  peerMapCenter: number[];
+  canLoadPeerMap: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -40,7 +37,7 @@ export class MapComponent implements OnInit {
     this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.peerMapCenter$ = this.store.select(fromPeerDataReducers.getPeerMapCenter);
-    this.peerMapBoundsChanged$ = this.store.select(fromPeerDataReducers.getPeerMapBoundsChanged);
+    this.canLoadPeerMap = this.store.select(fromPeerDataReducers.canLoadPeerMap);
   }
 
   ngOnInit(): void {
@@ -53,36 +50,24 @@ export class MapComponent implements OnInit {
       CompanyJobId: companyJobId,
       CompanyPayMarketId: companyPayMarketId
     }));
-    this.peerMapBounds$.filter(x => !!x).take(1).subscribe(bounds => {
-        this.peerMapBounds = bounds;
-    });
-    this.peerMapCenter$.filter(x => !!x).take(1).subscribe(center => {
-      this.peerMapCenter = center;
-    });
-    // this.peerMapBoundsChanged$.filter(x => !!x).take(1).subscribe(() => {
-    //
-    // });
-  }
-
-  loadMap(): void {
-    this.store.dispatch(new fromPeerMapActions.LoadingPeerMap);
   }
 
   handleMoveEndEvent(e: any) {
-    // only move if bounds changed
-    this.peerMapBoundsChanged$.take(1).subscribe(changed => {
-      if (changed) {
-        this.store.dispatch(new fromPeerMapActions.SkipMapQuery);
-      } else {
-        // TODO: Make this work better. I HATE THIS
-        const filterVars = {
-          bounds: e.target.getBounds(),
-          zoom: e.target.getZoom()
-        };
+    if (!e.target._loaded) {
+      return;
+    }
 
-        this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
-      }
-    });
+    if (!!this.canLoadPeerMap.filter(x => x).take(1)) {
+      const filterVars = {
+        bounds: e.target.getBounds(),
+        zoom: e.target.getZoom()
+      };
+
+      this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
+    }
   }
 
+  handleLayerClickEvent(e: any) {
+    console.log('handleLayerClickEvent: ', e);
+  }
 }

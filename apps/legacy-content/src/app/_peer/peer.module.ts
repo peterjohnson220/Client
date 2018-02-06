@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
+import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { environment } from 'environments/environment';
 import { GeocoderDirective } from './directives';
-import { reducers } from './reducers';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { PeerMapEffects } from './effects';
+import { reducers } from './reducers';
+
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { PeerMapEffects } from './effects';
     EffectsModule.forFeature([
       PeerMapEffects
     ]),
-    NgxMapboxGLModule,
+    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
 
     // Routing
     PeerRoutingModule,
@@ -44,9 +45,7 @@ import { PeerMapEffects } from './effects';
     AddDataCutPageComponent,
 
     // Directives
-    GeocoderDirective,
-
-    // Third party
+    GeocoderDirective
   ]
 })
 export class PeerModule { }
