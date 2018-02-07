@@ -1,9 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as fromPeerDataReducers from '../../../reducers';
-import { Store } from '@ngrx/store';
-import { ExchangeMapSummary } from '../../../../../../../../libs/models/peer';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Component } from '@angular/core';
 
 import { WindowCommunicationService } from 'libs/core/services';
 
@@ -12,15 +7,9 @@ import { WindowCommunicationService } from 'libs/core/services';
   templateUrl: './add-data-cut.page.html',
   styleUrls: ['./add-data-cut.page.scss']
 })
-export class AddDataCutPageComponent implements OnInit, OnDestroy {
+export class AddDataCutPageComponent {
 
-
-  peerMapSummarySubscription: Subscription;
-  peerMapSummary$: Observable<ExchangeMapSummary>;
-  peerMapSummary: ExchangeMapSummary;
-  constructor(private store: Store<fromPeerDataReducers.State>, private windowCommunicationService: WindowCommunicationService) {
-    this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
-  }
+  constructor(private windowCommunicationService: WindowCommunicationService) {  }
 
   add() {
     this.windowCommunicationService.postMessage('[Peer/Add Data Cut] Add');
@@ -28,19 +17,5 @@ export class AddDataCutPageComponent implements OnInit, OnDestroy {
 
   cancel() {
     this.windowCommunicationService.postMessage('[Peer/Add Data Cut] Cancel');
-  }
-
-  getMapStats() {
-    return JSON.stringify(this.peerMapSummary);
-  }
-
-  ngOnInit(): void {
-    this.peerMapSummarySubscription = this.peerMapSummary$.subscribe(summary => {
-      this.peerMapSummary = summary;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.peerMapSummarySubscription.unsubscribe();
   }
 }

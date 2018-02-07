@@ -27,9 +27,9 @@ export class MapComponent implements OnInit {
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
-
   peerMapCenter$: Observable<number[]>;
-  canLoadPeerMap: Observable<boolean>;
+  canLoadPeerMap$: Observable<boolean>;
+
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
     this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
     this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.peerMapCenter$ = this.store.select(fromPeerDataReducers.getPeerMapCenter);
-    this.canLoadPeerMap = this.store.select(fromPeerDataReducers.canLoadPeerMap);
+    this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
   }
 
   ngOnInit(): void {
@@ -78,11 +78,12 @@ export class MapComponent implements OnInit {
 
   // Helper functions
   refreshMap(e: any) {
-    if (!e.target._loaded && !e.target.moving) {
+    // TODO: Make sure still works without  && !e.target.moving
+    if (!e.target._loaded) {
       return;
     }
 
-    if (!!this.canLoadPeerMap.filter(x => x).take(1)) {
+    if (!!this.canLoadPeerMap$.filter(x => x).take(1)) {
       const filterVars = {
         bounds: e.target.getBounds(),
         zoom: e.target.getZoom()
@@ -91,6 +92,4 @@ export class MapComponent implements OnInit {
       this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
     }
   }
-
-
 }

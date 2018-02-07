@@ -1,4 +1,5 @@
 import { FeatureCollection, Point } from 'geojson';
+
 import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
