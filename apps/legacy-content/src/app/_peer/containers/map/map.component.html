@@ -6,19 +6,31 @@
   [fitBounds]="peerMapBounds$ | async"
   [fitBoundsOptions]="{padding: 100}"
   [maxZoom]="10"
+  [cursorStyle]="cursorStyle"
+  (moveStart)="handleMoveStartEvent($event)"
   (moveEnd)="handleMoveEndEvent($event)"
+  (move)="handleMoveEvent($event)"
 >
-  <mgl-control pfGeocoder></mgl-control>
+  <mgl-control mglNavigation pfGeocoder></mgl-control>
   <mgl-geojson-source
     [id]="'incumbents'"
     [data]="peerMapCollection$ | async"
   >
   </mgl-geojson-source>
+  <mgl-popup
+    *ngIf="selectedPoint"
+    [lngLat]="selectedPoint.geometry.coordinates"
+    (close)="selectedPoint = null"
+  >
+    <span [innerHTML]="selectedPoint.properties.ExchangeJobIds"></span>
+  </mgl-popup>
   <mgl-layer
     id="peerdata"
     type="circle"
     source="incumbents"
     (click)="handleLayerClickEvent($event)"
+    (mouseEnter)="cursorStyle = 'pointer'"
+    (mouseLeave)="cursorStyle = ''"
     [filter]="['has', 'SalaryCount']"
     [paint]="{
         'circle-color': {
@@ -26,8 +38,8 @@
             type: 'interval',
             stops: [
                 [0, '#51bbd6'],
-                [500, '#f1f075'],
-                [1000, '#f28cb1']
+                [10, '#f1f075'],
+                [100, '#f28cb1']
             ]
         },
         'circle-radius': {
@@ -35,8 +47,8 @@
             type: 'interval',
             stops: [
                 [0, 20],
-                [500, 30],
-                [1000, 40]
+                [10, 30],
+                [100, 40]
             ]
         }
       }"

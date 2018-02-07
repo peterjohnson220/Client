@@ -3,16 +3,12 @@ import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
 
-export interface MapBounds {
-  center: number[];
-  bounds: number[];
-}
-
 export interface State {
   mapCollection: FeatureCollection<Point>;
   mapSummary: ExchangeMapSummary;
   mapFilter: ExchangeMapFilter;
-  mapBounds: MapBounds;
+  mapCenter: number[];
+  mapBounds: number[];
   loading: boolean;
   loadingError: boolean;
   boundsChanged: boolean;
@@ -28,10 +24,8 @@ export const initialState: State = {
     ClusterPrecision: 1
   },
   mapSummary: null,
-  mapBounds: {
-    center: [0, 0],
-    bounds: [-170.7209751306477, -35.63559826346304, -38.812569718836016, 69.64917040751254]
-  },
+  mapCenter: [0, 0],
+  mapBounds: [0, 0, 0, 0],
   loading: false,
   loadingError: false,
   boundsChanged: true,
@@ -64,22 +58,21 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         TopLeft: tl,
         BottomRight: br
       };
-      const mapBounds = {...state.mapBounds};
-      if (state.shouldUpdateBounds) {
-        mapBounds.center = [mapSummary.Center.Lon, mapSummary.Center.Lat];
-        mapBounds.bounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
-      }
-      return {
+      const newState = {
         ...state,
         mapCollection: mapCollection,
         mapSummary: mapSummary,
         loading: false,
         loadingError: false,
         mapFilter: mapFilter,
-        mapBounds: mapBounds,
         boundsChanged: true,
         shouldUpdateBounds: false
       };
+      if (state.shouldUpdateBounds) {
+        newState.mapCenter = [mapSummary.Center.Lon, mapSummary.Center.Lat];
+        newState.mapBounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
+      }
+      return newState;
     }
     case fromPeerMapActions.LOADING_PEER_MAP_ERROR: {
       return {
@@ -118,12 +111,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         boundsChanged: false
       };
     }
-    case fromPeerMapActions.SKIP_MAP_QUERY: {
-      return {
-        ...state,
-        boundsChanged: false
-      };
-    }
     default: {
       return state;
     }
@@ -136,9 +123,8 @@ export const getMapFilter = (state: State) => state.mapFilter;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
-export const getMapBounds = (state: State) => state.mapBounds.bounds;
-export const getMapCenter = (state: State) => state.mapBounds.center;
-export const getBoundsChanged = (state: State) => state.boundsChanged;
+export const getMapBounds = (state: State) => state.mapBounds;
+export const getMapCenter = (state: State) => state.mapCenter;
 export const canLoadMap = (state: State) => !state.boundsChanged && !state.loading;
 
 function swapBounds(bounds: any): any {

@@ -18,9 +18,12 @@ export class GeocoderDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.controlComponent.control = new MapBoxGeocoder({accessToken: environment.mapboxAccessToken});
     this.mapLoadedSubscription = this.mapComponent.load.subscribe(map => {
-      map.addControl(this.controlComponent.control, this.controlComponent.position);
+      // This is a hack to get the GeoCoder control to render on top.
+      const existingControl = this.controlComponent.control;
+      map.removeControl(existingControl);
+      map.addControl(new MapBoxGeocoder({accessToken: environment.mapboxAccessToken}), this.controlComponent.position);
+      map.addControl(existingControl, this.controlComponent.position);
     });
   }
   ngOnDestroy(): void {

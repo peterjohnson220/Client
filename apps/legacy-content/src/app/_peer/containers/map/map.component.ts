@@ -16,6 +16,8 @@ import * as fromPeerMapActions from '../../actions/peer-map.actions';
   styleUrls: [ './map.component.scss' ]
 })
 export class MapComponent implements OnInit {
+  selectedPoint: any = null;
+  cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/light-v9';
   companyJobId: number;
   companyPayMarketId: number;
@@ -28,7 +30,6 @@ export class MapComponent implements OnInit {
 
   peerMapCenter$: Observable<number[]>;
   canLoadPeerMap: Observable<boolean>;
-
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
     this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
@@ -44,16 +45,40 @@ export class MapComponent implements OnInit {
     const queryParamMap = this.route.snapshot.queryParamMap;
     const companyJobId = +queryParamMap.get('companyJobId') || 0;
     const companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
-    console.log('companyJobId: ', companyJobId);
-    console.log('companyPayMarketId: ', companyPayMarketId);
     this.store.dispatch(new fromPeerMapActions.LoadingInitialPeerMapFilter({
       CompanyJobId: companyJobId,
       CompanyPayMarketId: companyPayMarketId
     }));
   }
 
+  // Map events
+  handleMoveStartEvent(e: any) {
+    e.target.moveStarted = true;
+  }
+
+  handleMoveEvent(e: any) {
+    if (e.target.moveStarted) {
+      e.target.mapDirty = e.target._placementDirty;
+    }
+  }
+
   handleMoveEndEvent(e: any) {
-    if (!e.target._loaded) {
+    if (e.target.mapDirty) {
+      this.selectedPoint = null;
+      e.target.moveStarted = false;
+      this.refreshMap(e);
+    }
+  }
+
+  // Map layer events
+  handleLayerClickEvent(e: any) {
+    this.selectedPoint = null;
+    this.selectedPoint = e.features[0];
+  }
+
+  // Helper functions
+  refreshMap(e: any) {
+    if (!e.target._loaded && !e.target.moving) {
       return;
     }
 
@@ -67,7 +92,5 @@ export class MapComponent implements OnInit {
     }
   }
 
-  handleLayerClickEvent(e: any) {
-    console.log('handleLayerClickEvent: ', e);
-  }
+
 }
