@@ -1,3 +1,3 @@
-export class HomePageLink{
+export class HomePageLink {
   Url: string;
 }
