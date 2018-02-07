@@ -15,7 +15,7 @@ import { DashboardApiService } from './dashboard';
     ExchangeApiService,
     ExchangeCompanyApiService,
     NavigationApiService,
-    PayfactorsApiService,
+    PayfactorsApiService
   ]
 })
 export class PfApiModule { }
