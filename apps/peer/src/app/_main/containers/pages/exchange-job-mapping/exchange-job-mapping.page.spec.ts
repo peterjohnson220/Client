@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import * as fromExchangeJobMappingActions from '../../../actions/exchange-job-mapping.actions';
+import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
 import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
@@ -55,6 +55,9 @@ describe('Peer - Exchange Job Mapping Page', () => {
     instance = fixture.componentInstance;
 
     spyOn(store, 'dispatch');
+
+    // Trigger ngOnInit
+    fixture.detectChanges();
   });
 
   it('should dispatch a reset grid action when handleBackToListNavigation is called', () => {
@@ -66,7 +69,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
   });
 
   it('should dispatch a UpdateExchangeJobMappingsQuery action with an empty string when handleBackToListNavigation is called', () => {
-    const action = new fromExchangeJobMappingActions.UpdateExchangeJobMappingsQuery('');
+    const action = new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery('');
 
     instance.handleBackToListNavigation();
 
@@ -83,7 +86,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
   it('should dispatch a UpdateExchangeJobMappingsQuery action when handleSearchChanged is called', () => {
     const query = 'New Search';
-    const action = new fromExchangeJobMappingActions.UpdateExchangeJobMappingsQuery(query);
+    const action = new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(query);
 
     instance.handleSearchChanged(query);
 
@@ -107,7 +110,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
   });
 
   it('should dispatch an UpdatePageRowIndexToScrollTo action with null, when handling exchange job mapping info closed', () => {
-    const action = new fromExchangeJobMappingActions.UpdatePageRowIndexToScrollTo(null);
+    const action = new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(null);
 
     instance.handleExchangeJobMappingInfoClosed();
 
@@ -121,19 +124,4 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
     expect(instance.collapse).toBe(false);
   });
-
-  it('should disable grid scroll to if a row is selected when the grid is collapsed', () => {
-    instance.collapse = true;
-
-    instance.handleGridRowSelected();
-
-    expect(instance.disableGridScollTo).toBe(true);
-  });
-
-  it('should collapse the grid when a grid row is selected', () => {
-    instance.handleGridRowSelected();
-
-    expect(instance.collapse).toBe(true);
-  });
-
 });

@@ -24,10 +24,10 @@
               (sortChange)="handleSortChanged($event)"
               (cellClick)="handleCellClick($event)">
 
-    <kendo-grid-column field="Status" title="Status" width="125" class="text-center" headerClass="text-center">
+    <kendo-grid-column field="Mapped" title="Status" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <span *ngIf="dataItem.Status" class="badge badge-success">Mapped</span>
-        <span *ngIf="!dataItem.Status" class="badge badge-danger">Not Mapped</span>
+        <span *ngIf="dataItem.Mapped" class="badge badge-success">Mapped</span>
+        <span *ngIf="!dataItem.Mapped" class="badge badge-danger">Not Mapped</span>
       </ng-template>
     </kendo-grid-column>
 

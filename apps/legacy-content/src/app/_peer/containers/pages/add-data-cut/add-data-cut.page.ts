@@ -5,6 +5,8 @@ import { ExchangeMapSummary } from '../../../../../../../../libs/models/peer';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
+import { WindowCommunicationService } from 'libs/core/services';
+
 @Component({
   selector: 'pf-add-data-cut-page',
   templateUrl: './add-data-cut.page.html',
@@ -16,8 +18,16 @@ export class AddDataCutPageComponent implements OnInit, OnDestroy {
   peerMapSummarySubscription: Subscription;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   peerMapSummary: ExchangeMapSummary;
-  constructor(private store: Store<fromPeerDataReducers.State>) {
+  constructor(private store: Store<fromPeerDataReducers.State>, private windowCommunicationService: WindowCommunicationService) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
+  }
+
+  add() {
+    this.windowCommunicationService.postMessage('[Peer/Add Data Cut] Add');
+  }
+
+  cancel() {
+    this.windowCommunicationService.postMessage('[Peer/Add Data Cut] Cancel');
   }
 
   getMapStats() {

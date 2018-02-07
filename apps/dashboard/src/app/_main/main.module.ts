@@ -33,6 +33,7 @@ import { TilePreviewListComponent } from './components';
 
 // Pipes
 import { TruncateAfterPipe } from 'libs/core/pipes';
+import { TilePreviewPlaceHolderComponent } from './components/tile-preview/place-holder';
 
 @NgModule({
   imports: [
@@ -61,6 +62,7 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     TilePreviewChartComponent,
     TilePreviewIconComponent,
     TilePreviewListComponent,
+    TilePreviewPlaceHolderComponent,
     TimelineActivityComponent,
     TileComponent,
     UserVoiceIndicatorComponent,

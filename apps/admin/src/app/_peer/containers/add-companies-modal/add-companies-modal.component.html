@@ -21,7 +21,8 @@
         <pf-input-debounce id="search-box"
                            [focus]="true"
                            [delay]="400"
-                           [inputValue]="searchTerm"
+                           [(ngModel)]="searchTerm"
+                           [ngModelOptions]="{standalone: true}"
                            [placeholderText]="'Search for a Company Name...'"
                            (valueChanged)="updateSearchFilter($event)">
         </pf-input-debounce>

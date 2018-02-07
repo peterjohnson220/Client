@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TimelineActivity } from '../../models/timeline-activity.model';
+import { TimelineActivity } from '../../models';
 
 @Component({
   selector: 'pf-timeline-activity',
@@ -18,8 +18,8 @@ export class TimelineActivityComponent implements OnInit {
       PostedBy: 'John Clark',
       PostedTime: '3m ago',
       Subject: 'Replied To Mike Davidson\'s post',
-      Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
-      AvatarUrl: '/assets/john.png'
+      Body: 'We have a group of exempt employees that we pay straight time overtime for any hours worked over 40.',
+      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/john.jpg'
     });
 
     this.timelineActivities.push({
@@ -28,8 +28,8 @@ export class TimelineActivityComponent implements OnInit {
       PostedBy: 'Mike Davidson',
       PostedTime: '5h ago',
       Subject: 'Posted to the <a href="#">Payfactors Community.</a>',
-      Body: 'Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
-      AvatarUrl: '/assets/adam.jpg'
+      Body: 'Where permitted by state law, does your company permit employees to drive a car for company business while using a cell phone, even if cell phone and car are enabled with hands free technology, such as Bluetooth?',
+      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/mike.jpg'
     });
 
     this.timelineActivities.push({
@@ -39,7 +39,7 @@ export class TimelineActivityComponent implements OnInit {
       PostedTime: '11h ago',
       Subject: 'Added new <a href="#">Release Notes.</a>',
       Body: null,
-      AvatarUrl: '/assets/favicon.ico'
+      AvatarUrl: '/client/dashboard/favicon.ico'
     });
 
     this.timelineActivities.push({
@@ -49,7 +49,7 @@ export class TimelineActivityComponent implements OnInit {
       PostedTime: '2d ago',
       Subject: 'Shared <a href="#">Retail Jobs 2018</a> project with you.',
       Body: null,
-      AvatarUrl: '/assets/sue.gif'
+      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/sue.jpg'
     });
 
     this.timelineActivities.push({
@@ -59,7 +59,7 @@ export class TimelineActivityComponent implements OnInit {
       PostedTime: '7d ago',
       Subject: 'Added a new <a href="#">Video.</a>',
       Body: null,
-      AvatarUrl: '/assets/favicon.ico'
+      AvatarUrl: '/client/dashboard/favicon.ico'
     });
   }
 

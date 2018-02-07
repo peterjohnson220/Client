@@ -1,4 +1,4 @@
-<div *ngIf="loading || loadingError" class="loading-blanket">
+<div *ngIf="loading || loadingError" class="loading-blanket" [class.no-transparency]="loadingError">
   <div class="loading-blanket-center">
 
     <ng-container *ngIf="!loadingError">

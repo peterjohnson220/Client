@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
@@ -46,6 +47,9 @@ import { reducers } from './reducers';
 
     // Directives
     GeocoderDirective
+  ],
+  providers: [
+    WindowCommunicationService
   ]
 })
 export class PeerModule { }

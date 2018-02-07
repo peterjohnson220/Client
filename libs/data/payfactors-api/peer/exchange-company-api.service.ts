@@ -4,10 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { ExchangeListItem, ExchangeCompany, ExchangeJobMapping } from '../../../models/peer';
+import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest, CompanyJobToMapTo } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
-
-
 
 @Injectable()
 export class ExchangeCompanyApiService {
@@ -24,6 +22,18 @@ export class ExchangeCompanyApiService {
       `${this.endpoint}/GetExchangeJobsWithMappings`,
       { params: { exchangeId, query, listState: JSON.stringify(listState) } },
       MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  getTopCompanyJobsToMapTo(exchangeId: number, query: string): Observable<CompanyJobToMapTo[]> {
+    return this.payfactorsApiService.get<CompanyJobToMapTo[]>(`${this.endpoint}/GetTopCompanyJobsToMapTo`,
+      { params: { exchangeId, query } }
+    );
+  }
+
+  upsertExchangeJobMap(upsertExchangeJobMapRequest: UpsertExchangeJobMapRequest) {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeJobMap`,
+      upsertExchangeJobMapRequest
     );
   }
 }

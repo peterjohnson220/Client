@@ -1,0 +1,8 @@
+@import 'colors';
+
+.toggle-view-link{
+  cursor: pointer;
+  color: $link-color;
+  width: 75px;
+  padding: 0.25rem 0.5rem 0 0;
+}

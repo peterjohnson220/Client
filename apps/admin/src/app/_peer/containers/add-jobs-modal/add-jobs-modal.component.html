@@ -20,7 +20,9 @@
       <div class="form-group">
         <pf-input-debounce id="search-jobs"
                            (valueChanged)="updateSearchFilter($event)"
-                           [delay]="400" [inputValue]="searchTerm"
+                           [delay]="400"
+                           [(ngModel)]="searchTerm"
+                           [ngModelOptions]="{standalone: true}"
                            [placeholderText]="'Search for a Job Title...'"
                            [focus]="true">
         </pf-input-debounce>
