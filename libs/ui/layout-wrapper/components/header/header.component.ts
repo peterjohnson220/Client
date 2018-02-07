@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { NavigationLink, UserContext } from 'libs/models';
+import { NavigationLink, UserContext, HomePageLink } from 'libs/models';
 
 @Component({
   selector: 'pf-layout-wrapper-header',
@@ -15,6 +15,7 @@ export class HeaderComponent {
 
   @Input() dropdownNavigationLinks: NavigationLink[];
   @Input() userContext: UserContext;
+  @Input() homePageLink: HomePageLink;
 
   constructor() {}
 }

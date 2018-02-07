@@ -6,12 +6,14 @@ import { NavigationApiService } from './navigation';
 import { ExchangeApiService, ExchangeCompanyApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
+import { UserApiService } from './user';
 
 @NgModule({
   imports:      [ HttpClientModule ],
   providers:    [
     CompanySecurityApiService,
     DashboardApiService,
+    UserApiService,
     ExchangeApiService,
     ExchangeCompanyApiService,
     NavigationApiService,
