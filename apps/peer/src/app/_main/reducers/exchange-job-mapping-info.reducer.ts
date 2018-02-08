@@ -3,7 +3,6 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { CompanyJobToMapTo } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
-import { APPLY_MAPPING_ERROR } from '../actions/exchange-job-mapping-info.actions';
 
 export interface State extends EntityState<CompanyJobToMapTo> {
   loading: boolean;
@@ -11,6 +10,7 @@ export interface State extends EntityState<CompanyJobToMapTo> {
   applyingMapping: boolean;
   applyingMappingError: boolean;
   selectedMappingCompanyJobId: number;
+  editingMapping: boolean;
 }
 
 export const adapter: EntityAdapter<CompanyJobToMapTo> = createEntityAdapter<CompanyJobToMapTo>({
@@ -22,7 +22,8 @@ const initialState: State = adapter.getInitialState({
   loadingError: false,
   applyingMapping: false,
   applyingMappingError: false,
-  selectedMappingCompanyJobId: null
+  selectedMappingCompanyJobId: null,
+  editingMapping: false
 });
 
 // Reducer
@@ -56,7 +57,7 @@ export function reducer(
         ...state,
         applyingMapping: true,
         applyingMappingError: false,
-        selectedMappingCompanyJobId: action.payload.companyJobId
+        selectedMappingCompanyJobId: action.payload.CompanyJobId
       };
     }
     case fromExchangeJobMappingInfoActions.APPLY_MAPPING_SUCCESS: {
@@ -73,6 +74,18 @@ export function reducer(
         applyingMappingError: true
       };
     }
+    case fromExchangeJobMappingInfoActions.EDIT_MAPPING: {
+      return {
+        ...state,
+        editingMapping: true
+      };
+    }
+    case fromExchangeJobMappingInfoActions.CANCEL_EDIT_MAPPING: {
+      return {
+        ...state,
+        editingMapping: false
+      };
+    }
     default: {
       return state;
     }
@@ -85,3 +98,4 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getApplyingMapping = (state: State) => state.applyingMapping;
 export const getApplyingMappingError = (state: State) => state.applyingMappingError;
 export const getSelectedMappingCompanyJobId = (state: State) => state.selectedMappingCompanyJobId;
+export const getEditingMapping = (state: State) => state.editingMapping;

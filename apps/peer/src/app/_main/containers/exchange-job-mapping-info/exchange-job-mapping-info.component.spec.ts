@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockExchangeJobMapping } from 'libs/models/peer';
+import { generateMockExchangeJobMapping, UpsertExchangeJobMapRequest } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
@@ -47,12 +47,11 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it('should emit a closeClicked event, when the close button is clicked', () => {
     // Spy on the emit method for the closeClicked EventEmitter
     spyOn(instance.closeClicked, 'emit');
-    instance.selectedExchangeJobMapping = generateMockExchangeJobMapping();
 
     fixture.detectChanges();
 
     // Find the close button in the template and trigger a click
-    const closeButton = fixture.debugElement.query(By.css('.card-header .btn'));
+    const closeButton = fixture.debugElement.query(By.css('.close-btn'));
     closeButton.triggerEventHandler('click', null);
 
     expect(instance.closeClicked.emit).toHaveBeenCalled();
@@ -138,16 +137,78 @@ describe('Peer - Exchange Job Mapping Info', () => {
     fixture.detectChanges();
     spyOn(store, 'dispatch');
 
-    const payload = {
-      exchangeId: instance.exchangeId,
-      exchangeJobId: exchangeJobMappingMock.ExchangeJobId,
-      companyJobId: 234897
+    const payload: UpsertExchangeJobMapRequest = {
+      ExchangeJobToCompanyJobId: exchangeJobMappingMock.ExchangeJobToCompanyJobId,
+      ExchangeId: instance.exchangeId,
+      ExchangeJobId: exchangeJobMappingMock.ExchangeJobId,
+      CompanyJobId: 234897
     };
 
     const expectedAction = new fromExchangeJobMappingInfoActions.ApplyMapping(payload);
     instance.handleApplyMapping(234897);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a CancelEditMapping action, when we are editing a mapping and cancel editing is clicked', () => {
+    fixture.detectChanges();
+
+    store.dispatch(new fromExchangeJobMappingInfoActions.EditMapping());
+
+    spyOn(store, 'dispatch');
+
+    // Find the cancel editing button in the template and trigger a click
+    const cancelEditingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    cancelEditingBtn.triggerEventHandler('click', null);
+
+    const expectedAction = new fromExchangeJobMappingInfoActions.CancelEditMapping();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a EditMapping action, when clicking the edit mapping button', () => {
+    fixture.detectChanges();
+    spyOn(store, 'dispatch');
+
+    // Find the edit mapping button in the template and trigger a click
+    const editMappingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    editMappingBtn.triggerEventHandler('click', null);
+
+    const expectedAction = new fromExchangeJobMappingInfoActions.EditMapping();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a LoadCompanyJobsToMapToByQuery action, when clicking the edit mapping button', () => {
+    instance.exchangeId = 1;
+    fixture.detectChanges();
+    spyOn(store, 'dispatch');
+
+    // Find the edit mapping button in the template and trigger a click
+    const editMappingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    editMappingBtn.triggerEventHandler('click', null);
+
+    const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
+      exchangeId: instance.exchangeId,
+      query: exchangeJobMappingMock.ExchangeJobTitle
+    });
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should display an edit mapping button, when the selected exchange job mapping is mapped', () => {
+    // Mock Exchange Job Mapping set up above is mapped already.
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should NOT display an edit mapping button, when the selected exchange job mapping is not mapped', () => {
+    exchangeJobMappingMock.Mapped = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 
 });

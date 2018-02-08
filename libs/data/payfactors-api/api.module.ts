@@ -6,18 +6,18 @@ import { NavigationApiService } from './navigation';
 import { ExchangeApiService, ExchangeCompanyApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
-import { ProductAssetsApiService } from './product-assets';
+import { UserApiService } from './user';
 
 @NgModule({
   imports:      [ HttpClientModule ],
   providers:    [
     CompanySecurityApiService,
     DashboardApiService,
+    UserApiService,
     ExchangeApiService,
     ExchangeCompanyApiService,
     NavigationApiService,
-    PayfactorsApiService,
-    ProductAssetsApiService,
+    PayfactorsApiService
   ]
 })
 export class PfApiModule { }

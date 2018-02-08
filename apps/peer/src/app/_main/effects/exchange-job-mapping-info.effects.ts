@@ -36,9 +36,9 @@ export class ExchangeJobMappingInfoEffects {
     .ofType(fromExchangeJobMappingInfoActions.APPLY_MAPPING)
     .map((action: fromExchangeJobMappingInfoActions.ApplyMapping) => action.payload)
     .switchMap(payload =>
-      this.exchangeCompanyApiService.mapExchangeJob(payload.exchangeId, payload.exchangeJobId, payload.companyJobId)
+      this.exchangeCompanyApiService.upsertExchangeJobMap(payload)
         .map(() => {
-          this.exchangeJobMappingService.loadExchangeJobMappingsAfterMap(payload.exchangeId);
+          this.exchangeJobMappingService.loadExchangeJobMappingsAfterMap(payload.ExchangeId);
         })
         .catch(() => {
           return of(this.store.dispatch(new fromExchangeJobMappingInfoActions.ApplyMappingError()));

@@ -1,5 +1,6 @@
 import { Tile } from './tile.model';
 import { TilePreviewBase } from './tile-preview-base.model';
+import { TilePreviewTypes } from './tile-preview-types';
 
 
 export interface TilePreviewList extends  TilePreviewBase {
@@ -19,7 +20,8 @@ export interface TilePreviewList extends  TilePreviewBase {
       return {
         Title: title,
         SubTitle: subTitle,
-        DetailData: detailData
+        DetailData: detailData,
+        PreviewType: TilePreviewTypes.List
       };
   }
 

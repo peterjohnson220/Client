@@ -6,6 +6,7 @@ export * from './tile-preview-chart.model';
 export * from './tile-preview-chart-data.model';
 export * from './tile-preview-icon.model';
 export * from './tile-preview-list.model';
+export * from './tile-preview-place-holder.model';
 export * from './tile-preview-type';
 export * from './tile-preview-types';
 export * from './tile-type';

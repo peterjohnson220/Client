@@ -9,6 +9,7 @@ import { ChartsModule } from '@progress/kendo-angular-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
+import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
@@ -31,9 +32,7 @@ import { TileComponent } from './components';
 import { TilePreviewChartComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
-
-// Pipes
-import { TruncateAfterPipe } from 'libs/core/pipes';
+import { TilePreviewPlaceHolderComponent } from './components';
 
 @NgModule({
   imports: [
@@ -51,10 +50,10 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     MainRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfCommonModule
   ],
   declarations: [
-    TruncateAfterPipe,
     // Pages
     DashboardPageComponent,
     // Components
@@ -63,6 +62,7 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     TilePreviewChartComponent,
     TilePreviewIconComponent,
     TilePreviewListComponent,
+    TilePreviewPlaceHolderComponent,
     TimelineActivityComponent,
     TileComponent,
     UserVoiceIndicatorComponent,

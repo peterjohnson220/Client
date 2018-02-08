@@ -93,16 +93,24 @@ exports[`timeline-activity should show an icon with class fa-commenting-o when T
                 
                 
                 <h6
-                  class="pl-2"
+                  class="pl-2 mt-3"
                 >
+                  
+                  
                   <a
                     class="pr-2"
                     href="#"
                   >
                     John Clark
                   </a>
+                  
+                
                 </h6>
-                <h6>
+                
+                
+                <h6
+                  class="mt-3"
+                >
                   3m ago
                 </h6>
                 
@@ -258,16 +266,24 @@ exports[`timeline-activity should show an icon with class fa-comments when Type 
                 
                 
                 <h6
-                  class="pl-2"
+                  class="pl-2 mt-3"
                 >
+                  
+                  
                   <a
                     class="pr-2"
                     href="#"
                   >
                     John Clark
                   </a>
+                  
+                
                 </h6>
-                <h6>
+                
+                
+                <h6
+                  class="mt-3"
+                >
                   3m ago
                 </h6>
                 
@@ -414,16 +430,24 @@ exports[`timeline-activity should show an icon with fa-info when Type is Resourc
                 
                 
                 <h6
-                  class="pl-2"
+                  class="pl-2 mt-3"
                 >
+                  
+                  
                   <a
                     class="pr-2"
                     href="#"
                   >
                     John Clark
                   </a>
+                  
+                
                 </h6>
-                <h6>
+                
+                
+                <h6
+                  class="mt-3"
+                >
                   3m ago
                 </h6>
                 
@@ -570,16 +594,24 @@ exports[`timeline-activity should show an icon with fa-share when Type is Activi
                 
                 
                 <h6
-                  class="pl-2"
+                  class="pl-2 mt-3"
                 >
+                  
+                  
                   <a
                     class="pr-2"
                     href="#"
                   >
                     John Clark
                   </a>
+                  
+                
                 </h6>
-                <h6>
+                
+                
+                <h6
+                  class="mt-3"
+                >
                   3m ago
                 </h6>
                 
@@ -723,16 +755,24 @@ exports[`timeline-activity should show timeline activities 1`] = `
                 
                 
                 <h6
-                  class="pl-2"
+                  class="pl-2 mt-3"
                 >
+                  
+                  
                   <a
                     class="pr-2"
                     href="#"
                   >
                     John Clark
                   </a>
+                  
+                
                 </h6>
-                <h6>
+                
+                
+                <h6
+                  class="mt-3"
+                >
                   3m ago
                 </h6>
                 
