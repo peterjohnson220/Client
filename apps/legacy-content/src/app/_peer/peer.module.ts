@@ -25,7 +25,6 @@ import { environment } from 'environments/environment';
 
     // Payfactors
     PfCommonUIModule,
-    PfSharedPeerModule,
     PfFormsModule
   ],
   declarations: [
