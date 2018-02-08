@@ -1,0 +1,211 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TilePreviewIcon should show data when data is given 1`] = `
+<pf-tile-preview-list
+  listData={[Function Array]}
+  model={[Function Object]}
+>
+  <a
+    class="btn tile-preview-list-button p-1"
+    href="/marketdata/newpricing.asp"
+  >
+    
+    
+    <i
+      class="fa fa-plus"
+    />
+     New
+  
+  </a>
+  <table
+    class="mt-3"
+    style="position:relative"
+  >
+    
+    
+    <tbody>
+      
+      <tr>
+        
+      
+        
+        
+        
+        
+        <th
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          Project Name
+        
+        </th>
+        
+      
+        
+        
+        
+        <th
+          class="hideable"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          # Jobs
+        
+        </th>
+        
+      
+        
+        
+        
+        <th
+          class="hideable"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          Created
+        
+        </th>
+        
+      
+        
+        
+        
+        <th
+          class="w-10"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          
+        
+        </th>
+        
+      
+        
+    
+      </tr>
+      
+    
+      
+      <tr>
+        
+      
+        
+        
+        
+        
+        <td
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          
+          
+          
+          
+          
+          <a
+            class="m-0; p-0;"
+            href="/marketdata/marketdata.asp?usersession_id=156025"
+          >
+            a new test project
+          </a>
+          
+          
+          
+          
+        
+        </td>
+        
+      
+        
+        
+        
+        <td
+          class="hideable"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          
+          
+          <p
+            class="d-inline"
+            placement="top"
+          >
+            1
+          </p>
+          
+          
+          
+          
+          
+          
+          
+        
+        </td>
+        
+      
+        
+        
+        
+        <td
+          class="hideable"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          
+          
+          <p
+            class="d-inline"
+            placement="top"
+          >
+            02/07/2018
+          </p>
+          
+          
+          
+          
+          
+          
+          
+        
+        </td>
+        
+      
+        
+        
+        
+        <td
+          class="w-10"
+          ng-reflect-ng-class="[object Object]"
+        >
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <i
+            class="fa fa-thumb-tack"
+            ng-reflect-ng-class="fa fa-thumb-tack"
+          />
+          
+        
+        </td>
+        
+      
+        
+    
+      </tr>
+      
+  
+    </tbody>
+  </table>
+  
+  
+  
+  
+  
+</pf-tile-preview-list>
+`;

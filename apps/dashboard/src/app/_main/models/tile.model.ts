@@ -62,7 +62,36 @@ export function generateMockListTile(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: undefined
+    TilePreviewData: [ {
+      Title: '',
+      SubTitle: '',
+      DetailData: [
+        {
+          Data: [
+            {
+              ColumnName: 'Project Name',
+              Text: 'a new test project',
+              Url: '/marketdata/marketdata.asp?usersession_id=156025',
+              TooltipText: null,
+              Hideable: false,
+              TileListItemType: 'Link'
+            }, {
+              ColumnName: '# Jobs', Text: '1', Url: null, TooltipText: null, Hideable: true, TileListItemType: 'Text'
+            }, {
+              ColumnName: 'Created', Text: '02/07/2018', Url: null,
+              TooltipText: 'Created By: test person', Hideable: true, TileListItemType: 'Text'
+            }, {
+              ColumnName: null,
+              Text: 'fa fa-thumb-tack',
+              Url: null,
+              TooltipText: null,
+              Hideable: false,
+              TileListItemType: 'Icon'
+            }
+          ]
+        }
+      ]
+    } ]
   };
 }
 
@@ -78,7 +107,7 @@ export function generateMockIconTileWithPayload(): Tile {
     Order: 0,
     Size: 2,
     CssClass: 'test cssClass',
-    TilePreviewData: [{
+    TilePreviewData: [ {
       Title: 'Boston',
       SubTitle: 'Default Market',
       DetailData: [
@@ -86,7 +115,7 @@ export function generateMockIconTileWithPayload(): Tile {
         { Key: 'Size', Value: '10' },
         { Key: 'Location', Value: 'Back Bay' }
       ]
-    }]
+    } ]
   };
 }
 

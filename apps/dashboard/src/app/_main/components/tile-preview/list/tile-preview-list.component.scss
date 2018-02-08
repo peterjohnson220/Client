@@ -1,6 +1,6 @@
 @import 'colors';
 
-.new-pricing-projects-button
+.tile-preview-list-button
 {
   position: absolute;
   right: 20px;
@@ -69,4 +69,16 @@ td > a:hover{
 
 p{
   display: inline;
+}
+
+.w-10
+{
+  width: 10%;
+}
+
+@media screen and (max-width: 991px) {
+
+  .hideable {
+    display: none;
+  }
 }
