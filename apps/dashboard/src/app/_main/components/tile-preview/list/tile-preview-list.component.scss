@@ -13,8 +13,10 @@
 }
 
 table {
+  position:relative;
   width: 100%;
-  font-size: .85rem;
+  font-size: .9rem;
+  overflow: auto;
 }
 th{
   max-width: 0;
@@ -28,22 +30,30 @@ tr {
   border-bottom:1px solid #ccc;
 }
 
+tr td:first-child
+{
+  width: 50%;
+}
+
 td {
   max-width: 0;
+  vertical-align: middle;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  line-height: .9rem;
+  line-height: 1.5rem;
 }
 
 td > i{
   float:right;
+  margin-right:15px;
 }
 
 td > p{
   overflow:hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: inline;
 }
 
 td > a{
@@ -55,4 +65,8 @@ td > a{
 
 td > a:hover{
   color:black;
+}
+
+p{
+  display: inline;
 }
