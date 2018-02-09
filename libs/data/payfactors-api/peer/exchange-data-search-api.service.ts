@@ -12,7 +12,6 @@ export class ExchangeDataSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  // TODO: request model
   getInitialMapFilter(initialMapFilterRequest: InitialMapFilterRequest): Observable<ExchangeMapFilter> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetInitialMapFilter`, {
       params: {
