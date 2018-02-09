@@ -50,7 +50,7 @@ export function generateMockIconTile(): Tile {
   };
 }
 
-export function generateMockListTile(): Tile {
+export function generateMockListTile(showColumnHeadings: boolean, mainButtonUrl: string = 'mainButtonUrl'): Tile {
   return {
     Id: 1,
     Label: 'test tile',
@@ -63,11 +63,13 @@ export function generateMockListTile(): Tile {
     Size: 2,
     CssClass: 'test cssClass',
     TilePreviewData: [ {
-      Title: '',
-      SubTitle: '',
+      MainButtonText: 'test button text',
+      MainButtonIcon: 'test button icon',
+      MainButtonUrl: mainButtonUrl,
+      ShowColumnHeadings: showColumnHeadings,
       DetailData: [
         {
-          Data: [
+          RowData: [
             {
               ColumnName: 'Project Name',
               Text: 'a new test project',

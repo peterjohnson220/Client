@@ -11,7 +11,6 @@ export class TilePreviewListComponent {
   @Input() model: TilePreviewList;
 
   public listData: any[] = [];
- //public TilePreviewListColumns = model.DetailData[0]
 
 }
 

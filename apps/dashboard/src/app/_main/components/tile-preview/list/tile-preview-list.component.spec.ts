@@ -9,7 +9,7 @@ import {
 import { TruncateAfterPipe } from 'libs/core/pipes';
 
 
-describe('TilePreviewIcon', () => {
+describe('TilePreviewList', () => {
   let fixture: ComponentFixture<TilePreviewListComponent>;
   let instance: TilePreviewListComponent;
 
@@ -27,8 +27,26 @@ describe('TilePreviewIcon', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show data when data is given', () => {
-    const tile = generateMockListTile();
+  it('should show data with columns when data is given and showColumnHeadings is true', () => {
+    const tile = generateMockListTile(true);
+    instance.model = generateTilePreviewListFromTile(tile);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show data without columns when data is given and showColumnHeadings is false', () => {
+    const tile = generateMockListTile(false);
+    instance.model = generateTilePreviewListFromTile(tile);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not display main button when main button url is blank', () => {
+    const tile = generateMockListTile(false, '');
     instance.model = generateTilePreviewListFromTile(tile);
 
     fixture.detectChanges();

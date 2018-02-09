@@ -1,16 +1,16 @@
-<a *ngIf="model.DetailData" class="btn tile-preview-list-button p-1" href="/marketdata/newpricing.asp">
-  <i class="fa fa-plus"></i> New
+<a *ngIf="model.DetailData && model.MainButtonUrl.length > 0" class="btn tile-preview-list-button p-1" [href]="model.MainButtonUrl">
+  <i [class]="model.MainButtonIcon"></i> {{model.MainButtonText}}
 </a>
 <table style="position:relative" class="mt-3">
-  <tr *ngIf="model.DetailData">
-    <ng-container *ngFor="let dataItem of model.DetailData[0].Data">
+  <tr *ngIf="model.DetailData && model.ShowColumnHeadings">
+    <ng-container *ngFor="let dataItem of model.DetailData[0].RowData">
       <th [ngClass]="{'hideable' : dataItem.Hideable, 'w-10': dataItem.TileListItemType == 'Icon'}">
         {{dataItem.ColumnName}}
       </th>
     </ng-container>
   </tr>
   <tr *ngFor="let data of model.DetailData">
-    <ng-container *ngFor="let dataItem of data.Data">
+    <ng-container *ngFor="let dataItem of data.RowData">
       <td [ngClass]="{'hideable' : dataItem.Hideable, 'w-10': dataItem.TileListItemType == 'Icon'}">
         <p class="d-inline" *ngIf="dataItem.TileListItemType=='Text'" placement="top"
            [ngbTooltip]="dataItem.TooltipText">{{dataItem.Text}}</p>
