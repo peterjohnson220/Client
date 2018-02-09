@@ -8,7 +8,6 @@ export interface State {
   mapCollection: FeatureCollection<Point>;
   mapSummary: ExchangeMapSummary;
   mapFilter: ExchangeMapFilter;
-  mapCenter: number[];
   mapBounds: number[];
   loading: boolean;
   loadingError: boolean;
@@ -22,10 +21,9 @@ export const initialState: State = {
   mapFilter: {
     States: [],
     Cities: [],
-    ClusterPrecision: 1
+    ClusterPrecision: 2
   },
   mapSummary: null,
-  mapCenter: [0, 0],
   mapBounds: [0, 0, 0, 0],
   loading: false,
   loadingError: false,
@@ -70,7 +68,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         shouldUpdateBounds: false
       };
       if (state.shouldUpdateBounds) {
-        newState.mapCenter = [mapSummary.Center.Lon, mapSummary.Center.Lat];
         newState.mapBounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
       }
       return newState;
@@ -125,7 +122,6 @@ export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
-export const getMapCenter = (state: State) => state.mapCenter;
 export const canLoadMap = (state: State) => !state.boundsChanged && !state.loading;
 
 function swapBounds(bounds: any): any {

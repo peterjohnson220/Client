@@ -27,7 +27,6 @@ export class MapComponent implements OnInit {
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
-  peerMapCenter$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
@@ -37,7 +36,6 @@ export class MapComponent implements OnInit {
     this.peerMapLoadingError$ = this.store.select(fromPeerDataReducers.getPeerMapLoadingError);
     this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
-    this.peerMapCenter$ = this.store.select(fromPeerDataReducers.getPeerMapCenter);
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
   }
 
@@ -78,7 +76,6 @@ export class MapComponent implements OnInit {
 
   // Helper functions
   refreshMap(e: any) {
-    // TODO: Make sure still works without  && !e.target.moving
     if (!e.target._loaded) {
       return;
     }
