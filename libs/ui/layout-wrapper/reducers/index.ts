@@ -42,6 +42,21 @@ export const getGettingHeaderDropdownNavigationLinksError = createSelector(
   fromHeaderReducer.getGettingDropdownNavigationLinksError
 );
 
+export const getGettingHomePageLink = createSelector(
+  selectHeaderState,
+  fromHeaderReducer.getGettingHomePageLink
+);
+
+export const getHomePageLink = createSelector(
+  selectHeaderState,
+  fromHeaderReducer.getHomePageLink
+);
+
+export const getGettingHomePageLinkError = createSelector(
+  selectHeaderState,
+  fromHeaderReducer.getGettingHomePageLinkError
+);
+
 export const selectLeftSidebarState = createSelector(
   selectLayoutWrapperState,
   (state: LayoutWrapperState) => state.leftSidebar

@@ -35,7 +35,6 @@ import { reducers } from './reducers';
 
     // Payfactors
     PfCommonUIModule,
-    PfSharedPeerModule,
     PfFormsModule
   ],
   declarations: [
