@@ -4,13 +4,10 @@ import { TilePreviewList } from '../../../models';
 @Component({
   selector: 'pf-tile-preview-list',
   templateUrl: './tile-preview-list.component.html',
-  styleUrls: ['./tile-preview-list.component.scss'],
+  styleUrls: [ './tile-preview-list.component.scss' ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewListComponent {
   @Input() model: TilePreviewList;
-
-  public listData: any[] = [];
-
 }
 

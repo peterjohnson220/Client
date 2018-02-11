@@ -2,11 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { TilePreviewListComponent } from './tile-preview-list.component';
 import {
-  generateMockIconTileWithPayload, generateMockListTile,
-  generateTilePreviewListFromTile,
-  TilePreviewIcon
+  generateMockListTile,
+  generateTilePreviewListFromTile
 } from '../../../models';
-import { TruncateAfterPipe } from 'libs/core/pipes';
 
 
 describe('TilePreviewList', () => {

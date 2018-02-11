@@ -15,7 +15,7 @@
         <p class="d-inline" *ngIf="dataItem.TileListItemType=='Text'" placement="top"
            [ngbTooltip]="dataItem.TooltipText">{{dataItem.Text}}</p>
         <a class="m-0; p-0;" *ngIf="dataItem.TileListItemType=='Link'" href="{{dataItem.Url}}">{{dataItem.Text}}</a>
-        <i *ngIf="dataItem.TileListItemType=='Icon'" [ngClass]="dataItem.Text"></i>
+        <i *ngIf="dataItem.TileListItemType=='Icon'" [ngClass]="dataItem.Text" class="mr-3"></i>
       </td>
     </ng-container>
   </tr>

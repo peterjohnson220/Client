@@ -6,8 +6,8 @@
   right: 20px;
   top: 20px;
   z-index: 1;
-  color: #1F2F3D;
-  background-color: #FFFFFF;
+  color: $tile-list-button-text-color;
+  background-color: $tile-list-button-background-color;
   cursor: pointer;
   font-size: .9rem;
 }
@@ -23,11 +23,11 @@ th{
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: orange;
+  color: $tile-list-header-color;
 }
 
 tr {
-  border-bottom:1px solid #ccc;
+  border-bottom:1px solid #CCC;
 }
 
 tr td:first-child
@@ -46,7 +46,6 @@ td {
 
 td > i{
   float:right;
-  margin-right:15px;
 }
 
 td > p{
