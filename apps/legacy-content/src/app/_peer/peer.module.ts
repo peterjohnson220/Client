@@ -8,7 +8,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfSharedPeerModule } from 'libs/features';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
@@ -16,7 +15,8 @@ import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
 import { PeerMapEffects } from './effects';
 import { reducers } from './reducers';
-
+import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
+import { FilterComponent } from './components';
 
 @NgModule({
   imports: [
@@ -29,6 +29,7 @@ import { reducers } from './reducers';
       PeerMapEffects
     ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
+    MultiSelectModule,
 
     // Routing
     PeerRoutingModule,
@@ -38,6 +39,9 @@ import { reducers } from './reducers';
     PfFormsModule
   ],
   declarations: [
+    // Components
+    FilterComponent,
+
     // Containers
     FiltersComponent, MapComponent,
 

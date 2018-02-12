@@ -23,4 +23,9 @@ export class ExchangeDataSearchApiService {
   getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeMapFilter);
   }
+
+  // TODO: Response model
+  getMapFilters(exchangeMapFilter: ExchangeMapFilter): Observable<any[]> {
+   return this.payfactorsApiService.post(`${this.endpoint}/GetMapFilters`, exchangeMapFilter);
+  }
 }

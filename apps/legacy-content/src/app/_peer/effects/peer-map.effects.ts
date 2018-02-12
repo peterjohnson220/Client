@@ -9,29 +9,29 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { ExchangeMapResponse, ExchangeMapFilter } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
+import * as fromPeerFiltersActions from '../actions/peer-filters.actions';
 import * as fromPeerDataReducers from '../reducers';
 
 @Injectable()
 export class PeerMapEffects {
-
+  // TODO: Make sure that this is dispatching LoadingPeerMap and LoadingPeerFilters async.
+  // TODO: LoadingInitialPeerMapFilterError action
   @Effect()
   loadInitialMapFilter$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER)
     .map((action: fromPeerMapActions.LoadingInitialPeerMapFilter) => action.payload)
     .switchMap(payload =>
       this.exchangeDataSearchApiService.getInitialMapFilter(payload)
-        .concatMap((exchangeMapFilter: ExchangeMapFilter) => {
-          return [
-            new fromPeerMapActions.LoadingInitialPeerMapFilterSuccess(exchangeMapFilter),
-            new fromPeerMapActions.LoadingPeerMap
-          ];
-        })
-        .catch(() => of(new fromPeerMapActions.LoadingPeerMap))
+        .map((exchangeMapFilter: ExchangeMapFilter) => new fromPeerMapActions
+          .LoadingInitialPeerMapFilterSuccess(exchangeMapFilter))
+        .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
+        .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters])
     );
 
   @Effect()
@@ -49,6 +49,16 @@ export class PeerMapEffects {
   updateFilterBounds$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
     .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
+
+  @Effect()
+  loadPeerFilters$: Observable<Action> = this.actions$
+    .ofType(fromPeerFiltersActions.LOADING_PEER_FILTERS)
+    .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
+    .switchMap((payload: ExchangeMapFilter) =>
+      this.exchangeDataSearchApiService.getMapFilters(payload)
+        .map((exchangeFiltersResponse: any) => new fromPeerFiltersActions.LoadingPeerFiltersSuccess(exchangeFiltersResponse))
+        .catch(() => of(new fromPeerFiltersActions.LoadingPeerFiltersError))
+    );
 
   constructor(
     private actions$: Actions,
