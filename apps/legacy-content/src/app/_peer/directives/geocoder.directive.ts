@@ -2,7 +2,7 @@ import { Directive, Host, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs/Subscription';
 import { ɵn, ɵa } from 'ngx-mapbox-gl/';
-import * as MapBoxGeocoder from 'mapbox-gl-geocoder';
+import * as MapBoxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 import { environment } from 'environments/environment';
 
