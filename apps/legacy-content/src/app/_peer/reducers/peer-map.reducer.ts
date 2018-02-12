@@ -122,9 +122,11 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       }
       newMapFilter[filterKey] = filterUpdate.selections;
 
+      // TODO: We need the map to fit bounds after we trigger a filter change.
       return {
         ...state,
-        mapFilter: newMapFilter
+        mapFilter: newMapFilter,
+        // shouldUpdateBounds: true
       };
     }
     default: {
