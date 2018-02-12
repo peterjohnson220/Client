@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
 import { PfCommonModule } from 'libs/core';
@@ -43,6 +44,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
     ChartsModule,
+    NgbModule,
 
     // Routing
     MainRoutingModule,
