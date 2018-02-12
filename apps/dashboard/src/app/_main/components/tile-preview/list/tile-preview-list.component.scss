@@ -1,0 +1,84 @@
+@import 'colors';
+
+.tile-preview-list-button
+{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 1;
+  color: $tile-list-button-text-color;
+  background-color: $tile-list-button-background-color;
+  cursor: pointer;
+  font-size: .9rem;
+}
+
+table {
+  position:relative;
+  width: 100%;
+  font-size: .9rem;
+  overflow: auto;
+}
+
+th{
+  max-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: $tile-list-header-color;
+}
+
+tr {
+  border-bottom:1px solid #CCC;
+}
+
+tr td:first-child
+{
+  width: 50%;
+}
+
+td {
+  max-width: 0;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.5rem;
+}
+
+td > i{
+  float:right;
+}
+
+td > p{
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
+}
+
+td > a{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: white;
+}
+
+td > a:hover{
+  color:black;
+}
+
+p{
+  display: inline;
+}
+
+.w-10
+{
+  width: 10%;
+}
+
+@media screen and (max-width: 991px) {
+
+  .hideable {
+    display: none;
+  }
+}
