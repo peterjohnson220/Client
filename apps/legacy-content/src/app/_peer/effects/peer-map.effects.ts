@@ -20,8 +20,6 @@ import * as fromPeerDataReducers from '../reducers';
 
 @Injectable()
 export class PeerMapEffects {
-  // TODO: Make sure that this is dispatching LoadingPeerMap and LoadingPeerFilters async.
-  // TODO: LoadingInitialPeerMapFilterError action
   @Effect()
   loadInitialMapFilter$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER)
@@ -31,6 +29,7 @@ export class PeerMapEffects {
         .map((exchangeMapFilter: ExchangeMapFilter) => new fromPeerMapActions
           .LoadingInitialPeerMapFilterSuccess(exchangeMapFilter))
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
+        // regardless of what happens, asynchronously load the map and load the filters
         .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters])
     );
 
@@ -54,11 +53,16 @@ export class PeerMapEffects {
   loadPeerFilters$: Observable<Action> = this.actions$
     .ofType(fromPeerFiltersActions.LOADING_PEER_FILTERS)
     .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
-    .switchMap((payload: ExchangeMapFilter) =>
-      this.exchangeDataSearchApiService.getMapFilters(payload)
+    .switchMap((filter: ExchangeMapFilter) =>
+      this.exchangeDataSearchApiService.getMapFilters(filter)
         .map((exchangeFiltersResponse: any) => new fromPeerFiltersActions.LoadingPeerFiltersSuccess(exchangeFiltersResponse))
         .catch(() => of(new fromPeerFiltersActions.LoadingPeerFiltersError))
     );
+
+  @Effect()
+  updatePeerMapFilter$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER)
+    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
 
   constructor(
     private actions$: Actions,

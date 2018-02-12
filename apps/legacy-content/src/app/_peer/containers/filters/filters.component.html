@@ -1,5 +1,8 @@
 <h2>FILTERS GO HERE</h2>
-<div *ngFor="let filter of (filters$ | async)">
-  <pf-peer-data-cut-filter [filter]="filter"></pf-peer-data-cut-filter>
+<div class='filters' *ngFor="let filter of (peerFilters$ | async)">
+  <pf-peer-data-cut-filter
+    [filter]="filter"
+    (selectionChanged)="handleSelectionChanged($event)"
+  ></pf-peer-data-cut-filter>
 </div>
 <div>{{getMapStats()}}</div>

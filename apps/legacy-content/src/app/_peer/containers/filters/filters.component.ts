@@ -1,17 +1,12 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { from } from 'rxjs/observable/from';
-import { tap } from 'rxjs/operators/tap';
-import { switchMap } from 'rxjs/operators/switchMap';
-import { delay } from 'rxjs/operators/delay';
-import { map } from 'rxjs/operators/map';
-
 import { ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerDataReducers from '../../reducers';
+import * as fromPeerMapActions from '../../actions/peer-map.actions';
 
 @Component({
   selector: 'pf-peer-data-cut-filters',
@@ -36,6 +31,11 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   getMapStats() {
     return JSON.stringify(this.peerMapSummary);
+  }
+
+  handleSelectionChanged(filterSelection: any) {
+    console.log('handleSelectionChanged: ', filterSelection);
+    this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilter(filterSelection));
   }
 
   ngOnInit(): void {

@@ -19,6 +19,7 @@ export interface State {
 export const initialState: State = {
   mapCollection: null,
   mapFilter: {
+    Exchanges: [],
     States: [],
     Cities: [],
     ClusterPrecision: 2
@@ -35,8 +36,12 @@ export const initialState: State = {
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
   switch (action.type) {
     case fromPeerMapActions.LOADING_PEER_MAP: {
+      const mapFilter = {
+        ...state.mapFilter
+      };
       return {
         ...state,
+        mapFilter: mapFilter,
         mapCollection: null,
         mapSummary: null,
         loading: true,
@@ -107,6 +112,19 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         ...state,
         mapFilter: mapFilter,
         boundsChanged: false
+      };
+    }
+    case fromPeerMapActions.UPDATE_PEER_MAP_FILTER: {
+      const filterUpdate: any = action.payload;
+      const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
+      const newMapFilter = {
+        ...state.mapFilter
+      }
+      newMapFilter[filterKey] = filterUpdate.selections;
+
+      return {
+        ...state,
+        mapFilter: newMapFilter
       };
     }
     default: {

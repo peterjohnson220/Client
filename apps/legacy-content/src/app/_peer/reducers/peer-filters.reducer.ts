@@ -2,15 +2,25 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as fromPeerFilterActions from '../actions/peer-filters.actions';
 
+export interface FilterAggregateItem {
+  Item: string;
+  Count?: number;
+}
+
+export interface FilterAggregateGroup {
+  Type: string;
+  Aggregates: FilterAggregateItem[];
+}
+
 // Extended entity state
-export interface State extends EntityState<any> {
+export interface State extends EntityState<FilterAggregateGroup> {
   loading: boolean;
   loadingError: boolean;
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<any> = createEntityAdapter<any>({
-  selectId: (filter: any) => filter.Id
+export const adapter: EntityAdapter<FilterAggregateGroup> = createEntityAdapter<FilterAggregateGroup>({
+  selectId: (filter: FilterAggregateGroup) => filter.Type
 });
 
 // Initial State
@@ -29,7 +39,7 @@ export function reducer(state = initialState, action: fromPeerFilterActions.Acti
       };
     }
     case fromPeerFilterActions.LOADING_PEER_FILTERS_SUCCESS: {
-      const filters: any[] = action.payload;
+      const filters: FilterAggregateGroup[] = action.payload;
       return {
         ...adapter.addAll(filters, state),
         loading: false

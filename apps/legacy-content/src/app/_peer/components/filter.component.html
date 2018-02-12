@@ -1,8 +1,13 @@
+<label>{{filter.Type}}</label>
 <kendo-multiselect
+  textField="Item"
+  valueField="Item"
+  [placeholder]="filter.Type"
   [data]="data"
   [filterable]="true"
-  textField="text"
-  valueField="value"
-  placeholder="T-shirt size"
+  [disabled]="disabled"
+  (filterChange)="handleFilterChangeEvent($event)"
+  (valueChange)="handleValueChangeEvent($event)"
+  [(ngModel)]="selections"
 >
 </kendo-multiselect>

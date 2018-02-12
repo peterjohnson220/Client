@@ -17,11 +17,13 @@ import { PeerMapEffects } from './effects';
 import { reducers } from './reducers';
 import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 import { FilterComponent } from './components';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
 
     // 3rd party
     StoreModule.forFeature('peerData', reducers),

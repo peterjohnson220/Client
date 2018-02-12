@@ -1,36 +1,43 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FilterAggregateGroup, FilterAggregateItem } from '../reducers/peer-filters.reducer';
 
 @Component({
   selector: 'pf-peer-data-cut-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements AfterViewInit {
-  @Input() filter: any;
+export class FilterComponent implements OnInit {
+  @Input() filter: FilterAggregateGroup;
+  @Output() selectionChanged = new EventEmitter();
 
-  public source: Array<{ text: string, value: number }> = [
-    { text: 'Small', value: 1 },
-    { text: 'Medium', value: 2 },
-    { text: 'Large', value: 3 }
-  ];
+  disabled = false;
+  source: FilterAggregateItem[];
+  data: FilterAggregateItem[];
+  selections: FilterAggregateItem[];
 
-  public data: Array<{ text: string, value: number }>;
+  constructor() { }
 
- constructor() {
-    this.data = this.source.slice(0);
+  handleFilterChangeEvent(e: any) {
+    console.log('handleFilterChangeEvent! - ', e);
+    console.log('handleFilterChangeEvent! - Selections: ', this.selections);
   }
 
-  ngAfterViewInit(): void {
-    // const contains = value => s => s.text.toLowerCase().indexOf(value.toLowerCase()) !== -1;
-    // this.list.filterChange.asObservable().pipe(
-    //   switchMap(value => from([this.source]).pipe(
-    //     tap(() => this.list.loading = true),
-    //     delay(1000),
-    //     map((data) => data.filter(contains(value)))
-    //   ))
-    // ).subscribe(x => {
-    //   this.data = x;
-    //   this.list.loading = false;
-    // });
+  handleValueChangeEvent(e: any) {
+    console.log('handleValueChangeEvent! - ', e);
+    console.log('handleValueChangeEvent! - Selections: ', this.selections);
+    this.selectionChanged.emit({
+      type: this.filter.Type,
+      selections: this.selections.map((sel: any) => sel.Item)
+    });
+  }
+
+  ngOnInit(): void {
+   console.log(this.filter.Aggregates);
+   this.source = this.filter.Aggregates;
+   this.data = this.source.slice(0);
+   if (this.filter.Aggregates && this.filter.Aggregates.length === 1) {
+     this.selections = this.filter.Aggregates;
+     this.disabled = true;
+   }
   }
 }
