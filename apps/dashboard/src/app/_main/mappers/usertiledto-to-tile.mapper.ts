@@ -57,6 +57,7 @@ export class UserTileToTileMapper {
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
 
+      case TileTypes.Surveys:
       case TileTypes.MyJobs:
       case TileTypes.Employees:
         return TilePreviewTypes.PlaceHolder;
