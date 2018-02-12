@@ -7,7 +7,6 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/withLatestFrom';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
