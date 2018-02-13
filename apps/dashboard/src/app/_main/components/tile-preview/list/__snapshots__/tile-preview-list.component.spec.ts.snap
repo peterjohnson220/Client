@@ -32,7 +32,7 @@ exports[`TilePreviewList should not display main button when main button url is 
           
           
           <a
-            class="m-0; p-0;"
+            class="m-0 p-0;"
             href="/marketdata/marketdata.asp?usersession_id=156025"
           >
             a new test project
@@ -241,7 +241,7 @@ exports[`TilePreviewList should show data with columns when data is given and sh
           
           
           <a
-            class="m-0; p-0;"
+            class="m-0 p-0;"
             href="/marketdata/marketdata.asp?usersession_id=156025"
           >
             a new test project
@@ -392,7 +392,7 @@ exports[`TilePreviewList should show data without columns when data is given and
           
           
           <a
-            class="m-0; p-0;"
+            class="m-0 p-0;"
             href="/marketdata/marketdata.asp?usersession_id=156025"
           >
             a new test project
