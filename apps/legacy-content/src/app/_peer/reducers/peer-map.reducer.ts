@@ -121,12 +121,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         ...state.mapFilter
       }
       newMapFilter[filterKey] = filterUpdate.selections;
-
-      // TODO: We need the map to fit bounds after we trigger a filter change.
       return {
         ...state,
-        mapFilter: newMapFilter,
-        // shouldUpdateBounds: true
+        mapFilter: newMapFilter
       };
     }
     default: {
@@ -149,13 +146,20 @@ function swapBounds(bounds: any): any {
   const sw = bounds._sw;
   const swappedBounds = {
     TopLeft: {
-      Lat: ne.lat,
-      Lon: sw.lng
+      Lat: enforceBoundsLimit(ne.lat),
+      Lon: enforceBoundsLimit(sw.lng)
     },
     BottomRight: {
-      Lat: sw.lat,
-      Lon: ne.lng
+      Lat: enforceBoundsLimit(sw.lat),
+      Lon: enforceBoundsLimit(ne.lng)
     }
   };
   return swappedBounds;
+}
+
+function enforceBoundsLimit(coordinate: number) {
+  const absMultiplier =  coordinate < 0 ? -1 : 1;
+  const absCoord = coordinate * absMultiplier;
+  const absResult = absCoord > 180 ? 180 : absCoord;
+  return absResult * absMultiplier;
 }

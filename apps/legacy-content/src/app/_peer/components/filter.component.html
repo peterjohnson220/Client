@@ -1,12 +1,13 @@
-<label>{{filter.Type}}</label>
+<label [for]="id">{{label}}</label>
 <kendo-multiselect
+  #list
   textField="Item"
   valueField="Item"
-  [placeholder]="filter.Type"
+  [id]="id"
+  [placeholder]="placeholder"
   [data]="data"
   [filterable]="true"
   [disabled]="disabled"
-  (filterChange)="handleFilterChangeEvent($event)"
   (valueChange)="handleValueChangeEvent($event)"
   [(ngModel)]="selections"
 >

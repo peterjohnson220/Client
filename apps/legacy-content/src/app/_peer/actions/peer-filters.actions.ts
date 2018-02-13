@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { FilterAggregateGroup } from '../reducers/peer-filters.reducer';
+import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
 
 export const LOADING_PEER_FILTERS  = '[Peer Add Data Cut/Filters] Loading Peer Filters';
 export const LOADING_PEER_FILTERS_SUCCESS  = '[Peer Add Data Cut/Filters] Loading Peer Filters Success';

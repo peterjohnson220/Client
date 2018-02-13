@@ -34,7 +34,6 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   handleSelectionChanged(filterSelection: any) {
-    console.log('handleSelectionChanged: ', filterSelection);
     this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilter(filterSelection));
   }
 

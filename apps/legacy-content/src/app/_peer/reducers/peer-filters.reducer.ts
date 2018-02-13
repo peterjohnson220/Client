@@ -1,16 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as fromPeerFilterActions from '../actions/peer-filters.actions';
-
-export interface FilterAggregateItem {
-  Item: string;
-  Count?: number;
-}
-
-export interface FilterAggregateGroup {
-  Type: string;
-  Aggregates: FilterAggregateItem[];
-}
+import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
 
 // Extended entity state
 export interface State extends EntityState<FilterAggregateGroup> {
@@ -20,7 +11,7 @@ export interface State extends EntityState<FilterAggregateGroup> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<FilterAggregateGroup> = createEntityAdapter<FilterAggregateGroup>({
-  selectId: (filter: FilterAggregateGroup) => filter.Type
+  selectId: (filter: FilterAggregateGroup) => filter.MetaData.FilterType
 });
 
 // Initial State
