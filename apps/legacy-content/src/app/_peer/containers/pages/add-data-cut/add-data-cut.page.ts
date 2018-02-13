@@ -8,7 +8,8 @@ import { WindowCommunicationService } from 'libs/core/services';
   styleUrls: ['./add-data-cut.page.scss']
 })
 export class AddDataCutPageComponent {
-  constructor(private windowCommunicationService: WindowCommunicationService,) {}
+
+  constructor(private windowCommunicationService: WindowCommunicationService) {  }
 
   add() {
     this.windowCommunicationService.postMessage('[Peer/Add Data Cut] Add');
