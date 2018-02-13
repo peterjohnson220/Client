@@ -29,9 +29,14 @@ export class PeerMapEffects {
         .map((exchangeMapFilter: ExchangeMapFilter) => new fromPeerMapActions
           .LoadingInitialPeerMapFilterSuccess(exchangeMapFilter))
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
-        // regardless of what happens, asynchronously load the map and load the filters
-        .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters])
     );
+
+  // regardless of what happens, asynchronously load the map and load the filters
+  @Effect()
+  loadingInitialMapFilterSucces$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS)
+    .map((action: fromPeerMapActions.LoadingInitialPeerMapFilterSuccess) => action.payload)
+    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters])
 
   @Effect()
   loadPeerMap$: Observable<Action> = this.actions$
