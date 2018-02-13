@@ -3,6 +3,7 @@ import { FeatureCollection, Point } from 'geojson';
 import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
+import { UpdateFilterSelections } from '../../../../../../libs/models/peer/aggregate-filters';
 
 export interface State {
   mapCollection: FeatureCollection<Point>;
@@ -115,7 +116,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER: {
-      const filterUpdate: any = action.payload;
+      const filterUpdate: UpdateFilterSelections = action.payload;
       const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
       const newMapFilter = {
         ...state.mapFilter

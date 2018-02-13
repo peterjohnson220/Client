@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapSummary, UpdateFilterSelections } from 'libs/models/peer';
 
 import * as fromPeerDataReducers from '../../reducers';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
@@ -33,7 +33,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     return JSON.stringify(this.peerMapSummary);
   }
 
-  handleSelectionChanged(filterSelection: any) {
+  handleSelectionChanged(filterSelection: UpdateFilterSelections) {
     this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilter(filterSelection));
   }
 

@@ -50,6 +50,12 @@ export class FilterComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // [JP] - Because we can't display the kendo multi-select component in a jest snapshot, we can't test anything that
+    // depends on it. This prevents an error when the kendo component is not provided in a unit test.
+    if (!this.list.filterChange) {
+      return;
+    }
+
     const contains = value => s => s.Item.toLowerCase().indexOf(value.toLowerCase()) !== -1;
 
     this.list.filterChange.asObservable().pipe(

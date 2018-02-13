@@ -6,10 +6,10 @@ export interface FilterAggregateMetaData {
   Placeholder: string;
 }
 
-export function generateMockFilterAggregateMetaData(): FilterAggregateMetaData {
+export function generateMockFilterAggregateMetaData(filterType = 1): FilterAggregateMetaData {
   return {
     Id: 'MockId',
-    FilterType: 1,
+    FilterType: filterType,
     FilterProp: 'MockProp',
     Label: 'MockLabel',
     Placeholder: 'MockPlaceholder'

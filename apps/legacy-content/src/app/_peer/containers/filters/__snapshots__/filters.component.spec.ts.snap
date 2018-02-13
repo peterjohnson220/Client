@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Legacy Content - Peer - Filters Component should display a pf-peer-data-cut-filter for each FilterAggregateGroup in the store 1`] = `
+<pf-peer-data-cut-filters
+  peerFilters$={[Function Store]}
+  peerFiltersLoading$={[Function Store]}
+  peerFiltersLoadingError$={[Function Store]}
+  peerMapSummary="null"
+  peerMapSummary$={[Function Store]}
+  peerMapSummarySubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <h2>
+    FILTERS GO HERE
+  </h2>
+  <div
+    class="filters"
+  >
+    
+    
+    
+    <pf-peer-data-cut-filter />
+    <pf-peer-data-cut-filter />
+    
+  
+  </div>
+  <div>
+    null
+  </div>
+  
+</pf-peer-data-cut-filters>
+`;

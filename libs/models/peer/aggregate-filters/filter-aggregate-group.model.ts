@@ -6,9 +6,9 @@ export interface FilterAggregateGroup {
   Aggregates: FilterAggregateItem[];
 }
 
-export function generateMockFilterAggregateGroup(): FilterAggregateGroup {
+export function generateMockFilterAggregateGroup(filterType = 1): FilterAggregateGroup {
   return {
-    MetaData: generateMockFilterAggregateMetaData(),
+    MetaData: generateMockFilterAggregateMetaData(filterType),
     Aggregates: [generateMockFilterAggregateItem()]
   };
 }
