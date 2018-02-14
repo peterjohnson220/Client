@@ -61,7 +61,7 @@ export class FilterComponent implements OnInit, AfterViewInit {
     this.list.filterChange.asObservable().pipe(
       switchMap(value => from([this.source]).pipe(
         tap(() => this.list.loading = true),
-        delay(1000),
+        delay(200),
         map((data) => data.filter(contains(value)))
       ))
     ).subscribe(x => {

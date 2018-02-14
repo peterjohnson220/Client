@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 
 import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
@@ -15,9 +17,7 @@ import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
 import { PeerMapEffects } from './effects';
 import { reducers } from './reducers';
-import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 import { FilterComponent } from './components';
-import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

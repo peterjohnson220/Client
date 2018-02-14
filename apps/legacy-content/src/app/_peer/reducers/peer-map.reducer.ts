@@ -1,9 +1,8 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapFilter, ExchangeMapSummary, UpdateFilterSelections } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
-import { UpdateFilterSelections } from '../../../../../../libs/models/peer/aggregate-filters';
 
 export interface State {
   mapCollection: FeatureCollection<Point>;
@@ -159,8 +158,5 @@ function swapBounds(bounds: any): any {
 }
 
 function enforceBoundsLimit(coordinate: number) {
-  const absMultiplier =  coordinate < 0 ? -1 : 1;
-  const absCoord = coordinate * absMultiplier;
-  const absResult = absCoord > 180 ? 180 : absCoord;
-  return absResult * absMultiplier;
+  return coordinate > 180 ? 180 : coordinate < -180 ? -180 : coordinate;
 }
