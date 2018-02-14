@@ -6,8 +6,10 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
+import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
@@ -30,9 +32,7 @@ import { TileComponent } from './components';
 import { TilePreviewChartComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
-
-// Pipes
-import { TruncateAfterPipe } from 'libs/core/pipes';
+import { TilePreviewPlaceHolderComponent } from './components';
 
 @NgModule({
   imports: [
@@ -44,15 +44,16 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
     ChartsModule,
+    NgbModule,
 
     // Routing
     MainRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfCommonModule
   ],
   declarations: [
-    TruncateAfterPipe,
     // Pages
     DashboardPageComponent,
     // Components
@@ -61,6 +62,7 @@ import { TruncateAfterPipe } from 'libs/core/pipes';
     TilePreviewChartComponent,
     TilePreviewIconComponent,
     TilePreviewListComponent,
+    TilePreviewPlaceHolderComponent,
     TimelineActivityComponent,
     TileComponent,
     UserVoiceIndicatorComponent,

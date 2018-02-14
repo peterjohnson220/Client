@@ -51,16 +51,16 @@ export class UserTileToTileMapper {
 
   static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
     switch (tileType) {
-      case TileTypes.Employees:
       case TileTypes.JobDescriptions:
-      case TileTypes.MyJobs:
         return TilePreviewTypes.Chart;
 
-      case TileTypes.DataInsights:
       case TileTypes.PricingProjects:
-      case TileTypes.Resources:
-      case TileTypes.Surveys:
         return TilePreviewTypes.List;
+
+      case TileTypes.Surveys:
+      case TileTypes.MyJobs:
+      case TileTypes.Employees:
+        return TilePreviewTypes.PlaceHolder;
 
       default:
         return TilePreviewTypes.Icon;
@@ -80,7 +80,7 @@ export class UserTileToTileMapper {
       case TileTypes.JobDescriptions:
         tile.CssClass = 'tile-green';
         tile.ChartType = TilePreviewChartTypes.Donut;
-        tile.ChartLabel = 'Job Description Statuses';
+        tile.ChartLabel = 'Job Description Status';
 
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
@@ -117,6 +117,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.Surveys:
         tile.CssClass = 'tile-blue';
+        tile.IconClass = 'fa-book';
         break;
 
       default:

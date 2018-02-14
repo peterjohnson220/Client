@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
@@ -11,6 +10,9 @@ import { PageWithTitleBarComponent } from './page-layout';
 import { ValidationResultsComponent } from './validation';
 
 const components = [
+  // Content
+  EllipsisViewMoreComponent,
+
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent,
 
@@ -27,8 +29,7 @@ const components = [
 @NgModule({
   imports:      [
     CommonModule,
-    RouterModule,
-    NgbModule.forRoot()
+    RouterModule
   ],
   declarations: components,
   exports: components

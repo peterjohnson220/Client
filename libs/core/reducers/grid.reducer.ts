@@ -97,7 +97,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
   };
 };
 
-export const createGridReducer = (gridType: GridTypeEnum, featureReducer: ActionReducerMap<any>, gridStateOverride?: any) => {
+export const createGridReducer = (gridType: GridTypeEnum, featureReducer: any, gridStateOverride?: any) => {
   const initState = {
     ...initialGridState,
     grid: {

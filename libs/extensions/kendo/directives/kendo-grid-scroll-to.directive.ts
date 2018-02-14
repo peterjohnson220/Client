@@ -8,6 +8,8 @@ export class KendoGridScrollToDirective implements AfterViewInit, OnChanges {
   @Input('pfKendoScrollTo') rowNumber: number;
   /* tslint:disable:no-input-rename */
   @Input('pfKendoScrollToEnabled') enabled = true;
+  /* tslint:disable:no-input-rename */
+  @Input('pfKendoScrollToAnimate') animate = true;
 
   gridContent: any;
   gridfirstRowHeight: number;
@@ -21,7 +23,13 @@ export class KendoGridScrollToDirective implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.enabled && this.gridContent && changes.rowNumber.currentValue) {
-      this.scrollTo(this.gridContent, this.gridfirstRowHeight * this.rowNumber, 1000);
+      const offset = this.gridfirstRowHeight * this.rowNumber;
+
+      if (this.animate) {
+        this.scrollTo(this.gridContent, offset, 1000);
+      } else {
+        this.gridContent.scrollTop = offset;
+      }
     }
   }
 

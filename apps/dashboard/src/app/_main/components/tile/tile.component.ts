@@ -4,7 +4,8 @@ import { environment } from 'environments/environment';
 
 import {
   Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
-  generateTilePreviewIconFromTile, generateTilePreviewChartFromTile
+  generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
+  generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile
 } from '../../models';
 
 @Component({
@@ -25,8 +26,13 @@ export class TileComponent implements OnInit {
         return generateTilePreviewIconFromTile(tile);
       case TilePreviewTypes.Chart:
         return generateTilePreviewChartFromTile(tile);
+      case TilePreviewTypes.List:
+        return generateTilePreviewListFromTile(tile);
+      case TilePreviewTypes.PlaceHolder:
+        return generateTilePreviewPlaceHolderFromTile(tile);
       default:
         return {
+          PreviewType: TilePreviewTypes.Unknown,
           IconClass: tile.IconClass
         };
     }

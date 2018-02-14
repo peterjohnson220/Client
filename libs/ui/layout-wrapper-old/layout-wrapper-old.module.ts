@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -14,13 +14,16 @@ import { reducers } from './reducers';
 
 @NgModule({
   imports:      [
+    // Angular
     CommonModule,
-    NgbModule,
 
-    PfCommonUIModule,
-
+    // 3rd party
+    NgbDropdownModule.forRoot(),
     StoreModule.forFeature('layoutWrapper', reducers),
     EffectsModule.forFeature([HeaderEffects]),
+
+    // Payfactors
+    PfCommonUIModule
   ],
   declarations: [ HeaderComponent, LayoutWrapperComponent ],
   exports:      [ LayoutWrapperComponent ]

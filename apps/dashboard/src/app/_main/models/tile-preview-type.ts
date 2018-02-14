@@ -6,12 +6,14 @@ export class TilePreviewType {
   Chart = TilePreviewTypes.Chart;
   Icon = TilePreviewTypes.Icon;
   List = TilePreviewTypes.List;
+  PlaceHolder = TilePreviewTypes.PlaceHolder;
 
   constructor() {
     this.AllTypes = [
       TilePreviewTypes.Chart,
       TilePreviewTypes.Icon,
-      TilePreviewTypes.List
+      TilePreviewTypes.List,
+      TilePreviewTypes.PlaceHolder
     ];
   }
 }

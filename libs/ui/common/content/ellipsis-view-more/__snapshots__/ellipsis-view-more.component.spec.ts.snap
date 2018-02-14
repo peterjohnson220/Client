@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI/Common/Content - Ellipsis View More should ellipsis the content and show a view more link, when the length exceeds the max length 1`] = `
+<pf-ellipsis-view-more
+  content={[Function String]}
+  maxLength={[Function Number]}
+>
+  
+    Lorem ipsum dol...
+  
+  
+  
+  
+  <div
+    class="toggle-view-link"
+  >
+    
+  
+    View More
+  
+  
+  </div>
+  
+  
+  
+</pf-ellipsis-view-more>
+`;
+
+exports[`UI/Common/Content - Ellipsis View More should show the full content and a view less link, when we are showing full 1`] = `
+<pf-ellipsis-view-more
+  content={[Function String]}
+  maxLength={[Function Number]}
+  showFull={[Function Boolean]}
+>
+  
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  
+  
+  
+  
+  <div
+    class="toggle-view-link"
+  >
+    
+  
+    View Less
+  
+  
+  </div>
+  
+  
+  
+</pf-ellipsis-view-more>
+`;
+
+exports[`UI/Common/Content - Ellipsis View More should show the full content, when its length is less than the max 1`] = `
+<pf-ellipsis-view-more
+  content={[Function String]}
+  maxLength={[Function Number]}
+>
+  
+    Lorem Ipsum
+  
+  
+  
+  
+  
+  
+  
+  
+</pf-ellipsis-view-more>
+`;

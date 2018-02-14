@@ -1,15 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
+import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { environment } from 'environments/environment';
+import { GeocoderDirective } from './directives';
+import { PeerMapEffects } from './effects';
+import { reducers } from './reducers';
+
 
 @NgModule({
   imports: [
@@ -17,6 +24,10 @@ import { environment } from 'environments/environment';
     CommonModule,
 
     // 3rd party
+    StoreModule.forFeature('peerData', reducers),
+    EffectsModule.forFeature([
+      PeerMapEffects
+    ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
 
     // Routing
@@ -24,7 +35,6 @@ import { environment } from 'environments/environment';
 
     // Payfactors
     PfCommonUIModule,
-    PfSharedPeerModule,
     PfFormsModule
   ],
   declarations: [
@@ -32,7 +42,13 @@ import { environment } from 'environments/environment';
     FiltersComponent, MapComponent,
 
     // Pages
-    AddDataCutPageComponent
+    AddDataCutPageComponent,
+
+    // Directives
+    GeocoderDirective
+  ],
+  providers: [
+    WindowCommunicationService
   ]
 })
 export class PeerModule { }

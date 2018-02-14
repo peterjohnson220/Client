@@ -4,13 +4,15 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromExchangeJobMappingReducer from './exchange-job-mapping.reducer';
+import * as fromExchangeJobMappingGridReducer from './exchange-job-mapping-grid.reducer';
+import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.reducer';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {
-  exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingReducer.State>;
+  exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingGridReducer.State>;
+  exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
 }
 
 // Extend root state with feature area state
@@ -20,43 +22,52 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  exchangeJobMapping: fromExchangeJobMappingReducer.reducer
+  exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
+  exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer
 };
 
 // Select Feature Area
 export const selectFeatureAreaState = createFeatureSelector<PeerMainState>('peerMain');
 
 // Feature Selectors
-export const selectExchangeJobMappingState = createSelector(selectFeatureAreaState, (state: PeerMainState) => state.exchangeJobMapping);
+export const selectExchangeJobMappingState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.exchangeJobMapping
+);
+
+export const selectExchangeJobMappingInfoState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.exchangeJobMappingInfo
+);
 
 // Exchange Job Mapping Selectors
 export const selectExchangeJobMappingsFeatureState = createSelector(
   selectExchangeJobMappingState,
-  (state: IFeatureGridState<fromExchangeJobMappingReducer.State>) => state.feature
+  (state: IFeatureGridState<fromExchangeJobMappingGridReducer.State>) => state.feature
 );
 
 export const selectExchangeJobMappingsGridState = createSelector(
   selectExchangeJobMappingState,
-  (state: IFeatureGridState<fromExchangeJobMappingReducer.State>) => state.grid
+  (state: IFeatureGridState<fromExchangeJobMappingGridReducer.State>) => state.grid
 );
 
 export const {
   selectAll: getExchangeJobMappings
-} = fromExchangeJobMappingReducer.adapter.getSelectors(selectExchangeJobMappingsFeatureState);
+} = fromExchangeJobMappingGridReducer.adapter.getSelectors(selectExchangeJobMappingsFeatureState);
 
 export const getExchangeJobMappingsLoading = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getLoading
+  fromExchangeJobMappingGridReducer.getLoading
 );
 
 export const getExchangeJobMappingsLoadingError = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getLoadingError
+  fromExchangeJobMappingGridReducer.getLoadingError
 );
 
 export const getExchangeJobMappingsTotal = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getTotal
+  fromExchangeJobMappingGridReducer.getTotal
 );
 
 export const getExchangeJobMappingsGridState = createSelector(
@@ -66,17 +77,17 @@ export const getExchangeJobMappingsGridState = createSelector(
 
 export const getExchangeJobMappingsQuery = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getQuery
+  fromExchangeJobMappingGridReducer.getQuery
 );
 
 export const getSelectedExchangeJobMapping = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getSelectedMapping
+  fromExchangeJobMappingGridReducer.getSelectedMapping
 );
 
 export const getExchangeJobMappingPageRowIndexToScrollTo = createSelector(
   selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingReducer.getPageRowIndexToScrollTo
+  fromExchangeJobMappingGridReducer.getPageRowIndexToScrollTo
 );
 
 export const getExchangeJobMappingsGridData = createSelector(
@@ -94,3 +105,38 @@ export const getExchangeJobMappingGridStateAndQuery = createSelector(
     return { gridState, query };
   }
 );
+
+// Exchange Job Mapping Info Selectors
+export const getCompanyJobsToMapToLoading = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getLoading
+);
+
+export const getCompanyJobsToMapToLoadingError = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getLoadingError
+);
+
+export const getExchangeJobsInfoApplyingMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getApplyingMapping
+);
+
+export const getExchangeJobsInfoApplyingMappingError = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getApplyingMappingError
+);
+
+export const getExchangeJobsInfoSelectedMappingCompanyJobId = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getSelectedMappingCompanyJobId
+);
+
+export const getExchangeJobsInfoEditingMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getEditingMapping
+);
+
+export const {
+  selectAll: getCompanyJobsToMapTo
+} = fromExchangeJobMappingInfoReducer.adapter.getSelectors(selectExchangeJobMappingInfoState);

@@ -1,0 +1,34 @@
+<div class="company-job-to-map-to-result d-flex flex-column">
+
+  <div class="d-flex justify-content-between">
+
+    <div class="d-flex flex-column">
+      <strong>{{companyJobToMapTo.JobCode}} - {{companyJobToMapTo.JobTitle}}</strong>
+
+      <div class="mt-2">
+
+        <ng-container
+          *ngIf="companyJobToMapTo.JobDescription && companyJobToMapTo.JobDescription.length; else noJobDescription">
+
+          <pf-ellipsis-view-more [content]="companyJobToMapTo.JobDescription" [maxLength]="175"></pf-ellipsis-view-more>
+        </ng-container>
+
+        <ng-template #noJobDescription>
+          <em>No Job Description</em>
+        </ng-template>
+      </div>
+
+    </div>
+
+    <div class="apply-mapping-container">
+      <pf-apply-mapping-button
+        [mapped]="companyJobToMapTo.Mapped"
+        [applyingMapping]="applyingMapping"
+        [applyingMappingError]="applyingMappingError"
+        [selectedMapping]="selectedMapping"
+        (applyMapping)="handleApplyMapping(companyJobToMapTo.CompanyJobId)">
+      </pf-apply-mapping-button>
+    </div>
+  </div>
+
+</div>

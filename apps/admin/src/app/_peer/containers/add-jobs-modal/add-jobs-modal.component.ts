@@ -9,7 +9,6 @@ import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progres
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum } from 'libs/models/common';
-import { InputDebounceComponent } from 'libs/forms/components';
 import { AddExchangeJobsRequest } from 'libs/models/peer/index';
 import { PfValidators } from 'libs/forms/validators';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -24,7 +23,6 @@ import * as fromPeerAdminReducer from '../../reducers';
   styleUrls: ['./add-jobs-modal.component.scss']
 })
 export class AddJobsModalComponent implements OnInit, OnDestroy {
-  @ViewChild(InputDebounceComponent) debouncedSearchTerm: InputDebounceComponent;
   availableJobsLoading$: Observable<boolean>;
   availableJobsLoadingError$: Observable<boolean>;
   addJobsModalOpen$: Observable<boolean>;
@@ -88,9 +86,8 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
+    this.searchTerm = '';
     this.store.dispatch(new fromExchangeJobsActions.CloseAddExchangeJobsModal);
-    // we have to do this because for some reason setting searchTerm to empty doesn't propagate to the input.
-    this.debouncedSearchTerm.setSilently('');
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableJobs));
   }
 

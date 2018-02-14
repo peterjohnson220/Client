@@ -17,7 +17,7 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "../../../test.ts",
-      "tsconfig": "../../../tsconfig.app.json",
+      "tsconfig": "tsconfig.app.json",
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
@@ -50,7 +50,7 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "../../../test.ts",
-      "tsconfig": "../../../tsconfig.app.json",
+      "tsconfig": "tsconfig.app.json",
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
@@ -83,40 +83,7 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "../../../test.ts",
-      "tsconfig": "../../../tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
-      "prefix": "pf",
-      "styles": [
-        "../../../assets/scss/client.scss",
-        "styles.scss"
-      ],
-      "stylePreprocessorOptions": {
-        "includePaths": [
-          "../../../assets/scss"
-        ]
-      },
-      "scripts": [],
-      "environmentSource": "../../../environments/environment.ts",
-      "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
-      }
-    },
-    {
-      "name": "product-assets",
-      "root": "apps/product-assets/src",
-      "outDir": "dist/apps/product-assets",
-      "assets": [
-        "assets",
-        "favicon.ico",
-        "web.config"
-      ],
-      "index": "index.html",
-      "main": "main.ts",
-      "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
-      "tsconfig": "../../../tsconfig.app.json",
+      "tsconfig": "tsconfig.app.json",
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
@@ -149,13 +116,14 @@
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "../../../test.ts",
-      "tsconfig": "../../../tsconfig.app.json",
+      "tsconfig": "tsconfig.app.json",
       "testTsconfig": "../../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
         "../../../assets/scss/client.scss",
         "styles.scss",
-        "../../../node_modules/mapbox-gl/dist/mapbox-gl.css"
+        "../../../node_modules/mapbox-gl/dist/mapbox-gl.css",
+        "../../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
@@ -178,15 +146,11 @@
   },
   "lint": [
     {
-      "project": "./tsconfig.app.json",
+      "project": "./tsconfig.json",
       "exclude": "**/node_modules/**"
     },
     {
       "project": "./tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "./tsconfig.e2e.json",
       "exclude": "**/node_modules/**"
     }
   ],

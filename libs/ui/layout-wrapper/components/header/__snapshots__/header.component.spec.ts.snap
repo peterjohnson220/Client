@@ -11,7 +11,7 @@ exports[`header should show the logo 1`] = `
     
     <a
       class="navbar-brand mr-auto"
-      href="/marketdata/home.asp"
+      href=""
     >
       
       
@@ -23,7 +23,6 @@ exports[`header should show the logo 1`] = `
     
     </a>
     
-  
     
     <pf-layout-wrapper-user-menu>
       

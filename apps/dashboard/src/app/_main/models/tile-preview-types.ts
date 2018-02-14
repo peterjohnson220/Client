@@ -1,5 +1,7 @@
 export enum TilePreviewTypes {
-  Chart = 0,
+  Unknown = 0,
+  Chart,
   Icon,
-  List
+  List,
+  PlaceHolder
 }

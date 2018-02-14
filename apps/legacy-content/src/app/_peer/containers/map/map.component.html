@@ -1,39 +1,54 @@
 <mgl-map
   [style]="mapStyle"
-  [zoom]="[3]"
-  [center]="[-103.59179687498357, 40.66995747013945]"
   [attributionControl]="false"
+  [fitBounds]="peerMapBounds$ | async"
+  [fitBoundsOptions]="{padding: 100}"
+  [center]="[-98, 38.88]"
+  [zoom]="3"
+  [maxZoom]="17"
+  [cursorStyle]="cursorStyle"
+  (moveStart)="handleMoveStartEvent($event)"
+  (moveEnd)="handleMoveEndEvent($event)"
+  (move)="handleMoveEvent($event)"
 >
+  <mgl-control mglNavigation pfGeocoder></mgl-control>
   <mgl-geojson-source
-    id="earthquakes"
-    [data]="earthquakes"
-    [cluster]="true"
-    [clusterMaxZoom]="14"
-    [clusterRadius]="50"
+    [id]="'incumbents'"
+    [data]="peerMapCollection$ | async"
   >
   </mgl-geojson-source>
+  <mgl-popup
+    *ngIf="selectedPoint"
+    [lngLat]="selectedPoint.geometry.coordinates"
+    (close)="selectedPoint = null"
+  >
+    <span [innerHTML]="selectedPoint.properties.ExchangeJobIds"></span>
+  </mgl-popup>
   <mgl-layer
-    id="clusters"
+    id="peerdata"
     type="circle"
-    source="earthquakes"
-    [filter]="['has', 'point_count']"
+    source="incumbents"
+    (click)="handleLayerClickEvent($event)"
+    (mouseEnter)="cursorStyle = 'pointer'"
+    (mouseLeave)="cursorStyle = ''"
+    [filter]="['has', 'SalaryCount']"
     [paint]="{
         'circle-color': {
-            property: 'point_count',
+            property: 'SalaryCount',
             type: 'interval',
             stops: [
                 [0, '#51bbd6'],
-                [100, '#f1f075'],
-                [750, '#f28cb1']
+                [10, '#f1f075'],
+                [100, '#f28cb1']
             ]
         },
         'circle-radius': {
-            property: 'point_count',
+            property: 'SalaryCount',
             type: 'interval',
             stops: [
                 [0, 20],
-                [100, 30],
-                [750, 40]
+                [10, 30],
+                [100, 40]
             ]
         }
       }"
@@ -42,10 +57,10 @@
   <mgl-layer
     id="cluster-count"
     type="symbol"
-    source="earthquakes"
-    [filter]="['has', 'point_count']"
+    source="incumbents"
+    [filter]="['has', 'SalaryCount']"
     [layout]="{
-        'text-field': '{point_count_abbreviated}',
+        'text-field': '{SalaryCount}',
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
         'text-size': 12
       }"
@@ -54,8 +69,8 @@
   <mgl-layer
     id="unclustered-point"
     type="circle"
-    source="earthquakes"
-    [filter]="['!has', 'point_count']"
+    source="incumbents"
+    [filter]="['!has', 'SalaryCount']"
     [paint]="{
         'circle-color': '#11b4da',
         'circle-radius': 4,
