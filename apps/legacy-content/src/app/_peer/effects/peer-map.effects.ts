@@ -31,9 +31,9 @@ export class PeerMapEffects {
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
     );
 
-  // Asynchronously load the map and load the filters after initially
+  // Asynchronously load the map and load the filters after loading the initial filters
   @Effect()
-  loadingInitialMapFilterSucces$: Observable<Action> = this.actions$
+  loadingInitialMapFilterSuccess$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS)
     .map((action: fromPeerMapActions.LoadingInitialPeerMapFilterSuccess) => action.payload)
     .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters]);
