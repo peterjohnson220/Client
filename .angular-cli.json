@@ -146,15 +146,11 @@
   },
   "lint": [
     {
-      "project": "./tsconfig.app.json",
+      "project": "./tsconfig.json",
       "exclude": "**/node_modules/**"
     },
     {
       "project": "./tsconfig.spec.json",
-      "exclude": "**/node_modules/**"
-    },
-    {
-      "project": "./tsconfig.e2e.json",
       "exclude": "**/node_modules/**"
     }
   ],
