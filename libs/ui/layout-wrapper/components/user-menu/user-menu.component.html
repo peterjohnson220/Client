@@ -11,7 +11,7 @@
         <div *ngIf="dropdownNavigationLink.Name ==='Log Out' || dropdownNavigationLink.Name ==='Referrals'" class="dropdown-divider"></div>
         <!-- Temporary href conditional while current NG app still exists-->
         <a class="dropdown-item" [href]="dropdownNavigationLink.NgAppLink ? '/ng/' + dropdownNavigationLink.Url : dropdownNavigationLink.Url">
-          <i *ngIf="dropdownNavigationLink.Name ==='Log Out'"  class="fa fa-lg fa-sign-out"></i>
+          <i *ngIf="dropdownNavigationLink.Name ==='Log Out'"  class="fas fa-lg fa-sign-out"></i>
           {{dropdownNavigationLink.Name}}
         </a>
       </ng-template>

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSecurityModule } from 'libs/security/security.module';
-import { PfLayoutWrapperOldModule } from 'libs/ui/layout-wrapper-old';
+import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
@@ -25,7 +25,7 @@ const declarations = [
     // Payfactors
     PfCommonUIModule,
     PfSecurityModule,
-    PfLayoutWrapperOldModule,
+    PfLayoutWrapperModule,
   ],
   declarations: declarations,
   exports: declarations

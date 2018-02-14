@@ -9,12 +9,12 @@
     <li class="py-2 pl-3 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
         <a placement="right" [ngbTooltip]="sidebarLink.Name" [href]="getSidebarHref(sidebarLink)">
-          <i [ngClass]="sidebarLink.IconClass"></i>
+          <i [ngClass]="sidebarLink.IconClassNew"></i>
         </a>
       </ng-template>
       <ng-template [ngIf]="leftSidebarToggle">
         <a [href]="getSidebarHref(sidebarLink)">
-          <i [ngClass]="sidebarLink.IconClass"></i>
+          <i [ngClass]="sidebarLink.IconClassNew"></i>
           {{sidebarLink.Name}}</a>
       </ng-template>
     </li>
@@ -22,7 +22,16 @@
 </ul>
 <div class="left-sidebar-footer"
      [ngClass]="{'left-sidebar-footer-open': leftSidebarToggle, 'left-sidebar-footer-close': !leftSidebarToggle}">
-  <i (click)="leftSidebarToggle = !leftSidebarToggle" class="fa fa-lg"
-     [ngClass]="{'fa-angle-double-left left-sidebar-icon-open': leftSidebarToggle, 'fa-angle-double-right left-sidebar-icon-close': !leftSidebarToggle}"></i>
+
+  <div (click)="leftSidebarToggle = !leftSidebarToggle"
+       [ngClass]="{'left-sidebar-icon-open': leftSidebarToggle, 'left-sidebar-icon-close': !leftSidebarToggle}">
+
+    <span *ngIf="leftSidebarToggle"><i class="fal fa-lg fa-angle-double-left"></i></span>
+    <span *ngIf="!leftSidebarToggle"><i class="fal fa-lg fa-angle-double-right"></i></span>
+
+  </div>
+
 </div>
+
+
 </pf-async-container>

@@ -9,11 +9,13 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
   >
     
     
-    <i
-      class="fa fa-plus fa-lg open-sidebar-icon"
-      id="openSidebarIcon"
-      style="visibility: visible;"
-    />
+    <span>
+      <i
+        class="fas fa-plus fa-lg open-sidebar-icon"
+        id="openSidebarIcon"
+        style="visibility: visible;"
+      />
+    </span>
     
     
     <div
@@ -30,11 +32,26 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
       >
         
         
-        <i
-          class="fa fa-times fa-lg close-sidebar-icon p-2"
-          id="closeSidebarIcon"
-          style="visibility: hidden;"
-        />
+        <div
+          class="close-sidebar-icon p-2"
+        >
+          
+          
+          <span
+            style="visibility: hidden;"
+          >
+            
+            
+            <i
+              class="fas fa-times fa-lg"
+              id="closeSidebarIcon"
+            />
+            
+          
+          </span>
+          
+        
+        </div>
         
         
         
@@ -59,11 +76,13 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
   >
     
     
-    <i
-      class="fa fa-plus fa-lg open-sidebar-icon"
-      id="openSidebarIcon"
-      style="visibility: hidden;"
-    />
+    <span>
+      <i
+        class="fas fa-plus fa-lg open-sidebar-icon"
+        id="openSidebarIcon"
+        style="visibility: hidden;"
+      />
+    </span>
     
     
     <div
@@ -80,11 +99,26 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
       >
         
         
-        <i
-          class="fa fa-times fa-lg close-sidebar-icon p-2"
-          id="closeSidebarIcon"
-          style="visibility: visible;"
-        />
+        <div
+          class="close-sidebar-icon p-2"
+        >
+          
+          
+          <span
+            style="visibility: visible;"
+          >
+            
+            
+            <i
+              class="fas fa-times fa-lg"
+              id="closeSidebarIcon"
+            />
+            
+          
+          </span>
+          
+        
+        </div>
         
         
         
@@ -109,10 +143,12 @@ exports[`Right Sidebar should transclude 1`] = `
     >
       
     
-      <i
-        class="fa fa-plus fa-lg open-sidebar-icon"
-        id="openSidebarIcon"
-      />
+      <span>
+        <i
+          class="fas fa-plus fa-lg open-sidebar-icon"
+          id="openSidebarIcon"
+        />
+      </span>
       
     
       <div
@@ -127,10 +163,24 @@ exports[`Right Sidebar should transclude 1`] = `
         >
           
         
-          <i
-            class="fa fa-times fa-lg close-sidebar-icon p-2"
-            id="closeSidebarIcon"
-          />
+          <div
+            class="close-sidebar-icon p-2"
+          >
+            
+          
+            <span>
+              
+            
+              <i
+                class="fas fa-times fa-lg"
+                id="closeSidebarIcon"
+              />
+              
+          
+            </span>
+            
+        
+          </div>
           
         
           

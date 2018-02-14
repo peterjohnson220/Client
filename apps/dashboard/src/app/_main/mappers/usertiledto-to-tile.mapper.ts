@@ -57,7 +57,6 @@ export class UserTileToTileMapper {
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
 
-      case TileTypes.Surveys:
       case TileTypes.MyJobs:
       case TileTypes.Employees:
         return TilePreviewTypes.PlaceHolder;
@@ -95,7 +94,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'fa-home';
+        tile.IconClass = 'fas fa-home';
         break;
 
       case TileTypes.PricingProjects:
@@ -117,7 +116,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.Surveys:
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'fa-book';
+        tile.IconClass = 'far fa-book';
         break;
 
       default:

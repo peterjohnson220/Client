@@ -8,6 +8,9 @@ $right-sidebar-open-width: 350px;
 .close-sidebar-icon {
   text-align: right;
   width: 100%;
+}
+
+.close-sidebar-icon span{
   cursor: pointer;
 }
 
@@ -40,6 +43,10 @@ $right-sidebar-open-width: 350px;
 
 .sidebar-width {
   min-width: $right-sidebar-open-width;
+}
+
+.toggle-icon {
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

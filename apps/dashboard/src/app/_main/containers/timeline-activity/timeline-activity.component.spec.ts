@@ -27,7 +27,7 @@ describe('timeline-activity', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show an icon with class fa-commenting-o when Type is CommunityPost and SubType is not Reply', () => {
+  it('should show an icon with class fa-comment-alt when Type is CommunityPost and SubType is not Reply', () => {
     instance.timelineActivities = [getMockTimelineActivities('CommunityPost')];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -51,5 +51,3 @@ describe('timeline-activity', () => {
     expect(fixture).toMatchSnapshot();
   });
 });
-
-
