@@ -31,7 +31,7 @@ export const initialState: State = {
   loadingError: false,
   boundsChanged: true,
   shouldUpdateBounds: true
-}
+};
 
 // Reducer
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
@@ -120,7 +120,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
       const newMapFilter = {
         ...state.mapFilter
-      }
+      };
       newMapFilter[filterKey] = filterUpdate.selections;
       return {
         ...state,

@@ -36,7 +36,7 @@ export class PeerMapEffects {
   loadingInitialMapFilterSucces$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS)
     .map((action: fromPeerMapActions.LoadingInitialPeerMapFilterSuccess) => action.payload)
-    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters])
+    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters]);
 
   @Effect()
   loadPeerMap$: Observable<Action> = this.actions$
