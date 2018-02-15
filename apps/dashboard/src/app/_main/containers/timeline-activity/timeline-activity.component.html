@@ -1,6 +1,6 @@
 <div class="card px-1 py-3">
   <div class="card-header d-flex align-items-center pl-1">
-    <i class="fa fa-2x fa-commenting-o px-2" aria-hidden="true"></i>
+    <i class="far fa-3x fa-comment-alt px-2" aria-hidden="true"></i>
     <h4>Recent Activity</h4>
   </div>
   <div class="card-block pt-3 pb-1">
@@ -9,11 +9,11 @@
         <li *ngFor="let activity of timelineActivities">
           <div class="timeline-icon">
             <ng-container *ngIf="activity.Type === 'CommunityPost'">
-              <i *ngIf="activity.SubType !== 'Reply'" class="fa fa-circle-thinner fa-commenting-o"></i>
-              <i *ngIf="activity.SubType === 'Reply'" class="fa fa-circle-thinner fa-comments"></i>
+              <i *ngIf="activity.SubType !== 'Reply'" class="far fa-comment-alt"></i>
+              <i *ngIf="activity.SubType === 'Reply'" class="fas fa-comments"></i>
             </ng-container>
-            <i *ngIf="activity.Type === 'ActivityPost'" class="fa fa-circle-thinner fa-share"></i>
-            <i *ngIf="activity.Type === 'ResourcesPost'" class="fa fa-circle-thinner fa-info"></i>
+            <i *ngIf="activity.Type === 'ActivityPost'" class="fas fa-share"></i>
+            <i *ngIf="activity.Type === 'ResourcesPost'" class="fas fa-info"></i>
           </div>
           <div class="timeline-panel">
             <div class="timeline-header d-inline-flex  align-items-center">

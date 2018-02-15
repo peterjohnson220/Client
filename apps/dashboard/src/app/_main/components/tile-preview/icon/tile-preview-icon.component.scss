@@ -1,5 +1,7 @@
 .preview-tile-icon, .preview-tile-icon-small {
-  display: block;
+  display: inline-flex;
+  align-self: center;
+  width: 100%;
   padding-top: 15px;
 }
 

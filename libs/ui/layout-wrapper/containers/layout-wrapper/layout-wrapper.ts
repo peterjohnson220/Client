@@ -27,6 +27,7 @@ export class LayoutWrapperComponent implements OnInit {
   homePageLink$: Observable<HomePageLink>;
 
   @Input() displayRightSideBar: boolean;
+  @Input() fixedHeight: boolean;
 
   constructor(
     private store: Store<fromRootState.State>,

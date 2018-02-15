@@ -33,16 +33,35 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
       ng-reflect-ng-class="[object Object]"
     >
       
+  
     
-      <i
-        class="fa fa-lg fa-angle-double-right left-sidebar-icon-close"
-        ng-reflect-klass="fa fa-lg"
+      <div
+        class="left-sidebar-icon-close"
         ng-reflect-ng-class="[object Object]"
-      />
+      >
+        
+  
       
+        
+        
+      
+        
+        <span>
+          <i
+            class="fal fa-lg fa-angle-double-right"
+          />
+        </span>
+        
+  
+    
+      </div>
+      
+  
   
     </div>
     
+  
+  
   
   </pf-async-container>
   
@@ -82,16 +101,35 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
       ng-reflect-ng-class="[object Object]"
     >
       
+  
     
-      <i
-        class="fa fa-lg fa-angle-double-left left-sidebar-icon-open"
-        ng-reflect-klass="fa fa-lg"
+      <div
+        class="left-sidebar-icon-open"
         ng-reflect-ng-class="[object Object]"
-      />
+      >
+        
+  
       
+        
+        <span>
+          <i
+            class="fal fa-lg fa-angle-double-left"
+          />
+        </span>
+        
+      
+        
+        
+  
+    
+      </div>
+      
+  
   
     </div>
     
+  
+  
   
   </pf-async-container>
   

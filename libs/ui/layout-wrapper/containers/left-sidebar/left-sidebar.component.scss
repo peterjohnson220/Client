@@ -19,11 +19,11 @@
   color: #8B989F;
 }
 
-.left-sidebar-nav i {
-  font-size: 1.24rem;
+.left-sidebar-nav .svg-inline--fa {
+  font-size: 1.2rem;
 }
 
-.left-sidebar-nav li a i {
+.left-sidebar-nav li a .svg-inline--fa {
   width: 30px;
   text-align: center;
   color: #496375;
@@ -35,7 +35,7 @@
   color: #fff;
 }
 
-.left-sidebar-nav li a:hover i {
+.left-sidebar-nav li a:hover .svg-inline--fa {
   color: #fff;
 }
 
@@ -55,13 +55,13 @@
   background-color: #283B4A;
 }
 
-.left-sidebar-footer > i {
+.left-sidebar-footer > div {
   position: absolute;
-  bottom: 15px;
+  bottom: 11px;
   transition-duration: .5s;
 }
 
-.left-sidebar-footer i:hover {
+.left-sidebar-footer .svg-inline--fa:hover {
   color: #fff;
 }
 
