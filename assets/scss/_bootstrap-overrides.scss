@@ -1,6 +1,8 @@
+@import 'colors';
+
 /* Variable Overrides */
 $theme-colors: (
-  "primary": #1872ae,
+  "primary": $body-background-color,
   "secondary": #ffffff
 );
 

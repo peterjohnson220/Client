@@ -1,16 +1,5 @@
 @import 'colors';
 
-.fa-circle-thinner:before {
-  box-sizing: border-box;
-  display: block;
-  width: 2.0625rem;
-  height: 2.0625rem;
-  padding-top: 0.5rem;
-  text-align: center;
-  border-radius: 100%;
-  border: 0.125rem solid #d9d9d9 !important;
-}
-
 .timeline {
   list-style: none;
   padding: 0 0 1.25rem;
@@ -66,10 +55,14 @@
   height: 2.25rem;
   position: absolute;
   top: 26px;
-  left: 9px;
+  left: 7px;
   margin-right: -1.5625rem;
   background-color: #fff;
   z-index: 100;
+  text-align: center;
+  padding-top: 4px;
+  border-radius: 100%;
+  border: 0.125rem solid #d9d9d9 !important;
 }
 
 .card, .card-header {

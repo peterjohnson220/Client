@@ -145,7 +145,7 @@ exports[`User Menu should show a divider for log out 1`] = `
             
           
           <i
-            class="fa fa-lg fa-sign-out"
+            class="fas fa-lg fa-sign-out"
           />
           
             Log Out
@@ -434,7 +434,7 @@ exports[`User Menu should show an icon for log out 1`] = `
             
           
           <i
-            class="fa fa-lg fa-sign-out"
+            class="fas fa-lg fa-sign-out"
           />
           
             Log Out

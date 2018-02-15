@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~dragula/dist/dragula.min.css';
+
+html{
+  background-color: transparent;
+}
+
 body {
   background: url('./assets/images/Elegant_Background-8.jpg') repeat fixed center;
+  background-color: transparent;
 }
 
 /* font awesome specific */

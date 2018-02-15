@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`timeline-activity should show an icon with class fa-commenting-o when Type is CommunityPost and SubType is not Reply 1`] = `
+exports[`timeline-activity should show an icon with class fa-comment-alt when Type is CommunityPost and SubType is not Reply 1`] = `
 <pf-timeline-activity
   timelineActivities={[Function Array]}
 >
@@ -16,7 +16,7 @@ exports[`timeline-activity should show an icon with class fa-commenting-o when T
       
       <i
         aria-hidden="true"
-        class="fa fa-2x fa-commenting-o px-2"
+        class="far fa-3x fa-comment-alt px-2"
       />
       
       
@@ -58,7 +58,7 @@ exports[`timeline-activity should show an icon with class fa-commenting-o when T
                 
               
               <i
-                class="fa fa-circle-thinner fa-commenting-o"
+                class="far fa-comment-alt"
               />
               
                 
@@ -189,7 +189,7 @@ exports[`timeline-activity should show an icon with class fa-comments when Type 
       
       <i
         aria-hidden="true"
-        class="fa fa-2x fa-commenting-o px-2"
+        class="far fa-3x fa-comment-alt px-2"
       />
       
       
@@ -234,7 +234,7 @@ exports[`timeline-activity should show an icon with class fa-comments when Type 
                 
               
               <i
-                class="fa fa-circle-thinner fa-comments"
+                class="fas fa-comments"
               />
               
               
@@ -362,7 +362,7 @@ exports[`timeline-activity should show an icon with fa-info when Type is Resourc
       
       <i
         aria-hidden="true"
-        class="fa fa-2x fa-commenting-o px-2"
+        class="far fa-3x fa-comment-alt px-2"
       />
       
       
@@ -406,7 +406,7 @@ exports[`timeline-activity should show an icon with fa-info when Type is Resourc
               
               
               <i
-                class="fa fa-circle-thinner fa-info"
+                class="fas fa-info"
               />
               
             
@@ -526,7 +526,7 @@ exports[`timeline-activity should show an icon with fa-share when Type is Activi
       
       <i
         aria-hidden="true"
-        class="fa fa-2x fa-commenting-o px-2"
+        class="far fa-3x fa-comment-alt px-2"
       />
       
       
@@ -567,7 +567,7 @@ exports[`timeline-activity should show an icon with fa-share when Type is Activi
               
               
               <i
-                class="fa fa-circle-thinner fa-share"
+                class="fas fa-share"
               />
               
               
@@ -690,7 +690,7 @@ exports[`timeline-activity should show timeline activities 1`] = `
       
       <i
         aria-hidden="true"
-        class="fa fa-2x fa-commenting-o px-2"
+        class="far fa-3x fa-comment-alt px-2"
       />
       
       

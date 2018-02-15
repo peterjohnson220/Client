@@ -6,7 +6,7 @@ exports[`TilePreviewIcon should show just icon and when no payload is given 1`] 
 >
   <i
     aria-hidden="true"
-    class="fa fa fa-file-text-o fa-10x preview-tile-icon text-center m-0 p-0"
+    class="far file-alt fa-10x preview-tile-icon text-center m-0 p-0"
   />
   
   
@@ -19,7 +19,7 @@ exports[`TilePreviewIcon should show more than just an icon and when a payload i
 >
   <i
     aria-hidden="true"
-    class="fa fa fa-file-text-o fa-4x preview-tile-icon-small text-center m-0 p-0"
+    class="far file-alt fa-4x preview-tile-icon-small text-center m-0 p-0"
   />
   <div>
     
