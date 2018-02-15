@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapFilter, ExchangeMapSummary, UpdateFilterSelections } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/peer-map.actions';
 
@@ -19,6 +19,7 @@ export interface State {
 export const initialState: State = {
   mapCollection: null,
   mapFilter: {
+    Exchanges: [],
     States: [],
     Cities: [],
     ClusterPrecision: 2
@@ -29,14 +30,18 @@ export const initialState: State = {
   loadingError: false,
   boundsChanged: true,
   shouldUpdateBounds: true
-}
+};
 
 // Reducer
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
   switch (action.type) {
     case fromPeerMapActions.LOADING_PEER_MAP: {
+      const mapFilter = {
+        ...state.mapFilter
+      };
       return {
         ...state,
+        mapFilter: mapFilter,
         mapCollection: null,
         mapSummary: null,
         loading: true,
@@ -109,6 +114,18 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         boundsChanged: false
       };
     }
+    case fromPeerMapActions.UPDATE_PEER_MAP_FILTER: {
+      const filterUpdate: UpdateFilterSelections = action.payload;
+      const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
+      const newMapFilter = {
+        ...state.mapFilter
+      };
+      newMapFilter[filterKey] = filterUpdate.selections;
+      return {
+        ...state,
+        mapFilter: newMapFilter
+      };
+    }
     default: {
       return state;
     }
@@ -129,13 +146,17 @@ function swapBounds(bounds: any): any {
   const sw = bounds._sw;
   const swappedBounds = {
     TopLeft: {
-      Lat: ne.lat,
-      Lon: sw.lng
+      Lat: enforceBoundsLimit(ne.lat),
+      Lon: enforceBoundsLimit(sw.lng)
     },
     BottomRight: {
-      Lat: sw.lat,
-      Lon: ne.lng
+      Lat: enforceBoundsLimit(sw.lat),
+      Lon: enforceBoundsLimit(ne.lng)
     }
   };
   return swappedBounds;
+}
+
+function enforceBoundsLimit(coordinate: number) {
+  return coordinate > 180 ? 180 : coordinate < -180 ? -180 : coordinate;
 }

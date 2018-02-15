@@ -1,0 +1,14 @@
+<label [for]="id">{{label}}</label>
+<kendo-multiselect
+  #list
+  textField="Item"
+  valueField="Item"
+  [id]="id"
+  [placeholder]="placeholder"
+  [data]="data"
+  [filterable]="true"
+  [disabled]="disabled"
+  (valueChange)="handleValueChangeEvent($event)"
+  [(ngModel)]="selections"
+>
+</kendo-multiselect>
