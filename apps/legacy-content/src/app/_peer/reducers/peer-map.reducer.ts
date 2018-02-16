@@ -11,8 +11,8 @@ export interface State {
   mapBounds: number[];
   loading: boolean;
   loadingError: boolean;
-  boundsChanged: boolean;
   shouldUpdateBounds: boolean;
+  isInitialMapLoad: boolean;
 }
 
 // Initial State
@@ -22,14 +22,22 @@ export const initialState: State = {
     Exchanges: [],
     States: [],
     Cities: [],
+    Companies: [],
+    CompanyIndustries: [],
+    ExchangeJobFamilies: [],
+    ExchangeJobLevels: [],
+    ExchangeJobFLSAStatuses: [],
+    ExchangeJobIds: [],
+    TopLeft: null,
+    BottomRight: null,
     ClusterPrecision: 2
   },
   mapSummary: null,
   mapBounds: [0, 0, 0, 0],
   loading: false,
   loadingError: false,
-  boundsChanged: true,
-  shouldUpdateBounds: true
+  shouldUpdateBounds: true,
+  isInitialMapLoad: true
 };
 
 // Reducer
@@ -39,14 +47,16 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const mapFilter = {
         ...state.mapFilter
       };
+      const mapSummary = {
+        ...state.mapSummary
+      };
       return {
         ...state,
         mapFilter: mapFilter,
         mapCollection: null,
-        mapSummary: null,
+        mapSummary: mapSummary,
         loading: true,
-        loadingError: false,
-        boundsChanged: false
+        loadingError: false
       };
     }
     case fromPeerMapActions.LOADING_PEER_MAP_SUCCESS: {
@@ -55,12 +65,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         type: 'FeatureCollection',
         features: action.payload.FeatureCollection
       };
-      const tl = mapSummary.TopLeft;
-      const br = mapSummary.BottomRight;
       const mapFilter = {
-        ...state.mapFilter,
-        TopLeft: tl,
-        BottomRight: br
+        ...state.mapFilter
       };
       const newState = {
         ...state,
@@ -69,11 +75,14 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loading: false,
         loadingError: false,
         mapFilter: mapFilter,
-        boundsChanged: true,
-        shouldUpdateBounds: false
+        isInitialMapLoad: false
       };
-      if (state.shouldUpdateBounds) {
+      if (state.isInitialMapLoad) {
+        const tl = mapSummary.TopLeft;
+        const br = mapSummary.BottomRight;
         newState.mapBounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
+        newState.mapFilter.TopLeft = tl;
+        newState.mapFilter.BottomRight = br;
       }
       return newState;
     }
@@ -81,8 +90,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       return {
         ...state,
         loading: false,
-        loadingError: true,
-        boundsChanged: false
+        loadingError: true
       };
     }
     case fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS: {
@@ -93,8 +101,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
       return {
         ...state,
-        mapFilter: mapFilter,
-        boundsChanged: false
+        mapFilter: mapFilter
       };
     }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
@@ -110,15 +117,18 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
       return {
         ...state,
-        mapFilter: mapFilter,
-        boundsChanged: false
+        mapFilter: mapFilter
       };
     }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER: {
       const filterUpdate: UpdateFilterSelections = action.payload;
       const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
+      const topLeft = {...state.mapFilter.TopLeft};
+      const bottomRight = {...state.mapFilter.BottomRight};
       const newMapFilter = {
-        ...state.mapFilter
+        ...state.mapFilter,
+        TopLeft: topLeft,
+        BottomRight: bottomRight
       };
       newMapFilter[filterKey] = filterUpdate.selections;
       return {
@@ -139,7 +149,7 @@ export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
-export const canLoadMap = (state: State) => !state.boundsChanged && !state.loading;
+export const canLoadMap = (state: State) => !state.isInitialMapLoad && !state.loading;
 
 function swapBounds(bounds: any): any {
   const ne = bounds._ne;

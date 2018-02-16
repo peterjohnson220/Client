@@ -76,17 +76,19 @@ export class MapComponent implements OnInit {
 
   // Helper functions
   refreshMap(e: any) {
-    if (!e.target._loaded) {
+    if (!e.target._loaded || e.target.moving) {
       return;
     }
+    // TODO: Can we do this better or differently?
+    this.canLoadPeerMap$.take(1).subscribe(canload => {
+      if (canload) {
+        const filterVars = {
+          bounds: e.target.getBounds(),
+          zoom: e.target.getZoom()
+        };
 
-    if (!!this.canLoadPeerMap$.filter(x => x).take(1)) {
-      const filterVars = {
-        bounds: e.target.getBounds(),
-        zoom: e.target.getZoom()
-      };
-
-      this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
-    }
+        this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
+      }
+    });
   }
 }

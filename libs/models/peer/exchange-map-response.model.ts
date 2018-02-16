@@ -82,6 +82,7 @@ export function generateMockExchangeStatCompanyMakeup(): ExchangeStatCompanyMake
   };
 }
 
+// TODO: Should we remove this?
 export interface DimensionStats {
   Dimension: string;
   Minimum: number;
