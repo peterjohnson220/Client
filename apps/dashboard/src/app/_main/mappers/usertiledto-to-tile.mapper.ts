@@ -59,7 +59,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.MyJobs:
       case TileTypes.Employees:
-        return TilePreviewTypes.PlaceHolder;
+        return TilePreviewTypes.Chart;
 
       default:
         return TilePreviewTypes.Icon;
@@ -74,6 +74,13 @@ export class UserTileToTileMapper {
 
       case TileTypes.Employees:
         tile.CssClass = 'tile-blue';
+        tile.ChartType = TilePreviewChartTypes.Donut;
+        tile.ChartLabel = 'Market Index';
+
+        this.SetChartLegendColor(tile, '<90%', '#C79500');
+        this.SetChartLegendColor(tile, '90-110%', '#EEB200');
+        this.SetChartLegendColor(tile, '>110%', '#FEC968');
+        this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
         break;
 
       case TileTypes.JobDescriptions:
