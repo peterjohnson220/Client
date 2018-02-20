@@ -1,4 +1,5 @@
 export interface TimelineActivity {
+  Id: number;
   Type: string;
   SubType: string;
   PostedBy: string;
@@ -11,6 +12,7 @@ export interface TimelineActivity {
 
 export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubType'): TimelineActivity {
   return {
+    Id: 1,
     Type: type,
     SubType: subType,
     PostedBy: 'John Clark',
