@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { FeatureCollection, Point } from 'geojson';
+import 'rxjs/add/operator/take';
 
 import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
@@ -69,9 +70,16 @@ export class MapComponent implements OnInit {
   }
 
   // Map layer events
-  handleLayerClickEvent(e: any) {
+  handleLayerHoverEvent(e: any) {
     this.selectedPoint = null;
     this.selectedPoint = e.features[0];
+  }
+
+  handleLayerClusteredClickEvent(e: any) {
+    e.target.flyTo({
+      center: e.features[0].geometry.coordinates,
+      zoom: e.target.getZoom() + 1
+    });
   }
 
   // Helper functions

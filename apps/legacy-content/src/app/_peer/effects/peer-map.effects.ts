@@ -60,7 +60,10 @@ export class PeerMapEffects {
     .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
     .switchMap((filter: ExchangeMapFilter) =>
       this.exchangeDataSearchApiService.getMapFilters(filter)
-        .map((exchangeFiltersResponse: any) => new fromPeerFiltersActions.LoadingPeerFiltersSuccess(exchangeFiltersResponse))
+        .map((exchangeFiltersResponse: any) => new fromPeerFiltersActions.LoadingPeerFiltersSuccess({
+          response: exchangeFiltersResponse,
+          filter: filter
+        }))
         .catch(() => of(new fromPeerFiltersActions.LoadingPeerFiltersError))
     );
 

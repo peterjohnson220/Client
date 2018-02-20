@@ -107,7 +107,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
       const bounds = swapBounds(action.payload.bounds);
       const zoom = action.payload.zoom;
-      const zoomPercentage = zoom / 20;
+      const zoomPercentage = zoom / 27;
       const prec = zoom <= 0 ? 1 : Math.round(zoomPercentage * 12);
       const mapFilter = {
         ...state.mapFilter,

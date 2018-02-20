@@ -14,7 +14,7 @@ export class LoadingPeerFilters implements Action {
 export class LoadingPeerFiltersSuccess implements Action {
   readonly type = LOADING_PEER_FILTERS_SUCCESS;
 
-  constructor(public payload: FilterAggregateGroup[]) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadingPeerFiltersError implements Action {

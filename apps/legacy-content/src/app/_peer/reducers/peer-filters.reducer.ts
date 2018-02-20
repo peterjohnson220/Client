@@ -1,7 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as fromPeerFilterActions from '../actions/peer-filters.actions';
-import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
+import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
+import { ExchangeMapFilter } from '../../../../../../libs/models/peer';
 
 // Extended entity state
 export interface State extends EntityState<FilterAggregateGroup> {
@@ -11,7 +12,7 @@ export interface State extends EntityState<FilterAggregateGroup> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<FilterAggregateGroup> = createEntityAdapter<FilterAggregateGroup>({
-  selectId: (filter: FilterAggregateGroup) => filter.MetaData.FilterType
+  selectId: (filter: FilterAggregateGroup) => filter.MetaData.Filter
 });
 
 // Initial State
@@ -30,9 +31,16 @@ export function reducer(state = initialState, action: fromPeerFilterActions.Acti
       };
     }
     case fromPeerFilterActions.LOADING_PEER_FILTERS_SUCCESS: {
-      const filters: FilterAggregateGroup[] = action.payload;
+      const filters: FilterAggregateGroup[] = action.payload.response;
+      const filter: ExchangeMapFilter = action.payload.filter;
+      const filtersWithSelections: FilterAggregateGroup[] = filters.map(f => {
+        return {
+          ...f,
+          Selections: filter[ f.MetaData.FilterProp ]
+        };
+      });
       return {
-        ...adapter.addAll(filters, state),
+        ...adapter.addAll(filtersWithSelections, state),
         loading: false
       };
     }

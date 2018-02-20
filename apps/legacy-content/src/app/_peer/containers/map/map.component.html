@@ -28,29 +28,27 @@
     id="peerdata"
     type="circle"
     source="incumbents"
-    (click)="handleLayerClickEvent($event)"
+    (click)="handleLayerClusteredClickEvent($event)"
+    (mouseMove)="handleLayerHoverEvent($event)"
     (mouseEnter)="cursorStyle = 'pointer'"
     (mouseLeave)="cursorStyle = ''"
-    [filter]="['has', 'SalaryCount']"
     [paint]="{
         'circle-color': {
             property: 'SalaryCount',
             type: 'interval',
             stops: [
-                [0, '#51bbd6'],
-                [10, '#f1f075'],
-                [100, '#f28cb1']
+                [0, '#4f615a']
             ]
         },
         'circle-radius': {
             property: 'SalaryCount',
             type: 'interval',
             stops: [
-                [0, 10],
-                [10, 20],
-                [100, 30]
+                [0, 20]
             ]
-        }
+        },
+        'circle-stroke-width': 2,
+        'circle-stroke-color': '#56C498'
       }"
   >
   </mgl-layer>
@@ -58,24 +56,10 @@
     id="cluster-count"
     type="symbol"
     source="incumbents"
-    [filter]="['has', 'SalaryCount']"
     [layout]="{
         'text-field': '{SalaryCount}',
         'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
         'text-size': 10
-      }"
-  >
-  </mgl-layer>
-  <mgl-layer
-    id="unclustered-point"
-    type="circle"
-    source="incumbents"
-    [filter]="['!has', 'SalaryCount']"
-    [paint]="{
-        'circle-color': '#11b4da',
-        'circle-radius': 4,
-        'circle-stroke-width': 1,
-        'circle-stroke-color': '#fff'
       }"
   >
   </mgl-layer>
