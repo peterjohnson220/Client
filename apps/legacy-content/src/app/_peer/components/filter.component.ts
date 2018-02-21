@@ -47,6 +47,10 @@ export class FilterComponent implements OnInit, AfterViewInit {
        return {Item: selection, Count: 0};
      });
    }
+
+   if (this.filter.Aggregates.length === 1) {
+     this.selections = [this.filter.Aggregates[0]];
+   }
   }
 
   ngAfterViewInit(): void {
