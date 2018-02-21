@@ -58,9 +58,11 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.List;
 
       case TileTypes.MyJobs:
+        return TilePreviewTypes.PlaceHolder;
       case TileTypes.Employees:
         return TilePreviewTypes.Chart;
-
+      case TileTypes.Surveys:
+          return TilePreviewTypes.PlaceHolder;
       default:
         return TilePreviewTypes.Icon;
     }
