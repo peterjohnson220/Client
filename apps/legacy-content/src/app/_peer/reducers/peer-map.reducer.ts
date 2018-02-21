@@ -150,6 +150,7 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
 export const canLoadMap = (state: State) => !state.isInitialMapLoad && !state.loading;
+export const showNoData = (state: State) => !state.loading && !state.isInitialMapLoad && state.mapCollection.features.length === 0;
 
 function swapBounds(bounds: any): any {
   const ne = bounds._ne;

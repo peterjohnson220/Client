@@ -29,6 +29,8 @@ export class MapComponent implements OnInit {
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
+  peerMapShowNoData$: Observable<boolean>;
+  map: mapboxgl.Map;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -38,6 +40,7 @@ export class MapComponent implements OnInit {
     this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
+    this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
   }
 
   ngOnInit(): void {
@@ -50,7 +53,22 @@ export class MapComponent implements OnInit {
     }));
   }
 
+  get center(): any {
+    if (!this.map) {
+      return [0, 0];
+    }
+    return this.map.getCenter();
+  }
+
+  get pointProperties(): string {
+    return JSON.stringify(this.selectedPoint.properties);
+  }
+
   // Map events
+  handleLoadEvent(e: mapboxgl.Map) {
+    this.map = e;
+  }
+
   handleMoveStartEvent(e: any) {
     e.target.moveStarted = true;
   }

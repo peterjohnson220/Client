@@ -10,6 +10,7 @@
   (moveStart)="handleMoveStartEvent($event)"
   (moveEnd)="handleMoveEndEvent($event)"
   (move)="handleMoveEvent($event)"
+  (load)="handleLoadEvent($event)"
 >
   <mgl-control mglNavigation pfGeocoder></mgl-control>
   <mgl-geojson-source
@@ -21,8 +22,11 @@
     *ngIf="selectedPoint"
     [lngLat]="selectedPoint.geometry.coordinates"
     (close)="selectedPoint = null"
+    [closeButton]="false"
   >
-    <span [innerHTML]="selectedPoint.properties.ExchangeJobIds"></span>
+    <div style="width: 500px">
+      {{pointProperties}}
+    </div>
   </mgl-popup>
   <mgl-layer
     id="peerdata"
@@ -31,7 +35,7 @@
     (click)="handleLayerClusteredClickEvent($event)"
     (mouseMove)="handleLayerHoverEvent($event)"
     (mouseEnter)="cursorStyle = 'pointer'"
-    (mouseLeave)="cursorStyle = ''"
+    (mouseLeave)="cursorStyle = ''; selectedPoint = null"
     [paint]="{
         'circle-color': {
             property: 'SalaryCount',
@@ -63,4 +67,12 @@
       }"
   >
   </mgl-layer>
+  <mgl-popup
+    *ngIf="(peerMapShowNoData$ | async)"
+    [lngLat]="center"
+    [closeOnClick]="false"
+    [closeButton]="false"
+  >
+    <div class="text-danger">No results. Refine the filter criteria to show results.</div>
+  </mgl-popup>
 </mgl-map>
