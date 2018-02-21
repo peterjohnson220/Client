@@ -1,15 +1,15 @@
 export interface FilterAggregateMetaData {
   Id: string;
-  Filter: number;
+  PeerFilter: number;
   FilterProp: string;
   Label: string;
   Placeholder: string;
 }
 
-export function generateMockFilterAggregateMetaData(filter = 1): FilterAggregateMetaData {
+export function generateMockFilterAggregateMetaData(peerFilter = 1): FilterAggregateMetaData {
   return {
     Id: 'MockId',
-    Filter: filter,
+    PeerFilter: peerFilter,
     FilterProp: 'MockProp',
     Label: 'MockLabel',
     Placeholder: 'MockPlaceholder'

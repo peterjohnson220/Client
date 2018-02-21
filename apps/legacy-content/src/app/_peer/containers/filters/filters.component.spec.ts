@@ -14,6 +14,7 @@ import * as fromPeerFiltersActions from '../../actions/peer-filters.actions';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
 import * as fromPeerDataReducer from '../../reducers';
 import { FiltersComponent } from './filters.component';
+import { generateMockExchangeMapFilter } from '../../../../../../../libs/models/peer';
 
 describe('Legacy Content - Peer - Filters Component', () => {
   let fixture: ComponentFixture<FiltersComponent>;
@@ -49,7 +50,11 @@ describe('Legacy Content - Peer - Filters Component', () => {
       generateMockFilterAggregateGroup(1),
       generateMockFilterAggregateGroup(2)
     ];
-    store.dispatch(new fromPeerFiltersActions.LoadingPeerFiltersSuccess(initialFilterAggregateGroups));
+    const initialFiltersResponse = {
+      response: initialFilterAggregateGroups,
+      filter: generateMockExchangeMapFilter()
+    };
+    store.dispatch(new fromPeerFiltersActions.LoadingPeerFiltersSuccess(initialFiltersResponse));
 
     fixture.detectChanges();
 

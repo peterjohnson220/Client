@@ -14,7 +14,6 @@ export class FilterComponent implements OnInit, AfterViewInit {
   @ViewChild('list') list;
   @Input() filter: FilterAggregateGroup;
   @Output() selectionChanged = new EventEmitter();
-  disabled = false;
   source: FilterAggregateItem[];
   data: FilterAggregateItem[];
   selections: FilterAggregateItem[];

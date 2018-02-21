@@ -1,39 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Legacy Content - Peer - Filter Component should display a disabled kendo-multi-select if only one FilterAggregateItem is provided 1`] = `
+exports[`Legacy Content - Peer - Filter Component should set selections from filter on init 1`] = `
 <pf-peer-data-cut-filter
   data={[Function Array]}
-  disabled={[Function Boolean]}
   filter={[Function Object]}
   list={[Function ElementRef]}
   selectionChanged={[Function EventEmitter]}
   selections={[Function Array]}
-  source={[Function Array]}
->
-  <label
-    for="MockId"
-  >
-    MockLabel
-  </label>
-  <kendo-multiselect
-    id="MockId"
-    textfield="Item"
-    valuefield="Item"
-  >
-    
-  
-  </kendo-multiselect>
-  
-</pf-peer-data-cut-filter>
-`;
-
-exports[`Legacy Content - Peer - Filter Component should display an enabled kendo-multi-select if there is more than one FilterAggregateItem provided 1`] = `
-<pf-peer-data-cut-filter
-  data={[Function Array]}
-  disabled="false"
-  filter={[Function Object]}
-  list={[Function ElementRef]}
-  selectionChanged={[Function EventEmitter]}
   source={[Function Array]}
 >
   <label

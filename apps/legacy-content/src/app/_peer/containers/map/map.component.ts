@@ -89,7 +89,6 @@ export class MapComponent implements OnInit {
 
   // Map layer events
   handleLayerHoverEvent(e: any) {
-    this.selectedPoint = null;
     this.selectedPoint = e.features[0];
   }
 

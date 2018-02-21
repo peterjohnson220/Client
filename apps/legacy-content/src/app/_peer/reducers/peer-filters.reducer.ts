@@ -12,7 +12,7 @@ export interface State extends EntityState<FilterAggregateGroup> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<FilterAggregateGroup> = createEntityAdapter<FilterAggregateGroup>({
-  selectId: (filter: FilterAggregateGroup) => filter.MetaData.Filter
+  selectId: (filter: FilterAggregateGroup) => filter.MetaData.PeerFilter
 });
 
 // Initial State

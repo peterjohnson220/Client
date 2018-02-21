@@ -106,7 +106,14 @@ export function getMockMapEvent(): any {
     target: {
       _loaded: true,
       getBounds() {
-        return [0, 0, 0, 0];
+        return {
+          _ne: {
+            lat: 0, lng: 0
+          },
+          _sw: {
+            lat: 0, lng: 0
+          }
+        };
       },
       getZoom() {
         return 1;
