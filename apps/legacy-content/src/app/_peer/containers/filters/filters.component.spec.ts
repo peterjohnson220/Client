@@ -9,12 +9,12 @@ import {
   generateMockFilterAggregateGroup,
   generateMockUpdateFilterSelectionsModel
 } from 'libs/models/peer/aggregate-filters';
+import { generateMockExchangeMapFilter } from 'libs/models/peer';
 
 import * as fromPeerFiltersActions from '../../actions/peer-filters.actions';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
 import * as fromPeerDataReducer from '../../reducers';
 import { FiltersComponent } from './filters.component';
-import { generateMockExchangeMapFilter } from '../../../../../../../libs/models/peer';
 
 describe('Legacy Content - Peer - Filters Component', () => {
   let fixture: ComponentFixture<FiltersComponent>;

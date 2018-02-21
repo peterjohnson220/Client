@@ -1,8 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
+import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
+import { ExchangeMapFilter } from 'libs/models/peer';
+
 import * as fromPeerFilterActions from '../actions/peer-filters.actions';
-import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
-import { ExchangeMapFilter } from '../../../../../../libs/models/peer';
 
 // Extended entity state
 export interface State extends EntityState<FilterAggregateGroup> {

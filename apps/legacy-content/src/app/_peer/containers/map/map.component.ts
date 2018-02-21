@@ -104,7 +104,6 @@ export class MapComponent implements OnInit {
     if (!e.target._loaded || e.target.moving) {
       return;
     }
-    // TODO: Can we do this better or differently?
     this.canLoadPeerMap$.take(1).subscribe(canload => {
       if (canload) {
         const filterVars = {
