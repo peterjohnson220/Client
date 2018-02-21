@@ -5,11 +5,10 @@ export const LOADING_ACTIVITY = '[Dashboard Main/Activity Timeline] Loading Acti
 export const LOADING_ACTIVITY_SUCCESS = '[Dashboard Main/Activity Timeline] Loading Activity Success';
 export const LOADING_ACTIVITY_ERROR = '[Dashboard Main/Activity Timeline] Loading Activity Error';
 export const FILTER_ACTIVITY = '[Dashboard Main/Activity Timeline] Filter Activity';
-export const FILTER_ACTIVITY_SUCCESS = '[Dashboard Main/Activity Timeline] Filter Activity Success';
-export const FILTER_ACTIVITY_ERROR = '[Dashboard Main/Activity Timeline] Filter Activity Error';
 
 export class LoadingActivity implements Action {
   readonly type = LOADING_ACTIVITY;
+  constructor(public payload: string[]) {}
 }
 
 export class LoadingActivitySuccess implements Action {
@@ -25,24 +24,11 @@ export class LoadingActivityError implements Action {
 
 export class FilterActivity implements Action {
   readonly type = FILTER_ACTIVITY;
-}
-
-export class FilterActivitySuccess implements Action {
-  readonly type = FILTER_ACTIVITY_SUCCESS;
-
-  constructor(public payload: string[]) {}
-}
-
-export class FilterActivityError implements Action {
-  readonly type = FILTER_ACTIVITY_ERROR;
-
-  constructor(public any: Error) {}
+  constructor(public payload: TimelineActivity[]) {}
 }
 
 export type Actions
   = LoadingActivity
   | LoadingActivitySuccess
   | LoadingActivityError
-  | FilterActivity
-  | FilterActivitySuccess
-  | FilterActivityError;
+  | FilterActivity;

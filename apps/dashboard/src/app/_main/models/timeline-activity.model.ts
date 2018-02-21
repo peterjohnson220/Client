@@ -7,6 +7,7 @@ export interface TimelineActivity {
   Subject: string;
   Body: string;
   AvatarUrl: string;
+  IsVisible: boolean;
 }
 
 
@@ -19,6 +20,7 @@ export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubT
     PostedTime: '3m ago',
     Subject: 'Replied To Mike Davidson\'s post',
     Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
-    AvatarUrl: '/assets/john.png'
+    AvatarUrl: '/assets/john.png',
+    IsVisible: true
   };
 }

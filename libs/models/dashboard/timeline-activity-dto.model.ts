@@ -7,4 +7,5 @@ export interface TimelineActivityDto {
   Subject: string;
   Body: string;
   AvatarUrl: string;
+  IsVisible: boolean;
 }

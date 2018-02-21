@@ -69,6 +69,4 @@ export const {
 } = fromActivityTimelineReducer.adapter.getSelectors(selectActivityTimelineState);
 
 export const getTimelineActivityLoading = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getLoading);
-export const getTimelineActivtyLoadingError = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getLoadingError);
-export const getActivityFiltering = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getFiltering);
-export const getActivityFilteringError = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getFilteringError);
+export const getTimelineActivityLoadingError = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getLoadingError);

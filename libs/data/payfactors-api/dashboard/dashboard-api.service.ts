@@ -34,7 +34,7 @@ export class DashboardApiService {
     return this.payfactorsApiService.get<UserFeatureDto[]>(`${this.endpoint}.GetUserFeatures`);
   }
 
-  getTimelineActivities(): Observable<TimelineActivityDto[]> {
-    return MockActivityEndpoint.getTimelineActivities();
+  getTimelineActivities(request: string[]): Observable<TimelineActivityDto[]> {
+    return MockActivityEndpoint.getTimelineActivities(request);
   }
 }

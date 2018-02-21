@@ -7,8 +7,6 @@ import * as fromTimelineActivityActions from '../actions/timeline-activity.actio
 export interface State extends EntityState<TimelineActivity> {
   loading: boolean;
   loadingError: boolean;
-  filtering: boolean;
-  filteringError: boolean;
 }
 
 // Create entity adapter
@@ -18,9 +16,7 @@ export const adapter: EntityAdapter<TimelineActivity> = createEntityAdapter<Time
 
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false,
-  filtering: false,
-  filteringError: false
+  loadingError: false
 });
 
 // Reducer
@@ -47,21 +43,8 @@ export function reducer(state = initialState, action: fromTimelineActivityAction
     }
     case fromTimelineActivityActions.FILTER_ACTIVITY: {
       return {
-        ...state,
-        filtering: true
-      };
-    }
-    case fromTimelineActivityActions.FILTER_ACTIVITY_SUCCESS: {
-      return {
-        ...adapter.removeMany(action.payload, state),
-        filtering: false
-      };
-    }
-    case fromTimelineActivityActions.FILTER_ACTIVITY_ERROR: {
-      return {
-        ...state,
-        filtering: false,
-        filteringError: true
+        ...adapter.removeAll(state),
+        ...adapter.addAll(action.payload, state)
       };
     }
     default: {
@@ -73,5 +56,3 @@ export function reducer(state = initialState, action: fromTimelineActivityAction
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
-export const getFiltering = (state: State) => state.filtering;
-export const getFilteringError = (state: State) => state.filteringError;
