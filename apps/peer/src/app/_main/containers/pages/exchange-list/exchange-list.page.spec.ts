@@ -39,7 +39,7 @@ describe('Peer - Exchange List Page', () => {
 
     instance.handleCellClick(exchangeListItem.ExchangeId);
 
-    expect(router.navigate).toHaveBeenCalledWith(['exchange', exchangeListItem.ExchangeId]);
+    expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', exchangeListItem.ExchangeId]);
   });
 
 });

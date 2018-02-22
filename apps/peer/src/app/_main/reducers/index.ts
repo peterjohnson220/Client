@@ -4,6 +4,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
+import * as fromExchangeDashboardReducer from './exchange-dashboard.reducer';
 import * as fromExchangeJobMappingGridReducer from './exchange-job-mapping-grid.reducer';
 import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.reducer';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
@@ -11,6 +12,7 @@ import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {
+  exchangeDashboard: fromExchangeDashboardReducer.State;
   exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingGridReducer.State>;
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
 }
@@ -22,6 +24,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  exchangeDashboard: fromExchangeDashboardReducer.reducer,
   exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer
 };
@@ -30,6 +33,11 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<PeerMainState>('peerMain');
 
 // Feature Selectors
+export const selectExchangeDashboardState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.exchangeDashboard
+);
+
 export const selectExchangeJobMappingState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.exchangeJobMapping
@@ -38,6 +46,24 @@ export const selectExchangeJobMappingState = createSelector(
 export const selectExchangeJobMappingInfoState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.exchangeJobMappingInfo
+);
+
+// Exchange Dashboard Selectors
+export const getExchangeDashboardLoading = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoading
+);
+export const getExchangeDashboardLoadingError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingError
+);
+export const getExchangeDashboardExchange = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getExchange
+);
+export const getExchangeDashboardIndustryChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getIndustryChartItems
 );
 
 // Exchange Job Mapping Selectors
