@@ -28,7 +28,8 @@ export class TimelineActivityComponent implements OnInit {
       PostedBy: 'Mike Davidson',
       PostedTime: '5h ago',
       Subject: 'Posted to the <a href="#">Payfactors Community.</a>',
-      Body: 'Where permitted by state law, does your company permit employees to drive a car for company business while using a cell phone, even if cell phone and car are enabled with hands free technology, such as Bluetooth?',
+      Body: `Where permitted by state law, does your company permit employees to drive a car for company business while using a cell phone,
+       even if cell phone and car are enabled with hands free technology, such as Bluetooth?`,
       AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/mike.jpg'
     });
 
