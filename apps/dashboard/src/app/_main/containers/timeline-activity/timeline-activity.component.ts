@@ -67,7 +67,6 @@ export class TimelineActivityComponent implements OnInit {
 
   // events
   toggleFilter(filterValue: string) {
-    console.log(filterValue);
     for (const filter of this.timelineActivityFilters) {
       if (filter.Value === filterValue) {
         filter.IsEnabled = !filter.IsEnabled;
