@@ -8,10 +8,12 @@ import * as fromExchangeDashboardReducer from './exchange-dashboard.reducer';
 import * as fromExchangeJobMappingGridReducer from './exchange-job-mapping-grid.reducer';
 import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.reducer';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import * as fromExchangeReducer from 'libs/features/peer/reducers/exchange.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Feature area state
 export interface PeerMainState {
+  exchange: fromExchangeReducer.State;
   exchangeDashboard: fromExchangeDashboardReducer.State;
   exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingGridReducer.State>;
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
@@ -24,6 +26,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  exchange: fromExchangeReducer.reducer,
   exchangeDashboard: fromExchangeDashboardReducer.reducer,
   exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer
@@ -33,6 +36,11 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<PeerMainState>('peerMain');
 
 // Feature Selectors
+export const selectExchangeState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.exchange
+);
+
 export const selectExchangeDashboardState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.exchangeDashboard
@@ -48,22 +56,32 @@ export const selectExchangeJobMappingInfoState = createSelector(
   (state: PeerMainState) => state.exchangeJobMappingInfo
 );
 
+// Exchange Selectors
+export const getExchange = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getExchange
+);
+export const getExchangeLoading = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getLoading
+);
+export const getExchangeLoadingError = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getLoadingError
+);
+
 // Exchange Dashboard Selectors
-export const getExchangeDashboardLoading = createSelector(
-  selectExchangeDashboardState,
-  fromExchangeDashboardReducer.getLoading
-);
-export const getExchangeDashboardLoadingError = createSelector(
-  selectExchangeDashboardState,
-  fromExchangeDashboardReducer.getLoadingError
-);
-export const getExchangeDashboardExchange = createSelector(
-  selectExchangeDashboardState,
-  fromExchangeDashboardReducer.getExchange
-);
 export const getExchangeDashboardIndustryChartItems = createSelector(
   selectExchangeDashboardState,
   fromExchangeDashboardReducer.getIndustryChartItems
+);
+export const getExchangeDashboardLoadingIndustryChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingIndustryChart
+);
+export const getExchangeDashboardLoadingIndustryChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingIndustryChartError
 );
 
 // Exchange Job Mapping Selectors

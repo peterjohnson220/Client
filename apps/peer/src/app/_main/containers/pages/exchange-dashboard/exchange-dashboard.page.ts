@@ -25,7 +25,7 @@ export class ExchangeDashboardPageComponent implements OnInit {
     private router: Router,
     private store: Store<fromExchangeDashboardReducer.State>
   ) {
-    this.exchange$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardExchange);
+    this.exchange$ = this.store.select(fromExchangeDashboardReducer.getExchange);
     this.industryChartItems$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardIndustryChartItems);
     this.exchangeId = this.route.snapshot.params.id;
   }

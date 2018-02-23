@@ -15,19 +15,6 @@ import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.act
 
 @Injectable()
 export class ExchangeDashboardEffects {
-
-  @Effect()
-  loadExchange$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_EXCHANGE)
-    .switchMap((action: fromExchangeDashboardActions.LoadingExchange) =>
-      this.exchangeApiService.getExchange(action.payload)
-        .map((exchange: Exchange) => {
-          return new fromExchangeDashboardActions.LoadingExchangeSuccess(exchange);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingExchangeError()))
-    );
-
-
   @Effect()
   loadChart$: Observable<Action> = this.actions$
     .ofType(fromExchangeDashboardActions.LOADING_CHART)
