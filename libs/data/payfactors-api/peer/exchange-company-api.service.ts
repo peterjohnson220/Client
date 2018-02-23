@@ -39,9 +39,7 @@ export class ExchangeCompanyApiService {
   }
 
   getChart(getChartRequest: GetChartRequest): Observable<ChartItem[]> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/GetChart`,
-      getChartRequest
-    );
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/GetChart`,
+      { params: { getChartRequest: JSON.stringify(getChartRequest) } });
   }
-
 }
