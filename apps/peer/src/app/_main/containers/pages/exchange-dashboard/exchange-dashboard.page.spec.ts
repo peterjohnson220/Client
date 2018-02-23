@@ -7,11 +7,11 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import * as fromPeerMainReducer from '../../../reducers';
 import {  generateMockExchange } from 'libs/models';
 
 import { ExchangeDashboardPageComponent } from '../exchange-dashboard/exchange-dashboard.page';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
+import * as fromPeerMainReducer from '../../../reducers';
 
 describe('Peer - Exchange Dashboard', () => {
   let fixture: ComponentFixture<ExchangeDashboardPageComponent>;
