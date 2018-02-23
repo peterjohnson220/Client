@@ -2,11 +2,38 @@
   <div class="card-header d-flex align-items-center pl-1">
     <i class="far fa-3x fa-comment-alt px-2" aria-hidden="true"></i>
     <h4>Recent Activity</h4>
+    <button (click)="toggleFilterMenu()" class="reset-button">
+      <div *ngIf="showFilter">
+        <i class="fa fa-2x px-1 fa-sliders-h filter-icon-on" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="!showFilter">
+        <i class="fa fa-2x px-1 fa-sliders-h filter-icon-off" aria-hidden="true"></i>
+      </div>
+    </button>
   </div>
-  <div class="card-block pt-3 pb-1">
+  <div class="timeline-filter m-0 p-0 pt-3"
+       [ngClass]="{'hide': !showFilter, 'show': showFilter }"
+       *ngIf="timelineActivityFilters.length > 0">
+    <ul>
+        <li class="py-1 d-flex" *ngFor="let filter of timelineActivityFilters">
+          <div class="filter-label">{{ filter.Label }}</div>
+          <div class="text-right">
+            <button (click)="toggleFilter(filter.Value)" class="reset-button">
+              <div *ngIf="filter.IsEnabled">
+                <i class="fa fa-2x fa-toggle-on" ></i>
+              </div>
+              <div *ngIf="!filter.IsEnabled">
+                <i class="fa fa-2x fa-toggle-off"></i>
+              </div>
+            </button>
+          </div>
+        </li>
+    </ul>
+  </div>
+  <div class="card-block">
     <div class="px-1">
       <ul class="timeline">
-        <li *ngFor="let activity of timelineActivities">
+        <li *ngFor="let activity of timelineActivitiesFiltered">
           <div class="timeline-icon">
             <ng-container *ngIf="activity.Type === 'CommunityPost'">
               <i *ngIf="activity.SubType !== 'Reply'" class="far fa-comment-alt"></i>

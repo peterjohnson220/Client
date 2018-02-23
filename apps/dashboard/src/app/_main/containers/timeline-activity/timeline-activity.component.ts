@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TimelineActivity } from '../../models';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import * as fromTimelineActivityReducer from '../../reducers';
+import * as fromTimelineActivityActions from '../../actions/timeline-activity.actions';
+
+import { Feature, TimelineActivity } from '../../models';
+import { FeatureToTimelineActivityTypeMapper } from '../../mappers';
+import { TimelineActivityFilter } from '../../models/filter.model';
 
 @Component({
   selector: 'pf-timeline-activity',
@@ -8,62 +16,121 @@ import { TimelineActivity } from '../../models';
   styleUrls: [ './timeline-activity.component.scss' ]
 })
 export class TimelineActivityComponent implements OnInit {
+  loading$: Observable<boolean>;
+  loadingError$: Observable<boolean>;
+  timelineActivities$: Observable<TimelineActivity[]>;
   timelineActivities: TimelineActivity[];
+  timelineActivitiesFiltered: TimelineActivity[];
+  features$: Observable<Feature[]>;
+  timelineActivityFilters: TimelineActivityFilter[];
+  showFilter: boolean;
 
-  constructor() {
-    this.timelineActivities = [];
-    this.timelineActivities.push({
-      Type: 'CommunityPost',
-      SubType: 'Reply',
-      PostedBy: 'John Clark',
-      PostedTime: '3m ago',
-      Subject: 'Replied To Mike Davidson\'s post',
-      Body: 'We have a group of exempt employees that we pay straight time overtime for any hours worked over 40.',
-      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/john.jpg'
-    });
+  constructor(private store: Store<fromTimelineActivityReducer.State>) {
+    this.features$ = this.store.select(fromTimelineActivityReducer.getFeatures);
+    this.loading$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoading);
+    this.loadingError$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoadingError);
+    this.timelineActivities$ = this.store.select(fromTimelineActivityReducer.getTimelineActivities);
+    this.timelineActivityFilters = [];
+    this.showFilter = false;
+  }
 
-    this.timelineActivities.push({
-      Type: 'CommunityPost',
-      SubType: null,
-      PostedBy: 'Mike Davidson',
-      PostedTime: '5h ago',
-      Subject: 'Posted to the <a href="#">Payfactors Community.</a>',
-      Body: 'Where permitted by state law, does your company permit employees to drive a car for company business while using a cell phone, even if cell phone and car are enabled with hands free technology, such as Bluetooth?',
-      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/mike.jpg'
-    });
+  // Lifecycle
+  ngOnInit() {
+    this.registerFeaturesSubscription();
+    this.registerTimelineActivitiesSubscription();
+  }
 
-    this.timelineActivities.push({
-      Type: 'ResourcesPost',
-      SubType: null,
-      PostedBy: 'Payfactors',
-      PostedTime: '11h ago',
-      Subject: 'Added new <a href="#">Release Notes.</a>',
-      Body: null,
-      AvatarUrl: '/client/dashboard/favicon.ico'
-    });
+  // Subscriptions
+  registerFeaturesSubscription() {
+    this.features$.subscribe(features => {
+      if (features.length > 0) {
+        const timelineActivityTypes = FeatureToTimelineActivityTypeMapper.mapToStringArray(features);
+        // Dispatch LoadingActivity for enabled types
+        this.store.dispatch(
+          new fromTimelineActivityActions.LoadingActivity(timelineActivityTypes)
+        );
 
-    this.timelineActivities.push({
-      Type: 'ActivityPost',
-      SubType: null,
-      PostedBy: 'Sue Jones',
-      PostedTime: '2d ago',
-      Subject: 'Shared <a href="#">Retail Jobs 2018</a> project with you.',
-      Body: null,
-      AvatarUrl: '/client/dashboard/assets/images/placeholders/timeline-activity/sue.jpg'
-    });
-
-    this.timelineActivities.push({
-      Type: 'ResourcesPost',
-      SubType: null,
-      PostedBy: 'Payfactors',
-      PostedTime: '7d ago',
-      Subject: 'Added a new <a href="#">Video.</a>',
-      Body: null,
-      AvatarUrl: '/client/dashboard/favicon.ico'
+        // Generate TimelineActivityFilters based on features
+        this.generateFiltersFromTimelineActivityType(timelineActivityTypes);
+      }
     });
   }
 
-  ngOnInit() {
+  registerTimelineActivitiesSubscription() {
+    this.timelineActivities$.subscribe(timelineActivities => {
+      this.timelineActivities = timelineActivities;
+      this.timelineActivitiesFiltered = this.timelineActivities.filter(function(activity) {
+        return activity.IsVisible;
+      });
+    });
+  }
+
+  // events
+  toggleFilter(filterValue: string) {
+    for (const filter of this.timelineActivityFilters) {
+      if (filter.Value === filterValue) {
+        filter.IsEnabled = !filter.IsEnabled;
+        this.store.dispatch(new fromTimelineActivityActions.FilterActivity(this.applyFilter()));
+      }
+    }
+  }
+
+  toggleFilterMenu() {
+    this.showFilter = !this.showFilter;
+  }
+
+  // Helpers
+  generateFiltersFromTimelineActivityType(timelineActivityTypes: string[]) {
+    this.timelineActivityFilters = [];
+    for (const timelineActivityType of timelineActivityTypes) {
+      switch (timelineActivityType) {
+        case 'ActivityPost': {
+          this.timelineActivityFilters.push({
+            Label: 'Activity',
+            Value: timelineActivityType,
+            IsEnabled: true
+          });
+          break;
+        }
+        case 'CommunityPost': {
+          this.timelineActivityFilters.push({
+            Label: 'Community',
+            Value: timelineActivityType,
+            IsEnabled: true
+          });
+          break;
+        }
+        case 'ResourcesPost': {
+          this.timelineActivityFilters.push({
+            Label: 'Resources',
+            Value: timelineActivityType,
+            IsEnabled: true
+          });
+          break;
+        }
+        case 'JobDescriptionsPost': {
+          this.timelineActivityFilters.push({
+            Label: 'Job Descriptions',
+            Value: timelineActivityType,
+            IsEnabled: true
+          });
+          break;
+        }
+      }
+    }
+  }
+
+  applyFilter(): TimelineActivity[] {
+    const newTimelineActivities = [];
+    for (const timelineActivity of this.timelineActivities) {
+      for (const filter of this.timelineActivityFilters) {
+        if (timelineActivity.Type === filter.Value) {
+          const newTimelineActivity = {...timelineActivity};
+          newTimelineActivity.IsVisible = filter.IsEnabled;
+          newTimelineActivities.push(newTimelineActivity);
+        }
+      }
+    }
+    return newTimelineActivities;
   }
 }
-
