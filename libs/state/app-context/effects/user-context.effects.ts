@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs/observable/of';
@@ -9,7 +10,6 @@ import 'rxjs/add/operator/catch';
 
 import { CompanySecurityApiService } from '../../../data/payfactors-api/index';
 import * as userContextActions from '../actions/user-context.actions';
-
 
 @Injectable()
 export class UserContextEffects {
@@ -41,12 +41,15 @@ export class UserContextEffects {
   getUserContext401Error$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR)
     .switchMap(() => {
-        window.location.href = `/login.asp?${window.location.pathname}`;
+        if (isPlatformBrowser(this.platformId)) {
+          window.location.href = `/login.asp?${window.location.pathname}`;
+        }
         return null;
       }
     );
 
   constructor(private actions$: Actions,
-              private companySecurityApiService: CompanySecurityApiService) {
+              private companySecurityApiService: CompanySecurityApiService,
+              @Inject(PLATFORM_ID) private platformId: Object) {
   }
 }
