@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { FeatureCollection, Point } from 'geojson';
+import 'rxjs/add/operator/take';
 
 import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
@@ -28,6 +29,8 @@ export class MapComponent implements OnInit {
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
+  peerMapShowNoData$: Observable<boolean>;
+  map: mapboxgl.Map;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -37,6 +40,7 @@ export class MapComponent implements OnInit {
     this.peerMapCollection$ = this.store.select(fromPeerDataReducers.getPeerMapCollection);
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
+    this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
   }
 
   ngOnInit(): void {
@@ -49,7 +53,22 @@ export class MapComponent implements OnInit {
     }));
   }
 
+  get center(): any {
+    if (!this.map) {
+      return [0, 0];
+    }
+    return this.map.getCenter();
+  }
+
+  get pointProperties(): string {
+    return JSON.stringify(this.selectedPoint.properties);
+  }
+
   // Map events
+  handleLoadEvent(e: mapboxgl.Map) {
+    this.map = e;
+  }
+
   handleMoveStartEvent(e: any) {
     e.target.moveStarted = true;
   }
@@ -69,24 +88,31 @@ export class MapComponent implements OnInit {
   }
 
   // Map layer events
-  handleLayerClickEvent(e: any) {
-    this.selectedPoint = null;
+  handleLayerHoverEvent(e: any) {
     this.selectedPoint = e.features[0];
+  }
+
+  handleLayerClusteredClickEvent(e: any) {
+    e.target.flyTo({
+      center: e.features[0].geometry.coordinates,
+      zoom: e.target.getZoom() + 1
+    });
   }
 
   // Helper functions
   refreshMap(e: any) {
-    if (!e.target._loaded) {
+    if (!e.target._loaded || e.target.moving) {
       return;
     }
+    this.canLoadPeerMap$.take(1).subscribe(canload => {
+      if (canload) {
+        const filterVars = {
+          bounds: e.target.getBounds(),
+          zoom: e.target.getZoom()
+        };
 
-    if (!!this.canLoadPeerMap$.filter(x => x).take(1)) {
-      const filterVars = {
-        bounds: e.target.getBounds(),
-        zoom: e.target.getZoom()
-      };
-
-      this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
-    }
+        this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
+      }
+    });
   }
 }

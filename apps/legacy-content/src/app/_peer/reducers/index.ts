@@ -39,6 +39,7 @@ export const getPeerMapFilter = createSelector(selectMapState, fromPeerMapReduce
 export const getPeerMapCollection = createSelector(selectMapState, fromPeerMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromPeerMapReducer.getMapBounds);
 export const canLoadPeerMap = createSelector(selectMapState, fromPeerMapReducer.canLoadMap);
+export const peerMapShowNoData = createSelector(selectMapState, fromPeerMapReducer.showNoData);
 
 
 // Filters
