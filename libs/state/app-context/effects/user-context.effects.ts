@@ -9,7 +9,6 @@ import 'rxjs/add/operator/catch';
 
 import { CompanySecurityApiService } from '../../../data/payfactors-api/index';
 import * as userContextActions from '../actions/user-context.actions';
-import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -48,7 +47,6 @@ export class UserContextEffects {
     );
 
   constructor(private actions$: Actions,
-              private companySecurityApiService: CompanySecurityApiService,
-              private router: Router) {
+              private companySecurityApiService: CompanySecurityApiService) {
   }
 }
