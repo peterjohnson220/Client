@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   imports: [
     // Angular
-    BrowserModule,
+    BrowserAnimationsModule,
 
     // PF Modules
     PfCommonUIModule,
