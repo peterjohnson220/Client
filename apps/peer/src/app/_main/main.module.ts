@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
+import { ChartsModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { StoreModule } from '@ngrx/store';
 
@@ -13,8 +14,9 @@ import { PfSharedPeerModule } from 'libs/features';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
-         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent } from './containers';
-import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects } from './effects';
+         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent, ExchangeDashboardPageComponent } from './containers';
+import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
+import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
@@ -26,9 +28,15 @@ import { MainRoutingModule } from './main-routing.module';
     FormsModule,
 
     // 3rd party
+    ChartsModule,
     GridModule,
     StoreModule.forFeature('peerMain', reducers),
-    EffectsModule.forFeature([ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeJobMappingInfoEffects]),
+    EffectsModule.forFeature([
+      ExchangeJobMappingGridEffects,
+      ExchangeListEffects,
+      ExchangeJobMappingInfoEffects,
+      ExchangeDashboardEffects
+    ]),
 
     // Routing
     MainRoutingModule,
@@ -44,13 +52,14 @@ import { MainRoutingModule } from './main-routing.module';
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
 
     // Containers
-    ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent,
+    ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent
   ],
   providers: [
-    ExchangeJobMappingService
+    ExchangeJobMappingService,
+    ExchangeExistsGuard
   ]
 })
 export class MainModule { }
