@@ -18,6 +18,7 @@ import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingI
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
+import { RequestExchangeAccessModalComponent } from './containers/request-access-modal/request-exchange-access-modal.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { MainRoutingModule } from './main-routing.module';
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent,
+    RequestExchangeAccessModalComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent

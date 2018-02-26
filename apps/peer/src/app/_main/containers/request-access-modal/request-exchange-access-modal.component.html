@@ -1,0 +1,44 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Request Access to Exchange'"
+  [primaryButtonText]="'Request'"
+  [primaryButtonTextSubmitting]="'Requesting...'"
+  [submitting]="exchangeAccessRequesting$ | async"
+  [isOpen$]="exchangeAccessModalOpen$ | async"
+  [formGroup]="exchangeSelectionsForm"
+  (onSubmit)="handleFormSubmit"
+  (onDismiss)="handleModalDismissed">
+
+  <ng-container form-content>
+
+    <pf-async-container
+      [loading]="availableCompaniesLoading$ | async"
+      [loadingError]="availableCompaniesLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange companies'"
+      (reload)="loadAvailableCompanies()">
+
+      <div class="form-group">
+        <pf-input-debounce id="search-box"
+                           [focus]="true"
+                           [delay]="400"
+                           [(ngModel)]="searchTerm"
+                           [ngModelOptions]="{standalone: true}"
+                           [placeholderText]="'Search for a Company Name...'"
+                           (valueChanged)="updateSearchFilter($event)">
+        </pf-input-debounce>
+      </div>
+
+
+    </pf-async-container>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selectedExchangeId" [ngModel]="selectedExchangeId" [pfValidatable]="attemptedSubmit"/>
+      <!--<ng-container *ngIf="selectionsControl.errors && attemptedSubmit">-->
+        <!--<div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>-->
+      <!--</ng-container>-->
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>
+
