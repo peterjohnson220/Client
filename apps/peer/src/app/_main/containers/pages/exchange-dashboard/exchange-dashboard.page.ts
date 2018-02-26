@@ -41,8 +41,4 @@ export class ExchangeDashboardPageComponent implements OnInit {
   manageJobsClick(): void {
     this.router.navigate([ 'exchange/job-mapping', this.exchangeId ]);
   }
-
-  labelContent(e: any): string {
-    return e.category;
-  }
 }

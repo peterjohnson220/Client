@@ -73,20 +73,14 @@ describe('Peer - Exchange Dashboard', () => {
   });
 
   it('should dispatch a industries loadingChart action on init', () => {
+    instance.exchange$ = of(generateMockExchange());
     const action = new fromExchangeDashboardActions.LoadingChart({
       ExchangeId: activatedRoute.snapshot.params.id,
       ChartType: 'Industry'
     });
 
-    instance.ngOnInit();
+    fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should return the category for the label name', () => {
-    const expected = {
-      category: 'Category Name'
-    };
-    expect(instance.labelContent(expected)).toEqual(expected.category);
   });
 });
