@@ -7,7 +7,7 @@ import * as fromTimelineActivityReducer from '../../reducers';
 import * as fromTimelineActivityActions from '../../actions/timeline-activity.actions';
 
 import { Feature, TimelineActivity } from '../../models';
-import { FeatureToTimelineActivityTypeMapper } from '../../mappers';
+import { TimelineActivityMapper } from '../../mappers';
 import { TimelineActivityFilter } from '../../models/filter.model';
 
 @Component({
@@ -19,17 +19,24 @@ export class TimelineActivityComponent implements OnInit {
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   timelineActivities$: Observable<TimelineActivity[]>;
+  timelineActivitiesPage$: Observable<number>;
+  timelineActivitiesHasMoreData$: Observable<boolean>;
   timelineActivities: TimelineActivity[];
   timelineActivitiesFiltered: TimelineActivity[];
   features$: Observable<Feature[]>;
   timelineActivityFilters: TimelineActivityFilter[];
   showFilter: boolean;
+  ACTIVITY_TYPE: string = TimelineActivityMapper.ACTIVITY_TYPE;
+  COMMUNITY_TYPE: string = TimelineActivityMapper.COMMUNITY_TYPE;
+  RESOURCES_TYPE: string = TimelineActivityMapper.RESOURCES_TYPE;
 
   constructor(private store: Store<fromTimelineActivityReducer.State>) {
     this.features$ = this.store.select(fromTimelineActivityReducer.getFeatures);
     this.loading$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoading);
     this.loadingError$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoadingError);
     this.timelineActivities$ = this.store.select(fromTimelineActivityReducer.getTimelineActivities);
+    this.timelineActivitiesPage$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityCurrentPage);
+    this.timelineActivitiesHasMoreData$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityHasMoreData);
     this.timelineActivityFilters = [];
     this.showFilter = false;
   }
@@ -44,7 +51,7 @@ export class TimelineActivityComponent implements OnInit {
   registerFeaturesSubscription() {
     this.features$.subscribe(features => {
       if (features.length > 0) {
-        const timelineActivityTypes = FeatureToTimelineActivityTypeMapper.mapToStringArray(features);
+        const timelineActivityTypes = TimelineActivityMapper.mapFeaturesToTimelineActivityTypes(features);
         // Dispatch LoadingActivity for enabled types
         this.store.dispatch(
           new fromTimelineActivityActions.LoadingActivity(timelineActivityTypes)
@@ -84,15 +91,15 @@ export class TimelineActivityComponent implements OnInit {
     this.timelineActivityFilters = [];
     for (const timelineActivityType of timelineActivityTypes) {
       switch (timelineActivityType) {
-        case 'ActivityPost': {
+        case TimelineActivityMapper.ACTIVITY_TYPE: {
           this.timelineActivityFilters.push({
-            Label: 'Activity',
+            Label: 'Project Activity',
             Value: timelineActivityType,
             IsEnabled: true
           });
           break;
         }
-        case 'CommunityPost': {
+        case TimelineActivityMapper.COMMUNITY_TYPE: {
           this.timelineActivityFilters.push({
             Label: 'Community',
             Value: timelineActivityType,
@@ -100,7 +107,7 @@ export class TimelineActivityComponent implements OnInit {
           });
           break;
         }
-        case 'ResourcesPost': {
+        case TimelineActivityMapper.RESOURCES_TYPE: {
           this.timelineActivityFilters.push({
             Label: 'Resources',
             Value: timelineActivityType,
@@ -108,7 +115,7 @@ export class TimelineActivityComponent implements OnInit {
           });
           break;
         }
-        case 'JobDescriptionsPost': {
+        case TimelineActivityMapper.JOB_DESCRIPTIONS_TYPE: {
           this.timelineActivityFilters.push({
             Label: 'Job Descriptions',
             Value: timelineActivityType,

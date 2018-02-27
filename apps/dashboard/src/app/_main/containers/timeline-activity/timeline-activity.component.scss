@@ -1,5 +1,16 @@
 @import 'colors';
 
+.timeline-container {
+  min-height: 100px;
+  max-height: 860px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.card-header {
+  min-height: 35px;
+}
+
 .timeline {
   list-style: none;
   padding: 0 0 1.25rem;
@@ -70,11 +81,13 @@
 }
 
 .card-header > h4 {
-  flex: 3;
+  // flex: 3;
 }
 
-.card-header > div {
-  flex: 1;
+.card-header > button {
+  //flex: 1;
+  max-width: 40px;
+  margin-left: 90px;
 }
 
 .btn {
@@ -92,7 +105,7 @@
 }
 
 .timeline-filter > ul > li {
-  width: 90%;
+  width: 260px;
   display:inline-block;
   *display:inline; /*IE7*/
   *zoom:1; /*IE7*/
@@ -104,7 +117,7 @@
 }
 
 .filter-label {
-  flex: 4 !important;
+  flex: 3 !important;
 }
 
 .filter-icon-on {

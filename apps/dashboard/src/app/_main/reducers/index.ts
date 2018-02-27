@@ -70,3 +70,5 @@ export const {
 
 export const getTimelineActivityLoading = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getLoading);
 export const getTimelineActivityLoadingError = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getLoadingError);
+export const getTimelineActivityCurrentPage = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getGetCurrentPage);
+export const getTimelineActivityHasMoreData = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getHasMoreData);

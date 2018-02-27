@@ -10,7 +10,8 @@ import { DashboardApiService } from 'libs/data/payfactors-api';
 import * as fromTimelineActivityAction from '../actions/timeline-activity.actions';
 
 import { TimelineActivityDto } from '../../../../../../libs/models/dashboard';
-import { TimelineActivityDtoToTimelineActivityMapper } from '../mappers';
+import { TimelineActivityMapper } from '../mappers';
+import { TimelineActivityResponse } from '../../../../../../libs/models/dashboard/timeline-activity-response.model';
 
 @Injectable()
 export class TimelineActivityEffects {
@@ -19,7 +20,7 @@ export class TimelineActivityEffects {
     .ofType(fromTimelineActivityAction.LOADING_ACTIVITY)
     .switchMap((action: fromTimelineActivityAction.LoadingActivity) =>
       this.dashboardApiService.getTimelineActivities(action.payload)
-        .map((timelineActivities: TimelineActivityDto[]) => new fromTimelineActivityAction.LoadingActivitySuccess(TimelineActivityDtoToTimelineActivityMapper.mapFromDto(timelineActivities)))
+        .map((response: TimelineActivityResponse) => new fromTimelineActivityAction.LoadingActivitySuccess(response))
         .catch(error  => of (new fromTimelineActivityAction.LoadingActivityError(error)))
     );
 

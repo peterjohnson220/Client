@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { TimelineActivity } from '../models';
+import { TimelineActivityResponse } from '../../../../../../libs/models/dashboard/timeline-activity-response.model';
 
 export const LOADING_ACTIVITY = '[Dashboard Main/Activity Timeline] Loading Activity';
 export const LOADING_ACTIVITY_SUCCESS = '[Dashboard Main/Activity Timeline] Loading Activity Success';
@@ -13,7 +14,7 @@ export class LoadingActivity implements Action {
 
 export class LoadingActivitySuccess implements Action {
   readonly type = LOADING_ACTIVITY_SUCCESS;
-  constructor(public payload: TimelineActivity[]) {}
+  constructor(public payload: TimelineActivityResponse) {}
 }
 
 export class LoadingActivityError implements Action {
