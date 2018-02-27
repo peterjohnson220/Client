@@ -17,7 +17,6 @@ describe('Legacy Content - Peer - Filter Component', () => {
   let fixture: ComponentFixture<FilterComponent>;
   let instance: FilterComponent;
   let store: Store<fromRootState.State>;
-
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,17 +41,9 @@ describe('Legacy Content - Peer - Filter Component', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should display a disabled kendo-multi-select if only one FilterAggregateItem is provided', () => {
-    instance.filter = generateMockFilterAggregateGroup();
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display an enabled kendo-multi-select if there is more than one FilterAggregateItem provided', () => {
+  it('should set selections from filter on init', () => {
     const mockFilterAggregateGroup = generateMockFilterAggregateGroup();
-    mockFilterAggregateGroup.Aggregates.push(generateMockFilterAggregateItem());
+    mockFilterAggregateGroup.Aggregates.push(generateMockFilterAggregateItem('MockSelection'));
     instance.filter = mockFilterAggregateGroup;
 
     fixture.detectChanges();

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { ExchangeListItem } from '../../../models/peer';
 import * as fromSharedPeerReducer from '../reducers';
-import * as fromExchangeListActions from '../actions';
+import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
 @Component({
   selector: 'pf-exchange-list',

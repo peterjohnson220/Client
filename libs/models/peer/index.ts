@@ -17,4 +17,5 @@ export * from './initial-map-filter-request.model';
 export * from './exchange-map-filter.model';
 export * from './exchange-map-response.model';
 export * from './aggregate-filters';
+export * from './get-chart-request.model';
 export * from './available-exchange-item.model';

@@ -1,0 +1,39 @@
+<pf-page-with-title-bar [returnUrl]="'/exchanges'">
+
+  <ng-container page-title>
+    {{ (exchange$ | async).ExchangeName }} - Dashboard
+  </ng-container>
+
+  <ng-container page-actions>
+    <button type="button" class="btn btn-primary" (click)="manageJobsClick()">Manage Jobs</button>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="flex-column-container">
+      <div class="card w-100 h-100">
+        <div class="card-header">
+          Industries
+        </div>
+        <div class="card-body">
+          <kendo-chart>
+            <kendo-chart-legend position="bottom"></kendo-chart-legend>
+            <kendo-chart-area background="none"></kendo-chart-area>
+            <kendo-chart-tooltip>
+              <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-category="category">
+                {{ category }} - {{ value | percent: '1.0-2' }}
+              </ng-template>
+            </kendo-chart-tooltip>
+            <kendo-chart-series>
+              <kendo-chart-series-item type="donut"
+                                       [data]="(industryChartItems$ | async)"
+                                       field="Value"
+                                       categoryField="Category">
+              </kendo-chart-series-item>
+            </kendo-chart-series>
+          </kendo-chart>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-page-with-title-bar>

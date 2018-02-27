@@ -3,9 +3,9 @@ export interface FilterAggregateItem {
   Count?: number;
 }
 
-export function generateMockFilterAggregateItem(): FilterAggregateItem {
+export function generateMockFilterAggregateItem(item = 'MockItem'): FilterAggregateItem {
   return {
-    Item: 'MockItem',
+    Item: item,
     Count: 1
   };
 }
