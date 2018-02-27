@@ -8,7 +8,10 @@ import { AvailableExchangeItem } from 'libs/models/peer';
 
 import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
+import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
 import { PfValidators } from '../../../../../../../libs/forms/validators';
+import { CompanyOption } from '../../../../../../../libs/models/common';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'pf-request-exchange-access-modal',
@@ -23,12 +26,14 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   exchangeAccessModalOpen$: Observable<boolean>;
   exchangeAccessRequesting$: Observable<boolean>;
   exchangeAccessRequestingError$: Observable<boolean>;
+  peerParticipants$: Observable<CompanyOption[]>;
+  selectedCompanyId: number;
 
   exchangeSelectionsForm: FormGroup;
   searchTerm = '';
   attemptedSubmit = false;
   selectedExchangeId = 1;
-  reason = 'test';
+  reason = '';
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
@@ -40,14 +45,26 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     this.exchangeAccessModalOpen$ = this.store.select(fromPeerMainReducer.getExchangeAccessModalOpen);
     this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequesting);
     this.exchangeAccessRequestingError$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequestingError);
+    this.peerParticipants$ = this.store.select(fromPeerMainReducer.getPeerParticipants);
     this.createForm();
   }
 
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
-      'reason': [PfValidators.required]
+      'reason': [this.reason, [PfValidators.required]]
     });
   }
+
+  handleSelectedCompanyChangeEvent(selectedCompany: CompanyOption): void {
+    console.log('handleSelectedCompanyChangeEvent! - ', selectedCompany);
+    const selection = selectedCompany ? selectedCompany.CompanyId : null;
+    this.store.dispatch(new fromExchangeAccessActions.UpdateCompanyFilter(selection));
+  }
+  handleAvailableExchangeSelection(exchangeId: number): void {
+    console.log('handleAvailableExchangeSelection! - ', exchangeId);
+    this.selectedExchangeId = exchangeId;
+  }
+
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
@@ -63,6 +80,18 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     this.searchTerm = '';
     this.store.dispatch(new fromExchangeAccessActions.CloseExchangeAccessModal);
     // this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableCompanies));
+  }
+
+  updateSearchFilter(newSearchTerm: string): void {
+    this.store.dispatch(new fromExchangeAccessActions.UpdateSearchTerm(newSearchTerm));
+  }
+
+  loadAvailableExchanges(): void {
+    const payload = {
+      SearchTerm: this.searchTerm,
+      CompanyId: this.selectedCompanyId
+    }
+    this.store.dispatch(new fromAvailableExchangesActions.LoadAvailableExchanges(payload));
   }
 
   // Lifecycle Events

@@ -40,6 +40,12 @@ export class ExchangeApiService {
     );
   }
 
+  getCompaniesWithPeerEnabled(includeDetails: boolean): Observable<any[]> {
+    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetCompaniesWithPeerEnabled`, {
+      params: {includeDetails: includeDetails}
+    });
+  }
+
   getAvailableJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableJobs`, {
         params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}

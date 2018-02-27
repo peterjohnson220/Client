@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
@@ -19,17 +19,25 @@ import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
 import { RequestExchangeAccessModalComponent } from './containers/request-access-modal/request-exchange-access-modal.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { AvailableExchangeResultComponent } from './components/available-exchange-result/available-exchange-result.component';
+import { ExchangeAccessEffects } from './effects/exchange-access.effects';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // 3rd party
     GridModule,
     StoreModule.forFeature('peerMain', reducers),
-    EffectsModule.forFeature([ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeJobMappingInfoEffects]),
+    EffectsModule.forFeature([
+      ExchangeJobMappingGridEffects, ExchangeListEffects,
+      ExchangeJobMappingInfoEffects, ExchangeAccessEffects
+    ]),
+    DropDownsModule,
 
     // Routing
     MainRoutingModule,
@@ -43,6 +51,7 @@ import { RequestExchangeAccessModalComponent } from './containers/request-access
   declarations: [
     // Components
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
+    AvailableExchangeResultComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent,

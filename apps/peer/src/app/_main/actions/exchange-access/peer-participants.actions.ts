@@ -8,8 +8,7 @@ export const LOAD_PEER_PARTICIPANTS_ERROR = '[Peer Main/Available Exchanges] Loa
 
 export class LoadPeerParticipants implements Action {
   readonly type = LOAD_PEER_PARTICIPANTS;
-
-  constructor(public payload: any) {}
+  readonly payload = null;
 }
 
 export class LoadPeerParticipantsSuccess implements Action {

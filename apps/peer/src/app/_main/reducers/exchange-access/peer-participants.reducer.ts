@@ -19,7 +19,7 @@ const initialState: State = adapter.getInitialState({
 });
 
 // Reducer function
-export function reducer(state = initialState,  action: fromPeerParticipantsActions.Actions): State {
+export function reducer(state = initialState, action: fromPeerParticipantsActions.Actions): State {
   switch (action.type) {
     case fromPeerParticipantsActions.LOAD_PEER_PARTICIPANTS: {
       return {

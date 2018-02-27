@@ -183,6 +183,11 @@ export const getExchangeAccessRequestingError = createSelector(
   fromExchangeAccessReducer.getRequestingError
 );
 
+export const getAvailableExchangesQueryPayload = createSelector(
+  selectExchangeAccessState,
+  fromExchangeAccessReducer.getAvailableExchangesQueryPayload
+);
+
 // Exchange Access - Available Exchanges
 export const {
   selectAll: getAvailableExchanges
