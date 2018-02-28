@@ -87,12 +87,11 @@ export class TimelineActivityMapper {
       case (this.COMMUNITY_TYPE): {
         return this.generateSubjectForCommunity(dto);
       }
+      case (this.JOB_DESCRIPTIONS_TYPE): {
+        return this.generateSubjectForJobDescription(dto);
+      }
       case (this.RESOURCES_TYPE): {
         return this.generateSubjectForResource(dto);
-      }
-      default: {
-        console.log(dto);
-        return 'DEFAULT';
       }
     }
   }
@@ -138,6 +137,14 @@ export class TimelineActivityMapper {
     }
 
     return subject;
+  }
+
+  static generateSubjectForJobDescription(dto: TimelineActivityDto): string {
+    const jdUrl = dto.Links[0].Url;
+    const fullJdUrl = this.BASE_URL + jdUrl;
+    const jdName = dto.Links[0].DisplayName;
+    const jdHtmlLink = this.generateHtmlLink(fullJdUrl, jdName, 'Link to a job description.');
+    return 'Sent the job description for ' + jdHtmlLink + ' to you for review.';
   }
 
   static generateSubjectForResource(dto: TimelineActivityDto): string {
