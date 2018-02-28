@@ -57,7 +57,7 @@
                 </h6>
               </div>
               <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>
-              <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body"></span></div>
+              <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body | TruncateAfter:200 "></span></div>
             </div>
           </li>
         </ul>

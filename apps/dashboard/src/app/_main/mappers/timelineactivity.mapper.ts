@@ -3,6 +3,8 @@ import { Feature, FeatureTypes, TimelineActivity } from '../models';
 import { TimelineActivityResponse } from '../../../../../../libs/models/dashboard/timeline-activity-response.model';
 
 export class TimelineActivityMapper {
+  public static get BASE_URL(): string { return  location.protocol + '//' + document.location.hostname; }
+  public static get AVATAR_BASE_URL(): string { return 'http://1888c0618f50dfcd4eb2-8e3d7b28275f3f67348d5a5232162cf7.r39.cf5.rackcdn.com/avatars/'; }
   public static get ACTIVITY_TYPE(): string { return 'ProjectActivity'; }
   public static get COMMUNITY_TYPE(): string { return 'Community'; }
   public static get RESOURCES_TYPE(): string { return 'Resources'; }
@@ -79,6 +81,9 @@ export class TimelineActivityMapper {
 
   static generateSubject(dto: TimelineActivityDto): string {
     switch (dto.Type) {
+      case (this.ACTIVITY_TYPE): {
+        return this.generateSubjectForActivity(dto);
+      }
       case (this.COMMUNITY_TYPE): {
         return this.generateSubjectForCommunity(dto);
       }
@@ -86,24 +91,38 @@ export class TimelineActivityMapper {
         return this.generateSubjectForResource(dto);
       }
       default: {
+        console.log(dto);
         return 'DEFAULT';
       }
     }
   }
 
+  static generateSubjectForActivity(dto: TimelineActivityDto): string {
+    const projectUrl = dto.Links[0].Url;
+    const fullProjectUrl = this.BASE_URL + projectUrl;
+    let projectName = dto.Links[0].DisplayName;
+    if (projectName === null || projectName === '') {
+      projectName = 'a Project';
+    }
+    const projectHtmlLink = this.generateHtmlLink(fullProjectUrl, projectName, 'Link to a project.');
+    return 'Shared ' + projectHtmlLink + ' with you.';
+  }
+
   static generateSubjectForCommunity(dto: TimelineActivityDto): string {
-    const baseUrl = location.protocol + '//' + document.location.hostname;
     const communityUrl = dto.Links.filter( x => x.Type === 'Community')[0].Url;
-    const communityFullUrl =  baseUrl + communityUrl;
+    const communityFullUrl =  this.BASE_URL + communityUrl;
     const communityHtmlLink = this.generateHtmlLink(communityFullUrl, 'Community', 'Link to community');
     const communityPostUrl = dto.Links.filter(x => x.Type === 'CommunityPost')[0].Url;
-    const communityPostFullUrl = baseUrl + communityPostUrl;
+    const communityPostFullUrl = this.BASE_URL + communityPostUrl;
     let subject = '';
 
     switch (dto.SubType) {
       case ('Post'):
         const postHtmlLink = this.generateHtmlLink(communityPostFullUrl, 'Posted', 'Link to community post');
         subject = postHtmlLink + ' to the ' + communityHtmlLink;
+        if (dto.Internal) {
+          subject = postHtmlLink + ' to the ' + dto.CompanyName + ' ' + communityHtmlLink;
+        }
         break;
 
       case ('Reply'):
@@ -122,8 +141,8 @@ export class TimelineActivityMapper {
   }
 
   static generateSubjectForResource(dto: TimelineActivityDto): string {
-    const resourcesFeatureUrl = location.protocol + '//' + document.location.hostname + '/marketdata/resources.asp';
-    const fetchResourceBaseUrl = location.protocol + '//' + document.location.hostname +  '/marketdata/getcontent.asp?f=';
+    const resourcesFeatureUrl = this.BASE_URL + '/marketdata/resources.asp';
+    const fetchResourceBaseUrl = this.BASE_URL +  '/marketdata/getcontent.asp?f=';
     const resourceUrl = dto.Links[0].Url;
     const fetchResourceUrl = fetchResourceBaseUrl + resourceUrl;
     let subject = '';
@@ -189,18 +208,16 @@ export class TimelineActivityMapper {
         postedByProfileUrl = dto.Links.filter(x => x.Type === 'CommunityReplyProfile')[0].Url;
         break;
     }
-    console.log(baseUrl + postedByProfileUrl);
     return baseUrl + postedByProfileUrl;
   }
 
   static generateAvatarUrl(url: string, isPayfactorsEmployee: boolean) {
-    const avatarBaseUrl = 'http://1888c0618f50dfcd4eb2-8e3d7b28275f3f67348d5a5232162cf7.r39.cf5.rackcdn.com/avatars/';
     if ((url == null || url === '') && !isPayfactorsEmployee) {
       return null;
     }
     if ((url == null || url === '' || url === 'default_user.png') && isPayfactorsEmployee) {
       return 'favicon.ico';
     }
-    return avatarBaseUrl + url;
+    return this.AVATAR_BASE_URL + url;
   }
 }
