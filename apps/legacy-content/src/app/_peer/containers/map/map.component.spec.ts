@@ -1,35 +1,19 @@
-import { Injectable, NO_ERRORS_SCHEMA } from '@angular/core';
+import {  NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeMapResponse } from 'libs/models/peer';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromPeerDataReducer from '../../reducers';
 import { MapComponent } from './map.component';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
 import spyOn = jest.spyOn;
 
-@Injectable()
-export class ActivatedRouteStub {
-  // ActivatedRoute.paramMap is Observable
-  private subject = new BehaviorSubject(convertToParamMap(this.testParamMap));
-  // Test parameters
-  private _testParamMap: ParamMap;
-  get testParamMap() { return this._testParamMap; }
-  set testParamMap(params: {}) {
-    this._testParamMap = convertToParamMap(params);
-    this.subject.next(this._testParamMap);
-  }
 
-  // ActivatedRoute.snapshot.paramMap
-  get snapshot() {
-    return { queryParamMap: this.testParamMap};
-  }
-}
 
 describe('Legacy Content - Peer - Map Component', () => {
 let fixture: ComponentFixture<MapComponent>;
@@ -70,6 +54,8 @@ const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
   });
 
   it('should dispatch LoadingInitialPeerMapFilter action OnInit using the route query string parameters', () => {
+    instance.companyJobId = queryStringParams.companyJobId;
+    instance.companyPayMarketId = queryStringParams.companyPayMarketId;
     const expectedAction = new fromPeerMapActions.LoadingInitialPeerMapFilter({
       CompanyJobId: queryStringParams.companyJobId,
       CompanyPayMarketId: queryStringParams.companyPayMarketId
