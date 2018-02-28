@@ -25,7 +25,7 @@ export class AvailableExchangeResultComponent {
     return item && selection && item.ExchangeId === selection;
   }
   get companies(): string {
-    return this.availableExchangeItem ? this.availableExchangeItem.Companies.slice(0, 3).join(', ') : '';
+    return this.availableExchangeItem ? this.availableExchangeItem.Companies.join(', ') : '';
   }
   handleOnClick() {
     if (!this.isDisabled) {

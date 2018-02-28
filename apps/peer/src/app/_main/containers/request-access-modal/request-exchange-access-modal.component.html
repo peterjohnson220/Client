@@ -18,7 +18,7 @@
       [loadingErrorMessage]="'Error loading available exchanges'"
       (reload)="loadAvailableExchanges()">
       <div class="filter-container">
-        <div class="flex-column flex-grow-1 d-flex">
+        <div class="filter">
           <pf-input-debounce id="search-box"
                              [focus]="false"
                              [delay]="400"
@@ -28,7 +28,7 @@
                              (valueChanged)="updateSearchFilter($event)">
           </pf-input-debounce>
         </div>
-        <div class="flex-column company-filter">
+        <div class="filter">
           <div class="d-flex">
             <kendo-combobox
               class="flex-grow-1"
@@ -74,65 +74,19 @@
           </pf-async-container>
 
         </div>
-        <div class="selection-card">
-          <div class="card-body">
-            <h5 class="card-title">
-              Select an Exchange
-            </h5>
-            <p class="card-text mb-2 text-muted">
-              Search for, select and submit a request to be added to a Peer Exchange. The Exchange administrator
-              will review eligibility and send a communication with their decision
-            </p>
-            <ng-container *ngIf="selectedExchange">
-              <h3>Peers of {{selectedExchange.ExchangeName}}</h3>
-              <p>
-                {{selectedCompanies}}
-              </p>
-              <!--<div class="card">-->
-                <!--<div class="card-body">-->
-                  <!--<h5 class="card-title">-->
-                    <!--{{selectedExchange.ExchangeId}} - {{selectedExchange.ExchangeName}}-->
-                  <!--</h5>-->
-
-                  <!--<div class="card-text">-->
-                    <!--{{selectedCompanies}}-->
-                  <!--</div>-->
-                <!--</div>-->
-
-              <!--</div>-->
-
-
-
-              <!--<div class="form-group">-->
-                <!--<label for="exampleFormControlTextarea1">-->
-                  <!--Reason for joining {{selectedExchange.ExchangeName}}-->
-                <!--</label>-->
-                <!--<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>-->
-              <!--</div>-->
-            </ng-container>
+        <ng-container *ngIf="selectedExchange">
+          <div class="selection-card">
+            <div class="card-body">
+              <h5 class="card-title">
+                Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:
+              </h5>
+              <div class="form-group">
+                <textarea class="form-control" rows="10"></textarea>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <!--<div class="selection-container">-->
-          <!--<div class="card">-->
-            <!--<div class="card-body">-->
-              <!--<h5 class="card-title">-->
-                <!--Select an exchange-->
-              <!--</h5>-->
-              <!--<h6 class="card-subtitle mb-2 text-muted">-->
-                <!--Search for, select and submit a request to be added to a Peer Exchange. The Exchange administrator-->
-                <!--will review eligibility and send a communication with their decision.-->
-              <!--</h6>-->
-            <!--</div>-->
-            <!--<div class="card-text">-->
-                <!--test-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<label for="exampleFormControlTextarea1">Example textarea</label>-->
-              <!--<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>-->
-            <!--</div>-->
-          <!--</div>-->
-        <!--</div>-->
+        </ng-container>
 
       </div>
 
@@ -151,12 +105,6 @@
         <!--<div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>-->
       <!--</ng-container>-->
     </div>
-    <ng-container *ngIf="selectedExchange">
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">Why do you want to join {{selectedExchange.ExchangeName}}?</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-      </div>
-    </ng-container>
   </ng-container>
 </pf-modal-form>
 

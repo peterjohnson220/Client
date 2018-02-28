@@ -1,67 +1,13 @@
 @import 'colors';
 @import '~bootstrap/scss/bootstrap';
 
-//.card-header{
-//  height: 38px;
-//  min-height: 38px;
-//}
-//
-//.card-body{
-//  padding-left: 0;
-//  padding-right: 0;
-//  padding-bottom: .25rem;
-//}
-//
-//.mapping-info-container .card-header{
-//  display: flex;
-//  padding: 0.5rem .5rem 0.5rem 1.25rem;
-//}
-//
-//.mapping-info-container .card-header .btn{
-//  margin-left: 0.5rem;
-//}
-
-.remove-scroll{
-  overflow: hidden;
-}
-
-.company-job-mapping-container{
-  flex-basis: 50%;
-  padding: 0 1rem 1rem 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.mapping-results-container{
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-top: 0.5rem;
-  position: relative;
-  height: 100%;
-}
-
-.close-btn{
-  cursor: pointer;
-  padding: .25rem 0.75rem;
-  margin-left: 0.5rem;
-  align-self: center;
-}
-
-.close-btn:hover{
-  background-color: $selection-hover-background;
-}
-
-
-
-
-//TODO: Should we be using a partial for extending bootstrap
 .filter-container {
   @extend .d-flex, .flex-row;
-}
-
-$selection-card-width: 300px;
-.filter-container .company-filter {
-  width: $selection-card-width;
+  justify-content: space-between;
+  .filter {
+    @extend .flex-column;
+    width: 49%;
+  }
 }
 
 .selections-container {
@@ -78,16 +24,8 @@ $selection-card-width: 300px;
     overflow-y: auto;
   }
 
-  .selection-container {
-    @extend .flex-column;
-    width: $selection-card-width;
-    min-width: $selection-card-width;
-    padding-left: 2rem;
-    border-left: 1px solid $border-grey;
-    box-shadow: inset 1px 1px 1px 0px #d8d8d8;
-  }
-
   .selection-card {
+    $selection-card-width: 50%;
     @extend .card;
     width: $selection-card-width;
     min-width: $selection-card-width;
