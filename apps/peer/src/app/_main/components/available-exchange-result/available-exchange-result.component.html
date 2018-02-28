@@ -1,6 +1,7 @@
 <div
   class="card"
-  (click)="handleOnClick()">
+  (click)="handleOnClick()"
+  [ngClass]="{'selected': isSelected, 'disabled': isDisabled }">
   <div class="card-body">
 
 
@@ -9,15 +10,16 @@
       {{availableExchangeItem.ExchangeId}} - {{availableExchangeItem.ExchangeName}}
     </h5>
 
-    <div class="card-text">
-      Company 1, Company 2, Company 3, etc...
+    <p class="card-text">
+      <!--<pf-ellipsis-view-more [content]="companies" [maxLength]="175"></pf-ellipsis-view-more>-->
+      {{companies}}
 
       <!--<ng-container-->
       <!--*ngIf="companyJobToMapTo.JobDescription && companyJobToMapTo.JobDescription.length; else noJobDescription">-->
 
       <!--<pf-ellipsis-view-more [content]="companyJobToMapTo.JobDescription" [maxLength]="175"></pf-ellipsis-view-more>-->
       <!--</ng-container>-->
-    </div>
+    </p>
   </div>
 
 </div>

@@ -32,7 +32,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   exchangeSelectionsForm: FormGroup;
   searchTerm = '';
   attemptedSubmit = false;
-  selectedExchangeId = 1;
+  selectedExchange: AvailableExchangeItem;
   reason = '';
 
   constructor(
@@ -49,6 +49,10 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
+  get selectedCompanies(): string {
+    return this.selectedExchange ? this.selectedExchange.Companies.join(', ') : '';
+  }
+
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
       'reason': [this.reason, [PfValidators.required]]
@@ -60,16 +64,18 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     const selection = selectedCompany ? selectedCompany.CompanyId : null;
     this.store.dispatch(new fromExchangeAccessActions.UpdateCompanyFilter(selection));
   }
-  handleAvailableExchangeSelection(exchangeId: number): void {
-    console.log('handleAvailableExchangeSelection! - ', exchangeId);
-    this.selectedExchangeId = exchangeId;
+  handleAvailableExchangeSelection(exchange: AvailableExchangeItem): void {
+    console.log('handleAvailableExchangeSelection! - ', exchange);
+    const selectedExchange = this.selectedExchange;
+    const exchangeSelected = !!selectedExchange && selectedExchange.ExchangeId === exchange.ExchangeId;
+    this.selectedExchange = exchangeSelected  ? null : exchange;
   }
 
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
     const requestAccessModel: any = {
-      ExchangeId: this.selectedExchangeId,
+      ExchangeId: this.selectedExchange.ExchangeId,
       Reason: this.reason
     };
     this.store.dispatch(new fromExchangeAccessActions.ExchangeAccessRequest(requestAccessModel));
@@ -78,7 +84,9 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
     this.searchTerm = '';
+    this.selectedExchange = null;
     this.store.dispatch(new fromExchangeAccessActions.CloseExchangeAccessModal);
+    // TODO: Effects to clear filters and selection
     // this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableCompanies));
   }
 
@@ -90,7 +98,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     const payload = {
       SearchTerm: this.searchTerm,
       CompanyId: this.selectedCompanyId
-    }
+    };
     this.store.dispatch(new fromAvailableExchangesActions.LoadAvailableExchanges(payload));
   }
 

@@ -59,29 +59,38 @@
   @extend .d-flex, .flex-row;
 }
 
+$selection-card-width: 300px;
 .filter-container .company-filter {
-  width: 300px !important;
+  width: $selection-card-width;
 }
 
 .selections-container {
   $selections-container-height: 400px;
   @extend .d-flex, .flex-row;
   margin-top: 0.5rem;
-  height: $selections-container-height !important;
+  height: $selections-container-height;
   border: 1px solid $border-grey;
 
   .results-container {
     @extend .flex-column, .d-flex;
     flex-grow: 1;
-    max-height: $selections-container-height !important;
-    overflow-y: scroll;
+    max-height: $selections-container-height;
+    overflow-y: auto;
   }
 
   .selection-container {
     @extend .flex-column;
-    width: 300px !important;
+    width: $selection-card-width;
+    min-width: $selection-card-width;
     padding-left: 2rem;
     border-left: 1px solid $border-grey;
     box-shadow: inset 1px 1px 1px 0px #d8d8d8;
+  }
+
+  .selection-card {
+    @extend .card;
+    width: $selection-card-width;
+    min-width: $selection-card-width;
+    overflow-y: auto;
   }
 }

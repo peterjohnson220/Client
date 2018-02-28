@@ -9,11 +9,27 @@ import { AvailableExchangeItem } from 'libs/models/peer';
 })
 export class AvailableExchangeResultComponent {
   @Input() availableExchangeItem: AvailableExchangeItem;
+  @Input() selection: number;
   @Output() selected = new EventEmitter();
 
   constructor() {}
 
+  get isDisabled(): boolean {
+    const item = this.availableExchangeItem;
+    return !!item && !item.ValidRequest;
+  }
+
+  get isSelected(): boolean {
+    const item = this.availableExchangeItem;
+    const selection = this.selection;
+    return item && selection && item.ExchangeId === selection;
+  }
+  get companies(): string {
+    return this.availableExchangeItem ? this.availableExchangeItem.Companies.slice(0, 3).join(', ') : '';
+  }
   handleOnClick() {
-    this.selected.emit(this.availableExchangeItem.ExchangeId);
+    if (!this.isDisabled) {
+      this.selected.emit(this.availableExchangeItem);
+    }
   }
 }
