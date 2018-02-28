@@ -34,6 +34,8 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   attemptedSubmit = false;
   selectedExchange: AvailableExchangeItem;
   reason = '';
+  subTitle = `Search for, select and submit a request to be added to a Peer Exchange. The Exchange administrator
+              will review eligibility and send a communication with their decision`;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
