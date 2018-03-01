@@ -9,6 +9,7 @@ import {
   generateMockFilterAggregateGroup,
   generateMockUpdateFilterSelectionsModel
 } from 'libs/models/peer/aggregate-filters';
+import { generateMockExchangeMapFilter } from 'libs/models/peer';
 
 import * as fromPeerFiltersActions from '../../actions/peer-filters.actions';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
@@ -49,7 +50,11 @@ describe('Legacy Content - Peer - Filters Component', () => {
       generateMockFilterAggregateGroup(1),
       generateMockFilterAggregateGroup(2)
     ];
-    store.dispatch(new fromPeerFiltersActions.LoadingPeerFiltersSuccess(initialFilterAggregateGroups));
+    const initialFiltersResponse = {
+      response: initialFilterAggregateGroups,
+      filter: generateMockExchangeMapFilter()
+    };
+    store.dispatch(new fromPeerFiltersActions.LoadingPeerFiltersSuccess(initialFiltersResponse));
 
     fixture.detectChanges();
 

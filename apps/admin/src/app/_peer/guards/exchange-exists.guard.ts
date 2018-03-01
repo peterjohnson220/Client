@@ -7,22 +7,21 @@ import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import { Exchange } from 'libs/models/peer';
+import * as fromManageExchangeActions from 'libs/features/peer/actions/exchange.actions';
 
-import * as fromManageExchangeActions from '../actions/manage-exchange.actions';
-import * as fromPeerAdminReducer from '../reducers';
-
+import * as fromExchangeDashboardReducer from '../reducers';
 
 @Injectable()
 export class ExchangeExistsGuard implements CanActivate {
 
   constructor(
-    private store: Store<fromPeerAdminReducer.State>,
+    private store: Store<fromExchangeDashboardReducer.State>,
     private exchangeApiService: ExchangeApiService,
     private router: Router
   ) {}
 
   exchangeExists(exchangeId: number): Observable<boolean> {
-    this.store.dispatch(new fromManageExchangeActions.LoadingExchange());
+    this.store.dispatch(new fromManageExchangeActions.LoadingExchange(exchangeId));
 
     return this.exchangeApiService
       .getExchange(exchangeId)
