@@ -1,4 +1,5 @@
 export interface TimelineActivityDto {
+  Id: number;
   Type: string;
   SubType: string;
   Internal: boolean;

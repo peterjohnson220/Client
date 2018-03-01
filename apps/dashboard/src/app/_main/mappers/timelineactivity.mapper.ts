@@ -1,6 +1,5 @@
-import { TimelineActivityDto } from '../../../../../../libs/models/dashboard';
+import { TimelineActivityDto, TimelineActivityResponse } from 'libs/models/dashboard';
 import { Feature, FeatureTypes, TimelineActivity } from '../models';
-import { TimelineActivityResponse } from '../../../../../../libs/models/dashboard/timeline-activity-response.model';
 
 export class TimelineActivityMapper {
   public static get BASE_URL(): string { return  location.protocol + '//' + document.location.hostname; }
@@ -11,16 +10,14 @@ export class TimelineActivityMapper {
   public static get JOB_DESCRIPTIONS_TYPE(): string { return 'JobDescriptions'; }
 
   static mapFromResponse(response: TimelineActivityResponse): TimelineActivity[] {
-    return this.mapFromDto(response.ViewModels);
+    return this.mapFromDto(response.ViewModels, response.CurrentPage);
   }
 
-  static mapFromDto(dtos: TimelineActivityDto[]): TimelineActivity[] {
+  static mapFromDto(dtos: TimelineActivityDto[], page: number): TimelineActivity[] {
     const timelineActivities = [];
-    let i = 1;
-
     for (const dto of dtos) {
       timelineActivities.push({
-        Id: dto.Type + String(i++),
+        Id: dto.Id,
         Type: dto.Type,
         SubType: dto.SubType,
         PostedBy: dto.PostedBy.Name,
@@ -33,7 +30,6 @@ export class TimelineActivityMapper {
         IsVisible: true
       });
     }
-
     return timelineActivities;
   }
 

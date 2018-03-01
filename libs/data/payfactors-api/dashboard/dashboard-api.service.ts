@@ -35,12 +35,12 @@ export class DashboardApiService {
     return this.payfactorsApiService.get<UserFeatureDto[]>(`${this.endpoint}.GetUserFeatures`);
   }
 
-  getTimelineActivities(request: string[]): Observable<any> {
+  getTimelineActivities(request: TimelineActivityRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.GetTimelineActivity`,
       {
-        page: 1,
-        recordsPerPage: 25,
-        typesToRetrieve: request
+        page: request.page,
+        recordsPerPage: request.recordsPerPage,
+        typesToRetrieve: request.typesToRetrieve
       });
   }
 }
