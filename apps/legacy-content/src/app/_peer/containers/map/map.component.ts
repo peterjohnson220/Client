@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -17,11 +16,11 @@ import * as fromPeerMapActions from '../../actions/peer-map.actions';
   styleUrls: [ './map.component.scss' ]
 })
 export class MapComponent implements OnInit {
+  @Input() companyJobId: number;
+  @Input() companyPayMarketId: number;
   selectedPoint: any = null;
   cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/light-v9';
-  companyJobId: number;
-  companyPayMarketId: number;
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   peerMapFilter$: Observable<ExchangeMapFilter>;
@@ -32,7 +31,7 @@ export class MapComponent implements OnInit {
   peerMapShowNoData$: Observable<boolean>;
   map: mapboxgl.Map;
 
-  constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
+  constructor(private store: Store<fromPeerDataReducers.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
     this.peerMapFilter$ = this.store.select(fromPeerDataReducers.getPeerMapFilter);
     this.peerMapLoading$ = this.store.select(fromPeerDataReducers.getPeerMapLoading);
@@ -44,12 +43,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const queryParamMap = this.route.snapshot.queryParamMap;
-    const companyJobId = +queryParamMap.get('companyJobId') || 0;
-    const companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.store.dispatch(new fromPeerMapActions.LoadingInitialPeerMapFilter({
-      CompanyJobId: companyJobId,
-      CompanyPayMarketId: companyPayMarketId
+      CompanyJobId: this.companyJobId,
+      CompanyPayMarketId: this.companyPayMarketId
     }));
   }
 

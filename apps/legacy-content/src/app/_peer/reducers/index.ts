@@ -4,11 +4,13 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
+import * as fromAddDataCutReducer from './add-data-cut.reducer';
 import * as fromPeerMapReducer from './peer-map.reducer';
 import * as fromPeerFiltersReducer from './peer-filters.reducer';
 
 // Feature area state
 export interface PeerDataState {
+  addDataCut: fromAddDataCutReducer.State;
   map: fromPeerMapReducer.State;
   filters: fromPeerFiltersReducer.State;
 }
@@ -20,6 +22,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
+  addDataCut: fromAddDataCutReducer.reducer,
   map: fromPeerMapReducer.reducer,
   filters: fromPeerFiltersReducer.reducer
 };
@@ -28,8 +31,13 @@ export const reducers = {
 export const selectPeerDataState = createFeatureSelector<PeerDataState>('peerData');
 
 // Feature Selectors
+export const selectAddDataCutState = createSelector(selectPeerDataState, (state: PeerDataState) => state.addDataCut);
 export const selectMapState = createSelector(selectPeerDataState, (state: PeerDataState) => state.map);
 export const selectPeerFiltersState = createSelector(selectPeerDataState, (state: PeerDataState) => state.filters);
+
+// Add Data Cut Selectors
+export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCut);
+export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCutError);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromPeerMapReducer.getLoading);
