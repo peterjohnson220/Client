@@ -38,9 +38,9 @@ export class DashboardApiService {
   getTimelineActivities(request: TimelineActivityRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.GetTimelineActivity`,
       {
-        page: request.page,
-        recordsPerPage: request.recordsPerPage,
-        typesToRetrieve: request.typesToRetrieve
+        page: request.Page,
+        recordsPerPage: request.RecordsPerPage,
+        typesToRetrieve: request.TypesToRetrieve
       });
   }
 }

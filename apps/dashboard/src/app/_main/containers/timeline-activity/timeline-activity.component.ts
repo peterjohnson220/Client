@@ -66,9 +66,9 @@ export class TimelineActivityComponent implements OnInit {
         // Dispatch LoadingActivity for enabled types
         this.store.dispatch(
           new fromTimelineActivityActions.LoadingActivity({
-            page: 1,
-            recordsPerPage: 5,
-            typesToRetrieve: timelineActivityTypes
+            Page: 1,
+            RecordsPerPage: 5,
+            TypesToRetrieve: timelineActivityTypes
           })
         );
       }
@@ -116,9 +116,9 @@ export class TimelineActivityComponent implements OnInit {
     }
     this.store.dispatch(
       new fromTimelineActivityActions.LoadingActivity({
-        page: page,
-        recordsPerPage: 25,
-        typesToRetrieve: this.getTimelineActivityTypes()
+        Page: page,
+        RecordsPerPage: 25,
+        TypesToRetrieve: this.getTimelineActivityTypes()
       })
     );
   }

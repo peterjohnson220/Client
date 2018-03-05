@@ -1,5 +1,5 @@
 export interface TimelineActivityRequest {
-  typesToRetrieve: string[];
-  page: number;
-  recordsPerPage: number;
+  TypesToRetrieve: string[];
+  Page: number;
+  RecordsPerPage: number;
 }
