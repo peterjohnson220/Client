@@ -7,6 +7,7 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 import { UserFeatureDto, ReorderTileRequest, UserTileDto, TimelineActivityDto } from '../../../models/dashboard';
 
 import { MockActivityEndpoint } from './mock-activity-endpoint';
+import { TimelineActivityRequest } from '../../../models/dashboard/timeline-activity-request.model';
 
 @Injectable()
 export class DashboardApiService {
@@ -34,7 +35,12 @@ export class DashboardApiService {
     return this.payfactorsApiService.get<UserFeatureDto[]>(`${this.endpoint}.GetUserFeatures`);
   }
 
-  getTimelineActivities(request: string[]): Observable<TimelineActivityDto[]> {
-    return MockActivityEndpoint.getTimelineActivities(request);
+  getTimelineActivities(request: TimelineActivityRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.GetTimelineActivity`,
+      {
+        page: request.Page,
+        recordsPerPage: request.RecordsPerPage,
+        typesToRetrieve: request.TypesToRetrieve
+      });
   }
 }

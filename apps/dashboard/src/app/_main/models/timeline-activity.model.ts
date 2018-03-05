@@ -3,6 +3,8 @@ export interface TimelineActivity {
   Type: string;
   SubType: string;
   PostedBy: string;
+  PostedUrl: string;
+  ElapsedTime: string;
   PostedTime: string;
   Subject: string;
   Body: string;
@@ -17,7 +19,9 @@ export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubT
     Type: type,
     SubType: subType,
     PostedBy: 'John Clark',
+    PostedUrl: '#',
     PostedTime: '3m ago',
+    ElapsedTime: '3m ago',
     Subject: 'Replied To Mike Davidson\'s post',
     Body: 'Reply to Loriem Ipsum is simple a dummy text of the printing and typesetting industry.',
     AvatarUrl: '/assets/john.png',
