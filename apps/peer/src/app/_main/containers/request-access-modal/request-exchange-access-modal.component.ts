@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { AvailableExchangeItem } from 'libs/models/peer';
+import { AvailableExchangeItem, RequestExchangeAccessRequest } from 'libs/models/peer';
+import { PfValidators } from 'libs/forms/validators';
+import { CompanyOption } from 'libs/models/common';
 
 import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
 import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
-import { PfValidators } from '../../../../../../../libs/forms/validators';
-import { CompanyOption } from '../../../../../../../libs/models/common';
-import { Subscription } from 'rxjs/Subscription';
+import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
 
 @Component({
   selector: 'pf-request-exchange-access-modal',
@@ -19,7 +19,9 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./request-exchange-access-modal.component.scss']
 })
 
-export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
+export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('list') list;
+
   availableExchangesLoading$: Observable<boolean>;
   availableExchangesLoadingError$: Observable<boolean>;
   availableExchanges$: Observable<AvailableExchangeItem[]>;
@@ -27,6 +29,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   exchangeAccessRequesting$: Observable<boolean>;
   exchangeAccessRequestingError$: Observable<boolean>;
   peerParticipants$: Observable<CompanyOption[]>;
+  peerParticipantsLoading$: Observable<boolean>;
   selectedCompanyId: number;
 
   exchangeSelectionsForm: FormGroup;
@@ -34,8 +37,8 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   attemptedSubmit = false;
   selectedExchange: AvailableExchangeItem;
   reason = '';
-  subTitle = `Search for, select and submit a request to be added to a Peer Exchange. The Exchange administrator
-              will review eligibility and send a communication with their decision`;
+  subTitle = `Search for and select an Exchange you would like access to. Please provide a reason for the access
+  request and the Exchange administrator will review your eligibility.`;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
@@ -48,26 +51,25 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
     this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequesting);
     this.exchangeAccessRequestingError$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequestingError);
     this.peerParticipants$ = this.store.select(fromPeerMainReducer.getPeerParticipants);
+    this.peerParticipantsLoading$ = this.store.select(fromPeerMainReducer.getPeerParticipantsLoading);
     this.createForm();
-  }
-
-  get selectedCompanies(): string {
-    return this.selectedExchange ? this.selectedExchange.Companies.join(', ') : '';
   }
 
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
-      'reason': [this.reason, [PfValidators.required]]
+      'reason': [this.reason, [PfValidators.required]],
+      'selectedExchange': [this.selectedExchange, [Validators.required]]
     });
   }
 
   handleSelectedCompanyChangeEvent(selectedCompany: CompanyOption): void {
-    console.log('handleSelectedCompanyChangeEvent! - ', selectedCompany);
+    // console.log('handleSelectedCompanyChangeEvent! - ', selectedCompany);
     const selection = selectedCompany ? selectedCompany.CompanyId : null;
     this.store.dispatch(new fromExchangeAccessActions.UpdateCompanyFilter(selection));
   }
+
   handleAvailableExchangeSelection(exchange: AvailableExchangeItem): void {
-    console.log('handleAvailableExchangeSelection! - ', exchange);
+    // console.log('handleAvailableExchangeSelection! - ', exchange);
     const selectedExchange = this.selectedExchange;
     const exchangeSelected = !!selectedExchange && selectedExchange.ExchangeId === exchange.ExchangeId;
     this.selectedExchange = exchangeSelected  ? null : exchange;
@@ -76,7 +78,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const requestAccessModel: any = {
+    const requestAccessModel: RequestExchangeAccessRequest = {
       ExchangeId: this.selectedExchange.ExchangeId,
       Reason: this.reason
     };
@@ -84,6 +86,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   }
 
   handleModalDismissed(): void {
+    console.log('handleModalDismissed!')
     this.attemptedSubmit = false;
     this.searchTerm = '';
     this.selectedExchange = null;
@@ -109,5 +112,10 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+  ngAfterViewInit(): void {
+    this.list.filterChange.asObservable().debounceTime(1000).distinctUntilChanged().subscribe(searchTerm => {
+      this.store.dispatch(new fromPeerParticipantsActions.LoadPeerParticipants(searchTerm));
+    });
   }
 }

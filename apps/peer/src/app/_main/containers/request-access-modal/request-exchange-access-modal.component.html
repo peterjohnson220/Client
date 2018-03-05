@@ -1,6 +1,6 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Request Access to Exchange'"
+  [title]="'Request Access to an Exchange'"
   [subTitle]="subTitle"
   [primaryButtonText]="'Request'"
   [primaryButtonTextSubmitting]="'Requesting...'"
@@ -12,11 +12,6 @@
 
   <ng-container form-content>
 
-    <pf-async-container
-      [loading]="availableExchangesLoading$ | async"
-      [loadingError]="availableExchangesLoadingError$ | async"
-      [loadingErrorMessage]="'Error loading available exchanges'"
-      (reload)="loadAvailableExchanges()">
       <div class="filter-container">
         <div class="filter">
           <pf-input-debounce id="search-box"
@@ -31,11 +26,14 @@
         <div class="filter">
           <div class="d-flex">
             <kendo-combobox
+              #list
               class="flex-grow-1"
-              [data]="peerParticipants$ | async"
               textField="Name"
               valueField="CompanyId"
               placeholder="Choose a peer..."
+              [data]="peerParticipants$ | async"
+              [loading]="peerParticipantsLoading$ | async"
+              [filterable]="true"
               (valueChange)="handleSelectedCompanyChangeEvent($event)"
             ></kendo-combobox>
           </div>
@@ -64,7 +62,7 @@
 
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">No Results for {{ searchTerm }}</h5>
+                  <h5 class="card-title">No Results</h5>
                   <div class="card-text"><small class="text-muted">Please change your filter criteria to search again.</small></div>
                 </div>
               </div>
@@ -74,37 +72,41 @@
           </pf-async-container>
 
         </div>
-        <ng-container *ngIf="selectedExchange">
-          <div class="selection-card">
-            <div class="card-body">
-              <h5 class="card-title">
-                Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:
-              </h5>
-              <div class="form-group">
-                <textarea class="form-control" rows="10"></textarea>
-              </div>
-            </div>
-          </div>
-
-        </ng-container>
 
       </div>
+      <ng-container *ngIf="selectedExchange">
 
+        <div class="selection-card">
+          <div class="card-body">
+            <h5 class="card-title">
+              Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:
+            </h5>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                rows="3"
+                name="reason"
+                formControlName="reason"
+                [(ngModel)]="reason"
+                [pfValidatable]="attemptedSubmit"
+              ></textarea>
+            </div>
+          </div>
+        </div>
 
-    </pf-async-container>
+      </ng-container>
 
     <div class="form-group hidden-form-control">
       <input type="hidden"
              class="form-control"
-             name="hasSelections"
-             formControlName="reason"
-             [ngModel]="reason"
+             name="hasSelection"
+             formControlName="selectedExchange"
+             [ngModel]="selectedExchange"
              [pfValidatable]="attemptedSubmit"
       />
-      <!--<ng-container *ngIf="selectionsControl.errors && attemptedSubmit">-->
-        <!--<div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>-->
-      <!--</ng-container>-->
     </div>
+
   </ng-container>
+
 </pf-modal-form>
 

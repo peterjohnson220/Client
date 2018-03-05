@@ -8,6 +8,7 @@ import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest, Add
          ValidateExchangeJobsRequest, ImportExchangeJobsRequest,
          ExchangeJobsValidationResultModel, AddExchangeJobsRequest } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { CompanyOption } from '../../../models/common';
 
 
 @Injectable()
@@ -40,9 +41,9 @@ export class ExchangeApiService {
     );
   }
 
-  getCompaniesWithPeerEnabled(includeDetails: boolean): Observable<any[]> {
-    return this.payfactorsApiService.get<any[]>(`${this.endpoint}/GetCompaniesWithPeerEnabled`, {
-      params: {includeDetails: includeDetails}
+  getTopPeerParticipants(searchTerm: string): Observable<CompanyOption[]> {
+    return this.payfactorsApiService.get<CompanyOption[]>(`${this.endpoint}/GetTopPeerParticipants`, {
+      params: {query: searchTerm}
     });
   }
 

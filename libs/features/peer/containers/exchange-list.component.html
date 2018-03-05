@@ -9,6 +9,7 @@
               [resizable]="true"
               [pageable]="true"
               [pageSize]="(exchangeListItems$ | async).length"
+              [rowClass]="rowClass"
               (cellClick)="handleCellClick($event)">
 
     <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
