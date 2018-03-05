@@ -1,6 +1,10 @@
 @import 'colors';
 @import '~bootstrap/scss/bootstrap';
 
+#request-reason {
+  resize: none !important;
+}
+
 .filter-container {
   @extend .d-flex, .flex-row;
   justify-content: space-between;
@@ -12,8 +16,9 @@
 
 .selections-container {
   $selections-container-height: 400px;
-  @extend .d-flex, .flex-row;
+  @extend .d-flex, .flex-row, .rounded;
   margin-top: 0.5rem;
+  margin-bottom: 1rem;
   height: $selections-container-height;
   border: 1px solid $border-grey;
 
@@ -24,11 +29,15 @@
     overflow-y: auto;
   }
 
-  .selection-card {
-    $selection-card-width: 50%;
-    @extend .card;
-    width: $selection-card-width;
-    min-width: $selection-card-width;
-    overflow-y: auto;
-  }
+  //.selection-card {
+  //  $selection-card-width: 50%;
+  //  @extend .card;
+  //  width: $selection-card-width;
+  //  min-width: $selection-card-width;
+  //  overflow-y: auto;
+  //}
+}
+
+.selection-container {
+
 }

@@ -76,23 +76,39 @@
       </div>
       <ng-container *ngIf="selectedExchange">
 
-        <div class="selection-card">
-          <div class="card-body">
-            <h5 class="card-title">
-              Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:
-            </h5>
-            <div class="form-group">
+        <div class="selection-container mt-2">
+          <h5>Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:</h5>
+          <div class="form-group">
               <textarea
+                id="request-reason"
                 class="form-control"
-                rows="3"
+                rows="5"
                 name="reason"
                 formControlName="reason"
                 [(ngModel)]="reason"
                 [pfValidatable]="attemptedSubmit"
               ></textarea>
-            </div>
           </div>
         </div>
+
+        <!--<div class="card">-->
+          <!--<div class="card-body">-->
+            <!--<h5 class="card-title">-->
+              <!--Please tell us why you would like access to the {{selectedExchange.ExchangeName}} exchange:-->
+            <!--</h5>-->
+            <!--<div class="form-group">-->
+              <!--<textarea-->
+                <!--id="request-reason"-->
+                <!--class="form-control"-->
+                <!--rows="5"-->
+                <!--name="reason"-->
+                <!--formControlName="reason"-->
+                <!--[(ngModel)]="reason"-->
+                <!--[pfValidatable]="attemptedSubmit"-->
+              <!--&gt;</textarea>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
 
       </ng-container>
 

@@ -28,6 +28,8 @@ export function reducer(state = initialState,  action: fromExchangeAccessActions
     case fromExchangeAccessActions.CLOSE_EXCHANGE_ACCESS_MODAL: {
       return {
         ...state,
+        searchTerm: '',
+        companyFilterId: null,
         modalOpen: false
       };
     }

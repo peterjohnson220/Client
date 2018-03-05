@@ -12,6 +12,7 @@ import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
 import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
 import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 @Component({
   selector: 'pf-request-exchange-access-modal',
@@ -20,7 +21,7 @@ import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer
 })
 
 export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('list') list;
+  @ViewChild('list') list: ComboBoxComponent;
 
   availableExchangesLoading$: Observable<boolean>;
   availableExchangesLoadingError$: Observable<boolean>;
@@ -90,6 +91,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     this.attemptedSubmit = false;
     this.searchTerm = '';
     this.selectedExchange = null;
+    this.list.reset();
     this.store.dispatch(new fromExchangeAccessActions.CloseExchangeAccessModal);
     // TODO: Effects to clear filters and selection
     // this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.AvailableCompanies));

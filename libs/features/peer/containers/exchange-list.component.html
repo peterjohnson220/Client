@@ -26,6 +26,13 @@
                        [width]="250"
                        [headerClass]="'text-center'">
     </kendo-grid-column>
+    <kendo-grid-column field="PendingAccess" title="" [width]="50">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="pending-access text-info" *ngIf="dataItem.PendingAccess" title="You have requested access to this exchange.">
+          <i class="fal fa-clock fa-2x"></i>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
 
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
       <kendo-pager-info></kendo-pager-info>
