@@ -1,4 +1,4 @@
-export * from './feature.model';
+export * from './timeline-activity-filter.model';
 export * from './feature-type';
 export * from './feature-types';
 export * from './tile-preview-base.model';

@@ -1,6 +1,6 @@
 import { Exchange } from 'libs/models';
 
-import * as fromManageExchangeActions from '../actions/manage-exchange.actions';
+import * as fromExchangeActions from '../actions/exchange.actions';
 
 export interface State {
   loading: boolean;
@@ -19,24 +19,24 @@ export const initialState: State = {
 // Reducer
 export function reducer(
   state = initialState,
-  action: fromManageExchangeActions.Actions
+  action: fromExchangeActions.Actions
 ): State {
   switch (action.type) {
-    case fromManageExchangeActions.LOADING_EXCHANGE: {
+    case fromExchangeActions.LOADING_EXCHANGE: {
       return {
         exchange: null,
         loading: true,
         loadingError: false
       };
     }
-    case fromManageExchangeActions.LOADING_EXCHANGE_SUCCESS: {
+    case fromExchangeActions.LOADING_EXCHANGE_SUCCESS: {
       return {
         ...state,
         exchange: action.payload,
         loading: false
       };
     }
-    case fromManageExchangeActions.LOADING_EXCHANGE_ERROR: {
+    case fromExchangeActions.LOADING_EXCHANGE_ERROR: {
       return {
         ...state,
         loading: false,

@@ -10,6 +10,16 @@ body {
   background-color: transparent;
 }
 
+.reset-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 /* font awesome specific */
 .fa-6x{
   font-size: 6em;

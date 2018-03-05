@@ -14,7 +14,6 @@ export class FilterComponent implements OnInit, AfterViewInit {
   @ViewChild('list') list;
   @Input() filter: FilterAggregateGroup;
   @Output() selectionChanged = new EventEmitter();
-  disabled = false;
   source: FilterAggregateItem[];
   data: FilterAggregateItem[];
   selections: FilterAggregateItem[];
@@ -43,9 +42,14 @@ export class FilterComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
    this.source = this.filter.Aggregates;
    this.data = this.source.slice(0);
-   if (this.filter.Aggregates && this.filter.Aggregates.length === 1) {
-     this.selections = this.filter.Aggregates;
-     this.disabled = true;
+   if (this.filter.Selections) {
+     this.selections = this.filter.Selections.map(selection => {
+       return {Item: selection, Count: 0};
+     });
+   }
+
+   if (this.filter.Aggregates.length === 1) {
+     this.selections = [this.filter.Aggregates[0]];
    }
   }
 
