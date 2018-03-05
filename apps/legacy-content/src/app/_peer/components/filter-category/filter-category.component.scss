@@ -1,0 +1,50 @@
+@import 'colors';
+
+.filter-category{
+  margin-bottom: .5rem;
+}
+
+.filter-category.collapsed{
+  height: 32px;
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+
+.filter-category-header{
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #616161;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: .45rem;
+  padding: .5rem .85rem;
+  background: #f7f7f7;
+}
+
+.filter-category-header .header-right{
+  display: flex;
+}
+
+.reset-link{
+  color: $link-color;
+  margin-right: 1rem;
+  font-weight: normal;
+}
+
+.filter-category-option-container{
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.filter-category-option-container.show-all{
+  max-height: initial;
+}
+
+.toggle-option-height{
+  text-transform: uppercase;
+  color: $link-color;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin: .5rem .65rem;
+}
