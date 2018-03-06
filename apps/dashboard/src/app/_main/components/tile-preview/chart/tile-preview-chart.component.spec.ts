@@ -65,4 +65,36 @@ describe('Tile Preview Chart', () => {
     expect(instance.model.ChartComponentData[0].CategoryName).toMatch(detailKey);
     expect(instance.model.ChartComponentData[0].CategoryValue.toString()).toMatch(detailValue.toString());
   });
+
+  it('should not show kendo chart when model.ChartComponentData.length = 0', () => {
+
+    instance.model = {
+      ChartType: 'test',
+      ChartLabel: 'test chart label',
+      ChartComponentData: []};
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+
+  it('should show kendo chart when model.ChartComponentData.length > 0', () => {
+
+    const categoryName = 'test category';
+    const detailKey = 'test detail key';
+    const detailValue = 55;
+    const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
+
+    instance.model = {
+      ChartType: 'test',
+      ChartLabel: 'test chart label',
+      ChartComponentData: chartComponentData
+    };
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+
+
 });
