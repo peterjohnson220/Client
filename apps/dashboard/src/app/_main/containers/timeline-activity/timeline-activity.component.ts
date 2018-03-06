@@ -6,9 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import * as fromTimelineActivityReducer from '../../reducers';
 import * as fromTimelineActivityActions from '../../actions/timeline-activity.actions';
 
-import { Feature, TimelineActivity } from '../../models';
-import { FeatureToTimelineActivityTypeMapper } from '../../mappers';
-import { TimelineActivityFilter } from '../../models/filter.model';
+import { Feature, TimelineActivity, TimelineActivityFilter } from '../../models';
+import { TimelineActivityMapper } from '../../mappers';
+
 
 @Component({
   selector: 'pf-timeline-activity',
@@ -19,19 +19,32 @@ export class TimelineActivityComponent implements OnInit {
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   timelineActivities$: Observable<TimelineActivity[]>;
-  timelineActivities: TimelineActivity[];
-  timelineActivitiesFiltered: TimelineActivity[];
+  timelineActivityFilters$: Observable<TimelineActivityFilter[]>;
+  timelineActivitiesPage$: Observable<number>;
+  timelineActivitiesHasMoreData$: Observable<boolean>;
   features$: Observable<Feature[]>;
+
+  timelineActivities: TimelineActivity[];
   timelineActivityFilters: TimelineActivityFilter[];
-  showFilter: boolean;
+  timelineActivitiesFiltered: TimelineActivity[];
+  showFiltersPanel: boolean;
+  timelineActivitiesPage: number;
+  timelineActivitiesHasMoreData: boolean;
+  ACTIVITY_TYPE: string = TimelineActivityMapper.ACTIVITY_TYPE;
+  COMMUNITY_TYPE: string = TimelineActivityMapper.COMMUNITY_TYPE;
+  RESOURCES_TYPE: string = TimelineActivityMapper.RESOURCES_TYPE;
 
   constructor(private store: Store<fromTimelineActivityReducer.State>) {
     this.features$ = this.store.select(fromTimelineActivityReducer.getFeatures);
     this.loading$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoading);
     this.loadingError$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityLoadingError);
     this.timelineActivities$ = this.store.select(fromTimelineActivityReducer.getTimelineActivities);
-    this.timelineActivityFilters = [];
-    this.showFilter = false;
+    this.timelineActivitiesPage$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityCurrentPage);
+    this.timelineActivitiesHasMoreData$ = this.store.select(fromTimelineActivityReducer.getTimelineActivityHasMoreData);
+    this.timelineActivityFilters$ = this.store.select((fromTimelineActivityReducer.getTimelineActivityFilters));
+    this.timelineActivitiesPage = 0;
+    this.timelineActivitiesHasMoreData = false;
+    this.showFiltersPanel = false;
   }
 
   // Lifecycle
@@ -44,14 +57,20 @@ export class TimelineActivityComponent implements OnInit {
   registerFeaturesSubscription() {
     this.features$.subscribe(features => {
       if (features.length > 0) {
-        const timelineActivityTypes = FeatureToTimelineActivityTypeMapper.mapToStringArray(features);
-        // Dispatch LoadingActivity for enabled types
-        this.store.dispatch(
-          new fromTimelineActivityActions.LoadingActivity(timelineActivityTypes)
-        );
+        const timelineActivityTypes = TimelineActivityMapper.mapFeaturesToTimelineActivityTypes(features);
 
         // Generate TimelineActivityFilters based on features
-        this.generateFiltersFromTimelineActivityType(timelineActivityTypes);
+        const generatedFilters = this.generateFiltersFromTimelineActivityType(timelineActivityTypes);
+        this.store.dispatch(new fromTimelineActivityActions.SetActivityFilters(generatedFilters));
+
+        // Dispatch LoadingActivity for enabled types
+        this.store.dispatch(
+          new fromTimelineActivityActions.LoadingActivity({
+            Page: 1,
+            RecordsPerPage: 5,
+            TypesToRetrieve: timelineActivityTypes
+          })
+        );
       }
     });
   }
@@ -63,53 +82,95 @@ export class TimelineActivityComponent implements OnInit {
         return activity.IsVisible;
       });
     });
+
+    this.timelineActivityFilters$.subscribe(filters => {
+      this.timelineActivityFilters = filters;
+    });
+
+    this.timelineActivitiesHasMoreData$.subscribe(hasMore => {
+      this.timelineActivitiesHasMoreData = hasMore;
+    });
+
+    this.timelineActivitiesPage$.subscribe(page => {
+      this.timelineActivitiesPage = page;
+    });
   }
 
   // events
   toggleFilter(filterValue: string) {
-    for (const filter of this.timelineActivityFilters) {
-      if (filter.Value === filterValue) {
-        filter.IsEnabled = !filter.IsEnabled;
-        this.store.dispatch(new fromTimelineActivityActions.FilterActivity(this.applyFilter()));
-      }
-    }
+    this.store.dispatch(new fromTimelineActivityActions.FilterActivity(filterValue));
   }
 
-  toggleFilterMenu() {
-    this.showFilter = !this.showFilter;
+  toggleFilterPanel() {
+    this.showFiltersPanel = !this.showFiltersPanel;
+  }
+
+  shouldShowMore(): boolean {
+    return this.timelineActivitiesHasMoreData && this.hasActiveFilters();
+  }
+
+  handleShowMore() {
+    let page = this.timelineActivitiesPage + 1;
+    if (this.timelineActivities.length <= 5 ) {
+      page = 1;
+    }
+    this.store.dispatch(
+      new fromTimelineActivityActions.LoadingActivity({
+        Page: page,
+        RecordsPerPage: 25,
+        TypesToRetrieve: this.getTimelineActivityTypes()
+      })
+    );
   }
 
   // Helpers
-  generateFiltersFromTimelineActivityType(timelineActivityTypes: string[]) {
-    this.timelineActivityFilters = [];
+  getTimelineActivityTypes(): string[] {
+      const types = [];
+      for (const filter of this.timelineActivityFilters) {
+        types.push(filter.Value);
+      }
+      return types;
+  }
+
+  hasActiveFilters(): boolean {
+    for (const filter of this.timelineActivityFilters) {
+      if (filter.IsEnabled) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  generateFiltersFromTimelineActivityType(timelineActivityTypes: string[]): TimelineActivityFilter[] {
+    const timelineActivityFilters = [];
     for (const timelineActivityType of timelineActivityTypes) {
       switch (timelineActivityType) {
-        case 'ActivityPost': {
-          this.timelineActivityFilters.push({
-            Label: 'Activity',
+        case TimelineActivityMapper.ACTIVITY_TYPE: {
+          timelineActivityFilters.push({
+            Label: 'Project Activity',
             Value: timelineActivityType,
             IsEnabled: true
           });
           break;
         }
-        case 'CommunityPost': {
-          this.timelineActivityFilters.push({
+        case TimelineActivityMapper.COMMUNITY_TYPE: {
+          timelineActivityFilters.push({
             Label: 'Community',
             Value: timelineActivityType,
             IsEnabled: true
           });
           break;
         }
-        case 'ResourcesPost': {
-          this.timelineActivityFilters.push({
+        case TimelineActivityMapper.RESOURCES_TYPE: {
+          timelineActivityFilters.push({
             Label: 'Resources',
             Value: timelineActivityType,
             IsEnabled: true
           });
           break;
         }
-        case 'JobDescriptionsPost': {
-          this.timelineActivityFilters.push({
+        case TimelineActivityMapper.JOB_DESCRIPTIONS_TYPE: {
+          timelineActivityFilters.push({
             Label: 'Job Descriptions',
             Value: timelineActivityType,
             IsEnabled: true
@@ -118,19 +179,6 @@ export class TimelineActivityComponent implements OnInit {
         }
       }
     }
-  }
-
-  applyFilter(): TimelineActivity[] {
-    const newTimelineActivities = [];
-    for (const timelineActivity of this.timelineActivities) {
-      for (const filter of this.timelineActivityFilters) {
-        if (timelineActivity.Type === filter.Value) {
-          const newTimelineActivity = {...timelineActivity};
-          newTimelineActivity.IsVisible = filter.IsEnabled;
-          newTimelineActivities.push(newTimelineActivity);
-        }
-      }
-    }
-    return newTimelineActivities;
+    return timelineActivityFilters;
   }
 }
