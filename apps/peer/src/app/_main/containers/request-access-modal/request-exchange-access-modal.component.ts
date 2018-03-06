@@ -82,7 +82,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     });
   }
 
-  handleAvailableExchangeSelection(exchange: AvailableExchangeItem): void {
+  handleAvailableExchangeSelectionEvent(exchange: AvailableExchangeItem): void {
     this.store.dispatch(new fromAvailableExchangesActions.SelectAvailableExchange(exchange));
   }
 

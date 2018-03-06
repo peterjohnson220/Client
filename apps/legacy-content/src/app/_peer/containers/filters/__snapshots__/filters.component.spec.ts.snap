@@ -10,9 +10,6 @@ exports[`Legacy Content - Peer - Filters Component should display a pf-peer-data
   peerMapSummarySubscription={[Function Subscriber]}
   store={[Function Store]}
 >
-  <h2>
-    FILTERS GO HERE
-  </h2>
   <div
     class="filters"
   >
