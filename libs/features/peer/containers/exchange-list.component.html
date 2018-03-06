@@ -26,10 +26,10 @@
                        [width]="250"
                        [headerClass]="'text-center'">
     </kendo-grid-column>
-    <kendo-grid-column field="PendingAccess" title="" [width]="50">
+    <kendo-grid-column field="PendingAccess" title="" [width]="100">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div class="pending-access text-info" *ngIf="dataItem.PendingAccess" title="You have requested access to this exchange.">
-          <i class="fal fa-clock fa-2x"></i>
+        <div class="pending-access text-center" *ngIf="dataItem.PendingAccess">
+          <span class="badge badge-warning">Pending</span>
         </div>
       </ng-template>
     </kendo-grid-column>

@@ -11,6 +11,7 @@ import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
+import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
@@ -49,7 +50,8 @@ import { ExchangeAccessEffects } from './effects/exchange-access.effects';
     PfCommonUIModule,
     PfSharedPeerModule,
     PfFormsModule,
-    PfKendoExtensions
+    PfKendoExtensions,
+    PfCommonModule
   ],
   declarations: [
     // Components

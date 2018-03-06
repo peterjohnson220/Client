@@ -3,16 +3,17 @@
   (click)="handleOnClick()"
   [ngClass]="{'selected': isSelected, 'disabled': isDisabled }">
   <div class="card-body">
-    <h5 class="card-title">
-      {{availableExchangeItem.ExchangeName}}
-    </h5>
+    <div class="card-title d-flex justify-content-between">
+      <h5>{{availableExchangeItem.ExchangeName}}</h5>
+      <h5 class="text-muted"><small>{{availableExchangeItem.JobCount}} Jobs</small></h5>
+    </div>
 
-    <p class="card-text font-italic">
-      Exchange Jobs - {{availableExchangeItem.JobCount}}
-      <br>
-      Industry Coverage - {{industryCoverage}}
-      <br>
-      Companies in Exchange - {{companies}}
+    <p class="card-text">
+      {{industryCoverage}}
+    </p>
+
+    <p class="card-text">
+      <small [innerHTML]="companies | highlightText: companyNameFilter"></small>
     </p>
   </div>
 

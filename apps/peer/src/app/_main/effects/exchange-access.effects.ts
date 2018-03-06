@@ -28,15 +28,17 @@ export class ExchangeAccessEffects {
   @Effect()
   openExchangeAccessModal$: Observable<Action> = this.actions$
     .ofType(fromExchangeAccessActions.OPEN_EXCHANGE_ACCESS_MODAL)
-    .mergeMap(() => [
-      new fromAvailableExchangesActions.LoadAvailableExchanges({query: ''}),
-      new fromPeerParticipantsActions.LoadPeerParticipants('')
-    ]);
+    .switchMap(() => of(new fromAvailableExchangesActions.LoadAvailableExchanges));
+
+  @Effect()
+  closeExchangeAccessModal$: Observable<Action> = this.actions$
+    .ofType(fromExchangeAccessActions.CLOSE_EXCHANGE_ACCESS_MODAL)
+    .switchMap(() => of(new fromAvailableExchangesActions.SelectAvailableExchange(null)));
 
   @Effect()
   loadAvailableExchanges$: Observable<Action> = this.actions$
     .ofType(fromAvailableExchangesActions.LOAD_AVAILABLE_EXCHANGES)
-    .map((action: fromAvailableExchangesActions.LoadAvailableExchanges) => action.payload)
+    .withLatestFrom(this.store.select(fromPeerMainReducers.getAvailableExchangesQueryPayload), (action, payload) => payload)
     .switchMap((payload: any) =>
       this.exchangeCompanyApiService.getTopExchanges(payload.query, payload.companyFilterId)
         .map((availableExchanges: AvailableExchangeItem[]) => new fromAvailableExchangesActions
@@ -58,14 +60,12 @@ export class ExchangeAccessEffects {
   @Effect()
   updateSearchTerm$: Observable<Action> = this.actions$
     .ofType(fromExchangeAccessActions.UPDATE_SEARCH_TERM)
-    .withLatestFrom(this.store.select(fromPeerMainReducers.getAvailableExchangesQueryPayload), (action, payload) => payload)
-    .switchMap((payload: any) => of(new fromAvailableExchangesActions.LoadAvailableExchanges(payload)) );
+    .switchMap(() => of(new fromAvailableExchangesActions.LoadAvailableExchanges) );
 
   @Effect()
   updateCompanyFilter$: Observable<Action> = this.actions$
     .ofType(fromExchangeAccessActions.UPDATE_COMPANY_FILTER)
-    .withLatestFrom(this.store.select(fromPeerMainReducers.getAvailableExchangesQueryPayload), (action, payload) => payload)
-    .switchMap((payload: any) => of(new fromAvailableExchangesActions.LoadAvailableExchanges(payload)) );
+    .switchMap(() => of(new fromAvailableExchangesActions.LoadAvailableExchanges) );
 
   @Effect()
   exchangeAccessRequest$: Observable<Action> = this.actions$

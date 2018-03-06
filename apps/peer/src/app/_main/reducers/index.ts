@@ -247,6 +247,11 @@ export const getAvailableExchangesLoadingError = createSelector(
   fromAvailableExchangesReducer.getLoadingError
 );
 
+export const getAvailableExchangeSelection = createSelector(
+  selectAvailableExchangesState,
+  fromAvailableExchangesReducer.getExchangeSelection
+);
+
 // Exchange Access - Peer Participants
 export const {
   selectAll: getPeerParticipants

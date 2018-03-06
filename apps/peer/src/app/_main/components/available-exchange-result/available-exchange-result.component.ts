@@ -9,6 +9,7 @@ import { AvailableExchangeItem } from 'libs/models/peer';
 })
 export class AvailableExchangeResultComponent {
   @Input() availableExchangeItem: AvailableExchangeItem;
+  @Input() companyNameFilter: string;
   @Input() selection: number;
   @Output() selected = new EventEmitter();
 

@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { RequestExchangeAccessRequest } from 'libs/models/peer/request-exchange-access-request.model';
+import { AvailableExchangeItem } from '../../../../../../../libs/models/peer';
 
 export const OPEN_EXCHANGE_ACCESS_MODAL  = '[Peer Main/Exchange Access] Exchange Access Modal Open';
 export const CLOSE_EXCHANGE_ACCESS_MODAL = '[Peer Main/Exchange Access] Exchange Access Modal Close';

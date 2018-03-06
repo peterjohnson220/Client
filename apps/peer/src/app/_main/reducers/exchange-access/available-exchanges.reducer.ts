@@ -7,6 +7,7 @@ import * as fromAvailableExchangesActions from '../../actions/exchange-access/av
 export interface State extends EntityState<AvailableExchangeItem> {
   loading: boolean;
   loadingError: boolean;
+  selectedExchange: AvailableExchangeItem;
 }
 
 export const adapter: EntityAdapter<AvailableExchangeItem> = createEntityAdapter<AvailableExchangeItem>({
@@ -15,9 +16,9 @@ export const adapter: EntityAdapter<AvailableExchangeItem> = createEntityAdapter
 
 const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  selectedExchange: null
 });
-
 
 // Reducer function
 export function reducer(state = initialState,  action: fromAvailableExchangesActions.Actions): State {
@@ -30,10 +31,14 @@ export function reducer(state = initialState,  action: fromAvailableExchangesAct
       };
     }
     case fromAvailableExchangesActions.LOAD_AVAILABLE_EXCHANGES_SUCCESS: {
-      const exchangeJobMappings: AvailableExchangeItem[] = action.payload;
+      const availableExchanges: AvailableExchangeItem[] = action.payload;
+      const selectedExchange = state.selectedExchange;
+      const containsSelection = selectedExchange != null &&
+        availableExchanges.some(ae => ae.ExchangeId === selectedExchange.ExchangeId);
       return {
-        ...adapter.addAll(exchangeJobMappings, state),
-        loading: false
+        ...adapter.addAll(availableExchanges, state),
+        loading: false,
+        selectedExchange: containsSelection ? selectedExchange : null
       };
     }
     case fromAvailableExchangesActions.LOAD_AVAILABLE_EXCHANGES_ERROR: {
@@ -41,6 +46,16 @@ export function reducer(state = initialState,  action: fromAvailableExchangesAct
         ...state,
         loading: false,
         loadingError: true
+      };
+    }
+    case fromAvailableExchangesActions.SELECT_AVAILABLE_EXCHANGE: {
+      const newSelection: AvailableExchangeItem = action.payload;
+      const currentSelection = state.selectedExchange;
+      const newSelectionExchangeId = !!newSelection ? newSelection.ExchangeId : 0;
+      const isExchangeSelected = !!currentSelection && currentSelection.ExchangeId === newSelectionExchangeId;
+      return {
+        ...state,
+        selectedExchange: isExchangeSelected ? null : newSelection
       };
     }
     default: {
@@ -52,3 +67,4 @@ export function reducer(state = initialState,  action: fromAvailableExchangesAct
 // Selector functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getExchangeSelection = (state: State) => state.selectedExchange;

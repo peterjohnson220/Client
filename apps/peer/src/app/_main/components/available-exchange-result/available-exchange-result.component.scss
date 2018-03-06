@@ -1,6 +1,10 @@
 @import 'colors';
 @import '~bootstrap/scss/bootstrap';
 
+.card-text .text-underline {
+  text-decoration: underline;
+}
+
 .card {
   cursor: pointer;
   &:not(.disabled):hover {
@@ -23,4 +27,8 @@
       @extend .text-muted;
     }
   }
+}
+
+:host ::ng-deep .search-highlight{
+  background-color: #F2E366;
 }
