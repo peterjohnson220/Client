@@ -5,7 +5,7 @@ $grey: #e9eaed;
 $border-grey: #d0d0d0;
 
 // Elements
-$link-color: #1872ae;
+$link-color: #006699;
 
 // Hover
 $selection-hover-background: rgba(0, 0, 0, 0.075);
@@ -13,8 +13,9 @@ $selection-hover-background: rgba(0, 0, 0, 0.075);
 // Selections
 $selected-item-background-color: rgba(0, 123, 255, 0.25);
 
+$body-background-color: #1f2f3d;
 $loading-backround-color: #ffffff;
-$header-background-color: rgba(31, 47, 61, 0.9);
+$header-background-color: rgba($body-background-color, 0.9);
 $left-sidebar-color: #283B4A;
 $right-sidebar-color: #283B4A;
 

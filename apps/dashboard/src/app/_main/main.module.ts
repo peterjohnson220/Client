@@ -13,7 +13,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { DashboardEffects, TileGridEffects, UserVoiceEffects } from './effects';
+import { DashboardEffects, TileGridEffects, UserVoiceEffects, TimelineActivityEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -42,7 +42,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     // 3rd Party
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects]),
     ChartsModule,
     NgbModule,
 

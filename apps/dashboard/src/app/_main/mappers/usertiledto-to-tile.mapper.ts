@@ -57,11 +57,12 @@ export class UserTileToTileMapper {
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
 
-      case TileTypes.Surveys:
       case TileTypes.MyJobs:
-      case TileTypes.Employees:
         return TilePreviewTypes.PlaceHolder;
-
+      case TileTypes.Employees:
+        return TilePreviewTypes.Chart;
+      case TileTypes.Surveys:
+          return TilePreviewTypes.PlaceHolder;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -75,6 +76,13 @@ export class UserTileToTileMapper {
 
       case TileTypes.Employees:
         tile.CssClass = 'tile-blue';
+        tile.ChartType = TilePreviewChartTypes.Donut;
+        tile.ChartLabel = 'Market Index';
+
+        this.SetChartLegendColor(tile, '<90%', '#C79500');
+        this.SetChartLegendColor(tile, '90-110%', '#EEB200');
+        this.SetChartLegendColor(tile, '>110%', '#FEC968');
+        this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
         break;
 
       case TileTypes.JobDescriptions:
@@ -95,7 +103,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'fa-home';
+        tile.IconClass = 'fas fa-home';
         break;
 
       case TileTypes.PricingProjects:
@@ -117,7 +125,7 @@ export class UserTileToTileMapper {
 
       case TileTypes.Surveys:
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'fa-book';
+        tile.IconClass = 'far fa-book';
         break;
 
       default:

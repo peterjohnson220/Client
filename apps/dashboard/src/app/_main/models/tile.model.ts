@@ -24,7 +24,7 @@ export function generateMockChartTile(): Tile {
     Label: 'test tile',
     Type: TileTypes.PayMarkets,
     PreviewType: TilePreviewTypes.Chart,
-    IconClass: 'fa fa-file-text-o',
+    IconClass: 'far file-alt',
     Url: 'test tile url',
     NgAppLink: false,
     Order: 0,
@@ -40,7 +40,7 @@ export function generateMockIconTile(): Tile {
     Label: 'test tile',
     Type: TileTypes.PayMarkets,
     PreviewType: TilePreviewTypes.Icon,
-    IconClass: 'fa fa-file-text-o',
+    IconClass: 'far file-alt',
     Url: 'test tile url',
     NgAppLink: false,
     Order: 0,
@@ -56,7 +56,7 @@ export function generateMockListTile(showColumnHeadings: boolean, mainButtonUrl:
     Label: 'test tile',
     Type: TileTypes.PayMarkets,
     PreviewType: TilePreviewTypes.List,
-    IconClass: 'fa fa-file-text-o',
+    IconClass: 'far file-alt',
     Url: 'test tile url',
     NgAppLink: false,
     Order: 0,
@@ -103,7 +103,7 @@ export function generateMockIconTileWithPayload(): Tile {
     Label: 'test tile',
     Type: TileTypes.PayMarkets,
     PreviewType: TilePreviewTypes.Icon,
-    IconClass: 'fa fa-file-text-o',
+    IconClass: 'far file-alt',
     Url: 'test tile url',
     NgAppLink: false,
     Order: 0,
@@ -120,4 +120,3 @@ export function generateMockIconTileWithPayload(): Tile {
     } ]
   };
 }
-

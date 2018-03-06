@@ -1,11 +1,15 @@
 <div class="right-sidebar-dock">
-  <i id="openSidebarIcon" (click)="rightSidebarToggle = !rightSidebarToggle" [style.visibility]="rightSidebarToggle ? 'hidden' : 'visible'"
-     class="fa fa-plus fa-lg open-sidebar-icon"></i>
+  <span (click)="rightSidebarToggle = !rightSidebarToggle"><i id="openSidebarIcon" [style.visibility]="rightSidebarToggle ? 'hidden' : 'visible'"
+           class="fas fa-plus fa-lg open-sidebar-icon"></i></span>
   <div id="rightSidebarTransitionWrapper" class="right-sidebar-content"
        [ngClass]="{'right-sidebar-open': rightSidebarToggle, 'right-sidebar-close': !rightSidebarToggle}">
     <div id="rightSidebarContentWrapper" class="sidebar-width">
-      <i id="closeSidebarIcon" (click)="rightSidebarToggle = !rightSidebarToggle" class="fa fa-times fa-lg close-sidebar-icon p-2"
-         [style.visibility]="rightSidebarToggle ? 'visible' : 'hidden'"></i>
+      <div class="close-sidebar-icon p-2">
+        <span (click)="rightSidebarToggle = !rightSidebarToggle"
+              [style.visibility]="rightSidebarToggle ? 'visible' : 'hidden'">
+          <i id="closeSidebarIcon" class="fas fa-times fa-lg"></i>
+        </span>
+      </div>
       <ng-content></ng-content>
     </div>
   </div>

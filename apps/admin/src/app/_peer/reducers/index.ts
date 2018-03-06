@@ -6,7 +6,7 @@ import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
-import * as fromManageExchangeReducer from './manage-exchange.reducer';
+import * as fromExchangeReducer from 'libs/features/peer/reducers/exchange.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
 import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';
@@ -15,7 +15,7 @@ import * as fromAvailableJobsReducer from './available-jobs.reducer';
 
 // Feature area state
 export interface PeerAdminState {
-  manageExchange: fromManageExchangeReducer.State;
+  exchange: fromExchangeReducer.State;
   exchangeCompanies: IFeatureGridState<fromExchangeCompaniesReducer.State>;
   importExchangeJobs: fromImportExchangeJobsReducer.State;
   availableCompanies: IFeatureGridState<fromAvailableCompaniesReducer.State>;
@@ -30,7 +30,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  manageExchange: fromManageExchangeReducer.reducer,
+  exchange: fromExchangeReducer.reducer,
   exchangeCompanies: fromExchangeCompaniesReducer.reducer,
   importExchangeJobs: fromImportExchangeJobsReducer.reducer,
   availableCompanies: fromAvailableCompaniesReducer.reducer,
@@ -42,7 +42,7 @@ export const reducers = {
 export const selectPeerAdminState = createFeatureSelector<PeerAdminState>('peerAdmin');
 
 // Feature Selectors
-export const selectManageExchangeState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.manageExchange);
+export const selectExchangeState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchange);
 export const selectExchangeCompaniesState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeCompanies);
 export const selectImportExchangeJobsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.importExchangeJobs);
 export const selectExchangeJobsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeJobs);
@@ -50,14 +50,14 @@ export const selectAvailableCompaniesState = createSelector(selectPeerAdminState
 export const selectAvailableJobsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.availableJobs);
 
 // Manage Exchange Selectors
-export const getManageExchange = createSelector(selectManageExchangeState, fromManageExchangeReducer.getExchange);
+export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
 
 // Exchange List Selectors
 export const getManageExchangeLoading = createSelector(
-  selectManageExchangeState, fromManageExchangeReducer.getLoading
+  selectExchangeState, fromExchangeReducer.getLoading
 );
 export const getManageExchangeLoadingError = createSelector(
-  selectManageExchangeState, fromManageExchangeReducer.getLoadingError
+  selectExchangeState, fromExchangeReducer.getLoadingError
 );
 
 // Import Exchange Job Selectors

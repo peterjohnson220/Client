@@ -4,11 +4,15 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
+import * as fromAddDataCutReducer from './add-data-cut.reducer';
 import * as fromPeerMapReducer from './peer-map.reducer';
+import * as fromPeerFiltersReducer from './peer-filters.reducer';
 
 // Feature area state
 export interface PeerDataState {
+  addDataCut: fromAddDataCutReducer.State;
   map: fromPeerMapReducer.State;
+  filters: fromPeerFiltersReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,14 +22,22 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  map: fromPeerMapReducer.reducer
+  addDataCut: fromAddDataCutReducer.reducer,
+  map: fromPeerMapReducer.reducer,
+  filters: fromPeerFiltersReducer.reducer
 };
 
 // Select Feature Area
-export const selectPeerPeerDataState = createFeatureSelector<PeerDataState>('peerData');
+export const selectPeerDataState = createFeatureSelector<PeerDataState>('peerData');
 
 // Feature Selectors
-export const selectMapState = createSelector(selectPeerPeerDataState, (state: PeerDataState) => state.map);
+export const selectAddDataCutState = createSelector(selectPeerDataState, (state: PeerDataState) => state.addDataCut);
+export const selectMapState = createSelector(selectPeerDataState, (state: PeerDataState) => state.map);
+export const selectPeerFiltersState = createSelector(selectPeerDataState, (state: PeerDataState) => state.filters);
+
+// Add Data Cut Selectors
+export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCut);
+export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCutError);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromPeerMapReducer.getLoading);
@@ -35,3 +47,13 @@ export const getPeerMapFilter = createSelector(selectMapState, fromPeerMapReduce
 export const getPeerMapCollection = createSelector(selectMapState, fromPeerMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromPeerMapReducer.getMapBounds);
 export const canLoadPeerMap = createSelector(selectMapState, fromPeerMapReducer.canLoadMap);
+export const peerMapShowNoData = createSelector(selectMapState, fromPeerMapReducer.showNoData);
+
+
+// Filters
+export const {
+  selectAll: getPeerFilters
+} = fromPeerFiltersReducer.adapter.getSelectors(selectPeerFiltersState);
+
+export const getPeerFiltersLoading = createSelector(selectPeerFiltersState, fromPeerFiltersReducer.getLoading);
+export const getPeerFiltersLoadingError = createSelector(selectPeerFiltersState, fromPeerFiltersReducer.getLoadingError);

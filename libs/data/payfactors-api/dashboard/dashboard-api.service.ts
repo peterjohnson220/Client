@@ -4,7 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { UserFeatureDto, ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
+import { UserFeatureDto, ReorderTileRequest, UserTileDto, TimelineActivityDto } from '../../../models/dashboard';
+
+import { MockActivityEndpoint } from './mock-activity-endpoint';
+import { TimelineActivityRequest } from '../../../models/dashboard/timeline-activity-request.model';
 
 @Injectable()
 export class DashboardApiService {
@@ -30,5 +33,14 @@ export class DashboardApiService {
 
   getUserFeatures(): Observable<UserFeatureDto[]> {
     return this.payfactorsApiService.get<UserFeatureDto[]>(`${this.endpoint}.GetUserFeatures`);
+  }
+
+  getTimelineActivities(request: TimelineActivityRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.GetTimelineActivity`,
+      {
+        page: request.Page,
+        recordsPerPage: request.RecordsPerPage,
+        typesToRetrieve: request.TypesToRetrieve
+      });
   }
 }

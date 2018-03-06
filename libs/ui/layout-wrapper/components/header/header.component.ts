@@ -8,7 +8,7 @@ import { NavigationLink, UserContext, HomePageLink } from 'libs/models';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  payfactorsLogo = './assets/images/PayFactors-logo-onBlue-RGB_0313.png';
+  payfactorsLogo = './assets/payfactors-transparent.png';
 
   @Input() gettingDropDownNavigationLinks: boolean;
   @Input() gettingDropdownNavigationLinksError: boolean;

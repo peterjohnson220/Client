@@ -1,36 +1,74 @@
-<div class="card px-1 py-3">
+<div class="card p-0 timeline-container scroll-bar-custom">
   <div class="card-header d-flex align-items-center pl-1">
-    <i class="fa fa-2x fa-commenting-o px-2" aria-hidden="true"></i>
+    <i class="far fa-3x fa-comment-alt px-2 ml-1" aria-hidden="true"></i>
     <h4>Recent Activity</h4>
+    <button (click)="toggleFilterPanel()" class="reset-button px-10">
+      <div *ngIf="showFiltersPanel">
+        <i class="fa fa-2x px-1 fa-sliders-h filter-icon-on" aria-hidden="true"></i>
+      </div>
+      <div *ngIf="!showFiltersPanel">
+        <i class="fa fa-2x px-1 fa-sliders-h filter-icon-off" aria-hidden="true"></i>
+      </div>
+    </button>
   </div>
-  <div class="card-block pt-3 pb-1">
-    <div class="px-1">
-      <ul class="timeline">
-        <li *ngFor="let activity of timelineActivities">
-          <div class="timeline-icon">
-            <ng-container *ngIf="activity.Type === 'CommunityPost'">
-              <i *ngIf="activity.SubType !== 'Reply'" class="fa fa-circle-thinner fa-commenting-o"></i>
-              <i *ngIf="activity.SubType === 'Reply'" class="fa fa-circle-thinner fa-comments"></i>
-            </ng-container>
-            <i *ngIf="activity.Type === 'ActivityPost'" class="fa fa-circle-thinner fa-share"></i>
-            <i *ngIf="activity.Type === 'ResourcesPost'" class="fa fa-circle-thinner fa-info"></i>
-          </div>
-          <div class="timeline-panel">
-            <div class="timeline-header d-inline-flex  align-items-center">
-              <img class="pf-avatar" [src]="activity.AvatarUrl">
-              <h6 class="pl-2 mt-3">
-                <a href="#" class="pr-2">{{ activity.PostedBy }}</a>
-              </h6>
-              <h6 class="mt-3">{{ activity.PostedTime}}</h6>
+  <div>
+    <div class="timeline-filter m-0 p-0 pt-3"
+         [ngClass]="{'hide': !showFiltersPanel, 'show': showFiltersPanel }"
+         *ngIf="timelineActivityFilters.length > 0">
+      <ul>
+          <li class="py-1 d-flex" *ngFor="let filter of timelineActivityFilters">
+            <div class="filter-label">{{ filter.Label }}</div>
+            <div class="text-right">
+              <button (click)="toggleFilter(filter.Value)" class="reset-button">
+                <div *ngIf="filter.IsEnabled">
+                  <i class="fa fa-2x fa-toggle-on" ></i>
+                </div>
+                <div *ngIf="!filter.IsEnabled">
+                  <i class="fa fa-2x fa-toggle-off"></i>
+                </div>
+              </button>
             </div>
-            <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>
-            <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body"></span></div>
-          </div>
-        </li>
+          </li>
       </ul>
     </div>
-  </div>
-  <div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-primary">Show More</button>
+    <div class="card-block">
+      <div class="px-1">
+        <div *ngIf="timelineActivitiesFiltered.length == 0" class="text-center">
+          There is no recent activity to display at this time.
+        </div>
+        <ul class="timeline">
+          <li *ngFor="let activity of timelineActivitiesFiltered">
+            <div class="timeline-icon">
+              <ng-container *ngIf="activity.Type === COMMUNITY_TYPE">
+                <i *ngIf="activity.SubType !== 'Reply'" class="far fa-comment-alt"></i>
+                <i *ngIf="activity.SubType === 'Reply'" class="fas fa-comments"></i>
+              </ng-container>
+              <i *ngIf="activity.Type === ACTIVITY_TYPE || activity.Type === JOB_DESCRIPTION_TYPE" class="fas fa-share"></i>
+              <i *ngIf="activity.Type === RESOURCES_TYPE" class="fas fa-info"></i>
+            </div>
+            <div class="timeline-panel">
+              <div class="timeline-header d-inline-flex  align-items-center">
+                <img class="pf-avatar" [src]="activity.AvatarUrl" *ngIf="activity.AvatarUrl != null" >
+                <div class="pf-avatar no-avatar" *ngIf="activity.AvatarUrl === null">
+                  {{ activity.PostedByInitials }}
+                </div>
+                <h6 class="pl-2 mt-3">
+                  <a href="{{ activity.PostedUrl }}" class="pr-2">{{ activity.PostedBy }}</a>
+                </h6>
+                <h6 class="mt-3" title="{{ activity.PostedTime }}">
+                  {{ activity.ElapsedTime}}
+                </h6>
+              </div>
+              <h6 class="timeline-source py-1"><span [innerHTML]="activity.Subject"></span></h6>
+              <div *ngIf="activity.Body" class="timeline-body p-3"><span [innerHtml]="activity.Body | TruncateAfter:200 "></span></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mb-3">
+      <button type="button" class="btn btn-primary" *ngIf="!shouldShowMore()" disabled="disabled">Show More</button>
+      <button type="button" class="btn btn-primary" *ngIf="shouldShowMore()" (click)="handleShowMore()" >Show More</button>
+    </div>
   </div>
 </div>

@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeMapFilter, InitialMapFilterRequest } from '../../../models/peer';
+import { ExchangeMapFilter, ExchangeMapResponse, InitialMapFilterRequest } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { FilterAggregateGroup } from '../../../models/peer/aggregate-filters';
 
 
 @Injectable()
@@ -20,7 +21,12 @@ export class ExchangeDataSearchApiService {
       }
     });
   }
-  getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<any> {
+
+  getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<ExchangeMapResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeMapFilter);
+  }
+
+  getMapFilters(exchangeMapFilter: ExchangeMapFilter): Observable<FilterAggregateGroup[]> {
+   return this.payfactorsApiService.post(`${this.endpoint}/GetMapFilters`, exchangeMapFilter);
   }
 }

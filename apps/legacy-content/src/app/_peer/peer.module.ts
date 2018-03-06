@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -8,24 +9,25 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfSharedPeerModule } from 'libs/features';
 import { WindowCommunicationService } from 'libs/core/services';
 
-import { AddDataCutPageComponent, FiltersComponent, MapComponent } from './containers';
+import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
-import { PeerMapEffects } from './effects';
+import { AddDataCutEffects, PeerMapEffects } from './effects';
 import { reducers } from './reducers';
-
+import { FilterCategoryComponent, FilterOptionComponent } from './components';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
 
     // 3rd party
     StoreModule.forFeature('peerData', reducers),
     EffectsModule.forFeature([
+      AddDataCutEffects,
       PeerMapEffects
     ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
@@ -38,8 +40,11 @@ import { reducers } from './reducers';
     PfFormsModule
   ],
   declarations: [
+    // Components
+    FilterCategoryComponent, FilterOptionComponent,
+
     // Containers
-    FiltersComponent, MapComponent,
+    FilterSidebarComponent, MapComponent,
 
     // Pages
     AddDataCutPageComponent,

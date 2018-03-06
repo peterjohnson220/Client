@@ -47,8 +47,7 @@ export class TilePreviewChartComponent {
   }
 
   public loadChartDetail(chartItem) {
-    if (!this.showChartDetail) {
-
+    if (!this.showChartDetail && this.model.ChartComponentData.filter(x => x.CategoryName === chartItem)[ 0 ].DetailData.length > 0) {
       this.chartData = this.model.ChartComponentData;
       this.showChartDetail = true;
 
