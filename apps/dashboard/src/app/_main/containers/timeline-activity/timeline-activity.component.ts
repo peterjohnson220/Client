@@ -33,6 +33,7 @@ export class TimelineActivityComponent implements OnInit {
   ACTIVITY_TYPE: string = TimelineActivityMapper.ACTIVITY_TYPE;
   COMMUNITY_TYPE: string = TimelineActivityMapper.COMMUNITY_TYPE;
   RESOURCES_TYPE: string = TimelineActivityMapper.RESOURCES_TYPE;
+  JOB_DESCRIPTION_TYPE: string = TimelineActivityMapper.JOB_DESCRIPTIONS_TYPE;
 
   constructor(private store: Store<fromTimelineActivityReducer.State>) {
     this.features$ = this.store.select(fromTimelineActivityReducer.getFeatures);
