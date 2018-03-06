@@ -31,6 +31,7 @@ export class TimelineActivityMapper {
         IsVisible: true
       });
     }
+
     return timelineActivities;
   }
 
@@ -147,8 +148,10 @@ export class TimelineActivityMapper {
   static generateSubjectForResource(dto: TimelineActivityDto): string {
     const resourcesFeatureUrl = this.BASE_URL + '/marketdata/resources.asp';
     const fetchResourceBaseUrl = this.BASE_URL +  '/marketdata/getcontent.asp?f=';
+    const fetchCompanyResourceBaseUrl = this.BASE_URL +  '/odata/CloudFiles.DownloadCompanyResource?FileName=';
     const resourceUrl = dto.Links[0].Url;
-    const fetchResourceUrl = fetchResourceBaseUrl + resourceUrl;
+    const linkType = dto.Links[0].Type;
+    let fetchResourceUrl = fetchResourceBaseUrl + resourceUrl;
     let subject = '';
     let htmlLink = '';
     let linkText = '';
@@ -169,6 +172,20 @@ export class TimelineActivityMapper {
         subject = 'Added a new ' + htmlLink + '.';
         break;
 
+      case ('CompanyResource'):
+        let openInNewWindow = false;
+        if (linkType === 'Document') {
+          fetchResourceUrl = fetchCompanyResourceBaseUrl + resourceUrl;
+        } else {
+          openInNewWindow = true;
+          fetchResourceUrl = resourceUrl;
+        }
+        linkText = 'internal resource';
+        linkTitle = 'Link to an internal company resources';
+        htmlLink = this.generateHtmlLink(fetchResourceUrl, linkText, linkTitle, openInNewWindow);
+        subject = 'Added a new ' + htmlLink + '.';
+        break;
+
       default:
         linkText = 'resource';
         if (dto.Internal) {
@@ -185,7 +202,10 @@ export class TimelineActivityMapper {
     return subject;
   }
 
-  static generateHtmlLink(url: string, label: string, title?: string): string {
+  static generateHtmlLink(url: string, label: string, title: string, isNewWindow?: boolean): string {
+    if (isNewWindow) {
+      return '<a href=\"' + url + '\" title=\"' + title + '\" target="_blank">' + label + '</a>';
+    }
     return '<a href=\"' + url + '\" title=\"' + title + '\">' + label + '</a>';
   }
 
