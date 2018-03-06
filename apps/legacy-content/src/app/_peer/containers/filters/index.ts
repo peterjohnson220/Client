@@ -1,1 +1,1 @@
-export * from './filters.component';
+export * from './filter-sidebar.component';

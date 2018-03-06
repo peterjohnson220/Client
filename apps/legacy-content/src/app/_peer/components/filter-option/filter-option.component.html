@@ -1,0 +1,11 @@
+<div class="filter-option" [class.selected]="selected" [title]="option.Item" (click)="handleOptionClicked(option)">
+
+  <div class="filter-option-check">
+    <input type="checkbox" [ngModel]="selected"> {{option.Item}}
+  </div>
+
+  <div class="filter-option-count">
+    {{option.Count}}
+  </div>
+
+</div>

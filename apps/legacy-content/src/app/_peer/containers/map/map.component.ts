@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
   @Input() companyPayMarketId: number;
   selectedPoint: any = null;
   cursorStyle: string;
-  mapStyle = 'mapbox://styles/mapbox/light-v9';
+  mapStyle = 'mapbox://styles/mapbox/streets-v9';
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   peerMapFilter$: Observable<ExchangeMapFilter>;
