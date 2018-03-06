@@ -3,6 +3,7 @@ export interface TimelineActivity {
   Type: string;
   SubType: string;
   PostedBy: string;
+  PostedByInitials: string;
   PostedUrl: string;
   ElapsedTime: string;
   PostedTime: string;
@@ -19,6 +20,7 @@ export function getMockTimelineActivities(type = 'mockType', subType = 'mockSubT
     Type: type,
     SubType: subType,
     PostedBy: 'John Clark',
+    PostedByInitials: 'JC',
     PostedUrl: '#',
     PostedTime: '3m ago',
     ElapsedTime: '3m ago',

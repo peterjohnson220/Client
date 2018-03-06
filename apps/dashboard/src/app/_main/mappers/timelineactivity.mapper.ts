@@ -10,10 +10,10 @@ export class TimelineActivityMapper {
   public static get JOB_DESCRIPTIONS_TYPE(): string { return 'JobDescriptions'; }
 
   static mapFromResponse(response: TimelineActivityResponse): TimelineActivity[] {
-    return this.mapFromDto(response.ViewModels, response.CurrentPage);
+    return this.mapFromDto(response.ViewModels);
   }
 
-  static mapFromDto(dtos: TimelineActivityDto[], page: number): TimelineActivity[] {
+  static mapFromDto(dtos: TimelineActivityDto[]): TimelineActivity[] {
     const timelineActivities = [];
     for (const dto of dtos) {
       timelineActivities.push({
@@ -21,6 +21,7 @@ export class TimelineActivityMapper {
         Type: dto.Type,
         SubType: dto.SubType,
         PostedBy: dto.PostedBy.Name,
+        PostedByInitials: this.generateInitials(dto.PostedBy.Name),
         PostedTime: dto.PostedTime,
         PostedUrl: this.generatePostedByUrl(dto),
         ElapsedTime: dto.ElapsedTime,
@@ -222,5 +223,20 @@ export class TimelineActivityMapper {
       return 'favicon.ico';
     }
     return this.AVATAR_BASE_URL + url;
+  }
+
+  static generateInitials(name: string): string {
+    if (name == null || name === undefined) {
+      return null;
+    }
+
+    const splitString = name.split(' ');
+    const firstInitial = splitString[0].charAt(0);
+    let lastInitial = '';
+
+    if (splitString.length > 1) {
+      lastInitial = splitString[splitString.length - 1].charAt(0);
+    }
+    return firstInitial + lastInitial;
   }
 }
