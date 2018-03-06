@@ -42,32 +42,32 @@
             property: 'SalaryCount',
             type: 'interval',
             stops: [
-                [0, '#4f615a']
+                [0, 'red']
             ]
         },
         'circle-radius': {
             property: 'SalaryCount',
             type: 'interval',
             stops: [
-                [0, 20]
+                [0, 8]
             ]
         },
-        'circle-stroke-width': 2,
-        'circle-stroke-color': '#56C498'
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#a50000'
       }"
   >
   </mgl-layer>
-  <mgl-layer
-    id="cluster-count"
-    type="symbol"
-    source="incumbents"
-    [layout]="{
-        'text-field': '{SalaryCount}',
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 10
-      }"
-  >
-  </mgl-layer>
+  <!--<mgl-layer-->
+    <!--id="cluster-count"-->
+    <!--type="symbol"-->
+    <!--source="incumbents"-->
+    <!--[layout]="{-->
+        <!--'text-field': '{SalaryCount}',-->
+        <!--'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],-->
+        <!--'text-size': 10-->
+      <!--}"-->
+  <!--&gt;-->
+  <!--</mgl-layer>-->
   <mgl-popup
     *ngIf="(peerMapShowNoData$ | async)"
     [lngLat]="center"
