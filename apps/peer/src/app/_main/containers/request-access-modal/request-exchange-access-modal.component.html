@@ -38,9 +38,6 @@
             [filterable]="true"
             (valueChange)="handleSelectedCompanyChangeEvent($event)"
           >
-            <ng-template kendoAutoCompleteItemTemplate let-dataItem>
-              {{ dataItem.Name }}
-            </ng-template>
           </kendo-autocomplete>
 
         </div>
