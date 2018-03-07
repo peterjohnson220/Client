@@ -2,10 +2,23 @@ export interface TimelineActivityDto {
   Id: number;
   Type: string;
   SubType: string;
-  PostedBy: string;
+  Internal: boolean;
+  CompanyName: string;
+  PostedBy: TimelineActivityPersonDto;
   PostedTime: string;
-  Subject: string;
+  ElapsedTime: string;
   Body: string;
+  Links: TimelineActivityLinkDto[];
+}
+
+export interface TimelineActivityPersonDto {
+  Name: string;
   AvatarUrl: string;
-  IsVisible: boolean;
+  PayfactorsEmployee: boolean;
+}
+
+export interface TimelineActivityLinkDto {
+  Type: string;
+  Url: string;
+  DisplayName: string;
 }

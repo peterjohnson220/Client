@@ -11,14 +11,13 @@ import {
 } from 'libs/models/peer/aggregate-filters';
 import { generateMockExchangeMapFilter } from 'libs/models/peer';
 
-import * as fromPeerFiltersActions from '../../actions/peer-filters.actions';
 import * as fromPeerMapActions from '../../actions/peer-map.actions';
 import * as fromPeerDataReducer from '../../reducers';
-import { FiltersComponent } from './filters.component';
+import { FilterSidebarComponent } from './filter-sidebar.component';
 
-describe('Legacy Content - Peer - Filters Component', () => {
-  let fixture: ComponentFixture<FiltersComponent>;
-  let instance: FiltersComponent;
+describe('Legacy Content - Peer - Filter Sidebar Component', () => {
+  let fixture: ComponentFixture<FilterSidebarComponent>;
+  let instance: FilterSidebarComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -31,7 +30,7 @@ describe('Legacy Content - Peer - Filters Component', () => {
         })
       ],
       declarations: [
-        FiltersComponent
+        FilterSidebarComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -41,33 +40,17 @@ describe('Legacy Content - Peer - Filters Component', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(FiltersComponent);
+    fixture = TestBed.createComponent(FilterSidebarComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should display a pf-peer-data-cut-filter for each FilterAggregateGroup in the store', () => {
-    const initialFilterAggregateGroups = [
-      generateMockFilterAggregateGroup(1),
-      generateMockFilterAggregateGroup(2)
-    ];
-    const initialFiltersResponse = {
-      response: initialFilterAggregateGroups,
-      filter: generateMockExchangeMapFilter()
-    };
-    store.dispatch(new fromPeerFiltersActions.LoadingPeerFiltersSuccess(initialFiltersResponse));
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should dispatch an UpdatePeerMapFilter action when handleSelectionChanged method is triggered', () => {
+  it('should dispatch an UpdatePeerMapFilter action when handleOptionToggled method is triggered', () => {
     const expectedPayload = generateMockUpdateFilterSelectionsModel();
     const action = new fromPeerMapActions.UpdatePeerMapFilter(expectedPayload);
 
     fixture.detectChanges();
 
-    instance.handleSelectionChanged(expectedPayload);
+    instance.handleOptionToggled(expectedPayload);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

@@ -1,1 +1,2 @@
-export * from './filter.component';
+export * from './filter-category';
+export * from './filter-option';

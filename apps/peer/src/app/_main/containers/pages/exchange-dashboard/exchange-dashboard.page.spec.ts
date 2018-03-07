@@ -48,7 +48,7 @@ describe('Peer - Exchange Dashboard', () => {
 
     store = TestBed.get(Store);
     router = TestBed.get(Router);
-    activatedRoute = TestBed.get(ActivatedRoute)
+    activatedRoute = TestBed.get(ActivatedRoute);
 
     fixture = TestBed.createComponent(ExchangeDashboardPageComponent);
     instance = fixture.componentInstance;

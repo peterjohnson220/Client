@@ -1,17 +1,21 @@
 .button-container {
-  padding-top: 1rem;
+  padding: .85rem .5rem .5rem .5rem;
 }
+
 .map-container {
   height: min-content;
 }
+
 .filters-container {
-  width: 300px;
-  padding-right: .85rem;
+  width: 275px;
+  overflow-y: auto;
 }
+
 .btn-primary {
   background-color: #339900;
   border-color: #339900;
 }
+
 .btn-secondary {
   background-color: #DDDDDD;
   border-color: #666666;

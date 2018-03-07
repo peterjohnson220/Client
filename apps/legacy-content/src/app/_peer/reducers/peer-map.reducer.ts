@@ -30,7 +30,7 @@ export const initialState: State = {
     ExchangeJobIds: [],
     TopLeft: null,
     BottomRight: null,
-    ClusterPrecision: 2
+    ClusterPrecision: 8
   },
   mapSummary: null,
   mapBounds: [0, 0, 0, 0],
@@ -97,7 +97,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const mapFilterFromServer: ExchangeMapFilter = action.payload;
       const mapFilter = {
         ...mapFilterFromServer,
-        ClusterPrecision: initialState.mapFilter.ClusterPrecision
+        ClusterPrecision: 8
       };
       return {
         ...state,
@@ -107,13 +107,13 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
       const bounds = swapBounds(action.payload.bounds);
       const zoom = action.payload.zoom;
-      const zoomPercentage = zoom / 27;
-      const prec = zoom <= 0 ? 1 : Math.round(zoomPercentage * 12);
+      // const zoomPercentage = zoom / 27;
+      // const prec = zoom <= 0 ? 1 : Math.round(zoomPercentage * 12);
       const mapFilter = {
         ...state.mapFilter,
         TopLeft: bounds.TopLeft,
         BottomRight: bounds.BottomRight,
-        ClusterPrecision: prec
+        ClusterPrecision: 8
       };
       return {
         ...state,
