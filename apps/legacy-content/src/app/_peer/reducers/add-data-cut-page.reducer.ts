@@ -1,4 +1,4 @@
-import * as fromAddDataCutActions from '../actions/add-data-cut.actions';
+import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
 export interface State {
   addingDataCut: boolean;
@@ -14,31 +14,31 @@ export const initialState: State = {
 // Reducer
 export function reducer(
   state = initialState,
-  action: fromAddDataCutActions.Actions
+  action: fromAddDataCutPageActions.Actions
 ): State {
   switch (action.type) {
-    case fromAddDataCutActions.ADDING_DATA_CUT: {
+    case fromAddDataCutPageActions.ADDING_DATA_CUT: {
       return {
         ...state,
         addingDataCut: true,
         addingDataCutError: false
       };
     }
-    case fromAddDataCutActions.ADDING_DATA_CUT_SUCCESS: {
+    case fromAddDataCutPageActions.ADDING_DATA_CUT_SUCCESS: {
       return {
         ...state,
         addingDataCut: false,
         addingDataCutError: false
       };
     }
-    case fromAddDataCutActions.ADDING_DATA_CUT_ERROR: {
+    case fromAddDataCutPageActions.ADDING_DATA_CUT_ERROR: {
       return {
         ...state,
         addingDataCut: false,
         addingDataCutError: true
       };
     }
-    case fromAddDataCutActions.CANCEL_ADD_DATA_CUT: {
+    case fromAddDataCutPageActions.CANCEL_ADD_DATA_CUT: {
       return {
         ...state,
         addingDataCut: false,

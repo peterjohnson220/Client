@@ -2,7 +2,7 @@ import { FeatureCollection, Point } from 'geojson';
 
 import { ExchangeMapFilter, ExchangeMapSummary, UpdateFilterSelections } from 'libs/models/peer';
 
-import * as fromPeerMapActions from '../actions/peer-map.actions';
+import * as fromPeerMapActions from '../actions/map.actions';
 
 export interface State {
   mapCollection: FeatureCollection<Point>;

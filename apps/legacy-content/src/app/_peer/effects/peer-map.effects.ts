@@ -14,8 +14,8 @@ import 'rxjs/add/operator/mergeMap';
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { ExchangeMapResponse, ExchangeMapFilter } from 'libs/models/peer';
 
-import * as fromPeerMapActions from '../actions/peer-map.actions';
-import * as fromPeerFiltersActions from '../actions/peer-filters.actions';
+import * as fromPeerMapActions from '../actions/map.actions';
+import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerDataReducers from '../reducers';
 
 @Injectable()
@@ -36,7 +36,7 @@ export class PeerMapEffects {
   loadingInitialMapFilterSuccess$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS)
     .map((action: fromPeerMapActions.LoadingInitialPeerMapFilterSuccess) => action.payload)
-    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromPeerFiltersActions.LoadingPeerFilters]);
+    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingPeerFilters]);
 
   @Effect()
   loadPeerMap$: Observable<Action> = this.actions$
@@ -56,15 +56,15 @@ export class PeerMapEffects {
 
   @Effect()
   loadPeerFilters$: Observable<Action> = this.actions$
-    .ofType(fromPeerFiltersActions.LOADING_PEER_FILTERS)
+    .ofType(fromFilterSidebarActions.LOADING_PEER_FILTERS)
     .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
     .switchMap((filter: ExchangeMapFilter) =>
       this.exchangeDataSearchApiService.getMapFilters(filter)
-        .map((exchangeFiltersResponse: any) => new fromPeerFiltersActions.LoadingPeerFiltersSuccess({
+        .map((exchangeFiltersResponse: any) => new fromFilterSidebarActions.LoadingPeerFiltersSuccess({
           response: exchangeFiltersResponse,
           filter: filter
         }))
-        .catch(() => of(new fromPeerFiltersActions.LoadingPeerFiltersError))
+        .catch(() => of(new fromFilterSidebarActions.LoadingPeerFiltersError))
     );
 
   @Effect()

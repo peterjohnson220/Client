@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
 import { ExchangeMapFilter } from 'libs/models/peer';
 
-import * as fromPeerFilterActions from '../actions/peer-filters.actions';
+import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 
 // Extended entity state
 export interface State extends EntityState<FilterAggregateGroup> {
@@ -23,15 +23,15 @@ export const initialState: State = adapter.getInitialState({
 });
 
 // Reducer
-export function reducer(state = initialState, action: fromPeerFilterActions.Actions): State {
+export function reducer(state = initialState, action: fromFilterSidebarActions.Actions): State {
   switch (action.type) {
-    case fromPeerFilterActions.LOADING_PEER_FILTERS: {
+    case fromFilterSidebarActions.LOADING_PEER_FILTERS: {
       return {
         ...adapter.removeAll(state),
         loading: true
       };
     }
-    case fromPeerFilterActions.LOADING_PEER_FILTERS_SUCCESS: {
+    case fromFilterSidebarActions.LOADING_PEER_FILTERS_SUCCESS: {
       const filters: FilterAggregateGroup[] = action.payload.response;
       const filter: ExchangeMapFilter = action.payload.filter;
       const filtersWithSelections: FilterAggregateGroup[] = filters.map(f => {
@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: fromPeerFilterActions.Acti
         loading: false
       };
     }
-    case fromPeerFilterActions.LOADING_PEER_FILTERS_ERROR: {
+    case fromFilterSidebarActions.LOADING_PEER_FILTERS_ERROR: {
       return {
         ...state,
         loading: false,

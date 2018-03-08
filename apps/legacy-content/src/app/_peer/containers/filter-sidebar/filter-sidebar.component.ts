@@ -3,8 +3,10 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromPeerDataReducers from '../../reducers';
-import * as fromPeerMapActions from '../../actions/peer-map.actions';
+import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
+
+import * as fromPeerReducer from '../../reducers';
+import * as fromPeerMapActions from '../../actions/map.actions';
 
 @Component({
   selector: 'pf-peer-data-cut-filter-sidebar',
@@ -12,14 +14,14 @@ import * as fromPeerMapActions from '../../actions/peer-map.actions';
   styleUrls: ['./filter-sidebar.component.scss']
 })
 export class FilterSidebarComponent {
-  peerFilters$: Observable<any[]>;
+  peerFilters$: Observable<FilterAggregateGroup[]>;
   peerFiltersLoading$: Observable<boolean>;
   peerFiltersLoadingError$: Observable<boolean>;
 
-  constructor(private store: Store<fromPeerDataReducers.State>) {
-    this.peerFilters$ = this.store.select(fromPeerDataReducers.getPeerFilters);
-    this.peerFiltersLoading$ = this.store.select(fromPeerDataReducers.getPeerFiltersLoading);
-    this.peerFiltersLoadingError$ = this.store.select(fromPeerDataReducers.getPeerFiltersLoadingError);
+  constructor(private store: Store<fromPeerReducer.State>) {
+    this.peerFilters$ = this.store.select(fromPeerReducer.getPeerFilters);
+    this.peerFiltersLoading$ = this.store.select(fromPeerReducer.getPeerFiltersLoading);
+    this.peerFiltersLoadingError$ = this.store.select(fromPeerReducer.getPeerFiltersLoadingError);
   }
 
   handleOptionToggled(e: any) {

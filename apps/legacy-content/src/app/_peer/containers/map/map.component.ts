@@ -8,7 +8,7 @@ import 'rxjs/add/operator/take';
 import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerDataReducers from '../../reducers';
-import * as fromPeerMapActions from '../../actions/peer-map.actions';
+import * as fromPeerMapActions from '../../actions/map.actions';
 
 @Component({
   selector: 'pf-peer-data-cut-map',
