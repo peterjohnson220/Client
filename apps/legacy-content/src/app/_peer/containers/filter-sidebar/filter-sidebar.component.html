@@ -1,5 +1,36 @@
-<pf-peer-data-cut-filter-category
-    *ngFor="let filter of (peerFilters$ | async)"
-    [filter]="filter"
-    (optionToggled)="handleOptionToggled($event)">
-</pf-peer-data-cut-filter-category>
+<div class="filter-sidebar">
+
+  <div class="pm-bounds-filter">
+
+    <div class="pm-bounds-filter-left">
+      <div class="pm-bounds-filter-label">
+        PayMarket Only
+      </div>
+      <div class="pm-bounds-filter-label-pm">
+        Appleton, WI Metro
+      </div>
+    </div>
+
+    <div class="pm-bounds-filter-switch">
+      <kendo-switch [checked]="true"
+                    [onLabel]="'Yes'"
+                    [offLabel]="'No'">
+      </kendo-switch>
+    </div>
+
+  </div>
+
+  <div class="filters-category-container">
+    <pf-peer-data-cut-filter-category
+      *ngFor="let filter of (peerFilters$ | async)"
+      [filter]="filter"
+      (optionToggled)="handleOptionToggled($event)">
+    </pf-peer-data-cut-filter-category>
+  </div>
+
+
+</div>
+
+
+
+
