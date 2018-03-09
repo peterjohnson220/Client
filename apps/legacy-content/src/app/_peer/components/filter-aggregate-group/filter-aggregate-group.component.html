@@ -1,8 +1,8 @@
 
-<div class="filter-category" [class.collapsed]="collapsed">
+<div class="aggregate-group" [class.collapsed]="collapsed">
 
   <!--Header-->
-  <div class="filter-category-header" (click)="collapsed = !collapsed">
+  <div class="aggregate-group-header" (click)="collapsed = !collapsed">
 
     <div>
       {{categoryLabel}}
@@ -24,26 +24,26 @@
   </div>
 
   <!--Options-->
-  <div class="filter-category-option-container" [class.show-all]="showAllOptions">
-    <pf-peer-data-cut-filter-option
-      *ngFor="let filterOption of filterOptions"
-      [option]="filterOption"
-      (optionSelected)="handleOptionSelected($event)">
-    </pf-peer-data-cut-filter-option>
+  <div class="aggregate-container" [class.show-all]="showAllAggregates">
+    <pf-filter-aggregate
+      *ngFor="let filterAggregate of filterAggregates"
+      [aggregate]="filterAggregate"
+      (aggregateSelected)="handleAggregateSelected($event)">
+    </pf-filter-aggregate>
   </div>
 
   <!--Options Toggle-->
-  <div *ngIf="filterOptions.length > 5"
-       (click)="showAllOptions = !showAllOptions"
+  <div *ngIf="filterAggregates.length > 5"
+       (click)="showAllAggregates = !showAllAggregates"
        class="toggle-option-height">
 
     Show
 
-    <span *ngIf="!showAllOptions">
-      {{filterOptions.length - 5}} More <i class="far fa-angle-down"></i>
+    <span *ngIf="!showAllAggregates">
+      {{filterAggregates.length - 5}} More <i class="far fa-angle-down"></i>
     </span>
 
-    <span *ngIf="showAllOptions">
+    <span *ngIf="showAllAggregates">
       Less <i class="far fa-angle-up"></i>
     </span>
   </div>

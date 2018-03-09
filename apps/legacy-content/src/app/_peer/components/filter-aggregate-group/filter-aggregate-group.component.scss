@@ -1,16 +1,16 @@
 @import 'colors';
 
-.filter-category{
+.aggregate-group{
   margin-bottom: .5rem;
 }
 
-.filter-category.collapsed{
+.aggregate-group.collapsed{
   height: 32px;
   overflow-y: hidden;
   overflow-x: visible;
 }
 
-.filter-category-header{
+.aggregate-group-header{
   font-size: 1rem;
   font-weight: bolder;
   color: #616161;
@@ -22,22 +22,16 @@
   background: #eaeaea;
 }
 
-.filter-category-header .header-right{
+.aggregate-group-header .header-right{
   display: flex;
 }
 
-.reset-link{
-  color: $link-color;
-  margin-right: 1rem;
-  font-weight: normal;
-}
-
-.filter-category-option-container{
+.aggregate-container{
   max-height: 140px;
   overflow: hidden;
 }
 
-.filter-category-option-container.show-all{
+.aggregate-container.show-all{
   max-height: initial;
 }
 
@@ -47,4 +41,10 @@
   font-size: 0.85rem;
   cursor: pointer;
   margin: .5rem .65rem;
+}
+
+.reset-link{
+  color: $link-color;
+  margin-right: 1rem;
+  font-weight: normal;
 }

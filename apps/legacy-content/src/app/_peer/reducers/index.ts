@@ -38,6 +38,7 @@ export const selectPeerFiltersState = createSelector(selectPeerDataState, (state
 // Add Data Cut Selectors
 export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
 export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
+export const getBaseExchangeDataCutFilter = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getBaseExchangeDataCutFilter);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
@@ -46,14 +47,33 @@ export const getPeerMapSummary = createSelector(selectMapState, fromMapReducer.g
 export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
+export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 
-
-// Filters
+// Filter Sidebar Selectors
 export const {
   selectAll: getPeerFilters
 } = fromFilterSidebarReducer.adapter.getSelectors(selectPeerFiltersState);
 
 export const getPeerFiltersLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
 export const getPeerFiltersLoadingError = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoadingError);
+export const getPeerFilterSelections = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelections);
+export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLimitToPayMarket);
+export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
+
+
+// Combined State Selectors
+export const getExchangeDataCutRequestData = createSelector(
+  getBaseExchangeDataCutFilter,
+  getPeerFilterSelections,
+  getPeerMapFilter,
+  getPeerFilterLimitToPayMarket,
+  (bf, fs, pmf, pfltp) => {
+    return {
+      BaseFilter: bf,
+      ...fs,
+      ...pmf,
+      LimitToPayMarket: pfltp
+    };
+  });

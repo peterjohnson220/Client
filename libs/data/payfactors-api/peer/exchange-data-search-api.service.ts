@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeMapFilter, ExchangeMapResponse, InitialMapFilterRequest } from '../../../models/peer';
+import { ExchangeDataCutFilter, ExchangeMapResponse, BaseFilterRequest, ExchangeDataCutBaseFilter } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { FilterAggregateGroup } from '../../../models/peer/aggregate-filters';
-
 
 @Injectable()
 export class ExchangeDataSearchApiService {
@@ -13,20 +12,20 @@ export class ExchangeDataSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getInitialMapFilter(initialMapFilterRequest: InitialMapFilterRequest): Observable<ExchangeMapFilter> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetInitialMapFilter`, {
+  getBaseFilter(baseFilterRequest: BaseFilterRequest): Observable<ExchangeDataCutBaseFilter> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetBaseFilter`, {
       params: {
-        CompanyJobId: initialMapFilterRequest.CompanyJobId,
-        CompanyPayMarketId: initialMapFilterRequest.CompanyPayMarketId
+        CompanyJobId: baseFilterRequest.CompanyJobId,
+        CompanyPayMarketId: baseFilterRequest.CompanyPayMarketId
       }
     });
   }
 
-  getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<ExchangeMapResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeMapFilter);
+  getMapData(exchangeDataCutFilter: ExchangeDataCutFilter): Observable<ExchangeMapResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeDataCutFilter);
   }
 
-  getMapFilters(exchangeMapFilter: ExchangeMapFilter): Observable<FilterAggregateGroup[]> {
-   return this.payfactorsApiService.post(`${this.endpoint}/GetMapFilters`, exchangeMapFilter);
+  getFilterAggregates(exchangeDataCutFilter: ExchangeDataCutFilter): Observable<FilterAggregateGroup[]> {
+   return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataCutFilter);
   }
 }

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromPeerDataReducers from '../../../reducers';
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
+import * as fromPeerMapActions from '../../../actions/map.actions';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -42,5 +43,10 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyJobId = +queryParamMap.get('companyJobId') || 0;
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
+
+    this.store.dispatch(new fromAddDataCutPageActions.LoadingBaseFilter({
+      CompanyJobId: this.companyJobId,
+      CompanyPayMarketId: this.companyPayMarketId
+    }));
   }
 }

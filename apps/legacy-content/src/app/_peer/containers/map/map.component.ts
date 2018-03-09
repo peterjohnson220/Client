@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { FeatureCollection, Point } from 'geojson';
 import 'rxjs/add/operator/take';
 
-import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
-import * as fromPeerDataReducers from '../../reducers';
 import * as fromPeerMapActions from '../../actions/map.actions';
+import * as fromPeerDataReducers from '../../reducers';
 
 @Component({
   selector: 'pf-peer-data-cut-map',
@@ -16,19 +16,18 @@ import * as fromPeerMapActions from '../../actions/map.actions';
   styleUrls: [ './map.component.scss' ]
 })
 export class MapComponent implements OnInit {
-  @Input() companyJobId: number;
-  @Input() companyPayMarketId: number;
   selectedPoint: any = null;
   cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/streets-v9';
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
-  peerMapFilter$: Observable<ExchangeMapFilter>;
+  peerMapFilter$: Observable<any>;
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
   peerMapShowNoData$: Observable<boolean>;
+  peerMapMaxZoom$: Observable<number>;
   map: mapboxgl.Map;
 
   constructor(private store: Store<fromPeerDataReducers.State>) {
@@ -40,13 +39,11 @@ export class MapComponent implements OnInit {
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
     this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
+    this.peerMapMaxZoom$ = this.store.select(fromPeerDataReducers.getPeerMapMaxZoom);
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new fromPeerMapActions.LoadingInitialPeerMapFilter({
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId
-    }));
+    // Do I need to do anything here?
   }
 
   get center(): any {

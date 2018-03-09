@@ -9,7 +9,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.6rem .85rem;
+  padding: 0 .85rem;
+  min-height: 70px;
   box-shadow: 0px 2px 16px 0px #d6d6d6;
   position: relative;
 }
@@ -27,7 +28,7 @@
   font-size: .9rem;
 }
 
-.filters-category-container{
+.aggregate-groups-container{
   overflow-y: scroll;
   flex-grow: 1;
 }

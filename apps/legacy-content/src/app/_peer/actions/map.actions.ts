@@ -1,14 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapFilter, ExchangeMapResponse, InitialMapFilterRequest } from 'libs/models/peer';
+import { ExchangeMapResponse } from 'libs/models/peer';
 
 export const LOADING_PEER_MAP  = '[Peer Add Data Cut/Map] Loading Peer Map';
 export const LOADING_PEER_MAP_SUCCESS  = '[Peer Add Data Cut/Map] Loading Peer Map Success';
 export const LOADING_PEER_MAP_ERROR  = '[Peer Add Data Cut/Map] Loading Peer Map Error';
-export const LOADING_INITIAL_PEER_MAP_FILTER = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter';
-export const LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS = '[Peer Add Data Cut/Map] Load Initial Peer Map Filter Success';
 export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Peer Add Data Cut/Map] Update Peer Map Filter Bounds';
-export const UPDATE_PEER_MAP_FILTER = '[Peer Add Data Cut/Map] Update Peer Map Filter';
 
 export class LoadingPeerMap implements Action {
   readonly type = LOADING_PEER_MAP;
@@ -26,35 +23,14 @@ export class LoadingPeerMapError implements Action {
   readonly payload = null;
 }
 
-export class LoadingInitialPeerMapFilter implements Action {
-  readonly type = LOADING_INITIAL_PEER_MAP_FILTER;
-
-  constructor(public payload: InitialMapFilterRequest) { }
-}
-
-export class LoadingInitialPeerMapFilterSuccess implements Action {
-  readonly type = LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS;
-
-  constructor(public payload: ExchangeMapFilter) { }
-}
-
 export class UpdatePeerMapFilterBounds implements Action {
   readonly type = UPDATE_PEER_MAP_FILTER_BOUNDS;
 
   constructor(public payload: any) { }
 }
 
-export class UpdatePeerMapFilter implements Action {
-  readonly type = UPDATE_PEER_MAP_FILTER;
-
-  constructor(public payload: any) {}
-}
-
 export type Actions
   = LoadingPeerMap
   | LoadingPeerMapSuccess
   | LoadingPeerMapError
-  | LoadingInitialPeerMapFilter
-  | LoadingInitialPeerMapFilterSuccess
-  | UpdatePeerMapFilterBounds
-  | UpdatePeerMapFilter;
+  | UpdatePeerMapFilterBounds;

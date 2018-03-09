@@ -1,33 +1,25 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapFilter, ExchangeMapSummary, UpdateFilterSelections } from 'libs/models/peer';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 
 export interface State {
   mapCollection: FeatureCollection<Point>;
   mapSummary: ExchangeMapSummary;
-  mapFilter: ExchangeMapFilter;
+  mapFilter: any;
   mapBounds: number[];
   loading: boolean;
   loadingError: boolean;
   shouldUpdateBounds: boolean;
   isInitialMapLoad: boolean;
+  maxZoom: number;
 }
 
 // Initial State
 export const initialState: State = {
   mapCollection: null,
   mapFilter: {
-    Exchanges: [],
-    States: [],
-    Cities: [],
-    Companies: [],
-    CompanyIndustries: [],
-    ExchangeJobFamilies: [],
-    ExchangeJobLevels: [],
-    ExchangeJobFLSAStatuses: [],
-    ExchangeJobIds: [],
     TopLeft: null,
     BottomRight: null,
     ClusterPrecision: 8
@@ -37,7 +29,8 @@ export const initialState: State = {
   loading: false,
   loadingError: false,
   shouldUpdateBounds: true,
-  isInitialMapLoad: true
+  isInitialMapLoad: true,
+  maxZoom: 7
 };
 
 // Reducer
@@ -93,17 +86,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loadingError: true
       };
     }
-    case fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS: {
-      const mapFilterFromServer: ExchangeMapFilter = action.payload;
-      const mapFilter = {
-        ...mapFilterFromServer,
-        ClusterPrecision: 8
-      };
-      return {
-        ...state,
-        mapFilter: mapFilter
-      };
-    }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
       const bounds = swapBounds(action.payload.bounds);
       const zoom = action.payload.zoom;
@@ -117,23 +99,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
       return {
         ...state,
-        mapFilter: mapFilter
-      };
-    }
-    case fromPeerMapActions.UPDATE_PEER_MAP_FILTER: {
-      const filterUpdate: UpdateFilterSelections = action.payload;
-      const filterKey: (keyof ExchangeMapFilter) = filterUpdate.type;
-      const topLeft = {...state.mapFilter.TopLeft};
-      const bottomRight = {...state.mapFilter.BottomRight};
-      const newMapFilter = {
-        ...state.mapFilter,
-        TopLeft: topLeft,
-        BottomRight: bottomRight
-      };
-      newMapFilter[filterKey] = filterUpdate.selections;
-      return {
-        ...state,
-        mapFilter: newMapFilter
+        mapFilter: mapFilter,
+        maxZoom: 17
       };
     }
     default: {
@@ -149,6 +116,7 @@ export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
+export const getMaxZoom = (state: State) => state.maxZoom;
 export const canLoadMap = (state: State) => !state.isInitialMapLoad && !state.loading;
 export const showNoData = (state: State) => !state.loading && !state.isInitialMapLoad && state.mapCollection.features.length === 0;
 

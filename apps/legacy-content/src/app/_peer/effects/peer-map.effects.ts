@@ -12,37 +12,20 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
-import { ExchangeMapResponse, ExchangeMapFilter } from 'libs/models/peer';
+import { ExchangeMapResponse, ExchangeDataCutFilter } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
-import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerDataReducers from '../reducers';
 
 @Injectable()
 export class PeerMapEffects {
   @Effect()
-  loadInitialMapFilter$: Observable<Action> = this.actions$
-    .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER)
-    .map((action: fromPeerMapActions.LoadingInitialPeerMapFilter) => action.payload)
-    .switchMap(payload =>
-      this.exchangeDataSearchApiService.getInitialMapFilter(payload)
-        .map((exchangeMapFilter: ExchangeMapFilter) => new fromPeerMapActions
-          .LoadingInitialPeerMapFilterSuccess(exchangeMapFilter))
-        .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
-    );
-
-  // Asynchronously load the map and load the filters after loading the initial filters
-  @Effect()
-  loadingInitialMapFilterSuccess$: Observable<Action> = this.actions$
-    .ofType(fromPeerMapActions.LOADING_INITIAL_PEER_MAP_FILTER_SUCCESS)
-    .map((action: fromPeerMapActions.LoadingInitialPeerMapFilterSuccess) => action.payload)
-    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingPeerFilters]);
-
-  @Effect()
   loadPeerMap$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_PEER_MAP)
-    .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
-    .switchMap((payload: ExchangeMapFilter) =>
+    .withLatestFrom(
+        this.store.select(fromPeerDataReducers.getExchangeDataCutRequestData),
+        (action, exchangeDataCutRequestData) => exchangeDataCutRequestData)
+    .switchMap((payload: ExchangeDataCutFilter) =>
       this.exchangeDataSearchApiService.getMapData(payload)
         .map((exchangeMapResponse: ExchangeMapResponse) => new fromPeerMapActions
           .LoadingPeerMapSuccess(exchangeMapResponse))
@@ -52,24 +35,6 @@ export class PeerMapEffects {
   @Effect()
   updateFilterBounds$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
-    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
-
-  @Effect()
-  loadPeerFilters$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOADING_PEER_FILTERS)
-    .withLatestFrom(this.store.select(fromPeerDataReducers.getPeerMapFilter), (action, filter) => filter)
-    .switchMap((filter: ExchangeMapFilter) =>
-      this.exchangeDataSearchApiService.getMapFilters(filter)
-        .map((exchangeFiltersResponse: any) => new fromFilterSidebarActions.LoadingPeerFiltersSuccess({
-          response: exchangeFiltersResponse,
-          filter: filter
-        }))
-        .catch(() => of(new fromFilterSidebarActions.LoadingPeerFiltersError))
-    );
-
-  @Effect()
-  updatePeerMapFilter$: Observable<Action> = this.actions$
-    .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER)
     .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
 
   constructor(

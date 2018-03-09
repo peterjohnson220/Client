@@ -1,14 +1,18 @@
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
+import { ExchangeDataCutBaseFilter } from 'libs/models';
+
 export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
+  baseExchangeDataCutFilter: ExchangeDataCutBaseFilter;
 }
 
 // Initial State
 export const initialState: State = {
   addingDataCut: false,
-  addingDataCutError: false
+  addingDataCutError: false,
+  baseExchangeDataCutFilter: null
 };
 
 // Reducer
@@ -45,6 +49,12 @@ export function reducer(
         addingDataCutError: false
       };
     }
+    case fromAddDataCutPageActions.LOADING_BASE_FILTER_SUCCESS: {
+      return {
+        ...state,
+        baseExchangeDataCutFilter: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -54,3 +64,4 @@ export function reducer(
 // Selector Functions
 export const getAddingDataCut = (state: State) => state.addingDataCut;
 export const getAddingDataCutError = (state: State) => state.addingDataCutError;
+export const getBaseExchangeDataCutFilter = (state: State) => state.baseExchangeDataCutFilter;

@@ -1,12 +1,12 @@
-import { ExchangeMapFilter } from '../exchange-map-filter.model';
+import { ExchangeDataCutFilter } from '../exchange-data-cut-filter.model';
 
 export interface UpdateFilterSelections {
-  type: keyof ExchangeMapFilter;
+  type: keyof ExchangeDataCutFilter;
   selections: any[];
 }
 
 export function generateMockUpdateFilterSelectionsModel(
-  type: keyof ExchangeMapFilter = 'Exchanges', selections = ['MockSelection']
+  type: keyof ExchangeDataCutFilter = 'Exchanges', selections = ['MockSelection']
 ): UpdateFilterSelections {
   return {
     type: type,
