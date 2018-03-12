@@ -1,9 +1,10 @@
 import { TimelineActivityDto, TimelineActivityResponse } from 'libs/models/dashboard';
 import { Feature, FeatureTypes, TimelineActivity } from '../models';
+import { environment } from 'environments/environment';
 
 export class TimelineActivityMapper {
   public static get BASE_URL(): string { return  location.protocol + '//' + document.location.hostname; }
-  public static get AVATAR_BASE_URL(): string { return 'http://1888c0618f50dfcd4eb2-8e3d7b28275f3f67348d5a5232162cf7.r39.cf5.rackcdn.com/avatars/'; }
+  public static get AVATAR_BASE_URL(): string { return environment.avatarSource; }
   public static get ACTIVITY_TYPE(): string { return 'ProjectActivity'; }
   public static get COMMUNITY_TYPE(): string { return 'Community'; }
   public static get RESOURCES_TYPE(): string { return 'Resources'; }
