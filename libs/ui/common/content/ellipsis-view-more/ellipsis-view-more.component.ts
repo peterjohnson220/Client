@@ -8,8 +8,13 @@ import { Component, Input } from '@angular/core';
 export class EllipsisViewMoreComponent {
   @Input() maxLength: number;
   @Input() content: string;
+  @Input() highlightFilter: string;
 
   showFull: boolean;
+
+  get lessContent(): string {
+    return this.content.substr(0, this.maxLength) + '...';
+  }
 
   constructor() {}
 }
