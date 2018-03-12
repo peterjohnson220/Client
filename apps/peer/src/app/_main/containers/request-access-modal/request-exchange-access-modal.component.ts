@@ -8,7 +8,7 @@ import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 import { AvailableExchangeItem, RequestExchangeAccessRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
-import { CompanyOption } from 'libs/models/common';
+import { CompanyOption, PfConstants } from 'libs/models/common';
 
 import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
@@ -78,7 +78,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     this.peerParticipants$.take(1).subscribe(peers => {
       const selectedCompany: CompanyOption = peers.find(p => p.Name === selectedCompanyName);
       const selectedCompanyId = selectedCompany ? selectedCompany.CompanyId : null;
-      this.store.dispatch(new fromExchangeAccessActions.UpdateCompanyFilter(selectedCompanyId));
+      this.store.dispatch(new fromAvailableExchangesActions.UpdateCompanyFilter(selectedCompanyId));
     });
   }
 
@@ -87,7 +87,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
   }
 
   updateSearchFilter(newSearchTerm: string): void {
-    this.store.dispatch(new fromExchangeAccessActions.UpdateSearchTerm(newSearchTerm));
+    this.store.dispatch(new fromAvailableExchangesActions.UpdateSearchTerm(newSearchTerm));
   }
 
   loadAvailableExchanges(): void {
@@ -126,7 +126,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
   }
 
   ngAfterViewInit(): void {
-    this.filterChangeSubscription = this.list.filterChange.asObservable().debounceTime(500).distinctUntilChanged()
+    this.filterChangeSubscription = this.list.filterChange.asObservable().debounceTime(PfConstants.DEBOUNCE_DELAY).distinctUntilChanged()
       .subscribe(searchTerm => {
       this.store.dispatch(new fromPeerParticipantsActions.LoadPeerParticipants(searchTerm));
     });

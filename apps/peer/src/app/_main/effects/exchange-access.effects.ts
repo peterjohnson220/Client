@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
@@ -33,7 +32,7 @@ export class ExchangeAccessEffects {
   @Effect()
   closeExchangeAccessModal$: Observable<Action> = this.actions$
     .ofType(fromExchangeAccessActions.CLOSE_EXCHANGE_ACCESS_MODAL)
-    .switchMap(() => of(new fromAvailableExchangesActions.SelectAvailableExchange(null)));
+    .switchMap(() => of(new fromAvailableExchangesActions.Reset));
 
   @Effect()
   loadAvailableExchanges$: Observable<Action> = this.actions$
@@ -59,12 +58,12 @@ export class ExchangeAccessEffects {
 
   @Effect()
   updateSearchTerm$: Observable<Action> = this.actions$
-    .ofType(fromExchangeAccessActions.UPDATE_SEARCH_TERM)
+    .ofType(fromAvailableExchangesActions.UPDATE_SEARCH_TERM)
     .switchMap(() => of(new fromAvailableExchangesActions.LoadAvailableExchanges) );
 
   @Effect()
   updateCompanyFilter$: Observable<Action> = this.actions$
-    .ofType(fromExchangeAccessActions.UPDATE_COMPANY_FILTER)
+    .ofType(fromAvailableExchangesActions.UPDATE_COMPANY_FILTER)
     .switchMap(() => of(new fromAvailableExchangesActions.LoadAvailableExchanges) );
 
   @Effect()

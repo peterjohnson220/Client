@@ -10,20 +10,19 @@ import { AvailableExchangeItem } from 'libs/models/peer';
 export class AvailableExchangeResultComponent {
   @Input() availableExchangeItem: AvailableExchangeItem;
   @Input() companyNameFilter: string;
-  @Input() selection: number;
+  @Input() selectedExchangeId: number;
   @Output() selected = new EventEmitter();
 
   constructor() {}
 
   get isDisabled(): boolean {
     const item = this.availableExchangeItem;
-    return !!item && !item.ValidRequest;
+    return !!item && !item.CanSelect;
   }
-
   get isSelected(): boolean {
     const item = this.availableExchangeItem;
-    const selection = this.selection;
-    return item && selection && item.ExchangeId === selection;
+    const selectedExchangeId = this.selectedExchangeId;
+    return item && selectedExchangeId && item.ExchangeId === selectedExchangeId;
   }
   get companies(): string {
     return this.availableExchangeItem ? this.availableExchangeItem.CompanyNames.join(', ') : '';
@@ -31,6 +30,7 @@ export class AvailableExchangeResultComponent {
   get industryCoverage(): string {
     return this.availableExchangeItem ? this.availableExchangeItem.TopIndustries.join(', ') : '';
   }
+
   handleOnClick() {
     if (!this.isDisabled) {
       this.selected.emit(this.availableExchangeItem);

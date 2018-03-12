@@ -4,7 +4,7 @@ export interface AvailableExchangeItem {
   TopIndustries: string[];
   CompanyNames: string[];
   JobCount: number;
-  ValidRequest: boolean;
+  CanSelect: boolean;
 }
 
 export function generateMockAvailableExchangeItem(): AvailableExchangeItem {
@@ -14,6 +14,6 @@ export function generateMockAvailableExchangeItem(): AvailableExchangeItem {
     TopIndustries: ['MockIndustry'],
     CompanyNames: ['MockCompany'],
     JobCount: 1,
-    ValidRequest: false
+    CanSelect: false
   };
 }

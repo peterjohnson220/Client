@@ -60,7 +60,7 @@
                 *ngFor="let availableExchange of availableExchanges$ | async"
                 [availableExchangeItem]="availableExchange"
                 [companyNameFilter]="companyNameFilter"
-                [selection]="exchangeSelection?.ExchangeId"
+                [selectedExchangeId]="exchangeSelection?.ExchangeId"
                 (selected)="handleAvailableExchangeSelectionEvent($event)"
               >
               </pf-available-exchange-result>

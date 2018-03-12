@@ -4,11 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { ExchangeListItem, Exchange, ExchangeCompany, UpsertExchangeRequest, AddExchangeCompaniesRequest, ExchangeJob,
-         ValidateExchangeJobsRequest, ImportExchangeJobsRequest,
-         ExchangeJobsValidationResultModel, AddExchangeJobsRequest } from '../../../models/peer';
+import { ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
+         ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
+         ExchangeJobsValidationResultModel, AddExchangeJobsRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyOption } from '../../../models/common';
 
 
 @Injectable()
