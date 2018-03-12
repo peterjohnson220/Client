@@ -2,10 +2,40 @@
 
 .timeline-container {
   background-color: white;
-  min-height: 400px;
-  max-height: 800px;
+  min-height: 200px;
+  max-height: 350px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+@media screen and (min-height: 601px) {
+  .timeline-container {
+    max-height: 450px;
+  }
+}
+
+@media screen and (min-height: 701px) {
+  .timeline-container {
+    max-height: 550px;
+  }
+}
+
+@media screen and (min-height: 801px) {
+  .timeline-container {
+    max-height: 650px;
+  }
+}
+
+@media screen and (min-height: 901px) {
+  .timeline-container {
+    max-height: 750px;
+  }
+}
+
+@media screen and (min-height: 951px) {
+  .timeline-container {
+    max-height: 800px;
+  }
 }
 
 .card-header {
