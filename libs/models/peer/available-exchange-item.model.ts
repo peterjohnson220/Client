@@ -4,7 +4,8 @@ export interface AvailableExchangeItem {
   TopIndustries: string[];
   CompanyNames: string[];
   JobCount: number;
-  CanSelect: boolean;
+  PendingAccess: boolean;
+  InExchange: boolean;
 }
 
 export function generateMockAvailableExchangeItem(): AvailableExchangeItem {
@@ -14,6 +15,7 @@ export function generateMockAvailableExchangeItem(): AvailableExchangeItem {
     TopIndustries: ['MockIndustry'],
     CompanyNames: ['MockCompany'],
     JobCount: 1,
-    CanSelect: false
+    PendingAccess: false,
+    InExchange: false
   };
 }
