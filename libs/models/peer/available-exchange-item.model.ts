@@ -2,7 +2,7 @@ export interface AvailableExchangeItem {
   ExchangeId: number;
   ExchangeName: string;
   TopIndustries: string[];
-  Companies: string[];
+  CompanyNames: string[];
   JobCount: number;
   ValidRequest: boolean;
 }
@@ -12,7 +12,7 @@ export function generateMockAvailableExchangeItem(): AvailableExchangeItem {
     ExchangeId: 1,
     ExchangeName: 'MockExchange',
     TopIndustries: ['MockIndustry'],
-    Companies: ['MockCompany'],
+    CompanyNames: ['MockCompany'],
     JobCount: 1,
     ValidRequest: false
   };

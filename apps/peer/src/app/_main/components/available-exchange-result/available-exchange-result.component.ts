@@ -26,7 +26,7 @@ export class AvailableExchangeResultComponent {
     return item && selection && item.ExchangeId === selection;
   }
   get companies(): string {
-    return this.availableExchangeItem ? this.availableExchangeItem.Companies.join(', ') : '';
+    return this.availableExchangeItem ? this.availableExchangeItem.CompanyNames.join(', ') : '';
   }
   get industryCoverage(): string {
     return this.availableExchangeItem ? this.availableExchangeItem.TopIndustries.join(', ') : '';
