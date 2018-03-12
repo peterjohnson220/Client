@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { EllipsisViewMoreComponent } from './ellipsis-view-more.component';
+import { HighlightTextPipe } from '../../../../core/pipes';
 
 describe('UI/Common/Content - Ellipsis View More', () => {
   let fixture: ComponentFixture<EllipsisViewMoreComponent>;
@@ -12,7 +13,8 @@ describe('UI/Common/Content - Ellipsis View More', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        EllipsisViewMoreComponent
+        EllipsisViewMoreComponent,
+        HighlightTextPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

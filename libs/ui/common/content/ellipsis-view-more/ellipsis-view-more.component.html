@@ -1,15 +1,15 @@
 <ng-container
   *ngIf="!showFull && content.length > maxLength; else fullContent">
-  {{content.substr(0, maxLength) + '...'}}
+  <span [innerHtml]="lessContent | highlightText: highlightFilter"></span>
 </ng-container>
 
 <ng-template #fullContent>
-  {{content}}
+  <span [innerHtml]="content | highlightText: highlightFilter"></span>
 </ng-template>
 
 <div *ngIf="content.length > maxLength"
      class="toggle-view-link"
-     (click)="showFull = !showFull">
+     (click)="showFull = !showFull; $event.stopPropagation();">
 
   View {{showFull ? 'Less' : 'More'}}
 

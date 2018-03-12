@@ -17,7 +17,7 @@ export class AvailableExchangeResultComponent {
 
   get isDisabled(): boolean {
     const item = this.availableExchangeItem;
-    return !!item && !item.CanSelect;
+    return !!item && (item.PendingAccess || item.InExchange);
   }
   get isSelected(): boolean {
     const item = this.availableExchangeItem;
