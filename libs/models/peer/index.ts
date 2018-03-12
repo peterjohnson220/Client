@@ -19,3 +19,5 @@ export * from './exchange-map-response.model';
 export * from './aggregate-filters';
 export * from './get-chart-request.model';
 export * from './add-data-cut-request.model';
+export * from './available-exchange-item.model';
+export * from './request-exchange-access-request.model';

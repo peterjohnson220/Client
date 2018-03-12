@@ -4,8 +4,14 @@
     Peer Exchanges
   </ng-container>
 
+  <ng-container page-actions>
+    <button type="button" class="btn btn-primary" (click)="openRequestAccessModal()">Request Access</button>
+  </ng-container>
+
   <ng-container page-content>
     <pf-exchange-list (onCellClick)="handleCellClick($event)"></pf-exchange-list>
   </ng-container>
 
 </pf-page-with-title-bar>
+
+<pf-request-exchange-access-modal></pf-request-exchange-access-modal>

@@ -1,0 +1,20 @@
+<div
+  class="card"
+  (click)="handleOnClick()"
+  [ngClass]="{'selected': isSelected, 'disabled': isDisabled }">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h5>{{availableExchangeItem.ExchangeName}}</h5>
+      <h5 class="text-muted"><small>{{availableExchangeItem.JobCount}} Jobs</small></h5>
+    </div>
+
+    <p class="card-text">
+      {{industryCoverage}}
+    </p>
+
+    <p class="card-text">
+      <small [innerHTML]="companies | highlightText: companyNameFilter"></small>
+    </p>
+  </div>
+
+</div>

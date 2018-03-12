@@ -8,6 +8,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/distinctUntilChanged';
+import { PfConstants } from '../../../models/common';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   private innerValue;
 
   @Input() placeholderText = 'Search...';
-  @Input() delay = 300;
+  @Input() delay = PfConstants.DEBOUNCE_DELAY;
   @Input() hideClearBtn = false;
   @Input() distinctUntilChanged = false;
   @Input() focus = false;
