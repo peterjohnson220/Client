@@ -4,8 +4,14 @@
   [ngClass]="{'selected': isSelected, 'disabled': isDisabled }">
   <div class="card-body">
     <div class="card-title d-flex justify-content-between">
-      <h5>{{availableExchangeItem.ExchangeName}}</h5>
-      <h5 class="text-muted"><small>{{availableExchangeItem.JobCount}} Jobs</small></h5>
+      <h5>
+        {{availableExchangeItem.ExchangeName}}
+        <small class="text-muted">({{availableExchangeItem.JobCount}} Jobs)</small>
+      </h5>
+      <h5>
+        <span *ngIf="availableExchangeItem.PendingAccess" class="badge badge-warning">Request Pending</span>
+        <span *ngIf="availableExchangeItem.InExchange" class="badge badge-dark">Exchange Member</span>
+      </h5>
     </div>
 
     <p class="card-text">
@@ -13,7 +19,12 @@
     </p>
 
     <p class="card-text">
-      <small [innerHTML]="companies | highlightText: companyNameFilter"></small>
+      <small>
+        <pf-ellipsis-view-more
+          [content]="companies"
+          [highlightFilter]="companyNameFilter"
+          [maxLength]="150"></pf-ellipsis-view-more>
+      </small>
     </p>
   </div>
 
