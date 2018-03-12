@@ -6,7 +6,7 @@ export interface UpdateFilterSelections {
 }
 
 export function generateMockUpdateFilterSelectionsModel(
-  type: keyof ExchangeMapFilter = 'Exchanges', selections = ['MockSelection']
+  type: keyof ExchangeMapFilter = 'Exchanges', selections = ['MockItem']
 ): UpdateFilterSelections {
   return {
     type: type,

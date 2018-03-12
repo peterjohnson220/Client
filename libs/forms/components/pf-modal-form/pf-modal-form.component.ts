@@ -20,6 +20,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
 
   @Input() size = 'sm';
   @Input() title: string;
+  @Input() subTitle: string;
   @Input() modalId: string;
   @Input() primaryButtonText = 'Submit';
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;

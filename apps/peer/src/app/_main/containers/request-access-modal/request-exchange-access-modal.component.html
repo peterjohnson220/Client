@@ -1,0 +1,120 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Request Access to an Exchange'"
+  [subTitle]="subTitle"
+  [primaryButtonText]="'Request'"
+  [primaryButtonTextSubmitting]="'Requesting...'"
+  [submitting]="exchangeAccessRequesting$ | async"
+  [isOpen$]="exchangeAccessModalOpen$"
+  [formGroup]="exchangeSelectionsForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <div class="filter-container">
+      <div class="filter">
+
+        <pf-input-debounce id="search-box"
+                           [focus]="false"
+                           [delay]="400"
+                           [(ngModel)]="searchTerm"
+                           [ngModelOptions]="{standalone: true}"
+                           [placeholderText]="'Search for an Exchange Name...'"
+                           (valueChanged)="updateSearchFilter($event)">
+        </pf-input-debounce>
+
+      </div>
+      <div class="filter">
+        <div class="d-flex">
+
+          <kendo-autocomplete
+            #list
+            class="flex-grow-1"
+            valueField="Name"
+            placeholder="Search for a company..."
+            [data]="peerParticipants$ | async"
+            [loading]="peerParticipantsLoading$ | async"
+            [filterable]="true"
+            (valueChange)="handleSelectedCompanyChangeEvent($event)"
+          >
+          </kendo-autocomplete>
+
+        </div>
+      </div>
+    </div>
+    <div class="selections-container">
+
+      <ng-container *ngIf="(availableExchanges$ | async)?.length > 0">
+
+        <div class="results-container">
+          <pf-async-container
+            loadingErrorMessage="There was an error."
+            [loading]="availableExchangesLoading$ | async"
+            [loadingError]="availableExchangesLoadingError$ | async"
+            (reload)="loadAvailableExchanges()">
+
+            <ng-container *ngIf="(availableExchanges$ | async).length">
+
+              <pf-available-exchange-result
+                *ngFor="let availableExchange of availableExchanges$ | async"
+                [availableExchangeItem]="availableExchange"
+                [companyNameFilter]="companyNameFilter"
+                [selectedExchangeId]="exchangeSelection?.ExchangeId"
+                (selected)="handleAvailableExchangeSelectionEvent($event)"
+              >
+              </pf-available-exchange-result>
+
+            </ng-container>
+
+          </pf-async-container>
+
+        </div>
+
+      </ng-container>
+
+      <ng-container *ngIf="!(availableExchanges$ | async).length && !(availableExchangesLoading$ | async)">
+
+        <div class="d-flex justify-content-center flex-column h-100 flex-grow-1">
+          <h5 class="align-self-center">No Results</h5>
+          <h5 class="align-self-center">
+            <small class="text-muted">Please change your filter criteria to search again.</small>
+          </h5>
+        </div>
+
+      </ng-container>
+    </div>
+
+    <ng-container *ngIf="exchangeSelection">
+
+      <div class="selection-container mt-2">
+        <div class="form-group">
+            <textarea
+              id="request-reason"
+              class="form-control"
+              rows="5"
+              name="reason"
+              formControlName="reason"
+              [placeholder]="reasonPlaceholder"
+              [pfValidatable]="attemptedSubmit"
+              [(ngModel)]="reason"
+            ></textarea>
+        </div>
+      </div>
+
+    </ng-container>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden"
+             class="form-control"
+             name="hasSelection"
+             formControlName="exchangeSelection"
+             [ngModel]="exchangeSelection"
+             [pfValidatable]="attemptedSubmit"
+      />
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>
+

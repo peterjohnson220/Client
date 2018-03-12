@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+
+import * as fromExchangeAccessActions from '../../../actions/exchange-access/exchange-access.actions';
+import * as fromPeerMainReducer from '../../../reducers';
+
 @Component({
   selector: 'pf-exchange-list-page',
   templateUrl: './exchange-list.page.html',
@@ -8,9 +13,15 @@ import { Router } from '@angular/router';
 })
 export class ExchangeListPageComponent {
 
-  constructor(private router: Router) {}
+  constructor(
+    private store: Store<fromPeerMainReducer.State>,
+    private router: Router) {}
 
   handleCellClick(exchangeId: number): void {
     this.router.navigate([ 'exchange', exchangeId ]);
+  }
+
+  openRequestAccessModal(): void {
+    this.store.dispatch(new fromExchangeAccessActions.OpenExchangeAccessModal);
   }
 }
