@@ -103,9 +103,10 @@ export const createExchangeRequestReducer = (
 ) => {
   return combineReducers({
     feature: featureReducer,
-    grid: getExchangeRequestReducer(exchangeRequestType, initialExchangeRequestState)
+    exchangeRequest: getExchangeRequestReducer(exchangeRequestType, initialExchangeRequestState)
   });
 };
 
 // Selector Functions
 export const getExchangeRequestState = (state: IExchangeRequestState) => state;
+export const getExchangeRequestModalOpen = (state: IExchangeRequestState) => state.modalOpen;

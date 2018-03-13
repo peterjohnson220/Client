@@ -16,6 +16,7 @@ import * as fromAvailableExchangesReducer from './exchange-access/available-exch
 import * as fromPeerParticipantsReducer from './exchange-access/peer-participants.reducer';
 import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
 import { IFeatureExchangeRequestState } from './exchange-request.reducer';
+import * as fromExchangeRequestReducer from './exchange-request.reducer';
 
 // Feature area state
 export interface PeerMainState {
@@ -287,3 +288,21 @@ export const selectExistingCompaniesExchangeRequestState = createSelector(
   (state: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>) => state.exchangeRequest
 );
 // TODO: getExistingCompanies, getLoading, getLoadingError, getExchangeRequest selectors...
+export const {
+  selectAll: getExistingCompanies
+} = fromExistingCompaniesReducer.adapter.getSelectors(selectExistingCompaniesFeatureState);
+
+export const getExistingCompaniesLoading = createSelector(
+  selectExistingCompaniesFeatureState,
+  fromExistingCompaniesReducer.getLoading
+);
+
+export const getExistingCompaniesLoadingError = createSelector(
+  selectExistingCompaniesFeatureState,
+  fromExistingCompaniesReducer.getLoadingError
+);
+
+export const getExistingCompaniesExchangeRequestModalOpen = createSelector(
+  selectExistingCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getExchangeRequestModalOpen
+);

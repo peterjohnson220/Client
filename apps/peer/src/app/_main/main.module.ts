@@ -22,7 +22,7 @@ import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          RequestExchangeAccessModalComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects,
          ExchangeJobMappingInfoEffects, ExchangeDashboardEffects,
-        ExchangeAccessEffects} from './effects';
+         ExchangeAccessEffects, ExistingCompaniesEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
@@ -41,7 +41,7 @@ import { MainRoutingModule } from './main-routing.module';
     StoreModule.forFeature('peerMain', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
-      ExchangeJobMappingInfoEffects, ExchangeAccessEffects
+      ExchangeJobMappingInfoEffects, ExchangeAccessEffects, ExistingCompaniesEffects
     ]),
     DropDownsModule,
 

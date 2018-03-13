@@ -71,9 +71,8 @@ export class CloseExchangeRequestModal implements ExchangeRequestAction {
 
 export class CreateExchangeRequest implements ExchangeRequestAction {
   readonly type: string;
-  readonly payload = null;
 
-  constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
+  constructor(public exchangeRequestType: ExchangeRequestTypeEnum, public payload: any) {
     this.type = `${exchangeRequestType}_${CREATE_EXCHANGE_REQUEST}`;
   }
 }

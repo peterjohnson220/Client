@@ -58,4 +58,10 @@ export class ExchangeCompanyApiService {
   requestExchangeAccess(payload: RequestExchangeAccessRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/RequestExchangeAccess`, payload);
   }
+
+  // TODO: Return types
+  getTopExchangeCandidates(query: string, exchangeId: number): Observable<any> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetTopExchangeCandidates`,
+      {params: {exchangeId: exchangeId, query: query}});
+  }
 }

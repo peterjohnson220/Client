@@ -5,14 +5,14 @@
   resize: none !important;
 }
 
-//.filter-container {
-//  @extend .d-flex, .flex-row;
-//  justify-content: space-between;
-//  .filter {
-//    @extend .flex-column;
-//    width: 49%;
-//  }
-//}
+:host ::ng-deep .filter-container {
+  @extend .d-flex, .flex-row;
+  justify-content: space-between;
+  .filter {
+    @extend .flex-column;
+    width: 49%;
+  }
+}
 
 .selections-container {
   $selections-container-height: 400px;
