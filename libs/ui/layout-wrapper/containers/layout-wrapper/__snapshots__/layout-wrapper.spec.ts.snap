@@ -46,7 +46,7 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
         
       
         <div
-          class="flex-1 position-relative"
+          class="flex-1"
         >
           
         
@@ -84,7 +84,7 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
               <span
                 class="text-white"
               >
-                © 2017 Payfactors All rights reserved.
+                © 
               </span>
               
           
@@ -154,7 +154,7 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
         
       
         <div
-          class="flex-1 position-relative"
+          class="flex-1"
         >
           
         
@@ -192,7 +192,7 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
               <span
                 class="text-white"
               >
-                © 2017 Payfactors All rights reserved.
+                © 
               </span>
               
           
@@ -262,7 +262,7 @@ exports[`Layout Wrapper should transclude 1`] = `
         
       
         <div
-          class="flex-1 position-relative"
+          class="flex-1"
         >
           
         
@@ -300,7 +300,7 @@ exports[`Layout Wrapper should transclude 1`] = `
               <span
                 class="text-white"
               >
-                © 2017 Payfactors All rights reserved.
+                © 
               </span>
               
           

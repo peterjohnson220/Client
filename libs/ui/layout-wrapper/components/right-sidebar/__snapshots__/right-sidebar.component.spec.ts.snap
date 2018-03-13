@@ -10,11 +10,26 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
     
     
     <span>
-      <i
-        class="fas fa-plus fa-lg open-sidebar-icon"
-        id="openSidebarIcon"
+      
+      
+      <span
+        class="open-sidebar-icon-container"
+        id="openSidebarIconContainer"
         style="visibility: visible;"
-      />
+      >
+        
+        
+        <i
+          class="fas fa-lg open-sidebar-icon"
+          id="openSidebarIcon"
+          ng-reflect-klass="fas fa-lg open-sidebar-icon"
+          ng-reflect-ng-class=""
+        />
+        
+      
+      </span>
+      
+    
     </span>
     
     
@@ -77,11 +92,26 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
     
     
     <span>
-      <i
-        class="fas fa-plus fa-lg open-sidebar-icon"
-        id="openSidebarIcon"
+      
+      
+      <span
+        class="open-sidebar-icon-container"
+        id="openSidebarIconContainer"
         style="visibility: hidden;"
-      />
+      >
+        
+        
+        <i
+          class="fas fa-lg open-sidebar-icon"
+          id="openSidebarIcon"
+          ng-reflect-klass="fas fa-lg open-sidebar-icon"
+          ng-reflect-ng-class=""
+        />
+        
+      
+      </span>
+      
+    
     </span>
     
     
@@ -144,10 +174,23 @@ exports[`Right Sidebar should transclude 1`] = `
       
     
       <span>
-        <i
-          class="fas fa-plus fa-lg open-sidebar-icon"
-          id="openSidebarIcon"
-        />
+        
+      
+        <span
+          class="open-sidebar-icon-container"
+          id="openSidebarIconContainer"
+        >
+          
+        
+          <i
+            class="fas fa-lg open-sidebar-icon"
+            id="openSidebarIcon"
+          />
+          
+      
+        </span>
+        
+    
       </span>
       
     
