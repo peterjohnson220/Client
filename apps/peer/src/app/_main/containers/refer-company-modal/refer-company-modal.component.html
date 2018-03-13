@@ -1,9 +1,9 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Request Access to an Exchange'"
+  [title]="'Refer Company to an Exchange'"
   [subTitle]="subTitle"
-  [primaryButtonText]="'Request'"
-  [primaryButtonTextSubmitting]="'Requesting...'"
+  [primaryButtonText]="'Refer'"
+  [primaryButtonTextSubmitting]="'Referring...'"
   [submitting]="exchangeAccessRequesting$ | async"
   [isOpen$]="exchangeAccessModalOpen$"
   [formGroup]="exchangeSelectionsForm"
@@ -44,49 +44,51 @@
       </div>
     </div>
     <div class="selections-container">
-      <div class="results-container">
 
-        <ng-container *ngIf="(availableExchanges$ | async)?.length > 0">
-            <pf-async-container
-              loadingErrorMessage="There was an error."
-              [loading]="availableExchangesLoading$ | async"
-              [loadingError]="availableExchangesLoadingError$ | async"
-              (reload)="loadAvailableExchanges()">
+      <ng-container *ngIf="(availableExchanges$ | async)?.length > 0">
 
-              <ng-container *ngIf="(availableExchanges$ | async).length">
+        <div class="results-container">
+          <pf-async-container
+            loadingErrorMessage="There was an error."
+            [loading]="availableExchangesLoading$ | async"
+            [loadingError]="availableExchangesLoadingError$ | async"
+            (reload)="loadAvailableExchanges()">
 
-                <pf-available-exchange-result
-                  *ngFor="let availableExchange of availableExchanges$ | async"
-                  [availableExchangeItem]="availableExchange"
-                  [companyNameFilter]="companyNameFilter"
-                  [selectedExchangeId]="exchangeSelection?.ExchangeId"
-                  (selected)="handleAvailableExchangeSelectionEvent($event)"
-                >
-                </pf-available-exchange-result>
+            <ng-container *ngIf="(availableExchanges$ | async).length">
 
-              </ng-container>
+              <pf-available-exchange-result
+                *ngFor="let availableExchange of availableExchanges$ | async"
+                [availableExchangeItem]="availableExchange"
+                [companyNameFilter]="companyNameFilter"
+                [selectedExchangeId]="exchangeSelection?.ExchangeId"
+                (selected)="handleAvailableExchangeSelectionEvent($event)"
+              >
+              </pf-available-exchange-result>
 
-            </pf-async-container>
+            </ng-container>
 
-        </ng-container>
+          </pf-async-container>
 
-        <ng-container *ngIf="!(availableExchanges$ | async).length && !(availableExchangesLoading$ | async)">
+        </div>
 
-          <div class="d-flex justify-content-center flex-column flex-grow-1">
-            <h5 class="align-self-center">No Results</h5>
-            <h5 class="align-self-center">
-              <small class="text-muted">Please change your filter criteria to search again.</small>
-            </h5>
-          </div>
+      </ng-container>
 
-        </ng-container>
+      <ng-container *ngIf="!(availableExchanges$ | async).length && !(availableExchangesLoading$ | async)">
 
-      </div>
+        <div class="d-flex justify-content-center flex-column h-100 flex-grow-1">
+          <h5 class="align-self-center">No Results</h5>
+          <h5 class="align-self-center">
+            <small class="text-muted">Please change your filter criteria to search again.</small>
+          </h5>
+        </div>
 
-      <ng-container *ngIf="exchangeSelection">
+      </ng-container>
+    </div>
 
-        <div class="selection-container mt-2">
-          <div class="form-group">
+    <ng-container *ngIf="exchangeSelection">
+
+      <div class="selection-container mt-2">
+        <div class="form-group">
             <textarea
               id="request-reason"
               class="form-control"
@@ -97,12 +99,11 @@
               [pfValidatable]="attemptedSubmit"
               [(ngModel)]="reason"
             ></textarea>
-          </div>
         </div>
+      </div>
 
-      </ng-container>
+    </ng-container>
 
-    </div>
     <div class="form-group hidden-form-control">
       <input type="hidden"
              class="form-control"

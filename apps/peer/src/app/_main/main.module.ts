@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { StoreModule } from '@ngrx/store';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
@@ -13,18 +14,19 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
-import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
+import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
+         AvailableExchangeResultComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
-         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent, ExchangeDashboardPageComponent } from './containers';
-import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
+         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
+         ExchangeDashboardPageComponent, ReferCompanyModalComponent,
+         RequestExchangeAccessModalComponent } from './containers';
+import { ExchangeListEffects, ExchangeJobMappingGridEffects,
+         ExchangeJobMappingInfoEffects, ExchangeDashboardEffects,
+        ExchangeAccessEffects} from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
-import { RequestExchangeAccessModalComponent } from './containers/request-access-modal/request-exchange-access-modal.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { AvailableExchangeResultComponent } from './components/available-exchange-result/available-exchange-result.component';
-import { ExchangeAccessEffects } from './effects/exchange-access.effects';
 
 @NgModule({
   imports: [
@@ -60,7 +62,7 @@ import { ExchangeAccessEffects } from './effects/exchange-access.effects';
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
-    RequestExchangeAccessModalComponent,
+    RequestExchangeAccessModalComponent, ReferCompanyModalComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent

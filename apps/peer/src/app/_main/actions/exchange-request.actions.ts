@@ -28,6 +28,7 @@ export const RESET_EXCHANGE_REQUEST = '[Peer Main/Exchange Request] Reset Exchan
 
 export class LoadCandidates implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${LOAD_CANDIDATES}`;
@@ -44,6 +45,7 @@ export class LoadCandidatesSuccess implements ExchangeRequestAction {
 
 export class LoadCandidatesError implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${LOAD_CANDIDATES_ERROR}`;
@@ -51,6 +53,7 @@ export class LoadCandidatesError implements ExchangeRequestAction {
 }
 export class OpenExchangeRequestModal implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${OPEN_EXCHANGE_REQUEST_MODAL}`;
@@ -59,6 +62,7 @@ export class OpenExchangeRequestModal implements ExchangeRequestAction {
 
 export class CloseExchangeRequestModal implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${CLOSE_EXCHANGE_REQUEST_MODAL}`;
@@ -67,6 +71,7 @@ export class CloseExchangeRequestModal implements ExchangeRequestAction {
 
 export class CreateExchangeRequest implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${CREATE_EXCHANGE_REQUEST}`;
@@ -83,6 +88,7 @@ export class CreateExchangeRequestSuccess implements ExchangeRequestAction {
 
 export class CreateExchangeRequestError implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${CREATE_EXCHANGE_REQUEST_ERROR}`;
@@ -115,6 +121,7 @@ export class UpdateFilterOptions implements ExchangeRequestAction {
 
 export class ResetExchangeRequest implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
   constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${RESET_EXCHANGE_REQUEST}`;

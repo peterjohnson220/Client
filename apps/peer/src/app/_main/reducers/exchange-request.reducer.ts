@@ -1,10 +1,9 @@
-import { EntityState } from '@ngrx/entity';
 import { combineReducers } from '@ngrx/store';
 
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
 import { ExchangeRequestActions, ExchangeRequestTypeEnum } from '../actions/exchange-request.actions';
 
-export interface IFeatureExchangeRequestState<T> extends EntityState<T> {
+export interface IFeatureExchangeRequestState<T> {
   feature: T;
   exchangeRequest: IExchangeRequestState;
 }

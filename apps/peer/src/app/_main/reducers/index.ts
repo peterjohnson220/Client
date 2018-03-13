@@ -14,6 +14,8 @@ import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.
 import * as fromExchangeAccessReducer from './exchange-access/exchange-access.reducer';
 import * as fromAvailableExchangesReducer from './exchange-access/available-exchanges.reducer';
 import * as fromPeerParticipantsReducer from './exchange-access/peer-participants.reducer';
+import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
+import { IFeatureExchangeRequestState } from './exchange-request.reducer';
 
 // Feature area state
 export interface PeerMainState {
@@ -24,6 +26,7 @@ export interface PeerMainState {
   exchangeAccess: fromExchangeAccessReducer.State;
   availableExchanges: fromAvailableExchangesReducer.State;
   peerParticipants: fromPeerParticipantsReducer.State;
+  existingCompanies: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -39,7 +42,8 @@ export const reducers = {
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
   exchangeAccess: fromExchangeAccessReducer.reducer,
   availableExchanges: fromAvailableExchangesReducer.reducer,
-  peerParticipants: fromPeerParticipantsReducer.reducer
+  peerParticipants: fromPeerParticipantsReducer.reducer,
+  existingCompanies: fromExistingCompaniesReducer.reducer
 };
 
 // Select Feature Area
@@ -64,6 +68,11 @@ export const selectExchangeJobMappingState = createSelector(
 export const selectExchangeJobMappingInfoState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.exchangeJobMappingInfo
+);
+
+export const selectExistingCompaniesState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.existingCompanies
 );
 
 // Exchange Access Selectors
@@ -266,3 +275,15 @@ export const getPeerParticipantsLoadingError = createSelector(
   selectPeerParticipantsState,
   fromPeerParticipantsReducer.getLoadingError
 );
+
+// Exchange Request - Existing Companies
+export const selectExistingCompaniesFeatureState = createSelector(
+  selectExistingCompaniesState,
+  (state: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>) => state.feature
+);
+
+export const selectExistingCompaniesExchangeRequestState = createSelector(
+  selectExistingCompaniesState,
+  (state: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>) => state.exchangeRequest
+);
+// TODO: getExistingCompanies, getLoading, getLoadingError, getExchangeRequest selectors...
