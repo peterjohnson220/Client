@@ -28,7 +28,7 @@ header {
 }
 
 .right-sidebar {
-  background: $right-sidebar-color;
+  z-index: 3;
 }
 
 .footer-container {

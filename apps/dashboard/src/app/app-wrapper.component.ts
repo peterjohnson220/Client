@@ -12,6 +12,7 @@ import { FeatureTypes, Feature } from './_main/models';
 export class AppWrapperComponent {
   features$: Observable<Feature[]>;
   displayRightSideBar: boolean;
+  rightSideBarOpenIcon = 'fa-comments';
   constructor(private featureStore: Store<fromFeatureReducer.State>) {
     this.features$ = this.featureStore.select(fromFeatureReducer.getFeatures);
     this.features$.subscribe(features =>

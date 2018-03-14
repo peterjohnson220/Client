@@ -15,18 +15,19 @@ import * as fromLayoutReducer from '../../reducers';
   styleUrls: ['./layout-wrapper.scss']
 })
 export class LayoutWrapperComponent implements OnInit {
+  currentYear: number;
   userContext$: Observable<UserContext>;
-  displayRightSideBar$: Observable<boolean>;
+
   // Loading/Errors
   gettingHeaderDropdownNavigationLinks$: Observable<boolean>;
   gettingHeaderDropdownNavigationLinksError$: Observable<boolean>;
   headerDropdownNavigationLinks$: Observable<NavigationLink[]>;
   getGettingHomePageLink$: Observable<boolean>;
   getGettingHomePageLinkError$: Observable<boolean>;
-
   homePageLink$: Observable<HomePageLink>;
 
   @Input() displayRightSideBar: boolean;
+  @Input() rightSideBarFontAwesomeOpenIcon = 'fa-plus';
   @Input() fixedHeight: boolean;
 
   constructor(
@@ -34,6 +35,7 @@ export class LayoutWrapperComponent implements OnInit {
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
 
   ) {
+    this.currentYear = new Date().getFullYear();
     // Loading / Errors
     this.getGettingHomePageLink$ = this.layoutStore.select(fromLayoutReducer.getGettingHomePageLink);
     this.getGettingHomePageLinkError$ = this.layoutStore.select(fromLayoutReducer.getGettingHomePageLinkError);

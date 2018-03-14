@@ -4,10 +4,9 @@ import { Observable } from 'rxjs/Observable';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
-import { UserFeatureDto, ReorderTileRequest, UserTileDto, TimelineActivityDto } from '../../../models/dashboard';
+import { UserFeatureDto, ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
 
-import { MockActivityEndpoint } from './mock-activity-endpoint';
-import { TimelineActivityRequest } from '../../../models/dashboard/timeline-activity-request.model';
+import { TimelineActivityRequest } from '../../../models/dashboard';
 
 @Injectable()
 export class DashboardApiService {

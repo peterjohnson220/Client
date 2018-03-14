@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
-import { PfCommonUIModule } from '../common/common-ui-module';
+import { PfCommonUIModule } from '../common';
 
 import {
   HeaderComponent,
