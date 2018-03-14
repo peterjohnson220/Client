@@ -1,5 +1,5 @@
 @import 'colors';
-@import '~bootstrap/scss/bootstrap';
+@import '../../../../../../node_modules/bootstrap/scss/bootstrap';
 
 #request-reason {
   resize: none !important;
@@ -23,7 +23,7 @@
 
   .results-container {
     @extend .flex-column, .d-flex, .rounded;
-    flex-grow: 1;
+    flex-basis: 100%;
     max-height: $selections-container-height;
     overflow-y: auto;
     border: 1px solid $border-grey;

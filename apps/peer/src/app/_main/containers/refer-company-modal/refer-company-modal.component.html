@@ -1,9 +1,9 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Refer Company to an Exchange'"
-  [subTitle]="subTitle"
-  [primaryButtonText]="'Refer'"
-  [primaryButtonTextSubmitting]="'Referring...'"
+  [title]="'Invite a Company'"
+  [subTitle]="modalSubTitle((exchange$ | async)?.ExchangeName)"
+  [primaryButtonText]="'Invite'"
+  [primaryButtonTextSubmitting]="'Inviting...'"
   [submitting]="exchangeAccessRequesting$ | async"
   [isOpen$]="existingCompaniesExchangeRequestModalOpen$"
   [formGroup]="exchangeSelectionsForm"
@@ -11,163 +11,85 @@
   (onDismiss)="handleModalDismissed()">
 
   <ng-container form-content>
-    <ng-template #cardTemplate let-card>
-      <div class="card-title d-flex justify-content-between">
-        <h5>
-          {{card?.CompanyName}}
-          <small class="text-muted">({{card?.Industry}} Jobs)</small>
-        </h5>
-        <h5>
-          {{card?.Size}}
-          <!--<span *ngIf="availableExchangeItem.PendingAccess" class="badge badge-warning">Request Pending</span>-->
-          <!--<span *ngIf="availableExchangeItem.InExchange" class="badge badge-dark">Exchange Member</span>-->
-        </h5>
-      </div>
 
-      <p class="card-text">
-        {{card?.Size}}
-      </p>
-
-      <p class="card-text">
-        <small>
-          {{card?.Peers.join(', ').toString()}}
-        </small>
-      </p>
-    </ng-template>
     <pf-card-selector
       [cardData$]="existingCompanies$"
       [cardDataLoading$]="existingCompaniesLoading$"
       [cardDataError$]="existingCompaniesLoadingError$"
       [cardBodyTemplate]="cardTemplate"
+      [onCardSelectedTemplate]="onCardSelectedTemplate"
       [cardIdentifier]="companyIdentifier"
       [cardIsDisabled]="companyCardDisabled"
-      (reloadEvent)="handleReloadCardsEvent()"
+      (onReload)="handleReloadCardsEvent()"
+      (onCardSelection)="handleCardSelectionEvent($event)"
     >
       <ng-container search-filters>
-        <div class="filter">
-          <pf-input-debounce id="search-box1"
+        <div class="filter flex-grow-1">
+          <pf-input-debounce id="search-box"
                              [focus]="false"
                              [delay]="400"
                              [(ngModel)]="searchTerm"
                              [ngModelOptions]="{standalone: true}"
-                             [placeholderText]="'Search for an Exchange Name...'"
-                             (valueChanged)="updateSearchFilter($event)">
-          </pf-input-debounce>
-        </div>
-        <div class="filter">
-          <pf-input-debounce id="search-box2"
-                             [focus]="false"
-                             [delay]="400"
-                             [(ngModel)]="searchTerm"
-                             [ngModelOptions]="{standalone: true}"
-                             [placeholderText]="'Search for an Exchange Name...'"
+                             [placeholderText]="'Search for a Company Name...'"
                              (valueChanged)="updateSearchFilter($event)">
           </pf-input-debounce>
         </div>
       </ng-container>
     </pf-card-selector>
 
-    <!--<div class="filter-container">-->
-      <!--<div class="filter">-->
+    <!--Form fields-->
+    <div class="form-group hidden-form-control">
+      <input type="hidden"
+             class="form-control"
+             name="hasSelection"
+             formControlName="companySelection"
+             [ngModel]="companySelection"
+             [pfValidatable]="attemptedSubmit"
+      />
+    </div>
 
-        <!--<pf-input-debounce id="search-box"-->
-                           <!--[focus]="false"-->
-                           <!--[delay]="400"-->
-                           <!--[(ngModel)]="searchTerm"-->
-                           <!--[ngModelOptions]="{standalone: true}"-->
-                           <!--[placeholderText]="'Search for an Exchange Name...'"-->
-                           <!--(valueChanged)="updateSearchFilter($event)">-->
-        <!--</pf-input-debounce>-->
-
-      <!--</div>-->
-      <!--<div class="filter">-->
-        <!--<div class="d-flex">-->
-
-          <!--<kendo-autocomplete-->
-            <!--#list-->
-            <!--class="flex-grow-1"-->
-            <!--valueField="Name"-->
-            <!--placeholder="Search for a company..."-->
-            <!--[data]="peerParticipants$ | async"-->
-            <!--[loading]="peerParticipantsLoading$ | async"-->
-            <!--[filterable]="true"-->
-            <!--(valueChange)="handleSelectedCompanyChangeEvent($event)"-->
-          <!--&gt;-->
-          <!--</kendo-autocomplete>-->
-
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="selections-container">-->
-      <!--<div class="results-container">-->
-
-        <!--<ng-container *ngIf="(availableExchanges$ | async)?.length > 0">-->
-          <!--<pf-async-container-->
-            <!--loadingErrorMessage="There was an error."-->
-            <!--[loading]="availableExchangesLoading$ | async"-->
-            <!--[loadingError]="availableExchangesLoadingError$ | async"-->
-            <!--(reload)="loadAvailableExchanges()">-->
-
-            <!--<ng-container *ngIf="(availableExchanges$ | async).length">-->
-
-              <!--<pf-available-exchange-result-->
-                <!--*ngFor="let availableExchange of availableExchanges$ | async"-->
-                <!--[availableExchangeItem]="availableExchange"-->
-                <!--[companyNameFilter]="companyNameFilter"-->
-                <!--[selectedExchangeId]="exchangeSelection?.ExchangeId"-->
-                <!--(selected)="handleAvailableExchangeSelectionEvent($event)"-->
-              <!--&gt;-->
-              <!--</pf-available-exchange-result>-->
-
-            <!--</ng-container>-->
-
-          <!--</pf-async-container>-->
-
-        <!--</ng-container>-->
-
-        <!--<ng-container *ngIf="!(availableExchanges$ | async).length && !(availableExchangesLoading$ | async)">-->
-
-          <!--<div class="d-flex justify-content-center flex-column flex-grow-1">-->
-            <!--<h5 class="align-self-center">No Results</h5>-->
-            <!--<h5 class="align-self-center">-->
-              <!--<small class="text-muted">Please change your filter criteria to search again.</small>-->
-            <!--</h5>-->
-          <!--</div>-->
-
-        <!--</ng-container>-->
-
-      <!--</div>-->
-
-      <!--<ng-container *ngIf="exchangeSelection">-->
-
-        <!--<div class="selection-container mt-2">-->
-          <!--<div class="form-group">-->
-            <!--<textarea-->
-              <!--id="request-reason"-->
-              <!--class="form-control"-->
-              <!--rows="5"-->
-              <!--name="reason"-->
-              <!--formControlName="reason"-->
-              <!--[placeholder]="reasonPlaceholder"-->
-              <!--[pfValidatable]="attemptedSubmit"-->
-              <!--[(ngModel)]="reason"-->
-            <!--&gt;</textarea>-->
-          <!--</div>-->
-        <!--</div>-->
-
-      <!--</ng-container>-->
-
-    <!--</div>-->
-    <!--<div class="form-group hidden-form-control">-->
-      <!--<input type="hidden"-->
-             <!--class="form-control"-->
-             <!--name="hasSelection"-->
-             <!--formControlName="exchangeSelection"-->
-             <!--[ngModel]="exchangeSelection"-->
-             <!--[pfValidatable]="attemptedSubmit"-->
-      <!--/>-->
-    <!--</div>-->
+    <!--This must be inside the 'pf-modal-form' component in order for the modal's form to react to it-->
+    <ng-template #onCardSelectedTemplate let-card="card">
+      <div class="form-group">
+            <textarea
+              id="request-reason"
+              class="form-control"
+              rows="3"
+              name="reason"
+              formControlName="reason"
+              [placeholder]="reasonPlaceholder(card.CompanyName, (exchange$ | async)?.ExchangeName)"
+              [pfValidatable]="attemptedSubmit"
+              [(ngModel)]="reason"
+            ></textarea>
+      </div>
+    </ng-template>
 
   </ng-container>
-
 </pf-modal-form>
+
+<ng-template #cardTemplate let-card="card">
+  <div class="card-title d-flex justify-content-between">
+    <h5>
+      {{card?.CompanyName}}
+      <small class="text-muted">
+        ({{card?.Size ? '$' + (card?.Size | humanizeNumber) : 'Not Reported'}})
+      </small>
+    </h5>
+    <h5>
+      <span *ngIf="card?.InExchange" class="badge badge-dark">Exchange Member</span>
+      <span *ngIf="card?.PendingInvitation" class="badge badge-dark">Pending Invitation</span>
+    </h5>
+  </div>
+
+  <p class="card-text">
+    {{card?.Industry}}
+  </p>
+
+  <p class="card-text">
+    <small>
+      <pf-ellipsis-view-more
+        [content]="card?.Peers.join(', ').toString()"
+        [maxLength]="150"></pf-ellipsis-view-more>
+    </small>
+  </p>
+</ng-template>

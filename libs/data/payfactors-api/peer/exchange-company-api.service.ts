@@ -60,8 +60,8 @@ export class ExchangeCompanyApiService {
   }
 
   // TODO: Return types
-  getTopExchangeCandidates(query: string, exchangeId: number): Observable<any> {
+  getTopExchangeCandidates(payload: any): Observable<any> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetTopExchangeCandidates`,
-      {params: {exchangeId: exchangeId, query: query}});
+      {params: payload});
   }
 }

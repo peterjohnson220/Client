@@ -1,0 +1,9 @@
+<div
+  class="card"
+  (click)="handleOnClick()"
+  [ngClass]="{'selected': cardSelected, 'disabled': cardDisabled }">
+  <div class="card-body">
+    <ng-container [ngTemplateOutlet]="cardBodyTemplate" [ngTemplateOutletContext]="{card: card}"></ng-container>
+  </div>
+
+</div>

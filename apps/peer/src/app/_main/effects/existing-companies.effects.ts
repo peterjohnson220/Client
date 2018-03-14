@@ -23,21 +23,25 @@ import { ExchangeRequestTypeEnum } from '../actions/exchange-request.actions';
 export class ExistingCompaniesEffects {
   @Effect()
   openReferCompaniesModal$: Observable<Action> = this.actions$
-    .ofType(this.getTypeString(ExchangeRequestTypeEnum.ReferPayfactorsCompany))
+    .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
+    .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
+
+  @Effect()
+  updateSearchTerm$: Observable<Action> = this.actions$
+    .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`)
     .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
 
   @Effect()
   loadExistingCompanies$: Observable<Action> = this.actions$
     .ofType(fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES)
-    .switchMap(() =>
-      this.exchangeCompanyApiService.getTopExchangeCandidates('', 1)
+    .withLatestFrom(this.store.select(fromPeerMainReducers.getExistingCompaniesExchangeRequestPayload), (action, payload) => payload)
+    .switchMap((payload) =>
+      this.exchangeCompanyApiService.getTopExchangeCandidates(payload)
         .map((result: any[]) => new fromExistingCompaniesActions.LoadExistingCompaniesSuccess(result))
         .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
 
 
-  getTypeString(type: ExchangeRequestTypeEnum): string {
-    return `${type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`;
-  }
+
   // @Effect()
   // closeExchangeAccessModal$: Observable<Action> = this.actions$
   //   .ofType(fromExchangeAccessActions.CLOSE_EXCHANGE_ACCESS_MODAL)

@@ -110,3 +110,6 @@ export const createExchangeRequestReducer = (
 // Selector Functions
 export const getExchangeRequestState = (state: IExchangeRequestState) => state;
 export const getExchangeRequestModalOpen = (state: IExchangeRequestState) => state.modalOpen;
+
+// TODO: Consolidate 'searchTerm' vs 'query'
+export const getQuery = (state: IExchangeRequestState) => state.searchTerm;

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { AvailableExchangeItem, RequestExchangeAccessRequest } from 'libs/models/peer';
+import { AvailableExchangeItem, Exchange, RequestExchangeAccessRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
 import { CompanyOption, PfConstants } from 'libs/models/common';
 
@@ -17,6 +17,7 @@ import * as fromExchangeRequestActions from '../../actions/exchange-request.acti
 import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
 import { ExistingCompany } from '../../reducers/exchange-request/existing-companies.reducer';
 import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
+import * as fromPeerMainReducers from '../../reducers';
 
 @Component({
   selector: 'pf-refer-company-modal',
@@ -26,14 +27,15 @@ import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions'
 
 export class ReferCompanyModalComponent implements OnInit, OnDestroy {
 
+  exchange$: Observable<Exchange>;
   existingCompanies$: Observable<ExistingCompany[]>;
   existingCompaniesLoading$: Observable<boolean>;
   existingCompaniesLoadingError$: Observable<boolean>;
 
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
 
-  companyIdentifier = (company: ExistingCompany) => company ? company.CompanyId : 0;
-  companyCardDisabled = (company: ExistingCompany) => company ? company.InExchange : false;
+  attemptedSubmit = false;
+  companySelection: ExistingCompany;
 
   filterChangeSubscription: Subscription;
   exchangeSelectionSubscription: Subscription;
@@ -46,14 +48,14 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   exchangeAccessModalOpen$: Observable<boolean>;
   exchangeAccessRequestingError$: Observable<boolean>;
   availableExchangesLoadingError$: Observable<boolean>;
-  exchangeSelection: AvailableExchangeItem;
   exchangeSelectionsForm: FormGroup;
   reason = '';
   searchTerm = '';
   companyNameFilter = '';
-  attemptedSubmit = false;
   subTitle = `Search for and select an Exchange you would like access to. Please provide a reason for the access
               request and the Exchange administrator will review your eligibility.`;
+  companyIdentifier = (company: ExistingCompany) => company ? company.CompanyId : 0;
+  companyCardDisabled = (company: ExistingCompany) => company ? company.InExchange : false;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
@@ -68,6 +70,7 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     // this.peerParticipants$ = this.store.select(fromPeerMainReducer.getPeerParticipants);
     // this.peerParticipantsLoading$ = this.store.select(fromPeerMainReducer.getPeerParticipantsLoading);
     // this.exchangeSelection$ = this.store.select(fromPeerMainReducer.getAvailableExchangeSelection);
+    this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
     this.existingCompanies$ = this.store.select(fromPeerMainReducer.getExistingCompanies);
     this.existingCompaniesLoading$ = this.store.select(fromPeerMainReducer.getExistingCompaniesLoading);
     this.existingCompaniesLoadingError$ = this.store.select(fromPeerMainReducer.getExistingCompaniesLoadingError);
@@ -77,19 +80,28 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     this.createForm();
   }
 
-  get reasonPlaceholder(): string {
-    return 'Please tell us why you would like access to the ' + this.exchangeSelection.ExchangeName + ' exchange...';
+  reasonPlaceholder(selectedCompanyName: string, exchangeName: string): string {
+    return `Please tell us why you would like ${selectedCompanyName} to be part of the ${exchangeName} exchange...`;
+  }
+
+  modalSubTitle(exchangeName: string): string {
+    return `Search for, select and invite a company to the ${exchangeName} exchange.
+            The exchange administrator will review the invitation for eligibility before approving admission.`;
   }
 
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
       'reason': [this.reason, [PfValidators.required]],
-      'exchangeSelection': [this.exchangeSelection, [Validators.required]]
+      'companySelection': [this.companySelection, [Validators.required]]
     });
   }
-
+  get reasonControl() { return this.exchangeSelectionsForm.get('reason'); }
   handleReloadCardsEvent(): void {
     this.store.dispatch(new fromExistingCompaniesActions.LoadExistingCompanies());
+  }
+  handleCardSelectionEvent(company: ExistingCompany): void {
+    this.reasonControl.setValue('');
+    this.companySelection = company;
   }
 
   handleSelectedCompanyChangeEvent(selectedCompanyName: string): void {
@@ -118,11 +130,14 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const requestAccessModel: RequestExchangeAccessRequest = {
-      ExchangeId: this.exchangeSelection.ExchangeId,
+    const requestAccessModel: any = {
+      CompanyId: this.companySelection.CompanyId,
       Reason: this.reason
     };
-    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(ExchangeRequestTypeEnum.ReferPayfactorsCompany, requestAccessModel));
+    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
+      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+      requestAccessModel
+      ));
   }
 
   handleModalDismissed(): void {

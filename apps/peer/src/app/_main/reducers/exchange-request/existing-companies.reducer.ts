@@ -12,6 +12,7 @@ export interface ExistingCompany {
   Industry: string;
   Size: number;
   InExchange: boolean;
+  PendingInvitation: boolean;
   Peers: string[];
 }
 

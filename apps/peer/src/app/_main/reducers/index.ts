@@ -306,3 +306,19 @@ export const getExistingCompaniesExchangeRequestModalOpen = createSelector(
   selectExistingCompaniesExchangeRequestState,
   fromExchangeRequestReducer.getExchangeRequestModalOpen
 );
+
+export const getExistingCompaniesExchangeRequestQuery = createSelector(
+  selectExistingCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getQuery
+);
+
+export const getExistingCompaniesExchangeRequestPayload = createSelector(
+  selectExistingCompaniesExchangeRequestState,
+  selectExchangeState,
+  (request, exchange) => {
+    return {
+      exchangeId: (exchange.exchange ? exchange.exchange.ExchangeId : 0),
+      query: request.searchTerm
+    };
+  }
+);
