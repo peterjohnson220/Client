@@ -14,6 +14,7 @@ import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
 import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
 import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
+import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
 
 @Component({
   selector: 'pf-request-exchange-access-modal',
@@ -99,7 +100,9 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     this.attemptedSubmit = true;
     const requestAccessModel: RequestExchangeAccessRequest = {
       ExchangeId: this.exchangeSelection.ExchangeId,
-      Reason: this.reason
+      Reason: this.reason,
+      Type: ExchangeRequestTypeEnum.Access,
+      TypeData: null
     };
     this.store.dispatch(new fromExchangeAccessActions.ExchangeAccessRequest(requestAccessModel));
   }

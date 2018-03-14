@@ -41,7 +41,7 @@ export class ExistingCompaniesEffects {
         .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
 
 
-
+  // TODO: Clear search term on modal close
   // @Effect()
   // closeExchangeAccessModal$: Observable<Action> = this.actions$
   //   .ofType(fromExchangeAccessActions.CLOSE_EXCHANGE_ACCESS_MODAL)

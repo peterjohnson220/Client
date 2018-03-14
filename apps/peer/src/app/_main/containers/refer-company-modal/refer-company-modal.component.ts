@@ -55,7 +55,7 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   subTitle = `Search for and select an Exchange you would like access to. Please provide a reason for the access
               request and the Exchange administrator will review your eligibility.`;
   companyIdentifier = (company: ExistingCompany) => company ? company.CompanyId : 0;
-  companyCardDisabled = (company: ExistingCompany) => company ? company.InExchange : false;
+  companyCardDisabled = (company: ExistingCompany) => company ? (company.InExchange || company.PendingInvitation) : false;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
@@ -130,14 +130,25 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const requestAccessModel: any = {
-      CompanyId: this.companySelection.CompanyId,
-      Reason: this.reason
-    };
-    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
-      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      requestAccessModel
-      ));
+    this.exchange$.take(1).subscribe(e => {
+
+      const requestAccessModel: RequestExchangeAccessRequest = {
+        ExchangeId: e.ExchangeId,
+        Reason: this.reason,
+        Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+        TypeData: {
+          CompanyId: this.companySelection.CompanyId
+        }
+      };
+
+      this.store.dispatch(new fromExchangeAccessActions.ExchangeAccessRequest(requestAccessModel));
+
+      // TODO: USE ExchangeRequestActions instead.
+      // this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
+      //   ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+      //   requestAccessModel
+      // ));
+    });
   }
 
   handleModalDismissed(): void {
