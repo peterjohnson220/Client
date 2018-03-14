@@ -103,7 +103,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
       JobTitle: exchangeJobMappingMock.ExchangeJobTitle,
       JobCode: exchangeJobMappingMock.ExchangeJobCode,
       JobFamily: exchangeJobMappingMock.ExchangeJobFamily,
-      JobLevel: exchangeJobMappingMock.ExchangeJobFamily,
+      JobLevel: exchangeJobMappingMock.ExchangeJobLevel,
       JobDescription: exchangeJobMappingMock.ExchangeJobDescription
     };
 
