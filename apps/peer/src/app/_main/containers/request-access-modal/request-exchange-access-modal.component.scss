@@ -16,16 +16,21 @@
 
 .selections-container {
   $selections-container-height: 400px;
-  @extend .d-flex, .flex-row, .rounded;
+  @extend .d-flex, .flex-column;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   height: $selections-container-height;
-  border: 1px solid $border-grey;
 
   .results-container {
-    @extend .flex-column, .d-flex;
+    @extend .flex-column, .d-flex, .rounded;
     flex-grow: 1;
     max-height: $selections-container-height;
     overflow-y: auto;
+    border: 1px solid $border-grey;
+  }
+
+  .selection-container {
+    @extend .flex-column, .d-flex;
+    flex-grow: 1;
   }
 }
