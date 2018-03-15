@@ -37,7 +37,9 @@ export class CardSelectorComponent implements OnInit, OnDestroy {
   // Lifecycle events
   ngOnInit(): void {
     this.cardDataSubscription = this.cardData$.subscribe((cards) => {
-      if (!this.selectedCard) {
+      // TODO: verify this works.
+      const cardDataLoading = this.cardDataLoading$.take(1).filter(l => l);
+      if (!this.selectedCard || cardDataLoading) {
         return;
       }
 

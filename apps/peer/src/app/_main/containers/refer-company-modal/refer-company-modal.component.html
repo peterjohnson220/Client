@@ -71,22 +71,31 @@
   <div class="card-title d-flex justify-content-between">
     <h5>
       {{card?.CompanyName}}
-      <small class="text-muted">
-        ({{card?.Size ? '$' + (card?.Size | humanizeNumber) : 'Not Reported'}})
-      </small>
     </h5>
     <h5>
-      <span *ngIf="card?.InExchange" class="badge badge-dark">Exchange Member</span>
+      <!--TODO: Fix logic? Should it ever be both?-->
+      <span *ngIf="card?.InExchange && !card?.PendingInvitation" class="badge badge-dark">Exchange Member</span>
       <span *ngIf="card?.PendingInvitation" class="badge badge-warning">Pending Invitation</span>
     </h5>
   </div>
 
+  <div class="d-flex flex-row justify-content-between mb-2">
+    <span class="flex-grow-1"  style="flex-basis: 40%" title="Industry">
+      <i class="fas fa-building fa-lg"></i>
+      {{card?.Industry ? card?.Industry : 'No Industry'}}
+    </span>
+    <span class="flex-grow-1" style="flex-basis: 20%" title="Revenue">
+      <i class="fas fa-usd-circle fa-lg"></i>
+      {{card?.Size ? (card?.Size | humanizeNumber) : 'Not Reported'}}
+    </span>
+    <span class="flex-grow-1" style="flex-basis: 40%" title="FTEs">
+      <i class="fas fa-users fa-lg"></i>
+      {{card?.FTEs ? card?.FTEs : 0}}
+    </span>
+  </div>
+  
   <p class="card-text">
-    {{card?.Industry}}
-  </p>
-
-  <p class="card-text">
-    <small>
+    <small title="Peers">
       <pf-ellipsis-view-more
         [content]="card?.Peers.join(', ').toString()"
         [maxLength]="150"></pf-ellipsis-view-more>
