@@ -1,20 +1,16 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { AvailableExchangeItem, Exchange, RequestExchangeAccessRequest } from 'libs/models/peer';
+import { Exchange, RequestExchangeAccessRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
-import { CompanyOption, PfConstants } from 'libs/models/common';
 
 import * as fromPeerMainReducer from '../../reducers/index';
-import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
 import * as fromExistingCompaniesActions from '../../actions/exchange-request/existing-companies.actions';
 import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
-import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
 import { ExistingCompany } from '../../reducers/exchange-request/existing-companies.reducer';
 import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
 import * as fromPeerMainReducers from '../../reducers';
@@ -31,29 +27,20 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   existingCompanies$: Observable<ExistingCompany[]>;
   existingCompaniesLoading$: Observable<boolean>;
   existingCompaniesLoadingError$: Observable<boolean>;
-
+  exchangeAccessRequesting$: Observable<boolean>;
+  exchangeRequestModalOpen$: Observable<boolean>;
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
 
+  exchangeRequestModalOpenSubscription: Subscription;
+  exchangeSubscription: Subscription;
+
+  exchange: Exchange;
   attemptedSubmit = false;
   companySelection: ExistingCompany;
-
-  filterChangeSubscription: Subscription;
-  exchangeSelectionSubscription: Subscription;
-  availableExchanges$: Observable<AvailableExchangeItem[]>;
-  exchangeSelection$: Observable<AvailableExchangeItem>;
-  peerParticipants$: Observable<CompanyOption[]>;
-  availableExchangesLoading$: Observable<boolean>;
-  peerParticipantsLoading$: Observable<boolean>;
-  exchangeAccessRequesting$: Observable<boolean>;
-  exchangeAccessModalOpen$: Observable<boolean>;
-  exchangeAccessRequestingError$: Observable<boolean>;
-  availableExchangesLoadingError$: Observable<boolean>;
   exchangeSelectionsForm: FormGroup;
   reason = '';
   searchTerm = '';
-  companyNameFilter = '';
-  subTitle = `Search for and select an Exchange you would like access to. Please provide a reason for the access
-              request and the Exchange administrator will review your eligibility.`;
+
   companyIdentifier = (company: ExistingCompany) => company ? company.CompanyId : 0;
   companyCardDisabled = (company: ExistingCompany) => company ? (company.InExchange || company.PendingInvitation) : false;
 
@@ -61,15 +48,6 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     private store: Store<fromPeerMainReducer.State>,
     private fb: FormBuilder
   ) {
-    // this.availableExchanges$ = this.store.select(fromPeerMainReducer.getAvailableExchanges);
-    // this.availableExchangesLoading$ = this.store.select(fromPeerMainReducer.getAvailableExchangesLoading);
-    // this.availableExchangesLoadingError$ = this.store.select(fromPeerMainReducer.getAvailableExchangesLoadingError);
-    // this.exchangeAccessModalOpen$ = this.store.select(fromPeerMainReducer.getExchangeAccessModalOpen);
-    // this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequesting);
-    // this.exchangeAccessRequestingError$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequestingError);
-    // this.peerParticipants$ = this.store.select(fromPeerMainReducer.getPeerParticipants);
-    // this.peerParticipantsLoading$ = this.store.select(fromPeerMainReducer.getPeerParticipantsLoading);
-    // this.exchangeSelection$ = this.store.select(fromPeerMainReducer.getAvailableExchangeSelection);
     this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
     this.existingCompanies$ = this.store.select(fromPeerMainReducer.getExistingCompanies);
     this.existingCompaniesLoading$ = this.store.select(fromPeerMainReducer.getExistingCompaniesLoading);
@@ -77,17 +55,19 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     this.existingCompaniesExchangeRequestModalOpen$ = this.store.select(
       fromPeerMainReducer.getExistingCompaniesExchangeRequestModalOpen
     );
+    this.exchangeRequestModalOpen$ = this.store.select(fromPeerMainReducer.getExistingCompaniesExchangeRequestModalOpen);
     this.createForm();
   }
 
-  reasonPlaceholder(selectedCompanyName: string, exchangeName: string): string {
-    return `Please tell us why you would like ${selectedCompanyName} to be part of the ${exchangeName} exchange...`;
+  get reasonPlaceholder(): string {
+    return `Please tell us why you would like ${this.companySelection ? this.companySelection.CompanyName : ''} to
+    be part of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
   }
-
-  modalSubTitle(exchangeName: string): string {
-    return `Search for, select and invite a company to the ${exchangeName} exchange.
+  get modalSubTitle(): string {
+    return `Search for, select and invite a company to the ${this.exchange ? this.exchange.ExchangeName : ''} exchange.
             The exchange administrator will review the invitation for eligibility before approving admission.`;
   }
+  get reasonControl() { return this.exchangeSelectionsForm.get('reason'); }
 
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
@@ -95,78 +75,60 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
       'companySelection': [this.companySelection, [Validators.required]]
     });
   }
-  get reasonControl() { return this.exchangeSelectionsForm.get('reason'); }
+
   handleReloadCardsEvent(): void {
     this.store.dispatch(new fromExistingCompaniesActions.LoadExistingCompanies());
   }
+
   handleCardSelectionEvent(company: ExistingCompany): void {
     this.reasonControl.setValue('');
     this.companySelection = company;
-  }
-
-  handleSelectedCompanyChangeEvent(selectedCompanyName: string): void {
-    // this.companyNameFilter = selectedCompanyName;
-    // // Kendo auto complete doesn't support supplying a textField so we have to use the company name for the value. [JP]
-    // this.peerParticipants$.take(1).subscribe(peers => {
-    //   const selectedCompany: CompanyOption = peers.find(p => p.Name === selectedCompanyName);
-    //   const selectedCompanyId = selectedCompany ? selectedCompany.CompanyId : null;
-    //   this.store.dispatch(new fromAvailableExchangesActions.UpdateCompanyFilter(selectedCompanyId));
-    // });
-  }
-
-  handleAvailableExchangeSelectionEvent(exchange: AvailableExchangeItem): void {
-    // this.store.dispatch(new fromAvailableExchangesActions.SelectAvailableExchange(exchange));
+    this.store.dispatch(new fromExchangeRequestActions.UpdateSelection(ExchangeRequestTypeEnum.ReferPayfactorsCompany, company));
   }
 
   updateSearchFilter(newSearchTerm: string): void {
-    // this.store.dispatch(new fromAvailableExchangesActions.UpdateSearchTerm(newSearchTerm));
     this.store.dispatch(new fromExchangeRequestActions.UpdateSearchTerm(ExchangeRequestTypeEnum.ReferPayfactorsCompany, newSearchTerm));
-  }
-
-  loadAvailableExchanges(): void {
-    // this.store.dispatch(new fromAvailableExchangesActions.LoadAvailableExchanges);
   }
 
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    this.exchange$.take(1).subscribe(e => {
+    const requestAccessModel: RequestExchangeAccessRequest = {
+      ExchangeId: this.exchange ? this.exchange.ExchangeId : 0,
+      Reason: this.reason,
+      Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+      TypeData: {
+        CompanyId: this.companySelection.CompanyId
+      }
+    };
 
-      const requestAccessModel: RequestExchangeAccessRequest = {
-        ExchangeId: e.ExchangeId,
-        Reason: this.reason,
-        Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-        TypeData: {
-          CompanyId: this.companySelection.CompanyId
-        }
-      };
-
-      this.store.dispatch(new fromExchangeAccessActions.ExchangeAccessRequest(requestAccessModel));
-
-      // TODO: USE ExchangeRequestActions instead.
-      // this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
-      //   ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      //   requestAccessModel
-      // ));
-    });
+    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
+      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+      requestAccessModel
+    ));
   }
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
-    this.searchTerm = '';
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
   }
 
   // Lifecycle Events
   ngOnInit(): void {
-    // this.exchangeSelectionSubscription = this.exchangeSelection$.subscribe(selection => {
-    //   this.exchangeSelection = selection;
-    //   this.reason = '';
-    // });
+    this.exchangeRequestModalOpenSubscription = this.exchangeRequestModalOpen$.subscribe(open => {
+      if (!open) {
+        this.companySelection = null;
+        this.searchTerm = '';
+        this.reasonControl.setValue('');
+      }
+    });
+    this.exchangeSubscription = this.exchange$.subscribe(e => {
+      this.exchange = e;
+    });
   }
 
   ngOnDestroy(): void {
-    // this.filterChangeSubscription.unsubscribe();
-    // this.exchangeSelectionSubscription.unsubscribe();
+    this.exchangeRequestModalOpenSubscription.unsubscribe();
+    this.exchangeSubscription.unsubscribe();
   }
 }

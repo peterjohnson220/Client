@@ -1,7 +1,7 @@
 <pf-modal-form
   [size]="'lg'"
   [title]="'Invite a Company'"
-  [subTitle]="modalSubTitle((exchange$ | async)?.ExchangeName)"
+  [subTitle]="modalSubTitle"
   [primaryButtonText]="'Invite'"
   [primaryButtonTextSubmitting]="'Inviting...'"
   [submitting]="exchangeAccessRequesting$ | async"
@@ -57,7 +57,7 @@
               rows="3"
               name="reason"
               formControlName="reason"
-              [placeholder]="reasonPlaceholder(card.CompanyName, (exchange$ | async)?.ExchangeName)"
+              [placeholder]="reasonPlaceholder"
               [pfValidatable]="attemptedSubmit"
               [(ngModel)]="reason"
             ></textarea>
@@ -93,7 +93,7 @@
       {{card?.FTEs ? card?.FTEs : 0}}
     </span>
   </div>
-  
+
   <p class="card-text">
     <small title="Peers">
       <pf-ellipsis-view-more

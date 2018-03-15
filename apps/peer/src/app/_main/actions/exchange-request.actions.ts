@@ -79,8 +79,9 @@ export class CreateExchangeRequest implements ExchangeRequestAction {
 
 export class CreateExchangeRequestSuccess implements ExchangeRequestAction {
   readonly type: string;
+  readonly payload = null;
 
-  constructor(public exchangeRequestType: ExchangeRequestTypeEnum, public payload: any) {
+  constructor(public exchangeRequestType: ExchangeRequestTypeEnum) {
     this.type = `${exchangeRequestType}_${CREATE_EXCHANGE_REQUEST_SUCCESS}`;
   }
 }

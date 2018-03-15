@@ -40,8 +40,7 @@ const getExchangeRequestReducer = (
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.CLOSE_EXCHANGE_REQUEST_MODAL}`: {
         return {
-          ...state,
-          modalOpen: false
+          ...initialExchangeRequestState
         };
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`: {
@@ -53,6 +52,7 @@ const getExchangeRequestReducer = (
       case `${exchangeRequestType}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS}`: {
         return {
           ...state,
+          modalOpen: false,
           requesting: false
         };
       }
