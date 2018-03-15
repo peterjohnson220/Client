@@ -1,4 +1,4 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/entity';
 
 import { Tile } from '../models';
 
@@ -44,6 +44,29 @@ export function reducer(
             loading: false,
             loadingError: true
           };
+      }
+      case fromTileGridActions.LOADING_SINGLE_TILE: {
+        return {
+          ...state,
+          loading: true,
+          loadingError: false
+        };
+      }
+      case fromTileGridActions.LOADING_SINGLE_TILE_SUCCESS: {
+
+        const tempState = adapter.removeOne(action.payload[0].Id , state);
+
+        return {
+          ...adapter.addOne(action.payload[0], tempState),
+          loading: false
+        };
+      }
+      case fromTileGridActions.LOADING_SINGLE_TILE_ERROR: {
+        return {
+          ...state,
+          loading: false,
+          loadingError: true
+        };
       }
       case fromTileGridActions.REORDER_TILES_SUCCESS : {
         return {

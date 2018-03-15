@@ -30,6 +30,16 @@ export class TileGridEffects {
     );
 
   @Effect()
+  loadTile$: Observable<Action> = this.actions$
+    .ofType(fromTileGridActions.LOADING_SINGLE_TILE)
+    .switchMap((action: fromTileGridActions.LoadingSingleTile) =>
+      this.dashboardApiService.getUserDashboardTile(action.tileId)
+        .map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos))
+        .map((tiles: Tile[]) => new fromTileGridActions.LoadingSingleTileSuccess(tiles))
+        .catch(error => of (new fromTileGridActions.LoadingSingleTileError(error)))
+    );
+
+  @Effect()
   reorderTiles$: Observable<Action> = this.actions$
     .ofType(fromTileGridActions.REORDER_TILES)
     .switchMap((action: fromTileGridActions.ReorderTiles) =>

@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DragulaModule } from 'ng2-dragula';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
@@ -30,6 +31,7 @@ import { UserVoiceIndicatorComponent } from './containers';
 // Components
 import { TileComponent } from './components';
 import { TilePreviewChartComponent } from './components';
+import { TilePreviewChartWithCalendarComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
@@ -44,6 +46,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects]),
     ChartsModule,
+    DateInputsModule,
     NgbModule,
 
     // Routing
@@ -60,6 +63,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     TileComponent,
     TileGridComponent,
     TilePreviewChartComponent,
+    TilePreviewChartWithCalendarComponent,
     TilePreviewIconComponent,
     TilePreviewListComponent,
     TilePreviewPlaceHolderComponent,

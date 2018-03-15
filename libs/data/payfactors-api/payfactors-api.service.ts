@@ -20,6 +20,14 @@ export class PayfactorsApiService {
     return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
   }
 
+  put<T>(url: string, body: any = {}): Observable<T> {
+    return this.http.put<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
+  }
+
+  delete<T>(url: string, body: any = {}): Observable<T> {
+    return this.http.delete<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
+  }
+
   private extractValueFromOdata(response: any) {
     return typeof response.value !== 'undefined' ? response.value : false || response || {};
   }

@@ -1,0 +1,27 @@
+
+<div class="control-container">
+  <kendo-datepicker [(value)]="selectedPricingEffectiveDate" (valueChange)="datePickerValueChanged()"  [format]="'MM/dd/yyyy'" onkeydown="return false;">
+    </kendo-datepicker>
+  <div class="chart-container">
+    <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true">
+      <kendo-chart-area background="none" [height]="250"></kendo-chart-area>
+      <kendo-chart-series>
+        <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
+                                 [type]="model.ChartType" [data]="model.ChartComponentData"
+                                 categoryField="CategoryName" field="CategoryValue" [style]="seriesItemStyle" [holeSize]="65">
+          <kendo-chart-series-item-tooltip>
+            <ng-template let-category="category" let-value="value">
+              {{category}} : {{value}}%
+            </ng-template>
+          </kendo-chart-series-item-tooltip>
+        </kendo-chart-series-item>
+        <ng-template kendoChartDonutCenterTemplate>
+          <h1 style="color: white">9.38%</h1>
+        </ng-template>
+      </kendo-chart-series>
+      <kendo-chart-legend [padding]="0" [visible]="false" position="left"  [labels]="legendlabelStyle">
+      </kendo-chart-legend>
+    </kendo-chart>
+</div>
+
+</div>

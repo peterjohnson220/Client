@@ -5,8 +5,10 @@ import { environment } from 'environments/environment';
 import {
   Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
-  generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile
+  generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
+  generateTilePreviewChartWithCalendarFromTile
 } from '../../models';
+
 
 @Component({
   selector: 'pf-tile',
@@ -26,6 +28,8 @@ export class TileComponent implements OnInit {
         return generateTilePreviewIconFromTile(tile);
       case TilePreviewTypes.Chart:
         return generateTilePreviewChartFromTile(tile);
+      case TilePreviewTypes.ChartWithCalendar:
+        return generateTilePreviewChartWithCalendarFromTile(tile);
       case TilePreviewTypes.List:
         return generateTilePreviewListFromTile(tile);
       case TilePreviewTypes.PlaceHolder:

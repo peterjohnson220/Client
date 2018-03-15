@@ -6,13 +6,13 @@ export class UserTileToTileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     return this.setTileStylesProperties({
-      Id: dashboardTile.UserTileId,
+      Id: dashboardTile.TileId,
       Label: dashboardTile.TileName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
       Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
-      PreviewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
+      PreviewType: this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
       TilePreviewData: dashboardTile.TilePreviewData,
       Size: 1,
       ChartType: undefined,
@@ -53,16 +53,14 @@ export class UserTileToTileMapper {
     switch (tileType) {
       case TileTypes.JobDescriptions:
         return TilePreviewTypes.Chart;
-
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
-
       case TileTypes.MyJobs:
-        return TilePreviewTypes.PlaceHolder;
+        return TilePreviewTypes.ChartWithCalendar;
       case TileTypes.Employees:
         return TilePreviewTypes.Chart;
       case TileTypes.Surveys:
-          return TilePreviewTypes.PlaceHolder;
+        return TilePreviewTypes.PlaceHolder;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -98,7 +96,13 @@ export class UserTileToTileMapper {
 
       case TileTypes.MyJobs:
         tile.CssClass = 'tile-lightblue';
+        tile.ChartType = TilePreviewChartTypes.Donut;
+        tile.ChartLabel = 'jobs';
         tile.Size = 2;
+
+        this.SetChartLegendColor(tile, 'Not Priced', '#FFCA69');
+        this.SetChartLegendColor(tile, 'Priced', '#EFB300');
+
         break;
 
       case TileTypes.PayMarkets:
