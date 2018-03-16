@@ -1,9 +1,12 @@
-import { combineReducers } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { IdSelector } from '@ngrx/entity/src/models';
 
 import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
 import { ExchangeRequestActions } from '../actions/exchange-request.actions';
+import { State } from './exchange-request/access-exchange-request.reducer';
+import { adapter } from './exchange-access/available-exchanges.reducer';
 
 export interface IFeatureExchangeRequestState<T> {
   feature: T;
@@ -11,6 +14,8 @@ export interface IFeatureExchangeRequestState<T> {
 }
 
 export interface IExchangeRequestState {
+  loading: boolean;
+  loadingError: boolean;
   modalOpen: boolean;
   requesting: boolean;
   requestingError: boolean;
@@ -18,8 +23,11 @@ export interface IExchangeRequestState {
   searchTerm: string;
   filterOptions: any;
 }
+export interface IExchangeRequestEntityState<T> extends EntityState<T>, IExchangeRequestState { }
 
-export const initialExchangeRequestState: IExchangeRequestState = {
+const initialExchangeRequestState: IExchangeRequestState = {
+  loading: false,
+  loadingError: false,
   modalOpen: false,
   requesting: false,
   requestingError: false,
@@ -28,12 +36,34 @@ export const initialExchangeRequestState: IExchangeRequestState = {
   filterOptions: null
 };
 
-const getExchangeRequestReducer = (
+function getExchangeRequestReducer<T> (
   exchangeRequestType: ExchangeRequestTypeEnum,
+  entityAdapter: EntityAdapter<T>,
   initialState: IExchangeRequestState = initialExchangeRequestState
-) => {
-  return (state = initialState, action: ExchangeRequestActions): IExchangeRequestState => {
+) {
+  const initState: IExchangeRequestEntityState<T> = entityAdapter.getInitialState(initialState);
+  return (state: any = initState, action: ExchangeRequestActions): IExchangeRequestEntityState<T> => {
     switch (action.type) {
+      case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES}`: {
+        return {
+          ...adapter.removeAll(state),
+          loading: true,
+          loadingError: false
+        };
+      }
+      case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES_SUCCESS}`: {
+        return {
+          ...adapter.addAll(action.payload, state),
+          loading: false,
+        };
+      }
+      case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES_ERROR}`: {
+        return {
+          ...state,
+          loading: false,
+          loadingError: true
+        };
+      }
       case `${exchangeRequestType}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`: {
         return {
           ...state,
@@ -42,7 +72,7 @@ const getExchangeRequestReducer = (
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.CLOSE_EXCHANGE_REQUEST_MODAL}`: {
         return {
-          ...initialExchangeRequestState
+          ...initState
         };
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`: {
@@ -96,20 +126,24 @@ const getExchangeRequestReducer = (
       }
     }
   };
-};
+}
 
-export const createExchangeRequestReducer = (
+export function createExchangeRequestReducer<T> (
   exchangeRequestType: ExchangeRequestTypeEnum,
-  featureReducer: any,
+  idSelector: IdSelector<T>,
   exchangeRequestOverride?: any
-) => {
-  return combineReducers({
-    feature: featureReducer,
-    exchangeRequest: getExchangeRequestReducer(exchangeRequestType, initialExchangeRequestState)
+) {
+  const adapterForType = createEntityAdapter<T>({
+    selectId: idSelector
   });
+  return getExchangeRequestReducer<T>(exchangeRequestType, adapterForType, initialExchangeRequestState);
 };
 
 // Selector Functions
+
+// Selector functions
+export const getLoading = (state: State) => state.loading;
+export const getLoadingError = (state: State) => state.loadingError;
 export const getExchangeRequestState = (state: IExchangeRequestState) => state;
 export const getExchangeRequestModalOpen = (state: IExchangeRequestState) => state.modalOpen;
 

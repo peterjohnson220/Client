@@ -26,6 +26,12 @@ export class ExchangeCompanyApiService {
       );
   }
 
+  getTopCandidates<T>(query: string, companyFilterId?: number): Observable<T[]> {
+    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopExchanges`,
+      { params: { query, companyFilterId } }
+    );
+  }
+
   getExchangeJobsWithMappings(exchangeId: number, query: string, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,

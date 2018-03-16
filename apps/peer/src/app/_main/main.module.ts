@@ -27,6 +27,7 @@ import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
+import { ExchangeRequestEffectsService } from './services/exchange-request-effects.service';
 
 @NgModule({
   imports: [
@@ -69,7 +70,8 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   providers: [
     ExchangeJobMappingService,
-    ExchangeExistsGuard
+    ExchangeExistsGuard,
+    ExchangeRequestEffectsService
   ]
 })
 export class MainModule { }

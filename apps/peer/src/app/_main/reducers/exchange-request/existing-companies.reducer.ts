@@ -20,8 +20,9 @@ const initialState: State = adapter.getInitialState({
 });
 // Reducer
 export function reducer(state, action) {
-  return createExchangeRequestReducer(
+  return createExchangeRequestReducer<ExistingCompany>(
     ExchangeRequestTypeEnum.ReferPayfactorsCompany,
+    (existingCompany: ExistingCompany) => existingCompany.CompanyId,
     (featureState = initialState, featureAction: fromExistingCompaniesActions.Actions): State => {
       switch (featureAction.type) {
         case fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES: {
