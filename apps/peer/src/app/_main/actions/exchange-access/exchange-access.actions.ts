@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { RequestExchangeAccessRequest } from 'libs/models/peer/request-exchange-access-request.model';
+import { RequestExchangeRequest } from 'libs/models/peer/request-exchange-request.model';
 
 export const OPEN_EXCHANGE_ACCESS_MODAL  = '[Peer Main/Exchange Access] Exchange Access Modal Open';
 export const CLOSE_EXCHANGE_ACCESS_MODAL = '[Peer Main/Exchange Access] Exchange Access Modal Close';
@@ -21,7 +21,7 @@ export class CloseExchangeAccessModal implements Action {
 export class ExchangeAccessRequest implements Action {
   readonly type = EXCHANGE_ACCESS_REQUEST;
 
-  constructor(public payload: RequestExchangeAccessRequest) {}
+  constructor(public payload: RequestExchangeRequest) {}
 }
 
 export class ExchangeAccessRequestSuccess implements Action {

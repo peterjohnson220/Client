@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { ExistingCompany } from '../../reducers/exchange-request/existing-companies.reducer';
 
+import { ExistingCompany } from 'libs/models/peer';
 
 export const LOAD_EXISTING_COMPANIES  = '[Peer Main/Exchange Request/Existing Companies] Load Existing Companies';
 export const LOAD_EXISTING_COMPANIES_SUCCESS  = '[Peer Main/Exchange Request/Existing Companies] Load Existing Companies Success';

@@ -5,12 +5,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'hammerjs';
 
-import { Exchange, GetChartRequest, ChartItem } from 'libs/models';
+import { Exchange, GetChartRequest, ChartItem, ExchangeRequestTypeEnum } from 'libs/models';
 
 import * as fromPeerMainReducers from '../../../reducers';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
-import { ExchangeRequestTypeEnum } from '../../../actions/exchange-request.actions';
 
 @Component({
   selector: 'pf-exchange-dashboard-page',

@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Exchange, RequestExchangeAccessRequest } from 'libs/models/peer';
+
+import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
+import { Exchange, ExchangeRequestTypeEnum, ExistingCompany, RequestExchangeRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
 
 import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExistingCompaniesActions from '../../actions/exchange-request/existing-companies.actions';
 import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
-import { ExistingCompany } from '../../reducers/exchange-request/existing-companies.reducer';
-import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
 import * as fromPeerMainReducers from '../../reducers';
 
 @Component({
@@ -22,6 +22,7 @@ import * as fromPeerMainReducers from '../../reducers';
 })
 
 export class ReferCompanyModalComponent implements OnInit, OnDestroy {
+  @ViewChild(CardSelectorComponent) cardSelector;
 
   exchange$: Observable<Exchange>;
   existingCompanies$: Observable<ExistingCompany[]>;
@@ -36,7 +37,7 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
 
   exchange: Exchange;
   attemptedSubmit = false;
-  companySelection: ExistingCompany;
+  // companySelection: ExistingCompany;
   exchangeSelectionsForm: FormGroup;
   reason = '';
   searchTerm = '';
@@ -60,19 +61,20 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   }
 
   get reasonPlaceholder(): string {
-    return `Please tell us why you would like ${this.companySelection ? this.companySelection.CompanyName : ''} to
-    be part of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
+    return `Please tell us why you would like ${this.cardSelection ? this.cardSelection.CompanyName : ''} to be part ` +
+           `of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
   }
   get modalSubTitle(): string {
     return `Search for, select and invite a company to the ${this.exchange ? this.exchange.ExchangeName : ''} exchange.
             The exchange administrator will review the invitation for eligibility before approving admission.`;
   }
   get reasonControl() { return this.exchangeSelectionsForm.get('reason'); }
+  get cardSelection(): ExistingCompany { return this.cardSelector ? this.cardSelector.selectedCard : null; }
 
   createForm(): void {
     this.exchangeSelectionsForm = this.fb.group({
       'reason': [this.reason, [PfValidators.required]],
-      'companySelection': [this.companySelection, [Validators.required]]
+      'companySelection': [this.cardSelection, [Validators.required]]
     });
   }
 
@@ -80,10 +82,10 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExistingCompaniesActions.LoadExistingCompanies());
   }
 
-  handleCardSelectionEvent(company: ExistingCompany): void {
+  handleCardSelectionEvent(): void {
     this.reasonControl.setValue('');
-    this.companySelection = company;
-    this.store.dispatch(new fromExchangeRequestActions.UpdateSelection(ExchangeRequestTypeEnum.ReferPayfactorsCompany, company));
+    // this.companySelection = company;
+    // this.store.dispatch(new fromExchangeRequestActions.UpdateSelection(ExchangeRequestTypeEnum.ReferPayfactorsCompany, company));
   }
 
   updateSearchFilter(newSearchTerm: string): void {
@@ -93,12 +95,12 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const requestAccessModel: RequestExchangeAccessRequest = {
+    const requestAccessModel: RequestExchangeRequest = {
       ExchangeId: this.exchange ? this.exchange.ExchangeId : 0,
       Reason: this.reason,
       Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       TypeData: {
-        CompanyId: this.companySelection.CompanyId
+        CompanyId: this.cardSelection.CompanyId
       }
     };
 
@@ -117,7 +119,7 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.exchangeRequestModalOpenSubscription = this.exchangeRequestModalOpen$.subscribe(open => {
       if (!open) {
-        this.companySelection = null;
+        this.cardSelector.selectedCard = null;
         this.searchTerm = '';
         this.reasonControl.setValue('');
       }

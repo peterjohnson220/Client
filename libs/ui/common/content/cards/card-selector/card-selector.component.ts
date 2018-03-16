@@ -26,29 +26,33 @@ export class CardSelectorComponent implements OnInit, OnDestroy {
   constructor() { }
 
   handleCardSelectionEvent(card: any): void {
-    this.selectedCard = card;
-    this.onCardSelection.emit(card);
+    this.setCardSelection(card);
   }
 
   handleReloadEvent(): void {
     this.onReload.emit();
   }
 
+  setCardSelection(card: any): void {
+    this.selectedCard = card;
+    this.onCardSelection.emit(card);
+  }
+
   // Lifecycle events
   ngOnInit(): void {
-    this.cardDataLoading$.subscribe(l => {
-
-    });
     this.cardDataSubscription = this.cardData$.subscribe((cards) => {
       // TODO: verify this works.
-      const cardDataLoading = this.cardDataLoading$.take(1).filter(l => l);
+      let cardDataLoading = false;
+      this.cardDataLoading$.take(1).subscribe(l => {
+        cardDataLoading = l;
+      });
       if (!this.selectedCard || cardDataLoading) {
         return;
       }
 
       const containsSelection = cards.some(ae => this.cardIdentifier(ae) === this.cardIdentifier(this.selectedCard));
       if (!containsSelection) {
-        this.selectedCard = null;
+        this.setCardSelection(null);
       }
     });
   }

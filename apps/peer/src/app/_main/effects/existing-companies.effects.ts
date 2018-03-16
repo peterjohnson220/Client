@@ -13,65 +13,52 @@ import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
+import { ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
 
 import * as fromExistingCompaniesActions from '../actions/exchange-request/existing-companies.actions';
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
 import * as fromPeerMainReducers from '../reducers';
-import { ExchangeRequestTypeEnum } from '../actions/exchange-request.actions';
-import { RequestExchangeAccessRequest } from '../../../../../../libs/models/peer';
-import { ExchangeRequestEffects } from './exchange-request.effects';
 
 @Injectable()
-export class ExistingCompaniesEffects extends ExchangeRequestEffects {
-  // @Effect()
-  // openReferCompaniesModal$: Observable<Action> = this.actions$
-  //   .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
-  //   .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
-  //
-  // @Effect()
-  // updateSearchTerm$: Observable<Action> = this.actions$
-  //   .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`)
-  //   .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
-  //
-  // @Effect()
-  // loadExistingCompanies$: Observable<Action> = this.actions$
-  //   .ofType(fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES)
-  //   .withLatestFrom(this.store.select(fromPeerMainReducers.getExistingCompaniesExchangeRequestPayload), (action, payload) => payload)
-  //   .switchMap((payload) =>
-  //     this.exchangeCompanyApiService.getTopExchangeCandidates(payload)
-  //       .map((result: any[]) => new fromExistingCompaniesActions.LoadExistingCompaniesSuccess(result))
-  //       .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
-  //
-  // @Effect()
-  // createExchangeRequest$: Observable<Action> = this.actions$
-  //   .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`)
-  //   .map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload)
-  //   .switchMap((payload: RequestExchangeAccessRequest) =>
-  //     this.exchangeCompanyApiService.requestExchangeAccess(payload)
-  //       .map(() => new fromExchangeRequestActions.CreateExchangeRequestSuccess(ExchangeRequestTypeEnum.ReferPayfactorsCompany))
-  //       .catch(() => of(new fromExchangeRequestActions.CreateExchangeRequestError(ExchangeRequestTypeEnum.ReferPayfactorsCompany)))
-  //   );
-  //
-  // @Effect()
-  // createExchangeRequestSuccessful$: Observable<Action> = this.actions$
-  //   .ofType(`${ExchangeRequestTypeEnum.ReferPayfactorsCompany}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS}`)
-  //   .switchMap(() => of(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany)));
+export class ExistingCompaniesEffects {
+  type = ExchangeRequestTypeEnum.ReferPayfactorsCompany;
+
+  @Effect()
+  openReferCompaniesModal$: Observable<Action> = this.actions$
+    .ofType(`${this.type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
+    .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
+
+  @Effect()
+  updateSearchTerm$: Observable<Action> = this.actions$
+    .ofType(`${this.type}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`)
+    .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
+
+  @Effect()
+  loadExistingCompanies$: Observable<Action> = this.actions$
+    .ofType(fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES)
+    .withLatestFrom(this.store.select(fromPeerMainReducers.getExistingCompaniesExchangeRequestPayload), (action, payload) => payload)
+    .switchMap((payload) =>
+      this.exchangeCompanyApiService.getTopExchangeCandidates(payload)
+        .map((result: any[]) => new fromExistingCompaniesActions.LoadExistingCompaniesSuccess(result))
+        .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
+
+  @Effect()
+  createExchangeRequest$: Observable<Action> = this.actions$
+    .ofType(`${this.type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`)
+    .map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload)
+    .switchMap((payload: RequestExchangeRequest) =>
+      this.exchangeCompanyApiService.requestExchangeAccess(payload)
+        .map(() => new fromExchangeRequestActions.CreateExchangeRequestSuccess(this.type))
+        .catch(() => of(new fromExchangeRequestActions.CreateExchangeRequestError(this.type)))
+    );
 
 
   constructor(
-    protected actions$: Actions,
-    protected store: Store<fromPeerMainReducers.State>,
-    protected exchangeApiService: ExchangeApiService,
-    protected exchangeCompanyApiService: ExchangeCompanyApiService
-  ) {
-    super(
-      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      actions$,
-      store,
-      exchangeApiService,
-      exchangeCompanyApiService
-    );
-  }
+    private actions$: Actions,
+    private store: Store<fromPeerMainReducers.State>,
+    private exchangeApiService: ExchangeApiService,
+    private exchangeCompanyApiService: ExchangeCompanyApiService
+  ) { }
 }
 
 

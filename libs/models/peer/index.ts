@@ -20,4 +20,6 @@ export * from './aggregate-filters';
 export * from './get-chart-request.model';
 export * from './add-data-cut-request.model';
 export * from './available-exchange-item.model';
-export * from './request-exchange-access-request.model';
+export * from './request-exchange-request.model';
+export * from './exchange-request-type.enum';
+export * from './existing-company.model';

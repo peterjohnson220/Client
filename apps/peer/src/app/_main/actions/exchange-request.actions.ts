@@ -1,13 +1,6 @@
 import { Action } from '@ngrx/store';
 
-export enum ExchangeRequestTypeEnum {
-  NewExchange,
-  Access,
-  ReferPayfactorsCompany,
-  ReferNewCompany,
-  PayfactorsJob,
-  NewJob
-}
+import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 export class ExchangeRequestAction implements Action {
   readonly type: string;

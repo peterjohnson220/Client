@@ -27,7 +27,6 @@ import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
-import { ExchangeRequestTypeEnum } from './actions/exchange-request.actions';
 
 @NgModule({
   imports: [

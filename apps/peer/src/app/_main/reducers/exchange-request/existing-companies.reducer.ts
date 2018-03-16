@@ -1,21 +1,9 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
+import { ExchangeRequestTypeEnum, ExistingCompany } from 'libs/models/peer';
 
 import * as fromExistingCompaniesActions from '../../actions/exchange-request/existing-companies.actions';
 import { createExchangeRequestReducer } from '../exchange-request.reducer';
-import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
-
-
-export interface ExistingCompany {
-  CompanyId: number;
-  CompanyName: string;
-  Industry: string;
-  Size: number;
-  FTEs: number;
-  InExchange: boolean;
-  PendingInvitation: boolean;
-  Peers: string[];
-}
 
 export interface State extends EntityState<ExistingCompany> {
   loading: boolean;

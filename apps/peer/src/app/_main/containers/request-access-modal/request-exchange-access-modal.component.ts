@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
-import { AvailableExchangeItem, RequestExchangeAccessRequest } from 'libs/models/peer';
+import { AvailableExchangeItem, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
 import { CompanyOption, PfConstants } from 'libs/models/common';
 
@@ -14,7 +14,6 @@ import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
 import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
 import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
-import { ExchangeRequestTypeEnum } from '../../actions/exchange-request.actions';
 
 @Component({
   selector: 'pf-request-exchange-access-modal',
@@ -98,7 +97,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
   // Modal events
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const requestAccessModel: RequestExchangeAccessRequest = {
+    const requestAccessModel: RequestExchangeRequest = {
       ExchangeId: this.exchangeSelection.ExchangeId,
       Reason: this.reason,
       Type: ExchangeRequestTypeEnum.Access,

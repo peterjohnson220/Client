@@ -21,7 +21,7 @@
       [cardIdentifier]="companyIdentifier"
       [cardIsDisabled]="companyCardDisabled"
       (onReload)="handleReloadCardsEvent()"
-      (onCardSelection)="handleCardSelectionEvent($event)"
+      (onCardSelection)="handleCardSelectionEvent()"
     >
       <ng-container search-filters>
         <div class="filter flex-grow-1">
@@ -43,7 +43,7 @@
              class="form-control"
              name="hasSelection"
              formControlName="companySelection"
-             [ngModel]="companySelection"
+             [ngModel]="cardSelection"
              [pfValidatable]="attemptedSubmit"
       />
     </div>

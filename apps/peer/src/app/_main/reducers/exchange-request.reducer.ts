@@ -1,7 +1,9 @@
 import { combineReducers } from '@ngrx/store';
 
+import { ExchangeRequestTypeEnum } from 'libs/models/peer';
+
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
-import { ExchangeRequestActions, ExchangeRequestTypeEnum } from '../actions/exchange-request.actions';
+import { ExchangeRequestActions } from '../actions/exchange-request.actions';
 
 export interface IFeatureExchangeRequestState<T> {
   feature: T;
