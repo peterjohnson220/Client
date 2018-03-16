@@ -11,7 +11,7 @@ import { PfValidators } from 'libs/forms/validators';
 import { CompanyOption, PfConstants } from 'libs/models/common';
 
 import * as fromPeerMainReducer from '../../reducers/index';
-import * as fromExchangeAccessActions from '../../actions/exchange-access/exchange-access.actions';
+import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
 import * as fromAvailableExchangesActions from '../../actions/exchange-access/available-exchanges.actions';
 import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
 
@@ -48,15 +48,15 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     private store: Store<fromPeerMainReducer.State>,
     private fb: FormBuilder
   ) {
-    this.availableExchanges$ = this.store.select(fromPeerMainReducer.getAvailableExchanges);
-    this.availableExchangesLoading$ = this.store.select(fromPeerMainReducer.getAvailableExchangesLoading);
-    this.availableExchangesLoadingError$ = this.store.select(fromPeerMainReducer.getAvailableExchangesLoadingError);
-    this.exchangeAccessModalOpen$ = this.store.select(fromPeerMainReducer.getExchangeAccessModalOpen);
-    this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequesting);
-    this.exchangeAccessRequestingError$ = this.store.select(fromPeerMainReducer.getExchangeAccessRequestingError);
+    this.availableExchanges$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestCandidates);
+    this.availableExchangesLoading$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestCandidatesLoading);
+    this.availableExchangesLoadingError$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestCandidatesLoadingError);
+    this.exchangeAccessModalOpen$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestModalOpen);
+    this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestRequesting);
+    this.exchangeAccessRequestingError$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestRequestingError);
     this.peerParticipants$ = this.store.select(fromPeerMainReducer.getPeerParticipants);
     this.peerParticipantsLoading$ = this.store.select(fromPeerMainReducer.getPeerParticipantsLoading);
-    this.exchangeSelection$ = this.store.select(fromPeerMainReducer.getAvailableExchangeSelection);
+    this.exchangeSelection$ = this.store.select(fromPeerMainReducer.getAccessExchangeRequestSelection);
 
     this.createForm();
   }
@@ -78,20 +78,23 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     this.peerParticipants$.take(1).subscribe(peers => {
       const selectedCompany: CompanyOption = peers.find(p => p.Name === selectedCompanyName);
       const selectedCompanyId = selectedCompany ? selectedCompany.CompanyId : null;
-      this.store.dispatch(new fromAvailableExchangesActions.UpdateCompanyFilter(selectedCompanyId));
+      const filterOptions = {
+        companyFilterId: selectedCompanyId
+      };
+      this.store.dispatch(new fromExchangeRequestActions.UpdateFilterOptions(ExchangeRequestTypeEnum.Access, filterOptions));
     });
   }
 
   handleAvailableExchangeSelectionEvent(exchange: AvailableExchangeItem): void {
-    this.store.dispatch(new fromAvailableExchangesActions.SelectAvailableExchange(exchange));
+    this.store.dispatch(new fromExchangeRequestActions.UpdateSelection(ExchangeRequestTypeEnum.Access, exchange));
   }
 
   updateSearchFilter(newSearchTerm: string): void {
-    this.store.dispatch(new fromAvailableExchangesActions.UpdateSearchTerm(newSearchTerm));
+    this.store.dispatch(new fromExchangeRequestActions.UpdateSearchTerm(ExchangeRequestTypeEnum.Access, newSearchTerm));
   }
 
   loadAvailableExchanges(): void {
-    this.store.dispatch(new fromAvailableExchangesActions.LoadAvailableExchanges);
+    this.store.dispatch(new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.Access));
   }
 
   // Modal events
@@ -103,7 +106,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
       Type: ExchangeRequestTypeEnum.Access,
       TypeData: null
     };
-    this.store.dispatch(new fromExchangeAccessActions.ExchangeAccessRequest(requestAccessModel));
+    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(ExchangeRequestTypeEnum.Access, requestAccessModel));
   }
 
   handleModalDismissed(): void {
@@ -111,7 +114,7 @@ export class RequestExchangeAccessModalComponent implements OnInit, OnDestroy, A
     this.searchTerm = '';
     this.companyNameFilter = '';
     this.list.reset();
-    this.store.dispatch(new fromExchangeAccessActions.CloseExchangeAccessModal);
+    this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.Access));
   }
 
   // Lifecycle Events

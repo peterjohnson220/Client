@@ -7,6 +7,8 @@ import * as fromExchangeRequestActions from '../actions/exchange-request.actions
 import { ExchangeRequestActions } from '../actions/exchange-request.actions';
 import { State } from './exchange-request/access-exchange-request.reducer';
 import { adapter } from './exchange-access/available-exchanges.reducer';
+import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
+import { selectExistingCompaniesFeatureState } from './index';
 
 export interface IFeatureExchangeRequestState<T> {
   feature: T;
@@ -130,22 +132,27 @@ function getExchangeRequestReducer<T> (
 
 export function createExchangeRequestReducer<T> (
   exchangeRequestType: ExchangeRequestTypeEnum,
-  idSelector: IdSelector<T>,
+  entityAdapter: EntityAdapter<T>,
   exchangeRequestOverride?: any
 ) {
-  const adapterForType = createEntityAdapter<T>({
-    selectId: idSelector
-  });
-  return getExchangeRequestReducer<T>(exchangeRequestType, adapterForType, initialExchangeRequestState);
-};
+  return getExchangeRequestReducer<T>(exchangeRequestType, entityAdapter, initialExchangeRequestState);
+}
 
 // Selector Functions
 
 // Selector functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
-export const getExchangeRequestState = (state: IExchangeRequestState) => state;
-export const getExchangeRequestModalOpen = (state: IExchangeRequestState) => state.modalOpen;
+export const getModalOpen = (state: IExchangeRequestState) => state.modalOpen;
+export const getRequesting = (state: IExchangeRequestState) => state.requesting;
+export const getRequestingError = (state: IExchangeRequestState) => state.requestingError;
+export const getSelectedCandidate = (state: IExchangeRequestState) => state.selectedCandidate;
+export const getLoadingRequestContext = (state: IExchangeRequestState) => {
+  return {
+    ...state.filterOptions,
+    query: state.searchTerm
+  };
+};
 
 // TODO: Consolidate 'searchTerm' vs 'query'
 export const getQuery = (state: IExchangeRequestState) => state.searchTerm;

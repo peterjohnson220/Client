@@ -1,12 +1,25 @@
 import { AvailableExchangeItem, ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import { createExchangeRequestReducer, IExchangeRequestEntityState } from '../exchange-request.reducer';
+import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { ExchangeJobMapping } from '../../../../../../../libs/models/peer';
 
 export interface State extends IExchangeRequestEntityState<AvailableExchangeItem> { }
+export const adapter: EntityAdapter<AvailableExchangeItem> = createEntityAdapter<AvailableExchangeItem>({
+  selectId: (availableExchange: AvailableExchangeItem) => availableExchange.ExchangeId
+});
 // Reducer
 export function reducer(state, action) {
   return createExchangeRequestReducer<AvailableExchangeItem> (
     ExchangeRequestTypeEnum.Access,
-    (availableExchange: AvailableExchangeItem) => availableExchange.ExchangeId
+    adapter
   )(state, action);
 }
+
+// Selector functions
+export const getLoadingRequestContext = (state: State) => {
+  return {
+    query: state.searchTerm,
+    companyFilterId: state.filterOptions ? state.filterOptions.companyFilterId : null
+  };
+};

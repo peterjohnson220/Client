@@ -15,6 +15,7 @@ import * as fromExchangeAccessReducer from './exchange-access/exchange-access.re
 import * as fromAvailableExchangesReducer from './exchange-access/available-exchanges.reducer';
 import * as fromPeerParticipantsReducer from './exchange-access/peer-participants.reducer';
 import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
+import * as fromAccessExchangeRequestReducer from './exchange-request/access-exchange-request.reducer';
 import { IFeatureExchangeRequestState } from './exchange-request.reducer';
 import * as fromExchangeRequestReducer from './exchange-request.reducer';
 
@@ -28,6 +29,7 @@ export interface PeerMainState {
   availableExchanges: fromAvailableExchangesReducer.State;
   peerParticipants: fromPeerParticipantsReducer.State;
   existingCompanies: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>;
+  accessExchangeRequest: fromAccessExchangeRequestReducer.State;
 }
 
 // Extend root state with feature area state
@@ -44,7 +46,8 @@ export const reducers = {
   exchangeAccess: fromExchangeAccessReducer.reducer,
   availableExchanges: fromAvailableExchangesReducer.reducer,
   peerParticipants: fromPeerParticipantsReducer.reducer,
-  existingCompanies: fromExistingCompaniesReducer.reducer
+  existingCompanies: fromExistingCompaniesReducer.reducer,
+  accessExchangeRequest: fromAccessExchangeRequestReducer.reducer
 };
 
 // Select Feature Area
@@ -76,7 +79,7 @@ export const selectExistingCompaniesState = createSelector(
   (state: PeerMainState) => state.existingCompanies
 );
 
-// Exchange Access Selectors
+// Exchange Request Selectors
 export const selectExchangeAccessState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.exchangeAccess
@@ -90,6 +93,11 @@ export const selectAvailableExchangesState = createSelector(
 export const selectPeerParticipantsState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.peerParticipants
+);
+
+export const selectAccessExchangeRequestState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.accessExchangeRequest
 );
 
 // Exchange Selectors
@@ -304,7 +312,7 @@ export const getExistingCompaniesLoadingError = createSelector(
 
 export const getExistingCompaniesExchangeRequestModalOpen = createSelector(
   selectExistingCompaniesExchangeRequestState,
-  fromExchangeRequestReducer.getExchangeRequestModalOpen
+  fromExchangeRequestReducer.getModalOpen
 );
 
 export const getExistingCompaniesExchangeRequestQuery = createSelector(
@@ -318,7 +326,42 @@ export const getExistingCompaniesExchangeRequestPayload = createSelector(
   (request, exchange) => {
     return {
       exchangeId: (exchange.exchange ? exchange.exchange.ExchangeId : 0),
-      query: request.searchTerm
+      query: request ? request.searchTerm : ''
     };
   }
+);
+
+
+// Exchange Request - Access
+// TODO: Can we use an adapter that lives in the ExchangeRequestReducer instead?
+export const {
+  selectAll: getAccessExchangeRequestCandidates
+} = fromAccessExchangeRequestReducer.adapter.getSelectors(selectAccessExchangeRequestState);
+export const getAccessExchangeRequestCandidatesLoading = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getLoading
+);
+export const getAccessExchangeRequestCandidatesLoadingError = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getLoadingError
+);
+export const getAccessExchangeRequestModalOpen = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getModalOpen
+);
+export const getAccessExchangeRequestRequesting = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getRequesting
+);
+export const getAccessExchangeRequestRequestingError = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getRequestingError
+);
+export const getAccessExchangeRequestSelection = createSelector(
+  selectAccessExchangeRequestState,
+  fromExchangeRequestReducer.getSelectedCandidate
+);
+export const getAccessExchangeRequestContext = createSelector(
+  selectAccessExchangeRequestState,
+  fromAccessExchangeRequestReducer.getLoadingRequestContext
 );

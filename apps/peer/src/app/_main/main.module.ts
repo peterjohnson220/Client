@@ -28,6 +28,8 @@ import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
 import { ExchangeRequestEffectsService } from './services/exchange-request-effects.service';
+import { AccessExchangeRequestEffects } from './effects/exchange-request/access.effects';
+import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-request/payfactors-company.effects';
 
 @NgModule({
   imports: [
@@ -42,7 +44,8 @@ import { ExchangeRequestEffectsService } from './services/exchange-request-effec
     StoreModule.forFeature('peerMain', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
-      ExchangeJobMappingInfoEffects, ExchangeAccessEffects, ExistingCompaniesEffects
+      ExchangeJobMappingInfoEffects, ExchangeAccessEffects, ExistingCompaniesEffects,
+      AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
     ]),
     DropDownsModule,
 

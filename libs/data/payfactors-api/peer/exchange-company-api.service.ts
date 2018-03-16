@@ -26,9 +26,9 @@ export class ExchangeCompanyApiService {
       );
   }
 
-  getTopCandidates<T>(query: string, companyFilterId?: number): Observable<T[]> {
-    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopExchanges`,
-      { params: { query, companyFilterId } }
+  getTopCandidates<T>(exchangeRequestContext): Observable<T[]> {
+    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopCandidates`,
+      { params: exchangeRequestContext }
     );
   }
 
