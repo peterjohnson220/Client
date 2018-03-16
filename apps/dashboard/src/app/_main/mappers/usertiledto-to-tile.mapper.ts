@@ -6,7 +6,7 @@ export class UserTileToTileMapper {
 
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     return this.setTileStylesProperties({
-      Id: dashboardTile.TileId,
+      Id: dashboardTile.UserTileId,
       Label: dashboardTile.TileName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
@@ -100,8 +100,15 @@ export class UserTileToTileMapper {
         tile.ChartLabel = 'jobs';
         tile.Size = 2;
 
-        this.SetChartLegendColor(tile, 'Not Priced', '#FFCA69');
-        this.SetChartLegendColor(tile, 'Priced', '#EFB300');
+        const NotPricedCategory = tile.TilePreviewData[2].ChartData.filter(x => x.Key === 'Not Priced');
+        if (NotPricedCategory.length > 0) {
+          NotPricedCategory[ 0 ].color = '#FFCA69';
+        }
+
+        const PricedCategory = tile.TilePreviewData[2].ChartData.filter(x => x.Key === 'Priced');
+        if (PricedCategory.length > 0) {
+          PricedCategory[ 0 ].color = '#EFB300';
+        }
 
         break;
 

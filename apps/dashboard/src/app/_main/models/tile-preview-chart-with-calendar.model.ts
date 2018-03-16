@@ -1,13 +1,13 @@
 import { Tile } from './tile.model';
 import { TilePreviewBase } from './tile-preview-base.model';
-import { TilePreviewChartData } from './tile-preview-chart-data.model';
+import { TilePreviewChartWithCalendarData } from './tile-preview-chart-with-calendar-data.model';
 import { TilePreviewTypes } from './tile-preview-types';
 
 export interface TilePreviewChartWithCalendar extends TilePreviewBase {
   TileId: number;
   ChartType: string;
   ChartLabel: string;
-  ChartComponentData: TilePreviewChartData[];
+  ComponentData: TilePreviewChartWithCalendarData[];
 }
 
 export function generateTilePreviewChartWithCalendarFromTile(tile: Tile): TilePreviewChartWithCalendar {
@@ -16,6 +16,6 @@ export function generateTilePreviewChartWithCalendarFromTile(tile: Tile): TilePr
     PreviewType: TilePreviewTypes.Chart,
     ChartType: tile.ChartType,
     ChartLabel: tile.ChartLabel,
-    ChartComponentData: tile.TilePreviewData,
+    ComponentData: tile.TilePreviewData,
   };
 }

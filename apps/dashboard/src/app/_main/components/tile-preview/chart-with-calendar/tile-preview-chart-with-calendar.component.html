@@ -1,27 +1,56 @@
-
 <div class="control-container">
-  <kendo-datepicker [(value)]="selectedPricingEffectiveDate" (valueChange)="datePickerValueChanged()"  [format]="'MM/dd/yyyy'" onkeydown="return false;">
-    </kendo-datepicker>
-  <div class="chart-container">
-    <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true">
-      <kendo-chart-area background="none" [height]="250"></kendo-chart-area>
-      <kendo-chart-series>
-        <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
-                                 [type]="model.ChartType" [data]="model.ChartComponentData"
-                                 categoryField="CategoryName" field="CategoryValue" [style]="seriesItemStyle" [holeSize]="65">
-          <kendo-chart-series-item-tooltip>
-            <ng-template let-category="category" let-value="value">
-              {{category}} : {{value}}%
-            </ng-template>
-          </kendo-chart-series-item-tooltip>
-        </kendo-chart-series-item>
-        <ng-template kendoChartDonutCenterTemplate>
-          <h1 style="color: white">9.38%</h1>
-        </ng-template>
-      </kendo-chart-series>
-      <kendo-chart-legend [padding]="0" [visible]="false" position="left"  [labels]="legendlabelStyle">
-      </kendo-chart-legend>
-    </kendo-chart>
+</div>
+<div class="left-tile-area">
+    <span class="tile-text">
+      {{model.ComponentData[0].CategoryName}}
+    </span>
+  <span class="tile-text-large">
+      {{model.ComponentData[0].CategoryValue}}
+    </span>
 </div>
 
+<div class="middle-tile-area">
+   <span class="tile-text-large">
+      {{model.ComponentData[1].CategoryValue}}
+    </span>
+  <span class="tile-text">
+     {{model.ComponentData[1].CategoryName}}
+    </span>
+  <kendo-datepicker [(value)]="selectedPricingEffectiveDate" (valueChange)="datePickerValueChanged()"
+                    [format]="'MM/dd/yyyy'">
+  </kendo-datepicker>
+  <div class="hidden-tile-area">
+     <span class="tile-text">
+      {{model.ComponentData[0].CategoryName}}
+    </span>
+    <span class="tile-text-large">
+      {{model.ComponentData[0].CategoryValue}}
+    </span>
+  </div>
 </div>
+<div class="right-tile-area">
+  <kendo-chart [transitions]="true">
+    <kendo-chart-area background="none" [height]="250"></kendo-chart-area>
+    <kendo-chart-series>
+      <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
+                               [type]="model.ChartType" [data]="model.ComponentData[2].ChartData"
+                               categoryField="Key" field="Value" [holeSize]="55">
+        <kendo-chart-series-item-tooltip>
+          <ng-template let-category="category" let-value="value">
+            {{category}} : {{value}}%
+          </ng-template>
+        </kendo-chart-series-item-tooltip>
+      </kendo-chart-series-item>
+      <ng-template kendoChartDonutCenterTemplate>
+          <span class="tile-text-extra-large">{{model.ComponentData[2].CategoryValue}}%
+          </span>
+        <span class="tile-text">{{model.ComponentData[2].CategoryName}}</span>
+      </ng-template>
+    </kendo-chart-series>
+    <kendo-chart-legend [padding]="0" [visible]="false">
+    </kendo-chart-legend>
+  </kendo-chart>
+</div>
+
+
+

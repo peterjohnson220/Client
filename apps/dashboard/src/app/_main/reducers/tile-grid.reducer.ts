@@ -54,10 +54,11 @@ export function reducer(
       }
       case fromTileGridActions.LOADING_SINGLE_TILE_SUCCESS: {
 
-        const tempState = adapter.removeOne(action.payload[0].Id , state);
-
         return {
-          ...adapter.addOne(action.payload[0], tempState),
+          ...adapter.updateOne({
+            id: action.payload[0].Id,
+            changes: action.payload[0],
+          }, state),
           loading: false
         };
       }

@@ -1,19 +1,59 @@
 @import 'colors';
 
+%tile-area{
+  text-align: center;
+  width: 33.333%;
+  vertical-align: middle;
+  float: left;
+}
 
-.chart-label {
-  font-size: 1rem;
-  position: absolute;
-  bottom: 10px;
-  text-align: right;
-  width: 100%;
-  color: $tile-chart-label-color;
+.left-tile-area
+{
+  @extend %tile-area;
+}
+
+.middle-tile-area
+{
+  @extend %tile-area;
+}
+
+.right-tile-area
+{
+  @extend %tile-area;
+}
+
+.hidden-tile-area
+{
+  display: none;
+}
+
+.tile-text
+{
+  color: white;
+  display: block;
+}
+
+.tile-text-large
+{
+  display: block;
+  color: #FFFFFF;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.tile-text-extra-large
+{
+  display: block;
+  color: #FFFFFF;
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 500;
 }
 
 .control-container
 {
   position: absolute;
- display: inline;
+  display: inline;
   width: 66.666%;
   height: 195px;
   right: 10px;
@@ -21,20 +61,47 @@
   background-color: rgba(255,255,255,0.3);
 }
 
-.chart-container
-{
-  position: absolute;
-  right: -50px;
-  top: -30px;
-}
-
 kendo-datepicker{
   z-index: 2;
+  width: 125px;
+}
+
+kendo-chart
+{
+  position: absolute;
+  top:-20px;
+
 }
 
 @media screen and (max-width: 991px) {
-  .chart-container
+  .left-tile-area
+  {
+    display: none;
+  }
+
+  .middle-tile-area
+  {
+    width: 100%;
+    height: auto;
+  }
+  .right-tile-area
   {
     visibility: hidden;
   }
+
+  .hidden-tile-area
+  {
+    display: block;
+  }
+
+  .tile-text-large
+  {
+    font-size: 3rem;
+  }
+
+  .control-container
+  {
+    visibility: hidden;
+  }
+
 }

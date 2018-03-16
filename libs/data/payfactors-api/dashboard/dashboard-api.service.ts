@@ -23,7 +23,7 @@ export class DashboardApiService {
 
   getUserDashboardTile(tileId: number): Observable<UserTileDto[]> {
     return this.payfactorsApiService.get<UserTileDto[]>
-    (`${this.endpoint}.GetUserTile`, { params: { tileId: tileId } });
+    (`${this.endpoint}.GetUserTile`, { params: { userTileId: tileId } });
   }
 
   reorderDashboardTiles(request: ReorderTileRequest): Observable<any> {
