@@ -44,8 +44,7 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
     StoreModule.forFeature('peerMain', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
-      ExchangeJobMappingInfoEffects, ExchangeAccessEffects, ExistingCompaniesEffects,
-      AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
+      ExchangeJobMappingInfoEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
     ]),
     DropDownsModule,
 

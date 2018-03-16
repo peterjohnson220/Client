@@ -21,36 +21,36 @@ import * as fromPeerMainReducers from '../reducers';
 
 @Injectable()
 export class ExistingCompaniesEffects {
-  type = ExchangeRequestTypeEnum.ReferPayfactorsCompany;
-
-  @Effect()
-  openReferCompaniesModal$: Observable<Action> = this.actions$
-    .ofType(`${this.type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
-    .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
-
-  @Effect()
-  updateSearchTerm$: Observable<Action> = this.actions$
-    .ofType(`${this.type}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`)
-    .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
-
-  @Effect()
-  loadExistingCompanies$: Observable<Action> = this.actions$
-    .ofType(fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES)
-    .withLatestFrom(this.store.select(fromPeerMainReducers.getExistingCompaniesExchangeRequestPayload), (action, payload) => payload)
-    .switchMap((payload) =>
-      this.exchangeCompanyApiService.getTopExchangeCandidates(payload)
-        .map((result: any[]) => new fromExistingCompaniesActions.LoadExistingCompaniesSuccess(result))
-        .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
-
-  @Effect()
-  createExchangeRequest$: Observable<Action> = this.actions$
-    .ofType(`${this.type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`)
-    .map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload)
-    .switchMap((payload: RequestExchangeRequest) =>
-      this.exchangeCompanyApiService.requestExchangeAccess(payload)
-        .map(() => new fromExchangeRequestActions.CreateExchangeRequestSuccess(this.type))
-        .catch(() => of(new fromExchangeRequestActions.CreateExchangeRequestError(this.type)))
-    );
+  // type = ExchangeRequestTypeEnum.ReferPayfactorsCompany;
+  //
+  // @Effect()
+  // openReferCompaniesModal$: Observable<Action> = this.actions$
+  //   .ofType(`${this.type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
+  //   .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
+  //
+  // @Effect()
+  // updateSearchTerm$: Observable<Action> = this.actions$
+  //   .ofType(`${this.type}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`)
+  //   .switchMap(() => of(new fromExistingCompaniesActions.LoadExistingCompanies));
+  //
+  // @Effect()
+  // loadExistingCompanies$: Observable<Action> = this.actions$
+  //   .ofType(fromExistingCompaniesActions.LOAD_EXISTING_COMPANIES)
+  //   .withLatestFrom(this.store.select(fromPeerMainReducers.getExistingCompaniesExchangeRequestPayload), (action, payload) => payload)
+  //   .switchMap((payload) =>
+  //     this.exchangeCompanyApiService.getTopExchangeCandidates(payload)
+  //       .map((result: any[]) => new fromExistingCompaniesActions.LoadExistingCompaniesSuccess(result))
+  //       .catch(() => of(new fromExistingCompaniesActions.LoadExistingCompaniesError)));
+  //
+  // @Effect()
+  // createExchangeRequest$: Observable<Action> = this.actions$
+  //   .ofType(`${this.type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`)
+  //   .map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload)
+  //   .switchMap((payload: RequestExchangeRequest) =>
+  //     this.exchangeCompanyApiService.requestExchangeAccess(payload)
+  //       .map(() => new fromExchangeRequestActions.CreateExchangeRequestSuccess(this.type))
+  //       .catch(() => of(new fromExchangeRequestActions.CreateExchangeRequestError(this.type)))
+  //   );
 
 
   constructor(

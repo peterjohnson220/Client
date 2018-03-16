@@ -22,7 +22,9 @@ export class PayfactorsCompanyExchangeRequestEffects {
   @Effect()
   loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<ExistingCompany>(
     this.type,
-    fromPeerMainReducers.getAccessExchangeRequestContext
+    fromPeerMainReducers.getAccessExchangeRequestContext,
+    // TODO: Constants for endpoints
+    'GetTopExchangeCandidates'
   );
 
   @Effect()

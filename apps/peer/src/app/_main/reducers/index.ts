@@ -11,12 +11,9 @@ import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 import * as fromExchangeJobMappingGridReducer from './exchange-job-mapping-grid.reducer';
 import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.reducer';
-import * as fromExchangeAccessReducer from './exchange-access/exchange-access.reducer';
-import * as fromAvailableExchangesReducer from './exchange-access/available-exchanges.reducer';
 import * as fromPeerParticipantsReducer from './exchange-access/peer-participants.reducer';
-import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
+import * as fromPfCompaniesExchangeRequestReducer from './exchange-request/pf-companies.reducer';
 import * as fromAccessExchangeRequestReducer from './exchange-request/access-exchange-request.reducer';
-import { IFeatureExchangeRequestState } from './exchange-request.reducer';
 import * as fromExchangeRequestReducer from './exchange-request.reducer';
 
 // Feature area state
@@ -25,11 +22,9 @@ export interface PeerMainState {
   exchangeDashboard: fromExchangeDashboardReducer.State;
   exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingGridReducer.State>;
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
-  exchangeAccess: fromExchangeAccessReducer.State;
-  availableExchanges: fromAvailableExchangesReducer.State;
   peerParticipants: fromPeerParticipantsReducer.State;
-  existingCompanies: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>;
   accessExchangeRequest: fromAccessExchangeRequestReducer.State;
+  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
 }
 
 // Extend root state with feature area state
@@ -43,11 +38,9 @@ export const reducers = {
   exchangeDashboard: fromExchangeDashboardReducer.reducer,
   exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
-  exchangeAccess: fromExchangeAccessReducer.reducer,
-  availableExchanges: fromAvailableExchangesReducer.reducer,
   peerParticipants: fromPeerParticipantsReducer.reducer,
-  existingCompanies: fromExistingCompaniesReducer.reducer,
-  accessExchangeRequest: fromAccessExchangeRequestReducer.reducer
+  accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
+  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer
 };
 
 // Select Feature Area
@@ -74,22 +67,7 @@ export const selectExchangeJobMappingInfoState = createSelector(
   (state: PeerMainState) => state.exchangeJobMappingInfo
 );
 
-export const selectExistingCompaniesState = createSelector(
-  selectFeatureAreaState,
-  (state: PeerMainState) => state.existingCompanies
-);
-
 // Exchange Request Selectors
-export const selectExchangeAccessState = createSelector(
-  selectFeatureAreaState,
-  (state: PeerMainState) => state.exchangeAccess
-);
-
-export const selectAvailableExchangesState = createSelector(
-  selectFeatureAreaState,
-  (state: PeerMainState) => state.availableExchanges
-);
-
 export const selectPeerParticipantsState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.peerParticipants
@@ -98,6 +76,11 @@ export const selectPeerParticipantsState = createSelector(
 export const selectAccessExchangeRequestState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.accessExchangeRequest
+);
+
+export const selectPfCompaniesExchangeRequestState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.pfCompaniesExchangeRequest
 );
 
 // Exchange Selectors
@@ -229,47 +212,6 @@ export const {
   selectAll: getCompanyJobsToMapTo
 } = fromExchangeJobMappingInfoReducer.adapter.getSelectors(selectExchangeJobMappingInfoState);
 
-// Exchange Access
-export const getExchangeAccessModalOpen = createSelector(
-  selectExchangeAccessState,
-  fromExchangeAccessReducer.getModalOpen
-);
-
-export const getExchangeAccessRequesting = createSelector(
-  selectExchangeAccessState,
-  fromExchangeAccessReducer.getRequesting
-);
-
-export const getExchangeAccessRequestingError = createSelector(
-  selectExchangeAccessState,
-  fromExchangeAccessReducer.getRequestingError
-);
-
-// Exchange Access - Available Exchanges
-export const {
-  selectAll: getAvailableExchanges
-} = fromAvailableExchangesReducer.adapter.getSelectors(selectAvailableExchangesState);
-
-export const getAvailableExchangesLoading = createSelector(
-  selectAvailableExchangesState,
-  fromAvailableExchangesReducer.getLoading
-);
-
-export const getAvailableExchangesLoadingError = createSelector(
-  selectAvailableExchangesState,
-  fromAvailableExchangesReducer.getLoadingError
-);
-
-export const getAvailableExchangeSelection = createSelector(
-  selectAvailableExchangesState,
-  fromAvailableExchangesReducer.getExchangeSelection
-);
-
-export const getAvailableExchangesQueryPayload = createSelector(
-  selectAvailableExchangesState,
-  fromAvailableExchangesReducer.getFilterPayload
-);
-
 // Exchange Access - Peer Participants
 export const {
   selectAll: getPeerParticipants
@@ -284,53 +226,6 @@ export const getPeerParticipantsLoadingError = createSelector(
   selectPeerParticipantsState,
   fromPeerParticipantsReducer.getLoadingError
 );
-
-// Exchange Request - Existing Companies
-export const selectExistingCompaniesFeatureState = createSelector(
-  selectExistingCompaniesState,
-  (state: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>) => state.feature
-);
-
-export const selectExistingCompaniesExchangeRequestState = createSelector(
-  selectExistingCompaniesState,
-  (state: IFeatureExchangeRequestState<fromExistingCompaniesReducer.State>) => state.exchangeRequest
-);
-// TODO: getExistingCompanies, getLoading, getLoadingError, getExchangeRequest selectors...
-export const {
-  selectAll: getExistingCompanies
-} = fromExistingCompaniesReducer.adapter.getSelectors(selectExistingCompaniesFeatureState);
-
-export const getExistingCompaniesLoading = createSelector(
-  selectExistingCompaniesFeatureState,
-  fromExistingCompaniesReducer.getLoading
-);
-
-export const getExistingCompaniesLoadingError = createSelector(
-  selectExistingCompaniesFeatureState,
-  fromExistingCompaniesReducer.getLoadingError
-);
-
-export const getExistingCompaniesExchangeRequestModalOpen = createSelector(
-  selectExistingCompaniesExchangeRequestState,
-  fromExchangeRequestReducer.getModalOpen
-);
-
-export const getExistingCompaniesExchangeRequestQuery = createSelector(
-  selectExistingCompaniesExchangeRequestState,
-  fromExchangeRequestReducer.getQuery
-);
-
-export const getExistingCompaniesExchangeRequestPayload = createSelector(
-  selectExistingCompaniesExchangeRequestState,
-  selectExchangeState,
-  (request, exchange) => {
-    return {
-      exchangeId: (exchange.exchange ? exchange.exchange.ExchangeId : 0),
-      query: request ? request.searchTerm : ''
-    };
-  }
-);
-
 
 // Exchange Request - Access
 // TODO: Can we use an adapter that lives in the ExchangeRequestReducer instead?
@@ -364,4 +259,38 @@ export const getAccessExchangeRequestSelection = createSelector(
 export const getAccessExchangeRequestContext = createSelector(
   selectAccessExchangeRequestState,
   fromAccessExchangeRequestReducer.getLoadingRequestContext
+);
+
+// Exchange Request - pfCompanies
+// TODO: Can we use an adapter that lives in the ExchangeRequestReducer instead?
+export const {
+  selectAll: getPfCompaniesExchangeRequestCandidates
+} = fromPfCompaniesExchangeRequestReducer.adapter.getSelectors(selectPfCompaniesExchangeRequestState);
+export const getPfCompaniesExchangeRequestCandidatesLoading = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getLoading
+);
+export const getPfCompaniesExchangeRequestCandidatesLoadingError = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getLoadingError
+);
+export const getPfCompaniesExchangeRequestModalOpen = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getModalOpen
+);
+export const getPfCompaniesExchangeRequestRequesting = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getRequesting
+);
+export const getPfCompaniesExchangeRequestRequestingError = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getRequestingError
+);
+export const getPfCompaniesExchangeRequestSelection = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromExchangeRequestReducer.getSelectedCandidate
+);
+export const getPfCompaniesExchangeRequestContext = createSelector(
+  selectPfCompaniesExchangeRequestState,
+  fromPfCompaniesExchangeRequestReducer.getLoadingRequestContext
 );

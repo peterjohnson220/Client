@@ -1,19 +1,9 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-import { IdSelector } from '@ngrx/entity/src/models';
+import { EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
 import { ExchangeRequestActions } from '../actions/exchange-request.actions';
-import { State } from './exchange-request/access-exchange-request.reducer';
-import { adapter } from './exchange-access/available-exchanges.reducer';
-import * as fromExistingCompaniesReducer from './exchange-request/existing-companies.reducer';
-import { selectExistingCompaniesFeatureState } from './index';
-
-export interface IFeatureExchangeRequestState<T> {
-  feature: T;
-  exchangeRequest: IExchangeRequestState;
-}
 
 export interface IExchangeRequestState {
   loading: boolean;
@@ -48,14 +38,14 @@ function getExchangeRequestReducer<T> (
     switch (action.type) {
       case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES}`: {
         return {
-          ...adapter.removeAll(state),
+          ...entityAdapter.removeAll(state),
           loading: true,
           loadingError: false
         };
       }
       case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES_SUCCESS}`: {
         return {
-          ...adapter.addAll(action.payload, state),
+          ...entityAdapter.addAll(action.payload, state),
           loading: false,
         };
       }
@@ -141,8 +131,8 @@ export function createExchangeRequestReducer<T> (
 // Selector Functions
 
 // Selector functions
-export const getLoading = (state: State) => state.loading;
-export const getLoadingError = (state: State) => state.loadingError;
+export const getLoading = (state: IExchangeRequestState) => state.loading;
+export const getLoadingError = (state: IExchangeRequestState) => state.loadingError;
 export const getModalOpen = (state: IExchangeRequestState) => state.modalOpen;
 export const getRequesting = (state: IExchangeRequestState) => state.requesting;
 export const getRequestingError = (state: IExchangeRequestState) => state.requestingError;

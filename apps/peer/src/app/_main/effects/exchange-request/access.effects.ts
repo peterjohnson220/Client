@@ -26,7 +26,9 @@ export class AccessExchangeRequestEffects {
   @Effect()
   loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<AvailableExchangeItem>(
     this.type,
-    fromPeerMainReducers.getAccessExchangeRequestContext
+    fromPeerMainReducers.getAccessExchangeRequestContext,
+    // TODO: Constants for endpoints
+    'GetTopExchanges'
   );
 
   @Effect()

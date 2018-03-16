@@ -29,7 +29,6 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   existingCompaniesLoading$: Observable<boolean>;
   existingCompaniesLoadingError$: Observable<boolean>;
   exchangeAccessRequesting$: Observable<boolean>;
-  exchangeRequestModalOpen$: Observable<boolean>;
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
 
   exchangeRequestModalOpenSubscription: Subscription;
@@ -50,13 +49,12 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     private fb: FormBuilder
   ) {
     this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
-    this.existingCompanies$ = this.store.select(fromPeerMainReducer.getExistingCompanies);
-    this.existingCompaniesLoading$ = this.store.select(fromPeerMainReducer.getExistingCompaniesLoading);
-    this.existingCompaniesLoadingError$ = this.store.select(fromPeerMainReducer.getExistingCompaniesLoadingError);
+    this.existingCompanies$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidates);
+    this.existingCompaniesLoading$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidatesLoading);
+    this.existingCompaniesLoadingError$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidatesLoadingError);
     this.existingCompaniesExchangeRequestModalOpen$ = this.store.select(
-      fromPeerMainReducer.getExistingCompaniesExchangeRequestModalOpen
+      fromPeerMainReducer.getPfCompaniesExchangeRequestModalOpen
     );
-    this.exchangeRequestModalOpen$ = this.store.select(fromPeerMainReducer.getExistingCompaniesExchangeRequestModalOpen);
     this.createForm();
   }
 
@@ -117,7 +115,7 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
 
   // Lifecycle Events
   ngOnInit(): void {
-    this.exchangeRequestModalOpenSubscription = this.exchangeRequestModalOpen$.subscribe(open => {
+    this.exchangeRequestModalOpenSubscription = this.existingCompaniesExchangeRequestModalOpen$.subscribe(open => {
       if (!open) {
         this.cardSelector.selectedCard = null;
         this.searchTerm = '';

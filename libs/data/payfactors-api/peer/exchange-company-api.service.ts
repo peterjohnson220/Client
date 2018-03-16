@@ -26,8 +26,8 @@ export class ExchangeCompanyApiService {
       );
   }
 
-  getTopCandidates<T>(exchangeRequestContext): Observable<T[]> {
-    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopCandidates`,
+  getTopCandidates<T>(exchangeRequestContext, endpoint: string): Observable<T[]> {
+    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/${endpoint}`,
       { params: exchangeRequestContext }
     );
   }
