@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { FilterAggregateItem } from 'libs/models/peer';
-import { AggregateSelectionInfo } from '../models/aggregate-selection-info.model';
+import { AggregateSelectionInfo } from '../models';
 
 export const LOADING_FILTER_AGGREGATES  = '[Peer Add Data Cut/Filter Sidebar] Loading Filter Aggregates';
 export const LOADING_FILTER_AGGREGATES_SUCCESS  = '[Peer Add Data Cut/Filter Sidebar] Loading Filter Aggregates Success';
