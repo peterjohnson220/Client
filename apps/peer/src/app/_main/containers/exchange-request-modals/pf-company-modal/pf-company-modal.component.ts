@@ -5,22 +5,20 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-
+import { PfValidators } from 'libs/forms/validators/index';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
-import { Exchange, ExchangeRequestTypeEnum, ExistingCompany, RequestExchangeRequest } from 'libs/models/peer';
-import { PfValidators } from 'libs/forms/validators';
+import { Exchange, ExchangeRequestTypeEnum, ExistingCompany, RequestExchangeRequest } from 'libs/models/peer/index';
 
-import * as fromPeerMainReducer from '../../reducers/index';
-import * as fromExistingCompaniesActions from '../../actions/exchange-request/existing-companies.actions';
-import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
+import * as fromPeerMainReducer from '../../../reducers/index';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 
 @Component({
-  selector: 'pf-refer-company-modal',
-  templateUrl: './refer-company-modal.component.html',
-  styleUrls: ['./refer-company-modal.component.scss']
+  selector: 'pf-payfactors-company-modal',
+  templateUrl: './pf-company-modal.component.html',
+  styleUrls: ['./pf-company-modal.component.scss']
 })
 
-export class ReferCompanyModalComponent implements OnInit, OnDestroy {
+export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
   @ViewChild(CardSelectorComponent) cardSelector;
 
   exchange$: Observable<Exchange>;
@@ -76,13 +74,11 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
   }
 
   handleReloadCardsEvent(): void {
-    this.store.dispatch(new fromExistingCompaniesActions.LoadExistingCompanies());
+    this.store.dispatch(new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
   }
 
   handleCardSelectionEvent(): void {
     this.reasonControl.setValue('');
-    // this.companySelection = company;
-    // this.store.dispatch(new fromExchangeRequestActions.UpdateSelection(ExchangeRequestTypeEnum.ReferPayfactorsCompany, company));
   }
 
   updateSearchFilter(newSearchTerm: string): void {

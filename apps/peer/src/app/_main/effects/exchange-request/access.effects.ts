@@ -11,7 +11,7 @@ import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-li
 
 import { ExchangeRequestEffectsService } from '../../services';
 import * as fromPeerMainReducers from '../../reducers';
-import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
+import * as fromPeerParticipantsActions from '../../actions/peer-participants.actions';
 
 @Injectable()
 export class AccessExchangeRequestEffects {

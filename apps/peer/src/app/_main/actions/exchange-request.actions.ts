@@ -14,7 +14,6 @@ export const CLOSE_EXCHANGE_REQUEST_MODAL = '[Peer Main/Exchange Request] Close 
 export const CREATE_EXCHANGE_REQUEST = '[Peer Main/Exchange Request] Create Exchange Request';
 export const CREATE_EXCHANGE_REQUEST_SUCCESS = '[Peer Main/Exchange Request] Create Exchange Request Success';
 export const CREATE_EXCHANGE_REQUEST_ERROR = '[Peer Main/Exchange Request] Create Exchange Request Error';
-export const UPDATE_SELECTION = '[Peer Main/Exchange Request] Update Selection';
 export const UPDATE_SEARCH_TERM = '[Peer Main/Exchange Request] Update Search Term';
 export const UPDATE_FILTER_OPTIONS = '[Peer Main/Exchange Request] Update Filter Options';
 export const RESET_EXCHANGE_REQUEST = '[Peer Main/Exchange Request] Reset Exchange Request';
@@ -88,14 +87,6 @@ export class CreateExchangeRequestError implements ExchangeRequestAction {
   }
 }
 
-export class UpdateSelection implements ExchangeRequestAction {
-  readonly type: string;
-
-  constructor(public exchangeRequestType: ExchangeRequestTypeEnum, public payload: any) {
-    this.type = `${exchangeRequestType}_${UPDATE_SELECTION}`;
-  }
-}
-
 export class UpdateSearchTerm implements ExchangeRequestAction {
   readonly type: string;
 
@@ -129,7 +120,6 @@ export type ExchangeRequestActions = LoadCandidates
   | CreateExchangeRequest
   | CreateExchangeRequestSuccess
   | CreateExchangeRequestError
-  | UpdateSelection
   | UpdateSearchTerm
   | UpdateFilterOptions
   | ResetExchangeRequest;

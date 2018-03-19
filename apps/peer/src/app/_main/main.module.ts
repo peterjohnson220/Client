@@ -18,11 +18,10 @@ import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingBu
          AvailableExchangeResultComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-         ExchangeDashboardPageComponent, ReferCompanyModalComponent,
-         RequestExchangeAccessModalComponent } from './containers';
+         ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
+         AccessModalComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects,
-         ExchangeJobMappingInfoEffects, ExchangeDashboardEffects,
-         ExchangeAccessEffects, ExistingCompaniesEffects } from './effects';
+         ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
@@ -65,7 +64,7 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
-    RequestExchangeAccessModalComponent, ReferCompanyModalComponent,
+    PayfactorsCompanyModalComponent, AccessModalComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent

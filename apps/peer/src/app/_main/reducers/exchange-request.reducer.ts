@@ -11,7 +11,6 @@ export interface IExchangeRequestState {
   modalOpen: boolean;
   requesting: boolean;
   requestingError: boolean;
-  selectedCandidate: any;
   searchTerm: string;
   filterOptions: any;
 }
@@ -23,7 +22,6 @@ const initialExchangeRequestState: IExchangeRequestState = {
   modalOpen: false,
   requesting: false,
   requestingError: false,
-  selectedCandidate: null,
   searchTerm: '',
   filterOptions: null
 };
@@ -87,12 +85,6 @@ function getExchangeRequestReducer<T> (
           requestingError: true
         };
       }
-      case `${exchangeRequestType}_${fromExchangeRequestActions.UPDATE_SELECTION}`: {
-        return {
-          ...state,
-          selectedCandidate: action.payload
-        };
-      }
       case `${exchangeRequestType}_${fromExchangeRequestActions.UPDATE_SEARCH_TERM}`: {
         return {
           ...state,
@@ -108,7 +100,6 @@ function getExchangeRequestReducer<T> (
       case `${exchangeRequestType}_${fromExchangeRequestActions.RESET_EXCHANGE_REQUEST}`: {
         return {
           ...state,
-          selectedCandidate: null,
           searchTerm: '',
           filterOptions: null
         };
@@ -136,7 +127,6 @@ export const getLoadingError = (state: IExchangeRequestState) => state.loadingEr
 export const getModalOpen = (state: IExchangeRequestState) => state.modalOpen;
 export const getRequesting = (state: IExchangeRequestState) => state.requesting;
 export const getRequestingError = (state: IExchangeRequestState) => state.requestingError;
-export const getSelectedCandidate = (state: IExchangeRequestState) => state.selectedCandidate;
 export const getLoadingRequestContext = (state: IExchangeRequestState) => {
   return {
     ...state.filterOptions,

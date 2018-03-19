@@ -1,11 +1,11 @@
 <pf-modal-form
   [size]="'lg'"
-  [title]="'Invite a Company'"
+  [title]="'Request Access to an Exchange'"
   [subTitle]="modalSubTitle"
-  [primaryButtonText]="'Invite'"
-  [primaryButtonTextSubmitting]="'Inviting...'"
-  [submitting]="exchangeAccessRequesting$ | async"
-  [isOpen$]="existingCompaniesExchangeRequestModalOpen$"
+  [primaryButtonText]="'Request'"
+  [primaryButtonTextSubmitting]="'Requesting...'"
+  [submitting]="accessExchangeRequesting$ | async"
+  [isOpen$]="accessExchangeRequestModalOpen$"
   [formGroup]="exchangeSelectionsForm"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
@@ -13,18 +13,18 @@
   <ng-container form-content>
 
     <pf-card-selector
-      [cardData$]="existingCompanies$"
-      [cardDataLoading$]="existingCompaniesLoading$"
-      [cardDataError$]="existingCompaniesLoadingError$"
+      [cardData$]="exchangeRequestCandidates$"
+      [cardDataLoading$]="exchangeRequestCandidatesLoading$"
+      [cardDataError$]="exchangeRequestCandidatesLoadingError$"
       [cardBodyTemplate]="cardTemplate"
       [onCardSelectedTemplate]="onCardSelectedTemplate"
-      [cardIdentifier]="companyIdentifier"
-      [cardIsDisabled]="companyCardDisabled"
+      [cardIdentifier]="exchangeIdentifier"
+      [cardIsDisabled]="exchangeCardDisabled"
       (onReload)="handleReloadCardsEvent()"
       (onCardSelection)="handleCardSelectionEvent()"
     >
       <ng-container search-filters>
-        <div class="filter flex-grow-1">
+        <div class="filter">
           <pf-input-debounce id="search-box"
                              [focus]="false"
                              [delay]="400"
@@ -34,6 +34,24 @@
                              (valueChanged)="updateSearchFilter($event)">
           </pf-input-debounce>
         </div>
+        <div class="filter">
+          <div class="d-flex">
+
+            <kendo-autocomplete
+              #list
+              class="flex-grow-1"
+              valueField="Name"
+              placeholder="Search for a company..."
+              [data]="peerParticipants$ | async"
+              [loading]="peerParticipantsLoading$ | async"
+              [filterable]="true"
+              (valueChange)="handleSelectedCompanyChangeEvent($event)"
+              [value]="companyNameFilter"
+            >
+            </kendo-autocomplete>
+
+          </div>
+        </div>
       </ng-container>
     </pf-card-selector>
 
@@ -42,7 +60,7 @@
       <input type="hidden"
              class="form-control"
              name="hasSelection"
-             formControlName="companySelection"
+             formControlName="cardSelection"
              [ngModel]="cardSelection"
              [pfValidatable]="attemptedSubmit"
       />
@@ -70,34 +88,24 @@
 <ng-template #cardTemplate let-card="card">
   <div class="card-title d-flex justify-content-between">
     <h5>
-      {{card?.CompanyName}}
+      {{card.ExchangeName}}
+      <small class="text-muted">({{card.JobCount}} Jobs)</small>
     </h5>
     <h5>
-      <!--TODO: Fix logic? Should it ever be both?-->
-      <span *ngIf="card?.InExchange && !card?.PendingInvitation" class="badge badge-dark">Exchange Member</span>
-      <span *ngIf="card?.PendingInvitation" class="badge badge-warning">Pending Invitation</span>
+      <span *ngIf="card.PendingAccess" class="badge badge-warning">Request Pending</span>
+      <span *ngIf="card.InExchange" class="badge badge-dark">Exchange Member</span>
     </h5>
-  </div>
-
-  <div class="d-flex flex-row justify-content-between mb-2">
-    <span class="flex-grow-1"  style="flex-basis: 40%" title="Industry">
-      <i class="fas fa-building fa-lg"></i>
-      {{card?.Industry ? card?.Industry : 'No Industry'}}
-    </span>
-    <span class="flex-grow-1" style="flex-basis: 20%" title="Revenue">
-      <i class="fas fa-usd-circle fa-lg"></i>
-      {{card?.Size ? (card?.Size | humanizeNumber) : 'Not Reported'}}
-    </span>
-    <span class="flex-grow-1" style="flex-basis: 40%" title="FTEs">
-      <i class="fas fa-users fa-lg"></i>
-      {{card?.FTEs ? card?.FTEs : 0}}
-    </span>
   </div>
 
   <p class="card-text">
-    <small title="Peers">
+    {{card.TopIndustries.join(', ')}}
+  </p>
+
+  <p class="card-text">
+    <small>
       <pf-ellipsis-view-more
-        [content]="card?.Peers.join(', ').toString()"
+        [content]="card.CompanyNames.join(', ')"
+        [highlightFilter]="companyNameFilter"
         [maxLength]="150"></pf-ellipsis-view-more>
     </small>
   </p>
