@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
-import { AggregateSelectionInfo } from '../../models/aggregate-selection-info.model';
+
+import { AggregateSelectionInfo } from '../../models';
 
 @Component({
   selector: 'pf-filter-aggregate-group',
