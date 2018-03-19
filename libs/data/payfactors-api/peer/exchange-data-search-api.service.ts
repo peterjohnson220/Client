@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {
-  ExchangeDataSearchFilter, ExchangeMapResponse, BaseFilterRequest, ExchangeDataSearchBaseFilter,
+  ExchangeDataSearchFilter, ExchangeMapResponse, ExchangeJobPayMarketFilterRequest, ExchangeJobPayMarketFilter,
   FilterAggregateGroup } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -13,11 +13,11 @@ export class ExchangeDataSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getBaseFilter(baseFilterRequest: BaseFilterRequest): Observable<ExchangeDataSearchBaseFilter> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetBaseFilter`, {
+  getExchangeJobAndPayMarketFilter(request: ExchangeJobPayMarketFilterRequest): Observable<ExchangeJobPayMarketFilter> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeJobAndPayMarketFilter`, {
       params: {
-        CompanyJobId: baseFilterRequest.CompanyJobId,
-        CompanyPayMarketId: baseFilterRequest.CompanyPayMarketId
+        CompanyJobId: request.CompanyJobId,
+        CompanyPayMarketId: request.CompanyPayMarketId
       }
     });
   }

@@ -1,13 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { AddDataCutRequest, BaseFilterRequest, ExchangeDataSearchBaseFilter } from 'libs/models/peer';
+import { ExchangeJobPayMarketFilter, ExchangeJobPayMarketFilterRequest } from 'libs/models/peer';
 
 export const ADDING_DATA_CUT  = '[Legacy Content/Add Data Cut Page] Adding Data Cut';
 export const ADDING_DATA_CUT_SUCCESS  = '[Legacy Content/Add Data Cut Page] Adding Data Cut Success';
 export const ADDING_DATA_CUT_ERROR  = '[Legacy Content/Add Data Cut Page] Adding Data Cut Error';
 export const CANCEL_ADD_DATA_CUT = '[Legacy Content/Add Data Cut Page] Cancel Add Data Cut';
-export const LOADING_BASE_FILTER = '[Legacy Content/Add Data Cut Page] Load Base Filter';
-export const LOADING_BASE_FILTER_SUCCESS = '[Legacy Content/Add Data Cut Page] Load Base Filter Success';
+export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER = '[Legacy Content/Add Data Cut Page] Load Exchange Job Pay Market Filter';
+export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS =
+  '[Legacy Content/Add Data Cut Page] Load Exchange Job Pay Market Filter Success';
 
 export class AddingDataCut implements Action {
   readonly type = ADDING_DATA_CUT;
@@ -27,16 +28,16 @@ export class CancelAddDataCut implements Action {
   readonly type = CANCEL_ADD_DATA_CUT;
 }
 
-export class LoadingBaseFilter implements Action {
-  readonly type = LOADING_BASE_FILTER;
+export class LoadingExchangeJobPayMarketFilter implements Action {
+  readonly type = LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER;
 
-  constructor(public payload: BaseFilterRequest) { }
+  constructor(public payload: ExchangeJobPayMarketFilterRequest) { }
 }
 
-export class LoadingBaseFilterSuccess implements Action {
-  readonly type = LOADING_BASE_FILTER_SUCCESS;
+export class LoadingExchangeJobPayMarketFilterSuccess implements Action {
+  readonly type = LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS;
 
-  constructor(public payload: ExchangeDataSearchBaseFilter) { }
+  constructor(public payload: ExchangeJobPayMarketFilter) { }
 }
 
 export type Actions
@@ -44,5 +45,5 @@ export type Actions
   | AddingDataCutSuccess
   | AddingDataCutError
   | CancelAddDataCut
-  | LoadingBaseFilter
-  | LoadingBaseFilterSuccess;
+  | LoadingExchangeJobPayMarketFilter
+  | LoadingExchangeJobPayMarketFilterSuccess;

@@ -44,7 +44,7 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
 
-    this.store.dispatch(new fromAddDataCutPageActions.LoadingBaseFilter({
+    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId
     }));

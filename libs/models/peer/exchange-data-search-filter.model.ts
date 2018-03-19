@@ -1,11 +1,8 @@
 import { generateMockGeoCoordinates, GeoCoordinates } from './exchange-map-response.model';
-import {
-  ExchangeDataSearchBaseFilter,
-  generateMockExchangeDataSearchBaseFilter
-} from './exchange-data-search-base-filter.model';
+import { ExchangeJobPayMarketFilter } from './exchange-job-pay-market-filter.model';
+import { generateMockPayMarketLocation } from './pay-market-location.model';
 
-export interface ExchangeDataSearchFilter {
-  BaseFilter: ExchangeDataSearchBaseFilter;
+export interface ExchangeDataSearchFilter extends ExchangeJobPayMarketFilter {
   Exchanges: string[];
   States: string[];
   Cities: string[];
@@ -21,7 +18,8 @@ export interface ExchangeDataSearchFilter {
 
 export function generateMockExchangeMapFilter(): ExchangeDataSearchFilter {
   return {
-    BaseFilter: generateMockExchangeDataSearchBaseFilter(),
+    ExchangeJobIds: [1, 2, 4],
+    PayMarketLocation: generateMockPayMarketLocation(),
     Exchanges: ['ExchangeOne'],
     States: ['StateOne'],
     Cities: ['CityOne, StateOne'],

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
-import { ExchangeDataSearchBaseFilter } from 'libs/models/peer';
+import { ExchangeJobPayMarketFilter } from 'libs/models/peer';
 
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
@@ -21,20 +21,20 @@ import * as fromPeerDataReducers from '../reducers';
 export class AddDataCutEffects {
 
   @Effect()
-  loadBaseFitler$: Observable<Action> = this.actions$
-    .ofType(fromAddDataCutPageActions.LOADING_BASE_FILTER)
-    .map((action: fromAddDataCutPageActions.LoadingBaseFilter) => action.payload)
+  loadingExchangeJobPayMarketFilter$: Observable<Action> = this.actions$
+    .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER)
+    .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter) => action.payload)
     .switchMap(payload =>
-      this.exchangeDataSearchApiService.getBaseFilter(payload)
-        .map((exchangeDataCutBaseFilter: ExchangeDataSearchBaseFilter) => new fromAddDataCutPageActions
-          .LoadingBaseFilterSuccess(exchangeDataCutBaseFilter))
+      this.exchangeDataSearchApiService.getExchangeJobAndPayMarketFilter(payload)
+        .map((exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter) => new fromAddDataCutPageActions
+          .LoadingExchangeJobPayMarketFilterSuccess(exchangeJobPayMarketFilter))
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
     );
 
   @Effect()
-  loadingBaseFilterSuccess$: Observable<Action> = this.actions$
-    .ofType(fromAddDataCutPageActions.LOADING_BASE_FILTER_SUCCESS)
-    .map((action: fromAddDataCutPageActions.LoadingBaseFilterSuccess) => action.payload)
+  loadingExchangeJobPayMarketFilterSuccess$: Observable<Action> = this.actions$
+    .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS)
+    .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilterSuccess) => action.payload)
     .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingFilterAggregates()]);
 
   @Effect()

@@ -38,7 +38,7 @@ export const selectPeerFiltersState = createSelector(selectPeerDataState, (state
 // Add Data Cut Selectors
 export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
 export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
-export const getBaseExchangeDataCutFilter = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getBaseExchangeDataCutFilter);
+export const getExchangeJobPayMarketFilter = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getExchangeJobPayMarketFilter);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
@@ -65,13 +65,13 @@ export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fro
 
 // Combined State Selectors
 export const getExchangeDataCutRequestData = createSelector(
-  getBaseExchangeDataCutFilter,
+  getExchangeJobPayMarketFilter,
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  (bf, fs, pmf, pfltp) => {
+  (ejpmf, fs, pmf, pfltp) => {
     return {
-      BaseFilter: bf,
+      ...ejpmf,
       ...fs,
       ...pmf,
       LimitToPayMarket: pfltp

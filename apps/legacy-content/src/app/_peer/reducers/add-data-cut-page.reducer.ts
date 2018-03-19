@@ -1,18 +1,18 @@
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
-import { ExchangeDataSearchBaseFilter } from 'libs/models';
+import { ExchangeJobPayMarketFilter } from 'libs/models';
 
 export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
-  baseExchangeDataCutFilter: ExchangeDataSearchBaseFilter;
+  exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter;
 }
 
 // Initial State
 export const initialState: State = {
   addingDataCut: false,
   addingDataCutError: false,
-  baseExchangeDataCutFilter: null
+  exchangeJobPayMarketFilter: null
 };
 
 // Reducer
@@ -49,10 +49,10 @@ export function reducer(
         addingDataCutError: false
       };
     }
-    case fromAddDataCutPageActions.LOADING_BASE_FILTER_SUCCESS: {
+    case fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS: {
       return {
         ...state,
-        baseExchangeDataCutFilter: action.payload
+        exchangeJobPayMarketFilter: action.payload
       };
     }
     default: {
@@ -64,4 +64,4 @@ export function reducer(
 // Selector Functions
 export const getAddingDataCut = (state: State) => state.addingDataCut;
 export const getAddingDataCutError = (state: State) => state.addingDataCutError;
-export const getBaseExchangeDataCutFilter = (state: State) => state.baseExchangeDataCutFilter;
+export const getExchangeJobPayMarketFilter = (state: State) => state.exchangeJobPayMarketFilter;

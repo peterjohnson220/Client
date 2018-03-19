@@ -4,7 +4,7 @@ export * from './add-exchange-jobs-request.model';
 export * from './exchange-jobs-validation-result.model';
 export * from './get-chart-request.model';
 export * from './import-exchange-jobs.request';
-export * from './base-filter-request.model';
+export * from './exchange-job-pay-market-request.model';
 export * from './upsert-exchange-job-map.request.model';
 export * from './upsert-exchange-request.model';
 export * from './validate-exchange-jobs.request';
