@@ -13,7 +13,6 @@ import { PfValidators } from 'libs/forms/validators';
 import * as fromPeerMainReducer from '../../reducers/index';
 import * as fromExistingCompaniesActions from '../../actions/exchange-request/existing-companies.actions';
 import * as fromExchangeRequestActions from '../../actions/exchange-request.actions';
-import * as fromPeerMainReducers from '../../reducers';
 
 @Component({
   selector: 'pf-refer-company-modal',
@@ -36,7 +35,6 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
 
   exchange: Exchange;
   attemptedSubmit = false;
-  // companySelection: ExistingCompany;
   exchangeSelectionsForm: FormGroup;
   reason = '';
   searchTerm = '';
@@ -48,10 +46,11 @@ export class ReferCompanyModalComponent implements OnInit, OnDestroy {
     private store: Store<fromPeerMainReducer.State>,
     private fb: FormBuilder
   ) {
-    this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
+    this.exchange$ = this.store.select(fromPeerMainReducer.getExchange);
     this.existingCompanies$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidates);
     this.existingCompaniesLoading$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidatesLoading);
     this.existingCompaniesLoadingError$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestCandidatesLoadingError);
+    this.exchangeAccessRequesting$ = this.store.select(fromPeerMainReducer.getPfCompaniesExchangeRequestRequesting);
     this.existingCompaniesExchangeRequestModalOpen$ = this.store.select(
       fromPeerMainReducer.getPfCompaniesExchangeRequestModalOpen
     );

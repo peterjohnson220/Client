@@ -24,7 +24,7 @@
 
     </ng-container>
 
-    <ng-container *ngIf="!(cardData$ | async).length && !(cardDataLoading$ | async)">
+    <ng-container *ngIf="!(cardData$ | async)?.length && !(cardDataLoading$ | async)">
 
       <div class="d-flex justify-content-center flex-column flex-grow-1">
         <h5 class="align-self-center">No Results</h5>

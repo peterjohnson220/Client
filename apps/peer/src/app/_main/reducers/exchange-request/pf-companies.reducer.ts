@@ -19,9 +19,3 @@ export function reducer(state, action) {
 }
 
 // Selector functions
-export const getLoadingRequestContext = (state: State) => {
-  return {
-    query: state.searchTerm,
-    exchangeId: state.filterOptions ? state.filterOptions.exchangeId : null
-  };
-};

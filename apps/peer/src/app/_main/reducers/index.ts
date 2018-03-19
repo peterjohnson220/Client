@@ -40,7 +40,7 @@ export const reducers = {
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
   peerParticipants: fromPeerParticipantsReducer.reducer,
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
-  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer
+  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer
 };
 
 // Select Feature Area
@@ -292,5 +292,11 @@ export const getPfCompaniesExchangeRequestSelection = createSelector(
 );
 export const getPfCompaniesExchangeRequestContext = createSelector(
   selectPfCompaniesExchangeRequestState,
-  fromPfCompaniesExchangeRequestReducer.getLoadingRequestContext
+  selectExchangeState,
+  (exchangeRequestState, exchangeState) => {
+    return {
+      query: exchangeRequestState.searchTerm,
+      exchangeId: exchangeState.exchange ? exchangeState.exchange.ExchangeId : 0
+    };
+  }
 );
