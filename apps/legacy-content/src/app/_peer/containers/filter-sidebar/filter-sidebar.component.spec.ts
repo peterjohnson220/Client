@@ -6,12 +6,12 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockPayMarket } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerDataReducer from '../../reducers';
 import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
-
 
 describe('Legacy Content - Peer - Filter Sidebar Component', () => {
   let fixture: ComponentFixture<FilterSidebarComponent>;
@@ -76,16 +76,8 @@ describe('Legacy Content - Peer - Filter Sidebar Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  // Because we are importing the SwitchModule for the reasons described above the component will be rendered and
-  // will cause snapshots to continually fail because of generated Ids changing. Putting this test on the back burner
-  // for now. [BC]
-  // it('should show a \'Metro\' label after the PayMarket\'s GeoValue when the GeoLabel is \'Metro\'', () => {
-  //   fixture.detectChanges();
-  //
-  //   store.dispatch(new fromFilterSidebarActions.LoadPayMarketInformationSuccess(generateMockPayMarket()));
-  //
-  //   fixture.detectChanges();
-  //
-  //   expect(fixture).toMatchSnapshot();
-  // });
+  it('should build a paymarket bounds filter label with \'Metro\' appended when the GeoLabel is \'Metro\'', () => {
+    const filterLabel = instance.buildPayMarketBoundsFilterLabel(generateMockPayMarket());
+    expect(filterLabel.split(' ').slice(-1)[0]).toBe('Metro');
+  });
 });
