@@ -1,11 +1,11 @@
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
-import { ExchangeDataCutBaseFilter } from 'libs/models';
+import { ExchangeDataSearchBaseFilter } from 'libs/models';
 
 export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
-  baseExchangeDataCutFilter: ExchangeDataCutBaseFilter;
+  baseExchangeDataCutFilter: ExchangeDataSearchBaseFilter;
 }
 
 // Initial State

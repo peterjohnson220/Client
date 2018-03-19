@@ -2,17 +2,17 @@ import { Action } from '@ngrx/store';
 
 import { AddDataCutRequest, BaseFilterRequest, ExchangeDataSearchBaseFilter } from 'libs/models/peer';
 
-export const ADDING_DATA_CUT  = '[Legacy Content/Add Data Cut] Adding Data Cut';
-export const ADDING_DATA_CUT_SUCCESS  = '[Legacy Content/Add Data Cut] Adding Data Cut Success';
-export const ADDING_DATA_CUT_ERROR  = '[Legacy Content/Add Data Cut] Adding Data Cut Error';
-export const CANCEL_ADD_DATA_CUT = '[Legacy Content/Add Data Cut] Cancel Add Data Cut';
-export const LOADING_BASE_FILTER = '[Legacy Content/Add Data Cut] Load Base Filter';
-export const LOADING_BASE_FILTER_SUCCESS = '[Legacy Content/Add Data Cut] Load Base Filter Success';
+export const ADDING_DATA_CUT  = '[Legacy Content/Add Data Cut Page] Adding Data Cut';
+export const ADDING_DATA_CUT_SUCCESS  = '[Legacy Content/Add Data Cut Page] Adding Data Cut Success';
+export const ADDING_DATA_CUT_ERROR  = '[Legacy Content/Add Data Cut Page] Adding Data Cut Error';
+export const CANCEL_ADD_DATA_CUT = '[Legacy Content/Add Data Cut Page] Cancel Add Data Cut';
+export const LOADING_BASE_FILTER = '[Legacy Content/Add Data Cut Page] Load Base Filter';
+export const LOADING_BASE_FILTER_SUCCESS = '[Legacy Content/Add Data Cut Page] Load Base Filter Success';
 
 export class AddingDataCut implements Action {
   readonly type = ADDING_DATA_CUT;
 
-  constructor(public payload: AddDataCutRequest) { }
+  constructor(public payload: any) { }
 }
 
 export class AddingDataCutSuccess implements Action {

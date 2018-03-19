@@ -9,11 +9,12 @@ import 'rxjs/add/operator/switchMap';
 import { of } from 'rxjs/observable/of';
 
 import { PayMarketApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
-import { ExchangeDataCutFilter } from 'libs/models/peer';
+import { ExchangeDataSearchFilter } from 'libs/models/peer';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerDataReducers from '../reducers';
+import { FilterAggregateGroup } from '../../../../../../libs/models/peer';
 
 @Injectable()
 export class FilterSidebarEffects {
@@ -30,18 +31,14 @@ export class FilterSidebarEffects {
 
   @Effect()
   loadPeerFilters$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOADING_PEER_FILTERS)
+    .ofType(fromFilterSidebarActions.LOADING_FILTER_AGGREGATES)
     .withLatestFrom(
       this.store.select(fromPeerDataReducers.getExchangeDataCutRequestData),
       (action, exchangeDataCutRequestData) => exchangeDataCutRequestData)
-    .switchMap((filter: ExchangeDataCutFilter) =>
+    .switchMap((filter: ExchangeDataSearchFilter) =>
       this.exchangeDataSearchApiService.getFilterAggregates(filter)
-      // TODO[BC]: Look at this
-        .map((exchangeFiltersResponse: any) => new fromFilterSidebarActions.LoadingPeerFiltersSuccess({
-          response: exchangeFiltersResponse,
-          filter: filter
-        }))
-        .catch(() => of(new fromFilterSidebarActions.LoadingPeerFiltersError))
+        .map((aggregateGroups: FilterAggregateGroup[]) => new fromFilterSidebarActions.LoadingFilterAggregatesSuccess(aggregateGroups))
+        .catch(() => of(new fromFilterSidebarActions.LoadingFilterAggregatesError()))
     );
 
   @Effect()
@@ -55,7 +52,7 @@ export class FilterSidebarEffects {
     .mergeMap(() => [
       new fromFilterSidebarActions.ClearSelections,
       new fromPeerMapActions.LoadingPeerMap,
-      new fromFilterSidebarActions.LoadingPeerFilters
+      new fromFilterSidebarActions.LoadingFilterAggregates()
     ]);
 
   constructor(

@@ -12,7 +12,7 @@ import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
-import { ExchangeMapResponse, ExchangeDataCutFilter } from 'libs/models/peer';
+import { ExchangeMapResponse, ExchangeDataSearchFilter } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerDataReducers from '../reducers';
@@ -25,7 +25,7 @@ export class PeerMapEffects {
     .withLatestFrom(
         this.store.select(fromPeerDataReducers.getExchangeDataCutRequestData),
         (action, exchangeDataCutRequestData) => exchangeDataCutRequestData)
-    .switchMap((payload: ExchangeDataCutFilter) =>
+    .switchMap((payload: ExchangeDataSearchFilter) =>
       this.exchangeDataSearchApiService.getMapData(payload)
         .map((exchangeMapResponse: ExchangeMapResponse) => new fromPeerMapActions
           .LoadingPeerMapSuccess(exchangeMapResponse))

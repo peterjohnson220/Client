@@ -1,4 +1,4 @@
-export interface FilterAggregateSelection {
+export interface FilterAggregateSelections {
   Exchanges: string[];
   States: string[];
   Cities: string[];
@@ -9,7 +9,7 @@ export interface FilterAggregateSelection {
   ExchangeJobFLSAStatuses: string[];
 }
 
-export function generateMockFilterAggregateSelection(): FilterAggregateSelection {
+export function generateMockFilterAggregateSelections(): FilterAggregateSelections {
   return {
     Exchanges: ['1st Exchange'],
     States: ['MA', 'NH'],

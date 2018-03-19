@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
-import { ExchangeDataCutBaseFilter } from 'libs/models/peer';
+import { ExchangeDataSearchBaseFilter } from 'libs/models/peer';
 
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
@@ -26,7 +26,7 @@ export class AddDataCutEffects {
     .map((action: fromAddDataCutPageActions.LoadingBaseFilter) => action.payload)
     .switchMap(payload =>
       this.exchangeDataSearchApiService.getBaseFilter(payload)
-        .map((exchangeDataCutBaseFilter: ExchangeDataCutBaseFilter) => new fromAddDataCutPageActions
+        .map((exchangeDataCutBaseFilter: ExchangeDataSearchBaseFilter) => new fromAddDataCutPageActions
           .LoadingBaseFilterSuccess(exchangeDataCutBaseFilter))
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
     );
@@ -35,7 +35,7 @@ export class AddDataCutEffects {
   loadingBaseFilterSuccess$: Observable<Action> = this.actions$
     .ofType(fromAddDataCutPageActions.LOADING_BASE_FILTER_SUCCESS)
     .map((action: fromAddDataCutPageActions.LoadingBaseFilterSuccess) => action.payload)
-    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingPeerFilters]);
+    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingFilterAggregates()]);
 
   @Effect()
   addingDataCut$ = this.actions$

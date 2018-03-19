@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -15,7 +15,7 @@ import * as fromPeerDataReducers from '../../reducers';
   templateUrl: './map.component.html',
   styleUrls: [ './map.component.scss' ]
 })
-export class MapComponent implements OnInit {
+export class MapComponent {
   selectedPoint: any = null;
   cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/streets-v9';
@@ -40,10 +40,6 @@ export class MapComponent implements OnInit {
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
     this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
     this.peerMapMaxZoom$ = this.store.select(fromPeerDataReducers.getPeerMapMaxZoom);
-  }
-
-  ngOnInit(): void {
-    // Do I need to do anything here?
   }
 
   get center(): any {

@@ -12,4 +12,4 @@ export * from './exchange-data-search-filter.model';
 export * from './exchange-map-response.model';
 export * from './exchange-data-search-base-filter.model';
 export * from './pay-market-location.model';
-export * from './filter-aggregate-selection.model';
+export * from './filter-aggregate-selections.model';

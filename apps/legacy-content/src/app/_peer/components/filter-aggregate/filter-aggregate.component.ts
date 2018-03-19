@@ -11,7 +11,7 @@ export class FilterAggregateComponent {
   @Input() aggregate: FilterAggregateItem;
   @Output() aggregateSelected = new EventEmitter();
 
-  // TODO[BC]: This will be passed in as an input as we will be updated from the store
+  // TODO[BC]: Connect this to the store. Will require the FilterAggregateItem model to include a selected boolean.
   selected: boolean;
 
   constructor() { }

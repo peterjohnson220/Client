@@ -1,7 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
-import { ExchangeDataCutFilter, FilterAggregateSelection } from 'libs/models/peer';
+import { FilterAggregateSelections } from 'libs/models/peer';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 
@@ -11,7 +11,7 @@ export interface State extends EntityState<FilterAggregateGroup> {
   loadingError: boolean;
   limitToPayMarket: boolean;
   payMarket: any;
-  selections: FilterAggregateSelection;
+  selections: FilterAggregateSelections;
 }
 
 // Create entity adapter
@@ -40,27 +40,19 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(state = initialState, action: fromFilterSidebarActions.Actions): State {
   switch (action.type) {
-    case fromFilterSidebarActions.LOADING_PEER_FILTERS: {
+    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES: {
       return {
         ...adapter.removeAll(state),
         loading: true
       };
     }
-    case fromFilterSidebarActions.LOADING_PEER_FILTERS_SUCCESS: {
-      const filters: FilterAggregateGroup[] = action.payload.response;
-      const filter: ExchangeDataCutFilter = action.payload.filter;
-      const filtersWithSelections: FilterAggregateGroup[] = filters.map(f => {
-        return {
-          ...f,
-          Selections: filter[ f.MetaData.FilterProp ]
-        };
-      });
+    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_SUCCESS: {
       return {
-        ...adapter.addAll(filtersWithSelections, state),
+        ...adapter.addAll(action.payload, state),
         loading: false
       };
     }
-    case fromFilterSidebarActions.LOADING_PEER_FILTERS_ERROR: {
+    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_ERROR: {
       return {
         ...state,
         loading: false,
@@ -68,17 +60,20 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       };
     }
     case fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED: {
-      const selectionsCopy = { ...state.selections };
       const selectionInfo = action.payload;
 
+      // Make a new selections object and group array (immutable)
+      const selectionsCopy = { ...state.selections };
       let selectionsGroupCopy = [...selectionsCopy[selectionInfo.AggregateGroup]];
 
+      // If aggregate item exists, filter it out, otherwise add it to selection group
       if (selectionsGroupCopy.some(s => s === selectionInfo.AggregateItem)) {
         selectionsGroupCopy = selectionsGroupCopy.filter(s => s !== selectionInfo.AggregateItem);
       } else {
         selectionsGroupCopy.push(selectionInfo.AggregateItem);
       }
 
+      // Overwrite selection group
       selectionsCopy[selectionInfo.AggregateGroup] = selectionsGroupCopy;
 
       return {

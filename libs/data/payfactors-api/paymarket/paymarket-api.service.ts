@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { NavigationLink, SidebarLink } from '../../../models/navigation';
-
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()

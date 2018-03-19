@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeDataCutFilter, ExchangeMapResponse, BaseFilterRequest, ExchangeDataCutBaseFilter } from '../../../models/peer';
+import {
+  ExchangeDataSearchFilter, ExchangeMapResponse, BaseFilterRequest, ExchangeDataSearchBaseFilter,
+  FilterAggregateGroup } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { FilterAggregateGroup } from '../../../models/peer/aggregate-filters';
 
 @Injectable()
 export class ExchangeDataSearchApiService {
@@ -12,7 +13,7 @@ export class ExchangeDataSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getBaseFilter(baseFilterRequest: BaseFilterRequest): Observable<ExchangeDataCutBaseFilter> {
+  getBaseFilter(baseFilterRequest: BaseFilterRequest): Observable<ExchangeDataSearchBaseFilter> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetBaseFilter`, {
       params: {
         CompanyJobId: baseFilterRequest.CompanyJobId,
@@ -21,11 +22,11 @@ export class ExchangeDataSearchApiService {
     });
   }
 
-  getMapData(exchangeDataCutFilter: ExchangeDataCutFilter): Observable<ExchangeMapResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeDataCutFilter);
+  getMapData(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<ExchangeMapResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeDataSearchFilter);
   }
 
-  getFilterAggregates(exchangeDataCutFilter: ExchangeDataCutFilter): Observable<FilterAggregateGroup[]> {
-   return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataCutFilter);
+  getFilterAggregates(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<FilterAggregateGroup[]> {
+   return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
 }
