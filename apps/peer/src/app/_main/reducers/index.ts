@@ -213,7 +213,6 @@ export const {
 } = fromExchangeJobMappingInfoReducer.adapter.getSelectors(selectExchangeJobMappingInfoState);
 
 // Exchange Request - Access
-// TODO: Can we use an adapter that lives in the ExchangeRequestReducer instead?
 export const {
   selectAll: getAccessExchangeRequestCandidates
 } = fromAccessExchangeRequestReducer.adapter.getSelectors(selectAccessExchangeRequestState);
@@ -249,7 +248,6 @@ export const getPeerParticipantsLoading = createSelector(
 );
 
 // Exchange Request - pfCompanies
-// TODO: Can we use an adapter that lives in the ExchangeRequestReducer instead?
 export const {
   selectAll: getPfCompaniesExchangeRequestCandidates
 } = fromPfCompaniesExchangeRequestReducer.adapter.getSelectors(selectPfCompaniesExchangeRequestState);

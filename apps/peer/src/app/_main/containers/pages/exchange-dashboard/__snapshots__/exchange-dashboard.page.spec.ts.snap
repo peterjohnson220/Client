@@ -27,6 +27,14 @@ exports[`Peer - Exchange Dashboard should show the dashboard with the exchange n
       class="btn btn-primary"
       type="button"
     >
+      Invite Company
+    </button>
+    
+      
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
       Manage Jobs
     </button>
     
@@ -115,6 +123,8 @@ exports[`Peer - Exchange Dashboard should show the dashboard with the exchange n
   
   
   </pf-page-with-title-bar>
+  
+  <pf-payfactors-company-modal />
   
 </pf-exchange-dashboard-page>
 `;

@@ -1,10 +1,5 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 
-export interface Card<TDataItem> {
-  Identifier: (dataItem: TDataItem) => number | string;
-  IsSelected: (dataItem: TDataItem) => boolean;
-  IsDisabled: (dataItem: TDataItem) => boolean;
-}
 @Component({
   selector: 'pf-card',
   templateUrl: './card.component.html',
