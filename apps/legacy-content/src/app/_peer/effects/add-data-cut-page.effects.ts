@@ -59,7 +59,6 @@ export class AddDataCutPageEffects {
   addingDataCutSuccess$ = this.actions$
     .ofType(fromAddDataCutPageActions.ADDING_DATA_CUT_SUCCESS)
     .do((action: fromAddDataCutPageActions.AddingDataCutSuccess) => {
-      console.log("HERE!!!!");
       this.windowCommunicationService.postMessage(action.type);
     });
 
