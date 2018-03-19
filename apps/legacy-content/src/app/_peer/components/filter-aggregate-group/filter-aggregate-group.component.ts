@@ -26,10 +26,10 @@ export class FilterAggregateGroupComponent {
     return this.aggregateGroup.Aggregates;
   }
 
-  handleAggregateSelected(option: FilterAggregateItem) {
+  handleAggregateSelected(aggregateItem: FilterAggregateItem) {
     this.aggregateToggled.emit({
       AggregateGroup: this.aggregateGroup.MetaData.FilterProp,
-      AggregateItem: option.Item
+      AggregateItem: aggregateItem.Item
     });
   }
 }
