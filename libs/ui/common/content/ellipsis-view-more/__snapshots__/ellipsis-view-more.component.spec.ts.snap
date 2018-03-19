@@ -6,7 +6,9 @@ exports[`UI/Common/Content - Ellipsis View More should ellipsis the content and 
   maxLength={[Function Number]}
 >
   
+    <span>
     Lorem ipsum dol...
+  </span>
   
   
   
@@ -33,7 +35,9 @@ exports[`UI/Common/Content - Ellipsis View More should show the full content and
   showFull={[Function Boolean]}
 >
   
+    <span>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  </span>
   
   
   
@@ -59,7 +63,9 @@ exports[`UI/Common/Content - Ellipsis View More should show the full content, wh
   maxLength={[Function Number]}
 >
   
+    <span>
     Lorem Ipsum
+  </span>
   
   
   

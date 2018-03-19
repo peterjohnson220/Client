@@ -8,6 +8,7 @@ import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
 import { ValidationResultsComponent } from './validation';
+import { PfCommonModule } from '../../core';
 
 const components = [
   // Content
@@ -29,7 +30,8 @@ const components = [
 @NgModule({
   imports:      [
     CommonModule,
-    RouterModule
+    RouterModule,
+    PfCommonModule
   ],
   declarations: components,
   exports: components

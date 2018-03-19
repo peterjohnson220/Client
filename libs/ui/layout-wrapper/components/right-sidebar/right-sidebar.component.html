@@ -1,6 +1,14 @@
 <div class="right-sidebar-dock">
-  <span (click)="rightSidebarToggle = !rightSidebarToggle"><i id="openSidebarIcon" [style.visibility]="rightSidebarToggle ? 'hidden' : 'visible'"
-           class="fas fa-plus fa-lg open-sidebar-icon"></i></span>
+  <span (click)="rightSidebarToggle = !rightSidebarToggle">
+    <span id="openSidebarIconContainer"
+          class="open-sidebar-icon-container"
+          [style.visibility]="rightSidebarToggle ? 'hidden' : 'visible'">
+      <i id="openSidebarIcon"
+         class="fas fa-lg open-sidebar-icon"
+         ngClass="{{ fontAwesomeOpenIcon }}"
+      ></i>
+    </span>
+  </span>
   <div id="rightSidebarTransitionWrapper" class="right-sidebar-content"
        [ngClass]="{'right-sidebar-open': rightSidebarToggle, 'right-sidebar-close': !rightSidebarToggle}">
     <div id="rightSidebarContentWrapper" class="sidebar-width">

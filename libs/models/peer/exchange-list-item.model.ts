@@ -4,6 +4,7 @@ export interface ExchangeListItem {
   CreatedBy: string;
   CreatedDate: Date;
   NumberOfCompanies: number;
+  PendingAccess: boolean;
 }
 
 export function generateMockExchangeListItem(): ExchangeListItem {
@@ -12,6 +13,7 @@ export function generateMockExchangeListItem(): ExchangeListItem {
     ExchangeName: 'Airlines',
     CreatedBy: 'John Doe',
     CreatedDate: new Date(1512056138449),
-    NumberOfCompanies: 6
+    NumberOfCompanies: 6,
+    PendingAccess: false
   };
 }

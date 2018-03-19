@@ -9,6 +9,7 @@
               [resizable]="true"
               [pageable]="true"
               [pageSize]="(exchangeListItems$ | async).length"
+              [rowClass]="rowClass"
               (cellClick)="handleCellClick($event)">
 
     <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
@@ -24,6 +25,13 @@
     <kendo-grid-column field="NumberOfCompanies" title="Exchange Companies" class="text-center"
                        [width]="250"
                        [headerClass]="'text-center'">
+    </kendo-grid-column>
+    <kendo-grid-column field="PendingAccess" title="" [width]="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="pending-access text-center" *ngIf="dataItem.PendingAccess">
+          <span class="badge badge-warning">Request Pending</span>
+        </div>
+      </ng-template>
     </kendo-grid-column>
 
     <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
