@@ -9,28 +9,26 @@ import 'rxjs/add/operator/switchMap';
 import { of } from 'rxjs/observable/of';
 
 import { PayMarketApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
-import { ExchangeDataSearchFilter } from 'libs/models/peer';
+import { ExchangeDataSearchFilter, FilterAggregateGroup } from 'libs/models/peer';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerDataReducers from '../reducers';
-import { FilterAggregateGroup } from '../../../../../../libs/models/peer';
 
 @Injectable()
 export class FilterSidebarEffects {
 
   @Effect()
-  loadPayMarketInformation = this.actions$
+  loadPayMarketInformation$ = this.actions$
     .ofType(fromFilterSidebarActions.LOAD_PAYMARKET_INFORMATION)
     .map((action: fromFilterSidebarActions.LoadPayMarketInformation) => action.payload)
     .switchMap((payload) => {
       return this.payMarketApiService.get(payload)
       .map((response) => new fromFilterSidebarActions.LoadPayMarketInformationSuccess(response));
-      // .catch(() => of(new fromAddDataCutPageActions.AddingDataCutError()));
     });
 
   @Effect()
-  loadPeerFilters$: Observable<Action> = this.actions$
+  loadFilterAggregates$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.LOADING_FILTER_AGGREGATES)
     .withLatestFrom(
       this.store.select(fromPeerDataReducers.getExchangeDataCutRequestData),

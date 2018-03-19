@@ -18,7 +18,7 @@ import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerDataReducers from '../reducers';
 
 @Injectable()
-export class AddDataCutEffects {
+export class AddDataCutPageEffects {
 
   @Effect()
   loadingExchangeJobPayMarketFilter$: Observable<Action> = this.actions$
@@ -59,6 +59,7 @@ export class AddDataCutEffects {
   addingDataCutSuccess$ = this.actions$
     .ofType(fromAddDataCutPageActions.ADDING_DATA_CUT_SUCCESS)
     .do((action: fromAddDataCutPageActions.AddingDataCutSuccess) => {
+      console.log("HERE!!!!");
       this.windowCommunicationService.postMessage(action.type);
     });
 

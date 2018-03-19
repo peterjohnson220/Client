@@ -2,6 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
 import { FilterAggregateSelections } from 'libs/models/peer';
+import { PayMarket } from 'libs/models/paymarket';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 
@@ -10,7 +11,7 @@ export interface State extends EntityState<FilterAggregateGroup> {
   loading: boolean;
   loadingError: boolean;
   limitToPayMarket: boolean;
-  payMarket: any;
+  payMarket: PayMarket;
   selections: FilterAggregateSelections;
 }
 

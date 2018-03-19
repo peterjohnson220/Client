@@ -23,7 +23,7 @@
 
   <div class="aggregate-groups-container">
     <pf-filter-aggregate-group
-      *ngFor="let aggregateGroup of (peerFilters$ | async)"
+      *ngFor="let aggregateGroup of (filterAggregateGroups$ | async)"
       [aggregateGroup]="aggregateGroup"
       (aggregateToggled)="handleAggregateToggled($event)">
     </pf-filter-aggregate-group>

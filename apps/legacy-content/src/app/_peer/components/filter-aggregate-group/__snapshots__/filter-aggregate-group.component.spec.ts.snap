@@ -5,7 +5,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
   collapsed={[Function Boolean]}
-  selections={[Function Array]}
 >
   
   <div
@@ -33,14 +32,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
       <div
         class="header-right"
       >
-        
-        
-        
-        
-        
-          
-        
-        
         
         
         
@@ -99,7 +90,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
-  selections={[Function Array]}
   showAllAggregates={[Function Boolean]}
 >
   
@@ -128,14 +118,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
       <div
         class="header-right"
       >
-        
-        
-        
-        
-        
-          
-        
-        
         
         
         
@@ -194,7 +176,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
-  selections={[Function Array]}
   showAllAggregates={[Function Boolean]}
 >
   
@@ -223,14 +204,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
       <div
         class="header-right"
       >
-        
-        
-        
-        
-        
-          
-        
-        
         
         
         
@@ -338,7 +311,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show th
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
-  selections={[Function Array]}
 >
   
   <div
@@ -366,14 +338,6 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show th
       <div
         class="header-right"
       >
-        
-        
-        
-        
-        
-          
-        
-        
         
         
         

@@ -16,7 +16,7 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
-import { AddDataCutEffects, PeerMapEffects, FilterSidebarEffects } from './effects';
+import { AddDataCutPageEffects, PeerMapEffects, FilterSidebarEffects } from './effects';
 import { reducers } from './reducers';
 import { FilterAggregateGroupComponent, FilterAggregateComponent } from './components';
 
@@ -29,7 +29,7 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent } from './compo
     // 3rd party
     StoreModule.forFeature('peerData', reducers),
     EffectsModule.forFeature([
-      AddDataCutEffects,
+      AddDataCutPageEffects,
       PeerMapEffects,
       FilterSidebarEffects
     ]),

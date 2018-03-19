@@ -15,7 +15,6 @@ export class FilterAggregateGroupComponent {
 
   collapsed: boolean;
   showAllAggregates: boolean;
-  selections: string[] = [];
 
   constructor() { }
 

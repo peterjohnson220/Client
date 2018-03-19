@@ -18,16 +18,16 @@ import { AggregateSelectionInfo } from '../../models';
 export class FilterSidebarComponent implements OnInit {
   @Input() companyPayMarketId: number;
 
-  peerFilters$: Observable<FilterAggregateGroup[]>;
-  peerFiltersLoading$: Observable<boolean>;
-  peerFiltersLoadingError$: Observable<boolean>;
+  filterAggregateGroups$: Observable<FilterAggregateGroup[]>;
+  filterAggregateGroupsLoading$: Observable<boolean>;
+  filterAggregateGroupsLoadingError$: Observable<boolean>;
   limitToPayMarket$: Observable<boolean>;
   payMarket$: Observable<any>;
 
   constructor(private store: Store<fromPeerReducer.State>) {
-    this.peerFilters$ = this.store.select(fromPeerReducer.getPeerFilters);
-    this.peerFiltersLoading$ = this.store.select(fromPeerReducer.getPeerFiltersLoading);
-    this.peerFiltersLoadingError$ = this.store.select(fromPeerReducer.getPeerFiltersLoadingError);
+    this.filterAggregateGroups$ = this.store.select(fromPeerReducer.getFilterAggregateGroups);
+    this.filterAggregateGroupsLoading$ = this.store.select(fromPeerReducer.getFilterAggregateGroupsLoading);
+    this.filterAggregateGroupsLoadingError$ = this.store.select(fromPeerReducer.getFilterAggregateGroupsLoadingError);
     this.limitToPayMarket$ = this.store.select(fromPeerReducer.getPeerFilterLimitToPayMarket);
     this.payMarket$ = this.store.select(fromPeerReducer.getPeerFilterPayMarket);
   }

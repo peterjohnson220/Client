@@ -53,11 +53,11 @@ export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.s
 
 // Filter Sidebar Selectors
 export const {
-  selectAll: getPeerFilters
+  selectAll: getFilterAggregateGroups
 } = fromFilterSidebarReducer.adapter.getSelectors(selectPeerFiltersState);
 
-export const getPeerFiltersLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
-export const getPeerFiltersLoadingError = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoadingError);
+export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
+export const getFilterAggregateGroupsLoadingError = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoadingError);
 export const getPeerFilterSelections = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelections);
 export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLimitToPayMarket);
 export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
