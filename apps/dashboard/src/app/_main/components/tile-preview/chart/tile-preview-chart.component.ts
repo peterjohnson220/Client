@@ -34,11 +34,11 @@ export class TilePreviewChartComponent {
       font: 'bold 1rem',
       color: '#fff',
       content: function(e) {
-        if (e.text.length > 9) {
-          return e.text.substring(0, 6) + '...';
-        }
-        return e.text;
+      if (e.text.length > 17) {
+        return e.text.substring(0, 14) + '...';
       }
+      return e.text;
+    }
   };
 
   public seriesClick(e): void {
