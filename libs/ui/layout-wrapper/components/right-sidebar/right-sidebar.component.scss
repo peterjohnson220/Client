@@ -4,7 +4,7 @@ $right-sidebar-open-width: 350px;
 
 .right-sidebar-dock {
   min-width: 35px;
-  height: 100%;
+
 }
 
 .close-sidebar-icon {
@@ -13,6 +13,7 @@ $right-sidebar-open-width: 350px;
 }
 
 .close-sidebar-icon span{
+  z-index: 3;
   cursor: pointer;
 }
 
@@ -31,6 +32,7 @@ $right-sidebar-open-width: 350px;
 
 .right-sidebar-content {
   background-color: #fff;
+  z-index: 3;
 }
 
 .right-sidebar-close {
