@@ -1,6 +1,8 @@
 @import 'colors';
 
 /* Variable Overrides */
+$badge-font-weight: 400;
+
 $theme-colors: (
   "primary": $body-background-color,
   "secondary": #ffffff
@@ -17,8 +19,4 @@ $navbar-dark-hover-color: $navbar-dark-color;
   button.close:focus {
     outline: none;
   }
-}
-
-.badge {
-  font-weight: 400;
 }
