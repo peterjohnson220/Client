@@ -126,13 +126,3 @@ export const getLoading = (state: IExchangeRequestState) => state.loading;
 export const getLoadingError = (state: IExchangeRequestState) => state.loadingError;
 export const getModalOpen = (state: IExchangeRequestState) => state.modalOpen;
 export const getRequesting = (state: IExchangeRequestState) => state.requesting;
-export const getRequestingError = (state: IExchangeRequestState) => state.requestingError;
-export const getLoadingRequestContext = (state: IExchangeRequestState) => {
-  return {
-    ...state.filterOptions,
-    query: state.searchTerm
-  };
-};
-
-// TODO: Consolidate 'searchTerm' vs 'query'
-export const getQuery = (state: IExchangeRequestState) => state.searchTerm;

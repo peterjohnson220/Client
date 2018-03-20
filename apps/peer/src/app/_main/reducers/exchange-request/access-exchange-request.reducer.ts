@@ -2,7 +2,6 @@ import { AvailableExchangeItem, ExchangeRequestTypeEnum } from 'libs/models/peer
 
 import { createExchangeRequestReducer, IExchangeRequestEntityState } from '../exchange-request.reducer';
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
-import { ExchangeJobMapping } from '../../../../../../../libs/models/peer';
 
 export interface State extends IExchangeRequestEntityState<AvailableExchangeItem> { }
 export const adapter: EntityAdapter<AvailableExchangeItem> = createEntityAdapter<AvailableExchangeItem>({
