@@ -1,0 +1,44 @@
+.filter-sidebar{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.pm-bounds-filter{
+  color: #616161;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 .85rem;
+  min-height: 70px;
+  box-shadow: 0px 2px 16px 0px #d6d6d6;
+  position: relative;
+}
+
+.pm-bounds-filter-left{
+  display: flex;
+  flex-direction: column;
+}
+
+.pm-bounds-filter-label{
+  font-weight: bolder;
+}
+
+.pm-bounds-filter-label-pm{
+  font-size: .9rem;
+}
+
+.aggregate-groups-container{
+  overflow-y: scroll;
+  flex-grow: 1;
+}
+
+//Kendo Overrides
+:host ::ng-deep .k-switch-on .k-switch-handle{
+  background-color: #0883be;
+  border: #0883be;
+}
+
+:host ::ng-deep .k-switch-label-on{
+  color: #0883be;
+}

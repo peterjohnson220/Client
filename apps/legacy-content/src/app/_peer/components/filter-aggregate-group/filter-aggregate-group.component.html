@@ -1,0 +1,47 @@
+
+<div class="aggregate-group" [class.collapsed]="collapsed">
+
+  <!--Header-->
+  <div class="aggregate-group-header" (click)="collapsed = !collapsed">
+
+    <div>
+      {{categoryLabel}}
+    </div>
+
+    <div class="header-right">
+      <div *ngIf="collapsed">
+        <i class="far fa-angle-down"></i>
+      </div>
+      <div *ngIf="!collapsed">
+        <i class="far fa-angle-up"></i>
+      </div>
+    </div>
+
+  </div>
+
+  <!--Options-->
+  <div class="aggregate-container" [class.show-all]="showAllAggregates">
+    <pf-filter-aggregate
+      *ngFor="let filterAggregate of filterAggregates"
+      [aggregate]="filterAggregate"
+      (aggregateSelected)="handleAggregateSelected($event)">
+    </pf-filter-aggregate>
+  </div>
+
+  <!--Options Toggle-->
+  <div *ngIf="filterAggregates.length > 5"
+       (click)="showAllAggregates = !showAllAggregates"
+       class="toggle-option-height">
+
+    Show
+
+    <span *ngIf="!showAllAggregates">
+      {{filterAggregates.length - 5}} More <i class="far fa-angle-down"></i>
+    </span>
+
+    <span *ngIf="showAllAggregates">
+      Less <i class="far fa-angle-up"></i>
+    </span>
+  </div>
+
+</div>

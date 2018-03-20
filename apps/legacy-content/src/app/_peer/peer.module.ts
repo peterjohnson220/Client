@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
+
 
 import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
@@ -14,9 +16,9 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
-import { AddDataCutEffects, PeerMapEffects } from './effects';
+import { AddDataCutPageEffects, PeerMapEffects, FilterSidebarEffects } from './effects';
 import { reducers } from './reducers';
-import { FilterCategoryComponent, FilterOptionComponent } from './components';
+import { FilterAggregateGroupComponent, FilterAggregateComponent } from './components';
 
 @NgModule({
   imports: [
@@ -27,10 +29,12 @@ import { FilterCategoryComponent, FilterOptionComponent } from './components';
     // 3rd party
     StoreModule.forFeature('peerData', reducers),
     EffectsModule.forFeature([
-      AddDataCutEffects,
-      PeerMapEffects
+      AddDataCutPageEffects,
+      PeerMapEffects,
+      FilterSidebarEffects
     ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
+    SwitchModule,
 
     // Routing
     PeerRoutingModule,
@@ -41,7 +45,7 @@ import { FilterCategoryComponent, FilterOptionComponent } from './components';
   ],
   declarations: [
     // Components
-    FilterCategoryComponent, FilterOptionComponent,
+    FilterAggregateGroupComponent, FilterAggregateComponent,
 
     // Containers
     FilterSidebarComponent, MapComponent,

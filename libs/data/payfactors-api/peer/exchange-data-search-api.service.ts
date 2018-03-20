@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeMapFilter, ExchangeMapResponse, InitialMapFilterRequest } from '../../../models/peer';
+import {
+  ExchangeDataSearchFilter, ExchangeMapResponse, ExchangeJobPayMarketFilterRequest, ExchangeJobPayMarketFilter,
+  FilterAggregateGroup } from '../../../models/peer';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { FilterAggregateGroup } from '../../../models/peer/aggregate-filters';
-
 
 @Injectable()
 export class ExchangeDataSearchApiService {
@@ -13,20 +13,20 @@ export class ExchangeDataSearchApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getInitialMapFilter(initialMapFilterRequest: InitialMapFilterRequest): Observable<ExchangeMapFilter> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetInitialMapFilter`, {
+  getExchangeJobAndPayMarketFilter(request: ExchangeJobPayMarketFilterRequest): Observable<ExchangeJobPayMarketFilter> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetExchangeJobAndPayMarketFilter`, {
       params: {
-        CompanyJobId: initialMapFilterRequest.CompanyJobId,
-        CompanyPayMarketId: initialMapFilterRequest.CompanyPayMarketId
+        CompanyJobId: request.CompanyJobId,
+        CompanyPayMarketId: request.CompanyPayMarketId
       }
     });
   }
 
-  getMapData(exchangeMapFilter: ExchangeMapFilter): Observable<ExchangeMapResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeMapFilter);
+  getMapData(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<ExchangeMapResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeDataSearchFilter);
   }
 
-  getMapFilters(exchangeMapFilter: ExchangeMapFilter): Observable<FilterAggregateGroup[]> {
-   return this.payfactorsApiService.post(`${this.endpoint}/GetMapFilters`, exchangeMapFilter);
+  getFilterAggregates(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<FilterAggregateGroup[]> {
+   return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
 }

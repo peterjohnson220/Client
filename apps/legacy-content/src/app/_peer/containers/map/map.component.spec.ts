@@ -10,10 +10,8 @@ import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromPeerDataReducer from '../../reducers';
 import { MapComponent } from './map.component';
-import * as fromPeerMapActions from '../../actions/peer-map.actions';
+import * as fromPeerMapActions from '../../actions/map.actions';
 import spyOn = jest.spyOn;
-
-
 
 describe('Legacy Content - Peer - Map Component', () => {
 let fixture: ComponentFixture<MapComponent>;
@@ -51,20 +49,6 @@ const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
 
     fixture = TestBed.createComponent(MapComponent);
     instance = fixture.componentInstance;
-  });
-
-  it('should dispatch LoadingInitialPeerMapFilter action OnInit using the route query string parameters', () => {
-    instance.companyJobId = queryStringParams.companyJobId;
-    instance.companyPayMarketId = queryStringParams.companyPayMarketId;
-    const expectedAction = new fromPeerMapActions.LoadingInitialPeerMapFilter({
-      CompanyJobId: queryStringParams.companyJobId,
-      CompanyPayMarketId: queryStringParams.companyPayMarketId
-    });
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an UpdatePeerMapFilterBounds action when refreshMap is called if canLoadPeerMap$ is true', () => {

@@ -4,15 +4,15 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromAddDataCutReducer from './add-data-cut.reducer';
-import * as fromPeerMapReducer from './peer-map.reducer';
-import * as fromPeerFiltersReducer from './peer-filters.reducer';
+import * as fromAddDataCutPageReducer from './add-data-cut-page.reducer';
+import * as fromMapReducer from './map.reducer';
+import * as fromFilterSidebarReducer from './filter-sidebar.reducer';
 
 // Feature area state
 export interface PeerDataState {
-  addDataCut: fromAddDataCutReducer.State;
-  map: fromPeerMapReducer.State;
-  filters: fromPeerFiltersReducer.State;
+  addDataCutPage: fromAddDataCutPageReducer.State;
+  map: fromMapReducer.State;
+  filterSidebar: fromFilterSidebarReducer.State;
 }
 
 // Extend root state with feature area state
@@ -22,38 +22,58 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  addDataCut: fromAddDataCutReducer.reducer,
-  map: fromPeerMapReducer.reducer,
-  filters: fromPeerFiltersReducer.reducer
+  addDataCutPage: fromAddDataCutPageReducer.reducer,
+  map: fromMapReducer.reducer,
+  filterSidebar: fromFilterSidebarReducer.reducer
 };
 
 // Select Feature Area
 export const selectPeerDataState = createFeatureSelector<PeerDataState>('peerData');
 
 // Feature Selectors
-export const selectAddDataCutState = createSelector(selectPeerDataState, (state: PeerDataState) => state.addDataCut);
+export const selectAddDataCutState = createSelector(selectPeerDataState, (state: PeerDataState) => state.addDataCutPage);
 export const selectMapState = createSelector(selectPeerDataState, (state: PeerDataState) => state.map);
-export const selectPeerFiltersState = createSelector(selectPeerDataState, (state: PeerDataState) => state.filters);
+export const selectPeerFiltersState = createSelector(selectPeerDataState, (state: PeerDataState) => state.filterSidebar);
 
 // Add Data Cut Selectors
-export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCut);
-export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutReducer.getAddingDataCutError);
+export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
+export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
+export const getExchangeJobPayMarketFilter = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getExchangeJobPayMarketFilter);
 
 // Map Data Selectors
-export const getPeerMapLoading = createSelector(selectMapState, fromPeerMapReducer.getLoading);
-export const getPeerMapLoadingError = createSelector(selectMapState, fromPeerMapReducer.getLoadingError);
-export const getPeerMapSummary = createSelector(selectMapState, fromPeerMapReducer.getMapSummary);
-export const getPeerMapFilter = createSelector(selectMapState, fromPeerMapReducer.getMapFilter);
-export const getPeerMapCollection = createSelector(selectMapState, fromPeerMapReducer.getMapCollection);
-export const getPeerMapBounds = createSelector(selectMapState, fromPeerMapReducer.getMapBounds);
-export const canLoadPeerMap = createSelector(selectMapState, fromPeerMapReducer.canLoadMap);
-export const peerMapShowNoData = createSelector(selectMapState, fromPeerMapReducer.showNoData);
+export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
+export const getPeerMapLoadingError = createSelector(selectMapState, fromMapReducer.getLoadingError);
+export const getPeerMapSummary = createSelector(selectMapState, fromMapReducer.getMapSummary);
+export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
+export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
+export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
+export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
+export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
+export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 
-
-// Filters
+// Filter Sidebar Selectors
 export const {
-  selectAll: getPeerFilters
-} = fromPeerFiltersReducer.adapter.getSelectors(selectPeerFiltersState);
+  selectAll: getFilterAggregateGroups
+} = fromFilterSidebarReducer.adapter.getSelectors(selectPeerFiltersState);
 
-export const getPeerFiltersLoading = createSelector(selectPeerFiltersState, fromPeerFiltersReducer.getLoading);
-export const getPeerFiltersLoadingError = createSelector(selectPeerFiltersState, fromPeerFiltersReducer.getLoadingError);
+export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
+export const getFilterAggregateGroupsLoadingError = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoadingError);
+export const getPeerFilterSelections = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelections);
+export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLimitToPayMarket);
+export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
+
+
+// Combined State Selectors
+export const getExchangeDataCutRequestData = createSelector(
+  getExchangeJobPayMarketFilter,
+  getPeerFilterSelections,
+  getPeerMapFilter,
+  getPeerFilterLimitToPayMarket,
+  (ejpmf, fs, pmf, pfltp) => {
+    return {
+      ...ejpmf,
+      ...fs,
+      ...pmf,
+      LimitToPayMarket: pfltp
+    };
+  });

@@ -1,0 +1,50 @@
+@import 'colors';
+
+.aggregate-group{
+  margin-bottom: .5rem;
+}
+
+.aggregate-group.collapsed{
+  height: 32px;
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+
+.aggregate-group-header{
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #616161;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: .45rem;
+  padding: .5rem .85rem;
+  background: #eaeaea;
+}
+
+.aggregate-group-header .header-right{
+  display: flex;
+}
+
+.aggregate-container{
+  max-height: 140px;
+  overflow: hidden;
+}
+
+.aggregate-container.show-all{
+  max-height: initial;
+}
+
+.toggle-option-height{
+  text-transform: uppercase;
+  color: $link-color;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin: .5rem .65rem;
+}
+
+.reset-link{
+  color: $link-color;
+  margin-right: 1rem;
+  font-weight: normal;
+}

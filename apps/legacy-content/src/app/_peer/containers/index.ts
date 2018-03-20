@@ -1,3 +1,3 @@
 export * from './map';
-export * from './filters';
+export * from './filter-sidebar';
 export * from './pages';
