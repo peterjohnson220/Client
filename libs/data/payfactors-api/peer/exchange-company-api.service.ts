@@ -6,8 +6,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { MappingHelper } from '../../../core/helpers';
 import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
         CompanyJobToMapTo, GetChartRequest, ChartItem,
-        AvailableExchangeItem, RequestExchangeRequest,
-        AddDataCutRequest } from '../../../models';
+        RequestExchangeRequest, AddDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ExchangeRequestCandidatesRequest } from '../../../models/peer';
 
@@ -19,12 +18,6 @@ export class ExchangeCompanyApiService {
 
   getExchanges(): Observable<ExchangeListItem[]> {
     return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetExchanges`);
-  }
-
-  getTopExchanges(query: string, companyFilterId?: number): Observable<AvailableExchangeItem[]> {
-    return this.payfactorsApiService.get<AvailableExchangeItem[]>(`${this.endpoint}/GetTopExchanges`,
-      { params: { query, companyFilterId } }
-      );
   }
 
   getTopCandidates<T>(exchangeRequestCandidatesRequest: ExchangeRequestCandidatesRequest): Observable<T[]> {
@@ -64,11 +57,5 @@ export class ExchangeCompanyApiService {
 
   requestExchangeAccess(payload: RequestExchangeRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/RequestExchangeAccess`, payload);
-  }
-
-  // TODO: Return types
-  getTopExchangeCandidates(payload: any): Observable<any> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetTopExchangeCandidates`,
-      {params: payload});
   }
 }
