@@ -14,8 +14,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
-import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
-         AvailableExchangeResultComponent } from './components';
+import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
          ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
@@ -60,7 +59,6 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
   declarations: [
     // Components
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
-    AvailableExchangeResultComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,

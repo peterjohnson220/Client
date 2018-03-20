@@ -9,6 +9,7 @@ import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
         AvailableExchangeItem, RequestExchangeRequest,
         AddDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { ExchangeRequestCandidatesRequest } from '../../../models/peer';
 
 @Injectable()
 export class ExchangeCompanyApiService {
@@ -26,9 +27,9 @@ export class ExchangeCompanyApiService {
       );
   }
 
-  getTopCandidates<T>(exchangeRequestContext, endpoint: string): Observable<T[]> {
-    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/${endpoint}`,
-      { params: exchangeRequestContext }
+  getTopCandidates<T>(exchangeRequestCandidatesRequest: ExchangeRequestCandidatesRequest): Observable<T[]> {
+    return this.payfactorsApiService.post<T[]>(`${this.endpoint}/GetTopCandidates`,
+      exchangeRequestCandidatesRequest
     );
   }
 

@@ -38,12 +38,15 @@ export class ExchangeRequestEffectsService {
       .switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)));
   }
 
-  loadCandidates<T>(type: ExchangeRequestTypeEnum, storeSelector, endpoint: string): Observable<Action> {
+  loadCandidates<T>(type: ExchangeRequestTypeEnum, storeSelector): Observable<Action> {
     return this.actions$
       .ofType(`${type}_${fromExchangeRequestActions.LOAD_CANDIDATES}`)
       .withLatestFrom(this.store.select(storeSelector), (action, payload) => payload)
       .switchMap((payload: any) =>
-        this.exchangeCompanyApiService.getTopCandidates<T>(payload, endpoint)
+        this.exchangeCompanyApiService.getTopCandidates<T>({
+          FilterCriteria: payload,
+          RequestType: type
+        })
           .map((candidates: T[]) => new fromExchangeRequestActions.LoadCandidatesSuccess(type, candidates))
           .catch(() => of(new fromExchangeRequestActions.LoadCandidatesError(type)))
       );

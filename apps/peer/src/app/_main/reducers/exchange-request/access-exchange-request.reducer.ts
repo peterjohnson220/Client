@@ -19,7 +19,7 @@ export function reducer(state, action) {
 // Selector functions
 export const getLoadingRequestContext = (state: State) => {
   return {
-    query: state.searchTerm,
-    companyFilterId: state.filterOptions ? state.filterOptions.companyFilterId : null
+    Query: state.searchTerm,
+    CompanyFilterId: state.filterOptions ? state.filterOptions.companyFilterId : null
   };
 };

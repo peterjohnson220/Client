@@ -23,3 +23,4 @@ export * from './available-exchange-item.model';
 export * from './request-exchange-request.model';
 export * from './exchange-request-type.enum';
 export * from './existing-company.model';
+export * from './exchange-request-candidates-request.model';

@@ -272,8 +272,8 @@ export const getPfCompaniesExchangeRequestContext = createSelector(
   selectExchangeState,
   (exchangeRequestState, exchangeState) => {
     return {
-      query: exchangeRequestState.searchTerm,
-      exchangeId: exchangeState.exchange ? exchangeState.exchange.ExchangeId : 0
+      Query: exchangeRequestState.searchTerm,
+      ExchangeId: exchangeState.exchange ? exchangeState.exchange.ExchangeId : 0
     };
   }
 );

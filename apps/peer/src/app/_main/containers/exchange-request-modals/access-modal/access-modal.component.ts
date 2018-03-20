@@ -85,6 +85,7 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   handleSelectedCompanyChangeEvent(selectedCompanyName: string): void {
+    this.companyNameFilter = selectedCompanyName;
     // Kendo auto complete doesn't support supplying a textField so we have to use the company name for the value. [JP]
     this.peerParticipants$.take(1).subscribe(peers => {
       const selectedCompany: CompanyOption = peers.find(p => p.Name === selectedCompanyName);
@@ -122,6 +123,7 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
 
   handleModalDismissed(): void {
     this.attemptedSubmit = false;
+    this.companyNameFilter = '';
     this.list.reset();
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.Access));
   }
