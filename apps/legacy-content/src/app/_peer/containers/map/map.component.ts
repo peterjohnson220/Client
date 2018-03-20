@@ -90,16 +90,18 @@ export class MapComponent {
 
   // Helper functions
   refreshMap(e: any) {
+    console.log("refresh");
     if (!e.target._loaded || e.target.moving) {
       return;
     }
+    console.log("refresh after gate");
     this.canLoadPeerMap$.take(1).subscribe(canload => {
       if (canload) {
         const filterVars = {
           bounds: e.target.getBounds(),
           zoom: e.target.getZoom()
         };
-
+        console.log("REFRESH");
         this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
       }
     });

@@ -48,6 +48,7 @@ export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.ge
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
 export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
+export const getPeerMapIsInitialLoad = createSelector(selectMapState, fromMapReducer.getIsInitialLoad);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 

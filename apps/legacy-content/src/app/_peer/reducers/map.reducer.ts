@@ -12,7 +12,7 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   shouldUpdateBounds: boolean;
-  isInitialMapLoad: boolean;
+  isInitialLoad: boolean;
   maxZoom: number;
 }
 
@@ -29,7 +29,7 @@ export const initialState: State = {
   loading: false,
   loadingError: false,
   shouldUpdateBounds: true,
-  isInitialMapLoad: true,
+  isInitialLoad: true,
   maxZoom: 7
 };
 
@@ -37,17 +37,9 @@ export const initialState: State = {
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
   switch (action.type) {
     case fromPeerMapActions.LOADING_PEER_MAP: {
-      const mapFilter = {
-        ...state.mapFilter
-      };
-      const mapSummary = {
-        ...state.mapSummary
-      };
       return {
         ...state,
-        mapFilter: mapFilter,
         mapCollection: null,
-        mapSummary: mapSummary,
         loading: true,
         loadingError: false
       };
@@ -68,9 +60,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loading: false,
         loadingError: false,
         mapFilter: mapFilter,
-        isInitialMapLoad: false
+        isInitialLoad: false
       };
-      if (state.isInitialMapLoad) {
+      if (state.isInitialLoad) {
         const tl = mapSummary.TopLeft;
         const br = mapSummary.BottomRight;
         newState.mapBounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
@@ -117,8 +109,9 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
 export const getMaxZoom = (state: State) => state.maxZoom;
-export const canLoadMap = (state: State) => !state.isInitialMapLoad && !state.loading;
-export const showNoData = (state: State) => !state.loading && !state.isInitialMapLoad && state.mapCollection.features.length === 0;
+export const getIsInitialLoad = (state: State) => state.isInitialLoad;
+export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
+export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && state.mapCollection.features.length === 0;
 
 function swapBounds(bounds: any): any {
   const ne = bounds._ne;

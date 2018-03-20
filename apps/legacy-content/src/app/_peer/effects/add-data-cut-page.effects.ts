@@ -35,7 +35,7 @@ export class AddDataCutPageEffects {
   loadingExchangeJobPayMarketFilterSuccess$: Observable<Action> = this.actions$
     .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS)
     .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilterSuccess) => action.payload)
-    .mergeMap(() => [new fromPeerMapActions.LoadingPeerMap, new fromFilterSidebarActions.LoadingFilterAggregates()]);
+    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap()));
 
   @Effect()
   addingDataCut$ = this.actions$

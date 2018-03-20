@@ -16,9 +16,10 @@ import { ExchangeMapResponse, ExchangeDataSearchFilter } from 'libs/models/peer'
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerDataReducers from '../reducers';
+import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 
 @Injectable()
-export class PeerMapEffects {
+export class MapEffects {
   @Effect()
   loadPeerMap$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.LOADING_PEER_MAP)
@@ -32,10 +33,23 @@ export class PeerMapEffects {
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError()))
     );
 
+  // @Effect()
+  // loadPeerMapSuccess$: Observable<Action> = this.actions$
+  //   .ofType(fromPeerMapActions.LOADING_PEER_MAP_SUCCESS)
+  //   .withLatestFrom(
+  //     this.store.select(fromPeerDataReducers.getPeerMapIsInitialLoad),
+  //     (action, isInitialLoad) => isInitialLoad)
+  //   .switchMap(isInitialLoad => {
+  //     return isInitialLoad ? of(new fromFilterSidebarActions.LoadingFilterAggregates()) : null;
+  //   });
+
   @Effect()
   updateFilterBounds$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
-    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap));
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadingPeerMap,
+      new fromFilterSidebarActions.LoadingFilterAggregates()
+    ]);
 
   constructor(
     private actions$: Actions,
