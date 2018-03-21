@@ -44,8 +44,8 @@ export class ExchangeRequestEffectsService {
       .withLatestFrom(this.store.select(storeSelector), (action, payload) => payload)
       .switchMap((payload: any) =>
         this.exchangeCompanyApiService.getTopCandidates<T>({
-          FilterCriteria: payload,
-          RequestType: type
+          RequestType: type,
+          FilterCriteria: payload
         })
           .map((candidates: T[]) => new fromExchangeRequestActions.LoadCandidatesSuccess(type, candidates))
           .catch(() => of(new fromExchangeRequestActions.LoadCandidatesError(type)))

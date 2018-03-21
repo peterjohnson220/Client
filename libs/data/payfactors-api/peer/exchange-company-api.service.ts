@@ -21,8 +21,8 @@ export class ExchangeCompanyApiService {
   }
 
   getTopCandidates<T>(exchangeRequestCandidatesRequest: ExchangeRequestCandidatesRequest): Observable<T[]> {
-    return this.payfactorsApiService.post<T[]>(`${this.endpoint}/GetTopCandidates`,
-      exchangeRequestCandidatesRequest
+    return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopCandidates`,
+      { params: {exchangeRequestCandidatesRequest: JSON.stringify(exchangeRequestCandidatesRequest)} }
     );
   }
 
