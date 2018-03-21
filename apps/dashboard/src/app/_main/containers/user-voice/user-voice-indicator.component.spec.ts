@@ -3,7 +3,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import { generateMockUserVoiceModel } from '../../models';
 import { UserVoiceIndicatorComponent } from './user-voice-indicator.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromUserVoiceReducer from '../../reducers';
