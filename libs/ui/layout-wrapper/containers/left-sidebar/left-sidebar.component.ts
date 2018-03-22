@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +18,7 @@ import { userVoiceUrl } from 'libs/core/functions';
   templateUrl: './left-sidebar.component.html',
   styleUrls: [ './left-sidebar.component.scss' ]
 })
-export class LeftSidebarComponent implements OnInit {
+export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
   leftSidebarToggle = false;
