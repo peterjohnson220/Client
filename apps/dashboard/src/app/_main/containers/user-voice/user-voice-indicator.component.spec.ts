@@ -35,13 +35,12 @@ describe('User Voice Indicator', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch a LoadingUserVoice upon Init', () => {
-
-    const action = new fromUserVoiceActions.LoadingUserVoice();
-
-    instance.ngOnInit();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+  it('should contain user voice url with sidebar Url ', () => {
+    const testUserId = 12345;
+    const sideBarUrl = '/payfactors/UserVoice/Redirect';
+    instance.userId = testUserId;
+    const result = instance.getSidebarHref(sideBarUrl);
+    expect(result).toContain(sideBarUrl);
   });
 
 });
