@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 import { NavigationLink } from 'libs/models';
 
@@ -18,11 +19,12 @@ import { userVoiceUrl } from 'libs/core/functions';
   templateUrl: './user-voice-indicator.component.html',
   styleUrls: ['./user-voice-indicator.component.scss']
 })
-export class UserVoiceIndicatorComponent implements OnInit {
+export class UserVoiceIndicatorComponent implements OnInit, OnDestroy {
 
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   userContext$: Observable<UserContext>;
+  userContextSubscription: Subscription;
   userVoiceLink$: Observable<NavigationLink>;
   userId: number;
 
@@ -33,16 +35,20 @@ export class UserVoiceIndicatorComponent implements OnInit {
     this.userContext$ = store.select(fromRootState.getUserContext);
   }
 
+  getSidebarHref(sidebarLinkUrl: string) {
+    return userVoiceUrl(sidebarLinkUrl, this.userId);
+  }
+
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromUserVoiceActions.LoadingUserVoice());
-    this.userContext$.subscribe(userContext => {
+    this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
       }
     );
   }
 
-  getSidebarHref(sidebarLinkUrl: string) {
-      return userVoiceUrl(sidebarLinkUrl, this.userId);
+  ngOnDestroy() {
+    this.userContextSubscription.unsubscribe();
   }
 }

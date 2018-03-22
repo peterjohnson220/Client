@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { UserContext } from 'libs/models';
 
 import { environment } from 'environments/environment';
@@ -26,6 +27,7 @@ export class LeftSidebarComponent implements OnInit {
   gettingSidebarNavigationLinks$: Observable<boolean>;
   gettingSidebarNavigationLinksError$: Observable<boolean>;
   userContext$: Observable<UserContext>;
+  userContextSubscription: Subscription;
   userId: number;
 
   constructor(
@@ -36,16 +38,18 @@ export class LeftSidebarComponent implements OnInit {
     this.gettingSidebarNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingLeftSidebarNavigationLinksError);
     this.gettingSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
-
   }
 
   ngOnInit() {
     this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
-    this.userContext$.subscribe(userContext => {
+    this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
       }
     );
+  }
 
+  ngOnDestroy() {
+    this.userContextSubscription.unsubscribe();
   }
 
   getSidebarHref(sidebarLink: SidebarLink) {
