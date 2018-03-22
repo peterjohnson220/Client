@@ -3,8 +3,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
 
-import { generateMockSidebarLink } from 'libs/models';
+import { generateMockSidebarLink, generateMockUserContext } from 'libs/models';
 
 import { LeftSidebarComponent } from './left-sidebar.component';
 import * as fromRootState from '../../../../state/state';
@@ -34,6 +35,7 @@ describe('Left Sidebar', () => {
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(LeftSidebarComponent);
     instance = fixture.componentInstance;
+    instance.userContext$ = of(generateMockUserContext());
   });
 
   it('should dispatch a GetLeftSidebarNavigationLinks action upon Init', () => {
@@ -50,6 +52,12 @@ describe('Left Sidebar', () => {
     instance.handleSidebarNavigationLinksReload();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('it should contain url from sidebar link ', () => {
+    const sideBarLink = generateMockSidebarLink();
+    const result = instance.getSidebarHref(sideBarLink);
+    expect(result).toContain(sideBarLink.Url);
   });
 
   it('should show ul of sidebar closed', () => {
