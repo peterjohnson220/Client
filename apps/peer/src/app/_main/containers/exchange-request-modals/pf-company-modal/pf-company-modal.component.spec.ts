@@ -13,6 +13,7 @@ import { HumanizeNumberPipe } from 'libs/core/pipes';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
+import { generateMockExistingCompany } from '../../../models';
 import spyOn = jest.spyOn;
 
 describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {

@@ -39,7 +39,7 @@ export class AccessExchangeRequestEffects {
   createExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.createExchangeRequest(
     this.type,
     [new fromExchangeListActions.LoadingExchanges]
-  )
+  );
 
   @Effect()
   loadPeerParticipants$: Observable<Action> = this.actions$
