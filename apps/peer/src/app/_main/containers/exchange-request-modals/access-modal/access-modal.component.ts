@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/debounceTime';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';

@@ -3,21 +3,21 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
-         generateMockAvailableExchangeItem } from 'libs/models';
+import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest,
+         generateMockExchange, generateMockExistingCompany } from 'libs/models';
 
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
-import { AccessModalComponent } from './access-modal.component';
+import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
 import spyOn = jest.spyOn;
+import { HumanizeNumberPipe } from '../../../../../../../../libs/core/pipes';
 
-describe('Peer - Exchange Request - Access Modal', () => {
-  let fixture: ComponentFixture<AccessModalComponent>;
-  let instance: AccessModalComponent;
+describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
+  let fixture: ComponentFixture<PayfactorsCompanyModalComponent>;
+  let instance: PayfactorsCompanyModalComponent;
 
   let store: Store<fromPeerMainReducer.State>;
 
@@ -33,7 +33,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        AccessModalComponent
+        PayfactorsCompanyModalComponent, HumanizeNumberPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -41,44 +41,18 @@ describe('Peer - Exchange Request - Access Modal', () => {
 
     store = TestBed.get(Store);
 
-    fixture = TestBed.createComponent(AccessModalComponent);
+    fixture = TestBed.createComponent(PayfactorsCompanyModalComponent);
     instance = fixture.componentInstance;
-    instance.cardSelector = {selectedCard: generateMockAvailableExchangeItem()};
-    instance.list = {
-      filterChange: new Subject(),
-      reset: jest.fn(),
-      writeValue: function(val: string) { this.value = val; },
-      value: ''
-    } as any;
+    instance.cardSelector = {selectedCard: generateMockExistingCompany()};
   });
 
-  it('should dispatch a LoadCandidates action of type Access when handleReloadCardsEvent is triggered', () => {
+  it('should dispatch a LoadCandidates action of type ReferPayfactorsCompany when handleReloadCardsEvent is triggered', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.Access);
+    const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
 
     fixture.detectChanges();
 
     instance.handleReloadCardsEvent();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it(`should dispatch an UpdateFilterOptions action of type Access when
-      handleSelectedCompanyChangeEvent is triggered`, () => {
-    const mockCompanyOption = generateMockCompanyOption();
-    const expectedFilterOptions = {companyFilterId: mockCompanyOption.CompanyId};
-    const expectedAction = new fromExchangeRequestActions.UpdateFilterOptions(
-      ExchangeRequestTypeEnum.Access,
-      expectedFilterOptions
-    );
-
-    instance.peerParticipants$ = of([mockCompanyOption]);
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    instance.handleSelectedCompanyChangeEvent(mockCompanyOption.Name);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -97,7 +71,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
   it(`should dispatch an UpdateSearchTerm action when updateSearchFilter is triggered`, () => {
     const mockSearchTerm = 'Mock';
     const expectedAction = new fromExchangeRequestActions.UpdateSearchTerm(
-      ExchangeRequestTypeEnum.Access,
+      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       mockSearchTerm);
 
     spyOn(store, 'dispatch');
@@ -110,11 +84,20 @@ describe('Peer - Exchange Request - Access Modal', () => {
   });
 
   it(`should dispatch a CreateExchangeRequest action when handleFormSubmit is triggered`, () => {
-    const mockRequestModel = {...generateMockRequestExchangeRequest(ExchangeRequestTypeEnum.Access), ExchangeId: 0};
+    const mockExchange = generateMockExchange();
+    const mockRequestModel = {
+      ...generateMockRequestExchangeRequest(ExchangeRequestTypeEnum.ReferPayfactorsCompany),
+      ExchangeId: mockExchange.ExchangeId,
+      TypeData: {
+        CompanyId: null
+      }
+    };
     const expectedAction = new fromExchangeRequestActions.CreateExchangeRequest(
-      ExchangeRequestTypeEnum.Access,
+      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       mockRequestModel
     );
+
+    instance.exchange$ = of(mockExchange);
     instance.reason = mockRequestModel.Reason;
 
     spyOn(store, 'dispatch');
@@ -127,7 +110,9 @@ describe('Peer - Exchange Request - Access Modal', () => {
   });
 
   it(`should dispatch a CloseExchangeRequestModal action of type Access on modal dismissed`, () => {
-    const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.Access);
+    const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(
+      ExchangeRequestTypeEnum.ReferPayfactorsCompany
+    );
     spyOn(store, 'dispatch');
 
     fixture.detectChanges();
@@ -136,21 +121,6 @@ describe('Peer - Exchange Request - Access Modal', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
-
-  // Couldn't get this to work [JP]
-  // it(`should dispatch a LoadPeerParticipants action when a peer is selected`, () => {
-  //   const mockSearchTerm = 'Mock';
-  //   const expectedAction = new fromPeerParticipantsActions.LoadPeerParticipants(mockSearchTerm);
-  //   spyOn(store, 'dispatch');
-  //
-  //   fixture.detectChanges();
-  //
-  //   instance.list.writeValue(mockSearchTerm);
-  //
-  //   fixture.detectChanges();
-  //
-  //   expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  // });
 
   it(`should provide correct values to the pf-modal-form component`, () => {
     fixture.detectChanges();

@@ -31,7 +31,7 @@
                              [(ngModel)]="searchTerm"
                              [ngModelOptions]="{standalone: true}"
                              [placeholderText]="'Search for a Company Name...'"
-                             (valueChanged)="updateSearchFilter($event)">
+                             (valueChanged)="updateSearchFilter($event)" ngDefaultControl>
           </pf-input-debounce>
         </div>
       </ng-container>

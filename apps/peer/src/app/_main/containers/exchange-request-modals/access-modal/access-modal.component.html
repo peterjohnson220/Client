@@ -26,12 +26,13 @@
       <ng-container search-filters>
         <div class="filter">
           <pf-input-debounce id="search-box"
+                             name="searchFilter"
                              [focus]="false"
                              [delay]="400"
                              [(ngModel)]="searchTerm"
                              [ngModelOptions]="{standalone: true}"
                              [placeholderText]="'Search for a Company Name...'"
-                             (valueChanged)="updateSearchFilter($event)">
+                             (valueChanged)="updateSearchFilter($event)" ngDefaultControl>
           </pf-input-debounce>
         </div>
         <div class="filter">

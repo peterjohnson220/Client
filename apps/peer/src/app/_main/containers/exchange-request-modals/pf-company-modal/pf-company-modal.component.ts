@@ -93,7 +93,7 @@ export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
       Reason: this.reason,
       Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
       TypeData: {
-        CompanyId: this.cardSelection.CompanyId
+        CompanyId: this.cardSelection ? this.cardSelection.CompanyId : null
       }
     };
 
