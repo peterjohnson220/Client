@@ -1,8 +1,9 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
-import { ExchangeRequestTypeEnum, ExistingCompany } from 'libs/models/peer';
+import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import { createExchangeRequestReducer, ExchangeRequestEntityState } from '../exchange-request.reducer';
+import { ExistingCompany } from '../../models';
 
 export interface State extends ExchangeRequestEntityState<ExistingCompany> { }
 

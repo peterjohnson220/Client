@@ -7,10 +7,11 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { PfValidators } from 'libs/forms/validators/index';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
-import { Exchange, ExchangeRequestTypeEnum, ExistingCompany, RequestExchangeRequest } from 'libs/models/peer/index';
+import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer/index';
 
 import * as fromPeerMainReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
+import { ExistingCompany } from '../../../models';
 
 @Component({
   selector: 'pf-invite-payfactors-company-modal',

@@ -4,10 +4,11 @@ import { Action } from '@ngrx/store';
 import { Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 
-import { ExistingCompany, ExchangeRequestTypeEnum } from 'libs/models';
+import { ExchangeRequestTypeEnum } from 'libs/models';
 
 import { ExchangeRequestEffectsService } from '../../services';
 import * as fromPeerMainReducers from '../../reducers';
+import { ExistingCompany } from '../../models';
 
 @Injectable()
 export class PayfactorsCompanyExchangeRequestEffects {

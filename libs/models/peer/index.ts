@@ -16,5 +16,4 @@ export * from './exchange-job-pay-market-filter.model';
 export * from './pay-market-location.model';
 export * from './filter-aggregate-selections.model';
 export * from './requests/exchange-request-type.enum';
-export * from './existing-company.model';
 export * from './requests/exchange-request-candidates-request.model';
