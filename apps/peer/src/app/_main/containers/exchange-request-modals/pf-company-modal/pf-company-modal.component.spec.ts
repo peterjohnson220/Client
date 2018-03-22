@@ -7,13 +7,13 @@ import { of } from 'rxjs/observable/of';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest,
-         generateMockExchange, generateMockExistingCompany } from 'libs/models';
+         generateMockExchange } from 'libs/models';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
 import spyOn = jest.spyOn;
-import { HumanizeNumberPipe } from '../../../../../../../../libs/core/pipes';
 
 describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
   let fixture: ComponentFixture<PayfactorsCompanyModalComponent>;
