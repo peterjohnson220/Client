@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import * as fromExchangeAccessActions from '../../../actions/exchange-access/exchange-access.actions';
+import { ExchangeRequestTypeEnum } from 'libs/models/peer';
+
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 
 @Component({
@@ -22,6 +24,6 @@ export class ExchangeListPageComponent {
   }
 
   openRequestAccessModal(): void {
-    this.store.dispatch(new fromExchangeAccessActions.OpenExchangeAccessModal);
+    this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.Access));
   }
 }

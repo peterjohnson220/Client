@@ -2,7 +2,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { CompanyOption } from 'libs/models/common/index';
 
-import * as fromPeerParticipantsActions from '../../actions/exchange-access/peer-participants.actions';
+import * as fromPeerParticipantsActions from '../actions/peer-participants.actions';
 
 export interface State extends EntityState<CompanyOption> {
   loading: boolean;

@@ -5,7 +5,7 @@
   resize: none !important;
 }
 
-.filter-container {
+:host ::ng-deep .filter-container {
   @extend .d-flex, .flex-row;
   justify-content: space-between;
   .filter {
@@ -23,7 +23,7 @@
 
   .results-container {
     @extend .flex-column, .d-flex, .rounded;
-    flex-grow: 1;
+    flex-basis: 100%;
     max-height: $selections-container-height;
     overflow-y: auto;
     border: 1px solid $border-grey;

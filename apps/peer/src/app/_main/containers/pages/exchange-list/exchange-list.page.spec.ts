@@ -4,12 +4,12 @@ import { Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
+import { ExchangeListItem, ExchangeRequestTypeEnum, generateMockExchangeListItem } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 
 import { ExchangeListPageComponent } from './exchange-list.page';
 import * as fromPeerMainReducer from '../../../reducers';
-import * as fromExchangeAccessActions from '../../../actions/exchange-access/exchange-access.actions';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import spyOn = jest.spyOn;
 
 describe('Peer - Exchange List Page', () => {
@@ -60,7 +60,7 @@ describe('Peer - Exchange List Page', () => {
   it('should dispatch OpenExchangeAccessModal action when openRequestAccessModal is called', () => {
     spyOn(store, 'dispatch');
 
-    const expectedAction = new fromExchangeAccessActions.OpenExchangeAccessModal;
+    const expectedAction = new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.Access);
 
     instance.openRequestAccessModal();
 
