@@ -13,7 +13,7 @@ import * as fromPeerMainReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 
 @Component({
-  selector: 'pf-payfactors-company-modal',
+  selector: 'pf-invite-payfactors-company-modal',
   templateUrl: './pf-company-modal.component.html',
   styleUrls: ['./pf-company-modal.component.scss']
 })

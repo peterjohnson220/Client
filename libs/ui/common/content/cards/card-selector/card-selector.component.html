@@ -40,7 +40,7 @@
   <ng-container *ngIf="selectedCard">
 
     <div class="selection-container mt-2">
-      <ng-container [ngTemplateOutlet]="onCardSelectedTemplate" [ngTemplateOutletContext]="{card: selectedCard}"></ng-container>
+      <ng-container [ngTemplateOutlet]="cardSelectedTemplate" [ngTemplateOutletContext]="{card: selectedCard}"></ng-container>
     </div>
 
   </ng-container>

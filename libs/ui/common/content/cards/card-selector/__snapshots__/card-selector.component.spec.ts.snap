@@ -245,43 +245,27 @@ exports[`UI/Common/Content - CardSelector should show selection container when a
       
       
       
-  
       
-      
-      
-      
-  
         
-      <div
-        class="d-flex justify-content-center flex-column flex-grow-1"
+      <pf-async-container
+        loadingerrormessage="There was an error."
       >
         
           
-        <h5
-          class="align-self-center"
-        >
-          No Results
-        </h5>
         
-          
-        <h5
-          class="align-self-center"
-        >
-          
-            
-          <small
-            class="text-muted"
-          >
-            Please change your filter criteria to search again.
-          </small>
+        <pf-card>
           
           
-        </h5>
+        </pf-card>
         
         
-      </div>
+      </pf-async-container>
       
   
+      
+      
+  
+      
       
       
   
@@ -332,7 +316,7 @@ exports[`UI/Common/Content - CardSelector should transclude content and template
     ng-reflect-card-data_="[object Object]"
     ng-reflect-card-identifier="function (card) {return card ?"
     ng-reflect-card-is-disabled="function (card) {return false;"
-    ng-reflect-on-card-selected-template="[object Object]"
+    ng-reflect-card-selected-template="[object Object]"
   >
     <div
       class="filter-container"

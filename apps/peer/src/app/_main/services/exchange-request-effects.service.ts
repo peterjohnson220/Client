@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/operator/concatMap';
+
 import { ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
 import { ExchangeCompanyApiService, ExchangeApiService } from 'libs/data/payfactors-api';
 

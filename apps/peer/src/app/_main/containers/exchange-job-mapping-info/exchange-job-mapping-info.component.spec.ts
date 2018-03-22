@@ -11,6 +11,7 @@ import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-m
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingInfoComponent } from './exchange-job-mapping-info.component';
+import spyOn = jest.spyOn;
 
 describe('Peer - Exchange Job Mapping Info', () => {
   let fixture: ComponentFixture<ExchangeJobMappingInfoComponent>;

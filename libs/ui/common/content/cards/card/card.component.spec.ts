@@ -29,6 +29,11 @@ describe('UI/Common/Content - Card', () => {
   let fixture: ComponentFixture<CardComponent>;
   let instance: CardComponent;
 
+  function clickOnCard() {
+    const cardElement = fixture.debugElement.query(By.css('.card'));
+    cardElement.triggerEventHandler('click', null);
+  }
+
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,8 +88,7 @@ describe('UI/Common/Content - Card', () => {
 
     fixture.detectChanges();
 
-    const cardElement = fixture.debugElement.query(By.css('.card'));
-    cardElement.triggerEventHandler('click', null);
+    clickOnCard();
 
     expect(instance.selected.emit).not.toBeCalled();
   });
@@ -99,8 +103,7 @@ describe('UI/Common/Content - Card', () => {
 
     fixture.detectChanges();
 
-    const cardElement = fixture.debugElement.query(By.css('.card'));
-    cardElement.triggerEventHandler('click', null);
+    clickOnCard();
 
     expect(instance.selected.emit).toBeCalledWith(null);
   });
@@ -116,10 +119,11 @@ describe('UI/Common/Content - Card', () => {
 
     fixture.detectChanges();
 
-    const cardElement = fixture.debugElement.query(By.css('.card'));
-    cardElement.triggerEventHandler('click', null);
+    clickOnCard();
 
     expect(instance.selected.emit).toBeCalledWith(expectedCardSelection);
   });
+
+
 
 });

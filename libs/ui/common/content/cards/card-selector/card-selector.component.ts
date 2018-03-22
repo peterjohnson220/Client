@@ -15,7 +15,7 @@ export class CardSelectorComponent implements OnInit, OnDestroy {
   @Input() cardDataLoading$: Observable<boolean>;
   @Input() cardDataError$: Observable<boolean>;
   @Input() cardBodyTemplate: TemplateRef<any>;
-  @Input() onCardSelectedTemplate: TemplateRef<any>;
+  @Input() cardSelectedTemplate: TemplateRef<any>;
   @Input() cardIdentifier: (dataItem: any) => number | string;
   @Input() cardIsDisabled: (dataItem: any) => boolean;
   @Output() onReload = new EventEmitter();

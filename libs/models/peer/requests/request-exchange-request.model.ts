@@ -7,11 +7,11 @@ export interface RequestExchangeRequest {
   TypeData: any;
 }
 
-export function generateMockRequestExchangeRequest(): RequestExchangeRequest {
+export function generateMockRequestExchangeRequest(type: ExchangeRequestTypeEnum): RequestExchangeRequest {
   return {
     ExchangeId: 1,
     Reason: 'Mock Reason',
-    Type: ExchangeRequestTypeEnum.NewExchange,
+    Type: type,
     TypeData: null
   };
 }

@@ -109,7 +109,7 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
     const requestAccessModel: RequestExchangeRequest = {
-      ExchangeId: this.cardSelection.ExchangeId,
+      ExchangeId: this.cardSelection ? this.cardSelection.ExchangeId : 0,
       Reason: this.reason,
       Type: ExchangeRequestTypeEnum.Access,
       TypeData: null

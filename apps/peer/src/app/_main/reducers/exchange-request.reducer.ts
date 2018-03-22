@@ -5,7 +5,7 @@ import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
 import { ExchangeRequestActions } from '../actions/exchange-request.actions';
 
-export interface IExchangeRequestState {
+export interface ExchangeRequestState {
   loading: boolean;
   loadingError: boolean;
   modalOpen: boolean;
@@ -14,9 +14,10 @@ export interface IExchangeRequestState {
   searchTerm: string;
   filterOptions: any;
 }
-export interface IExchangeRequestEntityState<T> extends EntityState<T>, IExchangeRequestState { }
 
-const initialExchangeRequestState: IExchangeRequestState = {
+export interface ExchangeRequestEntityState<T> extends EntityState<T>, ExchangeRequestState { }
+
+const initialExchangeRequestState: ExchangeRequestState = {
   loading: false,
   loadingError: false,
   modalOpen: false,
@@ -29,10 +30,10 @@ const initialExchangeRequestState: IExchangeRequestState = {
 function getExchangeRequestReducer<T> (
   exchangeRequestType: ExchangeRequestTypeEnum,
   entityAdapter: EntityAdapter<T>,
-  initialState: IExchangeRequestState = initialExchangeRequestState
+  initialState: ExchangeRequestState = initialExchangeRequestState
 ) {
-  const initState: IExchangeRequestEntityState<T> = entityAdapter.getInitialState(initialState);
-  return (state: any = initState, action: ExchangeRequestActions): IExchangeRequestEntityState<T> => {
+  const initState: ExchangeRequestEntityState<T> = entityAdapter.getInitialState(initialState);
+  return (state: any = initState, action: ExchangeRequestActions): ExchangeRequestEntityState<T> => {
     switch (action.type) {
       case `${exchangeRequestType}_${fromExchangeRequestActions.LOAD_CANDIDATES}`: {
         return {
@@ -122,7 +123,7 @@ export function createExchangeRequestReducer<T> (
 // Selector Functions
 
 // Selector functions
-export const getLoading = (state: IExchangeRequestState) => state.loading;
-export const getLoadingError = (state: IExchangeRequestState) => state.loadingError;
-export const getModalOpen = (state: IExchangeRequestState) => state.modalOpen;
-export const getRequesting = (state: IExchangeRequestState) => state.requesting;
+export const getLoading = (state: ExchangeRequestState) => state.loading;
+export const getLoadingError = (state: ExchangeRequestState) => state.loadingError;
+export const getModalOpen = (state: ExchangeRequestState) => state.modalOpen;
+export const getRequesting = (state: ExchangeRequestState) => state.requesting;

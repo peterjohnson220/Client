@@ -17,7 +17,7 @@
       [cardDataLoading$]="existingCompaniesLoading$"
       [cardDataError$]="existingCompaniesLoadingError$"
       [cardBodyTemplate]="cardTemplate"
-      [onCardSelectedTemplate]="onCardSelectedTemplate"
+      [cardSelectedTemplate]="onCardSelectedTemplate"
       [cardIdentifier]="companyIdentifier"
       [cardIsDisabled]="companyCardDisabled"
       (onReload)="handleReloadCardsEvent()"
@@ -97,7 +97,7 @@
   <p class="card-text">
     <small title="Peers">
       <pf-ellipsis-view-more
-        [content]="card?.Peers.join(', ').toString()"
+        [content]="card?.Peers.join(', ')"
         [maxLength]="150"></pf-ellipsis-view-more>
     </small>
   </p>

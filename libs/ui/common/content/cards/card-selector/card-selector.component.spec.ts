@@ -14,7 +14,7 @@ import spyOn = jest.spyOn;
       [cardDataLoading$]="cardDataLoading$"
       [cardDataError$]="cardDataError$"
       [cardBodyTemplate]="cardTemplate"
-      [onCardSelectedTemplate]="onCardSelectedTemplate"
+      [cardSelectedTemplate]="onCardSelectedTemplate"
       [cardIdentifier]="cardSelector"
       [cardIsDisabled]="disabledExpression">
       <ng-container search-filters>
@@ -104,7 +104,7 @@ describe('UI/Common/Content - CardSelector', () => {
 
   it('should show selection container when a card is selected', () => {
     spyOn(instance, 'handleCardSelectionEvent');
-    instance.cardData$ = of([]);
+    instance.cardData$ = of([{Id: 1}]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;
 
@@ -119,7 +119,7 @@ describe('UI/Common/Content - CardSelector', () => {
 
   it('should emit an onReload event when handleReloadEvent is triggered', () => {
     spyOn(instance.onReload, 'emit');
-    instance.cardData$ = of([]);
+    instance.cardData$ = of([{Id: 1}]);
     instance.cardDataLoading$ = of(false);
     instance.cardIsDisabled = card => false;
 
