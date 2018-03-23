@@ -39,7 +39,7 @@
   </div>
 
   <!--Options Toggle-->
-  <div *ngIf="aggregateGroup.Aggregates.length > 5"
+  <div *ngIf="aggregateGroup.Aggregates.length > previewLimit"
        (click)="showAllAggregates = !showAllAggregates"
        class="toggle-option-height">
 

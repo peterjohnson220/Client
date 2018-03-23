@@ -12,6 +12,7 @@ export interface State {
   payMarket: PayMarket;
   filterAggregateGroups: FilterAggregateGroup[];
   selections: any;
+  previewLimit: number;
 }
 
 // Initial State
@@ -22,6 +23,7 @@ export const initialState: State = {
   payMarket: null,
   filterAggregateGroups: [],
   selections: {},
+  previewLimit: FilterSidebarHelper.PreviewLimit
 };
 
 // Reducer
@@ -99,3 +101,4 @@ export const getFilterAggregateGroups = (state: State) => state.filterAggregateG
 export const getSelections = (state: State) => state.selections;
 export const getLimitToPayMarket = (state: State) => state.limitToPayMarket;
 export const getPayMarket = (state: State) => state.payMarket;
+export const getPreviewLimit = (state: State) => state.previewLimit;

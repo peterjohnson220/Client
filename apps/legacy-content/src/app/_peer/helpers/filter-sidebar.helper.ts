@@ -7,7 +7,7 @@ import { AggregateSelectionInfo } from '../models';
 export class FilterSidebarHelper {
 
   // How many items to have in the preview array
-  static readonly previewCount: number = 5;
+  static readonly PreviewLimit: number = 5;
 
   // Convert filter the provided filter aggregate groups into a selection object to be passed as part the data search
   // filter model. Each aggregate group will become a property on the object that is an array of the selected items.
@@ -117,28 +117,20 @@ export class FilterSidebarHelper {
     return copiedAggregateGroups;
   }
 
-
-  // Given a collection of Filter Aggregate Items, will sort the array by count first and then by Item name
-  private static sortAggregateItems(aggregateItems: FilterAggregateItem[]) {
-    aggregateItems.sort((a, b) => {
-      return b.Count - a.Count || arraySortByString(a.Item, b.Item, SortDirection.Ascending);
-    });
-  }
-
   // Helper function for building a "Preview" array of filter aggregate groups. This array will always contain
-  // all selected aggregate groups. If the # of selected aggregate groups is less than the preview count
+  // all selected aggregate groups. If the # of selected aggregate groups is less than the preview limit
   // the remaining space in the array will be filled by the first n elements that are not selected.
-  private static buildAggregatesPreview(aggGroups: FilterAggregateGroup[]) {
+  static buildAggregatesPreview(aggGroups: FilterAggregateGroup[]) {
 
     for (let i = 0; i < aggGroups.length; i++) {
       const selectedFilterAggs = aggGroups[i].Aggregates.filter(x => x.Selected);
       let aggPreview: FilterAggregateItem[];
 
-      if (selectedFilterAggs.length > this.previewCount) {
+      if (selectedFilterAggs.length > this.PreviewLimit) {
         aggPreview = selectedFilterAggs;
       } else {
         aggPreview = aggGroups[i].Aggregates.filter(x => !x.Selected)
-          .slice(0, this.previewCount - selectedFilterAggs.length)
+          .slice(0, this.PreviewLimit - selectedFilterAggs.length)
           .concat(selectedFilterAggs);
       }
 
@@ -147,5 +139,12 @@ export class FilterSidebarHelper {
       // Break reference connections between preview and items collection
       aggGroups[i].AggregatesPreview = cloneDeep(aggPreview);
     }
+  }
+
+  // Given a collection of Filter Aggregate Items, will sort the array by count first and then by Item name
+  private static sortAggregateItems(aggregateItems: FilterAggregateItem[]) {
+    aggregateItems.sort((a, b) => {
+      return b.Count - a.Count || arraySortByString(a.Item, b.Item, SortDirection.Ascending);
+    });
   }
 }

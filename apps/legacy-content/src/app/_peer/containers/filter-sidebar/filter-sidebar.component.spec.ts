@@ -12,6 +12,7 @@ import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions'
 import * as fromPeerDataReducer from '../../reducers';
 import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
+import { generateMockFilterAggregateGroup } from '../../../../../../../libs/models/peer/aggregate-filters';
 
 describe('Legacy Content - Peer - Filter Sidebar Component', () => {
   let fixture: ComponentFixture<FilterSidebarComponent>;
@@ -69,7 +70,8 @@ describe('Legacy Content - Peer - Filter Sidebar Component', () => {
     const payload = generateMockAggregateSelectionInfo();
     const action = new fromFilterSidebarActions.ToggleAggregateSelected(payload);
 
-    fixture.detectChanges();
+    // Give the store some data since it we be called through to.
+    store.dispatch(new fromFilterSidebarActions.LoadingFilterAggregatesSuccess([generateMockFilterAggregateGroup()]));
 
     instance.handleAggregateToggled(generateMockAggregateSelectionInfo());
 

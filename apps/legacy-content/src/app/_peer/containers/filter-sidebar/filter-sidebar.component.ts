@@ -23,6 +23,7 @@ export class FilterSidebarComponent implements OnInit {
   filterAggregateGroupsLoadingError$: Observable<boolean>;
   limitToPayMarket$: Observable<boolean>;
   payMarket$: Observable<any>;
+  previewLimit$: Observable<number>;
 
   constructor(private store: Store<fromPeerReducer.State>) {
     this.filterAggregateGroups$ = this.store.select(fromPeerReducer.getFilterAggregateGroups);
@@ -30,6 +31,7 @@ export class FilterSidebarComponent implements OnInit {
     this.filterAggregateGroupsLoadingError$ = this.store.select(fromPeerReducer.getFilterAggregateGroupsLoadingError);
     this.limitToPayMarket$ = this.store.select(fromPeerReducer.getPeerFilterLimitToPayMarket);
     this.payMarket$ = this.store.select(fromPeerReducer.getPeerFilterPayMarket);
+    this.previewLimit$ = this.store.select(fromPeerReducer.getPeerFilterPreviewLimit);
   }
 
   buildPayMarketBoundsFilterLabel(payMarket: PayMarket): string {

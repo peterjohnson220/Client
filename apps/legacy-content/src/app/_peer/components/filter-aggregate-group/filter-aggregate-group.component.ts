@@ -12,6 +12,7 @@ import { AggregateSelectionInfo } from '../../models';
 })
 export class FilterAggregateGroupComponent {
   @Input() aggregateGroup: FilterAggregateGroup;
+  @Input() previewLimit: number;
   @Output() aggregateToggled = new EventEmitter<AggregateSelectionInfo>();
   @Output() clearSelections = new EventEmitter<FilterAggregateGroup>();
 
