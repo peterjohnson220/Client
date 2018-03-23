@@ -1,2 +1,2 @@
-export * from './filter-category';
-export * from './filter-option';
+export * from './filter-aggregate-group';
+export * from './filter-aggregate';

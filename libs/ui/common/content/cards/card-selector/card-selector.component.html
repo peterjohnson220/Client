@@ -1,0 +1,48 @@
+<div class="filter-container">
+  <ng-content select="[search-filters]"></ng-content>
+</div>
+<div class="selections-container">
+  <div class="results-container">
+
+    <ng-container *ngIf="(cardData$ | async)?.length > 0">
+      <pf-async-container
+        loadingErrorMessage="There was an error."
+        [loading]="cardDataLoading$ | async"
+        [loadingError]="cardDataError$ | async"
+        (reload)="handleReloadEvent()">
+        <pf-card
+          *ngFor="let card of cardData$ | async"
+          [card]="card"
+          [cardBodyTemplate]="cardBodyTemplate"
+          [selectedCardIdentifier]="cardIdentifier(selectedCard)"
+          [cardIdentifier]="cardIdentifier"
+          [cardIsDisabled]="cardIsDisabled"
+          (selected)="handleCardSelectionEvent($event)"
+        >
+        </pf-card>
+      </pf-async-container>
+
+    </ng-container>
+
+    <ng-container *ngIf="!(cardData$ | async)?.length && !(cardDataLoading$ | async)">
+
+      <div class="d-flex justify-content-center flex-column flex-grow-1">
+        <h5 class="align-self-center">No Results</h5>
+        <h5 class="align-self-center">
+          <small class="text-muted">Please change your filter criteria to search again.</small>
+        </h5>
+      </div>
+
+    </ng-container>
+
+  </div>
+
+  <ng-container *ngIf="selectedCard">
+
+    <div class="selection-container mt-2">
+      <ng-container [ngTemplateOutlet]="cardSelectedTemplate" [ngTemplateOutletContext]="{card: selectedCard}"></ng-container>
+    </div>
+
+  </ng-container>
+
+</div>
