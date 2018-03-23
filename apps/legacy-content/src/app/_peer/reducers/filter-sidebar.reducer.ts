@@ -1,55 +1,44 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
-import { FilterAggregateSelections } from 'libs/models/peer';
 import { PayMarket } from 'libs/models/paymarket';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
+import { FilterSidebarHelper } from '../helpers';
 
 // Extended entity state
-export interface State extends EntityState<FilterAggregateGroup> {
+export interface State {
   loading: boolean;
   loadingError: boolean;
   limitToPayMarket: boolean;
   payMarket: PayMarket;
-  selections: FilterAggregateSelections;
+  filterAggregateGroups: FilterAggregateGroup[];
+  selections: any;
 }
 
-// Create entity adapter
-export const adapter: EntityAdapter<FilterAggregateGroup> = createEntityAdapter<FilterAggregateGroup>({
-  selectId: (filter: FilterAggregateGroup) => filter.MetaData.PeerFilter
-});
-
 // Initial State
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
   loading: false,
   loadingError: false,
   limitToPayMarket: true,
   payMarket: null,
-  selections: {
-    Exchanges: [],
-    States: [],
-    Cities: [],
-    Companies: [],
-    CompanyIndustries: [],
-    ExchangeJobFamilies: [],
-    ExchangeJobLevels: [],
-    ExchangeJobFLSAStatuses: []
-  }
-});
+  filterAggregateGroups: [],
+  selections: {},
+};
 
 // Reducer
 export function reducer(state = initialState, action: fromFilterSidebarActions.Actions): State {
   switch (action.type) {
     case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES: {
       return {
-        ...adapter.removeAll(state),
+        ...state,
         loading: true
       };
     }
     case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_SUCCESS: {
+      const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(state.filterAggregateGroups, action.payload);
+
       return {
-        ...adapter.addAll(action.payload, state),
+        ...state,
+        filterAggregateGroups: newAggGroups,
         loading: false
       };
     }
@@ -61,25 +50,12 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       };
     }
     case fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED: {
-      const selectionInfo = action.payload;
-
-      // Make a new selections object and group array (immutable)
-      const selectionsCopy = { ...state.selections };
-      let selectionsGroupCopy = [...selectionsCopy[selectionInfo.AggregateGroup]];
-
-      // If aggregate item exists, filter it out, otherwise add it to selection group
-      if (selectionsGroupCopy.some(s => s === selectionInfo.AggregateItem)) {
-        selectionsGroupCopy = selectionsGroupCopy.filter(s => s !== selectionInfo.AggregateItem);
-      } else {
-        selectionsGroupCopy.push(selectionInfo.AggregateItem);
-      }
-
-      // Overwrite selection group
-      selectionsCopy[selectionInfo.AggregateGroup] = selectionsGroupCopy;
+      const newAggGroups = FilterSidebarHelper.toggleAggregateItemSelected(action.payload, state.filterAggregateGroups);
 
       return {
         ...state,
-        selections: selectionsCopy
+        filterAggregateGroups: newAggGroups,
+        selections: FilterSidebarHelper.buildSelections(newAggGroups)
       };
     }
     case fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET: {
@@ -94,10 +70,20 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         payMarket: action.payload
       };
     }
-    case fromFilterSidebarActions.CLEAR_SELECTIONS: {
+    case fromFilterSidebarActions.CLEAR_ALL_SELECTIONS: {
       return {
         ...state,
-        selections: initialState.selections
+        selections: initialState.selections,
+        filterAggregateGroups: FilterSidebarHelper.clearAllSelections(state.filterAggregateGroups)
+      };
+    }
+    case fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS: {
+      const newAggGroups = FilterSidebarHelper.clearGroupSelections(state.filterAggregateGroups, action.payload.MetaData.FilterProp);
+
+      return {
+        ...state,
+        filterAggregateGroups: newAggGroups,
+        selections: FilterSidebarHelper.buildSelections(newAggGroups)
       };
     }
     default: {
@@ -109,6 +95,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getFilterAggregateGroups = (state: State) => state.filterAggregateGroups;
 export const getSelections = (state: State) => state.selections;
 export const getLimitToPayMarket = (state: State) => state.limitToPayMarket;
 export const getPayMarket = (state: State) => state.payMarket;

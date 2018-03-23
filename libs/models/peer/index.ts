@@ -14,4 +14,3 @@ export * from './available-exchange-item.model';
 export * from './request-exchange-access-request.model';
 export * from './exchange-job-pay-market-filter.model';
 export * from './pay-market-location.model';
-export * from './filter-aggregate-selections.model';

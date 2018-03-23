@@ -1,10 +1,10 @@
 <div class="aggregate"
-     [class.selected]="selected"
+     [class.selected]="aggregate.Selected"
      [title]="aggregate.Item"
      (click)="handleAggregateSelected(aggregate)">
 
   <div class="aggregate-check">
-    <input type="checkbox" [ngModel]="selected"> {{aggregate.Item}}
+    <input type="checkbox" [ngModel]="aggregate.Selected"> {{aggregate.Item}}
   </div>
 
   <div class="aggregate-count">

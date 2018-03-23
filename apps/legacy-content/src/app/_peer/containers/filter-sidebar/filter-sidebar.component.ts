@@ -33,7 +33,9 @@ export class FilterSidebarComponent implements OnInit {
   }
 
   buildPayMarketBoundsFilterLabel(payMarket: PayMarket): string {
-    if (!payMarket) { return ''; }
+    if (!payMarket) {
+      return '';
+    }
 
     let boundsLabel = '';
 
@@ -52,12 +54,21 @@ export class FilterSidebarComponent implements OnInit {
     return boundsLabel;
   }
 
+  trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
+    return filterAggregateGroup.MetaData.FilterProp;
+  }
+
+  // Events
   handleAggregateToggled(aggregateSelectionInfo: AggregateSelectionInfo) {
     this.store.dispatch(new fromFilterSidebarActions.ToggleAggregateSelected(aggregateSelectionInfo));
   }
 
   handleLimitToPayMarketToggled() {
     this.store.dispatch(new fromFilterSidebarActions.ToggleLimitToPayMarket());
+  }
+
+  handleClearGroupSelections(aggregateGroup: FilterAggregateGroup) {
+    this.store.dispatch(new fromFilterSidebarActions.ClearGroupSelections(aggregateGroup));
   }
 
   ngOnInit() {

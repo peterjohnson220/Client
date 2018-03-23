@@ -13,6 +13,7 @@ export interface State {
   loadingError: boolean;
   shouldUpdateBounds: boolean;
   isInitialLoad: boolean;
+  initialMapMoveComplete: boolean;
   maxZoom: number;
 }
 
@@ -30,6 +31,7 @@ export const initialState: State = {
   loadingError: false,
   shouldUpdateBounds: true,
   isInitialLoad: true,
+  initialMapMoveComplete: false,
   maxZoom: 7
 };
 
@@ -78,21 +80,18 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loadingError: true
       };
     }
-    case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
-      const bounds = swapBounds(action.payload.bounds);
-      const zoom = action.payload.zoom;
-      // const zoomPercentage = zoom / 27;
-      // const prec = zoom <= 0 ? 1 : Math.round(zoomPercentage * 12);
-      const mapFilter = {
-        ...state.mapFilter,
-        TopLeft: bounds.TopLeft,
-        BottomRight: bounds.BottomRight,
-        ClusterPrecision: 8
-      };
+    case fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE: {
       return {
         ...state,
-        mapFilter: mapFilter,
+        mapFilter: updateMapFilterBounds(state, action.payload.bounds),
+        initialMapMoveComplete: true,
         maxZoom: 17
+      };
+    }
+    case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
+      return {
+        ...state,
+        mapFilter: updateMapFilterBounds(state, action.payload.bounds)
       };
     }
     default: {
@@ -110,6 +109,7 @@ export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
 export const getMaxZoom = (state: State) => state.maxZoom;
 export const getIsInitialLoad = (state: State) => state.isInitialLoad;
+export const getInitialMapMoveComplete = (state: State) => state.initialMapMoveComplete;
 export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
 export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && state.mapCollection.features.length === 0;
 
@@ -131,4 +131,14 @@ function swapBounds(bounds: any): any {
 
 function enforceBoundsLimit(coordinate: number) {
   return coordinate > 180 ? 180 : coordinate < -180 ? -180 : coordinate;
+}
+
+function updateMapFilterBounds(state, bounds) {
+  const swappedBounds = swapBounds(bounds);
+
+  return {
+    ...state.mapFilter,
+    TopLeft: swappedBounds.TopLeft,
+    BottomRight: swappedBounds.BottomRight
+  };
 }

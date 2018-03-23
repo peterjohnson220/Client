@@ -1,23 +1,20 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
 
 @Component({
   selector: 'pf-filter-aggregate',
   templateUrl: './filter-aggregate.component.html',
-  styleUrls: ['./filter-aggregate.component.scss']
+  styleUrls: ['./filter-aggregate.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterAggregateComponent {
   @Input() aggregate: FilterAggregateItem;
   @Output() aggregateSelected = new EventEmitter<FilterAggregateItem>();
 
-  // TODO[BC]: Connect this to the store. Will require the FilterAggregateItem model to include a selected boolean.
-  selected: boolean;
-
   constructor() { }
 
   handleAggregateSelected(aggregate: FilterAggregateItem) {
     this.aggregateSelected.emit(aggregate);
-    this.selected = !this.selected;
   }
 }

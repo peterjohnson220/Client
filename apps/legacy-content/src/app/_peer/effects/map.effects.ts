@@ -4,6 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { empty } from 'rxjs/observable/empty';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
@@ -33,15 +34,10 @@ export class MapEffects {
         .catch(() => of(new fromPeerMapActions.LoadingPeerMapError()))
     );
 
-  // @Effect()
-  // loadPeerMapSuccess$: Observable<Action> = this.actions$
-  //   .ofType(fromPeerMapActions.LOADING_PEER_MAP_SUCCESS)
-  //   .withLatestFrom(
-  //     this.store.select(fromPeerDataReducers.getPeerMapIsInitialLoad),
-  //     (action, isInitialLoad) => isInitialLoad)
-  //   .switchMap(isInitialLoad => {
-  //     return isInitialLoad ? of(new fromFilterSidebarActions.LoadingFilterAggregates()) : null;
-  //   });
+  @Effect()
+  initialMapMoveComplete$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
+    .switchMap(() => of(new fromFilterSidebarActions.LoadingFilterAggregates()));
 
   @Effect()
   updateFilterBounds$: Observable<Action> = this.actions$
