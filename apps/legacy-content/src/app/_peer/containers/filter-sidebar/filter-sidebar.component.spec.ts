@@ -6,13 +6,12 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockPayMarket } from 'libs/models';
+import { generateMockPayMarket, generateMockFilterAggregateGroup } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerDataReducer from '../../reducers';
 import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
-import { generateMockFilterAggregateGroup } from '../../../../../../../libs/models/peer/aggregate-filters';
 
 describe('Legacy Content - Peer - Filter Sidebar Component', () => {
   let fixture: ComponentFixture<FilterSidebarComponent>;
