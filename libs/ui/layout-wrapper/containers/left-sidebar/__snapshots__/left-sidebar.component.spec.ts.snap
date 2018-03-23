@@ -10,6 +10,9 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
   store={[Function Store]}
+  userContext$={[Function ScalarObservable]}
+  userContextSubscription={[Function Subscriber]}
+  userId={[Function Number]}
 >
   <pf-async-container>
     
@@ -78,6 +81,9 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
   store={[Function Store]}
+  userContext$={[Function ScalarObservable]}
+  userContextSubscription={[Function Subscriber]}
+  userId={[Function Number]}
 >
   <pf-async-container>
     

@@ -8,3 +8,6 @@ export * from './exchange-job-pay-market-request.model';
 export * from './upsert-exchange-job-map.request.model';
 export * from './upsert-exchange-request.model';
 export * from './validate-exchange-jobs.request';
+export * from './request-exchange-request.model';
+export * from './exchange-request-type.enum';
+export * from './exchange-request-candidates-request.model';

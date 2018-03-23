@@ -9,10 +9,14 @@ import { LoadingIndicatorComponent, LoadingUserContextComponent,
 import { PageWithTitleBarComponent } from './page-layout';
 import { ValidationResultsComponent } from './validation';
 import { PfCommonModule } from '../../core';
+import { CardSelectorComponent } from './content/cards/card-selector';
+import { CardComponent } from './content/cards/card/card.component';
 
 const components = [
   // Content
   EllipsisViewMoreComponent,
+  CardComponent,
+  CardSelectorComponent,
 
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent,

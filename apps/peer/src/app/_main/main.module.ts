@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { StoreModule } from '@ngrx/store';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
@@ -15,16 +16,18 @@ import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
-         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent, ExchangeDashboardPageComponent } from './containers';
-import { ExchangeListEffects, ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
+         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
+         ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
+         AccessModalComponent } from './containers';
+import { ExchangeListEffects, ExchangeJobMappingGridEffects,
+         ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
-import { RequestExchangeAccessModalComponent } from './containers/request-access-modal/request-exchange-access-modal.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { AvailableExchangeResultComponent } from './components/available-exchange-result/available-exchange-result.component';
-import { ExchangeAccessEffects } from './effects/exchange-access.effects';
+import { ExchangeRequestEffectsService } from './services/exchange-request-effects.service';
+import { AccessExchangeRequestEffects } from './effects/exchange-request/access.effects';
+import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-request/payfactors-company.effects';
 
 @NgModule({
   imports: [
@@ -39,7 +42,7 @@ import { ExchangeAccessEffects } from './effects/exchange-access.effects';
     StoreModule.forFeature('peerMain', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
-      ExchangeJobMappingInfoEffects, ExchangeAccessEffects
+      ExchangeJobMappingInfoEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
     ]),
     DropDownsModule,
 
@@ -56,18 +59,18 @@ import { ExchangeAccessEffects } from './effects/exchange-access.effects';
   declarations: [
     // Components
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
-    AvailableExchangeResultComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
-    RequestExchangeAccessModalComponent,
+    PayfactorsCompanyModalComponent, AccessModalComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent
   ],
   providers: [
     ExchangeJobMappingService,
-    ExchangeExistsGuard
+    ExchangeExistsGuard,
+    ExchangeRequestEffectsService
   ]
 })
 export class MainModule { }

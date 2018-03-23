@@ -11,6 +11,5 @@ export * from './company-job-to-map-to.model';
 export * from './exchange-data-search-filter.model';
 export * from './exchange-map-response.model';
 export * from './available-exchange-item.model';
-export * from './request-exchange-access-request.model';
 export * from './exchange-job-pay-market-filter.model';
 export * from './pay-market-location.model';

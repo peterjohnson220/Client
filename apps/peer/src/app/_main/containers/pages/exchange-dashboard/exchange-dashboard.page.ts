@@ -5,10 +5,11 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'hammerjs';
 
-import { Exchange, GetChartRequest, ChartItem } from 'libs/models';
+import { Exchange, GetChartRequest, ChartItem, ExchangeRequestTypeEnum } from 'libs/models';
 
-import * as fromExchangeDashboardReducer from '../../../reducers';
+import * as fromPeerMainReducers from '../../../reducers';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 
 @Component({
   selector: 'pf-exchange-dashboard-page',
@@ -23,10 +24,10 @@ export class ExchangeDashboardPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromExchangeDashboardReducer.State>
+    private store: Store<fromPeerMainReducers.State>
   ) {
-    this.exchange$ = this.store.select(fromExchangeDashboardReducer.getExchange);
-    this.industryChartItems$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardIndustryChartItems);
+    this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
+    this.industryChartItems$ = this.store.select(fromPeerMainReducers.getExchangeDashboardIndustryChartItems);
     this.exchangeId = this.route.snapshot.params.id;
   }
 
@@ -40,5 +41,9 @@ export class ExchangeDashboardPageComponent implements OnInit {
 
   manageJobsClick(): void {
     this.router.navigate([ 'exchange/job-mapping', this.exchangeId ]);
+  }
+
+  referCompanyClick(): void {
+    this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
   }
 }

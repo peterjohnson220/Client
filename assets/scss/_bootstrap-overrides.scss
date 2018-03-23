@@ -1,6 +1,8 @@
 @import 'colors';
 
 /* Variable Overrides */
+$badge-font-weight: 400;
+
 $theme-colors: (
   "primary": $body-background-color,
   "secondary": #ffffff
