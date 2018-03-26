@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as cloneDeep from 'lodash.clonedeep';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'hammerjs'; // Required for chart methods like seriesClick.
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { Exchange, GetChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
