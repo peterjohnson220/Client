@@ -108,7 +108,6 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
 export const getMaxZoom = (state: State) => state.maxZoom;
-export const getIsInitialLoad = (state: State) => state.isInitialLoad;
 export const getInitialMapMoveComplete = (state: State) => state.initialMapMoveComplete;
 export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
 export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && state.mapCollection.features.length === 0;
