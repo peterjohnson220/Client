@@ -19,6 +19,8 @@ export class MapComponent {
   selectedPoint: any = null;
   cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/streets-v9';
+  map: mapboxgl.Map;
+
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   peerMapFilter$: Observable<any>;
@@ -28,7 +30,7 @@ export class MapComponent {
   canLoadPeerMap$: Observable<boolean>;
   peerMapShowNoData$: Observable<boolean>;
   peerMapMaxZoom$: Observable<number>;
-  map: mapboxgl.Map;
+  peerMapInitialMapMoveComplete$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -40,6 +42,7 @@ export class MapComponent {
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
     this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
     this.peerMapMaxZoom$ = this.store.select(fromPeerDataReducers.getPeerMapMaxZoom);
+    this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerDataReducers.getPeerMapInitialMapMoveComplete);
   }
 
   get center(): any {
@@ -69,11 +72,18 @@ export class MapComponent {
   }
 
   handleMoveEndEvent(e: any) {
-    if (e.target.mapDirty) {
-      this.selectedPoint = null;
-      e.target.moveStarted = false;
-      this.refreshMap(e);
-    }
+    const filterVars = {
+      bounds: e.target.getBounds(),
+      zoom: e.target.getZoom()
+    };
+
+    this.peerMapInitialMapMoveComplete$.take(1).subscribe(initialMapMoveComplete => {
+      if (!initialMapMoveComplete) {
+        this.store.dispatch(new fromPeerMapActions.InitialMapMoveComplete(filterVars));
+      } else {
+        this.refreshMap(e, filterVars);
+      }
+    });
   }
 
   // Map layer events
@@ -89,17 +99,9 @@ export class MapComponent {
   }
 
   // Helper functions
-  refreshMap(e: any) {
-    if (!e.target._loaded || e.target.moving) {
-      return;
-    }
+  refreshMap(e: any, filterVars: any) {
     this.canLoadPeerMap$.take(1).subscribe(canload => {
       if (canload) {
-        const filterVars = {
-          bounds: e.target.getBounds(),
-          zoom: e.target.getZoom()
-        };
-
         this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
       }
     });

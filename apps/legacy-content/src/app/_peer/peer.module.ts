@@ -16,7 +16,7 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
-import { AddDataCutPageEffects, PeerMapEffects, FilterSidebarEffects } from './effects';
+import { AddDataCutPageEffects, MapEffects, FilterSidebarEffects } from './effects';
 import { reducers } from './reducers';
 import { FilterAggregateGroupComponent, FilterAggregateComponent } from './components';
 
@@ -30,7 +30,7 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent } from './compo
     StoreModule.forFeature('peerData', reducers),
     EffectsModule.forFeature([
       AddDataCutPageEffects,
-      PeerMapEffects,
+      MapEffects,
       FilterSidebarEffects
     ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),

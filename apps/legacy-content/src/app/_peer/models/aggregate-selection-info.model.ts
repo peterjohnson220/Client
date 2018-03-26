@@ -5,7 +5,7 @@ export interface AggregateSelectionInfo {
 
 export function generateMockAggregateSelectionInfo(): AggregateSelectionInfo {
   return {
-    AggregateGroup: 'Exchanges',
-    AggregateItem: 'Exchange One'
+    AggregateGroup: 'MockProp',
+    AggregateItem: 'MockItem'
   };
 }

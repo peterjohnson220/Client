@@ -23,6 +23,7 @@ export class FilterSidebarComponent implements OnInit {
   filterAggregateGroupsLoadingError$: Observable<boolean>;
   limitToPayMarket$: Observable<boolean>;
   payMarket$: Observable<any>;
+  previewLimit$: Observable<number>;
 
   constructor(private store: Store<fromPeerReducer.State>) {
     this.filterAggregateGroups$ = this.store.select(fromPeerReducer.getFilterAggregateGroups);
@@ -30,10 +31,13 @@ export class FilterSidebarComponent implements OnInit {
     this.filterAggregateGroupsLoadingError$ = this.store.select(fromPeerReducer.getFilterAggregateGroupsLoadingError);
     this.limitToPayMarket$ = this.store.select(fromPeerReducer.getPeerFilterLimitToPayMarket);
     this.payMarket$ = this.store.select(fromPeerReducer.getPeerFilterPayMarket);
+    this.previewLimit$ = this.store.select(fromPeerReducer.getPeerFilterPreviewLimit);
   }
 
   buildPayMarketBoundsFilterLabel(payMarket: PayMarket): string {
-    if (!payMarket) { return ''; }
+    if (!payMarket) {
+      return '';
+    }
 
     let boundsLabel = '';
 
@@ -52,12 +56,21 @@ export class FilterSidebarComponent implements OnInit {
     return boundsLabel;
   }
 
+  trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
+    return filterAggregateGroup.MetaData.FilterProp;
+  }
+
+  // Events
   handleAggregateToggled(aggregateSelectionInfo: AggregateSelectionInfo) {
     this.store.dispatch(new fromFilterSidebarActions.ToggleAggregateSelected(aggregateSelectionInfo));
   }
 
   handleLimitToPayMarketToggled() {
     this.store.dispatch(new fromFilterSidebarActions.ToggleLimitToPayMarket());
+  }
+
+  handleClearGroupSelections(aggregateGroup: FilterAggregateGroup) {
+    this.store.dispatch(new fromFilterSidebarActions.ClearGroupSelections(aggregateGroup));
   }
 
   ngOnInit() {

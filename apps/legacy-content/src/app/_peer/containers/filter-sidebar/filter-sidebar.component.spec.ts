@@ -6,7 +6,7 @@ import { SwitchModule } from '@progress/kendo-angular-inputs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockPayMarket } from 'libs/models';
+import { generateMockPayMarket, generateMockFilterAggregateGroup } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerDataReducer from '../../reducers';
@@ -69,7 +69,8 @@ describe('Legacy Content - Peer - Filter Sidebar Component', () => {
     const payload = generateMockAggregateSelectionInfo();
     const action = new fromFilterSidebarActions.ToggleAggregateSelected(payload);
 
-    fixture.detectChanges();
+    // Give the store some data since it we be called through to.
+    store.dispatch(new fromFilterSidebarActions.LoadingFilterAggregatesSuccess([generateMockFilterAggregateGroup()]));
 
     instance.handleAggregateToggled(generateMockAggregateSelectionInfo());
 

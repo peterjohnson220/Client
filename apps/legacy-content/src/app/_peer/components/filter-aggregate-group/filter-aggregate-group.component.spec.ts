@@ -11,6 +11,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromPeerDataReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models/';
 import { FilterAggregateGroupComponent } from './filter-aggregate-group.component';
+import { FilterSidebarHelper } from '../../helpers';
 
 describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
   let fixture: ComponentFixture<FilterAggregateGroupComponent>;
@@ -39,6 +40,7 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
 
     fixture = TestBed.createComponent(FilterAggregateGroupComponent);
     instance = fixture.componentInstance;
+    instance.previewLimit = FilterSidebarHelper.PreviewLimit;
   });
 
   it('should emit an aggregateToggled event with AggregateSelectionInfo when handling AggregateSelected', () => {
@@ -81,8 +83,8 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show the Options Toggle when the number of aggregates is greater than 5', () => {
-    buildAggregateGroupAndMultipleItems(instance);
+  it('should show the Options Toggle when the number of aggregates is greater than the preview limit', () => {
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
 
     fixture.detectChanges();
 
@@ -90,7 +92,7 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
   });
 
   it('should toggle showAllAggregates when clicking on the .toggle-option-height', () => {
-    buildAggregateGroupAndMultipleItems(instance);
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
 
     fixture.detectChanges();
 
@@ -101,7 +103,8 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
   });
 
   it('should show a \'Show Less\' link when showAllAggregates is true', () => {
-    buildAggregateGroupAndMultipleItems(instance);
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
+
     instance.showAllAggregates = true;
 
     fixture.detectChanges();
@@ -109,12 +112,24 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should emit a clearSelections event when handling Reset Clicked', () => {
+    spyOn(instance.clearSelections, 'emit');
+
+    instance.handleResetClicked({ stopPropagation: jest.fn()});
+
+    expect(instance.clearSelections.emit).toHaveBeenCalled();
+  });
+
 });
 
-function buildAggregateGroupAndMultipleItems(instance: FilterAggregateGroupComponent): void {
-  instance.aggregateGroup = generateMockFilterAggregateGroup();
+function buildAggregateGroupWithMultipleItems() {
+  const aggGroup = generateMockFilterAggregateGroup();
 
-  for (let i = 0; i < 6; i++) {
-    instance.aggregateGroup.Aggregates.push(generateMockFilterAggregateItem());
+  for (let i = 0; i < 10; i++) {
+    aggGroup.Aggregates.push(generateMockFilterAggregateItem());
   }
+
+  FilterSidebarHelper.buildAggregatesPreview([aggGroup]);
+
+  return aggGroup;
 }

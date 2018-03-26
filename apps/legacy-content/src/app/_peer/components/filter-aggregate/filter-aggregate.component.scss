@@ -3,7 +3,8 @@
 .aggregate{
   display: flex;
   justify-content: space-between;
-  padding: .35rem .5rem;
+  padding: .3846rem .5rem;
+  height: 28px;
   cursor: pointer;
 }
 
@@ -13,6 +14,10 @@
 
 .aggregate.selected{
   background: rgba(255, 250, 203, 0.65);
+}
+
+.aggregate.selected:hover{
+  background: rgba(255, 250, 203, 1);
 }
 
 .aggregate-check{

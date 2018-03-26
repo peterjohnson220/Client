@@ -4,7 +4,9 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
   collapsed={[Function Boolean]}
+  previewLimit={[Function Number]}
 >
   
   <div
@@ -33,6 +35,10 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
         class="header-right"
       >
         
+        
+        
+        
+  
         
         
         <div>
@@ -65,10 +71,20 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
       
       
       
-      <pf-filter-aggregate>
+      
+      
         
       
+      <pf-filter-aggregate>
+        
+        
       </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
       
     
     </div>
@@ -90,6 +106,8 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
   showAllAggregates={[Function Boolean]}
 >
   
@@ -122,6 +140,10 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
         
         
         
+  
+        
+        
+        
         
         
         <div>
@@ -151,10 +173,20 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply t
       
       
       
-      <pf-filter-aggregate>
+      
+      
         
       
+      <pf-filter-aggregate>
+        
+        
       </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
       
     
     </div>
@@ -176,6 +208,8 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
   showAllAggregates={[Function Boolean]}
 >
   
@@ -208,6 +242,10 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
         
         
         
+  
+        
+        
+        
         
         
         <div>
@@ -237,34 +275,60 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
       
       
       
-      <pf-filter-aggregate>
+      
+      
         
       
+      <pf-filter-aggregate>
+        
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
       
     
     </div>
@@ -307,10 +371,12 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show a 
 </pf-filter-aggregate-group>
 `;
 
-exports[`Legacy Content - Peer - Filter Aggregate Group Component should show the Options Toggle when the number of aggregates is greater than 5 1`] = `
+exports[`Legacy Content - Peer - Filter Aggregate Group Component should show the Options Toggle when the number of aggregates is greater than the preview limit 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
   aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
 >
   
   <div
@@ -339,6 +405,10 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show th
         class="header-right"
       >
         
+        
+        
+        
+  
         
         
         
@@ -371,34 +441,36 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show th
       
       
       
-      <pf-filter-aggregate>
+      
+      
         
       
+      <pf-filter-aggregate>
+        
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
+        
       </pf-filter-aggregate>
       <pf-filter-aggregate>
         
-      
-      </pf-filter-aggregate>
-      <pf-filter-aggregate>
         
-      
       </pf-filter-aggregate>
-      <pf-filter-aggregate>
-        
       
-      </pf-filter-aggregate>
+      
+      
+  
+      
+      
       
     
     </div>
@@ -419,7 +491,7 @@ exports[`Legacy Content - Peer - Filter Aggregate Group Component should show th
       
       <span>
         
-        2 More 
+        6 More 
         <i
           class="far fa-angle-down"
         />

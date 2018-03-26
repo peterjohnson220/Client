@@ -48,19 +48,18 @@ export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.ge
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
 export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
+export const getPeerMapInitialMapMoveComplete = createSelector(selectMapState, fromMapReducer.getInitialMapMoveComplete);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 
 // Filter Sidebar Selectors
-export const {
-  selectAll: getFilterAggregateGroups
-} = fromFilterSidebarReducer.adapter.getSelectors(selectPeerFiltersState);
-
 export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
 export const getFilterAggregateGroupsLoadingError = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoadingError);
+export const getFilterAggregateGroups = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getFilterAggregateGroups);
 export const getPeerFilterSelections = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelections);
 export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLimitToPayMarket);
 export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
+export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPreviewLimit);
 
 
 // Combined State Selectors
