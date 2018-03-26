@@ -17,3 +17,4 @@ export * from './pay-market-location.model';
 export * from './filter-aggregate-selections.model';
 export * from './requests/exchange-request-type.enum';
 export * from './requests/exchange-request-candidates-request.model';
+export * from './exchange-chart-type.enum';

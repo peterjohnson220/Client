@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import 'hammerjs';
 
-import { Exchange, GetChartRequest, ChartItem, ExchangeRequestTypeEnum } from 'libs/models';
+import { Exchange, ExchangeRequestTypeEnum } from 'libs/models';
 
-import * as fromPeerMainReducers from '../../../reducers';
+import * as fromExchangeDashboardReducer from '../../../reducers';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 
@@ -19,24 +18,16 @@ import * as fromExchangeRequestActions from '../../../actions/exchange-request.a
 export class ExchangeDashboardPageComponent implements OnInit {
   exchangeId: number;
   exchange$: Observable<Exchange>;
-  industryChartItems$: Observable<ChartItem[]>;
+  sidebarVisible$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromPeerMainReducers.State>
+    private store: Store<fromExchangeDashboardReducer.State>
   ) {
-    this.exchange$ = this.store.select(fromPeerMainReducers.getExchange);
-    this.industryChartItems$ = this.store.select(fromPeerMainReducers.getExchangeDashboardIndustryChartItems);
+    this.exchange$ = this.store.select(fromExchangeDashboardReducer.getExchange);
+    this.sidebarVisible$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardSidebarVisible);
     this.exchangeId = this.route.snapshot.params.id;
-  }
-
-  ngOnInit() {
-    const getChartRequest: GetChartRequest = {
-      ExchangeId: this.exchangeId,
-      ChartType: 'Industry'
-    };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingChart(getChartRequest));
   }
 
   manageJobsClick(): void {
@@ -45,5 +36,9 @@ export class ExchangeDashboardPageComponent implements OnInit {
 
   referCompanyClick(): void {
     this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
   }
 }

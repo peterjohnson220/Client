@@ -2,27 +2,99 @@ import { Action } from '@ngrx/store';
 
 import { GetChartRequest, ChartItem } from 'libs/models';
 
-export const LOADING_CHART  = '[Peer Main/Exchange Dashboard] Loading Chart';
-export const LOADING_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Chart Success';
-export const LOADING_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Chart Error';
+export const LOADING_INDUSTRY_CHART  = '[Peer Main/Exchange Dashboard] Loading Industry Chart';
+export const LOADING_INDUSTRY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Success';
+export const LOADING_INDUSTRY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Error';
+export const LOADING_JOB_FAMILY_CHART  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart';
+export const LOADING_JOB_FAMILY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart Success';
+export const LOADING_JOB_FAMILY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart Error';
+export const LOADING_REVENUE_CHART  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart';
+export const LOADING_REVENUE_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart Success';
+export const LOADING_REVENUE_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart Error';
+export const LOADING_DETAIL_CHART  = '[Peer Main/Exchange Dashboard] Loading Detail Chart';
+export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Success';
+export const LOADING_DETAIL_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Error';
+export const CLOSE_SIDEBAR  = '[Peer Main/Exchange Dashboard] Close Sidebar';
 
-export class LoadingChart implements Action {
-  readonly type = LOADING_CHART;
+export class LoadingIndustryChart implements Action {
+  readonly type = LOADING_INDUSTRY_CHART;
 
   constructor(public payload: GetChartRequest) {}
 }
 
-export class LoadingChartSuccess implements Action {
-  readonly type = LOADING_CHART_SUCCESS;
+export class LoadingIndustryChartSuccess implements Action {
+  readonly type = LOADING_INDUSTRY_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingChartError implements Action {
-  readonly type = LOADING_CHART_ERROR;
+export class LoadingIndustryChartError implements Action {
+  readonly type = LOADING_INDUSTRY_CHART_ERROR;
+}
+
+export class LoadingJobFamilyChart implements Action {
+  readonly type = LOADING_JOB_FAMILY_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadingJobFamilyChartSuccess implements Action {
+  readonly type = LOADING_JOB_FAMILY_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadingJobFamilyChartError implements Action {
+  readonly type = LOADING_JOB_FAMILY_CHART_ERROR;
+}
+
+export class LoadingRevenueChart implements Action {
+  readonly type = LOADING_REVENUE_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadingRevenueChartSuccess implements Action {
+  readonly type = LOADING_REVENUE_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadingRevenueChartError implements Action {
+  readonly type = LOADING_REVENUE_CHART_ERROR;
+}
+
+export class LoadingDetailChart implements Action {
+  readonly type = LOADING_DETAIL_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadingDetailChartSuccess implements Action {
+  readonly type = LOADING_DETAIL_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadingDetailChartError implements Action {
+  readonly type = LOADING_DETAIL_CHART_ERROR;
+}
+
+export class CloseSidebar implements Action {
+  readonly type = CLOSE_SIDEBAR;
 }
 
 export type Actions
-  = LoadingChart
-  | LoadingChartSuccess
-  | LoadingChartError;
+  = LoadingIndustryChart
+  | LoadingIndustryChartSuccess
+  | LoadingIndustryChartError
+  | LoadingJobFamilyChart
+  | LoadingJobFamilyChartSuccess
+  | LoadingJobFamilyChartError
+  | LoadingRevenueChart
+  | LoadingRevenueChartSuccess
+  | LoadingRevenueChartError
+  | LoadingDetailChart
+  | LoadingDetailChartSuccess
+  | LoadingDetailChartError
+  | CloseSidebar;
