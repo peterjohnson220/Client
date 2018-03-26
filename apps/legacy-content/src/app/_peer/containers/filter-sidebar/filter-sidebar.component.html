@@ -23,9 +23,11 @@
 
   <div class="aggregate-groups-container">
     <pf-filter-aggregate-group
-      *ngFor="let aggregateGroup of (filterAggregateGroups$ | async)"
+      *ngFor="let aggregateGroup of (filterAggregateGroups$ | async); trackBy: trackByFilterProp"
       [aggregateGroup]="aggregateGroup"
-      (aggregateToggled)="handleAggregateToggled($event)">
+      [previewLimit]="previewLimit$ | async"
+      (aggregateToggled)="handleAggregateToggled($event)"
+      (clearSelections)="handleClearGroupSelections($event)">
     </pf-filter-aggregate-group>
   </div>
 

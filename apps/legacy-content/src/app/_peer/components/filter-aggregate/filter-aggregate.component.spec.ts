@@ -33,11 +33,4 @@ describe('Legacy Content - Peer - Filter Aggregate Component', () => {
 
     expect(instance.aggregateSelected.emit).toHaveBeenCalledWith(instance.aggregate);
   });
-
-  it('should toggle selected when handling AggregateSelected', () => {
-    instance.aggregate = generateMockFilterAggregateItem();
-    instance.handleAggregateSelected(instance.aggregate);
-
-    expect(instance.selected).toBe(true);
-  });
 });

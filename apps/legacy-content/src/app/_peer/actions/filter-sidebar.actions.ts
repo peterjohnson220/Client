@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { FilterAggregateGroup } from 'libs/models/peer';
+
 import { AggregateSelectionInfo } from '../models';
 
 export const LOADING_FILTER_AGGREGATES  = '[Peer Add Data Cut/Filter Sidebar] Loading Filter Aggregates';
@@ -9,7 +11,8 @@ export const TOGGLE_AGGREGATE_SELECTED  = '[Peer Add Data Cut/Filter Sidebar] To
 export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Peer Add Data Cut/Filter Sidebar] Toggle Limit To PayMarket';
 export const LOAD_PAYMARKET_INFORMATION  = '[Peer Add Data Cut/Filter Sidebar] Load PayMarket Information';
 export const LOAD_PAYMARKET_INFORMATION_SUCCESS  = '[Peer Add Data Cut/Filter Sidebar] Load PayMarket Information Success';
-export const CLEAR_SELECTIONS  = '[Peer Add Data Cut/Filter Sidebar] Clear Selections';
+export const CLEAR_ALL_SELECTIONS  = '[Peer Add Data Cut/Filter Sidebar] Clear All Selections';
+export const CLEAR_GROUP_SELECTIONS  = '[Peer Add Data Cut/Filter Sidebar] Clear Group Selections';
 
 export class LoadingFilterAggregates implements Action {
   readonly type = LOADING_FILTER_AGGREGATES;
@@ -47,10 +50,16 @@ export class LoadPayMarketInformationSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearSelections implements Action {
-  readonly type = CLEAR_SELECTIONS;
+export class ClearAllSelections implements Action {
+  readonly type = CLEAR_ALL_SELECTIONS;
 
   constructor() {}
+}
+
+export class ClearGroupSelections implements Action {
+  readonly type = CLEAR_GROUP_SELECTIONS;
+
+  constructor(public payload: FilterAggregateGroup) {}
 }
 
 export type Actions
@@ -61,4 +70,5 @@ export type Actions
   | ToggleLimitToPayMarket
   | LoadPayMarketInformation
   | LoadPayMarketInformationSuccess
-  | ClearSelections;
+  | ClearAllSelections
+  | ClearGroupSelections;
