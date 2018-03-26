@@ -9,7 +9,7 @@ export class FilterSidebarHelper {
   // How many items to have in the preview array
   static readonly PreviewLimit: number = 5;
 
-  // Convert filter the provided filter aggregate groups into a selection object to be passed as part the data search
+  // Convert the provided filter aggregate groups into a selection object to be passed as part the data search
   // filter model. Each aggregate group will become a property on the object that is an array of the selected items.
   static buildSelections(aggregateGroups: FilterAggregateGroup[]) {
     const selectionObj = {};
@@ -97,7 +97,7 @@ export class FilterSidebarHelper {
     return copiedAggregateGroups;
   }
 
-  // Give a collection for filter aggregate groups and a group identified (FilterProp), will set the selected property
+  // Given a collection of filter aggregate groups and a group identifier (FilterProp), will set the selected property
   // for each aggregate item to false for the aggregate group provided.
   static clearGroupSelections(aggregateGroups: FilterAggregateGroup[], aggGroupFilterProp: string) {
     const copiedAggregateGroups = cloneDeep(aggregateGroups);
@@ -117,8 +117,8 @@ export class FilterSidebarHelper {
     return copiedAggregateGroups;
   }
 
-  // Helper function for building a "Preview" array of filter aggregate groups. This array will always contain
-  // all selected aggregate groups. If the # of selected aggregate groups is less than the preview limit
+  // Helper function for building a "Preview" array of filter aggregate items. This array will always contain
+  // all selected aggregate items. If the # of selected aggregate items is less than the preview limit
   // the remaining space in the array will be filled by the first n elements that are not selected.
   static buildAggregatesPreview(aggGroups: FilterAggregateGroup[]) {
 
