@@ -13,3 +13,4 @@ export * from './exchange-map-response.model';
 export * from './available-exchange-item.model';
 export * from './exchange-job-pay-market-filter.model';
 export * from './pay-market-location.model';
+export * from './exchange-chart-type.enum';

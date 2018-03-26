@@ -110,6 +110,54 @@ export const getExchangeDashboardLoadingIndustryChartError = createSelector(
   selectExchangeDashboardState,
   fromExchangeDashboardReducer.getLoadingIndustryChartError
 );
+export const getExchangeDashboardJobFamilyChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getJobFamilyChartItems
+);
+export const getExchangeDashboardLoadingJobFamilyChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingJobFamilyChart
+);
+export const getExchangeDashboardLoadingJobFamilyChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingJobFamilyChartError
+);
+export const getExchangeDashboardRevenueChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getRevenueChartItems
+);
+export const getExchangeDashboardLoadingRevenueChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingRevenueChart
+);
+export const getExchangeDashboardLoadingRevenueChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingRevenueChartError
+);
+export const getExchangeDashboardDetailChartType = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getDetailChartType
+);
+export const getExchangeDashboardDetailChartCategory = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getDetailChartCategory
+);
+export const getExchangeDashboardDetailChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getDetailChartItems
+);
+export const getExchangeDashboardLoadingDetailChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingDetailChart
+);
+export const getExchangeDashboardLoadingDetailChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingDetailChartError
+);
+export const getExchangeDashboardSidebarVisible = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getSidebarVisible
+);
 
 // Exchange Job Mapping Selectors
 export const selectExchangeJobMappingsFeatureState = createSelector(

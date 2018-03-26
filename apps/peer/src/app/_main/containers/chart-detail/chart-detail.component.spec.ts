@@ -3,20 +3,17 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import {  generateMockExchange } from 'libs/models';
 
-import { ExchangeDashboardPageComponent } from '../exchange-dashboard/exchange-dashboard.page';
-import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
-import * as fromPeerMainReducer from '../../../reducers';
+import { ChartDetailComponent } from './chart-detail.component';
+import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
+import * as fromPeerMainReducer from '../../reducers';
 
-describe('Peer - Exchange Dashboard', () => {
-  let fixture: ComponentFixture<ExchangeDashboardPageComponent>;
-  let instance: ExchangeDashboardPageComponent;
-  let router: Router;
+describe('Peer Dashboard - Chart Detail', () => {
+  let fixture: ComponentFixture<ChartDetailComponent>;
+  let instance: ChartDetailComponent;
   let store: Store<fromPeerMainReducer.State>;
   let activatedRoute: ActivatedRoute;
 
@@ -29,6 +26,9 @@ describe('Peer - Exchange Dashboard', () => {
           peerMain: combineReducers(fromPeerMainReducer.reducers)
         }),
       ],
+      declarations: [
+        ChartDetailComponent
+      ],
       providers: [
         {
           provide: Router,
@@ -39,44 +39,30 @@ describe('Peer - Exchange Dashboard', () => {
           useValue: { snapshot: { params: { id : 1 } } },
         },
       ],
-      declarations: [
-        ExchangeDashboardPageComponent
-      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
-    router = TestBed.get(Router);
     activatedRoute = TestBed.get(ActivatedRoute);
 
-    fixture = TestBed.createComponent(ExchangeDashboardPageComponent);
+    fixture = TestBed.createComponent(ChartDetailComponent);
     instance = fixture.componentInstance;
 
     spyOn(store, 'dispatch');
   });
 
-  it('should show the dashboard with the exchange name and a container for the charts', () => {
-    instance.exchange$ = of(generateMockExchange());
-
+  it('should show the chart detail component', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should navigate to the job mapping page when clicking the manage jobs button', () => {
-    spyOn(router, 'navigate');
-
-    instance.manageJobsClick();
-
-    expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', activatedRoute.snapshot.params.id]);
-  });
-
-  it('should dispatch a CloseSidebar action on init', () => {
-    instance.exchange$ = of(generateMockExchange());
+  it ('should dispatch the CloseSidebar action when clicking the close button', () => {
     const action = new fromExchangeDashboardActions.CloseSidebar();
 
     fixture.detectChanges();
+    instance.closeSidebar();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

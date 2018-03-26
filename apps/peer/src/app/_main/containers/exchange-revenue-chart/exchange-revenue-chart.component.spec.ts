@@ -7,16 +7,15 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import {  generateMockExchange } from 'libs/models';
+import {  generateMockExchange, ExchangeChartTypeEnum } from 'libs/models';
 
-import { ExchangeDashboardPageComponent } from '../exchange-dashboard/exchange-dashboard.page';
-import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
-import * as fromPeerMainReducer from '../../../reducers';
+import { ExchangeRevenueChartComponent } from './exchange-revenue-chart.component';
+import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
+import * as fromPeerMainReducer from '../../reducers';
 
-describe('Peer - Exchange Dashboard', () => {
-  let fixture: ComponentFixture<ExchangeDashboardPageComponent>;
-  let instance: ExchangeDashboardPageComponent;
-  let router: Router;
+describe('Peer Dashboard - Revenue Chart', () => {
+  let fixture: ComponentFixture<ExchangeRevenueChartComponent>;
+  let instance: ExchangeRevenueChartComponent;
   let store: Store<fromPeerMainReducer.State>;
   let activatedRoute: ActivatedRoute;
 
@@ -29,6 +28,9 @@ describe('Peer - Exchange Dashboard', () => {
           peerMain: combineReducers(fromPeerMainReducer.reducers)
         }),
       ],
+      declarations: [
+        ExchangeRevenueChartComponent
+      ],
       providers: [
         {
           provide: Router,
@@ -39,24 +41,20 @@ describe('Peer - Exchange Dashboard', () => {
           useValue: { snapshot: { params: { id : 1 } } },
         },
       ],
-      declarations: [
-        ExchangeDashboardPageComponent
-      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
-    router = TestBed.get(Router);
     activatedRoute = TestBed.get(ActivatedRoute);
 
-    fixture = TestBed.createComponent(ExchangeDashboardPageComponent);
+    fixture = TestBed.createComponent(ExchangeRevenueChartComponent);
     instance = fixture.componentInstance;
 
     spyOn(store, 'dispatch');
   });
 
-  it('should show the dashboard with the exchange name and a container for the charts', () => {
+  it('should show the revenue chart and title', () => {
     instance.exchange$ = of(generateMockExchange());
 
     fixture.detectChanges();
@@ -64,20 +62,31 @@ describe('Peer - Exchange Dashboard', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should navigate to the job mapping page when clicking the manage jobs button', () => {
-    spyOn(router, 'navigate');
-
-    instance.manageJobsClick();
-
-    expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', activatedRoute.snapshot.params.id]);
-  });
-
-  it('should dispatch a CloseSidebar action on init', () => {
+  it('should dispatch a LoadingRevenueChart action on init', () => {
     instance.exchange$ = of(generateMockExchange());
-    const action = new fromExchangeDashboardActions.CloseSidebar();
+    const action = new fromExchangeDashboardActions.LoadingRevenueChart({
+      ExchangeId: activatedRoute.snapshot.params.id,
+      ChartType: ExchangeChartTypeEnum.Revenue
+    });
 
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
+
+
+  it('should dispatch a LoadingDetailChart for the revenue on seriesClick', () => {
+    fixture.detectChanges();
+
+    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+      ExchangeId: activatedRoute.snapshot.params.id,
+      ChartType: ExchangeChartTypeEnum.Revenue,
+      Category: 'Test'
+    });
+
+    instance.seriesClick({ category: action.payload.Category });
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
 });

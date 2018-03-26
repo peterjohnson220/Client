@@ -1,0 +1,35 @@
+<div class="card d-flex flex-column align-items-stretch">
+  <div class="card-body">
+
+    <pf-async-container
+      [loading]="loadingIndustryChartItems$ | async"
+      [loadingError]="loadingIndustryChartItemsError$ | async"
+      [loadingErrorMessage]="'Error loading industry chart.'">
+
+      <div class="d-flex flex-column align-items-center p-2">
+        <h4>Top Industries</h4>
+      </div>
+
+      <kendo-chart (seriesClick)="seriesClick($event)">
+        <kendo-chart-legend position="bottom"></kendo-chart-legend>
+        <kendo-chart-area background="none"></kendo-chart-area>
+        <kendo-chart-tooltip>
+          <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-category="category">
+            {{ category }} : {{ value | percent: '1.0-2' }}
+          </ng-template>
+        </kendo-chart-tooltip>
+        <kendo-chart-series>
+          <kendo-chart-series-item type="donut"
+                                   [data]="(industryChartItems$ | async)"
+                                   field="Value"
+                                   categoryField="Category">
+          </kendo-chart-series-item>
+        </kendo-chart-series>
+      </kendo-chart>
+
+    </pf-async-container>
+
+  </div>
+</div>
+
+
