@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -62,7 +63,7 @@ export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
     };
     this.store.dispatch(new fromExchangeDashboardActions.LoadingJobFamilyChart(getChartRequest));
     this.jobFamilyChartItemsSubscription = this.jobFamilyChartItems$.subscribe(chartItems => {
-      this.jobFamilyChartItems = JSON.parse(JSON.stringify(chartItems));
+      this.jobFamilyChartItems = cloneDeep(chartItems);
     });
   }
 
