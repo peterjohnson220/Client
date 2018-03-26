@@ -15,18 +15,30 @@ export class TilePreviewChartComponent {
 
   public chartData: any[] = [];
 
+  public seriesItemHighlightStyle: any = {
+    opacity: 1,
+    color: '#fff',
+    border: '#000'
+  };
+
   showChartDetail = false;
 
-  private legendlabelStyle: any = {
+  public legendLabelStyle: any = {
     padding: 3,
     font: 'bold 1rem',
     color: '#fff'
   };
 
-  private seriesItemHighlightStyle: any = {
-    opacity: 1,
-    color: '#fff',
-    border: '#000'
+  public limitLabelText: any = {
+      padding: 3,
+      font: 'bold 1rem',
+      color: '#fff',
+      content: function(e) {
+      if (e.text.length > 17) {
+        return e.text.substring(0, 14) + '...';
+      }
+      return e.text;
+    }
   };
 
   public seriesClick(e): void {
