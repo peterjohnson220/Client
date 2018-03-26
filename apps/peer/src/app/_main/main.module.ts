@@ -14,13 +14,12 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfSharedPeerModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
-import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
-         ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
-         ExchangeRevenueChartComponent, ChartDetailComponent } from './components';
+import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
          ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
-         AccessModalComponent } from './containers';
+         AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
+         ExchangeRevenueChartComponent, ChartDetailComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects,
          ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';

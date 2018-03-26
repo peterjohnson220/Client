@@ -72,7 +72,7 @@ describe('Peer - Exchange Dashboard', () => {
     expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', activatedRoute.snapshot.params.id]);
   });
 
-  it('should dispatch a industries CloseSidebar action on init', () => {
+  it('should dispatch a CloseSidebar action on init', () => {
     instance.exchange$ = of(generateMockExchange());
     const action = new fromExchangeDashboardActions.CloseSidebar();
 
