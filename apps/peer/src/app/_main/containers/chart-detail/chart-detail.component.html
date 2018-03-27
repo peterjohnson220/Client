@@ -16,16 +16,23 @@
       {{ (detailChartCategory$ | async )}}
     </h4>
 
-    <pf-async-container
-      [loading]="loadingDetailChartItems$ | async"
-      [loadingError]="loadingDetailChartItemsError$ | async"
-      [loadingErrorMessage]="'Error loading participating companies.'">
-      <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
-        <div class="detail-category">
-          {{ chartItem.Category }}
+    <ng-container *ngIf="(loadingDetailChartItems$ | async) || (detailChartItems$ | async)?.length > 0; else noDetailChartItems">
+      <pf-async-container
+        [loading]="loadingDetailChartItems$ | async"
+        [loadingError]="loadingDetailChartItemsError$ | async"
+        [loadingErrorMessage]="'Error loading participating companies.'">
+        <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
+          <div class="detail-category">
+            {{ chartItem.Category }}
+          </div>
         </div>
-      </div>
-    </pf-async-container>
+
+      </pf-async-container>
+    </ng-container>
+
+    <ng-template #noDetailChartItems>
+      <div class="no-detail-items">No companies mapped to {{ (detailChartCategory$ | async )}}.</div>
+    </ng-template>
 
   </div>
 </div>
