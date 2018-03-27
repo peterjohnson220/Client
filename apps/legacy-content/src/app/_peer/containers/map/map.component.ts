@@ -52,8 +52,8 @@ export class MapComponent {
     return this.map.getCenter();
   }
 
-  get pointProperties(): string {
-    return JSON.stringify(this.selectedPoint.properties);
+  get pointCompanies(): string {
+    return JSON.parse(this.selectedPoint.properties.Companies);
   }
 
   // Map events
@@ -81,7 +81,7 @@ export class MapComponent {
       if (!initialMapMoveComplete) {
         this.store.dispatch(new fromPeerMapActions.InitialMapMoveComplete(filterVars));
       } else {
-        this.refreshMap(e, filterVars);
+        this.refreshMap(filterVars);
       }
     });
   }
@@ -99,7 +99,7 @@ export class MapComponent {
   }
 
   // Helper functions
-  refreshMap(e: any, filterVars: any) {
+  refreshMap(filterVars: any) {
     this.canLoadPeerMap$.take(1).subscribe(canload => {
       if (canload) {
         this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
