@@ -123,7 +123,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       JobTitle: ejm.ExchangeJobTitle,
       JobCode: ejm.ExchangeJobCode,
       JobFamily: ejm.ExchangeJobFamily,
-      JobLevel: ejm.ExchangeJobFamily,
+      JobLevel: ejm.ExchangeJobLevel,
       JobDescription: ejm.ExchangeJobDescription
     };
 

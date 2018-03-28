@@ -2,10 +2,10 @@
   [style]="mapStyle"
   [attributionControl]="false"
   [fitBounds]="peerMapBounds$ | async"
-  [fitBoundsOptions]="{padding: 100}"
+  [fitBoundsOptions]="{padding: 150}"
   [center]="[-98, 38.88]"
   [zoom]="3"
-  [maxZoom]="17"
+  [maxZoom]="peerMapMaxZoom$ | async"
   [cursorStyle]="cursorStyle"
   (moveStart)="handleMoveStartEvent($event)"
   (moveEnd)="handleMoveEndEvent($event)"
@@ -14,23 +14,44 @@
   [ngClass]="{'map-no-data': (peerMapShowNoData$ | async)}"
 >
   <mgl-control mglNavigation pfGeocoder></mgl-control>
+
+  <!--Data Source-->
   <mgl-geojson-source
     [id]="'incumbents'"
     [data]="peerMapCollection$ | async"
   >
   </mgl-geojson-source>
+
+  <!--Selected Point Info-->
   <mgl-popup
     *ngIf="selectedPoint"
     [lngLat]="selectedPoint.geometry.coordinates"
     (close)="selectedPoint = null"
     [closeButton]="false"
   >
-    <div style="width: 500px">
-      {{pointProperties}}
+    <div class="point-information">
+      <div class="point-information-header">
+        <strong>{{pointCompanies.length}}</strong> Orgs with
+        <strong>{{selectedPoint.properties.SalaryCount}}</strong> Incs in this area
+      </div>
+
+      <div class="point-information-body">
+        <ng-container *ngFor="let company of pointCompanies">
+
+          <div class="d-flex justify-content-between">
+            <div>{{company.Company}}</div>
+            <div class="incumbent-count">{{company.Count}}</div>
+          </div>
+
+        </ng-container>
+      </div>
+
     </div>
   </mgl-popup>
+
+  <!--Cluster Circle Layer-->
   <mgl-layer
-    id="peerdata"
+    id="cluster-circle-layer"
     type="circle"
     source="incumbents"
     (click)="handleLayerClusteredClickEvent($event)"
@@ -38,45 +59,76 @@
     (mouseEnter)="cursorStyle = 'pointer'"
     (mouseLeave)="cursorStyle = ''; selectedPoint = null"
     [paint]="{
-        'circle-color': {
-            property: 'SalaryCount',
-            type: 'interval',
-            stops: [
-                [0, 'red']
-            ]
-        },
-        'circle-radius': {
-            property: 'SalaryCount',
-            type: 'interval',
-            stops: [
-                [0, 8]
-            ]
-        },
+        'circle-color': '#3f8845',
+        'circle-radius': 10,
         'circle-stroke-width': 1,
-        'circle-stroke-color': '#a50000'
+        'circle-stroke-color': '#ffffff'
       }"
+    [filter]="['>', 'LatLonCount', 1]"
   >
   </mgl-layer>
-  <!--<mgl-layer-->
-    <!--id="cluster-count"-->
-    <!--type="symbol"-->
-    <!--source="incumbents"-->
-    <!--[layout]="{-->
-        <!--'text-field': '{SalaryCount}',-->
-        <!--'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],-->
-        <!--'text-size': 10-->
-      <!--}"-->
-  <!--&gt;-->
-  <!--</mgl-layer>-->
+
+  <!--Cluster Circle Blur Layer-->
+  <mgl-layer
+    id="cluster-circle-blur-layer"
+    type="circle"
+    source="incumbents"
+    [paint]="{
+        'circle-color': '#3f8845',
+        'circle-radius': 15,
+        'circle-opacity': 0.43,
+        'circle-blur': 0.25
+      }"
+    [filter]="['>', 'LatLonCount', 1]"
+  >
+  </mgl-layer>
+
+  <!--Cluster Count Layer-->
+  <mgl-layer
+    id="cluster-count-layer"
+    type="symbol"
+    source="incumbents"
+    [layout]="{
+        'text-field': '{LatLonCount}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 10
+      }"
+    [paint]="{
+      'text-color': '#ffffff'
+    }"
+    [filter]="['>', 'LatLonCount', 1]"
+  >
+  </mgl-layer>
+
+  <!--Single Point Layer-->
+  <mgl-layer
+    id="single-point-layer"
+    type="circle"
+    source="incumbents"
+    (click)="handleLayerClusteredClickEvent($event)"
+    (mouseMove)="handleLayerHoverEvent($event)"
+    (mouseEnter)="cursorStyle = 'pointer'"
+    (mouseLeave)="cursorStyle = ''; selectedPoint = null"
+    [paint]="{
+        'circle-color': '#3f8845',
+        'circle-radius': 7,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#ffffff'
+      }"
+    [filter]="['==', 'LatLonCount', 1]"
+  >
+  </mgl-layer>
+
+  <!--No Data Popup-->
   <mgl-popup
     *ngIf="(peerMapShowNoData$ | async)"
     [lngLat]="center"
     [closeOnClick]="false"
     [closeButton]="false"
   >
-    <span class="map-no-data-message">
+    <div class="map-no-data-message">
       <i class="far fa-exclamation-triangle fa-lg text-danger" aria-hidden="true"></i>
       No results. Refine the filter criteria to show results.
-    </span>
+    </div>
   </mgl-popup>
 </mgl-map>

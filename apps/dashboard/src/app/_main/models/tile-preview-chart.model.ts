@@ -6,6 +6,7 @@ import { TilePreviewTypes } from './tile-preview-types';
 export interface TilePreviewChart extends  TilePreviewBase {
   ChartType: string;
   ChartLabel: string;
+  ShouldLimitLegendText: boolean;
   ChartComponentData: TilePreviewChartData[];
 }
 
@@ -14,6 +15,7 @@ export function generateTilePreviewChartFromTile(tile: Tile): TilePreviewChart {
     PreviewType: TilePreviewTypes.Chart,
     ChartType: tile.ChartType,
     ChartLabel: tile.ChartLabel,
+    ShouldLimitLegendText: tile.ShouldLimitLegendText,
     ChartComponentData: tile.TilePreviewData,
   };
 }

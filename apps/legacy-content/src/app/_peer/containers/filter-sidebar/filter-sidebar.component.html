@@ -1,0 +1,39 @@
+<div class="filter-sidebar">
+
+  <div class="pm-bounds-filter">
+
+    <div class="pm-bounds-filter-left">
+      <div class="pm-bounds-filter-label">
+        Pay Market Only
+      </div>
+      <div class="pm-bounds-filter-label-pm">
+        {{ buildPayMarketBoundsFilterLabel(payMarket$ | async) }}
+      </div>
+    </div>
+
+    <div class="pm-bounds-filter-switch">
+      <kendo-switch [checked]="limitToPayMarket$ | async"
+                    [onLabel]="'Yes'"
+                    [offLabel]="'No'"
+                    (valueChange)="handleLimitToPayMarketToggled()">
+      </kendo-switch>
+    </div>
+
+  </div>
+
+  <div class="aggregate-groups-container">
+    <pf-filter-aggregate-group
+      *ngFor="let aggregateGroup of (filterAggregateGroups$ | async); trackBy: trackByFilterProp"
+      [aggregateGroup]="aggregateGroup"
+      [previewLimit]="previewLimit$ | async"
+      (aggregateToggled)="handleAggregateToggled($event)"
+      (clearSelections)="handleClearGroupSelections($event)">
+    </pf-filter-aggregate-group>
+  </div>
+
+
+</div>
+
+
+
+

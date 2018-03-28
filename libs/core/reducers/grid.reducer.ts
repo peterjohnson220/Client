@@ -1,6 +1,6 @@
 import { State } from '@progress/kendo-data-query/';
 import { combineReducers } from '@ngrx/store';
-import { ActionReducerMap } from '@ngrx/store/src/models';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
@@ -48,7 +48,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         };
       }
       case `${gridType}_${fromGridActions.TOGGLE_ROW_SELECTION}`: {
-        let newSelections = JSON.parse(JSON.stringify(state.selections));
+        let newSelections = cloneDeep(state.selections);
         const selectedRow = action.payload;
         const rowIsSelected = newSelections.indexOf(selectedRow) >= 0;
         if (rowIsSelected) {
@@ -62,7 +62,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         };
       }
       case `${gridType}_${fromGridActions.UPDATE_FILTER}`: {
-        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const newGridState = cloneDeep(state.grid);
         const payload = action.payload;
         KendoGridFilterHelper.updateFilter(payload.columnName, payload.value, newGridState);
         newGridState.skip = 0;
@@ -72,7 +72,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         };
       }
       case `${gridType}_${fromGridActions.PAGE_CHANGE}`: {
-        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const newGridState = cloneDeep(state.grid);
         const payload = action.payload;
         newGridState.skip = payload.skip;
         return {
@@ -81,7 +81,7 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         };
       }
       case `${gridType}_${fromGridActions.SORT_CHANGE}`: {
-        const newGridState = JSON.parse(JSON.stringify(state.grid));
+        const newGridState = cloneDeep(state.grid);
         const payload = action.payload;
         newGridState.skip = 0;
         newGridState.sort = payload;

@@ -1,0 +1,12 @@
+.exchange-dashboard-container {
+  height: 100%;
+}
+
+.exchange-dashboard-sidebar {
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.exchange-dashboard-chart-container > * {
+  flex: 1;
+}

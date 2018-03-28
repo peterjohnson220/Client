@@ -5,7 +5,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromPeerDataReducers from '../../../reducers';
-import * as fromAddDataCutActions from '../../../actions/add-data-cut.actions';
+import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
+import * as fromPeerMapActions from '../../../actions/map.actions';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -25,7 +26,7 @@ export class AddDataCutPageComponent implements OnInit {
   }
 
   add() {
-    this.store.dispatch(new fromAddDataCutActions.AddingDataCut({
+    this.store.dispatch(new fromAddDataCutPageActions.AddingDataCut({
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
       UserSessionId: this.userSessionId
@@ -33,7 +34,7 @@ export class AddDataCutPageComponent implements OnInit {
   }
 
   cancel() {
-    this.store.dispatch(new fromAddDataCutActions.CancelAddDataCut());
+    this.store.dispatch(new fromAddDataCutPageActions.CancelAddDataCut());
   }
 
   // Lifecycle events
@@ -42,5 +43,10 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyJobId = +queryParamMap.get('companyJobId') || 0;
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
+
+    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
+      CompanyJobId: this.companyJobId,
+      CompanyPayMarketId: this.companyPayMarketId
+    }));
   }
 }

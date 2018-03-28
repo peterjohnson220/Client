@@ -1,0 +1,32 @@
+@import 'colors';
+
+.close-btn{
+  cursor: pointer;
+  padding: .25rem 0.75rem;
+  margin-left: 0.5rem;
+  align-self: center;
+}
+
+.close-btn:hover {
+  background-color: $selection-hover-background;
+}
+
+.chart-detail-header {
+  min-height: 46px;
+}
+
+.detail-item {
+  border-bottom: 1px solid lighten( $border-grey, 10% );
+}
+
+.detail-item:last-of-type {
+  border-bottom: none;
+}
+
+.no-detail-items {
+  font-style: italic;
+}
+
+.card-body {
+  overflow-y: auto;
+}

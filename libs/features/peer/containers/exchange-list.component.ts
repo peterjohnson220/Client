@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { RowClassArgs } from '@progress/kendo-angular-grid';
 
 import { ExchangeListItem } from '../../../models/peer';
 import * as fromSharedPeerReducer from '../reducers';
@@ -31,8 +32,16 @@ export class ExchangeListComponent implements OnInit {
   }
 
   handleCellClick(cellClickEvent: any): void {
+    if (cellClickEvent.dataItem.PendingAccess) {
+      return;
+    }
+
     const exchangeId = cellClickEvent.dataItem.ExchangeId;
     this.onCellClick.emit(exchangeId);
+  }
+
+  rowClass(context: RowClassArgs): string {
+    return context.dataItem.PendingAccess ? 'row-disabled' : '';
   }
 
   // Lifecycle events

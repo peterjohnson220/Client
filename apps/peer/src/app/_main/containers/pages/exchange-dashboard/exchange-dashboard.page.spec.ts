@@ -72,12 +72,9 @@ describe('Peer - Exchange Dashboard', () => {
     expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', activatedRoute.snapshot.params.id]);
   });
 
-  it('should dispatch a industries loadingChart action on init', () => {
+  it('should dispatch a CloseSidebar action on init', () => {
     instance.exchange$ = of(generateMockExchange());
-    const action = new fromExchangeDashboardActions.LoadingChart({
-      ExchangeId: activatedRoute.snapshot.params.id,
-      ChartType: 'Industry'
-    });
+    const action = new fromExchangeDashboardActions.CloseSidebar();
 
     fixture.detectChanges();
 

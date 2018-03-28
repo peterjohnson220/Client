@@ -24,7 +24,10 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
       >
         
         
-        <pf-peer-data-cut-filter-sidebar />
+        <pf-peer-data-cut-filter-sidebar>
+          
+        
+        </pf-peer-data-cut-filter-sidebar>
         
       
       </div>

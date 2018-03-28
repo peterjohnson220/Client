@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
+import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockExchangeJobMapping, UpsertExchangeJobMapRequest } from 'libs/models/peer';
@@ -11,6 +12,7 @@ import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-m
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingInfoComponent } from './exchange-job-mapping-info.component';
+
 
 describe('Peer - Exchange Job Mapping Info', () => {
   let fixture: ComponentFixture<ExchangeJobMappingInfoComponent>;
@@ -78,7 +80,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
   it('should dispatch a LoadCompanyJobsToMapToByQuery action when a exchange job mapping that is not mapped is selected', () => {
     // Still need the actual implementation since we are making a setup call
-    spyOn(store, 'dispatch').and.callThrough();
+    spyOn(store, 'dispatch');
 
     instance.exchangeId = 1;
     fixture.detectChanges();
@@ -103,7 +105,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
       JobTitle: exchangeJobMappingMock.ExchangeJobTitle,
       JobCode: exchangeJobMappingMock.ExchangeJobCode,
       JobFamily: exchangeJobMappingMock.ExchangeJobFamily,
-      JobLevel: exchangeJobMappingMock.ExchangeJobFamily,
+      JobLevel: exchangeJobMappingMock.ExchangeJobLevel,
       JobDescription: exchangeJobMappingMock.ExchangeJobDescription
     };
 

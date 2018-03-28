@@ -7,7 +7,7 @@
     <kendo-chart-series>
       <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
                                [type]="model.ChartType" [data]="model.ChartComponentData"
-                               categoryField="CategoryName" field="CategoryValue" [style]="seriesItemStyle">
+                               categoryField="CategoryName" field="CategoryValue">
         <kendo-chart-series-item-tooltip>
           <ng-template let-category="category" let-value="value">
             {{category}} : {{value}}%
@@ -15,8 +15,13 @@
         </kendo-chart-series-item-tooltip>
       </kendo-chart-series-item>
     </kendo-chart-series>
-    <kendo-chart-legend [padding]="0" [visible]="true" position="left"  [labels]="legendlabelStyle">
+
+    <kendo-chart-legend *ngIf="model.ShouldLimitLegendText == false" [padding]="0" [visible]="true" position="left" [labels]="legendLabelStyle">
     </kendo-chart-legend>
+
+    <kendo-chart-legend *ngIf="model.ShouldLimitLegendText == true" [padding]="0" [visible]="true" position="left" [labels]="limitLabelText">
+    </kendo-chart-legend>
+
   </kendo-chart>
 </div>
 <h2 class="pr-5 chart-label">{{model.ChartLabel}}</h2>

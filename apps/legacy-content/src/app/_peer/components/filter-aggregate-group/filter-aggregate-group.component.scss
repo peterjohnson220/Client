@@ -1,0 +1,52 @@
+@import 'colors';
+
+$group-header-bg-color: #eaeaea;
+
+%uppercase-link {
+  text-transform: uppercase;
+  color: $link-color;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.aggregate-group{
+  margin-bottom: .5rem;
+}
+
+.aggregate-group.collapsed{
+  height: 32px;
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+
+.aggregate-group-header{
+  font-size: 1rem;
+  font-weight: bolder;
+  color: #616161;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: .45rem;
+  padding: .5rem .85rem;
+  background: #eaeaea;
+}
+
+.aggregate-group-header .header-right{
+  display: flex;
+}
+
+.toggle-option-height{
+  @extend %uppercase-link;
+  margin: .5rem .65rem;
+}
+
+.reset-link{
+  @extend %uppercase-link;
+  margin-right: .5rem;
+  padding: .05rem .5rem;
+  font-weight: normal;
+}
+
+.reset-link:hover{
+  background: darken($group-header-bg-color, 5%);
+}

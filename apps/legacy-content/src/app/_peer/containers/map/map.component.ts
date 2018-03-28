@@ -1,35 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { FeatureCollection, Point } from 'geojson';
 import 'rxjs/add/operator/take';
 
-import { ExchangeMapFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
+import * as fromPeerMapActions from '../../actions/map.actions';
 import * as fromPeerDataReducers from '../../reducers';
-import * as fromPeerMapActions from '../../actions/peer-map.actions';
 
 @Component({
   selector: 'pf-peer-data-cut-map',
   templateUrl: './map.component.html',
   styleUrls: [ './map.component.scss' ]
 })
-export class MapComponent implements OnInit {
-  @Input() companyJobId: number;
-  @Input() companyPayMarketId: number;
+export class MapComponent {
   selectedPoint: any = null;
   cursorStyle: string;
   mapStyle = 'mapbox://styles/mapbox/streets-v9';
+  map: mapboxgl.Map;
+
   peerMapCollection$: Observable<FeatureCollection<Point>>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
-  peerMapFilter$: Observable<ExchangeMapFilter>;
+  peerMapFilter$: Observable<any>;
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
   peerMapShowNoData$: Observable<boolean>;
-  map: mapboxgl.Map;
+  peerMapMaxZoom$: Observable<number>;
+  peerMapInitialMapMoveComplete$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -40,13 +41,8 @@ export class MapComponent implements OnInit {
     this.peerMapBounds$ = this.store.select(fromPeerDataReducers.getPeerMapBounds);
     this.canLoadPeerMap$ = this.store.select(fromPeerDataReducers.canLoadPeerMap);
     this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
-  }
-
-  ngOnInit(): void {
-    this.store.dispatch(new fromPeerMapActions.LoadingInitialPeerMapFilter({
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId
-    }));
+    this.peerMapMaxZoom$ = this.store.select(fromPeerDataReducers.getPeerMapMaxZoom);
+    this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerDataReducers.getPeerMapInitialMapMoveComplete);
   }
 
   get center(): any {
@@ -56,8 +52,8 @@ export class MapComponent implements OnInit {
     return this.map.getCenter();
   }
 
-  get pointProperties(): string {
-    return JSON.stringify(this.selectedPoint.properties);
+  get pointCompanies(): string {
+    return JSON.parse(this.selectedPoint.properties.Companies);
   }
 
   // Map events
@@ -76,11 +72,18 @@ export class MapComponent implements OnInit {
   }
 
   handleMoveEndEvent(e: any) {
-    if (e.target.mapDirty) {
-      this.selectedPoint = null;
-      e.target.moveStarted = false;
-      this.refreshMap(e);
-    }
+    const filterVars = {
+      bounds: e.target.getBounds(),
+      zoom: e.target.getZoom()
+    };
+
+    this.peerMapInitialMapMoveComplete$.take(1).subscribe(initialMapMoveComplete => {
+      if (!initialMapMoveComplete) {
+        this.store.dispatch(new fromPeerMapActions.InitialMapMoveComplete(filterVars));
+      } else {
+        this.refreshMap(filterVars);
+      }
+    });
   }
 
   // Map layer events
@@ -96,17 +99,9 @@ export class MapComponent implements OnInit {
   }
 
   // Helper functions
-  refreshMap(e: any) {
-    if (!e.target._loaded || e.target.moving) {
-      return;
-    }
+  refreshMap(filterVars: any) {
     this.canLoadPeerMap$.take(1).subscribe(canload => {
       if (canload) {
-        const filterVars = {
-          bounds: e.target.getBounds(),
-          zoom: e.target.getZoom()
-        };
-
         this.store.dispatch(new fromPeerMapActions.UpdatePeerMapFilterBounds(filterVars));
       }
     });
