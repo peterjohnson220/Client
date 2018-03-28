@@ -62,13 +62,20 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       
   
       
-      <pf-async-container>
-        
-        
-        
-        
       
-      </pf-async-container>
+      
+        
+      <div
+        class="no-detail-items"
+      >
+        No companies mapped to .
+      </div>
+      
+      
+      
+  
+      
+      
       
   
     
