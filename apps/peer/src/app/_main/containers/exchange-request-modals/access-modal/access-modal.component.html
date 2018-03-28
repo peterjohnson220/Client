@@ -42,7 +42,7 @@
               #list
               class="flex-grow-1"
               valueField="Name"
-              placeholder="Search for a company..."
+              placeholder="Search for a Company..."
               [data]="peerParticipants$ | async"
               [loading]="peerParticipantsLoading$ | async"
               [filterable]="true"
@@ -98,11 +98,12 @@
       <span *ngIf="card.InExchange" class="badge badge-dark">Exchange Member</span>
     </h5>
   </div>
-
-  <p class="card-text">
-    {{card.TopIndustries.join(', ')}}
-  </p>
-
+  <div class="d-flex flex-row mb-2">
+    <span class="flex-grow-1" title="Top Industries">
+      <i class="fas fa-building fa-lg"></i>
+      {{card?.TopIndustries ? card?.TopIndustries.join(', ') : 'No Industries'}}
+    </span>
+  </div>
   <p class="card-text">
     <small>
       <pf-ellipsis-view-more
