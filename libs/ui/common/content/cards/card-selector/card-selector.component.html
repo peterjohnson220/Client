@@ -4,7 +4,7 @@
 <div class="selections-container">
   <div class="results-container">
 
-    <ng-container *ngIf="(cardData$ | async)?.length > 0">
+    <ng-container *ngIf="(cardData$ | async)?.length > 0 || (cardDataLoading$ | async)">
       <pf-async-container
         loadingErrorMessage="There was an error."
         [loading]="cardDataLoading$ | async"
