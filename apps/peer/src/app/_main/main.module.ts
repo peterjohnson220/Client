@@ -17,7 +17,7 @@ import { PfCommonModule } from 'libs/core';
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-         ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
+         ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent, PayfactorsJobModalComponent,
          AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
          ExchangeRevenueChartComponent, ChartDetailComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects,
@@ -27,8 +27,8 @@ import { reducers } from './reducers';
 import { ExchangeJobMappingService } from './services';
 import { MainRoutingModule } from './main-routing.module';
 import { ExchangeRequestEffectsService } from './services/exchange-request-effects.service';
-import { AccessExchangeRequestEffects } from './effects/exchange-request/access.effects';
-import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-request/payfactors-company.effects';
+import { AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
+         PayfactorsJobExchangeRequestEffects } from './effects/exchange-request/';
 
 @NgModule({
   imports: [
@@ -43,7 +43,8 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
     StoreModule.forFeature('peerMain', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
-      ExchangeJobMappingInfoEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
+      ExchangeJobMappingInfoEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
+      PayfactorsJobExchangeRequestEffects
     ]),
     DropDownsModule,
 
@@ -65,7 +66,7 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
-    PayfactorsCompanyModalComponent, AccessModalComponent,
+    PayfactorsCompanyModalComponent, AccessModalComponent, PayfactorsJobModalComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent

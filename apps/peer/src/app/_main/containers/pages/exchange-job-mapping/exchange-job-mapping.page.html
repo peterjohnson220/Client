@@ -4,7 +4,7 @@
   </ng-container>
 
   <ng-container page-actions>
-
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Invite Company</button>
     <div class="omni-box">
       <pf-input-debounce
         [focus]="false"
@@ -36,3 +36,5 @@
 
   </ng-container>
 </pf-page-with-title-bar>
+
+<pf-request-payfactors-job-modal></pf-request-payfactors-job-modal>

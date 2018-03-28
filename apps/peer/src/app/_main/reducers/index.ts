@@ -14,6 +14,7 @@ import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.
 import * as fromPeerParticipantsReducer from './peer-participants.reducer';
 import * as fromPfCompaniesExchangeRequestReducer from './exchange-request/pf-companies.reducer';
 import * as fromAccessExchangeRequestReducer from './exchange-request/access-exchange-request.reducer';
+import * as fromPfJobsExchangeRequestReducer from './exchange-request/pf-jobs.reducer';
 import * as fromExchangeRequestReducer from './exchange-request.reducer';
 
 // Feature area state
@@ -25,6 +26,7 @@ export interface PeerMainState {
   peerParticipants: fromPeerParticipantsReducer.State;
   accessExchangeRequest: fromAccessExchangeRequestReducer.State;
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
+  pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.State;
 }
 
 // Extend root state with feature area state
@@ -40,7 +42,8 @@ export const reducers = {
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
   peerParticipants: fromPeerParticipantsReducer.reducer,
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
-  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer
+  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
+  pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.reducer
 };
 
 // Select Feature Area
@@ -81,6 +84,11 @@ export const selectAccessExchangeRequestState = createSelector(
 export const selectPfCompaniesExchangeRequestState = createSelector(
   selectFeatureAreaState,
   (state: PeerMainState) => state.pfCompaniesExchangeRequest
+);
+
+export const selectPfJobsExchangeRequestState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerMainState) => state.pfJobsExchangeRequest
 );
 
 // Exchange Selectors
@@ -322,6 +330,38 @@ export const getPfCompaniesExchangeRequestContext = createSelector(
     return {
       Query: exchangeRequestState.searchTerm,
       ExchangeId: exchangeState.exchange ? exchangeState.exchange.ExchangeId : 0
+    };
+  }
+);
+
+// Exchange Request - pfJobs
+export const {
+  selectAll: getPfJobsExchangeRequestCandidates
+} = fromPfJobsExchangeRequestReducer.adapter.getSelectors(selectPfJobsExchangeRequestState);
+export const getPfJobsExchangeRequestCandidatesLoading = createSelector(
+  selectPfJobsExchangeRequestState,
+  fromExchangeRequestReducer.getLoading
+);
+export const getPfJobsExchangeRequestCandidatesLoadingError = createSelector(
+  selectPfJobsExchangeRequestState,
+  fromExchangeRequestReducer.getLoadingError
+);
+export const getPfJobsExchangeRequestModalOpen = createSelector(
+  selectPfJobsExchangeRequestState,
+  fromExchangeRequestReducer.getModalOpen
+);
+export const getPfJobsExchangeRequestRequesting = createSelector(
+  selectPfJobsExchangeRequestState,
+  fromExchangeRequestReducer.getRequesting
+);
+export const getPfJobsExchangeRequestContext = createSelector(
+  selectPfJobsExchangeRequestState,
+  selectExchangeState,
+  (exchangeRequestState, exchangeState) => {
+    return {
+      Query: exchangeRequestState.searchTerm,
+      ExchangeId: exchangeState.exchange ? exchangeState.exchange.ExchangeId : 0,
+      JobDescriptionQuery: exchangeRequestState.filterOptions ? exchangeRequestState.filterOptions.JobDescriptionQuery : ''
     };
   }
 );

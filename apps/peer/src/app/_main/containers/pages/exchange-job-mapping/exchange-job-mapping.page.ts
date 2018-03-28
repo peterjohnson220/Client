@@ -7,9 +7,10 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { ExchangeJobMapping } from 'libs/models/peer';
+import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
 
@@ -55,6 +56,10 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
     this.collapse = false;
     this.disableGridScollTo = false;
+  }
+
+  requestJobButtonClick() {
+    this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob));
   }
 
   // Lifecycle
