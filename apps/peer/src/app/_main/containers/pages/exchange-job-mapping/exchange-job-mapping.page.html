@@ -4,7 +4,6 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Invite Company</button>
     <div class="omni-box">
       <pf-input-debounce
         [focus]="false"
@@ -12,6 +11,7 @@
         (valueChanged)="handleSearchChanged($event)">
       </pf-input-debounce>
     </div>
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Request Job</button>
 
   </ng-container>
 

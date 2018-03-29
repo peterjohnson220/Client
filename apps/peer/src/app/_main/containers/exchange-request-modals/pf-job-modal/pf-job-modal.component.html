@@ -24,14 +24,25 @@
       (onCardSelection)="handleCardSelectionEvent()"
     >
       <ng-container search-filters>
-        <div class="filter flex-grow-1">
-          <pf-input-debounce id="search-box"
+        <div class="filter">
+          <pf-input-debounce id="search-box-job-title"
                              [focus]="false"
                              [delay]="400"
-                             [(ngModel)]="searchTerm"
+                             [(ngModel)]="jobTitleSearchTerm"
                              [ngModelOptions]="{standalone: true}"
                              [placeholderText]="'Search for a Job Title...'"
-                             (valueChanged)="updateSearchFilter($event)" ngDefaultControl>
+                             (valueChanged)="updateJobTitleSearchFilter($event)" ngDefaultControl>
+          </pf-input-debounce>
+        </div>
+        <div class="filter">
+          <pf-input-debounce id="search-box-jd"
+                             name="searchFilter"
+                             [focus]="false"
+                             [delay]="400"
+                             [(ngModel)]="jobDescriptionSearchTerm"
+                             [ngModelOptions]="{standalone: true}"
+                             [placeholderText]="'Search in Job Description...'"
+                             (valueChanged)="updateJDSearchFilter($event)" ngDefaultControl>
           </pf-input-debounce>
         </div>
       </ng-container>
@@ -98,6 +109,7 @@
     <small title="Peers">
       <pf-ellipsis-view-more
         [content]="card?.JobDescription"
+        [highlightFilter]="jobDescriptionHighlightFilter"
         [maxLength]="150"></pf-ellipsis-view-more>
     </small>
   </p>

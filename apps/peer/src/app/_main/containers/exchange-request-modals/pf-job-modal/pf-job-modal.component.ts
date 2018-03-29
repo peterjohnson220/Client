@@ -36,7 +36,9 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
   attemptedSubmit = false;
   payfactorsJobSelectionForm: FormGroup;
   reason = '';
-  searchTerm = '';
+  jobTitleSearchTerm = '';
+  jobDescriptionSearchTerm = '';
+  jobDescriptionHighlightFilter = '';
 
   jobIdentifier = (job: PayfactorsJob) => job ? job.MDJobsBaseId : 0;
   jobCardDisabled = (job: PayfactorsJob) => job ? (job.InExchange || job.PendingRequest) : false;
@@ -82,8 +84,16 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
     this.reasonControl.setValue('');
   }
 
-  updateSearchFilter(newSearchTerm: string): void {
+  updateJobTitleSearchFilter(newSearchTerm: string): void {
     this.store.dispatch(new fromExchangeRequestActions.UpdateSearchTerm(ExchangeRequestTypeEnum.PayfactorsJob, newSearchTerm));
+  }
+
+  updateJDSearchFilter(newSearchTerm: string): void {
+    this.jobDescriptionHighlightFilter = newSearchTerm;
+    const filterOptions = {
+      JobDescriptionQuery: newSearchTerm
+    };
+    this.store.dispatch(new fromExchangeRequestActions.UpdateFilterOptions(ExchangeRequestTypeEnum.PayfactorsJob, filterOptions));
   }
 
   // Modal events
@@ -114,7 +124,9 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
     this.exchangeRequestModalOpenSubscription = this.exchangeRequestModalOpen$.subscribe(open => {
       if (!open) {
         this.cardSelector.selectedCard = null;
-        this.searchTerm = '';
+        this.jobTitleSearchTerm = '';
+        this.jobDescriptionSearchTerm = '';
+        this.jobDescriptionHighlightFilter = '';
         this.reasonControl.setValue('');
       }
     });
