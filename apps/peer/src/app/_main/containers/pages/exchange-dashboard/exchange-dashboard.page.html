@@ -5,35 +5,25 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button type="button" class="btn btn-primary" (click)="manageJobsClick()">Manage Jobs</button>
+    <button type="button" class="btn btn-secondary" (click)="referCompanyClick()">Invite Company</button>
+    <button type="button" class="btn btn-secondary" (click)="manageJobsClick()">Manage Jobs</button>
   </ng-container>
 
   <ng-container page-content>
-    <div class="flex-column-container">
-      <div class="card w-100 h-100">
-        <div class="card-header">
-          Industries
+    <div class="exchange-dashboard-container d-flex flex-row">
+      <div class="exchange-dashboard-content d-flex flex-column flex-grow-1">
+        <div class="exchange-dashboard-chart-container d-flex flex-row justify-content-around">
+          <pf-exchange-industry-chart></pf-exchange-industry-chart>
+          <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
+          <pf-exchange-revenue-chart></pf-exchange-revenue-chart>
         </div>
-        <div class="card-body">
-          <kendo-chart>
-            <kendo-chart-legend position="bottom"></kendo-chart-legend>
-            <kendo-chart-area background="none"></kendo-chart-area>
-            <kendo-chart-tooltip>
-              <ng-template kendoChartSeriesTooltipTemplate let-value="value" let-category="category">
-                {{ category }} - {{ value | percent: '1.0-2' }}
-              </ng-template>
-            </kendo-chart-tooltip>
-            <kendo-chart-series>
-              <kendo-chart-series-item type="donut"
-                                       [data]="(industryChartItems$ | async)"
-                                       field="Value"
-                                       categoryField="Category">
-              </kendo-chart-series-item>
-            </kendo-chart-series>
-          </kendo-chart>
-        </div>
+      </div>
+      <div class="exchange-dashboard-sidebar ml-2" *ngIf="(sidebarVisible$ | async)">
+        <pf-chart-detail-component></pf-chart-detail-component>
       </div>
     </div>
   </ng-container>
 
 </pf-page-with-title-bar>
+
+<pf-invite-payfactors-company-modal></pf-invite-payfactors-company-modal>

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { HumanizeNumberPipe, TruncateAfterPipe } from './pipes';
+import { HighlightTextPipe, HumanizeNumberPipe, TruncateAfterPipe } from './pipes';
 import { EffectsModule } from '@ngrx/effects';
 import { ClientSettingsEffects} from './effects';
 
 
 const declarations = [
   // Pipes
-  HumanizeNumberPipe, TruncateAfterPipe
+  HumanizeNumberPipe, TruncateAfterPipe, HighlightTextPipe
 ];
 
 @NgModule({

@@ -1,4 +1,6 @@
-<pf-layout-wrapper [displayRightSideBar]="displayRightSideBar">
+<pf-layout-wrapper
+  [displayRightSideBar]="displayRightSideBar"
+  [rightSideBarFontAwesomeOpenIcon]="rightSideBarOpenIcon">
   <router-outlet mainContent></router-outlet>
   <router-outlet rightSidebarContent name="rightSidebarContent"></router-outlet>
 </pf-layout-wrapper>

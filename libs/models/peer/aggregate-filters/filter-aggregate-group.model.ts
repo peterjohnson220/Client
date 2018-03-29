@@ -4,13 +4,13 @@ import { FilterAggregateMetaData, generateMockFilterAggregateMetaData } from './
 export interface FilterAggregateGroup {
   MetaData: FilterAggregateMetaData;
   Aggregates: FilterAggregateItem[];
-  Selections: string[];
+  AggregatesPreview: FilterAggregateItem[];
 }
 
 export function generateMockFilterAggregateGroup(filterType = 1): FilterAggregateGroup {
   return {
     MetaData: generateMockFilterAggregateMetaData(filterType),
     Aggregates: [generateMockFilterAggregateItem()],
-    Selections: ['MockSelection']
+    AggregatesPreview: [generateMockFilterAggregateItem()]
   };
 }

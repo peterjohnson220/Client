@@ -6,8 +6,7 @@ import { PayfactorsApiService } from '../payfactors-api.service';
 
 import { UserFeatureDto, ReorderTileRequest, UserTileDto } from '../../../models/dashboard';
 
-import { TimelineActivityRequest } from '../../../models/dashboard/timeline-activity-request.model';
-
+import { TimelineActivityRequest } from '../../../models/dashboard';
 
 @Injectable()
 export class DashboardApiService {

@@ -1,6 +1,9 @@
-<div class="control-container">
-</div>
-<div class="left-tile-area">
+
+<span class="tile-background-overlay"></span>
+<div class="flex-container">
+
+
+<div class="left-tile-area pt-5" *ngIf="model.ComponentData && model.ComponentData.length >= 1 ">
     <span class="tile-text">
       {{model.ComponentData[0].CategoryName}}
     </span>
@@ -9,15 +12,15 @@
     </span>
 </div>
 
-<div class="middle-tile-area">
+<div class="middle-tile-area" *ngIf="model.ComponentData && model.ComponentData.length >= 2">
    <span class="tile-text-large">
       {{model.ComponentData[1].CategoryValue}}
     </span>
-  <span class="tile-text">
+  <span class="tile-text mb-2">
      {{model.ComponentData[1].CategoryName}}
     </span>
-  <kendo-datepicker [(value)]="selectedPricingEffectiveDate" (valueChange)="datePickerValueChanged()"
-                    [format]="'MM/dd/yyyy'">
+  <kendo-datepicker [(value)]="selectedDate" (valueChange)="datePickerValueChanged()"
+                    [format]="'MM/dd/yyyy'" onkeydown="return false;">
   </kendo-datepicker>
   <div class="hidden-tile-area">
      <span class="tile-text">
@@ -28,13 +31,13 @@
     </span>
   </div>
 </div>
-<div class="right-tile-area">
+<div class="right-tile-area" *ngIf="model.ComponentData && model.ComponentData.length >= 3">
   <kendo-chart [transitions]="true">
-    <kendo-chart-area background="none" [height]="250"></kendo-chart-area>
+    <kendo-chart-area background="none" [height]="245"></kendo-chart-area>
     <kendo-chart-series>
       <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
                                [type]="model.ChartType" [data]="model.ComponentData[2].ChartData"
-                               categoryField="Key" field="Value" [holeSize]="55">
+                               categoryField="Key" field="Value" [holeSize]="50">
         <kendo-chart-series-item-tooltip>
           <ng-template let-category="category" let-value="value">
             {{category}} : {{value}}%
@@ -52,5 +55,5 @@
   </kendo-chart>
 </div>
 
-
+</div>
 

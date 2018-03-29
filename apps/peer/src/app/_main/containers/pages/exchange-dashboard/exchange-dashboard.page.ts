@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import 'hammerjs';
 
-import { Exchange, GetChartRequest, ChartItem } from 'libs/models';
+import { Exchange, ExchangeRequestTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardReducer from '../../../reducers';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 
 @Component({
   selector: 'pf-exchange-dashboard-page',
@@ -18,7 +18,7 @@ import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboa
 export class ExchangeDashboardPageComponent implements OnInit {
   exchangeId: number;
   exchange$: Observable<Exchange>;
-  industryChartItems$: Observable<ChartItem[]>;
+  sidebarVisible$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,19 +26,19 @@ export class ExchangeDashboardPageComponent implements OnInit {
     private store: Store<fromExchangeDashboardReducer.State>
   ) {
     this.exchange$ = this.store.select(fromExchangeDashboardReducer.getExchange);
-    this.industryChartItems$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardIndustryChartItems);
+    this.sidebarVisible$ = this.store.select(fromExchangeDashboardReducer.getExchangeDashboardSidebarVisible);
     this.exchangeId = this.route.snapshot.params.id;
-  }
-
-  ngOnInit() {
-    const getChartRequest: GetChartRequest = {
-      ExchangeId: this.exchangeId,
-      ChartType: 'Industry'
-    };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingChart(getChartRequest));
   }
 
   manageJobsClick(): void {
     this.router.navigate([ 'exchange/job-mapping', this.exchangeId ]);
+  }
+
+  referCompanyClick(): void {
+    this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
+  }
+
+  ngOnInit() {
+    this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
   }
 }

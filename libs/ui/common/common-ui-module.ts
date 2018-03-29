@@ -8,10 +8,15 @@ import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
 import { ValidationResultsComponent } from './validation';
+import { PfCommonModule } from '../../core';
+import { CardSelectorComponent } from './content/cards/card-selector';
+import { CardComponent } from './content/cards/card/card.component';
 
 const components = [
   // Content
   EllipsisViewMoreComponent,
+  CardComponent,
+  CardSelectorComponent,
 
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent,
@@ -29,7 +34,8 @@ const components = [
 @NgModule({
   imports:      [
     CommonModule,
-    RouterModule
+    RouterModule,
+    PfCommonModule
   ],
   declarations: components,
   exports: components

@@ -9,6 +9,7 @@ export interface Tile {
   PreviewType: TilePreviewTypes;
   ChartType?: TilePreviewChartTypes;
   ChartLabel?: string;
+  ShouldLimitLegendText?: boolean;
   IconClass: string;
   CssClass: string;
   TilePreviewData: any;

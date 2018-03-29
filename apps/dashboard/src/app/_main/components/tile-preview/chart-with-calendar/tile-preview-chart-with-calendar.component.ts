@@ -10,7 +10,7 @@ import * as fromTileGridActions from '../../../actions/tile-grid.actions';
 import { Actions } from '@ngrx/effects';
 import { TilePreviewChartWithCalendar } from '../../../models/tile-preview-chart-with-calendar.model';
 import { SAVING_CLIENT_SETTING_SUCCESS } from 'libs/core/actions/client-settings.actions';
-
+import 'rxjs/add/operator/filter';
 
 @Component({
   selector: 'pf-tile-preview-calendar-with-chart',
@@ -20,10 +20,10 @@ import { SAVING_CLIENT_SETTING_SUCCESS } from 'libs/core/actions/client-settings
 })
 export class TilePreviewChartWithCalendarComponent implements OnInit {
   @Input() model: TilePreviewChartWithCalendar;
-  selectedPricingEffectiveDate: any;
+  selectedDate: any;
 
-  constructor(private clientSettingsStore: Store<fromClientSettingsReducer.State>,
-              private tileGridStore: Store<fromTileGridReducer.State>, private actions$: Actions,
+  constructor(public clientSettingsStore: Store<fromClientSettingsReducer.State>,
+              private tileGridStore: Store<fromTileGridReducer.State>,
               private actionsSubject: ActionsSubject) {
   }
 
@@ -39,13 +39,15 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.selectedPricingEffectiveDate = new Date(this.model.ComponentData[ 1 ].SelectedDate);
+    if (this.model.ComponentData && this.model.ComponentData.length > 1) {
+      this.selectedDate = new Date(this.model.ComponentData[ 1 ].SelectedDate);
+    }
   }
 
   datePickerValueChanged() {
     const clientSettingRequest = {
       FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
-      SettingValue: this.selectedPricingEffectiveDate
+      SettingValue:  this.selectedDate
     } as ClientSettingRequestModel;
 
     this.clientSettingsStore.dispatch(new fromClientSettingActions.SavingClientSetting
@@ -53,9 +55,13 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
 
     const actionSubjectSubscription = this.actionsSubject.filter(action => action.type === SAVING_CLIENT_SETTING_SUCCESS)
       .subscribe(() => {
-          this.tileGridStore.dispatch(new fromTileGridActions.LoadingSingleTile(this.model.TileId));
+          this.reloadTile();
           actionSubjectSubscription.unsubscribe();
         }
       );
+  }
+
+  reloadTile() {
+    this.tileGridStore.dispatch(new fromTileGridActions.LoadingSingleTile(this.model.TileId));
   }
 }

@@ -23,4 +23,8 @@ export class ExchangeListPageComponent {
   handleCellClick(exchangeId: number): void {
     this.router.navigate([ 'peer/exchange', exchangeId ]);
   }
+
+  handleBackButtonClick(): void {
+    window.location.href = '/ng/site-admin/navigation';
+  }
 }

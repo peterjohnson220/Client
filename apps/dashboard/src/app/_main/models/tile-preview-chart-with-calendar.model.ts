@@ -13,7 +13,7 @@ export interface TilePreviewChartWithCalendar extends TilePreviewBase {
 export function generateTilePreviewChartWithCalendarFromTile(tile: Tile): TilePreviewChartWithCalendar {
   return {
     TileId: tile.Id,
-    PreviewType: TilePreviewTypes.Chart,
+    PreviewType: TilePreviewTypes.ChartWithCalendar,
     ChartType: tile.ChartType,
     ChartLabel: tile.ChartLabel,
     ComponentData: tile.TilePreviewData,

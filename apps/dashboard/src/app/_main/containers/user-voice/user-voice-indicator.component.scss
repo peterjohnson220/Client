@@ -1,6 +1,9 @@
 @import 'colors';
 
 .user-voice-container{
+  position: absolute;
+  right: 5px;
+  bottom: 20px;
   opacity: 0.75;
   background-color: transparent;
 }

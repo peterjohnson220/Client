@@ -1,0 +1,31 @@
+<div class="card h-100">
+  <div class="chart-detail-header card-header d-flex">
+
+    <div class="align-self-center mr-auto flex-grow-1">
+      Participating Companies
+    </div>
+
+    <div (click)="closeSidebar()" class="close-btn">
+      <i class="far fa-times"></i>
+    </div>
+
+  </div>
+  <div class="card-body">
+
+    <h4 class="mb-2">
+      {{ (detailChartCategory$ | async )}}
+    </h4>
+
+    <pf-async-container
+      [loading]="loadingDetailChartItems$ | async"
+      [loadingError]="loadingDetailChartItemsError$ | async"
+      [loadingErrorMessage]="'Error loading participating companies.'">
+      <div class="detail-item pt-2 pb-2" *ngFor="let chartItem of (detailChartItems$ | async)">
+        <div class="detail-category">
+          {{ chartItem.Category }}
+        </div>
+      </div>
+    </pf-async-container>
+
+  </div>
+</div>

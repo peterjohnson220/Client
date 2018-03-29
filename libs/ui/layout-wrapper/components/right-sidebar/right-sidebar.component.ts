@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input  } from '@angular/core';
 
 @Component({
   selector: 'pf-layout-wrapper-right-sidebar',
@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RightSidebarComponent {
   rightSidebarToggle = false;
-
-  constructor() {
-  }
-
+  @Input() fontAwesomeOpenIcon: string;
+  constructor() { }
 }

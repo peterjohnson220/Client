@@ -2,8 +2,10 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
 
-import { generateMockUserVoiceModel } from '../../models';
+import { generateMockUserContext } from 'libs/models';
+
 import { UserVoiceIndicatorComponent } from './user-voice-indicator.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromUserVoiceReducer from '../../reducers';
@@ -34,10 +36,10 @@ describe('User Voice Indicator', () => {
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(UserVoiceIndicatorComponent);
     instance = fixture.componentInstance;
+    instance.userContext$ = of(generateMockUserContext());
   });
 
   it('should dispatch a LoadingUserVoice upon Init', () => {
-
     const action = new fromUserVoiceActions.LoadingUserVoice();
 
     instance.ngOnInit();
@@ -45,4 +47,10 @@ describe('User Voice Indicator', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should contain user voice url with sidebar Url ', () => {
+    const sideBarUrl = '/payfactors/UserVoice/Redirect';
+    const result = instance.getSidebarHref(sideBarUrl);
+
+    expect(result).toContain(sideBarUrl);
+  });
 });

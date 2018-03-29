@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfModalFormComponent } from './pf-modal-form.component';
+import spyOn = jest.spyOn;
 
 
 describe('Pf Modal Form', () => {
@@ -68,6 +69,14 @@ describe('Pf Modal Form', () => {
     instance.submit();
 
     expect(instance.onSubmit.emit).toHaveBeenCalled();
+  });
+
+  it(`should show subTitle in modal header if a subTitle is provided`, () => {
+    instance.subTitle = 'Mock subTitle';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 
   // TODO: This doesn't work due to issue with NgbModal

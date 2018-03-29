@@ -51,16 +51,15 @@ export class UserTileToTileMapper {
 
   static mapTilePreviewTypeFromTileType(tileType: TileTypes): TilePreviewTypes {
     switch (tileType) {
+      case TileTypes.Employees:
       case TileTypes.JobDescriptions:
+      case TileTypes.Surveys:
         return TilePreviewTypes.Chart;
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
       case TileTypes.MyJobs:
         return TilePreviewTypes.ChartWithCalendar;
-      case TileTypes.Employees:
-        return TilePreviewTypes.Chart;
-      case TileTypes.Surveys:
-        return TilePreviewTypes.PlaceHolder;
+
       default:
         return TilePreviewTypes.Icon;
     }
@@ -76,6 +75,7 @@ export class UserTileToTileMapper {
         tile.CssClass = 'tile-blue';
         tile.ChartType = TilePreviewChartTypes.Donut;
         tile.ChartLabel = 'Market Index';
+        tile.ShouldLimitLegendText = false;
 
         this.SetChartLegendColor(tile, '<90%', '#C79500');
         this.SetChartLegendColor(tile, '90-110%', '#EEB200');
@@ -87,6 +87,7 @@ export class UserTileToTileMapper {
         tile.CssClass = 'tile-green';
         tile.ChartType = TilePreviewChartTypes.Donut;
         tile.ChartLabel = 'Job Description Status';
+        tile.ShouldLimitLegendText = false;
 
         this.SetChartLegendColor(tile, 'Not Started', '#4472C3');
         this.SetChartLegendColor(tile, 'Draft', '#A3A3A3');
@@ -137,11 +138,16 @@ export class UserTileToTileMapper {
       case TileTypes.Surveys:
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'far fa-book';
+        tile.ChartType = TilePreviewChartTypes.Pie;
+        tile.ChartLabel = 'Top Surveys';
+        tile.ShouldLimitLegendText = true;
+        this.SetChartLegendColors(tile, ['#C79500', '#EEB200', '#FEC968', '#FEDCAC']);
         break;
 
       default:
         tile.CssClass = 'tile-green';
         tile.Size = 1;
+
     }
     return tile;
   }
@@ -149,7 +155,21 @@ export class UserTileToTileMapper {
   static SetChartLegendColor(tile: Tile, categoryName, color) {
     const chartCategory = tile.TilePreviewData.filter(x => x.CategoryName === categoryName);
     if (chartCategory.length > 0) {
-      chartCategory[ 0 ].color = color;
+      chartCategory[0].color = color;
     }
   }
+
+  static SetChartLegendColors(tile: Tile, colors: string[]) {
+    let j = 0;
+    for (let i = 0; i < tile.TilePreviewData.length; i++) {
+      if ( (j + 1) === colors.length) {
+        j = 0;
+      } else {
+        j++;
+      }
+      const chartCategory = tile.TilePreviewData[i];
+      chartCategory.color = colors[j];
+    }
+  }
+
 }
