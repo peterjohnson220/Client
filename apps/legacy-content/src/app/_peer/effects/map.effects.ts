@@ -36,7 +36,10 @@ export class MapEffects {
   @Effect()
   initialMapMoveComplete$: Observable<Action> = this.actions$
     .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
-    .switchMap(() => of(new fromFilterSidebarActions.LoadingFilterAggregates()));
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadingPeerMap,
+      new fromFilterSidebarActions.LoadingFilterAggregates()
+    ]);
 
   @Effect()
   updateFilterBounds$: Observable<Action> = this.actions$
