@@ -31,7 +31,7 @@
                              [delay]="400"
                              [(ngModel)]="searchTerm"
                              [ngModelOptions]="{standalone: true}"
-                             [placeholderText]="'Search for a Company Name...'"
+                             [placeholderText]="'Search for an Exchange Name...'"
                              (valueChanged)="updateSearchFilter($event)" ngDefaultControl>
           </pf-input-debounce>
         </div>
@@ -42,7 +42,7 @@
               #list
               class="flex-grow-1"
               valueField="Name"
-              placeholder="Search for a company..."
+              placeholder="Search for a Company..."
               [data]="peerParticipants$ | async"
               [loading]="peerParticipantsLoading$ | async"
               [filterable]="true"
@@ -91,24 +91,30 @@
   <div class="card-title d-flex justify-content-between">
     <h5>
       {{card.ExchangeName}}
-      <small class="text-muted">({{card.JobCount}} Jobs)</small>
     </h5>
     <h5>
       <span *ngIf="card.PendingAccess" class="badge badge-warning">Request Pending</span>
       <span *ngIf="card.InExchange" class="badge badge-dark">Exchange Member</span>
     </h5>
   </div>
-
-  <p class="card-text">
-    {{card.TopIndustries.join(', ')}}
-  </p>
-
-  <p class="card-text">
+  <div class="d-flex flex-row mb-2 justify-content-between">
+    <span class="flex-grow-1" title="Top Industries">
+      <i class="fas fa-building fa-lg"></i>
+      {{card?.TopIndustries ? card?.TopIndustries.join(', ') : 'No Industries'}}
+    </span>
+    <span class="flex-grow-1 text-right" [title]="card.JobCount + ' Exchange Jobs'">
+      <span class="fa-layers fa-fw fa-lg">
+        <i class="fas fa-briefcase"></i>
+        <span class="fa-layers-counter bg-info">{{card.JobCount | humanizeNumber}}</span>
+      </span>
+    </span>
+  </div>
+  <p class="card-text" title="Companies in Exchange">
     <small>
       <pf-ellipsis-view-more
         [content]="card.CompanyNames.join(', ')"
         [highlightFilter]="companyNameFilter"
-        [maxLength]="150"></pf-ellipsis-view-more>
+        [maxLength]="145"></pf-ellipsis-view-more>
     </small>
   </p>
 </ng-template>
