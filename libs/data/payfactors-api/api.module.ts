@@ -9,10 +9,12 @@ import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiSer
 import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
 import { UserApiService } from './user';
+import { CompanyApiService } from './company/company-api.service';
 
 @NgModule({
   imports:      [ HttpClientModule ],
   providers:    [
+    CompanyApiService,
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,
