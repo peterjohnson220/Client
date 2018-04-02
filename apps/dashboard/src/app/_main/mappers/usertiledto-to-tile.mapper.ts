@@ -101,12 +101,16 @@ export class UserTileToTileMapper {
         tile.ChartLabel = 'jobs';
         tile.Size = 2;
 
-        const NotPricedCategory = tile.TilePreviewData[2].ChartData.filter(x => x.Key === 'Not Priced');
+        const NotPricedCategory = tile.TilePreviewData.length > 0
+          ? tile.TilePreviewData[0].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
+
         if (NotPricedCategory.length > 0) {
           NotPricedCategory[ 0 ].color = '#FFCA69';
         }
 
-        const PricedCategory = tile.TilePreviewData[2].ChartData.filter(x => x.Key === 'Priced');
+        const PricedCategory = tile.TilePreviewData.length > 0
+          ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Priced') : null;
+
         if (PricedCategory.length > 0) {
           PricedCategory[ 0 ].color = '#EFB300';
         }

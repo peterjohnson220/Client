@@ -34,7 +34,7 @@ export class TileGridEffects {
     .ofType(fromTileGridActions.LOADING_SINGLE_TILE)
     .switchMap((action: fromTileGridActions.LoadingSingleTile) =>
       this.dashboardApiService.getUserDashboardTile(action.tileId)
-        .map((userTileDtos: UserTileDto[]) => this.mapToTiles(userTileDtos))
+        .map((userTileDtos: UserTileDto) => this.mapToTiles([userTileDtos]))
         .map((tiles: Tile[]) => new fromTileGridActions.LoadingSingleTileSuccess(tiles))
         .catch(error => of (new fromTileGridActions.LoadingSingleTileError(error)))
     );

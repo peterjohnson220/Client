@@ -7,7 +7,7 @@ export interface TilePreviewChartWithCalendar extends TilePreviewBase {
   TileId: number;
   ChartType: string;
   ChartLabel: string;
-  ComponentData: TilePreviewChartWithCalendarData[];
+  ComponentData: TilePreviewChartWithCalendarData;
 }
 
 export function generateTilePreviewChartWithCalendarFromTile(tile: Tile): TilePreviewChartWithCalendar {
@@ -16,6 +16,6 @@ export function generateTilePreviewChartWithCalendarFromTile(tile: Tile): TilePr
     PreviewType: TilePreviewTypes.ChartWithCalendar,
     ChartType: tile.ChartType,
     ChartLabel: tile.ChartLabel,
-    ComponentData: tile.TilePreviewData,
+    ComponentData: tile.TilePreviewData ? tile.TilePreviewData[0] : null
   };
 }

@@ -39,8 +39,8 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   };
 
   ngOnInit() {
-    if (this.model.ComponentData && this.model.ComponentData.length > 1) {
-      this.selectedDate = new Date(this.model.ComponentData[ 1 ].SelectedDate);
+    if (this.model.ComponentData.TileMiddlePart) {
+      this.selectedDate = new Date(this.model.ComponentData.TileMiddlePart.SelectedDate);
     }
   }
 

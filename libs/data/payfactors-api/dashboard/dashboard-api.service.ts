@@ -20,8 +20,8 @@ export class DashboardApiService {
     (`${this.endpoint}.GetUserTiles`, { params: { includeTilePreviewData: includeTilePreviewData } });
   }
 
-  getUserDashboardTile(tileId: number): Observable<UserTileDto[]> {
-    return this.payfactorsApiService.get<UserTileDto[]>
+  getUserDashboardTile(tileId: number): Observable<UserTileDto> {
+    return this.payfactorsApiService.get<UserTileDto>
     (`${this.endpoint}.GetUserTile`, { params: { userTileId: tileId } });
   }
 
