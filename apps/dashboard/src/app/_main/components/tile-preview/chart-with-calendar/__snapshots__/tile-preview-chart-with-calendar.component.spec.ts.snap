@@ -3,14 +3,11 @@
 exports[`Tile Preview Chart With Calendar should not show chart without model.component data 1`] = `
 <pf-tile-preview-calendar-with-chart
   actionsSubject={[Function ActionsSubject]}
-  chartData={[Function Array]}
   clientSettingsStore={[Function Store]}
   model={[Function Object]}
   seriesItemHighlightStyle={[Function Object]}
-  showChartDetail="false"
   tileGridStore={[Function Store]}
 >
-  
   <span
     class="tile-background-overlay"
   />
@@ -18,19 +15,15 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
     class="flex-container"
   >
     
-  
-  
-  
     
     
-  
-  
     
     
-  
     
     
-  
+    
+    
+    
   
   </div>
   
@@ -41,15 +34,12 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
 exports[`Tile Preview Chart With Calendar should show kendo chart when model.ChartComponentData.length > 0 1`] = `
 <pf-tile-preview-calendar-with-chart
   actionsSubject={[Function ActionsSubject]}
-  chartData={[Function Array]}
   clientSettingsStore={[Function Store]}
   model={[Function Object]}
   selectedDate={[Function Date]}
   seriesItemHighlightStyle={[Function Object]}
-  showChartDetail="false"
   tileGridStore={[Function Store]}
 >
-  
   <span
     class="tile-background-overlay"
   />
@@ -57,9 +47,7 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
     class="flex-container"
   >
     
-  
-  
-  
+    
     
     <div
       class="left-tile-area pt-5"
@@ -74,7 +62,7 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
       </span>
       
-    
+      
       <span
         class="tile-text-large"
       >
@@ -83,11 +71,10 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
       </span>
       
-  
+    
     </div>
     
-  
-  
+    
     
     <div
       class="middle-tile-area"
@@ -102,7 +89,7 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
       </span>
       
-    
+      
       <span
         class="tile-text mb-2"
       >
@@ -111,15 +98,15 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
       </span>
       
-    
+      
       <kendo-datepicker
         onkeydown="return false;"
       >
         
-    
+      
       </kendo-datepicker>
       
-    
+      
       <div
         class="hidden-tile-area"
       >
@@ -133,7 +120,7 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
         </span>
         
-      
+        
         <span
           class="tile-text-large"
         >
@@ -142,66 +129,65 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
       
         </span>
         
-    
+      
       </div>
       
-  
+    
     </div>
     
-  
+    
     
     <div
       class="right-tile-area"
     >
       
-    
+      
       <kendo-chart>
         
-      
+        
         <kendo-chart-area
           background="none"
         />
         
-      
+        
         <kendo-chart-series>
           
-        
+          
           <kendo-chart-series-item
             categoryfield="Key"
             field="Value"
           >
             
-          
+            
             <kendo-chart-series-item-tooltip>
               
+              
+              
+              
             
-              
-              
-          
             </kendo-chart-series-item-tooltip>
             
-        
+          
           </kendo-chart-series-item>
           
+          
+          
+          
         
-          
-          
-      
         </kendo-chart-series>
         
-      
+        
         <kendo-chart-legend>
           
-      
+        
         </kendo-chart-legend>
         
-    
+      
       </kendo-chart>
       
-  
+    
     </div>
     
-  
   
   </div>
   

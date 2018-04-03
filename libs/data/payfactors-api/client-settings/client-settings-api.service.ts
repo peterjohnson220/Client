@@ -13,12 +13,10 @@ export class ClientSettingsApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-
   putClientSetting(request: ClientSettingRequestModel): Observable<any> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}.PutClientSetting`,
       {
         request: request
       });
   }
-
 }
