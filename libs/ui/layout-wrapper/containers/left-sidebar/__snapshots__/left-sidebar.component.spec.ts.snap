@@ -2,6 +2,7 @@
 
 exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
+  companyName={[Function String]}
   gettingSidebarNavigationLinks$={[Function Store]}
   gettingSidebarNavigationLinksError$={[Function Store]}
   layoutStore={[Function Store]}
@@ -16,20 +17,31 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 >
   <pf-async-container>
     
-  
+    
     <ul
       class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
       ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
       ng-reflect-ng-class="[object Object]"
     >
       
+      
+      
+      
+      
+      
+      <li
+        class="py-2 pl-3 pr-0"
+      >
+         
+      </li>
+      
+      
+      
+      
     
-      
-      
-  
     </ul>
     
-  
+    
     <div
       class="left-sidebar-footer left-sidebar-footer-close"
       ng-reflect-klass="left-sidebar-footer"
@@ -37,17 +49,17 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
     >
       
   
-    
+      
       <div
         class="left-sidebar-icon-close"
         ng-reflect-ng-class="[object Object]"
       >
         
   
-      
         
         
-      
+        
+        
         
         <span>
           <i
@@ -56,11 +68,11 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
         </span>
         
   
-    
+      
       </div>
       
   
-  
+    
     </div>
     
   
