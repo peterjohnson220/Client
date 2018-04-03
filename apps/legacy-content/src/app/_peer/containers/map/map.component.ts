@@ -56,6 +56,10 @@ export class MapComponent {
     return JSON.parse(this.selectedPoint.properties.Companies);
   }
 
+  get pointCompaniesPreview(): string {
+    return this.pointCompanies.slice(0, 10);
+  }
+
   // Map events
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;

@@ -3,10 +3,10 @@ import { ExchangeJobPayMarketFilter } from './exchange-job-pay-market-filter.mod
 import { generateMockPayMarketLocation } from './pay-market-location.model';
 
 export interface ExchangeDataSearchFilter extends ExchangeJobPayMarketFilter {
-  Exchanges: string[];
+  ExchangeIds: number[];
   States: string[];
   Cities: string[];
-  Companies: string[];
+  CompanyIds: number[];
   CompanyIndustries: string[];
   ExchangeJobFamilies: string[];
   ExchangeJobLevels: string[];
@@ -20,10 +20,10 @@ export function generateMockExchangeMapFilter(): ExchangeDataSearchFilter {
   return {
     ExchangeJobIds: [1, 2, 4],
     PayMarketLocation: generateMockPayMarketLocation(),
-    Exchanges: ['ExchangeOne'],
+    ExchangeIds: [1, 2],
     States: ['StateOne'],
     Cities: ['CityOne, StateOne'],
-    Companies: ['MockCompany'],
+    CompanyIds: [2, 3],
     CompanyIndustries: ['MockCompanyIndustry'],
     ExchangeJobFamilies: ['MockExchangeJobFamily'],
     ExchangeJobLevels: ['MockExchangeJobLevel'],

@@ -15,7 +15,7 @@ export class FilterSidebarHelper {
     const selectionObj = {};
 
     aggregateGroups.map(ag => {
-      selectionObj[ag.MetaData.FilterProp] = ag.Aggregates.filter(a => a.Selected).map(a => a.Item);
+      selectionObj[ag.MetaData.FilterProp] = ag.Aggregates.filter(a => a.Selected).map(a => a.Id ? a.Id : a.Item);
     });
 
     return selectionObj;
