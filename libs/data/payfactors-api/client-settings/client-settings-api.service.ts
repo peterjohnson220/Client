@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs/Observable';
-import { PayfactorsApiService} from '../payfactors-api.service';
+
+import { Observable } from 'rxjs/Observable';
+
+import { PayfactorsApiService } from '../payfactors-api.service';
 import { ClientSettingRequestModel } from '../../../models/common/client-setting-request.model';
 
 @Injectable()

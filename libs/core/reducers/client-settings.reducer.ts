@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
- import { ClientSettingRequestModel } from '../../models';
+import { ClientSettingRequestModel } from '../../models';
 
 import * as fromClientSettingsActions from '../actions/client-settings.actions';
 

@@ -102,7 +102,7 @@ export class UserTileToTileMapper {
         tile.Size = 2;
 
         const NotPricedCategory = tile.TilePreviewData.length > 0
-          ? tile.TilePreviewData[0].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
+          ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
 
         if (NotPricedCategory.length > 0) {
           NotPricedCategory[ 0 ].color = '#FFCA69';
@@ -145,7 +145,7 @@ export class UserTileToTileMapper {
         tile.ChartType = TilePreviewChartTypes.Pie;
         tile.ChartLabel = 'Top Surveys';
         tile.ShouldLimitLegendText = true;
-        this.SetChartLegendColors(tile, ['#C79500', '#EEB200', '#FEC968', '#FEDCAC']);
+        this.SetChartLegendColors(tile, [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
         break;
 
       default:
@@ -159,20 +159,20 @@ export class UserTileToTileMapper {
   static SetChartLegendColor(tile: Tile, categoryName, color) {
     const chartCategory = tile.TilePreviewData.filter(x => x.CategoryName === categoryName);
     if (chartCategory.length > 0) {
-      chartCategory[0].color = color;
+      chartCategory[ 0 ].color = color;
     }
   }
 
   static SetChartLegendColors(tile: Tile, colors: string[]) {
     let j = 0;
     for (let i = 0; i < tile.TilePreviewData.length; i++) {
-      if ( (j + 1) === colors.length) {
+      if ((j + 1) === colors.length) {
         j = 0;
       } else {
         j++;
       }
-      const chartCategory = tile.TilePreviewData[i];
-      chartCategory.color = colors[j];
+      const chartCategory = tile.TilePreviewData[ i ];
+      chartCategory.color = colors[ j ];
     }
   }
 

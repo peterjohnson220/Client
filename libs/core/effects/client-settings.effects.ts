@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+
 import { ClientSettingsApiService } from 'libs/data/payfactors-api/client-settings';
 import * as fromClientSettingsActions from '../actions/client-settings.actions';
-import { of } from 'rxjs/observable/of';
 
 
 @Injectable()

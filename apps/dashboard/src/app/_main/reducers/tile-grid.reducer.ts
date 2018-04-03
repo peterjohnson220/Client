@@ -1,4 +1,4 @@
-import { createEntityAdapter, EntityAdapter, EntityState, Update } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
 import { Tile } from '../models';
 

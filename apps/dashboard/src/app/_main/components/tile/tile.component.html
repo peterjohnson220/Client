@@ -1,7 +1,7 @@
 <div class="tile m-0 p-1"
      [ngSwitch]="tile.PreviewType"
      [ngClass]="tile.CssClass"
-     >
+>
   <a [href]="tile.NgAppLink ? ngAppRoot + tile.Url : tile.Url" class="tile-anchor-overlay"></a>
   <h4>{{ tile.Label }}</h4>
 
@@ -23,7 +23,7 @@
   </pf-tile-preview-place-holder>
 
   <pf-tile-preview-calendar-with-chart *ngSwitchCase="tilePreviewType.ChartWithCalendar"
-                                [model]="previewModel">
+                                       [model]="previewModel">
   </pf-tile-preview-calendar-with-chart>
 
 </div>

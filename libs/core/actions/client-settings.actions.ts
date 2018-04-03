@@ -1,6 +1,4 @@
 import {Action} from '@ngrx/store';
-import {ClientSettingRequestModel} from 'libs/models/common';
-import { Feature, Tile } from '../../../apps/dashboard/src/app/_main/models';
 
 export const SAVING_CLIENT_SETTING = '[ClientSettings] Saving Client Setting';
 export const SAVING_CLIENT_SETTING_SUCCESS = '[ClientSettings] Saving Client Setting Success';
@@ -15,7 +13,6 @@ export class SavingClientSetting implements Action {
 export class SavingClientSettingSuccess implements Action {
   readonly type = SAVING_CLIENT_SETTING_SUCCESS;
 
-  // constructor(public payload: ClientSettingRequestModel) {}
   constructor(public payload: any) {}
 }
 

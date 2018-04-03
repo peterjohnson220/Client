@@ -1,59 +1,54 @@
-
 <span class="tile-background-overlay"></span>
 <div class="flex-container">
-
-
-<div class="left-tile-area pt-5" *ngIf="model.ComponentData && model.ComponentData.TileLeftPart != null ">
+  <div class="left-tile-area pt-5" *ngIf="model.ComponentData && model.ComponentData.TileLeftPart != null ">
     <span class="tile-text">
-      {{model.ComponentData.TileLeftPart.CategoryName}}
-    </span>
-  <span class="tile-text-large">
-      {{model.ComponentData.TileLeftPart.CategoryValue}}
-    </span>
-</div>
-
-<div class="middle-tile-area" *ngIf="model.ComponentData && model.ComponentData.TileMiddlePart != null">
-   <span class="tile-text-large">
-      {{model.ComponentData.TileMiddlePart.CategoryValue}}
-    </span>
-  <span class="tile-text mb-2">
-     {{model.ComponentData.TileMiddlePart.CategoryName}}
-    </span>
-  <kendo-datepicker [(value)]="selectedDate" (valueChange)="datePickerValueChanged()"
-                    [format]="'MM/dd/yyyy'" onkeydown="return false;">
-  </kendo-datepicker>
-  <div class="hidden-tile-area">
-     <span class="tile-text">
       {{model.ComponentData.TileLeftPart.CategoryName}}
     </span>
     <span class="tile-text-large">
       {{model.ComponentData.TileLeftPart.CategoryValue}}
     </span>
   </div>
-</div>
-<div class="right-tile-area" *ngIf="model.ComponentData && model.ComponentData.TileRightPart != null">
-  <kendo-chart [transitions]="true">
-    <kendo-chart-area background="none" [height]="245"></kendo-chart-area>
-    <kendo-chart-series>
-      <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
-                               [type]="model.ChartType" [data]="model.ComponentData.TileRightPart.ChartData"
-                               categoryField="Key" field="Value" [holeSize]="50">
-        <kendo-chart-series-item-tooltip>
-          <ng-template let-category="category" let-value="value">
-            {{category}} : {{value}}%
-          </ng-template>
-        </kendo-chart-series-item-tooltip>
-      </kendo-chart-series-item>
-      <ng-template kendoChartDonutCenterTemplate>
+  <div class="middle-tile-area" *ngIf="model.ComponentData && model.ComponentData.TileMiddlePart != null">
+   <span class="tile-text-large">
+      {{model.ComponentData.TileMiddlePart.CategoryValue}}
+    </span>
+    <span class="tile-text mb-2">
+     {{model.ComponentData.TileMiddlePart.CategoryName}}
+    </span>
+    <kendo-datepicker [(value)]="selectedDate" (valueChange)="datePickerValueChanged()"
+                      [format]="'MM/dd/yyyy'" onkeydown="return false;">
+    </kendo-datepicker>
+    <div class="hidden-tile-area">
+     <span class="tile-text">
+      {{model.ComponentData.TileLeftPart.CategoryName}}
+    </span>
+      <span class="tile-text-large">
+      {{model.ComponentData.TileLeftPart.CategoryValue}}
+    </span>
+    </div>
+  </div>
+  <div class="right-tile-area" *ngIf="model.ComponentData && model.ComponentData.TileRightPart != null">
+    <kendo-chart [transitions]="true">
+      <kendo-chart-area background="none" [height]="245"></kendo-chart-area>
+      <kendo-chart-series>
+        <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
+                                 [type]="model.ChartType" [data]="model.ComponentData.TileRightPart.ChartData"
+                                 categoryField="Key" field="Value" [holeSize]="50">
+          <kendo-chart-series-item-tooltip>
+            <ng-template let-category="category" let-value="value">
+              {{category}} : {{value}}%
+            </ng-template>
+          </kendo-chart-series-item-tooltip>
+        </kendo-chart-series-item>
+        <ng-template kendoChartDonutCenterTemplate>
           <span class="tile-text-extra-large">{{model.ComponentData.TileRightPart.CategoryValue}}%
           </span>
-        <span class="tile-text">{{model.ComponentData.TileRightPart.CategoryName}}</span>
-      </ng-template>
-    </kendo-chart-series>
-    <kendo-chart-legend [padding]="0" [visible]="false">
-    </kendo-chart-legend>
-  </kendo-chart>
-</div>
-
+          <span class="tile-text">{{model.ComponentData.TileRightPart.CategoryName}}</span>
+        </ng-template>
+      </kendo-chart-series>
+      <kendo-chart-legend [padding]="0" [visible]="false">
+      </kendo-chart-legend>
+    </kendo-chart>
+  </div>
 </div>
 

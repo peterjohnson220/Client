@@ -1,15 +1,17 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 
-import 'hammerjs';
+import { Store, ActionsSubject } from '@ngrx/store';
+
 import * as fromClientSettingsReducer from 'libs/core/reducers/client-settings.reducer';
-import { Action, Store, ActionsSubject } from '@ngrx/store';
 import * as fromClientSettingActions from 'libs/core/actions/client-settings.actions';
 import { ClientSettingRequestModel } from 'libs/models/common/client-setting-request.model';
-import * as fromTileGridReducer from '../../../reducers';
-import * as fromTileGridActions from '../../../actions/tile-grid.actions';
-import { Actions } from '@ngrx/effects';
-import { TilePreviewChartWithCalendar } from '../../../models/tile-preview-chart-with-calendar.model';
 import { SAVING_CLIENT_SETTING_SUCCESS } from 'libs/core/actions/client-settings.actions';
+
+import { TilePreviewChartWithCalendar } from '../../../models/tile-preview-chart-with-calendar.model';
+import * as fromTileGridActions from '../../../actions/tile-grid.actions';
+import * as fromTileGridReducer from '../../../reducers';
+
+import 'hammerjs';
 import 'rxjs/add/operator/filter';
 
 @Component({
@@ -27,11 +29,6 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
               private actionsSubject: ActionsSubject) {
   }
 
-
-  public chartData: any[] = [];
-
-  showChartDetail = false;
-
   public seriesItemHighlightStyle: any = {
     opacity: 1,
     color: '#585858',
@@ -39,7 +36,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   };
 
   ngOnInit() {
-    if (this.model.ComponentData.TileMiddlePart) {
+    if (this.model.ComponentData && this.model.ComponentData.TileMiddlePart) {
       this.selectedDate = new Date(this.model.ComponentData.TileMiddlePart.SelectedDate);
     }
   }
@@ -47,7 +44,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   datePickerValueChanged() {
     const clientSettingRequest = {
       FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
-      SettingValue:  this.selectedDate
+      SettingValue: this.selectedDate
     } as ClientSettingRequestModel;
 
     this.clientSettingsStore.dispatch(new fromClientSettingActions.SavingClientSetting

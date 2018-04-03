@@ -1,5 +1,5 @@
 export interface ClientSettingRequestModel {
-    FeatureArea: string;
-    SettingName: string;
-    SettingValue: string;
+  FeatureArea: string;
+  SettingName: string;
+  SettingValue: string;
 }
