@@ -14,6 +14,7 @@ import * as fromExchangeRequestActions from '../../../actions/exchange-request.a
 import * as fromPeerMainReducer from '../../../reducers';
 import { AccessModalComponent } from './access-modal.component';
 import spyOn = jest.spyOn;
+import { HumanizeNumberPipe } from '../../../../../../../../libs/core/pipes';
 
 describe('Peer - Exchange Request - Access Modal', () => {
   let fixture: ComponentFixture<AccessModalComponent>;
@@ -33,7 +34,8 @@ describe('Peer - Exchange Request - Access Modal', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        AccessModalComponent
+        AccessModalComponent,
+        HumanizeNumberPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

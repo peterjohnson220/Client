@@ -32,6 +32,21 @@ exports[`UI/Common/Content - CardSelector should not render no results message w
       
       
       
+      
+        
+      <pf-async-container
+        loadingerrormessage="There was an error."
+      >
+        
+          
+        
+        
+        
+      </pf-async-container>
+      
+  
+      
+      
   
       
       
