@@ -33,7 +33,10 @@ import { EffectsModule } from '@ngrx/effects';
 
     // Routing
     AppRoutingModule,
+
+    // Effects
     EffectsModule.forFeature([ ClientSettingsEffects ])
+
   ],
   bootstrap: [AppComponent]
 })
