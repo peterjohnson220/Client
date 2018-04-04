@@ -11,6 +11,8 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
+import { ClientSettingsEffects } from '../../../../libs/core/effects';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
@@ -30,8 +32,8 @@ import { AppWrapperComponent } from './app-wrapper.component';
     PfStateModule,
 
     // Routing
-    AppRoutingModule
-
+    AppRoutingModule,
+    EffectsModule.forFeature([ ClientSettingsEffects ])
   ],
   bootstrap: [AppComponent]
 })
