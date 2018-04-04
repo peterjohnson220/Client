@@ -89,6 +89,12 @@ exports[`Tile Preview Chart should show kendo chart when model.ChartComponentDat
   
       
       
+      <kendo-chart-legend
+        position="left"
+      >
+        
+      
+      </kendo-chart-legend>
       
   
       

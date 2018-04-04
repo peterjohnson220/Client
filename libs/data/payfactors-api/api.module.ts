@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
+import { ClientSettingsApiService} from './client-settings';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService } from './peer';
 import { CompanySecurityApiService } from './security';
@@ -19,6 +20,7 @@ import { UserApiService } from './user';
     ExchangeCompanyApiService,
     ExchangeDataSearchApiService,
     NavigationApiService,
+    ClientSettingsApiService,
     PayMarketApiService,
     PayfactorsApiService
   ]

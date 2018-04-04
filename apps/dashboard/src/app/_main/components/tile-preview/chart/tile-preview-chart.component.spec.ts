@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { TilePreviewChartComponent } from './tile-preview-chart.component';
-import { generateMockTilePreviewChartData } from '../../../models';
+import { generateMockTilePreviewChartData, TilePreviewTypes } from '../../../models';
 
 describe('Tile Preview Chart', () => {
   let fixture: ComponentFixture<TilePreviewChartComponent>;
@@ -24,6 +24,8 @@ describe('Tile Preview Chart', () => {
 
   it('should show chart label', () => {
     instance.model = {
+      PreviewType: TilePreviewTypes.Chart,
+      ShouldLimitLegendText: false,
       ChartType: 'test',
       ChartLabel: 'test chart label',
       ChartComponentData: undefined};
@@ -38,6 +40,8 @@ describe('Tile Preview Chart', () => {
     const categoryValue = 55;
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, categoryValue)];
     instance.model = {
+      PreviewType: TilePreviewTypes.Chart,
+      ShouldLimitLegendText: false,
       ChartType: 'test',
       ChartLabel: 'test chart label',
       ChartComponentData: chartComponentData
@@ -56,6 +60,8 @@ describe('Tile Preview Chart', () => {
     const detailValue = 55;
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
     instance.model = {
+      PreviewType: TilePreviewTypes.Chart,
+      ShouldLimitLegendText: false,
       ChartType: 'test',
       ChartLabel: 'test chart label',
       ChartComponentData: chartComponentData
@@ -69,6 +75,8 @@ describe('Tile Preview Chart', () => {
   it('should not show kendo chart when model.ChartComponentData.length = 0', () => {
 
     instance.model = {
+      PreviewType: TilePreviewTypes.Chart,
+      ShouldLimitLegendText: false,
       ChartType: 'test',
       ChartLabel: 'test chart label',
       ChartComponentData: []};
@@ -86,6 +94,8 @@ describe('Tile Preview Chart', () => {
     const chartComponentData = [generateMockTilePreviewChartData(categoryName, 0, detailKey, detailValue)];
 
     instance.model = {
+      PreviewType: TilePreviewTypes.Chart,
+      ShouldLimitLegendText: false,
       ChartType: 'test',
       ChartLabel: 'test chart label',
       ChartComponentData: chartComponentData

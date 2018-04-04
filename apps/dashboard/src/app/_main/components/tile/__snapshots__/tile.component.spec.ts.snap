@@ -48,6 +48,10 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     
     
   
+    
+    
+    
+  
   
   </div>
   
@@ -65,7 +69,7 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     class="tile m-0 p-1 test cssClass"
     ng-reflect-klass="tile m-0 p-1"
     ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-switch="2"
+    ng-reflect-ng-switch="3"
   >
     
     
@@ -102,6 +106,10 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     
     
   
+    
+    
+    
+  
   
   </div>
   
@@ -119,7 +127,7 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
     class="tile m-0 p-1 test cssClass"
     ng-reflect-klass="tile m-0 p-1"
     ng-reflect-ng-class="test cssClass"
-    ng-reflect-ng-switch="3"
+    ng-reflect-ng-switch="4"
   >
     
     
@@ -150,6 +158,10 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
       
     
     </pf-tile-preview-list>
+    
+  
+    
+    
     
   
     
