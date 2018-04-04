@@ -7,11 +7,11 @@ import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfSecurityModule } from 'libs/security/security.module';
 import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+import { ClientSettingsEffects } from 'libs/core/effects';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './app-wrapper.component';
-import { ClientSettingsEffects } from '../../../../libs/core/effects';
 import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
