@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { HighlightTextPipe, HumanizeNumberPipe, TruncateAfterPipe } from './pipes';
-import { EffectsModule } from '@ngrx/effects';
-import { ClientSettingsEffects} from './effects';
+
 
 
 const declarations = [
@@ -11,9 +10,6 @@ const declarations = [
 ];
 
 @NgModule({
-  imports: [
-    EffectsModule.forFeature([ ClientSettingsEffects ]),
-  ],
   declarations: declarations,
   exports: declarations
 })
