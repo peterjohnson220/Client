@@ -10,7 +10,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // PF
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, ClientSettingsEffects } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
@@ -44,7 +44,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     // 3rd Party
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects, ClientSettingsEffects]),
     ChartsModule,
     DateInputsModule,
     NgbModule,
