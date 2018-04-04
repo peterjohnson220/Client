@@ -9,12 +9,12 @@ import { of } from 'rxjs/observable/of';
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
          generateMockAvailableExchangeItem } from 'libs/models';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { AccessModalComponent } from './access-modal.component';
 import spyOn = jest.spyOn;
-import { HumanizeNumberPipe } from '../../../../../../../../libs/core/pipes';
 
 describe('Peer - Exchange Request - Access Modal', () => {
   let fixture: ComponentFixture<AccessModalComponent>;
