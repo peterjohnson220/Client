@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand navbar-dark fixed-top">
   <a href="{{ homePageLink?.Url }}" class="navbar-brand mr-auto">
-    <img class="logo-style" [src]="payfactorsLogo" />
+    <img class="logo-style" [src]="getHeaderLogo(homePageLink.SystemUserGroupName)" />
   </a>
   <pf-layout-wrapper-user-menu
     [dropdownNavigationLinks]="dropdownNavigationLinks"
