@@ -18,6 +18,7 @@ import {
 } from './containers';
 import { HeaderEffects, LeftSidebarEffects } from './effects';
 import { reducers } from './reducers';
+import { PfCommonModule } from '../../core';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { reducers } from './reducers';
     EffectsModule.forFeature([ HeaderEffects, LeftSidebarEffects ]),
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfCommonModule
   ],
   declarations: [
     HeaderComponent,

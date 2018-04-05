@@ -1,6 +1,7 @@
 export interface UserContext {
   AccessLevel: string;
   CompanyId: number;
+  CompanyName: string;
   ConfigSettings: ConfigSetting[];
   EmailAddress: string;
   EmployeeAcknowledgementInfo: EmployeeAcknowledgementInfo;
@@ -33,7 +34,7 @@ interface WorkflowStepInfo {
   WorkflowId: number;
   IsResubmission: boolean;
   IsFirstStep: boolean;
-  IsFirstRecipent: boolean;
+  IsFirstRecipient: boolean;
   IsLastStep: boolean;
 }
 
@@ -41,6 +42,7 @@ export function generateMockUserContext(): UserContext {
   return {
     AccessLevel: 'Admin',
     CompanyId: 13,
+    CompanyName: 'Company Name',
     ConfigSettings: [],
     EmailAddress: 'johndoe@payfactors.com',
     EmployeeAcknowledgementInfo: null,
