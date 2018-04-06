@@ -3,11 +3,11 @@
 </button>
 <div class="chart-container" *ngIf="model.ChartComponentData && model.ChartComponentData.length > 0">
   <kendo-chart (seriesClick)="seriesClick($event)" (legendItemClick)="legendClick($event)" [transitions]="true">
-    <kendo-chart-area background="none" [height]="170"></kendo-chart-area>
+    <kendo-chart-area background="none" [height]="130"></kendo-chart-area>
     <kendo-chart-series>
       <kendo-chart-series-item [highlight]="seriesItemHighlightStyle"
                                [type]="model.ChartType" [data]="model.ChartComponentData"
-                               categoryField="CategoryName" field="CategoryValue">
+                               categoryField="CategoryName" field="CategoryValue" [padding]="0">
         <kendo-chart-series-item-tooltip>
           <ng-template let-category="category" let-value="value">
             {{category}} : {{value}}%
