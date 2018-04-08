@@ -21,7 +21,7 @@ export class GuidelinesBadgeComponent {
 
   get hasNoDominatingData(): boolean {
     return this.hasCompaniesAndLimits &&
-      !this.companies.some(c => c.Percentage >= this.guidelineLimits.DominatingPercentage);
+      !this.companies.some(c => c.Percentage > this.guidelineLimits.DominatingPercentage);
   }
 
   get dominatingCompanies(): any[] {
