@@ -40,13 +40,14 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
 
   handleBackToListNavigation(): void {
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
-    this.store.dispatch(new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(''));
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
   }
 
   handleSearchChanged(query: string): void {
-    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, { skip: 0, take: 20 }));
-    this.store.dispatch(new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(query));
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.ExchangeJobMapping,
+      {columnName: 'exchange_job_title', value: query}
+    ));
     this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
   }
 

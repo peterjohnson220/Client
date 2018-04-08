@@ -10,7 +10,6 @@ export interface State extends EntityState<ExchangeJobMapping> {
   loading: boolean;
   loadingError: boolean;
   total: number;
-  query: string;
   selectedMapping: ExchangeJobMapping;
   pageRowIndexToScrollTo: number;
 }
@@ -23,7 +22,6 @@ const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   total: 0,
-  query: '',
   selectedMapping: null,
   pageRowIndexToScrollTo: null
 });
@@ -64,12 +62,6 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
-        case fromExchangeJobMappingGridActions.UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY: {
-          return {
-            ...featureState,
-            query: featureAction.payload
-          };
-        }
         case fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING: {
           return {
             ...featureState,
@@ -99,7 +91,6 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
-export const getQuery = (state: State) => state.query;
 export const getSelectedMapping = (state: State) => state.selectedMapping;
 export const getPageRowIndexToScrollTo = (state: State) => state.pageRowIndexToScrollTo;
 

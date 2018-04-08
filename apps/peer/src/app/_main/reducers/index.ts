@@ -202,11 +202,6 @@ export const getExchangeJobMappingsGridState = createSelector(
   fromGridReducer.getGridState
 );
 
-export const getExchangeJobMappingsQuery = createSelector(
-  selectExchangeJobMappingsFeatureState,
-  fromExchangeJobMappingGridReducer.getQuery
-);
-
 export const getSelectedExchangeJobMapping = createSelector(
   selectExchangeJobMappingsFeatureState,
   fromExchangeJobMappingGridReducer.getSelectedMapping
@@ -222,14 +217,6 @@ export const getExchangeJobMappingsGridData = createSelector(
   getExchangeJobMappingsTotal,
   (data, total) => {
     return { data: data, total: total };
-  }
-);
-
-export const getExchangeJobMappingGridStateAndQuery = createSelector(
-  getExchangeJobMappingsGridState,
-  getExchangeJobMappingsQuery,
-  (gridState, query)  => {
-    return { gridState, query };
   }
 );
 

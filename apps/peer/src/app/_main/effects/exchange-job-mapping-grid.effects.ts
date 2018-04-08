@@ -23,7 +23,7 @@ export class ExchangeJobMappingGridEffects {
     .ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS)
     .map((action: fromExchangeJobMappingGridActions.LoadExchangeJobMappings) => action.payload)
     .switchMap(payload =>
-      this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.query, payload.listState)
+      this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.listState)
         .map((gridDataResult: GridDataResult) => {
           return new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsSuccess(gridDataResult);
         })
@@ -35,7 +35,7 @@ export class ExchangeJobMappingGridEffects {
     .ofType(fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_AFTER_MAP)
     .map((action: fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap) => action.payload)
     .switchMap(payload =>
-      this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.query, payload.listState)
+      this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.listState)
         .mergeMap((gridDataResult: GridDataResult) => {
           return [
             new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsSuccess(gridDataResult),

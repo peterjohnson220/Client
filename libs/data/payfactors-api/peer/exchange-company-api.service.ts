@@ -26,10 +26,10 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getExchangeJobsWithMappings(exchangeId: number, query: string, listState: any): Observable<GridDataResult> {
+  getExchangeJobsWithMappings(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,
-      { params: { exchangeId, query, listState: JSON.stringify(listState) } },
+      { params: { exchangeId, listState: JSON.stringify(listState) } },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }

@@ -6,7 +6,6 @@ import { ExchangeJobMapping } from 'libs/models/peer';
 export const LOAD_EXCHANGE_JOB_MAPPINGS  = '[Peer Main/Exchange Job Mapping] Load Exchange Job Mappings';
 export const LOAD_EXCHANGE_JOB_MAPPINGS_SUCCESS  = '[Peer Main/Exchange Job Mapping] Load Exchange Job Mappings Success';
 export const LOAD_EXCHANGE_JOB_MAPPINGS_ERROR = '[Peer Main/Exchange Job Mapping] Load Exchange Job Mappings Error';
-export const UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY = '[Peer Main/Exchange Job Mapping] Update Exchange Job Mappings Query';
 export const SELECT_EXCHANGE_JOB_MAPPING = '[Peer Main/Exchange Job Mapping] Select Exchange Job Mapping';
 export const RESELECT_EXCHANGE_JOB_MAPPING = '[Peer Main/Exchange Job Mapping] ReSelect Exchange Job Mapping';
 export const UPDATE_PAGE_ROW_INDEX_TO_SCROLL_TO = '[Peer Main/Exchange Job Mapping] Update Page Row Index To Scroll To';
@@ -26,12 +25,6 @@ export class LoadExchangeJobMappingsSuccess implements Action {
 
 export class LoadExchangeJobMappingsError implements Action {
   readonly type = LOAD_EXCHANGE_JOB_MAPPINGS_ERROR;
-}
-
-export class UpdateExchangeJobMappingsQuery implements Action {
-  readonly type = UPDATE_EXCHANGE_JOB_MAPPINGS_QUERY;
-
-  constructor(public payload: string) {}
 }
 
 export class SelectExchangeJobMapping implements Action {
@@ -60,7 +53,6 @@ export type Actions
   = LoadExchangeJobMappings
   | LoadExchangeJobMappingsSuccess
   | LoadExchangeJobMappingsError
-  | UpdateExchangeJobMappingsQuery
   | SelectExchangeJobMapping
   | UpdatePageRowIndexToScrollTo
   | ReSelectExchangeJobMapping
