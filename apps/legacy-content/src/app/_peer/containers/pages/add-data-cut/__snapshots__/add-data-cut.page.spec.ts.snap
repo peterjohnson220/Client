@@ -56,7 +56,10 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
         >
           
           
-          <pf-guidelines-badge />
+          <pf-guidelines-badge>
+            
+          
+          </pf-guidelines-badge>
           
   
           
@@ -157,7 +160,10 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
         >
           
           
-          <pf-guidelines-badge />
+          <pf-guidelines-badge>
+            
+          
+          </pf-guidelines-badge>
           
   
           
