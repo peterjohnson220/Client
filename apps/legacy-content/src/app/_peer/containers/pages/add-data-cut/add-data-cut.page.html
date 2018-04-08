@@ -15,7 +15,9 @@
         <pf-peer-data-cut-map></pf-peer-data-cut-map>
       </div>
       <div class="button-container d-flex justify-content-between">
-        <pf-guidelines-badge [companies]="(peerMapSummary$ | async)?.OverallMapStats.Companies"></pf-guidelines-badge>
+        <pf-guidelines-badge [companies]="(peerMapSummary$ | async)?.OverallMapStats.Companies"
+                             [guidelineLimits]="guidelineLimits">
+        </pf-guidelines-badge>
 
         <div class="buttons">
           <button type="button" class="btn btn-primary"

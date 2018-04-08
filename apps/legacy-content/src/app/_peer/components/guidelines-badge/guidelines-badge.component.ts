@@ -15,21 +15,28 @@ export class GuidelinesBadgeComponent {
   @Input() guidelineLimits: GuidelineLimits;
 
   get hasMinimumCompanies(): boolean {
-    return this.companies && this.companies.length >= this.guidelineLimits.MinCompanies;
+    return this.hasCompaniesAndLimits &&
+      this.companies.length >= this.guidelineLimits.MinCompanies;
   }
 
   get hasNoDominatingData(): boolean {
-    return this.companies && !this.companies.some(c => c.Percentage >= this.guidelineLimits.DominatingPercentage);
+    return this.hasCompaniesAndLimits &&
+      !this.companies.some(c => c.Percentage >= this.guidelineLimits.DominatingPercentage);
   }
 
-  get dominatingCompanies(): any {
-    return this.companies && this.companies.filter(c => c.Percentage >= this.guidelineLimits.DominatingPercentage).map(c => {
-      return {
-        Company: c.Company,
-        Percentage: +(c.Percentage * 100).toFixed(2)
-      };
-    }
-   );
+  get dominatingCompanies(): any[] {
+    return this.hasCompaniesAndLimits &&
+      this.companies.filter(c => c.Percentage >= this.guidelineLimits.DominatingPercentage).map(c => {
+        return {
+          Company: c.Company,
+          Percentage: +(c.Percentage * 100).toFixed(2)
+        };
+      }
+    );
+  }
+
+  get hasCompaniesAndLimits(): boolean {
+    return this.companies && !!this.guidelineLimits;
   }
 
   constructor() { }
