@@ -11,6 +11,7 @@ import { LeftSidebarComponent } from './left-sidebar.component';
 import * as fromRootState from '../../../../state/state';
 import * as fromLayoutReducer from '../../reducers';
 import * as fromLeftSidebarActions from '../../actions/left-sidebar.actions';
+import { TruncateAfterPipe } from '../../../../core/pipes';
 
 describe('Left Sidebar', () => {
   let fixture: ComponentFixture<LeftSidebarComponent>;
@@ -27,6 +28,7 @@ describe('Left Sidebar', () => {
     ],
     declarations: [
       LeftSidebarComponent,
+      TruncateAfterPipe
     ],
     // Shallow Testing
     schemas: [ NO_ERRORS_SCHEMA ]

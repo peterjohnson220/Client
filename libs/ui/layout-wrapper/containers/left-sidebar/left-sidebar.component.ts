@@ -29,6 +29,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;
   userId: number;
+  companyName: string;
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -44,6 +45,7 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
         this.userId = userContext.UserId;
+        this.companyName = userContext.CompanyName;
       }
     );
   }
