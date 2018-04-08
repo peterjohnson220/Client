@@ -26,7 +26,7 @@ export class GuidelinesBadgeComponent {
 
   get dominatingCompanies(): any[] {
     return this.hasCompaniesAndLimits &&
-      this.companies.filter(c => c.Percentage >= this.guidelineLimits.DominatingPercentage).map(c => {
+      this.companies.filter(c => c.Percentage > this.guidelineLimits.DominatingPercentage).map(c => {
         return {
           Company: c.Company,
           Percentage: +(c.Percentage * 100).toFixed(2)
