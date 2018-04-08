@@ -4,9 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import * as fromPeerDataReducers from '../../../reducers';
+import { ExchangeMapSummary } from 'libs/models/peer';
+
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
-import * as fromPeerMapActions from '../../../actions/map.actions';
+import { GuidelineLimits } from '../../../models';
+import * as fromPeerDataReducers from '../../../reducers';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -17,12 +19,16 @@ export class AddDataCutPageComponent implements OnInit {
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
+  readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
+
   addingDataCut$: Observable<boolean>;
   addingDataCutError$: Observable<boolean>;
+  peerMapSummary$: Observable<ExchangeMapSummary>;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.addingDataCut$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCut);
     this.addingDataCutError$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCutError);
+    this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
   }
 
   add() {

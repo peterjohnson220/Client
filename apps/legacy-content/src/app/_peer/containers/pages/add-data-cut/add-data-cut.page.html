@@ -14,9 +14,14 @@
       <div class="map-container flex-grow-1">
         <pf-peer-data-cut-map></pf-peer-data-cut-map>
       </div>
-      <div class="button-container d-flex justify-content-end">
+      <div class="button-container d-flex justify-content-between">
+        <pf-guidelines-badge [companies]="(peerMapSummary$ | async)?.OverallMapStats.Companies"></pf-guidelines-badge>
+
         <div class="buttons">
-          <button type="button" class="btn btn-primary" (click)="add()">Add</button>
+          <button type="button" class="btn btn-primary"
+                  [disabled]="(peerMapSummary$ | async)?.OverallMapStats.Companies.length < guidelineLimits.MinCompanies"
+                  (click)="add()">Add</button>
+
           <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
         </div>
       </div>
