@@ -1,11 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import spyOn = jest.spyOn;
+import { generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 
 import { GuidelinesBadgeComponent } from './guidelines-badge.component';
-import { generateMockExchangeStatCompanyMakeup } from '../../../../../../../libs/models/peer';
-import { By } from '@angular/platform-browser';
 
 describe('Legacy Content - Peer - Guidelines Badge Component', () => {
   let fixture: ComponentFixture<GuidelinesBadgeComponent>;
@@ -23,6 +21,8 @@ describe('Legacy Content - Peer - Guidelines Badge Component', () => {
 
     fixture = TestBed.createComponent(GuidelinesBadgeComponent);
     instance = fixture.componentInstance;
+
+    instance.guidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
   });
 
   it('should return false for hasMinimumCompanies when receiving less than the minCompanies', () => {

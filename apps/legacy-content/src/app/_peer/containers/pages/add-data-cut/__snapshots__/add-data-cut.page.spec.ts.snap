@@ -6,6 +6,8 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   addingDataCutError$={[Function Store]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
+  guidelineLimits={[Function Object]}
+  peerMapSummary$={[Function Store]}
   route={[Function ActivatedRouteStub]}
   store={[Function Store]}
   userSessionId={[Function Number]}
@@ -50,9 +52,13 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
         
         
         <div
-          class="button-container d-flex justify-content-end"
+          class="button-container d-flex justify-content-between"
         >
           
+          
+          <pf-guidelines-badge />
+          
+  
           
           <div
             class="buttons"
@@ -61,11 +67,13 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
             
             <button
               class="btn btn-primary"
+              disabled=""
               type="button"
             >
               Add
             </button>
             
+  
             
             <button
               class="btn btn-secondary"
