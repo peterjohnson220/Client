@@ -20,8 +20,8 @@ export class HeaderComponent {
 
   constructor() {}
 
-  getHeaderLogo(systemUserGroupName: string){
-      if (systemUserGroupName === 'HealthcareSource'){
+  getHeaderLogo(systemUserGroupName: string) {
+      if (systemUserGroupName === 'HealthcareSource') {
         return this.hcsLogo;
       }
       return this.payfactorsLogo;
