@@ -6,6 +6,7 @@ import {
   generateMockChartTile, generateMockIconTile, generateMockListTile, generateMockIconTileWithPayload,
   generateTilePreviewIconFromTile
 } from '../../models';
+import { StringReplacePipe } from 'libs/core/pipes';
 
 describe('Tile', () => {
   let fixture: ComponentFixture<TileComponent>;
@@ -15,7 +16,8 @@ describe('Tile', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TileComponent
+        TileComponent,
+        StringReplacePipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
