@@ -30,7 +30,7 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
@@ -101,7 +101,7 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
@@ -172,7 +172,7 @@ exports[`Layout Wrapper should transclude 1`] = `
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
