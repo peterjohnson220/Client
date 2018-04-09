@@ -1,0 +1,63 @@
+<ng-template #statusIndicator let-passing="passing">
+  <span class="mr-1">
+    <span *ngIf="!passing"><i class="fas fa-times-circle"></i></span>
+    <span *ngIf="passing"><i class="fas fa-check-circle"></i></span>
+  </span>
+</ng-template>
+
+<ng-template #popContent>
+
+  <div class="guideline-container">
+
+    <div class="guideline">
+
+      <div class="guideline-status" [class.passing]="hasMinimumCompanies">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: hasMinimumCompanies }"></ng-container>
+        At Least 5 Companies
+      </div>
+
+      <small class="guideline-description text-muted">The results should not contain less than 5 companies</small>
+
+      <small *ngIf="!hasMinimumCompanies" class="guideline-fail-detail">
+        <div class="d-flex justify-content-between">
+          <span>Companies:</span>
+          <span>{{companies?.length}}</span>
+        </div>
+      </small>
+
+    </div>
+
+    <div class="guideline">
+
+      <div class="guideline-status" [class.passing]="hasNoDominatingData">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: hasNoDominatingData }"></ng-container>
+        Data Dominance
+      </div>
+
+      <small class="guideline-description text-muted">The results should not contain a company that makes up more than 25% of the overall data cut</small>
+
+      <small *ngIf="!hasNoDominatingData" class="guideline-fail-detail">
+
+        <div *ngFor="let c of dominatingCompanies">
+          <div class="d-flex justify-content-between">
+            <span>{{c.Company}}</span>
+            <span>{{c.Percentage}}%</span>
+          </div>
+        </div>
+
+      </small>
+    </div>
+  </div>
+
+</ng-template>
+
+<div class="guidelines-label"
+     [class.passing]="hasNoDominatingData && hasMinimumCompanies"
+     [ngbPopover]="popContent"
+     triggers="mouseenter:mouseleave"
+     popoverTitle="DOJ Guidelines">
+
+  <span *ngIf="!hasNoDominatingData || !hasMinimumCompanies"><i class="fas fa-exclamation-circle"></i></span>
+  <span *ngIf="hasNoDominatingData && hasMinimumCompanies"><i class="fas fa-badge-check"></i></span>
+
+</div>

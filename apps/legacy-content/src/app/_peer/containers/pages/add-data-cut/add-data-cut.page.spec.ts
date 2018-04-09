@@ -7,8 +7,10 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 
 import * as fromAddDataCutActions from '../../../actions/add-data-cut-page.actions';
+import * as fromPeerMapActions from '../../../actions/map.actions';
 import * as fromPeerDataReducer from '../../../reducers';
 import { AddDataCutPageComponent } from './add-data-cut.page';
 
@@ -77,5 +79,19 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
     instance.cancel();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should enable the add button when the map data contains more than the MinCompanies', () => {
+    const mapResponse = generateMockExchangeMapResponse();
+
+    mapResponse.MapSummary.OverallMapStats.Companies =
+      Array(instance.guidelineLimits.MinCompanies)
+      .fill(generateMockExchangeStatCompanyMakeup());
+
+    store.dispatch(new fromPeerMapActions.LoadingPeerMapSuccess(mapResponse));
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

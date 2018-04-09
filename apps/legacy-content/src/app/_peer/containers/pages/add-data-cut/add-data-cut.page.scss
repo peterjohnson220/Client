@@ -1,5 +1,7 @@
+@import 'app-colors';
+
 .button-container {
-  padding: .85rem .5rem .5rem .5rem;
+  padding: .85rem .5rem 0 .5rem;
 }
 
 .map-container {
@@ -11,8 +13,8 @@
 }
 
 .btn-primary {
-  background-color: #339900;
-  border-color: #339900;
+  background-color: $legacy-green;
+  border-color: $legacy-green;
 }
 
 .btn-secondary {

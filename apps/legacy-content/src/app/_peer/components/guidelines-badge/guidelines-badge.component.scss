@@ -1,0 +1,73 @@
+@import '~bootstrap/scss/_functions.scss';
+@import '~bootstrap/scss/_variables.scss';
+@import 'app-colors';
+
+$warning-with-alpha: rgba($warning, .2);
+$legacy-green-with-alpha: rgba($legacy-green, .2);
+
+.guidelines-label {
+  border-radius: 3px;
+  padding: .3rem .55rem;
+  cursor: pointer;
+  background-color: $warning-with-alpha;
+  margin-right: .5rem;
+  font-size: 16px;
+  border: 1px solid $warning-with-alpha;
+  display: inline;
+}
+
+.guideline-container {
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.guideline {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .75rem;
+}
+
+.guideline:last-of-type {
+  border-top: 1px solid #DDDDDD;
+  padding-top: .65rem;
+}
+
+.guideline-description {
+  margin-top: 3px;
+  margin-left: 18px;
+}
+
+.guideline-fail-detail{
+  padding: .75rem;
+  background-color: #f7f7f7;
+  margin-top: .75rem;
+  margin-left: 18px;
+}
+
+.fa-times-circle {
+  color: $danger;
+}
+
+.fa-check-circle, .fa-badge-check{
+  color: $legacy-green;
+}
+
+.fa-exclamation-circle {
+  color: darken($warning, 2%);
+}
+
+.guidelines-label.passing {
+  background-color: $legacy-green-with-alpha;
+  border: 1px solid $legacy-green-with-alpha;
+}
+
+//Popover Overrides (Need to use important here since positioning styles get applied on the element dynamically)
+:host ::ng-deep .popover {
+  max-width: 235px;
+  left: 276px !important;
+}
+
+:host ::ng-deep .arrow {
+  left: 18px !important;
+}
