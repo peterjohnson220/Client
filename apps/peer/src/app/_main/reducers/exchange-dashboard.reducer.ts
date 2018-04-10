@@ -1,8 +1,14 @@
-import { ChartItem, ExchangeCompany } from 'libs/models';
+import { ChartItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 
 export interface State {
+  loadingCompanyChart: boolean;
+  loadingCompanyChartError: boolean;
+  companyChartItems: ChartItem[];
+  loadingJobChart: boolean;
+  loadingJobChartError: boolean;
+  jobChartItems: ChartItem[];
   loadingIndustryChart: boolean;
   loadingIndustryChartError: boolean;
   industryChartItems: ChartItem[];
@@ -22,6 +28,12 @@ export interface State {
 
 // Initial State
 export const initialState: State = {
+  loadingCompanyChart: false,
+  loadingCompanyChartError: false,
+  companyChartItems: null,
+  loadingJobChart: false,
+  loadingJobChartError: false,
+  jobChartItems: null,
   loadingIndustryChart: false,
   loadingIndustryChartError: false,
   industryChartItems: null,
@@ -45,6 +57,52 @@ export function reducer(
   action: fromExchangeDashboardActions.Actions
 ): State {
   switch (action.type) {
+    case fromExchangeDashboardActions.LOADING_COMPANY_CHART: {
+      return {
+        ...state,
+        companyChartItems: null,
+        loadingCompanyChart: true,
+        loadingCompanyChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOADING_COMPANY_CHART_SUCCESS: {
+      return {
+        ...state,
+        companyChartItems: action.payload,
+        loadingCompanyChart: false,
+        loadingCompanyChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOADING_COMPANY_CHART_ERROR: {
+      return {
+        ...state,
+        loadingCompanyChart: false,
+        loadingCompanyChartError: true
+      };
+    }
+    case fromExchangeDashboardActions.LOADING_JOB_CHART: {
+      return {
+        ...state,
+        jobChartItems: null,
+        loadingJobChart: true,
+        loadingJobChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOADING_JOB_CHART_SUCCESS: {
+      return {
+        ...state,
+        jobChartItems: action.payload,
+        loadingJobChart: false,
+        loadingJobChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOADING_JOB_CHART_ERROR: {
+      return {
+        ...state,
+        loadingJobChart: false,
+        loadingJobChartError: true
+      };
+    }
     case fromExchangeDashboardActions.LOADING_INDUSTRY_CHART: {
       return {
         ...state,
@@ -156,6 +214,12 @@ export function reducer(
 }
 
 // Selector Functions
+export const getCompanyChartItems = (state: State) => state.companyChartItems;
+export const getLoadingCompanyChart = (state: State) => state.loadingCompanyChart;
+export const getLoadingCompanyChartError = (state: State) => state.loadingCompanyChartError;
+export const getJobChartItems = (state: State) => state.jobChartItems;
+export const getLoadingJobChart = (state: State) => state.loadingJobChart;
+export const getLoadingJobChartError = (state: State) => state.loadingJobChartError;
 export const getIndustryChartItems = (state: State) => state.industryChartItems;
 export const getLoadingIndustryChart = (state: State) => state.loadingIndustryChart;
 export const getLoadingIndustryChartError = (state: State) => state.loadingIndustryChartError;

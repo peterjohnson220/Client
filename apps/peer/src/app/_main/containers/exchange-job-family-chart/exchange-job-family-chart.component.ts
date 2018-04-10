@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'hammerjs'; // Required for chart methods like seriesClick.
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Exchange, GetChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
+import { Exchange, GetChartRequest, GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardReducer from '../../reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -48,7 +48,7 @@ export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
   }
 
   seriesClick(e): void {
-    const getDetailChartRequest: GetChartRequest = {
+    const getDetailChartRequest: GetDetailChartRequest = {
       ExchangeId: this.exchangeId,
       ChartType: ExchangeChartTypeEnum.Family,
       Category: e.category

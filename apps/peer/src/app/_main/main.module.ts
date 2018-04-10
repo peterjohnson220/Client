@@ -19,7 +19,8 @@ import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
          ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
          ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
          AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
-         ExchangeRevenueChartComponent, ChartDetailComponent } from './containers';
+         ExchangeRevenueChartComponent, ChartDetailComponent, ExchangeCompanyCountComponent,
+         ExchangeJobCountComponent } from './containers';
 import { ExchangeListEffects, ExchangeJobMappingGridEffects,
          ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
@@ -61,7 +62,8 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
     // Components
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
     ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
-    ExchangeRevenueChartComponent, ChartDetailComponent,
+    ExchangeRevenueChartComponent, ChartDetailComponent, ExchangeCompanyCountComponent,
+    ExchangeJobCountComponent,
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
@@ -77,11 +79,3 @@ import { PayfactorsCompanyExchangeRequestEffects } from './effects/exchange-requ
   ]
 })
 export class MainModule { }
-
-
-
-
-
-
-
-

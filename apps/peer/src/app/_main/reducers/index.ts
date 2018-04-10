@@ -98,6 +98,30 @@ export const getExchangeLoadingError = createSelector(
 );
 
 // Exchange Dashboard Selectors
+export const getExchangeDashboardCompanyChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getCompanyChartItems
+);
+export const getExchangeDashboardLoadingCompanyChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingCompanyChart
+);
+export const getExchangeDashboardLoadingCompanyChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingCompanyChartError
+);
+export const getExchangeDashboardJobChartItems = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getJobChartItems
+);
+export const getExchangeDashboardLoadingJobChart = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingJobChart
+);
+export const getExchangeDashboardLoadingJobChartError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingJobChartError
+);
 export const getExchangeDashboardIndustryChartItems = createSelector(
   selectExchangeDashboardState,
   fromExchangeDashboardReducer.getIndustryChartItems
