@@ -27,7 +27,7 @@
   <div class="aggregate-container" [class.show-all]="showAllAggregates">
     <ng-container *ngIf="filterAggregates.length; else noAggregateItems">
       <pf-filter-aggregate
-        *ngFor="let filterAggregate of filterAggregates"
+        *ngFor="let filterAggregate of filterAggregates;trackBy: trackById"
         [aggregate]="filterAggregate"
         (aggregateSelected)="handleAggregateSelected($event)">
       </pf-filter-aggregate>
