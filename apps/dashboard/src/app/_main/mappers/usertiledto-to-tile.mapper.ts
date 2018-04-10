@@ -34,6 +34,8 @@ export class UserTileToTileMapper {
         return TileTypes.MyJobs;
       case 'Pay Markets':
         return TileTypes.PayMarkets;
+      case 'Peer':
+        return TileTypes.Peer;
       case 'Pricing Projects':
         return TileTypes.PricingProjects;
       case 'Resources':
@@ -120,6 +122,10 @@ export class UserTileToTileMapper {
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'fas fa-home';
+        break;
+
+      case TileTypes.Peer:
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.PricingProjects:

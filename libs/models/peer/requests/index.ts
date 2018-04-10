@@ -3,6 +3,7 @@ export * from './add-exchange-companies-request.model';
 export * from './add-exchange-jobs-request.model';
 export * from './exchange-jobs-validation-result.model';
 export * from './get-chart-request.model';
+export * from './get-detail-chart-request.model';
 export * from './import-exchange-jobs.request';
 export * from './exchange-job-pay-market-request.model';
 export * from './upsert-exchange-job-map.request.model';

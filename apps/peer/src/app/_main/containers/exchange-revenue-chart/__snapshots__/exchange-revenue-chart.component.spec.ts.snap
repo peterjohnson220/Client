@@ -11,85 +11,54 @@ exports[`Peer Dashboard - Revenue Chart should show the revenue chart and title 
   router={[Function Object]}
   store={[Function Store]}
 >
-  <div
-    class="card d-flex flex-column align-items-stretch"
-  >
+  <pf-async-container>
     
+  
     
-    <div
-      class="card-body"
-    >
+    <kendo-chart>
       
-  
       
-      <pf-async-container>
+      <kendo-chart-legend
+        position="bottom"
+      />
+      
+      
+      <kendo-chart-area
+        background="none"
+        height="250"
+      />
+      
+      
+      <kendo-chart-tooltip>
         
-  
         
-        <div
-          class="d-flex flex-column align-items-center p-2"
+        
+        
+      
+      </kendo-chart-tooltip>
+      
+      
+      <kendo-chart-series>
+        
+        
+        <kendo-chart-series-item
+          categoryfield="Category"
+          field="Value"
+          type="donut"
         >
           
-          
-          <h4>
-            Revenue Size
-          </h4>
-          
         
-        </div>
+        </kendo-chart-series-item>
         
-  
-        
-        <kendo-chart>
-          
-          
-          <kendo-chart-legend
-            position="bottom"
-          />
-          
-          
-          <kendo-chart-area
-            background="none"
-          />
-          
-          
-          <kendo-chart-tooltip>
-            
-            
-            
-            
-          
-          </kendo-chart-tooltip>
-          
-          
-          <kendo-chart-series>
-            
-            
-            <kendo-chart-series-item
-              categoryfield="Category"
-              field="Value"
-              type="donut"
-            >
-              
-            
-            </kendo-chart-series-item>
-            
-          
-          </kendo-chart-series>
-          
-        
-        </kendo-chart>
-        
-  
       
-      </pf-async-container>
+      </kendo-chart-series>
       
-  
     
-    </div>
+    </kendo-chart>
     
   
-  </div>
+  
+  </pf-async-container>
   
 </pf-exchange-revenue-chart>
 `;
