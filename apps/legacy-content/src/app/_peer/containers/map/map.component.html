@@ -18,8 +18,7 @@
   <!--Data Source-->
   <mgl-geojson-source
     [id]="'incumbents'"
-    [data]="peerMapCollection$ | async"
-  >
+    [data]="peerMapCollection$ | async">
   </mgl-geojson-source>
 
   <!--Selected Point Info-->
@@ -31,7 +30,7 @@
   >
     <div class="point-information">
       <div class="point-information-header">
-        <strong>{{pointCompanies.length}}</strong> Orgs with
+        <strong>{{selectedPoint.properties.CompanyCount}}</strong> Orgs with
         <strong>{{selectedPoint.properties.SalaryCount}}</strong> Incs in this area
       </div>
 
@@ -49,9 +48,9 @@
     </div>
   </mgl-popup>
 
-  <!--Cluster Circle Layer-->
+  <!--Multiple Company OR Multiple LatLon Circle Layer-->
   <mgl-layer
-    id="cluster-circle-layer"
+    id="multiple-company-latlon-layer"
     type="circle"
     source="incumbents"
     (click)="handleLayerClusteredClickEvent($event)"
@@ -60,49 +59,23 @@
     (mouseLeave)="cursorStyle = ''; selectedPoint = null"
     [paint]="{
         'circle-color': '#3f8845',
-        'circle-radius': 10,
+        'circle-radius': [
+                'interpolate', ['linear'], ['zoom'],
+                4,
+                13,
+                9,
+                8
+              ],
         'circle-stroke-width': 1,
         'circle-stroke-color': '#ffffff'
       }"
-    [filter]="['>', 'LatLonCount', 1]"
+    [filter]="['any', ['>', 'CompanyCount', 1], ['>', 'LatLonCount', 1]]"
   >
   </mgl-layer>
 
-  <!--Cluster Circle Blur Layer-->
+  <!--Single Company/LatLon Layer-->
   <mgl-layer
-    id="cluster-circle-blur-layer"
-    type="circle"
-    source="incumbents"
-    [paint]="{
-        'circle-color': '#3f8845',
-        'circle-radius': 15,
-        'circle-opacity': 0.43,
-        'circle-blur': 0.25
-      }"
-    [filter]="['>', 'LatLonCount', 1]"
-  >
-  </mgl-layer>
-
-  <!--Cluster Count Layer-->
-  <mgl-layer
-    id="cluster-count-layer"
-    type="symbol"
-    source="incumbents"
-    [layout]="{
-        'text-field': '{LatLonCount}',
-        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-        'text-size': 10
-      }"
-    [paint]="{
-      'text-color': '#ffffff'
-    }"
-    [filter]="['>', 'LatLonCount', 1]"
-  >
-  </mgl-layer>
-
-  <!--Single Point Layer-->
-  <mgl-layer
-    id="single-point-layer"
+    id="single-company-latlon-layer"
     type="circle"
     source="incumbents"
     (click)="handleLayerClusteredClickEvent($event)"
@@ -115,7 +88,24 @@
         'circle-stroke-width': 1,
         'circle-stroke-color': '#ffffff'
       }"
-    [filter]="['==', 'LatLonCount', 1]"
+    [filter]="['all', ['==', 'CompanyCount', 1], ['==', 'LatLonCount', 1]]"
+  >
+  </mgl-layer>
+
+  <!--Multiple Company OR Multiple LatLon Count Layer-->
+  <mgl-layer
+    id="cluster-count-layer"
+    type="symbol"
+    source="incumbents"
+    [layout]="{
+        'text-field': '{CompanyCount}',
+        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+        'text-size': 10
+      }"
+    [paint]="{
+      'text-color': '#ffffff'
+    }"
+    [filter]="['any', ['>', 'CompanyCount', 1], ['>', 'LatLonCount', 1]]"
   >
   </mgl-layer>
 
