@@ -7,6 +7,7 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   guidelineLimits={[Function Object]}
+  initialMapMoveComplete$={[Function Store]}
   peerMapSummary$={[Function Store]}
   route={[Function ActivatedRouteStub]}
   store={[Function Store]}
@@ -52,14 +53,11 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
         
         
         <div
-          class="button-container d-flex justify-content-between"
+          class="button-container d-flex justify-content-end align-items-center"
         >
           
           
-          <pf-guidelines-badge>
-            
           
-          </pf-guidelines-badge>
           
   
           
@@ -111,6 +109,7 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   guidelineLimits={[Function Object]}
+  initialMapMoveComplete$={[Function Store]}
   peerMapSummary$={[Function Store]}
   route={[Function ActivatedRouteStub]}
   store={[Function Store]}
@@ -156,14 +155,11 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
         
         
         <div
-          class="button-container d-flex justify-content-between"
+          class="button-container d-flex justify-content-end align-items-center"
         >
           
           
-          <pf-guidelines-badge>
-            
           
-          </pf-guidelines-badge>
           
   
           
