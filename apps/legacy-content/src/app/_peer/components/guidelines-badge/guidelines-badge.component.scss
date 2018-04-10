@@ -3,7 +3,7 @@
 @import 'app-colors';
 
 $warning-with-alpha: rgba($warning, .2);
-$legacy-green-with-alpha: rgba($legacy-green, .2);
+$danger-with-alpha: rgba($danger, .2);
 
 .guidelines-label {
   border-radius: 3px;
@@ -13,7 +13,7 @@ $legacy-green-with-alpha: rgba($legacy-green, .2);
   margin-right: .5rem;
   font-size: 16px;
   border: 1px solid $warning-with-alpha;
-  display: inline;
+  height: 31px;
 }
 
 .guideline-container {
@@ -57,17 +57,22 @@ $legacy-green-with-alpha: rgba($legacy-green, .2);
   color: darken($warning, 2%);
 }
 
-.guidelines-label.passing {
-  background-color: $legacy-green-with-alpha;
-  border: 1px solid $legacy-green-with-alpha;
+.failing .fa-exclamation-circle {
+  color: darken($danger, 2%);
+}
+
+.guidelines-label.failing {
+  background-color: $danger-with-alpha;
+  border: 1px solid $danger-with-alpha;
 }
 
 //Popover Overrides (Need to use important here since positioning styles get applied on the element dynamically)
 :host ::ng-deep .popover {
   max-width: 235px;
-  left: 276px !important;
+  left: initial !important;
+  right: 24px;
 }
 
 :host ::ng-deep .arrow {
-  left: 18px !important;
+  right: 115px !important;
 }

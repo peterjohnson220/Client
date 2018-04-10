@@ -51,13 +51,14 @@
 
 </ng-template>
 
-<div class="guidelines-label"
-     [class.passing]="hasNoDominatingData && hasMinimumCompanies"
+<div *ngIf="!hasMinimumCompanies || !hasNoDominatingData"
+     [class.failing]="!hasMinimumCompanies"
      [ngbPopover]="popContent"
+     class="guidelines-label"
      triggers="mouseenter:mouseleave"
-     popoverTitle="DOJ Guidelines">
+     popoverTitle="Guidelines">
 
-  <span *ngIf="!hasNoDominatingData || !hasMinimumCompanies"><i class="fas fa-exclamation-circle"></i></span>
-  <span *ngIf="hasNoDominatingData && hasMinimumCompanies"><i class="fas fa-badge-check"></i></span>
+  <span *ngIf="!hasMinimumCompanies"><i class="fas fa-exclamation-circle"></i></span>
+  <span *ngIf="hasMinimumCompanies && !hasNoDominatingData"><i class="fas fa-exclamation-circle"></i></span>
 
 </div>

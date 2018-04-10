@@ -24,11 +24,13 @@ export class AddDataCutPageComponent implements OnInit {
   addingDataCut$: Observable<boolean>;
   addingDataCutError$: Observable<boolean>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
+  initialMapMoveComplete$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
     this.addingDataCut$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCut);
     this.addingDataCutError$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCutError);
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
+    this.initialMapMoveComplete$ = this.store.select(fromPeerDataReducers.getPeerMapInitialMapMoveComplete);
   }
 
   add() {
