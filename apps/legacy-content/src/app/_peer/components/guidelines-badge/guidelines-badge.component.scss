@@ -6,13 +6,10 @@ $warning-with-alpha: rgba($warning, .2);
 $danger-with-alpha: rgba($danger, .2);
 
 .guidelines-label {
-  border-radius: 3px;
   padding: .3rem .55rem;
   cursor: pointer;
-  background-color: $warning-with-alpha;
-  margin-right: .5rem;
+  margin-right: .2rem;
   font-size: 16px;
-  border: 1px solid $warning-with-alpha;
   height: 31px;
 }
 
@@ -59,11 +56,6 @@ $danger-with-alpha: rgba($danger, .2);
 
 .failing .fa-exclamation-circle {
   color: darken($danger, 2%);
-}
-
-.guidelines-label.failing {
-  background-color: $danger-with-alpha;
-  border: 1px solid $danger-with-alpha;
 }
 
 //Popover Overrides (Need to use important here since positioning styles get applied on the element dynamically)
