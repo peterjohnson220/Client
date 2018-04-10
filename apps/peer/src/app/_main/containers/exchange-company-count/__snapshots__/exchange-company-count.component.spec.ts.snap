@@ -17,7 +17,7 @@ exports[`Peer Dashboard - Exchange Job Count should display the company count 1`
     class="company-count"
   >
     
-    0.25
+    10
   
   </h1>
   <h3>

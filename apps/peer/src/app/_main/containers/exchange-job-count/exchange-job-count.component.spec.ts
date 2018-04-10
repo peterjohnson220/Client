@@ -56,7 +56,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
 
   it('should display the job count', () => {
     instance.exchange$ = of(generateMockExchange());
-    instance.chartItem = generateMockChartItem();
+    instance.chartItem = { ...generateMockChartItem(), Value: 10 };
 
     fixture.detectChanges();
 

@@ -64,7 +64,3 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
     this.companyChartItemsSubscription.unsubscribe();
   }
 }
-
-
-
-
