@@ -84,9 +84,7 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
   it('should enable the add button when the map data contains more than the MinCompanies', () => {
     const mapResponse = generateMockExchangeMapResponse();
 
-    mapResponse.MapSummary.OverallMapStats.Companies =
-      Array(instance.guidelineLimits.MinCompanies)
-      .fill(generateMockExchangeStatCompanyMakeup());
+    mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
     store.dispatch(new fromPeerMapActions.LoadingPeerMapSuccess(mapResponse));
 
