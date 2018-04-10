@@ -64,8 +64,9 @@ export function reducer(state, action) {
               CompanyJobDescription: d.company_job_mappings ? d.company_job_mappings.company_job_description : null,
               ExchangeJobDescription: d.exchange_job_description,
               Mapped: d.company_job_mappings ? d.company_job_mappings.mapped : null,
-              // TODO: We are going to need ExchangeJobToCompanyJobId in the index
-              ExchangeJobToCompanyJobId: 345
+              ExchangeJobToCompanyJobId: d.company_job_mappings ?
+                d.company_job_mappings.exchange_job_to_company_job_id : null,
+              PendingRequest: d.pending_request
             };
           });
           return {
