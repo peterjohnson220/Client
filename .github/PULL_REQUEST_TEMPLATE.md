@@ -13,7 +13,4 @@
 #### Is a new `npm install` needed?
 
 
-#### Tag reviewers for this PR
-
-
 #### Additional Notes:
