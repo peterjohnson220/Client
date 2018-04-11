@@ -46,7 +46,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
   handleSearchChanged(query: string): void {
     this.store.dispatch(new fromGridActions.UpdateFilter(
       GridTypeEnum.ExchangeJobMapping,
-      {columnName: 'exchange_job_title', value: query}
+      {columnName: 'ExchangeJobTitle', value: query}
     ));
     this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
   }

@@ -48,27 +48,28 @@ export function reducer(state, action) {
           };
         }
         case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_SUCCESS: {
-          const exchangeJobMappings: ExchangeJobMapping[] = featureAction.payload.data.map(d => {
-            return {
-              ExchangeJobId: d.exchange_job_id,
-              ExchangeId: d.exchange_id,
-              CompanyId: d.company_job_mappings ? d.company_job_mappings.company_id : null,
-              ExchangeJobCode: d.exchange_job_code,
-              ExchangeJobTitle: d.exchange_job_title,
-              CompanyJobCode: d.company_job_mappings ? d.company_job_mappings.company_job_code : null,
-              CompanyJobTitle: d.company_job_mappings ? d.company_job_mappings.company_job_title : null,
-              CompanyJobLevel: d.company_job_mappings ? d.company_job_mappings.company_job_level : null,
-              ExchangeJobFamily: d.exchange_job_family,
-              ExchangeJobLevel: d.exchange_job_level,
-              CompanyJobFamily: d.company_job_mappings ? d.company_job_mappings.company_job_family : null,
-              CompanyJobDescription: d.company_job_mappings ? d.company_job_mappings.company_job_description : null,
-              ExchangeJobDescription: d.exchange_job_description,
-              Mapped: d.company_job_mappings ? d.company_job_mappings.mapped : null,
-              ExchangeJobToCompanyJobId: d.company_job_mappings ?
-                d.company_job_mappings.exchange_job_to_company_job_id : null,
-              PendingRequest: d.pending_request
-            };
-          });
+          const exchangeJobMappings: ExchangeJobMapping[] = featureAction.payload.data;
+          //   .map(d => {
+          //   return {
+          //     ExchangeJobId: d.exchange_job_id,
+          //     ExchangeId: d.exchange_id,
+          //     CompanyId: d.company_job_mappings ? d.company_job_mappings.company_id : null,
+          //     ExchangeJobCode: d.exchange_job_code,
+          //     ExchangeJobTitle: d.exchange_job_title,
+          //     CompanyJobCode: d.company_job_mappings ? d.company_job_mappings.company_job_code : null,
+          //     CompanyJobTitle: d.company_job_mappings ? d.company_job_mappings.company_job_title : null,
+          //     CompanyJobLevel: d.company_job_mappings ? d.company_job_mappings.company_job_level : null,
+          //     ExchangeJobFamily: d.exchange_job_family,
+          //     ExchangeJobLevel: d.exchange_job_level,
+          //     CompanyJobFamily: d.company_job_mappings ? d.company_job_mappings.company_job_family : null,
+          //     CompanyJobDescription: d.company_job_mappings ? d.company_job_mappings.company_job_description : null,
+          //     ExchangeJobDescription: d.exchange_job_description,
+          //     Mapped: d.company_job_mappings ? d.company_job_mappings.mapped : null,
+          //     ExchangeJobToCompanyJobId: d.company_job_mappings ?
+          //       d.company_job_mappings.exchange_job_to_company_job_id : null,
+          //     PendingRequest: d.pending_request
+          //   };
+          // });
           return {
             ...adapter.addAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,

@@ -36,5 +36,10 @@
     <kendo-grid-column field="CompanyJobCode" title="Company Job Code" width="150"></kendo-grid-column>
     <kendo-grid-column field="CompanyJobTitle" title="Company Job Title" width="300"></kendo-grid-column>
     <kendo-grid-column field="CompanyJobFamily" title="Company Job Family" width="225"></kendo-grid-column>
+    <kendo-grid-column field="PendingRequest" title="" width="125" class="text-center" headerClass="text-center">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span *ngIf="dataItem.PendingRequest" class="badge badge-warning">Pending Request</span>
+      </ng-template>
+    </kendo-grid-column>
   </kendo-grid>
 </pf-async-container>
