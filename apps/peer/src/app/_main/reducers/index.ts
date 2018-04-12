@@ -220,6 +220,14 @@ export const getExchangeJobMappingsGridData = createSelector(
   }
 );
 
+export const getLoadExchangeJobMappingGridRequest = createSelector(
+  getExchange,
+  getExchangeJobMappingsGridState,
+  (exchange, gridState) => {
+    return {exchangeId: exchange ? exchange.ExchangeId : 0, listState: gridState};
+  }
+);
+
 // Exchange Job Mapping Info Selectors
 export const getCompanyJobsToMapToLoading = createSelector(
   selectExchangeJobMappingInfoState,

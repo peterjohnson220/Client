@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable } from 'rxjs/Observable';
@@ -14,9 +14,17 @@ import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
+import * as fromExchangeRequestActions from '../actions/exchange-request.actions';
+import * as fromPeerMainReducer from '../reducers';
 
 @Injectable()
 export class ExchangeJobMappingGridEffects {
+
+  @Effect()
+  successfulExchangeJobRequest: Observable<Action> = this.actions$
+    .ofType(fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS)
+    .withLatestFrom(this.store.select(fromPeerMainReducer.getLoadExchangeJobMappingGridRequest), (action, payload) => payload)
+    .switchMap(payload => of(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(payload)));
 
   @Effect()
   loadExchangeJobMappings$: Observable<Action> = this.actions$
@@ -48,7 +56,8 @@ export class ExchangeJobMappingGridEffects {
 
   constructor(
     private actions$: Actions,
-    private exchangeCompanyApiService: ExchangeCompanyApiService
+    private exchangeCompanyApiService: ExchangeCompanyApiService,
+    private store: Store<fromPeerMainReducer.State>
   ) {}
 }
 

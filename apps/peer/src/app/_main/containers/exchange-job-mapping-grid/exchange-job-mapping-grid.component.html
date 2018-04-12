@@ -20,6 +20,7 @@
                 mode: 'single'
               }"
               [kendoGridSelectBy]="'ExchangeJobId'"
+              [rowClass]="rowClass"
               (pageChange)="handlePageChanged($event)"
               (sortChange)="handleSortChanged($event)"
               (cellClick)="handleCellClick($event)">
