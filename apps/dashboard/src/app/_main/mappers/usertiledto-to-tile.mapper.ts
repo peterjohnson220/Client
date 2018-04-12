@@ -74,15 +74,22 @@ export class UserTileToTileMapper {
         break;
 
       case TileTypes.Employees:
-        tile.CssClass = 'tile-blue';
-        tile.ChartType = TilePreviewChartTypes.Donut;
-        tile.ChartLabel = 'Market Index';
-        tile.ShouldLimitLegendText = false;
 
-        this.SetChartLegendColor(tile, '<90%', '#C79500');
-        this.SetChartLegendColor(tile, '90-110%', '#EEB200');
-        this.SetChartLegendColor(tile, '>110%', '#FEC968');
-        this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
+        tile.CssClass = 'tile-blue';
+
+        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+          tile.PreviewType = TilePreviewTypes.Icon;
+        } else {
+          tile.ChartType = TilePreviewChartTypes.Donut;
+          tile.ChartLabel = 'Market Index';
+          tile.ShouldLimitLegendText = false;
+
+          this.SetChartLegendColor(tile, '<90%', '#C79500');
+          this.SetChartLegendColor(tile, '90-110%', '#EEB200');
+          this.SetChartLegendColor(tile, '>110%', '#FEC968');
+          this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
+        }
+
         break;
 
       case TileTypes.JobDescriptions:
@@ -146,12 +153,19 @@ export class UserTileToTileMapper {
         break;
 
       case TileTypes.Surveys:
+
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'far fa-book';
-        tile.ChartType = TilePreviewChartTypes.Pie;
-        tile.ChartLabel = 'Top Surveys';
-        tile.ShouldLimitLegendText = true;
-        this.SetChartLegendColors(tile, [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
+
+        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+          tile.PreviewType = TilePreviewTypes.Icon;
+        } else {
+          tile.ChartType = TilePreviewChartTypes.Pie;
+          tile.ChartLabel = 'Top Surveys';
+          tile.ShouldLimitLegendText = true;
+          this.SetChartLegendColors(tile, [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
+        }
+
         break;
 
       default:
