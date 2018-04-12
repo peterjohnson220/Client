@@ -155,7 +155,6 @@ export class UserTileToTileMapper {
       case TileTypes.Surveys:
 
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'far fa-book';
 
         if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
           tile.PreviewType = TilePreviewTypes.Icon;
