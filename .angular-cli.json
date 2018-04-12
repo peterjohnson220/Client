@@ -31,7 +31,7 @@
           "../../../assets/scss"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
@@ -67,7 +67,8 @@
         ]
       },
       "scripts": [
-       "../../../libs/thirdParty/drift.js"
+       "../../../assets/js/drift.js",
+        "../../../assets/js/pendo.js"
       ],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
@@ -103,7 +104,7 @@
           "../../../assets/scss"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
@@ -141,7 +142,7 @@
           "assets/"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
