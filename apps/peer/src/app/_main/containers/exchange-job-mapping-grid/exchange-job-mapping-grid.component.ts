@@ -29,7 +29,6 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   exchangeJobMappingsGridState$: Observable<State>;
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
   exchangeJobMappingGridStateSubscription: Subscription;
-
   exchangeJobMappingGridState: State;
 
   constructor(
@@ -63,7 +62,6 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     if (event.dataItem.PendingRequest === true) {
       return;
     }
-
     const pageRowIndex = event.rowIndex - this.exchangeJobMappingGridState.skip;
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem));
     this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(pageRowIndex));

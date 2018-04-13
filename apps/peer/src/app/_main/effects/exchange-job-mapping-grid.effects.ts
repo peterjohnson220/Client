@@ -11,6 +11,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { ExchangeRequestTypeEnum } from 'libs/models/peer/requests';
 
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
@@ -22,7 +23,7 @@ export class ExchangeJobMappingGridEffects {
 
   @Effect()
   successfulExchangeJobRequest: Observable<Action> = this.actions$
-    .ofType(fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS)
+    .ofType(`${ExchangeRequestTypeEnum.PayfactorsJob}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST_SUCCESS}`)
     .withLatestFrom(this.store.select(fromPeerMainReducer.getLoadExchangeJobMappingGridRequest), (action, payload) => payload)
     .switchMap(payload => of(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(payload)));
 
