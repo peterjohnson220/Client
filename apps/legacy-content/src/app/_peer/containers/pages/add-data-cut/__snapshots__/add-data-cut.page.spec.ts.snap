@@ -6,6 +6,7 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   addingDataCutError$={[Function Store]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
+  exchangeJobPayMarketFilter$={[Function Store]}
   guidelineLimits={[Function Object]}
   initialMapMoveComplete$={[Function Store]}
   peerMapSummary$={[Function Store]}
@@ -46,7 +47,7 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
         >
           
           
-          <pf-peer-data-cut-map />
+          
           
         
         </div>
@@ -108,6 +109,7 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
   addingDataCutError$={[Function Store]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
+  exchangeJobPayMarketFilter$={[Function Store]}
   guidelineLimits={[Function Object]}
   initialMapMoveComplete$={[Function Store]}
   peerMapSummary$={[Function Store]}
@@ -148,7 +150,7 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
         >
           
           
-          <pf-peer-data-cut-map />
+          
           
         
         </div>
