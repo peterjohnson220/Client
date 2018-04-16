@@ -13,6 +13,7 @@ import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-m
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 import { ExchangeJobMappingGridComponent } from './exchange-job-mapping-grid.component';
+import spyOn = jest.spyOn;
 
 describe('Peer - Exchange Job Mapping Grid', () => {
   let fixture: ComponentFixture<ExchangeJobMappingGridComponent>;

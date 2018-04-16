@@ -70,7 +70,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
 
   // CellClickEvent Interface is missing dataItem. Defining type as any to avoid error
   handleCellClick(event: any) {
-    if (event.dataItem.PendingRequest === true) {
+    if (event.dataItem && event.dataItem.PendingRequest === true) {
       return;
     }
     const pageRowIndex = event.rowIndex - this.exchangeJobMappingGridState.skip;
