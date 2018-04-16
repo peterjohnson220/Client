@@ -57,6 +57,17 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     return context.dataItem.PendingRequest ? 'row-disabled' : '';
   }
 
+  handleSelectionChange(context: any) {
+    // If the selected row is a pending request, revert selection.
+    // This is kind of a "hacky" work-around, but the best that I could come up with. [JP]
+    const invalidSelectionIndex = context.selectedRows.findIndex(
+      sr => sr.index === context.index && sr.dataItem.PendingRequest
+    );
+    if (invalidSelectionIndex > -1) {
+      context.selectedRows = context.deselectedRows;
+    }
+  }
+
   // CellClickEvent Interface is missing dataItem. Defining type as any to avoid error
   handleCellClick(event: any) {
     if (event.dataItem.PendingRequest === true) {

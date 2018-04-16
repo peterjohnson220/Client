@@ -21,6 +21,7 @@
               }"
               [kendoGridSelectBy]="'ExchangeJobId'"
               [rowClass]="rowClass"
+              (selectionChange)="handleSelectionChange($event)"
               (pageChange)="handlePageChanged($event)"
               (sortChange)="handleSortChanged($event)"
               (cellClick)="handleCellClick($event)">
