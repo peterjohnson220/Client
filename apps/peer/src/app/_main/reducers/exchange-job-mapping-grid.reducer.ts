@@ -85,9 +85,7 @@ export function reducer(state, action) {
         }
       }
     }, {
-      take: 20,
-      // Apply default sort
-      sort: [{field: 'ExchangeJobTitle', dir: 'asc'}]
+      take: 20
     })(state, action);
 }
 
