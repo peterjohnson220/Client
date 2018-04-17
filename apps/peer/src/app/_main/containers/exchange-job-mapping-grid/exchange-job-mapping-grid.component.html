@@ -28,8 +28,10 @@
 
     <kendo-grid-column field="Mapped" title="Status" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>
-        <span *ngIf="dataItem.Mapped" class="badge badge-success">Mapped</span>
-        <span *ngIf="!dataItem.Mapped" class="badge badge-danger">Not Mapped</span>
+        <span class="mapped">
+          <span *ngIf="dataItem.Mapped" class="badge badge-success mapped">Mapped</span>
+          <span *ngIf="!dataItem.Mapped" class="badge badge-danger mapped">Not Mapped</span>
+        </span>
       </ng-template>
     </kendo-grid-column>
 
