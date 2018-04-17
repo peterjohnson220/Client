@@ -37,6 +37,11 @@ export class FilterAggregateGroupComponent {
     return this.aggregateGroup.Aggregates.filter(a => a.Selected).length;
   }
 
+  trackById(index: number, filterAggregateItem: FilterAggregateItem): number {
+    return filterAggregateItem.Id;
+  }
+
+  // Events
   handleResetClicked(e: any) {
     e.stopPropagation();
     this.clearSelections.emit(this.aggregateGroup);

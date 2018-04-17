@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'hammerjs'; // Required for chart methods like seriesClick.
 
-import { Exchange, GetChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
+import { Exchange, GetChartRequest, GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardReducer from '../../reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -44,7 +44,7 @@ export class ExchangeRevenueChartComponent implements OnInit {
   }
 
   seriesClick(e): void {
-    const getDetailChartRequest: GetChartRequest = {
+    const getDetailChartRequest: GetDetailChartRequest = {
       ExchangeId: this.exchangeId,
       ChartType: ExchangeChartTypeEnum.Revenue,
       Category: e.category

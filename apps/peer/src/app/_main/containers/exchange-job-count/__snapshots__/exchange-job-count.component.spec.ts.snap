@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer Dashboard - Exchange Job Count should display the job count 1`] = `
+<pf-exchange-job-count
+  chartItem={[Function Object]}
+  exchange$={[Function ScalarObservable]}
+  exchangeId={[Function Number]}
+  jobChartItems$={[Function Store]}
+  jobChartItemsSubscription={[Function Subscriber]}
+  loadingJobChartItems$={[Function Store]}
+  loadingJobChartItemsError$={[Function Store]}
+  route={[Function Object]}
+  router={[Function Object]}
+  store={[Function Store]}
+>
+  <h1
+    class="job-count"
+  >
+    
+    10
+  
+  </h1>
+  <h3>
+    
+    Category
+  
+  </h3>
+  
+</pf-exchange-job-count>
+`;

@@ -9,6 +9,7 @@ import { of } from 'rxjs/observable/of';
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
          generateMockAvailableExchangeItem } from 'libs/models';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
@@ -33,7 +34,8 @@ describe('Peer - Exchange Request - Access Modal', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        AccessModalComponent
+        AccessModalComponent,
+        HumanizeNumberPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

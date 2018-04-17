@@ -15,8 +15,8 @@ import * as fromLayoutReducer from '../../reducers';
   styleUrls: ['./layout-wrapper.scss']
 })
 export class LayoutWrapperComponent implements OnInit {
-  currentYear: number;
   userContext$: Observable<UserContext>;
+  currentYear: number;
 
   // Loading/Errors
   gettingHeaderDropdownNavigationLinks$: Observable<boolean>;
@@ -33,27 +33,26 @@ export class LayoutWrapperComponent implements OnInit {
   constructor(
     private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
-
   ) {
+    this.userContext$ = store.select(fromRootState.getUserContext);
     this.currentYear = new Date().getFullYear();
     // Loading / Errors
     this.getGettingHomePageLink$ = this.layoutStore.select(fromLayoutReducer.getGettingHomePageLink);
     this.getGettingHomePageLinkError$ = this.layoutStore.select(fromLayoutReducer.getGettingHomePageLinkError);
     this.homePageLink$ = this.layoutStore.select(fromLayoutReducer.getHomePageLink);
 
+    // Header links
     this.gettingHeaderDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinks);
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
-
-    this.userContext$ = store.select(fromRootState.getUserContext);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
-    this.userContext$.take(1).subscribe(i => {
+    this.userContext$.subscribe(userContext => {
       this.store.dispatch(new fromHeaderActions.GetHeaderUserHomePageLink({
-        userId: i.UserId
+        userId: userContext.UserId
       }));
     });
+    this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
   }
 }

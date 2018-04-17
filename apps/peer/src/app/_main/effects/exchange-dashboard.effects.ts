@@ -16,6 +16,28 @@ import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.act
 @Injectable()
 export class ExchangeDashboardEffects {
   @Effect()
+  loadCompanyChart$: Observable<Action> = this.actions$
+    .ofType(fromExchangeDashboardActions.LOADING_COMPANY_CHART)
+    .switchMap((action: fromExchangeDashboardActions.LoadingCompanyChart) =>
+      this.exchangeCompanyApiService.getChart(action.payload)
+        .map((chartItems: ChartItem[]) => {
+          return new fromExchangeDashboardActions.LoadingCompanyChartSuccess(chartItems);
+        })
+        .catch(() => of(new fromExchangeDashboardActions.LoadingCompanyChartError()))
+    );
+
+  @Effect()
+  loadJobChart$: Observable<Action> = this.actions$
+    .ofType(fromExchangeDashboardActions.LOADING_JOB_CHART)
+    .switchMap((action: fromExchangeDashboardActions.LoadingJobChart) =>
+      this.exchangeCompanyApiService.getChart(action.payload)
+        .map((chartItems: ChartItem[]) => {
+          return new fromExchangeDashboardActions.LoadingJobChartSuccess(chartItems);
+        })
+        .catch(() => of(new fromExchangeDashboardActions.LoadingJobChartError()))
+    );
+
+  @Effect()
   loadIndustryChart$: Observable<Action> = this.actions$
     .ofType(fromExchangeDashboardActions.LOADING_INDUSTRY_CHART)
     .switchMap((action: fromExchangeDashboardActions.LoadingIndustryChart) =>
@@ -52,7 +74,7 @@ export class ExchangeDashboardEffects {
   loadDetailChart$: Observable<Action> = this.actions$
     .ofType(fromExchangeDashboardActions.LOADING_DETAIL_CHART)
     .switchMap((action: fromExchangeDashboardActions.LoadingDetailChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
+      this.exchangeCompanyApiService.getDetailChart(action.payload)
         .map((chartItems: ChartItem[]) => {
           return new fromExchangeDashboardActions.LoadingDetailChartSuccess(chartItems);
         })

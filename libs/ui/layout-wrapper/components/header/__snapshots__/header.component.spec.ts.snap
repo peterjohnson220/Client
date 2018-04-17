@@ -2,6 +2,7 @@
 
 exports[`header should show the logo 1`] = `
 <pf-layout-wrapper-header
+  hcsLogo={[Function String]}
   payfactorsLogo={[Function String]}
 >
   <nav

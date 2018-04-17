@@ -12,13 +12,17 @@ import { TimelineActivityRequest } from '../../../models/dashboard';
 export class DashboardApiService {
   private endpoint = 'Dashboard';
 
-  constructor(
-    private payfactorsApiService: PayfactorsApiService
-  ) {}
+  constructor(private payfactorsApiService: PayfactorsApiService) {
+  }
 
   getUserDashboardTiles(includeTilePreviewData: boolean): Observable<UserTileDto[]> {
     return this.payfactorsApiService.get<UserTileDto[]>
     (`${this.endpoint}.GetUserTiles`, { params: { includeTilePreviewData: includeTilePreviewData } });
+  }
+
+  getUserDashboardTile(tileId: number): Observable<UserTileDto> {
+    return this.payfactorsApiService.get<UserTileDto>
+    (`${this.endpoint}.GetUserTile`, { params: { userTileId: tileId } });
   }
 
   reorderDashboardTiles(request: ReorderTileRequest): Observable<any> {

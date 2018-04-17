@@ -8,6 +8,7 @@ export class TileType {
   JobDescriptions = TileTypes.JobDescriptions;
   MyJobs = TileTypes.MyJobs;
   PayMarkets = TileTypes.PayMarkets;
+  Peer = TileTypes.Peer;
   PricingProjects = TileTypes.PricingProjects;
   Resources = TileTypes.Resources;
   Service = TileTypes.Service;
@@ -21,6 +22,7 @@ export class TileType {
       TileTypes.JobDescriptions,
       TileTypes.MyJobs,
       TileTypes.PayMarkets,
+      TileTypes.Peer,
       TileTypes.PricingProjects,
       TileTypes.Resources,
       TileTypes.Service,

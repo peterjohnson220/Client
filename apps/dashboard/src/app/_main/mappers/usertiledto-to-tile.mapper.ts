@@ -12,7 +12,7 @@ export class UserTileToTileMapper {
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
       Type: this.mapTileTypeFromTileName(dashboardTile.TileName),
-      PreviewType:  this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
+      PreviewType: this.mapTilePreviewTypeFromTileType(UserTileToTileMapper.mapTileTypeFromTileName(dashboardTile.TileName)),
       TilePreviewData: dashboardTile.TilePreviewData,
       Size: 1,
       ChartType: undefined,
@@ -34,6 +34,8 @@ export class UserTileToTileMapper {
         return TileTypes.MyJobs;
       case 'Pay Markets':
         return TileTypes.PayMarkets;
+      case 'Peer':
+        return TileTypes.Peer;
       case 'Pricing Projects':
         return TileTypes.PricingProjects;
       case 'Resources':
@@ -55,12 +57,10 @@ export class UserTileToTileMapper {
       case TileTypes.JobDescriptions:
       case TileTypes.Surveys:
         return TilePreviewTypes.Chart;
-
       case TileTypes.PricingProjects:
         return TilePreviewTypes.List;
-
       case TileTypes.MyJobs:
-        return TilePreviewTypes.PlaceHolder;
+        return TilePreviewTypes.ChartWithCalendar;
 
       default:
         return TilePreviewTypes.Icon;
@@ -74,15 +74,22 @@ export class UserTileToTileMapper {
         break;
 
       case TileTypes.Employees:
-        tile.CssClass = 'tile-blue';
-        tile.ChartType = TilePreviewChartTypes.Donut;
-        tile.ChartLabel = 'Market Index';
-        tile.ShouldLimitLegendText = false;
 
-        this.SetChartLegendColor(tile, '<90%', '#C79500');
-        this.SetChartLegendColor(tile, '90-110%', '#EEB200');
-        this.SetChartLegendColor(tile, '>110%', '#FEC968');
-        this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
+        tile.CssClass = 'tile-blue';
+
+        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+          tile.PreviewType = TilePreviewTypes.Icon;
+        } else {
+          tile.ChartType = TilePreviewChartTypes.Donut;
+          tile.ChartLabel = 'Market Index';
+          tile.ShouldLimitLegendText = false;
+
+          this.SetChartLegendColor(tile, '<90%', '#C79500');
+          this.SetChartLegendColor(tile, '90-110%', '#EEB200');
+          this.SetChartLegendColor(tile, '>110%', '#FEC968');
+          this.SetChartLegendColor(tile, 'Not Available', '#FEDCAC');
+        }
+
         break;
 
       case TileTypes.JobDescriptions:
@@ -99,12 +106,33 @@ export class UserTileToTileMapper {
 
       case TileTypes.MyJobs:
         tile.CssClass = 'tile-lightblue';
+        tile.ChartType = TilePreviewChartTypes.Donut;
+        tile.ChartLabel = 'jobs';
         tile.Size = 2;
+
+        const NotPricedCategory = tile.TilePreviewData.length > 0
+          ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Not Priced') : null;
+
+        if (NotPricedCategory.length > 0) {
+          NotPricedCategory[ 0 ].color = '#FFCA69';
+        }
+
+        const PricedCategory = tile.TilePreviewData.length > 0
+          ? tile.TilePreviewData[ 0 ].TileRightPart.ChartData.filter(x => x.Key === 'Priced') : null;
+
+        if (PricedCategory.length > 0) {
+          PricedCategory[ 0 ].color = '#EFB300';
+        }
+
         break;
 
       case TileTypes.PayMarkets:
         tile.CssClass = 'tile-blue';
         tile.IconClass = 'fas fa-home';
+        break;
+
+      case TileTypes.Peer:
+        tile.CssClass = 'tile-blue';
         break;
 
       case TileTypes.PricingProjects:
@@ -125,12 +153,18 @@ export class UserTileToTileMapper {
         break;
 
       case TileTypes.Surveys:
+
         tile.CssClass = 'tile-blue';
-        tile.IconClass = 'far fa-book';
-        tile.ChartType = TilePreviewChartTypes.Pie;
-        tile.ChartLabel = 'Top Surveys';
-        tile.ShouldLimitLegendText = true;
-        this.SetChartLegendColors(tile, ['#C79500', '#EEB200', '#FEC968', '#FEDCAC']);
+
+        if (tile.TilePreviewData == null || tile.TilePreviewData[ 0 ] == null) {
+          tile.PreviewType = TilePreviewTypes.Icon;
+        } else {
+          tile.ChartType = TilePreviewChartTypes.Pie;
+          tile.ChartLabel = 'Top Surveys';
+          tile.ShouldLimitLegendText = true;
+          this.SetChartLegendColors(tile, [ '#C79500', '#EEB200', '#FEC968', '#FEDCAC' ]);
+        }
+
         break;
 
       default:
@@ -144,20 +178,20 @@ export class UserTileToTileMapper {
   static SetChartLegendColor(tile: Tile, categoryName, color) {
     const chartCategory = tile.TilePreviewData.filter(x => x.CategoryName === categoryName);
     if (chartCategory.length > 0) {
-      chartCategory[0].color = color;
+      chartCategory[ 0 ].color = color;
     }
   }
 
   static SetChartLegendColors(tile: Tile, colors: string[]) {
     let j = 0;
     for (let i = 0; i < tile.TilePreviewData.length; i++) {
-      if ( (j + 1) === colors.length) {
+      if ((j + 1) === colors.length) {
         j = 0;
       } else {
         j++;
       }
-      const chartCategory = tile.TilePreviewData[i];
-      chartCategory.color = colors[j];
+      const chartCategory = tile.TilePreviewData[ i ];
+      chartCategory.color = colors[ j ];
     }
   }
 

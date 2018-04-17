@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
-
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
@@ -18,7 +18,7 @@ import { PeerRoutingModule } from './peer-routing.module';
 import { GeocoderDirective } from './directives';
 import { AddDataCutPageEffects, MapEffects, FilterSidebarEffects } from './effects';
 import { reducers } from './reducers';
-import { FilterAggregateGroupComponent, FilterAggregateComponent } from './components';
+import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadgeComponent } from './components';
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent } from './compo
     ]),
     NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
     SwitchModule,
+    NgbPopoverModule,
 
     // Routing
     PeerRoutingModule,
@@ -45,7 +46,7 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent } from './compo
   ],
   declarations: [
     // Components
-    FilterAggregateGroupComponent, FilterAggregateComponent,
+    FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadgeComponent,
 
     // Containers
     FilterSidebarComponent, MapComponent,

@@ -5,6 +5,7 @@ export enum TileTypes {
   JobDescriptions,
   MyJobs,
   PayMarkets,
+  Peer,
   PricingProjects,
   Resources,
   Service,

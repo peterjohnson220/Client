@@ -13,12 +13,45 @@
     <div class="exchange-dashboard-container d-flex flex-row">
       <div class="exchange-dashboard-content d-flex flex-column flex-grow-1">
         <div class="exchange-dashboard-chart-container d-flex flex-row justify-content-around">
-          <pf-exchange-industry-chart></pf-exchange-industry-chart>
-          <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
-          <pf-exchange-revenue-chart></pf-exchange-revenue-chart>
+          <div class="d-flex flex-grow-1 flex-column justify-content-between mr-2">
+            <div class="d-flex card card-body flex-column flex-grow-1 text-center mb-1 justify-content-center">
+              <pf-exchange-company-count></pf-exchange-company-count>
+            </div>
+            <div class="d-flex card card-body flex-column flex-grow-1 text-center mt-1 justify-content-center">
+              <pf-exchange-job-count></pf-exchange-job-count>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between mr-2">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Top Industries</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <pf-exchange-industry-chart></pf-exchange-industry-chart>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between mr-2">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Job Exchange Job Families</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <div>
+                  <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Revenue Size</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <div>
+                  <pf-exchange-revenue-chart></pf-exchange-revenue-chart>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="exchange-dashboard-sidebar ml-2" *ngIf="(sidebarVisible$ | async)">
+      <div class="exchange-dashboard-sidebar" *ngIf="(sidebarVisible$ | async)">
         <pf-chart-detail-component></pf-chart-detail-component>
       </div>
     </div>
