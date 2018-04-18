@@ -1,0 +1,101 @@
+@import 'colors';
+
+.tile-background-overlay {
+  position: absolute;
+  display: inline;
+  width: 69%;
+  height: 195px;
+  right: 10px;
+  top: 10px;
+  z-index: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.flex-container {
+  display: flex;
+}
+
+%tile-area {
+  display: inline-block;
+  text-align: center;
+  flex: 1;
+}
+
+.left-tile-area {
+  @extend %tile-area;
+}
+
+.middle-tile-area {
+  @extend %tile-area;
+}
+
+.right-tile-area {
+  @extend %tile-area;
+  flex-basis: 39px;
+}
+
+.hidden-tile-area {
+  display: none;
+}
+
+.tile-text {
+  display: block;
+  color: #FFFFFF;
+}
+
+.tile-text-large {
+  display: block;
+  color: #FFFFFF;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.tile-text-extra-large {
+  display: block;
+  color: #FFFFFF;
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+kendo-datepicker {
+  z-index: 2;
+  width: 125px;
+}
+
+kendo-chart {
+  position: absolute;
+  top: 10px;
+  right: -50px;
+  width: 300px;
+  z-index: 2;
+
+}
+
+@media screen and (max-width: 991px) {
+  .left-tile-area {
+    display: none;
+  }
+
+  .middle-tile-area {
+    width: 100%;
+    height: auto;
+  }
+  .right-tile-area {
+    visibility: hidden;
+    flex: 0;
+  }
+
+  .hidden-tile-area {
+    display: block;
+  }
+
+  .tile-text-large {
+    font-size: 2.5rem;
+  }
+
+  .tile-background-overlay {
+    visibility: hidden;
+  }
+
+}

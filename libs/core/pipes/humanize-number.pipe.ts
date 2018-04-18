@@ -5,6 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HumanizeNumberPipe implements PipeTransform {
 
   transform(value: number): string {
+    if (value === 0) {
+      return '0';
+    }
+
     let newValue: string = !value ? '' : value.toString();
     if (value >= 1000) {
       const suffixes = ['', 'K', 'M', 'B', 'T'];

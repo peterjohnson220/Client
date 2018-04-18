@@ -1,10 +1,15 @@
 @import 'colors';
 
+kendo-chart
+{
+  z-index: 2;
+}
+
 .chart-detail-back-button {
   position: absolute;
   right: 20px;
   top: 20px;
-  z-index: 1;
+  z-index: 2;
   color: #fff;
   background-color: $tile-chart-button-color;
   cursor: pointer;
@@ -18,10 +23,4 @@
   text-align: right;
   width: 100%;
   color: $tile-chart-label-color;
-}
-
-.chart-container
-{
-  position: absolute;
-  top: 30px;
 }

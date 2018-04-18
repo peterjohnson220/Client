@@ -52,8 +52,8 @@ export class MapComponent {
     return this.map.getCenter();
   }
 
-  get pointCompanies(): string {
-    return JSON.parse(this.selectedPoint.properties.Companies);
+  get pointCompaniesPreview(): string {
+    return JSON.parse(this.selectedPoint.properties.Companies).slice(0, 10);
   }
 
   // Map events

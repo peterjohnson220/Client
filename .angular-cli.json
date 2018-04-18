@@ -31,7 +31,7 @@
           "../../../assets/scss"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
@@ -66,7 +66,10 @@
           "../../../assets/scss"
         ]
       },
-      "scripts": [],
+      "scripts": [
+       "../../../assets/js/drift.js",
+        "../../../assets/js/pendo.js"
+      ],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
@@ -101,7 +104,7 @@
           "../../../assets/scss"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",
@@ -135,10 +138,11 @@
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss"
+          "../../../assets/scss",
+          "assets/"
         ]
       },
-      "scripts": [],
+      "scripts": ["../../../assets/js/pendo.js"],
       "environmentSource": "../../../environments/environment.ts",
       "environments": {
         "dev": "../../../environments/environment.ts",

@@ -11,87 +11,54 @@ exports[`Peer Dashboard - Industry Chart should show the industry chart and titl
   router={[Function Object]}
   store={[Function Store]}
 >
-  <div
-    class="card d-flex flex-column align-items-stretch"
-  >
+  <pf-async-container>
     
-    
-    <div
-      class="card-body"
-    >
-      
   
       
-      <pf-async-container>
+    <kendo-chart>
+      
         
-  
+      <kendo-chart-legend
+        position="bottom"
+      />
+      
         
-        <div
-          class="d-flex flex-column align-items-center p-2"
+      <kendo-chart-area
+        background="none"
+        height="250"
+      />
+      
+        
+      <kendo-chart-tooltip>
+        
+          
+        
+        
+        
+      </kendo-chart-tooltip>
+      
+        
+      <kendo-chart-series>
+        
+          
+        <kendo-chart-series-item
+          categoryfield="Category"
+          field="Value"
+          type="donut"
         >
           
           
-          <h4>
-            Top Industries
-          </h4>
-          
+        </kendo-chart-series-item>
         
-        </div>
         
-  
-        
-        <kendo-chart>
-          
-          
-          <kendo-chart-legend
-            position="bottom"
-          />
-          
-          
-          <kendo-chart-area
-            background="none"
-          />
-          
-          
-          <kendo-chart-tooltip>
-            
-            
-            
-            
-          
-          </kendo-chart-tooltip>
-          
-          
-          <kendo-chart-series>
-            
-            
-            <kendo-chart-series-item
-              categoryfield="Category"
-              field="Value"
-              type="donut"
-            >
-              
-            
-            </kendo-chart-series-item>
-            
-          
-          </kendo-chart-series>
-          
-        
-        </kendo-chart>
-        
-  
+      </kendo-chart-series>
       
-      </pf-async-container>
       
-  
-    
-    </div>
+    </kendo-chart>
     
   
-  </div>
   
-  
+  </pf-async-container>
   
 </pf-exchange-industry-chart>
 `;

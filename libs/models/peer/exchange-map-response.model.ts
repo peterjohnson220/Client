@@ -56,12 +56,14 @@ export function generateMockGeoCoordinates(): GeoCoordinates {
 
 export interface AreaStats {
   SalaryCount: number;
+  CompanyCount: number;
   Companies: ExchangeStatCompanyMakeup[];
 }
 
 export function generateMockAreaStats(): AreaStats {
   return {
     SalaryCount: 1,
+    CompanyCount: 1,
     Companies: [generateMockExchangeStatCompanyMakeup()]
   };
 }

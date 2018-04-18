@@ -77,7 +77,7 @@ exports[`Peer - Exchange Request - Access Modal should provide correct values to
               
           <kendo-autocomplete
             class="flex-grow-1"
-            placeholder="Search for a company..."
+            placeholder="Search for a Company..."
             valuefield="Name"
           >
             

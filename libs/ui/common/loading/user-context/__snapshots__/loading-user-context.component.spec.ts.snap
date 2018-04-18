@@ -4,6 +4,7 @@ exports[`Loading User Context should show a centered loading indicator, when we 
 <pf-loading-user-context
   gettingUserContext$={[Function ScalarObservable]}
   store={[Function Store]}
+  userContext$={[Function Store]}
 >
   
     <div
@@ -30,6 +31,7 @@ exports[`Loading User Context should show a router outlet, when we are not getti
 <pf-loading-user-context
   gettingUserContext$={[Function ScalarObservable]}
   store={[Function Store]}
+  userContext$={[Function Store]}
 >
   
     <router-outlet />

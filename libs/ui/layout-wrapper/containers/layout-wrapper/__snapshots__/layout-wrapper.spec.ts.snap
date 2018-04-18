@@ -30,7 +30,7 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
@@ -61,43 +61,6 @@ exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBa
         
     
       </main>
-      
-    
-      <footer>
-        
-      
-        <div
-          class="flex-row-nowrap"
-        >
-          
-        
-          <div
-            class="flex-1"
-          >
-            
-          
-            <div
-              class="d-flex flex-column justify-content-center text-center footer-container"
-            >
-              
-            
-              <span
-                class="text-white"
-              >
-                © 
-              </span>
-              
-          
-            </div>
-            
-        
-          </div>
-          
-      
-        </div>
-        
-    
-      </footer>
       
   
     </div>
@@ -138,7 +101,7 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
@@ -169,43 +132,6 @@ exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar i
         
     
       </main>
-      
-    
-      <footer>
-        
-      
-        <div
-          class="flex-row-nowrap"
-        >
-          
-        
-          <div
-            class="flex-1"
-          >
-            
-          
-            <div
-              class="d-flex flex-column justify-content-center text-center footer-container"
-            >
-              
-            
-              <span
-                class="text-white"
-              >
-                © 
-              </span>
-              
-          
-            </div>
-            
-        
-          </div>
-          
-      
-        </div>
-        
-    
-      </footer>
       
   
     </div>
@@ -246,7 +172,7 @@ exports[`Layout Wrapper should transclude 1`] = `
       
     
       <main
-        class="flex-row-nowrap flex-1"
+        class="flex-row-nowrap"
       >
         
       
@@ -277,43 +203,6 @@ exports[`Layout Wrapper should transclude 1`] = `
         
     
       </main>
-      
-    
-      <footer>
-        
-      
-        <div
-          class="flex-row-nowrap"
-        >
-          
-        
-          <div
-            class="flex-1"
-          >
-            
-          
-            <div
-              class="d-flex flex-column justify-content-center text-center footer-container"
-            >
-              
-            
-              <span
-                class="text-white"
-              >
-                © 
-              </span>
-              
-          
-            </div>
-            
-        
-          </div>
-          
-      
-        </div>
-        
-    
-      </footer>
       
   
     </div>

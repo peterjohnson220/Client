@@ -1,8 +1,11 @@
-<div class="tile m-0 p-1"
+<div id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile"
+     class="tile m-0 p-1"
      [ngSwitch]="tile.PreviewType"
      [ngClass]="tile.CssClass"
-     >
-  <a [href]="tile.NgAppLink ? ngAppRoot + tile.Url : tile.Url" class="tile-anchor-overlay"></a>
+>
+  <a id="{{ tile.Label | stringReplace:' ': '-' | lowercase }}-tile-link"
+     class="tile-anchor-overlay"
+     [href]="tile.NgAppLink ? ngAppRoot + tile.Url : tile.Url"></a>
   <h4>{{ tile.Label }}</h4>
 
   <!-- Tile Inner Content -->
@@ -21,5 +24,9 @@
   <pf-tile-preview-place-holder *ngSwitchCase="tilePreviewType.PlaceHolder"
                                 [model]="previewModel">
   </pf-tile-preview-place-holder>
+
+  <pf-tile-preview-calendar-with-chart *ngSwitchCase="tilePreviewType.ChartWithCalendar"
+                                       [model]="previewModel">
+  </pf-tile-preview-calendar-with-chart>
 
 </div>

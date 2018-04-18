@@ -1,7 +1,13 @@
 import { Action } from '@ngrx/store';
 
-import { GetChartRequest, ChartItem } from 'libs/models';
+import { GetChartRequest, GetDetailChartRequest, ChartItem } from 'libs/models';
 
+export const LOADING_COMPANY_CHART  = '[Peer Main/Exchange Dashboard] Loading Company Chart';
+export const LOADING_COMPANY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Company Chart Success';
+export const LOADING_COMPANY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Company Chart Error';
+export const LOADING_JOB_CHART  = '[Peer Main/Exchange Dashboard] Loading Job Chart';
+export const LOADING_JOB_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Job Chart Success';
+export const LOADING_JOB_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Job Chart Error';
 export const LOADING_INDUSTRY_CHART  = '[Peer Main/Exchange Dashboard] Loading Industry Chart';
 export const LOADING_INDUSTRY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Success';
 export const LOADING_INDUSTRY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Error';
@@ -15,6 +21,38 @@ export const LOADING_DETAIL_CHART  = '[Peer Main/Exchange Dashboard] Loading Det
 export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Success';
 export const LOADING_DETAIL_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Error';
 export const CLOSE_SIDEBAR  = '[Peer Main/Exchange Dashboard] Close Sidebar';
+
+export class LoadingCompanyChart implements Action {
+  readonly type = LOADING_COMPANY_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadingCompanyChartSuccess implements Action {
+  readonly type = LOADING_COMPANY_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadingCompanyChartError implements Action {
+  readonly type = LOADING_COMPANY_CHART_ERROR;
+}
+
+export class LoadingJobChart implements Action {
+  readonly type = LOADING_JOB_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadingJobChartSuccess implements Action {
+  readonly type = LOADING_JOB_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadingJobChartError implements Action {
+  readonly type = LOADING_JOB_CHART_ERROR;
+}
 
 export class LoadingIndustryChart implements Action {
   readonly type = LOADING_INDUSTRY_CHART;
@@ -67,7 +105,7 @@ export class LoadingRevenueChartError implements Action {
 export class LoadingDetailChart implements Action {
   readonly type = LOADING_DETAIL_CHART;
 
-  constructor(public payload: GetChartRequest) {}
+  constructor(public payload: GetDetailChartRequest) {}
 }
 
 export class LoadingDetailChartSuccess implements Action {
@@ -85,7 +123,13 @@ export class CloseSidebar implements Action {
 }
 
 export type Actions
-  = LoadingIndustryChart
+  = LoadingCompanyChart
+  | LoadingCompanyChartSuccess
+  | LoadingCompanyChartError
+  | LoadingJobChart
+  | LoadingJobChartSuccess
+  | LoadingJobChartError
+  | LoadingIndustryChart
   | LoadingIndustryChartSuccess
   | LoadingIndustryChartError
   | LoadingJobFamilyChart
