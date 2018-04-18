@@ -5,7 +5,7 @@
   position: absolute;
   right: 20px;
   top: 20px;
-  z-index: 1;
+  z-index: 2;
   color: $tile-list-button-text-color;
   background-color: $tile-list-button-background-color;
   cursor: pointer;
@@ -17,6 +17,7 @@ table {
   width: 100%;
   font-size: .9rem;
   overflow: auto;
+  z-index:2;
 }
 
 th{
