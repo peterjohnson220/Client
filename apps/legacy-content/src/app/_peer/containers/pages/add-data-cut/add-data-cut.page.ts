@@ -61,7 +61,7 @@ export class AddDataCutPageComponent implements OnInit {
 
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
-    if(this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
+    if (this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
       this.loadExchangeJobAndPayMarketFilter();
     }
   }

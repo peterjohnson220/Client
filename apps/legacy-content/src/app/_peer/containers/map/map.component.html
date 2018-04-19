@@ -13,7 +13,8 @@
   (load)="handleLoadEvent($event)"
   [ngClass]="{'map-no-data': (peerMapShowNoData$ | async)}"
 >
-  <mgl-control mglNavigation pfGeocoder></mgl-control>
+  <mgl-control mglGeocoder></mgl-control>
+  <mgl-control mglNavigation></mgl-control>
 
   <!--Data Source-->
   <mgl-geojson-source
