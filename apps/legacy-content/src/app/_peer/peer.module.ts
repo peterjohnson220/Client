@@ -15,7 +15,6 @@ import { WindowCommunicationService } from 'libs/core/services';
 
 import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { GeocoderDirective } from './directives';
 import { AddDataCutPageEffects, MapEffects, FilterSidebarEffects } from './effects';
 import { reducers } from './reducers';
 import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadgeComponent } from './components';
@@ -52,10 +51,7 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadg
     FilterSidebarComponent, MapComponent,
 
     // Pages
-    AddDataCutPageComponent,
-
-    // Directives
-    GeocoderDirective
+    AddDataCutPageComponent
   ],
   providers: [
     WindowCommunicationService
