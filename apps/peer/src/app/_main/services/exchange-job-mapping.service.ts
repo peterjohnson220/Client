@@ -8,33 +8,31 @@ import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapp
 
 @Injectable()
 export class ExchangeJobMappingService {
-  exchangeJobMappingsGridStateAndQuery$: Observable<any>;
+  exchangeJobMappingsGridState$: Observable<any>;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>
   ) {
-    this.exchangeJobMappingsGridStateAndQuery$ = this.store.select(fromPeerMainReducer.getExchangeJobMappingGridStateAndQuery);
+    this.exchangeJobMappingsGridState$ = this.store.select(fromPeerMainReducer.getExchangeJobMappingsGridState);
   }
 
   loadExchangeJobMappings(exchangeId: number): void {
-    this.exchangeJobMappingsGridStateAndQuery$.take(1).subscribe(gridStateAnyQuery => {
+    this.exchangeJobMappingsGridState$.take(1).subscribe(gridState => {
       this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(
         {
           exchangeId: exchangeId,
-          listState: gridStateAnyQuery.gridState,
-          query: gridStateAnyQuery.query
+          listState: gridState
         }
       ));
     });
   }
 
   loadExchangeJobMappingsAfterMap(exchangeId: number): void {
-    this.exchangeJobMappingsGridStateAndQuery$.take(1).subscribe(gridStateAnyQuery => {
+    this.exchangeJobMappingsGridState$.take(1).subscribe(gridState => {
       this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(
         {
           exchangeId: exchangeId,
-          listState: gridStateAnyQuery.gridState,
-          query: gridStateAnyQuery.query
+          listState: gridState
         }
       ));
     });

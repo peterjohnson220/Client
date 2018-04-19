@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'exchanges', pathMatch: 'full' },
   { path: 'exchanges', component: ExchangeListPageComponent },
   { path: 'exchange/:id', component: ExchangeDashboardPageComponent, canActivate: [ExchangeExistsGuard] },
-  { path: 'exchange/job-mapping/:id', component: ExchangeJobMappingPageComponent },
+  { path: 'exchange/job-mapping/:id', component: ExchangeJobMappingPageComponent, canActivate: [ExchangeExistsGuard] },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];

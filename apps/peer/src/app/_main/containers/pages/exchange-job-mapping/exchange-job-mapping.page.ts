@@ -7,9 +7,10 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { ExchangeJobMapping } from 'libs/models/peer';
+import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
+import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
 
@@ -39,13 +40,14 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
 
   handleBackToListNavigation(): void {
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
-    this.store.dispatch(new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(''));
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
   }
 
   handleSearchChanged(query: string): void {
-    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, { skip: 0, take: 20 }));
-    this.store.dispatch(new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(query));
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.ExchangeJobMapping,
+      {columnName: 'ExchangeJobTitle', value: query}
+    ));
     this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
   }
 
@@ -55,6 +57,10 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
     this.collapse = false;
     this.disableGridScollTo = false;
+  }
+
+  requestJobButtonClick() {
+    this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob));
   }
 
   // Lifecycle

@@ -12,6 +12,7 @@ import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-jo
 import * as fromPeerMainReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
 import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
+import spyOn = jest.spyOn;
 
 describe('Peer - Exchange Job Mapping Page', () => {
   let fixture: ComponentFixture<ExchangeJobMappingPageComponent>;
@@ -68,25 +69,12 @@ describe('Peer - Exchange Job Mapping Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a UpdateExchangeJobMappingsQuery action with an empty string when handleBackToListNavigation is called', () => {
-    const action = new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery('');
-
-    instance.handleBackToListNavigation();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch a page change grid action when handleSearchChanged is called', () => {
-    const action = new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, { skip: 0, take: 20 });
-
-    instance.handleSearchChanged('New Search');
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch a UpdateExchangeJobMappingsQuery action when handleSearchChanged is called', () => {
+  it('should dispatch a UpdateFilter action when handleSearchChanged is called', () => {
     const query = 'New Search';
-    const action = new fromExchangeJobMappingGridActions.UpdateExchangeJobMappingsQuery(query);
+    const action = new fromGridActions.UpdateFilter(
+      GridTypeEnum.ExchangeJobMapping,
+      {columnName: 'ExchangeJobTitle', value: query}
+    );
 
     instance.handleSearchChanged(query);
 
