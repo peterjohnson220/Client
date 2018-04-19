@@ -25,9 +25,8 @@ import { ExchangeListEffects, ExchangeJobMappingGridEffects,
          ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
-import { ExchangeJobMappingService } from './services';
+import { ExchangeJobMappingService, ExchangeRequestEffectsService } from './services';
 import { MainRoutingModule } from './main-routing.module';
-import { ExchangeRequestEffectsService } from './services/exchange-request-effects.service';
 import { AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
          PayfactorsJobExchangeRequestEffects } from './effects/exchange-request/';
 

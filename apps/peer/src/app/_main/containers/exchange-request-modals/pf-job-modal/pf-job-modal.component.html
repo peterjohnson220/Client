@@ -86,17 +86,17 @@
     </h5>
     <h5>
       <span *ngIf="card?.InExchange && !card?.PendingRequest" class="badge badge-dark">Exchange Member</span>
-      <span *ngIf="card?.PendingRequest" class="badge badge-warning">Pending Request</span>
+      <span *ngIf="card?.PendingRequest" class="badge badge-warning">Pending Approval</span>
     </h5>
   </div>
 
   <div class="d-flex flex-row justify-content-between mb-2">
     <span class="flex-grow-1" style="flex-basis: 20%" title="Job Family">
-      <i class="fas fa-tags fa-lg"></i>
-      {{card?.JobFamily ? card?.JobFamily : 'No Industry'}}
+      <i class="fab fa-slideshare fa-lg"></i>
+      {{card?.JobFamily ? card?.JobFamily : 'No Job Family'}}
     </span>
     <span class="flex-grow-1" style="flex-basis: 20%" title="Job Level">
-      <i class="fas fa-signal fa-lg"></i>
+      <i class="fas pallet-alt fa-lg"></i>
       {{card?.JobLevel ? card?.JobLevel : 'N/A'}}
     </span>
   </div>
