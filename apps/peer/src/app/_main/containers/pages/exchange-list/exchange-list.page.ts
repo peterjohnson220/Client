@@ -26,8 +26,4 @@ export class ExchangeListPageComponent {
   openRequestAccessModal(): void {
     this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.Access));
   }
-
-  handleBackButtonClick(): void {
-    window.location.href = '/marketdata/home.asp';
-  }
 }
