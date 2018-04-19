@@ -8,7 +8,7 @@ import { ExchangeRequestTypeEnum } from 'libs/models';
 
 import { ExchangeRequestEffectsService } from '../../services';
 import * as fromPeerMainReducers from '../../reducers';
-import { PayfactorsJob } from '../../models';
+import { ExchangeJobRequestCandidate } from '../../models';
 
 @Injectable()
 export class PayfactorsJobExchangeRequestEffects {
@@ -21,7 +21,7 @@ export class PayfactorsJobExchangeRequestEffects {
   closeModal$: Observable<Action> = this.exchangeRequestEffectsService.closeModal(this.type);
 
   @Effect()
-  loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<PayfactorsJob>(
+  loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<ExchangeJobRequestCandidate>(
     this.type,
     fromPeerMainReducers.getPfJobsExchangeRequestContext
   );

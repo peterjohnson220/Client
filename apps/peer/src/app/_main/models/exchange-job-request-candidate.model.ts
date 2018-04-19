@@ -1,4 +1,4 @@
-export interface PayfactorsJob {
+export interface ExchangeJobRequestCandidate {
   MDJobsBaseId: number;
   JobTitle: string;
   JobFamily: string;
@@ -8,7 +8,7 @@ export interface PayfactorsJob {
   PendingRequest: boolean;
 }
 
-export function generateMockPayfactorsJob(): PayfactorsJob {
+export function generateMockExchangeJobRequestCandidate(): ExchangeJobRequestCandidate {
   return {
     MDJobsBaseId: 0,
     JobTitle: 'MockJobTitle',

@@ -3,18 +3,16 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { Subject } from 'rxjs/Subject';
 import { of } from 'rxjs/observable/of';
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
-  generateMockAvailableExchangeItem } from 'libs/models';
+import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models';
 
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../../../reducers';
+import { generateMockExchangeJobRequestCandidate } from '../../../models';
 import { PayfactorsJobModalComponent } from './pf-job-modal.component';
 import spyOn = jest.spyOn;
-import { generateMockPayfactorsJob } from '../../../models';
 
 describe('Peer - Exchange Request - Payfactors Job Modal', () => {
   let fixture: ComponentFixture<PayfactorsJobModalComponent>;
@@ -44,7 +42,7 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
 
     fixture = TestBed.createComponent(PayfactorsJobModalComponent);
     instance = fixture.componentInstance;
-    instance.cardSelector = {selectedCard: generateMockPayfactorsJob()};
+    instance.cardSelector = {selectedCard: generateMockExchangeJobRequestCandidate()};
   });
 
   it('should dispatch a LoadCandidates action of type Access when handleReloadCardsEvent is triggered', () => {
@@ -60,7 +58,7 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
 
   it(`should dispatch an UpdateFilterOptions action of type PayfactorsJob when
       updateJDSearchFilter is triggered`, () => {
-    const mockPayfactorsJob = generateMockPayfactorsJob();
+    const mockPayfactorsJob = generateMockExchangeJobRequestCandidate();
     const expectedFilterOptions = {JobDescriptionQuery: mockPayfactorsJob.JobDescription};
     const expectedAction = new fromExchangeRequestActions.UpdateFilterOptions(
       ExchangeRequestTypeEnum.PayfactorsJob,

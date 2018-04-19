@@ -11,7 +11,7 @@ import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/
 
 import * as fromPeerMainReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../actions/exchange-request.actions';
-import { PayfactorsJob } from '../../../models';
+import { ExchangeJobRequestCandidate } from '../../../models';
 
 @Component({
   selector: 'pf-request-payfactors-job-modal',
@@ -23,7 +23,7 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
   @ViewChild(CardSelectorComponent) cardSelector;
 
   exchange$: Observable<Exchange>;
-  payfactorsJobs$: Observable<PayfactorsJob[]>;
+  payfactorsJobs$: Observable<ExchangeJobRequestCandidate[]>;
   payfactorsJobsLoading$: Observable<boolean>;
   payfactorsJobsLoadingError$: Observable<boolean>;
   payfactorsJobRequesting$: Observable<boolean>;
@@ -40,8 +40,8 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
   jobDescriptionSearchTerm = '';
   jobDescriptionHighlightFilter = '';
 
-  jobIdentifier = (job: PayfactorsJob) => job ? job.MDJobsBaseId : 0;
-  jobCardDisabled = (job: PayfactorsJob) => job ? (job.InExchange || job.PendingRequest) : false;
+  jobIdentifier = (job: ExchangeJobRequestCandidate) => job ? job.MDJobsBaseId : 0;
+  jobCardDisabled = (job: ExchangeJobRequestCandidate) => job ? (job.InExchange || job.PendingRequest) : false;
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
@@ -67,7 +67,7 @@ export class PayfactorsJobModalComponent implements OnInit, OnDestroy {
             The exchange administrator will determine if the job will be added to the Exchange.`;
   }
   get reasonControl() { return this.payfactorsJobSelectionForm.get('reason'); }
-  get cardSelection(): PayfactorsJob { return this.cardSelector ? this.cardSelector.selectedCard : null; }
+  get cardSelection(): ExchangeJobRequestCandidate { return this.cardSelector ? this.cardSelector.selectedCard : null; }
 
   createForm(): void {
     this.payfactorsJobSelectionForm = this.fb.group({
