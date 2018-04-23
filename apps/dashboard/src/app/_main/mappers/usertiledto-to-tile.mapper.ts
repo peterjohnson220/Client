@@ -173,15 +173,15 @@ export class UserTileToTileMapper {
 
         break;
       case TileTypes.DataDiagnostics:
-          tile.CssClass = 'tile-blue';
+          tile.CssClass = 'tile-green';
           break;
 
       case TileTypes.Community:
-          tile.CssClass = 'tile-blue';
+          tile.CssClass = 'tile-lightblue';
           break;
 
       case TileTypes.Ideas:
-          tile.CssClass = 'tile-blue';
+          tile.CssClass = 'tile-lightblue';
           break;
 
       default:
