@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 
 import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
-import { Exchange, ChartItem, ExchangeCompany} from 'libs/models';
+import { ChartItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 
