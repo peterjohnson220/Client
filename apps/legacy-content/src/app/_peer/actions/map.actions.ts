@@ -2,25 +2,26 @@ import { Action } from '@ngrx/store';
 
 import { ExchangeMapResponse } from 'libs/models/peer';
 
-export const LOADING_PEER_MAP  = '[Peer Add Data Cut/Map] Loading Peer Map';
-export const LOADING_PEER_MAP_SUCCESS  = '[Peer Add Data Cut/Map] Loading Peer Map Success';
-export const LOADING_PEER_MAP_ERROR  = '[Peer Add Data Cut/Map] Loading Peer Map Error';
+export const LOADING_PEER_MAP_DATA  = '[Peer Add Data Cut/Map] Loading Peer Map Data';
+export const LOADING_PEER_MAP_DATA_SUCCESS  = '[Peer Add Data Cut/Map] Loading Peer Map Data Success';
+export const LOADING_PEER_MAP_DATA_ERROR  = '[Peer Add Data Cut/Map] Loading Peer Map Data Error';
 export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Peer Add Data Cut/Map] Update Peer Map Filter Bounds';
 export const INITIAL_MAP_MOVE_COMPLETE = '[Peer Add Data Cut/Map] Initial Map Move Complete';
+export const MAP_LOADED = '[Peer Add Data Cut/Map] Map Loaded';
 
-export class LoadingPeerMap implements Action {
-  readonly type = LOADING_PEER_MAP;
+export class LoadingPeerMapData implements Action {
+  readonly type = LOADING_PEER_MAP_DATA;
   readonly payload = null;
 }
 
-export class LoadingPeerMapSuccess implements Action {
-  readonly type = LOADING_PEER_MAP_SUCCESS;
+export class LoadingPeerMapDataSuccess implements Action {
+  readonly type = LOADING_PEER_MAP_DATA_SUCCESS;
 
   constructor(public payload: ExchangeMapResponse) {}
 }
 
-export class LoadingPeerMapError implements Action {
-  readonly type = LOADING_PEER_MAP_ERROR;
+export class LoadingPeerMapDataError implements Action {
+  readonly type = LOADING_PEER_MAP_DATA_ERROR;
   readonly payload = null;
 }
 
@@ -36,9 +37,14 @@ export class InitialMapMoveComplete implements Action {
   constructor(public payload: any) { }
 }
 
+export class MapLoaded implements Action {
+  readonly type = MAP_LOADED;
+}
+
 export type Actions
-  = LoadingPeerMap
-  | LoadingPeerMapSuccess
-  | LoadingPeerMapError
+  = LoadingPeerMapData
+  | LoadingPeerMapDataSuccess
+  | LoadingPeerMapDataError
   | UpdatePeerMapFilterBounds
-  | InitialMapMoveComplete;
+  | InitialMapMoveComplete
+  | MapLoaded;

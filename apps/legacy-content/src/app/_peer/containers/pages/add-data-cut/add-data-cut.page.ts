@@ -9,6 +9,7 @@ import { ExchangeJobPayMarketFilter, ExchangeMapSummary } from 'libs/models/peer
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
 import { GuidelineLimits } from '../../../models';
 import * as fromPeerDataReducers from '../../../reducers';
+import { PageInViewInIframe } from '../../../actions/add-data-cut-page.actions';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -54,15 +55,15 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
 
-    if (!this.inIframe()) {
-      this.loadExchangeJobAndPayMarketFilter();
-    }
+    this.loadExchangeJobAndPayMarketFilter();
   }
 
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
-    if(this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
-      this.loadExchangeJobAndPayMarketFilter();
+    if (this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
+      setTimeout(() => {
+        this.store.dispatch(new fromAddDataCutPageActions.PageInViewInIframe());
+      }, 100);
     }
   }
 
