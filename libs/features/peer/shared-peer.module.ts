@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { GridModule } from '@progress/kendo-angular-grid';
 
-import { PfCommonUIModule } from 'libs/ui/common/index';
-import { PfApiModule } from 'libs/data/payfactors-api/index';
 import { PfStateModule } from 'libs/state/state.module';
 
+import { PfCommonUIModule } from '../../ui/common';
+import { PfApiModule } from '../../data/payfactors-api';
 import { ExchangeListComponent } from './containers';
 import { reducers } from './reducers';
 

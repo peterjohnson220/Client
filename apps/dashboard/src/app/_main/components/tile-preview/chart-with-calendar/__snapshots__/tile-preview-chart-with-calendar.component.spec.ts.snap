@@ -2,11 +2,13 @@
 
 exports[`Tile Preview Chart With Calendar should not show chart without model.component data 1`] = `
 <pf-tile-preview-calendar-with-chart
-  actionsSubject={[Function ActionsSubject]}
-  clientSettingsStore={[Function Store]}
   model={[Function Object]}
+  savingSetting$={[Function Store]}
+  savingSettingSuccess$={[Function Store]}
+  savingSettingSuccessName$={[Function Store]}
   seriesItemHighlightStyle={[Function Object]}
-  tileGridStore={[Function Store]}
+  settingName="null"
+  store={[Function Store]}
 >
   <span
     class="tile-background-overlay"
@@ -33,12 +35,14 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
 
 exports[`Tile Preview Chart With Calendar should show kendo chart when model.ChartComponentData.length > 0 1`] = `
 <pf-tile-preview-calendar-with-chart
-  actionsSubject={[Function ActionsSubject]}
-  clientSettingsStore={[Function Store]}
   model={[Function Object]}
+  savingSetting$={[Function Store]}
+  savingSettingSuccess$={[Function Store]}
+  savingSettingSuccessName$={[Function Store]}
   selectedDate={[Function Date]}
   seriesItemHighlightStyle={[Function Object]}
-  tileGridStore={[Function Store]}
+  settingName="null"
+  store={[Function Store]}
 >
   <span
     class="tile-background-overlay"

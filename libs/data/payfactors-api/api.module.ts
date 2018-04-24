@@ -3,13 +3,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
-import { ClientSettingsApiService} from './client-settings';
+import { UiPersistenceSettingsApiService} from './ui-persistence-settings';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
 import { UserApiService } from './user';
-import { CompanyApiService } from './company/company-api.service';
+import { CompanyApiService } from './company';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -22,7 +22,7 @@ import { CompanyApiService } from './company/company-api.service';
     ExchangeCompanyApiService,
     ExchangeDataSearchApiService,
     NavigationApiService,
-    ClientSettingsApiService,
+    UiPersistenceSettingsApiService,
     PayMarketApiService,
     PayfactorsApiService
   ]

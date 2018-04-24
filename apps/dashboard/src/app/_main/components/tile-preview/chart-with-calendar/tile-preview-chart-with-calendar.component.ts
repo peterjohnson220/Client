@@ -1,18 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
-import { Store, ActionsSubject } from '@ngrx/store';
+import { SaveUiPersistenceSettingRequest } from 'libs/models/common/save-ui-persistence-setting-request.model';
+import { TilePreviewChartWithCalendar } from '../../../models';
 
-import * as fromClientSettingsReducer from 'libs/core/reducers/client-settings.reducer';
-import * as fromClientSettingActions from 'libs/core/actions/client-settings.actions';
-import { ClientSettingRequestModel } from 'libs/models/common/client-setting-request.model';
-import { SAVING_CLIENT_SETTING_SUCCESS } from 'libs/core/actions/client-settings.actions';
-
-import { TilePreviewChartWithCalendar } from '../../../models/tile-preview-chart-with-calendar.model';
+import * as fromRootState from 'libs/state/state';
+import * as fromFeatureReducer from '../../../reducers';
 import * as fromTileGridActions from '../../../actions/tile-grid.actions';
-import * as fromTileGridReducer from '../../../reducers';
-
-import 'hammerjs';
-import 'rxjs/add/operator/filter';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
 @Component({
   selector: 'pf-tile-preview-calendar-with-chart',
@@ -21,12 +17,28 @@ import 'rxjs/add/operator/filter';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TilePreviewChartWithCalendarComponent implements OnInit {
+
   @Input() model: TilePreviewChartWithCalendar;
   selectedDate: any;
+  savingSetting$: Observable<boolean>;
+  savingSettingSuccess$: Observable<boolean>;
+  savingSettingName$: Observable<string>;
+  savingSettingName: string;
+  savingSettingSuccessSubscription: any;
+  constructor(public store: Store<fromFeatureReducer.State>) {
+    this.savingSetting$ = this.store.select(fromRootState.getUiPersistenceSettingsSaving);
+    this.savingSettingSuccess$ = this.store.select(fromRootState.getUiPersistenceSettingsSavingSuccess);
+    this.savingSettingName$ = this.store.select(fromRootState.getUiPersistenceLastAttemptedSaveSettingName);
 
-  constructor(public clientSettingsStore: Store<fromClientSettingsReducer.State>,
-              private tileGridStore: Store<fromTileGridReducer.State>,
-              private actionsSubject: ActionsSubject) {
+    this.savingSettingName$.subscribe(name => {
+      this.savingSettingName = name;
+    });
+
+    this.savingSettingSuccessSubscription = this.savingSettingSuccess$.subscribe(savingSettingSuccess => {
+      if (savingSettingSuccess && this.savingSettingName === 'JobsTileEffectiveDate') {
+       this.reloadTile();
+      }
+    });
   }
 
   public seriesItemHighlightStyle: any = {
@@ -35,30 +47,26 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
     border: '#000'
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.model.ComponentData && this.model.ComponentData.TileMiddlePart) {
       this.selectedDate = new Date(this.model.ComponentData.TileMiddlePart.SelectedDate);
     }
   }
 
   datePickerValueChanged() {
-    const clientSettingRequest = {
+    const saveUiPersistenceSettingRequest = {
       FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
       SettingValue: this.selectedDate
-    } as ClientSettingRequestModel;
+    } as SaveUiPersistenceSettingRequest;
 
-    this.clientSettingsStore.dispatch(new fromClientSettingActions.SavingClientSetting
-    (JSON.stringify(clientSettingRequest)));
-
-    const actionSubjectSubscription = this.actionsSubject.filter(action => action.type === SAVING_CLIENT_SETTING_SUCCESS)
-      .subscribe(() => {
-          this.reloadTile();
-          actionSubjectSubscription.unsubscribe();
-        }
-      );
+    this.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting
+    (saveUiPersistenceSettingRequest));
   }
 
   reloadTile() {
-    this.tileGridStore.dispatch(new fromTileGridActions.LoadingSingleTile(this.model.TileId));
+    if (this.model !== undefined) {
+      this.savingSettingSuccessSubscription.unsubscribe();
+      this.store.dispatch(new fromTileGridActions.LoadingSingleTile(this.model.TileId));
+    }
   }
 }

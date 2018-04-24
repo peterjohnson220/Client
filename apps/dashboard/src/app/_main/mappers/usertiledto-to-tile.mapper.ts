@@ -46,6 +46,12 @@ export class UserTileToTileMapper {
         return TileTypes.Structures;
       case 'Surveys':
         return TileTypes.Surveys;
+      case 'Data Diagnostics':
+        return TileTypes.DataDiagnostics;
+      case 'Community':
+        return TileTypes.Community;
+      case 'Ideas':
+        return TileTypes.Ideas;
       default:
         return TileTypes.Unknown;
     }
@@ -166,6 +172,17 @@ export class UserTileToTileMapper {
         }
 
         break;
+      case TileTypes.DataDiagnostics:
+          tile.CssClass = 'tile-green';
+          break;
+
+      case TileTypes.Community:
+          tile.CssClass = 'tile-lightblue';
+          break;
+
+      case TileTypes.Ideas:
+          tile.CssClass = 'tile-lightblue';
+          break;
 
       default:
         tile.CssClass = 'tile-green';

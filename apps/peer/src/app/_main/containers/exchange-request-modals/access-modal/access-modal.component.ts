@@ -46,8 +46,8 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
   companyNameFilter = '';
   reason = '';
   searchTerm = '';
-  modalSubTitle = `Search for and select an Exchange you would like access to. Please provide a reason for the access
-              request and the Exchange administrator will review your eligibility.`;
+  modalSubTitle = `Search for and select an Exchange you would like access to.
+   The exchange administrator will review your eligibility before approving access.`;
 
   exchangeIdentifier = (e: AvailableExchangeItem) => e ? e.ExchangeId : 0;
   exchangeCardDisabled = (e: AvailableExchangeItem) => e ? (e.InExchange || e.PendingAccess) : false;

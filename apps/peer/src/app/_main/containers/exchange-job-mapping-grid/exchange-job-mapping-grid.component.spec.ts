@@ -13,6 +13,7 @@ import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-m
 import * as fromPeerMainReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 import { ExchangeJobMappingGridComponent } from './exchange-job-mapping-grid.component';
+import spyOn = jest.spyOn;
 
 describe('Peer - Exchange Job Mapping Grid', () => {
   let fixture: ComponentFixture<ExchangeJobMappingGridComponent>;
@@ -128,6 +129,19 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     instance.handleCellClick(event);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it(`should not dispatch a SelectExchangeJobMapping action when the dataItem received is a PendingRequest,
+  when handling a cell click`, () => {
+    // Trigger ngOnInit so that ngOnDestory doesn't fail
+    fixture.detectChanges();
+
+    const event = { dataItem: {...generateMockExchangeJobMapping(), PendingRequest: true}, rowIndex: 1 };
+
+    instance.exchangeJobMappingGridState = { skip: 0 };
+    instance.handleCellClick(event);
+
+    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
   it('should dispatch a UpdatePageRowIndexToScrollTo action with the pageRowIndex (rowIndex - skip), when handling a cell click', () => {

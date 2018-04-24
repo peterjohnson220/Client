@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum, ExchangeJobMapping} from 'libs/models';
@@ -29,7 +29,6 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   exchangeJobMappingsGridState$: Observable<State>;
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
   exchangeJobMappingGridStateSubscription: Subscription;
-
   exchangeJobMappingGridState: State;
 
   constructor(
@@ -54,8 +53,26 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
   }
 
+  rowClass(context: RowClassArgs): string {
+    return context.dataItem.PendingRequest ? 'row-disabled' : '';
+  }
+
+  handleSelectionChange(context: any) {
+    // If the selected row is a pending request, revert selection.
+    // This is kind of a "hacky" work-around, but the best that I could come up with. [JP]
+    const invalidSelectionIndex = context.selectedRows.findIndex(
+      sr => sr.index === context.index && sr.dataItem.PendingRequest
+    );
+    if (invalidSelectionIndex > -1) {
+      context.selectedRows = context.deselectedRows;
+    }
+  }
+
   // CellClickEvent Interface is missing dataItem. Defining type as any to avoid error
   handleCellClick(event: any) {
+    if (event.dataItem && event.dataItem.PendingRequest === true) {
+      return;
+    }
     const pageRowIndex = event.rowIndex - this.exchangeJobMappingGridState.skip;
     this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem));
     this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(pageRowIndex));

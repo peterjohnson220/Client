@@ -1,14 +1,9 @@
 @import 'colors';
 
 .wrapper {
+  height: 100%;
   display: flex;
   flex-flow: column nowrap;
-  height: 100vh;
-  min-height: 100vh;
-}
-
-.fixed-height{
-  height: 100%;
 }
 
 header {
@@ -17,15 +12,13 @@ header {
 }
 
 main {
-  flex: 1 0 auto;
-}
-
-.flex-row-nowrap {
+  min-height: 0;
   display: flex;
   flex-flow: row nowrap;
+  flex: 1;
 }
 
-.flex-1 {
+.center-content {
   flex: 1;
 }
 
@@ -33,6 +26,22 @@ main {
   background: $left-sidebar-color;
 }
 
-.right-sidebar {
+//------------Conditional CSS for scrolling ---------------------------
+.main-body-scroll {
+  flex: 1 0 auto;
+}
 
+.left-sidebar-center-content-scroll {
+  flex-shrink: 0;
+  overflow-y: hidden;
+}
+
+.center-content-body-scroll
+{
+  overflow: hidden;
+}
+
+.center-content-scroll {
+  overflow: auto;
+  flex-basis: auto;
 }

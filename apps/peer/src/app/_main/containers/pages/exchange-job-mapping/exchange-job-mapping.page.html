@@ -4,7 +4,6 @@
   </ng-container>
 
   <ng-container page-actions>
-
     <div class="omni-box">
       <pf-input-debounce
         [focus]="false"
@@ -12,6 +11,7 @@
         (valueChanged)="handleSearchChanged($event)">
       </pf-input-debounce>
     </div>
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Request Job</button>
 
   </ng-container>
 
@@ -36,3 +36,5 @@
 
   </ng-container>
 </pf-page-with-title-bar>
+
+<pf-request-payfactors-job-modal></pf-request-payfactors-job-modal>
