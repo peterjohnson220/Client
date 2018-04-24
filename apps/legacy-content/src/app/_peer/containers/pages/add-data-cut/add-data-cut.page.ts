@@ -61,6 +61,8 @@ export class AddDataCutPageComponent implements OnInit {
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
     if (this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
+      // Hack. Wait a little before telling the client app that page is now in view in
+      // an IFrame
       setTimeout(() => {
         this.store.dispatch(new fromAddDataCutPageActions.PageInViewInIframe());
       }, 100);
