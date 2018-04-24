@@ -5,6 +5,10 @@ import { Pipe, PipeTransform} from '@angular/core';
 })
 export class TruncateAfterPipe implements PipeTransform {
   transform(value: string, threshold: number, excludeEllipses?: boolean): string {
+    if (!value) {
+      return value;
+    }
+
     if (value.trim().length <= threshold) {
       return value;
     }
