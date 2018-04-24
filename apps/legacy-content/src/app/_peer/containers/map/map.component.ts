@@ -61,7 +61,6 @@ export class MapComponent {
   // Map events
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;
-    alert('Hello?');
     this.store.dispatch(new fromPeerMapActions.MapLoaded());
   }
 
