@@ -1,6 +1,9 @@
 <pf-layout-wrapper
   [displayRightSideBar]="displayRightSideBar"
-  [rightSideBarFontAwesomeOpenIcon]="rightSideBarOpenIcon">
+  [rightSideBarFontAwesomeOpenIcon]="rightSideBarOpenIcon"
+  [rightSidebarShouldBeOpen]="isRightSidebarOpen"
+  (onRightSidebarToggle)="saveRightSidebarToggle($event)"
+>
   <router-outlet mainContent></router-outlet>
   <router-outlet rightSidebarContent name="rightSidebarContent"></router-outlet>
 </pf-layout-wrapper>

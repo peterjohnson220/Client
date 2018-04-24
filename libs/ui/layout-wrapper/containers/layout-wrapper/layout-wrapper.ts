@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -28,8 +28,9 @@ export class LayoutWrapperComponent implements OnInit {
 
   @Input() displayRightSideBar: boolean;
   @Input() rightSideBarFontAwesomeOpenIcon = 'fa-plus';
+  @Input() rightSidebarShouldBeOpen = false;
+  @Output() onRightSidebarToggle = new EventEmitter<boolean>();
   @Input() centerContentScroll: boolean;
-
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -55,5 +56,9 @@ export class LayoutWrapperComponent implements OnInit {
       }));
     });
     this.store.dispatch(new fromHeaderActions.GetHeaderDropdownNavigationLinks());
+  }
+
+  rightSidebarToggle(isOpen: boolean) {
+    this.onRightSidebarToggle.emit(isOpen);
   }
 }
