@@ -9,7 +9,6 @@ import { ExchangeJobPayMarketFilter, ExchangeMapSummary } from 'libs/models/peer
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
 import { GuidelineLimits } from '../../../models';
 import * as fromPeerDataReducers from '../../../reducers';
-import { PageInViewInIframe } from '../../../actions/add-data-cut-page.actions';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -55,7 +54,10 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
 
-    this.loadExchangeJobAndPayMarketFilter();
+    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
+      CompanyJobId: this.companyJobId,
+      CompanyPayMarketId: this.companyPayMarketId
+    }));
   }
 
   @HostListener('window:message', ['$event'])
@@ -75,12 +77,5 @@ export class AddDataCutPageComponent implements OnInit {
     } catch (e) {
       return true;
     }
-  }
-
-  loadExchangeJobAndPayMarketFilter() {
-    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId
-    }));
   }
 }
