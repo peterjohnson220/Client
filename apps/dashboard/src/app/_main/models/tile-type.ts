@@ -14,6 +14,9 @@ export class TileType {
   Service = TileTypes.Service;
   Structures = TileTypes.Structures;
   Surveys = TileTypes.Surveys;
+  DataDiagnostics = TileTypes.DataDiagnostics;
+  Community = TileTypes.Community;
+  Ideas = TileTypes.Ideas;
 
   constructor() {
     this.AllTypes = [
@@ -27,7 +30,10 @@ export class TileType {
       TileTypes.Resources,
       TileTypes.Service,
       TileTypes.Structures,
-      TileTypes.Surveys
+      TileTypes.Surveys,
+      TileTypes.DataDiagnostics,
+      TileTypes.Community,
+      TileTypes.Ideas
     ];
   }
 }
