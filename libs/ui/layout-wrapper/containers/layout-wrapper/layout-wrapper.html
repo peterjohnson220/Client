@@ -1,4 +1,4 @@
-<div class="wrapper" [class.fixed-height]="fixedHeight">
+<div class="wrapper">
   <header>
     <div class="flex-row-nowrap">
       <pf-layout-wrapper-header [dropdownNavigationLinks]="headerDropdownNavigationLinks$ | async"
@@ -7,11 +7,12 @@
       </pf-layout-wrapper-header>
     </div>
   </header>
-  <main class="flex-row-nowrap">
-    <div class="left-sidebar">
+  <main [class.main-body-scroll]="!centerContentScroll">
+    <div class="left-sidebar" [class.left-sidebar-center-content-scroll]="centerContentScroll">
       <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
     </div>
-    <div class="flex-1">
+    <div class="center-content"
+         [ngClass]="{ 'center-content-body-scroll': !centerContentScroll, 'center-content-scroll': centerContentScroll }">
       <ng-content select="[mainContent]"></ng-content>
     </div>
     <div class="right-sidebar" *ngIf="displayRightSideBar">

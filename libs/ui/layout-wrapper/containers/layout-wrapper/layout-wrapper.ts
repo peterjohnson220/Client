@@ -28,7 +28,8 @@ export class LayoutWrapperComponent implements OnInit {
 
   @Input() displayRightSideBar: boolean;
   @Input() rightSideBarFontAwesomeOpenIcon = 'fa-plus';
-  @Input() fixedHeight: boolean;
+  @Input() centerContentScroll: boolean;
+
 
   constructor(
     private store: Store<fromRootState.State>,
