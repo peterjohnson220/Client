@@ -1,0 +1,29 @@
+<pf-async-container
+  [loading]="loadingExchangeJobComparisons$ | async"
+  [loadingError]="loadingExchangeJobComparisonsError$ | async"
+  [hideReloadButton]="true">
+
+  <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+              [data]="exchangeJobComparisonsGridData$ | async"
+              [pageSize]="(exchangeJobComparisonsGridState$ | async)?.take"
+              [skip]="(exchangeJobComparisonsGridState$ | async)?.skip"
+              [sort]="(exchangeJobComparisonsGridState$ | async)?.sort"
+              [pageable]="{
+                    buttonCount: 5,
+                    info: true
+                  }"
+              [resizable]="true"
+              [sortable]="true"
+              [kendoGridSelectBy]="'ExchangeJobToCompanyJobId'"
+              (pageChange)="handlePageChanged($event)"
+              (sortChange)="handleSortChanged($event)">
+
+    <kendo-grid-column field="CompanyJobTitle" title="Company Job Title"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeIncs" title="Exchange Incs" width="100"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeOrgs" title="Exchange Orgs" width="100"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeBaseAverage" title="Exchange Base Average" width="100"></kendo-grid-column>
+    <kendo-grid-column field="CompanyBaseAverage" title="Company Base Average" width="100"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="100"></kendo-grid-column>
+  </kendo-grid>
+</pf-async-container>

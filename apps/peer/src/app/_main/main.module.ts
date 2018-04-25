@@ -16,13 +16,15 @@ import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeListPageComponent, ExchangeJobMappingPageComponent,
-         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
+         ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent, ExchangeJobComparisonGridComponent,
          ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent, PayfactorsJobModalComponent,
          AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
          ExchangeRevenueChartComponent, ChartDetailComponent, ExchangeCompanyCountComponent,
          ExchangeJobCountComponent } from './containers';
-import { ExchangeListEffects, ExchangeJobMappingGridEffects,
-         ExchangeJobMappingInfoEffects, ExchangeDashboardEffects } from './effects';
+import {
+  ExchangeListEffects, ExchangeJobMappingGridEffects,
+  ExchangeJobMappingInfoEffects, ExchangeDashboardEffects, ExchangeJobComparisonGridEffects
+} from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, ExchangeRequestEffectsService } from './services';
@@ -44,7 +46,7 @@ import { AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeListEffects, ExchangeDashboardEffects,
       ExchangeJobMappingInfoEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
-      PayfactorsJobExchangeRequestEffects
+      PayfactorsJobExchangeRequestEffects, ExchangeJobComparisonGridEffects
     ]),
     DropDownsModule,
 
@@ -68,6 +70,7 @@ import { AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects,
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, ExchangeDashboardPageComponent,
     PayfactorsCompanyModalComponent, AccessModalComponent, PayfactorsJobModalComponent,
+    ExchangeJobComparisonGridComponent,
 
     // Pages
     ExchangeListPageComponent, ExchangeJobMappingPageComponent

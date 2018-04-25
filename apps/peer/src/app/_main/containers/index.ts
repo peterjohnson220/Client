@@ -8,3 +8,4 @@ export * from './exchange-industry-chart';
 export * from './exchange-job-family-chart';
 export * from './exchange-revenue-chart';
 export * from './chart-detail';
+export * from './exchange-job-comparison-grid';
