@@ -6,10 +6,12 @@ import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { ExchangeListPageComponent, ManageExchangePageComponent } from './containers/pages';
 import { ExchangeExistsGuard } from './guards';
 
+import { PfAdminGuard } from '../../../../../libs/security/guards';
+
 const routes: Routes = [
   { path: '', redirectTo: 'exchanges', pathMatch: 'full' },
-  { path: 'exchanges', component: ExchangeListPageComponent },
-  { path: 'exchange/:id', component: ManageExchangePageComponent, canActivate: [ExchangeExistsGuard] },
+  { path: 'exchanges', component: ExchangeListPageComponent, canActivate: [PfAdminGuard] },
+  { path: 'exchange/:id', component: ManageExchangePageComponent, canActivate: [PfAdminGuard, ExchangeExistsGuard] },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
