@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { DragulaService } from 'ng2-dragula';
 
+import * as fromRootState from 'libs/state/state';
 import * as fromTileGridReducer from '../../reducers';
 import * as fromTileGridActions from '../../actions/tile-grid.actions';
 
@@ -24,8 +25,7 @@ export class TileGridComponent implements OnInit {
   tiles$: Observable<Tile[]>;
   tiles: Tile[];
   movedTileId: number;
-
-  @Input() userContext: UserContext;
+  userContext$: Observable<UserContext>;
 
   constructor(private store: Store<fromTileGridReducer.State>,
               private dragulaService: DragulaService) {
@@ -42,6 +42,7 @@ export class TileGridComponent implements OnInit {
     this.loading$ = this.store.select(fromTileGridReducer.getTileGridLoading);
     this.loadingError$ = this.store.select(fromTileGridReducer.getTileGridLoadingError);
     this.tiles$ = this.store.select(fromTileGridReducer.getTileGridTiles);
+    this.userContext$ = store.select(fromRootState.getUserContext);
   }
 
   // Helpers

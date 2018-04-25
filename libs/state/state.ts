@@ -64,7 +64,7 @@ export const getGettingCompanySettingsAttempted =
  * UI Persistence Settings Reducers
  */
 export const getUiPersistenceSettingsState =
-  createFeatureSelector<fromUiPersistenceSettingsReducer.State>('uiPersistenceSettings')
+  createFeatureSelector<fromUiPersistenceSettingsReducer.State>('uiPersistenceSettings');
 export const getUiPersistenceSettings =
   createSelector(getUiPersistenceSettingsState, fromUiPersistenceSettingsReducer.getUiPersistenceSettings);
 export const getUiPersistenceSettingsSaving =

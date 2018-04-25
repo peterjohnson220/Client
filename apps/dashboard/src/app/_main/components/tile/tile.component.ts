@@ -2,8 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { environment } from 'environments/environment';
 
+import { UserContext } from 'libs/models';
+import { userVoiceUrl } from 'libs/core/functions';
 import {
-  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType,
+  Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType, TileTypes,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
   generateTilePreviewChartWithCalendarFromTile
@@ -17,6 +19,7 @@ import {
 })
 export class TileComponent implements OnInit {
   @Input() tile: Tile;
+  @Input() userContext: UserContext;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
   ngAppRoot = environment.ngAppRoot;
@@ -44,5 +47,20 @@ export class TileComponent implements OnInit {
 
   ngOnInit(): void {
     this.previewModel = TileComponent.generatePreviewModel(this.tile);
+  }
+
+  getTileHref(tile: Tile) {
+    let url = this.getUrl(tile.NgAppLink, tile.Url);
+    if (tile.Type === TileTypes.Ideas){
+      return userVoiceUrl(url, this.userContext.UserId);
+    }
+    return url;
+  }
+
+  getUrl(ngApplink: boolean, url: string){
+    if (ngApplink){
+      return this.ngAppRoot + url;
+    }
+    return url;
   }
 }
