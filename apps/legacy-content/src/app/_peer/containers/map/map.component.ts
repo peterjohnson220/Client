@@ -31,6 +31,7 @@ export class MapComponent {
   peerMapShowNoData$: Observable<boolean>;
   peerMapMaxZoom$: Observable<number>;
   peerMapInitialMapMoveComplete$: Observable<boolean>;
+  addDataCutPageInViewInIframe$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerDataReducers.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
@@ -43,6 +44,7 @@ export class MapComponent {
     this.peerMapShowNoData$ = this.store.select(fromPeerDataReducers.peerMapShowNoData);
     this.peerMapMaxZoom$ = this.store.select(fromPeerDataReducers.getPeerMapMaxZoom);
     this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerDataReducers.getPeerMapInitialMapMoveComplete);
+    this.addDataCutPageInViewInIframe$ = this.store.select(fromPeerDataReducers.getAddDataCutPageInViewInIframe);
   }
 
   get center(): any {
@@ -59,6 +61,7 @@ export class MapComponent {
   // Map events
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;
+    this.store.dispatch(new fromPeerMapActions.MapLoaded());
   }
 
   handleMoveStartEvent(e: any) {

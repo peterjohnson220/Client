@@ -9,6 +9,8 @@ export const CANCEL_ADD_DATA_CUT = '[Legacy Content/Add Data Cut Page] Cancel Ad
 export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER = '[Legacy Content/Add Data Cut Page] Load Exchange Job Pay Market Filter';
 export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS =
   '[Legacy Content/Add Data Cut Page] Load Exchange Job Pay Market Filter Success';
+export const PAGE_IN_VIEW_IN_IFRAME = '[Legacy Content/Add Data Cut Page] Page In View From IFrame';
+
 
 export class AddingDataCut implements Action {
   readonly type = ADDING_DATA_CUT;
@@ -40,10 +42,15 @@ export class LoadingExchangeJobPayMarketFilterSuccess implements Action {
   constructor(public payload: ExchangeJobPayMarketFilter) { }
 }
 
+export class PageInViewInIframe implements Action {
+  readonly type = PAGE_IN_VIEW_IN_IFRAME;
+}
+
 export type Actions
   = AddingDataCut
   | AddingDataCutSuccess
   | AddingDataCutError
   | CancelAddDataCut
   | LoadingExchangeJobPayMarketFilter
-  | LoadingExchangeJobPayMarketFilterSuccess;
+  | LoadingExchangeJobPayMarketFilterSuccess
+  | PageInViewInIframe;
