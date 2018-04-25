@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { PfAdminGuard } from 'libs/security/guards';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent } from './containers/pages';
 import { ExchangeExistsGuard } from './guards';
-
-import { PfAdminGuard } from '../../../../../libs/security/guards';
 
 const routes: Routes = [
   { path: '', redirectTo: 'exchanges', pathMatch: 'full' },

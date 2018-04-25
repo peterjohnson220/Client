@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-
-// TODO: Switch to lettable operators once ngrx updates
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';

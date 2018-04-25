@@ -2,29 +2,27 @@ import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-
-// TODO: Switch to lettable operators once ngrx updates
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 
 import * as fromLayoutReducer from '../../ui/layout-wrapper/reducers';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import * as fromLeftSidebarActions from '../../ui/layout-wrapper/actions/left-sidebar.actions';
-import * as fromRootState from '../../state/state';
 
 @Injectable()
 export class PeerTileEnabledGuard implements CanActivate, OnInit, OnDestroy {
   navigationLoadAttempted: boolean;
   navigationLoadAttempted$: Observable<boolean>;
   navigationLoadAttemptedSubscription: Subscription;
+
   constructor(
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
     private router: Router
   ) {
-    this.navigationLoadAttempted$ = this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinksError);
+    this.navigationLoadAttempted$ = this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks);
   }
 
   ngOnInit() {
@@ -56,7 +54,7 @@ export class PeerTileEnabledGuard implements CanActivate, OnInit, OnDestroy {
   }
 
   private waitForLeftSidebarLinks() {
-    return this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinksError)
+    return this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks)
       .filter(attempted => attempted).take(1);
   }
 }

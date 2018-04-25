@@ -77,7 +77,7 @@ export const getGettingLeftSidebarNavigationLinksError = createSelector(
   fromLeftSidebarReducer.getGettingLeftSidebarNavigationLinksError
 );
 
-export const getLoadedLeftSidebarNavigationLinksError = createSelector(
+export const getLoadedLeftSidebarNavigationLinks = createSelector(
   selectLeftSidebarState,
   fromLeftSidebarReducer.getLoadedLeftSidebarNavigationLinks
 );
