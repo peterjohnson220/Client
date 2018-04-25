@@ -60,11 +60,15 @@ export class AddDataCutPageComponent implements OnInit {
     }));
   }
 
+
+  // Add Data cut page within marketdata.asp specific code
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
     if (this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
       // Hack. Wait a little before telling the client app that page is now in view in
-      // an IFrame
+      // an IFrame. Need to do this to allow the css positioning of the map to finish on the ASP side
+      // before passing off the bounds to the map to initialize zooming. Otherwise we will run into the "Zoom Bug"
+      // where the map does not zoom all the way in.
       setTimeout(() => {
         this.store.dispatch(new fromAddDataCutPageActions.PageInViewInIframe());
       }, 100);
