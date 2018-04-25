@@ -3,7 +3,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum} from 'libs/models';
@@ -45,6 +45,10 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   handleSortChanged(sort: SortDescriptor[]): void {
     this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.ExchangeJobComparison, sort));
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
+  }
+
+  handleDataStateChange(state: DataStateChangeEvent): void {
+    this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.ExchangeJobComparison, state.filter));
   }
 
   // Lifecycle

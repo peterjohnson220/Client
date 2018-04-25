@@ -4,6 +4,7 @@
   [hideReloadButton]="true">
 
   <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+              [height]="'100%'"
               [data]="exchangeJobComparisonsGridData$ | async"
               [pageSize]="(exchangeJobComparisonsGridState$ | async)?.take"
               [skip]="(exchangeJobComparisonsGridState$ | async)?.skip"
@@ -15,15 +16,18 @@
               [resizable]="true"
               [sortable]="true"
               [kendoGridSelectBy]="'ExchangeJobToCompanyJobId'"
+              [filter]="(exchangeJobComparisonsGridState$ | async)?.filter"
+              filterable="menu"
+              (dataStateChange)="handleDataStateChange($event)"
               (pageChange)="handlePageChanged($event)"
               (sortChange)="handleSortChanged($event)">
 
     <kendo-grid-column field="CompanyJobTitle" title="Company Job Title"></kendo-grid-column>
     <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeIncs" title="Exchange Incs" width="100"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeOrgs" title="Exchange Orgs" width="100"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeBaseAverage" title="Exchange Base Average" width="100"></kendo-grid-column>
-    <kendo-grid-column field="CompanyBaseAverage" title="Company Base Average" width="100"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="100"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeIncs" title="Exchange Incs" width="140"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeOrgs" title="Exchange Orgs" width="140"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeBaseAverage" title="Exchange Base Average" width="170"></kendo-grid-column>
+    <kendo-grid-column field="CompanyBaseAverage" title="Company Base Average" width="170"></kendo-grid-column>
+    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="140"></kendo-grid-column>
   </kendo-grid>
 </pf-async-container>
