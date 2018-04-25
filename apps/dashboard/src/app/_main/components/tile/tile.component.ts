@@ -50,15 +50,15 @@ export class TileComponent implements OnInit {
   }
 
   getTileHref(tile: Tile) {
-    let url = this.getUrl(tile.NgAppLink, tile.Url);
-    if (tile.Type === TileTypes.Ideas){
+    const url = this.getUrl(tile.NgAppLink, tile.Url);
+    if (tile.Type === TileTypes.Ideas) {
       return userVoiceUrl(url, this.userContext.UserId);
     }
     return url;
   }
 
-  getUrl(ngApplink: boolean, url: string){
-    if (ngApplink){
+  getUrl(ngApplink: boolean, url: string) {
+    if (ngApplink) {
       return this.ngAppRoot + url;
     }
     return url;
