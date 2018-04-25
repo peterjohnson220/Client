@@ -39,6 +39,7 @@ export const selectPeerFiltersState = createSelector(selectPeerDataState, (state
 export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
 export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
 export const getExchangeJobPayMarketFilter = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getExchangeJobPayMarketFilter);
+export const getAddDataCutPageInViewInIframe = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getPageInViewInIframe);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);

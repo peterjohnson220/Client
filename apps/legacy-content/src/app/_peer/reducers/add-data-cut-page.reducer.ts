@@ -6,13 +6,15 @@ export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
   exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter;
+  pageInViewInIframe: boolean;
 }
 
 // Initial State
 export const initialState: State = {
   addingDataCut: false,
   addingDataCutError: false,
-  exchangeJobPayMarketFilter: null
+  exchangeJobPayMarketFilter: null,
+  pageInViewInIframe: false
 };
 
 // Reducer
@@ -55,6 +57,12 @@ export function reducer(
         exchangeJobPayMarketFilter: action.payload
       };
     }
+    case fromAddDataCutPageActions.PAGE_IN_VIEW_IN_IFRAME: {
+      return {
+        ...state,
+        pageInViewInIframe: true
+      };
+    }
     default: {
       return state;
     }
@@ -65,3 +73,4 @@ export function reducer(
 export const getAddingDataCut = (state: State) => state.addingDataCut;
 export const getAddingDataCutError = (state: State) => state.addingDataCutError;
 export const getExchangeJobPayMarketFilter = (state: State) => state.exchangeJobPayMarketFilter;
+export const getPageInViewInIframe = (state: State) => state.pageInViewInIframe;

@@ -28,14 +28,14 @@ export class AddDataCutPageEffects {
       this.exchangeDataSearchApiService.getExchangeJobAndPayMarketFilter(payload)
         .map((exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter) => new fromAddDataCutPageActions
           .LoadingExchangeJobPayMarketFilterSuccess(exchangeJobPayMarketFilter))
-        .catch(() => of(new fromPeerMapActions.LoadingPeerMapError))
+        .catch(() => of(new fromPeerMapActions.LoadingPeerMapDataError))
     );
 
   @Effect()
   loadingExchangeJobPayMarketFilterSuccess$: Observable<Action> = this.actions$
     .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS)
     .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilterSuccess) => action.payload)
-    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMap()));
+    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMapData()));
 
   @Effect()
   addingDataCut$ = this.actions$

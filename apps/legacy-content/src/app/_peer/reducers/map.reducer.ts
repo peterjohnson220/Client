@@ -39,7 +39,7 @@ export const initialState: State = {
 // Reducer
 export function reducer(state = initialState, action: fromPeerMapActions.Actions): State {
   switch (action.type) {
-    case fromPeerMapActions.LOADING_PEER_MAP: {
+    case fromPeerMapActions.LOADING_PEER_MAP_DATA: {
       return {
         ...state,
         mapCollection: null,
@@ -47,7 +47,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         loadingError: false
       };
     }
-    case fromPeerMapActions.LOADING_PEER_MAP_SUCCESS: {
+    case fromPeerMapActions.LOADING_PEER_MAP_DATA_SUCCESS: {
       const mapSummary: ExchangeMapSummary = action.payload.MapSummary;
       const mapCollection: FeatureCollection<Point> = {
         type: 'FeatureCollection',
@@ -74,7 +74,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       }
       return newState;
     }
-    case fromPeerMapActions.LOADING_PEER_MAP_ERROR: {
+    case fromPeerMapActions.LOADING_PEER_MAP_DATA_ERROR: {
       return {
         ...state,
         loading: false,

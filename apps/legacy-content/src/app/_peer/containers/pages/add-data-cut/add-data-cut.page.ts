@@ -54,15 +54,23 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
 
-    if (!this.inIframe()) {
-      this.loadExchangeJobAndPayMarketFilter();
-    }
+    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
+      CompanyJobId: this.companyJobId,
+      CompanyPayMarketId: this.companyPayMarketId
+    }));
   }
 
+  // Add Data cut page within marketdata.asp specific code
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
-    if(this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
-      this.loadExchangeJobAndPayMarketFilter();
+    if (this.inIframe() && ev.data === 'peer-exchange-tab-clicked') {
+      // Hack. Wait a little before telling the client app that page is now in view in
+      // an IFrame. Need to do this to allow the css positioning of the map to finish on the ASP side
+      // before passing off the bounds to the map to initialize zooming. Otherwise we will run into the "Zoom Bug"
+      // where the map does not zoom all the way in.
+      setTimeout(() => {
+        this.store.dispatch(new fromAddDataCutPageActions.PageInViewInIframe());
+      }, 100);
     }
   }
 
@@ -72,12 +80,5 @@ export class AddDataCutPageComponent implements OnInit {
     } catch (e) {
       return true;
     }
-  }
-
-  loadExchangeJobAndPayMarketFilter() {
-    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId
-    }));
   }
 }

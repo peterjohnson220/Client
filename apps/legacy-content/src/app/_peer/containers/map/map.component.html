@@ -1,7 +1,7 @@
 <mgl-map
   [style]="mapStyle"
   [attributionControl]="false"
-  [fitBounds]="peerMapBounds$ | async"
+  [fitBounds]="(addDataCutPageInViewInIframe$ | async) ? (peerMapBounds$ | async) : null"
   [fitBoundsOptions]="{padding: 150}"
   [center]="[-98, 38.88]"
   [zoom]="3"
