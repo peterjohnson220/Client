@@ -1,2 +1,2 @@
-export * from './not-found-errror';
+export * from './not-found-error';
 export * from './access-denied';
