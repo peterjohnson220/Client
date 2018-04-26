@@ -3,8 +3,8 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { DataStateChangeEvent, GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
-import { SortDescriptor, State } from '@progress/kendo-data-query';
+import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { GridTypeEnum} from 'libs/models';

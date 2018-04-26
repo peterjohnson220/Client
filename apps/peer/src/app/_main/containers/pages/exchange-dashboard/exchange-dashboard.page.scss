@@ -2,6 +2,10 @@
   &, .exchange-dashboard-chart-container, .exchange-dashboard-job-comparison-grid {
     height: 100%;
   }
+
+  .exchange-dashboard-job-comparison-grid {
+    position: relative;
+  }
 }
 
 .exchange-dashboard-sidebar {
