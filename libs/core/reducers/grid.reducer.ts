@@ -35,7 +35,8 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
   return (state = initialState, action: GridActions): IGridState => {
     switch (action.type) {
       case `${gridType}_${fromGridActions.UPDATE_GRID}`: {
-        const gridState: State = action.payload;
+        const gridState: State = cloneDeep(action.payload);
+        gridState.filter.filters = gridState.filter.filters.map((f: any) => f.filters ? f.filters[0] : f);
         const newState = {
           ...state,
           grid: gridState

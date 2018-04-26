@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { DataStateChangeEvent, GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { GridTypeEnum} from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -37,18 +38,10 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   }
 
   // Grid
-  handlePageChanged(event: PageChangeEvent): void {
-    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.ExchangeJobComparison, event));
-    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
-  }
-
-  handleSortChanged(sort: SortDescriptor[]): void {
-    this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.ExchangeJobComparison, sort));
-    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
-  }
-
   handleDataStateChange(state: DataStateChangeEvent): void {
-    this.store.dispatch(new fromGridActions.UpdateFilter(GridTypeEnum.ExchangeJobComparison, state.filter));
+    console.log('handleDataStateChange: ', state);
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, state));
+    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
   }
 
   // Lifecycle
@@ -56,7 +49,7 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
 
     this.exchangeJobComparisonGridStateSubscription = this.exchangeJobComparisonsGridState$.subscribe(gridState => {
-      this.exchangeJobComparisonGridState = gridState;
+      this.exchangeJobComparisonGridState = cloneDeep(gridState);
     });
   }
 

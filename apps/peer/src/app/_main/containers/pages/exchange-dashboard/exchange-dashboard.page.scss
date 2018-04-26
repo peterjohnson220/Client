@@ -1,5 +1,7 @@
 .exchange-dashboard-container {
-  height: 100%;
+  &, .exchange-dashboard-chart-container, .exchange-dashboard-job-comparison-grid {
+    height: 100%;
+  }
 }
 
 .exchange-dashboard-sidebar {

@@ -6,28 +6,61 @@
   <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
               [height]="'100%'"
               [data]="exchangeJobComparisonsGridData$ | async"
-              [pageSize]="(exchangeJobComparisonsGridState$ | async)?.take"
-              [skip]="(exchangeJobComparisonsGridState$ | async)?.skip"
-              [sort]="(exchangeJobComparisonsGridState$ | async)?.sort"
+              [pageSize]="exchangeJobComparisonGridState?.take"
+              [skip]="exchangeJobComparisonGridState?.skip"
+              [sort]="exchangeJobComparisonGridState?.sort"
+              [filter]="exchangeJobComparisonGridState?.filter"
               [pageable]="{
                     buttonCount: 5,
                     info: true
                   }"
               [resizable]="true"
               [sortable]="true"
-              [kendoGridSelectBy]="'ExchangeJobToCompanyJobId'"
-              [filter]="(exchangeJobComparisonsGridState$ | async)?.filter"
               filterable="menu"
-              (dataStateChange)="handleDataStateChange($event)"
-              (pageChange)="handlePageChanged($event)"
-              (sortChange)="handleSortChanged($event)">
+              (dataStateChange)="handleDataStateChange($event)">
 
-    <kendo-grid-column field="CompanyJobTitle" title="Company Job Title"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeIncs" title="Exchange Incs" width="140"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeOrgs" title="Exchange Orgs" width="140"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeBaseAverage" title="Exchange Base Average" width="170"></kendo-grid-column>
-    <kendo-grid-column field="CompanyBaseAverage" title="Company Base Average" width="170"></kendo-grid-column>
-    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="140"></kendo-grid-column>
+    <kendo-grid-column field="CompanyJobTitle" title="Company Job Title">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+          <!--<kendo-filter-contains-operator></kendo-filter-contains-operator>-->
+        </kendo-grid-string-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-string-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ExchangeIncs" title="Exchange Incs" width="250">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ExchangeOrgs" title="Exchange Orgs" width="250">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ExchangeBaseAverage" title="Exchange Base Average" width="250">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CompanyBaseAverage" title="Company Base Average" width="250">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="250">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+        </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
   </kendo-grid>
 </pf-async-container>
