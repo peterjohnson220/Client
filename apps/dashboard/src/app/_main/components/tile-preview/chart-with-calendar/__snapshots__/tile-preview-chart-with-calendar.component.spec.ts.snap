@@ -4,10 +4,11 @@ exports[`Tile Preview Chart With Calendar should not show chart without model.co
 <pf-tile-preview-calendar-with-chart
   model={[Function Object]}
   savingSetting$={[Function Store]}
+  savingSettingName="null"
+  savingSettingName$={[Function Store]}
   savingSettingSuccess$={[Function Store]}
-  savingSettingSuccessName$={[Function Store]}
+  savingSettingSuccessSubscription={[Function Subscriber]}
   seriesItemHighlightStyle={[Function Object]}
-  settingName="null"
   store={[Function Store]}
 >
   <span
@@ -37,11 +38,12 @@ exports[`Tile Preview Chart With Calendar should show kendo chart when model.Cha
 <pf-tile-preview-calendar-with-chart
   model={[Function Object]}
   savingSetting$={[Function Store]}
+  savingSettingName="null"
+  savingSettingName$={[Function Store]}
   savingSettingSuccess$={[Function Store]}
-  savingSettingSuccessName$={[Function Store]}
+  savingSettingSuccessSubscription={[Function Subscriber]}
   selectedDate={[Function Date]}
   seriesItemHighlightStyle={[Function Object]}
-  settingName="null"
   store={[Function Store]}
 >
   <span
