@@ -5,12 +5,14 @@ export interface State {
   gettingLeftSidebarNavigationLinks: boolean;
   gettingLeftSidebarNavigationLinksError: boolean;
   leftSidebarNavigationLinks: SidebarLink[];
+  loadedLeftSidebarNavigationLinks: boolean;
 }
 
 export const initialState: State = {
   gettingLeftSidebarNavigationLinks: false,
   gettingLeftSidebarNavigationLinksError: false,
-  leftSidebarNavigationLinks: null
+  leftSidebarNavigationLinks: null,
+  loadedLeftSidebarNavigationLinks: false
 };
 
 export function reducer(state = initialState, action: leftSidebarActions.Actions): State {
@@ -20,21 +22,24 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
         ...state,
         gettingLeftSidebarNavigationLinks: true,
         gettingLeftSidebarNavigationLinksError: false,
-        leftSidebarNavigationLinks: null
+        leftSidebarNavigationLinks: null,
+        loadedLeftSidebarNavigationLinks: false
       };
     }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS: {
       return {
         ...state,
         gettingLeftSidebarNavigationLinks: false,
-        leftSidebarNavigationLinks: action.payload
+        leftSidebarNavigationLinks: action.payload,
+        loadedLeftSidebarNavigationLinks: true
       };
     }
     case leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_ERROR: {
       return {
         ...state,
         gettingLeftSidebarNavigationLinks: false,
-        gettingLeftSidebarNavigationLinksError: true
+        gettingLeftSidebarNavigationLinksError: true,
+        loadedLeftSidebarNavigationLinks: false
       };
     }
     default: {
@@ -46,3 +51,4 @@ export function reducer(state = initialState, action: leftSidebarActions.Actions
 export const getGettingLeftSidebarNavigationLinks = (state: State) => state.gettingLeftSidebarNavigationLinks;
 export const getGettingLeftSidebarNavigationLinksError = (state: State) => state.gettingLeftSidebarNavigationLinksError;
 export const getLeftSidebarNavigationLinks = (state: State) => state.leftSidebarNavigationLinks;
+export const getLoadedLeftSidebarNavigationLinks = (state: State) => state.loadedLeftSidebarNavigationLinks;

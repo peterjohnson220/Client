@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { EllipsisViewMoreComponent } from './content';
-import { ErrorIndicatorComponent, NotFoundErrorPageComponent } from './error';
+import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
@@ -19,7 +19,7 @@ const components = [
   CardSelectorComponent,
 
   // Error
-  ErrorIndicatorComponent, NotFoundErrorPageComponent,
+  ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent,
 
   // Loading
   AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
