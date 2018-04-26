@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class LoginPageComponent {
 
+  loginLogo = 'assets/images/MarketingPlaceholder.PNG';
+  payfactorsLogo = 'assets/images/PayFactors-white-logo_0404.png';
+
   constructor() { }
 
 }
