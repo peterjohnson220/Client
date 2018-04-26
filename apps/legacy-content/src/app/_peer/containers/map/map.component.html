@@ -2,7 +2,7 @@
   [style]="mapStyle"
   [attributionControl]="false"
   [fitBounds]="(addDataCutPageInViewInIframe$ | async) ? (peerMapBounds$ | async) : null"
-  [fitBoundsOptions]="{padding: 150}"
+  [fitBoundsOptions]="{padding: 50}"
   [center]="[-98, 38.88]"
   [zoom]="3"
   [maxZoom]="peerMapMaxZoom$ | async"
@@ -63,7 +63,7 @@
         'circle-radius': [
                 'interpolate', ['linear'], ['zoom'],
                 4,
-                13,
+                12,
                 9,
                 8
               ],
