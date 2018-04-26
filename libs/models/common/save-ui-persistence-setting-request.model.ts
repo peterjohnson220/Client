@@ -1,4 +1,4 @@
-export interface ClientSettingRequestModel {
+export interface SaveUiPersistenceSettingRequest {
   FeatureArea: string;
   SettingName: string;
   SettingValue: string;

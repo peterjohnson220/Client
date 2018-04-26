@@ -86,7 +86,7 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
 
     mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
-    store.dispatch(new fromPeerMapActions.LoadingPeerMapSuccess(mapResponse));
+    store.dispatch(new fromPeerMapActions.LoadingPeerMapDataSuccess(mapResponse));
 
     fixture.detectChanges();
 

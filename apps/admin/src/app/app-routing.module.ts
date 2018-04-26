@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UserContextGuard } from 'libs/security';
-import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
 import { AppWrapperComponent } from 'libs/features/app-root';
 
 export const routes: Routes = [
@@ -13,6 +13,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
       { path: 'peer', loadChildren: 'apps/admin/src/app/_peer/peer-admin.module#PeerAdminModule' },
+      { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

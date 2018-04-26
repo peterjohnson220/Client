@@ -1,4 +1,4 @@
-import { Component, Input  } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'pf-layout-wrapper-right-sidebar',
@@ -6,7 +6,14 @@ import { Component, Input  } from '@angular/core';
   styleUrls: [ './right-sidebar.component.scss' ]
 })
 export class RightSidebarComponent {
-  rightSidebarToggle = false;
+  @Input() isOpen = false;
   @Input() fontAwesomeOpenIcon: string;
-  constructor() { }
+  @Output() onToggle = new EventEmitter<boolean>();
+
+  toggle() {
+    this.isOpen = !this.isOpen;
+    this.onToggle.emit(this.isOpen);
+  }
 }
+
+

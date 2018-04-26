@@ -2,6 +2,8 @@
 
 exports[`Right Sidebar Should apply the correct visibility styles and classes when rightSidebarToggle is false 1`] = `
 <pf-layout-wrapper-right-sidebar
+  isOpen="false"
+  onToggle={[Function EventEmitter]}
   rightSidebarToggle="false"
 >
   <div
@@ -84,6 +86,8 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
 
 exports[`Right Sidebar Should apply the correct visibility styles and classes when rightSidebarToggle is true 1`] = `
 <pf-layout-wrapper-right-sidebar
+  isOpen="false"
+  onToggle={[Function EventEmitter]}
   rightSidebarToggle={[Function Boolean]}
 >
   <div
@@ -97,7 +101,7 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
       <span
         class="open-sidebar-icon-container"
         id="openSidebarIconContainer"
-        style="visibility: hidden;"
+        style="visibility: visible;"
       >
         
         
@@ -116,7 +120,7 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
     
     
     <div
-      class="right-sidebar-content right-sidebar-open"
+      class="right-sidebar-content right-sidebar-close"
       id="rightSidebarTransitionWrapper"
       ng-reflect-klass="right-sidebar-content"
       ng-reflect-ng-class="[object Object]"
@@ -135,7 +139,7 @@ exports[`Right Sidebar Should apply the correct visibility styles and classes wh
           
           
           <span
-            style="visibility: visible;"
+            style="visibility: hidden;"
           >
             
             
