@@ -19,7 +19,7 @@ import {
 })
 export class TileComponent implements OnInit {
   @Input() tile: Tile;
-  @Input() userContext: UserContext;
+  @Input() userId: number;
 
   tilePreviewType: TilePreviewType = new TilePreviewType();
   ngAppRoot = environment.ngAppRoot;
@@ -52,7 +52,7 @@ export class TileComponent implements OnInit {
   getTileHref(tile: Tile) {
     const url = this.getUrl(tile.NgAppLink, tile.Url);
     if (tile.Type === TileTypes.Ideas) {
-      return userVoiceUrl(url, this.userContext.UserId);
+      return userVoiceUrl(url, this.userId);
     }
     return url;
   }
