@@ -59,10 +59,10 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
   }
 
-  getExchangeIndexValue(exchangeIndex: number): string {
-    const distanceFromMidpoint = Math.abs(exchangeIndex - 100);
-    return distanceFromMidpoint.toFixed(2) + '%';
-  }
+  // getExchangeIndexValue(exchangeIndex: number): string {
+  //   const distanceFromMidpoint = Math.abs(exchangeIndex - 100);
+  //   return distanceFromMidpoint.toFixed(2) + '%';
+  // }
 
   // Lifecycle
   ngOnInit() {

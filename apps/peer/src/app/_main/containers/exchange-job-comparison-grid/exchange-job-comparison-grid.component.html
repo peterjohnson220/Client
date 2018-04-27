@@ -62,20 +62,20 @@
         {{dataItem.ExchangeBaseAverage != null ? dataItem.ExchangeBaseAverage : '- -'}}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="175">
+    <kendo-grid-column field="ExchangeIndex" title="" width="175">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
         </kendo-grid-numeric-filter-menu>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        <div *ngIf="dataItem.ExchangeIndex" [ngClass]="{'text-danger': dataItem.ExchangeIndex < 50, 'text-success': dataItem.ExchangeIndex >= 50}">
+        <div *ngIf="dataItem.ExchangeIndex" [ngClass]="{'text-danger': dataItem.ExchangeIndex < 0, 'text-success': dataItem.ExchangeIndex >= 0}">
           <!--<kendo-arcgauge [value]="dataItem.ExchangeIndex" [colors]="colors" [gaugeArea]="{height: '40', width: '150'}">-->
             <!--<ng-template kendoArcGaugeCenterTemplate let-value="value" let-color="color">-->
               <!--<small [style.color]="color">{{ dataItem.ExchangeIndex }}%</small>-->
             <!--</ng-template>-->
           <!--</kendo-arcgauge>-->
-          <i class="fas" [ngClass]="{'fa-chevron-down': dataItem.ExchangeIndex < 50, 'fa-chevron-up': dataItem.ExchangeIndex >= 50}"></i>
-          {{getExchangeIndexValue(dataItem.ExchangeIndex)}}
+          <i class="fas" [ngClass]="{'fa-chevron-down': dataItem.ExchangeIndex < 0, 'fa-chevron-up': dataItem.ExchangeIndex >= 0}"></i>
+          {{dataItem.ExchangeIndex+'%'}}
         </div>
         <ng-container *ngIf="!dataItem.ExchangeIndex">
           - -
