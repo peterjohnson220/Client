@@ -3,7 +3,7 @@
   [loadingError]="loadingExchangeJobComparisonsError$ | async"
   [hideReloadButton]="true">
 
-  <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+  <kendo-grid class="no-wrap-ellipsis-values"
               [height]="'100%'"
               [data]="exchangeJobComparisonsGridData$ | async"
               [pageSize]="exchangeJobComparisonGridState?.take"
@@ -19,14 +19,14 @@
               filterable="menu"
               (dataStateChange)="handleDataStateChange($event)">
 
-    <kendo-grid-column field="CompanyJobTitle" title="Company Job Title">
+    <kendo-grid-column field="CompanyJobTitle" title="Company Job Title" width="350">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
           <!--<kendo-filter-contains-operator></kendo-filter-contains-operator>-->
         </kendo-grid-string-filter-menu>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title">
+    <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title" width="350">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
         </kendo-grid-string-filter-menu>
@@ -62,13 +62,25 @@
         {{dataItem.ExchangeBaseAverage != null ? dataItem.ExchangeBaseAverage : '- -'}}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="ExchangeIndex" title="Exchange Index">
+    <kendo-grid-column field="ExchangeIndex" title="Exchange Index" width="175">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
         <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
         </kendo-grid-numeric-filter-menu>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{dataItem.ExchangeIndex != null ? dataItem.ExchangeIndex + '%' : '- -'}}
+        <div *ngIf="dataItem.ExchangeIndex" [ngClass]="{'text-danger': dataItem.ExchangeIndex < 50, 'text-success': dataItem.ExchangeIndex >= 50}">
+          <!--<kendo-arcgauge [value]="dataItem.ExchangeIndex" [colors]="colors" [gaugeArea]="{height: '40', width: '150'}">-->
+            <!--<ng-template kendoArcGaugeCenterTemplate let-value="value" let-color="color">-->
+              <!--<small [style.color]="color">{{ dataItem.ExchangeIndex }}%</small>-->
+            <!--</ng-template>-->
+          <!--</kendo-arcgauge>-->
+          <i class="fas" [ngClass]="{'fa-chevron-down': dataItem.ExchangeIndex < 50, 'fa-chevron-up': dataItem.ExchangeIndex >= 50}"></i>
+          {{getExchangeIndexValue(dataItem.ExchangeIndex)}}
+        </div>
+        <ng-container *ngIf="!dataItem.ExchangeIndex">
+          - -
+        </ng-container>
+        <!--{{dataItem.ExchangeIndex != null ? dataItem.ExchangeIndex + '%' : '- -'}}-->
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>

@@ -27,6 +27,21 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobComparisonGridStateSubscription: Subscription;
   exchangeJobComparisonGridState: State;
+  public colors: any[] = [{
+    to: 25,
+    color: '#f31700'
+  }, {
+    from: 25,
+    to: 50,
+    color: '#ffc000'
+  }, {
+    from: 50,
+    to: 75,
+    color: '#0058e9'
+  }, {
+    from: 75,
+    color: '#37b400'
+  }];
 
   constructor(
     private store: Store<fromPeerMainReducer.State>
@@ -42,6 +57,11 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     console.log('handleDataStateChange: ', state);
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, state));
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
+  }
+
+  getExchangeIndexValue(exchangeIndex: number): string {
+    const distanceFromMidpoint = Math.abs(exchangeIndex - 100);
+    return distanceFromMidpoint.toFixed(2) + '%';
   }
 
   // Lifecycle
