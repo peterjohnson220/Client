@@ -7,6 +7,9 @@ export interface ExchangeDataSearchFilter extends ExchangeJobPayMarketFilter {
   States: string[];
   Cities: string[];
   CompanyIds: number[];
+  CompanyAssets: string[];
+  CompanySizes: string[];
+  CompanyRevenues: string[];
   CompanyIndustries: string[];
   ExchangeJobFamilies: string[];
   ExchangeJobLevels: string[];
@@ -24,6 +27,9 @@ export function generateMockExchangeMapFilter(): ExchangeDataSearchFilter {
     States: ['StateOne'],
     Cities: ['CityOne, StateOne'],
     CompanyIds: [2, 3],
+    CompanyAssets: ['MockCompanyAssets'],
+    CompanySizes: ['MockCompanySizes'],
+    CompanyRevenues: ['MockCompanyRevenues'],
     CompanyIndustries: ['MockCompanyIndustry'],
     ExchangeJobFamilies: ['MockExchangeJobFamily'],
     ExchangeJobLevels: ['MockExchangeJobLevel'],
