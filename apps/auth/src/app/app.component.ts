@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'pf-root',
+  selector: 'pf-auth-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

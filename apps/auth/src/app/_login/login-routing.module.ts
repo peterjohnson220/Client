@@ -6,6 +6,7 @@ import {
 } from './containers/pages';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent }
 ];
 

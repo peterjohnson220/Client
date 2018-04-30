@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+declare var initializePendo: any;
 
 @Component({
   selector: 'pf-login-page',
   templateUrl: './login.page.html',
   styleUrls: [ './login.page.scss' ]
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
 
   loginLogo = 'assets/images/MarketingPlaceholder.PNG';
-  payfactorsLogo = 'assets/images/PayFactors-white-logo_0404.png';
 
   constructor() { }
 
+  ngOnInit(){
+    initializePendo(null);
+  }
 }

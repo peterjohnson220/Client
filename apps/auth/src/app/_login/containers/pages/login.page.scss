@@ -1,20 +1,16 @@
-.container {
-  background-color: white;
-}
+
 
 .image-container{
-  height: 100%;
-  width: 100%;
+    width: 478px;
+    height: 392px;
+    border: 0px;
 }
 
-.box-shadow {
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.7);
+.login-button{
+  background-color: #0883BE;
+  color: #ffffff;
 }
 
-.text-color{
-  color: #676a6c;
-}
-
-.payfactors-logo{
-  max-height: 50px;
+.login-input{
+  width: 258px;
 }

@@ -1,18 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 
+import { AppComponent } from './app.component';
+import { AppWrapperComponent } from './app-wrapper.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AuthLayoutWrapper } from './auth-layout-wrapper.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AppWrapperComponent,
+    AuthLayoutWrapper
   ],
   imports: [
     // Angular
     BrowserModule,
     // PF Modules
+    PfCommonUIModule,
     // Routing
     AppRoutingModule
   ],
