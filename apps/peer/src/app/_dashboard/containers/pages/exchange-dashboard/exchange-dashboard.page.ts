@@ -33,11 +33,15 @@ export class ExchangeDashboardPageComponent implements OnInit {
   }
 
   manageJobsClick(): void {
-    this.router.navigate([ 'manage-exchange/job-mapping', this.exchangeId ]);
+    this.router.navigate(['manage'], { relativeTo: this.route });
   }
 
   referCompanyClick(): void {
     this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
+  }
+
+  mapClick(): void {
+    this.router.navigate(['map'], { relativeTo: this.route });
   }
 
   ngOnInit() {

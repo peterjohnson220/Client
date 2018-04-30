@@ -1,0 +1,13 @@
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId">
+  <ng-container page-title>
+    {{ (exchange$ | async)?.ExchangeName }}
+  </ng-container>
+
+  <ng-container page-content>
+
+    <div class="flex-column-container">
+      Test
+    </div>
+
+  </ng-container>
+</pf-page-with-title-bar>
