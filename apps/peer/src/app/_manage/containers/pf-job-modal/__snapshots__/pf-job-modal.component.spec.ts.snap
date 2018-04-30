@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Exchange Request - Payfactors Job Modal should provide correct values to the pf-modal-form component 1`] = `
+<pf-request-payfactors-job-modal
+  attemptedSubmit="false"
+  cardSelector={[Function Object]}
+  exchange="null"
+  exchange$={[Function Store]}
+  exchangeRequestModalOpen$={[Function Store]}
+  exchangeRequestModalOpenSubscription={[Function Subscriber]}
+  exchangeSubscription={[Function Subscriber]}
+  fb={[Function FormBuilder]}
+  jobCardDisabled={[Function Function]}
+  jobDescriptionHighlightFilter=""
+  jobDescriptionSearchTerm=""
+  jobIdentifier={[Function Function]}
+  jobTitleSearchTerm=""
+  payfactorsJobRequesting$={[Function Store]}
+  payfactorsJobSelectionForm={[Function FormGroup]}
+  payfactorsJobs$={[Function Store]}
+  payfactorsJobsLoading$={[Function Store]}
+  payfactorsJobsLoadingError$={[Function Store]}
+  reason=""
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Request Job"
+  >
+    
+  
+    
+    
+    
+  
+      
+    <pf-card-selector>
+      
+        
+      
+      
+          
+      <div
+        class="filter"
+      >
+        
+            
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-job-title"
+          ng-reflect-model=""
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        >
+          
+            
+        </pf-input-debounce>
+        
+          
+      </div>
+      
+          
+      <div
+        class="filter"
+      >
+        
+            
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-jd"
+          name="searchFilter"
+          ng-reflect-model=""
+          ng-reflect-name="searchFilter"
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        >
+          
+            
+        </pf-input-debounce>
+        
+          
+      </div>
+      
+        
+      
+      
+    </pf-card-selector>
+    
+  
+      
+    
+      
+    <div
+      class="form-group hidden-form-control"
+    >
+      
+        
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="payfactorsJobSelection"
+        name="hasSelection"
+        ng-reflect-name="payfactorsJobSelection"
+        type="hidden"
+        value=""
+      />
+      
+      
+    </div>
+    
+  
+      
+    
+      
+    
+    
+  
+    
+    
+  
+  </pf-modal-form>
+  
+  
+  
+</pf-request-payfactors-job-modal>
+`;
