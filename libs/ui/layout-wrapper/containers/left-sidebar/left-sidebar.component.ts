@@ -24,8 +24,6 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
   leftSidebarToggle = false;
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
-  gettingSidebarNavigationLinks$: Observable<boolean>;
-  gettingSidebarNavigationLinksError$: Observable<boolean>;
   userContext$: Observable<UserContext>;
   userContextSubscription: Subscription;
   userId: number;
@@ -36,8 +34,6 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>
   ) {
     this.leftSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks);
-    this.gettingSidebarNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingLeftSidebarNavigationLinksError);
-    this.gettingSidebarNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingLeftSidebarNavigationLinks);
     this.userContext$ = store.select(fromRootState.getUserContext);
   }
 
