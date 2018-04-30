@@ -11,12 +11,12 @@ import {  generateMockExchange, ExchangeChartTypeEnum, generateMockChartItem } f
 
 import { ExchangeJobFamilyChartComponent } from './exchange-job-family-chart.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromPeerDashboardReducer from '../../reducers';
 
 describe('Peer Dashboard - Job Family Chart', () => {
   let fixture: ComponentFixture<ExchangeJobFamilyChartComponent>;
   let instance: ExchangeJobFamilyChartComponent;
-  let store: Store<fromPeerMainReducer.State>;
+  let store: Store<fromPeerDashboardReducer.State>;
   let activatedRoute: ActivatedRoute;
 
   // Configure Testing Module for before each test

@@ -33,7 +33,7 @@ export class ExchangeDashboardPageComponent implements OnInit {
   }
 
   manageJobsClick(): void {
-    this.router.navigate([ 'exchange/job-mapping', this.exchangeId ]);
+    this.router.navigate([ 'manage-exchange/job-mapping', this.exchangeId ]);
   }
 
   referCompanyClick(): void {

@@ -11,7 +11,7 @@ import {  generateMockExchange, ExchangeChartTypeEnum } from 'libs/models';
 
 import { ExchangeRevenueChartComponent } from './exchange-revenue-chart.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromPeerDashboardReducer from '../../reducers';
 
 describe('Peer Dashboard - Revenue Chart', () => {
   let fixture: ComponentFixture<ExchangeRevenueChartComponent>;

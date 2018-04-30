@@ -11,6 +11,7 @@ exports[`Peer Dashboard - Job Family Chart should show the job family chart and 
   loadingJobFamilyChartItemsError$={[Function Store]}
   route={[Function Object]}
   router={[Function Object]}
+  sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
   <pf-async-container>

@@ -9,6 +9,7 @@ exports[`Peer Dashboard - Revenue Chart should show the revenue chart and title 
   revenueChartItems$={[Function Store]}
   route={[Function Object]}
   router={[Function Object]}
+  sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
   <pf-async-container>

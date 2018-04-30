@@ -11,7 +11,7 @@ import {  generateMockExchange, generateMockChartItem, ExchangeChartTypeEnum } f
 
 import { ExchangeCompanyCountComponent } from './exchange-company-count.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromPeerDashboardReducer from '../../reducers';
 
 describe('Peer Dashboard - Exchange Job Count', () => {
   let fixture: ComponentFixture<ExchangeCompanyCountComponent>;

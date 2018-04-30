@@ -9,7 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import { ChartDetailComponent } from './chart-detail.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
-import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromPeerDashboardReducer from '../../reducers';
 
 describe('Peer Dashboard - Chart Detail', () => {
   let fixture: ComponentFixture<ChartDetailComponent>;

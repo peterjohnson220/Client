@@ -21,6 +21,7 @@ exports[`Peer - Exchange Request - Payfactors Job Modal should provide correct v
   payfactorsJobsLoading$={[Function Store]}
   payfactorsJobsLoadingError$={[Function Store]}
   reason=""
+  sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
   <pf-modal-form

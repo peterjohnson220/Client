@@ -6,10 +6,10 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { ExchangeListItem, generateMockExchangeListItem } from '../../../models/peer';
 import * as fromRootState from '../../../state/state';
 import * as fromExchangeListActions from '../actions/exchange-list.actions';
-import * as fromSharedPeerReducer from '../reducers';
+import * as fromPeerFeaturesReducer from '../reducers';
 import { ExchangeListComponent } from './exchange-list.component';
 
-describe('Shared Exchange List Component', () => {
+describe('Peer Features - Exchange List Component', () => {
   let fixture: ComponentFixture<ExchangeListComponent>;
   let instance: ExchangeListComponent;
   let store: Store<fromRootState.State>;
@@ -20,7 +20,7 @@ describe('Shared Exchange List Component', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          sharedPeer: combineReducers(fromSharedPeerReducer.reducers)
+          peerFeatures: combineReducers(fromPeerFeaturesReducer.reducers)
         })
       ],
       declarations: [

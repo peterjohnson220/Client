@@ -19,6 +19,7 @@ exports[`Peer - Exchange Request - Invite Pf Companies Modal should provide corr
   fb={[Function FormBuilder]}
   reason=""
   searchTerm=""
+  sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
   <pf-modal-form

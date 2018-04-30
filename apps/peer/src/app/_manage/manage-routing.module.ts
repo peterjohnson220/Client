@@ -8,7 +8,6 @@ import { ExchangeJobMappingPageComponent } from './containers/pages';
 import { ExchangeExistsGuard } from '../shared/guards';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'exchanges', pathMatch: 'full' },
   { path: 'job-mapping/:id', component: ExchangeJobMappingPageComponent, canActivate: [PeerTileEnabledGuard, ExchangeExistsGuard] },
   { path: 'access-denied', component: AccessDeniedPageComponent },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },

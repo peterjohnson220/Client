@@ -13,7 +13,7 @@ export interface PeerFeaturesState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerFeaturesState: PeerFeaturesState;
+  peerFeatures: PeerFeaturesState;
 }
 
 // Feature area reducers

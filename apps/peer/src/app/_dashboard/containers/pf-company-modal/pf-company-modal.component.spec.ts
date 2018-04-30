@@ -11,11 +11,11 @@ import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest,
          generateMockExchange } from 'libs/models/index';
 import { HumanizeNumberPipe } from 'libs/core/pipes/index';
 
-
 import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
 import { generateMockExistingCompany } from '../../models';
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
+import * as fromSharedPeerReducer from '../../../shared/reducers';
 
 describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
   let fixture: ComponentFixture<PayfactorsCompanyModalComponent>;
@@ -29,6 +29,7 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
+          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
           peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
         FormsModule,

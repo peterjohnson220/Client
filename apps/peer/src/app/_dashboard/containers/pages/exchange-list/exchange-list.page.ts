@@ -20,7 +20,7 @@ export class ExchangeListPageComponent {
     private router: Router) {}
 
   handleCellClick(exchangeId: number): void {
-    this.router.navigate([ '/exchange', exchangeId ]);
+    this.router.navigate([ 'exchange', exchangeId ]);
   }
 
   openRequestAccessModal(): void {

@@ -11,6 +11,7 @@ import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'lib
 
 import { generateMockExchangeJobRequestCandidate } from '../../models';
 import * as fromPeerManagementReducer from '../../reducers';
+import * as fromSharedPeerReducer from '../../../shared/reducers';
 import { PayfactorsJobModalComponent } from './pf-job-modal.component';
 import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
 
@@ -26,6 +27,7 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
+          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
           peerManagement: combineReducers(fromPeerManagementReducer.reducers)
         }),
         FormsModule,

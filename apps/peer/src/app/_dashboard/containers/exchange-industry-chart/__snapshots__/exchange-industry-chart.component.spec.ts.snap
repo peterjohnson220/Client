@@ -9,6 +9,7 @@ exports[`Peer Dashboard - Industry Chart should show the industry chart and titl
   loadingIndustryChartItemsError$={[Function Store]}
   route={[Function Object]}
   router={[Function Object]}
+  sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
   <pf-async-container>

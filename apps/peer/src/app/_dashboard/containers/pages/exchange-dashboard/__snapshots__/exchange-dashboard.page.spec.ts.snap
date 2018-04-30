@@ -6,6 +6,7 @@ exports[`Peer - Exchange Dashboard should show the dashboard with the exchange n
   exchangeId={[Function Number]}
   route={[Function Object]}
   router={[Function Object]}
+  sharedPeerStore={[Function Store]}
   sidebarVisible$={[Function Store]}
   store={[Function Store]}
 >

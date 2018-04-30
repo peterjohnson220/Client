@@ -69,7 +69,7 @@ describe('Peer - Exchange Dashboard', () => {
 
     instance.manageJobsClick();
 
-    expect(router.navigate).toHaveBeenCalledWith(['exchange/job-mapping', activatedRoute.snapshot.params.id]);
+    expect(router.navigate).toHaveBeenCalledWith(['manage-exchange/job-mapping', activatedRoute.snapshot.params.id]);
   });
 
   it('should dispatch a CloseSidebar action on init', () => {
