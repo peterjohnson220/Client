@@ -1,1 +1,10 @@
 @import 'kendo-grid';
+:host ::ng-deep .k-button.k-primary {
+
+  // Hover state
+  &:hover,
+  &.k-state-hover {
+    background-color: transparent;
+    cursor: not-allowed;
+  }
+}

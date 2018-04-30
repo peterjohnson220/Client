@@ -4,7 +4,7 @@
   [hideReloadButton]="true">
 
   <kendo-grid class="no-wrap-ellipsis-values"
-              width="100%"
+              height="100%"
               [data]="exchangeJobComparisonsGridData$ | async"
               [pageSize]="exchangeJobComparisonGridState?.take"
               [skip]="exchangeJobComparisonGridState?.skip"
@@ -58,7 +58,7 @@
         </kendo-grid-numeric-filter-menu>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{dataItem.ExchangeBaseAverage != null ? (dataItem.ExchangeBaseAverage | humanizeNumber) : '- -'}}
+        {{dataItem.ExchangeBaseAverage != null ? dataItem.ExchangeBaseAverage : '- -'}}
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="ExchangeIndex" title="" width="110">
