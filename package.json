@@ -29,7 +29,7 @@
     "@ngrx/store": "5.2.0",
     "@ngrx/store-devtools": "5.2.0",
     "@progress/kendo-angular-buttons": "4.0.0",
-    "@progress/kendo-angular-charts": "1.4.0",
+    "@progress/kendo-angular-charts": "2.0.3",
     "@progress/kendo-angular-dateinputs": "2.2.0",
     "@progress/kendo-angular-dropdowns": "2.1.0",
     "@progress/kendo-angular-excel-export": "1.0.7",
