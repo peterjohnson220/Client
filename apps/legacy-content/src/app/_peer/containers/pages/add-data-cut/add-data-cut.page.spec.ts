@@ -10,7 +10,7 @@ import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 
 import * as fromAddDataCutActions from '../../../actions/add-data-cut-page.actions';
-import * as fromPeerMapActions from '../../../actions/map.actions';
+import * as fromPeerMapActions from '../../../../../../../../libs/features/peer/map/actions/map.actions';
 import * as fromPeerDataReducer from '../../../reducers';
 import { AddDataCutPageComponent } from './add-data-cut.page';
 

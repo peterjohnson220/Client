@@ -6,6 +6,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { SharedModule } from '../shared/shared.module';
 import { ExchangeMapPageComponent } from './containers';
 import { MapRoutingModule } from './map-routing.module';
+import { PfPeerMapModule } from '../../../../../libs/features/peer/map';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { MapRoutingModule } from './map-routing.module';
     // PfFormsModule,
     // PfKendoExtensions,
     // PfCommonModule
+    PfPeerMapModule,
   ],
   declarations: [
     // Pages

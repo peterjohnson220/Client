@@ -6,7 +6,7 @@ import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
-import * as fromExchangeReducer from 'libs/features/peer/reducers/exchange.reducer';
+import * as fromExchangeReducer from 'libs/features/peer/list/reducers/exchange.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
 import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';

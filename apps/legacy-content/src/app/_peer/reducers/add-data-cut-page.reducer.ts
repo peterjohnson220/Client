@@ -5,7 +5,6 @@ import { ExchangeJobPayMarketFilter } from 'libs/models';
 export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
-  exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter;
   pageInViewInIframe: boolean;
 }
 
@@ -13,7 +12,6 @@ export interface State {
 export const initialState: State = {
   addingDataCut: false,
   addingDataCutError: false,
-  exchangeJobPayMarketFilter: null,
   pageInViewInIframe: false
 };
 
@@ -51,12 +49,6 @@ export function reducer(
         addingDataCutError: false
       };
     }
-    case fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS: {
-      return {
-        ...state,
-        exchangeJobPayMarketFilter: action.payload
-      };
-    }
     case fromAddDataCutPageActions.PAGE_IN_VIEW_IN_IFRAME: {
       return {
         ...state,
@@ -72,5 +64,4 @@ export function reducer(
 // Selector Functions
 export const getAddingDataCut = (state: State) => state.addingDataCut;
 export const getAddingDataCutError = (state: State) => state.addingDataCutError;
-export const getExchangeJobPayMarketFilter = (state: State) => state.exchangeJobPayMarketFilter;
 export const getPageInViewInIframe = (state: State) => state.pageInViewInIframe;

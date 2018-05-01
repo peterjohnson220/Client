@@ -6,8 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
-import * as fromPeerFeaturesReducer from 'libs/features/peer/reducers';
-import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
+import * as fromPeerFeaturesReducer from 'libs/features/peer/list/reducers';
+import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
 
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
 

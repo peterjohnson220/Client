@@ -31,7 +31,7 @@ import { SharedModule } from '../shared/shared.module';
 
     // 3rd party
     GridModule,
-    StoreModule.forFeature('peerManagement', reducers),
+    StoreModule.forFeature('peer_manage', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects
     ]),

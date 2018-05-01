@@ -33,7 +33,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectFeatureAreaState = createFeatureSelector<PeerManagementState>('peerManagement');
+export const selectFeatureAreaState = createFeatureSelector<PeerManagementState>('peer_manage');
 
 // Feature Selectors
 export const selectExchangeJobMappingState = createSelector(

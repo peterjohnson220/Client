@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 
 import { AvailableExchangeItem, ExchangeRequestTypeEnum, CompanyOption } from 'libs/models';
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
-import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
+import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
 
 import { ExchangeRequestEffectsService } from '../../shared/services';
 import * as fromPeerDashboardReducer from '../reducers';

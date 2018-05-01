@@ -11,38 +11,21 @@ import 'rxjs/add/operator/switchMap';
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ExchangeJobPayMarketFilter } from 'libs/models/peer';
+import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
+import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
-import * as fromPeerMapActions from '../actions/map.actions';
-import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
-import * as fromPeerDataReducers from '../reducers';
+import * as fromFilterSidebarActions from '../../../../../../libs/features/peer/map/actions/filter-sidebar.actions';
 
 @Injectable()
 export class AddDataCutPageEffects {
-
-  @Effect()
-  loadingExchangeJobPayMarketFilter$: Observable<Action> = this.actions$
-    .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER)
-    .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter) => action.payload)
-    .switchMap(payload =>
-      this.exchangeDataSearchApiService.getExchangeJobAndPayMarketFilter(payload)
-        .map((exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter) => new fromAddDataCutPageActions
-          .LoadingExchangeJobPayMarketFilterSuccess(exchangeJobPayMarketFilter))
-        .catch(() => of(new fromPeerMapActions.LoadingPeerMapDataError))
-    );
-
-  @Effect()
-  loadingExchangeJobPayMarketFilterSuccess$: Observable<Action> = this.actions$
-    .ofType(fromAddDataCutPageActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS)
-    .map((action: fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilterSuccess) => action.payload)
-    .switchMap(() => of(new fromPeerMapActions.LoadingPeerMapData()));
 
   @Effect()
   addingDataCut$ = this.actions$
     .ofType(fromAddDataCutPageActions.ADDING_DATA_CUT)
     .map((action: fromAddDataCutPageActions.AddingDataCut) => action.payload)
     .withLatestFrom(
-      this.store.select(fromPeerDataReducers.getExchangeDataCutRequestData),
+      this.peerMapStore.select(fromPeerMapReducers.getExchangeDataCutRequestData),
       (action, exchangeDataCutRequestData) => ({action, exchangeDataCutRequestData}))
     .switchMap((latest) => {
       return this.exchangeCompanyApiService.addDataCut({
@@ -55,6 +38,15 @@ export class AddDataCutPageEffects {
       .catch(() => of(new fromAddDataCutPageActions.AddingDataCutError()));
     });
 
+  @Effect()
+  initialMapMoveComplete$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadPeerMapData,
+      new fromFilterSidebarActions.LoadingFilterAggregates()
+    ]);
+
+  // Window Communication
   @Effect({ dispatch: false })
   addingDataCutSuccess$ = this.actions$
     .ofType(fromAddDataCutPageActions.ADDING_DATA_CUT_SUCCESS)
@@ -69,9 +61,16 @@ export class AddDataCutPageEffects {
       this.windowCommunicationService.postMessage(action.type);
     });
 
+  @Effect({ dispatch: false })
+  mapLoaded$ = this.actions$
+    .ofType(fromPeerMapActions.MAP_LOADED)
+    .do((action: fromPeerMapActions.MapLoaded) => {
+      this.windowCommunicationService.postMessage(action.type);
+    });
+
   constructor(
     private actions$: Actions,
-    private store: Store<fromPeerDataReducers.State>,
+    private peerMapStore: Store<fromPeerMapReducers.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,
     private windowCommunicationService: WindowCommunicationService

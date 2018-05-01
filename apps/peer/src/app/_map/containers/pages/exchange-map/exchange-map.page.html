@@ -5,9 +5,15 @@
 
   <ng-container page-content>
 
-    <div class="flex-column-container">
-      Test
+    <div class="d-flex h-100 test">
+      <div class="sidebar">
+        <pf-peer-data-cut-filter-sidebar></pf-peer-data-cut-filter-sidebar>
+      </div>
+      <div class="map">
+        <pf-peer-data-cut-map [canFitBounds]="true"></pf-peer-data-cut-map>
+      </div>
     </div>
+
 
   </ng-container>
 </pf-page-with-title-bar>

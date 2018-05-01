@@ -33,7 +33,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectFeatureAreaState = createFeatureSelector<DashboardState>('peerDashboard');
+export const selectFeatureAreaState = createFeatureSelector<DashboardState>('peer_dashboard');
 
 // Feature Selectors
 export const selectExchangeDashboardState = createSelector(

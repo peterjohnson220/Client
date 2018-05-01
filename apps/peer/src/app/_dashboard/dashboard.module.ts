@@ -37,7 +37,7 @@ import 'hammerjs';
     DropDownsModule,
     ChartModule,
     GridModule,
-    StoreModule.forFeature('peerDashboard', reducers),
+    StoreModule.forFeature('peer_dashboard', reducers),
     EffectsModule.forFeature([
       ExchangeListEffects, ExchangeDashboardEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
     ]),
