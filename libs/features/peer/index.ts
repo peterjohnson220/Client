@@ -1,3 +1,3 @@
 export * from './containers';
 export * from './reducers';
-export * from './shared-peer.module';
+export * from './peer-features.module';

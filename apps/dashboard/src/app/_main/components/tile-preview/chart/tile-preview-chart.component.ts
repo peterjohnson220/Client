@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import 'hammerjs';
-
 import { TilePreviewChart } from '../../../models';
 
 @Component({

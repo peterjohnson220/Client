@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer Dashboard - Revenue Chart should show the revenue chart and title 1`] = `
+<pf-exchange-revenue-chart
+  exchange$={[Function ScalarObservable]}
+  exchangeId={[Function Number]}
+  loadingRevenueChartItems$={[Function Store]}
+  loadingRevenueChartItemsError$={[Function Store]}
+  revenueChartItems$={[Function Store]}
+  route={[Function Object]}
+  router={[Function Object]}
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-async-container>
+    
+  
+    
+    <kendo-chart>
+      
+      
+      <kendo-chart-legend
+        position="bottom"
+      />
+      
+      
+      <kendo-chart-area
+        background="none"
+        height="250"
+      />
+      
+      
+      <kendo-chart-tooltip>
+        
+        
+        
+        
+      
+      </kendo-chart-tooltip>
+      
+      
+      <kendo-chart-series>
+        
+        
+        <kendo-chart-series-item
+          categoryfield="Category"
+          field="Value"
+          type="donut"
+        >
+          
+        
+        </kendo-chart-series-item>
+        
+      
+      </kendo-chart-series>
+      
+    
+    </kendo-chart>
+    
+  
+  
+  </pf-async-container>
+  
+</pf-exchange-revenue-chart>
+`;
