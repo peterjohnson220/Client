@@ -1,17 +1,14 @@
-@import '_colors';
+@import "_colors";
 
-$accent: $body-background-color;
-$secondary: #fff;
+.k-button.k-primary[disabled] {
+  &:hover,
+  &.k-state-hover {
+    background: none;
+    color: inherit;
+    cursor: not-allowed;
+  }
+}
 
-//$dropdown-border-color: $border-grey;
-//$component-bg: $body-background-color;
-//$dropdown-header-color: $header-background-color;
-//$primary-button-bg: $body-background-color;
-//$button-secondary-color: #292b2c;
-//$button-secondary-background-color: #fff;
-//$button-secondary-border-color: #ccc;
-//$button-secondary-hover-background-color: #e6e6e6;
-//$button-secondary-hover-border-color: #adadad;
-//
-//$button-bg: $button-secondary-background-color;
-//$button-border: $button-secondary-border-color;
+.k-filter-menu .k-dropdown .k-dropdown-wrap {
+  border-color: $border-grey;
+}

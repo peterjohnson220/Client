@@ -2,6 +2,8 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
 import * as fromExchangeDashboardReducer from './exchange-dashboard.reducer';
@@ -48,7 +50,7 @@ export const selectExchangeDashboardState = createSelector(
 
 export const selectExchangeJobComparisonState = createSelector(
   selectFeatureAreaState,
-  (state: PeerMainState) => state.exchangeJobComparison
+  (state: DashboardState) => state.exchangeJobComparison
 );
 
 export const selectPeerParticipantsState = createSelector(
@@ -261,10 +263,10 @@ export const getExchangeJobComparisonsGridData = createSelector(
   }
 );
 
-export const getLoadExchangeJobComparisonGridRequest = createSelector(
-  getExchange,
-  getExchangeJobComparisonsGridState,
-  (exchange, gridState) => {
-    return {exchangeId: exchange ? exchange.ExchangeId : 0, listState: gridState};
-  }
-);
+// export const getLoadExchangeJobComparisonGridRequest = createSelector(
+//   getExchange,
+//   getExchangeJobComparisonsGridState,
+//   (exchange, gridState) => {
+//     return {exchangeId: exchange ? exchange.ExchangeId : 0, listState: gridState};
+//   }
+// );

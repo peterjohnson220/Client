@@ -10,10 +10,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 
-import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/index';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
-import * as fromPeerMainReducer from '../reducers';
+import * as fromDashboardReducer from '../reducers';
+import * as fromSharedPeerReducer from '../../shared/reducers';
 
 @Injectable()
 export class ExchangeJobComparisonGridEffects {
@@ -21,7 +22,12 @@ export class ExchangeJobComparisonGridEffects {
   @Effect()
   loadExchangeJobMappings$: Observable<Action> = this.actions$
     .ofType(fromExchangeJobComparisonGridActions.LOAD_EXCHANGE_JOB_COMPARISONS)
-    .withLatestFrom(this.store.select(fromPeerMainReducer.getLoadExchangeJobComparisonGridRequest), (action, payload) => payload)
+    .withLatestFrom(
+      this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState),
+      this.sharedPeerStore.select(fromSharedPeerReducer.getExchangeId),
+      (action, listState, exchangeId) => {
+        return {exchangeId, listState};
+      })
     .switchMap(payload =>
       this.exchangeCompanyApiService.getExchangeJobComparisonList(payload.exchangeId, payload.listState)
         .map((gridDataResult: GridDataResult) => {
@@ -33,7 +39,8 @@ export class ExchangeJobComparisonGridEffects {
   constructor(
     private actions$: Actions,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
-    private store: Store<fromPeerMainReducer.State>
+    private store: Store<fromDashboardReducer.State>,
+    private sharedPeerStore: Store<fromSharedPeerReducer.State>
   ) {}
 }
 

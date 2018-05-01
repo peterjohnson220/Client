@@ -7,11 +7,11 @@ import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-gr
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { GridTypeEnum} from 'libs/models';
+import { GridTypeEnum} from 'libs/models/index';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
-import * as fromPeerMainReducer from '../../reducers';
+import * as fromDashboardReducer from '../../reducers';
 
 @Component({
   selector: 'pf-exchange-job-comparison-grid',
@@ -19,37 +19,35 @@ import * as fromPeerMainReducer from '../../reducers';
   styleUrls: ['./exchange-job-comparison-grid.component.scss']
 })
 export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
-  @Input() exchangeId: number;
-
   loadingExchangeJobComparisons$: Observable<boolean>;
   loadingExchangeJobComparisonsError$: Observable<boolean>;
   exchangeJobComparisonsGridData$: Observable<GridDataResult>;
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobComparisonGridStateSubscription: Subscription;
   exchangeJobComparisonGridState: State;
-  public colors: any[] = [{
-    to: 25,
-    color: '#f31700'
-  }, {
-    from: 25,
-    to: 50,
-    color: '#ffc000'
-  }, {
-    from: 50,
-    to: 75,
-    color: '#0058e9'
-  }, {
-    from: 75,
-    color: '#37b400'
-  }];
+  // public colors: any[] = [{
+  //   to: 25,
+  //   color: '#f31700'
+  // }, {
+  //   from: 25,
+  //   to: 50,
+  //   color: '#ffc000'
+  // }, {
+  //   from: 50,
+  //   to: 75,
+  //   color: '#0058e9'
+  // }, {
+  //   from: 75,
+  //   color: '#37b400'
+  // }];
 
   constructor(
-    private store: Store<fromPeerMainReducer.State>
+    private store: Store<fromDashboardReducer.State>
   ) {
-    this.loadingExchangeJobComparisons$ = this.store.select(fromPeerMainReducer.getExchangeJobComparisonsLoading);
-    this.loadingExchangeJobComparisonsError$ = this.store.select(fromPeerMainReducer.getExchangeJobComparisonsLoadingError);
-    this.exchangeJobComparisonsGridData$ = this.store.select(fromPeerMainReducer.getExchangeJobComparisonsGridData);
-    this.exchangeJobComparisonsGridState$ = this.store.select(fromPeerMainReducer.getExchangeJobComparisonsGridState);
+    this.loadingExchangeJobComparisons$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsLoading);
+    this.loadingExchangeJobComparisonsError$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsLoadingError);
+    this.exchangeJobComparisonsGridData$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridData);
+    this.exchangeJobComparisonsGridState$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState);
   }
 
   // Grid
@@ -59,10 +57,33 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
   }
 
-  // getExchangeIndexValue(exchangeIndex: number): string {
-  //   const distanceFromMidpoint = Math.abs(exchangeIndex - 100);
-  //   return distanceFromMidpoint.toFixed(2) + '%';
-  // }
+  getExchangeIndexValue(exchangeIndex: number): string {
+    return Math.abs(exchangeIndex) + '%';
+  }
+
+  getExchangeIndexFontColorClass(exchangeIndex: number): string {
+    if (exchangeIndex < 0) {
+      return 'text-danger';
+    }
+    if (exchangeIndex > 0) {
+      return 'text-success';
+    }
+    if (exchangeIndex === 0) {
+      return 'text-info';
+    }
+  }
+
+  getExchangeIndexIconClass(exchangeIndex: number): string {
+    if (exchangeIndex < 0) {
+      return 'fa-chevron-down';
+    }
+    if (exchangeIndex > 0) {
+      return 'fa-chevron-up';
+    }
+    if (exchangeIndex === 0) {
+      return 'fa-sort';
+    }
+  }
 
   // Lifecycle
   ngOnInit() {

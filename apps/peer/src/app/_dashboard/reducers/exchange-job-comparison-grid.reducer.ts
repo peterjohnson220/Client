@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ExchangeJobComparison } from 'libs/models/peer';
+import { ExchangeJobComparison } from 'libs/models/peer/index';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum } from 'libs/models/common/index';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 
@@ -31,7 +31,7 @@ export function reducer(state, action) {
       switch (featureAction.type) {
         case fromExchangeJobComparisonGridActions.LOAD_EXCHANGE_JOB_COMPARISONS: {
           return {
-            ...adapter.removeAll(featureState),
+            ...featureState,
             loading: true,
             loadingError: false
           };
@@ -39,6 +39,7 @@ export function reducer(state, action) {
         case fromExchangeJobComparisonGridActions.LOAD_EXCHANGE_JOB_COMPARISONS_SUCCESS: {
           const exchangeJobMappings: ExchangeJobComparison[] = featureAction.payload.data;
           return {
+            ...adapter.removeAll(featureState),
             ...adapter.addAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
             loading: false

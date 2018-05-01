@@ -1,6 +1,6 @@
 // Overrides
 @import 'bootstrap-overrides';
-@import 'kendo-overrides';
+@import 'kendo_variable_overrides';
 
 // 3rd Party
 @import '~bootstrap/scss/bootstrap';
@@ -10,3 +10,4 @@
 @import 'base.scss';
 @import 'common.scss';
 @import 'flex.scss';
+@import 'kendo-overrides';
