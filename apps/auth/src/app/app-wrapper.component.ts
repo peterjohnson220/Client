@@ -6,7 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app-wrapper.component.scss']
 })
 export class AppWrapperComponent {
-  payfactorsLogo = 'assets/images/PayFactors-white-logo_0404.png';
-
   constructor() {}
 }
