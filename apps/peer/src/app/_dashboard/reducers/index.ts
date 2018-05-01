@@ -262,11 +262,3 @@ export const getExchangeJobComparisonsGridData = createSelector(
     return { data: data, total: total };
   }
 );
-
-// export const getLoadExchangeJobComparisonGridRequest = createSelector(
-//   getExchange,
-//   getExchangeJobComparisonsGridState,
-//   (exchange, gridState) => {
-//     return {exchangeId: exchange ? exchange.ExchangeId : 0, listState: gridState};
-//   }
-// );
