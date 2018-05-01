@@ -5,10 +5,10 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
-import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
+
 
 @NgModule({
   imports: [
@@ -19,7 +19,6 @@ import { AppRoutingModule } from './app-routing.module';
     NgbModalModule.forRoot(),
 
     // PF Modules
-    PfCommonUIModule,
     PfStateModule,
     PfApiModule,
     PfAppRootModule,

@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Exchange Dashboard should show the dashboard with the exchange name and a container for the charts 1`] = `
+<pf-exchange-dashboard-page
+  exchange$={[Function ScalarObservable]}
+  exchangeId={[Function Number]}
+  route={[Function Object]}
+  router={[Function Object]}
+  sharedPeerStore={[Function Store]}
+  sidebarVisible$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+  
+    
+    
+    
+      Mock Exchange
+    
+    
+  
+    
+    
+    
+      
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+      Invite Company
+    </button>
+    
+      
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+      Manage Jobs
+    </button>
+    
+    
+    
+  
+    
+    
+    
+      
+    <div
+      class="exchange-dashboard-container d-flex flex-row"
+    >
+      
+        
+      <div
+        class="exchange-dashboard-content d-flex flex-column flex-grow-1"
+      >
+        
+          
+        <div
+          class="exchange-dashboard-chart-container d-flex flex-row justify-content-around"
+        >
+          
+            
+          <div
+            class="d-flex flex-grow-1 flex-column justify-content-between mr-2"
+          >
+            
+              
+            <div
+              class="d-flex card card-body flex-column flex-grow-1 text-center mb-1 justify-content-center"
+            >
+              
+                
+              <pf-exchange-company-count />
+              
+              
+            </div>
+            
+              
+            <div
+              class="d-flex card card-body flex-column flex-grow-1 text-center mt-1 justify-content-center"
+            >
+              
+                
+              <pf-exchange-job-count />
+              
+              
+            </div>
+            
+            
+          </div>
+          
+            
+          <div
+            class="d-flex flex-grow-2 flex-column justify-content-between mr-2"
+          >
+            
+              
+            <div
+              class="card card-body flex-column justify-content-top flex-grow-1 text-center"
+            >
+              
+                
+              <h4>
+                Top Industries
+              </h4>
+              
+                
+              <div
+                class="d-flex flex-grow-1 flex-column justify-content-center text-center"
+              >
+                
+                  
+                <pf-exchange-industry-chart />
+                
+                
+              </div>
+              
+              
+            </div>
+            
+            
+          </div>
+          
+            
+          <div
+            class="d-flex flex-grow-2 flex-column justify-content-between mr-2"
+          >
+            
+              
+            <div
+              class="card card-body flex-column justify-content-top flex-grow-1 text-center"
+            >
+              
+                
+              <h4>
+                Top Exchange Job Families
+              </h4>
+              
+                
+              <div
+                class="d-flex flex-grow-1 flex-column justify-content-center text-center"
+              >
+                
+                  
+                <div>
+                  
+                    
+                  <pf-exchange-job-family-chart />
+                  
+                  
+                </div>
+                
+                
+              </div>
+              
+              
+            </div>
+            
+            
+          </div>
+          
+            
+          <div
+            class="d-flex flex-grow-2 flex-column justify-content-between"
+          >
+            
+              
+            <div
+              class="card card-body flex-column justify-content-top flex-grow-1 text-center"
+            >
+              
+                
+              <h4>
+                Revenue Size
+              </h4>
+              
+                
+              <div
+                class="d-flex flex-grow-1 flex-column justify-content-center text-center"
+              >
+                
+                  
+                <div>
+                  
+                    
+                  <pf-exchange-revenue-chart />
+                  
+                  
+                </div>
+                
+                
+              </div>
+              
+              
+            </div>
+            
+            
+          </div>
+          
+          
+        </div>
+        
+        
+      </div>
+      
+        
+      
+      
+      
+    </div>
+    
+    
+    
+  
+  
+  </pf-page-with-title-bar>
+  
+  <pf-invite-payfactors-company-modal />
+  
+</pf-exchange-dashboard-page>
+`;

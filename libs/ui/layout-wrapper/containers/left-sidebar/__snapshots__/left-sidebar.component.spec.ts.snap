@@ -3,8 +3,6 @@
 exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 <pf-layout-wrapper-left-sidebar
   companyName={[Function String]}
-  gettingSidebarNavigationLinks$={[Function Store]}
-  gettingSidebarNavigationLinksError$={[Function Store]}
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
   leftSidebarToggle="false"
@@ -15,61 +13,52 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
 >
-  <pf-async-container>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
     
     
-    <ul
-      class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-close"
-      ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
-      ng-reflect-ng-class="[object Object]"
+    
+    
+    
+    
+    <li
+      class="py-2 pl-3 pr-0"
     >
-      
-      
-      
-      
-      
-      
-      <li
-        class="py-2 pl-3 pr-0"
-      >
-         
-      </li>
-      
-      
-      
-      
+       
+    </li>
     
-    </ul>
     
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-close"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
     
     <div
-      class="left-sidebar-footer left-sidebar-footer-close"
-      ng-reflect-klass="left-sidebar-footer"
+      class="left-sidebar-icon-close"
       ng-reflect-ng-class="[object Object]"
     >
       
   
       
-      <div
-        class="left-sidebar-icon-close"
-        ng-reflect-ng-class="[object Object]"
-      >
-        
-  
-        
-        
-        
-        
-        
-        <span>
-          <i
-            class="fal fa-lg fa-angle-double-right"
-          />
-        </span>
-        
-  
       
-      </div>
+      
+      
+      
+      <span>
+        <i
+          class="fal fa-lg fa-angle-double-right"
+        />
+      </span>
       
   
     
@@ -77,8 +66,7 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
     
   
   
-  
-  </pf-async-container>
+  </div>
   
 </pf-layout-wrapper-left-sidebar>
 `;
@@ -86,8 +74,6 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
 exports[`Left Sidebar should show ul of sidebar open 1`] = `
 <pf-layout-wrapper-left-sidebar
   companyName={[Function String]}
-  gettingSidebarNavigationLinks$={[Function Store]}
-  gettingSidebarNavigationLinksError$={[Function Store]}
   layoutStore={[Function Store]}
   leftSidebarNavigationLinks$={[Function Store]}
   leftSidebarToggle={[Function Boolean]}
@@ -98,64 +84,55 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
 >
-  <pf-async-container>
+  <ul
+    class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
+    ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
+    ng-reflect-ng-class="[object Object]"
+  >
     
     
-    <ul
-      class="left-sidebar-nav pt-2 pl-0 m-0 mb-4 left-sidebar-nav-open"
-      ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
-      ng-reflect-ng-class="[object Object]"
+    
+    <li
+      class="py-2 pl-3 pr-0"
+      placement="right"
     >
       
-      
-      
-      <li
-        class="py-2 pl-3 pr-0"
-        placement="right"
-      >
-        
-          Company Name
-      
-      </li>
-      
-      
-      
-      
-      
-      
-      
+        Company Name
     
-    </ul>
+    </li>
     
+    
+    
+    
+    
+    
+    
+  
+  </ul>
+  <div
+    class="left-sidebar-footer left-sidebar-footer-open"
+    ng-reflect-klass="left-sidebar-footer"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+  
     
     <div
-      class="left-sidebar-footer left-sidebar-footer-open"
-      ng-reflect-klass="left-sidebar-footer"
+      class="left-sidebar-icon-open"
       ng-reflect-ng-class="[object Object]"
     >
       
   
       
-      <div
-        class="left-sidebar-icon-open"
-        ng-reflect-ng-class="[object Object]"
-      >
-        
-  
-        
-        
-        <span>
-          <i
-            class="fal fa-lg fa-angle-double-left"
-          />
-        </span>
-        
-        
-        
-        
-  
       
-      </div>
+      <span>
+        <i
+          class="fal fa-lg fa-angle-double-left"
+        />
+      </span>
+      
+      
+      
       
   
     
@@ -163,8 +140,7 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
     
   
   
-  
-  </pf-async-container>
+  </div>
   
 </pf-layout-wrapper-left-sidebar>
 `;
