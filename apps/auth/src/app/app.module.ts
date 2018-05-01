@@ -6,13 +6,13 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthLayoutWrapper } from './auth-layout-wrapper.component';
+import { AuthLayoutWrapperComponent } from './auth-layout-wrapper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppWrapperComponent,
-    AuthLayoutWrapper
+    AuthLayoutWrapperComponent
   ],
   imports: [
     // Angular

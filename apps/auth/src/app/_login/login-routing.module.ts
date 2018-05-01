@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {
-  LoginPageComponent
-} from './containers/pages';
+import {  LoginPageComponent } from './containers/pages';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
