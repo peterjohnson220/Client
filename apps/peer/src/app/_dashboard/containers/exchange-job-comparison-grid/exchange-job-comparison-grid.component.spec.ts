@@ -14,7 +14,7 @@ import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-jo
 import * as fromPeerDashboardReducer from '../../reducers';
 import { ExchangeJobComparisonGridComponent } from './exchange-job-comparison-grid.component';
 
-describe('Peer - Exchange Job Mapping Grid', () => {
+describe('Peer - Exchange Job Comparison Grid', () => {
   let fixture: ComponentFixture<ExchangeJobComparisonGridComponent>;
   let instance: ExchangeJobComparisonGridComponent;
 
