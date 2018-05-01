@@ -47,7 +47,7 @@
         { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
         { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
-        { "glob": "favicon.ico", "input": "./", "output": "./" },
+        { "glob": "favicon.ico", "input": "../../../assets", "output": "./assets" },
         { "glob": "web.config", "input": "./", "output": "./" }
       ],
       "index": "index.html",
@@ -85,7 +85,7 @@
         { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
         { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
-        { "glob": "favicon.ico", "input": "./", "output": "./" },
+        { "glob": "favicon.ico", "input": "../../../assets", "output": "./assets" },
         { "glob": "web.config", "input": "./", "output": "./" }
       ],
       "index": "index.html",
@@ -120,7 +120,7 @@
         { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
         { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
-        { "glob": "favicon.ico", "input": "./", "output": "./" },
+        { "glob": "favicon.ico", "input": "../../../assets", "output": "./assets" },
         { "glob": "web.config", "input": "./", "output": "./" }
       ],
       "index": "index.html",
@@ -158,7 +158,7 @@
         { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
         { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
-        { "glob": "favicon.ico", "input": "./", "output": "./" },
+        { "glob": "favicon.ico", "input": "../../../assets", "output": "./assets" },
         { "glob": "web.config", "input": "./", "output": "./" }
       ],
       "index": "index.html",

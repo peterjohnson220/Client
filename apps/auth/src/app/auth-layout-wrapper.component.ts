@@ -8,7 +8,7 @@ declare var initializePendo: any;
   styleUrls: [ './auth-layout-wrapper.component.scss' ]
 })
 export class AuthLayoutWrapperComponent implements OnInit {
-  payfactorsLogo = 'assets/images/PayFactors-white-logo_0404.png';
+  payfactorsLogo = './assets/payfactors-white-logo.png';
 
   constructor() {}
 
