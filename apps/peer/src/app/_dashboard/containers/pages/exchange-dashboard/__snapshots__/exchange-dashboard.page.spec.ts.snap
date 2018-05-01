@@ -52,7 +52,7 @@ exports[`Peer - Exchange Dashboard should show the dashboard with the exchange n
       
         
       <div
-        class="exchange-dashboard-content d-flex flex-column flex-grow-1"
+        class="exchange-dashboard-content d-flex flex-column"
       >
         
           
@@ -197,6 +197,17 @@ exports[`Peer - Exchange Dashboard should show the dashboard with the exchange n
             
             
           </div>
+          
+          
+        </div>
+        
+          
+        <div
+          class="exchange-dashboard-job-comparison-grid mt-3 d-flex"
+        >
+          
+            
+          <pf-exchange-job-comparison-grid />
           
           
         </div>

@@ -34,6 +34,14 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  getExchangeJobComparisonList(exchangeId: number, listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(
+      `${this.endpoint}/GetExchangeCompanyJobComparisonList`,
+      { params: { exchangeId, listState: JSON.stringify(listState) } },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getTopCompanyJobsToMapTo(exchangeId: number, query: string): Observable<CompanyJobToMapTo[]> {
     return this.payfactorsApiService.get<CompanyJobToMapTo[]>(`${this.endpoint}/GetTopCompanyJobsToMapTo`,
       { params: { exchangeId, query } }

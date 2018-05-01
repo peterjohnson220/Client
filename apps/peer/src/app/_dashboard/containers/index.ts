@@ -7,3 +7,5 @@ export * from './exchange-job-family-chart';
 export * from './exchange-revenue-chart';
 export * from './pages';
 export * from './pf-company-modal';
+export * from './chart-detail';
+export * from './exchange-job-comparison-grid';

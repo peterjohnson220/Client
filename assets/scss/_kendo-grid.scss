@@ -1,4 +1,5 @@
-@import "~@progress/kendo-theme-bootstrap/scss/_variables/";
+@import '~@progress/kendo-theme-bootstrap/scss/_variables';
+
 :host ::ng-deep .k-widget.k-grid{
   height: 100%;
 }

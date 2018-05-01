@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
+import 'hammerjs';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -23,8 +24,8 @@ import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
-
-import 'hammerjs';
+import { ExchangeJobComparisonGridEffects } from './effects/exchange-job-comparison-grid.effects';
+import { ExchangeJobComparisonGridComponent } from './containers/exchange-job-comparison-grid/exchange-job-comparison-grid.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import 'hammerjs';
     GridModule,
     StoreModule.forFeature('peerDashboard', reducers),
     EffectsModule.forFeature([
-      ExchangeListEffects, ExchangeDashboardEffects, AccessExchangeRequestEffects, PayfactorsCompanyExchangeRequestEffects
+      ExchangeListEffects, ExchangeDashboardEffects, AccessExchangeRequestEffects,
+      PayfactorsCompanyExchangeRequestEffects, ExchangeJobComparisonGridEffects
     ]),
 
     // Routing
@@ -56,7 +58,7 @@ import 'hammerjs';
     // Containers
     ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent, ExchangeRevenueChartComponent,
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
-    PayfactorsCompanyModalComponent, AccessModalComponent, ChartDetailComponent,
+    PayfactorsCompanyModalComponent, AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent,
 
     // Pages
     ExchangeListPageComponent

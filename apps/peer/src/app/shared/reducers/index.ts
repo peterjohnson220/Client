@@ -43,3 +43,7 @@ export const getExchangeLoadingError = createSelector(
   selectExchangeState,
   fromExchangeReducer.getLoadingError
 );
+export const getExchangeId = createSelector(
+  getExchange,
+  (exchange) => exchange ? exchange.ExchangeId : 0
+);

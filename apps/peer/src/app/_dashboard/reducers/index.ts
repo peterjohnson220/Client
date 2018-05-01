@@ -2,6 +2,8 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 // Import root app reducer
 import * as fromRoot from 'libs/state/state';
+import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
+import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
 import * as fromExchangeDashboardReducer from './exchange-dashboard.reducer';
@@ -10,6 +12,7 @@ import * as fromPfCompaniesExchangeRequestReducer from './pf-companies.reducer';
 import * as fromAccessExchangeRequestReducer from './access-exchange-request.reducer';
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
 import * as fromSharedPeerReducer from '../../shared/reducers';
+import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -17,6 +20,7 @@ export interface DashboardState {
   peerParticipants: fromPeerParticipantsReducer.State;
   accessExchangeRequest: fromAccessExchangeRequestReducer.State;
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
+  exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -29,7 +33,8 @@ export const reducers = {
   exchangeDashboard: fromExchangeDashboardReducer.reducer,
   peerParticipants: fromPeerParticipantsReducer.reducer,
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
-  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer
+  pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
+  exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer
 };
 
 // Select Feature Area
@@ -39,6 +44,13 @@ export const selectFeatureAreaState = createFeatureSelector<DashboardState>('pee
 export const selectExchangeDashboardState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.exchangeDashboard
+);
+
+
+
+export const selectExchangeJobComparisonState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.exchangeJobComparison
 );
 
 export const selectPeerParticipantsState = createSelector(
@@ -205,5 +217,48 @@ export const getPfCompaniesExchangeRequestContext = createSelector(
       Query: exchangeRequestState.searchTerm,
       ExchangeId: exchange ? exchange.ExchangeId : 0
     };
+  }
+);
+
+// Exchange Job Comparison Selectors
+export const selectExchangeJobComparisonFeatureState = createSelector(
+  selectExchangeJobComparisonState,
+  (state: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>) => state.feature
+);
+
+export const selectExchangeJobComparisonGridState = createSelector(
+  selectExchangeJobComparisonState,
+  (state: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>) => state.grid
+);
+
+export const {
+  selectAll: getExchangeJobComparisons
+} = fromExchangeJobComparisonGridReducer.adapter.getSelectors(selectExchangeJobComparisonFeatureState);
+
+export const getExchangeJobComparisonsLoading = createSelector(
+  selectExchangeJobComparisonFeatureState,
+  fromExchangeJobComparisonGridReducer.getLoading
+);
+
+export const getExchangeJobComparisonsLoadingError = createSelector(
+  selectExchangeJobComparisonFeatureState,
+  fromExchangeJobComparisonGridReducer.getLoadingError
+);
+
+export const getExchangeJobComparisonsTotal = createSelector(
+  selectExchangeJobComparisonFeatureState,
+  fromExchangeJobComparisonGridReducer.getTotal
+);
+
+export const getExchangeJobComparisonsGridState = createSelector(
+  selectExchangeJobComparisonGridState,
+  fromGridReducer.getGridState
+);
+
+export const getExchangeJobComparisonsGridData = createSelector(
+  getExchangeJobComparisons,
+  getExchangeJobComparisonsTotal,
+  (data, total) => {
+    return { data: data, total: total };
   }
 );
