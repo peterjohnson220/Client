@@ -36,6 +36,8 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
     switch (action.type) {
       case `${gridType}_${fromGridActions.UPDATE_GRID}`: {
         const gridState: State = cloneDeep(action.payload);
+        // We do not currently support multiple filter operations in a given filter, but kendo assumes we do.
+        // Take the first FilterDescriptor from each CompositeFilter so that it is parsed correctly by the server.
         gridState.filter.filters = gridState.filter.filters.map((f: any) => f.filters ? f.filters[0] : f);
         const newState = {
           ...state,
