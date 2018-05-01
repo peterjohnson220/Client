@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -25,21 +25,6 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobComparisonGridStateSubscription: Subscription;
   exchangeJobComparisonGridState: State;
-  // public colors: any[] = [{
-  //   to: 25,
-  //   color: '#f31700'
-  // }, {
-  //   from: 25,
-  //   to: 50,
-  //   color: '#ffc000'
-  // }, {
-  //   from: 50,
-  //   to: 75,
-  //   color: '#0058e9'
-  // }, {
-  //   from: 75,
-  //   color: '#37b400'
-  // }];
 
   constructor(
     private store: Store<fromDashboardReducer.State>
@@ -52,7 +37,6 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
   // Grid
   handleDataStateChange(state: DataStateChangeEvent): void {
-    console.log('handleDataStateChange: ', state);
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobComparison, state));
     this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
   }
