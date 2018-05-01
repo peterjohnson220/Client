@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build && ng lint",
-    "buildallprod": "ng build --app=admin --prod && ng build --app=dashboard --prod && ng build --app=legacy-content --prod && ng build --app=peer --prod",
+    "buildallprod": "ng build --app=admin --prod && ng build --app=dashboard --prod && ng build --app=legacy-content --prod && ng build --app=peer --prod && ng build --app=auth --prod",
     "test": "jest",
     "lint": "ng lint",
     "e2e": "ng e2e"
