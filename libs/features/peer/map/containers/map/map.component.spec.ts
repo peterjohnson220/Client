@@ -1,23 +1,19 @@
 import {  NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
-import * as fromPeerDataReducer from '../../../../../../apps/legacy-content/src/app/_peer/reducers/index';
+import * as fromFeaturePeerMapReducer from '../../../map/reducers';
 import { MapComponent } from './map.component';
 
 
-describe('Legacy Content - Peer - Map Component', () => {
-let fixture: ComponentFixture<MapComponent>;
-let instance: MapComponent;
-let store: Store<fromRootState.State>;
-let route: ActivatedRouteStub;
-const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
+describe('Features - Peer - Map Component', () => {
+  let fixture: ComponentFixture<MapComponent>;
+  let instance: MapComponent;
+  let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -25,14 +21,8 @@ const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerData: combineReducers(fromPeerDataReducer.reducers)
+          feature_peerMap: combineReducers(fromFeaturePeerMapReducer.reducers)
         })
-      ],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useClass: ActivatedRouteStub,
-        }
       ],
       declarations: [
         MapComponent
@@ -42,9 +32,6 @@ const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
     });
 
     store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
-
-    route.testParamMap = queryStringParams;
 
     fixture = TestBed.createComponent(MapComponent);
     instance = fixture.componentInstance;
@@ -56,24 +43,3 @@ const queryStringParams = {companyPayMarketId: 1, companyJobId: 2};
   });
 
 });
-
-export function getMockMapEvent(): any {
-  return {
-    target: {
-      _loaded: true,
-      getBounds() {
-        return {
-          _ne: {
-            lat: 0, lng: 0
-          },
-          _sw: {
-            lat: 0, lng: 0
-          }
-        };
-      },
-      getZoom() {
-        return 1;
-      }
-    }
-  };
-}

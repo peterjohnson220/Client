@@ -1,5 +1,5 @@
-import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters/index';
-import { PayMarket } from 'libs/models/paymarket/index';
+import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
+import { PayMarket } from 'libs/models/paymarket';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';

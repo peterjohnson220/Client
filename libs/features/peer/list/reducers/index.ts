@@ -22,10 +22,10 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectPeerFeaturesState = createFeatureSelector<PeerExchangeListState>('feature_exchangeList');
+export const selectPeerExchangeListState = createFeatureSelector<PeerExchangeListState>('feature_exchangeList');
 
 // Feature Selectors
-export const selectExchangeListState = createSelector(selectPeerFeaturesState, (state: PeerFeaturesState) => state.exchangeList);
+export const selectExchangeListState = createSelector(selectPeerExchangeListState, (state: PeerExchangeListState) => state.exchangeList);
 
 // Exchange List Selectors
 export const {

@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import {  generateMockExchange } from 'libs/models/index';
+import {  generateMockExchange } from 'libs/models';
 
 import { ExchangeDashboardPageComponent } from './exchange-dashboard.page';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';

@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { GridTypeEnum } from 'libs/models/common/index';
+import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer/index';
+import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../../reducers';

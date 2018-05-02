@@ -8,7 +8,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-import { CompanySecurityApiService } from '../../../data/payfactors-api/index';
+import { CompanySecurityApiService } from '../../../data/payfactors-api';
 import * as userContextActions from '../actions/user-context.actions';
 
 @Injectable()

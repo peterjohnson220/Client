@@ -1,4 +1,4 @@
-import { Exchange } from 'libs/models/index';
+import { Exchange } from 'libs/models';
 
 import * as fromExchangeActions from '../actions/exchange.actions';
 

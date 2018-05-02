@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapSummary } from 'libs/models/peer/index';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import { MapHelper } from '../helpers';

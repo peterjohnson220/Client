@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progres
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
 import { GridTypeEnum } from 'libs/models/common';
-import { AddExchangeJobsRequest } from 'libs/models/peer/index';
+import { AddExchangeJobsRequest } from 'libs/models/peer';
 import { PfValidators } from 'libs/forms/validators';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 

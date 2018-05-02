@@ -11,7 +11,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
-import * as fromPeerAdminReducer from '../../reducers/index';
+import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeCompaniesComponent } from './exchange-companies.component';
 import { GridHelperService } from '../../services';
 

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 
-import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/index';
+import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 import * as fromDashboardReducer from '../reducers';

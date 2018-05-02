@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse } from 'libs/models/peer/index';
+import { ExchangeMapResponse } from 'libs/models/peer';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/Map] Load Peer Map Data Success';

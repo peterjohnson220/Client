@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/index';
-import { arraySortByString, SortDirection } from 'libs/core/functions/index';
+import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import { AggregateSelectionInfo } from '../models';
 

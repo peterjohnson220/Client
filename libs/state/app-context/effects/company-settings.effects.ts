@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs/observable/of';
 
-import { CompanyApiService } from 'libs/data/payfactors-api/index';
+import { CompanyApiService } from 'libs/data/payfactors-api';
 import * as companySettingsActions from '../actions/company-settings.actions';
 
 @Injectable()

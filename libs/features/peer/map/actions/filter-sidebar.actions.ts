@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { FilterAggregateGroup } from 'libs/models/peer/index';
+import { FilterAggregateGroup } from 'libs/models/peer';
 
 import { AggregateSelectionInfo } from '../models';
 import { SystemFilter, SystemFilterRequest } from '../../../../models/peer';

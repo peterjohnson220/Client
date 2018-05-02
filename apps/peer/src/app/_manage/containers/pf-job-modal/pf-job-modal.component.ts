@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
-import { PfValidators } from 'libs/forms/validators/index';
+import { PfValidators } from 'libs/forms/validators';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
-import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer/index';
+import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
 
 import { ExchangeJobRequestCandidate } from '../../models';
 import * as fromPeerManagementReducer from '../../reducers';

@@ -3,7 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import spyOn = jest.spyOn;
 
-import { generateMockFilterAggregateItem } from 'libs/models/index';
+import { generateMockFilterAggregateItem } from 'libs/models';
 
 import { FilterAggregateComponent } from './filter-aggregate.component';
 

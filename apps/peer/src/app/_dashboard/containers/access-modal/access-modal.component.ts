@@ -12,8 +12,8 @@ import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selecto
 import {
   AvailableExchangeItem, ExchangeRequestTypeEnum, CompanyOption,
   RequestExchangeRequest, PfConstants
-} from 'libs/models/index';
-import { PfValidators } from 'libs/forms/validators/index';
+} from 'libs/models';
+import { PfValidators } from 'libs/forms/validators';
 
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromPeerParticipantsActions from '../../actions/peer-participants.actions';

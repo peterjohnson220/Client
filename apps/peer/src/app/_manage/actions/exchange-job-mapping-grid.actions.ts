@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeJobMapping } from 'libs/models/peer/index';
+import { ExchangeJobMapping } from 'libs/models/peer';
 
 export const LOAD_EXCHANGE_JOB_MAPPINGS  = '[Peer Main/Exchange Job Mapping] Load Exchange Job Mappings';
 export const LOAD_EXCHANGE_JOB_MAPPINGS_SUCCESS  = '[Peer Main/Exchange Job Mapping] Load Exchange Job Mappings Success';

@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models/index';
+import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models';
 
 import { generateMockExchangeJobRequestCandidate } from '../../models';
 import * as fromPeerManagementReducer from '../../reducers';

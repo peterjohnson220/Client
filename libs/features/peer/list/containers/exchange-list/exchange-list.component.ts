@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
 
-import { ExchangeListItem } from '../../../../../models/peer/index';
-import * as fromSharedPeerReducer from '../../reducers/index';
+import { ExchangeListItem } from '../../../../../models/peer';
+import * as fromSharedPeerReducer from '../../reducers';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 
 @Component({

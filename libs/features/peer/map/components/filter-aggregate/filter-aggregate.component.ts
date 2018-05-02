@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { FilterAggregateItem } from 'libs/models/peer/aggregate-filters/index';
+import { FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
 
 @Component({
   selector: 'pf-filter-aggregate',

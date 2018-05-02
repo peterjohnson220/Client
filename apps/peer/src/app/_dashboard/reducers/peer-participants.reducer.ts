@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { CompanyOption } from 'libs/models/common/index';
+import { CompanyOption } from 'libs/models/common';
 
 import * as fromPeerParticipantsActions from '../actions/peer-participants.actions';
 

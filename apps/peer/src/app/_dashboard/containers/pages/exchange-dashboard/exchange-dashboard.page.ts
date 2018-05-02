@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { Exchange, ExchangeRequestTypeEnum } from 'libs/models/index';
+import { Exchange, ExchangeRequestTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';

@@ -1,1 +1,1 @@
-export * from './exchange-job-mapping/index';
+export * from './exchange-job-mapping';

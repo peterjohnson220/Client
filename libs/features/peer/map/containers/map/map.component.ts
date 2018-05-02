@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { FeatureCollection, Point } from 'geojson';
 import 'rxjs/add/operator/take';
 
-import { ExchangeMapSummary } from 'libs/models/peer/index';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromMapActions from '../../actions/map.actions';
 import * as fromPeerMapReducer from '../../reducers';
