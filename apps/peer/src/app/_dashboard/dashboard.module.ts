@@ -11,21 +11,20 @@ import 'hammerjs';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfPeerFeaturesModule } from 'libs/features';
+import { PfPeerExchangeListModule } from 'libs/features/peer/list';
 import { PfCommonModule } from 'libs/core';
 
 import { ExchangeListPageComponent, ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
          AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
          ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
-         ChartDetailComponent} from './containers';
+         ChartDetailComponent, ExchangeJobComparisonGridComponent } from './containers';
 import { ExchangeListEffects, ExchangeDashboardEffects, AccessExchangeRequestEffects,
-         PayfactorsCompanyExchangeRequestEffects } from './effects';
+         PayfactorsCompanyExchangeRequestEffects, ExchangeJobComparisonGridEffects } from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { ExchangeJobComparisonGridEffects } from './effects/exchange-job-comparison-grid.effects';
-import { ExchangeJobComparisonGridComponent } from './containers/exchange-job-comparison-grid/exchange-job-comparison-grid.component';
+
 
 @NgModule({
   imports: [
@@ -50,7 +49,7 @@ import { ExchangeJobComparisonGridComponent } from './containers/exchange-job-co
     // Payfactors
     SharedModule,
     PfCommonUIModule,
-    PfPeerFeaturesModule,
+    PfPeerExchangeListModule,
     PfFormsModule,
     PfCommonModule
   ],

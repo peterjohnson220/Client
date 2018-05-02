@@ -7,13 +7,13 @@ import * as fromRoot from 'libs/state/state';
 import * as fromExchangeListReducer from './exchange-list.reducer';
 
 // Feature area state
-export interface PeerFeaturesState {
+export interface PeerExchangeListState {
   exchangeList: fromExchangeListReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerFeatures: PeerFeaturesState;
+  feature_exchangeList: PeerExchangeListState;
 }
 
 // Feature area reducers
@@ -22,7 +22,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectPeerFeaturesState = createFeatureSelector<PeerFeaturesState>('peerFeatures');
+export const selectPeerFeaturesState = createFeatureSelector<PeerExchangeListState>('feature_exchangeList');
 
 // Feature Selectors
 export const selectExchangeListState = createSelector(selectPeerFeaturesState, (state: PeerFeaturesState) => state.exchangeList);

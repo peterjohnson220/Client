@@ -6,10 +6,10 @@ import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfStateModule } from 'libs/state/state.module';
 
-import { PfCommonUIModule } from '../../../ui/common/index';
-import { PfApiModule } from '../../../data/payfactors-api/index';
-import { ExchangeListComponent } from './containers/index';
-import { reducers } from './reducers/index';
+import { PfCommonUIModule } from '../../../ui/common';
+import { PfApiModule } from '../../../data/payfactors-api';
+import { ExchangeListComponent } from './containers';
+import { reducers } from './reducers';
 
 const declarations = [
   // declarations
@@ -22,7 +22,7 @@ const declarations = [
 
     // 3rd Party
     GridModule,
-    StoreModule.forFeature('peerFeatures', reducers),
+    StoreModule.forFeature('feature_exchangeList', reducers),
 
     // Payfactors
     PfCommonUIModule,
@@ -32,4 +32,4 @@ const declarations = [
   declarations: declarations,
   exports: declarations
 })
-export class PfPeerFeaturesModule { }
+export class PfPeerExchangeListModule { }

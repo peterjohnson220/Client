@@ -3,10 +3,10 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import { ExchangeListItem, generateMockExchangeListItem } from '../../../../../models/peer/index';
+import { ExchangeListItem, generateMockExchangeListItem } from '../../../../../models/peer';
 import * as fromRootState from '../../../../../state/state';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromPeerFeaturesReducer from '../../reducers/index';
+import * as fromExchangeListReducer from '../../reducers';
 import { ExchangeListComponent } from './exchange-list.component';
 
 describe('Peer Features - Exchange List Component', () => {
@@ -20,7 +20,7 @@ describe('Peer Features - Exchange List Component', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerFeatures: combineReducers(fromPeerFeaturesReducer.reducers)
+          feature_exchangeList: combineReducers(fromExchangeListReducer.reducers)
         })
       ],
       declarations: [

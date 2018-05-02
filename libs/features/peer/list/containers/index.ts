@@ -1,1 +1,1 @@
-export * from './exchange-list/index';
+export * from './exchange-list';

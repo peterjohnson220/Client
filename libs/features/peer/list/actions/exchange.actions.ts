@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Exchange } from 'libs/models/index';
+import { Exchange } from 'libs/models';
 
 export const LOADING_EXCHANGE  = '[Peer Shared] Loading Exchange';
 export const LOADING_EXCHANGE_SUCCESS  = '[Peer Shared] Loading Exchange Success';

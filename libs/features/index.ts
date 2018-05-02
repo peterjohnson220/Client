@@ -1,2 +1,2 @@
 export * from './app-root';
-export * from './peer/list';
+export * from './peer';
