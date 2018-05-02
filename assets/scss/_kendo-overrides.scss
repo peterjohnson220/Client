@@ -1,0 +1,14 @@
+@import "_colors";
+
+.k-button.k-primary[disabled] {
+  &:hover,
+  &.k-state-hover {
+    background: none;
+    color: inherit;
+    cursor: not-allowed;
+  }
+}
+
+.k-filter-menu .k-dropdown .k-dropdown-wrap {
+  border-color: $border-grey;
+}
