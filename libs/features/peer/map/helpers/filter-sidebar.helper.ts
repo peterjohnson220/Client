@@ -3,7 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/index';
 import { arraySortByString, SortDirection } from 'libs/core/functions/index';
 
-import { AggregateSelectionInfo, ExcludedFilterAggregateGroup } from '../models';
+import { AggregateSelectionInfo } from '../models';
 
 export class FilterSidebarHelper {
 
@@ -12,12 +12,8 @@ export class FilterSidebarHelper {
 
   // Convert the provided filter aggregate groups into a selection object to be passed as part the data search
   // filter model. Each aggregate group will become a property on the object that is an array of the selected items.
-  static buildSelections(aggregateGroups: FilterAggregateGroup[], excludedAggregateGroups: ExcludedFilterAggregateGroup[]) {
+  static buildSelections(aggregateGroups: FilterAggregateGroup[]) {
     const selectionObj = {};
-
-    excludedAggregateGroups.map(eag => {
-      selectionObj[eag.FilterProp] = eag.Selections;
-    });
 
     aggregateGroups.map(ag => {
       selectionObj[ag.MetaData.FilterProp] = ag.Aggregates.filter(a => a.Selected).map(a => a.Id ? a.Id : a.Item);
@@ -51,11 +47,11 @@ export class FilterSidebarHelper {
   // will merge the two collections. Any selected current agggregrate items will remain and have their counts updated
   // from the server.
   static mergeServerAggregatesWithSelected(currentAggGroups: FilterAggregateGroup[], serverAggGroups: FilterAggregateGroup[],
-                                           excludedAggGroups: ExcludedFilterAggregateGroup[]) {
+                                           limitToExchange: boolean) {
     const copiedCurrentAggGroups = cloneDeep(currentAggGroups);
-    // Remove all excluded groups from server response
-    const copiedServerAggGroups = cloneDeep(serverAggGroups)
-      .filter(sag => !excludedAggGroups.some(eag => eag.FilterProp === sag.MetaData.FilterProp));
+    const copiedServerAggGroups = limitToExchange
+                                  ? cloneDeep(serverAggGroups).filter(sag => sag.MetaData.FilterProp !== 'ExchangeIds')
+                                  : cloneDeep(serverAggGroups);
     let mergedAggGroups: FilterAggregateGroup[] = [];
 
     if (currentAggGroups.length) {

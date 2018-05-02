@@ -3,8 +3,7 @@ import { PayMarket } from 'libs/models/paymarket/index';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';
-import { ExchangeJobPayMarketFilter } from '../../../../models';
-import { ExcludedFilterAggregateGroup } from '../models';
+import { SystemFilter } from '../../../../models';
 
 // Extended entity state
 export interface State {
@@ -13,10 +12,9 @@ export interface State {
   limitToPayMarket: boolean;
   payMarket: PayMarket;
   filterAggregateGroups: FilterAggregateGroup[];
-  excludedFilterAggregateGroup: ExcludedFilterAggregateGroup[];
   selections: any;
   previewLimit: number;
-  exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter;
+  systemFilter: SystemFilter;
 }
 
 // Initial State
@@ -26,10 +24,9 @@ export const initialState: State = {
   limitToPayMarket: false,
   payMarket: null,
   filterAggregateGroups: [],
-  excludedFilterAggregateGroup: [],
   selections: {},
   previewLimit: FilterSidebarHelper.PreviewLimit,
-  exchangeJobPayMarketFilter: null
+  systemFilter: null
 };
 
 // Reducer
@@ -42,8 +39,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       };
     }
     case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_SUCCESS: {
-      const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(state.filterAggregateGroups,
-        action.payload, state.excludedFilterAggregateGroup);
+      const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
+        state.filterAggregateGroups, action.payload, !!state.systemFilter.ExchangeId);
 
       return {
         ...state,
@@ -64,7 +61,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         filterAggregateGroups: newAggGroups,
-        selections: FilterSidebarHelper.buildSelections(newAggGroups, state.excludedFilterAggregateGroup)
+        selections: FilterSidebarHelper.buildSelections(newAggGroups)
       };
     }
     case fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET: {
@@ -98,20 +95,19 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         filterAggregateGroups: newAggGroups,
-        selections: FilterSidebarHelper.buildSelections(newAggGroups, state.excludedFilterAggregateGroup)
+        selections: FilterSidebarHelper.buildSelections(newAggGroups)
       };
     }
-    case fromFilterSidebarActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS: {
+    case fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS: {
       return {
         ...state,
-        exchangeJobPayMarketFilter: action.payload
+        systemFilter: action.payload
       };
     }
-    case fromFilterSidebarActions.SET_EXCLUDED_AGGREGRATE_GROUPS: {
+    case fromFilterSidebarActions.LIMIT_TO_EXCHANGE: {
       return {
         ...state,
-        excludedFilterAggregateGroup: action.payload,
-        selections: FilterSidebarHelper.buildSelections([], action.payload)
+        systemFilter: {...state.systemFilter, ExchangeId: action.payload }
       };
     }
     case fromFilterSidebarActions.RESET_STATE: {
@@ -133,4 +129,4 @@ export const getSelections = (state: State) => state.selections;
 export const getLimitToPayMarket = (state: State) => state.limitToPayMarket;
 export const getPayMarket = (state: State) => state.payMarket;
 export const getPreviewLimit = (state: State) => state.previewLimit;
-export const getExchangeJobPayMarketFilter = (state: State) => state.exchangeJobPayMarketFilter;
+export const getSystemFilter = (state: State) => state.systemFilter;

@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId">
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId" [contentNoPadding]="true">
   <ng-container page-title>
     {{ (exchange$ | async)?.ExchangeName }}
   </ng-container>

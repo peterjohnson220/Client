@@ -7,6 +7,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PageWithTitleBarComponent {
   @Input() returnUrl: string;
+  @Input() contentNoPadding: boolean;
   @Output() returning = new EventEmitter();
 
   // Events

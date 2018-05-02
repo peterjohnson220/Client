@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 
 import { FilterAggregateGroup } from 'libs/models/peer/index';
 
-import { AggregateSelectionInfo, ExcludedFilterAggregateGroup } from '../models';
-import { ExchangeJobPayMarketFilter, ExchangeJobPayMarketFilterRequest } from '../../../../models/peer';
+import { AggregateSelectionInfo } from '../models';
+import { SystemFilter, SystemFilterRequest } from '../../../../models/peer';
 
 export const LOADING_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Loading Filter Aggregates';
 export const LOADING_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Loading Filter Aggregates Success';
@@ -14,9 +14,9 @@ export const LOAD_PAYMARKET_INFORMATION  = '[Features/Peer/Sidebar] Load PayMark
 export const LOAD_PAYMARKET_INFORMATION_SUCCESS  = '[Features/Peer/Sidebar] Load PayMarket Information Success';
 export const CLEAR_ALL_SELECTIONS  = '[Features/Peer/Sidebar] Clear All Selections';
 export const CLEAR_GROUP_SELECTIONS  = '[Features/Peer/Sidebar] Clear Group Selections';
-export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER = '[Features/Peer/Sidebar] Load Exchange Job Pay Market Filter';
-export const LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load Exchange Job Pay Market Filter Success';
-export const SET_EXCLUDED_AGGREGRATE_GROUPS = '[Features/Peer/Sidebar] Set Excluded Aggregate Groups';
+export const LOAD_SYSTEM_FILTER = '[Features/Peer/Sidebar] Load System Filter';
+export const LOAD_SYSTEM_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load System Filter Success';
+export const LIMIT_TO_EXCHANGE = '[Features/Peer/Sidebar] Limit to Exchange';
 export const RESET_STATE = '[Features/Peer/Sidebar] Reset State';
 
 export class LoadingFilterAggregates implements Action {
@@ -67,22 +67,22 @@ export class ClearGroupSelections implements Action {
   constructor(public payload: FilterAggregateGroup) {}
 }
 
-export class LoadingExchangeJobPayMarketFilter implements Action {
-  readonly type = LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER;
+export class LoadSystemFilter implements Action {
+  readonly type = LOAD_SYSTEM_FILTER;
 
-  constructor(public payload: ExchangeJobPayMarketFilterRequest) { }
+  constructor(public payload: SystemFilterRequest) { }
 }
 
-export class LoadingExchangeJobPayMarketFilterSuccess implements Action {
-  readonly type = LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS;
+export class LoadSystemFilterSuccess implements Action {
+  readonly type = LOAD_SYSTEM_FILTER_SUCCESS;
 
-  constructor(public payload: ExchangeJobPayMarketFilter) { }
+  constructor(public payload: SystemFilter) { }
 }
 
-export class SetExcludedAggregateGroups implements Action {
-  readonly type = SET_EXCLUDED_AGGREGRATE_GROUPS;
+export class LimitToExchange implements Action {
+  readonly type = LIMIT_TO_EXCHANGE;
 
-  constructor(public payload: ExcludedFilterAggregateGroup[]) { }
+  constructor(public payload: number) { }
 }
 
 export class ResetState implements Action {
@@ -99,7 +99,7 @@ export type Actions
   | LoadPayMarketInformationSuccess
   | ClearAllSelections
   | ClearGroupSelections
-  | LoadingExchangeJobPayMarketFilter
-  | LoadingExchangeJobPayMarketFilterSuccess
-  | SetExcludedAggregateGroups
+  | LoadSystemFilter
+  | LoadSystemFilterSuccess
+  | LimitToExchange
   | ResetState;

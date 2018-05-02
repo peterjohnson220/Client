@@ -6,9 +6,6 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromMapReducer from './map.reducer';
 import * as fromFilterSidebarReducer from './filter-sidebar.reducer';
-import { selectAddDataCutState } from '../../../../../apps/legacy-content/src/app/_peer/reducers';
-import * as fromAddDataCutPageReducer
-  from '../../../../../apps/legacy-content/src/app/_peer/reducers/add-data-cut-page.reducer';
 
 // Feature area state
 export interface PeerMapState {
@@ -54,17 +51,17 @@ export const getPeerFilterSelections = createSelector(selectPeerFiltersState, fr
 export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLimitToPayMarket);
 export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
 export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPreviewLimit);
-export const getExchangeJobPayMarketFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getExchangeJobPayMarketFilter);
+export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
 
 // Combined State Selectors
 export const getExchangeDataCutRequestData = createSelector(
-  getExchangeJobPayMarketFilter,
+  getSystemFilter,
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  (ejpm, fs, pmf, pfltp) => {
+  (sf, fs, pmf, pfltp) => {
     return {
-      ...ejpm,
+      ...sf,
       ...fs,
       ...pmf,
       LimitToPayMarket: pfltp

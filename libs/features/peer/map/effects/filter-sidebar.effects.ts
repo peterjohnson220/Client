@@ -14,25 +14,25 @@ import { ExchangeDataSearchFilter, FilterAggregateGroup } from 'libs/models/peer
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerMapReducers from '../reducers';
-import { ExchangeJobPayMarketFilter } from '../../../../models/peer';
+import { SystemFilter } from '../../../../models/peer';
 
 @Injectable()
 export class FilterSidebarEffects {
   @Effect()
-  loadingExchangeJobPayMarketFilter$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER)
-    .map((action: fromFilterSidebarActions.LoadingExchangeJobPayMarketFilter) => action.payload)
+  loadingSystemFilter$: Observable<Action> = this.actions$
+    .ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER)
+    .map((action: fromFilterSidebarActions.LoadSystemFilter) => action.payload)
     .switchMap(payload =>
-      this.exchangeDataSearchApiService.getExchangeJobAndPayMarketFilter(payload)
-        .map((exchangeJobPayMarketFilter: ExchangeJobPayMarketFilter) => new fromFilterSidebarActions
-          .LoadingExchangeJobPayMarketFilterSuccess(exchangeJobPayMarketFilter))
+      this.exchangeDataSearchApiService.getSystemFilter(payload)
+        .map((exchangeJobPayMarketFilter: SystemFilter) => new fromFilterSidebarActions
+          .LoadSystemFilterSuccess(exchangeJobPayMarketFilter))
         .catch(() => of(new fromPeerMapActions.LoadPeerMapDataError))
     );
 
   @Effect()
-  loadingExchangeJobPayMarketFilterSuccess$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOADING_EXCHANGE_JOB_PAY_MARKET_FILTER_SUCCESS)
-    .map((action: fromFilterSidebarActions.LoadingExchangeJobPayMarketFilterSuccess) => action.payload)
+  loadingSystemFilterSuccess$: Observable<Action> = this.actions$
+    .ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS)
+    .map((action: fromFilterSidebarActions.LoadSystemFilterSuccess) => action.payload)
     .switchMap(() => of(new fromPeerMapActions.LoadPeerMapData()));
 
   @Effect()

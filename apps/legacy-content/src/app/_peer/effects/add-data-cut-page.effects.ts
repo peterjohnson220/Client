@@ -10,7 +10,7 @@ import 'rxjs/add/operator/switchMap';
 
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
-import { ExchangeJobPayMarketFilter } from 'libs/models/peer';
+import { SystemFilter } from 'libs/models/peer';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 
@@ -37,14 +37,6 @@ export class AddDataCutPageEffects {
       .map(() => new fromAddDataCutPageActions.AddingDataCutSuccess())
       .catch(() => of(new fromAddDataCutPageActions.AddingDataCutError()));
     });
-
-  @Effect()
-  initialMapMoveComplete$: Observable<Action> = this.actions$
-    .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
-    .mergeMap(() => [
-      new fromPeerMapActions.LoadPeerMapData,
-      new fromFilterSidebarActions.LoadingFilterAggregates()
-    ]);
 
   // Window Communication
   @Effect({ dispatch: false })

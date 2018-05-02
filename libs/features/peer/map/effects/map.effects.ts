@@ -41,6 +41,14 @@ export class MapEffects {
       new fromFilterSidebarActions.LoadingFilterAggregates()
     ]);
 
+  @Effect()
+  initialMapMoveComplete$: Observable<Action> = this.actions$
+    .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadPeerMapData,
+      new fromFilterSidebarActions.LoadingFilterAggregates()
+    ]);
+
   constructor(
     private actions$: Actions,
     private peerMapStore: Store<fromPeerMapReducers.State>,

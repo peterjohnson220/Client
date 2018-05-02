@@ -24,7 +24,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>
   ) {
     this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = +this.route.snapshot.params.id;
   }
 
   ngOnDestroy() {
@@ -33,11 +33,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sharedPeerStore.dispatch(new fromFilterSidebarActions.SetExcludedAggregateGroups(
-      [{ FilterProp: 'ExchangeIds', Selections: [this.exchangeId] }]
-    ));
-
+    this.sharedPeerStore.dispatch(new fromFilterSidebarActions.LimitToExchange(this.exchangeId));
     this.sharedPeerStore.dispatch(new fromPeerMapActions.LoadPeerMapData());
-    this.sharedPeerStore.dispatch(new fromFilterSidebarActions.LoadingFilterAggregates());
   }
 }

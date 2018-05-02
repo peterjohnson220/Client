@@ -1,6 +1,6 @@
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
-import { ExchangeJobPayMarketFilter } from 'libs/models';
+import { SystemFilter } from 'libs/models';
 
 export interface State {
   addingDataCut: boolean;
