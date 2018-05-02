@@ -10,12 +10,10 @@ import 'rxjs/add/operator/switchMap';
 
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
-import { SystemFilter } from 'libs/models/peer';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
-import * as fromFilterSidebarActions from '../../../../../../libs/features/peer/map/actions/filter-sidebar.actions';
 
 @Injectable()
 export class AddDataCutPageEffects {

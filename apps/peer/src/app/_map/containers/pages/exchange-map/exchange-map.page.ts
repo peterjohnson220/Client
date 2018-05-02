@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { Exchange } from 'libs/models';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 
@@ -21,19 +22,20 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private peerMapStore: Store<fromPeerMapReducer.State>,
+    private sharedPeerStore: Store<fromSharedPeerReducer.State>,
   ) {
     this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
   ngOnDestroy() {
-    this.sharedPeerStore.dispatch(new fromPeerMapActions.ResetState());
-    this.sharedPeerStore.dispatch(new fromFilterSidebarActions.ResetState());
+    this.peerMapStore.dispatch(new fromPeerMapActions.ResetState());
+    this.peerMapStore.dispatch(new fromFilterSidebarActions.ResetState());
   }
 
   ngOnInit() {
-    this.sharedPeerStore.dispatch(new fromFilterSidebarActions.LimitToExchange(this.exchangeId));
-    this.sharedPeerStore.dispatch(new fromPeerMapActions.LoadPeerMapData());
+    this.peerMapStore.dispatch(new fromFilterSidebarActions.LimitToExchange(this.exchangeId));
+    this.peerMapStore.dispatch(new fromPeerMapActions.LoadPeerMapData());
   }
 }

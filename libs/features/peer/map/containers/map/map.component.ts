@@ -16,7 +16,7 @@ import * as fromPeerMapReducer from '../../reducers';
   styleUrls: [ './map.component.scss' ]
 })
 export class MapComponent {
-  // TODO [BC]: Add Comment
+  // Conditionally allow the map to fit to the provided bounds.
   @Input() canFitBounds: boolean;
 
   selectedPoint: any = null;
