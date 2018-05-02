@@ -15,7 +15,7 @@ export interface PeerMapState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerMap: PeerMapState;
+  feature_peerMap: PeerMapState;
 }
 
 // Feature area reducers

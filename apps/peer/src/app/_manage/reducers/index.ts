@@ -22,7 +22,7 @@ export interface PeerManagementState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerManagement: PeerManagementState;
+  peer_manage: PeerManagementState;
 }
 
 // Feature area reducers

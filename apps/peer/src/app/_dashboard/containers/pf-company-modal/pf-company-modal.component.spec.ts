@@ -29,8 +29,8 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_shared: combineReducers(fromSharedPeerReducer.reducers),
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

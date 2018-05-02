@@ -1,5 +1,518 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Features - Peer - Filter Aggregate Group Component should apply the collapsed class to the .aggregate-group when collapse is true 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  collapsed={[Function Boolean]}
+  previewLimit={[Function Number]}
+>
+  
+  <div
+    class="aggregate-group collapsed"
+  >
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-group-header"
+    >
+      
+  
+      
+      <div>
+        
+        MockLabel
+      
+      </div>
+      
+  
+      
+      <div
+        class="header-right"
+      >
+        
+        
+        
+        
+  
+        
+        
+        <div>
+          
+          
+          <i
+            class="far fa-angle-down"
+          />
+          
+        
+        </div>
+        
+        
+        
+        
+      
+      </div>
+      
+  
+    
+    </div>
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-container"
+    >
+      
+      
+      
+      
+      
+        
+      
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
+      
+    
+    </div>
+    
+  
+    
+    
+    
+    
+    
+  
+  
+  </div>
+  
+</pf-filter-aggregate-group>
+`;
+
+exports[`Features - Peer - Filter Aggregate Group Component should apply the show-all class to the .aggregate-container when showAllAggregates is true 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
+  showAllAggregates={[Function Boolean]}
+>
+  
+  <div
+    class="aggregate-group"
+  >
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-group-header"
+    >
+      
+  
+      
+      <div>
+        
+        MockLabel
+      
+      </div>
+      
+  
+      
+      <div
+        class="header-right"
+      >
+        
+        
+        
+        
+  
+        
+        
+        
+        
+        
+        <div>
+          
+          
+          <i
+            class="far fa-angle-up"
+          />
+          
+        
+        </div>
+        
+      
+      </div>
+      
+  
+    
+    </div>
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-container show-all"
+    >
+      
+      
+      
+      
+      
+        
+      
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
+      
+    
+    </div>
+    
+  
+    
+    
+    
+    
+    
+  
+  
+  </div>
+  
+</pf-filter-aggregate-group>
+`;
+
+exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show Less' link when showAllAggregates is true 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
+  showAllAggregates={[Function Boolean]}
+>
+  
+  <div
+    class="aggregate-group"
+  >
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-group-header"
+    >
+      
+  
+      
+      <div>
+        
+        MockLabel
+      
+      </div>
+      
+  
+      
+      <div
+        class="header-right"
+      >
+        
+        
+        
+        
+  
+        
+        
+        
+        
+        
+        <div>
+          
+          
+          <i
+            class="far fa-angle-up"
+          />
+          
+        
+        </div>
+        
+      
+      </div>
+      
+  
+    
+    </div>
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-container show-all"
+    >
+      
+      
+      
+      
+      
+        
+      
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
+      
+    
+    </div>
+    
+  
+    
+    
+    
+    
+    <div
+      class="toggle-option-height"
+    >
+      
+  
+      Show
+  
+      
+      
+      
+  
+      
+      
+      <span>
+        
+        Less 
+        <i
+          class="far fa-angle-up"
+        />
+        
+      
+      </span>
+      
+    
+    </div>
+    
+  
+  
+  </div>
+  
+</pf-filter-aggregate-group>
+`;
+
+exports[`Features - Peer - Filter Aggregate Group Component should show the Options Toggle when the number of aggregates is greater than the preview limit 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateToggled={[Function EventEmitter]}
+  clearSelections={[Function EventEmitter]}
+  previewLimit={[Function Number]}
+>
+  
+  <div
+    class="aggregate-group"
+  >
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-group-header"
+    >
+      
+  
+      
+      <div>
+        
+        MockLabel
+      
+      </div>
+      
+  
+      
+      <div
+        class="header-right"
+      >
+        
+        
+        
+        
+  
+        
+        
+        
+        
+        
+        <div>
+          
+          
+          <i
+            class="far fa-angle-up"
+          />
+          
+        
+        </div>
+        
+      
+      </div>
+      
+  
+    
+    </div>
+    
+  
+    
+    
+    
+    <div
+      class="aggregate-container"
+    >
+      
+      
+      
+      
+      
+        
+      
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      <pf-filter-aggregate>
+        
+        
+      </pf-filter-aggregate>
+      
+      
+      
+  
+      
+      
+      
+    
+    </div>
+    
+  
+    
+    
+    
+    
+    <div
+      class="toggle-option-height"
+    >
+      
+  
+      Show
+  
+      
+      
+      <span>
+        
+        6 More 
+        <i
+          class="far fa-angle-down"
+        />
+        
+      
+      </span>
+      
+  
+      
+      
+      
+    
+    </div>
+    
+  
+  
+  </div>
+  
+</pf-filter-aggregate-group>
+`;
+
 exports[`Legacy Content - Peer - Filter Aggregate Group Component should apply the collapsed class to the .aggregate-group when collapse is true 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}

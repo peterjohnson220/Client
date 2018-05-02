@@ -25,7 +25,7 @@ export interface DashboardState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerDashboard: DashboardState;
+  peer_dashboard: DashboardState;
 }
 
 // Feature area reducers

@@ -39,8 +39,9 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       };
     }
     case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_SUCCESS: {
+      const limitingToExchange = state.systemFilter && !!state.systemFilter.ExchangeId;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        state.filterAggregateGroups, action.payload, !!state.systemFilter.ExchangeId);
+        state.filterAggregateGroups, action.payload, limitingToExchange);
 
       return {
         ...state,

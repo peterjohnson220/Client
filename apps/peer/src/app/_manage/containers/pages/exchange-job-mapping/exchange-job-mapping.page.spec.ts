@@ -28,7 +28,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerManagement: combineReducers(fromPeerManagementReducer.reducers)
+          peer_manage: combineReducers(fromPeerManagementReducer.reducers)
         }),
       ],
       providers: [

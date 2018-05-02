@@ -27,8 +27,8 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
-          peerManagement: combineReducers(fromPeerManagementReducer.reducers)
+          peer_shared: combineReducers(fromSharedPeerReducer.reducers),
+          peer_manage: combineReducers(fromPeerManagementReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

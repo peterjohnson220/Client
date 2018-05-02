@@ -13,7 +13,7 @@ export interface AddPeerDataState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  addPeerDataState: AddPeerDataState;
+  legacy_addPeerData: AddPeerDataState;
 }
 
 // Feature area reducers
@@ -22,7 +22,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectAddPeerDataState = createFeatureSelector<AddPeerDataState>('addPeerData');
+export const selectAddPeerDataState = createFeatureSelector<AddPeerDataState>('legacy_addPeerData');
 
 // Feature Selectors
 export const selectAddDataCutState = createSelector(selectAddPeerDataState, (state: AddPeerDataState) => state.addDataCutPage);

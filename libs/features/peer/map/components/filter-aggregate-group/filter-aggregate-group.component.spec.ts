@@ -5,15 +5,16 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
-import { generateMockFilterAggregateGroup,  generateMockFilterAggregateItem} from 'libs/models/index';
+import { generateMockFilterAggregateGroup,  generateMockFilterAggregateItem} from 'libs/models';
 import * as fromRootState from 'libs/state/state';
+import { FilterSidebarHelper } from 'libs/features/peer/map/helpers';
 
-import * as fromPeerDataReducer from '../../../list/reducers/index';
+import * as fromFeaturePeerMapReducer from '../../../map/reducers';
 import { AggregateSelectionInfo } from '../../models/index';
 import { FilterAggregateGroupComponent } from './filter-aggregate-group.component';
-import { FilterSidebarHelper } from '../../../../../../../libs/features/peer/helpers';
 
-describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
+
+describe('Features - Peer - Filter Aggregate Group Component', () => {
   let fixture: ComponentFixture<FilterAggregateGroupComponent>;
   let instance: FilterAggregateGroupComponent;
   let store: Store<fromRootState.State>;
@@ -24,7 +25,7 @@ describe('Legacy Content - Peer - Filter Aggregate Group Component', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerData: combineReducers(fromPeerDataReducer.reducers)
+          feature_peerMap: combineReducers(fromFeaturePeerMapReducer.reducers)
         })
       ],
       declarations: [

@@ -26,7 +26,7 @@ describe('Peer - Exchange Dashboard', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
       ],
       providers: [
@@ -69,7 +69,7 @@ describe('Peer - Exchange Dashboard', () => {
 
     instance.manageJobsClick();
 
-    expect(router.navigate).toHaveBeenCalledWith(['manage-exchange/job-mapping', activatedRoute.snapshot.params.id]);
+    expect(router.navigate).toHaveBeenCalledWith(['manage'], {relativeTo: activatedRoute});
   });
 
   it('should dispatch a CloseSidebar action on init', () => {

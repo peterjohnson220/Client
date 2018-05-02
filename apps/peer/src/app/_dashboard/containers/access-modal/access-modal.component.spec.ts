@@ -28,7 +28,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

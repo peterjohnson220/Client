@@ -2,21 +2,20 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { SwitchModule } from '@progress/kendo-angular-inputs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockPayMarket, generateMockFilterAggregateGroup } from 'libs/models/index';
+import { generateMockFilterAggregateGroup } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
-import * as fromPeerDataReducer from '../../../list/reducers/index';
-import { generateMockAggregateSelectionInfo } from '../../map-with-filter-sidebar/models';
+import * as fromFeaturePeerMapReducer from '../../../map/reducers';
+import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
 
-describe('Legacy Content - Peer - Filter Sidebar Component', () => {
+describe('Features - Peer - Filter Sidebar Component', () => {
   let fixture: ComponentFixture<FilterSidebarComponent>;
   let instance: FilterSidebarComponent;
-  let store: Store<fromRootState.State>;
+  let store: Store<fromFeaturePeerMapReducer.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -24,12 +23,8 @@ describe('Legacy Content - Peer - Filter Sidebar Component', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerData: combineReducers(fromPeerDataReducer.reducers)
-        }),
-
-        // Even though we are doing shallow testing a weird error will occur with the kendo switch because one of
-        // its inputs is prefixed with 'on'. Need to import the module to get the template to parse. [BC]
-        SwitchModule
+          feature_peerMap: combineReducers(fromFeaturePeerMapReducer.reducers)
+        })
       ],
       declarations: [
         FilterSidebarComponent
@@ -75,10 +70,5 @@ describe('Legacy Content - Peer - Filter Sidebar Component', () => {
     instance.handleAggregateToggled(generateMockAggregateSelectionInfo());
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should build a paymarket bounds filter label with \'Metro\' appended when the GeoLabel is \'Metro\'', () => {
-    const filterLabel = instance.buildPayMarketBoundsFilterLabel(generateMockPayMarket());
-    expect(filterLabel.split(' ').slice(-1)[0]).toBe('Metro');
   });
 });

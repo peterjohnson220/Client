@@ -26,7 +26,7 @@ describe('Peer - Exchange Job Comparison Grid', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
       ],
       declarations: [

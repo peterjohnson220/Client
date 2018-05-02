@@ -13,7 +13,7 @@ export interface SharedPeerState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  sharedPeer: SharedPeerState;
+  peer_shared: SharedPeerState;
 }
 
 // Feature area reducers
