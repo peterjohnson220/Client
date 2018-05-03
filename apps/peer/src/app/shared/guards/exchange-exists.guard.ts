@@ -5,9 +5,9 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 
-import { ExchangeApiService } from 'libs/data/payfactors-api/peer/index';
-import { Exchange } from 'libs/models/peer/index';
-import * as fromExchangeActions from 'libs/features/peer/actions/exchange.actions';
+import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
+import { Exchange } from 'libs/models/peer';
+import * as fromExchangeActions from 'libs/features/peer/list/actions/exchange.actions';
 
 import * as sharedPeerReducer from '../../shared/reducers';
 

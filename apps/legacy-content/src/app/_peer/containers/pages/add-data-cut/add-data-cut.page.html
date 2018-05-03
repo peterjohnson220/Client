@@ -12,7 +12,10 @@
     </div>
     <div class="flex-grow-1 d-flex flex-column">
       <div class="map-container flex-grow-1">
-        <pf-peer-data-cut-map *ngIf="exchangeJobPayMarketFilter$ | async"></pf-peer-data-cut-map>
+        <pf-peer-data-cut-map
+          *ngIf="systemFilter$ | async"
+          [canFitBounds]="addDataCutPageInViewInIframe$ | async">
+        </pf-peer-data-cut-map>
       </div>
       <div class="button-container d-flex justify-content-end align-items-center">
         <pf-guidelines-badge *ngIf="initialMapMoveComplete$ | async"

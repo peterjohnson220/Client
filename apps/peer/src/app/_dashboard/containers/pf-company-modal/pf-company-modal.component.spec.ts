@@ -8,8 +8,8 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest,
-         generateMockExchange } from 'libs/models/index';
-import { HumanizeNumberPipe } from 'libs/core/pipes/index';
+         generateMockExchange } from 'libs/models';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
 import { generateMockExistingCompany } from '../../models';
@@ -29,8 +29,8 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_shared: combineReducers(fromSharedPeerReducer.reducers),
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

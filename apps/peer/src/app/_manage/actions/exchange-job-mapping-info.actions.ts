@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyJobToMapTo, UpsertExchangeJobMapRequest } from 'libs/models/peer/index';
+import { CompanyJobToMapTo, UpsertExchangeJobMapRequest } from 'libs/models/peer';
 
 export const LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY =
   '[Peer Main/Exchange Job Mapping Info] Load Company Jobs To Map To By Query';

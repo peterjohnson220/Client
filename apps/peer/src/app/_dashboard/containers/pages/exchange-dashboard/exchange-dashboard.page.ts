@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { Exchange, ExchangeRequestTypeEnum } from 'libs/models/index';
+import { Exchange, ExchangeRequestTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
@@ -33,11 +33,15 @@ export class ExchangeDashboardPageComponent implements OnInit {
   }
 
   manageJobsClick(): void {
-    this.router.navigate([ 'manage-exchange/job-mapping', this.exchangeId ]);
+    this.router.navigate(['manage'], { relativeTo: this.route });
   }
 
   referCompanyClick(): void {
     this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
+  }
+
+  mapClick(): void {
+    this.router.navigate(['map'], { relativeTo: this.route });
   }
 
   ngOnInit() {

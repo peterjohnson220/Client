@@ -7,9 +7,8 @@ import { ExchangeListPageComponent, ExchangeDashboardPageComponent } from './con
 import { ExchangeExistsGuard } from '../shared/guards';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'list', pathMatch: 'full' },
-  { path: 'list', component: ExchangeListPageComponent, canActivate: [PeerTileEnabledGuard] },
-  { path: ':id', component: ExchangeDashboardPageComponent, canActivate: [PeerTileEnabledGuard, ExchangeExistsGuard] }
+  { path: '', component: ExchangeDashboardPageComponent, canActivate: [PeerTileEnabledGuard, ExchangeExistsGuard] },
+  { path: 'list', component: ExchangeListPageComponent, canActivate: [PeerTileEnabledGuard] }
 ];
 
 @NgModule({

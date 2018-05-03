@@ -25,7 +25,7 @@ export interface DashboardState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerDashboard: DashboardState;
+  peer_dashboard: DashboardState;
 }
 
 // Feature area reducers
@@ -38,7 +38,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectFeatureAreaState = createFeatureSelector<DashboardState>('peerDashboard');
+export const selectFeatureAreaState = createFeatureSelector<DashboardState>('peer_dashboard');
 
 // Feature Selectors
 export const selectExchangeDashboardState = createSelector(

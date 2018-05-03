@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import { Exchange } from 'libs/models/peer';
-import * as fromManageExchangeActions from 'libs/features/peer/actions/exchange.actions';
+import * as fromManageExchangeActions from 'libs/features/peer/list/actions/exchange.actions';
 
 import * as fromExchangeDashboardReducer from '../reducers';
 

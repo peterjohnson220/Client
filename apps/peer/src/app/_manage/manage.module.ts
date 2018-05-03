@@ -10,7 +10,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfPeerFeaturesModule } from 'libs/features';
+import { PfPeerExchangeListModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
@@ -31,7 +31,7 @@ import { SharedModule } from '../shared/shared.module';
 
     // 3rd party
     GridModule,
-    StoreModule.forFeature('peerManagement', reducers),
+    StoreModule.forFeature('peer_manage', reducers),
     EffectsModule.forFeature([
       ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects
     ]),
@@ -43,7 +43,7 @@ import { SharedModule } from '../shared/shared.module';
     // Payfactors
     SharedModule,
     PfCommonUIModule,
-    PfPeerFeaturesModule,
+    PfPeerExchangeListModule,
     PfFormsModule,
     PfKendoExtensions,
     PfCommonModule

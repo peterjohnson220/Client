@@ -1,0 +1,20 @@
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId" [contentNoPadding]="true">
+
+  <ng-container page-title>
+    {{ (exchange$ | async)?.ExchangeName }}
+  </ng-container>
+
+  <ng-container page-content>
+
+    <div class="d-flex h-100">
+      <div class="sidebar">
+        <pf-peer-data-cut-filter-sidebar></pf-peer-data-cut-filter-sidebar>
+      </div>
+      <div class="map">
+        <pf-peer-data-cut-map [canFitBounds]="true"></pf-peer-data-cut-map>
+      </div>
+    </div>
+
+  </ng-container>
+
+</pf-page-with-title-bar>

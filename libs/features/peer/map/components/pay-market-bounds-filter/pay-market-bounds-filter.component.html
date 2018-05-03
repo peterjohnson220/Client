@@ -1,0 +1,20 @@
+<div class="pm-bounds-filter">
+
+  <div class="pm-bounds-filter-left">
+    <div class="pm-bounds-filter-label">
+      Pay Market Only
+    </div>
+    <div class="pm-bounds-filter-label-pm">
+      {{ buildLabel(payMarket) }}
+    </div>
+  </div>
+
+  <div class="pm-bounds-filter-switch">
+    <kendo-switch [checked]="enabled"
+                  [onLabel]="'Yes'"
+                  [offLabel]="'No'"
+                  (valueChange)="handleSwitchToggled()">
+    </kendo-switch>
+  </div>
+
+</div>

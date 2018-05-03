@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { ExchangeListItem, ExchangeRequestTypeEnum, generateMockExchangeListItem } from 'libs/models/peer/index';
+import { ExchangeListItem, ExchangeRequestTypeEnum, generateMockExchangeListItem } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 
 import { ExchangeListPageComponent } from './exchange-list.page';

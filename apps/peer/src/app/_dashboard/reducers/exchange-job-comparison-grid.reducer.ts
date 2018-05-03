@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ExchangeJobComparison } from 'libs/models/peer/index';
+import { ExchangeJobComparison } from 'libs/models/peer';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
-import { GridTypeEnum } from 'libs/models/common/index';
+import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeJobComparisonGridActions from '../actions/exchange-job-comparison-grid.actions';
 

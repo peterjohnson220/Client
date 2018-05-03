@@ -7,11 +7,12 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
-import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
+import { generateMockExchangeMapResponse } from 'libs/models/peer';
+import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
+import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import * as fromAddDataCutActions from '../../../actions/add-data-cut-page.actions';
-import * as fromPeerMapActions from '../../../actions/map.actions';
-import * as fromPeerDataReducer from '../../../reducers';
+import * as fromLegacyAddPeerDataReducer from '../../../reducers';
 import { AddDataCutPageComponent } from './add-data-cut.page';
 
 describe('Legacy Content - Peer - Add Data Cut', () => {
@@ -27,7 +28,8 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerData: combineReducers(fromPeerDataReducer.reducers)
+          feature_peerMap: combineReducers(fromPeerMapReducer.reducers),
+          legacy_addPeerData: combineReducers(fromLegacyAddPeerDataReducer.reducers)
         })
       ],
       providers: [
@@ -86,7 +88,7 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
 
     mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
-    store.dispatch(new fromPeerMapActions.LoadingPeerMapDataSuccess(mapResponse));
+    store.dispatch(new fromPeerMapActions.LoadPeerMapDataSuccess(mapResponse));
 
     fixture.detectChanges();
 

@@ -6,7 +6,7 @@ import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { GridTypeEnum } from 'libs/models/common/index';
+import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
@@ -28,7 +28,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerManagement: combineReducers(fromPeerManagementReducer.reducers)
+          peer_manage: combineReducers(fromPeerManagementReducer.reducers)
         }),
       ],
       providers: [

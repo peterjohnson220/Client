@@ -22,7 +22,7 @@ export interface PeerManagementState {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  peerManagement: PeerManagementState;
+  peer_manage: PeerManagementState;
 }
 
 // Feature area reducers
@@ -33,7 +33,7 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectFeatureAreaState = createFeatureSelector<PeerManagementState>('peerManagement');
+export const selectFeatureAreaState = createFeatureSelector<PeerManagementState>('peer_manage');
 
 // Feature Selectors
 export const selectExchangeJobMappingState = createSelector(

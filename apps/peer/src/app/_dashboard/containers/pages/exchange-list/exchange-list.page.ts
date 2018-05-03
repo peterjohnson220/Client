@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { ExchangeRequestTypeEnum } from 'libs/models/peer/index';
+import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';

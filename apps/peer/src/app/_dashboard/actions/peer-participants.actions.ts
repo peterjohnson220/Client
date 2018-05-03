@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyOption } from 'libs/models/common/index';
+import { CompanyOption } from 'libs/models/common';
 
 export const LOAD_PEER_PARTICIPANTS  = '[Peer Main/Peer Participants] Load Peer Participants';
 export const LOAD_PEER_PARTICIPANTS_SUCCESS  = '[Peer Main/Peer Participants] Load Peer Participants Success';

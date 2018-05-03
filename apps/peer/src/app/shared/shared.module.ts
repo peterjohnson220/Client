@@ -9,7 +9,7 @@ import { ExchangeRequestEffectsService } from './services';
 @NgModule({
   imports: [
     // 3rd party
-    StoreModule.forFeature('sharedPeer', reducers),
+    StoreModule.forFeature('peer_shared', reducers),
   ],
   providers: [
     ExchangeExistsGuard, ExchangeRequestEffectsService

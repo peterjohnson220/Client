@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ExchangeJobPayMarketFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { SystemFilter, ExchangeMapSummary } from 'libs/models/peer';
+import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
 import { GuidelineLimits } from '../../../models';
-import * as fromPeerDataReducers from '../../../reducers';
+import * as fromAddPeerDataReducers from '../../../reducers';
 
 @Component({
   selector: 'pf-add-data-cut-page',
@@ -25,14 +27,20 @@ export class AddDataCutPageComponent implements OnInit {
   addingDataCutError$: Observable<boolean>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   initialMapMoveComplete$: Observable<boolean>;
-  exchangeJobPayMarketFilter$: Observable<ExchangeJobPayMarketFilter>;
+  systemFilter$: Observable<SystemFilter>;
+  addDataCutPageInViewInIframe$: Observable<boolean>;
 
-  constructor(private store: Store<fromPeerDataReducers.State>, private route: ActivatedRoute) {
-    this.addingDataCut$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCut);
-    this.addingDataCutError$ = this.store.select(fromPeerDataReducers.getAddDataCutAddingDataCutError);
-    this.peerMapSummary$ = this.store.select(fromPeerDataReducers.getPeerMapSummary);
-    this.initialMapMoveComplete$ = this.store.select(fromPeerDataReducers.getPeerMapInitialMapMoveComplete);
-    this.exchangeJobPayMarketFilter$ = this.store.select(fromPeerDataReducers.getExchangeJobPayMarketFilter);
+  constructor(
+    private store: Store<fromAddPeerDataReducers.State>,
+    private mapStore: Store<fromPeerMapReducers.State>,
+    private route: ActivatedRoute
+  ) {
+    this.addingDataCut$ = this.store.select(fromAddPeerDataReducers.getAddDataCutAddingDataCut);
+    this.addingDataCutError$ = this.store.select(fromAddPeerDataReducers.getAddDataCutAddingDataCutError);
+    this.peerMapSummary$ = this.mapStore.select(fromPeerMapReducers.getPeerMapSummary);
+    this.initialMapMoveComplete$ = this.mapStore.select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete);
+    this.systemFilter$ = this.store.select(fromPeerMapReducers.getSystemFilter);
+    this.addDataCutPageInViewInIframe$ = this.store.select(fromAddPeerDataReducers.getAddDataCutPageInViewInIframe);
   }
 
   add() {
@@ -54,7 +62,7 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
 
-    this.store.dispatch(new fromAddDataCutPageActions.LoadingExchangeJobPayMarketFilter({
+    this.store.dispatch(new fromFilterSidebarActions.LoadSystemFilter({
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId
     }));

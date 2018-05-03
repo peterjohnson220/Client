@@ -9,8 +9,8 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeRequestTypeEnum, generateMockCompanyOption, generateMockRequestExchangeRequest,
-         generateMockAvailableExchangeItem } from 'libs/models/index';
-import { HumanizeNumberPipe } from 'libs/core/pipes/index';
+         generateMockAvailableExchangeItem } from 'libs/models';
+import { HumanizeNumberPipe } from 'libs/core/pipes';
 
 import { AccessModalComponent } from './access-modal.component';
 import * as fromPeerDashboardReducer from '../../reducers';
@@ -28,7 +28,7 @@ describe('Peer - Exchange Request - Access Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

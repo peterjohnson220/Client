@@ -1,4 +1,4 @@
-<pf-page-with-title-bar [returnUrl]="'/exchange/list'">
+<pf-page-with-title-bar [returnUrl]="'/exchanges/list'">
 
   <ng-container page-title>
     {{ (exchange$ | async)?.ExchangeName }}
@@ -7,6 +7,7 @@
   <ng-container page-actions>
     <button type="button" class="btn btn-secondary" (click)="referCompanyClick()">Invite Company</button>
     <button type="button" class="btn btn-secondary" (click)="manageJobsClick()">Manage Jobs</button>
+    <button type="button" class="btn btn-primary" (click)="mapClick()">Map</button>
   </ng-container>
 
   <ng-container page-content>

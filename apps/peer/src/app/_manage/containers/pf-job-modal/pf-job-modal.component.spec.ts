@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models/index';
+import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models';
 
 import { generateMockExchangeJobRequestCandidate } from '../../models';
 import * as fromPeerManagementReducer from '../../reducers';
@@ -27,8 +27,8 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          sharedPeer: combineReducers(fromSharedPeerReducer.reducers),
-          peerManagement: combineReducers(fromPeerManagementReducer.reducers)
+          peer_shared: combineReducers(fromSharedPeerReducer.reducers),
+          peer_manage: combineReducers(fromPeerManagementReducer.reducers)
         }),
         FormsModule,
         ReactiveFormsModule

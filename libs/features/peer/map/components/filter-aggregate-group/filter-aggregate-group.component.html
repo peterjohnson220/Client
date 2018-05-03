@@ -1,0 +1,57 @@
+
+<div class="aggregate-group" [class.collapsed]="collapsed">
+
+  <!--Header-->
+  <div class="aggregate-group-header" (click)="collapsed = !collapsed">
+
+    <div>
+      {{categoryLabel}}
+    </div>
+
+    <div class="header-right">
+      <div class="reset-link" *ngIf="hasSelections" (click)="handleResetClicked($event)">
+        Reset ({{selectionsCount}})
+      </div>
+
+      <div *ngIf="collapsed">
+        <i class="far fa-angle-down"></i>
+      </div>
+      <div *ngIf="!collapsed">
+        <i class="far fa-angle-up"></i>
+      </div>
+    </div>
+
+  </div>
+
+  <!--Options-->
+  <div class="aggregate-container" [class.show-all]="showAllAggregates">
+    <ng-container *ngIf="filterAggregates.length; else noAggregateItems">
+      <pf-filter-aggregate
+        *ngFor="let filterAggregate of filterAggregates;trackBy: trackById"
+        [aggregate]="filterAggregate"
+        (aggregateSelected)="handleAggregateSelected($event)">
+      </pf-filter-aggregate>
+    </ng-container>
+
+    <ng-template #noAggregateItems>
+      <div class="pl-3">No Data</div>
+    </ng-template>
+  </div>
+
+  <!--Options Toggle-->
+  <div *ngIf="aggregateGroup.Aggregates.length > previewLimit"
+       (click)="showAllAggregates = !showAllAggregates"
+       class="toggle-option-height">
+
+    Show
+
+    <span *ngIf="!showAllAggregates">
+      {{aggregateGroup.Aggregates.length - aggregateGroup.AggregatesPreview.length}} More <i class="far fa-angle-down"></i>
+    </span>
+
+    <span *ngIf="showAllAggregates">
+      Less <i class="far fa-angle-up"></i>
+    </span>
+  </div>
+
+</div>

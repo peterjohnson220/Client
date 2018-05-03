@@ -1,0 +1,10 @@
+.filter-sidebar{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.aggregate-groups-container{
+  overflow-y: scroll;
+  flex-grow: 1;
+}

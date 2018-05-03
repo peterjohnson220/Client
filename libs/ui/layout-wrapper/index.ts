@@ -1,3 +1,3 @@
-export * from './components/index';
-export * from './containers/index';
+export * from './components';
+export * from './containers';
 export * from './layout-wrapper.module';

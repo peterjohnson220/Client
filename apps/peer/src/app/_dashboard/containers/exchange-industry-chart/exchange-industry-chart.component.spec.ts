@@ -25,7 +25,7 @@ describe('Peer Dashboard - Industry Chart', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerDashboard: combineReducers(fromPeerDashboardReducer.reducers)
+          peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
       ],
       declarations: [
