@@ -5,9 +5,9 @@ import { FilterAggregateGroup } from 'libs/models/peer';
 import { AggregateSelectionInfo } from '../models';
 import { SystemFilter, SystemFilterRequest } from '../../../../models/peer';
 
-export const LOADING_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Loading Filter Aggregates';
-export const LOADING_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Loading Filter Aggregates Success';
-export const LOADING_FILTER_AGGREGATES_ERROR  = '[Features/Peer/Sidebar] Loading Filter Aggregates Error';
+export const LOAD_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Load Filter Aggregates';
+export const LOAD_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Load Filter Aggregates Success';
+export const LOAD_FILTER_AGGREGATES_ERROR  = '[Features/Peer/Sidebar] Load Filter Aggregates Error';
 export const TOGGLE_AGGREGATE_SELECTED  = '[Features/Peer/Sidebar] Toggle Aggregate Selected';
 export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Features/Peer/Sidebar] Toggle Limit To PayMarket';
 export const LOAD_PAYMARKET_INFORMATION  = '[Features/Peer/Sidebar] Load PayMarket Information';
@@ -19,18 +19,18 @@ export const LOAD_SYSTEM_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load System F
 export const LIMIT_TO_EXCHANGE = '[Features/Peer/Sidebar] Limit to Exchange';
 export const RESET_STATE = '[Features/Peer/Sidebar] Reset State';
 
-export class LoadingFilterAggregates implements Action {
-  readonly type = LOADING_FILTER_AGGREGATES;
+export class LoadFilterAggregates implements Action {
+  readonly type = LOAD_FILTER_AGGREGATES;
 }
 
-export class LoadingFilterAggregatesSuccess implements Action {
-  readonly type = LOADING_FILTER_AGGREGATES_SUCCESS;
+export class LoadFilterAggregatesSuccess implements Action {
+  readonly type = LOAD_FILTER_AGGREGATES_SUCCESS;
 
   constructor(public payload: any) {}
 }
 
-export class LoadingFilterAggregatesError implements Action {
-  readonly type = LOADING_FILTER_AGGREGATES_ERROR;
+export class LoadFilterAggregatesError implements Action {
+  readonly type = LOAD_FILTER_AGGREGATES_ERROR;
 }
 
 export class ToggleAggregateSelected implements Action {
@@ -90,9 +90,9 @@ export class ResetState implements Action {
 }
 
 export type Actions
-  = LoadingFilterAggregates
-  | LoadingFilterAggregatesSuccess
-  | LoadingFilterAggregatesError
+  = LoadFilterAggregates
+  | LoadFilterAggregatesSuccess
+  | LoadFilterAggregatesError
   | ToggleAggregateSelected
   | ToggleLimitToPayMarket
   | LoadPayMarketInformation

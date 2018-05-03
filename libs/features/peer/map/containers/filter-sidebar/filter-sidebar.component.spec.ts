@@ -65,7 +65,7 @@ describe('Features - Peer - Filter Sidebar Component', () => {
     const action = new fromFilterSidebarActions.ToggleAggregateSelected(payload);
 
     // Give the store some data since it we be called through to.
-    store.dispatch(new fromFilterSidebarActions.LoadingFilterAggregatesSuccess([generateMockFilterAggregateGroup()]));
+    store.dispatch(new fromFilterSidebarActions.LoadFilterAggregatesSuccess([generateMockFilterAggregateGroup()]));
 
     instance.handleAggregateToggled(generateMockAggregateSelectionInfo());
 

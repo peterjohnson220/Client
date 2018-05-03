@@ -32,13 +32,13 @@ export const initialState: State = {
 // Reducer
 export function reducer(state = initialState, action: fromFilterSidebarActions.Actions): State {
   switch (action.type) {
-    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES: {
+    case fromFilterSidebarActions.LOAD_FILTER_AGGREGATES: {
       return {
         ...state,
         loading: true
       };
     }
-    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_SUCCESS: {
+    case fromFilterSidebarActions.LOAD_FILTER_AGGREGATES_SUCCESS: {
       const limitingToExchange = state.systemFilter && !!state.systemFilter.ExchangeId;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
         state.filterAggregateGroups, action.payload, limitingToExchange);
@@ -49,7 +49,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         loading: false
       };
     }
-    case fromFilterSidebarActions.LOADING_FILTER_AGGREGATES_ERROR: {
+    case fromFilterSidebarActions.LOAD_FILTER_AGGREGATES_ERROR: {
       return {
         ...state,
         loading: false,

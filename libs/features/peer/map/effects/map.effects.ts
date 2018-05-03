@@ -38,7 +38,7 @@ export class MapEffects {
     .ofType(fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS)
     .mergeMap(() => [
       new fromPeerMapActions.LoadPeerMapData,
-      new fromFilterSidebarActions.LoadingFilterAggregates()
+      new fromFilterSidebarActions.LoadFilterAggregates()
     ]);
 
   @Effect()
@@ -46,7 +46,7 @@ export class MapEffects {
     .ofType(fromPeerMapActions.INITIAL_MAP_MOVE_COMPLETE)
     .mergeMap(() => [
       new fromPeerMapActions.LoadPeerMapData,
-      new fromFilterSidebarActions.LoadingFilterAggregates()
+      new fromFilterSidebarActions.LoadFilterAggregates()
     ]);
 
   constructor(

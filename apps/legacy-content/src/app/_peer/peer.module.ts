@@ -24,7 +24,7 @@ import { GuidelinesBadgeComponent } from './components';
     FormsModule,
 
     // 3rd party
-    StoreModule.forFeature('addPeerData', reducers),
+    StoreModule.forFeature('legacy_addPeerData', reducers),
     EffectsModule.forFeature([
       AddDataCutPageEffects
     ]),

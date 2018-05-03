@@ -24,8 +24,8 @@ export class FilterSidebarEffects {
     .map((action: fromFilterSidebarActions.LoadSystemFilter) => action.payload)
     .switchMap(payload =>
       this.exchangeDataSearchApiService.getSystemFilter(payload)
-        .map((exchangeJobPayMarketFilter: SystemFilter) => new fromFilterSidebarActions
-          .LoadSystemFilterSuccess(exchangeJobPayMarketFilter))
+        .map((systemFilter: SystemFilter) => new fromFilterSidebarActions
+          .LoadSystemFilterSuccess(systemFilter))
         .catch(() => of(new fromPeerMapActions.LoadPeerMapDataError))
     );
 
@@ -46,14 +46,14 @@ export class FilterSidebarEffects {
 
   @Effect()
   loadFilterAggregates$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOADING_FILTER_AGGREGATES)
+    .ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES)
     .withLatestFrom(
       this.peerMapStore.select(fromPeerMapReducers.getExchangeDataCutRequestData),
       (action, exchangeDataCutRequestData) => exchangeDataCutRequestData)
     .switchMap((filter: ExchangeDataSearchFilter) =>
       this.exchangeDataSearchApiService.getFilterAggregates(filter)
-        .map((aggregateGroups: FilterAggregateGroup[]) => new fromFilterSidebarActions.LoadingFilterAggregatesSuccess(aggregateGroups))
-        .catch(() => of(new fromFilterSidebarActions.LoadingFilterAggregatesError()))
+        .map((aggregateGroups: FilterAggregateGroup[]) => new fromFilterSidebarActions.LoadFilterAggregatesSuccess(aggregateGroups))
+        .catch(() => of(new fromFilterSidebarActions.LoadFilterAggregatesError()))
     );
 
   @Effect()
@@ -67,7 +67,7 @@ export class FilterSidebarEffects {
     .mergeMap(() => [
       new fromFilterSidebarActions.ClearAllSelections(),
       new fromPeerMapActions.LoadPeerMapData(),
-      new fromFilterSidebarActions.LoadingFilterAggregates()
+      new fromFilterSidebarActions.LoadFilterAggregates()
     ]);
 
   @Effect()
