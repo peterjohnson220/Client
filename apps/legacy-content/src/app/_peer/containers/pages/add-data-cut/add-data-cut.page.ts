@@ -50,7 +50,7 @@ export class AddDataCutPageComponent implements OnInit {
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
       UserSessionId: this.userSessionId,
-      ZoomLevel: this.map.getZoomLevel()
+      ZoomLevel: this.map ? this.map.getZoomLevel() : 0
     }));
   }
 
