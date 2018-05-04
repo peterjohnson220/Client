@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {  LoginPageComponent } from './containers/pages';
+import {
+  ForgotPasswordPageComponent,
+  LoginPageComponent
+} from './containers/pages';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginPageComponent }
+  { path: 'login', component: LoginPageComponent },
+  { path: 'forgot-password', component: ForgotPasswordPageComponent }
 ];
 
 @NgModule({

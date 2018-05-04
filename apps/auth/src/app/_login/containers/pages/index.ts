@@ -1,1 +1,2 @@
-export * from './login.page';
+export * from './login';
+export * from './forgot-password';

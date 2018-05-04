@@ -2,9 +2,24 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { LoginPageComponent } from './containers';
+
+// Effects
+import { ForgotPasswordEffects } from './effects';
+
+// Reducers
+import { reducers } from './reducers';
+
+// Third party
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+// Containers
+import { LoginPageComponent, ForgotPasswordPageComponent } from './containers';
+
 // Routing
 import { LoginRoutingModule } from './login-routing.module';
+
+
 
 @NgModule({
   imports: [
@@ -13,13 +28,18 @@ import { LoginRoutingModule } from './login-routing.module';
     FormsModule,
     ReactiveFormsModule,
 
+    // 3rd Party
+    StoreModule.forFeature('authMain', reducers),
+    EffectsModule.forFeature([ForgotPasswordEffects]),
+
     // Routing
     LoginRoutingModule
   ],
   declarations: [
 
     // Pages
-    LoginPageComponent
+    LoginPageComponent,
+    ForgotPasswordPageComponent
   ],
   providers: [  ]
 })
