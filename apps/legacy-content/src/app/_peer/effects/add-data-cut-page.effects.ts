@@ -30,7 +30,9 @@ export class AddDataCutPageEffects {
         CompanyJobId: latest.action.CompanyJobId,
         CompanyPayMarketId: latest.action.CompanyPayMarketId,
         UserSessionId: latest.action.UserSessionId,
-        Filter: latest.exchangeDataCutRequestData
+        Filter: latest.exchangeDataCutRequestData,
+        ZoomLevel: latest.action.ZoomLevel,
+        PayMarketName: latest.exchangeDataCutRequestData.PayMarketName
       })
       .map(() => new fromAddDataCutPageActions.AddingDataCutSuccess())
       .catch(() => of(new fromAddDataCutPageActions.AddingDataCutError()));

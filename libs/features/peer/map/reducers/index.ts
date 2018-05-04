@@ -59,11 +59,13 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  (sf, fs, pmf, pfltp) => {
+  getPeerFilterPayMarket,
+  (sf, fs, pmf, pfltp, pm) => {
     return {
       ...sf,
       ...fs,
       ...pmf,
-      LimitToPayMarket: pfltp
+      LimitToPayMarket: pfltp,
+      PayMarketName: pm ? pm.PayMarket : null
     };
   });

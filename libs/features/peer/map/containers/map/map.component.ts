@@ -59,6 +59,10 @@ export class MapComponent {
     return JSON.parse(this.selectedPoint.properties.Companies).slice(0, 10);
   }
 
+  getZoomLevel(): number {
+    return this.map.getZoom();
+  }
+
   // Map events
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;
