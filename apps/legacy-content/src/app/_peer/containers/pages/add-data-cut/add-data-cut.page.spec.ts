@@ -66,7 +66,8 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
     const expectedAction = new fromAddDataCutActions.AddingDataCut({
       CompanyJobId: queryStringParams.companyJobId,
       CompanyPayMarketId: queryStringParams.companyPayMarketId,
-      UserSessionId: queryStringParams.userSessionId
+      UserSessionId: queryStringParams.userSessionId,
+      ZoomLevel: 0
     });
 
     fixture.detectChanges();

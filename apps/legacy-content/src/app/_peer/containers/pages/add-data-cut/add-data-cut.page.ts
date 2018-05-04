@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { SystemFilter, ExchangeMapSummary } from 'libs/models/peer';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
+import { MapComponent } from 'libs/features/peer/map/containers/map';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 
 import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
@@ -18,6 +19,7 @@ import * as fromAddPeerDataReducers from '../../../reducers';
   styleUrls: ['./add-data-cut.page.scss']
 })
 export class AddDataCutPageComponent implements OnInit {
+  @ViewChild(MapComponent) map: MapComponent;
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
@@ -47,7 +49,8 @@ export class AddDataCutPageComponent implements OnInit {
     this.store.dispatch(new fromAddDataCutPageActions.AddingDataCut({
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
-      UserSessionId: this.userSessionId
+      UserSessionId: this.userSessionId,
+      ZoomLevel: this.map ? this.map.getZoomLevel() : 0
     }));
   }
 
@@ -67,7 +70,6 @@ export class AddDataCutPageComponent implements OnInit {
       CompanyPayMarketId: this.companyPayMarketId
     }));
   }
-
 
   // Add Data cut page within marketdata.asp specific code
   @HostListener('window:message', ['$event'])

@@ -9,6 +9,7 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   companyPayMarketId={[Function Number]}
   guidelineLimits={[Function Object]}
   initialMapMoveComplete$={[Function Store]}
+  map="undefined"
   mapStore={[Function Store]}
   peerMapSummary$={[Function Store]}
   route={[Function ActivatedRouteStub]}
@@ -114,6 +115,7 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
   companyPayMarketId={[Function Number]}
   guidelineLimits={[Function Object]}
   initialMapMoveComplete$={[Function Store]}
+  map="undefined"
   mapStore={[Function Store]}
   peerMapSummary$={[Function Store]}
   route={[Function ActivatedRouteStub]}
