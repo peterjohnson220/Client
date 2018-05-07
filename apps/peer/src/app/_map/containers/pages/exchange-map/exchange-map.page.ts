@@ -19,6 +19,7 @@ import * as fromSharedPeerReducer from '../../../../shared/reducers';
 export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   exchangeId: number;
   exchange$: Observable<Exchange>;
+  initialMapMoveComplete$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
   ) {
     this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
+    this.initialMapMoveComplete$ = this.sharedPeerStore.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
