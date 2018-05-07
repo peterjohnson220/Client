@@ -4,6 +4,7 @@ exports[`Peer - Exchange Map Page should show the exchange name as the page titl
 <pf-exchange-map-page
   exchange$={[Function Store]}
   exchangeId={[Function Number]}
+  initialMapMoveComplete$={[Function Store]}
   peerMapStore={[Function Store]}
   route={[Function Object]}
   sharedPeerStore={[Function Store]}
@@ -23,34 +24,42 @@ exports[`Peer - Exchange Map Page should show the exchange name as the page titl
     
   
       
-    <div
-      class="d-flex h-100"
-    >
+    <pf-async-container>
       
+  
         
       <div
-        class="sidebar"
+        class="d-flex h-100"
       >
         
           
-        <pf-peer-data-cut-filter-sidebar />
+        <div
+          class="sidebar"
+        >
+          
+            
+          <pf-peer-data-cut-filter-sidebar />
+          
+          
+        </div>
+        
+          
+        <div
+          class="map"
+        >
+          
+            
+          <pf-peer-data-cut-map />
+          
+          
+        </div>
         
         
       </div>
       
-        
-      <div
-        class="map"
-      >
-        
-          
-        <pf-peer-data-cut-map />
-        
-        
-      </div>
+  
       
-      
-    </div>
+    </pf-async-container>
     
   
     

@@ -11,6 +11,7 @@ export class AsyncContainerComponent {
   @Input() loadingErrorMessage: string;
   @Input() reloadText = 'Reload';
   @Input() hideReloadButton: boolean;
+  @Input() noOpactity: boolean;
 
   @Output() reload = new EventEmitter();
 }

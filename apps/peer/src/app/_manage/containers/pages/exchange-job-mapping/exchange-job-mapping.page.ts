@@ -38,11 +38,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
   }
 
-  handleBackToListNavigation(): void {
-    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
-    this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
-  }
-
   handleSearchChanged(query: string): void {
     this.store.dispatch(new fromGridActions.UpdateFilter(
       GridTypeEnum.ExchangeJobMapping,
@@ -73,5 +68,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectedExchangeJobMappingSubscription.unsubscribe();
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
+    this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
   }
 }

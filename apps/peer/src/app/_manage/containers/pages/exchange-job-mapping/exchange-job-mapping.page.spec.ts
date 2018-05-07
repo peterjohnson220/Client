@@ -61,10 +61,10 @@ describe('Peer - Exchange Job Mapping Page', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch a reset grid action when handleBackToListNavigation is called', () => {
+  it('should dispatch a reset grid action when destroying', () => {
     const action = new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping);
 
-    instance.handleBackToListNavigation();
+    instance.ngOnDestroy();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
