@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { TilePreviewChart } from '../../../models';
 
+import 'hammerjs';
+
 @Component({
   selector: 'pf-tile-preview-chart',
   templateUrl: './tile-preview-chart.component.html',
