@@ -5,6 +5,7 @@ exports[`Peer - Exchange Map Page should show the exchange name as the page titl
   exchange$={[Function Store]}
   exchangeId={[Function Number]}
   initialMapMoveComplete$={[Function Store]}
+  peerMapLoadingError$={[Function Store]}
   peerMapStore={[Function Store]}
   route={[Function Object]}
   sharedPeerStore={[Function Store]}
