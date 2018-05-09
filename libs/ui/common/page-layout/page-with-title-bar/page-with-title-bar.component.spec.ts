@@ -50,20 +50,4 @@ describe('Page With Title Bar', () => {
     expect(hostComponent).toMatchSnapshot();
   });
 
-  it('should emit a returning event, when the back button is clicked', () => {
-    // Back button only shows if there is a return url
-    instance.returnUrl = 'abc';
-
-    // Spy on the emit method for the returning EventEmitter
-    spyOn(instance.returning, 'emit');
-
-    fixture.detectChanges();
-
-    // Find the reload button in the template and trigger a click
-    const backButton = fixture.debugElement.query(By.css('.back-btn'));
-    backButton.triggerEventHandler('click', null);
-
-    expect(instance.returning.emit).toHaveBeenCalled();
-  });
-
 });

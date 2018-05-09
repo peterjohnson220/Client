@@ -1,19 +1,18 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule, ActionsSubject } from '@ngrx/store';
-import { Action } from '@ngrx/store/src/models';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import spyOn = jest.spyOn;
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { TilePreviewChartWithCalendarComponent } from './tile-preview-chart-with-calendar.component';
-import * as fromRootState from '../../../../../../../../libs/state/state';
+import * as fromRootState from 'libs/state/state';
 import * as fromTileGridReducer from '../../../reducers';
 import { generateMockTilePreviewChartWithCalendarData, TilePreviewTypes } from '../../../models';
-import * as fromClientSettingActions from 'libs/core/actions/client-settings.actions';
-import { ClientSettingRequestModel } from 'libs/models/common/client-setting-request.model';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import { SaveUiPersistenceSettingRequest } from 'libs/models/common/save-ui-persistence-setting-request.model';
 import * as fromTileGridActions from '../../../actions/tile-grid.actions';
-import { SAVING_CLIENT_SETTING_SUCCESS } from '../../../../../../../../libs/core/actions/client-settings.actions';
+import { GenericNameValueDto } from 'libs/models/common';
+
 
 describe('Tile Preview Chart With Calendar', () => {
   let fixture: ComponentFixture<TilePreviewChartWithCalendarComponent>;
@@ -62,33 +61,38 @@ describe('Tile Preview Chart With Calendar', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch SavingClientSetting when datePickerValueChanged is called', () => {
+  it('should dispatch SavingUiPersistenceSetting when datePickerValueChanged is called', () => {
 
    instance.model = getInstanceModel();
 
     const clientSettingRequest = {
       FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
       SettingValue: instance.selectedDate
-    } as ClientSettingRequestModel;
+    } as SaveUiPersistenceSettingRequest;
 
-    const action = new fromClientSettingActions.SavingClientSetting(JSON.stringify(clientSettingRequest));
+    const action = new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting(clientSettingRequest);
 
     instance.datePickerValueChanged();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should call reloadTile on SavingClientSettingSuccess', () => {
+  it('should call reloadTile on SavingUiPersistenceSettingSuccess', () => {
     spyOn(instance, 'reloadTile');
     instance.model = getInstanceModel();
-
+    instance.datePickerValueChanged();
     const clientSettingRequest = {
       FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
       SettingValue: instance.selectedDate
-    } as ClientSettingRequestModel;
+    } as SaveUiPersistenceSettingRequest;
 
+    instance.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting(clientSettingRequest));
 
-    instance.datePickerValueChanged();
-    instance.clientSettingsStore.dispatch(new fromClientSettingActions.SavingClientSettingSuccess(''));
+    const successResponse = [{
+      Name: 'JobsTileEffectiveDate',
+      Value: instance.selectedDate
+    }] as GenericNameValueDto[];
+
+    instance.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSettingSuccess(successResponse));
 
     expect(instance.reloadTile).toHaveBeenCalled();
   });

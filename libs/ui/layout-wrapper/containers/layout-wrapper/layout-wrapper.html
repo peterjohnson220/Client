@@ -17,7 +17,10 @@
     </div>
     <div class="right-sidebar" *ngIf="displayRightSideBar">
       <pf-layout-wrapper-right-sidebar
-        [fontAwesomeOpenIcon]="rightSideBarFontAwesomeOpenIcon">
+        [fontAwesomeOpenIcon]="rightSideBarFontAwesomeOpenIcon"
+        [isOpen]="rightSidebarShouldBeOpen"
+        (onToggle)="rightSidebarToggle($event)"
+      >
         <ng-content select="[rightSidebarContent]"></ng-content>
       </pf-layout-wrapper-right-sidebar>
     </div>

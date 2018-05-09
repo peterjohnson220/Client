@@ -1,0 +1,40 @@
+<pf-page-with-title-bar [returnUrl]="'/exchange/'+exchangeId">
+  <ng-container page-title>
+    Exchange to Company Job Association
+  </ng-container>
+
+  <ng-container page-actions>
+    <div class="omni-box">
+      <pf-input-debounce
+        [focus]="false"
+        [placeholderText]="'Search for an Exchange Job Title...'"
+        (valueChanged)="handleSearchChanged($event)">
+      </pf-input-debounce>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="requestJobButtonClick()">Request Job</button>
+
+  </ng-container>
+
+  <ng-container page-content>
+
+    <div class="flex-column-container">
+      <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
+        <pf-exchange-job-mapping-grid
+          [exchangeId]="exchangeId"
+          [disableScrollTo]="disableGridScollTo"
+          [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
+        </pf-exchange-job-mapping-grid>
+      </div>
+
+      <div *ngIf="collapse" class="mt-2 flex-grow-1 exchange-job-mapping-info-container">
+        <pf-exchange-job-mapping-info
+          [exchangeId]="exchangeId"
+          (closeClicked)="handleExchangeJobMappingInfoClosed()">
+        </pf-exchange-job-mapping-info>
+      </div>
+    </div>
+
+  </ng-container>
+</pf-page-with-title-bar>
+
+<pf-request-payfactors-job-modal></pf-request-payfactors-job-modal>

@@ -5,5 +5,7 @@ export interface AddDataCutRequest {
   CompanyPayMarketId: number;
   UserSessionId: number;
   Filter: ExchangeDataSearchFilter;
+  ZoomLevel: number;
+  PayMarketName: string;
 }
 

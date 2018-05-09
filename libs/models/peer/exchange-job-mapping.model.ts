@@ -14,6 +14,7 @@ export interface ExchangeJobMapping {
   ExchangeJobDescription: string;
   Mapped: boolean;
   ExchangeJobToCompanyJobId: number;
+  PendingRequest: boolean;
 }
 
 export function generateMockExchangeJobMapping(): ExchangeJobMapping {
@@ -32,6 +33,7 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     CompanyJobDescription: 'Lorem Ipsum',
     ExchangeJobDescription: 'Lorem Ipsum',
     Mapped: true,
-    ExchangeJobToCompanyJobId: 345
+    ExchangeJobToCompanyJobId: 345,
+    PendingRequest: false
   };
 }

@@ -3,5 +3,6 @@ export enum GridTypeEnum {
   AvailableJobs = 'AVAILABLE_JOBS',
   ExchangeJobMapping = 'EXCHANGE_JOB_MAPPING',
   ExchangeJobs = 'EXCHANGE_JOBS',
-  ExchangeCompanies = 'EXCHANGE_COMPANIES'
+  ExchangeCompanies = 'EXCHANGE_COMPANIES',
+  ExchangeJobComparison = 'EXCHANGE_JOB_COMPARISON'
 }

@@ -1,13 +1,15 @@
 import { generateMockPayMarketLocation, PayMarketLocationModel } from './pay-market-location.model';
 
-export interface ExchangeJobPayMarketFilter {
+export interface SystemFilter {
   ExchangeJobIds: number[];
   PayMarketLocation: PayMarketLocationModel;
+  ExchangeId: number;
 }
 
-export function generateMockExchangeJobPayMarketFilter(): ExchangeJobPayMarketFilter {
+export function generateMockExchangeJobPayMarketFilter(): SystemFilter {
   return {
     ExchangeJobIds: [1, 2, 4],
-    PayMarketLocation: generateMockPayMarketLocation()
+    PayMarketLocation: generateMockPayMarketLocation(),
+    ExchangeId: 1
   };
 }

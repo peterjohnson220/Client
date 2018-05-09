@@ -4,21 +4,18 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
-import { SwitchModule } from '@progress/kendo-angular-inputs';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { environment } from 'environments/environment';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
+import { PfPeerMapModule } from 'libs/features/peer/map';
 
-import { AddDataCutPageComponent, FilterSidebarComponent, MapComponent } from './containers';
+import { AddDataCutPageComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { GeocoderDirective } from './directives';
-import { AddDataCutPageEffects, MapEffects, FilterSidebarEffects } from './effects';
+import { AddDataCutPageEffects } from './effects';
 import { reducers } from './reducers';
-import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadgeComponent } from './components';
+import { GuidelinesBadgeComponent } from './components';
 
 @NgModule({
   imports: [
@@ -27,14 +24,10 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadg
     FormsModule,
 
     // 3rd party
-    StoreModule.forFeature('peerData', reducers),
+    StoreModule.forFeature('legacy_addPeerData', reducers),
     EffectsModule.forFeature([
-      AddDataCutPageEffects,
-      MapEffects,
-      FilterSidebarEffects
+      AddDataCutPageEffects
     ]),
-    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
-    SwitchModule,
     NgbPopoverModule,
 
     // Routing
@@ -42,20 +35,15 @@ import { FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadg
 
     // Payfactors
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfPeerMapModule
   ],
   declarations: [
     // Components
-    FilterAggregateGroupComponent, FilterAggregateComponent, GuidelinesBadgeComponent,
-
-    // Containers
-    FilterSidebarComponent, MapComponent,
+    GuidelinesBadgeComponent,
 
     // Pages
-    AddDataCutPageComponent,
-
-    // Directives
-    GeocoderDirective
+    AddDataCutPageComponent
   ],
   providers: [
     WindowCommunicationService

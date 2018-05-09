@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import * as fromExchangeListActions from 'libs/features/peer/actions/exchange-list.actions';
-import * as fromSharedPeerReducer from 'libs/features/peer/reducers';
+import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
+import * as fromSharedPeerReducer from 'libs/features/peer/list/reducers';
 
 @Component({
   selector: 'pf-exchange-list-page',

@@ -10,5 +10,8 @@ export enum TileTypes {
   Resources,
   Service,
   Structures,
-  Surveys
+  Surveys,
+  DataDiagnostics,
+  Community,
+  Ideas
 }

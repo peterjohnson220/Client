@@ -9,28 +9,36 @@
 function initializePendo(userContext)
 {
   if (typeof pendo == 'object') {
-    var visitor = {
-      id: userContext.UserId,             // Required if user is logged in
-      email: userContext.Email        // Optional
-      // role:         // Optional
 
-      // You can add any additional visitor level key-values here,
-      // as long as it's not one of the above reserved names.
-    };
-    var account = {
-      id: userContext.CompanyId,            // Highly recommended
-      name: userContext.CompanyName         // Optional
-      // planLevel:    // Optional
-      // planPrice:    // Optional
-      // creationDate: // Optional
+    var visitor = {};
+    var account = {};
 
-      // You can add any additional account level key-values here,
-      // as long as it's not one of the above reserved names.
-    };
+    if (userContext){
+      var visitor = {
+        id: userContext.UserId,             // Required if user is logged in
+        email: userContext.Email        // Optional
+        // role:         // Optional
+
+        // You can add any additional visitor level key-values here,
+        // as long as it's not one of the above reserved names.
+      };
+      var account = {
+        id: userContext.CompanyId,            // Highly recommended
+        name: userContext.CompanyName         // Optional
+        // planLevel:    // Optional
+        // planPrice:    // Optional
+        // creationDate: // Optional
+
+        // You can add any additional account level key-values here,
+        // as long as it's not one of the above reserved names.
+      };
+
+    }
 
     pendo.initialize({
       visitor: visitor,
       account: account
     })
+
   }
 }

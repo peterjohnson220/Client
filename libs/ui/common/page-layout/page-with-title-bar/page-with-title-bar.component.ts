@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'pf-page-with-title-bar',
@@ -7,10 +7,5 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PageWithTitleBarComponent {
   @Input() returnUrl: string;
-  @Output() returning = new EventEmitter();
-
-  // Events
-  handleBackButtonClicked() {
-    this.returning.emit();
-  }
+  @Input() contentNoPadding: boolean;
 }

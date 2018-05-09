@@ -22,7 +22,7 @@ exports[`Async Container should show the pf-error-indicator and no reload button
   reloadText={[Function String]}
 >
   <div
-    class="loading-blanket no-transparency"
+    class="loading-blanket no-opacity"
   >
     
     
@@ -77,7 +77,7 @@ exports[`Async Container should show the pf-error-indicator and reload button, w
   reloadText={[Function String]}
 >
   <div
-    class="loading-blanket no-transparency"
+    class="loading-blanket no-opacity"
   >
     
     

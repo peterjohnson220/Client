@@ -11,7 +11,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
-import * as fromPeerAdminReducer from '../../reducers/index';
+import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
 import { GridHelperService } from '../../services';
 

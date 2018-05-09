@@ -3,7 +3,6 @@
 exports[`Page With Title Bar should show the back button, when provided a return Url 1`] = `
 <pf-page-with-title-bar
   returnUrl={[Function String]}
-  returning={[Function EventEmitter]}
 >
   <div
     class="flex-column-container"
