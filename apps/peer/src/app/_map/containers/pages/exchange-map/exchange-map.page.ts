@@ -20,6 +20,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   exchangeId: number;
   exchange$: Observable<Exchange>;
   initialMapMoveComplete$: Observable<boolean>;
+  peerMapLoadingError$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,7 +28,8 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
   ) {
     this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
-    this.initialMapMoveComplete$ = this.sharedPeerStore.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
+    this.initialMapMoveComplete$ = this.peerMapStore.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
+    this.peerMapLoadingError$ = this.peerMapStore.select(fromPeerMapReducer.getPeerMapLoadingError);
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
