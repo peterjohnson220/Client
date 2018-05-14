@@ -3,15 +3,12 @@
 exports[`Peer Dashboard - Exchange Job Count should display the job count 1`] = `
 <pf-exchange-job-count
   chartItem={[Function Object]}
-  exchange$={[Function ScalarObservable]}
   exchangeId={[Function Number]}
   jobChartItems$={[Function Store]}
   jobChartItemsSubscription={[Function Subscriber]}
   loadingJobChartItems$={[Function Store]}
   loadingJobChartItemsError$={[Function Store]}
-  route={[Function Object]}
-  router={[Function Object]}
-  sharedPeerStore={[Function Store]}
+  route={[Function ActivatedRouteStub]}
   store={[Function Store]}
 >
   <h1

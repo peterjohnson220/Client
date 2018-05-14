@@ -1,13 +1,13 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import {  generateMockExchange, ExchangeChartTypeEnum } from 'libs/models';
+import {  ExchangeChartTypeEnum } from 'libs/models';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import { ExchangeIndustryChartComponent } from './exchange-industry-chart.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -17,7 +17,7 @@ describe('Peer Dashboard - Industry Chart', () => {
   let fixture: ComponentFixture<ExchangeIndustryChartComponent>;
   let instance: ExchangeIndustryChartComponent;
   let store: Store<fromPeerDashboardReducer.State>;
-  let activatedRoute: ActivatedRoute;
+  let route: ActivatedRouteStub;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -28,25 +28,23 @@ describe('Peer Dashboard - Industry Chart', () => {
           peer_dashboard: combineReducers(fromPeerDashboardReducer.reducers)
         }),
       ],
-      declarations: [
-        ExchangeIndustryChartComponent
-      ],
       providers: [
         {
-          provide: Router,
-          useValue: { navigate: jest.fn() },
-        },
-        {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
-        },
+          useValue: new ActivatedRouteStub(),
+        }
+      ],
+      declarations: [
+        ExchangeIndustryChartComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
-    activatedRoute = TestBed.get(ActivatedRoute);
+    route = TestBed.get(ActivatedRoute);
+
+    route.setParamMap({ id: 1 });
 
     fixture = TestBed.createComponent(ExchangeIndustryChartComponent);
     instance = fixture.componentInstance;
@@ -55,31 +53,16 @@ describe('Peer Dashboard - Industry Chart', () => {
   });
 
   it('should show the industry chart and title', () => {
-    instance.exchange$ = of(generateMockExchange());
-
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a industries LoadingIndustryChart action on init', () => {
-    instance.exchange$ = of(generateMockExchange());
-    const action = new fromExchangeDashboardActions.LoadingIndustryChart({
-      ExchangeId: activatedRoute.snapshot.params.id,
-      ChartType: ExchangeChartTypeEnum.Industry
-    });
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-
   it('should dispatch a LoadingDetailChart for the industry on seriesClick', () => {
     fixture.detectChanges();
 
     const action = new fromExchangeDashboardActions.LoadingDetailChart({
-      ExchangeId: activatedRoute.snapshot.params.id,
+      ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Industry,
       Category: 'Test'
     });

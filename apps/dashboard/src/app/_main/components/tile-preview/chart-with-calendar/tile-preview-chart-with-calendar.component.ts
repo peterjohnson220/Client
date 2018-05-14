@@ -59,7 +59,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
       SettingValue: this.selectedDate
     } as SaveUiPersistenceSettingRequest;
 
-    this.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting
+    this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting
     (saveUiPersistenceSettingRequest));
   }
 

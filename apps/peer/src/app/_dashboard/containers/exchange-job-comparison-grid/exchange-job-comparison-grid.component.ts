@@ -7,7 +7,7 @@ import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-gr
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { GridTypeEnum} from 'libs/models';
+import { GridTypeEnum } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
@@ -71,8 +71,6 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit() {
-    this.store.dispatch(new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons);
-
     this.exchangeJobComparisonGridStateSubscription = this.exchangeJobComparisonsGridState$.subscribe(gridState => {
       this.exchangeJobComparisonGridState = cloneDeep(gridState);
     });

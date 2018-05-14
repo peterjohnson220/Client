@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { Exchange, GetChartRequest, GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
+import { GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
 
 @Component({
   selector: 'pf-exchange-revenue-chart',
@@ -16,32 +15,20 @@ import * as fromSharedPeerReducer from '../../../shared/reducers';
   styleUrls: ['./exchange-revenue-chart.component.scss']
 })
 
-export class ExchangeRevenueChartComponent implements OnInit {
+export class ExchangeRevenueChartComponent {
   exchangeId: number;
-  exchange$: Observable<Exchange>;
   revenueChartItems$: Observable<ChartItem[]>;
   loadingRevenueChartItems$: Observable<boolean>;
   loadingRevenueChartItemsError$: Observable<boolean>;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private store: Store<fromPeerDashboardReducer.State>,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private route: ActivatedRoute
   ) {
-    this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
     this.revenueChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardRevenueChartItems);
     this.loadingRevenueChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingRevenueChart);
     this.loadingRevenueChartItemsError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingRevenueChartError);
-    this.exchangeId = this.route.snapshot.params.id;
-  }
-
-  ngOnInit() {
-    const getChartRequest: GetChartRequest = {
-      ExchangeId: this.exchangeId,
-      ChartType: ExchangeChartTypeEnum.Revenue
-    };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingRevenueChart(getChartRequest));
+    this.route.paramMap.subscribe((params: ParamMap) => this.exchangeId = +params.get('id'));
   }
 
   seriesClick(e): void {

@@ -4,12 +4,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { Exchange, ExchangeRequestTypeEnum } from 'libs/models';
+import { ExchangeRequestTypeEnum } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
-import * as fromSharedPeerReducer from '../../../../shared/reducers';
 
 @Component({
   selector: 'pf-exchange-dashboard-page',
@@ -17,19 +16,14 @@ import * as fromSharedPeerReducer from '../../../../shared/reducers';
   styleUrls: ['./exchange-dashboard.page.scss']
 })
 export class ExchangeDashboardPageComponent implements OnInit {
-  exchangeId: number;
-  exchange$: Observable<Exchange>;
   sidebarVisible$: Observable<boolean>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromPeerDashboardReducer.State>,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private store: Store<fromPeerDashboardReducer.State>
   ) {
-    this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
     this.sidebarVisible$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardSidebarVisible);
-    this.exchangeId = this.route.snapshot.params.id;
   }
 
   manageJobsClick(): void {
@@ -44,6 +38,7 @@ export class ExchangeDashboardPageComponent implements OnInit {
     this.router.navigate(['map'], { relativeTo: this.route });
   }
 
+  // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
   }

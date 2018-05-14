@@ -5,13 +5,10 @@ exports[`Peer Dashboard - Exchange Job Count should display the company count 1`
   chartItem={[Function Object]}
   companyChartItems$={[Function Store]}
   companyChartItemsSubscription={[Function Subscriber]}
-  exchange$={[Function ScalarObservable]}
   exchangeId={[Function Number]}
   loadingCompanyChartItems$={[Function Store]}
   loadingCompanyChartItemsError$={[Function Store]}
-  route={[Function Object]}
-  router={[Function Object]}
-  sharedPeerStore={[Function Store]}
+  route={[Function ActivatedRouteStub]}
   store={[Function Store]}
 >
   <h1

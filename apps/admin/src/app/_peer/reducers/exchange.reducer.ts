@@ -22,21 +22,21 @@ export function reducer(
   action: fromExchangeActions.Actions
 ): State {
   switch (action.type) {
-    case fromExchangeActions.LOADING_EXCHANGE: {
+    case fromExchangeActions.LOAD_EXCHANGE: {
       return {
-        exchange: null,
+        ...state,
         loading: true,
         loadingError: false
       };
     }
-    case fromExchangeActions.LOADING_EXCHANGE_SUCCESS: {
+    case fromExchangeActions.LOAD_EXCHANGE_SUCCESS: {
       return {
         ...state,
         exchange: action.payload,
         loading: false
       };
     }
-    case fromExchangeActions.LOADING_EXCHANGE_ERROR: {
+    case fromExchangeActions.LOAD_EXCHANGE_ERROR: {
       return {
         ...state,
         loading: false,

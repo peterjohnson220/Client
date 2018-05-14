@@ -93,7 +93,7 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
       isOpenString = 'true';
     }
 
-    this.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting({
+    this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
       FeatureArea: 'Dashboard',
       SettingName: 'RightSideBarIsOpen',
       SettingValue: isOpenString

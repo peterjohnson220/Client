@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
@@ -8,28 +7,29 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
 
-import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
+
+import * as fromExchangeSelectorActions from '../actions/exchange-selector.actions';
 
 @Injectable()
-export class ExchangeListEffects {
+export class ExchangeSelectorEffects {
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.LOADING_EXCHANGES)
+    .ofType(fromExchangeSelectorActions.LOAD_EXCHANGES)
     .switchMap(() =>
       this.exchangeCompanyApiService.getExchanges()
         .map((exchangeListItems: ExchangeListItem[]) => {
-          return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
+          return new fromExchangeSelectorActions.LoadExchangesSuccess(exchangeListItems);
         })
-        .catch(() => of(new fromExchangeListActions.LoadingExchangesError()))
+        .catch(() => of(new fromExchangeSelectorActions.LoadExchangesError()))
     );
 
   constructor(
     private actions$: Actions,
+    private exchangeApiService: ExchangeApiService,
     private exchangeCompanyApiService: ExchangeCompanyApiService
   ) {}
 }

@@ -1,27 +1,20 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-
 import { ExchangeRequestTypeEnum } from 'libs/models/peer';
 
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
 
 @Component({
-  selector: 'pf-exchange-list-page',
-  templateUrl: './exchange-list.page.html',
-  styleUrls: ['./exchange-list.page.scss']
+  selector: 'pf-no-exchanges-page',
+  templateUrl: './no-exchanges.page.html',
+  styleUrls: ['./no-exchanges.page.scss']
 })
-export class ExchangeListPageComponent {
-
+export class NoExchangesPageComponent {
   constructor(
-    private store: Store<fromPeerDashboardReducer.State>,
-    private router: Router) {}
-
-  handleCellClick(exchangeId: number): void {
-    this.router.navigate([ 'exchange', exchangeId ]);
-  }
+    private store: Store<fromPeerDashboardReducer.State>
+  ) {}
 
   openRequestAccessModal(): void {
     this.store.dispatch(new fromExchangeRequestActions.OpenExchangeRequestModal(ExchangeRequestTypeEnum.Access));

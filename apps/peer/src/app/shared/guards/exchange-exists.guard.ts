@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import { Exchange } from 'libs/models/peer';
-import * as fromExchangeActions from 'libs/features/peer/list/actions/exchange.actions';
 
+import * as fromExchangeActions from '../../shared/actions/exchange.actions';
 import * as sharedPeerReducer from '../../shared/reducers';
 
 @Injectable()
@@ -21,12 +21,12 @@ export class ExchangeExistsGuard implements CanActivate {
   ) {}
 
   exchangeExists(exchangeId: number): Observable<boolean> {
-    this.store.dispatch(new fromExchangeActions.LoadingExchange(exchangeId));
+    this.store.dispatch(new fromExchangeActions.LoadExchange(exchangeId));
 
     return this.exchangeApiService
       .getExchange(exchangeId)
-      .map((exchange: Exchange) => new fromExchangeActions.LoadingExchangeSuccess(exchange))
-      .do((action: fromExchangeActions.LoadingExchangeSuccess) => this.store.dispatch(action))
+      .map((exchange: Exchange) => new fromExchangeActions.LoadExchangeSuccess(exchange))
+      .do((action: fromExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action))
       .map(() => true)
       .catch(() => {
         this.router.navigate(['/exchange-not-found']);

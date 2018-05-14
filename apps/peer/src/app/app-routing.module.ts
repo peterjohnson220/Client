@@ -11,7 +11,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: 'exchange/:id',
+      {
+        path: 'exchange/:id',
         children: [
           {
             path: 'manage',
@@ -27,8 +28,7 @@ export const routes: Routes = [
           }
         ]
       },
-      { path: '', redirectTo: 'exchanges/list', pathMatch: 'full' },
-      { path: 'exchanges', loadChildren: 'apps/peer/src/app/_dashboard/dashboard.module#DashboardModule'},
+      { path: 'exchanges', loadChildren: 'apps/peer/src/app/_dashboard/dashboard.module#DashboardModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }

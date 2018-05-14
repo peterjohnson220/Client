@@ -35,7 +35,9 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useClass: ActivatedRouteStub,
+          useValue: {
+            snapshot: { queryParamMap: { get: (key) => queryStringParams[key] } }
+          }
         }
       ],
       declarations: [
@@ -47,8 +49,6 @@ describe('Legacy Content - Peer - Add Data Cut', () => {
 
     store = TestBed.get(Store);
     route = TestBed.get(ActivatedRoute);
-
-    route.testParamMap = queryStringParams;
 
     spyOn(store, 'dispatch');
 

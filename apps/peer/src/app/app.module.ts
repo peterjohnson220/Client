@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
-
 
 @NgModule({
   imports: [
@@ -17,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 
     // Third Party
     NgbModalModule.forRoot(),
+    NgbPopoverModule.forRoot(),
 
     // PF Modules
     PfStateModule,

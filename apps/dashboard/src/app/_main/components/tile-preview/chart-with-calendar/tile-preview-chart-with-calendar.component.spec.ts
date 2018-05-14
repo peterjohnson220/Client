@@ -62,7 +62,6 @@ describe('Tile Preview Chart With Calendar', () => {
   });
 
   it('should dispatch SavingUiPersistenceSetting when datePickerValueChanged is called', () => {
-
    instance.model = getInstanceModel();
 
     const clientSettingRequest = {
@@ -70,7 +69,7 @@ describe('Tile Preview Chart With Calendar', () => {
       SettingValue: instance.selectedDate
     } as SaveUiPersistenceSettingRequest;
 
-    const action = new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting(clientSettingRequest);
+    const action = new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(clientSettingRequest);
 
     instance.datePickerValueChanged();
     expect(store.dispatch).toHaveBeenCalledWith(action);
@@ -85,14 +84,14 @@ describe('Tile Preview Chart With Calendar', () => {
       SettingValue: instance.selectedDate
     } as SaveUiPersistenceSettingRequest;
 
-    instance.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSetting(clientSettingRequest));
+    instance.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(clientSettingRequest));
 
     const successResponse = [{
       Name: 'JobsTileEffectiveDate',
       Value: instance.selectedDate
     }] as GenericNameValueDto[];
 
-    instance.store.dispatch(new fromUiPersistenceSettingsActions.SavingUiPersistenceSettingSuccess(successResponse));
+    instance.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSettingSuccess(successResponse));
 
     expect(instance.reloadTile).toHaveBeenCalled();
   });

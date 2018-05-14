@@ -46,13 +46,8 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     const mockJobComparison: ExchangeJobComparison = generateMockExchangeJobComparison();
     const gridDataResult: GridDataResult = {data: [mockJobComparison], total: 1};
     instance.exchangeJobComparisonsGridData$ = of(gridDataResult);
-  });
 
-  it('should dispatch a new LoadExchangeJobComparisons action when the component is initialized', () => {
-    const expectedAction = new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons;
     fixture.detectChanges();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should dispatch an UpdateGrid action when handleDataStateChange is called', () => {

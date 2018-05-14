@@ -10,6 +10,7 @@
       [loading]="!(initialMapMoveComplete$ | async)"
       [loadingError]="peerMapLoadingError$ | async"
       [loadingErrorMessage]="'Error loading exchange map'"
+      [hideReloadButton]="true"
       [noOpactity]="true">
 
       <div class="d-flex h-100">

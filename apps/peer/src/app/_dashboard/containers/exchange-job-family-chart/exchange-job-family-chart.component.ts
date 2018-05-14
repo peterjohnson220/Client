@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { Exchange, GetChartRequest, GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
+import { GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromPeerDashboardReducer from '../../reducers';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 
 @Component({
@@ -20,7 +19,6 @@ import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.
 
 export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
   exchangeId: number;
-  exchange$: Observable<Exchange>;
   jobFamilyChartItems$: Observable<ChartItem[]>;
   jobFamilyChartItemsSubscription: Subscription;
   jobFamilyChartItems: ChartItem[];
@@ -28,16 +26,13 @@ export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
   loadingJobFamilyChartItemsError$: Observable<boolean>;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private store: Store<fromPeerDashboardReducer.State>,
-    private sharedPeerStore: Store<fromSharedPeerReducer.State>
+    private route: ActivatedRoute
   ) {
-    this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
     this.jobFamilyChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardJobFamilyChartItems);
     this.loadingJobFamilyChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingJobFamilyChart);
     this.loadingJobFamilyChartItemsError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingJobFamilyChartError);
-    this.exchangeId = this.route.snapshot.params.id;
+    this.route.paramMap.subscribe((params: ParamMap) => this.exchangeId = +params.get('id'));
   }
 
   getValueAxisMax(): number {
@@ -58,11 +53,6 @@ export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const getChartRequest: GetChartRequest = {
-      ExchangeId: this.exchangeId,
-      ChartType: ExchangeChartTypeEnum.Family
-    };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingJobFamilyChart(getChartRequest));
     this.jobFamilyChartItemsSubscription = this.jobFamilyChartItems$.subscribe(chartItems => {
       this.jobFamilyChartItems = cloneDeep(chartItems);
     });

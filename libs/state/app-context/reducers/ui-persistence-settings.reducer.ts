@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: uiPersistenceSettingsActio
         loadingError: true
       };
     }
-    case uiPersistenceSettingsActions.SAVING_UI_PERSISTENCE_SETTING: {
+    case uiPersistenceSettingsActions.SAVE_UI_PERSISTENCE_SETTING: {
       return {
         ...state,
         saving: true,
@@ -54,7 +54,7 @@ export function reducer(state = initialState, action: uiPersistenceSettingsActio
         lastAttemptedSavedSettingName: action.payload.SettingName
       };
     }
-    case uiPersistenceSettingsActions.SAVING_UI_PERSISTENCE_SETTING_SUCCESS: {
+    case uiPersistenceSettingsActions.SAVE_UI_PERSISTENCE_SETTING_SUCCESS: {
       return {
         ...state,
         saving: false,
@@ -63,7 +63,7 @@ export function reducer(state = initialState, action: uiPersistenceSettingsActio
         uiPersistenceSettings: action.payload
       };
     }
-    case uiPersistenceSettingsActions.SAVING_UI_PERSISTENCE_SETTING_ERROR: {
+    case uiPersistenceSettingsActions.SAVE_UI_PERSISTENCE_SETTING_ERROR: {
       return {
         ...state,
         saving: false,

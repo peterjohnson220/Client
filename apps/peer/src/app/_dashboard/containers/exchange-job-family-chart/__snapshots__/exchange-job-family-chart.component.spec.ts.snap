@@ -2,90 +2,79 @@
 
 exports[`Peer Dashboard - Job Family Chart should show the job family chart and title 1`] = `
 <pf-exchange-job-family-chart
-  exchange$={[Function ScalarObservable]}
   exchangeId={[Function Number]}
   jobFamilyChartItems="null"
   jobFamilyChartItems$={[Function Store]}
   jobFamilyChartItemsSubscription={[Function Subscriber]}
   loadingJobFamilyChartItems$={[Function Store]}
   loadingJobFamilyChartItemsError$={[Function Store]}
-  route={[Function Object]}
-  router={[Function Object]}
-  sharedPeerStore={[Function Store]}
+  route={[Function ActivatedRouteStub]}
   store={[Function Store]}
 >
-  <pf-async-container>
+  <kendo-chart>
+    
+    
+    <kendo-chart-legend
+      position="bottom"
+    />
+    
+    
+    <kendo-chart-area
+      background="none"
+      height="250"
+    />
+    
+    
+    <kendo-chart-tooltip>
+      
+      
+      
+      
+    
+    </kendo-chart-tooltip>
+    
+    
+    <kendo-chart-category-axis>
+      
+      
+      <kendo-chart-category-axis-item>
+        
+      
+      </kendo-chart-category-axis-item>
+      
+    
+    </kendo-chart-category-axis>
+    
+    
+    <kendo-chart-value-axis>
+      
+      
+      <kendo-chart-value-axis-item>
+        
+      
+      </kendo-chart-value-axis-item>
+      
+    
+    </kendo-chart-value-axis>
+    
+    
+    <kendo-chart-series>
+      
+      
+      <kendo-chart-series-item
+        categoryfield="Category"
+        field="Value"
+        type="column"
+      >
+        
+      
+      </kendo-chart-series-item>
+      
+    
+    </kendo-chart-series>
     
   
-    
-    <kendo-chart>
-      
-      
-      <kendo-chart-legend
-        position="bottom"
-      />
-      
-      
-      <kendo-chart-area
-        background="none"
-        height="250"
-      />
-      
-      
-      <kendo-chart-tooltip>
-        
-        
-        
-        
-      
-      </kendo-chart-tooltip>
-      
-      
-      <kendo-chart-category-axis>
-        
-        
-        <kendo-chart-category-axis-item>
-          
-        
-        </kendo-chart-category-axis-item>
-        
-      
-      </kendo-chart-category-axis>
-      
-      
-      <kendo-chart-value-axis>
-        
-        
-        <kendo-chart-value-axis-item>
-          
-        
-        </kendo-chart-value-axis-item>
-        
-      
-      </kendo-chart-value-axis>
-      
-      
-      <kendo-chart-series>
-        
-        
-        <kendo-chart-series-item
-          categoryfield="Category"
-          field="Value"
-          type="column"
-        >
-          
-        
-        </kendo-chart-series-item>
-        
-      
-      </kendo-chart-series>
-      
-    
-    </kendo-chart>
-    
-  
-  
-  </pf-async-container>
+  </kendo-chart>
   
 </pf-exchange-job-family-chart>
 `;

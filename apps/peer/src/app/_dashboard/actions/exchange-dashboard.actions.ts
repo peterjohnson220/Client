@@ -2,25 +2,25 @@ import { Action } from '@ngrx/store';
 
 import { GetChartRequest, GetDetailChartRequest, ChartItem } from 'libs/models';
 
-export const LOADING_COMPANY_CHART  = '[Peer Main/Exchange Dashboard] Loading Company Chart';
-export const LOADING_COMPANY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Company Chart Success';
-export const LOADING_COMPANY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Company Chart Error';
-export const LOADING_JOB_CHART  = '[Peer Main/Exchange Dashboard] Loading Job Chart';
-export const LOADING_JOB_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Job Chart Success';
-export const LOADING_JOB_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Job Chart Error';
-export const LOADING_INDUSTRY_CHART  = '[Peer Main/Exchange Dashboard] Loading Industry Chart';
-export const LOADING_INDUSTRY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Success';
-export const LOADING_INDUSTRY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Industry Chart Error';
-export const LOADING_JOB_FAMILY_CHART  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart';
-export const LOADING_JOB_FAMILY_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart Success';
-export const LOADING_JOB_FAMILY_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Job Family Chart Error';
-export const LOADING_REVENUE_CHART  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart';
-export const LOADING_REVENUE_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart Success';
-export const LOADING_REVENUE_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Revenue Chart Error';
-export const LOADING_DETAIL_CHART  = '[Peer Main/Exchange Dashboard] Loading Detail Chart';
-export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Success';
-export const LOADING_DETAIL_CHART_ERROR  = '[Peer Main/Exchange Dashboard] Loading Detail Chart Error';
-export const CLOSE_SIDEBAR  = '[Peer Main/Exchange Dashboard] Close Sidebar';
+export const LOADING_COMPANY_CHART  = '[Peer Dashboard/Page] Loading Company Chart';
+export const LOADING_COMPANY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Company Chart Success';
+export const LOADING_COMPANY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Company Chart Error';
+export const LOADING_JOB_CHART  = '[Peer Dashboard/Page] Loading Job Chart';
+export const LOADING_JOB_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Job Chart Success';
+export const LOADING_JOB_CHART_ERROR  = '[Peer Dashboard/Page] Loading Job Chart Error';
+export const LOADING_INDUSTRY_CHART  = '[Peer Dashboard/Page] Loading Industry Chart';
+export const LOADING_INDUSTRY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Industry Chart Success';
+export const LOADING_INDUSTRY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Industry Chart Error';
+export const LOADING_JOB_FAMILY_CHART  = '[Peer Dashboard/Page] Loading Job Family Chart';
+export const LOADING_JOB_FAMILY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Job Family Chart Success';
+export const LOADING_JOB_FAMILY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Job Family Chart Error';
+export const LOADING_REVENUE_CHART  = '[Peer Dashboard/Page] Loading Revenue Chart';
+export const LOADING_REVENUE_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Revenue Chart Success';
+export const LOADING_REVENUE_CHART_ERROR  = '[Peer Dashboard/Page] Loading Revenue Chart Error';
+export const LOADING_DETAIL_CHART  = '[Peer Dashboard/Page] Loading Detail Chart';
+export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Detail Chart Success';
+export const LOADING_DETAIL_CHART_ERROR  = '[Peer Dashboard/Page] Loading Detail Chart Error';
+export const CLOSE_SIDEBAR  = '[Peer Dashboard/Page] Close Sidebar';
 
 export class LoadingCompanyChart implements Action {
   readonly type = LOADING_COMPANY_CHART;

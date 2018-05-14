@@ -13,6 +13,7 @@ import * as fromAccessExchangeRequestReducer from './access-exchange-request.red
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
 import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
+import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -21,6 +22,7 @@ export interface DashboardState {
   accessExchangeRequest: fromAccessExchangeRequestReducer.State;
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
   exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
+  exchangeSelector: fromExchangeSelectorReducer.State;
 }
 
 // Extend root state with feature area state
@@ -34,7 +36,8 @@ export const reducers = {
   peerParticipants: fromPeerParticipantsReducer.reducer,
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
-  exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer
+  exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
+  exchangeSelector: fromExchangeSelectorReducer.reducer
 };
 
 // Select Feature Area
@@ -45,8 +48,6 @@ export const selectExchangeDashboardState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.exchangeDashboard
 );
-
-
 
 export const selectExchangeJobComparisonState = createSelector(
   selectFeatureAreaState,
@@ -66,6 +67,11 @@ export const selectAccessExchangeRequestState = createSelector(
 export const selectPfCompaniesExchangeRequestState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.pfCompaniesExchangeRequest
+);
+
+export const selectExchangeSelectorState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.exchangeSelector
 );
 
 // Exchange Dashboard Selectors
@@ -261,4 +267,19 @@ export const getExchangeJobComparisonsGridData = createSelector(
   (data, total) => {
     return { data: data, total: total };
   }
+);
+
+// Exchange Selector
+export const {
+  selectAll: getExchangeSelectorList
+} = fromExchangeSelectorReducer.adapter.getSelectors(selectExchangeSelectorState);
+
+export const getExchangeSelectorListLoading = createSelector(
+  selectExchangeSelectorState,
+  fromExchangeSelectorReducer.getLoading
+);
+
+export const getExchangeSelectorListLoaded = createSelector(
+  selectExchangeSelectorState,
+  fromExchangeSelectorReducer.getLoaded
 );

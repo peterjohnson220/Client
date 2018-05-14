@@ -10,6 +10,8 @@ import 'rxjs/add/operator/switchMap';
 
 import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ChartItem } from 'libs/models';
+import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
+import { ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 
@@ -79,6 +81,17 @@ export class ExchangeDashboardEffects {
           return new fromExchangeDashboardActions.LoadingDetailChartSuccess(chartItems);
         })
         .catch(() => of(new fromExchangeDashboardActions.LoadingDetailChartError()))
+    );
+
+  @Effect()
+  loadExchanges$: Observable<Action> = this.actions$
+    .ofType(fromExchangeListActions.LOADING_EXCHANGES)
+    .switchMap(() =>
+      this.exchangeCompanyApiService.getExchanges()
+        .map((exchangeListItems: ExchangeListItem[]) => {
+          return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
+        })
+        .catch(() => of(new fromExchangeListActions.LoadingExchangesError()))
     );
 
   constructor(

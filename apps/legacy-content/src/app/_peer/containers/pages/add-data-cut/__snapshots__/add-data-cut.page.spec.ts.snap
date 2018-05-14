@@ -12,7 +12,7 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   map="undefined"
   mapStore={[Function Store]}
   peerMapSummary$={[Function Store]}
-  route={[Function ActivatedRouteStub]}
+  route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   userSessionId={[Function Number]}
@@ -118,7 +118,7 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
   map="undefined"
   mapStore={[Function Store]}
   peerMapSummary$={[Function Store]}
-  route={[Function ActivatedRouteStub]}
+  route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   userSessionId={[Function Number]}

@@ -9,9 +9,9 @@ import * as fromRootState from 'libs/state/state';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
-import * as fromExchangeActions from 'libs/features/peer/list/actions/exchange.actions';
 import { generateMockExchange } from 'libs/models/peer';
 
+import * as fromSharedPeerExchangeActions from '../../../../shared/actions/exchange.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import { ExchangeMapPageComponent } from './exchange-map.page';
 
@@ -54,7 +54,7 @@ describe('Peer - Exchange Map Page', () => {
   });
 
   it('should show the exchange name as the page title', () => {
-    store.dispatch(new fromExchangeActions.LoadingExchangeSuccess(generateMockExchange()));
+    store.dispatch(new fromSharedPeerExchangeActions.LoadExchangeSuccess(generateMockExchange()));
 
     fixture.detectChanges();
 

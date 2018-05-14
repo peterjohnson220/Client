@@ -2,64 +2,53 @@
 
 exports[`Peer Dashboard - Industry Chart should show the industry chart and title 1`] = `
 <pf-exchange-industry-chart
-  exchange$={[Function ScalarObservable]}
   exchangeId={[Function Number]}
   industryChartItems$={[Function Store]}
   loadingIndustryChartItems$={[Function Store]}
   loadingIndustryChartItemsError$={[Function Store]}
-  route={[Function Object]}
-  router={[Function Object]}
-  sharedPeerStore={[Function Store]}
+  route={[Function ActivatedRouteStub]}
   store={[Function Store]}
 >
-  <pf-async-container>
+  <kendo-chart>
+    
+    
+    <kendo-chart-legend
+      position="bottom"
+    />
+    
+    
+    <kendo-chart-area
+      background="none"
+      height="250"
+    />
+    
+    
+    <kendo-chart-tooltip>
+      
+      
+      
+      
+    
+    </kendo-chart-tooltip>
+    
+    
+    <kendo-chart-series>
+      
+      
+      <kendo-chart-series-item
+        categoryfield="Category"
+        field="Value"
+        type="donut"
+      >
+        
+      
+      </kendo-chart-series-item>
+      
+    
+    </kendo-chart-series>
     
   
-      
-    <kendo-chart>
-      
-        
-      <kendo-chart-legend
-        position="bottom"
-      />
-      
-        
-      <kendo-chart-area
-        background="none"
-        height="250"
-      />
-      
-        
-      <kendo-chart-tooltip>
-        
-          
-        
-        
-        
-      </kendo-chart-tooltip>
-      
-        
-      <kendo-chart-series>
-        
-          
-        <kendo-chart-series-item
-          categoryfield="Category"
-          field="Value"
-          type="donut"
-        >
-          
-          
-        </kendo-chart-series-item>
-        
-        
-      </kendo-chart-series>
-      
-      
-    </kendo-chart>
-    
-  
-  
-  </pf-async-container>
+  </kendo-chart>
   
 </pf-exchange-industry-chart>
 `;

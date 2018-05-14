@@ -56,14 +56,6 @@ describe('Peer - Exchange Dashboard', () => {
     spyOn(store, 'dispatch');
   });
 
-  it('should show the dashboard with the exchange name and a container for the charts', () => {
-    instance.exchange$ = of(generateMockExchange());
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should navigate to the job mapping page when clicking the manage jobs button', () => {
     spyOn(router, 'navigate');
 

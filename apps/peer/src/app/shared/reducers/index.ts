@@ -4,7 +4,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromExchangeReducer from 'libs/features/peer/list/reducers/exchange.reducer';
+import * as fromExchangeReducer from './exchange.reducer';
 
 // Feature area state
 export interface SharedPeerState {

@@ -3,12 +3,24 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PeerTileEnabledGuard } from 'libs/security/guards';
 
-import { ExchangeListPageComponent, ExchangeDashboardPageComponent } from './containers/pages';
+import { ExchangeDashboardPageComponent, NoExchangesPageComponent } from './containers/pages';
 import { ExchangeExistsGuard } from '../shared/guards';
+import { RedirectToExchangeComponent } from './components/redirect-to-exchange/redirect-to-exchange.component';
 
 const routes: Routes = [
-  { path: '', component: ExchangeDashboardPageComponent, canActivate: [PeerTileEnabledGuard, ExchangeExistsGuard] },
-  { path: 'list', component: ExchangeListPageComponent, canActivate: [PeerTileEnabledGuard] }
+  {
+    path: '',
+    component: ExchangeDashboardPageComponent,
+    canActivate: [ PeerTileEnabledGuard, ExchangeExistsGuard]
+  },
+  {
+    path: 'redirect',
+    component: RedirectToExchangeComponent
+  },
+  {
+    path: 'no-exchanges',
+    component: NoExchangesPageComponent
+  },
 ];
 
 @NgModule({

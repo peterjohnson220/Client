@@ -9,3 +9,4 @@ export * from './pages';
 export * from './pf-company-modal';
 export * from './chart-detail';
 export * from './exchange-job-comparison-grid';
+export * from './exchange-selector';

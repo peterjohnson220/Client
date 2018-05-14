@@ -12,13 +12,13 @@ import { GenericNameValueDto } from '../../../models/common';
 @Injectable()
 export class UiPersistenceSettingsEffects {
   @Effect()
-  savingEffectiveDate$: Observable<Action> = this.actions$
-    .ofType(fromUiPersistenceSettingsActions.SAVING_UI_PERSISTENCE_SETTING)
-    .switchMap((action: fromUiPersistenceSettingsActions.SavingUiPersistenceSetting) =>
+  savingUiPersistenceSetting$: Observable<Action> = this.actions$
+    .ofType(fromUiPersistenceSettingsActions.SAVE_UI_PERSISTENCE_SETTING)
+    .switchMap((action: fromUiPersistenceSettingsActions.SaveUiPersistenceSetting) =>
       this.clientSettingApiService.putUiPersistenceSetting(action.payload)
         .map((response: GenericNameValueDto[]) =>
-          new fromUiPersistenceSettingsActions.SavingUiPersistenceSettingSuccess(response))
-        .catch(error => of(new fromUiPersistenceSettingsActions.SavingUiPersistenceSettingError(error)))
+          new fromUiPersistenceSettingsActions.SaveUiPersistenceSettingSuccess(response))
+        .catch(error => of(new fromUiPersistenceSettingsActions.SaveUiPersistenceSettingError(error)))
     );
 
   @Effect()

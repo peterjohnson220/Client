@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
 import { Exchange } from 'libs/models/peer';
-import * as fromManageExchangeActions from 'libs/features/peer/list/actions/exchange.actions';
 
+import * as fromManageExchangeActions from '../actions/exchange.actions';
 import * as fromExchangeDashboardReducer from '../reducers';
 
 @Injectable()
@@ -21,12 +21,12 @@ export class ExchangeExistsGuard implements CanActivate {
   ) {}
 
   exchangeExists(exchangeId: number): Observable<boolean> {
-    this.store.dispatch(new fromManageExchangeActions.LoadingExchange(exchangeId));
+    this.store.dispatch(new fromManageExchangeActions.LoadExchange(exchangeId));
 
     return this.exchangeApiService
       .getExchange(exchangeId)
-      .map((exchange: Exchange) => new fromManageExchangeActions.LoadingExchangeSuccess(exchange))
-      .do((action: fromManageExchangeActions.LoadingExchangeSuccess) => this.store.dispatch(action))
+      .map((exchange: Exchange) => new fromManageExchangeActions.LoadExchangeSuccess(exchange))
+      .do((action: fromManageExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action))
       .map(() => true)
       .catch(() => {
         // TODO [BC]: When the route fails would rather it fall through to the wildcard route (**).
