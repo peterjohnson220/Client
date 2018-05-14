@@ -59,7 +59,10 @@ export class FilterSidebarEffects {
   @Effect()
   aggregateSelected$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED)
-    .switchMap(() => of(new fromPeerMapActions.LoadPeerMapData));
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadPeerMapData,
+      new fromFilterSidebarActions.LoadFilterAggregates()
+    ]);
 
   @Effect()
   limitToPayMarketToggled$: Observable<Action> = this.actions$
@@ -73,7 +76,10 @@ export class FilterSidebarEffects {
   @Effect()
   clearGroupSelections$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS)
-    .switchMap(() => of(new fromPeerMapActions.LoadPeerMapData));
+    .mergeMap(() => [
+      new fromPeerMapActions.LoadPeerMapData,
+      new fromFilterSidebarActions.LoadFilterAggregates()
+    ]);
 
   constructor(
     private actions$: Actions,
