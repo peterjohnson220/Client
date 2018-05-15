@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '',
     component: AppWrapperComponent,
     children: [
-      { path: '', loadChildren: 'apps/auth/src/app/_login/login.module#LoginModule' },
+      { path: '', loadChildren: 'apps/auth/app/_login/login.module#LoginModule' },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

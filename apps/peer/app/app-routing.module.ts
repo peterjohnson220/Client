@@ -16,19 +16,19 @@ export const routes: Routes = [
         children: [
           {
             path: 'manage',
-            loadChildren: 'apps/peer/src/app/_manage/manage.module#ManageModule'
+            loadChildren: 'apps/peer/app/_manage/manage.module#ManageModule'
           },
           {
             path: 'map',
-            loadChildren: 'apps/peer/src/app/_map/map.module#MapModule'
+            loadChildren: 'apps/peer/app/_map/map.module#MapModule'
           },
           {
             path: '',
-            loadChildren: 'apps/peer/src/app/_dashboard/dashboard.module#DashboardModule'
+            loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule'
           }
         ]
       },
-      { path: 'exchanges', loadChildren: 'apps/peer/src/app/_dashboard/dashboard.module#DashboardModule' },
+      { path: 'exchanges', loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }

@@ -6,12 +6,9 @@ import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
 
 import { DashboardApiService } from 'libs/data/payfactors-api';
+import { TimelineActivityResponse } from 'libs/models/dashboard';
 
 import * as fromTimelineActivityAction from '../actions/timeline-activity.actions';
-
-import { TimelineActivityDto } from '../../../../../../libs/models/dashboard';
-import { TimelineActivityMapper } from '../mappers';
-import { TimelineActivityResponse } from '../../../../../../libs/models/dashboard/timeline-activity-response.model';
 
 @Injectable()
 export class TimelineActivityEffects {

@@ -6,11 +6,11 @@
   "apps": [
     {
       "name": "admin",
-      "root": "apps/admin/src",
+      "root": "apps/admin",
       "outDir": "dist/apps/admin",
       "assets": [
-        { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
-        { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/images", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "web.config", "input": "./", "output": "./" }
@@ -18,34 +18,34 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
+      "test": "../../test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
+      "testTsconfig": "../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../assets/scss/client.scss",
+        "../../assets/scss/client.scss",
         "styles.scss"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss"
+          "../../assets/scss"
         ]
       },
-      "scripts": ["../../../assets/js/pendo.js"],
-      "environmentSource": "../../../environments/environment.ts",
+      "scripts": ["../../assets/js/pendo.js"],
+      "environmentSource": "../../environments/environment.ts",
       "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
+        "dev": "../../environments/environment.ts",
+        "staging": "../../environments/environment.staging.ts",
+        "prod": "../../environments/environment.prod.ts"
       }
     },
     {
       "name": "dashboard",
-      "root": "apps/dashboard/src",
+      "root": "apps/dashboard",
       "outDir": "dist/apps/dashboard",
       "assets": [
-        { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
-        { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/images", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "web.config", "input": "./", "output": "./" }
@@ -53,37 +53,37 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
+      "test": "../../test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
+      "testTsconfig": "../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../assets/scss/client.scss",
+        "../../assets/scss/client.scss",
         "styles.scss"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss"
+          "../../assets/scss"
         ]
       },
       "scripts": [
-       "../../../assets/js/drift.js",
-        "../../../assets/js/pendo.js"
+       "../../assets/js/drift.js",
+        "../../assets/js/pendo.js"
       ],
-      "environmentSource": "../../../environments/environment.ts",
+      "environmentSource": "../../environments/environment.ts",
       "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
+        "dev": "../../environments/environment.ts",
+        "staging": "../../environments/environment.staging.ts",
+        "prod": "../../environments/environment.prod.ts"
       }
     },
     {
       "name": "peer",
-      "root": "apps/peer/src",
+      "root": "apps/peer",
       "outDir": "dist/apps/peer",
       "assets": [
-        { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
-        { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/images", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "web.config", "input": "./", "output": "./" }
@@ -91,36 +91,36 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
+      "test": "../../test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
+      "testTsconfig": "../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../assets/scss/client.scss",
+        "../../assets/scss/client.scss",
         "styles.scss",
-        "../../../node_modules/mapbox-gl/dist/mapbox-gl.css",
-        "../../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
+        "../../node_modules/mapbox-gl/dist/mapbox-gl.css",
+        "../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss"
+          "../../assets/scss"
         ]
       },
-      "scripts": ["../../../assets/js/pendo.js"],
-      "environmentSource": "../../../environments/environment.ts",
+      "scripts": ["../../assets/js/pendo.js"],
+      "environmentSource": "../../environments/environment.ts",
       "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
+        "dev": "../../environments/environment.ts",
+        "staging": "../../environments/environment.staging.ts",
+        "prod": "../../environments/environment.prod.ts"
       }
     },
     {
       "name": "legacy-content",
-      "root": "apps/legacy-content/src",
+      "root": "apps/legacy-content",
       "outDir": "dist/apps/legacy-content",
       "assets": [
-        { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
-        { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/images", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "web.config", "input": "./", "output": "./" }
@@ -128,37 +128,37 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
+      "test": "../../test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
+      "testTsconfig": "../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../assets/scss/client.scss",
+        "../../assets/scss/client.scss",
         "styles.scss",
-        "../../../node_modules/mapbox-gl/dist/mapbox-gl.css",
-        "../../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
+        "../../node_modules/mapbox-gl/dist/mapbox-gl.css",
+        "../../node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss",
+          "../../assets/scss",
           "assets/"
         ]
       },
-      "scripts": ["../../../assets/js/pendo.js"],
-      "environmentSource": "../../../environments/environment.ts",
+      "scripts": ["../../assets/js/pendo.js"],
+      "environmentSource": "../../environments/environment.ts",
       "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
+        "dev": "../../environments/environment.ts",
+        "staging": "../../environments/environment.staging.ts",
+        "prod": "../../environments/environment.prod.ts"
       }
     },
     {
       "name": "auth",
-      "root": "apps/auth/src",
+      "root": "apps/auth",
       "outDir": "dist/apps/auth",
       "assets": [
-        { "glob": "**/*", "input": "../../../assets/images", "output": "./assets" },
-        { "glob": "**/*", "input": "../../../assets/js", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/images", "output": "./assets" },
+        { "glob": "**/*", "input": "../../assets/js", "output": "./assets" },
         { "glob": "**/*", "input": "./assets/", "output": "./assets/" },
         { "glob": "favicon.ico", "input": "./", "output": "./" },
         { "glob": "web.config", "input": "./", "output": "./" }
@@ -166,26 +166,26 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "../../../test.ts",
+      "test": "../../test.ts",
       "tsconfig": "tsconfig.app.json",
-      "testTsconfig": "../../../tsconfig.spec.json",
+      "testTsconfig": "../../tsconfig.spec.json",
       "prefix": "pf",
       "styles": [
-        "../../../assets/scss/client.scss",
+        "../../assets/scss/client.scss",
         "styles.scss"
       ],
       "stylePreprocessorOptions": {
         "includePaths": [
-          "../../../assets/scss",
+          "../../assets/scss",
           "assets/"
         ]
       },
-      "scripts": ["../../../assets/js/pendo.js"],
-      "environmentSource": "../../../environments/environment.ts",
+      "scripts": ["../../assets/js/pendo.js"],
+      "environmentSource": "../../environments/environment.ts",
       "environments": {
-        "dev": "../../../environments/environment.ts",
-        "staging": "../../../environments/environment.staging.ts",
-        "prod": "../../../environments/environment.prod.ts"
+        "dev": "../../environments/environment.ts",
+        "staging": "../../environments/environment.staging.ts",
+        "prod": "../../environments/environment.prod.ts"
       }
     }
   ],

@@ -11,7 +11,7 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     canActivate: [UserContextGuard],
     children: [
-      { path: '', loadChildren: 'apps/dashboard/src/app/_main/main.module#MainModule' }
+      { path: '', loadChildren: 'apps/dashboard/app/_main/main.module#MainModule' }
     ]
   }
 ];
