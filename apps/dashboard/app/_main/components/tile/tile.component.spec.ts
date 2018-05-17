@@ -67,7 +67,7 @@ describe('Tile', () => {
   });
 
   it('should show tile preview list when that type is given', () => {
-    instance.tile = generateMockListTile();
+    instance.tile = generateMockListTile(false);
 
     fixture.detectChanges();
 

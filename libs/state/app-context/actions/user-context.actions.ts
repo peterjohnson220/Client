@@ -9,32 +9,23 @@ export const GET_USER_CONTEXT_401_ERROR = '[AppContext/User Context] Get User Co
 
 export class GetUserContext implements Action {
   readonly type = GET_USER_CONTEXT;
-
-  constructor() {
-  }
+  constructor() { }
 }
 
 export class GetUserContextSuccess implements Action {
   readonly type = GET_USER_CONTEXT_SUCCESS;
-
-  constructor(public payload: UserContext) {
-  }
+  constructor(public payload: UserContext) { }
 }
 
 export class GetUserContextError implements Action {
   readonly type = GET_USER_CONTEXT_ERROR;
-
-  constructor(public error: any) {
-  }
+  constructor(public error: any) { }
 }
 
 export class GetUserContext401Error implements Action {
   readonly type = GET_USER_CONTEXT_401_ERROR;
-
-  constructor() {
-  }
+  constructor() { }
 }
-
 
 export type Actions =
   | GetUserContext

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService} from './ui-persistence-settings';
-import { ForgotPasswordApiService} from './auth';
+import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService } from './peer';
 import { CompanySecurityApiService } from './security';
@@ -24,7 +24,7 @@ import { CompanyApiService } from './company';
     ExchangeDataSearchApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
-    ForgotPasswordApiService,
+    AccountApiService,
     PayMarketApiService,
     PayfactorsApiService
   ]

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AppWrapperComponent } from './app-wrapper.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthLayoutWrapperComponent } from './auth-layout-wrapper.component';
+import { PfSecurityModule } from 'libs/security/security.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AuthLayoutWrapperComponent } from './auth-layout-wrapper.component';
 
     // PF Modules
     PfApiModule,
+    PfSecurityModule,
     PfStateModule,
     PfCommonUIModule,
 

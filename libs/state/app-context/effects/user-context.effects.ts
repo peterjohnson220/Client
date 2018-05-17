@@ -37,7 +37,7 @@ export class UserContextEffects {
       }
     );
 
-  @Effect()
+  @Effect({ dispatch: false })
   getUserContext401Error$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR)
     .switchMap(() => {

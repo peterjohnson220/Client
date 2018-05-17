@@ -9,7 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/switchMap';
 
 import * as fromForgotPasswordAction from '../actions/forgot-password.actions';
-import { ForgotPasswordApiService } from 'libs/data/payfactors-api/auth/forgot-password-api.service';
+import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 
 
 @Injectable()
@@ -18,14 +18,14 @@ export class ForgotPasswordEffects {
   sendingPasswordReset$: Observable<Action> = this.actions$
     .ofType(fromForgotPasswordAction.SENDING_PASSWORD_RESET)
     .switchMap((action: fromForgotPasswordAction.SendingPasswordReset) =>
-      this.forgotPasswordApiService.sendPasswordReset(action.payload)
+      this.accountApiService.sendPasswordReset(action.payload)
         .map((response: any) => new fromForgotPasswordAction.SendingPasswordResetSuccess())
         .catch(error => of(new fromForgotPasswordAction.SendingPasswordResetError()))
     );
 
   constructor(
     private actions$: Actions,
-    private forgotPasswordApiService: ForgotPasswordApiService
+    private accountApiService: AccountApiService
   ) {
   }
 }
