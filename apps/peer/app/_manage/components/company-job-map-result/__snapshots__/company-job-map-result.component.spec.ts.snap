@@ -9,73 +9,31 @@ exports[`Peer - Company Job Map Result should show a No Job Description message 
   <div
     class="company-job-to-map-to-result d-flex flex-column"
   >
-    
-  
-    
     <div
       class="d-flex justify-content-between"
     >
-      
-  
-      
       <div
         class="d-flex flex-column"
       >
-        
-        
         <strong>
           1001 - MockCompanyJob
         </strong>
-        
-  
-        
         <div
           class="mt-2"
         >
           
-  
-          
-          
-          
-            
           <em>
             No Job Description
           </em>
           
-          
-          
-  
-          
-          
-          
-        
         </div>
-        
-  
-      
       </div>
-      
-  
-      
       <div
         class="apply-mapping-container"
       >
-        
-        
-        <pf-apply-mapping-button>
-          
-        
-        </pf-apply-mapping-button>
-        
-      
+        <pf-apply-mapping-button />
       </div>
-      
-    
     </div>
-    
-  
-  
   </div>
-  
 </pf-company-job-map-result>
 `;

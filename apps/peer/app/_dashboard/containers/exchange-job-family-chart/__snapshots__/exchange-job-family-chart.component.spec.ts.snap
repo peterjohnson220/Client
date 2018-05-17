@@ -12,69 +12,29 @@ exports[`Peer Dashboard - Job Family Chart should show the job family chart and 
   store={[Function Store]}
 >
   <kendo-chart>
-    
-    
     <kendo-chart-legend
       position="bottom"
     />
-    
-    
     <kendo-chart-area
       background="none"
       height="250"
     />
-    
-    
     <kendo-chart-tooltip>
       
-      
-      
-      
-    
     </kendo-chart-tooltip>
-    
-    
     <kendo-chart-category-axis>
-      
-      
-      <kendo-chart-category-axis-item>
-        
-      
-      </kendo-chart-category-axis-item>
-      
-    
+      <kendo-chart-category-axis-item />
     </kendo-chart-category-axis>
-    
-    
     <kendo-chart-value-axis>
-      
-      
-      <kendo-chart-value-axis-item>
-        
-      
-      </kendo-chart-value-axis-item>
-      
-    
+      <kendo-chart-value-axis-item />
     </kendo-chart-value-axis>
-    
-    
     <kendo-chart-series>
-      
-      
       <kendo-chart-series-item
         categoryfield="Category"
         field="Value"
         type="column"
-      >
-        
-      
-      </kendo-chart-series-item>
-      
-    
+      />
     </kendo-chart-series>
-    
-  
   </kendo-chart>
-  
 </pf-exchange-job-family-chart>
 `;

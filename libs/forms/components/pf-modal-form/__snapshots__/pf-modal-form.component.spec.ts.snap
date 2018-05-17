@@ -4,7 +4,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
 <pf-modal-form
   attemptedSubmit="false"
   formGroup={[Function FormGroup]}
-  isOpen$={[Function ScalarObservable]}
+  isOpen$={[Function Observable]}
   modalId={[Function String]}
   modalOpenSubscription={[Function Subscriber]}
   modalService={[Function NgbModal]}
@@ -17,12 +17,10 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
 >
-  
   <div
     class="modal-container"
     id="test-modal"
   />
-  
 </pf-modal-form>
 `;
 
@@ -30,7 +28,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
 <pf-modal-form
   attemptedSubmit="false"
   formGroup={[Function FormGroup]}
-  isOpen$={[Function ScalarObservable]}
+  isOpen$={[Function Observable]}
   modalId={[Function String]}
   modalOpenSubscription={[Function Subscriber]}
   modalService={[Function NgbModal]}
@@ -44,11 +42,9 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
 >
-  
   <div
     class="modal-container"
     id="test-modal"
   />
-  
 </pf-modal-form>
 `;

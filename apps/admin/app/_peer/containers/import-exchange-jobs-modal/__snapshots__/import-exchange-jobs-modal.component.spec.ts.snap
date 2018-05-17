@@ -23,29 +23,16 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
     title="Import Exchange Jobs"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-async-container>
-      
-  
-        
       <div
         class="form-group"
       >
-        
-          
         <label
           class="col-form-label"
           for="file-upload"
         >
           Please select a data file to import:
         </label>
-        
-          
         <input
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
@@ -53,8 +40,6 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
           ng-reflect-name="fileUpload"
           type="file"
         />
-        
-          
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
@@ -64,23 +49,10 @@ exports[`Import Exchange Jobs Modal should create an empty form 1`] = `
           type="hidden"
           value="false"
         />
-        
-        
       </div>
-      
-        
       <pf-validation-results />
-      
-      
     </pf-async-container>
-    
-  
-    
-    
-  
-  
   </pf-modal-form>
-  
 </pf-import-exchange-jobs-modal>
 `;
 
@@ -107,29 +79,16 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
     title="Import Exchange Jobs"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-async-container>
-      
-  
-        
       <div
         class="form-group"
       >
-        
-          
         <label
           class="col-form-label"
           for="file-upload"
         >
           Please select a data file to import:
         </label>
-        
-          
         <input
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
@@ -137,8 +96,6 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
           ng-reflect-name="fileUpload"
           type="file"
         />
-        
-          
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
@@ -148,23 +105,10 @@ exports[`Import Exchange Jobs Modal should initialize an empty modal 1`] = `
           type="hidden"
           value="false"
         />
-        
-        
       </div>
-      
-        
       <pf-validation-results />
-      
-      
     </pf-async-container>
-    
-  
-    
-    
-  
-  
   </pf-modal-form>
-  
 </pf-import-exchange-jobs-modal>
 `;
 
@@ -191,29 +135,16 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
     title="Import Exchange Jobs"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-async-container>
-      
-  
-        
       <div
         class="form-group"
       >
-        
-          
         <label
           class="col-form-label"
           for="file-upload"
         >
           Please select a data file to import:
         </label>
-        
-          
         <input
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
@@ -221,8 +152,6 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
           ng-reflect-name="fileUpload"
           type="file"
         />
-        
-          
         <input
           class="ng-untouched ng-pristine ng-invalid"
           formcontrolname="isFileValid"
@@ -232,23 +161,10 @@ exports[`Import Exchange Jobs Modal should set the file to invalid when the stat
           type="hidden"
           value="false"
         />
-        
-        
       </div>
-      
-        
       <pf-validation-results />
-      
-      
     </pf-async-container>
-    
-  
-    
-    
-  
-  
   </pf-modal-form>
-  
 </pf-import-exchange-jobs-modal>
 `;
 
@@ -275,29 +191,16 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
     title="Import Exchange Jobs"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-async-container>
-      
-  
-        
       <div
         class="form-group"
       >
-        
-          
         <label
           class="col-form-label"
           for="file-upload"
         >
           Please select a data file to import:
         </label>
-        
-          
         <input
           class="form-control file-upload ng-untouched ng-pristine ng-valid"
           formcontrolname="fileUpload"
@@ -305,8 +208,6 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
           ng-reflect-name="fileUpload"
           type="file"
         />
-        
-          
         <input
           class="ng-untouched ng-pristine ng-valid"
           formcontrolname="isFileValid"
@@ -316,22 +217,9 @@ exports[`Import Exchange Jobs Modal should set the file to valid when the state 
           type="hidden"
           value="true"
         />
-        
-        
       </div>
-      
-        
       <pf-validation-results />
-      
-      
     </pf-async-container>
-    
-  
-    
-    
-  
-  
   </pf-modal-form>
-  
 </pf-import-exchange-jobs-modal>
 `;

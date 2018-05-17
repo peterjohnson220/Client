@@ -4,7 +4,7 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
 <pf-add-jobs-modal
   addJobsErrorSubscription={[Function Subscriber]}
   addJobsForm={[Function FormGroup]}
-  addJobsModalOpen$={[Function ScalarObservable]}
+  addJobsModalOpen$={[Function Observable]}
   addJobsModalOpenSubscription={[Function Subscriber]}
   addingJobs$={[Function Store]}
   addingJobsError$={[Function Store]}
@@ -13,10 +13,10 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
   availableJobsLoadingError$={[Function Store]}
   exchangeId={[Function Number]}
   fb={[Function FormBuilder]}
-  gridState$={[Function ScalarObservable]}
+  gridState$={[Function Observable]}
   route={[Function Object]}
   selections={[Function Array]}
-  selections$={[Function ScalarObservable]}
+  selections$={[Function Observable]}
   selectionsSubscription={[Function Subscriber]}
   store={[Function Store]}
   view$={[Function Store]}
@@ -27,21 +27,10 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
     title="Add Exchange Jobs"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-async-container>
-      
-  
-        
       <div
         class="form-group"
       >
-        
-          
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-jobs"
@@ -52,93 +41,50 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
         >
           
           
-  
-          
           <div
             class="input-group"
           >
-            
-    
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               ng-reflect-is-disabled="false"
               placeholder="Search for a Job Title..."
               type="text"
             />
-            
-    
             <div
               class="input-group-append"
             >
-              
-        
               <span
                 class="input-group-text"
               >
-                
-          
                 <i
                   aria-hidden="true"
                   class="fas fa-times"
                 />
-                
-        
               </span>
-              
-    
             </div>
-            
-  
           </div>
-          
-  
         </pf-input-debounce>
-        
-        
       </div>
-      
-  
-        
       <kendo-grid
         class="row-click-selects"
       >
-        
-  
-          
         <kendo-grid-column
           field="JobTitle"
           title="Job Title"
         />
-        
-  
-          
         <kendo-grid-column
           field="JobFamily"
           title="Job Family"
         />
-        
-  
-          
         <kendo-grid-column
           field="JobLevel"
           title="Job Level"
         />
-        
-  
-        
       </kendo-grid>
-      
-  
-      
     </pf-async-container>
-    
-  
-      
     <div
       class="form-group hidden-form-control"
     >
-      
-        
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="selections"
@@ -150,19 +96,7 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
         value=""
       />
       
-        
-      
-      
-      
     </div>
-    
-  
-    
-    
-  
-  
   </pf-modal-form>
-  
-  
 </pf-add-jobs-modal>
 `;

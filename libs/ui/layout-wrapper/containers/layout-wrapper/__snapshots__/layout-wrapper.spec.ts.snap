@@ -2,207 +2,96 @@
 
 exports[`Layout Wrapper rightSideBar should be displayed when displayRightSideBar is true 1`] = `
 <ng-component>
-  
-      <pf-layout-wrapper>
+  <pf-layout-wrapper>
     <div
       class="wrapper"
     >
-      
-    
       <header>
-        
-      
         <div
           class="flex-row-nowrap"
         >
-          
-        
-          <pf-layout-wrapper-header>
-            
-        
-          </pf-layout-wrapper-header>
-          
-      
+          <pf-layout-wrapper-header />
         </div>
-        
-    
       </header>
-      
-    
       <main>
-        
-      
         <div
           class="left-sidebar"
         >
-          
-        
           <pf-layout-wrapper-left-sidebar />
-          
-      
         </div>
-        
-      
         <div
           class="center-content"
         >
           
-        
-          
           I am the main content
-          
-      
         </div>
         
-      
-        
-        
-    
       </main>
-      
-  
     </div>
-    
-  
-  </pf-layout-wrapper>\`
-    
+  </pf-layout-wrapper>\` 
 </ng-component>
 `;
 
 exports[`Layout Wrapper rightSideBar should be hidden when displayRightSideBar is false 1`] = `
 <ng-component>
-  
-      <pf-layout-wrapper>
+  <pf-layout-wrapper>
     <div
       class="wrapper"
     >
-      
-    
       <header>
-        
-      
         <div
           class="flex-row-nowrap"
         >
-          
-        
-          <pf-layout-wrapper-header>
-            
-        
-          </pf-layout-wrapper-header>
-          
-      
+          <pf-layout-wrapper-header />
         </div>
-        
-    
       </header>
-      
-    
       <main>
-        
-      
         <div
           class="left-sidebar"
         >
-          
-        
           <pf-layout-wrapper-left-sidebar />
-          
-      
         </div>
-        
-      
         <div
           class="center-content"
         >
           
-        
-          
           I am the main content
-          
-      
         </div>
         
-      
-        
-        
-    
       </main>
-      
-  
     </div>
-    
-  
-  </pf-layout-wrapper>\`
-    
+  </pf-layout-wrapper>\` 
 </ng-component>
 `;
 
 exports[`Layout Wrapper should transclude 1`] = `
 <ng-component>
-  
-      <pf-layout-wrapper>
+  <pf-layout-wrapper>
     <div
       class="wrapper"
     >
-      
-    
       <header>
-        
-      
         <div
           class="flex-row-nowrap"
         >
-          
-        
-          <pf-layout-wrapper-header>
-            
-        
-          </pf-layout-wrapper-header>
-          
-      
+          <pf-layout-wrapper-header />
         </div>
-        
-    
       </header>
-      
-    
       <main>
-        
-      
         <div
           class="left-sidebar"
         >
-          
-        
           <pf-layout-wrapper-left-sidebar />
-          
-      
         </div>
-        
-      
         <div
           class="center-content"
         >
           
-        
-          
           I am the main content
-          
-      
         </div>
         
-      
-        
-        
-    
       </main>
-      
-  
     </div>
-    
-  
-  </pf-layout-wrapper>\`
-    
+  </pf-layout-wrapper>\` 
 </ng-component>
 `;

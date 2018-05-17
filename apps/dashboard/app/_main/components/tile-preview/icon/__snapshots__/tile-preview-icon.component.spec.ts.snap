@@ -8,8 +8,6 @@ exports[`TilePreviewIcon should show just icon and when no payload is given 1`] 
     aria-hidden="true"
     class="far file-alt fa-10x preview-tile-icon text-center m-0 p-0"
   />
-  
-  
 </pf-tile-preview-icon>
 `;
 
@@ -20,10 +18,7 @@ exports[`TilePreviewIcon should show more than just an icon and when a payload i
   <i
     aria-hidden="true"
     class="far file-alt fa-4x preview-tile-icon-small text-center m-0 p-0"
-  />
-  <div>
-    
-    
+  /><div>
     
     <h2
       class="text-center m-0 p-0"
@@ -31,58 +26,35 @@ exports[`TilePreviewIcon should show more than just an icon and when a payload i
       Boston
     </h2>
     
-    
-    
     <h3
       class="text-center m-0 pb-2"
     >
       Default Market
     </h3>
     
-    
-    
     <div
       class="p-0 px-3"
     >
       
-      
-      
       <div>
-        
-        
         <strong>
           Industry: 
         </strong>
-        
-        Software
-      
+         Software 
       </div>
       <div>
-        
-        
         <strong>
           Size: 
         </strong>
-        
-        10
-      
+         10 
       </div>
       <div>
-        
-        
         <strong>
           Location: 
         </strong>
-        
-        Back Bay
-      
+         Back Bay 
       </div>
-      
-    
     </div>
-    
-  
   </div>
-  
 </pf-tile-preview-icon>
 `;

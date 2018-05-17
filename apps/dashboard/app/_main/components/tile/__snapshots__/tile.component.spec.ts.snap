@@ -14,49 +14,21 @@ exports[`Tile should show tile preview chart when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="1"
   >
-    
-    
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
-    
     <h4>
       test tile
     </h4>
     
-  
+    <pf-tile-preview-chart />
     
     
     
     
-    <pf-tile-preview-chart>
-      
-    
-    </pf-tile-preview-chart>
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-tile>
 `;
 
@@ -74,49 +46,21 @@ exports[`Tile should show tile preview icon when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="3"
   >
-    
-    
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
-    
     <h4>
       test tile
     </h4>
     
-  
+    
+    <pf-tile-preview-icon />
     
     
     
-    
-    
-  
-    
-    
-    <pf-tile-preview-icon>
-      
-    
-    </pf-tile-preview-icon>
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-tile>
 `;
 
@@ -134,48 +78,20 @@ exports[`Tile should show tile preview list when that type is given 1`] = `
     ng-reflect-ng-class="test cssClass"
     ng-reflect-ng-switch="4"
   >
-    
-    
     <a
       class="tile-anchor-overlay"
       href="test tile url"
       id="test-tile-tile-link"
     />
-    
-    
     <h4>
       test tile
     </h4>
     
-  
     
     
+    <pf-tile-preview-list />
     
     
-    
-  
-    
-    
-    
-  
-    
-    
-    <pf-tile-preview-list>
-      
-    
-    </pf-tile-preview-list>
-    
-  
-    
-    
-    
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-tile>
 `;

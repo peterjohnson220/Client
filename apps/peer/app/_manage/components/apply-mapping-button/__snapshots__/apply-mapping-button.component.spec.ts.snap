@@ -5,20 +5,14 @@ exports[`Peer - Apply Mapping Button should show a disabled Mapped button, when 
   applyMapping={[Function EventEmitter]}
   mapped={[Function Boolean]}
 >
-  
-  
   <button
     class="btn btn-sm btn-outline-dark"
     disabled=""
     type="button"
   >
-    
-    Mapped
+     Mapped
   
   </button>
-  
-  
-  
 </pf-apply-mapping-button>
 `;
 
@@ -33,31 +27,12 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button with a 
     ng-reflect-ng-class="[object Object]"
   >
     
-  
-    
-    
     <span>
-      
-      Apply Mapping
-    
+       Apply Mapping 
     </span>
     
-  
     
-    
-    
-  
-    
-    
-    
-  
-  
   </button>
-  
-  
-  
-  
-  
 </pf-apply-mapping-button>
 `;
 
@@ -71,31 +46,12 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
     ng-reflect-ng-class="[object Object]"
   >
     
-  
-    
-    
     <span>
-      
-      Apply Mapping
-    
+       Apply Mapping 
     </span>
     
-  
     
-    
-    
-  
-    
-    
-    
-  
-  
   </button>
-  
-  
-  
-  
-  
 </pf-apply-mapping-button>
 `;
 
@@ -112,33 +68,13 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
     ng-reflect-ng-class="[object Object]"
   >
     
-  
-    
-    
-    
-  
-    
-    
-    
-  
     
     
     <span>
-      
-            
       <pf-loading-indicator />
-       Applying Mapping...
-    
+       Applying Mapping... 
     </span>
-    
-  
-  
   </button>
-  
-  
-  
-  
-  
 </pf-apply-mapping-button>
 `;
 
@@ -154,40 +90,19 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
     ng-reflect-ng-class="[object Object]"
   >
     
-  
-    
-    
-    
-  
-    
     
     <span>
-      
-            Retry
-    
+       Retry 
     </span>
     
-  
-    
-    
-    
-  
-  
-  </button>
-  
-  
-  
-  <span
+  </button><span
     class="error-applying-message text-danger"
   >
-    
-    
     <i
       class="fal fa-exclamation-triangle"
     />
      Error Applying Mapping
   
   </span>
-  
 </pf-apply-mapping-button>
 `;

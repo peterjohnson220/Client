@@ -11,78 +11,38 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
   <div
     class="card h-100 ml-2"
   >
-    
-    
     <div
       class="chart-detail-header card-header d-flex"
     >
-      
-  
-      
       <div
         class="align-self-center mr-auto flex-grow-1"
       >
-        
-        Participating Companies
-      
+         Participating Companies 
       </div>
-      
-  
-      
       <div
         class="close-btn"
       >
-        
-        
         <i
           class="far fa-times"
         />
-        
-      
       </div>
-      
-  
-    
     </div>
-    
-    
     <div
       class="card-body"
     >
-      
-  
-      
       <h4
         class="mb-2"
       >
-        
-        
-      
+          
       </h4>
       
-  
-      
-      
-      
-        
       <div
         class="no-detail-items"
       >
         No companies mapped to .
       </div>
       
-      
-      
-  
-      
-      
-      
-  
-    
     </div>
-    
-  
   </div>
-  
 </pf-chart-detail-component>
 `;

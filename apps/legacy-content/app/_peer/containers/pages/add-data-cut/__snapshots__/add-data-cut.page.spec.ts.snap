@@ -18,58 +18,29 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
   userSessionId={[Function Number]}
 >
   <pf-async-container>
-    
-  
-    
     <div
       class="d-flex h-100 w-100"
     >
-      
-      
       <div
         class="h-100 filters-container"
       >
-        
-        
-        <pf-peer-data-cut-filter-sidebar>
-          
-        
-        </pf-peer-data-cut-filter-sidebar>
-        
-      
+        <pf-peer-data-cut-filter-sidebar />
       </div>
-      
-      
       <div
         class="flex-grow-1 d-flex flex-column"
       >
-        
-        
         <div
           class="map-container flex-grow-1"
         >
           
-          
-          
-          
-        
         </div>
-        
-        
         <div
           class="button-container d-flex justify-content-end align-items-center"
         >
           
-          
-          
-          
-  
-          
           <div
             class="buttons"
           >
-            
-            
             <button
               class="btn btn-primary"
               disabled=""
@@ -77,32 +48,17 @@ exports[`Legacy Content - Peer - Add Data Cut should display the add data cut pa
             >
               Add
             </button>
-            
-  
-            
             <button
               class="btn btn-secondary"
               type="button"
             >
               Cancel
             </button>
-            
-          
           </div>
-          
-        
         </div>
-        
-      
       </div>
-      
-    
     </div>
-    
-  
-  
   </pf-async-container>
-  
 </pf-add-data-cut-page>
 `;
 
@@ -124,89 +80,45 @@ exports[`Legacy Content - Peer - Add Data Cut should enable the add button when 
   userSessionId={[Function Number]}
 >
   <pf-async-container>
-    
-  
-    
     <div
       class="d-flex h-100 w-100"
     >
-      
-      
       <div
         class="h-100 filters-container"
       >
-        
-        
-        <pf-peer-data-cut-filter-sidebar>
-          
-        
-        </pf-peer-data-cut-filter-sidebar>
-        
-      
+        <pf-peer-data-cut-filter-sidebar />
       </div>
-      
-      
       <div
         class="flex-grow-1 d-flex flex-column"
       >
-        
-        
         <div
           class="map-container flex-grow-1"
         >
           
-          
-          
-          
-        
         </div>
-        
-        
         <div
           class="button-container d-flex justify-content-end align-items-center"
         >
           
-          
-          
-          
-  
-          
           <div
             class="buttons"
           >
-            
-            
             <button
               class="btn btn-primary"
               type="button"
             >
               Add
             </button>
-            
-  
-            
             <button
               class="btn btn-secondary"
               type="button"
             >
               Cancel
             </button>
-            
-          
           </div>
-          
-        
         </div>
-        
-      
       </div>
-      
-    
     </div>
-    
-  
-  
   </pf-async-container>
-  
 </pf-add-data-cut-page>
 `;

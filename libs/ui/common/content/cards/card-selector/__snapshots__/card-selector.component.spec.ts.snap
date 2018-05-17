@@ -2,9 +2,9 @@
 
 exports[`UI/Common/Content - CardSelector should not render no results message when cardDataLoading 1`] = `
 <pf-card-selector
-  cardData$={[Function ScalarObservable]}
-  cardDataError$={[Function ScalarObservable]}
-  cardDataLoading$={[Function ScalarObservable]}
+  cardData$={[Function Observable]}
+  cardDataError$={[Function Observable]}
+  cardDataLoading$={[Function Observable]}
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
@@ -13,64 +13,31 @@ exports[`UI/Common/Content - CardSelector should not render no results message w
 >
   <div
     class="filter-container"
-  >
-    
-    
-    
-  
-  </div>
-  <div
+  /><div
     class="selections-container"
   >
-    
-    
     <div
       class="results-container"
     >
       
-  
       
-      
-      
-      
-        
       <pf-async-container
         loadingerrormessage="There was an error."
       >
         
-          
-        
-        
-        
       </pf-async-container>
       
-  
-      
-      
-  
-      
-      
-      
-  
-    
     </div>
     
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-card-selector>
 `;
 
 exports[`UI/Common/Content - CardSelector should render no results message when there is no cardData 1`] = `
 <pf-card-selector
-  cardData$={[Function ScalarObservable]}
-  cardDataError$={[Function ScalarObservable]}
-  cardDataLoading$={[Function ScalarObservable]}
+  cardData$={[Function Observable]}
+  cardDataError$={[Function Observable]}
+  cardDataLoading$={[Function Observable]}
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
@@ -79,84 +46,44 @@ exports[`UI/Common/Content - CardSelector should render no results message when 
 >
   <div
     class="filter-container"
-  >
-    
-    
-    
-  
-  </div>
-  <div
+  /><div
     class="selections-container"
   >
-    
-    
     <div
       class="results-container"
     >
       
-  
       
       
-      
-  
-      
-      
-      
-      
-  
-        
       <div
         class="d-flex justify-content-center flex-column flex-grow-1"
       >
-        
-          
         <h5
           class="align-self-center"
         >
           No Results
         </h5>
-        
-          
         <h5
           class="align-self-center"
         >
-          
-            
           <small
             class="text-muted"
           >
             Please change your filter criteria to search again.
           </small>
-          
-          
         </h5>
-        
-        
       </div>
-      
-  
-      
-      
-  
-    
     </div>
     
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-card-selector>
 `;
 
 exports[`UI/Common/Content - CardSelector should render pf-card components for each dataItem 1`] = `
 <pf-card-selector
-  cardData$={[Function ScalarObservable]}
-  cardDataError$={[Function ScalarObservable]}
-  cardDataLoading$={[Function ScalarObservable]}
+  cardData$={[Function Observable]}
+  cardDataError$={[Function Observable]}
+  cardDataLoading$={[Function Observable]}
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
@@ -165,72 +92,33 @@ exports[`UI/Common/Content - CardSelector should render pf-card components for e
 >
   <div
     class="filter-container"
-  >
-    
-    
-    
-  
-  </div>
-  <div
+  /><div
     class="selections-container"
   >
-    
-    
     <div
       class="results-container"
     >
       
-  
       
-      
-      
-      
-        
       <pf-async-container
         loadingerrormessage="There was an error."
       >
         
-          
-        
-        <pf-card>
-          
-          
-        </pf-card>
-        <pf-card>
-          
-          
-        </pf-card>
-        
-        
+        <pf-card />
+        <pf-card />
       </pf-async-container>
       
-  
-      
-      
-  
-      
-      
-      
-  
-    
     </div>
     
-  
-    
-    
-    
-  
-  
   </div>
-  
 </pf-card-selector>
 `;
 
 exports[`UI/Common/Content - CardSelector should show selection container when a card is selected 1`] = `
 <pf-card-selector
-  cardData$={[Function ScalarObservable]}
-  cardDataError$={[Function ScalarObservable]}
-  cardDataLoading$={[Function ScalarObservable]}
+  cardData$={[Function Observable]}
+  cardDataError$={[Function Observable]}
+  cardDataLoading$={[Function Observable]}
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
@@ -241,90 +129,43 @@ exports[`UI/Common/Content - CardSelector should show selection container when a
 >
   <div
     class="filter-container"
-  >
-    
-    
-    
-  
-  </div>
-  <div
+  /><div
     class="selections-container"
   >
-    
-    
     <div
       class="results-container"
     >
       
-  
       
-      
-      
-      
-        
       <pf-async-container
         loadingerrormessage="There was an error."
       >
         
-          
-        
-        <pf-card>
-          
-          
-        </pf-card>
-        
-        
+        <pf-card />
       </pf-async-container>
       
-  
-      
-      
-  
-      
-      
-      
-  
-    
     </div>
     
-  
     
-    
-    
-    
-  
-      
     <div
       class="selection-container mt-2"
     >
       
-        
-      
-      
-      
     </div>
-    
-  
-    
-    
-  
-  
   </div>
-  
 </pf-card-selector>
 `;
 
 exports[`UI/Common/Content - CardSelector should transclude content and templates 1`] = `
 <ng-component
-  cardData$={[Function ScalarObservable]}
-  cardDataError$={[Function ScalarObservable]}
-  cardDataLoading$={[Function ScalarObservable]}
+  cardData$={[Function Observable]}
+  cardDataError$={[Function Observable]}
+  cardDataLoading$={[Function Observable]}
   cardSelector={[Function Function]}
   cardSelectorInstance={[Function CardSelectorComponent]}
   disabledExpression={[Function Function]}
 >
-  
-      <pf-card-selector
+  <pf-card-selector
     ng-reflect-card-body-template="[object Object]"
     ng-reflect-card-data-error_="[object Object]"
     ng-reflect-card-data-loading_="[object Object]"
@@ -337,92 +178,34 @@ exports[`UI/Common/Content - CardSelector should transclude content and template
       class="filter-container"
     >
       
-    
-      
-      
-          SEARCH FILTERS TRANSCLUDED!
-        
-      
-  
+       SEARCH FILTERS TRANSCLUDED! 
     </div>
-    
-  
     <div
       class="selections-container"
     >
-      
-    
       <div
         class="results-container"
       >
-        
-  
-      
-        
-        
         
         
         <pf-async-container
           loadingerrormessage="There was an error."
         >
           
-          
-          
-          <pf-card>
-            
-          
-          </pf-card>
-          <pf-card>
-            
-          
-          </pf-card>
-          
-        
+          <pf-card />
+          <pf-card />
         </pf-async-container>
         
-  
-      
-        
-  
-      
-        
-        
-  
-    
       </div>
       
-  
-    
-      
-      
-      
-  
       
       <div
         class="selection-container mt-2"
       >
         
-        
-        
-        
-        Mock Card Selected Template - 1
-      
-        
-      
+         Mock Card Selected Template - 1 
       </div>
-      
-  
-    
-      
-  
-  
     </div>
-    
-  
   </pf-card-selector>
-      
-      
-  
-    
 </ng-component>
 `;

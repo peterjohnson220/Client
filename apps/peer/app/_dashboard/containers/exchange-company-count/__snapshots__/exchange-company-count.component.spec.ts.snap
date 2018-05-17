@@ -14,15 +14,11 @@ exports[`Peer Dashboard - Exchange Job Count should display the company count 1`
   <h1
     class="company-count"
   >
-    
-    10
+     10
   
-  </h1>
-  <h3>
-    
-    Category
+  </h1><h3>
+     Category
   
   </h3>
-  
 </pf-exchange-company-count>
 `;

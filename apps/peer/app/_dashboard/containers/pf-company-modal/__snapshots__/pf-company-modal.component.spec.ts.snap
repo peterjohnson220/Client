@@ -28,51 +28,23 @@ exports[`Peer - Exchange Request - Invite Pf Companies Modal should provide corr
     title="Invite a Company"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-card-selector>
       
-        
-      
-      
-          
       <div
         class="filter flex-grow-1"
       >
-        
-            
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-box"
           ng-reflect-model=""
           ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
-        >
-          
-            
-        </pf-input-debounce>
-        
-          
+        />
       </div>
-      
-        
-      
-      
     </pf-card-selector>
-    
-  
-      
-    
-      
     <div
       class="form-group hidden-form-control"
     >
-      
-        
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="companySelection"
@@ -81,23 +53,8 @@ exports[`Peer - Exchange Request - Invite Pf Companies Modal should provide corr
         type="hidden"
         value=""
       />
-      
-      
     </div>
     
-  
-      
-    
-      
-    
-    
-  
-    
-    
-  
   </pf-modal-form>
-  
-  
-  
 </pf-invite-payfactors-company-modal>
 `;

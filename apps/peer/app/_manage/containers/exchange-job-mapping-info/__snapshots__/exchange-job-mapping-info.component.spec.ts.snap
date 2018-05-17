@@ -22,115 +22,50 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping but
   selectedMappingCompanyJobId$={[Function Store]}
   store={[Function Store]}
 >
-    <div
+  <div
     class="mapping-info-container card h-100"
   >
-    
-      
     <div
       class="card-header"
     >
-      
-        
       <div
         class="align-self-center mr-auto"
       >
-        
-          Mapping Information
-        
+         Mapping Information 
       </div>
       
-        
-      
-      
-  
-        
       <div
         class="close-btn"
       >
-        
-          
         <i
           class="far fa-times"
         />
-        
-        
       </div>
-      
-      
     </div>
-    
-      
     <div
       class="card-body d-flex"
     >
-      
-  
-        
-      <pf-job-info-container>
-        
-        
-      </pf-job-info-container>
-      
-  
-        
+      <pf-job-info-container />
       <div
         class="vertical-separator"
       />
       
-  
-        
-      
-      
-  
-        
       
       <div
         class="company-job-mapping-container"
       >
-        
-          
-        <pf-input-debounce>
-          
-          
-        </pf-input-debounce>
-        
-  
-          
+        <pf-input-debounce />
         <div
           class="mapping-results-container remove-scroll"
         >
-          
-            
           <pf-async-container>
             
-  
-              
-            
-            
-  
-              
-            
-            
-  
             
           </pf-async-container>
-          
-  
-          
         </div>
-        
-  
-        
       </div>
-      
-  
-      
     </div>
-    
-    
   </div>
-  
 </pf-exchange-job-mapping-info>
 `;
 
@@ -156,89 +91,44 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
   selectedMappingCompanyJobId$={[Function Store]}
   store={[Function Store]}
 >
-    <div
+  <div
     class="mapping-info-container card h-100"
   >
-    
-      
     <div
       class="card-header"
     >
-      
-        
       <div
         class="align-self-center mr-auto"
       >
-        
-          Mapping Information
-        
+         Mapping Information 
       </div>
-      
-        
       
       <button
         class="btn btn-sm btn-secondary"
         ng-reflect-klass="btn btn-sm"
         ng-reflect-ng-class="[object Object]"
       >
-        
-          Edit Mapping
-        
+         Edit Mapping 
       </button>
-      
-  
-        
       <div
         class="close-btn"
       >
-        
-          
         <i
           class="far fa-times"
         />
-        
-        
       </div>
-      
-      
     </div>
-    
-      
     <div
       class="card-body d-flex"
     >
-      
-  
-        
-      <pf-job-info-container>
-        
-        
-      </pf-job-info-container>
-      
-  
-        
+      <pf-job-info-container />
       <div
         class="vertical-separator"
       />
       
-  
-        
-      
-      <pf-job-info-container>
-        
-        
-      </pf-job-info-container>
-      
-  
-        
-      
-      
-  
+      <pf-job-info-container />
       
     </div>
-    
-    
   </div>
-  
 </pf-exchange-job-mapping-info>
 `;

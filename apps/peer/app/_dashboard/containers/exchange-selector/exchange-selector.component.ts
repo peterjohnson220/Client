@@ -17,7 +17,8 @@ import * as fromSharedPeerReducer from '../../../shared/reducers';
 @Component({
   selector: 'pf-exchange-selector',
   templateUrl: './exchange-selector.component.html',
-  styleUrls: ['./exchange-selector.component.scss']
+  styleUrls: ['./exchange-selector.component.scss'],
+  preserveWhitespaces: true
 })
 
 export class ExchangeSelectorComponent implements OnInit, OnDestroy {

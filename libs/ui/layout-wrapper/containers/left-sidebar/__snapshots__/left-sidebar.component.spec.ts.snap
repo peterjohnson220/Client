@@ -9,7 +9,7 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
   store={[Function Store]}
-  userContext$={[Function ScalarObservable]}
+  userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
 >
@@ -20,38 +20,21 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
   >
     
     
-    
-    
-    
-    
     <li
       class="py-2 pl-3 pr-0"
     >
        
     </li>
     
-    
-    
-    
-  
-  </ul>
-  <div
+  </ul><div
     class="left-sidebar-footer left-sidebar-footer-close"
     ng-reflect-klass="left-sidebar-footer"
     ng-reflect-ng-class="[object Object]"
   >
-    
-  
-    
     <div
       class="left-sidebar-icon-close"
       ng-reflect-ng-class="[object Object]"
     >
-      
-  
-      
-      
-      
       
       
       <span>
@@ -59,15 +42,8 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
           class="fal fa-lg fa-angle-double-right"
         />
       </span>
-      
-  
-    
     </div>
-    
-  
-  
   </div>
-  
 </pf-layout-wrapper-left-sidebar>
 `;
 
@@ -80,7 +56,7 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
   ngAppRoot={[Function String]}
   reload={[Function EventEmitter]}
   store={[Function Store]}
-  userContext$={[Function ScalarObservable]}
+  userContext$={[Function Observable]}
   userContextSubscription={[Function Subscriber]}
   userId={[Function Number]}
 >
@@ -90,40 +66,23 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
     ng-reflect-ng-class="[object Object]"
   >
     
-    
-    
     <li
       class="py-2 pl-3 pr-0"
       placement="right"
     >
-      
-        Company Name
-    
+       Company Name 
     </li>
     
     
-    
-    
-    
-    
-    
-  
-  </ul>
-  <div
+  </ul><div
     class="left-sidebar-footer left-sidebar-footer-open"
     ng-reflect-klass="left-sidebar-footer"
     ng-reflect-ng-class="[object Object]"
   >
-    
-  
-    
     <div
       class="left-sidebar-icon-open"
       ng-reflect-ng-class="[object Object]"
     >
-      
-  
-      
       
       <span>
         <i
@@ -131,16 +90,7 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
         />
       </span>
       
-      
-      
-      
-  
-    
     </div>
-    
-  
-  
   </div>
-  
 </pf-layout-wrapper-left-sidebar>
 `;

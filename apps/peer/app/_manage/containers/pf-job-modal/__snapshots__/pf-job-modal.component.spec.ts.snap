@@ -30,43 +30,22 @@ exports[`Peer - Exchange Request - Payfactors Job Modal should provide correct v
     title="Request Job"
   >
     
-  
-    
-    
-    
-  
-      
     <pf-card-selector>
       
-        
-      
-      
-          
       <div
         class="filter"
       >
-        
-            
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-box-job-title"
           ng-reflect-model=""
           ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
-        >
-          
-            
-        </pf-input-debounce>
-        
-          
+        />
       </div>
-      
-          
       <div
         class="filter"
       >
-        
-            
         <pf-input-debounce
           class="ng-untouched ng-pristine ng-valid"
           id="search-box-jd"
@@ -75,28 +54,12 @@ exports[`Peer - Exchange Request - Payfactors Job Modal should provide correct v
           ng-reflect-name="searchFilter"
           ng-reflect-options="[object Object]"
           ngdefaultcontrol=""
-        >
-          
-            
-        </pf-input-debounce>
-        
-          
+        />
       </div>
-      
-        
-      
-      
     </pf-card-selector>
-    
-  
-      
-    
-      
     <div
       class="form-group hidden-form-control"
     >
-      
-        
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="payfactorsJobSelection"
@@ -105,23 +68,8 @@ exports[`Peer - Exchange Request - Payfactors Job Modal should provide correct v
         type="hidden"
         value=""
       />
-      
-      
     </div>
     
-  
-      
-    
-      
-    
-    
-  
-    
-    
-  
   </pf-modal-form>
-  
-  
-  
 </pf-request-payfactors-job-modal>
 `;
