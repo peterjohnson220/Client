@@ -1,15 +1,15 @@
 export enum FeatureTypes {
-  Unknown = 0,
-  Activity,
-  Community,
-  DataInsights,
-  Employees,
-  JobDescriptions,
-  MyJobs,
-  PayMarkets,
-  PricingProjects,
-  Resources,
-  Service,
-  Structures,
-  Surveys
+  Unknown = 'Unknown',
+  Activity = 'Activity',
+  Community = 'Community',
+  DataInsights = 'DataInsights',
+  Employees = 'Employees',
+  JobDescriptions = 'JobDescriptions',
+  MyJobs = 'MyJobs',
+  PayMarkets = 'PayMarkets',
+  PricingProjects = 'PricingProjects',
+  Resources = 'Resources',
+  Service = 'Service',
+  Structures = 'Structures',
+  Surveys = 'Surveys'
 }
