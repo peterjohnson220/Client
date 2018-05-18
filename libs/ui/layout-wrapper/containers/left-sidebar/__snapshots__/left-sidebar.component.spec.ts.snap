@@ -19,13 +19,6 @@ exports[`Left Sidebar should show ul of sidebar closed 1`] = `
     ng-reflect-ng-class="[object Object]"
   >
     
-    
-    <li
-      class="py-2 pl-3 pr-0"
-    >
-       
-    </li>
-    
   </ul><div
     class="left-sidebar-footer left-sidebar-footer-close"
     ng-reflect-klass="left-sidebar-footer"
@@ -65,14 +58,6 @@ exports[`Left Sidebar should show ul of sidebar open 1`] = `
     ng-reflect-klass="left-sidebar-nav pt-2 pl-0 m-0"
     ng-reflect-ng-class="[object Object]"
   >
-    
-    <li
-      class="py-2 pl-3 pr-0"
-      placement="right"
-    >
-       Company Name 
-    </li>
-    
     
   </ul><div
     class="left-sidebar-footer left-sidebar-footer-open"

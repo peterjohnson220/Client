@@ -1,7 +1,9 @@
 <ul class="navbar-nav">
   <li class="nav-item" ngbDropdown placement="bottom-right">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>
-      <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }}</span>
+      <span class="text-white pr-1">{{ userContext.FirstName }} {{ userContext.LastName }} 
+        <span *ngIf="userContext.ImpersonatorId > 0">({{ userContext.CompanyName }})</span>
+      </span>
       <pf-layout-wrapper-user-menu-avatar
         [userContext]="userContext">
       </pf-layout-wrapper-user-menu-avatar>

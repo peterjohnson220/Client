@@ -21,7 +21,8 @@ exports[`User Menu should prepend /ng/ to the dropdown url, when the navigation 
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -65,7 +66,8 @@ exports[`User Menu should show a divider for log out 1`] = `
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -115,7 +117,8 @@ exports[`User Menu should show a divider for referrals 1`] = `
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -162,7 +165,8 @@ exports[`User Menu should show a list of dropdown navigation links, when provide
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -222,7 +226,8 @@ exports[`User Menu should show an icon for log out 1`] = `
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>
@@ -272,7 +277,48 @@ exports[`User Menu should show the app users name 1`] = `
         <span
           class="text-white pr-1"
         >
-          John Doe
+          John Doe 
+          
+        </span>
+        <pf-layout-wrapper-user-menu-avatar />
+      </a>
+      <div
+        class="dropdown-menu"
+        ngbdropdownmenu=""
+      >
+        
+      </div>
+    </li>
+  </ul>
+</pf-layout-wrapper-user-menu>
+`;
+
+exports[`User Menu should show the app users name with client name if user is impersonated 1`] = `
+<pf-layout-wrapper-user-menu
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <ul
+    class="navbar-nav"
+  >
+    <li
+      class="nav-item"
+      ngbdropdown=""
+      placement="bottom-right"
+    >
+      <a
+        class="nav-link dropdown-toggle"
+        data-toggle="dropdown"
+        ngbdropdowntoggle=""
+      >
+        <span
+          class="text-white pr-1"
+        >
+          John Doe 
+          
+          <span>
+            (Company Name)
+          </span>
         </span>
         <pf-layout-wrapper-user-menu-avatar />
       </a>

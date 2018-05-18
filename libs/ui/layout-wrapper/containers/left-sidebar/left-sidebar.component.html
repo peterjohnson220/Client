@@ -1,9 +1,5 @@
 <ul class="left-sidebar-nav pt-2 pl-0 m-0 mb-4"
     [ngClass]="{'left-sidebar-nav-open': leftSidebarToggle, 'left-sidebar-nav-close': !leftSidebarToggle}">
-  <li class="py-2 pl-3 pr-0" placement="right" [ngbTooltip]="companyName" *ngIf="leftSidebarToggle">
-      {{ companyName | TruncateAfter:25 }}
-  </li>
-  <li class="py-2 pl-3 pr-0" *ngIf="!leftSidebarToggle">&nbsp;</li>
   <ng-container *ngFor="let sidebarLink of leftSidebarNavigationLinks$ | async">
     <li class="py-2 pl-3 pr-0">
       <ng-template [ngIf]="!leftSidebarToggle">
