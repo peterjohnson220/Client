@@ -40,9 +40,9 @@ export class UserContextEffects {
   @Effect({ dispatch: false })
   getUserContext401Error$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR)
-    .switchMap(() => {
+    .do((action: userContextActions.GetUserContext401Error) => {
         if (isPlatformBrowser(this.platformId)) {
-          window.location.href = `/login.asp?${window.location.pathname}`;
+           window.location.href = `/login.asp?${window.location.pathname}`;
         }
         return null;
       }

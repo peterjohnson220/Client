@@ -31,7 +31,7 @@ export class LayoutWrapperComponent implements OnInit {
   @Input() rightSidebarShouldBeOpen = false;
   @Output() onRightSidebarToggle = new EventEmitter<boolean>();
   @Input() centerContentScroll: boolean;
-  
+
   constructor(
     private store: Store<fromRootState.State>,
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>

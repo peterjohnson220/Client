@@ -47,7 +47,8 @@ import { TilePreviewPlaceHolderComponent } from './components';
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects]),
     ChartsModule,
     DateInputsModule,
-    NgbModule,
+    NgbModule.forRoot(),
+
 
     // Routing
     MainRoutingModule,
@@ -59,6 +60,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
   declarations: [
     // Pages
     DashboardPageComponent,
+
     // Components
     TileComponent,
     TileGridComponent,
