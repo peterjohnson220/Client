@@ -15,6 +15,7 @@ export interface State {
   selections: any;
   previewLimit: number;
   systemFilter: SystemFilter;
+  selectionsCount: number;
 }
 
 // Initial State
@@ -26,7 +27,8 @@ export const initialState: State = {
   filterAggregateGroups: [],
   selections: {},
   previewLimit: FilterSidebarHelper.PreviewLimit,
-  systemFilter: null
+  systemFilter: null,
+  selectionsCount: 0
 };
 
 // Reducer
@@ -62,7 +64,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         filterAggregateGroups: newAggGroups,
-        selections: FilterSidebarHelper.buildSelections(newAggGroups)
+        selections: FilterSidebarHelper.buildSelections(newAggGroups),
+        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups)
       };
     }
     case fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET: {
@@ -87,7 +90,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         selections: initialState.selections,
-        filterAggregateGroups: FilterSidebarHelper.clearAllSelections(state.filterAggregateGroups)
+        filterAggregateGroups: FilterSidebarHelper.clearAllSelections(state.filterAggregateGroups),
+        selectionsCount: initialState.selectionsCount
       };
     }
     case fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS: {
@@ -96,7 +100,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         filterAggregateGroups: newAggGroups,
-        selections: FilterSidebarHelper.buildSelections(newAggGroups)
+        selections: FilterSidebarHelper.buildSelections(newAggGroups),
+        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups)
       };
     }
     case fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS: {
@@ -131,3 +136,4 @@ export const getLimitToPayMarket = (state: State) => state.limitToPayMarket;
 export const getPayMarket = (state: State) => state.payMarket;
 export const getPreviewLimit = (state: State) => state.previewLimit;
 export const getSystemFilter = (state: State) => state.systemFilter;
+export const getSelectionsCount = (state: State) => state.selectionsCount;

@@ -68,7 +68,13 @@ export class FilterSidebarEffects {
   limitToPayMarketToggled$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET)
     .mergeMap(() => [
-      new fromFilterSidebarActions.ClearAllSelections(),
+      new fromFilterSidebarActions.ClearAllSelections()
+    ]);
+
+  @Effect()
+  clearAllSelections$: Observable<Action> = this.actions$
+    .ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS)
+    .mergeMap(() => [
       new fromPeerMapActions.LoadPeerMapData(),
       new fromFilterSidebarActions.LoadFilterAggregates()
     ]);

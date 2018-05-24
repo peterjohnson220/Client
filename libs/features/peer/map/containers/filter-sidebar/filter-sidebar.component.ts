@@ -8,6 +8,7 @@ import { FilterAggregateGroup, PayMarket } from 'libs/models';
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerMapReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models';
+import { ExchangeMapSummary } from '../../../../../models/peer';
 
 @Component({
   selector: 'pf-peer-data-cut-filter-sidebar',
@@ -24,6 +25,8 @@ export class FilterSidebarComponent implements OnInit {
   limitToPayMarket$: Observable<boolean>;
   payMarket$: Observable<PayMarket>;
   previewLimit$: Observable<number>;
+  mapSummary$: Observable<ExchangeMapSummary>;
+  selectionsCount$: Observable<number>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.filterAggregateGroups$ = this.store.select(fromPeerMapReducer.getFilterAggregateGroups);
@@ -32,6 +35,8 @@ export class FilterSidebarComponent implements OnInit {
     this.limitToPayMarket$ = this.store.select(fromPeerMapReducer.getPeerFilterLimitToPayMarket);
     this.payMarket$ = this.store.select(fromPeerMapReducer.getPeerFilterPayMarket);
     this.previewLimit$ = this.store.select(fromPeerMapReducer.getPeerFilterPreviewLimit);
+    this.mapSummary$ = this.store.select(fromPeerMapReducer.getPeerMapSummary);
+    this.selectionsCount$ = this.store.select(fromPeerMapReducer.getPeerFilterSelectionsCount);
   }
 
   trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
@@ -49,6 +54,10 @@ export class FilterSidebarComponent implements OnInit {
 
   handleClearGroupSelections(aggregateGroup: FilterAggregateGroup) {
     this.store.dispatch(new fromFilterSidebarActions.ClearGroupSelections(aggregateGroup));
+  }
+
+  handleClearAllSelections() {
+    this.store.dispatch(new fromFilterSidebarActions.ClearAllSelections());
   }
 
   ngOnInit() {

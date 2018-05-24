@@ -9,14 +9,19 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { environment } from 'environments/environment';
 
-import { FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent } from './components';
+import {
+  FilterAggregateComponent,
+  FilterAggregateGroupComponent,
+  PayMarketBoundsFilterComponent,
+  PayMarketFilterInfoComponent
+} from './components';
 import { FilterSidebarComponent, MapComponent} from './containers';
 import { FilterSidebarEffects, MapEffects } from './effects';
 import { reducers } from './reducers';
 
 const declarations = [
   // Components
-  FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent,
+  FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent, PayMarketFilterInfoComponent,
 
   // Containers
   FilterSidebarComponent, MapComponent

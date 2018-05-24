@@ -52,6 +52,7 @@ export const getPeerFilterLimitToPayMarket = createSelector(selectPeerFiltersSta
 export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPayMarket);
 export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPreviewLimit);
 export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
+export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
 
 // Combined State Selectors
 export const getExchangeDataCutRequestData = createSelector(

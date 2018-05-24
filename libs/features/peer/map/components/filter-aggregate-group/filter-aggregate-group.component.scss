@@ -1,14 +1,3 @@
-@import 'colors';
-
-$group-header-bg-color: #eaeaea;
-
-%uppercase-link {
-  text-transform: uppercase;
-  color: $link-color;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
 .aggregate-group{
   margin-bottom: .5rem;
 }
@@ -33,20 +22,4 @@ $group-header-bg-color: #eaeaea;
 
 .aggregate-group-header .header-right{
   display: flex;
-}
-
-.toggle-option-height{
-  @extend %uppercase-link;
-  margin: .5rem .65rem;
-}
-
-.reset-link{
-  @extend %uppercase-link;
-  margin-right: .5rem;
-  padding: .05rem .5rem;
-  font-weight: normal;
-}
-
-.reset-link:hover{
-  background: darken($group-header-bg-color, 5%);
 }

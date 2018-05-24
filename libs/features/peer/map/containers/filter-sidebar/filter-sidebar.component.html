@@ -1,11 +1,20 @@
 <div class="filter-sidebar">
 
-  <pf-pay-market-bounds-filter
-    *ngIf="companyPayMarketId"
-    [enabled]="limitToPayMarket$ | async"
-    [payMarket]="payMarket$ | async"
-    (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
-  </pf-pay-market-bounds-filter>
+  <div class="filter-header">
+    <pf-pay-market-bounds-filter
+      *ngIf="companyPayMarketId"
+      [enabled]="limitToPayMarket$ | async"
+      [payMarket]="payMarket$ | async"
+      (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
+    </pf-pay-market-bounds-filter>
+
+    <pf-pay-market-filter-info
+      [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
+      [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount"
+      [hasSelections]="(selectionsCount$ | async) > 0"
+      (resetAllFiltersClicked)="handleClearAllSelections()">
+    </pf-pay-market-filter-info>
+  </div>
 
   <div class="aggregate-groups-container">
     <pf-filter-aggregate-group
