@@ -43,6 +43,6 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         <pf-exchange-job-mapping-info />
       </div>
     </div>
-  </pf-page-with-title-bar><pf-request-payfactors-job-modal />
+  </pf-page-with-title-bar><pf-request-job-modal />
 </pf-exchange-job-mapping-page>
 `;

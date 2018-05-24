@@ -12,12 +12,14 @@ import * as fromExchangeJobMappingInfoReducer from './exchange-job-mapping-info.
 import * as fromPfJobsExchangeRequestReducer from './pf-jobs.reducer';
 import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
+import * as fromJobFamiliesReducer from './job-families.reducer';
 
 // Feature area state
 export interface PeerManagementState {
   exchangeJobMapping: IFeatureGridState<fromExchangeJobMappingGridReducer.State>;
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
   pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.State;
+  jobFamilies: fromJobFamiliesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -29,7 +31,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
-  pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.reducer
+  pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.reducer,
+  jobFamilies: fromJobFamiliesReducer.reducer
 };
 
 // Select Feature Area
@@ -49,6 +52,11 @@ export const selectExchangeJobMappingInfoState = createSelector(
 export const selectPfJobsExchangeRequestState = createSelector(
   selectFeatureAreaState,
   (state: PeerManagementState) => state.pfJobsExchangeRequest
+);
+
+export const selectJobFamiliesState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerManagementState) => state.jobFamilies
 );
 
 // Exchange Job Mapping Selectors
@@ -177,4 +185,17 @@ export const getPfJobsExchangeRequestContext = createSelector(
       JobDescriptionQuery: exchangeRequestState.filterOptions ? exchangeRequestState.filterOptions.JobDescriptionQuery : ''
     };
   }
+);
+
+// Job Families
+export const {
+  selectAll: getJobFamilies
+} = fromJobFamiliesReducer.adapter.getSelectors(selectJobFamiliesState);
+export const getJobFamiliesLoading = createSelector(
+  selectJobFamiliesState,
+  fromJobFamiliesReducer.getLoading
+);
+export const getJobFamiliesLoadingError = createSelector(
+  selectJobFamiliesState,
+  fromJobFamiliesReducer.getLoadingError
 );

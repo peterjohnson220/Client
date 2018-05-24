@@ -29,6 +29,10 @@ export class PayfactorsApiService {
   }
 
   private extractValueFromOdata(response: any) {
+    if (response === null) {
+      return null;
+    }
+
     return typeof response.value !== 'undefined' ? response.value : false || response || {};
   }
 

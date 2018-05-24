@@ -12,3 +12,32 @@
 .k-filter-menu .k-dropdown .k-dropdown-wrap {
   border-color: $border-grey;
 }
+
+.k-switch {
+  &.k-switch-on .k-switch-handle {
+    background-color: $switch-on-color;
+    border: $switch-on-color;
+  }
+  &.k-switch-off .k-switch-handle {
+    background-color: $switch-off-color;
+    border: $switch-off-color;
+  }
+  .k-switch-label-on {
+    color: $switch-on-color;
+  }
+  .k-switch-label-off {
+    color: #616161;
+  }
+}
+
+// To be used as the class of the kendo-switch to allow for longer labels in a switch 30% in width.
+.k-switch-w30.k-switch {
+  width: 30%;
+  .k-switch-label-on {
+    left: -300%;
+    white-space: nowrap;
+  }
+  .k-switch-label-off {
+    white-space: nowrap;
+  }
+}

@@ -21,9 +21,6 @@ export class AccessExchangeRequestEffects {
   openModal$: Observable<Action> = this.exchangeRequestEffectsService.openModal(this.type);
 
   @Effect()
-  closeModal$: Observable<Action> = this.exchangeRequestEffectsService.closeModal(this.type);
-
-  @Effect()
   loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<AvailableExchangeItem>(
     this.type,
     fromPeerDashboardReducer.getAccessExchangeRequestContext
@@ -52,6 +49,8 @@ export class AccessExchangeRequestEffects {
         .catch(() => of(new fromPeerParticipantsActions.LoadPeerParticipantsError))
     );
 
+    @Effect()
+    resetExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.reset(this.type);
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,

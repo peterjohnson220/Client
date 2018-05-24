@@ -17,12 +17,17 @@
       <ng-content select="[form-content]"></ng-content>
     </form>
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>
-    <button type="button" class="btn btn-primary" [disabled]="submitting || !formGroup.valid || !(formGroup.dirty || formGroup.touched)" (click)="submit()">
-      <span *ngIf="submitting"><pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}</span>
-      <span *ngIf="!submitting">{{primaryButtonText}}</span>
-    </button>
+  <div class="modal-footer d-flex justify-content-between">
+    <div class="flex-column w-50 space-out-children">
+      <ng-content select="[footer-left]"></ng-content>
+    </div>
+    <div class="flex-column space-out-children">
+      <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="submitting || !formGroup.valid || !(formGroup.dirty || formGroup.touched)" (click)="submit()">
+        <span *ngIf="submitting"><pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}</span>
+        <span *ngIf="!submitting">{{primaryButtonText}}</span>
+      </button>
+    </div>
   </div>
 </ng-template>
 <div [id]="modalId" class="modal-container"></div>

@@ -18,9 +18,6 @@ export class PayfactorsCompanyExchangeRequestEffects {
   openModal$: Observable<Action> = this.exchangeRequestEffectsService.openModal(this.type);
 
   @Effect()
-  closeModal$: Observable<Action> = this.exchangeRequestEffectsService.closeModal(this.type);
-
-  @Effect()
   loadCandidates$: Observable<Action> = this.exchangeRequestEffectsService.loadCandidates<ExistingCompany>(
     this.type,
     fromPeerDashboardReducer.getPfCompaniesExchangeRequestContext
@@ -35,6 +32,8 @@ export class PayfactorsCompanyExchangeRequestEffects {
   @Effect()
   createExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.createExchangeRequest(this.type);
 
+  @Effect()
+  resetExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.reset(this.type);
   constructor(
     private exchangeRequestEffectsService: ExchangeRequestEffectsService
   ) {}

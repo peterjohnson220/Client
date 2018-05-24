@@ -1,0 +1,37 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Request Job'"
+  [subTitle]="modalSubTitle"
+  [primaryButtonText]="'Request'"
+  [primaryButtonTextSubmitting]="'Requesting...'"
+  [submitting]="exchangeRequestSubmitting$ | async"
+  [isOpen$]="exchangeRequestModalOpen$"
+  [formGroup]="exchangeJobRequestForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+    <ng-container *ngIf="newJobFormEnabled">
+
+      <pf-new-job-form
+        [attemptedSubmit]="attemptedSubmit"
+        [exchange]="exchange"
+        [exchangeJobRequestForm]="exchangeJobRequestForm">
+      </pf-new-job-form>
+
+    </ng-container>
+    <ng-container *ngIf="!newJobFormEnabled">
+
+      <pf-payfactors-job-selection-form
+        [attemptedSubmit]="attemptedSubmit"
+        [exchangeName]="exchange.ExchangeName"
+        [exchangeJobRequestForm]="exchangeJobRequestForm">
+      </pf-payfactors-job-selection-form>
+
+    </ng-container>
+  </ng-container>
+
+  <ng-container footer-left>
+    <a href="javascript:void(0)" (click)="handleSwitchToggled()">{{newJobFormEnabled ? 'Existing Jobs' : 'New Job'}}</a>
+  </ng-container>
+</pf-modal-form>

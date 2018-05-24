@@ -18,12 +18,6 @@ export class ExchangeRequestEffectsService {
   openModal(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
       .ofType(`${type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
-      .switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)));
-  }
-
-  closeModal(type: ExchangeRequestTypeEnum): Observable<Action> {
-    return this.actions$
-      .ofType(`${type}_${fromExchangeRequestActions.OPEN_EXCHANGE_REQUEST_MODAL}`)
       .switchMap(() => of(new fromExchangeRequestActions.ResetExchangeRequest(type)));
   }
 
@@ -36,6 +30,12 @@ export class ExchangeRequestEffectsService {
   updateFilterOptions(type: ExchangeRequestTypeEnum): Observable<Action> {
     return this.actions$
       .ofType(`${type}_${fromExchangeRequestActions.UPDATE_FILTER_OPTIONS}`)
+      .switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)));
+  }
+
+  reset(type: ExchangeRequestTypeEnum): Observable<Action> {
+    return this.actions$
+      .ofType(`${type}_${fromExchangeRequestActions.RESET_EXCHANGE_REQUEST}`)
       .switchMap(() => of(new fromExchangeRequestActions.LoadCandidates(type)));
   }
 

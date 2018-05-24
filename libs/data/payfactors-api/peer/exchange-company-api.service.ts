@@ -71,4 +71,14 @@ export class ExchangeCompanyApiService {
   requestExchangeAccess(payload: RequestExchangeRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/RequestExchangeAccess`, payload);
   }
+
+  validateNewJobTitle(exchangeId: number, jobTitle: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidJobTitle`,
+      { params: { exchangeId: exchangeId, jobTitle: jobTitle } }
+      );
+  }
+
+  getPayfactorsJobFamilies(): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetPayfactorsJobFamilies`);
+  }
 }

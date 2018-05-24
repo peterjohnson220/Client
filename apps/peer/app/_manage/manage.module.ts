@@ -15,12 +15,14 @@ import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-         PayfactorsJobModalComponent } from './containers';
+          PayfactorsJobSelectionFormComponent } from './containers';
 import { ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
 import { ManageRoutingModule } from './manage-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import {RequestJobModalComponent} from './containers/request-job/request-job-modal';
+import {NewJobFormComponent} from './containers/request-job/new-job-form';
 
 @NgModule({
   imports: [
@@ -53,7 +55,8 @@ import { SharedModule } from '../shared/shared.module';
     CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent,
 
     // Containers
-    ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobModalComponent,
+    ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
+    RequestJobModalComponent, NewJobFormComponent,
 
     // Pages
     ExchangeJobMappingPageComponent

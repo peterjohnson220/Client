@@ -1,3 +1,4 @@
+@import './_common';
 @import '~@progress/kendo-theme-bootstrap/scss/_variables';
 
 :host ::ng-deep .k-widget.k-grid{
@@ -16,16 +17,18 @@
 }
 
 :host ::ng-deep .k-grid tbody tr {
-  &:hover.k-state-selected {
-    background-color: rgba( $selected-bg, .25 );
-  }
-  &:not(.k-state-selected), &.k-alt:not(.k-state-selected) {
-    &:hover {
-      background-color: rgba(0,0,0,.075);
+  &:not(.row-disabled) {
+    &:hover.k-state-selected {
+      background-color: rgba( $selected-bg, .25 );
+    }
+    &:not(.k-state-selected), &.k-alt:not(.k-state-selected) {
+      &:hover {
+        background-color: rgba(0,0,0,.075);
+      }
     }
   }
-  &:hover.row-disabled, &:hover.row-disabled.k-alt {
-    background: none;
+  &.row-disabled {
+    @extend %disabled-row;
   }
 }
 

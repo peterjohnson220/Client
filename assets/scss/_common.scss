@@ -31,7 +31,7 @@
   color: #6c757d;
   cursor: not-allowed;
   &:hover {
-    background: none;
+    background: transparent none;
   }
 }
 
@@ -48,4 +48,8 @@
 
 tr.row-disabled {
   @extend %disabled-row;
+}
+
+.space-out-children > * {
+  margin-left: 0.5rem;
 }

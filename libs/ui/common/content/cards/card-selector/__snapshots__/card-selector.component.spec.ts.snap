@@ -8,6 +8,7 @@ exports[`UI/Common/Content - CardSelector should not render no results message w
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
+  noResultsMessage={[Function String]}
   onCardSelection={[Function EventEmitter]}
   onReload={[Function EventEmitter]}
 >
@@ -41,6 +42,7 @@ exports[`UI/Common/Content - CardSelector should render no results message when 
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
+  noResultsMessage={[Function String]}
   onCardSelection={[Function EventEmitter]}
   onReload={[Function EventEmitter]}
 >
@@ -87,6 +89,7 @@ exports[`UI/Common/Content - CardSelector should render pf-card components for e
   cardDataSubscription={[Function Subscriber]}
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
+  noResultsMessage={[Function String]}
   onCardSelection={[Function EventEmitter]}
   onReload={[Function EventEmitter]}
 >
@@ -123,6 +126,7 @@ exports[`UI/Common/Content - CardSelector should show selection container when a
   cardIdentifier={[Function Function]}
   cardIsDisabled={[Function Function]}
   handleCardSelectionEvent={[Function Function]}
+  noResultsMessage={[Function String]}
   onCardSelection={[Function EventEmitter]}
   onReload={[Function EventEmitter]}
   selectedCard={[Function Object]}

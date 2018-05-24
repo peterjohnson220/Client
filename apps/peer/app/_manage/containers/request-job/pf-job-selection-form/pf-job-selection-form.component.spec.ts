@@ -1,23 +1,23 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest } from 'libs/models';
+import { ExchangeRequestTypeEnum } from 'libs/models/index';
 
-import { generateMockExchangeJobRequestCandidate } from '../../models';
-import * as fromPeerManagementReducer from '../../reducers';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
-import { PayfactorsJobModalComponent } from './pf-job-modal.component';
-import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
+import * as fromSharedPeerReducer from '../../../../shared/reducers/index';
+import * as fromPeerManagementReducer from '../../../reducers/index';
+import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
+import { PayfactorsJobSelectionFormComponent } from './pf-job-selection-form.component';
+import {generateMockExchangeJobRequestCandidate} from '../../../models';
 
-describe('Peer - Exchange Request - Payfactors Job Modal', () => {
-  let fixture: ComponentFixture<PayfactorsJobModalComponent>;
-  let instance: PayfactorsJobModalComponent;
+describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
+  let fixture: ComponentFixture<PayfactorsJobSelectionFormComponent>;
+  let instance: PayfactorsJobSelectionFormComponent;
 
   let store: Store<fromPeerManagementReducer.State>;
 
@@ -34,7 +34,7 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        PayfactorsJobModalComponent
+        PayfactorsJobSelectionFormComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -42,14 +42,23 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
 
     store = TestBed.get(Store);
 
-    fixture = TestBed.createComponent(PayfactorsJobModalComponent);
+    fixture = TestBed.createComponent(PayfactorsJobSelectionFormComponent);
     instance = fixture.componentInstance;
     instance.cardSelector = {selectedCard: generateMockExchangeJobRequestCandidate()};
+    instance.exchangeJobRequestForm = new FormGroup({});
   });
 
-  it('should dispatch a LoadCandidates action of type Access when handleReloadCardsEvent is triggered', () => {
-    spyOn(store, 'dispatch');
+  it(`should apply the jobSelectionForm to the exchangeJobRequestForm on init`, () => {
+    fixture.detectChanges();
+
+    const childJobSelectionForm = instance.exchangeJobRequestForm.get('jobSelectionForm');
+    expect(childJobSelectionForm).toBe(instance.payfactorsJobSelectionForm);
+  });
+
+  it('should dispatch a LoadCandidates action of type PayfactorsJob when handleReloadCardsEvent is triggered', () => {
     const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.PayfactorsJob);
+
+    spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -104,41 +113,6 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it(`should dispatch a CreateExchangeRequest action when handleFormSubmit is triggered`, () => {
-    const mockRequestModel = {
-      ...generateMockRequestExchangeRequest(ExchangeRequestTypeEnum.PayfactorsJob),
-      ExchangeId: 0,
-      TypeData: {
-        MDJobsBaseId: 0
-      }
-    };
-    const expectedAction = new fromExchangeRequestActions.CreateExchangeRequest(
-      ExchangeRequestTypeEnum.PayfactorsJob,
-      mockRequestModel
-    );
-    instance.exchangeRequestModalOpen$ = of(true);
-    instance.reason = mockRequestModel.Reason;
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    instance.handleFormSubmit();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it(`should dispatch a CloseExchangeRequestModal action of type PayfactorsJob on modal dismissed`, () => {
-    const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob);
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    instance.handleModalDismissed();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it(`should provide correct values to the pf-modal-form component`, () => {
     fixture.detectChanges();
 
@@ -147,7 +121,6 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
 
   it(`should clear form on init when the modal is not open`, () => {
     const expectedString = '';
-    const expectedCardSelection = null;
     instance.reason = 'MockReason';
     instance.jobTitleSearchTerm = 'MockSearchTerm';
     instance.jobDescriptionSearchTerm = 'MockJDSearchTerm';
@@ -160,7 +133,5 @@ describe('Peer - Exchange Request - Payfactors Job Modal', () => {
     expect(instance.jobTitleSearchTerm).toBe(expectedString);
     expect(instance.jobDescriptionSearchTerm).toBe(expectedString);
     expect(instance.jobDescriptionHighlightFilter).toBe(expectedString);
-    expect(instance.cardSelection).toBe(expectedCardSelection);
   });
-
 });

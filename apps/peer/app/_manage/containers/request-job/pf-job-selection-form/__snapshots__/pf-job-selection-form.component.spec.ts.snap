@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Manage - Payfactors Job Selection Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-payfactors-job-selection-form
+  cardSelector={[Function Object]}
+  exchangeJobRequestForm={[Function FormGroup]}
+  exchangeRequestModalOpen$={[Function Store]}
+  exchangeRequestModalOpenSubscription={[Function Subscriber]}
+  fb={[Function FormBuilder]}
+  jobCardDisabled={[Function Function]}
+  jobDescriptionHighlightFilter=""
+  jobDescriptionSearchTerm=""
+  jobIdentifier={[Function Function]}
+  jobTitleSearchTerm=""
+  noResultsMessage={[Function String]}
+  payfactorsJobRequesting$={[Function Store]}
+  payfactorsJobSelectionForm={[Function FormGroup]}
+  payfactorsJobs$={[Function Store]}
+  payfactorsJobsLoading$={[Function Store]}
+  payfactorsJobsLoadingError$={[Function Store]}
+  reason=""
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+  >
+    <pf-card-selector>
+      
+      <div
+        class="filter"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-job-title"
+          ng-reflect-model=""
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        />
+      </div>
+      <div
+        class="filter"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-jd"
+          name="searchFilter"
+          ng-reflect-model=""
+          ng-reflect-name="searchFilter"
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        />
+      </div>
+    </pf-card-selector>
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-valid"
+        formcontrolname="payfactorsJobSelection"
+        name="hasSelection"
+        ng-reflect-model="[object Object]"
+        ng-reflect-name="payfactorsJobSelection"
+        type="hidden"
+        value="[object Object]"
+      />
+    </div>
+    
+  </div>
+</pf-payfactors-job-selection-form>
+`;
+
+exports[`Peer - Manage - Request Job - Payfactors Job Selection Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-payfactors-job-selection-form
+  cardSelector={[Function Object]}
+  exchangeJobRequestForm={[Function FormGroup]}
+  exchangeRequestModalOpen$={[Function Store]}
+  exchangeRequestModalOpenSubscription={[Function Subscriber]}
+  fb={[Function FormBuilder]}
+  jobCardDisabled={[Function Function]}
+  jobDescriptionHighlightFilter=""
+  jobDescriptionSearchTerm=""
+  jobIdentifier={[Function Function]}
+  jobTitleSearchTerm=""
+  noResultsMessage={[Function String]}
+  payfactorsJobRequesting$={[Function Store]}
+  payfactorsJobSelectionForm={[Function FormGroup]}
+  payfactorsJobs$={[Function Store]}
+  payfactorsJobsLoading$={[Function Store]}
+  payfactorsJobsLoadingError$={[Function Store]}
+  reason=""
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+  >
+    <pf-card-selector>
+      
+      <div
+        class="filter"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-job-title"
+          ng-reflect-model=""
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        />
+      </div>
+      <div
+        class="filter"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box-jd"
+          name="searchFilter"
+          ng-reflect-model=""
+          ng-reflect-name="searchFilter"
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        />
+      </div>
+    </pf-card-selector>
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-valid"
+        formcontrolname="payfactorsJobSelection"
+        name="hasSelection"
+        ng-reflect-model="[object Object]"
+        ng-reflect-name="payfactorsJobSelection"
+        type="hidden"
+        value="[object Object]"
+      />
+    </div>
+    
+  </div>
+</pf-payfactors-job-selection-form>
+`;
