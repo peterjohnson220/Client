@@ -79,5 +79,9 @@ export const getTimelineActivityCurrentPage = createSelector(selectActivityTimel
 export const getTimelineActivityHasMoreData = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getHasMoreData);
 
 // dashboard-tc-modal selector
+export const getTCSubmitting = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmitting);
+export const getTCSubmittingError = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmittingError);
+export const getTCSubmittingSuccess = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCSubmittingSuccess);
+
 export const getTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCData);
 export const hasTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.hasTCData);

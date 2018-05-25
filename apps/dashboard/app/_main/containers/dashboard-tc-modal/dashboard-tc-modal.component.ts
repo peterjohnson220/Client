@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/of';
 
-import { UserContext, TermsConditionsModel, TermsConditionsSubmissionModel } from 'libs/models';
-import * as fromRootState from 'libs/state/state';
+import { TermsConditionsModel, TermsConditionsSubmissionModel } from 'libs/models';
 
 import * as fromDashboardTCReducer from '../../reducers';
 import * as fromDashboardTCActions from '../../actions/dashboard-tc-modal.actions';
+import * as fromTileGridActions from '../../actions/tile-grid.actions';
+import * as fromLeftSidebarActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
+
 
 @Component({
   selector: 'pf-dashboard-tc-modal',
@@ -19,26 +21,27 @@ import * as fromDashboardTCActions from '../../actions/dashboard-tc-modal.action
 })
 export class DashboardTCModalComponent implements OnInit {
   tcModalOpen$: Observable<boolean>;
-  userContext$: Observable<UserContext>;
-  TCModel$: Observable<TermsConditionsModel>;
+  tcModel$: Observable<TermsConditionsModel>;
+  tcSubmittingSuccess$: Observable<boolean>;
 
   tcModelSubscription: Subscription;
+  tcSubmittingSuccessSubscription: Subscription;
   tcId: string;
   tcTitle: string;
   tcContent: string;
   termAndConditionsFeatureName = 'Peer';
 
   constructor(private store: Store<fromDashboardTCReducer.State>, private route: ActivatedRoute) {
-    this.userContext$ = this.store.select(fromRootState.getUserContext);
-    this.TCModel$ = this.store.select(fromDashboardTCReducer.getTCData);
+    this.tcModel$ = this.store.select(fromDashboardTCReducer.getTCData);
     this.tcModalOpen$ = this.store.select(fromDashboardTCReducer.hasTCData);
+    this.tcSubmittingSuccess$ = this.store.select(fromDashboardTCReducer.getTCSubmittingSuccess);
   }
 
   // Lifecycle
   ngOnInit() {
     this.loadTCIfFromLogin();
 
-    this.tcModelSubscription = this.TCModel$.subscribe( tcModel => {
+    this.tcModelSubscription = this.tcModel$.subscribe(tcModel => {
       if (tcModel) {
         this.tcId = tcModel.TCId;
         this.tcTitle = tcModel.Title;
@@ -49,7 +52,7 @@ export class DashboardTCModalComponent implements OnInit {
 
   loadTCIfFromLogin() {
     this.route.queryParams.subscribe(params => {
-      const fromLogin = params['login'];
+      const fromLogin = params[ 'login' ];
 
       if (fromLogin === 'true') {
         this.store.dispatch(new fromDashboardTCActions.LoadingTermsAndConditions(this.termAndConditionsFeatureName));
@@ -59,6 +62,13 @@ export class DashboardTCModalComponent implements OnInit {
 
   acceptTC() {
     this.submitTC(true);
+
+    this.tcSubmittingSuccessSubscription = this.tcSubmittingSuccess$.subscribe(success => {
+      if (success) {
+        this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
+        this.store.dispatch(new fromTileGridActions.LoadingTiles(true));
+      }
+    });
   }
 
   declineTC() {

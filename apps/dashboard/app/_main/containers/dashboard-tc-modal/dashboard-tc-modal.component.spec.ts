@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store} from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
@@ -9,6 +10,7 @@ import { generateMockTermsConditionsSubmissionModel, generateMockUserContext } f
 import { DashboardTCModalComponent } from './dashboard-tc-modal.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromDashboardTCActions from '../../actions/dashboard-tc-modal.actions';
+
 
 describe('Dashboard TC Modal', () => {
   let fixture: ComponentFixture<DashboardTCModalComponent>;
@@ -23,17 +25,24 @@ describe('Dashboard TC Modal', () => {
           ...fromRootState.reducers
         }),
       ],
+      providers: [
+      {
+        provide: ActivatedRoute
+      }
+    ],
       declarations: [
         DashboardTCModalComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
+
     store = TestBed.get(Store);
+
     spyOn(store, 'dispatch');
+
     fixture = TestBed.createComponent(DashboardTCModalComponent);
     instance = fixture.componentInstance;
-    instance.userContext$ = of(generateMockUserContext());
   });
 
   it('should call loadTCIfFromLogin upon Init', () => {

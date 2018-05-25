@@ -7,6 +7,7 @@ export interface State {
   loadingError: boolean;
   submitting: boolean;
   submittingError: boolean;
+  submittingSuccess: boolean;
   tcData: any;
   hasTCData: boolean;
 }
@@ -16,6 +17,7 @@ export const initialState: State = {
   loadingError: false,
   submitting: false,
   submittingError: false,
+  submittingSuccess: false,
   tcData: null,
   hasTCData: false
 };
@@ -52,7 +54,8 @@ export function reducer(state = initialState, action: fromDashboardTCModalAction
     case fromDashboardTCModalActions.SUBMITTING_TC_SUCCESS: {
       return {
         ...state,
-        submitting: false
+        submitting: false,
+        submittingSuccess: true
       };
     }
     case fromDashboardTCModalActions.SUBMITTING_TC_ERROR: {
@@ -68,8 +71,13 @@ export function reducer(state = initialState, action: fromDashboardTCModalAction
   }
 }
 
-export const getLoading = (state: State) => state.loading;
-export const getLoadingError = (state: State) => state.loadingError;
+export const getTCLoading = (state: State) => state.loading;
+export const getTCLoadingError = (state: State) => state.loadingError;
+
+export const getTCSubmitting = (state: State) => state.submitting;
+export const getTCSubmittingError = (state: State) => state.submittingError;
+export const getTCSubmittingSuccess = (state: State) => state.submittingSuccess;
+
 export const getTCData = (state: State) => state.tcData;
 export const hasTCData = (state: State) => state.hasTCData;
 
