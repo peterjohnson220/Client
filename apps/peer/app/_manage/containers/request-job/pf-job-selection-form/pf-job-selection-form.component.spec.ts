@@ -14,6 +14,7 @@ import * as fromPeerManagementReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import { PayfactorsJobSelectionFormComponent } from './pf-job-selection-form.component';
 import {generateMockExchangeJobRequestCandidate} from '../../../models';
+import {generateMockExistingCompany} from '../../../../_dashboard/models';
 
 describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
   let fixture: ComponentFixture<PayfactorsJobSelectionFormComponent>;
@@ -89,13 +90,28 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
   it(`should reset the reasonControl when handleCardSelectionEvent is triggered`, () => {
     instance.reason = 'mockReason';
-    spyOn(instance.reasonControl, 'setValue');
 
     fixture.detectChanges();
 
+    spyOn(instance.reasonControl, 'reset');
+
     instance.handleCardSelectionEvent();
 
-    expect(instance.reasonControl.setValue).toHaveBeenCalledWith('');
+    expect(instance.reasonControl.reset).toHaveBeenCalled();
+  });
+
+  it(`should set the card selection when handleCardSelectionEvent is triggered`, () => {
+    const expectedSelection = {...generateMockExchangeJobRequestCandidate(), MDJobsBaseId: 1};
+
+    fixture.detectChanges();
+
+    instance.cardSelector = {selectedCard: expectedSelection};
+
+    spyOn(instance.jobSelection, 'setValue');
+
+    instance.handleCardSelectionEvent();
+
+    expect(instance.jobSelection.setValue).toHaveBeenCalledWith(expectedSelection);
   });
 
   it(`should dispatch an UpdateSearchTerm action when updateJobTitleSearchFilter is triggered`, () => {
@@ -119,9 +135,8 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it(`should clear form on init when the modal is not open`, () => {
+  it(`should clear search terms on init when the modal is not open`, () => {
     const expectedString = '';
-    instance.reason = 'MockReason';
     instance.jobTitleSearchTerm = 'MockSearchTerm';
     instance.jobDescriptionSearchTerm = 'MockJDSearchTerm';
     instance.jobDescriptionHighlightFilter = 'MockJDHighlightFilter';
@@ -129,7 +144,6 @@ describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
 
     fixture.detectChanges();
 
-    expect(instance.reasonControl.value).toBe(expectedString);
     expect(instance.jobTitleSearchTerm).toBe(expectedString);
     expect(instance.jobDescriptionSearchTerm).toBe(expectedString);
     expect(instance.jobDescriptionHighlightFilter).toBe(expectedString);

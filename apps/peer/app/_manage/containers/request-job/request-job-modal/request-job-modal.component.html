@@ -14,7 +14,6 @@
     <ng-container *ngIf="newJobFormEnabled">
 
       <pf-new-job-form
-        [attemptedSubmit]="attemptedSubmit"
         [exchange]="exchange"
         [exchangeJobRequestForm]="exchangeJobRequestForm">
       </pf-new-job-form>
@@ -23,7 +22,6 @@
     <ng-container *ngIf="!newJobFormEnabled">
 
       <pf-payfactors-job-selection-form
-        [attemptedSubmit]="attemptedSubmit"
         [exchangeName]="exchange.ExchangeName"
         [exchangeJobRequestForm]="exchangeJobRequestForm">
       </pf-payfactors-job-selection-form>

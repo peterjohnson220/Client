@@ -70,13 +70,28 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
 
   it(`should reset the reasonControl when handleCardSelectionEvent is triggered`, () => {
     instance.reason = 'mockReason';
-    spyOn(instance.reasonControl, 'setValue');
 
     fixture.detectChanges();
 
+    spyOn(instance.reasonControl, 'reset');
+
     instance.handleCardSelectionEvent();
 
-    expect(instance.reasonControl.setValue).toHaveBeenCalledWith('');
+    expect(instance.reasonControl.reset).toHaveBeenCalled();
+  });
+
+  it(`should set the card selection when handleCardSelectionEvent is triggered`, () => {
+    const expectedSelection = {...generateMockExistingCompany(), CompanyId: 1};
+
+    fixture.detectChanges();
+
+    instance.cardSelector = {selectedCard: expectedSelection};
+
+    spyOn(instance.companySelectionControl, 'setValue');
+
+    instance.handleCardSelectionEvent();
+
+    expect(instance.companySelectionControl.setValue).toHaveBeenCalledWith(expectedSelection);
   });
 
   it(`should dispatch an UpdateSearchTerm action when updateSearchFilter is triggered`, () => {
@@ -100,15 +115,13 @@ describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', 
     expect(fixture).toMatchSnapshot();
   });
 
-  it(`should clear form on init when the modal is not open`, () => {
+  it(`should clear search term on init when the modal is not open`, () => {
     const expectedString = '';
-    instance.reason = 'MockReason';
     instance.searchTerm = 'MockSearchTerm';
     instance.existingCompaniesExchangeRequestModalOpen$ = of(false);
 
     fixture.detectChanges();
 
-    expect(instance.reasonControl.value).toBe(expectedString);
     expect(instance.searchTerm).toBe(expectedString);
   });
 });

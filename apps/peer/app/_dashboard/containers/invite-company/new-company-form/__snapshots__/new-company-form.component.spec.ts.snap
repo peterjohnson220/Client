@@ -10,6 +10,7 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
   companyIndustriesLoadingError$={[Function Store]}
   companyIndustriesSubscription={[Function Subscriber]}
   companyName=""
+  companyNameValidationText={[Function String]}
   contactEmailAddress=""
   contactJobTitle=""
   contactName=""
@@ -18,7 +19,6 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
   exchangeCompanyRequesting$={[Function Store]}
   fb={[Function FormBuilder]}
   industry=""
-  newCompanyForm={[Function FormGroup]}
   reason=""
   requestCompanyForm={[Function FormGroup]}
   sharedPeerStore={[Function Store]}
@@ -38,13 +38,20 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
           class="flex-column flex-column-half"
         >
           <div
-            class="form-group"
+            class="form-group form-group-validation"
           >
             <label
               class="col-form-label"
               for="company-name"
             >
-              Company Name
+               Company Name 
+              <span
+                placement="right"
+              >
+                <i
+                  class="far fa-info-circle text-info"
+                />
+              </span>
             </label>
             <input
               class="form-control ng-untouched ng-pristine ng-invalid"
@@ -58,39 +65,10 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
             
             
             
-            <span
+            <div
               class="pf-placeholder"
             />
-            <p>
-              <i
-                class="far fa-info-circle text-info"
-              />
-              <small
-                class="text-muted"
-              >
-                 Company name must be at least 3 characters, unique for this exchange (including existing requests) and cannot be an existing company. If it is an existing company, try clicking the 'Existing Companies' link below. 
-              </small>
-            </p>
           </div>
-          <div
-            class="form-group"
-          >
-            <label
-              class="col-form-label"
-              for="company-industry"
-            >
-              Company Industry
-            </label>
-            <kendo-combobox
-              class="form-control"
-              formcontrollname="industry"
-              id="company-industry"
-            />
-          </div>
-        </div>
-        <div
-          class="flex-column flex-column-half"
-        >
           <div
             class="form-group"
           >
@@ -123,6 +101,25 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
               id="contact-job-title"
               ng-reflect-name="contactJobTitle"
               type="text"
+            />
+          </div>
+        </div>
+        <div
+          class="flex-column flex-column-half"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="company-industry"
+            >
+              Company Industry
+            </label>
+            <kendo-combobox
+              class="form-control"
+              formcontrollname="industry"
+              id="company-industry"
             />
           </div>
           <div
@@ -173,10 +170,9 @@ exports[`Peer - Dashboard - Invite Company - New Company Form should provide cor
         maxlength="1000"
         name="reason"
         ng-reflect-maxlength="1000"
-        ng-reflect-model=""
         ng-reflect-name="reason"
         placeholder="Please tell us why you would like this company to be part of the  exchange..."
-        rows="8"
+        rows="12"
       />
     </div>
   </div>

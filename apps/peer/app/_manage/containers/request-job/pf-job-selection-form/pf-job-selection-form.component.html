@@ -42,8 +42,7 @@
            class="form-control"
            name="hasSelection"
            formControlName="payfactorsJobSelection"
-           [ngModel]="cardSelection"
-           [pfValidatable]="attemptedSubmit"
+           [pfValidatable]="true"
     />
   </div>
 
@@ -58,8 +57,7 @@
               name="reason"
               formControlName="reason"
               [placeholder]="reasonPlaceholder"
-              [pfValidatable]="attemptedSubmit"
-              [(ngModel)]="reason"
+              [pfValidatable]="true"
             ></textarea>
     </div>
   </ng-template>

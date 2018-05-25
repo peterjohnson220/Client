@@ -24,7 +24,6 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
   exchangeSubscription: Subscription;
   exchange: Exchange;
-  attemptedSubmit = false;
   requestCompanyForm: FormGroup;
   newCompanyFormEnabled = false;
 
@@ -59,7 +58,6 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
 
   // Modal events
   handleFormSubmit(): void {
-    this.attemptedSubmit = true;
     const childForm = this.childFormGroup;
     const exchangeRequestModel: RequestExchangeRequest = {
       ExchangeId: this.exchange ? this.exchange.ExchangeId : 0,
@@ -92,7 +90,6 @@ export class InviteCompanyModalComponent implements OnInit, OnDestroy {
   }
 
   handleModalDismissed(): void {
-    this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
     this.newCompanyFormEnabled = false;
   }

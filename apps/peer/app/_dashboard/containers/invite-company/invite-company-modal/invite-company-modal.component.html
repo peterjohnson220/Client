@@ -15,7 +15,6 @@
     <ng-container *ngIf="newCompanyFormEnabled">
 
       <pf-new-company-form
-        [attemptedSubmit]="attemptedSubmit"
         [exchange]="exchange"
         [requestCompanyForm]="requestCompanyForm">
       </pf-new-company-form>
@@ -25,7 +24,6 @@
     <ng-container *ngIf="!newCompanyFormEnabled">
 
       <pf-existing-company-selection-form
-        [attemptedSubmit]="attemptedSubmit"
         [exchange]="exchange"
         [requestCompanyForm]="requestCompanyForm">
       </pf-existing-company-selection-form>

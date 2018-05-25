@@ -23,9 +23,7 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 
 export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy {
   @ViewChild(CardSelectorComponent) cardSelector;
-
   @Input() exchange: Exchange;
-  @Input() attemptedSubmit: boolean;
   @Input() requestCompanyForm: FormGroup;
 
   existingCompanies$: Observable<ExistingCompany[]>;
@@ -33,7 +31,6 @@ export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy 
   existingCompaniesLoadingError$: Observable<boolean>;
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
   exchangeRequestModalOpenSubscription: Subscription;
-  companySelectionForm: FormGroup;
   noResultsMessage = 'Please change your search criteria to search again or click \'New Company\' to invite a new company.';
   reason = '';
   searchTerm = '';
@@ -52,25 +49,22 @@ export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy 
     this.existingCompaniesExchangeRequestModalOpen$ = this.store.select(
       fromPeerDashboardReducer.getPfCompaniesExchangeRequestModalOpen
     );
-    this.createForm();
   }
 
   get reasonPlaceholder(): string {
     return `Please tell us why you would like ${this.cardSelection ? this.cardSelection.CompanyName : ''} to be part ` +
       `of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
   }
+  get companySelectionForm(): FormGroup { return this.requestCompanyForm.get('companySelectionForm') as FormGroup; }
   get reasonControl() { return this.companySelectionForm.get('reason'); }
+  get companySelectionControl() { return this.companySelectionForm.get('companySelection'); }
   get cardSelection(): ExistingCompany { return this.cardSelector ? this.cardSelector.selectedCard : null; }
 
-  createForm(): void {
-    this.companySelectionForm = this.fb.group({
+  applyCompanySelectionForm(): void {
+    this.requestCompanyForm.addControl('companySelectionForm', this.fb.group({
       'reason': [this.reason, [PfValidators.required]],
       'companySelection': [this.cardSelection, [Validators.required]]
-    });
-  }
-
-  applyCompanySelectionForm(): void {
-    this.requestCompanyForm.addControl('companySelectionForm', this.companySelectionForm);
+    }));
   }
 
   handleReloadCardsEvent(): void {
@@ -78,7 +72,8 @@ export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy 
   }
 
   handleCardSelectionEvent(): void {
-    this.reasonControl.setValue('');
+    this.companySelectionControl.setValue(this.cardSelection);
+    this.reasonControl.reset();
   }
 
   updateSearchFilter(newSearchTerm: string): void {
@@ -90,9 +85,7 @@ export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy 
     this.applyCompanySelectionForm();
     this.exchangeRequestModalOpenSubscription = this.existingCompaniesExchangeRequestModalOpen$.subscribe(open => {
       if (!open) {
-        this.cardSelector.selectedCard = null;
         this.searchTerm = '';
-        this.reasonControl.setValue('');
       }
     });
   }

@@ -1,11 +1,11 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/timer';
-import {ComboBoxComponent} from '@progress/kendo-angular-dropdowns';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
 import { PfValidators } from 'libs/forms/validators';
@@ -24,7 +24,6 @@ import * as fromCompanyIndustriesActions from '../../../actions/company-industri
 export class NewCompanyFormComponent implements OnInit {
   @ViewChild('companyIndustriesComboBox') companyIndustriesComboBox: ComboBoxComponent;
   @Input() exchange: Exchange;
-  @Input() attemptedSubmit: boolean;
   @Input() requestCompanyForm: FormGroup;
 
   companyIndustries$: Observable<string[]>;
@@ -34,7 +33,9 @@ export class NewCompanyFormComponent implements OnInit {
   companyIndustriesSubscription: Subscription;
   companyIndustries: string[];
   companyIndustriesFiltered: string[];
-  newCompanyForm: FormGroup;
+  companyNameValidationText = `Company name must be at least 3 characters, unique for this exchange
+              (including existing requests) and cannot be an existing company. If it is an existing company,
+              try clicking the 'Existing Companies' link below.`;
   reason = '';
   companyName = '';
   industry = '';
@@ -53,18 +54,18 @@ export class NewCompanyFormComponent implements OnInit {
     this.companyIndustriesLoading$ = this.store.select(fromPeerDashboardReducer.getCompanyIndustriesLoading);
     this.companyIndustriesLoadingError$ = this.store.select(fromPeerDashboardReducer.getCompanyIndustriesLoadingError);
     this.exchangeCompanyRequesting$ = this.store.select(fromPeerDashboardReducer.getPfCompaniesExchangeRequestRequesting);
-    this.createForm();
   }
 
   get reasonPlaceholder(): string {
     return `Please tell us why you would like this company to be part ` +
       `of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
   }
+  get newCompanyForm(): FormGroup { return this.requestCompanyForm.get('newCompanyForm') as FormGroup; }
   get companyNameControl() { return this.newCompanyForm.get('companyName'); }
   get industryControl() { return this.newCompanyForm.get('industry'); }
 
-  createForm(): void {
-    this.newCompanyForm = this.fb.group({
+  applyNewCompanyForm(): void {
+    this.requestCompanyForm.addControl('newCompanyForm', this.fb.group({
       'reason': [this.reason, [PfValidators.required]],
       'companyName': [this.companyName, [PfValidators.required, Validators.minLength(3)], [this.companyNameValidator()]],
       'industry': [this.industry],
@@ -72,11 +73,7 @@ export class NewCompanyFormComponent implements OnInit {
       'contactJobTitle': [this.contactJobTitle],
       'contactEmailAddress': [this.contactEmailAddress, [Validators.email]],
       'contactPhoneNumber': [this.contactPhoneNumber]
-    });
-  }
-
-  applyNewCompanyForm(): void {
-    this.requestCompanyForm.addControl('newCompanyForm', this.newCompanyForm);
+    }));
   }
 
   // Industry ComboBox Events

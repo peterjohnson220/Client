@@ -2,24 +2,37 @@
   <div class="flex-column">
     <div class="d-flex justify-content-between">
       <div class="flex-column flex-column-half">
-        <div class="form-group">
-          <label class="col-form-label" for="company-name">Company Name</label>
+        <div class="form-group form-group-validation">
+          <label class="col-form-label" for="company-name">
+            Company Name
+            <span placement="right" [ngbTooltip]="companyNameValidationText">
+              <i class="far fa-info-circle text-info"></i>
+            </span>
+          </label>
           <input id="company-name" type="text" class="form-control"
                  formControlName="companyName"
                  [readonly]="exchangeCompanyRequesting$ | async"
                  [pfValidatable]="true">
           <ng-container *ngIf="companyNameControl.errors">
-            <div *ngIf="companyNameControl.errors.companyNameExists" class="invalid-feedback">{{companyNameControl.errors.companyNameExists}}</div>
+            <div *ngIf="companyNameControl?.errors?.companyNameExists" class="invalid-feedback">{{companyNameControl.errors.companyNameExists}}</div>
           </ng-container>
-          <span *ngIf="!companyNameControl?.errors?.companyNameExists" class="pf-placeholder"></span>
-          <p>
-            <i class="far fa-info-circle text-info"></i>
-            <small class="text-muted"> Company name must be at least 3 characters, unique for this exchange
-              (including existing requests) and cannot be an existing company. If it is an existing company,
-              try clicking the 'Existing Companies' link below.
-            </small>
-          </p>
+          <div *ngIf="!companyNameControl?.errors?.companyNameExists" class="pf-placeholder"></div>
         </div>
+        <div class="form-group">
+          <label class="col-form-label" for="contact-name">Contact Name</label>
+          <input id="contact-name" type="text" class="form-control"
+                 formControlName="contactName"
+                 [readonly]="exchangeCompanyRequesting$ | async"
+                 [pfValidatable]="true">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="contact-job-title">Contact Job Title</label>
+          <input id="contact-job-title" type="text" class="form-control"
+                 formControlName="contactJobTitle"
+                 [readonly]="exchangeCompanyRequesting$ | async">
+        </div>
+      </div>
+      <div class="flex-column flex-column-half">
         <div class="form-group">
           <label class="col-form-label" for="company-industry">Company Industry</label>
           <kendo-combobox #companyIndustriesComboBox class="form-control"
@@ -33,21 +46,6 @@
                           (valueChange)="handleCompanyIndustryValueChange($event)"
                           (filterChange)="handleIndustryFilterChange($event)">
           </kendo-combobox>
-        </div>
-      </div>
-      <div class="flex-column flex-column-half">
-        <div class="form-group">
-          <label class="col-form-label" for="contact-name">Contact Name</label>
-          <input id="contact-name" type="text" class="form-control"
-                 formControlName="contactName"
-                 [readonly]="exchangeCompanyRequesting$ | async"
-                 [pfValidatable]="true">
-        </div>
-        <div class="form-group">
-          <label class="col-form-label" for="contact-job-title">Contact Job Title</label>
-          <input id="contact-job-title" type="text" class="form-control"
-                 formControlName="contactJobTitle"
-                 [readonly]="exchangeCompanyRequesting$ | async">
         </div>
         <div class="form-group">
           <label class="col-form-label" for="contact-email-address">Contact Email Address</label>
@@ -71,12 +69,11 @@
         maxlength="1000"
         id="request-reason"
         class="form-control"
-        rows="8"
+        rows="12"
         name="reason"
         formControlName="reason"
         [placeholder]="reasonPlaceholder"
         [pfValidatable]="true"
-        [(ngModel)]="reason"
       ></textarea>
   </div>
 </div>

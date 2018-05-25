@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -24,7 +24,6 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
   exchangeJobRequestForm: FormGroup;
   exchangeSubscription: Subscription;
   exchange: Exchange;
-  attemptedSubmit = false;
   newJobFormEnabled = false;
 
   constructor(
@@ -55,7 +54,6 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
   }
   // Modal events
   handleFormSubmit(): void {
-    this.attemptedSubmit = true;
     const childForm = this.childFormGroup;
     const exchangeRequestModel: RequestExchangeRequest = {
       ExchangeId: this.exchange ? this.exchange.ExchangeId : 0,
@@ -85,7 +83,6 @@ export class RequestJobModalComponent implements OnInit, OnDestroy {
   }
 
   handleModalDismissed(): void {
-    this.attemptedSubmit = false;
     this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.PayfactorsJob));
     this.newJobFormEnabled = false;
   }

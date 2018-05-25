@@ -22,8 +22,6 @@ import * as fromExchangeRequestActions from '../../../../shared/actions/exchange
 
 export class PayfactorsJobSelectionFormComponent implements OnInit {
   @ViewChild(CardSelectorComponent) cardSelector;
-
-  @Input() attemptedSubmit: boolean;
   @Input() exchangeName: string;
   @Input() exchangeJobRequestForm: FormGroup;
 
@@ -33,8 +31,6 @@ export class PayfactorsJobSelectionFormComponent implements OnInit {
   payfactorsJobsLoading$: Observable<boolean>;
   payfactorsJobsLoadingError$: Observable<boolean>;
   payfactorsJobRequesting$: Observable<boolean>;
-  payfactorsJobSelectionForm: FormGroup;
-
   noResultsMessage = 'Please change your search criteria to search again or click \'New Job\' to create a custom Exchange Job.';
   reason = '';
   jobTitleSearchTerm = '';
@@ -54,21 +50,22 @@ export class PayfactorsJobSelectionFormComponent implements OnInit {
     this.payfactorsJobsLoading$ = this.store.select(fromPeerManagementReducer.getPfJobsExchangeRequestCandidatesLoading);
     this.payfactorsJobsLoadingError$ = this.store.select(fromPeerManagementReducer.getPfJobsExchangeRequestCandidatesLoadingError);
     this.payfactorsJobRequesting$ = this.store.select(fromPeerManagementReducer.getPfJobsExchangeRequestRequesting);
-    this.payfactorsJobSelectionForm = this.fb.group({
-      'reason': [this.reason, [PfValidators.required]],
-      'payfactorsJobSelection': [this.cardSelection, [Validators.required]]
-    });
   }
 
   get reasonPlaceholder(): string {
     return `Please tell us why you would like ${this.cardSelection ? this.cardSelection.JobTitle : ''} to be part ` +
       `of the ${this.exchangeName} exchange...`;
   }
+  get payfactorsJobSelectionForm(): FormGroup { return this.exchangeJobRequestForm.get('jobSelectionForm') as FormGroup; }
   get reasonControl() { return this.payfactorsJobSelectionForm.get('reason'); }
+  get jobSelection() { return this.payfactorsJobSelectionForm.get('payfactorsJobSelection'); }
   get cardSelection(): ExchangeJobRequestCandidate { return this.cardSelector ? this.cardSelector.selectedCard : null; }
 
   applyJobSelectionForm(): void {
-    this.exchangeJobRequestForm.addControl('jobSelectionForm', this.payfactorsJobSelectionForm);
+    this.exchangeJobRequestForm.addControl('jobSelectionForm', this.fb.group({
+      'reason': [this.reason, [PfValidators.required]],
+      'payfactorsJobSelection': [this.cardSelection, [Validators.required]]
+    }));
   }
 
   handleReloadCardsEvent(): void {
@@ -76,7 +73,8 @@ export class PayfactorsJobSelectionFormComponent implements OnInit {
   }
 
   handleCardSelectionEvent(): void {
-    this.reasonControl.setValue('');
+    this.jobSelection.setValue(this.cardSelection);
+    this.reasonControl.reset();
   }
 
   updateJobTitleSearchFilter(newSearchTerm: string): void {

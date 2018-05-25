@@ -2,7 +2,6 @@
 
 exports[`Peer - Dashboard - Invite Company Modal should render company selection form component and a 'New Company' link when newCompanyFormEnabled is false 1`] = `
 <pf-invite-company-modal
-  attemptedSubmit="false"
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeCompanyRequesting$={[Function Store]}
@@ -36,7 +35,6 @@ exports[`Peer - Dashboard - Invite Company Modal should render company selection
 
 exports[`Peer - Dashboard - Invite Company Modal should render new company form component and an 'Existing Companies' link when newCompanyFormEnabled is true 1`] = `
 <pf-invite-company-modal
-  attemptedSubmit="false"
   exchange={[Function Object]}
   exchange$={[Function Observable]}
   exchangeCompanyRequesting$={[Function Store]}

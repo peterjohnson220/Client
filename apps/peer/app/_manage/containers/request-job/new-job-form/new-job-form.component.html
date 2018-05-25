@@ -7,7 +7,7 @@
           <input id="job-title" type="text" class="form-control"
                  formControlName="jobTitle"
                  [readonly]="newJobRequesting$ | async"
-                 [pfValidatable]="attemptedSubmit || jobTitleControl?.errors?.jobTitleExists">
+                 [pfValidatable]="true">
           <ng-container *ngIf="jobTitleControl.errors">
             <div *ngIf="jobTitleControl.errors.jobTitleExists" class="invalid-feedback">{{jobTitleControl.errors.jobTitleExists}}</div>
           </ng-container>
@@ -27,7 +27,7 @@
           <input id="job-level" type="text" class="form-control"
                  formControlName="jobLevel"
                  [readonly]="newJobRequesting$ | async"
-                 [pfValidatable]="attemptedSubmit">
+                 [pfValidatable]="true">
         </div>
         <div class="form-group">
           <label class="col-form-label" for="job-family">Job Family</label>
@@ -53,8 +53,7 @@
       rows="9"
       name="job-description"
       formControlName="jobDescription"
-      [pfValidatable]="attemptedSubmit"
-      [(ngModel)]="jobDescription"
+      [pfValidatable]="true"
     ></textarea>
   </div>
   <div class="flex-grow-1 d-flex flex-column form-group mb-0">
@@ -66,8 +65,7 @@
         name="reason"
         formControlName="reason"
         [placeholder]="reasonPlaceholder"
-        [pfValidatable]="attemptedSubmit"
-        [(ngModel)]="reason"
+        [pfValidatable]="true"
       ></textarea>
   </div>
 </div>

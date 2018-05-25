@@ -7,7 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
-import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import 'hammerjs';
 
 import { PfFormsModule } from 'libs/forms';
@@ -41,6 +41,7 @@ import {ExistingCompanySelectionFormComponent} from './containers/invite-company
     ReactiveFormsModule,
 
     // 3rd party
+    NgbTooltipModule,
     DropDownsModule,
     ChartModule,
     GridModule,

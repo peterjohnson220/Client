@@ -5,7 +5,6 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
   cardSelector={[Function Object]}
   companyCardDisabled={[Function Function]}
   companyIdentifier={[Function Function]}
-  companySelectionForm={[Function FormGroup]}
   exchangeRequestModalOpenSubscription={[Function Subscriber]}
   existingCompanies$={[Function Store]}
   existingCompaniesExchangeRequestModalOpen$={[Function Store]}
@@ -41,12 +40,12 @@ exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form sho
       class="form-group hidden-form-control"
     >
       <input
-        class="form-control ng-untouched ng-pristine ng-invalid"
+        class="form-control ng-untouched ng-pristine ng-valid"
         formcontrolname="companySelection"
         name="hasSelection"
         ng-reflect-name="companySelection"
         type="hidden"
-        value=""
+        value="[object Object]"
       />
     </div>
     
