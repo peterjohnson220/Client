@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +28,7 @@ export class DashboardTCModalComponent implements OnInit {
   tcContent: string;
   termAndConditionsFeatureName = 'Peer';
 
-  constructor(private store: Store<fromDashboardTCReducer.State>) {
+  constructor(private store: Store<fromDashboardTCReducer.State>, private route: ActivatedRoute) {
     this.userContext$ = this.store.select(fromRootState.getUserContext);
     this.TCModel$ = this.store.select(fromDashboardTCReducer.getTCData);
     this.tcModalOpen$ = this.store.select(fromDashboardTCReducer.hasTCData);
@@ -47,9 +48,13 @@ export class DashboardTCModalComponent implements OnInit {
   }
 
   loadTCIfFromLogin() {
-    if (document.referrer.indexOf('login') >= 0 || window.location.origin + '/' === document.referrer) {
-      this.store.dispatch(new fromDashboardTCActions.LoadingTermsAndConditions(this.termAndConditionsFeatureName));
-    }
+    this.route.queryParams.subscribe(params => {
+      const fromLogin = params['login'];
+
+      if (fromLogin === 'true') {
+        this.store.dispatch(new fromDashboardTCActions.LoadingTermsAndConditions(this.termAndConditionsFeatureName));
+      }
+    });
   }
 
   acceptTC() {
