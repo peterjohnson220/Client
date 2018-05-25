@@ -8,6 +8,7 @@ import * as fromTileGridReducer from './tile-grid.reducer';
 import * as fromDashboardReducer from './dashboard.reducer';
 import * as fromUserVoiceReducer from './user-voice.reducer';
 import * as fromActivityTimelineReducer from './timeline-activity.reducer';
+import * as fromDashboardTCModalReducer from './dashboard-tc-modal.reducer';
 
 // Feature area state
 export interface DashboardMainState {
@@ -15,6 +16,7 @@ export interface DashboardMainState {
   tileGrid: fromTileGridReducer.State;
   userVoice: fromUserVoiceReducer.State;
   activityTimeline: fromActivityTimelineReducer.State;
+  tcModal: fromDashboardTCModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   features: fromDashboardReducer.reducer,
   tileGrid: fromTileGridReducer.reducer,
   userVoice: fromUserVoiceReducer.reducer,
-  activityTimeline: fromActivityTimelineReducer.reducer
+  activityTimeline: fromActivityTimelineReducer.reducer,
+  tcModal: fromDashboardTCModalReducer.reducer
 };
 
 // Select Feature Area
@@ -38,6 +41,7 @@ export const selectTileGridState = createSelector(selectDashboardMainState, (sta
 export const selectFeatureState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.features);
 export const selectUserVoiceState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.userVoice);
 export const selectActivityTimelineState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.activityTimeline);
+export const selectTCModalState = createSelector(selectDashboardMainState, (state: DashboardMainState) => state.tcModal);
 
 // Entity Adapter Selectors
 
@@ -73,3 +77,7 @@ export const getTimelineActivityLoadingError = createSelector(selectActivityTime
 export const getTimelineActivityFilters = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getFilters);
 export const getTimelineActivityCurrentPage = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getGetCurrentPage);
 export const getTimelineActivityHasMoreData = createSelector(selectActivityTimelineState, fromActivityTimelineReducer.getHasMoreData);
+
+// dashboard-tc-modal selector
+export const getTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.getTCData);
+export const hasTCData = createSelector(selectTCModalState, fromDashboardTCModalReducer.hasTCData);

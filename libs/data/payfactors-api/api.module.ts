@@ -11,6 +11,7 @@ import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
 import { UserApiService } from './user';
 import { CompanyApiService } from './company';
+import { TermsConditionsApiService } from './terms-conditions';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -26,7 +27,8 @@ import { CompanyApiService } from './company';
     UiPersistenceSettingsApiService,
     AccountApiService,
     PayMarketApiService,
-    PayfactorsApiService
+    PayfactorsApiService,
+    TermsConditionsApiService
   ]
 })
 export class PfApiModule { }

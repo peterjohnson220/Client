@@ -7,3 +7,4 @@ export * from './security';
 export * from './ui-persistence-settings';
 export * from './api.module';
 export * from './user';
+export * from './terms-conditions';

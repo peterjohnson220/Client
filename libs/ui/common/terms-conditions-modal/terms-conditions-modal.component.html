@@ -4,20 +4,17 @@
       <h3 class="modal-title">
         {{title}}
       </h3>
-      <ng-container *ngIf="subTitle">
-        <h5><small class="text-muted">{{subTitle}}</small></h5>
-      </ng-container>
     </div>
-    <button type="button" class="close" aria-label="Close">
+    <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    {{termsAndConditionsText}}
+  <div class="modal-body"  [innerHTML]="content">
+
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary">Decline</button>
-    <button class="btn btn-primary">Accept</button>
+    <button class="btn btn-secondary" (click)="declineTermsAndConditions()">Decline</button>
+    <button class="btn btn-primary" (click)="acceptTermsAndConditions()">Accept</button>
   </div>
 </ng-template>
 <div class="modal-container"></div>

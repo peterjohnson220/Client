@@ -14,7 +14,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { DashboardEffects, TileGridEffects, UserVoiceEffects, TimelineActivityEffects } from './effects';
+import { DashboardEffects, TileGridEffects, UserVoiceEffects, TimelineActivityEffects, DashboardTcModalEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -27,6 +27,7 @@ import { DashboardPageComponent } from './containers';
 import { TileGridComponent } from './containers';
 import { TimelineActivityComponent } from './containers';
 import { UserVoiceIndicatorComponent } from './containers';
+import { DashboardTCModalComponent} from './containers';
 
 // Components
 import { TileComponent } from './components';
@@ -44,7 +45,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     // 3rd Party
     DragulaModule,
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects]),
+    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects, DashboardTcModalEffects]),
     ChartsModule,
     DateInputsModule,
     NgbModule.forRoot(),
@@ -72,6 +73,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     TimelineActivityComponent,
     TileComponent,
     UserVoiceIndicatorComponent,
+    DashboardTCModalComponent,
   ]
 })
 export class MainModule {
