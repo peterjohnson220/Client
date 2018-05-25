@@ -11,6 +11,8 @@ import { CompanySecurityApiService } from './security';
 import { DashboardApiService } from './dashboard';
 import { UserApiService } from './user';
 import { CompanyApiService } from './company';
+import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
+import { UserProfileApiService } from './user-profile';
 import { TermsConditionsApiService } from './terms-conditions';
 
 @NgModule({
@@ -28,6 +30,9 @@ import { TermsConditionsApiService } from './terms-conditions';
     AccountApiService,
     PayMarketApiService,
     PayfactorsApiService,
+    JobDescriptionManagementApiService,
+    UserProfileApiService,
+    JobDescriptionApiService,
     TermsConditionsApiService
   ]
 })

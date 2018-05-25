@@ -1,5 +1,6 @@
 export * from './company';
 export * from './dashboard';
+export * from './jdm';
 export * from './navigation';
 export * from './paymarket';
 export * from './peer';

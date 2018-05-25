@@ -1,0 +1,13 @@
+<pf-page-with-title-bar [returnUrl]="'/jdm'" (returning)="handleBackButtonClick()">
+  <ng-container page-title>
+    JDM Bulk Export Scheduler
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-bulk-export-scheduler-form
+      [views]="views$ | async"
+      [filters]="filters$ | async"
+      [schedules]="schedules$ | async">
+    </pf-bulk-export-scheduler-form>
+  </ng-container>
+</pf-page-with-title-bar>
