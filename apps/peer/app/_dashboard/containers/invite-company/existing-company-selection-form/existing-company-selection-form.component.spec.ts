@@ -1,25 +1,24 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ExchangeRequestTypeEnum, generateMockRequestExchangeRequest,
-         generateMockExchange } from 'libs/models';
-import { HumanizeNumberPipe } from 'libs/core/pipes';
+import { ExchangeRequestTypeEnum } from 'libs/models/index';
 
-import { PayfactorsCompanyModalComponent } from './pf-company-modal.component';
-import { generateMockExistingCompany } from '../../models';
-import * as fromPeerDashboardReducer from '../../reducers';
-import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
+import * as fromSharedPeerReducer from '../../../../shared/reducers/index';
+import * as fromPeerDashboardReducer from '../../../reducers/index';
+import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
+import { generateMockExistingCompany} from '../../../models';
+import { ExistingCompanySelectionFormComponent } from './existing-company-selection-form.component';
+import {HumanizeNumberPipe} from '../../../../../../../libs/core/pipes';
 
-describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
-  let fixture: ComponentFixture<PayfactorsCompanyModalComponent>;
-  let instance: PayfactorsCompanyModalComponent;
+describe('Peer - Dashboard - Invite Company - Existing Company Selection Form', () => {
+  let fixture: ComponentFixture<ExistingCompanySelectionFormComponent>;
+  let instance: ExistingCompanySelectionFormComponent;
 
   let store: Store<fromPeerDashboardReducer.State>;
 
@@ -36,7 +35,7 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        PayfactorsCompanyModalComponent, HumanizeNumberPipe
+        ExistingCompanySelectionFormComponent, HumanizeNumberPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -44,14 +43,23 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
 
     store = TestBed.get(Store);
 
-    fixture = TestBed.createComponent(PayfactorsCompanyModalComponent);
+    fixture = TestBed.createComponent(ExistingCompanySelectionFormComponent);
     instance = fixture.componentInstance;
     instance.cardSelector = {selectedCard: generateMockExistingCompany()};
+    instance.requestCompanyForm = new FormGroup({});
+  });
+
+  it(`should apply the companySelectionForm to the requestCompanyForm on init`, () => {
+    fixture.detectChanges();
+
+    const childCompanySelectionForm = instance.requestCompanyForm.get('companySelectionForm');
+    expect(childCompanySelectionForm).toBe(instance.companySelectionForm);
   });
 
   it('should dispatch a LoadCandidates action of type ReferPayfactorsCompany when handleReloadCardsEvent is triggered', () => {
-    spyOn(store, 'dispatch');
     const expectedAction = new fromExchangeRequestActions.LoadCandidates(ExchangeRequestTypeEnum.ReferPayfactorsCompany);
+
+    spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
@@ -86,49 +94,21 @@ describe('Peer - Exchange Request - Invite Pf Companies Modal', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it(`should dispatch a CreateExchangeRequest action when handleFormSubmit is triggered`, () => {
-    const mockExchange = generateMockExchange();
-    const mockRequestModel = {
-      ...generateMockRequestExchangeRequest(ExchangeRequestTypeEnum.ReferPayfactorsCompany),
-      ExchangeId: mockExchange.ExchangeId,
-      TypeData: {
-        CompanyId: null
-      }
-    };
-    const expectedAction = new fromExchangeRequestActions.CreateExchangeRequest(
-      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      mockRequestModel
-    );
-
-    instance.exchange$ = of(mockExchange);
-    instance.reason = mockRequestModel.Reason;
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    instance.handleFormSubmit();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it(`should dispatch a CloseExchangeRequestModal action of type Access on modal dismissed`, () => {
-    const expectedAction = new fromExchangeRequestActions.CloseExchangeRequestModal(
-      ExchangeRequestTypeEnum.ReferPayfactorsCompany
-    );
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    instance.handleModalDismissed();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it(`should provide correct values to the pf-modal-form component`, () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
+  it(`should clear form on init when the modal is not open`, () => {
+    const expectedString = '';
+    instance.reason = 'MockReason';
+    instance.searchTerm = 'MockSearchTerm';
+    instance.existingCompaniesExchangeRequestModalOpen$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(instance.reasonControl.value).toBe(expectedString);
+    expect(instance.searchTerm).toBe(expectedString);
+  });
 });

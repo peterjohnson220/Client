@@ -58,7 +58,7 @@ export class ExchangeRequestEffectsService {
       .ofType(`${type}_${fromExchangeRequestActions.CREATE_EXCHANGE_REQUEST}`)
       .map((action: fromExchangeRequestActions.CreateExchangeRequest) => action.payload)
       .switchMap((payload: RequestExchangeRequest) => {
-          return this.exchangeCompanyApiService.requestExchangeAccess(payload)
+          return this.exchangeCompanyApiService.createExchangeRequest(payload)
             .concatMap(() => {
               const actions: Action[] = [
                 new fromExchangeRequestActions.CreateExchangeRequestSuccess(type),

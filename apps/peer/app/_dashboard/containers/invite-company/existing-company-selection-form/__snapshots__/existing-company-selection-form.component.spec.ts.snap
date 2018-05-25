@@ -1,33 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Peer - Exchange Request - Invite Pf Companies Modal should provide correct values to the pf-modal-form component 1`] = `
-<pf-invite-payfactors-company-modal
-  attemptedSubmit="false"
+exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-existing-company-selection-form
   cardSelector={[Function Object]}
   companyCardDisabled={[Function Function]}
   companyIdentifier={[Function Function]}
-  exchange="null"
-  exchange$={[Function Store]}
-  exchangeAccessRequesting$={[Function Store]}
+  companySelectionForm={[Function FormGroup]}
   exchangeRequestModalOpenSubscription={[Function Subscriber]}
-  exchangeSelectionsForm={[Function FormGroup]}
-  exchangeSubscription={[Function Subscriber]}
   existingCompanies$={[Function Store]}
   existingCompaniesExchangeRequestModalOpen$={[Function Store]}
   existingCompaniesLoading$={[Function Store]}
   existingCompaniesLoadingError$={[Function Store]}
   fb={[Function FormBuilder]}
+  noResultsMessage={[Function String]}
   reason=""
+  requestCompanyForm={[Function FormGroup]}
   searchTerm=""
   sharedPeerStore={[Function Store]}
   store={[Function Store]}
 >
-  <pf-modal-form
+  <div
     class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
-    title="Invite a Company"
   >
-    
     <pf-card-selector>
       
       <div
@@ -55,6 +50,6 @@ exports[`Peer - Exchange Request - Invite Pf Companies Modal should provide corr
       />
     </div>
     
-  </pf-modal-form>
-</pf-invite-payfactors-company-modal>
+  </div>
+</pf-existing-company-selection-form>
 `;

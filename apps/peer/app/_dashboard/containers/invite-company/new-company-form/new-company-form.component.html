@@ -1,0 +1,82 @@
+<div class="new-company-form-content d-flex flex-column" [formGroup]="newCompanyForm">
+  <div class="flex-column">
+    <div class="d-flex justify-content-between">
+      <div class="flex-column flex-column-half">
+        <div class="form-group">
+          <label class="col-form-label" for="company-name">Company Name</label>
+          <input id="company-name" type="text" class="form-control"
+                 formControlName="companyName"
+                 [readonly]="exchangeCompanyRequesting$ | async"
+                 [pfValidatable]="true">
+          <ng-container *ngIf="companyNameControl.errors">
+            <div *ngIf="companyNameControl.errors.companyNameExists" class="invalid-feedback">{{companyNameControl.errors.companyNameExists}}</div>
+          </ng-container>
+          <span *ngIf="!companyNameControl?.errors?.companyNameExists" class="pf-placeholder"></span>
+          <p>
+            <i class="far fa-info-circle text-info"></i>
+            <small class="text-muted"> Company name must be at least 3 characters, unique for this exchange
+              (including existing requests) and cannot be an existing company. If it is an existing company,
+              try clicking the 'Existing Companies' link below.
+            </small>
+          </p>
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="company-industry">Company Industry</label>
+          <kendo-combobox #companyIndustriesComboBox class="form-control"
+                          id="company-industry"
+                          formControllName="industry"
+                          [disabled]="exchangeCompanyRequesting$ | async"
+                          [allowCustom]="true"
+                          [data]="companyIndustriesFiltered"
+                          [valuePrimitive]="true"
+                          [filterable]="true"
+                          (valueChange)="handleCompanyIndustryValueChange($event)"
+                          (filterChange)="handleIndustryFilterChange($event)">
+          </kendo-combobox>
+        </div>
+      </div>
+      <div class="flex-column flex-column-half">
+        <div class="form-group">
+          <label class="col-form-label" for="contact-name">Contact Name</label>
+          <input id="contact-name" type="text" class="form-control"
+                 formControlName="contactName"
+                 [readonly]="exchangeCompanyRequesting$ | async"
+                 [pfValidatable]="true">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="contact-job-title">Contact Job Title</label>
+          <input id="contact-job-title" type="text" class="form-control"
+                 formControlName="contactJobTitle"
+                 [readonly]="exchangeCompanyRequesting$ | async">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="contact-email-address">Contact Email Address</label>
+          <input id="contact-email-address" type="email" class="form-control"
+                 formControlName="contactEmailAddress"
+                 [email]="true"
+                 [readonly]="exchangeCompanyRequesting$ | async"
+                 [pfValidatable]="true">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="contact-phone-number">Contact Phone Number</label>
+          <input id="contact-phone-number" type="text" class="form-control"
+                 formControlName="contactPhoneNumber"
+                 [readonly]="exchangeCompanyRequesting$ | async">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-grow-1 d-flex flex-column form-group mb-0">
+      <textarea
+        maxlength="1000"
+        id="request-reason"
+        class="form-control"
+        rows="8"
+        name="reason"
+        formControlName="reason"
+        [placeholder]="reasonPlaceholder"
+        [pfValidatable]="true"
+        [(ngModel)]="reason"
+      ></textarea>
+  </div>
+</div>

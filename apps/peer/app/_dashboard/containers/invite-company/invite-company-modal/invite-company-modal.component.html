@@ -1,0 +1,41 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Invite a Company'"
+  [subTitle]="modalSubTitle"
+  [primaryButtonText]="'Invite'"
+  [primaryButtonTextSubmitting]="'Inviting...'"
+  [submitting]="exchangeCompanyRequesting$ | async"
+  [isOpen$]="existingCompaniesExchangeRequestModalOpen$"
+  [formGroup]="requestCompanyForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <ng-container *ngIf="newCompanyFormEnabled">
+
+      <pf-new-company-form
+        [attemptedSubmit]="attemptedSubmit"
+        [exchange]="exchange"
+        [requestCompanyForm]="requestCompanyForm">
+      </pf-new-company-form>
+
+    </ng-container>
+
+    <ng-container *ngIf="!newCompanyFormEnabled">
+
+      <pf-existing-company-selection-form
+        [attemptedSubmit]="attemptedSubmit"
+        [exchange]="exchange"
+        [requestCompanyForm]="requestCompanyForm">
+      </pf-existing-company-selection-form>
+
+    </ng-container>
+
+  </ng-container>
+
+  <ng-container footer-left>
+    <a href="javascript:void(0)" (click)="handleSwitchToggled()">{{newCompanyFormEnabled ? 'Existing Companies' : 'New Company'}}</a>
+  </ng-container>
+
+</pf-modal-form>

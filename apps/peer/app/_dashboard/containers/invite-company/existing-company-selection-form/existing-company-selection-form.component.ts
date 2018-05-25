@@ -1,41 +1,40 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/timer';
 
 import { PfValidators } from 'libs/forms/validators';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
-import { Exchange, ExchangeRequestTypeEnum, RequestExchangeRequest } from 'libs/models/peer';
+import { Exchange, ExchangeRequestTypeEnum } from 'libs/models/peer';
 
-import * as fromPeerDashboardReducer from '../../reducers';
-import { ExistingCompany } from '../../models';
-import * as fromSharedPeerReducer from '../../../shared/reducers';
-import * as fromExchangeRequestActions from '../../../shared/actions/exchange-request.actions';
+import * as fromPeerDashboardReducer from '../../../reducers';
+import { ExistingCompany } from '../../../models';
+import * as fromSharedPeerReducer from '../../../../shared/reducers';
+import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 
 @Component({
-  selector: 'pf-invite-payfactors-company-modal',
-  templateUrl: './pf-company-modal.component.html',
-  styleUrls: ['./pf-company-modal.component.scss']
+  selector: 'pf-existing-company-selection-form',
+  templateUrl: './existing-company-selection-form.component.html',
+  styleUrls: ['./existing-company-selection-form.component.scss']
 })
 
-export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
+export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy {
   @ViewChild(CardSelectorComponent) cardSelector;
 
-  exchange$: Observable<Exchange>;
+  @Input() exchange: Exchange;
+  @Input() attemptedSubmit: boolean;
+  @Input() requestCompanyForm: FormGroup;
+
   existingCompanies$: Observable<ExistingCompany[]>;
   existingCompaniesLoading$: Observable<boolean>;
   existingCompaniesLoadingError$: Observable<boolean>;
-  exchangeAccessRequesting$: Observable<boolean>;
   existingCompaniesExchangeRequestModalOpen$: Observable<boolean>;
-
   exchangeRequestModalOpenSubscription: Subscription;
-  exchangeSubscription: Subscription;
-
-  exchange: Exchange;
-  attemptedSubmit = false;
-  exchangeSelectionsForm: FormGroup;
+  companySelectionForm: FormGroup;
+  noResultsMessage = 'Please change your search criteria to search again or click \'New Company\' to invite a new company.';
   reason = '';
   searchTerm = '';
 
@@ -47,11 +46,9 @@ export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
     private fb: FormBuilder
   ) {
-    this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
     this.existingCompanies$ = this.store.select(fromPeerDashboardReducer.getPfCompaniesExchangeRequestCandidates);
     this.existingCompaniesLoading$ = this.store.select(fromPeerDashboardReducer.getPfCompaniesExchangeRequestCandidatesLoading);
     this.existingCompaniesLoadingError$ = this.store.select(fromPeerDashboardReducer.getPfCompaniesExchangeRequestCandidatesLoadingError);
-    this.exchangeAccessRequesting$ = this.store.select(fromPeerDashboardReducer.getPfCompaniesExchangeRequestRequesting);
     this.existingCompaniesExchangeRequestModalOpen$ = this.store.select(
       fromPeerDashboardReducer.getPfCompaniesExchangeRequestModalOpen
     );
@@ -60,20 +57,20 @@ export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
 
   get reasonPlaceholder(): string {
     return `Please tell us why you would like ${this.cardSelection ? this.cardSelection.CompanyName : ''} to be part ` +
-           `of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
+      `of the ${this.exchange ? this.exchange.ExchangeName : ''} exchange...`;
   }
-  get modalSubTitle(): string {
-    return `Search for, select and invite a company to the ${this.exchange ? this.exchange.ExchangeName : ''} exchange.
-            The exchange administrator will review the invitation for eligibility before approving admission.`;
-  }
-  get reasonControl() { return this.exchangeSelectionsForm.get('reason'); }
+  get reasonControl() { return this.companySelectionForm.get('reason'); }
   get cardSelection(): ExistingCompany { return this.cardSelector ? this.cardSelector.selectedCard : null; }
 
   createForm(): void {
-    this.exchangeSelectionsForm = this.fb.group({
+    this.companySelectionForm = this.fb.group({
       'reason': [this.reason, [PfValidators.required]],
       'companySelection': [this.cardSelection, [Validators.required]]
     });
+  }
+
+  applyCompanySelectionForm(): void {
+    this.requestCompanyForm.addControl('companySelectionForm', this.companySelectionForm);
   }
 
   handleReloadCardsEvent(): void {
@@ -88,31 +85,9 @@ export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeRequestActions.UpdateSearchTerm(ExchangeRequestTypeEnum.ReferPayfactorsCompany, newSearchTerm));
   }
 
-  // Modal events
-  handleFormSubmit(): void {
-    this.attemptedSubmit = true;
-    const requestAccessModel: RequestExchangeRequest = {
-      ExchangeId: this.exchange ? this.exchange.ExchangeId : 0,
-      Reason: this.reason,
-      Type: ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      TypeData: {
-        CompanyId: this.cardSelection ? this.cardSelection.CompanyId : null
-      }
-    };
-
-    this.store.dispatch(new fromExchangeRequestActions.CreateExchangeRequest(
-      ExchangeRequestTypeEnum.ReferPayfactorsCompany,
-      requestAccessModel
-    ));
-  }
-
-  handleModalDismissed(): void {
-    this.attemptedSubmit = false;
-    this.store.dispatch(new fromExchangeRequestActions.CloseExchangeRequestModal(ExchangeRequestTypeEnum.ReferPayfactorsCompany));
-  }
-
   // Lifecycle Events
   ngOnInit(): void {
+    this.applyCompanySelectionForm();
     this.exchangeRequestModalOpenSubscription = this.existingCompaniesExchangeRequestModalOpen$.subscribe(open => {
       if (!open) {
         this.cardSelector.selectedCard = null;
@@ -120,13 +95,9 @@ export class PayfactorsCompanyModalComponent implements OnInit, OnDestroy {
         this.reasonControl.setValue('');
       }
     });
-    this.exchangeSubscription = this.exchange$.subscribe(e => {
-      this.exchange = e;
-    });
   }
 
   ngOnDestroy(): void {
     this.exchangeRequestModalOpenSubscription.unsubscribe();
-    this.exchangeSubscription.unsubscribe();
   }
 }

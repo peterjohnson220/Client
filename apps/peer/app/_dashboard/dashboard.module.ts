@@ -17,17 +17,20 @@ import { PfNgBootstrapExtensionModule } from 'libs/extensions/ng-bootstrap';
 
 import { RedirectToExchangeComponent } from './components';
 import {
-  ExchangeDashboardPageComponent, PayfactorsCompanyModalComponent,
+  ExchangeDashboardPageComponent, NoExchangesPageComponent, ExchangeSelectorComponent,
   AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
   ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
-  ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeSelectorComponent, NoExchangesPageComponent
+  ChartDetailComponent, ExchangeJobComparisonGridComponent
 } from './containers';
 import { ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-         PayfactorsCompanyExchangeRequestEffects, ExchangeJobComparisonGridEffects, ExchangeEffects } from './effects';
+         InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects } from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import {InviteCompanyModalComponent} from './containers/invite-company/invite-company-modal';
+import {NewCompanyFormComponent} from './containers/invite-company/new-company-form';
+import {ExistingCompanySelectionFormComponent} from './containers/invite-company/existing-company-selection-form';
 
 
 @NgModule({
@@ -44,7 +47,7 @@ import { SharedModule } from '../shared/shared.module';
     StoreModule.forFeature('peer_dashboard', reducers),
     EffectsModule.forFeature([
       ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-      PayfactorsCompanyExchangeRequestEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+      InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
     ]),
     NgbPopoverModule,
 
@@ -65,8 +68,8 @@ import { SharedModule } from '../shared/shared.module';
     // Containers
     ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent, ExchangeRevenueChartComponent,
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
-    PayfactorsCompanyModalComponent, AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent,
-    ExchangeSelectorComponent,
+    AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeSelectorComponent,
+    InviteCompanyModalComponent, NewCompanyFormComponent, ExistingCompanySelectionFormComponent,
 
     // Pages
     NoExchangesPageComponent

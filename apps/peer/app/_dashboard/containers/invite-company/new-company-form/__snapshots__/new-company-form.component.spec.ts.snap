@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Dashboard - Invite Company - New Company Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-new-company-form
+  companyIndustries={[Function Array]}
+  companyIndustries$={[Function Store]}
+  companyIndustriesComboBox={[Function Object]}
+  companyIndustriesFiltered={[Function Array]}
+  companyIndustriesLoading$={[Function Store]}
+  companyIndustriesLoadingError$={[Function Store]}
+  companyIndustriesSubscription={[Function Subscriber]}
+  companyName=""
+  contactEmailAddress=""
+  contactJobTitle=""
+  contactName=""
+  contactPhoneNumber=""
+  exchangeCompanyApiService={[Function Object]}
+  exchangeCompanyRequesting$={[Function Store]}
+  fb={[Function FormBuilder]}
+  industry=""
+  newCompanyForm={[Function FormGroup]}
+  reason=""
+  requestCompanyForm={[Function FormGroup]}
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="new-company-form-content d-flex flex-column ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+  >
+    <div
+      class="flex-column"
+    >
+      <div
+        class="d-flex justify-content-between"
+      >
+        <div
+          class="flex-column flex-column-half"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="company-name"
+            >
+              Company Name
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-invalid"
+              formcontrolname="companyName"
+              id="company-name"
+              ng-reflect-name="companyName"
+              type="text"
+            />
+            
+            
+            
+            
+            
+            <span
+              class="pf-placeholder"
+            />
+            <p>
+              <i
+                class="far fa-info-circle text-info"
+              />
+              <small
+                class="text-muted"
+              >
+                 Company name must be at least 3 characters, unique for this exchange (including existing requests) and cannot be an existing company. If it is an existing company, try clicking the 'Existing Companies' link below. 
+              </small>
+            </p>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="company-industry"
+            >
+              Company Industry
+            </label>
+            <kendo-combobox
+              class="form-control"
+              formcontrollname="industry"
+              id="company-industry"
+            />
+          </div>
+        </div>
+        <div
+          class="flex-column flex-column-half"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="contact-name"
+            >
+              Contact Name
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-invalid"
+              formcontrolname="contactName"
+              id="contact-name"
+              ng-reflect-name="contactName"
+              type="text"
+            />
+          </div>
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="contact-job-title"
+            >
+              Contact Job Title
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              formcontrolname="contactJobTitle"
+              id="contact-job-title"
+              ng-reflect-name="contactJobTitle"
+              type="text"
+            />
+          </div>
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="contact-email-address"
+            >
+              Contact Email Address
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              formcontrolname="contactEmailAddress"
+              id="contact-email-address"
+              ng-reflect-email="true"
+              ng-reflect-name="contactEmailAddress"
+              type="email"
+            />
+          </div>
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="contact-phone-number"
+            >
+              Contact Phone Number
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              formcontrolname="contactPhoneNumber"
+              id="contact-phone-number"
+              ng-reflect-name="contactPhoneNumber"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex-grow-1 d-flex flex-column form-group mb-0"
+    >
+      <textarea
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="reason"
+        id="request-reason"
+        maxlength="1000"
+        name="reason"
+        ng-reflect-maxlength="1000"
+        ng-reflect-model=""
+        ng-reflect-name="reason"
+        placeholder="Please tell us why you would like this company to be part of the  exchange..."
+        rows="8"
+      />
+    </div>
+  </div>
+</pf-new-company-form>
+`;

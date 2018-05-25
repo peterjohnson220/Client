@@ -14,6 +14,7 @@ import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-requ
 import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
 import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
+import * as fromCompanyIndustriesReducer from './company-industries.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -23,6 +24,7 @@ export interface DashboardState {
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.State;
   exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
   exchangeSelector: fromExchangeSelectorReducer.State;
+  companyIndustries: fromCompanyIndustriesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -37,7 +39,8 @@ export const reducers = {
   accessExchangeRequest: fromAccessExchangeRequestReducer.reducer,
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
-  exchangeSelector: fromExchangeSelectorReducer.reducer
+  exchangeSelector: fromExchangeSelectorReducer.reducer,
+  companyIndustries: fromCompanyIndustriesReducer.reducer
 };
 
 // Select Feature Area
@@ -72,6 +75,11 @@ export const selectPfCompaniesExchangeRequestState = createSelector(
 export const selectExchangeSelectorState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.exchangeSelector
+);
+
+export const selectCompanyIndustriesState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.companyIndustries
 );
 
 // Exchange Dashboard Selectors
@@ -282,4 +290,19 @@ export const getExchangeSelectorListLoading = createSelector(
 export const getExchangeSelectorListLoaded = createSelector(
   selectExchangeSelectorState,
   fromExchangeSelectorReducer.getLoaded
+);
+
+// Request Company - New Company - Company Industries
+export const {
+  selectAll: getCompanyIndustries
+} = fromCompanyIndustriesReducer.adapter.getSelectors(selectCompanyIndustriesState);
+
+export const getCompanyIndustriesLoading = createSelector(
+  selectCompanyIndustriesState,
+  fromCompanyIndustriesReducer.getLoading
+);
+
+export const getCompanyIndustriesLoadingError = createSelector(
+  selectCompanyIndustriesState,
+  fromCompanyIndustriesReducer.getLoadingError
 );
