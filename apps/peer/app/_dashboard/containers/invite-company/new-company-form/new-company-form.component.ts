@@ -71,7 +71,7 @@ export class NewCompanyFormComponent implements OnInit {
       'industry': [this.industry],
       'contactName': [this.contactName, [PfValidators.required]],
       'contactJobTitle': [this.contactJobTitle],
-      'contactEmailAddress': [this.contactEmailAddress, [Validators.email]],
+      'contactEmailAddress': [this.contactEmailAddress, [PfValidators.required, Validators.email]],
       'contactPhoneNumber': [this.contactPhoneNumber]
     }));
   }
