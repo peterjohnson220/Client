@@ -7,5 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class PageWithTitleBarComponent {
   @Input() returnUrl: string;
+  @Input() absoluteUrl: string;
   @Input() contentNoPadding: boolean;
 }

@@ -7,8 +7,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import {PfCommonUIModule} from 'libs/ui/common/index';
 
-import {BulkExportSchedulerFormComponent} from './containers/bulk-export-schedule-form/bulk-export-scheduler-form.component';
-import {BulkExportSchedulerPageComponent} from './containers/pages/index';
+import {BulkExportSchedulerFormComponent} from './containers/bulk-export-schedule-form';
+import {BulkExportSchedulerPageComponent} from './containers/pages';
 import { JdmBulkExportSchedulerRoutingModule } from './bulk-export-scheduler-routing.module';
 import { reducers } from './reducers';
 import { JdmBulkExportScheduleEffects, JdmFiltersEffects, JdmViewEffects } from './effects';
