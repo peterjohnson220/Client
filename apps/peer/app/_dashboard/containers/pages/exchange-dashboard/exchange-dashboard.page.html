@@ -51,8 +51,10 @@
             </div>
           </div>
         </div>
-        <div class="exchange-dashboard-job-comparison-grid mt-3 d-flex">
-          <pf-exchange-job-comparison-grid></pf-exchange-job-comparison-grid>
+        <div class="exchange-dashboard-job-comparison-grid mt-3 d-flex flex-column">
+          <div class="h-100">
+            <pf-exchange-job-comparison-grid></pf-exchange-job-comparison-grid>
+          </div>
         </div>
       </div>
       <div class="exchange-dashboard-sidebar" *ngIf="(sidebarVisible$ | async)">
