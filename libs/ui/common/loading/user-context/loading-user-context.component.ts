@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/take';
 
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
 import * as fromRootState from 'libs/state/state';
-import { UserContext } from '../../../../models';
 
-import 'rxjs/add/operator/take';
+import { UserContext } from '../../../../models';
 
 declare var initializePendo: any;
 
@@ -18,7 +18,6 @@ declare var initializePendo: any;
 export class LoadingUserContextComponent implements OnInit {
   gettingUserContext$: Observable<boolean>;
   userContext$: Observable<UserContext>;
-
 
   constructor(
     private store: Store<fromRootState.State>

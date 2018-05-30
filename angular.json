@@ -53,7 +53,8 @@
               "apps/admin/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -121,7 +122,8 @@
             "polyfills": "apps/admin/polyfills.ts",
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -221,7 +223,8 @@
             ],
             "scripts": [
               "assets/js/drift.js",
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -290,7 +293,8 @@
             "tsConfig": "apps/dashboard/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/drift.js",
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -391,7 +395,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -459,7 +464,8 @@
             "polyfills": "apps/peer/polyfills.ts",
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -563,7 +569,8 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -631,7 +638,8 @@
             "polyfills": "apps/legacy-content/polyfills.ts",
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -733,7 +741,8 @@
               "apps/auth/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -801,7 +810,8 @@
             "polyfills": "apps/auth/polyfills.ts",
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
