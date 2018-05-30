@@ -2,42 +2,28 @@
 
 exports[`Loading User Context should show a centered loading indicator, when we are getting the user context 1`] = `
 <pf-loading-user-context
-  gettingUserContext$={[Function ScalarObservable]}
+  gettingUserContext$={[Function Observable]}
   store={[Function Store]}
   userContext$={[Function Store]}
 >
-  
-    <div
+  <div
     class="h-100 d-flex justify-content-center align-items-center"
   >
-    
-      
     <h2
       class="text-white"
     >
       <pf-loading-indicator />
     </h2>
-    
-    
   </div>
-  
-  
-  
-  
 </pf-loading-user-context>
 `;
 
 exports[`Loading User Context should show a router outlet, when we are not getting the user context 1`] = `
 <pf-loading-user-context
-  gettingUserContext$={[Function ScalarObservable]}
+  gettingUserContext$={[Function Observable]}
   store={[Function Store]}
   userContext$={[Function Store]}
 >
-  
-    <router-outlet />
-  
-  
-  
-  
+  <router-outlet />
 </pf-loading-user-context>
 `;

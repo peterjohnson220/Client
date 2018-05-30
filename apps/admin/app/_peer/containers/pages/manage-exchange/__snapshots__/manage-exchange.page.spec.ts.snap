@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Manage Exchange Page should pass the exchange name to the page title transclusion area 1`] = `
+<pf-manage-exchange-page
+  exchange$={[Function Observable]}
+  importExchangeJobsModalOpen$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Manage Exchange - Mock Exchange 
+    
+    <div
+      class="card-group h-100 w-100"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header"
+        >
+           Companies 
+          <button
+            class="btn btn-sm btn-primary float-right"
+            type="button"
+          >
+            Add Companies
+          </button>
+        </div>
+        <div
+          class="card-body d-flex"
+        >
+          <pf-exchange-companies />
+        </div>
+      </div>
+      <div
+        class="card"
+      >
+        <div
+          class="card-header"
+        >
+           Jobs 
+          <button
+            class="btn btn-sm btn-primary float-right"
+            type="button"
+          >
+            Add Jobs
+          </button>
+          <button
+            class="btn btn-sm btn-secondary float-right"
+            type="button"
+          >
+            Import
+          </button>
+        </div>
+        <div
+          class="card-body d-flex"
+        >
+          <pf-exchange-jobs />
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar><pf-import-exchange-jobs-modal /><pf-add-jobs-modal />
+</pf-manage-exchange-page>
+`;

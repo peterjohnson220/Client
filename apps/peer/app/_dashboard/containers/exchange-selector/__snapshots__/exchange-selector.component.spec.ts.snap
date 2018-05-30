@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer Dashboard - Exchange Selector should display the currently selected exchange name 1`] = `
+<pf-exchange-selector
+  currentExchange={[Function Object]}
+  currentExchangeSub={[Function Subscriber]}
+  exchange$={[Function Store]}
+  exchangeListItems$={[Function Store]}
+  popover={[Function NgbPopover]}
+  router={[Function Object]}
+  sharedStore={[Function Store]}
+  store={[Function Store]}
+>
+  <button
+    class="btn btn-secondary"
+    ng-reflect-ngb-popover="[object Object]"
+    ng-reflect-placement="bottom"
+    ng-reflect-popover-title="Select an Exchange"
+    pfhandlepopoverclose=""
+    placement="bottom"
+    popovertitle="Select an Exchange"
+    type="button"
+  >
+    
+  
+    
+    <span
+      class="text-muted"
+    >
+      Exchange:
+    </span>
+    
+    
+    <strong>
+      Mock Exchange
+    </strong>
+    
+    
+    <i
+      class="fas fa-caret-down"
+    />
+    
+  
+  
+  </button>
+  
+  
+  
+</pf-exchange-selector>
+`;

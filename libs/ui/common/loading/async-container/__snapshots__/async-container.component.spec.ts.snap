@@ -8,9 +8,6 @@ exports[`Async Container should not show the .loading-blanket, when it is not lo
   reloadText={[Function String]}
 >
   
-  
-  
-  
 </pf-async-container>
 `;
 
@@ -24,49 +21,20 @@ exports[`Async Container should show the pf-error-indicator and no reload button
   <div
     class="loading-blanket no-opacity"
   >
-    
-    
     <div
       class="loading-blanket-center"
     >
       
-  
       
       
-      
-  
-      
-      
-      
-      
-  
-        
       <div
         class="d-flex flex-column align-items-center alert alert-danger"
       >
-        
-          
         <pf-error-indicator />
         
-  
-          
-        
-        
-        
       </div>
-      
-  
-      
-      
-  
-    
     </div>
-    
-  
   </div>
-  
-  
-  
 </pf-async-container>
 `;
 
@@ -79,59 +47,26 @@ exports[`Async Container should show the pf-error-indicator and reload button, w
   <div
     class="loading-blanket no-opacity"
   >
-    
-    
     <div
       class="loading-blanket-center"
     >
       
-  
       
       
-      
-  
-      
-      
-      
-      
-  
-        
       <div
         class="d-flex flex-column align-items-center alert alert-danger"
       >
-        
-          
         <pf-error-indicator />
         
-  
-          
         
-        
-        
-            
         <button
           class="btn btn-danger mt-3"
         >
           Reload
         </button>
-        
-          
-        
-        
       </div>
-      
-  
-      
-      
-  
-    
     </div>
-    
-  
   </div>
-  
-  
-  
 </pf-async-container>
 `;
 
@@ -144,51 +79,25 @@ exports[`Async Container should show the pf-loading-indicator, when we are loadi
   <div
     class="loading-blanket"
   >
-    
-    
     <div
       class="loading-blanket-center"
     >
       
-  
       
-      
-      
-      
-        
       <pf-loading-indicator />
       
-      
-      
-  
-      
-      
-      
-  
-    
     </div>
-    
-  
   </div>
-  
-  
-  
 </pf-async-container>
 `;
 
 exports[`Async Container should transclude 1`] = `
 <ng-component>
-  
-      <pf-async-container>
+  <pf-async-container>
     
-    
-  
-  
     <h1>
       Transclusion Works!
     </h1>
-    
-  
   </pf-async-container>
 </ng-component>
 `;

@@ -1,0 +1,71 @@
+<div class="new-job-form-content d-flex flex-column" [formGroup]="newJobForm">
+  <div class="flex-column">
+    <div class="d-flex justify-content-between">
+      <div class="flex-column flex-column-half">
+        <div class="form-group">
+          <label class="col-form-label" for="job-title">Job Title</label>
+          <input id="job-title" type="text" class="form-control"
+                 formControlName="jobTitle"
+                 [readonly]="newJobRequesting$ | async"
+                 [pfValidatable]="true">
+          <ng-container *ngIf="jobTitleControl.errors">
+            <div *ngIf="jobTitleControl.errors.jobTitleExists" class="invalid-feedback">{{jobTitleControl.errors.jobTitleExists}}</div>
+          </ng-container>
+          <span *ngIf="!jobTitleControl?.errors?.jobTitleExists" class="pf-placeholder"></span>
+          <p>
+            <i class="far fa-info-circle text-info"></i>
+            <small class="text-muted"> Job title must be at least 3 characters, unique for this exchange
+              (including existing requests) and cannot be an existing job. If it is an existing job,
+              try using that instead by clicking the 'Existing Jobs' link below.
+            </small>
+          </p>
+        </div>
+      </div>
+      <div class="flex-column flex-column-half">
+        <div class="form-group">
+          <label class="col-form-label" for="job-level">Job Level</label>
+          <input id="job-level" type="text" class="form-control"
+                 formControlName="jobLevel"
+                 [readonly]="newJobRequesting$ | async"
+                 [pfValidatable]="true">
+        </div>
+        <div class="form-group">
+          <label class="col-form-label" for="job-family">Job Family</label>
+          <kendo-combobox #jobFamiliesComboBox class="form-control"
+                          id="job-family"
+                          formControllName="jobFamily"
+                          [allowCustom]="true"
+                          [data]="potentialJobFamiliesFiltered"
+                          [valuePrimitive]="true"
+                          [filterable]="true"
+                          (valueChange)="handleJobFamilyValueChange($event)"
+                          (filterChange)="handleJobFamilyFilterChange($event)">
+          </kendo-combobox>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex-shrink-1 d-flex flex-column form-group">
+    <label class="col-form-label" for="job-description">Job Description</label>
+    <textarea
+      id="job-description"
+      class="form-control"
+      rows="9"
+      name="job-description"
+      formControlName="jobDescription"
+      [pfValidatable]="true"
+    ></textarea>
+  </div>
+  <div class="flex-grow-1 d-flex flex-column form-group mb-0">
+      <textarea
+        maxlength="1000"
+        id="request-reason"
+        class="form-control"
+        rows="3"
+        name="reason"
+        formControlName="reason"
+        [placeholder]="reasonPlaceholder"
+        [pfValidatable]="true"
+      ></textarea>
+  </div>
+</div>

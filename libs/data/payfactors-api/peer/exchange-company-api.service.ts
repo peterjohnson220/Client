@@ -68,7 +68,27 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddDataCut`, addDataCutRequest);
   }
 
-  requestExchangeAccess(payload: RequestExchangeRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/RequestExchangeAccess`, payload);
+  createExchangeRequest(payload: RequestExchangeRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/CreateExchangeRequest`, payload);
+  }
+
+  validateNewCompanyName(exchangeId: number, companyName: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidCompanyName`,
+      { params: { exchangeId: exchangeId, companyName: companyName } }
+      );
+  }
+
+  getCompanyIndustries(): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetCompanyIndustries`);
+  }
+
+  validateNewJobTitle(exchangeId: number, jobTitle: string): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidJobTitle`,
+      { params: { exchangeId: exchangeId, jobTitle: jobTitle } }
+      );
+  }
+
+  getPayfactorsJobFamilies(): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetPayfactorsJobFamilies`);
   }
 }

@@ -18,6 +18,7 @@ export class CardSelectorComponent implements OnInit, OnDestroy {
   @Input() cardSelectedTemplate: TemplateRef<any>;
   @Input() cardIdentifier: (dataItem: any) => number | string;
   @Input() cardIsDisabled: (dataItem: any) => boolean;
+  @Input() noResultsMessage = 'Please change your filter criteria to search again.';
   @Output() onReload = new EventEmitter();
   @Output() onCardSelection = new EventEmitter();
 

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Dashboard - Invite Company - Existing Company Selection Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-existing-company-selection-form
+  cardSelector={[Function Object]}
+  companyCardDisabled={[Function Function]}
+  companyIdentifier={[Function Function]}
+  exchangeRequestModalOpenSubscription={[Function Subscriber]}
+  existingCompanies$={[Function Store]}
+  existingCompaniesExchangeRequestModalOpen$={[Function Store]}
+  existingCompaniesLoading$={[Function Store]}
+  existingCompaniesLoadingError$={[Function Store]}
+  fb={[Function FormBuilder]}
+  noResultsMessage={[Function String]}
+  reason=""
+  requestCompanyForm={[Function FormGroup]}
+  searchTerm=""
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+  >
+    <pf-card-selector>
+      
+      <div
+        class="filter flex-grow-1"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          ng-reflect-model=""
+          ng-reflect-options="[object Object]"
+          ngdefaultcontrol=""
+        />
+      </div>
+    </pf-card-selector>
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-valid"
+        formcontrolname="companySelection"
+        name="hasSelection"
+        ng-reflect-name="companySelection"
+        type="hidden"
+        value="[object Object]"
+      />
+    </div>
+    
+  </div>
+</pf-existing-company-selection-form>
+`;

@@ -26,11 +26,38 @@
   content: ".";
   visibility: hidden;
 }
+.pf-placeholder {
+  font-size: 80%;
+  margin-top: 0.25rem;
+}
 
-tr.row-disabled {
-  @extend .text-muted;
+%disabled-row {
+  color: #6c757d;
   cursor: not-allowed;
   &:hover {
-    background: none;
+    background: transparent none;
   }
+}
+
+%ellipsis-overflowing-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: .5rem;
+}
+
+.ellipsis-overflowing-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+tr.row-disabled {
+  @extend %disabled-row;
+}
+
+.space-out-children > * {
+  margin-left: 0.5rem;
+}
+
+.form-group.form-group-validation {
+  margin-bottom: -.35rem;
 }

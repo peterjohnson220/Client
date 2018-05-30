@@ -12,6 +12,11 @@ export class UserApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
+  getUserHomePageAuthenticated() {
+    return this.payfactorsApiService
+      .get<string>(`${this.endpoint}(0)/Default.GetUserHomePageAuthenticated`);
+  }
+
   getUserHomePage(userId: number) {
     return this.payfactorsApiService
       .get<HomePageLink>(`${this.endpoint}(${userId})/Default.GetUserHomePage`);

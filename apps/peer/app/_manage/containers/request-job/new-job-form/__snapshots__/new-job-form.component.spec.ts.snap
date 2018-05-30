@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Manage - Request Job - New Job Form should provide correct values to the pf-modal-form component 1`] = `
+<pf-new-job-form
+  exchangeCompanyApiService={[Function Object]}
+  exchangeJobRequestForm={[Function FormGroup]}
+  fb={[Function FormBuilder]}
+  jobDescription=""
+  jobFamiliesComboBox={[Function Object]}
+  jobFamily=""
+  jobLevel=""
+  jobTitle=""
+  potentialJobFamiles$={[Function Store]}
+  potentialJobFamilesLoading$={[Function Store]}
+  potentialJobFamilies={[Function Array]}
+  potentialJobFamiliesFiltered={[Function Array]}
+  potentialJobFamiliesSubscription={[Function Subscriber]}
+  reason=""
+  sharedPeerStore={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="new-job-form-content d-flex flex-column ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+  >
+    <div
+      class="flex-column"
+    >
+      <div
+        class="d-flex justify-content-between"
+      >
+        <div
+          class="flex-column flex-column-half"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="job-title"
+            >
+              Job Title
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-invalid"
+              formcontrolname="jobTitle"
+              id="job-title"
+              ng-reflect-name="jobTitle"
+              type="text"
+            />
+            
+            
+            
+            
+            
+            <span
+              class="pf-placeholder"
+            />
+            <p>
+              <i
+                class="far fa-info-circle text-info"
+              />
+              <small
+                class="text-muted"
+              >
+                 Job title must be at least 3 characters, unique for this exchange (including existing requests) and cannot be an existing job. If it is an existing job, try using that instead by clicking the 'Existing Jobs' link below. 
+              </small>
+            </p>
+          </div>
+        </div>
+        <div
+          class="flex-column flex-column-half"
+        >
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="job-level"
+            >
+              Job Level
+            </label>
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              formcontrolname="jobLevel"
+              id="job-level"
+              ng-reflect-name="jobLevel"
+              type="text"
+            />
+          </div>
+          <div
+            class="form-group"
+          >
+            <label
+              class="col-form-label"
+              for="job-family"
+            >
+              Job Family
+            </label>
+            <kendo-combobox
+              class="form-control"
+              formcontrollname="jobFamily"
+              id="job-family"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex-shrink-1 d-flex flex-column form-group"
+    >
+      <label
+        class="col-form-label"
+        for="job-description"
+      >
+        Job Description
+      </label>
+      <textarea
+        class="form-control ng-untouched ng-pristine ng-valid"
+        formcontrolname="jobDescription"
+        id="job-description"
+        name="job-description"
+        ng-reflect-name="jobDescription"
+        rows="9"
+      />
+    </div>
+    <div
+      class="flex-grow-1 d-flex flex-column form-group mb-0"
+    >
+      <textarea
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="reason"
+        id="request-reason"
+        maxlength="1000"
+        name="reason"
+        ng-reflect-maxlength="1000"
+        ng-reflect-name="reason"
+        placeholder="Please tell us why you would like to add this new job to the  exchange..."
+        rows="3"
+      />
+    </div>
+  </div>
+</pf-new-job-form>
+`;

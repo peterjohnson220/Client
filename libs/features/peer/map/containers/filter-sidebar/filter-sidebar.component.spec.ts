@@ -71,4 +71,14 @@ describe('Features - Peer - Filter Sidebar Component', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
+
+  it('should dispatch a ClearAllSelections action when handleClearAllSelections method is triggered', () => {
+    const action = new fromFilterSidebarActions.ClearAllSelections();
+
+    fixture.detectChanges();
+
+    instance.handleClearAllSelections();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

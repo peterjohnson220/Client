@@ -1,0 +1,62 @@
+
+<p class="font-weight-bold">Create File to Export</p>
+<div class="form-container">
+  <table>
+    <tr>
+      <td><label for="filename" class="font-weight-bold">File Name: </label></td>
+      <td>
+          <input type="text" id="filename" name="filename" [(ngModel)]="schedule.FileName">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="indent">Select Content to Export</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><select id="view" [(ngModel)]="schedule.View">
+        <option *ngFor="let view of views" [ngValue]="view">{{view}}</option>
+      </select></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="indent">Select Jobs to Export</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><select id="filter" [(ngModel)]="schedule.Filter">
+        <option>All</option>
+        <option *ngFor="let filter of filters" [ngValue]="filter.Name">{{filter.Name}}</option>
+      </select></td>
+    </tr>
+  </table>
+  <button class="btn btn-primary" (click)="submitForm()">Save</button>
+  <div class="bad-schedule" id="invalidSchedule" *ngIf="!validSchedule">
+    <p>Save Schedule failed. Please enter a valid schedule.</p>
+  </div>
+  <br><br><p>The export will be sent to your sFTP site upon save</p>
+</div>
+<br>
+<br>
+<p class="font-weight-bold">Saved Schedules</p>
+<div class="form-container">
+  <table class="saved-schedules">
+    <ng-container *ngFor="let existingSchedule of schedules">
+      <tr>
+        <td (click)="onScheduleClick(existingSchedule.FileName)" class="schedule-name">{{existingSchedule.FileName}}</td>
+        <td>
+          <div (click)="removeSchedule(existingSchedule.FileName)">
+            <i class="fas fa-trash remove-schedule" ></i>
+          </div>
+        </td>
+      </tr>
+      <tr id="{{existingSchedule.FileName}}" *ngIf="clickedSchedule === existingSchedule.FileName">
+        <td colspan="2" class="indent schedule-info">
+          <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
+          <p>Using {{existingSchedule.View}} view</p>
+          <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
+          <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+</div>
+

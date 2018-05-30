@@ -7,6 +7,10 @@
               [routerLink]="returnUrl">
         <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
       </button>
+      <a href="{{absoluteUrl}}"
+         *ngIf="absoluteUrl"><button class="btn btn-secondary back-btn">
+        <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
+      </button> </a>
 
       <h3><ng-content select="[page-title]"></ng-content></h3>
     </div>

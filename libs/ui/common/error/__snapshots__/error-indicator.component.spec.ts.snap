@@ -13,6 +13,5 @@ exports[`Error Indicator should show the error message 1`] = `
     />
      Example error message
   </span>
-  
 </pf-error-indicator>
 `;

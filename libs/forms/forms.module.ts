@@ -3,15 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FocusDirective, PfValidatableDirective } from './directives';
-import { InputDebounceComponent, PfModalFormComponent } from './components';
+import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
-
 
 const declarations = [
   // Directives
   PfValidatableDirective,
   FocusDirective,
   // declarations
+  ConfirmPasswordComponent,
   PfModalFormComponent,
   InputDebounceComponent
 ];

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Job Info Container should show the job code, when showJobCode is true 1`] = `
+<pf-job-info-container
+  job={[Function Object]}
+  showJobCode={[Function Boolean]}
+>
+  <div
+    class="info-container"
+  >
+    <div
+      class="info-row"
+    >
+      <div
+        class="label"
+      >
+        Company Job:
+      </div>
+      <div>
+        Mock Job 
+        
+        
+         - 1002
+      </div>
+    </div>
+    <div
+      class="info-row"
+    >
+      <div
+        class="label"
+      >
+        Job Family:
+      </div>
+      <div>
+        Mock Family
+      </div>
+    </div>
+    <div
+      class="info-row"
+    >
+      <div
+        class="label"
+      >
+        Job Level:
+      </div>
+      <div>
+        Mock Level
+      </div>
+    </div>
+    <div
+      class="info-row-flex-column flex-grow-1"
+    >
+      <div
+        class="label"
+      >
+        Job Description:
+      </div>
+      <div
+        class="job-description-container"
+      >
+         Lorem Ipsum 
+      </div>
+    </div>
+  </div>
+</pf-job-info-container>
+`;

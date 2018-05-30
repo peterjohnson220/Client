@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`] = `
+<pf-chart-detail-component
+  detailChartCategory$={[Function Store]}
+  detailChartItems$={[Function Store]}
+  loadingDetailChartItems$={[Function Store]}
+  loadingDetailChartItemsError$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="card h-100 ml-2"
+  >
+    <div
+      class="chart-detail-header card-header d-flex"
+    >
+      <div
+        class="align-self-center mr-auto flex-grow-1"
+      >
+         Participating Companies 
+      </div>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      <h4
+        class="mb-2"
+      >
+          
+      </h4>
+      
+      <div
+        class="no-detail-items"
+      >
+        No companies mapped to .
+      </div>
+      
+    </div>
+  </div>
+</pf-chart-detail-component>
+`;

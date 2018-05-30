@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add Companies Modal should show a modal with a search bar and a companies grid when addCompaniesModalOpen$ is true 1`] = `
+<pf-add-companies-modal
+  addCompaniesErrorSubscription={[Function Subscriber]}
+  addCompaniesForm={[Function FormGroup]}
+  addCompaniesModalOpen$={[Function Observable]}
+  addCompaniesModalOpenSubscription={[Function Subscriber]}
+  addingCompanies$={[Function Store]}
+  addingCompaniesError$={[Function Store]}
+  attemptedSubmit="false"
+  availableCompaniesLoading$={[Function Store]}
+  availableCompaniesLoadingError$={[Function Store]}
+  exchangeId={[Function Number]}
+  fb={[Function FormBuilder]}
+  gridState$={[Function Observable]}
+  route={[Function Object]}
+  selections={[Function Array]}
+  selections$={[Function Observable]}
+  selectionsSubscription={[Function Subscriber]}
+  store={[Function Store]}
+  view$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Add Companies"
+  >
+    
+    <pf-async-container>
+      <div
+        class="form-group"
+      >
+        <pf-input-debounce
+          class="ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          ng-reflect-delay="400"
+          ng-reflect-focus="true"
+          ng-reflect-options="[object Object]"
+          ng-reflect-placeholder-text="Search for a Company Name..."
+        >
+          
+          
+          <div
+            class="input-group"
+          >
+            <input
+              class="form-control ng-untouched ng-pristine ng-valid"
+              ng-reflect-is-disabled="false"
+              placeholder="Search for a Company Name..."
+              type="text"
+            />
+            <div
+              class="input-group-append"
+            >
+              <span
+                class="input-group-text"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-times"
+                />
+              </span>
+            </div>
+          </div>
+        </pf-input-debounce>
+      </div>
+      <kendo-grid
+        class="row-click-selects no-wrap-ellipsis-values"
+      >
+        <kendo-grid-column
+          field="CompanyName"
+          title="Company Name"
+        />
+        <kendo-grid-column
+          field="Industry"
+          title="Industry"
+        />
+        <kendo-grid-column
+          field="Revenue"
+          title="Revenue"
+        >
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="FTEs"
+          title="FTEs"
+        />
+        <kendo-grid-column
+          field="City"
+          title="City"
+        />
+        <kendo-grid-column
+          field="State"
+          title="State"
+        />
+        <kendo-grid-column
+          field="Zip"
+          title="Zip"
+        />
+      </kendo-grid>
+    </pf-async-container>
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="selections"
+        name="hasSelections"
+        ng-reflect-model=""
+        ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
+        type="hidden"
+        value=""
+      />
+      
+    </div>
+  </pf-modal-form>
+</pf-add-companies-modal>
+`;

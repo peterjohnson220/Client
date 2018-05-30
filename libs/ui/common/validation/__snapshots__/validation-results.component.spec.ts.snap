@@ -8,71 +8,36 @@ exports[`Validation Results Component should default to not hiding validation me
   <div
     class="table validation-results"
   >
-    
-    
     <table
       class="table"
     >
-      
-      
       <thead>
-        
-      
         <tr>
-          
-        
           <th
             width="10%"
           >
             Type
           </th>
-          
-        
           <th>
             Message
           </th>
-          
-      
         </tr>
-        
-      
       </thead>
-      
-      
       <tbody>
         
-      
-        
-        
-      
         
         <tr>
-          
-        
           <td
             colspan="100%"
           >
-            
-          
             <p>
               No Messages.
             </p>
-            
-        
           </td>
-          
-      
         </tr>
-        
-      
       </tbody>
-      
-    
     </table>
-    
-  
   </div>
-  
 </pf-validation-results>
 `;
 
@@ -81,7 +46,6 @@ exports[`Validation Results Component should not show table when hide if empty i
   hideIfEmpty={[Function Boolean]}
   validationResults={[Function Array]}
 >
-  
   
 </pf-validation-results>
 `;
@@ -94,71 +58,36 @@ exports[`Validation Results Component should show an empty grid message 1`] = `
   <div
     class="table validation-results"
   >
-    
-    
     <table
       class="table"
     >
-      
-      
       <thead>
-        
-      
         <tr>
-          
-        
           <th
             width="10%"
           >
             Type
           </th>
-          
-        
           <th>
             Message
           </th>
-          
-      
         </tr>
-        
-      
       </thead>
-      
-      
       <tbody>
         
-      
-        
-        
-      
         
         <tr>
-          
-        
           <td
             colspan="100%"
           >
-            
-          
             <p>
               No Messages.
             </p>
-            
-        
           </td>
-          
-      
         </tr>
-        
-      
       </tbody>
-      
-    
     </table>
-    
-  
   </div>
-  
 </pf-validation-results>
 `;
 
@@ -170,47 +99,25 @@ exports[`Validation Results Component should show validation results 1`] = `
   <div
     class="table validation-results"
   >
-    
-    
     <table
       class="table"
     >
-      
-      
       <thead>
-        
-      
         <tr>
-          
-        
           <th
             width="10%"
           >
             Type
           </th>
-          
-        
           <th>
             Message
           </th>
-          
-      
         </tr>
-        
-      
       </thead>
-      
-      
       <tbody>
         
-      
-        
         <tr>
-          
-        
           <td>
-            
-          
             <span>
               <i
                 aria-hidden="true"
@@ -218,27 +125,15 @@ exports[`Validation Results Component should show validation results 1`] = `
                 ng-reflect-ng-class="far fa-check-circle text-succe"
               />
             </span>
-            
-        
           </td>
-          
-        
           <td
             class="vertical-center"
           >
-            
-          success message
-        
+             success message 
           </td>
-          
-      
         </tr>
         <tr>
-          
-        
           <td>
-            
-          
             <span>
               <i
                 aria-hidden="true"
@@ -246,27 +141,15 @@ exports[`Validation Results Component should show validation results 1`] = `
                 ng-reflect-ng-class="fas fa-info-circle text-info"
               />
             </span>
-            
-        
           </td>
-          
-        
           <td
             class="vertical-center"
           >
-            
-          info message
-        
+             info message 
           </td>
-          
-      
         </tr>
         <tr>
-          
-        
           <td>
-            
-          
             <span>
               <i
                 aria-hidden="true"
@@ -274,27 +157,15 @@ exports[`Validation Results Component should show validation results 1`] = `
                 ng-reflect-ng-class="fas fa-exclamation-triangle te"
               />
             </span>
-            
-        
           </td>
-          
-        
           <td
             class="vertical-center"
           >
-            
-          warning message
-        
+             warning message 
           </td>
-          
-      
         </tr>
         <tr>
-          
-        
           <td>
-            
-          
             <span>
               <i
                 aria-hidden="true"
@@ -302,33 +173,16 @@ exports[`Validation Results Component should show validation results 1`] = `
                 ng-reflect-ng-class="fas fa-exclamation-circle text"
               />
             </span>
-            
-        
           </td>
-          
-        
           <td
             class="vertical-center"
           >
-            
-          error message
-        
+             error message 
           </td>
-          
-      
         </tr>
         
-      
-        
-        
-      
       </tbody>
-      
-    
     </table>
-    
-  
   </div>
-  
 </pf-validation-results>
 `;

@@ -7,7 +7,7 @@ export const environment = {
   userVoiceUrl: 'http://payfactors.uservoice.com/forums/',
   userVoiceForumId: 268517,
   ngAppRoot: '/ng/',
-  mapboxAccessToken: 'pk.eyJ1IjoianByZWhlbW9wZiIsImEiOiJjajh1a3VqZDMxMmt0MzRxenFsem9oaTN1In0.06ePvHZIgOD5IHAYad8JHQ',
+  mapboxAccessToken: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNqaDk5bzgzYTAwa28zYXFrdjN5aG9jN2IifQ.cqCQzg8IyrwoKGrqb2wciA',
   tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
   tableauPublicReportingServer: 'https://public.tableau.com/'
 };

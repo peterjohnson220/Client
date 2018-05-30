@@ -13,21 +13,12 @@ exports[`UI/Common/Content - Card should have .selected class when the selectedC
     ng-reflect-klass="card"
     ng-reflect-ng-class="[object Object]"
   >
-    
-    
     <div
       class="card-body"
     >
       
-      
-      
-      
-    
     </div>
-    
-  
   </div>
-  
 </pf-card>
 `;
 
@@ -44,21 +35,12 @@ exports[`UI/Common/Content - Card should have the .disabled class when the card 
     ng-reflect-klass="card"
     ng-reflect-ng-class="[object Object]"
   >
-    
-    
     <div
       class="card-body"
     >
       
-      
-      
-      
-    
     </div>
-    
-  
   </div>
-  
 </pf-card>
 `;
 
@@ -67,8 +49,7 @@ exports[`UI/Common/Content - Card should show cardBodyTemplate template, with co
   cardSelector={[Function Function]}
   disabledExpression={[Function Function]}
 >
-  
-      <pf-card
+  <pf-card
     ng-reflect-card="[object Object]"
     ng-reflect-card-body-template="[object Object]"
     ng-reflect-card-identifier="function (card) {return card.I"
@@ -80,27 +61,13 @@ exports[`UI/Common/Content - Card should show cardBodyTemplate template, with co
       ng-reflect-klass="card"
       ng-reflect-ng-class="[object Object]"
     >
-      
-    
       <div
         class="card-body"
       >
         
-      
-        
-        
-        Mock Card Id - 1
-      
-        
-    
+         Mock Card Id - 1 
       </div>
-      
-  
     </div>
-    
-  
   </pf-card>
-      
-    
 </ng-component>
 `;

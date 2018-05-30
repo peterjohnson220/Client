@@ -1,0 +1,7 @@
+<div class="filter-info">
+  <label class="filter-info-org-label">Orgs: <span class="filter-info-span">{{orgCount != null ? orgCount.toLocaleString() : orgCount}}</span></label>
+  <label class="filter-info-inc-label">Incs: <span class="filter-info-span">{{incCount != null ? incCount.toLocaleString() : incCount}}</span></label>
+  <div class="reset-link filters-link" [class.disabled]="!hasSelections" (click)="handleResetFiltersLinkClicked()">
+    Reset Filters
+  </div>
+</div>

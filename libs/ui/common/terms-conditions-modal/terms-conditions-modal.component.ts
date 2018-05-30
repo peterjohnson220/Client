@@ -1,0 +1,65 @@
+import {
+  Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild
+} from '@angular/core';
+
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+
+@Component({
+  selector: 'pf-terms-conditions-modal',
+  templateUrl: './terms-conditions-modal.component.html',
+  styleUrls: [ './terms-conditions-modal.component.scss' ]
+})
+export class TermsConditionsModalComponent implements OnInit {
+  private activeModal: NgbModalRef;
+  private modalOpenSubscription: Subscription;
+
+  @Input() title: string;
+  @Input() content: string;
+  @Input() isOpen$: Observable<boolean>;
+
+  @Output() onAccept = new EventEmitter();
+  @Output() onDecline = new EventEmitter();
+
+  @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
+
+  constructor(private modalService: NgbModal) {
+  }
+
+  ngOnInit(): void {
+
+   this.modalOpenSubscription = this.isOpen$.subscribe(open => {
+     {
+       if (!open) {
+         this.dismissModal();
+       } else {
+        this.openTermsAndConditionsModal();
+      }}
+    });
+  }
+
+  dismissModal(): void {
+    if (this.activeModal) {
+      this.activeModal.close();
+    }
+  }
+
+  openTermsAndConditionsModal() {
+    this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
+      backdrop: 'static',
+      container: `.modal-container`,
+      size: 'lg'
+    });
+  }
+
+  acceptTermsAndConditions(): void {
+    this.dismissModal();
+      this.onAccept.emit();
+  }
+
+  declineTermsAndConditions(): void {
+    this.dismissModal();
+    this.onDecline.emit();
+  }
+}

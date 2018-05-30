@@ -1,0 +1,22 @@
+.exchange-dashboard-container {
+  &, .exchange-dashboard-chart-container, .exchange-dashboard-job-comparison-grid {
+    height: 100%;
+  }
+
+  .exchange-dashboard-job-comparison-grid {
+    position: relative;
+  }
+
+  .exchange-dashboard-content {
+    flex: 1 0;
+  }
+}
+
+.exchange-dashboard-sidebar {
+  min-width: 300px;
+  max-width: 300px;
+}
+
+.count-column {
+  min-width: 200px;
+}

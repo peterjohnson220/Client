@@ -99,4 +99,17 @@ describe('User Menu', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should show the app users name with client name if user is impersonated', () => {
+
+    instance.userContext = generateMockUserContext();
+    instance.userContext.ImpersonatorId = 1;
+
+    instance.dropdownNavigationLinks = [];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

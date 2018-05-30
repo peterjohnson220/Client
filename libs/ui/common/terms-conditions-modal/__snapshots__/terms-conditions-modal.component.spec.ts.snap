@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
+<pf-terms-conditions-modal
+  isOpen$={[Function Observable]}
+  modalOpenSubscription={[Function Subscriber]}
+  modalService={[Function NgbModal]}
+  onAccept={[Function EventEmitter]}
+  onDecline={[Function EventEmitter]}
+  templateRef={[Function TemplateRef_]}
+  title={[Function String]}
+>
+  <div
+    class="modal-container"
+  />
+</pf-terms-conditions-modal>
+`;

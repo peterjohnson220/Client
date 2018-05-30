@@ -8,30 +8,16 @@ exports[`header should show the logo 1`] = `
   <nav
     class="navbar navbar-expand navbar-dark fixed-top"
   >
-    
-    
     <a
       class="navbar-brand mr-auto"
       href=""
     >
-      
-      
       <img
         class="logo-style"
         src="payfactorsLogoUrl"
       />
-      
-    
     </a>
-    
-    
-    <pf-layout-wrapper-user-menu>
-      
-    
-    </pf-layout-wrapper-user-menu>
-    
-  
+    <pf-layout-wrapper-user-menu />
   </nav>
-  
 </pf-layout-wrapper-header>
 `;

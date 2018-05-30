@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true 1`] = `
+<pf-exchange-job-mapping-page
+  collapse={[Function Boolean]}
+  disableGridScollTo="false"
+  exchangeId={[Function Number]}
+  exchangeJobMappingService={[Function Object]}
+  gridPageRowIndexToScrollTo$={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeJobMapping$={[Function Store]}
+  selectedExchangeJobMappingSubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Exchange to Company Job Association 
+    
+    <div
+      class="omni-box"
+    >
+      <pf-input-debounce />
+    </div>
+    <button
+      class="btn btn-secondary"
+      type="button"
+    >
+      Request Job
+    </button>
+    
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="exchange-job-mapping-grid-container collapse-grid"
+      >
+        <pf-exchange-job-mapping-grid />
+      </div>
+      
+      <div
+        class="mt-2 flex-grow-1 exchange-job-mapping-info-container"
+      >
+        <pf-exchange-job-mapping-info />
+      </div>
+    </div>
+  </pf-page-with-title-bar><pf-request-job-modal />
+</pf-exchange-job-mapping-page>
+`;

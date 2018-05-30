@@ -1,8 +1,8 @@
 export enum ExchangeRequestTypeEnum {
-  NewExchange,
-  Access,
-  ReferPayfactorsCompany,
-  ReferNewCompany,
-  PayfactorsJob,
-  NewJob
+  NewExchange = 'NewExchange',
+  Access = 'Access',
+  ReferPayfactorsCompany = 'ReferPayfactorsCompany',
+  ReferNewCompany = 'ReferNewCompany',
+  PayfactorsJob = 'PayfactorsJob',
+  NewJob = 'NewJob'
 }

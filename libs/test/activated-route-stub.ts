@@ -1,21 +1,27 @@
-import { Injectable } from '@angular/core';
-import { convertToParamMap, ParamMap } from '@angular/router';
+import { convertToParamMap, ParamMap, Params } from '@angular/router';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
-@Injectable()
+/**
+ * An ActivateRoute test double with a `paramMap` observable.
+ * Use the `setParamMap()` method to add the next `paramMap` value.
+ */
 export class ActivatedRouteStub {
-  // ActivatedRoute.paramMap is Observable
-  private subject = new BehaviorSubject(convertToParamMap(this.testParamMap));
-  // Test parameters
-  private _testParamMap: ParamMap;
-  get testParamMap() { return this._testParamMap; }
-  set testParamMap(params: {}) {
-    this._testParamMap = convertToParamMap(params);
-    this.subject.next(this._testParamMap);
+  // Use a ReplaySubject to share previous values with subscribers
+  // and pump new values into the `paramMap` observable
+  private subject = new ReplaySubject<ParamMap>();
+
+  constructor(initialParams?: Params) {
+    this.setParamMap(initialParams);
   }
 
-  // ActivatedRoute.snapshot.paramMap
+  /** The mock paramMap observable */
+  readonly paramMap = this.subject.asObservable();
+
+  /** Set the paramMap observables's next value */
+  setParamMap(params?: Params) {
+    this.subject.next(convertToParamMap(params));
+  }
+
   get snapshot() {
     return { queryParamMap: this.testParamMap};
   }

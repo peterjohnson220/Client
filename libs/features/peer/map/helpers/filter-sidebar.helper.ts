@@ -121,6 +121,19 @@ export class FilterSidebarHelper {
     return copiedAggregateGroups;
   }
 
+  // Helper function for determining how many filters are selected across all aggregate groups.
+  static getSelectionsCount(aggregateGroups: FilterAggregateGroup[]) {
+    let selectionsCount = 0;
+    aggregateGroups.forEach(ag => {
+      ag.Aggregates.forEach( a => {
+        if (a.Selected === true) {
+          selectionsCount++;
+        }
+      });
+    });
+    return selectionsCount;
+  }
+
   // Helper function for building a "Preview" array of filter aggregate items. This array will always contain
   // all selected aggregate items. If the # of selected aggregate items is less than the preview limit
   // the remaining space in the array will be filled by the first n elements that are not selected.

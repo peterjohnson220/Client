@@ -1,9 +1,8 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
@@ -13,22 +12,19 @@ import * as fromLayoutReducer from '../../ui/layout-wrapper/reducers';
 import * as fromLeftSidebarActions from '../../ui/layout-wrapper/actions/left-sidebar.actions';
 
 @Injectable()
-export class PeerTileEnabledGuard implements CanActivate, OnInit, OnDestroy {
+export class PeerTileEnabledGuard implements CanActivate, OnDestroy {
   navigationLoadAttempted: boolean;
-  navigationLoadAttempted$: Observable<boolean>;
   navigationLoadAttemptedSubscription: Subscription;
 
   constructor(
     private layoutStore: Store<fromLayoutReducer.LayoutWrapperState>,
     private router: Router
   ) {
-    this.navigationLoadAttempted$ = this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks);
-  }
-
-  ngOnInit() {
-    this.navigationLoadAttemptedSubscription = this.navigationLoadAttempted$.subscribe(attempted => {
-      this.navigationLoadAttempted = attempted;
-    });
+    this.navigationLoadAttemptedSubscription = this.layoutStore
+      .select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks)
+      .subscribe(attempted => {
+        this.navigationLoadAttempted = attempted;
+      });
   }
 
   ngOnDestroy() {

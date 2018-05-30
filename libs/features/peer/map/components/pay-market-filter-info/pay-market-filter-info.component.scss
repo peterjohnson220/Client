@@ -1,0 +1,33 @@
+.filter-info {
+  margin-top: .6rem;
+  margin-bottom: .5rem;
+  color: #616161;
+}
+
+.filter-info-org-label {
+  font-weight: normal;
+  margin-left: .65rem;
+}
+
+.filter-info-inc-label {
+  font-weight: normal;
+  margin-left: .5rem;
+}
+
+.filter-info-span {
+  font-weight: bolder;
+}
+
+.filters-link{
+  margin-top: .2rem;
+  float: right;
+}
+
+.disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.disabled:hover{
+  background: #FFFFFF;
+}

@@ -1,0 +1,69 @@
+<pf-page-with-title-bar>
+
+  <ng-container page-title>
+    <pf-exchange-selector></pf-exchange-selector>
+  </ng-container>
+
+  <ng-container page-actions>
+    <button type="button" class="btn btn-secondary" (click)="referCompanyClick()">Invite Company</button>
+    <button type="button" class="btn btn-secondary" (click)="manageJobsClick()">Manage Jobs</button>
+    <button type="button" class="btn btn-primary" (click)="mapClick()">Map</button>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="exchange-dashboard-container d-flex flex-row">
+      <div class="exchange-dashboard-content d-flex flex-column">
+        <div class="exchange-dashboard-chart-container d-flex flex-row justify-content-around">
+          <div class="d-flex flex-column justify-content-between mr-2 count-column">
+            <div class="d-flex card card-body flex-column flex-grow-1 text-center mb-1 justify-content-center">
+              <pf-exchange-company-count></pf-exchange-company-count>
+            </div>
+            <div class="d-flex card card-body flex-column flex-grow-1 text-center mt-1 justify-content-center">
+              <pf-exchange-job-count></pf-exchange-job-count>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between mr-2">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Top Industries</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <pf-exchange-industry-chart></pf-exchange-industry-chart>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between mr-2">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Top Exchange Job Families</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <div>
+                  <pf-exchange-job-family-chart></pf-exchange-job-family-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-grow-2 flex-column justify-content-between">
+            <div class="card card-body flex-column justify-content-top flex-grow-1 text-center">
+              <h4>Revenue Size</h4>
+              <div class="d-flex flex-grow-1 flex-column justify-content-center text-center">
+                <div>
+                  <pf-exchange-revenue-chart></pf-exchange-revenue-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="exchange-dashboard-job-comparison-grid mt-3 d-flex flex-column">
+          <div class="h-100">
+            <pf-exchange-job-comparison-grid></pf-exchange-job-comparison-grid>
+          </div>
+        </div>
+      </div>
+      <div class="exchange-dashboard-sidebar" *ngIf="(sidebarVisible$ | async)">
+        <pf-chart-detail-component></pf-chart-detail-component>
+      </div>
+    </div>
+  </ng-container>
+
+</pf-page-with-title-bar>
+
+<pf-invite-company-modal></pf-invite-company-modal>
+<pf-access-exchange-request-modal></pf-access-exchange-request-modal>

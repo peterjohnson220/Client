@@ -5,26 +5,13 @@ exports[`UI/Common/Content - Ellipsis View More should ellipsis the content and 
   content={[Function String]}
   maxLength={[Function Number]}
 >
-  
-    <span>
+  <span>
     Lorem ipsum dol...
-  </span>
-  
-  
-  
-  
-  <div
+  </span><div
     class="toggle-view-link"
   >
-    
-  
-    View More
-  
-  
+     View More 
   </div>
-  
-  
-  
 </pf-ellipsis-view-more>
 `;
 
@@ -34,26 +21,13 @@ exports[`UI/Common/Content - Ellipsis View More should show the full content and
   maxLength={[Function Number]}
   showFull={[Function Boolean]}
 >
-  
-    <span>
+  <span>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  </span>
-  
-  
-  
-  
-  <div
+  </span><div
     class="toggle-view-link"
   >
-    
-  
-    View Less
-  
-  
+     View Less 
   </div>
-  
-  
-  
 </pf-ellipsis-view-more>
 `;
 
@@ -62,17 +36,8 @@ exports[`UI/Common/Content - Ellipsis View More should show the full content, wh
   content={[Function String]}
   maxLength={[Function Number]}
 >
-  
-    <span>
+  <span>
     Lorem Ipsum
   </span>
-  
-  
-  
-  
-  
-  
-  
-  
 </pf-ellipsis-view-more>
 `;
