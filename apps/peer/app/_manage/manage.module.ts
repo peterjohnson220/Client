@@ -15,7 +15,7 @@ import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-          PayfactorsJobSelectionFormComponent } from './containers';
+          PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent } from './containers';
 import { ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
@@ -56,7 +56,7 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
-    RequestJobModalComponent, NewJobFormComponent,
+    RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent

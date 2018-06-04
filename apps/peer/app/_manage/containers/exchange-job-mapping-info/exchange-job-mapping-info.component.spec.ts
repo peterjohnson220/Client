@@ -159,7 +159,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
     spyOn(store, 'dispatch');
 
     // Find the cancel editing button in the template and trigger a click
-    const cancelEditingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    const cancelEditingBtn = fixture.debugElement.query(By.css('.card-header #edit-mapping-button'));
     cancelEditingBtn.triggerEventHandler('click', null);
 
     const expectedAction = new fromExchangeJobMappingInfoActions.CancelEditMapping();
@@ -172,7 +172,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
     spyOn(store, 'dispatch');
 
     // Find the edit mapping button in the template and trigger a click
-    const editMappingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    const editMappingBtn = fixture.debugElement.query(By.css('.card-header #edit-mapping-button'));
     editMappingBtn.triggerEventHandler('click', null);
 
     const expectedAction = new fromExchangeJobMappingInfoActions.EditMapping();
@@ -186,7 +186,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
     spyOn(store, 'dispatch');
 
     // Find the edit mapping button in the template and trigger a click
-    const editMappingBtn = fixture.debugElement.query(By.css('.card-header .btn'));
+    const editMappingBtn = fixture.debugElement.query(By.css('.card-header #edit-mapping-button'));
     editMappingBtn.triggerEventHandler('click', null);
 
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({

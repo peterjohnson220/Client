@@ -11,6 +11,9 @@ export interface State extends EntityState<CompanyJobToMapTo> {
   applyingMappingError: boolean;
   selectedMappingCompanyJobId: number;
   editingMapping: boolean;
+  deleteConfirmationModalOpen: boolean;
+  deletingMapping: boolean;
+  deletingError: boolean;
 }
 
 export const adapter: EntityAdapter<CompanyJobToMapTo> = createEntityAdapter<CompanyJobToMapTo>({
@@ -23,7 +26,10 @@ const initialState: State = adapter.getInitialState({
   applyingMapping: false,
   applyingMappingError: false,
   selectedMappingCompanyJobId: null,
-  editingMapping: false
+  editingMapping: false,
+  deleteConfirmationModalOpen: false,
+  deletingMapping: false,
+  deletingError: false
 });
 
 // Reducer
@@ -86,6 +92,40 @@ export function reducer(
         editingMapping: false
       };
     }
+    case fromExchangeJobMappingInfoActions.OPEN_DELETE_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        deleteConfirmationModalOpen: true
+      };
+    }
+    case fromExchangeJobMappingInfoActions.CLOSE_DELETE_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        deleteConfirmationModalOpen: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING: {
+      return {
+        ...state,
+        deletingMapping: true
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING_SUCCESS: {
+      return {
+        ...state,
+        deletingError: false,
+        deletingMapping: false,
+        deleteConfirmationModalOpen: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING_ERROR: {
+      return {
+        ...state,
+        deletingMapping: false,
+        deletingError: true,
+        deleteConfirmationModalOpen: false
+      };
+    }
     default: {
       return state;
     }
@@ -99,3 +139,6 @@ export const getApplyingMapping = (state: State) => state.applyingMapping;
 export const getApplyingMappingError = (state: State) => state.applyingMappingError;
 export const getSelectedMappingCompanyJobId = (state: State) => state.selectedMappingCompanyJobId;
 export const getEditingMapping = (state: State) => state.editingMapping;
+export const getDeleteConfirmationModalOpen = (state: State) => state.deleteConfirmationModalOpen;
+export const getDeletingMapping = (state: State) => state.deletingMapping;
+export const getDeletingError = (state: State) => state.deletingError;

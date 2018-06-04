@@ -91,4 +91,10 @@ export class ExchangeCompanyApiService {
   getPayfactorsJobFamilies(): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetPayfactorsJobFamilies`);
   }
+
+  deleteExchangeJobMapping(exchangeJobToCompanyJobId: number): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMapping`,
+      exchangeJobToCompanyJobId
+      );
+  }
 }

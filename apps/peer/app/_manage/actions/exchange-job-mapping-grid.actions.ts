@@ -45,8 +45,6 @@ export class ReSelectExchangeJobMapping implements Action {
 
 export class LoadExchangeJobMappingsAfterMap implements Action {
   readonly type = LOAD_EXCHANGE_JOB_MAPPINGS_AFTER_MAP;
-
-  constructor(public payload: any) {}
 }
 
 export type Actions

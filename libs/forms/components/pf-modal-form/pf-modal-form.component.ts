@@ -23,7 +23,9 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() subTitle: string;
   @Input() modalId: string;
   @Input() primaryButtonText = 'Submit';
+  @Input() primaryButtonClass = 'btn-primary';
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
+  @Input() secondaryButtonText = 'Cancel';
   @Input() submitting: boolean;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
@@ -32,13 +34,20 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
   constructor(private modalService: NgbModal) {  }
 
+  get submitDisabled(): boolean {
+    if (!this.formGroup) {
+      return this.submitting;
+    }
+
+    return this.submitting || !this.formGroup.valid || !(this.formGroup.dirty || this.formGroup.touched);
+  }
   dismiss(): void {
     this.onDismiss.emit();
   }
 
   submit(): void {
     this.attemptedSubmit = true;
-    if (this.formGroup.valid) {
+    if (!this.formGroup || this.formGroup.valid) {
       this.onSubmit.emit();
     }
   }
@@ -46,6 +55,12 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   cleanUpModal(): void {
     if (this.activeModal) {
       this.activeModal.close();
+      this.resetForm();
+    }
+  }
+
+  resetForm(): void {
+    if (this.formGroup) {
       this.formGroup.reset();
     }
   }

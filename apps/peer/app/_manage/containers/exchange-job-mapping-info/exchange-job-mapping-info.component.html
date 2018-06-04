@@ -3,12 +3,20 @@
       <div class="align-self-center mr-auto">
         Mapping Information
       </div>
-      <button *ngIf="selectedExchangeJobMapping.Mapped"
-              class="btn btn-sm"
-              [ngClass]="{ 'btn-secondary': !editingMapping, 'btn-warning': editingMapping }"
-              (click)="toggleEditing()">
-        {{ editingMapping ? 'Cancel Editing' : 'Edit Mapping' }}
-      </button>
+      <ng-container *ngIf="selectedExchangeJobMapping.Mapped">
+        <button class="btn btn-sm btn-danger"
+                [disabled]="(deletingMapping$ | async) || editingMapping"
+                (click)="handleDeleteClick()">
+          <span *ngIf="!(deletingMapping$ | async)">Delete Mapping</span>
+          <span *ngIf="deletingMapping$ | async"><pf-loading-indicator></pf-loading-indicator> Deleting...</span>
+        </button>
+        <button id="edit-mapping-button"
+                class="btn btn-sm"
+                [ngClass]="{ 'btn-secondary': !editingMapping, 'btn-warning': editingMapping }"
+                (click)="toggleEditing()">
+          {{ editingMapping ? 'Cancel Editing' : 'Edit Mapping' }}
+        </button>
+      </ng-container>
 
       <div (click)="close()" class="close-btn">
         <i class="far fa-times"></i>
@@ -37,9 +45,9 @@
           (valueChanged)="handleSearchValueChanged($event)">
         </pf-input-debounce>
 
-        <div class="mapping-results-container" [class.remove-scroll]="companyJobsToMapToLoading$ | async">
+        <div class="mapping-results-container" [class.remove-scroll]="(companyJobsToMapToLoading$ | async) || (loadingExchangeJobMappings$ | async)">
           <pf-async-container
-            [loading]="companyJobsToMapToLoading$ | async"
+            [loading]="(companyJobsToMapToLoading$ | async) || (loadingExchangeJobMappings$ | async)"
             [loadingError]="companyJobsToMapToLoadingError$ | async"
             [hideReloadButton]="true">
 
@@ -73,3 +81,7 @@
 
     </div>
   </div>
+
+<pf-delete-mapping-confirmation-modal
+  [selectedExchangeJobMapping]="selectedExchangeJobMapping">
+</pf-delete-mapping-confirmation-modal>

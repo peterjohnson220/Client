@@ -11,11 +11,14 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping but
   companyJobsToMapToLoading$={[Function Store]}
   companyJobsToMapToLoadingError$={[Function Store]}
   debouncedQueryValue=""
+  deletingMapping$={[Function Store]}
+  deletingMappingError$={[Function Store]}
   editMappingClicked={[Function EventEmitter]}
   editingMapping="false"
   editingMapping$={[Function Store]}
   editingMappingSubscription={[Function Subscriber]}
   exchangeJobInfo={[Function Object]}
+  loadingExchangeJobMappings$={[Function Store]}
   selectedExchangeJobMapping={[Function Object]}
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
@@ -65,7 +68,7 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping but
         </div>
       </div>
     </div>
-  </div>
+  </div><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;
 
@@ -80,11 +83,14 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
   companyJobsToMapToLoading$={[Function Store]}
   companyJobsToMapToLoadingError$={[Function Store]}
   debouncedQueryValue=""
+  deletingMapping$={[Function Store]}
+  deletingMappingError$={[Function Store]}
   editMappingClicked={[Function EventEmitter]}
   editingMapping="false"
   editingMapping$={[Function Store]}
   editingMappingSubscription={[Function Subscriber]}
   exchangeJobInfo={[Function Object]}
+  loadingExchangeJobMappings$={[Function Store]}
   selectedExchangeJobMapping={[Function Object]}
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
@@ -103,8 +109,19 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
          Mapping Information 
       </div>
       
+      
+      <button
+        class="btn btn-sm btn-danger"
+      >
+        
+        <span>
+          Delete Mapping
+        </span>
+        
+      </button>
       <button
         class="btn btn-sm btn-secondary"
+        id="edit-mapping-button"
         ng-reflect-klass="btn btn-sm"
         ng-reflect-ng-class="[object Object]"
       >
@@ -129,6 +146,6 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
       <pf-job-info-container />
       
     </div>
-  </div>
+  </div><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;

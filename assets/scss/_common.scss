@@ -58,6 +58,10 @@ tr.row-disabled {
   margin-left: 0.5rem;
 }
 
+.space-out-children-right > *:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
 .form-group.form-group-validation {
   margin-bottom: -.35rem;
 }

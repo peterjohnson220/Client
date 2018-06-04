@@ -13,6 +13,7 @@ import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { CompanyJobToMapTo } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
+import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../reducers';
 import { ExchangeJobMappingService } from '../services';
 
@@ -31,20 +32,39 @@ export class ExchangeJobMappingInfoEffects {
         .catch(() => of(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQueryError()))
     );
 
-  @Effect({ dispatch: false })
+  @Effect()
   applyMapping$ = this.actions$
     .ofType(fromExchangeJobMappingInfoActions.APPLY_MAPPING)
     .map((action: fromExchangeJobMappingInfoActions.ApplyMapping) => action.payload)
     .switchMap(payload =>
       this.exchangeCompanyApiService.upsertExchangeJobMap(payload)
-        .map(() => {
-          this.exchangeJobMappingService.loadExchangeJobMappingsAfterMap(payload.ExchangeId);
+        .concatMap(() => {
+          return [
+            new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
+            new fromExchangeJobMappingInfoActions.ApplyMappingSuccess()
+          ];
         })
         .catch(() => {
           return of(this.store.dispatch(new fromExchangeJobMappingInfoActions.ApplyMappingError()));
         })
     );
 
+  @Effect()
+  deleteMappingConfirmation$ = this.actions$
+    .ofType(fromExchangeJobMappingInfoActions.DELETE_MAPPING)
+    .map((action: fromExchangeJobMappingInfoActions.DeleteMapping) => action.payload)
+    .switchMap(payload =>
+      this.exchangeCompanyApiService.deleteExchangeJobMapping(payload.exchangeJobToCompanyJobId)
+        .concatMap(() => {
+          return [
+            new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
+            new fromExchangeJobMappingInfoActions.DeleteMappingSuccess()
+          ];
+        })
+        .catch(() => {
+          return of(new fromExchangeJobMappingInfoActions.DeleteMappingError());
+        })
+    );
 
   constructor(private actions$: Actions,
               private store: Store<fromPeerManagementReducer.State>,

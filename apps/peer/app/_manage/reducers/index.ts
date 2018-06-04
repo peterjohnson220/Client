@@ -151,6 +151,21 @@ export const getExchangeJobsInfoEditingMapping = createSelector(
   fromExchangeJobMappingInfoReducer.getEditingMapping
 );
 
+export const getExchangeJobsInfoDeleteConfirmationModalOpen = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeleteConfirmationModalOpen
+);
+
+export const getExchangeJobsInfoDeletingMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeletingMapping
+);
+
+export const getExchangeJobsInfoDeletingMappingError = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeletingError
+);
+
 export const {
   selectAll: getCompanyJobsToMapTo
 } = fromExchangeJobMappingInfoReducer.adapter.getSelectors(selectExchangeJobMappingInfoState);

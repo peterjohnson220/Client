@@ -28,6 +28,9 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   applyingMappingError$: Observable<boolean>;
   selectedMappingCompanyJobId$: Observable<number>;
   editingMapping$: Observable<boolean>;
+  deletingMapping$: Observable<boolean>;
+  deletingMappingError$: Observable<boolean>;
+  loadingExchangeJobMappings$: Observable<boolean>;
 
   // Subscriptions
   selectedExchangeJobMappingSubscription: Subscription;
@@ -41,6 +44,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   editingMapping: boolean;
 
   constructor(private store: Store<fromPeerManagementReducer.State>) {
+    this.loadingExchangeJobMappings$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoading);
     this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
     this.companyJobsToMapTo$ = this.store.select(fromPeerManagementReducer.getCompanyJobsToMapTo);
     this.companyJobsToMapToLoading$ = this.store.select(fromPeerManagementReducer.getCompanyJobsToMapToLoading);
@@ -49,6 +53,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.applyingMappingError$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMappingError);
     this.selectedMappingCompanyJobId$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoSelectedMappingCompanyJobId);
     this.editingMapping$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoEditingMapping);
+    this.deletingMapping$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMapping);
+    this.deletingMappingError$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMappingError);
   }
 
   handleSearchValueChanged(value: string) {
@@ -67,6 +73,10 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       ExchangeJobId: this.selectedExchangeJobMapping.ExchangeJobId,
       CompanyJobId: companyJobId
     }));
+  }
+
+  handleDeleteClick() {
+    this.store.dispatch(new fromExchangeJobMappingInfoActions.OpenDeleteConfirmationModal());
   }
 
   toggleEditing() {

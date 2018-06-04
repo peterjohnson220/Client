@@ -26,15 +26,4 @@ export class ExchangeJobMappingService {
       ));
     });
   }
-
-  loadExchangeJobMappingsAfterMap(exchangeId: number): void {
-    this.exchangeJobMappingsGridState$.take(1).subscribe(gridState => {
-      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(
-        {
-          exchangeId: exchangeId,
-          listState: gridState
-        }
-      ));
-    });
-  }
 }
