@@ -13,8 +13,8 @@
 
   </div>
   <div class="modal-footer">
-    <button class="btn btn-secondary" (click)="declineTermsAndConditions()">Decline</button>
-    <button class="btn btn-primary" (click)="acceptTermsAndConditions()">Accept</button>
+    <button class="btn btn-secondary" (click)="declineTermsAndConditions()" *ngIf="showDeclineButton">{{declineButtonText}}</button>
+    <button class="btn btn-primary" (click)="acceptTermsAndConditions()">{{acceptButtonText}}</button>
   </div>
 </ng-template>
 <div class="modal-container"></div>
