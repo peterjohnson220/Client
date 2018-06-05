@@ -18,6 +18,10 @@ export class TermsConditionsModalComponent implements OnInit {
   @Input() title: string;
   @Input() content: string;
   @Input() isOpen$: Observable<boolean>;
+  @Input() size = 'sm';
+  @Input() acceptButtonText = 'Continue';
+  @Input() declineButtonText = 'Decline';
+  @Input() showDeclineButton: false;
 
   @Output() onAccept = new EventEmitter();
   @Output() onDecline = new EventEmitter();
@@ -29,13 +33,14 @@ export class TermsConditionsModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-   this.modalOpenSubscription = this.isOpen$.subscribe(open => {
-     {
-       if (!open) {
-         this.dismissModal();
-       } else {
-        this.openTermsAndConditionsModal();
-      }}
+    this.modalOpenSubscription = this.isOpen$.subscribe(open => {
+      {
+        if (!open) {
+          this.dismissModal();
+        } else {
+          this.openTermsAndConditionsModal();
+        }
+      }
     });
   }
 
@@ -49,13 +54,14 @@ export class TermsConditionsModalComponent implements OnInit {
     this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
       backdrop: 'static',
       container: `.modal-container`,
-      size: 'lg'
+      size: this.size,
+      centered: true
     });
   }
 
   acceptTermsAndConditions(): void {
     this.dismissModal();
-      this.onAccept.emit();
+    this.onAccept.emit();
   }
 
   declineTermsAndConditions(): void {

@@ -2,11 +2,14 @@
 
 exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
 <pf-terms-conditions-modal
+  acceptButtonText={[Function String]}
+  declineButtonText={[Function String]}
   isOpen$={[Function Observable]}
   modalOpenSubscription={[Function Subscriber]}
   modalService={[Function NgbModal]}
   onAccept={[Function EventEmitter]}
   onDecline={[Function EventEmitter]}
+  size={[Function String]}
   templateRef={[Function TemplateRef_]}
   title={[Function String]}
 >
