@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule } from 'libs/models/jdm';

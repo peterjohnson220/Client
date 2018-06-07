@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+
+import { Observable } from 'rxjs/Observable';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-
 import { BulkExportSchedule } from '../../../models/jdm';
 
 @Injectable()

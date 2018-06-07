@@ -1,6 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 import { PageWithTitleBarComponent } from './page-with-title-bar.component';
 
@@ -37,6 +36,15 @@ describe('Page With Title Bar', () => {
   it('should show the back button, when provided a return Url', () => {
 
     instance.returnUrl = '/returnToThis/Path';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show the back button, when provided an absolute Url', () => {
+
+    instance.absoluteUrl = '/redirectToThis/Path';
 
     fixture.detectChanges();
 

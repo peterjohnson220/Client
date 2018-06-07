@@ -53,9 +53,15 @@ export const getViewsLoadingError = createSelector(selectViewState, fromJdmViewR
 export const getFiltersLoading = createSelector(selectFilterState, fromJdmFilterReducer.getLoading);
 export const getFiltersLoadingError = createSelector(selectFilterState, fromJdmFilterReducer.getLoadingError);
 export const getBulkExportScheduleAdding = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getAdding);
-export const getBulkExportScheduleAddingError = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getAddingError);
+export const getBulkExportScheduleAddingError = createSelector(
+  selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getAddingError
+);
 export const getBulkExportScheduleLoading = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getLoading);
-export const getBulkExportScheduleLoadingError = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getLoadingError);
+export const getBulkExportScheduleLoadingError = createSelector(
+  selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getLoadingError
+);
 export const getBulkExportScheduleRemoving = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getRemoving);
-export const getBulkExportScheduleRemovingError = createSelector(selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getRemovingError);
+export const getBulkExportScheduleRemovingError = createSelector(
+  selectBulkExportScheduleState, fromJdmBulkExportScheduleReducer.getRemovingError
+);
 

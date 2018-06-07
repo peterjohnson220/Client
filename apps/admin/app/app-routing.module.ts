@@ -14,7 +14,10 @@ export const routes: Routes = [
       { path: '', redirectTo: 'peer', pathMatch: 'full' },
       { path: 'peer', loadChildren: 'apps/admin/app/_peer/peer-admin.module#PeerAdminModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
-      { path: 'job-description-management', loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule' },
+      {
+        path: 'job-description-management',
+        loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule'
+      },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

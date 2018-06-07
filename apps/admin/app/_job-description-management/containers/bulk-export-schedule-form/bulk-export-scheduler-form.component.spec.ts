@@ -1,13 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BulkExportSchedulerFormComponent } from './bulk-export-scheduler-form.component';
+import { FormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
 import * as fromRootState from 'libs/state/state';
+import { PfCommonModule } from 'libs/core';
+import { generateMockBulkExportSchedule } from 'libs/models/jdm';
+
+import { BulkExportSchedulerFormComponent } from './bulk-export-scheduler-form.component';
 import * as fromJdmReducer from '../../reducers';
 import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-import { FormsModule } from '@angular/forms';
-import { PfCommonModule } from 'libs/core';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { generateMockBulkExportSchedule } from 'libs/models/jdm';
 
 describe('Bulk Export Schedule Form', () => {
   let fixture: ComponentFixture<BulkExportSchedulerFormComponent>;
@@ -123,7 +126,7 @@ describe('Bulk Export Schedule Form', () => {
     instance.schedule.FileName = 'Test';
     instance.schedules = [generateMockBulkExportSchedule()];
 
-    expect(instance.validSchedule()).toEqual(true);
+    expect(instance.isValidSchedule()).toEqual(true);
   });
 
   it('should return false if validSchedule is called and a invalid schedule is submitted', () => {
@@ -134,7 +137,7 @@ describe('Bulk Export Schedule Form', () => {
     instance.schedule.Frequency = null;
     instance.schedules = [generateMockBulkExportSchedule()];
 
-    expect(instance.validSchedule()).toEqual(false);
+    expect(instance.isValidSchedule()).toEqual(false);
   });
 
   it('should generate a cron expression when generateCronExpression is called', () => {
