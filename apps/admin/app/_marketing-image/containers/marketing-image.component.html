@@ -1,0 +1,30 @@
+<ng-container page-title>
+        Marketing Image
+</ng-container>
+
+<ng-container page-content>    
+        <label class="control-label"  for="revenue">Marketing Image:</label>      
+        <kendo-upload
+            [saveUrl]="uploadUrl"
+            [restrictions]="fileRestrictions"
+            [multiple]="false"
+            [autoUpload]="false"
+            (select)="selectEventHandler($event)"
+            (clear)="clearEventHandler($event)"
+            (upload)="uploadEventHandler($event)"
+            (success)="successEventHandler($event)"
+            (error)="errorEventHandler($event)">
+            <!--<kendo-upload-messages select="Select file..."
+                clearSelectedFiles = "Cancel"
+                uploadSelectedFiles = "Upload">
+            </kendo-upload-messages>-->
+        </kendo-upload>
+
+        <span *ngIf="errorMessage.length" class="text-danger">{{ errorMessage }}</span>
+
+        <span *ngIf="previewFileUri">
+        <img [src]="previewFileUri" />
+        <!--<img [src]="imgpath + fileName" class="preview"  />-->
+    </span>
+
+</ng-container>

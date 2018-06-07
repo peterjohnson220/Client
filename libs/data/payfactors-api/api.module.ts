@@ -14,6 +14,7 @@ import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { UserProfileApiService } from './user-profile';
 import { TermsConditionsApiService } from './terms-conditions';
+import { MarketingImageService } from './marketing-image';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -33,7 +34,8 @@ import { TermsConditionsApiService } from './terms-conditions';
     JobDescriptionManagementApiService,
     UserProfileApiService,
     JobDescriptionApiService,
-    TermsConditionsApiService
+    TermsConditionsApiService,
+    MarketingImageService
   ]
 })
 export class PfApiModule { }
