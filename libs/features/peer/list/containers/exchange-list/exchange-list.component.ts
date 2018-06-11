@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
 
 import { ExchangeListItem } from '../../../../../models/peer';

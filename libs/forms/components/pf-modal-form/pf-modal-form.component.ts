@@ -5,8 +5,7 @@ import {
 import { FormGroup } from '@angular/forms';
 
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'pf-modal-form',

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PayfactorsApiService {
@@ -12,20 +13,27 @@ export class PayfactorsApiService {
   ) {}
 
   get<T>(url: string, options: any = {}, mappingFn = this.extractValueFromOdata): Observable<T> {
-    return this.http.get<T>(`${environment.payfactorsApiUrl}${url}`, options)
-      .map(mappingFn);
+    return this.http.get<T>(`${environment.payfactorsApiUrl}${url}`, options).pipe(
+      map(mappingFn)
+    );
   }
 
   post<T>(url: string, body: any = {}): Observable<T> {
-    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
+    return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
+      map(this.extractValueFromOdata)
+    );
   }
 
   put<T>(url: string, body: any = {}): Observable<T> {
-    return this.http.put<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
+    return this.http.put<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
+      map(this.extractValueFromOdata)
+    );
   }
 
   delete<T>(url: string, body: any = {}): Observable<T> {
-    return this.http.delete<T>(`${environment.payfactorsApiUrl}${url}`, body).map(this.extractValueFromOdata);
+    return this.http.delete<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
+      map(this.extractValueFromOdata)
+    );
   }
 
   private extractValueFromOdata(response: any) {

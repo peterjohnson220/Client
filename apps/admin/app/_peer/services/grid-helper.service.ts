@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import * as fromPeerAdminReducer from '../reducers';
 import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
@@ -20,7 +21,7 @@ export class GridHelperService {
   }
 
   loadExchangeJobs(exchangeId: number) {
-    this.exchangeJobsGridState$.take(1).subscribe(gridState => {
+    this.exchangeJobsGridState$.pipe(take(1)).subscribe(gridState => {
       return this.store.dispatch(new fromExchangeJobsActions.LoadingExchangeJobs(
         {
           exchangeId: exchangeId,
@@ -31,7 +32,7 @@ export class GridHelperService {
   }
 
   loadExchangeCompanies(exchangeId: number) {
-    this.exchangeCompaniesGridState$.take(1).subscribe(gridState => {
+    this.exchangeCompaniesGridState$.pipe(take(1)).subscribe(gridState => {
       return this.store.dispatch(new fromExchangeCompaniesActions.LoadingExchangeCompanies(
         {
           exchangeId: exchangeId,

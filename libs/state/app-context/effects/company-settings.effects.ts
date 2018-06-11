@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { CompanyApiService } from 'libs/data/payfactors-api';
 import * as companySettingsActions from '../actions/company-settings.actions';
@@ -9,14 +10,15 @@ import * as companySettingsActions from '../actions/company-settings.actions';
 export class CompanySettingsEffects {
   @Effect()
   getCompanySettings$ = this.actions$
-    .ofType(companySettingsActions.GET_COMPANY_SETTINGS)
-    .switchMap(() =>
-    this.companyApiService
-      .getCompanySettings()
-      .map((companySettings: any) => new companySettingsActions.GetCompanySettingsSuccess(companySettings))
-      .catch(error => {
-        return of (new companySettingsActions.GetCompanySettingsError(error));
-      })
+    .ofType(companySettingsActions.GET_COMPANY_SETTINGS).pipe(
+      switchMap(() =>
+        this.companyApiService.getCompanySettings().pipe(
+          map((companySettings: any) => new companySettingsActions.GetCompanySettingsSuccess(companySettings)),
+          catchError(error => {
+            return of (new companySettingsActions.GetCompanySettingsError(error));
+          })
+        )
+      )
     );
 
   constructor(private actions$: Actions,

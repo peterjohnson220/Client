@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/take';
+import { Observable, Subscription } from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'pf-card-selector',
@@ -44,7 +43,7 @@ export class CardSelectorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cardDataSubscription = this.cardData$.subscribe((cards) => {
       let cardDataLoading = false;
-      this.cardDataLoading$.take(1).subscribe(l => {
+      this.cardDataLoading$.pipe(take(1)).subscribe(l => {
         cardDataLoading = l;
       });
       if (!this.selectedCard || cardDataLoading) {
