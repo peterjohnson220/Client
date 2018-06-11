@@ -2,9 +2,9 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/index';
-import 'rxjs/add/observable/timer';
+import { timer as observableTimer,  Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { PfValidators } from 'libs/forms/validators/index';
@@ -92,13 +92,13 @@ export class NewJobFormComponent implements OnInit, OnDestroy {
     return (control: AbstractControl): Observable<ValidationErrors> => {
       const jobTitle = control.value;
       const exchangeId = this.exchange ? this.exchange.ExchangeId : 0;
-      return Observable.timer(500).switchMap(() => {
+      return observableTimer(500).pipe(switchMap(() => {
         return this.exchangeCompanyApiService
-          .validateNewJobTitle(exchangeId, jobTitle)
-          .map(result => {
+          .validateNewJobTitle(exchangeId, jobTitle).pipe(
+          map(result => {
             return result ? { jobTitleExists: result } : null;
-          });
-      });
+          }));
+      }));
     };
   }
 

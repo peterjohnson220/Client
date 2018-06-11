@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/mergeMap';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap, map, concatMap } from 'rxjs/operators';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { CompanyJobToMapTo } from 'libs/models/peer';
@@ -22,48 +18,52 @@ export class ExchangeJobMappingInfoEffects {
 
   @Effect()
   loadCompanyJobsToMapToByQuery$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobMappingInfoActions.LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY)
-    .map((action: fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery) => action.payload)
-    .switchMap(payload =>
-      this.exchangeCompanyApiService.getTopCompanyJobsToMapTo(payload.exchangeId, payload.query)
-        .map((companyJobsToMapTo: CompanyJobToMapTo[]) => {
-          return new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuerySuccess(companyJobsToMapTo);
-        })
-        .catch(() => of(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQueryError()))
+    .ofType(fromExchangeJobMappingInfoActions.LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY).pipe(
+      map((action: fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery) => action.payload),
+      switchMap(payload =>
+        this.exchangeCompanyApiService.getTopCompanyJobsToMapTo(payload.exchangeId, payload.query).pipe(
+          map((companyJobsToMapTo: CompanyJobToMapTo[]) => {
+            return new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuerySuccess(companyJobsToMapTo);
+          }),
+          catchError(() => of(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQueryError())))
+      )
     );
 
   @Effect()
   applyMapping$ = this.actions$
-    .ofType(fromExchangeJobMappingInfoActions.APPLY_MAPPING)
-    .map((action: fromExchangeJobMappingInfoActions.ApplyMapping) => action.payload)
-    .switchMap(payload =>
-      this.exchangeCompanyApiService.upsertExchangeJobMap(payload)
-        .concatMap(() => {
-          return [
-            new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
-            new fromExchangeJobMappingInfoActions.ApplyMappingSuccess()
-          ];
-        })
-        .catch(() => {
-          return of(this.store.dispatch(new fromExchangeJobMappingInfoActions.ApplyMappingError()));
-        })
+    .ofType(fromExchangeJobMappingInfoActions.APPLY_MAPPING).pipe(
+      map((action: fromExchangeJobMappingInfoActions.ApplyMapping) => action.payload),
+      switchMap(payload =>
+        this.exchangeCompanyApiService.upsertExchangeJobMap(payload).pipe(
+          concatMap(() => {
+            return [
+              new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
+              new fromExchangeJobMappingInfoActions.ApplyMappingSuccess()
+            ];
+          }),
+          catchError(() => {
+            return of(this.store.dispatch(new fromExchangeJobMappingInfoActions.ApplyMappingError()));
+          })
+        )
+      )
     );
 
   @Effect()
   deleteMappingConfirmation$ = this.actions$
-    .ofType(fromExchangeJobMappingInfoActions.DELETE_MAPPING)
-    .map((action: fromExchangeJobMappingInfoActions.DeleteMapping) => action.payload)
-    .switchMap(payload =>
-      this.exchangeCompanyApiService.deleteExchangeJobMapping(payload.exchangeJobToCompanyJobId)
-        .concatMap(() => {
-          return [
-            new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
-            new fromExchangeJobMappingInfoActions.DeleteMappingSuccess()
-          ];
-        })
-        .catch(() => {
-          return of(new fromExchangeJobMappingInfoActions.DeleteMappingError());
-        })
+    .ofType(fromExchangeJobMappingInfoActions.DELETE_MAPPING).pipe(
+      map((action: fromExchangeJobMappingInfoActions.DeleteMapping) => action.payload),
+      switchMap(payload =>
+        this.exchangeCompanyApiService.deleteExchangeJobMapping(payload.exchangeJobToCompanyJobId).pipe(
+          concatMap(() => {
+            return [
+              new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
+              new fromExchangeJobMappingInfoActions.DeleteMappingSuccess()
+            ];
+          }),
+          catchError(() => {
+            return of(new fromExchangeJobMappingInfoActions.DeleteMappingError());
+          })
+      ))
     );
 
   constructor(private actions$: Actions,

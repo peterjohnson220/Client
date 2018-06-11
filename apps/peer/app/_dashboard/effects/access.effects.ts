@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { AvailableExchangeItem, ExchangeRequestTypeEnum, CompanyOption } from 'libs/models';
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
@@ -40,13 +40,15 @@ export class AccessExchangeRequestEffects {
 
   @Effect()
   loadPeerParticipants$: Observable<Action> = this.actions$
-    .ofType(fromPeerParticipantsActions.LOAD_PEER_PARTICIPANTS)
-    .map((action: fromPeerParticipantsActions.LoadPeerParticipants) => action.payload)
-    .switchMap(searchTerm =>
-      this.exchangeApiService.getTopPeerParticipants(searchTerm)
-        .map((companyOptions: CompanyOption[]) => new fromPeerParticipantsActions
-          .LoadPeerParticipantsSuccess(companyOptions))
-        .catch(() => of(new fromPeerParticipantsActions.LoadPeerParticipantsError))
+    .ofType(fromPeerParticipantsActions.LOAD_PEER_PARTICIPANTS).pipe(
+      map((action: fromPeerParticipantsActions.LoadPeerParticipants) => action.payload),
+      switchMap(searchTerm =>
+        this.exchangeApiService.getTopPeerParticipants(searchTerm).pipe(
+          map((companyOptions: CompanyOption[]) => new fromPeerParticipantsActions
+            .LoadPeerParticipantsSuccess(companyOptions)),
+          catchError(() => of(new fromPeerParticipantsActions.LoadPeerParticipantsError))
+        )
+      )
     );
 
     @Effect()

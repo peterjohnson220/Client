@@ -2,9 +2,8 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/timer';
+import { Observable, Subscription } from 'rxjs';
+
 
 import { PfValidators } from 'libs/forms/validators';
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';

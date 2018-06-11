@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { GetDetailChartRequest, ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 

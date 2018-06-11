@@ -2,10 +2,8 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/debounceTime';
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, debounceTime, take } from 'rxjs/operators';
 import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
 
 import { CardSelectorComponent } from 'libs/ui/common/content/cards/card-selector/card-selector.component';
@@ -89,7 +87,7 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
   handleSelectedCompanyChangeEvent(selectedCompanyName: string): void {
     this.companyNameFilter = selectedCompanyName;
     // Kendo auto complete doesn't support supplying a textField so we have to use the company name for the value. [JP]
-    this.peerParticipants$.take(1).subscribe(peers => {
+    this.peerParticipants$.pipe(take(1)).subscribe(peers => {
       const selectedCompany: CompanyOption = peers.find(p => p.Name === selectedCompanyName);
       const selectedCompanyId = selectedCompany ? selectedCompany.CompanyId : null;
       const filterOptions = {
@@ -147,7 +145,9 @@ export class AccessModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.filterChangeSubscription = this.list.filterChange.asObservable().debounceTime(PfConstants.DEBOUNCE_DELAY).distinctUntilChanged()
+    this.filterChangeSubscription = this.list.filterChange.asObservable().pipe(
+      debounceTime(PfConstants.DEBOUNCE_DELAY),
+      distinctUntilChanged())
       .subscribe(searchTerm => {
         this.store.dispatch(new fromPeerParticipantsActions.LoadPeerParticipants(searchTerm));
       });

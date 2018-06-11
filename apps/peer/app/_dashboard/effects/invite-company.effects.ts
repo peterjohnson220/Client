@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/index';
 
 import { ExchangeRequestTypeEnum } from 'libs/models';
@@ -40,12 +41,13 @@ export class InviteCompanyEffects {
 
   @Effect()
   loadJobFamilies$: Observable<Action> = this.actions$
-    .ofType(fromCompanyIndustriesActions.LOAD_COMPANY_INDUSTRIES)
-    .switchMap(() => this.exchangeCompanyApiService.getCompanyIndustries()
-      .map(results => {
-        return new fromCompanyIndustriesActions.LoadCompanyIndustriesSuccess(results);
-      })
-      .catch(() => of(new fromCompanyIndustriesActions.LoadCompanyIndustriesError))
+    .ofType(fromCompanyIndustriesActions.LOAD_COMPANY_INDUSTRIES).pipe(
+      switchMap(() => this.exchangeCompanyApiService.getCompanyIndustries().pipe(
+        map(results => {
+          return new fromCompanyIndustriesActions.LoadCompanyIndustriesSuccess(results);
+        }),
+        catchError(() => of(new fromCompanyIndustriesActions.LoadCompanyIndustriesError)))
+      )
     );
 
   constructor(
