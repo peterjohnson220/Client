@@ -5,8 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromForgotPasswordReducer from '../../../reducers';
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'pf-forgot-password-page',

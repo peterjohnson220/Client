@@ -6,7 +6,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromFirstLoginReducer from '../../../reducers';
 import * as fromFirstLoginActions from '../../../actions/first-login.action';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { UserContext } from 'libs/models/security';
 
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
