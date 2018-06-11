@@ -148,7 +148,7 @@ describe('Bulk Export Schedule Form', () => {
 
     fixture.detectChanges();
 
-    expect(instance.schedule.CronExpression).toBe('0 0 3 ? * 2,4,6 *');
+    expect(instance.schedule.CronExpression).toBe('* * * ? * 2,4,6 *');
   });
 
   it('should call AddingSchedule when submitForm is triggered and a valid schedule is submitted', () => {

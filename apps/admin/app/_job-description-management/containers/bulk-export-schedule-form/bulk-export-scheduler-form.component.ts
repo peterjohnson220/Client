@@ -76,7 +76,7 @@ export class BulkExportSchedulerFormComponent {
   }
 
   generateCronExpression() {
-    this.schedule.CronExpression = '0 0 3 ? ';
+    this.schedule.CronExpression = '* * * ? ';
 
     if (this.schedule.Frequency === 'Monthly') {
       this.schedule.CronExpression += (new Date().getMonth() + 1) + (this.schedule.MonthlyOccurrence !== '1' ? '/' + this.schedule.MonthlyOccurrence + ' ' : ' ');
@@ -108,7 +108,7 @@ export class BulkExportSchedulerFormComponent {
 
     return daysString.slice(0, -2);
   }
-  
+
   occurrenceAsString(occurrence) {
     return this.occurence[occurrence - 1];
   }
