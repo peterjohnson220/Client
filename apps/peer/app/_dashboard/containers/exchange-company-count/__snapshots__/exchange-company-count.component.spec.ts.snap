@@ -12,13 +12,59 @@ exports[`Peer Dashboard - Exchange Job Count should display the company count 1`
   store={[Function Store]}
 >
   <h1
-    class="company-count"
+    class="company-count pf-link"
   >
-     10
+    
+  </h1><h3
+    class="company-count-title"
+  >
+     
   
-  </h1><h3>
+  </h3><small
+    class="text-muted"
+  >
+    <span
+      class="pf-link"
+    >
+      
+    </span>
+     Total Companies
+  
+  </small>
+</pf-exchange-company-count>
+`;
+
+exports[`Peer Dashboard - Exchange Job Count should display the participating company count and total company count 1`] = `
+<pf-exchange-company-count
+  allCompaniesChartItem={[Function Object]}
+  companyChartItems$={[Function Store]}
+  companyChartItemsSubscription={[Function Subscriber]}
+  exchangeId={[Function Number]}
+  loadingCompanyChartItems$={[Function Store]}
+  loadingCompanyChartItemsError$={[Function Store]}
+  participatingCompaniesChartItem={[Function Object]}
+  route={[Function ActivatedRouteStub]}
+  store={[Function Store]}
+>
+  <h1
+    class="company-count pf-link"
+  >
+    10
+  </h1><h3
+    class="company-count-title"
+  >
      Category
   
-  </h3>
+  </h3><small
+    class="text-muted"
+  >
+    <span
+      class="pf-link"
+    >
+      10
+    </span>
+     Total Companies
+  
+  </small>
 </pf-exchange-company-count>
 `;

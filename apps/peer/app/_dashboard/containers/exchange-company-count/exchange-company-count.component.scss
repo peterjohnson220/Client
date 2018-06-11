@@ -1,7 +1,15 @@
-@import 'colors';
-
-.company-count{
-  cursor: pointer;
-  color: $link-color;
+.company-count {
   font-size: 5rem;
+  display: inline-block;
+}
+
+.company-count-title {
+  width: min-content;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+small .pf-link {
+  font-size: small;
+  font-weight: bolder;
 }

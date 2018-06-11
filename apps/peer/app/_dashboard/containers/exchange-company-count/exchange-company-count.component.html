@@ -1,6 +1,9 @@
-<h1 class="company-count" (click)="companyCountClick()">
-  {{ chartItem?.Value }}
-</h1>
-<h3>
-  {{ chartItem?.Category }}
+<h1 class="company-count pf-link" (click)="participatingCompaniesCountClick()">{{ participatingCompaniesChartItem?.Value }}</h1>
+<h3 class="company-count-title">
+  {{ participatingCompaniesChartItem?.Category }}
 </h3>
+
+<small class="text-muted">
+  <span class="pf-link" (click)="allCompaniesCountClick()">{{ allCompaniesChartItem?.Value }}</span>
+  Total Companies
+</small>

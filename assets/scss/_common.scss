@@ -1,3 +1,5 @@
+@import 'colors';
+
 .pf-avatar{
   width: 33px;
   height: 33px;
@@ -64,4 +66,9 @@ tr.row-disabled {
 
 .form-group.form-group-validation {
   margin-bottom: -.35rem;
+}
+
+.pf-link {
+  cursor: pointer;
+  color: $link-color;
 }
