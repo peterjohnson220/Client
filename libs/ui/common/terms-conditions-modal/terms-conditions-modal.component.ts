@@ -18,7 +18,7 @@ export class TermsConditionsModalComponent implements OnInit {
   @Input() title: string;
   @Input() content: string;
   @Input() isOpen$: Observable<boolean>;
-  @Input() size = 'sm';
+  @Input() size = 'lg';
   @Input() acceptButtonText = 'Continue';
   @Input() declineButtonText = 'Decline';
   @Input() showDeclineButton: false;
