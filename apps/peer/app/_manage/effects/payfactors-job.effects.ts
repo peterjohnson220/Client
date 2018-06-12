@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import {Actions, Effect} from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import {of} from 'rxjs/index';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { ExchangeRequestTypeEnum } from 'libs/models';
 import {ExchangeCompanyApiService} from 'libs/data/payfactors-api';
@@ -40,12 +40,14 @@ export class PayfactorsJobExchangeRequestEffects {
 
   @Effect()
   loadJobFamilies$: Observable<Action> = this.actions$
-    .ofType(fromJobFamilyActions.LOAD_JOB_FAMILIES)
-    .switchMap(() => this.exchangeCompanyApiService.getPayfactorsJobFamilies()
-      .map(results => {
-        return new fromJobFamilyActions.LoadJobFamiliesSuccess(results);
-      })
-      .catch(() => of(new fromJobFamilyActions.LoadJobFamiliesError)));
+    .ofType(fromJobFamilyActions.LOAD_JOB_FAMILIES).pipe(
+      switchMap(() => this.exchangeCompanyApiService.getPayfactorsJobFamilies().pipe(
+        map(results => {
+          return new fromJobFamilyActions.LoadJobFamiliesSuccess(results);
+        }),
+        catchError(() => of(new fromJobFamilyActions.LoadJobFamiliesError))
+      ))
+    );
 
   constructor(
     private actions$: Actions,

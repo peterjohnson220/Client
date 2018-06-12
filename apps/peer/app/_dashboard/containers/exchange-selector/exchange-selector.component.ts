@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { Exchange, ExchangeListItem, ExchangeRequestTypeEnum } from 'libs/models/peer';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
@@ -57,7 +57,7 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit() {
-    this.exchangeListItems$.take(1).subscribe(exchanges => {
+    this.exchangeListItems$.pipe(take(1)).subscribe(exchanges => {
       if (!exchanges.length) {
         this.store.dispatch(new fromExchangeSelectorActions.LoadExchanges());
       }

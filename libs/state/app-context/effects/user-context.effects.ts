@@ -2,11 +2,8 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
-// TODO: Investigate switching these to a "lettable operators"
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { of } from 'rxjs';
+import { tap, switchMap, map, catchError } from 'rxjs/operators';
 
 import { CompanySecurityApiService } from '../../../data/payfactors-api';
 import * as userContextActions from '../actions/user-context.actions';
@@ -16,36 +13,39 @@ export class UserContextEffects {
 
   @Effect()
   getUserContext$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT)
-    .switchMap(() =>
-      this.companySecurityApiService
-        .getIdentity()
-        .map((identity: any) => new userContextActions.GetUserContextSuccess(identity))
-        .catch(error => {
-          return of(new userContextActions.GetUserContextError(error));
-        })
+    .ofType(userContextActions.GET_USER_CONTEXT).pipe(
+      switchMap(() =>
+        this.companySecurityApiService.getIdentity().pipe(
+          map((identity: any) => new userContextActions.GetUserContextSuccess(identity)),
+          catchError(error => {
+            return of(new userContextActions.GetUserContextError(error));
+          })
+        )
+      )
     );
 
   @Effect()
   getUserContextError$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT_ERROR)
-    .map((action: userContextActions.GetUserContextError) => action.error)
-    .switchMap(error => {
-        if (error.status === 401) {
-          return of(new userContextActions.GetUserContext401Error());
+    .ofType(userContextActions.GET_USER_CONTEXT_ERROR).pipe(
+      map((action: userContextActions.GetUserContextError) => action.error),
+      switchMap(error => {
+          if (error.status === 401) {
+            return of(new userContextActions.GetUserContext401Error());
+          }
         }
-      }
+      )
     );
 
   @Effect({ dispatch: false })
   getUserContext401Error$ = this.actions$
-    .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR)
-    .do((action: userContextActions.GetUserContext401Error) => {
-        if (isPlatformBrowser(this.platformId)) {
-           window.location.href = `/login.asp?${window.location.pathname}`;
+    .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
+      tap((action: userContextActions.GetUserContext401Error) => {
+          if (isPlatformBrowser(this.platformId)) {
+            window.location.href = `/login.asp?${window.location.pathname}`;
+          }
+          return null;
         }
-        return null;
-      }
+      )
     );
 
   constructor(private actions$: Actions,

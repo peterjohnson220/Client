@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule } from 'libs/models/jdm';
 import { UserFilter } from 'libs/models/user-profile/index';
 import * as fromJdmAdminReducer from '../../reducers/index';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-
 
 @Component({
   selector: 'pf-bulk-export-scheduler-form',
@@ -79,15 +78,15 @@ export class BulkExportSchedulerFormComponent {
     this.schedule.CronExpression = '* * * ? ';
 
     if (this.schedule.Frequency === 'Monthly') {
-      this.schedule.CronExpression += (new Date().getMonth() + 1) + (this.schedule.MonthlyOccurrence !== '1' ? '/' + this.schedule.MonthlyOccurrence + ' ' : ' ');
+      this.schedule.CronExpression += (new Date().getMonth() + 1) +
+        (this.schedule.MonthlyOccurrence !== '1' ? '/' + this.schedule.MonthlyOccurrence + ' ' : ' ');
     } else {
       this.schedule.CronExpression += '* ';
     }
 
     if (this.schedule.Frequency === 'Monthly') {
       this.schedule.CronExpression += this.schedule.DayOfWeek + '#' + this.schedule.Occurrence + ' ';
-    }
-    else {
+    } else {
       this.schedule.CronExpression += this.schedule.DayOfWeek + ' ';
     }
     this.schedule.CronExpression += '*';

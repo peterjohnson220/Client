@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription, Observable } from 'rxjs';
 
 import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
 import * as fromExchangeListReducer from 'libs/features/peer/list/reducers';

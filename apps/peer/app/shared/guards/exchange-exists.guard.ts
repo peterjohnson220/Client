@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
@@ -23,15 +23,15 @@ export class ExchangeExistsGuard implements CanActivate {
   exchangeExists(exchangeId: number): Observable<boolean> {
     this.store.dispatch(new fromExchangeActions.LoadExchange(exchangeId));
 
-    return this.exchangeApiService
-      .getExchange(exchangeId)
-      .map((exchange: Exchange) => new fromExchangeActions.LoadExchangeSuccess(exchange))
-      .do((action: fromExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action))
-      .map(() => true)
-      .catch(() => {
+    return this.exchangeApiService.getExchange(exchangeId).pipe(
+      map((exchange: Exchange) => new fromExchangeActions.LoadExchangeSuccess(exchange)),
+      tap((action: fromExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action)),
+      map(() => true),
+      catchError(() => {
         this.router.navigate(['/exchange-not-found']);
         return of(false);
-      });
+      })
+    );
   }
 
   canActivate(route: ActivatedRouteSnapshot) {

@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { SystemFilter, ExchangeMapSummary } from 'libs/models/peer';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';

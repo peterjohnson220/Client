@@ -1,13 +1,8 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/distinctUntilChanged';
+import { merge as observableMerge, fromEvent as observableFromEvent , Subject } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 import { PfConstants } from '../../../models/common';
 
 
@@ -44,11 +39,12 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   propogateChange = (_: any) => { };
 
   ngOnInit() {
-    this.inputEvents = Observable.fromEvent(this.elementRef.nativeElement, 'input');
+    this.inputEvents = observableFromEvent(this.elementRef.nativeElement, 'input');
 
-    this.eventStream = Observable.merge(this.inputEvents, this.clearEvent)
-      .map(() => this.innerValue)
-      .debounceTime(this.delay);
+    this.eventStream = observableMerge(this.inputEvents, this.clearEvent).pipe(
+      map(() => this.innerValue),
+      debounceTime(this.delay)
+    );
 
 
     if (this.distinctUntilChanged) {

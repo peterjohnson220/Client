@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-// TODO: Investigate switching these to a "lettable operators"
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { NavigationApiService, UserApiService } from '../../../data/payfactors-api';
 
@@ -20,23 +16,25 @@ export class HeaderEffects {
 
   @Effect()
   getHeaderDropdownNavigationLinks$ = this.actions$
-    .ofType(headerActions.GET_HEADER_DROPDOWN_NAVIGATION_LINKS)
-    .switchMap(() =>
-      this.navigationApiService
-        .getHeaderDropdownNavigationLinks()
-        .map((navigationLinks: NavigationLink[]) => new headerActions.GetHeaderDropdownNavigationLinksSuccess(navigationLinks))
-        .catch(() => of(new headerActions.GetHeaderDropdownNavigationLinksError()))
+    .ofType(headerActions.GET_HEADER_DROPDOWN_NAVIGATION_LINKS).pipe(
+      switchMap(() =>
+        this.navigationApiService.getHeaderDropdownNavigationLinks().pipe(
+          map((navigationLinks: NavigationLink[]) => new headerActions.GetHeaderDropdownNavigationLinksSuccess(navigationLinks)),
+          catchError(() => of(new headerActions.GetHeaderDropdownNavigationLinksError()))
+        )
+      )
     );
 
   @Effect()
   getHomePageLink$: Observable<Action> = this.actions$
-    .ofType(headerActions.GET_HEADER_USER_HOMEPAGE_LINK)
-    .map((action: headerActions.GetHeaderUserHomePageLink) => action.payload)
-    .switchMap(payload =>
-      this.userApiService
-        .getUserHomePage(payload.userId)
-        .map((homePageLink: HomePageLink) => new headerActions.GetHeaderUserHomePageLinkSuccess(homePageLink))
-        .catch(() => of(new headerActions.GetHeaderUserHomePageLinkError()))
+    .ofType(headerActions.GET_HEADER_USER_HOMEPAGE_LINK).pipe(
+      map((action: headerActions.GetHeaderUserHomePageLink) => action.payload),
+      switchMap(payload =>
+        this.userApiService.getUserHomePage(payload.userId).pipe(
+          map((homePageLink: HomePageLink) => new headerActions.GetHeaderUserHomePageLinkSuccess(homePageLink)),
+          catchError(() => of(new headerActions.GetHeaderUserHomePageLinkError()))
+        )
+      )
     );
 
   constructor(

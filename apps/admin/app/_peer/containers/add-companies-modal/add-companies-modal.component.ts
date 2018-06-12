@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
@@ -151,7 +152,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
 
   // Helper methods
   loadAvailableCompanies(): void {
-    this.gridState$.take(1).subscribe(gridState => {
+    this.gridState$.pipe(take(1)).subscribe(gridState => {
       this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
         {
           exchangeId: this.exchangeId,

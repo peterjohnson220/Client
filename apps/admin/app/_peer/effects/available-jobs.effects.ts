@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
+import { Observable, of } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
@@ -18,13 +15,15 @@ export class AvailableJobsEffects {
 
   @Effect()
   loadAvailableJobs$: Observable<Action> = this.actions$
-    .ofType(fromAvailableJobsActions.LOADING_AVAILABLE_JOBS)
-    .map((action: fromAvailableJobsActions.LoadingAvailableJobs) => action.payload)
-    .switchMap(payload =>
-      this.exchangeApiService.getAvailableJobs(payload.exchangeId, payload.listState)
-        .map((availableJobsResult: GridDataResult) => new fromAvailableJobsActions
-          .LoadingAvailableJobsSuccess(availableJobsResult))
-        .catch(error => of(new fromAvailableJobsActions.LoadingAvailableJobsError()))
+    .ofType(fromAvailableJobsActions.LOADING_AVAILABLE_JOBS).pipe(
+      map((action: fromAvailableJobsActions.LoadingAvailableJobs) => action.payload),
+      switchMap(payload =>
+        this.exchangeApiService.getAvailableJobs(payload.exchangeId, payload.listState).pipe(
+          map((availableJobsResult: GridDataResult) => new fromAvailableJobsActions
+            .LoadingAvailableJobsSuccess(availableJobsResult)),
+          catchError(error => of(new fromAvailableJobsActions.LoadingAvailableJobsError()))
+        )
+      )
     );
 
   constructor(

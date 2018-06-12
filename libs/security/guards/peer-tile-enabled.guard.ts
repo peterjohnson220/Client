@@ -2,11 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
+import { Subscription } from 'rxjs';
+import { take, filter, switchMap, map } from 'rxjs/operators';
 
 import * as fromLayoutReducer from '../../ui/layout-wrapper/reducers';
 import * as fromLeftSidebarActions from '../../ui/layout-wrapper/actions/left-sidebar.actions';
@@ -36,21 +33,25 @@ export class PeerTileEnabledGuard implements CanActivate, OnDestroy {
       this.layoutStore.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
     }
 
-    return this.waitForLeftSidebarLinks().switchMap(() => {
-      return this.layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks).map(sl => {
-        const peerLink = sl.filter(f => f.Name === 'Peer');
-        if (peerLink.length === 1) {
-          return true;
-        } else {
-          this.router.navigate(['/access-denied']);
-          return false;
-        }
-      });
-    });
+    return this.waitForLeftSidebarLinks().pipe(switchMap(() => {
+      return this.layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks).pipe(
+        map(sl => {
+          const peerLink = sl.filter(f => f.Name === 'Peer');
+          if (peerLink.length === 1) {
+            return true;
+          } else {
+            this.router.navigate(['/access-denied']);
+            return false;
+          }
+        })
+      );
+    }));
   }
 
   private waitForLeftSidebarLinks() {
-    return this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks)
-      .filter(attempted => attempted).take(1);
+    return this.layoutStore.select(fromLayoutReducer.getLoadedLeftSidebarNavigationLinks).pipe(
+      filter(attempted => attempted),
+      take(1)
+    );
   }
 }

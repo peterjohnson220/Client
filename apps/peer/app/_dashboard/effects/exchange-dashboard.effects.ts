@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
+import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ChartItem } from 'libs/models';
@@ -19,79 +16,93 @@ import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.act
 export class ExchangeDashboardEffects {
   @Effect()
   loadCompanyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_COMPANY_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingCompanyChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingCompanyChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingCompanyChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_COMPANY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingCompanyChart) =>
+        this.exchangeCompanyApiService.getChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingCompanyChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingCompanyChartError()))
+        )
+      )
     );
 
   @Effect()
   loadJobChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_JOB_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingJobChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingJobChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingJobChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_JOB_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingJobChart) =>
+        this.exchangeCompanyApiService.getChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingJobChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingJobChartError()))
+        )
+      )
     );
 
   @Effect()
   loadIndustryChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_INDUSTRY_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingIndustryChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingIndustryChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingIndustryChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_INDUSTRY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingIndustryChart) =>
+        this.exchangeCompanyApiService.getChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingIndustryChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingIndustryChartError()))
+        )
+      )
     );
 
   @Effect()
   loadJobFamilyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingJobFamilyChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingJobFamilyChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingJobFamilyChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingJobFamilyChart) =>
+        this.exchangeCompanyApiService.getChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingJobFamilyChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingJobFamilyChartError()))
+        )
+      )
     );
 
   @Effect()
   loadRevenueChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_REVENUE_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingRevenueChart) =>
-      this.exchangeCompanyApiService.getChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingRevenueChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingRevenueChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_REVENUE_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingRevenueChart) =>
+        this.exchangeCompanyApiService.getChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingRevenueChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingRevenueChartError()))
+        )
+      )
     );
 
   @Effect()
   loadDetailChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_DETAIL_CHART)
-    .switchMap((action: fromExchangeDashboardActions.LoadingDetailChart) =>
-      this.exchangeCompanyApiService.getDetailChart(action.payload)
-        .map((chartItems: ChartItem[]) => {
-          return new fromExchangeDashboardActions.LoadingDetailChartSuccess(chartItems);
-        })
-        .catch(() => of(new fromExchangeDashboardActions.LoadingDetailChartError()))
+    .ofType(fromExchangeDashboardActions.LOADING_DETAIL_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadingDetailChart) =>
+        this.exchangeCompanyApiService.getDetailChart(action.payload).pipe(
+          map((chartItems: ChartItem[]) => {
+            return new fromExchangeDashboardActions.LoadingDetailChartSuccess(chartItems);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadingDetailChartError()))
+        )
+      )
     );
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.LOADING_EXCHANGES)
-    .switchMap(() =>
-      this.exchangeCompanyApiService.getExchanges()
-        .map((exchangeListItems: ExchangeListItem[]) => {
-          return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
-        })
-        .catch(() => of(new fromExchangeListActions.LoadingExchangesError()))
+    .ofType(fromExchangeListActions.LOADING_EXCHANGES).pipe(
+      switchMap(() =>
+        this.exchangeCompanyApiService.getExchanges().pipe(
+          map((exchangeListItems: ExchangeListItem[]) => {
+            return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
+          }),
+          catchError(() => of(new fromExchangeListActions.LoadingExchangesError()))
+        )
+      )
     );
 
   constructor(

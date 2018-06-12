@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
+import {take, filter, switchMap, map} from 'rxjs/operators';
 
 import * as fromRootState from '../../state/state';
 
@@ -17,19 +14,26 @@ export class PfAdminGuard implements CanActivate {
   ) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.waitForUserContextLoadAttempt().switchMap(() => {
-      return this.store.select(fromRootState.getUserContext).map(uc => {
-        if (uc.AccessLevel === 'Admin') {
-          return true;
-        } else {
-          this.router.navigate(['/access-denied']);
-          return false;
-        }
-      });
-    });
+    return this.waitForUserContextLoadAttempt().pipe(
+      switchMap(() => {
+        return this.store.select(fromRootState.getUserContext).pipe(
+          map(uc => {
+            if (uc.AccessLevel === 'Admin') {
+              return true;
+            } else {
+              this.router.navigate(['/access-denied']);
+              return false;
+            }
+          })
+        );
+      })
+    );
   }
 
   private waitForUserContextLoadAttempt() {
-    return this.store.select(fromRootState.getGettingUserContextAttempted).filter(attempted => attempted).take(1);
+    return this.store.select(fromRootState.getGettingUserContextAttempted).pipe(
+      filter(attempted => attempted),
+      take(1)
+    );
   }
 }

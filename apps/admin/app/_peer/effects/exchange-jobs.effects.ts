@@ -2,11 +2,8 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/switchMap';
+import { Observable, of } from 'rxjs';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
@@ -19,28 +16,32 @@ export class ExchangeJobsEffects {
 
   @Effect()
   loadExchangeJobs$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobsActions.LOADING_EXCHANGE_JOBS)
-    .map((action: fromExchangeJobsActions.LoadingExchangeJobs) => action.payload)
-    .switchMap(payload => {
-        return this.exchangeApiService.getExchangeJobs(payload.exchangeId, payload.listState)
-          .map((exchangeJobsResult: GridDataResult) => new fromExchangeJobsActions
-            .LoadingExchangeJobsSuccess(exchangeJobsResult))
-          .catch(error => of(new fromExchangeJobsActions.LoadingExchangeJobsError()));
-      }
+    .ofType(fromExchangeJobsActions.LOADING_EXCHANGE_JOBS).pipe(
+      map((action: fromExchangeJobsActions.LoadingExchangeJobs) => action.payload),
+      switchMap(payload => {
+          return this.exchangeApiService.getExchangeJobs(payload.exchangeId, payload.listState).pipe(
+            map((exchangeJobsResult: GridDataResult) => new fromExchangeJobsActions
+              .LoadingExchangeJobsSuccess(exchangeJobsResult)),
+            catchError(error => of(new fromExchangeJobsActions.LoadingExchangeJobsError()))
+          );
+        }
+      )
     );
 
   @Effect()
   addExchangeJobs$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobsActions.ADDING_EXCHANGE_JOBS)
-    .map((action: fromExchangeJobsActions.AddingExchangeJobs) => action.payload)
-    .switchMap((payload) => {
-      return this.exchangeApiService.addJobs(payload)
-        .map(() => {
-          this.gridHelperService.loadExchangeJobs(payload.ExchangeId);
-          return new fromExchangeJobsActions.AddingExchangeJobsSuccess;
-        })
-        .catch(error => of(new fromExchangeJobsActions.AddingExchangeJobsError()));
-    });
+    .ofType(fromExchangeJobsActions.ADDING_EXCHANGE_JOBS).pipe(
+      map((action: fromExchangeJobsActions.AddingExchangeJobs) => action.payload),
+      switchMap((payload) => {
+        return this.exchangeApiService.addJobs(payload).pipe(
+          map(() => {
+            this.gridHelperService.loadExchangeJobs(payload.ExchangeId);
+            return new fromExchangeJobsActions.AddingExchangeJobsSuccess;
+          }),
+          catchError(error => of(new fromExchangeJobsActions.AddingExchangeJobsError()))
+        );
+      })
+    );
 
   constructor(
     private actions$: Actions,
