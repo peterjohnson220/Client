@@ -25,7 +25,6 @@ export class DashboardTCModalComponent implements OnInit {
   tcSubmittingSuccess$: Observable<boolean>;
 
   tcModelSubscription: Subscription;
-  tcSubmittingSuccessSubscription: Subscription;
   tcId: string;
   tcTitle: string;
   tcContent: string;
@@ -62,13 +61,6 @@ export class DashboardTCModalComponent implements OnInit {
 
   acceptTC() {
     this.submitTC(true);
-
-    this.tcSubmittingSuccessSubscription = this.tcSubmittingSuccess$.subscribe(success => {
-      if (success) {
-        this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
-        this.store.dispatch(new fromTileGridActions.LoadingTiles(true));
-      }
-    });
   }
 
   declineTC() {
