@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-
 import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import * as fromForgotPasswordAction from '../actions/forgot-password.actions';
 import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 
+import * as fromForgotPasswordAction from '../actions/forgot-password.actions';
 
 @Injectable()
 export class ForgotPasswordEffects {

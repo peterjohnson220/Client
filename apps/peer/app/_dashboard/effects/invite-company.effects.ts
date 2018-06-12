@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
 import { Actions, Effect} from '@ngrx/effects';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { of } from 'rxjs/index';
 
 import { ExchangeRequestTypeEnum } from 'libs/models';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';

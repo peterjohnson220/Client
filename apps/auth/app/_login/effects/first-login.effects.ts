@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
-import * as fromFirstLoginAction from '../actions/first-login.action';
 import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 import { UserApiService } from 'libs/data/payfactors-api/user/user-api.service';
+
+import * as fromFirstLoginAction from '../actions/first-login.action';
 
 @Injectable()
 export class FirstLoginEffects {

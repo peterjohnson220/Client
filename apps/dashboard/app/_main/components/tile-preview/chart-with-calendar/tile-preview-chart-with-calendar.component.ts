@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { SaveUiPersistenceSettingRequest } from 'libs/models/common/save-ui-persistence-setting-request.model';
-import { TilePreviewChartWithCalendar } from '../../../models';
-
 import * as fromRootState from 'libs/state/state';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+
+import { TilePreviewChartWithCalendar } from '../../../models';
 import * as fromFeatureReducer from '../../../reducers';
 import * as fromTileGridActions from '../../../actions/tile-grid.actions';
-import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
 @Component({
   selector: 'pf-tile-preview-calendar-with-chart',

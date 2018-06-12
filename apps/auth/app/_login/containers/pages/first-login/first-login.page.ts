@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { UserContext } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
+import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
 
 import * as fromFirstLoginReducer from '../../../reducers';
 import * as fromFirstLoginActions from '../../../actions/first-login.action';
-
-import { Observable } from 'rxjs';
-import { UserContext } from 'libs/models/security';
-
-import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
 
 @Component({
   selector: 'pf-first-login-page',
