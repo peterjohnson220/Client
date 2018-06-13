@@ -23,6 +23,7 @@ import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 import { AddJobsModalComponent } from './containers/add-jobs-modal';
+import { ManageExchangeSectionHeaderComponent } from './containers/manage-exchange-section-header';
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
     AddCompaniesModalComponent,
     ExchangeJobsComponent,
     AddJobsModalComponent,
+    ManageExchangeSectionHeaderComponent,
 
     // Pages
     ExchangeListPageComponent,

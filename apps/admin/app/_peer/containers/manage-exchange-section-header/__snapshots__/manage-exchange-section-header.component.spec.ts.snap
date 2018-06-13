@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Manage Exchange Section Header should provide correct values to the pf-manage-exchange-section-header 1`] = `
+<pf-manage-exchange-section-header>
+  <div
+    class="section-header"
+  >
+    <h4>
+      
+    </h4>
+    <p>
+        
+    </p>
+  </div>
+</pf-manage-exchange-section-header>
+`;

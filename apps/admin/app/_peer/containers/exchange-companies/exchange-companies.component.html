@@ -1,34 +1,49 @@
-<pf-async-container
-  [loading]="exchangeCompaniesLoading$ | async"
-  [loadingError]="exchangeCompaniesLoadingError$ | async"
-  [loadingErrorMessage]="'Error loading exchange companies'"
-  (reload)="handleExchangeCompaniesGridReload()">
+<div class="d-flex flex-column h-100">
+  <div class="d-flex justify-content-between align-items-center">
+    <pf-manage-exchange-section-header
+      [sectionTitle]="'Exchange Companies'"
+      [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'"
+    >
+    </pf-manage-exchange-section-header>
+    <div class="d-flex space-out-children">
+      <button type="button" class="btn btn-sm btn-primary" (click)="openAddExchangeCompaniesModal()">Add</button>
+    </div>
+  </div>
+  <div class="d-flex h-100">
+    <pf-async-container
+      [loading]="exchangeCompaniesLoading$ | async"
+      [loadingError]="exchangeCompaniesLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange companies'"
+      (reload)="handleExchangeCompaniesGridReload()">
 
-  <kendo-grid
-    [data]="exchangeCompaniesGrid$ | async"
-    [pageSize]="(gridState$ | async)?.take"
-    [skip]="(gridState$ | async)?.skip"
-    [pageable]="{
-          buttonCount: 5,
-          info: true
-        }"
-    [sortable]="true"
-    [scrollable]="true"
-    [sort]="(gridState$ | async)?.sort"
-    (pageChange)="handlePageChange($event)"
-    (sortChange)="handleSortChange($event)"
-  >
+      <kendo-grid
+        [data]="exchangeCompaniesGrid$ | async"
+        [pageSize]="(gridState$ | async)?.take"
+        [skip]="(gridState$ | async)?.skip"
+        [pageable]="{
+              buttonCount: 5,
+              info: true
+            }"
+        [sortable]="true"
+        [scrollable]="true"
+        [sort]="(gridState$ | async)?.sort"
+        (pageChange)="handlePageChange($event)"
+        (sortChange)="handleSortChange($event)"
+      >
 
-    <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
 
-    <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
+        <kendo-grid-column field="Industry" title="Industry"></kendo-grid-column>
 
-    <kendo-grid-column field="JobCount" title="Job Count"></kendo-grid-column>
+        <kendo-grid-column field="JobCount" title="Job Count"></kendo-grid-column>
 
-    <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
+        <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
 
-  </kendo-grid>
+      </kendo-grid>
 
-</pf-async-container>
+    </pf-async-container>
+
+  </div>
+</div>
 
 <pf-add-companies-modal></pf-add-companies-modal>

@@ -54,7 +54,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridState);
     this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridSelections);
 
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
   }
 

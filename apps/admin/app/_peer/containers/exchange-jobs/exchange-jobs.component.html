@@ -1,30 +1,55 @@
-<pf-async-container
-  [loading]="exchangeJobsLoading$ | async"
-  [loadingError]="exchangeJobsLoadingError$ | async"
-  [loadingErrorMessage]="'Error loading exchange jobs'"
-  (reload)="handleExchangeJobsGridReload()">
+<div class="d-flex flex-column h-100">
+  <div class="d-flex justify-content-between align-items-center">
+    <pf-manage-exchange-section-header
+      [sectionTitle]="'Exchange Jobs'"
+      [sectionDescription]="'Listed in the grid below are the jobs included in this exchange.'"
+    >
+    </pf-manage-exchange-section-header>
+    <div class="d-flex space-out-children">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="openImportExchangeJobsModal()">Import</button>
+      <button type="button" class="btn btn-sm btn-primary" (click)="openAddExchangeJobsModal()">Add</button>
+    </div>
+  </div>
+  <div class="d-flex h-100">
+    <pf-async-container
+      [loading]="exchangeJobsLoading$ | async"
+      [loadingError]="exchangeJobsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange jobs'"
+      (reload)="handleExchangeJobsGridReload()"
+    >
 
-  <kendo-grid
-    [data]="exchangeJobsGrid$ | async"
-    [pageSize]="(gridState$ | async)?.take"
-    [skip]="(gridState$ | async)?.skip"
-    [pageable]="{
-          buttonCount: 5,
-          info: true
-        }"
-    [sortable]="true"
-    [scrollable]="true"
-    [sort]="(gridState$ | async)?.sort"
-    (pageChange)="handlePageChange($event)"
-    (sortChange)="handleSortChange($event)"
-  >
+      <kendo-grid
+        [data]="exchangeJobsGrid$ | async"
+        [pageSize]="(gridState$ | async)?.take"
+        [skip]="(gridState$ | async)?.skip"
+        [pageable]="{
+              buttonCount: 5,
+              info: true
+            }"
+        [sortable]="true"
+        [scrollable]="true"
+        [sort]="(gridState$ | async)?.sort"
+        (pageChange)="handlePageChange($event)"
+        (sortChange)="handleSortChange($event)"
+      >
 
-    <kendo-grid-column field="Job_Title" title="Job Title"></kendo-grid-column>
+        <kendo-grid-column field="Job_Title" title="Job Title"></kendo-grid-column>
 
-    <kendo-grid-column field="Job_Family" title="Job Family"></kendo-grid-column>
+        <kendo-grid-column field="Job_Family" title="Job Family"></kendo-grid-column>
 
-    <kendo-grid-column field="Job_Level" title="Job Level"></kendo-grid-column>
+        <kendo-grid-column field="Job_Level" title="Job Level"></kendo-grid-column>
 
-  </kendo-grid>
+      </kendo-grid>
 
-</pf-async-container>
+    </pf-async-container>
+  </div>
+</div>
+
+<pf-import-exchange-jobs-modal
+  [exchangeId]="exchangeId"
+  [isOpen$]="importExchangeJobsModalOpen$"
+  (importExchangeJobsEvent)="handleImportExchangeJobs()"
+  (modalDismissedEvent)="handleImportExchangeJobsModalDismissed()">
+</pf-import-exchange-jobs-modal>
+
+<pf-add-jobs-modal></pf-add-jobs-modal>

@@ -2,64 +2,74 @@
 
 exports[`Manage Exchange Page should pass the exchange name to the page title transclusion area 1`] = `
 <pf-manage-exchange-page
+  activeRoute={[Function Object]}
   exchange$={[Function Observable]}
-  importExchangeJobsModalOpen$={[Function Store]}
+  exchangeId={[Function Number]}
+  gridHelperService={[Function Object]}
   store={[Function Store]}
+  totalExchangeCompanies$={[Function Store]}
+  totalExchangeJobs$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
      Manage Exchange - Mock Exchange 
     
     <div
-      class="card-group h-100 w-100"
+      class="d-flex h-100 w-100"
     >
       <div
-        class="card"
+        class="inner-nav"
       >
         <div
-          class="card-header"
+          class="inner-nav-heading"
         >
-           Companies 
-          <button
-            class="btn btn-sm btn-primary float-right"
-            type="button"
+           Settings 
+        </div>
+        <ul
+          class="nav flex-column"
+        >
+          <li
+            class="nav-item"
           >
-            Add Companies
-          </button>
-        </div>
-        <div
-          class="card-body d-flex"
-        >
-          <pf-exchange-companies />
-        </div>
+            <div>
+              <a
+                class="nav-link"
+              >
+                <i
+                  class="fas fa-building font-a-icon"
+                />
+                 Companies 
+                
+              </a>
+            </div>
+          </li>
+          <li
+            class="nav-item"
+          >
+            <div>
+              <a
+                class="nav-link"
+              >
+                <i
+                  class="fas fa-briefcase font-a-icon"
+                />
+                 Jobs 
+                
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
       <div
-        class="card"
+        class="inner-content"
       >
         <div
-          class="card-header"
+          class="d-flex h-100 w-100"
         >
-           Jobs 
-          <button
-            class="btn btn-sm btn-primary float-right"
-            type="button"
-          >
-            Add Jobs
-          </button>
-          <button
-            class="btn btn-sm btn-secondary float-right"
-            type="button"
-          >
-            Import
-          </button>
-        </div>
-        <div
-          class="card-body d-flex"
-        >
-          <pf-exchange-jobs />
+          <router-outlet />
         </div>
       </div>
     </div>
-  </pf-page-with-title-bar><pf-import-exchange-jobs-modal /><pf-add-jobs-modal />
+  </pf-page-with-title-bar>
 </pf-manage-exchange-page>
 `;

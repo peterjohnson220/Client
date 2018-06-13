@@ -54,7 +54,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.addingCompaniesError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAddingError);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridState);
     this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridSelections);
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
   }
 

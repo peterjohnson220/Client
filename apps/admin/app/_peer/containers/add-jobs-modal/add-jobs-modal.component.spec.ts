@@ -54,7 +54,7 @@ describe('Add Jobs Modal', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { parent: { snapshot: { params: { id : 1 } } } }
         }
       ],
       // Shallow Testing
@@ -63,7 +63,7 @@ describe('Add Jobs Modal', () => {
 
     store = TestBed.get(Store);
     activatedRoute = TestBed.get(ActivatedRoute);
-    routeIdParam = activatedRoute.snapshot.params.id;
+    routeIdParam = activatedRoute.parent.snapshot.params.id;
 
     spyOn(store, 'dispatch');
 
