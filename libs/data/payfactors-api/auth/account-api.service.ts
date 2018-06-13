@@ -13,6 +13,14 @@ export class AccountApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.ForgotPassword`, email);
   }
 
+  checkPasswordResetToken(token: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.CheckResetPasswordToken`, {token: token});
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.ResetPassword`, {token: token, password: password});
+  }
+
   validateFirstTimeLogin(): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.ValidateFirstTimeLogin`);
   }

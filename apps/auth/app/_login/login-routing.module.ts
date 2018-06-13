@@ -5,14 +5,17 @@ import { UserContextGuard } from 'libs/security';
 import {
   FirstLoginPageComponent,
   ForgotPasswordPageComponent,
-  LoginPageComponent
+  LoginPageComponent,
+  ResetPasswordPageComponent
 } from './containers/pages';
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'first-login', component: FirstLoginPageComponent, canLoad: [UserContextGuard] },
   { path: 'forgot-password', component: ForgotPasswordPageComponent },
-  { path: 'login', component: LoginPageComponent }
+  { path: 'login', component: LoginPageComponent },
+  { path: 'reset-password', component: ResetPasswordPageComponent }
 ];
 
 @NgModule({

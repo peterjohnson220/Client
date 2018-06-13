@@ -6,10 +6,12 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
+import * as fromResetPasswordReducer from './reset-password.reducer';
 
 // Feature area state
 export interface AuthMainState {
   forgotPassword: fromForgotPasswordReducer.State;
+  resetPassword: fromResetPasswordReducer.State;
   firstLogin: fromFirstLoginReducer.State;
 }
 
@@ -21,6 +23,7 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   forgotPassword: fromForgotPasswordReducer.reducer,
+  resetPassword: fromResetPasswordReducer.reducer,
   firstLogin: fromFirstLoginReducer.reducer
 };
 
@@ -54,3 +57,20 @@ export const getFirstLoginUpdatingPasswordSuccess =
   createSelector(firstLoginState, fromFirstLoginReducer.getUpdatingPasswordSuccess);
 export const getFirstLoginUpdatingPasswordError =
   createSelector(firstLoginState, fromFirstLoginReducer.getUpdatingPasswordError);
+
+// Reset Password
+export const resetPasswordState =
+  createSelector(selectAuthMainState, (state: AuthMainState) => state.resetPassword);
+
+export const getResettingPassword =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPassword);
+export const getResetPasswordSuccess =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordSuccess);
+export const getResetPasswordTokenExpired =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordTokenExpired);
+export const getResetPasswordError =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getResettingPasswordError);
+export const getCheckingResetPasswordToken =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordToken);
+export const getCheckingResetPasswordTokenSuccess =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordTokenSuccess);
