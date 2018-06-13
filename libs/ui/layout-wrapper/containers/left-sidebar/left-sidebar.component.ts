@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -20,7 +20,7 @@ import { userVoiceUrl } from 'libs/core/functions';
 export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
-  leftSidebarToggle = false;
+  @Input() leftSidebarToggle = false;
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
@@ -58,5 +58,11 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   handleSidebarNavigationLinksReload() {
     this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
+  }
+
+  checkSidebarLinkAgainstURL(link) {
+    if (window.location.pathname.indexOf(link.Url) > -1) {
+      return true;
+    }
   }
 }

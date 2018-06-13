@@ -1,5 +1,7 @@
+@import 'colors';
+
 .left-sidebar-nav {
-  transition-duration: .5s;
+  transition-duration: .3s;
   list-style: none;
 }
 
@@ -12,14 +14,11 @@
   white-space: nowrap;
   overflow: hidden;
 }
-.left-sidebar-nav {
-  color: #8B989F;
-}
 
 .left-sidebar-nav li a {
   display: block;
   text-decoration: none;
-  color: #8B989F;
+  color: $left-sidebar-text-color;
 }
 
 .left-sidebar-nav .svg-inline--fa {
@@ -29,7 +28,7 @@
 .left-sidebar-nav li a .svg-inline--fa {
   width: 30px;
   text-align: center;
-  color: #496375;
+  color: $left-sidebar-text-color;
 }
 
 .left-sidebar-nav li a:hover {
@@ -52,20 +51,16 @@
   bottom: 0;
   border-top: 1px solid #242A34;
   height: 40px;
-  transition-duration: .5s;
+  transition-duration: .3s;
   z-index: 1;
-  color: #496375;
+  color: $left-sidebar-text-color;
   background-color: #283B4A;
 }
 
 .left-sidebar-footer > div {
   position: absolute;
   bottom: 11px;
-  transition-duration: .5s;
-}
-
-.left-sidebar-footer .svg-inline--fa:hover {
-  color: #fff;
+  transition-duration: .3s;
 }
 
 .left-sidebar-footer-close {
@@ -84,3 +79,16 @@
 .left-sidebar-icon-open {
   left: 170px;
 }
+
+.highlight-icon {
+  background-color: $highlight-icon-bg-color;
+}
+
+.left-sidebar-nav .highlight-icon a {
+  color: $highlight-icon-color;
+}
+
+.left-sidebar-nav .highlight-icon a .svg-inline--fa {
+  color: $highlight-icon-color;
+}
+

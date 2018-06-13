@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import * as fromRootState from '../../../../state/state';
-
 import * as fromHeaderActions from '../../actions/header.actions';
 import { UserContext, NavigationLink, HomePageLink } from '../../../../models';
 import * as fromLayoutReducer from '../../reducers';
@@ -12,7 +12,7 @@ import * as fromLayoutReducer from '../../reducers';
 @Component({
   selector: 'pf-layout-wrapper',
   templateUrl: './layout-wrapper.html',
-  styleUrls: ['./layout-wrapper.scss']
+  styleUrls: [ './layout-wrapper.scss' ]
 })
 export class LayoutWrapperComponent implements OnInit {
   userContext$: Observable<UserContext>;
@@ -31,6 +31,8 @@ export class LayoutWrapperComponent implements OnInit {
   @Input() rightSidebarShouldBeOpen = false;
   @Output() onRightSidebarToggle = new EventEmitter<boolean>();
   @Input() centerContentScroll: boolean;
+  leftSidebarToggle: boolean;
+  leftSidebarToggleChangedSubject: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store<fromRootState.State>,
@@ -47,6 +49,8 @@ export class LayoutWrapperComponent implements OnInit {
     this.gettingHeaderDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinks);
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
+
+    this.leftSidebarToggleChangedSubject.pipe(debounceTime(100), distinctUntilChanged()).subscribe(value => this.leftSidebarToggle = value);
   }
 
   ngOnInit() {
@@ -60,5 +64,9 @@ export class LayoutWrapperComponent implements OnInit {
 
   rightSidebarToggle(isOpen: boolean) {
     this.onRightSidebarToggle.emit(isOpen);
+  }
+
+  leftSidebarToggleChanged(value: boolean) {
+    this.leftSidebarToggleChangedSubject.next(value);
   }
 }
