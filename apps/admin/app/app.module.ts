@@ -11,12 +11,14 @@ import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     // Angular
     BrowserModule,
     FormsModule,
+    NoopAnimationsModule,
 
     // 3rd Party
     NgbModalModule.forRoot(),

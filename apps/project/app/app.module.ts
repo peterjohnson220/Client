@@ -8,6 +8,7 @@ import { WindowCommunicationService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
 
+
 @NgModule({
   imports: [
     // Angular
