@@ -10,7 +10,6 @@ import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeRequestTypeEnum } from 'libs/models/peer/requests';
 
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
-import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeRequestActions from '../../shared/actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../reducers';
 

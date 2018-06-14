@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Manage - Delete Confirmation Modal should match snapshot on init 1`] = `
+<pf-delete-mapping-confirmation-modal
+  currentCompanyJob={[Function Object]}
+  deleteMappingConfirmationModalOpen$={[Function Store]}
+  deletingMapping$={[Function Store]}
+  deletingMappingError$={[Function Store]}
+  selectedExchangeJobTitle={[Function String]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-danger"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Deleting..."
+    secondarybuttontext="No"
+    size=""
+    title="Delete Mapping"
+  >
+    
+     You are about to delete the association between 
+    <strong>
+      Exchange Test Job
+    </strong>
+     and 
+    <strong>
+      Company Job Title
+    </strong>
+    . This cannot be undone. 
+    <br />
+    <br />
+     Would you like to continue? 
+  </pf-modal-form>
+</pf-delete-mapping-confirmation-modal>
+`;

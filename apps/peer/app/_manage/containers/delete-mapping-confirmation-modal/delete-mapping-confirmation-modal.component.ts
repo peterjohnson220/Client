@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ExchangeJobMapping } from 'libs/models';
+import { CompanyJobMapping } from 'libs/models';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
@@ -14,7 +14,8 @@ import * as fromPeerManagementReducer from '../../reducers';
   styleUrls: [ './delete-mapping-confirmation-modal.component.scss' ]
 })
 export class DeleteMappingConfirmationModalComponent {
-  @Input() selectedExchangeJobMapping: ExchangeJobMapping;
+  @Input() selectedExchangeJobTitle: string;
+  @Input() currentCompanyJob: CompanyJobMapping;
 
   deleteMappingConfirmationModalOpen$: Observable<boolean>;
   deletingMapping$: Observable<boolean>;
@@ -29,7 +30,7 @@ export class DeleteMappingConfirmationModalComponent {
   // Modal events
   handleDeleteConfirmed() {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.DeleteMapping({
-        exchangeJobToCompanyJobId: this.selectedExchangeJobMapping.ExchangeJobToCompanyJobId
+        exchangeJobToCompanyJobId: this.currentCompanyJob.ExchangeJobToCompanyJobId
       }
     ));
   }

@@ -35,16 +35,24 @@
   overflow: hidden;
 }
 
-.company-job-mapping-container{
+.company-job-mapping-container {
   flex-basis: 50%;
-  padding: 0 1rem 1rem 1rem;
+  padding-bottom: 1rem;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  & > * {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .company-job-mapping-add {
+    padding: 0 1rem 0 1rem;
+  }
 }
 
-.mapping-results-container{
-  flex-grow: 1;
-  overflow-y: auto;
+.mapping-results-container {
   margin-top: 0.5rem;
   position: relative;
   height: 100%;
@@ -59,4 +67,47 @@
 
 .close-btn:hover{
   background-color: $selection-hover-background;
+}
+
+.delete-mapping-button {
+  float: right;
+  margin: 0 1rem 0 -4em;
+}
+
+.carousel-controls {
+  width: 100%;
+  align-items: center;
+  padding: 0 1rem 0 1rem;
+
+  .control {
+    color: $inactive-button-color;
+    cursor: pointer;
+    &:hover {
+      color: $body-background-color;
+    }
+  }
+
+  .control-left, .control-right {
+    &:hover {
+      color: $body-background-color;
+    }
+  }
+
+  .indicators > .active {
+    color: $body-background-color;
+  }
+}
+
+:host ::ng-deep ngb-carousel {
+  outline: none;
+
+  .carousel-item.active {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .carousel-control-prev, .carousel-control-next, .carousel-indicators {
+    display: none;
+  }
 }

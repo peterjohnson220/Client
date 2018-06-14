@@ -11,7 +11,6 @@ import { CompanyJobToMapTo } from 'libs/models/peer';
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../reducers';
-import { ExchangeJobMappingService } from '../services';
 
 @Injectable()
 export class ExchangeJobMappingInfoEffects {
@@ -35,10 +34,10 @@ export class ExchangeJobMappingInfoEffects {
       map((action: fromExchangeJobMappingInfoActions.ApplyMapping) => action.payload),
       switchMap(payload =>
         this.exchangeCompanyApiService.upsertExchangeJobMap(payload).pipe(
-          concatMap(() => {
+          concatMap((response) => {
             return [
               new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
-              new fromExchangeJobMappingInfoActions.ApplyMappingSuccess()
+              new fromExchangeJobMappingInfoActions.ApplyMappingSuccess(response.ExchangeJobToCompanyJobId)
             ];
           }),
           catchError(() => {
@@ -68,7 +67,6 @@ export class ExchangeJobMappingInfoEffects {
 
   constructor(private actions$: Actions,
               private store: Store<fromPeerManagementReducer.State>,
-              private exchangeCompanyApiService: ExchangeCompanyApiService,
-              private exchangeJobMappingService: ExchangeJobMappingService) {
+              private exchangeCompanyApiService: ExchangeCompanyApiService) {
   }
 }

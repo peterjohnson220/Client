@@ -21,6 +21,7 @@ $left-sidebar-text-color: rgba(255,255,255, .30);
 $right-sidebar-color: #283B4A;
 $switch-on-color: #0883BE;
 $switch-off-color: #e4e7eb;
+$inactive-button-color: #B9B9B9;
 
 $timeline-panel-button-color: $switch-on-color;
 $timeline-body-background-color: #f5f5f6;
@@ -32,7 +33,7 @@ $tile-green-color: rgba(125, 181, 119, .85);
 $user-voice-icon-color: #FFB300;
 
 $tile-chart-label-color: #FFF;
-$tile-chart-button-color: #B9B9B9;
+$tile-chart-button-color: $inactive-button-color;
 
 $tile-list-header-color: #FFA500;
 $tile-list-button-text-color: #1F2F3D;

@@ -1,11 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping button, when the selected exchange job mapping is not mapped 1`] = `
+exports[`Peer - Exchange Job Mapping Info should NOT display an add mapping button, when the selected exchange job mapping is not mapped 1`] = `
 <pf-exchange-job-mapping-info
+  activeExchangeJobToCompanyJobId$={[Function Store]}
+  activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
+  addingMapping="false"
+  addingMapping$={[Function Store]}
+  addingMappingSubscription={[Function Subscriber]}
   applyingMapping$={[Function Store]}
   applyingMappingError$={[Function Store]}
+  carousel={[Function Object]}
   closeClicked={[Function EventEmitter]}
-  companyJobInfo={[Function Object]}
   companyJobQuery=""
   companyJobsToMapTo$={[Function Store]}
   companyJobsToMapToLoading$={[Function Store]}
@@ -14,11 +19,10 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping but
   deletingMapping$={[Function Store]}
   deletingMappingError$={[Function Store]}
   editMappingClicked={[Function EventEmitter]}
-  editingMapping="false"
-  editingMapping$={[Function Store]}
-  editingMappingSubscription={[Function Subscriber]}
   exchangeJobInfo={[Function Object]}
   loadingExchangeJobMappings$={[Function Store]}
+  selectedCompanyJobInfoModels={[Function Array]}
+  selectedCompanyJobMapping={[Function Object]}
   selectedExchangeJobMapping={[Function Object]}
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
@@ -52,32 +56,41 @@ exports[`Peer - Exchange Job Mapping Info should NOT display an edit mapping but
       <div
         class="vertical-separator"
       />
-      
-      
-      <div
+      <pf-async-container
         class="company-job-mapping-container"
       >
-        <pf-input-debounce />
+        
+        
         <div
-          class="mapping-results-container remove-scroll"
+          class="company-job-mapping-add"
         >
-          <pf-async-container>
-            
-            
-          </pf-async-container>
+          <pf-input-debounce />
+          <div
+            class="mapping-results-container remove-scroll"
+          >
+            <pf-async-container>
+              
+              
+            </pf-async-container>
+          </div>
         </div>
-      </div>
+      </pf-async-container>
     </div>
   </div><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>
 `;
 
-exports[`Peer - Exchange Job Mapping Info should display an edit mapping button, when the selected exchange job mapping is mapped 1`] = `
+exports[`Peer - Exchange Job Mapping Info should display a carousel when more than one company job is mapped 1`] = `
 <pf-exchange-job-mapping-info
+  activeExchangeJobToCompanyJobId$={[Function Store]}
+  activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
+  addingMapping="false"
+  addingMapping$={[Function Store]}
+  addingMappingSubscription={[Function Subscriber]}
   applyingMapping$={[Function Store]}
   applyingMappingError$={[Function Store]}
+  carousel={[Function Object]}
   closeClicked={[Function EventEmitter]}
-  companyJobInfo={[Function Object]}
   companyJobQuery=""
   companyJobsToMapTo$={[Function Store]}
   companyJobsToMapToLoading$={[Function Store]}
@@ -86,11 +99,10 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
   deletingMapping$={[Function Store]}
   deletingMappingError$={[Function Store]}
   editMappingClicked={[Function EventEmitter]}
-  editingMapping="false"
-  editingMapping$={[Function Store]}
-  editingMappingSubscription={[Function Subscriber]}
   exchangeJobInfo={[Function Object]}
   loadingExchangeJobMappings$={[Function Store]}
+  selectedCompanyJobInfoModels={[Function Array]}
+  selectedCompanyJobMapping={[Function Object]}
   selectedExchangeJobMapping={[Function Object]}
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
@@ -111,21 +123,12 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
       
       
       <button
-        class="btn btn-sm btn-danger"
-      >
-        
-        <span>
-          Delete Mapping
-        </span>
-        
-      </button>
-      <button
         class="btn btn-sm btn-secondary"
-        id="edit-mapping-button"
+        id="add-mapping-button"
         ng-reflect-klass="btn btn-sm"
         ng-reflect-ng-class="[object Object]"
       >
-         Edit Mapping 
+         Add Mapping 
       </button>
       <div
         class="close-btn"
@@ -142,9 +145,159 @@ exports[`Peer - Exchange Job Mapping Info should display an edit mapping button,
       <div
         class="vertical-separator"
       />
+      <pf-async-container
+        class="company-job-mapping-container"
+      >
+        
+        <div
+          class="company-job-mapping d-flex flex-column"
+        >
+          <div
+            class="company-job-info flex-grow-1"
+          >
+            <ngb-carousel>
+              
+              
+              
+              
+              
+            </ngb-carousel>
+          </div>
+          
+          <div
+            class="carousel-controls d-flex flex-row justify-content-between"
+          >
+            <div
+              class="control control-left"
+            >
+              <i
+                class="fas fa-chevron-circle-left fa-2x"
+              />
+            </div>
+            <div
+              class="indicators flex-grow-1 space-out-children text-center"
+            >
+              
+              <span
+                class="control active"
+                ng-reflect-klass="control"
+                ng-reflect-ng-class="[object Object]"
+              >
+                <i
+                  class="fas fa-circle"
+                />
+              </span>
+              <span
+                class="control"
+                ng-reflect-klass="control"
+                ng-reflect-ng-class="[object Object]"
+              >
+                <i
+                  class="fas fa-circle"
+                />
+              </span>
+            </div>
+            <div
+              class="control control-right"
+            >
+              <i
+                class="fas fa-chevron-circle-right fa-2x"
+              />
+            </div>
+          </div>
+        </div>
+        
+      </pf-async-container>
+    </div>
+  </div><pf-delete-mapping-confirmation-modal />
+</pf-exchange-job-mapping-info>
+`;
+
+exports[`Peer - Exchange Job Mapping Info should display an add mapping button, when the selected exchange job mapping is mapped 1`] = `
+<pf-exchange-job-mapping-info
+  activeExchangeJobToCompanyJobId$={[Function Store]}
+  activeExchangeJobToCompanyJobIdSubscription={[Function Subscriber]}
+  addingMapping="false"
+  addingMapping$={[Function Store]}
+  addingMappingSubscription={[Function Subscriber]}
+  applyingMapping$={[Function Store]}
+  applyingMappingError$={[Function Store]}
+  carousel={[Function Object]}
+  closeClicked={[Function EventEmitter]}
+  companyJobQuery=""
+  companyJobsToMapTo$={[Function Store]}
+  companyJobsToMapToLoading$={[Function Store]}
+  companyJobsToMapToLoadingError$={[Function Store]}
+  debouncedQueryValue=""
+  deletingMapping$={[Function Store]}
+  deletingMappingError$={[Function Store]}
+  editMappingClicked={[Function EventEmitter]}
+  exchangeJobInfo={[Function Object]}
+  loadingExchangeJobMappings$={[Function Store]}
+  selectedCompanyJobInfoModels={[Function Array]}
+  selectedCompanyJobMapping={[Function Object]}
+  selectedExchangeJobMapping={[Function Object]}
+  selectedExchangeJobMapping$={[Function Store]}
+  selectedExchangeJobMappingSubscription={[Function Subscriber]}
+  selectedMappingCompanyJobId$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="mapping-info-container card h-100"
+  >
+    <div
+      class="card-header"
+    >
+      <div
+        class="align-self-center mr-auto"
+      >
+         Mapping Information 
+      </div>
       
+      
+      <button
+        class="btn btn-sm btn-secondary"
+        id="add-mapping-button"
+        ng-reflect-klass="btn btn-sm"
+        ng-reflect-ng-class="[object Object]"
+      >
+         Add Mapping 
+      </button>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body d-flex"
+    >
       <pf-job-info-container />
-      
+      <div
+        class="vertical-separator"
+      />
+      <pf-async-container
+        class="company-job-mapping-container"
+      >
+        
+        <div
+          class="company-job-mapping d-flex flex-column"
+        >
+          <div
+            class="company-job-info flex-grow-1"
+          >
+            <ngb-carousel>
+              
+              
+              
+            </ngb-carousel>
+          </div>
+          
+        </div>
+        
+      </pf-async-container>
     </div>
   </div><pf-delete-mapping-confirmation-modal />
 </pf-exchange-job-mapping-info>

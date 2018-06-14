@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
@@ -38,6 +39,7 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
       ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects
     ]),
     DropDownsModule,
+    NgbCarouselModule,
 
     // Routing
     ManageRoutingModule,
