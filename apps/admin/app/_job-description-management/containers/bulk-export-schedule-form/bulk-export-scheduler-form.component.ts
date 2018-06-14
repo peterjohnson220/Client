@@ -53,7 +53,7 @@ export class BulkExportSchedulerFormComponent {
     this.schedule.DayOfWeek = '';
     this.schedule.Occurrence = '';
     this.daysOfWeekSelected = [];
-    this.schedule.MonthlyOccurrence = '';
+    this.schedule.MonthlyOccurrence = this.schedule.Frequency === 'Monthly' ? '1' : '';
   }
 
   submitForm() {
