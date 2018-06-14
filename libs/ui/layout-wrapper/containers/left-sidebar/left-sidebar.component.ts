@@ -64,5 +64,9 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
     if (window.location.pathname.indexOf(link.Url) > -1) {
       return true;
     }
+    // TODO: check to see if there is a better way to handle highlighting left sidebar links
+    if (window.location.pathname.indexOf('client/peer') > -1 && link.Url.indexOf('client/peer') > -1) {
+      return true;
+    }
   }
 }
