@@ -12,10 +12,11 @@ import { PfCommonModule } from 'libs/core';
 import { PfPeerExchangeListModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
-         CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent } from './containers';
+         CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent,
+         ManageExchangeSectionHeaderComponent, PendingExchangeAccessRequestsComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
-  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, PendingExchangeAccessRequestsEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -23,7 +24,6 @@ import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 import { AddJobsModalComponent } from './containers/add-jobs-modal';
-import { ManageExchangeSectionHeaderComponent } from './containers/manage-exchange-section-header';
 
 @NgModule({
   imports: [
@@ -41,7 +41,8 @@ import { ManageExchangeSectionHeaderComponent } from './containers/manage-exchan
       ManageExchangeEffects,
       AvailableCompaniesEffects,
       ExchangeJobsEffects,
-      AvailableJobsEffects
+      AvailableJobsEffects,
+      PendingExchangeAccessRequestsEffects
     ]),
 
     // Routing
@@ -62,6 +63,7 @@ import { ManageExchangeSectionHeaderComponent } from './containers/manage-exchan
     ExchangeJobsComponent,
     AddJobsModalComponent,
     ManageExchangeSectionHeaderComponent,
+    PendingExchangeAccessRequestsComponent,
 
     // Pages
     ExchangeListPageComponent,

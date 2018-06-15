@@ -1,0 +1,36 @@
+<div class="d-flex flex-column h-100">
+  <div class="d-flex justify-content-between align-items-center">
+    <pf-manage-exchange-section-header
+      [sectionTitle]="'Exchange Access Requests'"
+      [sectionDescription]="'Listed in the grid below are companies that have requested access to this exchange.'"
+    >
+    </pf-manage-exchange-section-header>
+  </div>
+  <div class="d-flex h-100">
+    <pf-async-container
+      [loading]="pendingExchangeAccessRequestsLoading$ | async"
+      [loadingError]="pendingExchangeAccessRequestsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading pending exchange access requests'"
+      (reload)="handlePendingExchangeAccessRequestsGridReload()">
+
+      <kendo-grid
+        [data]="pendingExchangeAccessRequestsGrid$ | async"
+        [scrollable]="true"
+      >
+
+        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+
+        <kendo-grid-column field="CompanyIndustry" title="Industry"></kendo-grid-column>
+
+        <kendo-grid-column field="CompanyLocation" title="Location"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestDate" title="Request Date"></kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+  </div>
+</div>

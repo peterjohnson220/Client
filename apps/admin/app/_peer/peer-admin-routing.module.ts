@@ -4,7 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { PfAdminGuard } from 'libs/security/guards';
 
-import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent } from './containers';
+import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
+         PendingExchangeAccessRequestsComponent} from './containers';
 import { ExchangeExistsGuard } from './guards';
 
 const routes: Routes = [
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'companies', pathMatch: 'full' },
       { path: 'companies', component: ExchangeCompaniesComponent },
-      { path: 'jobs', component: ExchangeJobsComponent }
+      { path: 'jobs', component: ExchangeJobsComponent },
+      { path: 'accessrequests', component: PendingExchangeAccessRequestsComponent }
     ]
   },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },

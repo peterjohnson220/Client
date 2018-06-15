@@ -40,7 +40,8 @@ describe('Manage Exchange Page', () => {
         {
           provide: GridHelperService,
           useValue: { loadExchangeJobs: jest.fn(),
-                      loadExchangeCompanies: jest.fn() }
+                      loadExchangeCompanies: jest.fn(),
+                      loadPendingExchangeAccessRequests: jest.fn()}
         }
       ],
       // Shallow Testing
@@ -71,10 +72,12 @@ describe('Manage Exchange Page', () => {
     instance.exchange$ = of(generateMockExchange());
     spyOn(gridHelperService, 'loadExchangeJobs');
     spyOn(gridHelperService, 'loadExchangeCompanies');
+    spyOn(gridHelperService, 'loadPendingExchangeAccessRequests');
 
     fixture.detectChanges();
 
     expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadPendingExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
   });
 });

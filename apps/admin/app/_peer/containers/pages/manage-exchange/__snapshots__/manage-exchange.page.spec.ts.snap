@@ -9,6 +9,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   store={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
   totalExchangeJobs$={[Function Store]}
+  totalPendingExchangeAccessRequests$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -54,6 +55,21 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
                   class="fas fa-briefcase font-a-icon"
                 />
                  Jobs 
+                
+              </a>
+            </div>
+          </li>
+          <li
+            class="nav-item"
+          >
+            <div>
+              <a
+                class="nav-link"
+              >
+                <i
+                  class="fas fa-unlock-alt font-a-icon"
+                />
+                 Access Requests 
                 
               </a>
             </div>

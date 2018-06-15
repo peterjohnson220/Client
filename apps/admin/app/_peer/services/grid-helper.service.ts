@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 import * as fromPeerAdminReducer from '../reducers';
 import * as fromExchangeJobsActions from '../actions/exchange-jobs.actions';
 import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
+import * as fromPendingExchangeAccessRequests from '../actions/pending-exchange-access-requests.actions';
 
 @Injectable()
 export class GridHelperService {
@@ -40,5 +41,13 @@ export class GridHelperService {
         }
       ));
     });
+  }
+
+  loadPendingExchangeAccessRequests(exchangeId: number) {
+    return this.store.dispatch(new fromPendingExchangeAccessRequests.LoadPendingExchangeAccessRequests(
+      {
+        exchangeId: exchangeId
+      }
+    ));
   }
 }

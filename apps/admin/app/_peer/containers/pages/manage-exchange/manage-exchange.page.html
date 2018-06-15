@@ -29,6 +29,15 @@
               </a>
             </div>
           </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['accessrequests']" [routerLinkActive]="['selected']">
+                <i class="fas fa-unlock-alt font-a-icon"></i>
+                Access Requests
+                <span *ngIf="totalPendingExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
+              </a>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="inner-content">
