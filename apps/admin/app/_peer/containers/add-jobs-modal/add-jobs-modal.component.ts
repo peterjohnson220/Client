@@ -115,7 +115,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick(event: any): void {
-    if (event.dataItem.InExchange) {
+    if (event.dataItem.Status != null) {
       return;
     }
     const selectedMDJobsBaseId = event.dataItem.MDJobsBaseId;
@@ -124,7 +124,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   }
 
   rowClass(context: RowClassArgs): string {
-     return context.dataItem.InExchange ? 'row-disabled' : '';
+     return context.dataItem.Status != null ? 'row-disabled' : '';
   }
 
   // Lifecycle
