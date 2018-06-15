@@ -61,7 +61,7 @@
         <kendo-grid-column field="Status" title="Status" width="125" class="text-center" headerClass="text-center">
           <ng-template kendoGridCellTemplate let-dataItem>
             <span class="mapped">
-              <span *ngIf="dataItem.Status == 0" class="badge badge-primary">Exchange Member</span>
+              <span *ngIf="dataItem.Status == 0" class="badge badge-primary">Active</span>
               <span *ngIf="dataItem.Status == 1" class="badge badge-warning">Pending Request</span>
             </span>
           </ng-template>
