@@ -27,26 +27,24 @@
 
       <pf-async-container class="company-job-mapping-container" [loading]="(applyingMapping$ | async) || (deletingMapping$ | async)">
 
-        <div class="company-job-mapping d-flex flex-column" *ngIf="selectedExchangeJobMapping.Mapped && !addingMapping">
-          <div class="company-job-info flex-grow-1">
-            <ngb-carousel [activeId]="activeExchangeJobToCompanyJobId$ | async"
-                          [interval]="0"
-                          (slide)="onCarouselSlideChange($event)">
-              <ng-container *ngFor="let mapping of selectedCompanyJobInfoModels; trackBy: trackById">
-                <ng-template ngbSlide [id]="mapping.JobId">
-                  <button class="delete-mapping-button btn btn-sm btn-danger"
-                          [disabled]="(deletingMapping$ | async) || addingMapping"
-                          (click)="handleDeleteClick()">
-                    <i class="fas fa-trash-alt fa-lg"></i>
-                  </button>
-                  <pf-job-info-container
-                    [job]="mapping"
-                    [showJobCode]="true">
-                  </pf-job-info-container>
-                </ng-template>
-              </ng-container>
-            </ngb-carousel>
-          </div>
+        <div class="company-job-mapping d-flex flex-column justify-content-between" *ngIf="selectedExchangeJobMapping.Mapped && !addingMapping">
+          <ngb-carousel [activeId]="activeExchangeJobToCompanyJobId$ | async"
+                        [interval]="0"
+                        (slide)="onCarouselSlideChange($event)">
+            <ng-container *ngFor="let mapping of selectedCompanyJobInfoModels; trackBy: trackById">
+              <ng-template ngbSlide [id]="mapping.JobId">
+                <button class="delete-mapping-button btn btn-sm btn-danger"
+                        [disabled]="(deletingMapping$ | async) || addingMapping"
+                        (click)="handleDeleteClick()">
+                  <i class="fas fa-trash-alt fa-lg"></i>
+                </button>
+                <pf-job-info-container
+                  [job]="mapping"
+                  [showJobCode]="true">
+                </pf-job-info-container>
+              </ng-template>
+            </ng-container>
+          </ngb-carousel>
           <div *ngIf="selectedCompanyJobInfoModels.length > 1" class="carousel-controls d-flex flex-row justify-content-between">
             <div class="control control-left"  (click)="handleControlLeftClick()">
               <i class="fas fa-chevron-circle-left fa-2x"></i>

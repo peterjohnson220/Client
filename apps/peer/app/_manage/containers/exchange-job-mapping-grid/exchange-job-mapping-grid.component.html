@@ -26,7 +26,7 @@
               (sortChange)="handleSortChanged($event)"
               (cellClick)="handleCellClick($event)">
 
-    <kendo-grid-column field="Mapped" title="Status" width="125" class="text-center" headerClass="text-center">
+    <kendo-grid-column field="Mapped" title="Status" width="75" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>
         <span class="mapped">
           <span *ngIf="dataItem.Mapped" class="badge badge-success mapped">Mapped</span>
@@ -37,7 +37,7 @@
 
     <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title" width="300"></kendo-grid-column>
     <kendo-grid-column field="ExchangeJobFamily" title="Exchange Job Family" width="225"></kendo-grid-column>
-    <kendo-grid-column field="CompanyJobMappingsCount" title="Number of Mappings" width="75" class="text-right" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="CompanyJobMappingsCount" title="Mappings" width="75" class="text-right" [sortable]="false"></kendo-grid-column>
     <kendo-grid-column field="PendingRequest" title="" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>
         <span *ngIf="dataItem.PendingRequest" class="badge badge-warning">Pending Approval</span>
