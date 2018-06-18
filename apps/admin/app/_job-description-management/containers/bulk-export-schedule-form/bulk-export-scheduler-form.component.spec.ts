@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs/index';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonModule } from 'libs/core';
@@ -169,5 +170,15 @@ describe('Bulk Export Schedule Form', () => {
     fixture.detectChanges();
 
     expect(fromBulkExportScheduleActions.AddingSchedule).toHaveBeenCalledWith(scheduleCopy);
+  });
+
+  it('should show an error alert when a schedule save is unsuccessful', () => {
+    spyOn(window, 'alert');
+
+    instance.addingScheduleError$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(window.alert).toHaveBeenCalledWith('There was an error saving the schedule.');
   });
 });
