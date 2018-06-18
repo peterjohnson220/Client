@@ -128,17 +128,6 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
         this.companyJobQuery = '';
         this.debouncedQueryValue = '';
 
-        const hasMappings = sm.CompanyJobMappings && sm.CompanyJobMappings.length > 0;
-        const shouldUpdateSelectedCompanyJobMapping = hasMappings &&
-          (!this.selectedCompanyJobMapping || sm.CompanyJobMappings.findIndex(
-            m => m.ExchangeJobToCompanyJobId === this.selectedCompanyJobMapping.ExchangeJobToCompanyJobId
-          ) < 0);
-        // If the mapping doesn't exist, select the first one
-        if (shouldUpdateSelectedCompanyJobMapping) {
-          const firstMapping = sm.CompanyJobMappings[0].ExchangeJobToCompanyJobId;
-          this.store.dispatch(new fromExchangeJobMappingInfoActions.SetActiveMapping(firstMapping));
-        }
-
         this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
         this.buildJobModels(sm);
 

@@ -233,22 +233,6 @@ describe('Peer - Exchange Job Mapping Info', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it(`should dispatch SetActiveMapping with the ExchangeJobToCompanyJobId of the first company job mapping on init
-  when there is no selectedCompanyJobMapping`, () => {
-    const mockCompanyJobMapping = generateMockCompanyJobMapping();
-    const companyJobMappings = [mockCompanyJobMapping, {...mockCompanyJobMapping, ExchangeJobToCompanyJobId: 2 }];
-    const exchangeJobMappingWithMultipleMappingsMock = {...exchangeJobMappingMock, CompanyJobMappings: companyJobMappings};
-    const expectedAction = new fromExchangeJobMappingInfoActions.SetActiveMapping(mockCompanyJobMapping.ExchangeJobToCompanyJobId);
-
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toBeCalledWith(expectedAction);
-  });
-
   it(`should NOT dispatch SetActiveMapping with the ExchangeJobToCompanyJobId of the first company job mapping on init
   when there are NO companyJobMappings`, () => {
     const mockCompanyJobMapping = generateMockCompanyJobMapping();
@@ -262,23 +246,6 @@ describe('Peer - Exchange Job Mapping Info', () => {
     fixture.detectChanges();
 
     expect(store.dispatch).not.toBeCalledWith(expectedAction);
-  });
-
-  it(`should dispatch SetActiveMapping with the ExchangeJobToCompanyJobId of the first company job mapping on init
-  when the selectedCompanyJobMapping is no longer mapped`, () => {
-    const mockCompanyJobMapping = generateMockCompanyJobMapping();
-    const companyJobMappings = [mockCompanyJobMapping, {...mockCompanyJobMapping, ExchangeJobToCompanyJobId: 2 }];
-    const exchangeJobMappingWithMultipleMappingsMock = {...exchangeJobMappingMock, CompanyJobMappings: companyJobMappings};
-    const expectedAction = new fromExchangeJobMappingInfoActions.SetActiveMapping(mockCompanyJobMapping.ExchangeJobToCompanyJobId);
-
-    instance.selectedCompanyJobMapping = {...mockCompanyJobMapping, ExchangeJobToCompanyJobId: 3};
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
-    expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
   it(`should NOT dispatch SetActiveMapping with the ExchangeJobToCompanyJobId of the first company job mapping on init

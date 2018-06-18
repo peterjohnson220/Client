@@ -37,7 +37,7 @@ export class ExchangeJobMappingInfoEffects {
           concatMap((response) => {
             return [
               new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(),
-              new fromExchangeJobMappingInfoActions.ApplyMappingSuccess(response.ExchangeJobToCompanyJobId)
+              new fromExchangeJobMappingInfoActions.ApplyMappingSuccess()
             ];
           }),
           catchError(() => {

@@ -51,8 +51,6 @@ export class ApplyMapping implements Action {
 
 export class ApplyMappingSuccess implements Action {
   readonly type = APPLY_MAPPING_SUCCESS;
-
-  constructor(public payload: number) {}
 }
 
 export class ApplyMappingError implements Action {

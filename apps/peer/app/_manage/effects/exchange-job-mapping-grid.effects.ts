@@ -4,12 +4,13 @@ import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
-import { mergeMap, map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { concatMap, map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeRequestTypeEnum } from 'libs/models/peer/requests';
 
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
+import * as fromExchangeJobInfoActions from '../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeRequestActions from '../../shared/actions/exchange-request.actions';
 import * as fromPeerMainReducer from '../reducers';
 
@@ -43,7 +44,7 @@ export class ExchangeJobMappingGridEffects {
       withLatestFrom(this.store.select(fromPeerMainReducer.getLoadExchangeJobMappingGridRequest), (action, payload) => payload),
       switchMap(payload =>
         this.exchangeCompanyApiService.getExchangeJobsWithMappings(payload.exchangeId, payload.listState).pipe(
-          mergeMap((gridDataResult: GridDataResult) => {
+          concatMap((gridDataResult: GridDataResult) => {
             return [
               new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsSuccess(gridDataResult),
               new fromExchangeJobMappingGridActions.ReSelectExchangeJobMapping()
@@ -51,6 +52,14 @@ export class ExchangeJobMappingGridEffects {
           }),
           catchError(() => of(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsError())))
       )
+    );
+
+  @Effect()
+  reselectExchangeJobMapping$: Observable<Action> = this.actions$
+    .ofType(fromExchangeJobMappingGridActions.RESELECT_EXCHANGE_JOB_MAPPING, fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING)
+    .pipe(
+      withLatestFrom(this.store.select(fromPeerMainReducer.getFirstCompanyJobMappingFromSelectedExchangeJob), (action, payload) => payload),
+      switchMap(payload => of(new fromExchangeJobInfoActions.SetActiveMapping(payload)))
     );
 
   constructor(

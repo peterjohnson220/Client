@@ -99,6 +99,18 @@ export const getSelectedExchangeJobMapping = createSelector(
   fromExchangeJobMappingGridReducer.getSelectedMapping
 );
 
+export const getFirstCompanyJobMappingFromSelectedExchangeJob = createSelector(
+  getSelectedExchangeJobMapping,
+  (exchangeJobMapping) => {
+    if (!exchangeJobMapping) {
+      return null;
+    }
+
+    const firstCompanyJobMapping = exchangeJobMapping.CompanyJobMappings[0];
+    return firstCompanyJobMapping ? firstCompanyJobMapping.ExchangeJobToCompanyJobId : null;
+  }
+);
+
 export const getExchangeJobMappingPageRowIndexToScrollTo = createSelector(
   selectExchangeJobMappingsFeatureState,
   fromExchangeJobMappingGridReducer.getPageRowIndexToScrollTo

@@ -72,8 +72,7 @@ export function reducer(
       return {
         ...state,
         applyingMapping: false,
-        selectedMappingCompanyJobId: null,
-        activeExchangeJobToCompanyJobId: action.payload
+        selectedMappingCompanyJobId: null
       };
     }
     case fromExchangeJobMappingInfoActions.APPLY_MAPPING_ERROR: {
