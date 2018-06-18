@@ -115,7 +115,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick(event: any): void {
-    if (event.dataItem.InExchange) {
+    if (event.dataItem.Status != null) {
       return;
     }
     const selectedCompanyId = event.dataItem.CompanyId;
@@ -124,7 +124,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
   }
 
   rowClass(context: RowClassArgs): string {
-     return context.dataItem.InExchange ? 'row-disabled' : '';
+     return context.dataItem.Status != null ? 'row-disabled' : '';
   }
 
   // Lifecycle

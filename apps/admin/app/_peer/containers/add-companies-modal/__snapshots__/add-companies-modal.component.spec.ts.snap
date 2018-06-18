@@ -98,6 +98,15 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
           field="Zip"
           title="Zip"
         />
+        <kendo-grid-column
+          class="text-center"
+          field="Status"
+          headerclass="text-center"
+          title="Status"
+          width="125"
+        >
+          
+        </kendo-grid-column>
       </kendo-grid>
     </pf-async-container>
     <div

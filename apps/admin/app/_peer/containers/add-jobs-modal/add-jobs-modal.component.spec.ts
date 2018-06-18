@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import 'rxjs/add/operator/take';
 
 import {
-  AvailableJob, ExchangeJobStatusEnum, generateMockAddExchangeJobsRequest,
+  AvailableJob, ExchangeStatusEnum, generateMockAddExchangeJobsRequest,
   generateMockAvailableJob
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
@@ -241,7 +241,7 @@ describe('Add Jobs Modal', () => {
    if the job is already in the exchange`, () => {
     const mockAvailableJob: AvailableJob = generateMockAvailableJob();
     const expectedAction = new fromGridActions.ToggleRowSelection(GridTypeEnum.AvailableJobs, mockAvailableJob.MDJobsBaseId);
-    mockAvailableJob.Status = ExchangeJobStatusEnum.InExchange;
+    mockAvailableJob.Status = ExchangeStatusEnum.InExchange;
 
     fixture.detectChanges();
 

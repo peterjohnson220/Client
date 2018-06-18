@@ -70,6 +70,15 @@
 
         <kendo-grid-column field="Zip" title="Zip"></kendo-grid-column>
 
+        <kendo-grid-column field="Status" title="Status" width="125" class="text-center" headerClass="text-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span class="mapped">
+              <span *ngIf="dataItem.Status == 0" class="badge badge-primary">Active</span>
+              <span *ngIf="dataItem.Status == 1" class="badge badge-warning">Pending Request</span>
+            </span>
+          </ng-template>
+        </kendo-grid-column>
+
       </kendo-grid>
 
     </pf-async-container>

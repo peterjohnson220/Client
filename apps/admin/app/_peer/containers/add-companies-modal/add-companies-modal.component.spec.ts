@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import 'rxjs/add/operator/take';
 
 import {
-  AvailableCompany, generateMockAddExchangeCompaniesRequest,
+  AvailableCompany, ExchangeStatusEnum, generateMockAddExchangeCompaniesRequest,
   generateMockAvailableCompany
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
@@ -247,7 +247,7 @@ describe('Add Companies Modal', () => {
    is triggered if the company is already in the exchange`, () => {
     const mockAvailableCompany: AvailableCompany = generateMockAvailableCompany();
     const expectedAction = new fromGridActions.ToggleRowSelection(GridTypeEnum.AvailableCompanies, mockAvailableCompany.CompanyId);
-    mockAvailableCompany.InExchange = true;
+    mockAvailableCompany.Status = ExchangeStatusEnum.InExchange;
 
     fixture.detectChanges();
 

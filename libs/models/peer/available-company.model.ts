@@ -1,3 +1,5 @@
+import {ExchangeStatusEnum} from './exchange-status.enum';
+
 export interface AvailableCompany {
   CompanyId: number;
   CompanyName: string;
@@ -7,7 +9,7 @@ export interface AvailableCompany {
   City: string;
   State: string;
   ZipCode: string;
-  InExchange: boolean;
+  Status: ExchangeStatusEnum;
 }
 
 export function generateMockAvailableCompany(): AvailableCompany {
@@ -20,6 +22,6 @@ export function generateMockAvailableCompany(): AvailableCompany {
     City: 'Mock City',
     State: 'Mock State',
     ZipCode: 'Mock Zip Code',
-    InExchange: false
+    Status: null
   };
 }

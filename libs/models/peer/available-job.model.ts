@@ -1,15 +1,12 @@
+import {ExchangeStatusEnum} from './exchange-status.enum';
+
 export interface AvailableJob {
   MDJobsBaseId: number;
   ExchangeId: number;
   JobTitle: string;
   JobFamily: string;
   JobLevel: string;
-  Status: ExchangeJobStatusEnum;
-}
-
-export enum ExchangeJobStatusEnum {
-  InExchange = 0,
-  PendingRequest = 1
+  Status: ExchangeStatusEnum;
 }
 
 export function generateMockAvailableJob(): AvailableJob {
