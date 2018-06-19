@@ -7,12 +7,15 @@ import * as fromRoot from 'libs/state/state';
 import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
+import * as fromMarketingReducer from '../../../../admin/app/_marketing/reducers/marketing-image.reducer';
+import { MarketingState, selectMarketingState } from '../../../../admin/app/_marketing/reducers';
 
 // Feature area state
 export interface AuthMainState {
   forgotPassword: fromForgotPasswordReducer.State;
   resetPassword: fromResetPasswordReducer.State;
   firstLogin: fromFirstLoginReducer.State;
+  marketingImage: fromMarketingReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +27,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   forgotPassword: fromForgotPasswordReducer.reducer,
   resetPassword: fromResetPasswordReducer.reducer,
-  firstLogin: fromFirstLoginReducer.reducer
+  firstLogin: fromFirstLoginReducer.reducer,
+  marketingImage: fromMarketingReducer.reducer
 };
 
 // Select Feature Area
@@ -74,3 +78,18 @@ export const getCheckingResetPasswordToken =
   createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordToken);
 export const getCheckingResetPasswordTokenSuccess =
   createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordTokenSuccess);
+
+
+// marketing
+export const getMarketingState =
+  createSelector(selectAuthMainState, (state: AuthMainState) => state.marketingImage);
+
+export const getMarketingImage =
+  createSelector(getMarketingState, fromMarketingReducer.getMarketingImage);
+export const getGettingMarketingImage =
+  createSelector(getMarketingState, fromMarketingReducer.getGettingMarketingImage);
+export const getGettingMarketingImageError =
+  createSelector(getMarketingState, fromMarketingReducer.getGettingMarketingImageError);
+export const getGettingMarketingImageSuccess =
+  createSelector(getMarketingState, fromMarketingReducer.getGettingMarketingImageSuccess);
+

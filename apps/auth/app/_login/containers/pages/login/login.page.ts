@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
-import * as fromMarketingReducer from '../../../../../../admin/app/_marketing/reducers/marketing-image.reducer';
+import * as fromMarketingReducer from '../../../reducers';
 import * as fromMarketingActions from '../../../../../../admin/app/_marketing/actions/marketing-image.actions';
 
 @Component({
@@ -21,11 +21,11 @@ export class LoginPageComponent implements OnInit {
 
   imageLocation: string;
 
-  constructor(private store: Store<fromMarketingReducer.State>) {
-    this.marketingImage$ = store.select(fromMarketingReducer.getMarketingImage);
-    this.gettingMarketingImage$ = store.select(fromMarketingReducer.getGettingMarketingImage);
-    this.gettingMarketingImageError$ = store.select(fromMarketingReducer.getGettingMarketingImageError);
-    this.gettingMarketingImageSuccess$ = store.select(fromMarketingReducer.getGettingMarketingImageSuccess);
+  constructor(public store: Store<fromMarketingReducer.State>) {
+    this.marketingImage$ = this.store.select(fromMarketingReducer.getMarketingImage);
+    this.gettingMarketingImage$ = this.store.select(fromMarketingReducer.getGettingMarketingImage);
+    this.gettingMarketingImageError$ = this.store.select(fromMarketingReducer.getGettingMarketingImageError);
+    this.gettingMarketingImageSuccess$ = this.store.select(fromMarketingReducer.getGettingMarketingImageSuccess);
   }
 
   ngOnInit() {
@@ -39,11 +39,6 @@ export class LoginPageComponent implements OnInit {
     );
 
 
-    this.gettingMarketingImageSuccess$.subscribe(image => {
-      if ( image ) {
-         }
-    }
-  );
 
   }
 }
