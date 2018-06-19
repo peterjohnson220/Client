@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SurveysPageComponent } from './containers/pages';
+import { AddSurveyDataPageComponent } from './containers/pages';
 
 const routes: Routes = [
   { path: '', redirectTo: 'surveys', pathMatch: 'full' },
-  { path: 'surveys', component: SurveysPageComponent },
+  { path: 'surveys', component: AddSurveyDataPageComponent },
 ];
 
 @NgModule({

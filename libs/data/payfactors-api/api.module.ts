@@ -8,6 +8,7 @@ import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService } from './peer';
 import { CompanySecurityApiService } from './security';
+import { SurveySearchApiService } from './surveys';
 import { DashboardApiService } from './dashboard';
 import { UserApiService } from './user';
 import { CompanyApiService } from './company';
@@ -33,7 +34,8 @@ import { TermsConditionsApiService } from './terms-conditions';
     JobDescriptionManagementApiService,
     UserProfileApiService,
     JobDescriptionApiService,
-    TermsConditionsApiService
+    TermsConditionsApiService,
+    SurveySearchApiService
   ]
 })
 export class PfApiModule { }
