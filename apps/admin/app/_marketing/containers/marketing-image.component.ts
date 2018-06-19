@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Input, Output, Injectable, TemplateRef  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { SuccessEvent, ErrorEvent, UploadEvent, SelectEvent, ClearEvent, FileRestrictions, RemoveEvent } from '@progress/kendo-angular-upload';
+import { ErrorEvent, UploadEvent, SelectEvent, ClearEvent, FileRestrictions, RemoveEvent } from '@progress/kendo-angular-upload';
+import { SuccessEvent } from '@progress/kendo-angular-upload';
 
 @Component({
   selector: 'pf-marketing-image',
@@ -10,12 +11,13 @@ import { SuccessEvent, ErrorEvent, UploadEvent, SelectEvent, ClearEvent, FileRes
 export class MarketingImageComponent implements OnInit {
   previewFileUri = '';
   errorMessage = '';
-  uploadSaveUrl = '/odata/CloudFiles.UploadMarketingImage';
+  uploadSaveUrl = '/odata/Marketing.UploadMarketingImage';
   url: string;
   marketingForm: FormGroup;
   submitted = false;
+  headerStatus = '';
   fileRestrictions: FileRestrictions = {
-    maxFileSize: 2000000, allowedExtensions: ['jpg', 'jpeg', 'png']
+    maxFileSize: 4000000, allowedExtensions: ['jpg', 'jpeg', 'png']
   };
 
   constructor(private fb: FormBuilder) { }
@@ -28,7 +30,7 @@ export class MarketingImageComponent implements OnInit {
 
   selectEventHandler(e: SelectEvent) {
     const reader  = new FileReader();
-
+    this.errorMessage = '';
     if (e.files[0].rawFile && (e.files[0].extension === '.jpg' || e.files[0].extension === '.png')) {
         reader.readAsDataURL(e.files[0].rawFile);
         reader.onloadend = (progressEvent) => {
@@ -47,18 +49,19 @@ export class MarketingImageComponent implements OnInit {
       e.preventDefault();
     } else {
       e.data = {
-        imageUrl: this.marketingForm.get('url').value
+        redirectUrl: this.marketingForm.get('url').value
       };
     }
   }
 
   successEventHandler(e: SuccessEvent) {
-    // TODO: Nothing to do here for now...
+    this.headerStatus = 'Image uploaded successfully!';
   }
 
   errorEventHandler(e: ErrorEvent) {
-    const body = JSON.stringify(e.response);
-    this.errorMessage = body;
+    this.errorMessage = e.response['message'] + ': ' + e.response['error']['value'];
+    this.headerStatus = 'Something went wrong...';
+    this.previewFileUri = '';
   }
 
   clearEventHandler(e: ClearEvent) {
