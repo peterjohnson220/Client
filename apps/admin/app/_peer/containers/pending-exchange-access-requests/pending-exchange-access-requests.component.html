@@ -11,7 +11,9 @@
       [loading]="pendingExchangeAccessRequestsLoading$ | async"
       [loadingError]="pendingExchangeAccessRequestsLoadingError$ | async"
       [loadingErrorMessage]="'Error loading pending exchange access requests'"
-      (reload)="handlePendingExchangeAccessRequestsGridReload()">
+      (reload)="handlePendingExchangeAccessRequestsGridReload()"
+      class="flex-grow-1"
+    >
 
       <kendo-grid
         [data]="pendingExchangeAccessRequestsGrid$ | async"

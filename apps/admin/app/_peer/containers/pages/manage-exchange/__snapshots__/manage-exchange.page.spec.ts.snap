@@ -80,7 +80,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
         class="inner-content"
       >
         <div
-          class="d-flex h-100 w-100"
+          class="d-flex content-container"
         >
           <router-outlet />
         </div>

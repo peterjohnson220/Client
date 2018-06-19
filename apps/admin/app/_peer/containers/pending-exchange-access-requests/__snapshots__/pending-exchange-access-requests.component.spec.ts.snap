@@ -20,7 +20,9 @@ exports[`Pending Exchange Access Requests should match snapshot 1`] = `
     <div
       class="d-flex h-100"
     >
-      <pf-async-container>
+      <pf-async-container
+        class="flex-grow-1"
+      >
         <kendo-grid>
           <kendo-grid-column
             field="CompanyName"

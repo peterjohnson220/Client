@@ -14,7 +14,9 @@
       [loading]="exchangeCompaniesLoading$ | async"
       [loadingError]="exchangeCompaniesLoadingError$ | async"
       [loadingErrorMessage]="'Error loading exchange companies'"
-      (reload)="handleExchangeCompaniesGridReload()">
+      (reload)="handleExchangeCompaniesGridReload()"
+      class="flex-grow-1"
+    >
 
       <kendo-grid
         [data]="exchangeCompaniesGrid$ | async"
