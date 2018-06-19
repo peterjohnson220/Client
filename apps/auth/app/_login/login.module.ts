@@ -23,6 +23,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 // Routing
 import { LoginRoutingModule } from './login-routing.module';
+import { MarketingModule } from 'apps/admin/app/_marketing/marketing.module';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { LoginRoutingModule } from './login-routing.module';
     LoginRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    MarketingModule
   ],
   declarations: [
 

@@ -1,12 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MarketingRoutingModule } from './marketing-routing.module';
+// Effects
+import { MarketingImageEffects } from './effects';
+
+// Reducers
+import { reducers } from './reducers';
+
+// Third party
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { UploadModule } from '@progress/kendo-angular-upload';
+
+// Containers
 import { MarketingImageComponent} from './containers';
 
-import { UploadModule } from '@progress/kendo-angular-upload';
+// Routing
+import { MarketingRoutingModule } from './marketing-routing.module';
+
+// Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Services
+import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketing-api.service';
 
 @NgModule({
   imports: [
@@ -18,6 +35,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
     // 3rd Party
     UploadModule,
+    StoreModule.forFeature('marketing', reducers),
+    EffectsModule.forFeature([MarketingImageEffects]),
 
     // Routing
     MarketingRoutingModule
@@ -25,6 +44,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     // Components
     MarketingImageComponent
-  ]
+  ],
+  providers: [ MarketingApiService ]
 })
 export class MarketingModule { }

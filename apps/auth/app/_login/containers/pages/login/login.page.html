@@ -1,8 +1,12 @@
 <div class="d-flex flex-row">
   <div class="p-2">
+      <div *ngIf = "gettingMarketingImageSuccess$ | async">
+          HELLO NG
+      </div>
+      
     <div class="image-container">
       <a href="#">
-        <img [src]="loginLogo" />
+        <img [src]= "imageLocation" />  
       </a>
     </div>
   </div>
