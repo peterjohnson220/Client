@@ -82,7 +82,7 @@ describe('Bulk Export Schedule Form', () => {
 
     expect(instance.schedule.DayOfWeek).toBe('');
     expect(instance.schedule.Occurrence).toBe('');
-    expect(instance.schedule.MonthlyOccurrence).toBe('');
+    expect(instance.schedule.MonthlyOccurrence).toBe('1');
     expect(instance.daysOfWeekSelected).toEqual([]);
   });
 
