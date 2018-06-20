@@ -5,7 +5,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import * as marketingImageActions from '../../../../auth/app/_login/actions/marketing-image.actions';
+import * as marketingImageActions from '../actions/marketing-image.actions';
 import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketing-api.service';
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 

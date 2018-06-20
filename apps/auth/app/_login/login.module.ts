@@ -25,6 +25,9 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { LoginRoutingModule } from './login-routing.module';
 import { MarketingModule } from 'apps/admin/app/_marketing/marketing.module';
 
+// Services
+import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketing-api.service';
+
 @NgModule({
   imports: [
     // Angular
@@ -54,6 +57,6 @@ import { MarketingModule } from 'apps/admin/app/_marketing/marketing.module';
     // Controls
     ConfirmPasswordComponent
   ],
-  providers: [  ]
+  providers: [ MarketingApiService ]
 })
 export class LoginModule { }

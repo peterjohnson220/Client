@@ -1,4 +1,4 @@
-import * as marketingActions from '../../../../auth/app/_login/actions/marketing-image.actions';
+import * as marketingActions from '../actions/marketing-image.actions';
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 
 export interface State {
