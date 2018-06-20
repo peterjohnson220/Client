@@ -1,20 +1,16 @@
 <div class="d-flex flex-row">
   <div class="p-2">
-      <div *ngIf = "gettingMarketingImageSuccess$ | async">
-          HELLO NG
-      </div>
-
-    <div class="image-container">
-      <a href="#">
-        <img [src]= "imageLocation" />
+    <div *ngIf="imageLocation">
+      <a [href]="redirectUlr">
+        <img [src]="imageLocation" class="image-container" />
       </a>
     </div>
   </div>
-  <div class="p-2 ">
+  <div class="p-2">
     <div class="d-flex flex-column p-5 h-100 justify-content-center">
-        <div class="pb-1 text-uppercase font-weight-bold">
-            Email Address
-        </div>
+      <div class="pb-1 text-uppercase font-weight-bold">
+        Email Address
+      </div>
       <div class="pb-3">
         <input type="email" class="login-input">
       </div>

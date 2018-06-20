@@ -7,8 +7,8 @@ import * as fromRoot from 'libs/state/state';
 import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
-import * as fromMarketingReducer from '../../../../admin/app/_marketing/reducers/marketing-image.reducer';
-import { MarketingState, selectMarketingState } from '../../../../admin/app/_marketing/reducers';
+import * as fromMarketingReducer from './marketing-image.reducer';
+// import { MarketingState, selectMarketingState } from '../../../../admin/app/_marketing/reducers';
 
 // Feature area state
 export interface AuthMainState {

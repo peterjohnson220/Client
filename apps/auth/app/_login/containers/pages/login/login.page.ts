@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { MarketingImageDto } from 'libs/models/marketing/marketing-image-dto.model';
 import * as fromMarketingReducer from '../../../reducers';
-import * as fromMarketingActions from '../../../../../../admin/app/_marketing/actions/marketing-image.actions';
+import * as fromMarketingActions from '../../../../../../auth/app/_login/actions/marketing-image.actions';
 
 @Component({
   selector: 'pf-login-page',
@@ -13,13 +13,12 @@ import * as fromMarketingActions from '../../../../../../admin/app/_marketing/ac
   styleUrls: [ './login.page.scss' ]
 })
 export class LoginPageComponent implements OnInit {
-  loginLogo = 'assets/images/MarketingPlaceholder.PNG';
   marketingImage$: Observable<MarketingImageDto>;
   gettingMarketingImage$: Observable<boolean>;
   gettingMarketingImageError$: Observable<boolean>;
   gettingMarketingImageSuccess$: Observable<boolean>;
-
-  imageLocation: string;
+  imageLocation: string; // 'assets/images/MarketingPlaceholder.PNG';
+  redirectUlr: string;
 
   constructor(public store: Store<fromMarketingReducer.State>) {
     this.marketingImage$ = this.store.select(fromMarketingReducer.getMarketingImage);
@@ -34,12 +33,10 @@ export class LoginPageComponent implements OnInit {
       this.marketingImage$.subscribe(image => {
         if ( image ) {
           this.imageLocation = image.Location;
+          this.redirectUlr = image.RedirectUrl;
         }
       }
     );
-
-
-
   }
 }
 

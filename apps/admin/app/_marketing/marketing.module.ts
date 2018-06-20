@@ -2,15 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-// Effects
-import { MarketingImageEffects } from './effects';
-
-// Reducers
-import { reducers } from './reducers';
-
 // Third party
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+// import { StoreModule } from '@ngrx/store';
+// import { EffectsModule } from '@ngrx/effects';
 import { UploadModule } from '@progress/kendo-angular-upload';
 
 // Containers
@@ -35,8 +29,6 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
 
     // 3rd Party
     UploadModule,
-    StoreModule.forFeature('marketing', reducers),
-    EffectsModule.forFeature([MarketingImageEffects]),
 
     // Routing
     MarketingRoutingModule

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Effects
-import { ForgotPasswordEffects } from './effects';
+import { ForgotPasswordEffects, MarketingImageEffects } from './effects';
 import { FirstLoginEffects } from './effects';
 import { ResetPasswordEffects} from './effects';
 
@@ -34,7 +34,7 @@ import { MarketingModule } from 'apps/admin/app/_marketing/marketing.module';
 
     // 3rd Party
     StoreModule.forFeature('authMain', reducers),
-    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects, ResetPasswordEffects]),
+    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects, ResetPasswordEffects, MarketingImageEffects]),
 
     // Routing
     LoginRoutingModule,
