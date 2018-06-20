@@ -1,5 +1,63 @@
-.card-header .btn {
-  margin-top: -.25rem;
-  margin-bottom: -.25rem;
-  margin-left: .25rem;
+.inner-nav {
+  border-right: 1px solid #CCC;
+  padding: 0.9rem 0 0 0.1rem;
+
+  ul {
+    padding: 0;
+    width: 250px;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    &:hover {
+      background-color: #e6e6e6;
+      cursor: pointer;
+    }
+    &:active {
+      color: #fff;
+      background-color: #1872ae;
+    }
+    &.selected {
+      color:#333;
+      font-weight: bold;
+      background-color: #e6e6e6;
+    }
+  }
+
+  span {
+    float: right;
+  }
 }
+
+.font-a-icon {
+  margin-right: .75rem;
+}
+
+.inner-nav-heading {
+  padding: 0 0 0.5rem 1rem;
+  text-transform: uppercase;
+  color: #707070;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.inner-content {
+  padding: 1rem 0.5rem 0.25rem 1.5rem;
+  margin-top:-.75rem;
+  flex-grow: 1;
+}
+
+:host ::ng-deep .content-container {
+  height: 100%;
+  width: 100%;
+  & > *:not(router-outlet) {
+    flex-grow: 1;
+  }
+}
+

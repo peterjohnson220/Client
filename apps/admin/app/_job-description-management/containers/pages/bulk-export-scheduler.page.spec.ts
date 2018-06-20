@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BulkExportSchedulerPageComponent } from './bulk-export-scheduler.page';
+import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+
 import * as fromJdmReducer from '../../reducers';
 import * as fromFilterActions from '../../actions/filter.actions';
 import * as fromViewActions from '../../actions/view.actions';
 import * as fromBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-import { Router } from '@angular/router';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { BulkExportSchedulerPageComponent } from './bulk-export-scheduler.page';
+
 
 describe('Admin - Bulk Export Scheduler Page', () => {
   let fixture: ComponentFixture<BulkExportSchedulerPageComponent>;

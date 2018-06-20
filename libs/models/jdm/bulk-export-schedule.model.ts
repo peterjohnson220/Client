@@ -14,7 +14,7 @@ export class BulkExportSchedule {
 export function generateMockBulkExportSchedule(): BulkExportSchedule {
   return {
     Id: 1,
-    FileName: 'Mock.xlsx',
+    FileName: 'Mock',
     View: 'MockView',
     Filter: 'MockFilter',
     Frequency: 'Weekly',

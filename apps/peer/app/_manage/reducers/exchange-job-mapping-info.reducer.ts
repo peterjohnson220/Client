@@ -10,7 +10,11 @@ export interface State extends EntityState<CompanyJobToMapTo> {
   applyingMapping: boolean;
   applyingMappingError: boolean;
   selectedMappingCompanyJobId: number;
-  editingMapping: boolean;
+  activeExchangeJobToCompanyJobId: number;
+  addingMapping: boolean;
+  deleteConfirmationModalOpen: boolean;
+  deletingMapping: boolean;
+  deletingError: boolean;
 }
 
 export const adapter: EntityAdapter<CompanyJobToMapTo> = createEntityAdapter<CompanyJobToMapTo>({
@@ -23,7 +27,11 @@ const initialState: State = adapter.getInitialState({
   applyingMapping: false,
   applyingMappingError: false,
   selectedMappingCompanyJobId: null,
-  editingMapping: false
+  activeExchangeJobToCompanyJobId: null,
+  addingMapping: false,
+  deleteConfirmationModalOpen: false,
+  deletingMapping: false,
+  deletingError: false
 });
 
 // Reducer
@@ -74,16 +82,56 @@ export function reducer(
         applyingMappingError: true
       };
     }
-    case fromExchangeJobMappingInfoActions.EDIT_MAPPING: {
+    case fromExchangeJobMappingInfoActions.ADD_MAPPING: {
       return {
         ...state,
-        editingMapping: true
+        addingMapping: true
       };
     }
-    case fromExchangeJobMappingInfoActions.CANCEL_EDIT_MAPPING: {
+    case fromExchangeJobMappingInfoActions.CANCEL_ADD_MAPPING: {
       return {
         ...state,
-        editingMapping: false
+        addingMapping: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.OPEN_DELETE_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        deleteConfirmationModalOpen: true
+      };
+    }
+    case fromExchangeJobMappingInfoActions.CLOSE_DELETE_CONFIRMATION_MODAL: {
+      return {
+        ...state,
+        deleteConfirmationModalOpen: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING: {
+      return {
+        ...state,
+        deletingMapping: true
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING_SUCCESS: {
+      return {
+        ...state,
+        deletingError: false,
+        deletingMapping: false,
+        deleteConfirmationModalOpen: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.DELETE_MAPPING_ERROR: {
+      return {
+        ...state,
+        deletingMapping: false,
+        deletingError: true,
+        deleteConfirmationModalOpen: false
+      };
+    }
+    case fromExchangeJobMappingInfoActions.SET_ACTIVE_MAPPING: {
+      return {
+        ...state,
+        activeExchangeJobToCompanyJobId: action.payload
       };
     }
     default: {
@@ -98,4 +146,8 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getApplyingMapping = (state: State) => state.applyingMapping;
 export const getApplyingMappingError = (state: State) => state.applyingMappingError;
 export const getSelectedMappingCompanyJobId = (state: State) => state.selectedMappingCompanyJobId;
-export const getEditingMapping = (state: State) => state.editingMapping;
+export const getAddingMapping = (state: State) => state.addingMapping;
+export const getDeleteConfirmationModalOpen = (state: State) => state.deleteConfirmationModalOpen;
+export const getDeletingMapping = (state: State) => state.deletingMapping;
+export const getDeletingError = (state: State) => state.deletingError;
+export const getActiveExchangeJobToCompanyJobId = (state: State) => state.activeExchangeJobToCompanyJobId;

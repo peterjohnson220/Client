@@ -12,8 +12,14 @@ export const SELECT_COMPANY_JOB = '[Peer Main/Exchange Job Mapping Info] Select 
 export const APPLY_MAPPING = '[Peer Main/Exchange Job Mapping Info] Apply Mapping';
 export const APPLY_MAPPING_SUCCESS = '[Peer Main/Exchange Job Mapping Info] Apply Mapping Success';
 export const APPLY_MAPPING_ERROR = '[Peer Main/Exchange Job Mapping Info] Apply Mapping Error';
-export const EDIT_MAPPING = '[Peer Main/Exchange Job Mapping Info] Edit Mapping';
-export const CANCEL_EDIT_MAPPING = '[Peer Main/Exchange Job Mapping Info] Cancel Edit Mapping';
+export const ADD_MAPPING = '[Peer Main/Exchange Job Mapping Info] Add Mapping';
+export const CANCEL_ADD_MAPPING = '[Peer Main/Exchange Job Mapping Info] Cancel Add Mapping';
+export const OPEN_DELETE_CONFIRMATION_MODAL = '[Peer Main/Exchange Job Mapping Info] Open Delete Confirmation Modal';
+export const CLOSE_DELETE_CONFIRMATION_MODAL = '[Peer Main/Exchange Job Mapping Info] Close Delete Confirmation Modal';
+export const DELETE_MAPPING = '[Peer Main/Exchange Job Mapping Info] Delete Mapping';
+export const DELETE_MAPPING_SUCCESS = '[Peer Main/Exchange Job Mapping Info] Delete Mapping Success';
+export const DELETE_MAPPING_ERROR = '[Peer Main/Exchange Job Mapping Info] Delete Mapping Error';
+export const SET_ACTIVE_MAPPING = '[Peer Main/Exchange Job Mapping Info] Set Active Mapping';
 
 export class LoadCompanyJobsToMapToByQuery implements Action {
   readonly type = LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY;
@@ -51,12 +57,40 @@ export class ApplyMappingError implements Action {
   readonly type = APPLY_MAPPING_ERROR;
 }
 
-export class EditMapping implements Action {
-  readonly type = EDIT_MAPPING;
+export class AddMapping implements Action {
+  readonly type = ADD_MAPPING;
 }
 
-export class CancelEditMapping implements Action {
-  readonly type = CANCEL_EDIT_MAPPING;
+export class CancelAddMapping implements Action {
+  readonly type = CANCEL_ADD_MAPPING;
+}
+
+export class OpenDeleteConfirmationModal implements Action {
+  readonly type = OPEN_DELETE_CONFIRMATION_MODAL;
+}
+
+export class CloseDeleteConfirmationModal implements Action {
+  readonly type = CLOSE_DELETE_CONFIRMATION_MODAL;
+}
+
+export class DeleteMapping implements Action {
+  readonly type = DELETE_MAPPING;
+
+  constructor(public payload: any) {}
+}
+
+export class DeleteMappingSuccess implements Action {
+  readonly type = DELETE_MAPPING_SUCCESS;
+}
+
+export class DeleteMappingError implements Action {
+  readonly type = DELETE_MAPPING_ERROR;
+}
+
+export class SetActiveMapping implements Action {
+  readonly type = SET_ACTIVE_MAPPING;
+
+  constructor(public payload: number | null) {}
 }
 
 export type Actions
@@ -67,5 +101,11 @@ export type Actions
   | ApplyMapping
   | ApplyMappingSuccess
   | ApplyMappingError
-  | EditMapping
-  | CancelEditMapping;
+  | AddMapping
+  | CancelAddMapping
+  | OpenDeleteConfirmationModal
+  | CloseDeleteConfirmationModal
+  | DeleteMapping
+  | DeleteMappingSuccess
+  | DeleteMappingError
+  | SetActiveMapping;

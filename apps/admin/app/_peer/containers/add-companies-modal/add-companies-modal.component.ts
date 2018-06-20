@@ -3,8 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
@@ -53,7 +54,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
     this.addingCompaniesError$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesAddingError);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridState);
     this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableCompaniesGridSelections);
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
   }
 
@@ -151,7 +152,7 @@ export class AddCompaniesModalComponent implements OnInit, OnDestroy {
 
   // Helper methods
   loadAvailableCompanies(): void {
-    this.gridState$.take(1).subscribe(gridState => {
+    this.gridState$.pipe(take(1)).subscribe(gridState => {
       this.store.dispatch(new fromAvailableCompaniesActions.LoadingAvailableCompanies(
         {
           exchangeId: this.exchangeId,

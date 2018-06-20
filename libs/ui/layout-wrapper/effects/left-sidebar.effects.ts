@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { of } from 'rxjs/observable/of';
-// TODO: Investigate switching these to a "lettable operators"
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { NavigationApiService } from '../../../data/payfactors-api';
 
 import * as leftSidebarActions from '../actions/left-sidebar.actions';
@@ -18,12 +14,13 @@ export class LeftSidebarEffects {
 
   @Effect()
   getLeftSidebarNavigationlinks$ = this.actions$
-    .ofType(leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS)
-    .switchMap(() =>
-      this.navigationApiService
-        .getSideBarLinks()
-        .map((sidebarLinks: SidebarLink[]) => new leftSidebarActions.GetLeftSidebarNavigationLinksSuccess(sidebarLinks))
-        .catch(() => of(new leftSidebarActions.GetLeftSidebarNavigationLinksError()))
+    .ofType(leftSidebarActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS).pipe(
+      switchMap(() =>
+        this.navigationApiService.getSideBarLinks().pipe(
+          map((sidebarLinks: SidebarLink[]) => new leftSidebarActions.GetLeftSidebarNavigationLinksSuccess(sidebarLinks)),
+          catchError(() => of(new leftSidebarActions.GetLeftSidebarNavigationLinksError()))
+        )
+      )
     );
 
   constructor(

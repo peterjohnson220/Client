@@ -3,8 +3,7 @@ import {
 } from '@angular/core';
 
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'pf-terms-conditions-modal',

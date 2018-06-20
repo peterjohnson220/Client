@@ -2,9 +2,8 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/timer';
+import { timer as observableTimer, Observable, Subscription } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer';
@@ -107,12 +106,12 @@ export class NewCompanyFormComponent implements OnInit {
       const companyName = control.value;
       const exchangeId = this.exchange ? this.exchange.ExchangeId : 0;
 
-      return Observable.timer(500).switchMap(() => {
-        return this.exchangeCompanyApiService.validateNewCompanyName(exchangeId, companyName)
-          .map(result => {
+      return observableTimer(500).pipe(switchMap(() => {
+        return this.exchangeCompanyApiService.validateNewCompanyName(exchangeId, companyName).pipe(
+          map(result => {
             return result ? { companyNameExists: result } : null;
-          });
-      });
+          }));
+      }));
     };
   }
 }

@@ -41,3 +41,8 @@
     white-space: nowrap;
   }
 }
+
+
+.k-grid-content, .k-grid-footer-wrap, .k-grid-header-wrap {
+  flex-basis: 100%;
+}

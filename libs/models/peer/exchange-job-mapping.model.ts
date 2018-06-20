@@ -4,19 +4,33 @@ export interface ExchangeJobMapping {
   CompanyId: number;
   ExchangeJobCode: string;
   ExchangeJobTitle: string;
+  ExchangeJobFamily: string;
+  ExchangeJobLevel: string;
+  ExchangeJobDescription: string;
+  Mapped: boolean;
+  PendingRequest: boolean;
+  CompanyJobMappingsCount: number;
+  CompanyJobMappings: CompanyJobMapping[];
+}
+
+export interface CompanyJobMapping {
+  ExchangeJobToCompanyJobId: number;
   CompanyJobCode: string;
   CompanyJobTitle: string;
   CompanyJobLevel: string;
-  ExchangeJobFamily: string;
-  ExchangeJobLevel: string;
   CompanyJobFamily: string;
   CompanyJobDescription: string;
-  ExchangeJobDescription: string;
-  Mapped: boolean;
-  ExchangeJobToCompanyJobId: number;
-  PendingRequest: boolean;
 }
-
+export function generateMockCompanyJobMapping(): CompanyJobMapping {
+  return {
+    ExchangeJobToCompanyJobId: 345,
+    CompanyJobCode: 'A100',
+    CompanyJobTitle: 'Company Job Title',
+    CompanyJobLevel: 'I',
+    CompanyJobFamily: 'Company Job Family',
+    CompanyJobDescription: 'Lorem Ipsum'
+  };
+}
 export function generateMockExchangeJobMapping(): ExchangeJobMapping {
   return {
     ExchangeJobId: 28947,
@@ -24,16 +38,12 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     CompanyId: 13,
     ExchangeJobCode: '1001',
     ExchangeJobTitle: 'Exchange Test Job',
-    CompanyJobCode: 'A100',
-    CompanyJobTitle: 'Company Job Title',
-    CompanyJobLevel: 'I',
     ExchangeJobFamily: 'Exchange Test Family',
     ExchangeJobLevel: 'II',
-    CompanyJobFamily: 'Company Job Family',
-    CompanyJobDescription: 'Lorem Ipsum',
     ExchangeJobDescription: 'Lorem Ipsum',
     Mapped: true,
-    ExchangeJobToCompanyJobId: 345,
-    PendingRequest: false
+    PendingRequest: false,
+    CompanyJobMappingsCount: 1,
+    CompanyJobMappings: [generateMockCompanyJobMapping()]
   };
 }

@@ -9,7 +9,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import 'rxjs/add/operator/take';
 
 import {
-  AvailableJob, generateMockAddExchangeJobsRequest,
+  AvailableJob, ExchangeJobStatusEnum, generateMockAddExchangeJobsRequest,
   generateMockAvailableJob
 } from 'libs/models/peer';
 import { GridTypeEnum } from 'libs/models/common';
@@ -54,7 +54,7 @@ describe('Add Jobs Modal', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { parent: { snapshot: { params: { id : 1 } } } }
         }
       ],
       // Shallow Testing
@@ -63,7 +63,7 @@ describe('Add Jobs Modal', () => {
 
     store = TestBed.get(Store);
     activatedRoute = TestBed.get(ActivatedRoute);
-    routeIdParam = activatedRoute.snapshot.params.id;
+    routeIdParam = activatedRoute.parent.snapshot.params.id;
 
     spyOn(store, 'dispatch');
 
@@ -241,7 +241,7 @@ describe('Add Jobs Modal', () => {
    if the job is already in the exchange`, () => {
     const mockAvailableJob: AvailableJob = generateMockAvailableJob();
     const expectedAction = new fromGridActions.ToggleRowSelection(GridTypeEnum.AvailableJobs, mockAvailableJob.MDJobsBaseId);
-    mockAvailableJob.InExchange = true;
+    mockAvailableJob.Status = ExchangeJobStatusEnum.InExchange;
 
     fixture.detectChanges();
 

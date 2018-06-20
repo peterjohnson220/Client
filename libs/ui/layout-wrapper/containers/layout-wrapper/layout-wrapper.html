@@ -8,8 +8,8 @@
     </div>
   </header>
   <main [class.main-body-scroll]="!centerContentScroll">
-    <div class="left-sidebar" [class.left-sidebar-center-content-scroll]="centerContentScroll">
-      <pf-layout-wrapper-left-sidebar></pf-layout-wrapper-left-sidebar>
+    <div class="left-sidebar" [class.left-sidebar-center-content-scroll]="centerContentScroll" (mouseenter)="leftSidebarToggleChanged(true)" (mouseleave)="leftSidebarToggleChanged(false)">
+      <pf-layout-wrapper-left-sidebar [leftSidebarToggle]="leftSidebarToggle"></pf-layout-wrapper-left-sidebar>
     </div>
     <div class="center-content"
          [ngClass]="{ 'center-content-body-scroll': !centerContentScroll, 'center-content-scroll': centerContentScroll }">

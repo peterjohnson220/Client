@@ -99,6 +99,18 @@ export const getSelectedExchangeJobMapping = createSelector(
   fromExchangeJobMappingGridReducer.getSelectedMapping
 );
 
+export const getFirstCompanyJobMappingFromSelectedExchangeJob = createSelector(
+  getSelectedExchangeJobMapping,
+  (exchangeJobMapping) => {
+    if (!exchangeJobMapping) {
+      return null;
+    }
+
+    const firstCompanyJobMapping = exchangeJobMapping.CompanyJobMappings[0];
+    return firstCompanyJobMapping ? firstCompanyJobMapping.ExchangeJobToCompanyJobId : null;
+  }
+);
+
 export const getExchangeJobMappingPageRowIndexToScrollTo = createSelector(
   selectExchangeJobMappingsFeatureState,
   fromExchangeJobMappingGridReducer.getPageRowIndexToScrollTo
@@ -146,9 +158,29 @@ export const getExchangeJobsInfoSelectedMappingCompanyJobId = createSelector(
   fromExchangeJobMappingInfoReducer.getSelectedMappingCompanyJobId
 );
 
-export const getExchangeJobsInfoEditingMapping = createSelector(
+export const getExchangeJobsInfoAddingMapping = createSelector(
   selectExchangeJobMappingInfoState,
-  fromExchangeJobMappingInfoReducer.getEditingMapping
+  fromExchangeJobMappingInfoReducer.getAddingMapping
+);
+
+export const getExchangeJobsInfoDeleteConfirmationModalOpen = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeleteConfirmationModalOpen
+);
+
+export const getExchangeJobsInfoDeletingMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeletingMapping
+);
+
+export const getExchangeJobsInfoDeletingMappingError = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getDeletingError
+);
+
+export const getExchangeJobsInfoActiveMapping = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getActiveExchangeJobToCompanyJobId
 );
 
 export const {

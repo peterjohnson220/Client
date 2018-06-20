@@ -14,6 +14,7 @@ import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
 import { GridHelperService } from '../../services';
+import * as fromImportExchangeJobActions from '../../actions/import-exchange-jobs.actions';
 
 describe('Exchange Jobs', () => {
   let fixture: ComponentFixture<ExchangeJobsComponent>;
@@ -38,7 +39,7 @@ describe('Exchange Jobs', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { snapshot: { parent: { params: { id : 1 } } } }
         },
         {
           provide: GridHelperService,
@@ -51,22 +52,13 @@ describe('Exchange Jobs', () => {
 
     store = TestBed.get(Store);
     activatedRoute = TestBed.get(ActivatedRoute);
-    routeIdParam = activatedRoute.snapshot.params.id;
+    routeIdParam = activatedRoute.snapshot.parent.params.id;
     gridHelperService = TestBed.get(GridHelperService);
 
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeJobsComponent);
     instance = fixture.componentInstance;
-  });
-
-  it('should dispatch a loadExchangeJobs action with the exchange id on init', () => {
-    spyOn(gridHelperService, 'loadExchangeJobs');
-
-    instance.exchangeId = 1;
-    fixture.detectChanges();
-
-    expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(instance.exchangeId);
   });
 
   it('should dispatch a LoadingExchangeJobs action when handleExchangeJobsGridReload is called', () => {
@@ -127,4 +119,35 @@ describe('Exchange Jobs', () => {
     expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(instance.exchangeId);
   });
 
+  it('should dispatch an OpeningImportExchangeJobsModal action when openCreateExchangeModal is called', () => {
+    const action = new fromImportExchangeJobActions.OpeningImportExchangeJobsModal();
+
+    instance.openImportExchangeJobsModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an ClosingImportExchangeJobsModal action when handleImportExchangeJobsModalDismissed is called', () => {
+    const action = new fromImportExchangeJobActions.ClosingImportExchangeJobsModal();
+
+    instance.handleImportExchangeJobsModalDismissed();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an ClosingImportExchangeJobsModal action when handleImportExchangeJobs is called', () => {
+    const action = new fromImportExchangeJobActions.ClosingImportExchangeJobsModal();
+
+    instance.handleImportExchangeJobs();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a OpenAddExchangeJobsModal action when openAddExchangeJobsModal is called', () => {
+    const action = new fromExchangeJobsActions.OpenAddExchangeJobsModal();
+
+    instance.openAddExchangeJobsModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

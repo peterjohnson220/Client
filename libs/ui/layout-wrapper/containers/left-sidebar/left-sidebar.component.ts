@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { UserContext } from 'libs/models';
 
 import { environment } from 'environments/environment';
@@ -21,7 +20,7 @@ import { userVoiceUrl } from 'libs/core/functions';
 export class LeftSidebarComponent implements OnInit, OnDestroy {
   @Output() reload = new EventEmitter();
 
-  leftSidebarToggle = false;
+  @Input() leftSidebarToggle = false;
   ngAppRoot = environment.ngAppRoot;
   leftSidebarNavigationLinks$: Observable<SidebarLink[]>;
   userContext$: Observable<UserContext>;
@@ -59,5 +58,15 @@ export class LeftSidebarComponent implements OnInit, OnDestroy {
 
   handleSidebarNavigationLinksReload() {
     this.store.dispatch(new fromLeftSidebarActions.GetLeftSidebarNavigationLinks());
+  }
+
+  checkSidebarLinkAgainstURL(link) {
+    if (window.location.pathname.indexOf(link.Url) > -1) {
+      return true;
+    }
+    // TODO: check to see if there is a better way to handle highlighting left sidebar links
+    if (window.location.pathname.indexOf('client/peer') > -1 && link.Url.indexOf('client/peer') > -1) {
+      return true;
+    }
   }
 }

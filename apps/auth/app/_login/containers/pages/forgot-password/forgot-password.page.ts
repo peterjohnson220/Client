@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 
 import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromForgotPasswordReducer from '../../../reducers';
 import * as fromForgotPasswordActions from '../../../actions/forgot-password.actions';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'pf-forgot-password-page',

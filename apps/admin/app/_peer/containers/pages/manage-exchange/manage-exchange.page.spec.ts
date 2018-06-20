@@ -1,4 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
@@ -7,16 +8,17 @@ import { of } from 'rxjs/observable/of';
 import * as fromRootState from 'libs/state/state';
 import {  generateMockExchange } from 'libs/models/peer';
 
-import * as fromImportExchangeJobActions from '../../../actions/import-exchange-jobs.actions';
-import * as fromExchangeJobsActions from '../../../actions/exchange-jobs.actions';
-import * as fromExchangeCompaniesActions from '../../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../../reducers';
 import { ManageExchangePageComponent } from './manage-exchange.page';
+import { GridHelperService } from '../../../services';
 
 describe('Manage Exchange Page', () => {
   let fixture: ComponentFixture<ManageExchangePageComponent>;
   let instance: ManageExchangePageComponent;
   let store: Store<fromRootState.State>;
+  let gridHelperService: GridHelperService;
+  let activatedRoute: ActivatedRoute;
+  let routeIdParam: number;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -30,16 +32,32 @@ describe('Manage Exchange Page', () => {
       declarations: [
         ManageExchangePageComponent
       ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { params: { id : 1 } } }
+        },
+        {
+          provide: GridHelperService,
+          useValue: { loadExchangeJobs: jest.fn(),
+                      loadExchangeCompanies: jest.fn(),
+                      loadPendingExchangeAccessRequests: jest.fn()}
+        }
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
+    gridHelperService = TestBed.get(GridHelperService);
+    activatedRoute = TestBed.get(ActivatedRoute);
+    routeIdParam = activatedRoute.snapshot.params.id;
 
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ManageExchangePageComponent);
     instance = fixture.componentInstance;
+    instance.exchangeId = routeIdParam;
   });
 
   it('should pass the exchange name to the page title transclusion area', () => {
@@ -50,44 +68,16 @@ describe('Manage Exchange Page', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch an OpeningImportExchangeJobsModal action when openCreateExchangeModal is called', () => {
-    const action = new fromImportExchangeJobActions.OpeningImportExchangeJobsModal();
+  it('should dispatch a loadExchangeJobs and loadExchangeCompanies action with the exchange id on init', () => {
+    instance.exchange$ = of(generateMockExchange());
+    spyOn(gridHelperService, 'loadExchangeJobs');
+    spyOn(gridHelperService, 'loadExchangeCompanies');
+    spyOn(gridHelperService, 'loadPendingExchangeAccessRequests');
 
-    instance.openImportExchangeJobsModal();
+    fixture.detectChanges();
 
-    expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadPendingExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
   });
-
-  it('should dispatch an ClosingImportExchangeJobsModal action when handleImportExchangeJobsModalDismissed is called', () => {
-    const action = new fromImportExchangeJobActions.ClosingImportExchangeJobsModal();
-
-    instance.handleImportExchangeJobsModalDismissed();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch an ClosingImportExchangeJobsModal action when handleImportExchangeJobs is called', () => {
-    const action = new fromImportExchangeJobActions.ClosingImportExchangeJobsModal();
-
-    instance.handleImportExchangeJobs();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch a OpenAddExchangeCompaniesModal action when openAddExchangeCompaniesModal is called', () => {
-    const action = new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal();
-
-    instance.openAddExchangeCompaniesModal();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch a OpenAddExchangeJobsModal action when openAddExchangeJobsModal is called', () => {
-    const action = new fromExchangeJobsActions.OpenAddExchangeJobsModal();
-
-    instance.openAddExchangeJobsModal();
-
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
 });

@@ -1,6 +1,6 @@
 <ng-template>
   <div class="modal-header">
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column w-100">
       <h4 class="modal-title">
         {{title}}
       </h4>
@@ -13,21 +13,30 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="formGroup" (ngSubmit)="submit()">
-      <ng-content select="[form-content]"></ng-content>
-    </form>
+    <ng-container *ngIf="formGroup" [ngTemplateOutlet]="formContent">
+    </ng-container>
+    <ng-container *ngIf="!formGroup" [ngTemplateOutlet]="basicContent">
+    </ng-container>
   </div>
   <div class="modal-footer d-flex justify-content-between">
-    <div class="flex-column w-50 space-out-children">
+    <div class="flex-column space-out-children" [ngClass]="{'w-50': (size != 'sm')}">
       <ng-content select="[footer-left]"></ng-content>
     </div>
     <div class="flex-column space-out-children">
-      <button type="button" class="btn btn-secondary" (click)="dismiss()">Cancel</button>
-      <button type="button" class="btn btn-primary" [disabled]="submitting || !formGroup.valid || !(formGroup.dirty || formGroup.touched)" (click)="submit()">
+      <button type="button" class="btn btn-secondary" (click)="dismiss()">{{secondaryButtonText}}</button>
+      <button type="button" class="btn" [ngClass]="primaryButtonClass" [disabled]="submitDisabled" (click)="submit()">
         <span *ngIf="submitting"><pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}</span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
     </div>
   </div>
+</ng-template>
+<ng-template #formContent>
+  <form [formGroup]="formGroup" (ngSubmit)="submit()">
+    <ng-content select="[form-content]"></ng-content>
+  </form>
+</ng-template>
+<ng-template #basicContent>
+  <ng-content select="[basic-content]"></ng-content>
 </ng-template>
 <div [id]="modalId" class="modal-container"></div>

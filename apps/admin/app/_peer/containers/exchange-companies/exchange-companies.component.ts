@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { GridDataResult, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
@@ -18,7 +18,7 @@ import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.
   templateUrl: './exchange-companies.component.html',
   styleUrls: ['./exchange-companies.component.scss']
 })
-export class ExchangeCompaniesComponent implements OnInit {
+export class ExchangeCompaniesComponent {
   exchangeCompaniesLoading$: Observable<boolean>;
   exchangeCompaniesLoadingError$: Observable<boolean>;
   exchangeCompanies$: Observable<ExchangeCompany[]>;
@@ -37,7 +37,7 @@ export class ExchangeCompaniesComponent implements OnInit {
     this.exchangeCompaniesGrid$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGrid);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGridState);
 
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = this.route.snapshot.parent.params.id;
   }
 
   // Events
@@ -55,8 +55,7 @@ export class ExchangeCompaniesComponent implements OnInit {
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
   }
 
-  // Lifecycle
-  ngOnInit() {
-    this.gridHelperService.loadExchangeCompanies(this.exchangeId);
+  openAddExchangeCompaniesModal(): void {
+    this.store.dispatch(new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal());
   }
 }

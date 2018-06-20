@@ -38,7 +38,7 @@ describe('Exchange Commpanies', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { snapshot: { parent: { params: { id : 1 } } } }
         },
         {
           provide: GridHelperService,
@@ -51,22 +51,13 @@ describe('Exchange Commpanies', () => {
 
     store = TestBed.get(Store);
     activatedRoute = TestBed.get(ActivatedRoute);
-    routeIdParam = activatedRoute.snapshot.params.id;
+    routeIdParam = activatedRoute.snapshot.parent.params.id;
     gridHelperService = TestBed.get(GridHelperService);
 
     spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(ExchangeCompaniesComponent);
     instance = fixture.componentInstance;
-  });
-
-  it('should dispatch a loadExchangeCompanies action with an exchange Id upon Init', () => {
-    spyOn(gridHelperService, 'loadExchangeCompanies');
-
-    instance.exchangeId = 1;
-    fixture.detectChanges();
-
-    expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(instance.exchangeId);
   });
 
   it('should dispatch a LoadingExchangeCompanies action when handleExchangeCompaniesGridReload is called', () => {
@@ -127,4 +118,11 @@ describe('Exchange Commpanies', () => {
     expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(instance.exchangeId);
   });
 
+  it('should dispatch a OpenAddExchangeCompaniesModal action when openAddExchangeCompaniesModal is called', () => {
+    const action = new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal();
+
+    instance.openAddExchangeCompaniesModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

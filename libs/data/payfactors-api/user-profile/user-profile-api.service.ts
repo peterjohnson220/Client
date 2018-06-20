@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { Observable } from 'rxjs/Rx';
 import { UserFilter } from '../../../models/user-profile';
 
 @Injectable()

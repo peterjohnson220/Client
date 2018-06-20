@@ -4,7 +4,12 @@ export interface AvailableJob {
   JobTitle: string;
   JobFamily: string;
   JobLevel: string;
-  InExchange: boolean;
+  Status: ExchangeJobStatusEnum;
+}
+
+export enum ExchangeJobStatusEnum {
+  InExchange = 0,
+  PendingRequest = 1
 }
 
 export function generateMockAvailableJob(): AvailableJob {
@@ -14,6 +19,6 @@ export function generateMockAvailableJob(): AvailableJob {
     JobTitle: 'Mock Job',
     JobFamily: 'Mock Family',
     JobLevel: 'Mock Level',
-    InExchange: false
+    Status: null
   };
 }

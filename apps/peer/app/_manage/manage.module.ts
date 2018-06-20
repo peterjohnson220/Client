@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
@@ -15,7 +16,7 @@ import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import { ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-          PayfactorsJobSelectionFormComponent } from './containers';
+          PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent } from './containers';
 import { ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
@@ -38,6 +39,7 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
       ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects
     ]),
     DropDownsModule,
+    NgbCarouselModule,
 
     // Routing
     ManageRoutingModule,
@@ -56,7 +58,7 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
 
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
-    RequestJobModalComponent, NewJobFormComponent,
+    RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent

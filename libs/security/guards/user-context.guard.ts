@@ -2,12 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { Store } from '@ngrx/store';
+import { filter, switchMap, map, take } from 'rxjs/operators';
 
-// TODO: Switch to lettable operators once ngrx updates
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
 
 import * as fromRootState from '../../state/state';
 
@@ -20,14 +16,22 @@ export class UserContextGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // Once we know there has been an attempt to get the context from the API we will ensure that we have a context
     // in the store before allowing the route to be activated.
-    return this.waitForUserContextLoadAttempt().switchMap(() =>
-       this.store.select(fromRootState.getUserContext).map(uc => !!uc).take(1)
+    return this.waitForUserContextLoadAttempt().pipe(
+      switchMap(() =>
+       this.store.select(fromRootState.getUserContext).pipe(
+         map(uc => !!uc),
+         take(1)
+        )
+      )
     );
   }
 
   // This will not emit any values until a attempt to get the user context from the API has completed with either
   // a Success or Error.
   private waitForUserContextLoadAttempt() {
-    return this.store.select(fromRootState.getGettingUserContextAttempted).filter(attempted => attempted).take(1);
+    return this.store.select(fromRootState.getGettingUserContextAttempted).pipe(
+      filter(attempted => attempted),
+      take(1)
+    );
   }
 }

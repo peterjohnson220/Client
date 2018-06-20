@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
+
+import { UserFilter } from 'libs/models/user-profile';
+import { BulkExportSchedule } from 'libs/models/jdm';
 
 import * as fromJdmViewActions from '../../actions/view.actions';
 import * as fromJdmFilterActions from '../../actions/filter.actions';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
 import * as fromJdmAdminReducer from '../../reducers';
-import { UserFilter } from 'libs/models/user-profile';
-import { BulkExportSchedule } from 'libs/models/jdm';
 
 @Component({
   selector: 'pf-bulk-export-scheduler-page',

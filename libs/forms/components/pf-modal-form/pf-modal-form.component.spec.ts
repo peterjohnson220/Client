@@ -79,6 +79,15 @@ describe('Pf Modal Form', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  // TODO: Because we still haven't figured out how to render the modal content, this test is useless [JP]
+  // it(`should not render the formContent template when no formGroup is provided`, () => {
+  //   instance.formGroup = null;
+  //
+  //   fixture.detectChanges();
+  //
+  //   expect(fixture).toMatchSnapshot();
+  // });
+
   // TODO: This doesn't work due to issue with NgbModal
   /*it('should have modal html when isOpen$ is true', async(() => {
     instance.isOpen$ = of(true);

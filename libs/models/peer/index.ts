@@ -15,3 +15,4 @@ export * from './exchange-job-pay-market-filter.model';
 export * from './pay-market-location.model';
 export * from './exchange-chart-type.enum';
 export * from './exchange-job-comparison.model';
+export * from './pending-exchange-access-requests-info.model';

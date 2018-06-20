@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { Observable, forkJoin } from 'rxjs';
+import { map, switchMap, take, filter } from 'rxjs/operators';
 
 import { ExchangeListItem } from 'libs/models/peer';
 import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
@@ -32,24 +32,26 @@ export class RedirectToExchangeComponent implements OnInit {
       this.store.dispatch(new fromExchangeSelectorActions.LoadExchanges());
 
       // Subscribe to the exchange list from the store.
-      this.getExchangeSelectorListLoaded()
-        .switchMap(() => forkJoin(this.getExchangeSelectorList(), this.getLastExchangeIdVisited()))
-        .map((exchangesAndLastVisted) => this.navigateToExchange({
+      this.getExchangeSelectorListLoaded().pipe(
+        switchMap(() => forkJoin(this.getExchangeSelectorList(), this.getLastExchangeIdVisited())),
+        map((exchangesAndLastVisted) => this.navigateToExchange({
           Exchanges: exchangesAndLastVisted[0],
           LastVisitedExchangeId: exchangesAndLastVisted[1]
-        }))
+        })))
         .subscribe();
   }
 
   getExchangeSelectorListLoaded(): Observable<boolean> {
-    return this.store.select(fromPeerDashboardReducer.getExchangeSelectorListLoaded)
-      .filter(l => !!l)
-      .take(1);
+    return this.store.select(fromPeerDashboardReducer.getExchangeSelectorListLoaded).pipe(
+      filter(l => !!l),
+      take(1)
+    );
   }
 
   getExchangeSelectorList(): Observable<ExchangeListItem[]> {
-    return this.store.select(fromPeerDashboardReducer.getExchangeSelectorList)
-      .take(1);
+    return this.store.select(fromPeerDashboardReducer.getExchangeSelectorList).pipe(
+      take(1)
+    );
   }
 
   getLastExchangeIdVisited(): Observable<any> {

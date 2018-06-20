@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api/peer';
@@ -24,15 +24,16 @@ export class ExchangeExistsGuard implements CanActivate {
     this.store.dispatch(new fromManageExchangeActions.LoadExchange(exchangeId));
 
     return this.exchangeApiService
-      .getExchange(exchangeId)
-      .map((exchange: Exchange) => new fromManageExchangeActions.LoadExchangeSuccess(exchange))
-      .do((action: fromManageExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action))
-      .map(() => true)
-      .catch(() => {
-        // TODO [BC]: When the route fails would rather it fall through to the wildcard route (**).
-        this.router.navigate(['/exchange-not-found']);
-        return of(false);
-      });
+      .getExchange(exchangeId).pipe(
+        map((exchange: Exchange) => new fromManageExchangeActions.LoadExchangeSuccess(exchange)),
+        tap((action: fromManageExchangeActions.LoadExchangeSuccess) => this.store.dispatch(action)),
+        map(() => true),
+        catchError(() => {
+          // TODO [BC]: When the route fails would rather it fall through to the wildcard route (**).
+          this.router.navigate(['/exchange-not-found']);
+          return of(false);
+        })
+      );
   }
 
   canActivate(route: ActivatedRouteSnapshot) {

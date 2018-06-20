@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
-import 'rxjs/add/operator/take';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
 
@@ -85,7 +85,7 @@ export class MapComponent {
       zoom: e.target.getZoom()
     };
 
-    this.peerMapInitialMapMoveComplete$.take(1).subscribe(initialMapMoveComplete => {
+    this.peerMapInitialMapMoveComplete$.pipe(take(1)).subscribe(initialMapMoveComplete => {
       if (!initialMapMoveComplete) {
         this.store.dispatch(new fromMapActions.InitialMapMoveComplete(filterVars));
       } else {
@@ -108,7 +108,7 @@ export class MapComponent {
 
   // Helper functions
   refreshMap(filterVars: any) {
-    this.canLoadPeerMap$.take(1).subscribe(canload => {
+    this.canLoadPeerMap$.pipe(take(1)).subscribe(canload => {
       if (canload) {
         this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
       }

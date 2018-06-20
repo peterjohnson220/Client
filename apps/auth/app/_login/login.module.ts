@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // Effects
 import { ForgotPasswordEffects } from './effects';
 import { FirstLoginEffects } from './effects';
+import { ResetPasswordEffects} from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -14,10 +15,11 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 // Containers
-import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponent } from './containers';
+import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponent, ResetPasswordPageComponent } from './containers';
 
 // Libs / Controls
 import { ConfirmPasswordComponent } from 'libs/forms/components/confirm-password';
+import { PfCommonUIModule } from 'libs/ui/common';
 
 // Routing
 import { LoginRoutingModule } from './login-routing.module';
@@ -31,10 +33,13 @@ import { LoginRoutingModule } from './login-routing.module';
 
     // 3rd Party
     StoreModule.forFeature('authMain', reducers),
-    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects]),
+    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects, ResetPasswordEffects]),
 
     // Routing
-    LoginRoutingModule
+    LoginRoutingModule,
+
+    // Payfactors
+    PfCommonUIModule
   ],
   declarations: [
 
@@ -42,6 +47,7 @@ import { LoginRoutingModule } from './login-routing.module';
     FirstLoginPageComponent,
     ForgotPasswordPageComponent,
     LoginPageComponent,
+    ResetPasswordPageComponent,
 
     // Controls
     ConfirmPasswordComponent

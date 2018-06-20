@@ -5,39 +5,48 @@
   </ng-container>
 
   <ng-container page-content>
-    <div class="card-group h-100 w-100">
-      <div class="card">
-        <div class="card-header">
-          Companies
-          <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
-          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeCompaniesModal()">Add Companies</button>
+    <div class="d-flex h-100 w-100">
+      <div class="inner-nav">
+        <div class="inner-nav-heading">
+          Settings
         </div>
-        <div class="card-body d-flex">
-          <pf-exchange-companies></pf-exchange-companies>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['companies']" [routerLinkActive]="['selected']">
+                <i class="fas fa-building font-a-icon"></i>
+                  Companies
+                <span *ngIf="totalExchangeCompanies$ | async as companies">{{companies}}</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['jobs']" [routerLinkActive]="['selected']">
+                <i class="fas fa-briefcase font-a-icon"></i>
+                  Jobs
+                <span *ngIf="totalExchangeJobs$ | async as jobs">{{jobs}}</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['accessrequests']" [routerLinkActive]="['selected']">
+                <i class="fas fa-unlock-alt font-a-icon"></i>
+                Access Requests
+                <span *ngIf="totalPendingExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="inner-content">
+        <div class="d-flex content-container">
+          <router-outlet></router-outlet>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">
-          Jobs
-          <!--- Transition from float-right to flex when the manage exchange view is redesigned --->
-          <button type="button" class="btn btn-sm btn-primary float-right" (click)="openAddExchangeJobsModal()">Add Jobs</button>
-          <button type="button" class="btn btn-sm btn-secondary float-right" (click)="openImportExchangeJobsModal()">Import</button>
-        </div>
-        <div class="card-body d-flex">
-          <pf-exchange-jobs></pf-exchange-jobs>
-        </div>
-      </div>
-
     </div>
   </ng-container>
 
 </pf-page-with-title-bar>
 
-<pf-import-exchange-jobs-modal
-  [exchangeId]="(exchange$ | async).ExchangeId"
-  [isOpen$]="importExchangeJobsModalOpen$"
-  (importExchangeJobsEvent)="handleImportExchangeJobs()"
-  (modalDismissedEvent)="handleImportExchangeJobsModalDismissed()">
-</pf-import-exchange-jobs-modal>
-
-<pf-add-jobs-modal></pf-add-jobs-modal>

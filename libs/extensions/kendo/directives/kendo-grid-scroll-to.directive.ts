@@ -22,7 +22,7 @@ export class KendoGridScrollToDirective implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.enabled && this.gridContent && changes.rowNumber.currentValue) {
+    if (this.enabled && this.gridContent && changes.rowNumber && changes.rowNumber.currentValue) {
       const offset = this.gridfirstRowHeight * this.rowNumber;
 
       if (this.animate) {

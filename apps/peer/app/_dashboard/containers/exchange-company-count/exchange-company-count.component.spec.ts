@@ -52,15 +52,31 @@ describe('Peer Dashboard - Exchange Job Count', () => {
     spyOn(store, 'dispatch');
   });
 
-  it('should display the company count', () => {
-    instance.chartItem = { ...generateMockChartItem(), Value: 10 };
+  it('should display the participating company count and total company count', () => {
+    instance.participatingCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
+    instance.allCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
 
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a loading company detail chart action on init', () => {
+  it('should dispatch a LoadingDetailChart action of Category "Parcipitating Companies" on participatingCompaniesCountClick', () => {
+    fixture.detectChanges();
+
+    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+      ExchangeId: 1,
+      ChartType: ExchangeChartTypeEnum.Company,
+      Category: 'Participating Companies'
+    });
+
+    instance.participatingCompaniesCountClick();
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a LoadingDetailChart action of Category "All Companies" on allCompaniesCountClick', () => {
     fixture.detectChanges();
 
     const action = new fromExchangeDashboardActions.LoadingDetailChart({
@@ -69,7 +85,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
       Category: 'All Companies'
     });
 
-    instance.companyCountClick();
+    instance.allCompaniesCountClick();
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);

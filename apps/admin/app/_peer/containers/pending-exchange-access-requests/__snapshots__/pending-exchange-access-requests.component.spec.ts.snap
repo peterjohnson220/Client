@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pending Exchange Access Requests should match snapshot 1`] = `
+<pf-pending-exchange-access-requests
+  exchangeId={[Function Number]}
+  pendingExchangeAccessRequestsGrid$={[Function Store]}
+  pendingExchangeAccessRequestsLoading$={[Function Store]}
+  pendingExchangeAccessRequestsLoadingError$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="d-flex flex-column h-100"
+  >
+    <div
+      class="d-flex justify-content-between align-items-center"
+    >
+      <pf-manage-exchange-section-header />
+    </div>
+    <div
+      class="d-flex h-100"
+    >
+      <pf-async-container
+        class="flex-grow-1"
+      >
+        <kendo-grid>
+          <kendo-grid-column
+            field="CompanyName"
+            title="Company Name"
+          />
+          <kendo-grid-column
+            field="CompanyIndustry"
+            title="Industry"
+          />
+          <kendo-grid-column
+            field="CompanyLocation"
+            title="Location"
+          />
+          <kendo-grid-column
+            field="RequestUser"
+            title="Request User"
+          />
+          <kendo-grid-column
+            field="RequestDate"
+            title="Request Date"
+          />
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+  </div>
+</pf-pending-exchange-access-requests>
+`;

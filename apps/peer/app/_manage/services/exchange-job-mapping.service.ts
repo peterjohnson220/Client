@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import * as fromPeerMainReducer from '../reducers';
 import * as fromExchangeJobMappingGridActions from '../../_manage/actions/exchange-job-mapping-grid.actions';
@@ -17,19 +18,8 @@ export class ExchangeJobMappingService {
   }
 
   loadExchangeJobMappings(exchangeId: number): void {
-    this.exchangeJobMappingsGridState$.take(1).subscribe(gridState => {
+    this.exchangeJobMappingsGridState$.pipe(take(1)).subscribe(gridState => {
       this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(
-        {
-          exchangeId: exchangeId,
-          listState: gridState
-        }
-      ));
-    });
-  }
-
-  loadExchangeJobMappingsAfterMap(exchangeId: number): void {
-    this.exchangeJobMappingsGridState$.take(1).subscribe(gridState => {
-      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsAfterMap(
         {
           exchangeId: exchangeId,
           listState: gridState

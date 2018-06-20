@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
@@ -90,5 +90,11 @@ export class ExchangeCompanyApiService {
 
   getPayfactorsJobFamilies(): Observable<string[]> {
     return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetPayfactorsJobFamilies`);
+  }
+
+  deleteExchangeJobMapping(exchangeJobToCompanyJobId: number): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMapping`,
+      exchangeJobToCompanyJobId
+      );
   }
 }

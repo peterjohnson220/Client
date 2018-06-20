@@ -11,11 +11,9 @@ import {
 } from '@angular/core';
 
 import { filter, takeUntil } from 'rxjs/operators';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
+import { fromEvent , merge , Subject } from 'rxjs';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPopoverWindow } from '@ng-bootstrap/ng-bootstrap/popover/popover';
-import { Subject } from 'rxjs/Subject';
 
 @Directive({
   selector: '[pfHandlePopoverClose][ngbPopover]'

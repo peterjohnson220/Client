@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import * as fromTimelineActivityReducer from '../../reducers';
 import * as fromTimelineActivityActions from '../../actions/timeline-activity.actions';

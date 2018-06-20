@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
@@ -60,6 +60,14 @@ export class ExchangeApiService {
 
   getExchange(exchangeId: number): Observable<Exchange> {
     return this.payfactorsApiService.get<Exchange>(`${this.endpoint}/GetExchange`, { params: { exchangeId: exchangeId } });
+  }
+
+  getPendingExchangeAccessRequests(exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingExchangeAccessRequests`, {
+        params: { exchangeId: exchangeId }
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
   }
 
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {

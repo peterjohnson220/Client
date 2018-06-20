@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/of';
+import { Observable, Subscription } from 'rxjs';
+
 
 import { TermsConditionsModel, TermsConditionsSubmissionModel } from 'libs/models';
 

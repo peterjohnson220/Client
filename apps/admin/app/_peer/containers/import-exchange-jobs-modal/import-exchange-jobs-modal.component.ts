@@ -2,8 +2,7 @@ import { Component, Input, OnInit, OnDestroy, EventEmitter, Output } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription, Observable } from 'rxjs';
 
 import { ValidateExchangeJobsRequest, ImportExchangeJobsRequest, ValidationResultItem } from 'libs/models';
 

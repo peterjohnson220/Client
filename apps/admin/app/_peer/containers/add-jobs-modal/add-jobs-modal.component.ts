@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { GridDataResult, PageChangeEvent, RowArgs, RowClassArgs } from '@progress/kendo-angular-grid';
 import { SortDescriptor, State } from '@progress/kendo-data-query';
 
@@ -54,7 +54,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridState);
     this.selections$ = this.store.select(fromPeerAdminReducer.getAvailableJobsGridSelections);
 
-    this.exchangeId = this.route.snapshot.params.id;
+    this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
   }
 
@@ -115,7 +115,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   }
 
   handleCellClick(event: any): void {
-    if (event.dataItem.InExchange) {
+    if (event.dataItem.Status != null) {
       return;
     }
     const selectedMDJobsBaseId = event.dataItem.MDJobsBaseId;
@@ -124,7 +124,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
   }
 
   rowClass(context: RowClassArgs): string {
-     return context.dataItem.InExchange ? 'row-disabled' : '';
+     return context.dataItem.Status != null ? 'row-disabled' : '';
   }
 
   // Lifecycle
@@ -152,7 +152,7 @@ export class AddJobsModalComponent implements OnInit, OnDestroy {
 
   // Helper methods
   loadAvailableJobs(): void {
-    this.gridState$.take(1).subscribe(gridState => {
+    this.gridState$.pipe(take(1)).subscribe(gridState => {
       this.store.dispatch(new fromAvailableJobsActions.LoadingAvailableJobs(
         {
           exchangeId: this.exchangeId,
