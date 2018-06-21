@@ -1,0 +1,17 @@
+.temp-outer{
+  margin: 1rem;
+  height: 350px;
+  width: 400px;
+}
+
+.temp-inner{
+  background: #eeeeee;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.temp-inner pre{
+  padding: 1rem;
+  height: 100%;
+  margin: 0;
+}

@@ -1,1 +1,1 @@
-export * from './surveys';
+export * from './add-survey-data';
