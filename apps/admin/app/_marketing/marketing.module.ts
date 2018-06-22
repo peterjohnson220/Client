@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MarketingRoutingModule } from './marketing-routing.module';
+// Third party
+import { UploadModule } from '@progress/kendo-angular-upload';
+
+// Containers
 import { MarketingImageComponent} from './containers';
 
-import { UploadModule } from '@progress/kendo-angular-upload';
+// Routing
+import { MarketingRoutingModule } from './marketing-routing.module';
+
+// Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
