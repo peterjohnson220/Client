@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Exchange } from 'libs/models/peer';
+import { GridTypeEnum } from 'libs/models';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import { GridHelperService } from '../../../services';
@@ -14,7 +16,7 @@ import { GridHelperService } from '../../../services';
   templateUrl: './manage-exchange.page.html',
   styleUrls: ['./manage-exchange.page.scss']
 })
-export class ManageExchangePageComponent implements OnInit {
+export class ManageExchangePageComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
   exchangeId: number;
   totalExchangeCompanies$: Observable<number>;
@@ -35,5 +37,10 @@ export class ManageExchangePageComponent implements OnInit {
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
     this.gridHelperService.loadPendingExchangeAccessRequests(this.exchangeId);
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanies));
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobs));
   }
 }
