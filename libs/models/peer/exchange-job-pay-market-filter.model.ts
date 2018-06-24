@@ -6,7 +6,7 @@ export interface SystemFilter {
   ExchangeId: number;
 }
 
-export function generateMockExchangeJobPayMarketFilter(): SystemFilter {
+export function generateMockSystemFilter(): SystemFilter {
   return {
     ExchangeJobIds: [1, 2, 4],
     PayMarketLocation: generateMockPayMarketLocation(),

@@ -40,6 +40,8 @@ export const getPeerMapCollection = createSelector(selectMapState, fromMapReduce
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
 export const getPeerMapMaxZoom = createSelector(selectMapState, fromMapReducer.getMaxZoom);
 export const getPeerMapInitialMapMoveComplete = createSelector(selectMapState, fromMapReducer.getInitialMapMoveComplete);
+export const getPeerMapInitialZoomLevel = createSelector(selectMapState, fromMapReducer.getInitialZoomLevel);
+export const getPeerMapCentroid = createSelector(selectMapState, fromMapReducer.getMapCentroid);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 
@@ -67,6 +69,8 @@ export const getExchangeDataCutRequestData = createSelector(
       ...fs,
       ...pmf,
       LimitToPayMarket: pfltp,
+      CompanyPayMarketId: pm ? pm.CompanyPayMarketId : null,
       PayMarketName: pm ? pm.PayMarket : null
     };
   });
+

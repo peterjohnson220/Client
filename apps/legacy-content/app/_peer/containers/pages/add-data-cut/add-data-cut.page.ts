@@ -23,6 +23,8 @@ export class AddDataCutPageComponent implements OnInit {
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
+  cutGuid: string;
+
   readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
 
   addingDataCut$: Observable<boolean>;
@@ -45,6 +47,10 @@ export class AddDataCutPageComponent implements OnInit {
     this.addDataCutPageInViewInIframe$ = this.store.select(fromAddPeerDataReducers.getAddDataCutPageInViewInIframe);
   }
 
+  get primaryButtonText(): string {
+    return this.cutGuid != null ? 'Update' : 'Add';
+  }
+
   add() {
     this.store.dispatch(new fromAddDataCutPageActions.AddingDataCut({
       CompanyJobId: this.companyJobId,
@@ -54,8 +60,18 @@ export class AddDataCutPageComponent implements OnInit {
     }));
   }
 
+  update() {
+    this.store.dispatch(new fromAddDataCutPageActions.UpdateDataCut({
+      DataCutGuid: this.cutGuid,
+      ZoomLevel: this.map ? this.map.getZoomLevel() : 0
+    }));
+  }
+
   cancel() {
-    this.store.dispatch(new fromAddDataCutPageActions.CancelAddDataCut());
+    this.store.dispatch(this.cutGuid != null ?
+      new fromAddDataCutPageActions.CancelUpdateDataCut() :
+      new fromAddDataCutPageActions.CancelAddDataCut()
+    );
   }
 
   // Lifecycle events
@@ -64,11 +80,17 @@ export class AddDataCutPageComponent implements OnInit {
     this.companyJobId = +queryParamMap.get('companyJobId') || 0;
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
+    this.cutGuid = queryParamMap.get('dataCutGuid') || null;
 
-    this.store.dispatch(new fromFilterSidebarActions.LoadSystemFilter({
-      CompanyJobId: this.companyJobId,
-      CompanyPayMarketId: this.companyPayMarketId
-    }));
+    if (this.cutGuid == null) {
+      this.store.dispatch(new fromFilterSidebarActions.LoadSystemFilter({
+        CompanyJobId: this.companyJobId,
+        CompanyPayMarketId: this.companyPayMarketId
+      }));
+    } else {
+      this.store.dispatch(new fromAddDataCutPageActions.LoadDataCutDetails(this.cutGuid));
+    }
+
   }
 
   // Add Data cut page within marketdata.asp specific code

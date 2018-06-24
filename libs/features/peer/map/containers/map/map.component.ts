@@ -30,10 +30,12 @@ export class MapComponent {
   peerMapLoading$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   peerMapBounds$: Observable<number[]>;
+  peerMapCentroid$: Observable<number[]>;
   canLoadPeerMap$: Observable<boolean>;
   peerMapShowNoData$: Observable<boolean>;
   peerMapMaxZoom$: Observable<number>;
   peerMapInitialMapMoveComplete$: Observable<boolean>;
+  peerMapInitialZoomLevel$: Observable<number>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerMapReducer.getPeerMapSummary);
@@ -46,6 +48,8 @@ export class MapComponent {
     this.peerMapShowNoData$ = this.store.select(fromPeerMapReducer.peerMapShowNoData);
     this.peerMapMaxZoom$ = this.store.select(fromPeerMapReducer.getPeerMapMaxZoom);
     this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
+    this.peerMapInitialZoomLevel$ = this.store.select(fromPeerMapReducer.getPeerMapInitialZoomLevel);
+    this.peerMapCentroid$ = this.store.select(fromPeerMapReducer.getPeerMapCentroid);
   }
 
   get center(): any {

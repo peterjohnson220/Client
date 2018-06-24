@@ -2,7 +2,7 @@
 
   <div class="filter-header">
     <pf-pay-market-bounds-filter
-      *ngIf="companyPayMarketId"
+      *ngIf="(payMarket$ | async)?.CompanyPayMarketId"
       [enabled]="limitToPayMarket$ | async"
       [payMarket]="payMarket$ | async"
       (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">

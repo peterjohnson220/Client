@@ -1,18 +1,24 @@
 import * as fromAddDataCutPageActions from '../actions/add-data-cut-page.actions';
 
-import { SystemFilter } from 'libs/models';
-
 export interface State {
   addingDataCut: boolean;
   addingDataCutError: boolean;
   pageInViewInIframe: boolean;
+  loadingDataCutDetails: boolean;
+  loadingDataCutError: boolean;
+  updatingDataCut: boolean;
+  updatingDataCutError: boolean;
 }
 
 // Initial State
 export const initialState: State = {
   addingDataCut: false,
   addingDataCutError: false,
-  pageInViewInIframe: false
+  pageInViewInIframe: false,
+  loadingDataCutDetails: false,
+  loadingDataCutError: false,
+  updatingDataCut: false,
+  updatingDataCutError: false
 };
 
 // Reducer
@@ -55,6 +61,47 @@ export function reducer(
         pageInViewInIframe: true
       };
     }
+    case fromAddDataCutPageActions.LOAD_DATA_CUT_DETAILS: {
+      return {
+        ...state,
+        loadingDataCutDetails: true,
+        loadingDataCutError: false
+      };
+    }
+    case fromAddDataCutPageActions.LOAD_DATA_CUT_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        loadingDataCutDetails: false,
+        pageInViewInIframe: true
+      };
+    }
+    case fromAddDataCutPageActions.LOAD_DATA_CUT_DETAILS_ERROR: {
+      return {
+        ...state,
+        loadingDataCutDetails: false,
+        loadingDataCutError: true
+      };
+    }
+    case fromAddDataCutPageActions.UPDATE_DATA_CUT: {
+      return {
+        ...state,
+        updatingDataCut: true,
+        updatingDataCutError: false
+      };
+    }
+    case fromAddDataCutPageActions.UPDATE_DATA_CUT_SUCCESS: {
+      return {
+        ...state,
+        updatingDataCut: false
+      };
+    }
+    case fromAddDataCutPageActions.UPDATE_DATA_CUT_ERROR: {
+      return {
+        ...state,
+        updatingDataCut: false,
+        updatingDataCutError: true
+      };
+    }
     default: {
       return state;
     }
@@ -65,3 +112,5 @@ export function reducer(
 export const getAddingDataCut = (state: State) => state.addingDataCut;
 export const getAddingDataCutError = (state: State) => state.addingDataCutError;
 export const getPageInViewInIframe = (state: State) => state.pageInViewInIframe;
+export const getLoadingDataCutDetails = (state: State) => state.loadingDataCutDetails;
+export const getLoadingDataCutDetailsError = (state: State) => state.loadingDataCutError;
