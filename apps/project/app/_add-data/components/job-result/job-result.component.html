@@ -1,0 +1,9 @@
+<ul *ngIf="job" class="list-group list-group-flush">
+  <li class="list-group-item pt-0 pl-0">
+    <h5 class="card-title pf-title">{{job.Title}}</h5>
+    <h6 class="card-subtitle text-muted">{{job.SurveyName}}</h6>
+    <div *ngIf="!job.IsPayfactors" class="button-container">
+      <button type="button" class="btn btn-link pl-0 link-button" (click)="toggleDataCutsDisplay()">{{toggleDataCutsLabel}}</button>
+    </div>
+  </li>
+</ul>

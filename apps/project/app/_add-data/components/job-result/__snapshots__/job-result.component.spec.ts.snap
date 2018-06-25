@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Add Data - Job Result should display Show Cuts button when current job is not Payfactors 1`] = `
+<pf-job-result
+  hideCutsLabel={[Function String]}
+  job={[Function Object]}
+  showCutsLabel={[Function String]}
+  showDataCuts="false"
+  toggleDataCutsLabel={[Function String]}
+>
+  <ul
+    class="list-group list-group-flush"
+  >
+    <li
+      class="list-group-item pt-0 pl-0"
+    >
+      <h5
+        class="card-title pf-title"
+      >
+        Accountant I
+      </h5>
+      <h6
+        class="card-subtitle text-muted"
+      >
+        AHON - Accounting and Finance
+      </h6>
+      
+      <div
+        class="button-container"
+      >
+        <button
+          class="btn btn-link pl-0 link-button"
+          type="button"
+        >
+          Show Cuts
+        </button>
+      </div>
+    </li>
+  </ul>
+</pf-job-result>
+`;
+
+exports[`Project - Add Data - Job Result should hide Show Cuts button when the current job is Payfactors 1`] = `
+<pf-job-result
+  hideCutsLabel={[Function String]}
+  job={[Function Object]}
+  showCutsLabel={[Function String]}
+  showDataCuts={[Function Boolean]}
+  toggleDataCutsLabel={[Function String]}
+>
+  <ul
+    class="list-group list-group-flush"
+  >
+    <li
+      class="list-group-item pt-0 pl-0"
+    >
+      <h5
+        class="card-title pf-title"
+      >
+        Accountant II
+      </h5>
+      <h6
+        class="card-subtitle text-muted"
+      >
+        PayFactors
+      </h6>
+      
+    </li>
+  </ul>
+</pf-job-result>
+`;
