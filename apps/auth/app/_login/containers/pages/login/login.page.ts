@@ -18,7 +18,7 @@ export class LoginPageComponent implements OnInit {
   gettingMarketingImageError$: Observable<boolean>;
   gettingMarketingImageSuccess$: Observable<boolean>;
   imageLocation: string; // 'assets/images/MarketingPlaceholder.PNG';
-  redirectUlr: string;
+  redirectUrl: string;
 
   constructor(public store: Store<fromMarketingReducer.State>) {
     this.marketingImage$ = this.store.select(fromMarketingReducer.getMarketingImage);
@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
       this.marketingImage$.subscribe(image => {
         if ( image ) {
           this.imageLocation = image.Location;
-          this.redirectUlr = image.RedirectUrl;
+          this.redirectUrl = image.RedirectUrl;
         }
       }
     );

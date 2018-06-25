@@ -1,10 +1,10 @@
 <div class="d-flex flex-row">
   <div class="p-2">
     <div *ngIf="imageLocation">
-      <a *ngIf="redirectUlr" href="//{{redirectUlr}}">
+      <a *ngIf="redirectUrl" href="{{redirectUrl}}">
         <img [src]="imageLocation" class="image-container" />
       </a>
-      <img *ngIf="!redirectUlr" [src]="imageLocation" class="image-container" />
+      <img *ngIf="!redirectUrl" [src]="imageLocation" class="image-container" />
     </div>
   </div>
   <div class="p-2">
