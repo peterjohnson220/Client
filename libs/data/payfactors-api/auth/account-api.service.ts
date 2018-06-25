@@ -28,4 +28,8 @@ export class AccountApiService {
   updatePassword(password: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.CreateFirstTimePassword`, {password: password});
   }
+
+  login(loginParms: any): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.Login`, loginParms );
+  }
 }

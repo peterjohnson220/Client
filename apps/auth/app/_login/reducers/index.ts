@@ -8,6 +8,7 @@ import * as fromForgotPasswordReducer from './forgot-password.reducer';
 import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromMarketingReducer from './marketing-image.reducer';
+import * as fromLoginReducer from './login.reducer';
 
 // Feature area state
 export interface AuthMainState {
@@ -15,6 +16,7 @@ export interface AuthMainState {
   resetPassword: fromResetPasswordReducer.State;
   firstLogin: fromFirstLoginReducer.State;
   marketingImage: fromMarketingReducer.State;
+  login: fromLoginReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   forgotPassword: fromForgotPasswordReducer.reducer,
   resetPassword: fromResetPasswordReducer.reducer,
   firstLogin: fromFirstLoginReducer.reducer,
-  marketingImage: fromMarketingReducer.reducer
+  marketingImage: fromMarketingReducer.reducer,
+  login: fromLoginReducer.reducer
 };
 
 // Select Feature Area
@@ -92,3 +95,13 @@ export const getGettingMarketingImageError =
 export const getGettingMarketingImageSuccess =
   createSelector(getMarketingState, fromMarketingReducer.getGettingMarketingImageSuccess);
 
+// login
+export const loginState =
+  createSelector(selectAuthMainState, (state: AuthMainState) => state.login);
+
+export const getLogin =
+  createSelector(loginState, fromLoginReducer.getLogin);
+export const getLoginSuccess =
+  createSelector(loginState, fromLoginReducer.getLoginSuccess);
+export const getLoginError =
+  createSelector(loginState, fromLoginReducer.getLoginError);

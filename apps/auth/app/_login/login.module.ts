@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordEffects, MarketingImageEffects } from './effects';
 import { FirstLoginEffects } from './effects';
 import { ResetPasswordEffects} from './effects';
+import { LoginEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -37,7 +38,7 @@ import { MarketingApiService } from 'libs/data/payfactors-api/marketing/marketin
 
     // 3rd Party
     StoreModule.forFeature('authMain', reducers),
-    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects, ResetPasswordEffects, MarketingImageEffects]),
+    EffectsModule.forFeature([FirstLoginEffects, ForgotPasswordEffects, ResetPasswordEffects, LoginEffects, MarketingImageEffects]),
 
     // Routing
     LoginRoutingModule,
