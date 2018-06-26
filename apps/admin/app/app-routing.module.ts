@@ -19,6 +19,7 @@ export const routes: Routes = [
         loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule'
       },
       { path: 'marketing', loadChildren: 'apps/admin/app/_marketing/marketing.module#MarketingModule' },
+      { path: 'community', loadChildren: 'apps/admin/app/_community/community.module#CommunityModule' },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }
