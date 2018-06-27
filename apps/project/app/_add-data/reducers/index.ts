@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
+import * as fromSearchResultsReducer from './search-results.reducer';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
+  searchResults: fromSearchResultsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,7 +20,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  addSurveyDataPage: fromAddSurveyDataPageReducer.reducer
+  addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
+  searchResults: fromSearchResultsReducer.reducer
 };
 
 // Select Feature Area
@@ -28,6 +31,11 @@ export const selectFeatureAreaState = createFeatureSelector<AddDataState>('proje
 export const selectAddSurveyDataPageState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.addSurveyDataPage
+);
+
+export const selectSearchResultsState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.searchResults
 );
 
 // Add Survey Data Page Selectors
@@ -44,4 +52,20 @@ export const getFilters = createSelector(
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getJobContext
+);
+
+// Search Results Selectors
+export const getResults = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getResults
+);
+
+export const getLoadingResults = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getLoadingResults
+);
+
+export const getLoadingMoreResults = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getLoadingMoreResults
 );

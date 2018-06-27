@@ -1,0 +1,26 @@
+<div class="results-header">
+  <table>
+    <thead>
+      <tr>
+        <th class="growing-cell text-center">Title</th>
+        <th class="fixed-cell">Country</th>
+        <th class="fixed-cell">Weighting</th>
+        <th class="fixed-cell">Base 50th</th>
+        <th class="fixed-cell">TCC 50th</th>
+        <th class="fixed-cell">Matches</th>
+      </tr>
+    </thead>
+  </table>
+</div>
+
+<div class="results" infinite-scroll (scrolled)="onScroll()" [scrollWindow]="false" [infiniteScrollDistance]="3">
+  <table>
+    <tbody>
+      <tr *ngFor="let jobResult of jobResults$ | async" pf-job-result [job]="jobResult"></tr>
+
+      <tr class="loading-more-row" *ngIf="loadingMoreResults">
+        <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

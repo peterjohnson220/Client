@@ -1,71 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Project - Add Data - Job Result should display Show Cuts button when current job is not Payfactors 1`] = `
-<pf-job-result
+exports[`Project - Add Data - Job Result should display Show Cuts link when current job is not Payfactors 1`] = `
+<div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   toggleDataCutsLabel={[Function String]}
 >
-  <ul
-    class="list-group list-group-flush"
+  <td
+    class="growing-cell"
   >
-    <li
-      class="list-group-item pt-0 pl-0"
+    <div
+      class="job-title"
     >
-      <h5
-        class="card-title pf-title"
-      >
-        Accountant I
-      </h5>
-      <h6
-        class="card-subtitle text-muted"
-      >
-        AHON - Accounting and Finance
-      </h6>
-      
-      <div
-        class="button-container"
-      >
-        <button
-          class="btn btn-link pl-0 link-button"
-          type="button"
-        >
-          Show Cuts
-        </button>
-      </div>
-    </li>
-  </ul>
-</pf-job-result>
+      Blend of Gas Operations Top Executive-Corporate, G (13001)
+    </div>
+    <div
+      class="vendor"
+    >
+       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry 
+    </div>
+    
+    <span
+      class="link"
+    >
+       Show Cuts 
+    </span>
+  </td><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  />
+</div>
 `;
 
-exports[`Project - Add Data - Job Result should hide Show Cuts button when the current job is Payfactors 1`] = `
-<pf-job-result
+exports[`Project - Add Data - Job Result should hide Show Cuts link when the current job is Payfactors 1`] = `
+<div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   toggleDataCutsLabel={[Function String]}
 >
-  <ul
-    class="list-group list-group-flush"
+  <td
+    class="growing-cell"
   >
-    <li
-      class="list-group-item pt-0 pl-0"
+    <div
+      class="job-title"
     >
-      <h5
-        class="card-title pf-title"
-      >
-        Accountant II
-      </h5>
-      <h6
-        class="card-subtitle text-muted"
-      >
-        PayFactors
-      </h6>
-      
-    </li>
-  </ul>
-</pf-job-result>
+      Accountant II (1002)
+    </div>
+    <div
+      class="vendor"
+    >
+       Payfactors effective date June 1, 2018 - PayFactors 
+    </div>
+    
+  </td><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  /><td
+    class="fixed-cell"
+  />
+</div>
 `;

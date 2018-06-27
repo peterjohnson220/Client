@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Add Data - Search Results should show a table row with a loading indicator, when loading more results 1`] = `
+<pf-search-results
+  jobResults$={[Function Store]}
+  loadingMoreResults={[Function Boolean]}
+  loadingMoreResults$={[Function Store]}
+  loadingMoreResultsSub={[Function Subscriber]}
+  loadingResults$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="results-header"
+  >
+    <table>
+      <thead>
+        <tr>
+          <th
+            class="growing-cell text-center"
+          >
+            Title
+          </th>
+          <th
+            class="fixed-cell"
+          >
+            Country
+          </th>
+          <th
+            class="fixed-cell"
+          >
+            Weighting
+          </th>
+          <th
+            class="fixed-cell"
+          >
+            Base 50th
+          </th>
+          <th
+            class="fixed-cell"
+          >
+            TCC 50th
+          </th>
+          <th
+            class="fixed-cell"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+    </table>
+  </div><div
+    class="results"
+    infinite-scroll=""
+  >
+    <table>
+      <tbody>
+        
+        
+        <tr
+          class="loading-more-row"
+        >
+          <td
+            colspan="6"
+          >
+            <pf-loading-indicator />
+             Loading More Results...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-search-results>
+`;

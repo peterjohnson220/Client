@@ -1,7 +1,15 @@
-.pf-title {
-  color: #0883BE;
+@import 'colors';
+
+:host{
+  border-bottom: 1px solid #eeeeee;
 }
 
-.link-button {
-  text-decoration: underline;
+.job-title{
+  color: #006699;
+  font-weight: bold;
+}
+
+.link{
+  color: $link-color;
+  cursor: pointer;
 }

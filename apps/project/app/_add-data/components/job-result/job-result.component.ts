@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { JobResult } from '../../../models';
+import { JobResult } from '../../models';
 
 @Component({
-  selector: 'pf-job-result',
+  // The job result table row needs to be an immediate child of the tbody.
+  // this component will be used through an attribute selector.
+  // tslint:disable-next-line
+  selector: '[pf-job-result]',
   templateUrl: './job-result.component.html',
   styleUrls: ['./job-result.component.scss']
 })
