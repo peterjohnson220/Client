@@ -13,10 +13,12 @@ import { PfPeerExchangeListModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent,
-         ManageExchangeSectionHeaderComponent, PendingExchangeAccessRequestsComponent } from './containers';
+         ManageExchangeSectionHeaderComponent, PendingExchangeAccessRequestsComponent,
+         PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
-  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, PendingExchangeAccessRequestsEffects
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, PendingExchangeAccessRequestsEffects,
+  PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -42,7 +44,9 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
       AvailableCompaniesEffects,
       ExchangeJobsEffects,
       AvailableJobsEffects,
-      PendingExchangeAccessRequestsEffects
+      PendingExchangeAccessRequestsEffects,
+      PayfactorsCompanyExchangeInvitationsEffects,
+      NewCompanyExchangeInvitationsEffects
     ]),
 
     // Routing
@@ -64,6 +68,8 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
     AddJobsModalComponent,
     ManageExchangeSectionHeaderComponent,
     PendingExchangeAccessRequestsComponent,
+    PayfactorsCompanyExchangeInvitationsComponent,
+    NewCompanyExchangeInvitationsComponent,
 
     // Pages
     ExchangeListPageComponent,

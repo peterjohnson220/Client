@@ -41,7 +41,9 @@ describe('Manage Exchange Page', () => {
           provide: GridHelperService,
           useValue: { loadExchangeJobs: jest.fn(),
                       loadExchangeCompanies: jest.fn(),
-                      loadPendingExchangeAccessRequests: jest.fn()}
+                      loadPendingExchangeAccessRequests: jest.fn(),
+                      loadPayfactorsCompanyExchangeInvitations: jest.fn(),
+                      loadNewCompanyExchangeInvitations: jest.fn()}
         }
       ],
       // Shallow Testing
@@ -68,16 +70,21 @@ describe('Manage Exchange Page', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a loadExchangeJobs and loadExchangeCompanies action with the exchange id on init', () => {
+  it('should dispatch a loadExchangeJobs, loadExchangeCompanies, loadPendingExchangeAccessRequests,' +
+    'loadPayfactorsCompanyExchangeInvitations and loadNewCompanyExchangeInvitations action with exchange id on init', () => {
     instance.exchange$ = of(generateMockExchange());
     spyOn(gridHelperService, 'loadExchangeJobs');
     spyOn(gridHelperService, 'loadExchangeCompanies');
     spyOn(gridHelperService, 'loadPendingExchangeAccessRequests');
+    spyOn(gridHelperService, 'loadPayfactorsCompanyExchangeInvitations');
+    spyOn(gridHelperService, 'loadNewCompanyExchangeInvitations');
 
     fixture.detectChanges();
 
     expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadPendingExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadPayfactorsCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadNewCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
   });
 });

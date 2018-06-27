@@ -1,0 +1,49 @@
+<div class="d-flex flex-column h-100">
+  <div class="d-flex justify-content-between align-items-center">
+    <pf-manage-exchange-section-header
+      [sectionTitle]="'New Company Referrals'"
+      [sectionDescription]="'Listed in the grid below are new companies that have been invited to join this exchange.'"
+    >
+    </pf-manage-exchange-section-header>
+  </div>
+  <div class="d-flex h-100">
+    <pf-async-container
+      [loading]="newCompanyExchangeInvitationsLoading$ | async"
+      [loadingError]="newCompanyExchangeInvitationsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading new company exchange invitations'"
+      (reload)="handleNewCompanyExchangeInvitationsGridReload()"
+      class="flex-grow-1"
+    >
+
+      <kendo-grid
+        [data]="newCompanyExchangeInvitationsGrid$ | async"
+        [scrollable]="true"
+      >
+
+        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+
+        <kendo-grid-column field="CompanyIndustry" title="Industry"></kendo-grid-column>
+
+        <kendo-grid-column field="ContactName" title="Contact Name"></kendo-grid-column>
+
+        <kendo-grid-column field="ContactEmailAddress" title="Contact Email Address"></kendo-grid-column>
+
+        <kendo-grid-column field="ContactJobTitle" title="Contact Job Title"></kendo-grid-column>
+
+        <kendo-grid-column field="ContactPhoneNumber" title="Contact Phone Number"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestCompany" title="Request Company"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestDate" title="Request Date">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.RequestDate | date:'short' }}
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+  </div>
+</div>
