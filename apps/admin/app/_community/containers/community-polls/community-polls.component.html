@@ -1,0 +1,38 @@
+<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'" >
+  <ng-container page-title>
+    Community Polls
+  </ng-container>
+
+  <ng-container page-actions>
+    <button class="btn btn-secondary" type="submit" (click)="addClicked()">Add</button>
+  </ng-container>
+  
+  <ng-container page-content>
+    <kendo-grid
+        [data]="gridData"
+        [scrollable]="true">
+
+        <kendo-grid-column field="Question" title="Question" [headerClass]="'font-weight-bold'"></kendo-grid-column>
+        <kendo-grid-column field="DatePosted" title="Date Posted" [headerClass]="'font-weight-bold'" >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.DatePosted | date:'MM/dd/yyyy' }}
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="NumberOfResponses" title="Responses" [headerClass]="'font-weight-bold'"></kendo-grid-column>
+        
+       <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'">
+          <ng-template kendoGridCellTemplate 
+          let-dataItem="dataItem">
+          <kendo-dropdownlist  class="w-100 border" 
+            [data]="CommunityPollStatuses"
+            textField="StatusName"
+            valueField="StatusValue"
+            [valuePrimitive]="true"
+            [value]="dataItem.Status">
+          </kendo-dropdownlist>
+        </ng-template>
+
+        </kendo-grid-column>
+      </kendo-grid>
+    </ng-container>
+</pf-page-with-title-bar>  
