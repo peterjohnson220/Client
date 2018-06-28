@@ -16,3 +16,4 @@ export * from './pay-market-location.model';
 export * from './exchange-chart-type.enum';
 export * from './exchange-job-comparison.model';
 export * from './pending-exchange-access-requests-info.model';
+export * from './exchange-status.enum';
