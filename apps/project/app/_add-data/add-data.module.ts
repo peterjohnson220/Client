@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AddSurveyDataPageComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';
-import { JobResultComponent } from './components';
+import { JobResultComponent, DataCutsComponent } from './components';
 import { reducers } from './reducers';
 import { AddDataRoutingModule } from './add-data-routing.module';
 
@@ -25,7 +25,8 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   declarations: [
     // Pages
     AddSurveyDataPageComponent,
-    JobResultComponent
+    JobResultComponent,
+    DataCutsComponent
   ]
 })
 export class AddDataModule { }
