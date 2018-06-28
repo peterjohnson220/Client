@@ -8,9 +8,6 @@ import { NavigationLink, UserContext, HomePageLink } from 'libs/models';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  payfactorsLogo = './assets/payfactors-transparent.png';
-  hcsLogo = './assets/hcs_powered_by_payfactors.png';
-
   @Input() gettingDropDownNavigationLinks: boolean;
   @Input() gettingDropdownNavigationLinksError: boolean;
 
@@ -19,11 +16,4 @@ export class HeaderComponent {
   @Input() homePageLink: HomePageLink;
 
   constructor() {}
-
-  getHeaderLogo(systemUserGroupName: string) {
-      if (systemUserGroupName === 'HealthcareSource') {
-        return this.hcsLogo;
-      }
-      return this.payfactorsLogo;
-  }
 }
