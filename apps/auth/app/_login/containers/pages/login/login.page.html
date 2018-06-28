@@ -8,26 +8,38 @@
     </div>
   </div>
   <div class="p-2">
-    <div class="d-flex flex-column p-5 h-100 justify-content-center">
-      <div class="pb-1 text-uppercase font-weight-bold">
-        Email Address
-      </div>
-      <div class="pb-3">
-        <input type="email" class="login-input">
-      </div>
-      <div class="pb-1 text-uppercase font-weight-bold">
-        Password
-      </div>
-      <div class="pb-4">
-        <input type="password" class="login-input">
-      </div>
-      <div class="pb-1 d-flex align-self-center">
-        <button class="btn login-button"> LOG IN
-        </button>
-      </div>
-      <div class="p-0 d-flex align-self-center">
-        <a href="forgot-password">Forgot Password?</a>
-      </div>
-    </div>
+    <form class="h-100" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="d-flex flex-column p-5 h-100 justify-content-center">
+          <p *ngIf="loginError$ | async" class="alert-danger error-container text-center p-3">
+            The email and password combination that you've entered is incorrect.
+          </p>
+          <div class="pb-1 text-uppercase font-weight-bold">
+                Email Address
+          </div>
+          <div class="form-group pb-3">
+            <input type="email"
+                   class="form-group login-input"
+                   formControlName="email">
+          </div>
+          <div class="pb-1 text-uppercase font-weight-bold">
+            Password
+          </div>
+          <div class="form-group pb-4">
+            <input type="password"
+                   id="password"
+                   name="password"
+                   formControlName="password"
+                   class="form-control login-input">
+          </div>
+          <div class="pb-1 d-flex align-self-center">
+            <button type="submit" class="btn login-button" [disabled]="(loginForm.invalid && !submitted) || (login$ | async)"> LOG IN
+            </button>
+          </div>
+          <div class="p-0 d-flex align-self-center">
+            <a href="forgot-password">Forgot Password?</a>
+          </div>
+        </div>
+
+    </form>
   </div>
 </div>

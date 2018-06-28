@@ -7,13 +7,13 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
 import { UserApiService } from 'libs/data/payfactors-api/user/user-api.service';
+import { environment } from 'environments/environment';
+
 
 import * as fromFirstLoginAction from '../actions/first-login.action';
 
 @Injectable()
 export class FirstLoginEffects {
-  defaultHomePage =  `/client/dashboard`;
-
   @Effect()
   validatingFirstTimeLogin: Observable<Action> = this.actions$
     .ofType(fromFirstLoginAction.VALIDATE_FIRST_LOGIN).pipe(
@@ -50,7 +50,7 @@ export class FirstLoginEffects {
     if (url !== undefined && url != null) {
      window.location.href = url;
     } else {
-     window.location.href = this.defaultHomePage;
+     window.location.href = environment.defaultHomePage;
     }
   }
 
