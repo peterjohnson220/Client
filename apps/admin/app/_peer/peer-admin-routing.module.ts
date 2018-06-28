@@ -5,7 +5,8 @@ import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { PfAdminGuard } from 'libs/security/guards';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
-         PendingExchangeAccessRequestsComponent} from './containers';
+         PendingExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
+         NewCompanyExchangeInvitationsComponent } from './containers';
 import { ExchangeExistsGuard } from './guards';
 
 const routes: Routes = [
@@ -16,7 +17,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'companies', pathMatch: 'full' },
       { path: 'companies', component: ExchangeCompaniesComponent },
       { path: 'jobs', component: ExchangeJobsComponent },
-      { path: 'accessrequests', component: PendingExchangeAccessRequestsComponent }
+      { path: 'accessrequests', component: PendingExchangeAccessRequestsComponent },
+      { path: 'companyinvitations', component: PayfactorsCompanyExchangeInvitationsComponent },
+      { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent }
     ]
   },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },

@@ -5,3 +5,5 @@ export * from './pages';
 export * from './exchange-jobs';
 export * from './manage-exchange-section-header';
 export * from './pending-exchange-access-requests';
+export * from './payfactors-company-exchange-invitations';
+export * from './new-company-exchange-invitations';

@@ -70,6 +70,22 @@ export class ExchangeApiService {
     );
   }
 
+  getPendingPayfactorsCompanyExchangeInvitations(exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingPayfactorsCompanyExchangeInvitations`, {
+        params: { exchangeId: exchangeId }
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  getPendingNewCompanyExchangeInvitations(exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingNewCompanyExchangeInvitations`, {
+        params: { exchangeId: exchangeId }
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetExchangeJobs`, {
         params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}

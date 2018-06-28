@@ -17,3 +17,6 @@ export * from './exchange-chart-type.enum';
 export * from './exchange-job-comparison.model';
 export * from './pending-exchange-access-requests-info.model';
 export * from './exchange-status.enum';
+export * from './exchange-invitation.model';
+export * from './payfactors-company-exchange-invitation.model';
+export * from './new-company-exchange-invitation.model';

@@ -22,6 +22,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   totalExchangeCompanies$: Observable<number>;
   totalExchangeJobs$: Observable<number>;
   totalPendingExchangeAccessRequests$: Observable<number>;
+  totalPayfactorsCompanyExchangeInvitations$: Observable<number>;
+  totalNewCompanyExchangeInvitations$: Observable<number>;
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -31,12 +33,16 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.totalExchangeCompanies$ = this.store.select(fromPeerAdminReducer.getTotalExchangeCompanies);
     this.totalExchangeJobs$ = this.store.select(fromPeerAdminReducer.getTotalExchangeJobs);
     this.totalPendingExchangeAccessRequests$ = this.store.select(fromPeerAdminReducer.getTotalPendingExchangeAccessRequests);
+    this.totalPayfactorsCompanyExchangeInvitations$ = this.store.select(fromPeerAdminReducer.getTotalPayfactorsCompanyExchangeInvitations);
+    this.totalNewCompanyExchangeInvitations$ = this.store.select(fromPeerAdminReducer.getTotalNewCompanyExchangeInvitations);
   }
 
   ngOnInit() {
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
     this.gridHelperService.loadPendingExchangeAccessRequests(this.exchangeId);
+    this.gridHelperService.loadPayfactorsCompanyExchangeInvitations(this.exchangeId);
+    this.gridHelperService.loadNewCompanyExchangeInvitations(this.exchangeId);
   }
 
   ngOnDestroy() {

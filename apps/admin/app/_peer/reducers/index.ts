@@ -13,6 +13,8 @@ import * as fromAvailableCompaniesReducer from './available-companies.reducer';
 import * as fromExchangeJobsReducer from './exchange-jobs.reducer';
 import * as fromAvailableJobsReducer from './available-jobs.reducer';
 import * as fromPendingExchangeAccessRequestsReducer from './pending-exchange-access-requests.reducer';
+import * as fromPayfactorsCompanyExchangeInvitationsReducer from './payfactors-company-exchange-invitations.reducer';
+import * as fromNewCompanyExchangeInvitationsReducer from './new-company-exchange-invitations.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -23,6 +25,8 @@ export interface PeerAdminState {
   availableJobs: IFeatureGridState<fromAvailableJobsReducer.State>;
   exchangeJobs: IFeatureGridState<fromExchangeJobsReducer.State>;
   pendingExchangeAccessRequests: IFeatureGridState<fromPendingExchangeAccessRequestsReducer.State>;
+  payfactorsCompanyExchangeInvitations: IFeatureGridState<fromPayfactorsCompanyExchangeInvitationsReducer.State>;
+  newCompanyExchangeInvitations: IFeatureGridState<fromNewCompanyExchangeInvitationsReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -38,7 +42,9 @@ export const reducers = {
   availableCompanies: fromAvailableCompaniesReducer.reducer,
   exchangeJobs: fromExchangeJobsReducer.reducer,
   availableJobs: fromAvailableJobsReducer.reducer,
-  pendingExchangeAccessRequests: fromPendingExchangeAccessRequestsReducer.reducer
+  pendingExchangeAccessRequests: fromPendingExchangeAccessRequestsReducer.reducer,
+  payfactorsCompanyExchangeInvitations: fromPayfactorsCompanyExchangeInvitationsReducer.reducer,
+  newCompanyExchangeInvitations: fromNewCompanyExchangeInvitationsReducer.reducer
 };
 
 // Select Feature Area
@@ -53,6 +59,10 @@ export const selectAvailableCompaniesState = createSelector(selectPeerAdminState
 export const selectAvailableJobsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.availableJobs);
 export const selectPendingExchangeAccessRequestsState =
   createSelector(selectPeerAdminState, (state: PeerAdminState) => state.pendingExchangeAccessRequests);
+export const selectPayfactorsCompanyExchangeInvitationsState =
+  createSelector(selectPeerAdminState, (state: PeerAdminState) => state.payfactorsCompanyExchangeInvitations);
+export const selectNewCompanyExchangeInvitationsState =
+  createSelector(selectPeerAdminState, (state: PeerAdminState) => state.newCompanyExchangeInvitations);
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
@@ -303,6 +313,66 @@ export const getTotalPendingExchangeAccessRequests = createSelector(
 export const getPendingExchangeAccessRequestsGrid = createSelector(
   getPendingExchangeAccessRequests,
   getTotalPendingExchangeAccessRequests,
+  (data, total) => {
+    return {data: data, total: total};
+  }
+);
+
+// Payfactors Company Exchange Invitation Selectors
+export const selectPayfactorsCompanyExchangeInvitationsFeatureState = createSelector(
+  selectPayfactorsCompanyExchangeInvitationsState,
+  (state: IFeatureGridState<fromPayfactorsCompanyExchangeInvitationsReducer.State>) => state.feature
+);
+
+export const {
+  selectAll: getPayfactorsCompanyExchangeInvitations
+} = fromPayfactorsCompanyExchangeInvitationsReducer.adapter.getSelectors(selectPayfactorsCompanyExchangeInvitationsFeatureState);
+
+export const getPayfactorsCompanyExchangeInvitationsLoading = createSelector(
+  selectPayfactorsCompanyExchangeInvitationsFeatureState, fromPayfactorsCompanyExchangeInvitationsReducer.getLoading
+);
+
+export const getPayfactorsCompanyExchangeInvitationsLoadingError = createSelector(
+  selectPayfactorsCompanyExchangeInvitationsFeatureState, fromPayfactorsCompanyExchangeInvitationsReducer.getLoadingError
+);
+
+export const getTotalPayfactorsCompanyExchangeInvitations = createSelector(
+  selectPayfactorsCompanyExchangeInvitationsFeatureState, fromPayfactorsCompanyExchangeInvitationsReducer.getTotal
+);
+
+export const getPayfactorsCompanyExchangeInvitationsGrid = createSelector(
+  getPayfactorsCompanyExchangeInvitations,
+  getTotalPayfactorsCompanyExchangeInvitations,
+  (data, total) => {
+    return {data: data, total: total};
+  }
+);
+
+// New Company Exchange Invitation Selectors
+export const selectNewCompanyExchangeInvitationsFeatureState = createSelector(
+  selectNewCompanyExchangeInvitationsState,
+  (state: IFeatureGridState<fromNewCompanyExchangeInvitationsReducer.State>) => state.feature
+);
+
+export const {
+  selectAll: getNewCompanyExchangeInvitations
+} = fromNewCompanyExchangeInvitationsReducer.adapter.getSelectors(selectNewCompanyExchangeInvitationsFeatureState);
+
+export const getNewCompanyExchangeInvitationsLoading = createSelector(
+  selectNewCompanyExchangeInvitationsFeatureState, fromNewCompanyExchangeInvitationsReducer.getLoading
+);
+
+export const getNewCompanyExchangeInvitationsLoadingError = createSelector(
+  selectNewCompanyExchangeInvitationsFeatureState, fromNewCompanyExchangeInvitationsReducer.getLoadingError
+);
+
+export const getTotalNewCompanyExchangeInvitations = createSelector(
+  selectNewCompanyExchangeInvitationsFeatureState, fromNewCompanyExchangeInvitationsReducer.getTotal
+);
+
+export const getNewCompanyExchangeInvitationsGrid = createSelector(
+  getNewCompanyExchangeInvitations,
+  getTotalNewCompanyExchangeInvitations,
   (data, total) => {
     return {data: data, total: total};
   }

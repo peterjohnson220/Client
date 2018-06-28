@@ -38,6 +38,24 @@
               </a>
             </div>
           </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['companyinvitations']" [routerLinkActive]="['selected']">
+                <i class="fas fa-envelope font-a-icon"></i>
+                Company Invitations
+                <span *ngIf="totalPayfactorsCompanyExchangeInvitations$ | async as companyInvitations">{{ companyInvitations }}</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['companyreferrals']" [routerLinkActive]="['selected']">
+                <i class="fa fa-address-card font-a-icon" aria-hidden="true"></i>
+                Company Referrals
+                <span *ngIf="totalNewCompanyExchangeInvitations$ | async as companyReferrals">{{ companyReferrals }}</span>
+              </a>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="inner-content">
