@@ -21,7 +21,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   gettingMarketingImage$: Observable<boolean>;
   gettingMarketingImageError$: Observable<boolean>;
   gettingMarketingImageSuccess$: Observable<boolean>;
-  imageLocation: string; // 'assets/images/MarketingPlaceholder.PNG';
+  imageLocation: string;
   redirectUrl: string;
   loginForm: FormGroup;
   loginLogo = 'assets/images/MarketingPlaceholder.PNG';
