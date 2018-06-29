@@ -23,7 +23,19 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
     <div
       class="p-2"
     >
-      
+      <div
+        class="image-container"
+      >
+        
+        
+        
+        <img
+          class="image-container"
+          src="null"
+        />
+        
+        
+      </div>
     </div>
     <div
       class="p-2"
@@ -53,6 +65,8 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
             <input
               class="form-group login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="email"
+              id="email"
+              name="email"
               ng-reflect-name="email"
               type="email"
             />
@@ -124,7 +138,19 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
     <div
       class="p-2"
     >
-      
+      <div
+        class="image-container"
+      >
+        
+        
+        
+        <img
+          class="image-container"
+          src="null"
+        />
+        
+        
+      </div>
     </div>
     <div
       class="p-2"
@@ -149,6 +175,8 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
             <input
               class="form-group login-input ng-untouched ng-pristine ng-invalid"
               formcontrolname="email"
+              id="email"
+              name="email"
               ng-reflect-name="email"
               type="email"
             />
