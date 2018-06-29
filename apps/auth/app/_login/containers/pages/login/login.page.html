@@ -22,7 +22,9 @@
                 Email Address
           </div>
           <div class="form-group pb-3">
-            <input type="email"
+            <input id="email"
+                   name="email"
+                   type="email"
                    class="form-group login-input"
                    formControlName="email">
           </div>
@@ -30,11 +32,11 @@
             Password
           </div>
           <div class="form-group pb-4">
-            <input type="password"
-                   id="password"
+            <input id="password"
                    name="password"
-                   formControlName="password"
-                   class="form-control login-input">
+                   type="password"
+                   class="form-control login-input"
+                   formControlName="password">
           </div>
           <div class="pb-1 d-flex align-self-center">
             <button type="submit" class="btn login-button" [disabled]="(loginForm.invalid && !submitted) || (login$ | async)"> LOG IN
