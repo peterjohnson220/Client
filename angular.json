@@ -911,7 +911,8 @@
               "apps/project/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {

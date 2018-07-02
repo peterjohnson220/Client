@@ -1,0 +1,41 @@
+.results-header{
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  border: 1px solid #DDDDDD;
+  font-weight: bold;
+  background-color: #F0F0F0;
+  display: flex;
+  align-items: center;
+}
+
+.results-header table{
+  table-layout: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.results{
+  position: absolute;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  width: 100%;
+  top:30px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow-y: auto;
+}
+
+.results table{
+  table-layout: fixed;
+  width: 100%;
+}
+
+
+.loading-more-row{
+  height: 50px;
+}

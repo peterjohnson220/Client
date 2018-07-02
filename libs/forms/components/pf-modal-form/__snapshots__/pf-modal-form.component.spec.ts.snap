@@ -26,32 +26,6 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
 </pf-modal-form>
 `;
 
-exports[`Pf Modal Form should not render the formContent template when no formGroup is provided 1`] = `
-<pf-modal-form
-  attemptedSubmit="false"
-  formGroup="null"
-  isOpen$={[Function Observable]}
-  modalId={[Function String]}
-  modalOpenSubscription={[Function Subscriber]}
-  modalService={[Function NgbModal]}
-  onDismiss={[Function EventEmitter]}
-  onSubmit={[Function EventEmitter]}
-  primaryButtonClass={[Function String]}
-  primaryButtonText={[Function String]}
-  primaryButtonTextSubmitting={[Function String]}
-  secondaryButtonText={[Function String]}
-  size={[Function String]}
-  submitting="false"
-  templateRef={[Function TemplateRef_]}
-  title={[Function String]}
->
-  <div
-    class="modal-container"
-    id="test-modal"
-  />
-</pf-modal-form>
-`;
-
 exports[`Pf Modal Form should show subTitle in modal header if a subTitle is provided 1`] = `
 <pf-modal-form
   attemptedSubmit="false"
