@@ -69,4 +69,16 @@ describe('Auth - Login', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should disable and show correct login button text when logging in', () => {
+
+    instance.login$ = of(true);
+    instance.loginSuccess$ = of(true);
+    instance.loginError$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });
