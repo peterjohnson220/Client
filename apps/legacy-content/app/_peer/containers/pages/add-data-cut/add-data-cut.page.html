@@ -26,7 +26,7 @@
         <div class="buttons">
           <button type="button" class="btn btn-primary"
                   [disabled]="(peerMapSummary$ | async)?.OverallMapStats.CompanyCount < guidelineLimits.MinCompanies"
-                  (click)="add()">Add</button>
+                  (click)="cutGuid != null ? update() : add()">{{primaryButtonText}}</button>
 
           <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
         </div>

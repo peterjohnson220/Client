@@ -18,13 +18,15 @@ export interface ExchangeMapSummary {
   OverallMapStats: AreaStats;
   TopLeft: GeoCoordinates;
   BottomRight: GeoCoordinates;
+  Centroid: GeoCoordinates;
 }
 
 export function generateMockExchangeMapSummary(): ExchangeMapSummary {
   return {
     OverallMapStats: generateMockAreaStats(),
     TopLeft: generateMockGeoCoordinates(),
-    BottomRight: generateMockGeoCoordinates()
+    BottomRight: generateMockGeoCoordinates(),
+    Centroid: generateMockGeoCoordinates()
   };
 }
 

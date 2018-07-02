@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse } from 'libs/models/peer';
+import { ExchangeMapResponse, ExchangeDataCutMapInfo } from 'libs/models/peer';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/Map] Load Peer Map Data Success';
@@ -9,6 +9,7 @@ export const UPDATE_PEER_MAP_FILTER_BOUNDS = '[Features/Peer/Map] Update Peer Ma
 export const INITIAL_MAP_MOVE_COMPLETE = '[Features/Peer/Map] Initial Map Move Complete';
 export const MAP_LOADED = '[Features/Peer/Map] Map Loaded';
 export const RESET_STATE = '[Features/Peer/Map] Reset State';
+export const APPLY_CUT_CRITERIA = '[Features/Peer/Map] Apply Cut Criteria';
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -46,6 +47,12 @@ export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
 
+export class ApplyCutCriteria implements Action {
+  readonly type = APPLY_CUT_CRITERIA;
+
+  constructor(public payload: ExchangeDataCutMapInfo) {}
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -53,4 +60,5 @@ export type Actions
   | UpdatePeerMapFilterBounds
   | InitialMapMoveComplete
   | MapLoaded
-  | ResetState;
+  | ResetState
+  | ApplyCutCriteria;

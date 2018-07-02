@@ -1,9 +1,10 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
-import { PayMarket } from 'libs/models/paymarket';
+import { PayMarket, ExchangeDataCutSideBarInfo, SystemFilter } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';
-import { SystemFilter } from '../../../../models';
 
 // Extended entity state
 export interface State {
@@ -119,6 +120,29 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
     case fromFilterSidebarActions.RESET_STATE: {
       return {
         ...initialState
+      };
+    }
+    case fromFilterSidebarActions.APPLY_CUT_CRITERIA: {
+      const cutCriteria: ExchangeDataCutSideBarInfo = action.payload;
+      const systemFilter = cutCriteria.SystemFilter;
+      const aggSelections = cloneDeep(cutCriteria.FilterAggregateSelections).map(agg => {
+        agg.Aggregates.map(aggItem => {
+          aggItem.Selected = true;
+          return aggItem;
+        });
+        return agg;
+      });
+      const limitingToExchange = systemFilter && !!systemFilter.ExchangeId;
+      const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
+        aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange);
+      return {
+        ...state,
+        limitToPayMarket: cutCriteria.LimitToPayMarket,
+        payMarket: cutCriteria.PayMarket,
+        systemFilter: cutCriteria.SystemFilter,
+        selections: cutCriteria.Selections,
+        selectionsCount: cutCriteria.SelectionsCount,
+        filterAggregateGroups: newAggGroups
       };
     }
     default: {

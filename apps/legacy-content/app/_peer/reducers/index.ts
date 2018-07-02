@@ -31,3 +31,8 @@ export const selectAddDataCutState = createSelector(selectAddPeerDataState, (sta
 export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
 export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
 export const getAddDataCutPageInViewInIframe = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getPageInViewInIframe);
+export const getAddDataCutLoadingDataCutDetails = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getLoadingDataCutDetails);
+export const getAddDataCutLoadingDataCutError = createSelector(
+  selectAddDataCutState,
+  fromAddDataCutPageReducer.getLoadingDataCutDetailsError
+);

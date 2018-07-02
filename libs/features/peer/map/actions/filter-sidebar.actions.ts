@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { FilterAggregateGroup } from 'libs/models/peer';
 
 import { AggregateSelectionInfo } from '../models';
-import { SystemFilter, SystemFilterRequest } from '../../../../models/peer';
+import { SystemFilter, SystemFilterRequest, ExchangeDataCutSideBarInfo } from 'libs/models/peer';
 
 export const LOAD_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Load Filter Aggregates';
 export const LOAD_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Load Filter Aggregates Success';
@@ -18,6 +18,7 @@ export const LOAD_SYSTEM_FILTER = '[Features/Peer/Sidebar] Load System Filter';
 export const LOAD_SYSTEM_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load System Filter Success';
 export const LIMIT_TO_EXCHANGE = '[Features/Peer/Sidebar] Limit to Exchange';
 export const RESET_STATE = '[Features/Peer/Sidebar] Reset State';
+export const APPLY_CUT_CRITERIA = '[Features/Peer/Sidebar] Apply Cut Criteria';
 
 export class LoadFilterAggregates implements Action {
   readonly type = LOAD_FILTER_AGGREGATES;
@@ -89,6 +90,12 @@ export class ResetState implements Action {
   readonly type = RESET_STATE;
 }
 
+export class ApplyCutCriteria implements Action {
+  readonly type = APPLY_CUT_CRITERIA;
+
+  constructor(public payload: ExchangeDataCutSideBarInfo) {}
+}
+
 export type Actions
   = LoadFilterAggregates
   | LoadFilterAggregatesSuccess
@@ -102,4 +109,5 @@ export type Actions
   | LoadSystemFilter
   | LoadSystemFilterSuccess
   | LimitToExchange
-  | ResetState;
+  | ResetState
+  | ApplyCutCriteria;

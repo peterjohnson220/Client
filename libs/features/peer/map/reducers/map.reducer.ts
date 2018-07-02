@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeDataCutMapInfo, ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import { MapHelper } from '../helpers';
@@ -16,6 +16,8 @@ export interface State {
   isInitialLoad: boolean;
   initialMapMoveComplete: boolean;
   maxZoom: number;
+  initialZoom: number;
+  initialMapCentroid: number[];
 }
 
 // Initial State
@@ -24,7 +26,8 @@ export const initialState: State = {
   mapFilter: {
     TopLeft: null,
     BottomRight: null,
-    ClusterPrecision: 2
+    ClusterPrecision: 2,
+    Centroid: [-98, 38.88]
   },
   mapSummary: null,
   mapBounds: [0, 0, 0, 0],
@@ -33,7 +36,9 @@ export const initialState: State = {
   shouldUpdateBounds: true,
   isInitialLoad: true,
   initialMapMoveComplete: false,
-  maxZoom: 7
+  maxZoom: 7,
+  initialZoom: 3,
+  initialMapCentroid: [-98, 38.88]
 };
 
 // Reducer
@@ -100,6 +105,38 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         ...initialState
       };
     }
+    case fromPeerMapActions.APPLY_CUT_CRITERIA: {
+      const cutCriteria: ExchangeDataCutMapInfo = action.payload;
+      const mapResponse = cutCriteria.MapResponse;
+      const mapSummary: ExchangeMapSummary = mapResponse.MapSummary;
+      const centroid = mapSummary.Centroid;
+      const tl = mapSummary.TopLeft;
+      const br = mapSummary.BottomRight;
+      const mapCollection: FeatureCollection<Point> = {
+        type: 'FeatureCollection',
+        features: mapResponse.FeatureCollection
+      };
+      const mapFilter = {
+        TopLeft: tl,
+        BottomRight: br,
+        ClusterPrecision: cutCriteria.ClusterPrecision
+      };
+      const newState = {
+        ...state,
+        mapCollection: mapCollection,
+        mapSummary: mapSummary,
+        mapBounds: [tl.Lon, br.Lat, br.Lon, tl.Lat],
+        initialZoom: cutCriteria.ZoomLevel,
+        initialMapCentroid: [centroid.Lon, centroid.Lat],
+        loading: false,
+        loadingError: false,
+        mapFilter: mapFilter,
+        isInitialLoad: false,
+        initialMapMoveComplete: true,
+        maxZoom: 17
+      };
+      return newState;
+    }
     default: {
       return state;
     }
@@ -115,5 +152,7 @@ export const getMapCollection = (state: State) => state.mapCollection;
 export const getMapBounds = (state: State) => state.mapBounds;
 export const getMaxZoom = (state: State) => state.maxZoom;
 export const getInitialMapMoveComplete = (state: State) => state.initialMapMoveComplete;
+export const getInitialZoomLevel = (state: State) => state.initialZoom;
+export const getMapCentroid = (state: State) => state.initialMapCentroid;
 export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
-export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && state.mapCollection.features.length === 0;
+export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && (!state.mapCollection || state.mapCollection.features.length === 0);

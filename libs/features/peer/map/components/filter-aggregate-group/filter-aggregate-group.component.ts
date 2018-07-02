@@ -37,8 +37,8 @@ export class FilterAggregateGroupComponent {
     return this.aggregateGroup.Aggregates.filter(a => a.Selected).length;
   }
 
-  trackById(index: number, filterAggregateItem: FilterAggregateItem): number {
-    return filterAggregateItem.Id;
+  trackById(index: number, filterAggregateItem: FilterAggregateItem): number | string {
+    return filterAggregateItem.Id ? filterAggregateItem.Id : filterAggregateItem.Item;
   }
 
   // Events
