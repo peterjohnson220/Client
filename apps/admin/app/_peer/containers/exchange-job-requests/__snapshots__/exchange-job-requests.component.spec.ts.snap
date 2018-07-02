@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pending Exchange Access Requests should match snapshot 1`] = `
-<pf-pending-exchange-access-requests
+exports[`New Company Exchange Invitations should match snapshot 1`] = `
+<pf-exchange-job-requests
   exchangeId={[Function Number]}
-  pendingExchangeAccessRequestsGrid$={[Function Store]}
-  pendingExchangeAccessRequestsLoading$={[Function Store]}
-  pendingExchangeAccessRequestsLoadingError$={[Function Store]}
+  exchangeJobRequestsGrid$={[Function Store]}
+  exchangeJobRequestsLoading$={[Function Store]}
+  exchangeJobRequestsLoadingError$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
 >
@@ -25,20 +25,24 @@ exports[`Pending Exchange Access Requests should match snapshot 1`] = `
       >
         <kendo-grid>
           <kendo-grid-column
-            field="CompanyName"
-            title="Company Name"
+            field="JobTitle"
+            title="Job Title"
           />
           <kendo-grid-column
-            field="CompanyIndustry"
-            title="Industry"
+            field="JobFamily"
+            title="Job Family"
           />
           <kendo-grid-column
-            field="CompanyLocation"
-            title="Location"
+            field="JobLevel"
+            title="Job Level"
           />
           <kendo-grid-column
             field="RequestUser"
             title="Request User"
+          />
+          <kendo-grid-column
+            field="RequestCompany"
+            title="Request Company"
           />
           <kendo-grid-column
             field="RequestDate"
@@ -46,9 +50,17 @@ exports[`Pending Exchange Access Requests should match snapshot 1`] = `
           >
             
           </kendo-grid-column>
+          <kendo-grid-column
+            class="text-center"
+            field="IsPayfactorsJob"
+            title="Request Type"
+            width="102"
+          >
+            
+          </kendo-grid-column>
         </kendo-grid>
       </pf-async-container>
     </div>
   </div>
-</pf-pending-exchange-access-requests>
+</pf-exchange-job-requests>
 `;

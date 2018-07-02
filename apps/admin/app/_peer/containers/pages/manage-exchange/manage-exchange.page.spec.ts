@@ -43,7 +43,8 @@ describe('Manage Exchange Page', () => {
                       loadExchangeCompanies: jest.fn(),
                       loadPendingExchangeAccessRequests: jest.fn(),
                       loadPayfactorsCompanyExchangeInvitations: jest.fn(),
-                      loadNewCompanyExchangeInvitations: jest.fn()}
+                      loadNewCompanyExchangeInvitations: jest.fn(),
+                      loadExchangeJobRequests: jest.fn()}
         }
       ],
       // Shallow Testing
@@ -78,6 +79,7 @@ describe('Manage Exchange Page', () => {
     spyOn(gridHelperService, 'loadPendingExchangeAccessRequests');
     spyOn(gridHelperService, 'loadPayfactorsCompanyExchangeInvitations');
     spyOn(gridHelperService, 'loadNewCompanyExchangeInvitations');
+    spyOn(gridHelperService, 'loadExchangeJobRequests');
 
     fixture.detectChanges();
 
@@ -86,5 +88,6 @@ describe('Manage Exchange Page', () => {
     expect(gridHelperService.loadPendingExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadPayfactorsCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadNewCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadExchangeJobRequests).toHaveBeenCalledWith(routeIdParam);
   });
 });

@@ -20,3 +20,4 @@ export * from './exchange-status.enum';
 export * from './exchange-invitation.model';
 export * from './payfactors-company-exchange-invitation.model';
 export * from './new-company-exchange-invitation.model';
+export * from './exchange-job-request.model';

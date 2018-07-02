@@ -28,7 +28,11 @@
 
         <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
 
-        <kendo-grid-column field="RequestDate" title="Request Date"></kendo-grid-column>
+        <kendo-grid-column field="RequestDate" title="Request Date">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.RequestDate | date:'short' }}
+          </ng-template>
+        </kendo-grid-column>
 
       </kendo-grid>
 
