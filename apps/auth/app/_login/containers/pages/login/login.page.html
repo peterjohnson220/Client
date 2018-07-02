@@ -39,7 +39,10 @@
                    formControlName="password">
           </div>
           <div class="pb-1 d-flex align-self-center">
-            <button type="submit" class="btn login-button" [disabled]="(loginForm.invalid && !submitted) || (login$ | async)"> LOG IN
+            <button type="submit" class="btn login-button" [disabled]="(loginForm.invalid && !submitted) || (login$ | async) || (loginSuccess$ | async)"
+                    [class.disabled]="(loginForm.invalid && !submitted) || (login$ | async) || (loginSuccess$ | async)">
+              <span *ngIf="!(login$ | async) && !(loginSuccess$ | async)">LOG IN</span>
+              <span *ngIf="(login$ | async) || (loginSuccess$ | async)">LOGGING IN...</span>
             </button>
           </div>
           <div class="p-0 d-flex align-self-center">
