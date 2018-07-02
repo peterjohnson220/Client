@@ -1,0 +1,53 @@
+<div class="d-flex flex-column h-100">
+  <div class="d-flex justify-content-between align-items-center">
+    <pf-manage-exchange-section-header
+      [sectionTitle]="'Exchange Job Requests'"
+      [sectionDescription]="'Listed in the grid below are jobs that companies have requested be included in this exchange.'"
+    >
+    </pf-manage-exchange-section-header>
+  </div>
+  <div class="d-flex h-100">
+    <pf-async-container
+      [loading]="exchangeJobRequestsLoading$ | async"
+      [loadingError]="exchangeJobRequestsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange job requests'"
+      (reload)="handleExchangeJobRequestsGridReload()"
+      class="flex-grow-1"
+    >
+
+      <kendo-grid
+        [data]="exchangeJobRequestsGrid$ | async"
+        [scrollable]="true"
+      >
+
+        <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
+
+        <kendo-grid-column field="JobFamily" title="Job Family"></kendo-grid-column>
+
+        <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestCompany" title="Request Company"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestDate" title="Request Date">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.RequestDate | date:'short' }}
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="IsPayfactorsJob" title="Request Type" width="104" class="text-center">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span class="jobstatus">
+              <span *ngIf="dataItem.IsPayfactorsJob" class="badge badge-primary">System Job</span>
+              <span *ngIf="!dataItem.IsPayfactorsJob" class="badge badge-info">New Job</span>
+            </span>
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+  </div>
+</div>

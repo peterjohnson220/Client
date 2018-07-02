@@ -7,3 +7,4 @@ export * from './available-jobs.effects';
 export * from './pending-exchange-access-requests.effects';
 export * from './payfactors-company-exchange-invitations.effects';
 export * from './new-company-exchange-invitations.effects';
+export * from './exchange-job-requests.effects';

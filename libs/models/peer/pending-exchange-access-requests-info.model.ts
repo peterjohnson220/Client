@@ -5,7 +5,7 @@ export interface PendingExchangeAccessRequestsInfo {
   CompanyIndustry: string;
   CompanyLocation: string;
   RequestUser: string;
-  RequestDate: string;
+  RequestDate: any;
 }
 
 export function generateMockPendingExchangeAccessRequestsInfo(): PendingExchangeAccessRequestsInfo {

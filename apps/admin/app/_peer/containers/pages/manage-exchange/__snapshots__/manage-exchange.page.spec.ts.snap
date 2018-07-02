@@ -8,6 +8,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   gridHelperService={[Function Object]}
   store={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
+  totalExchangeJobRequests$={[Function Store]}
   totalExchangeJobs$={[Function Store]}
   totalNewCompanyExchangeInvitations$={[Function Store]}
   totalPayfactorsCompanyExchangeInvitations$={[Function Store]}
@@ -100,9 +101,33 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
               >
                 <i
                   aria-hidden="true"
-                  class="fa fa-address-card font-a-icon"
+                  class="fa fa-address-card font-a-icon-close"
                 />
                  Company Referrals 
+                
+              </a>
+            </div>
+          </li>
+          <li
+            class="nav-item"
+          >
+            <div>
+              <a
+                class="nav-link"
+              >
+                <span
+                  class="fa-layers fa-fw font-a-icon-close"
+                >
+                  <i
+                    class="fas fa-briefcase"
+                    data-fa-transform="shrink-1 down-2 left-2"
+                  />
+                  <i
+                    class="far fa-clock"
+                    data-fa-transform="shrink-5 up-5 right-6"
+                  />
+                </span>
+                 Job Requests 
                 
               </a>
             </div>

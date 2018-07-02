@@ -86,6 +86,14 @@ export class ExchangeApiService {
     );
   }
 
+  getPendingExchangeJobRequests(exchangeId: number): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingExchangeJobRequests`, {
+        params: { exchangeId: exchangeId }
+      },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetExchangeJobs`, {
         params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}

@@ -16,7 +16,7 @@
               <a class="nav-link" [routerLink]="['companies']" [routerLinkActive]="['selected']">
                 <i class="fas fa-building font-a-icon"></i>
                   Companies
-                <span *ngIf="totalExchangeCompanies$ | async as companies">{{companies}}</span>
+                <span class="counts" *ngIf="totalExchangeCompanies$ | async as companies">{{companies}}</span>
               </a>
             </div>
           </li>
@@ -25,7 +25,7 @@
               <a class="nav-link" [routerLink]="['jobs']" [routerLinkActive]="['selected']">
                 <i class="fas fa-briefcase font-a-icon"></i>
                   Jobs
-                <span *ngIf="totalExchangeJobs$ | async as jobs">{{jobs}}</span>
+                <span class="counts" *ngIf="totalExchangeJobs$ | async as jobs">{{jobs}}</span>
               </a>
             </div>
           </li>
@@ -34,25 +34,37 @@
               <a class="nav-link" [routerLink]="['accessrequests']" [routerLinkActive]="['selected']">
                 <i class="fas fa-unlock-alt font-a-icon"></i>
                 Access Requests
-                <span *ngIf="totalPendingExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
+                <span class="counts" *ngIf="totalPendingExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
               </a>
             </div>
           </li>
           <li class="nav-item">
             <div>
               <a class="nav-link" [routerLink]="['companyinvitations']" [routerLinkActive]="['selected']">
-                <i class="fas fa-envelope font-a-icon"></i>
+                <i class="fas fa-envelope font-a-icon-close"></i>
                 Company Invitations
-                <span *ngIf="totalPayfactorsCompanyExchangeInvitations$ | async as companyInvitations">{{ companyInvitations }}</span>
+                <span class="counts" *ngIf="totalPayfactorsCompanyExchangeInvitations$ | async as companyInvitations">{{ companyInvitations }}</span>
               </a>
             </div>
           </li>
           <li class="nav-item">
             <div>
               <a class="nav-link" [routerLink]="['companyreferrals']" [routerLinkActive]="['selected']">
-                <i class="fa fa-address-card font-a-icon" aria-hidden="true"></i>
+                <i class="fa fa-address-card font-a-icon-close" aria-hidden="true"></i>
                 Company Referrals
-                <span *ngIf="totalNewCompanyExchangeInvitations$ | async as companyReferrals">{{ companyReferrals }}</span>
+                <span class="counts" *ngIf="totalNewCompanyExchangeInvitations$ | async as companyReferrals">{{ companyReferrals }}</span>
+              </a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['jobrequests']" [routerLinkActive]="['selected']">
+                <span class="fa-layers fa-fw font-a-icon-close">
+                  <i class="fas fa-briefcase" data-fa-transform="shrink-1 down-2 left-2"></i>
+                  <i class="far fa-clock" data-fa-transform="shrink-5 up-5 right-6"></i>
+                </span>
+                Job Requests
+                <span class="counts" *ngIf="totalExchangeJobRequests$ | async as jobRequests">{{ jobRequests }}</span>
               </a>
             </div>
           </li>

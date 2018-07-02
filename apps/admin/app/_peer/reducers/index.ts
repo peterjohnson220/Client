@@ -15,6 +15,7 @@ import * as fromAvailableJobsReducer from './available-jobs.reducer';
 import * as fromPendingExchangeAccessRequestsReducer from './pending-exchange-access-requests.reducer';
 import * as fromPayfactorsCompanyExchangeInvitationsReducer from './payfactors-company-exchange-invitations.reducer';
 import * as fromNewCompanyExchangeInvitationsReducer from './new-company-exchange-invitations.reducer';
+import * as fromExchangeJobRequestsReducer from './exchange-job-requests.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -27,6 +28,7 @@ export interface PeerAdminState {
   pendingExchangeAccessRequests: IFeatureGridState<fromPendingExchangeAccessRequestsReducer.State>;
   payfactorsCompanyExchangeInvitations: IFeatureGridState<fromPayfactorsCompanyExchangeInvitationsReducer.State>;
   newCompanyExchangeInvitations: IFeatureGridState<fromNewCompanyExchangeInvitationsReducer.State>;
+  exchangeJobRequests: IFeatureGridState<fromExchangeJobRequestsReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -44,7 +46,8 @@ export const reducers = {
   availableJobs: fromAvailableJobsReducer.reducer,
   pendingExchangeAccessRequests: fromPendingExchangeAccessRequestsReducer.reducer,
   payfactorsCompanyExchangeInvitations: fromPayfactorsCompanyExchangeInvitationsReducer.reducer,
-  newCompanyExchangeInvitations: fromNewCompanyExchangeInvitationsReducer.reducer
+  newCompanyExchangeInvitations: fromNewCompanyExchangeInvitationsReducer.reducer,
+  exchangeJobRequests: fromExchangeJobRequestsReducer.reducer
 };
 
 // Select Feature Area
@@ -63,6 +66,7 @@ export const selectPayfactorsCompanyExchangeInvitationsState =
   createSelector(selectPeerAdminState, (state: PeerAdminState) => state.payfactorsCompanyExchangeInvitations);
 export const selectNewCompanyExchangeInvitationsState =
   createSelector(selectPeerAdminState, (state: PeerAdminState) => state.newCompanyExchangeInvitations);
+export const selectExchangeJobRequestsState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeJobRequests);
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
@@ -373,6 +377,36 @@ export const getTotalNewCompanyExchangeInvitations = createSelector(
 export const getNewCompanyExchangeInvitationsGrid = createSelector(
   getNewCompanyExchangeInvitations,
   getTotalNewCompanyExchangeInvitations,
+  (data, total) => {
+    return {data: data, total: total};
+  }
+);
+
+// Exchange Job Request Selectors
+export const selectExchangeJobRequestsFeatureState = createSelector(
+  selectExchangeJobRequestsState,
+  (state: IFeatureGridState<fromExchangeJobRequestsReducer.State>) => state.feature
+);
+
+export const {
+  selectAll: getExchangeJobRequests
+} = fromExchangeJobRequestsReducer.adapter.getSelectors(selectExchangeJobRequestsFeatureState);
+
+export const getExchangeJobRequestsLoading = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getLoading
+);
+
+export const getExchangeJobRequestsLoadingError = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getLoadingError
+);
+
+export const getTotalExchangeJobRequests = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getTotal
+);
+
+export const getExchangeJobRequestsGrid = createSelector(
+  getExchangeJobRequests,
+  getTotalExchangeJobRequests,
   (data, total) => {
     return {data: data, total: total};
   }

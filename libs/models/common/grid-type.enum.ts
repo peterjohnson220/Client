@@ -7,5 +7,6 @@ export enum GridTypeEnum {
   ExchangeJobComparison = 'EXCHANGE_JOB_COMPARISON',
   NewCompanyExchangeInvitation = 'NEW_COMPANY_EXCHANGE_INVITATION',
   PayfactorsCompanyExchangeInvitation = 'PAYFACTORS_COMPANY_EXCHANGE_INVITATION',
-  PendingExchangeAccessRequests = 'PENDING_EXCHANGE_ACCESS_REQUESTS'
+  PendingExchangeAccessRequests = 'PENDING_EXCHANGE_ACCESS_REQUESTS',
+  ExchangeJobRequests = 'EXCHANGE_JOB_REQUESTS'
 }

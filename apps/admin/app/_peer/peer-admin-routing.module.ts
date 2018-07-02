@@ -6,7 +6,7 @@ import { PfAdminGuard } from 'libs/security/guards';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
          PendingExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
-         NewCompanyExchangeInvitationsComponent } from './containers';
+         NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent } from './containers';
 import { ExchangeExistsGuard } from './guards';
 
 const routes: Routes = [
@@ -19,7 +19,8 @@ const routes: Routes = [
       { path: 'jobs', component: ExchangeJobsComponent },
       { path: 'accessrequests', component: PendingExchangeAccessRequestsComponent },
       { path: 'companyinvitations', component: PayfactorsCompanyExchangeInvitationsComponent },
-      { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent }
+      { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent },
+      { path: 'jobrequests', component: ExchangeJobRequestsComponent }
     ]
   },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },

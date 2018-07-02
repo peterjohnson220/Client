@@ -10,6 +10,7 @@ import * as fromExchangeCompaniesActions from '../actions/exchange-companies.act
 import * as fromPendingExchangeAccessRequests from '../actions/pending-exchange-access-requests.actions';
 import * as fromPayfactorsCompanyExchangeInvitations from '../actions/payfactors-company-exchange-invitations.actions';
 import * as fromNewCompanyExchangeInvitations from '../actions/new-company-exchange-invitations.actions';
+import * as fromExchangeJobRequestsActions from '../actions/exchange-job-requests.actions';
 
 @Injectable()
 export class GridHelperService {
@@ -63,6 +64,14 @@ export class GridHelperService {
 
   loadNewCompanyExchangeInvitations(exchangeId: number) {
     return this.store.dispatch(new fromNewCompanyExchangeInvitations.LoadNewCompanyExchangeInvitations(
+      {
+        exchangeId: exchangeId
+      }
+    ));
+  }
+
+  loadExchangeJobRequests(exchangeId: number) {
+    return this.store.dispatch(new fromExchangeJobRequestsActions.LoadExchangeJobRequests(
       {
         exchangeId: exchangeId
       }
