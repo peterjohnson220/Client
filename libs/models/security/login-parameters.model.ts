@@ -1,5 +1,6 @@
 export interface LoginParameters {
   Email: string;
-  password: string;
+  Password: string;
   PostAction: string;
+  NextPage: string;
 }

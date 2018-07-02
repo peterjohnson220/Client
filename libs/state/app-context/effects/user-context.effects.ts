@@ -41,7 +41,7 @@ export class UserContextEffects {
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
       tap((action: userContextActions.GetUserContext401Error) => {
           if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/login.asp?${window.location.pathname}`;
+            window.location.href = `/?${window.location.pathname}`;
           }
           return null;
         }

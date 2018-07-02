@@ -1,4 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
@@ -20,7 +21,7 @@ describe('Auth - Login', () => {
   let instance: LoginPageComponent;
   let store: Store<fromReducers.State>;
   let formBuilder: FormBuilder;
-
+  const queryStringParams = { 'nextPage': '/thisisthenextpage' };
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +31,14 @@ describe('Auth - Login', () => {
           loginReducers: combineReducers(fromReducers.reducers)
         }),
         ReactiveFormsModule
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { queryParamMap: { keys: queryStringParams } }
+          }
+        }
       ],
       declarations: [
         LoginPageComponent

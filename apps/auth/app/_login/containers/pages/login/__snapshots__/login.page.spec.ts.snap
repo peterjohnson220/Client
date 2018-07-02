@@ -14,6 +14,8 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   loginStore={[Function Store]}
   loginSuccess$={[Function Observable]}
   marketingImage$={[Function Store]}
+  nextPage="undefined"
+  route={[Function Object]}
   store={[Function Store]}
   submitted="false"
 >
@@ -129,6 +131,8 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   loginStore={[Function Store]}
   loginSuccess$={[Function Observable]}
   marketingImage$={[Function Store]}
+  nextPage="undefined"
+  route={[Function Object]}
   store={[Function Store]}
   submitted="false"
 >
