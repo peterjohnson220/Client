@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -30,10 +31,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loginError$: Observable<boolean>;
   loginSuccess$: Observable<boolean>;
   loginErrorSubscription: Subscription;
+  nextPage: string;
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
-              public store: Store<fromMarketingReducer.State>) {
+              public store: Store<fromMarketingReducer.State>,
+              private route: ActivatedRoute) {
     this.login$ = this.loginStore.select(fromLoginReducer.getLogin);
     this.loginError$ = this.loginStore.select(fromLoginReducer.getLoginError);
     this.loginSuccess$ = this.loginStore.select(fromLoginReducer.getLoginSuccess);
@@ -55,6 +58,9 @@ export class LoginPageComponent implements OnInit, OnDestroy {
         this.redirectUrl = image.RedirectUrl;
       }
     });
+
+    const queryParamMap = this.route.snapshot.queryParamMap;
+    this.nextPage = queryParamMap.keys[0];
   }
   ngOnDestroy() {
     this.loginErrorSubscription.unsubscribe();
@@ -69,7 +75,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     if (!this.loginForm.invalid) {
       this.submitted = true;
       this.loginStore.dispatch(new fromLoginActions.Login(
-        { email: this.getValue('email'), password: this.getValue('password')}));
+        { Email: this.getValue('email'), Password: this.getValue('password'), NextPage: this.nextPage }));
     }
   }
   getValue(controlName: string) {

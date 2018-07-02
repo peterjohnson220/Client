@@ -17,21 +17,43 @@ export class LoginEffects {
   login: Observable<Action> = this.actions$
     .ofType(fromLoginAction.LOGIN).pipe(
       switchMap((action: fromLoginAction.Login) =>
-        this.accountApiService.login(action.payload).pipe(
-          map((response: any) => new fromLoginAction.LoginSuccess()),
+        this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
+          map((response: any) => new fromLoginAction.LoginSuccess(action.payload.NextPage)),
           catchError(error => of (new fromLoginAction.LoginError(error)))
         )
       )
     );
 
-  @Effect({ dispatch: false })
+  @Effect()
   loginSuccess$ = this.actions$
     .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
+      switchMap((action: fromLoginAction.LoginSuccess) => {
+          if (action.nextPage) {
+            return of(new fromLoginAction.LoginSuccessRouteToNextPage(action.nextPage));
+          } else {
+            return of(new fromLoginAction.LoginSuccessRouteToHome());
+          }
+        }
+      )
+    );
+
+  @Effect({ dispatch: false })
+  LoginSuccessRouteToHome$ = this.actions$
+    .ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_HOME).pipe(
       switchMap(() =>
         this.userApiService.getUserHomePageAuthenticated().pipe(
           map((response: any) => this.routeToHomePage(response)),
           catchError(() => of(this.routeToHomePage(null)))
         )
+      )
+    );
+
+  @Effect({ dispatch: false })
+  LoginSuccessRouteToNextPage$ = this.actions$
+    .ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE).pipe(
+      map((action: fromLoginAction.LoginSuccessRouteToNextPage) => {
+        this.routeToNextPage(action.nextPage);
+        }
       )
     );
 
@@ -49,10 +71,13 @@ export class LoginEffects {
 
   routeToHomePage(url: string) {
     if (url !== undefined && url != null) {
-      window.location.href = url;
+      window.location.href = url + '?login=true';
     } else {
       window.location.href = environment.defaultHomePage;
     }
+  }
+  routeToNextPage(nextPage: string) {
+      window.location.href = nextPage;
   }
   constructor(private actions$: Actions,
       private accountApiService: AccountApiService,
