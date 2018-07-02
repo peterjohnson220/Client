@@ -85,7 +85,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
                 class="nav-link"
               >
                 <i
-                  class="fas fa-envelope font-a-icon"
+                  class="fas fa-envelope font-a-icon-close"
                 />
                  Company Invitations 
                 
