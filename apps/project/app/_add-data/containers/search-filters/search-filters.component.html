@@ -1,0 +1,27 @@
+<!-- Static Filters -->
+<pf-filter-section [title]="'Job Title / Code'">
+  <pf-input-debounce
+    [hideClearBtn]="true"
+    [placeholderText]="''"
+    [ngModel]="(jobContext$ | async)?.JobTitle"
+    [maxLength]="255">
+  </pf-input-debounce>
+</pf-filter-section>
+
+<pf-filter-section [title]="'Job Description'">
+  <pf-input-debounce
+    [hideClearBtn]="true"
+    [placeholderText]="''"
+    [maxLength]="255">
+  </pf-input-debounce>
+</pf-filter-section>
+
+<pf-filter-section [title]="'Scope'">
+  <pf-input-debounce
+    [hideClearBtn]="true"
+    [placeholderText]="''"
+    [maxLength]="255">
+  </pf-input-debounce>
+</pf-filter-section>
+
+<!-- Aggregate Filters -->

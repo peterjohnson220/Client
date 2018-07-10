@@ -1,0 +1,16 @@
+<div class="filter">
+  <div class="header" (click)="toggle()">
+    {{title}}
+
+    <div *ngIf="collapsed">
+      <i class="far fa-angle-down"></i>
+    </div>
+    <div *ngIf="!collapsed">
+      <i class="far fa-angle-up"></i>
+    </div>
+
+  </div>
+  <div *ngIf="!collapsed" class="px-2">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFormsModule } from 'libs/forms';
 
-import { JobResultComponent, DataCutsComponent } from './components';
-import { AddSurveyDataPageComponent, SearchResultsComponent } from './containers';
+import { JobResultComponent, DataCutsComponent, FilterSectionComponent } from './components';
+import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataRoutingModule } from './add-data-routing.module';
@@ -16,7 +18,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
 @NgModule({
   imports: [
     // Angular
-    CommonModule,
+    CommonModule, FormsModule,
 
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
@@ -27,16 +29,18 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     AddDataRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: [
+    // Components
+    JobResultComponent, DataCutsComponent, FilterSectionComponent,
+
     // Containers
-    SearchResultsComponent,
+    SearchResultsComponent, SearchFiltersComponent,
 
     // Pages
-    AddSurveyDataPageComponent,
-    JobResultComponent,
-    DataCutsComponent
+    AddSurveyDataPageComponent
   ]
 })
 export class AddDataModule { }
