@@ -6,8 +6,7 @@ import { PayMarket } from 'libs/models';
 @Component({
   selector: 'pf-pay-market-bounds-filter',
   templateUrl: './pay-market-bounds-filter.component.html',
-  styleUrls: ['./pay-market-bounds-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./pay-market-bounds-filter.component.scss']
 })
 export class PayMarketBoundsFilterComponent {
   @Input() enabled: boolean;
