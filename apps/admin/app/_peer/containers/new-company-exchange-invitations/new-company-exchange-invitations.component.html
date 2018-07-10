@@ -26,7 +26,11 @@
 
         <kendo-grid-column field="ContactName" title="Contact Name"></kendo-grid-column>
 
-        <kendo-grid-column field="ContactEmailAddress" title="Contact Email Address"></kendo-grid-column>
+        <kendo-grid-column field="ContactEmailAddress" title="Contact Email Address">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.ContactEmailAddress}}">{{dataItem.ContactEmailAddress}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="ContactJobTitle" title="Contact Job Title"></kendo-grid-column>
 
