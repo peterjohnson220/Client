@@ -1,0 +1,23 @@
+@import 'legacy-variables';
+
+html, body{
+  background: #FFFFFF;
+  font-size: $legacy-font-size;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #000000;
+}
+
+input {
+  font-size: $legacy-font-size;
+}
+
+.legacy-secondary-btn{
+  border: 1px solid #1F2F3D;
+  background-color: #FFFFFF;
+  color: #1F2F3D;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: normal;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}

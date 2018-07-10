@@ -1,3 +1,5 @@
+@import 'legacy-variables';
+
 .results-header{
   position: absolute;
   height: 30px;
@@ -5,9 +7,9 @@
   top: 0;
   left: 0;
   right: 0;
-  border: 1px solid #DDDDDD;
+  border: 1px solid $legacy-border-grey;
   font-weight: bold;
-  background-color: #F0F0F0;
+  background-color: $legacy-header-grey;
   display: flex;
   align-items: center;
 }

@@ -3,8 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { merge as observableMerge, fromEvent as observableFromEvent , Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { PfConstants } from '../../../models/common';
 
+import { PfConstants } from '../../../models/common';
 
 @Component({
   selector: 'pf-input-debounce',
@@ -30,6 +30,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() distinctUntilChanged = false;
   @Input() focus = false;
   @Input() disabled = false;
+  @Input() maxLength = 524288;
   @Output() valueChanged = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
