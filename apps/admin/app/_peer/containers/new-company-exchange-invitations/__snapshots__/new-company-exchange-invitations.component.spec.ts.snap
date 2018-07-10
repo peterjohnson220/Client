@@ -39,7 +39,9 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
           <kendo-grid-column
             field="ContactEmailAddress"
             title="Contact Email Address"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ContactJobTitle"
             title="Contact Job Title"
