@@ -3,8 +3,9 @@
   <pf-input-debounce
     [hideClearBtn]="true"
     [placeholderText]="''"
-    [ngModel]="(jobContext$ | async)?.JobTitle"
-    [maxLength]="255">
+    [ngModel]="(staticFilters$ | async).jobTitleCode"
+    [maxLength]="255"
+    (valueChanged)="handleValueChanged('jobTitleCode', $event)">
   </pf-input-debounce>
 </pf-filter-section>
 
@@ -12,7 +13,9 @@
   <pf-input-debounce
     [hideClearBtn]="true"
     [placeholderText]="''"
-    [maxLength]="255">
+    [ngModel]="(staticFilters$ | async).jobDescription"
+    [maxLength]="255"
+    (valueChanged)="handleValueChanged('jobDescription', $event)">
   </pf-input-debounce>
 </pf-filter-section>
 
@@ -20,7 +23,8 @@
   <pf-input-debounce
     [hideClearBtn]="true"
     [placeholderText]="''"
-    [maxLength]="255">
+    [ngModel]="(staticFilters$ | async).scope"
+    (valueChanged)="handleValueChanged('scope', $event)">
   </pf-input-debounce>
 </pf-filter-section>
 
