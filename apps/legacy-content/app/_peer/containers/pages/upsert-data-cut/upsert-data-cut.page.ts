@@ -4,21 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { SystemFilter, ExchangeMapSummary } from 'libs/models/peer';
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
-import { MapComponent } from 'libs/features/peer/map/containers/map';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import { SystemFilter, ExchangeMapSummary } from 'libs/models/peer';
+import { MapComponent } from 'libs/features/peer/map/containers/map';
 
-import * as fromAddDataCutPageActions from '../../../actions/add-data-cut-page.actions';
+import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
+import * as fromUpsertPeerDataReducers from '../../../reducers';
 import { GuidelineLimits } from '../../../models';
-import * as fromAddPeerDataReducers from '../../../reducers';
 
 @Component({
-  selector: 'pf-add-data-cut-page',
-  templateUrl: './add-data-cut.page.html',
-  styleUrls: ['./add-data-cut.page.scss']
+  selector: 'pf-upsert-data-cut-page',
+  templateUrl: './upsert-data-cut.page.html',
+  styleUrls: ['./upsert-data-cut.page.scss']
 })
-export class AddDataCutPageComponent implements OnInit {
+export class UpsertDataCutPageComponent implements OnInit {
   @ViewChild(MapComponent) map: MapComponent;
   companyJobId: number;
   companyPayMarketId: number;
@@ -27,32 +27,33 @@ export class AddDataCutPageComponent implements OnInit {
 
   readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
 
-  addingDataCut$: Observable<boolean>;
-  addingDataCutError$: Observable<boolean>;
+  upsertingDataCut$: Observable<boolean>;
+  upsertingDataCutError$: Observable<boolean>;
   peerMapSummary$: Observable<ExchangeMapSummary>;
   initialMapMoveComplete$: Observable<boolean>;
   systemFilter$: Observable<SystemFilter>;
-  addDataCutPageInViewInIframe$: Observable<boolean>;
+  upsertDataCutPageInViewInIframe$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromAddPeerDataReducers.State>,
+    private store: Store<fromUpsertPeerDataReducers.State>,
     private mapStore: Store<fromPeerMapReducers.State>,
     private route: ActivatedRoute
   ) {
-    this.addingDataCut$ = this.store.select(fromAddPeerDataReducers.getAddDataCutAddingDataCut);
-    this.addingDataCutError$ = this.store.select(fromAddPeerDataReducers.getAddDataCutAddingDataCutError);
+    this.upsertingDataCut$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut);
+    this.upsertingDataCutError$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError);
     this.peerMapSummary$ = this.mapStore.select(fromPeerMapReducers.getPeerMapSummary);
     this.initialMapMoveComplete$ = this.mapStore.select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete);
     this.systemFilter$ = this.store.select(fromPeerMapReducers.getSystemFilter);
-    this.addDataCutPageInViewInIframe$ = this.store.select(fromAddPeerDataReducers.getAddDataCutPageInViewInIframe);
+    this.upsertDataCutPageInViewInIframe$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe);
   }
 
   get primaryButtonText(): string {
     return this.cutGuid != null ? 'Update' : 'Add';
   }
 
-  add() {
-    this.store.dispatch(new fromAddDataCutPageActions.AddingDataCut({
+  upsert() {
+    this.store.dispatch(new fromUpsertDataCutPageActions.UpsertDataCut({
+      DataCutGuid: this.cutGuid,
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
       UserSessionId: this.userSessionId,
@@ -60,18 +61,8 @@ export class AddDataCutPageComponent implements OnInit {
     }));
   }
 
-  update() {
-    this.store.dispatch(new fromAddDataCutPageActions.UpdateDataCut({
-      DataCutGuid: this.cutGuid,
-      ZoomLevel: this.map ? this.map.getZoomLevel() : 0
-    }));
-  }
-
   cancel() {
-    this.store.dispatch(this.cutGuid != null ?
-      new fromAddDataCutPageActions.CancelUpdateDataCut() :
-      new fromAddDataCutPageActions.CancelAddDataCut()
-    );
+    this.store.dispatch(new fromUpsertDataCutPageActions.CancelUpsertDataCut);
   }
 
   // Lifecycle events
@@ -88,7 +79,7 @@ export class AddDataCutPageComponent implements OnInit {
         CompanyPayMarketId: this.companyPayMarketId
       }));
     } else {
-      this.store.dispatch(new fromAddDataCutPageActions.LoadDataCutDetails(this.cutGuid));
+      this.store.dispatch(new fromUpsertDataCutPageActions.LoadDataCutDetails(this.cutGuid));
     }
 
   }
@@ -102,7 +93,7 @@ export class AddDataCutPageComponent implements OnInit {
       // before passing off the bounds to the map to initialize zooming. Otherwise we will run into the "Zoom Bug"
       // where the map does not zoom all the way in.
       setTimeout(() => {
-        this.store.dispatch(new fromAddDataCutPageActions.PageInViewInIframe());
+        this.store.dispatch(new fromUpsertDataCutPageActions.PageInViewInIframe());
       }, 100);
     }
   }
