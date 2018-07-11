@@ -6,10 +6,11 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
-import { AddSurveyDataPageComponent } from './add-survey-data.page';
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromAddDataReducer from '../../../reducers';
+import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import { generateMockJobContext, JobContext } from '../../../models';
+import * as fromAddDataReducer from '../../../reducers';
+import { AddSurveyDataPageComponent } from './add-survey-data.page';
 
 describe('Project - Add Data - Surveys Page', () => {
   let fixture: ComponentFixture<AddSurveyDataPageComponent>;
@@ -58,6 +59,23 @@ describe('Project - Add Data - Surveys Page', () => {
       }
     });
     const expectedAction = new fromAddSurveyDataPageActions.SetJobContext(payload);
+
+    spyOn(store, 'dispatch');
+
+    instance.onMessage(messageEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a Clear Static Filters action, when receiving a App Closed message', () => {
+    const messageEvent = new MessageEvent('Message from parent', {
+      data: {
+        payfactorsMessage: {
+          type: 'App Closed'
+        }
+      }
+    });
+    const expectedAction = new fromSearchFiltersActions.ClearStaticFilters();
 
     spyOn(store, 'dispatch');
 

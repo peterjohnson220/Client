@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { JobContext } from '../../models';
+import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromAddDataReducer from '../../reducers';
 
 @Component({
@@ -12,12 +12,16 @@ import * as fromAddDataReducer from '../../reducers';
   styleUrls: ['./search-filters.component.scss']
 })
 export class SearchFiltersComponent {
-  jobContext$: Observable<JobContext>;
+  staticFilters$: Observable<any>;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
   ) {
-    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.staticFilters$ = this.store.select(fromAddDataReducer.getStaticFilters);
+  }
+
+  handleValueChanged(field: string, value: string) {
+    this.store.dispatch(new fromSearchFiltersActions.UpdateStaticFilterValue({Field: field, Value: value}));
   }
 }
 

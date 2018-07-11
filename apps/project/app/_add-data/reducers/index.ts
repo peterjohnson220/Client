@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
+import * as fromSearchFiltersReducer from './search-filters.reducer';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
   searchResults: fromSearchResultsReducer.State;
+  searchFilters: fromSearchFiltersReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
-  searchResults: fromSearchResultsReducer.reducer
+  searchResults: fromSearchResultsReducer.reducer,
+  searchFilters: fromSearchFiltersReducer.reducer
 };
 
 // Select Feature Area
@@ -36,6 +39,11 @@ export const selectAddSurveyDataPageState = createSelector(
 export const selectSearchResultsState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.searchResults
+);
+
+export const selectSearchFiltersState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.searchFilters
 );
 
 // Add Survey Data Page Selectors
@@ -68,4 +76,10 @@ export const getLoadingResults = createSelector(
 export const getLoadingMoreResults = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getLoadingMoreResults
+);
+
+// Search Filters Selectors
+export const getStaticFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getStaticFilters
 );

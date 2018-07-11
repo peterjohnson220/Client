@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { SearchFilter } from 'libs/models/search';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
+import * as fromSurveyFiltersActions from '../../../actions/search-filters.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { JobContext } from '../../../models';
 
@@ -35,6 +36,10 @@ export class AddSurveyDataPageComponent {
     switch (event.data.payfactorsMessage.type) {
       case 'Set Job Context':
         this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(event.data.payfactorsMessage.payload));
+        break;
+      case 'App Closed':
+        this.store.dispatch(new fromSurveyFiltersActions.ClearStaticFilters());
+        break;
     }
   }
 
