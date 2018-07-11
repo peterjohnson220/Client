@@ -23,6 +23,7 @@
   <pf-input-debounce
     [hideClearBtn]="true"
     [placeholderText]="''"
+    [maxLength]="255"
     [ngModel]="(staticFilters$ | async).scope"
     (valueChanged)="handleValueChanged('scope', $event)">
   </pf-input-debounce>
