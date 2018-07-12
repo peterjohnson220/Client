@@ -5,9 +5,9 @@ import { Effect, Actions } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, catchError, switchMap, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
 
-import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
-import * as fromPeerFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
+import * as fromLibsPeerFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
 import { ExchangeDataCutDetail } from 'libs/models/peer/exchange-data-cut-detail.model';
@@ -22,7 +22,7 @@ export class UpsertDataCutPageEffects {
     .ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT).pipe(
       map((action: fromUpsertDataCutPageActions.UpsertDataCut) => action.payload),
       withLatestFrom(
-        this.peerMapStore.select(fromPeerMapReducers.getUpsertDataCutRequestData),
+        this.libsPeerMapStore.select(fromLibsPeerMapReducers.getUpsertDataCutRequestData),
         (action, exchangeDataCutRequestData) => ({action, exchangeDataCutRequestData})
       ),
       switchMap((latest) => {
@@ -59,8 +59,8 @@ export class UpsertDataCutPageEffects {
       map((action: fromUpsertDataCutPageActions.LoadDataCutDetailsSuccess) => action.payload),
       mergeMap((payload: ExchangeDataCutDetail) => {
         return [
-          new fromPeerFilterSidebarActions.ApplyCutCriteria(payload.SideBarInfo),
-          new fromPeerMapActions.ApplyCutCriteria(payload.MapInfo)
+          new fromLibsPeerFilterSidebarActions.ApplyCutCriteria(payload.SideBarInfo),
+          new fromLibsPeerMapActions.ApplyCutCriteria(payload.MapInfo)
         ];
       })
     );
@@ -84,15 +84,15 @@ export class UpsertDataCutPageEffects {
 
   @Effect({ dispatch: false })
   mapLoaded$ = this.actions$
-    .ofType(fromPeerMapActions.MAP_LOADED).pipe(
-      tap((action: fromPeerMapActions.MapLoaded) => {
+    .ofType(fromLibsPeerMapActions.MAP_LOADED).pipe(
+      tap((action: fromLibsPeerMapActions.MapLoaded) => {
         this.windowCommunicationService.postMessage(action.type);
       })
   );
 
   constructor(
     private actions$: Actions,
-    private peerMapStore: Store<fromPeerMapReducers.State>,
+    private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService,
     private windowCommunicationService: WindowCommunicationService

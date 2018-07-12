@@ -8,14 +8,14 @@ import * as fromMapReducer from './map.reducer';
 import * as fromFilterSidebarReducer from './filter-sidebar.reducer';
 
 // Feature area state
-export interface PeerMapState {
+export interface LibsPeerMapState {
   map: fromMapReducer.State;
   filterSidebar: fromFilterSidebarReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  feature_peerMap: PeerMapState;
+  feature_peerMap: LibsPeerMapState;
 }
 
 // Feature area reducers
@@ -25,11 +25,11 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectPeerMapState = createFeatureSelector<PeerMapState>('feature_peerMap');
+export const selectLibsPeerMapState = createFeatureSelector<LibsPeerMapState>('feature_peerMap');
 
 // Feature Selectors
-export const selectMapState = createSelector(selectPeerMapState, (state: PeerMapState) => state.map);
-export const selectPeerFiltersState = createSelector(selectPeerMapState, (state: PeerMapState) => state.filterSidebar);
+export const selectMapState = createSelector(selectLibsPeerMapState, (state: LibsPeerMapState) => state.map);
+export const selectPeerFiltersState = createSelector(selectLibsPeerMapState, (state: LibsPeerMapState) => state.filterSidebar);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
@@ -83,5 +83,10 @@ export const getUpsertDataCutRequestData = createSelector(
       }
     };
   }
+);
+
+export const getNumberOfCompanySelections = createSelector(
+  getPeerFilterSelections,
+  (filterSelections) => !!filterSelections['CompanyIds'] ? filterSelections['CompanyIds'].length : 0
 );
 
