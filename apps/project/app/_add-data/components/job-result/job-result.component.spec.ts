@@ -26,7 +26,7 @@ describe('Project - Add Data - Job Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should hide Show Cuts link when the current job is Payfactors', () => {
+  it('should hide Show Cuts link, survey name, and job code, when the current job is Payfactors', () => {
     component.job = generateMockPayfactorsJobResult();
 
     fixture.detectChanges();

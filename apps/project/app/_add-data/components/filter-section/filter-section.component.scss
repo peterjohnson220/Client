@@ -1,7 +1,7 @@
 @import 'legacy-variables';
 
 .header{
-  font-weight: 700;
+  font-weight: $legacy-bold-font-weight;
   display: flex;
   justify-content: space-between;
   cursor: pointer;

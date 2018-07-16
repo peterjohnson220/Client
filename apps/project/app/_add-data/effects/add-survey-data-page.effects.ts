@@ -15,41 +15,23 @@ import * as fromAddDataReducer from '../reducers';
 export class AddSurveyDataPageEffects {
 
   @Effect()
-  getDefaultSurveyScopesFilter$ = this.actions$
-    .ofType(fromAddSurveyDataPageActions.GET_DEFAULT_SURVEY_SCOPES_FILTER)
-    .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
-      switchMap((jobContext) => {
-          return this.surveySearchApiService.getDefaultSurveyScopesFilter(jobContext.PayMarketId)
-            .pipe(
-              map(response => new fromAddSurveyDataPageActions.GetDefaultScopesFilterSuccess(response))
-            );
-        }
-      )
-    );
-
-  @Effect()
   setJobContext$ = this.actions$
     .ofType(fromAddSurveyDataPageActions.SET_JOB_CONTEXT)
     .pipe(
       map((action: fromAddSurveyDataPageActions.SetJobContext) => action.payload),
       mergeMap(jobContext => [
-        new fromAddSurveyDataPageActions.GetDefaultScopesFilter(),
-        new fromSearchFiltersActions.UpdateStaticFilterValue({Field: 'jobTitleCode', Value: jobContext.JobTitle})
+        new fromSearchFiltersActions.GetDefaultScopesFilter(),
+        new fromSearchFiltersActions.UpdateFilterValue({Id: 'jobTitleCode', Value: jobContext.JobTitle})
       ]
     ));
 
-  @Effect()
+  @Effect({dispatch: false})
   closeSurveySearch$ = this.actions$
     .ofType(fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH)
     .pipe(
       tap((action: fromAddSurveyDataPageActions.CloseSurveySearch) => {
         this.windowCommunicationService.postMessage(action.type);
-      }),
-      mergeMap(() => [
-          new fromSearchFiltersActions.ClearStaticFilters()
-        ]
-      )
+      })
     );
 
     constructor(

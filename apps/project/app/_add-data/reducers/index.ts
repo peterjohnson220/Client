@@ -47,19 +47,14 @@ export const selectSearchFiltersState = createSelector(
 );
 
 // Add Survey Data Page Selectors
-export const getLoadingDefaultSurveyScopes = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getLoadingDefaultSurveyScopes
-);
-
-export const getFilters = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getFilters
-);
-
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getJobContext
+);
+
+export const getPageShown = createSelector(
+  selectAddSurveyDataPageState,
+  fromAddSurveyDataPageReducer.getPageShown
 );
 
 // Search Results Selectors
@@ -78,8 +73,29 @@ export const getLoadingMoreResults = createSelector(
   fromSearchResultsReducer.getLoadingMoreResults
 );
 
-// Search Filters Selectors
-export const getStaticFilters = createSelector(
-  selectSearchFiltersState,
-  fromSearchFiltersReducer.getStaticFilters
+export const getResultsPagingOptions = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getPagingOptions
 );
+
+export const getResultsTotal = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getNumberOfResults
+);
+
+export const getHasMoreResultsOnServer = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.hasMoreResultsOnServer
+);
+
+// Search Filters Selectors
+export const getFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getFilters
+);
+
+export const getLoadingDefaultSurveyScopes = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
+);
+

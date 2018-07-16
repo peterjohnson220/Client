@@ -3,7 +3,6 @@
 .results-header{
   position: absolute;
   height: 30px;
-  width: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -24,7 +23,7 @@
   font-weight: 700;
 }
 
-.results{
+%positon-below-header{
   position: absolute;
   margin-top: .5rem;
   margin-bottom: .5rem;
@@ -33,6 +32,10 @@
   bottom: 0;
   right: 0;
   left: 0;
+}
+
+.results{
+  @extend %positon-below-header;
   overflow-y: auto;
 }
 
@@ -41,6 +44,14 @@
   width: 100%;
 }
 
+
+.no-results-message-container{
+  @extend %positon-below-header;
+  display: flex;
+  justify-content: center;
+  margin-top: 200px;
+  font-weight: $legacy-bold-font-weight;
+}
 
 .loading-more-row{
   height: 50px;

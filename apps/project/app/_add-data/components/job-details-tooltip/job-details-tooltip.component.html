@@ -14,9 +14,9 @@
     <strong>Job Category: </strong>{{job.Category}}
   </div>
   <p class="mt-3">
-    <strong>Source: </strong>{{job.Source}} 
+    <strong>Source: </strong>{{job.Source}}
     <span *ngIf="!job.IsPayfactors && !!job.SurveyName">- {{job.SurveyName}}</span>
-    effective {{job.EffectiveDate}}
+    effective {{job.EffectiveDate | date: 'longDate'}}
   </p>
   <p *ngIf="job.IsPayfactors">
     <strong>Scope: </strong>{{job.Scope}}

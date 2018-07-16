@@ -5,6 +5,7 @@
        [(ngModel)]="innerValue"
        [disabled]="disabled"
        [pfFocus]="focus"
+       [pfFocusElementShowing]="showing"
        [maxlength]="maxLength">
 <div *ngIf="!hideClearBtn" class="input-group">
   <input type="text" class="form-control" [placeholder]="placeholderText"
@@ -13,6 +14,7 @@
          [(ngModel)]="innerValue"
          [disabled]="disabled"
          [pfFocus]="focus"
+         [pfFocusElementShowing]="showing"
          [maxlength]="maxLength">
   <div (click)="clearValue()" class="input-group-append">
       <span class="input-group-text">

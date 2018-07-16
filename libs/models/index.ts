@@ -4,7 +4,7 @@ export * from './dashboard';
 export * from './navigation';
 export * from './paymarket';
 export * from './peer';
-export * from './search';
+export * from './survey-search';
 export * from './security';
 export * from './user';
 export * from './jdm';

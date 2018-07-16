@@ -38,6 +38,7 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
           ng-reflect-focus="true"
           ng-reflect-options="[object Object]"
           ng-reflect-placeholder-text="Search for a Job Title..."
+          ng-reflect-showing="true"
         >
           
           

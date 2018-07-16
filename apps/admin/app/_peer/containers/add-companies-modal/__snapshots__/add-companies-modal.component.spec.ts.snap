@@ -38,6 +38,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
           ng-reflect-focus="true"
           ng-reflect-options="[object Object]"
           ng-reflect-placeholder-text="Search for a Company Name..."
+          ng-reflect-showing="true"
         >
           
           

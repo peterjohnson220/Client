@@ -14,7 +14,8 @@
     <ng-container search-filters>
       <div class="filter flex-grow-1">
         <pf-input-debounce id="search-box"
-                           [focus]="false"
+                           [focus]="true"
+                           [showing]="showing"
                            [delay]="400"
                            [(ngModel)]="searchTerm"
                            [ngModelOptions]="{standalone: true}"

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromAddDataReducer from '../../reducers';
+import { Filter, FilterType } from '../../models';
 
 @Component({
   selector: 'pf-search-filters',
@@ -12,16 +13,25 @@ import * as fromAddDataReducer from '../../reducers';
   styleUrls: ['./search-filters.component.scss']
 })
 export class SearchFiltersComponent {
-  staticFilters$: Observable<any>;
+  filters$: Observable<Filter[]>;
+  numberOfResults$: Observable<number>;
+  pageShown$: Observable<boolean>;
+  filterTypes = FilterType;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
   ) {
-    this.staticFilters$ = this.store.select(fromAddDataReducer.getStaticFilters);
+    this.filters$ = this.store.select(fromAddDataReducer.getFilters);
+    this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
+    this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
   }
 
-  handleValueChanged(field: string, value: string) {
-    this.store.dispatch(new fromSearchFiltersActions.UpdateStaticFilterValue({Field: field, Value: value}));
+  handleValueChanged(id: string, value: string) {
+    this.store.dispatch(new fromSearchFiltersActions.UpdateFilterValue({Id: id, Value: value}));
+  }
+
+  trackByFilterId(index, item: Filter) {
+    return item.id;
   }
 }
 

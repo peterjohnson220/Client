@@ -13,17 +13,39 @@
   </table>
 </div>
 
-<div class="results" infinite-scroll (scrolled)="onScroll()" [scrollWindow]="false" [infiniteScrollDistance]="3" (scroll)="handleResultsScroll()">
-  <table>
-    <tbody>
-      <tr *ngFor="let jobResult of jobResults$ | async;index as tooltipIndex" pf-job-result [job]="jobResult" (jobTitleClick)="handleJobTilteClick($event, tooltipIndex)"></tr>
+<pf-async-container [loading]="loadingResults$ | async">
+  <div *ngIf="(jobResults$ | async)?.length; else noResultsMessage"
+       #results
+       class="results"
+       infinite-scroll
+       [scrollWindow]="false"
+       [infiniteScrollDistance]="3"
+       (scroll)="handleResultsScroll()"
+       (scrolled)="onScroll()">
 
-      <tr class="loading-more-row" *ngIf="loadingMoreResults">
-        <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+    <table>
+      <tbody>
+        <tr *ngFor="let jobResult of jobResults$ | async;index as tooltipIndex"
+            pf-job-result
+            [job]="jobResult"
+            (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)">
+        </tr>
+
+        <tr class="loading-more-row" *ngIf="loadingMoreResults">
+          <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</pf-async-container>
+
+
+<ng-template #noResultsMessage>
+  <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">
+    No results. Please change your filter criteria and search again.
+  </div>
+</ng-template>
 
 <pf-job-details-tooltip
   *ngIf="tooltipData"

@@ -7,7 +7,7 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
-import { StaticFilterValue } from '../../models';
+import { Filter, generateMockFilter } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchFiltersComponent } from './search-filters.component';
 
@@ -38,13 +38,21 @@ describe('Project - Add Data - Search Filters', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch a UpdateStaticFilterValue action, when handling a value changed', () => {
-    const staticFilterValue: StaticFilterValue = { Field: 'jobTitleCode', Value: 'New Value'};
-    const expectedAction = new fromSearchFiltersActions.UpdateStaticFilterValue(staticFilterValue);
+  it('should dispatch a UpdateFilterValue action, when handling a value changed', () => {
+    const filterValueObj = { Id: 'jobTitleCode', Value: 'New Value'};
+    const expectedAction = new fromSearchFiltersActions.UpdateFilterValue(filterValueObj);
     spyOn(store, 'dispatch');
 
-    instance.handleValueChanged(staticFilterValue.Field, staticFilterValue.Value);
+    instance.handleValueChanged(filterValueObj.Id, filterValueObj.Value);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should return the filter id for tracking purposes ', () => {
+    const filter: Filter = generateMockFilter();
+
+    const filterId = instance.trackByFilterId(5, filter);
+
+    expect(filterId).toBe(filter.id);
   });
 });

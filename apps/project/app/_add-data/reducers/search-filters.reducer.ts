@@ -1,38 +1,47 @@
-import * as fromSearchFiltersActions from '../actions/search-filters.actions';
+import * as cloneDeep from 'lodash.clonedeep';
 
-interface StaticFilters {
-  jobTitleCode: string;
-  jobDescription: string;
-  scope: string;
-}
+import * as fromSearchFiltersActions from '../actions/search-filters.actions';
+import { staticFilters } from '../data';
+import { Filter } from '../models';
 
 export interface State {
-  staticFilters: StaticFilters;
+  filters: Filter[];
+  loadingDefaultSurveyScopes: boolean;
 }
 
 const initialState: State = {
-  staticFilters: {
-    jobTitleCode: '',
-    jobDescription: '',
-    scope: ''
-  }
+  filters: staticFilters,
+  loadingDefaultSurveyScopes: false
 };
 
 // Reducer function
 export function reducer(state = initialState, action: fromSearchFiltersActions.Actions): State {
   switch (action.type) {
-    case fromSearchFiltersActions.CLEAR_STATIC_FILTERS: {
-      return {
-        ...initialState
-      };
-    }
-    case fromSearchFiltersActions.UPDATE_STATIC_FILTER_VALUE: {
+    case fromSearchFiltersActions.CLEAR_FILTERS: {
       return {
         ...state,
-        staticFilters: {
-          ...state.staticFilters,
-          [ action.payload.Field ]: action.payload.Value
-        }
+        filters: initialState.filters
+      };
+    }
+    case fromSearchFiltersActions.UPDATE_FILTER_VALUE: {
+      const filtersCopy = cloneDeep(state.filters);
+      filtersCopy.find(f => f.id === action.payload.Id).values = [action.payload.Value];
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER: {
+      return {
+        ...state,
+        loadingDefaultSurveyScopes: true
+      };
+    }
+    case fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS: {
+      return {
+        ...state,
+        loadingDefaultSurveyScopes: false,
       };
     }
     default: {
@@ -42,4 +51,5 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Selector functions
-export const getStaticFilters = (state: State) => state.staticFilters;
+export const getFilters = (state: State) => state.filters;
+export const getLoadingDefaultSurveyScopes = (state: State) => state.loadingDefaultSurveyScopes;
