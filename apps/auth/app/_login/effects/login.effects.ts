@@ -18,7 +18,13 @@ export class LoginEffects {
     .ofType(fromLoginAction.LOGIN).pipe(
       switchMap((action: fromLoginAction.Login) =>
         this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
-          map((response: any) => new fromLoginAction.LoginSuccess(action.payload.NextPage)),
+          map((response: any) => {
+            if (response !== null && response.first_login === 'true') {
+              return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
+            } else {
+              return new fromLoginAction.LoginSuccess(action.payload.NextPage);
+            }
+          }),
           catchError(error => of (new fromLoginAction.LoginError(error)))
         )
       )

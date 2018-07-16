@@ -12,5 +12,6 @@ export const environment = {
   mapboxAccessToken: 'pk.eyJ1IjoicGZtYXBzIiwiYSI6ImNqaDk5bzgzYTAwa28zYXFrdjN5aG9jN2IifQ.cqCQzg8IyrwoKGrqb2wciA',
   tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
   tableauPublicReportingServer: 'https://public.tableau.com/',
-  defaultHomePage: '/client/dashboard'
+  defaultHomePage: '/client/dashboard',
+  firstTimeLoginPage: '/client/auth/first-login'
 };
