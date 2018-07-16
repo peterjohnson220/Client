@@ -1,8 +1,12 @@
 <td class="growing-cell">
-  <div class="job-title">{{job.Title}} ({{job.Code}})</div>
+  <div class="job-title">
+    <span (click)="handleJobTitleClick($event)">
+      {{job.Title}} ({{job.Code}})
+    </span>
+  </div>
 
   <div class="vendor">
-    {{job.Source}} - {{job.SurveyName}}
+    {{job.Source}} <span *ngIf="!job.IsPayfactors">- {{job.SurveyName}}</span>
   </div>
 
   <span *ngIf="!job.IsPayfactors" class="link" (click)="toggleDataCutsDisplay()">

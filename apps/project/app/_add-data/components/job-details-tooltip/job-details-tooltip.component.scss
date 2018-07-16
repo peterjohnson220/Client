@@ -1,0 +1,15 @@
+.job-description {
+  max-height: 100px;
+  overflow: auto;
+}
+
+.tooltip-container {
+  width: 400px;
+  max-width: none;
+  max-height: 300px;
+  margin-left: 0;
+  padding: 5px;
+  border: 1px dotted black;
+  position: absolute;
+  background: white;
+}

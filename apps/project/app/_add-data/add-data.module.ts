@@ -9,7 +9,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { JobResultComponent, DataCutsComponent, FilterSectionComponent } from './components';
+import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent } from './components';
 import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';
 import { reducers } from './reducers';
@@ -34,13 +34,16 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   ],
   declarations: [
     // Components
-    JobResultComponent, DataCutsComponent, FilterSectionComponent,
+    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent,
 
     // Pages
     AddSurveyDataPageComponent
+  ],
+  entryComponents: [
+    JobDetailsTooltipComponent
   ]
 })
 export class AddDataModule { }

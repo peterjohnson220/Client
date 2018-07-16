@@ -13,10 +13,10 @@
   </table>
 </div>
 
-<div class="results" infinite-scroll (scrolled)="onScroll()" [scrollWindow]="false" [infiniteScrollDistance]="3">
+<div class="results" infinite-scroll (scrolled)="onScroll()" [scrollWindow]="false" [infiniteScrollDistance]="3" (scroll)="handleResultsScroll()">
   <table>
     <tbody>
-      <tr *ngFor="let jobResult of jobResults$ | async" pf-job-result [job]="jobResult"></tr>
+      <tr *ngFor="let jobResult of jobResults$ | async;index as tooltipIndex" pf-job-result [job]="jobResult" (jobTitleClick)="handleJobTilteClick($event, tooltipIndex)"></tr>
 
       <tr class="loading-more-row" *ngIf="loadingMoreResults">
         <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
@@ -24,3 +24,11 @@
     </tbody>
   </table>
 </div>
+
+<pf-job-details-tooltip
+  *ngIf="tooltipData"
+  [job]="tooltipData.Job"
+  [tooltipLeftPx]="tooltipData.TargetX"
+  [tooltipTopPx]="tooltipData.TargetY"
+  [visible]="showTooltip">
+</pf-job-details-tooltip>
