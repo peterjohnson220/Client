@@ -1,4 +1,4 @@
-export * from './add-data-cut-request.model';
+export * from './upsert-data-cut-request.model';
 export * from './add-exchange-companies-request.model';
 export * from './add-exchange-jobs-request.model';
 export * from './exchange-jobs-validation-result.model';

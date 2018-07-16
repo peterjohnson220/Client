@@ -4,11 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { PeerTileEnabledGuard } from 'libs/security/guards';
 
-import { AddDataCutPageComponent } from './containers/pages/add-data-cut';
+import { UpsertDataCutPageComponent } from './containers/pages/upsert-data-cut';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'add-data-cut', pathMatch: 'full' },
-  { path: 'add-data-cut', component: AddDataCutPageComponent, canActivate: [PeerTileEnabledGuard] },
+  { path: '', redirectTo: 'upsert-data-cut', pathMatch: 'full' },
+  { path: 'upsert-data-cut', component: UpsertDataCutPageComponent, canActivate: [PeerTileEnabledGuard] },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 

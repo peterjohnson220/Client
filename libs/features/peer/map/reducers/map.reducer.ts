@@ -155,4 +155,5 @@ export const getInitialMapMoveComplete = (state: State) => state.initialMapMoveC
 export const getInitialZoomLevel = (state: State) => state.initialZoom;
 export const getMapCentroid = (state: State) => state.initialMapCentroid;
 export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
-export const showNoData = (state: State) => !state.loading && !state.isInitialLoad && (!state.mapCollection || state.mapCollection.features.length === 0);
+export const showNoData = (state: State) => !state.loading && !state.isInitialLoad &&
+  (!state.mapCollection || state.mapCollection.features.length === 0);

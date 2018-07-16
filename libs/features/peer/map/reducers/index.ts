@@ -62,15 +62,26 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  getPeerFilterPayMarket,
-  (sf, fs, pmf, pfltp, pm) => {
+  (sf, fs, pmf, pfltp) => {
     return {
-      ...sf,
-      ...fs,
-      ...pmf,
-      LimitToPayMarket: pfltp,
-      CompanyPayMarketId: pm ? pm.CompanyPayMarketId : null,
-      PayMarketName: pm ? pm.PayMarket : null
+        ...sf,
+        ...fs,
+        ...pmf,
+        LimitToPayMarket: pfltp
     };
   });
+
+export const getUpsertDataCutRequestData = createSelector(
+  getExchangeDataCutRequestData,
+  getPeerFilterPayMarket,
+  (filterDetails, paymarketDetails) => {
+    return {
+      FilterDetails: filterDetails,
+      PayMarketDetails: {
+        CompanyPayMarketId: paymarketDetails ? paymarketDetails.CompanyPayMarketId : null,
+        PayMarketName: paymarketDetails ? paymarketDetails.PayMarket : null
+      }
+    };
+  }
+);
 

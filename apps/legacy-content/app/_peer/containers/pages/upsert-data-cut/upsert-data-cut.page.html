@@ -1,6 +1,6 @@
 <pf-async-container
-  [loading]="addingDataCut$ | async"
-  [loadingError]="addingDataCutError$ | async"
+  [loading]="upsertingDataCut$ | async"
+  [loadingError]="upsertingDataCutError$ | async"
   [loadingErrorMessage]="'Error adding data cut, please close the modal and try again.'"
   [hideReloadButton]="true">
 
@@ -14,7 +14,7 @@
       <div class="map-container flex-grow-1">
         <pf-peer-data-cut-map
           *ngIf="systemFilter$ | async"
-          [canFitBounds]="addDataCutPageInViewInIframe$ | async">
+          [canFitBounds]="upsertDataCutPageInViewInIframe$ | async">
         </pf-peer-data-cut-map>
       </div>
       <div class="button-container d-flex justify-content-end align-items-center">
@@ -26,7 +26,7 @@
         <div class="buttons">
           <button type="button" class="btn btn-primary"
                   [disabled]="(peerMapSummary$ | async)?.OverallMapStats.CompanyCount < guidelineLimits.MinCompanies"
-                  (click)="cutGuid != null ? update() : add()">{{primaryButtonText}}</button>
+                  (click)="upsert()">{{primaryButtonText}}</button>
 
           <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
         </div>
