@@ -65,7 +65,7 @@ exports[`AddCommunityPollModalComponent should not show the form text and should
         class="btn btn-secondary offset-sm-1"
         type="button"
       >
-        Add another response opiton
+        Add another response option
       </button>
     </div>
   </pf-modal-form>
