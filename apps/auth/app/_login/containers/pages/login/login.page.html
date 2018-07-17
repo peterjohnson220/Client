@@ -1,5 +1,5 @@
 <div class="d-flex flex-row">
-  <div class="p-2">      
+  <div class="p-2">
     <div class="image-container">
       <span *ngIf="(gettingMarketingImage$ | async);else content">
           <pf-loading-indicator></pf-loading-indicator> Loading...
@@ -15,22 +15,22 @@
   <div class="p-2">
     <form class="h-100" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="d-flex flex-column p-5 h-100 justify-content-center">
-          <p *ngIf="loginError$ | async" class="alert-danger error-container text-center p-3">
+          <p id="errormessage" *ngIf="loginError" class="alert-danger error-container text-center p-3">
             The email and password combination that you've entered is incorrect.
           </p>
-          <div class="pb-1 text-uppercase font-weight-bold">
+          <label class="text-uppercase font-weight-bold" for="email">
                 Email Address
-          </div>
+          </label>
           <div class="form-group pb-3">
-            <input id="email"
+            <input id="Email"
                    name="email"
                    type="email"
-                   class="form-group login-input"
-                   formControlName="email">
+                   class="form-control login-input mb-1"
+                   formControlName="email" autofocus>
           </div>
-          <div class="pb-1 text-uppercase font-weight-bold">
+          <label class="text-uppercase font-weight-bold" for="password">
             Password
-          </div>
+          </label>
           <div class="form-group pb-4">
             <input id="password"
                    name="password"
@@ -39,17 +39,16 @@
                    formControlName="password">
           </div>
           <div class="pb-1 d-flex align-self-center">
-            <button type="submit" class="btn login-button" [disabled]="(loginForm.invalid && !submitted) || (login$ | async) || (loginSuccess$ | async)"
-                    [class.disabled]="(loginForm.invalid && !submitted) || (login$ | async) || (loginSuccess$ | async)">
-              <span *ngIf="!(login$ | async) && !(loginSuccess$ | async)">LOG IN</span>
-              <span *ngIf="(login$ | async) || (loginSuccess$ | async)">LOGGING IN...</span>
+            <button id="Login" type="submit" class="btn login-button" [disabled]="loggingIn || loginSuccess"
+                    [class.disabled]="loggingIn || loginSuccess">
+              <span *ngIf="!loginSuccess">LOG IN</span>
+              <span *ngIf="loginSuccess">LOGGING IN...</span>
             </button>
           </div>
           <div class="p-0 d-flex align-self-center">
             <a href="forgot-password">Forgot Password?</a>
           </div>
         </div>
-
     </form>
   </div>
 </div>

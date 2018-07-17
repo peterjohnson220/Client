@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
@@ -26,12 +26,16 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   redirectUrl: string;
   loginForm: FormGroup;
   loginLogo = 'assets/images/MarketingPlaceholder.PNG';
-  submitted = false;
   login$: Observable<boolean>;
   loginError$: Observable<boolean>;
   loginSuccess$: Observable<boolean>;
+  loginSubscription: Subscription;
+  loginSuccessSubscription: Subscription;
   loginErrorSubscription: Subscription;
   nextPage: string;
+  loggingIn = false;
+  loginSuccess = false;
+  loginError = false;
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
@@ -45,10 +49,13 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     this.gettingMarketingImageError$ = this.store.select(fromMarketingReducer.getGettingMarketingImageError);
     this.gettingMarketingImageSuccess$ = this.store.select(fromMarketingReducer.getGettingMarketingImageSuccess);
   }
+
   ngOnInit() {
     this.initForm();
     this.loginErrorSubscription = this.loginError$.subscribe(isError => {
-      this.submitted = false;
+      if (isError) {
+        this.loginError = true;
+      }
     });
     this.store.dispatch(new fromMarketingActions.GetMarketingImage());
 
@@ -60,24 +67,40 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     });
 
     const queryParamMap = this.route.snapshot.queryParamMap;
-    this.nextPage = queryParamMap.keys[0];
-  }
-  ngOnDestroy() {
-    this.loginErrorSubscription.unsubscribe();
-  }
-  initForm(): void {
-    this.loginForm = this.fb.group({
-      email: ['', Validators.required ],
-      password: ['', Validators.required ]
+    this.nextPage = queryParamMap.keys[ 0 ];
+
+    this.loginSubscription = this.login$.subscribe(value => {
+      this.loggingIn = value;
+    });
+
+    this.loginSuccessSubscription = this.loginSuccess$.subscribe(value => {
+      this.loginSuccess = value;
+      this.loginError = false;
     });
   }
+
+  ngOnDestroy() {
+    this.loginErrorSubscription.unsubscribe();
+    this.loginSubscription.unsubscribe();
+    this.loginSuccessSubscription.unsubscribe();
+  }
+
+  initForm(): void {
+    this.loginForm = this.fb.group({
+      email: [ '', Validators.required ],
+      password: [ '', Validators.required ]
+    });
+  }
+
   onSubmit() {
     if (!this.loginForm.invalid) {
-      this.submitted = true;
       this.loginStore.dispatch(new fromLoginActions.Login(
         { Email: this.getValue('email'), Password: this.getValue('password'), NextPage: this.nextPage }));
+    } else {
+      this.loginError = true;
     }
   }
+
   getValue(controlName: string) {
     const control = this.loginForm.get(controlName);
     return control.value.toString();
