@@ -4,6 +4,7 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
 <pf-chart-detail-component
   detailChartCategory$={[Function Store]}
   detailChartItems$={[Function Store]}
+  detailChartType$={[Function Store]}
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -30,6 +31,7 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
     <div
       class="card-body"
     >
+      
       <h4
         class="mb-2"
       >

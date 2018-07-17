@@ -1,1 +1,22 @@
 @import 'kendo-grid';
+
+:host ::ng-deep .k-widget.k-grid {
+  .k-grid-header .k-header.k-filterable.filter-menu-left {
+    .k-grid-filter {
+      right: 0;
+      left: 0;
+    }
+
+    .k-link {
+      padding-right: .75rem;
+      float: right;
+      display: inline-flex;
+      flex-direction: row-reverse;
+
+      .k-icon {
+        margin-left: 0;
+        margin-right: 1rem;
+      }
+    }
+  }
+}

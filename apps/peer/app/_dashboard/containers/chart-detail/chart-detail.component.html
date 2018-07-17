@@ -2,7 +2,7 @@
   <div class="chart-detail-header card-header d-flex">
 
     <div class="align-self-center mr-auto flex-grow-1">
-      Participating Companies
+      {{ (detailChartType$ | async) === companyChartType ? (detailChartCategory$ | async ) : 'Participating Companies'}}
     </div>
 
     <div (click)="closeSidebar()" class="close-btn">
@@ -12,7 +12,7 @@
   </div>
   <div class="card-body">
 
-    <h4 class="mb-2">
+    <h4 *ngIf="(detailChartType$ | async) !== companyChartType " class="mb-2">
       {{ (detailChartCategory$ | async )}}
     </h4>
 
