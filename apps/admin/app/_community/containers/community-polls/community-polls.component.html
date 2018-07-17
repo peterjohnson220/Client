@@ -4,12 +4,12 @@
   </ng-container>
 
   <ng-container page-actions>
-    <button class="btn btn-secondary" type="submit" (click)="addClicked()">Add</button>
+    <button class="btn btn-secondary" type="submit" (click)="openCommunityPollModal()">Add</button>
   </ng-container>
   
   <ng-container page-content>
     <kendo-grid
-        [data]="gridData"
+        [data]="communityPollListItems$ | async"
         [scrollable]="true">
 
         <kendo-grid-column field="Question" title="Question" [headerClass]="'font-weight-bold'"></kendo-grid-column>
@@ -35,4 +35,6 @@
         </kendo-grid-column>
       </kendo-grid>
     </ng-container>
-</pf-page-with-title-bar>  
+</pf-page-with-title-bar> 
+
+<pf-add-community-poll-modal></pf-add-community-poll-modal>
