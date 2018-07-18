@@ -36,6 +36,7 @@ export class MapComponent {
   peerMapMaxZoom$: Observable<number>;
   peerMapInitialMapMoveComplete$: Observable<boolean>;
   peerMapInitialZoomLevel$: Observable<number>;
+  peerMapApplyingScope$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.select(fromPeerMapReducer.getPeerMapSummary);
@@ -50,6 +51,7 @@ export class MapComponent {
     this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
     this.peerMapInitialZoomLevel$ = this.store.select(fromPeerMapReducer.getPeerMapInitialZoomLevel);
     this.peerMapCentroid$ = this.store.select(fromPeerMapReducer.getPeerMapCentroid);
+    this.peerMapApplyingScope$ = this.store.select(fromPeerMapReducer.getPeerMapApplyingScope);
   }
 
   get center(): any {
@@ -84,6 +86,17 @@ export class MapComponent {
   }
 
   handleMoveEndEvent(e: any) {
+    let scopeApplied = false;
+    this.peerMapApplyingScope$.pipe(take(1)).subscribe(as => {
+      if (!!as) {
+        this.store.dispatch(new fromMapActions.ApplyScopeCriteriaSuccess);
+        scopeApplied = true;
+      }
+    });
+    if (scopeApplied) {
+      return;
+    }
+
     const filterVars = {
       bounds: e.target.getBounds(),
       zoom: e.target.getZoom()

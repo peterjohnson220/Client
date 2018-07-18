@@ -8,6 +8,8 @@
       (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
     </pf-pay-market-bounds-filter>
 
+    <pf-scope-selector *ngIf="(payMarket$ | async)?.CompanyPayMarketId"></pf-scope-selector>
+
     <pf-pay-market-filter-info
       [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
       [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount"

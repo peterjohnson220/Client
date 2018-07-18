@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Features - Peer - Exchange Scope Selector Component should display "Select a Scope..." message when there is no exchange scope selected 1`] = `
+<pf-scope-selector
+  exchangeScopeItems$={[Function Store]}
+  exchangeScopeItemsLoading$={[Function Store]}
+  popover={[Function NgbPopover]}
+  selectedExchangeScopeItem$={[Function Store]}
+  store={[Function Store]}
+  systemFilterLoaded$={[Function Store]}
+  systemFilterLoadedSubscription={[Function Subscriber]}
+>
+  <div
+    class="scope-selector-container"
+  >
+    
+  
+    
+    <button
+      class="btn btn-secondary selector"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="right"
+      ng-reflect-popover-title="Select an Exchange Scope"
+      pfhandlepopoverclose=""
+      placement="right"
+      popovertitle="Select an Exchange Scope"
+      type="button"
+    >
+      
+  
+      
+      <span
+        class="selector-caret"
+      >
+        
+      
+        <i
+          class="fas fa-caret-right"
+        />
+        
+      
+      </span>
+      
+  
+      
+      <span
+        class="selector-label text-muted"
+      >
+        Exchange Scope:
+      </span>
+      
+  
+      
+      <span
+        class="selection"
+      >
+        Select a Scope...
+      </span>
+      
+  
+    
+    </button>
+    
+  
+  
+  </div>
+  
+  
+  
+</pf-scope-selector>
+`;
+
+exports[`Features - Peer - Exchange Scope Selector Component should display the currently selected exchange scope 1`] = `
+<pf-scope-selector
+  exchangeScopeItems$={[Function Store]}
+  exchangeScopeItemsLoading$={[Function Store]}
+  popover={[Function NgbPopover]}
+  selectedExchangeScopeItem$={[Function Observable]}
+  store={[Function Store]}
+  systemFilterLoaded$={[Function Store]}
+  systemFilterLoadedSubscription={[Function Subscriber]}
+>
+  <div
+    class="scope-selector-container"
+  >
+    
+  
+    
+    <button
+      class="btn btn-secondary selector"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="right"
+      ng-reflect-popover-title="Select an Exchange Scope"
+      pfhandlepopoverclose=""
+      placement="right"
+      popovertitle="Select an Exchange Scope"
+      type="button"
+    >
+      
+  
+      
+      <span
+        class="selector-caret"
+      >
+        
+      
+        <i
+          class="fas fa-caret-right"
+        />
+        
+      
+      </span>
+      
+  
+      
+      <span
+        class="selector-label text-muted"
+      >
+        Exchange Scope:
+      </span>
+      
+  
+      
+      <span
+        class="selection"
+      >
+        Select a Scope...
+      </span>
+      
+  
+    
+    </button>
+    
+  
+  
+  </div>
+  
+  
+  
+</pf-scope-selector>
+`;

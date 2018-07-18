@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeDataCutDetail } from 'libs/models/peer/exchange-data-cut-detail.model';
+import { PeerMapScopeSystemDetails } from 'libs/models/peer/exchange-scope/peer-map-scope-system-details.model';
 
 export const UPSERT_DATA_CUT  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut';
 export const UPSERT_DATA_CUT_SUCCESS  = '[Legacy Content/Upsert Data Cut Page] Upsert Data Cut Success';
@@ -44,7 +44,7 @@ export class LoadDataCutDetails implements Action {
 export class LoadDataCutDetailsSuccess implements Action {
   readonly type = LOAD_DATA_CUT_DETAILS_SUCCESS;
 
-  constructor(public payload: ExchangeDataCutDetail) {}
+  constructor(public payload: PeerMapScopeSystemDetails) {}
 }
 
 export class LoadDataCutDetailsError implements Action {

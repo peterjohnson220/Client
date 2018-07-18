@@ -3,12 +3,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FilterAggregateGroup, PayMarket } from 'libs/models';
+import { FilterAggregateGroup, PayMarket, ExchangeMapSummary } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerMapReducer from '../../reducers';
 import { AggregateSelectionInfo } from '../../models';
-import { ExchangeMapSummary } from '../../../../../models/peer';
 
 @Component({
   selector: 'pf-peer-data-cut-filter-sidebar',

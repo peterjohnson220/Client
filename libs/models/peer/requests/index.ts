@@ -12,3 +12,4 @@ export * from './validate-exchange-jobs.request';
 export * from './request-exchange-request.model';
 export * from './exchange-request-type.enum';
 export * from './exchange-request-candidates-request.model';
+export * from './upsert-exchange-scope-request.model';

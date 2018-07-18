@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse, ExchangeDataCutMapInfo } from 'libs/models/peer';
+import { ExchangeMapResponse, PeerMapScopeMapInfo } from 'libs/models/peer';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/Map] Load Peer Map Data Success';
@@ -10,6 +10,8 @@ export const INITIAL_MAP_MOVE_COMPLETE = '[Features/Peer/Map] Initial Map Move C
 export const MAP_LOADED = '[Features/Peer/Map] Map Loaded';
 export const RESET_STATE = '[Features/Peer/Map] Reset State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/Map] Apply Cut Criteria';
+export const APPLY_SCOPE_CRITERIA = '[Features/Peer/Map] Apply Scope Criteria';
+export const APPLY_SCOPE_CRITERIA_SUCCESS = '[Features/Peer/Map] Apply Scope Criteria Success';
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -50,7 +52,17 @@ export class ResetState implements Action {
 export class ApplyCutCriteria implements Action {
   readonly type = APPLY_CUT_CRITERIA;
 
-  constructor(public payload: ExchangeDataCutMapInfo) {}
+  constructor(public payload: PeerMapScopeMapInfo) {}
+}
+
+export class ApplyScopeCriteria implements Action {
+  readonly type = APPLY_SCOPE_CRITERIA;
+
+  constructor(public payload: any) {}
+}
+
+export class ApplyScopeCriteriaSuccess implements Action {
+  readonly type = APPLY_SCOPE_CRITERIA_SUCCESS;
 }
 
 export type Actions
@@ -61,4 +73,6 @@ export type Actions
   | InitialMapMoveComplete
   | MapLoaded
   | ResetState
-  | ApplyCutCriteria;
+  | ApplyCutCriteria
+  | ApplyScopeCriteria
+  | ApplyScopeCriteriaSuccess;

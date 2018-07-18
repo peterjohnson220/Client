@@ -11,7 +11,7 @@ import { ExchangeDataSearchFilter, FilterAggregateGroup } from 'libs/models/peer
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerMapReducers from '../reducers';
-import { SystemFilter } from '../../../../models/peer';
+import { SystemFilter, ExchangeScopeItem } from '../../../../models/peer';
 
 @Injectable()
 export class FilterSidebarEffects {
@@ -72,9 +72,24 @@ export class FilterSidebarEffects {
   @Effect()
   limitToPayMarketToggled$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET).pipe(
-      mergeMap(() => [
-        new fromFilterSidebarActions.ClearAllSelections()
-      ])
+      withLatestFrom(
+        this.peerMapStore.select(fromPeerMapReducers.getPeerFilterScopeSelection),
+        (action, scopeSelection: ExchangeScopeItem) => !!scopeSelection
+      ),
+      mergeMap((scopeSelected: boolean) => {
+        let obs;
+        // Only clear selections on paymarket toggle if a scope is not selected
+        if (scopeSelected) {
+          obs = [
+            new fromPeerMapActions.LoadPeerMapData(),
+            new fromFilterSidebarActions.LoadFilterAggregates()
+          ];
+        } else {
+          obs = [new fromFilterSidebarActions.ClearAllSelections()];
+        }
+
+        return obs;
+      })
     );
 
   @Effect()

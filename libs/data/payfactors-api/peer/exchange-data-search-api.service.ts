@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
-  FilterAggregateGroup, ExchangeDataCutDetail } from 'libs/models/peer';
+  FilterAggregateGroup } from 'libs/models/peer';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -29,11 +29,5 @@ export class ExchangeDataSearchApiService {
 
   getFilterAggregates(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<FilterAggregateGroup[]> {
    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
-  }
-
-  getDataCutDetails(dataCutGuid: string): Observable<ExchangeDataCutDetail> {
-    return this.payfactorsApiService.get<ExchangeDataCutDetail>(`${this.endpoint}/GetDataCutDetails`,
-      { params: { dataCutGuid: dataCutGuid } }
-    );
   }
 }

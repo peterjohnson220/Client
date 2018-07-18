@@ -8,9 +8,9 @@ import { map, catchError, switchMap, mergeMap, withLatestFrom, tap } from 'rxjs/
 import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromLibsPeerFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
-import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api/peer';
+import { ExchangeCompanyApiService, ExchangeScopeApiService } from 'libs/data/payfactors-api/peer';
 import { WindowCommunicationService } from 'libs/core/services';
-import { ExchangeDataCutDetail } from 'libs/models/peer/exchange-data-cut-detail.model';
+import { PeerMapScopeSystemDetails } from 'libs/models/peer/';
 
 import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.actions';
 
@@ -45,9 +45,9 @@ export class UpsertDataCutPageEffects {
   loadDataCutDetails$ = this.actions$
     .ofType(fromUpsertDataCutPageActions.LOAD_DATA_CUT_DETAILS).pipe(
       map((action: fromUpsertDataCutPageActions.LoadDataCutDetails) => action.payload),
-      switchMap((cutGuid: string) => {
-        return this.exchangeDataSearchApiService.getDataCutDetails(cutGuid).pipe(
-          map((response: ExchangeDataCutDetail) => new fromUpsertDataCutPageActions.LoadDataCutDetailsSuccess(response)),
+      switchMap((dataCutGuid: string) => {
+        return this.exchangeScopeApiService.getDataCutPeerMapScope(dataCutGuid).pipe(
+          map((response: PeerMapScopeSystemDetails) => new fromUpsertDataCutPageActions.LoadDataCutDetailsSuccess(response)),
           catchError(() => of(new fromUpsertDataCutPageActions.LoadDataCutDetailsError))
         );
       })
@@ -57,7 +57,7 @@ export class UpsertDataCutPageEffects {
   loadDataCutDetailsSuccess$ = this.actions$
     .ofType(fromUpsertDataCutPageActions.LOAD_DATA_CUT_DETAILS_SUCCESS).pipe(
       map((action: fromUpsertDataCutPageActions.LoadDataCutDetailsSuccess) => action.payload),
-      mergeMap((payload: ExchangeDataCutDetail) => {
+      mergeMap((payload: PeerMapScopeSystemDetails) => {
         return [
           new fromLibsPeerFilterSidebarActions.ApplyCutCriteria(payload.SideBarInfo),
           new fromLibsPeerMapActions.ApplyCutCriteria(payload.MapInfo)
@@ -94,7 +94,7 @@ export class UpsertDataCutPageEffects {
     private actions$: Actions,
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
-    private exchangeDataSearchApiService: ExchangeDataSearchApiService,
+    private exchangeScopeApiService: ExchangeScopeApiService,
     private windowCommunicationService: WindowCommunicationService
   ) {}
 }
