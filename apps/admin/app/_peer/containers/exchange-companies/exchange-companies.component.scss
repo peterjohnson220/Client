@@ -1,1 +1,15 @@
 @import 'kendo-grid';
+
+:host ::ng-deep .k-grid {
+  tr, tr.k-alt {
+    &:hover {
+      button {
+         visibility: visible;
+      }
+    }
+  }
+}
+
+.delete-mapping-button {
+  visibility: hidden;
+}

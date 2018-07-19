@@ -120,6 +120,7 @@ export const {
 export const getExchangeCompaniesLoading = createSelector(
   selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getLoading
 );
+
 export const getExchangeCompaniesLoadingError = createSelector(
   selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getLoadingError
 );
@@ -138,6 +139,18 @@ export const getExchangeCompaniesAddingError = createSelector(
 
 export const getTotalExchangeCompanies = createSelector(
   selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getTotal
+);
+
+export const getDeleteExchangeCompanyModalOpen = createSelector(
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getDeleteModalOpen
+);
+
+export const getExchangeCompanyDeleting = createSelector(
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getDeleting
+);
+
+export const getExchangeCompanyDeletingError = createSelector(
+  selectExchangeCompaniesFeatureState, fromExchangeCompaniesReducer.getDeletingError
 );
 
 export const getExchangeCompaniesGridState = createSelector(

@@ -116,4 +116,8 @@ export class ExchangeApiService {
     formData.append('file', validateExchangeJobsRequest.File);
     return this.payfactorsApiService.post(url, formData);
   }
+
+  deleteExchangeCompany(payload: any): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteExchangeCompany`, payload);
+  }
 }

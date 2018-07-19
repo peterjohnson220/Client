@@ -1,0 +1,25 @@
+<pf-modal-form
+  [title]="'Remove Company'"
+  size=""
+  secondaryButtonText="Cancel"
+  primaryButtonClass="btn-danger"
+  primaryButtonText="Remove"
+  primaryButtonTextSubmitting="Removing..."
+  [submitting]="deletingCompany$ | async"
+  [isOpen$]="deleteCompanyModalOpen$"
+  (onSubmit)="handleDeleteConfirmed()"
+  (onDismiss)="handleDeleteDenied()">
+
+  <ng-container basic-content>
+    You are about to remove
+    <strong>{{ selectedCompany?.CompanyName }}</strong> from the
+    <strong>{{ (exchange$ | async).ExchangeName }}</strong> exchange.
+    This will completely remove
+    <strong>{{ selectedCompany?.CompanyName }}</strong>, all of the
+    Company to Exchange job mappings and associated data from the exchange.
+    This cannot be undone.
+    <br /><br />
+    Would you like to continue?
+  </ng-container>
+
+</pf-modal-form>
