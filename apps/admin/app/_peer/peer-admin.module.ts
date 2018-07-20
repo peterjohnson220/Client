@@ -27,6 +27,7 @@ import { GridHelperService } from './services';
 import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 import { AddJobsModalComponent } from './containers/add-jobs-modal';
+import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { AddJobsModalComponent } from './containers/add-jobs-modal';
     PayfactorsCompanyExchangeInvitationsComponent,
     NewCompanyExchangeInvitationsComponent,
     ExchangeJobRequestsComponent,
+    DeleteCompanyModalComponent,
 
     // Pages
     ExchangeListPageComponent,

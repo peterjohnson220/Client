@@ -14,6 +14,9 @@ export interface State extends EntityState<ExchangeCompany> {
   adding: boolean;
   addingError: boolean;
   total: number;
+  deleteModalOpen: boolean;
+  deleting: boolean;
+  deletingError: boolean;
 }
 
 // Create entity adapter
@@ -28,7 +31,10 @@ export const initialState: State = adapter.getInitialState({
   addModalOpen: false,
   adding: false,
   addingError: false,
-  total: 0
+  total: 0,
+  deleteModalOpen: false,
+  deleting: false,
+  deletingError: false
 });
 
 // Reducer
@@ -91,6 +97,40 @@ export function reducer(state, action) {
             addingError: true
           };
         }
+        case fromExchangeCompaniesActions.OPEN_DELETE_EXCHANGE_COMPANY_MODAL: {
+          return {
+            ...featureState,
+            deleteModalOpen: true
+          };
+        }
+        case fromExchangeCompaniesActions.CLOSE_DELETE_EXCHANGE_COMPANY_MODAL: {
+          return {
+            ...featureState,
+            deleteModalOpen: false
+          };
+        }
+        case fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY: {
+          return {
+            ...featureState,
+            deleting: true
+          };
+        }
+        case fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY_SUCCESS: {
+          return {
+            ...featureState,
+            deleting: false,
+            deletingError: false,
+            deleteModalOpen: false
+          };
+        }
+        case fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY_ERROR: {
+          return {
+            ...featureState,
+            deleting: false,
+            deletingError: true,
+            deleteModalOpen: false
+          };
+        }
         default: {
           return featureState;
         }
@@ -105,3 +145,6 @@ export const getAddModalOpen = (state: State) => state.addModalOpen;
 export const getAdding = (state: State) => state.adding;
 export const getAddingError = (state: State) => state.addingError;
 export const getTotal = (state: State) => state.total;
+export const getDeleteModalOpen = (state: State) => state.deleteModalOpen;
+export const getDeleting = (state: State) => state.deleting;
+export const getDeletingError = (state: State) => state.deletingError;

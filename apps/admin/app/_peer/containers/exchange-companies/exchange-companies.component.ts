@@ -25,6 +25,7 @@ export class ExchangeCompaniesComponent {
   exchangeCompaniesGrid$: Observable<GridDataResult>;
   gridState$: Observable<State>;
   exchangeId: number;
+  selectedCompany: ExchangeCompany;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -37,7 +38,7 @@ export class ExchangeCompaniesComponent {
     this.exchangeCompaniesGrid$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGrid);
     this.gridState$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGridState);
 
-    this.exchangeId = this.route.snapshot.parent.params.id;
+    this.exchangeId = +this.route.snapshot.parent.params.id;
   }
 
   // Events
@@ -57,5 +58,10 @@ export class ExchangeCompaniesComponent {
 
   openAddExchangeCompaniesModal(): void {
     this.store.dispatch(new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal());
+  }
+
+  openDeleteExchangeCompanyModal(company: ExchangeCompany): void {
+    this.selectedCompany = company;
+    this.store.dispatch(new fromExchangeCompaniesActions.OpenDeleteExchangeCompanyModal());
   }
 }

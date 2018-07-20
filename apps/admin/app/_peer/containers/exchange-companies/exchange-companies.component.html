@@ -41,6 +41,15 @@
 
         <kendo-grid-column field="Location" title="Location"></kendo-grid-column>
 
+        <kendo-grid-column width="50">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <button title="Remove Company" class="delete-mapping-button btn btn-sm btn-danger"
+                    (click)="openDeleteExchangeCompanyModal(dataItem)">
+              <i class="fas fa-trash-alt fa-lg" aria-hidden="true"></i>
+            </button>
+          </ng-template>
+        </kendo-grid-column>
+
       </kendo-grid>
 
     </pf-async-container>
@@ -49,3 +58,9 @@
 </div>
 
 <pf-add-companies-modal></pf-add-companies-modal>
+
+<pf-delete-company-modal
+  [selectedCompany]="selectedCompany"
+  [exchangeId]="exchangeId"
+  >
+</pf-delete-company-modal>
