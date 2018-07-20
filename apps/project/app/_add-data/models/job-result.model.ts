@@ -9,6 +9,10 @@ export interface JobResult {
     Description: string;
     IsPayfactors: boolean;
     MatchCount: number;
+    EffectiveDate: string;
+    Category?: string;
+    FLSA?: string;
+    Scope?: string;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -22,7 +26,8 @@ export function generateMockSurveyJobResult(): JobResult {
     Source: 'Hewitt Associates',
     Description: 'Job Description: Accountant',
     IsPayfactors: false,
-    MatchCount: 5
+    MatchCount: 5,
+    EffectiveDate: 'April 1, 2010'
   };
 }
 
@@ -34,9 +39,25 @@ export function generateMockPayfactorsJobResult(): JobResult {
     SurveyName: 'PayFactors',
     Family: 'Accounting',
     Level: 'I',
-    Source: 'Payfactors effective date June 1, 2018',
-    Description: 'Job Description: Accountant',
+    Source: 'Payfactors',
+    Description: `Job Summary: Prepares, analyzes, and reviews financial statements using accounting principles.
+     Job Duties: Keeps records of account entries by compiling and analyzing accounting activities.
+     Prepares reports such as balance sheets, profit and loss statements,
+     and other documents that project the organization's financial position.
+     Reviews financial statements for completeness, accuracy, and compliance.
+     Oversees accounting operations, or a complex segment of the accounting function.
+     Coordinates accounting matters with other departments. Experience and Education:
+     Performs work under general supervision. Handles moderately complex issues and problems,
+     and refers more complex issues to higher-level staff. Possesses solid working knowledge of subject matter.
+     May provide leadership, coaching, and/or mentoring to a subordinate group.
+     Typically requires a Bachelor's degree and 2 to 4 years of experience. May require a CPA.
+     Reports to: Typically reports to a department head or manager. Competencies: Analytical skills.
+     Problem-solving. Ability to work within a team.`,
     IsPayfactors: true,
-    MatchCount: 0
+    MatchCount: 0,
+    EffectiveDate: 'July 1, 2018',
+    Category: 'Professional',
+    FLSA: 'Typically Exempt',
+    Scope: 'Boston - MA'
   };
 }

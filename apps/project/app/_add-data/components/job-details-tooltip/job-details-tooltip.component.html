@@ -1,0 +1,25 @@
+<div #tooltip class="tooltip-container" [style.left.px]="tooltipLeftPx" [style.visibility]="!visible ? 'hidden': 'inherit'">
+  <div class="d-flex">
+      <div class="mr-auto pr-2"><h5>{{job.Title}} ({{job.Code}})</h5></div>
+      <div data-toggle="tooltip" title="Copy Job Description">
+        <i class="fa fa-clipboard" aria-hidden="true"></i>
+      </div>
+  </div>
+  <div>
+    <span class="pr-2"><strong>Family: </strong>{{job.Family}}</span>
+    <span class="pr-2"><strong>Level: </strong>{{job.Level}}</span>
+    <span *ngIf="job.IsPayfactors"><strong>FLSA: </strong>{{job.FLSA}}</span>
+  </div>
+  <div *ngIf="job.IsPayfactors">
+    <strong>Job Category: </strong>{{job.Category}}
+  </div>
+  <p class="mt-3">
+    <strong>Source: </strong>{{job.Source}} 
+    <span *ngIf="!job.IsPayfactors && !!job.SurveyName">- {{job.SurveyName}}</span>
+    effective {{job.EffectiveDate}}
+  </p>
+  <p *ngIf="job.IsPayfactors">
+    <strong>Scope: </strong>{{job.Scope}}
+  </p>
+  <div class="job-description">{{job.Description}}</div>
+</div>

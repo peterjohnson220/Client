@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { JobResult } from '../../models';
+import { JobResult, JobDetailsToolTipData } from '../../models';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -19,6 +19,9 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingResults$: Observable<boolean>;
   loadingMoreResultsSub: Subscription;
   loadingMoreResults: boolean;
+  tooltipData: JobDetailsToolTipData;
+  showTooltip: boolean;
+  tooltipIndex: number;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
@@ -41,6 +44,27 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.loadingMoreResultsSub.unsubscribe();
+    if (this.loadingMoreResultsSub) {
+      this.loadingMoreResultsSub.unsubscribe();
+    }
+  }
+
+  handleResultsScroll(): void {
+    this.clearTooltip();
+  }
+
+  handleJobTitleClick(data: JobDetailsToolTipData, index: number): void {
+    if (!!this.tooltipData && this.tooltipIndex === index) {
+      this.clearTooltip();
+      return;
+    }
+    this.tooltipData = data;
+    this.tooltipIndex = index;
+    this.showTooltip = true;
+  }
+
+  private clearTooltip(): void {
+    this.showTooltip = false;
+    this.tooltipIndex = -1;
   }
 }

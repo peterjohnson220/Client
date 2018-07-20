@@ -4,6 +4,7 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 <div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   toggleDataCutsLabel={[Function String]}
@@ -14,12 +15,18 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     <div
       class="job-title"
     >
-      Blend of Gas Operations Top Executive-Corporate, G (13001)
+      <span>
+         Blend of Gas Operations Top Executive-Corporate, G (13001) 
+      </span>
     </div>
     <div
       class="vendor"
     >
-       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry 
+       Hewitt Associates 
+      
+      <span>
+        - TCM Executive Long Term Incentives Total Compensation by Industry
+      </span>
     </div>
     
     <span
@@ -45,6 +52,7 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link when the cur
 <div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   toggleDataCutsLabel={[Function String]}
@@ -55,12 +63,15 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link when the cur
     <div
       class="job-title"
     >
-      Accountant II (1002)
+      <span>
+         Accountant II (1002) 
+      </span>
     </div>
     <div
       class="vendor"
     >
-       Payfactors effective date June 1, 2018 - PayFactors 
+       Payfactors 
+      
     </div>
     
   </td><td

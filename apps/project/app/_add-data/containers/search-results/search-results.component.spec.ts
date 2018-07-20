@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchResultsComponent } from './search-results.component';
+import { generateMockSurveyJobResult, JobResult, JobDetailsToolTipData } from '../../models';
 
 describe('Project - Add Data - Search Results', () => {
   let fixture: ComponentFixture<SearchResultsComponent>;
@@ -62,5 +63,35 @@ describe('Project - Add Data - Search Results', () => {
     instance.onScroll();
 
     expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('should show tooltip when current tooltip index is not the same as the input index', () => {
+    const jobResult: JobResult = generateMockSurveyJobResult();
+    const data: JobDetailsToolTipData = {
+      Job: jobResult,
+      TargetX: 300,
+      TargetY: 579
+    };
+    const inputTooltipIndex = 1;
+
+    instance.handleJobTitleClick(data, inputTooltipIndex);
+
+    expect(instance.showTooltip).toEqual(true);
+  });
+
+  it('should not show tooltip when current tooltip index is the same as the input index', () => {
+    const jobResult: JobResult = generateMockSurveyJobResult();
+    const data: JobDetailsToolTipData = {
+      Job: jobResult,
+      TargetX: 300,
+      TargetY: 579
+    };
+    const inputTooltipIndex = 1;
+    instance.tooltipData = data;
+    instance.tooltipIndex = 1;
+
+    instance.handleJobTitleClick(data, inputTooltipIndex);
+
+    expect(instance.showTooltip).toEqual(false);
   });
 });

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
-import { JobResult } from '../../models';
+import { JobResult, JobDetailsToolTipData } from '../../models';
 
 @Component({
   // The job result table row needs to be an immediate child of the tbody.
@@ -13,14 +13,13 @@ import { JobResult } from '../../models';
 export class JobResultComponent implements OnInit {
 
   @Input() job: JobResult;
+  @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
 
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
-
-  constructor() {}
 
   ngOnInit(): void {
     this.toggleDataCutsLabel = this.showCutsLabel;
@@ -30,5 +29,14 @@ export class JobResultComponent implements OnInit {
   toggleDataCutsDisplay(): void {
     this.showDataCuts = !this.showDataCuts;
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
+  }
+
+  handleJobTitleClick(event: MouseEvent): void {
+    const data: JobDetailsToolTipData = {
+      TargetX: event.offsetX + 10,
+      TargetY: event.clientY,
+      Job: this.job
+    };
+    this.jobTitleClick.emit(data);
   }
 }
