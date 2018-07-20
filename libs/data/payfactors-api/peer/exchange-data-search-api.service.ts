@@ -27,6 +27,10 @@ export class ExchangeDataSearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMapData`, exchangeDataSearchFilter);
   }
 
+  getMapHasData(exchangeId: number): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/HasMapData`,  exchangeId);
+  }
+
   getFilterAggregates(exchangeDataSearchFilter: ExchangeDataSearchFilter): Observable<FilterAggregateGroup[]> {
    return this.payfactorsApiService.post(`${this.endpoint}/GetFilterAggregates`, exchangeDataSearchFilter);
   }
