@@ -1,0 +1,27 @@
+<div class="posts-container p-2 scroll">
+  <ng-container *ngFor="let post of CommunityPosts; let last = last;" >
+    <div class="row mb-3 ml-0 mr-0">
+      <div class="pl-1" [ngClass]="{'col-12': post.Tags?.length > 0, 'col-12': post.Tags?.length == 0}">
+          <img id="post-avatar" class="float-left" src="{{post.UserInfo.avatarSource}}"
+               alt="avatar">
+        <div class="post-offset">
+          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.userFirstName}} {{post.UserInfo.userLastName}}</span> <span class="community-sub-text"> @ {{post.UserInfo.companyName}}</span></p>
+          <p class="m-0 community-sub-text">{{post.Time}}</p>
+          <p class="mt-2 mb-2">{{post.PostText}}</p>
+          <button id="like" type="button" class="btn m-1" [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}" >
+            <i class="far fa-thumbs-up fa-lg icon"></i>
+            <span *ngIf="post.LikeCount == 0"> Like</span>
+            <span *ngIf="post.LikeCount > 0"> {{post.LikeCount}} Liked</span>
+          </button>
+          <button id="reply" type="button" class="btn community-btn m-1"><i class="far fa-reply fa-lg icon"></i> Reply</button>
+          <div>
+          <ng-container *ngFor="let tag of post.Tags">
+            <button type="button" class="btn m-1 tag p-1" style="vertical-align: top"><i class="far fa-tag fa-lg tag-icon"></i> {{tag.TagName}}</button>
+          </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr *ngIf="!last">
+  </ng-container>
+</div>
