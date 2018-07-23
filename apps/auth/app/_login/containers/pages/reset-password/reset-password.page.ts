@@ -53,7 +53,7 @@ export class ResetPasswordPageComponent implements OnInit {
     if (this.password !== undefined) {
       this.submitEnabled = false;
       this.submitting = true;
-      this.store.dispatch(new fromResetPasswordActions.ResetPassword(this.token, this.password));
+      this.store.dispatch(new fromResetPasswordActions.ResetPassword({token: this.token, password: this.password}));
     }
   }
 

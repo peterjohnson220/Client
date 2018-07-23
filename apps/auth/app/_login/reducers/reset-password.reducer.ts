@@ -60,7 +60,7 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
         ...state,
         checkingResetPasswordToken: false,
         checkResetPasswordTokenSuccess: true,
-        resetPasswordTokenExpired: !action.tokenValid
+        resetPasswordTokenExpired: !action.payload
       };
     }
     case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_ERROR:
