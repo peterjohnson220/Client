@@ -14,12 +14,12 @@ export class Login implements Action {
 
 export class LoginSuccess implements Action {
   readonly type = LOGIN_SUCCESS;
-  constructor(public nextPage: string) {}
+  constructor(public payload: string) {}
 }
 
 export class LoginError implements Action {
   readonly type = LOGIN_ERROR;
-  constructor(public error: any) {}
+  constructor(public payload: any) {}
 }
 
 export class LoginSuccessRouteToHome implements Action {
@@ -29,7 +29,7 @@ export class LoginSuccessRouteToHome implements Action {
 
 export class LoginSuccessRouteToNextPage implements Action {
   readonly type = LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE;
-  constructor(public nextPage: string) {}
+  constructor(public payload: string) {}
 }
 
 export class Login401Error implements Action {

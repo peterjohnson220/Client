@@ -120,7 +120,7 @@ describe('Auth - Reset Password', () => {
     instance.password = 'test123';
     instance.token = 'testToken';
 
-    const action = new fromResetPasswordActions.ResetPassword(instance.token, instance.password);
+    const action = new fromResetPasswordActions.ResetPassword({token: instance.token, password: instance.password});
 
     instance.resetPassword();
 

@@ -15,7 +15,7 @@ export class ResetPasswordEffects {
   sendingPasswordReset$: Observable<Action> = this.actions$
     .ofType(fromResetPasswordAction.RESET_PASSWORD).pipe(
       switchMap((action: fromResetPasswordAction.ResetPassword) =>
-        this.accountApiService.resetPassword(action.token, action.password).pipe(
+        this.accountApiService.resetPassword(action.payload.token, action.payload.password).pipe(
           map((response: any) => {
             if (response === 'token_expired') {
               return new fromResetPasswordAction.ResetPasswordTokenExpired();
@@ -33,7 +33,7 @@ export class ResetPasswordEffects {
   checkingResetPasswordToken$: Observable<Action> = this.actions$
     .ofType(fromResetPasswordAction.CHECK_RESET_PASSWORD_TOKEN).pipe(
       switchMap((action: fromResetPasswordAction.CheckResetPasswordToken) =>
-        this.accountApiService.checkPasswordResetToken(action.token).pipe(
+        this.accountApiService.checkPasswordResetToken(action.payload).pipe(
           map((response: any) => {
               return new fromResetPasswordAction.CheckResetPasswordTokenSuccess(response);
             }

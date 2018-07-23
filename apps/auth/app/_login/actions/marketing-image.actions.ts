@@ -17,7 +17,7 @@ export class GetMarketingImageSuccess implements Action {
 
 export class GetMarketingImageError implements Action {
     readonly type = GET_MARKETING_IMAGE_ERROR;
-    constructor(public any: Error) {}
+    constructor(public payload: Error) {}
   }
 
   export type Actions
