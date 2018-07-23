@@ -11,13 +11,27 @@ input {
   font-size: $legacy-font-size;
 }
 
-.legacy-secondary-btn{
-  border: 1px solid #1F2F3D;
-  background-color: #FFFFFF;
-  color: #1F2F3D;
+%legacy-btn{
   border-radius: 2px;
   cursor: pointer;
   font-size: 11px;
   line-height: normal;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  height: 18px;
 }
+
+.legacy-secondary-btn{
+  @extend %legacy-btn;
+  background-color: #FFFFFF;
+  color: #1F2F3D;
+  border: 1px solid #1F2F3D;
+}
+
+.legacy-primary-btn{
+  @extend %legacy-btn;
+  background-color: #0883BE;
+  color: #FFFFFF;
+  border: 1px solid #0883BE;
+}
+
+

@@ -1,32 +1,21 @@
-<!-- Static Filters -->
-<pf-filter-section [title]="'Job Title / Code'">
-  <pf-input-debounce
-    [hideClearBtn]="true"
-    [placeholderText]="''"
-    [ngModel]="(staticFilters$ | async).jobTitleCode"
-    [maxLength]="255"
-    (valueChanged)="handleValueChanged('jobTitleCode', $event)">
-  </pf-input-debounce>
-</pf-filter-section>
+<div class="filter-header">
+  Jobs: <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong>
+</div>
 
-<pf-filter-section [title]="'Job Description'">
-  <pf-input-debounce
-    [hideClearBtn]="true"
-    [placeholderText]="''"
-    [ngModel]="(staticFilters$ | async).jobDescription"
-    [maxLength]="255"
-    (valueChanged)="handleValueChanged('jobDescription', $event)">
-  </pf-input-debounce>
-</pf-filter-section>
+<pf-filter-section
+  *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
+  [title]="filter.displayName"
+  [ngSwitch]="filter.type">
 
-<pf-filter-section [title]="'Scope'">
   <pf-input-debounce
+    *ngSwitchCase="filterTypes.Text"
     [hideClearBtn]="true"
     [placeholderText]="''"
     [maxLength]="255"
-    [ngModel]="(staticFilters$ | async).scope"
-    (valueChanged)="handleValueChanged('scope', $event)">
+    [ngModel]="filter.values[0]"
+    (valueChanged)="handleValueChanged(filter.id, $event)"
+    [focus]="filter.id === 'jobTitleCode'"
+    [showing]="pageShown$ | async">
   </pf-input-debounce>
-</pf-filter-section>
 
-<!-- Aggregate Filters -->
+</pf-filter-section>

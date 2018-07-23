@@ -9,7 +9,7 @@ export interface JobResult {
     Description: string;
     IsPayfactors: boolean;
     MatchCount: number;
-    EffectiveDate: string;
+    EffectiveDate: Date;
     Category?: string;
     FLSA?: string;
     Scope?: string;
@@ -27,7 +27,7 @@ export function generateMockSurveyJobResult(): JobResult {
     Description: 'Job Description: Accountant',
     IsPayfactors: false,
     MatchCount: 5,
-    EffectiveDate: 'April 1, 2010'
+    EffectiveDate: new Date(2010, 3, 1)
   };
 }
 
@@ -55,7 +55,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
      Problem-solving. Ability to work within a team.`,
     IsPayfactors: true,
     MatchCount: 0,
-    EffectiveDate: 'July 1, 2018',
+    EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
     FLSA: 'Typically Exempt',
     Scope: 'Boston - MA'

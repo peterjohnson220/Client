@@ -16,7 +16,10 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
       class="job-title"
     >
       <span>
-         Blend of Gas Operations Top Executive-Corporate, G (13001) 
+         Blend of Gas Operations Top Executive-Corporate, G 
+        
+        
+        (13001)
       </span>
     </div>
     <div
@@ -24,9 +27,8 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     >
        Hewitt Associates 
       
-      <span>
-        - TCM Executive Long Term Incentives Total Compensation by Industry
-      </span>
+      
+      - TCM Executive Long Term Incentives Total Compensation by Industry
     </div>
     
     <span
@@ -48,7 +50,7 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 </div>
 `;
 
-exports[`Project - Add Data - Job Result should hide Show Cuts link when the current job is Payfactors 1`] = `
+exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
 <div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
@@ -64,7 +66,8 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link when the cur
       class="job-title"
     >
       <span>
-         Accountant II (1002) 
+         Accountant II 
+        
       </span>
     </div>
     <div

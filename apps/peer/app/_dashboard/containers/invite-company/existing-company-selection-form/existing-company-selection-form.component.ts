@@ -24,6 +24,7 @@ export class ExistingCompanySelectionFormComponent implements OnInit, OnDestroy 
   @ViewChild(CardSelectorComponent) cardSelector;
   @Input() exchange: Exchange;
   @Input() requestCompanyForm: FormGroup;
+  @Input() showing: boolean;
 
   existingCompanies$: Observable<ExistingCompany[]>;
   existingCompaniesLoading$: Observable<boolean>;

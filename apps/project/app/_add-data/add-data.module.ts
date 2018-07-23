@@ -11,8 +11,9 @@ import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent } from './components';
 import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent } from './containers';
-import { AddSurveyDataPageEffects } from './effects';
+import { AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects } from './effects';
 import { reducers } from './reducers';
+import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
 
 @NgModule({
@@ -22,7 +23,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
 
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
-    EffectsModule.forFeature([AddSurveyDataPageEffects]),
+    EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects]),
     InfiniteScrollModule,
 
     // Routing
@@ -44,6 +45,9 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   ],
   entryComponents: [
     JobDetailsTooltipComponent
+  ],
+  providers: [
+    AddDataEffectsService
   ]
 })
 export class AddDataModule { }

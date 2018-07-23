@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SearchFilter } from 'libs/models/search';
+import { SearchFilter, SearchRequest } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -14,5 +14,9 @@ export class SurveySearchApiService {
 
   getDefaultSurveyScopesFilter(companyPayMarketId: number): Observable<SearchFilter> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDefaultSurveyScopesFilter`, { params: { companyPayMarketId } });
+  }
+
+  searchSurveyJobs(searchRequest: SearchRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyJobs`, searchRequest);
   }
 }
