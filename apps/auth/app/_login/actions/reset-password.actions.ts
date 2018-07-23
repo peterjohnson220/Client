@@ -35,7 +35,7 @@ export class CheckResetPasswordToken implements Action {
 
 export class CheckResetPasswordTokenSuccess implements Action {
   readonly type = CHECK_RESET_PASSWORD_TOKEN_SUCCESS;
-  constructor(public payload: boolean) {}
+  constructor(public payload: any) {}
 }
 
 export class CheckResetPasswordTokenError implements Action {
