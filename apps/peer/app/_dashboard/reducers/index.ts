@@ -167,6 +167,20 @@ export const getExchangeDashboardSidebarVisible = createSelector(
   selectExchangeDashboardState,
   fromExchangeDashboardReducer.getSidebarVisible
 );
+export const getExchangeDashboardMapHasData = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getMapHasDataItem
+);
+
+export const getExchangeDashboardMapHasDataLoading = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingMapHasData
+);
+
+export const getExchangeDashboardMapHasDataError = createSelector(
+  selectExchangeDashboardState,
+  fromExchangeDashboardReducer.getLoadingMapHasDataError
+);
 
 // Exchange Request - Access
 export const {

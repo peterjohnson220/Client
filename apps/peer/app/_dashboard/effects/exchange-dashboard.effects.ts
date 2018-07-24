@@ -5,10 +5,9 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
-import { ChartItem } from 'libs/models';
+import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
+import { ChartItem, ExchangeListItem } from 'libs/models';
 import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
-import { ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 
@@ -105,10 +104,23 @@ export class ExchangeDashboardEffects {
       )
     );
 
+    @Effect()
+    loadMapCount$: Observable<Action> = this.actions$
+      .ofType(fromExchangeDashboardActions.LOAD_MAP_COUNT).pipe(
+        map((action: fromExchangeDashboardActions.LoadMapCount) => action.exchangeId),
+        switchMap((payload: number) =>
+        this.exchangeDataSearchApiService.getMapHasData(payload).pipe(
+          map((resp: any) =>
+              new fromExchangeDashboardActions.LoadMapCountSuccess(resp.HasMapData)),
+          catchError(() => of(new fromExchangeDashboardActions.LoadMapCountError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
-    private exchangeApiService: ExchangeApiService,
-    private exchangeCompanyApiService: ExchangeCompanyApiService
+    private exchangeCompanyApiService: ExchangeCompanyApiService,
+    private exchangeDataSearchApiService: ExchangeDataSearchApiService
   ) {}
 }
 
