@@ -67,4 +67,14 @@ describe('JobDetailsTooltipComponent', () => {
     expect(tooltipElement.style.top).toEqual(`${instance.tooltipTopPx}px`);
   });
 
+  it('should reset job description scroll bar to top position', () => {
+    const jobDescriptionElement: DebugElement = fixture.debugElement.query(By.css('.job-description'));
+    instance.job = generateMockPayfactorsJobResult();
+
+    instance.updateJobDescriptionScrollTop();
+    fixture.detectChanges();
+
+    expect(jobDescriptionElement.nativeElement.scrollTop).toEqual(0);
+  });
+
 });
