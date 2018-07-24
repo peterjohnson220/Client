@@ -1,7 +1,8 @@
+import * as cloneDeep from 'lodash.clonedeep';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 
 import { JobResult, ResultsPagingOptions } from '../models';
-import { mapSurveyJobsToJobResults } from '../helpers';
+import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut } from '../helpers';
 
 export interface State {
   results: JobResult[];
@@ -76,6 +77,28 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         tooltipOpen: false
       };
     }
+    case fromSearchResultsActions.GET_SURVEY_DATA_RESULTS: {
+      const surveyJobId = action.payload.Id;
+      const resultsCopy = cloneDeep(state.results);
+      const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
+      surveyJob.LoadingDataCuts = true;
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSearchResultsActions.GET_SURVEY_DATA_RESULTS_SUCCESS: {
+      const surveyJobId = action.payload.SurveyJobId;
+      const resultsCopy = cloneDeep(state.results);
+      const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
+      surveyJob.LoadingDataCuts = false;
+      surveyJob.DataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts);
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+
     default: {
       return state;
     }

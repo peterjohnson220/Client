@@ -65,9 +65,7 @@ exports[`Project - Add Data - Search Results should show a table row with a load
       <table>
         <tbody>
           
-          <tr
-            pf-job-result=""
-          />
+          <pf-job-result />
           
           <tr
             class="loading-more-row"

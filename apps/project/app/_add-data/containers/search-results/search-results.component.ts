@@ -3,7 +3,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { JobResult, JobDetailsToolTipData } from '../../models';
+import {JobResult, JobDetailsToolTipData} from '../../models';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -78,6 +78,10 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.tooltipData = data;
     this.tooltipIndex = index;
     this.store.dispatch(new fromSearchResultsActions.OpenTooltip());
+  }
+
+  trackByJobId(index, item: JobResult) {
+    return item.Id;
   }
 
   private clearTooltip(): void {

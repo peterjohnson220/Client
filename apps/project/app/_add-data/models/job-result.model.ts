@@ -1,3 +1,5 @@
+import {DataCut} from './data-cut.model';
+
 export interface JobResult {
     Id: number;
     Title: string;
@@ -13,6 +15,8 @@ export interface JobResult {
     Category?: string;
     FLSAStatus?: string;
     Scope?: string;
+    LoadingDataCuts: boolean;
+    DataCuts: DataCut[];
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -27,7 +31,9 @@ export function generateMockSurveyJobResult(): JobResult {
     Description: 'Job Description: Accountant',
     IsPayfactors: false,
     MatchCount: 5,
-    EffectiveDate: new Date(2010, 3, 1)
+    EffectiveDate: new Date(2010, 3, 1),
+    LoadingDataCuts: false,
+    DataCuts: []
   };
 }
 
@@ -58,6 +64,8 @@ export function generateMockPayfactorsJobResult(): JobResult {
     EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
     FLSAStatus: 'Typically Exempt',
-    Scope: 'Boston - MA'
+    Scope: 'Boston - MA',
+    LoadingDataCuts: false,
+    DataCuts: []
   };
 }
