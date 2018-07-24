@@ -62,6 +62,8 @@ describe('Auth - Reset Password', () => {
     instance.resetSuccess$ = of(false);
     instance.resetError$ = of(false);
     instance.resetTokenExpired$ = of(false);
+    instance.tokenValid$ = of(true);
+    instance.minLength$ = of(8);
 
     fixture.detectChanges();
 
@@ -77,6 +79,9 @@ describe('Auth - Reset Password', () => {
     instance.submitEnabled = false;
     instance.submitting = true;
 
+    instance.tokenValid$ = of(true);
+    instance.minLength$ = of(8);
+
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -87,6 +92,9 @@ describe('Auth - Reset Password', () => {
     instance.resetSuccess$ = of(true);
     instance.resetError$ = of(false);
     instance.resetTokenExpired$ = of(false);
+
+    instance.tokenValid$ = of(true);
+    instance.minLength$ = of(8);
 
     instance.submitEnabled = false;
     instance.submitting = true;
@@ -105,6 +113,9 @@ describe('Auth - Reset Password', () => {
     instance.submitEnabled = false;
     instance.submitting = true;
 
+    instance.tokenValid$ = of(true);
+    instance.minLength$ = of(8);
+
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -119,6 +130,9 @@ describe('Auth - Reset Password', () => {
 
     instance.password = 'test123';
     instance.token = 'testToken';
+
+    instance.tokenValid$ = of(true);
+    instance.minLength$ = of(8);
 
     const action = new fromResetPasswordActions.ResetPassword({token: instance.token, password: instance.password});
 

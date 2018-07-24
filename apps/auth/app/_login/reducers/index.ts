@@ -80,6 +80,8 @@ export const getCheckingResetPasswordToken =
   createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordToken);
 export const getCheckingResetPasswordTokenSuccess =
   createSelector(resetPasswordState, fromResetPasswordReducer.getCheckingResetPasswordTokenSuccess);
+export const getPasswordMinimumLength =
+  createSelector(resetPasswordState, fromResetPasswordReducer.getPasswordMinimumLength);
 
 
 // marketing

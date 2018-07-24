@@ -35,7 +35,11 @@ export class ResetPasswordEffects {
       switchMap((action: fromResetPasswordAction.CheckResetPasswordToken) =>
         this.accountApiService.checkPasswordResetToken(action.payload).pipe(
           map((response: any) => {
-              return new fromResetPasswordAction.CheckResetPasswordTokenSuccess(response);
+              const payload: any = {
+                TokenIsValid: response.TokenIsValid,
+                MinimumLength: response.MinimumLength
+              };
+              return new fromResetPasswordAction.CheckResetPasswordTokenSuccess(payload);
             }
           ),
           catchError(error => of(new fromResetPasswordAction.ResetPasswordError()))
