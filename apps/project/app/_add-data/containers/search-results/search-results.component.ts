@@ -21,6 +21,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingMoreResults$: Observable<boolean>;
   loadingResults$: Observable<boolean>;
   hasMoreResultsOnServer$: Observable<boolean>;
+  tooltipOpen$: Observable<boolean>;
 
   // Subscriptions
   loadingMoreResultsSub: Subscription;
@@ -29,7 +30,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
   loadingMoreResults: boolean;
   tooltipData: JobDetailsToolTipData;
-  showTooltip: boolean;
   tooltipIndex: number;
   hasMoreResultsOnServer: boolean;
 
@@ -40,6 +40,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromAddDataReducer.getLoadingMoreResults);
     this.hasMoreResultsOnServer$ = this.store.select(fromAddDataReducer.getHasMoreResultsOnServer);
+    this.tooltipOpen$ = this.store.select(fromAddDataReducer.getTooltipOpen);
   }
 
   // Events
@@ -73,11 +74,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     }
     this.tooltipData = data;
     this.tooltipIndex = index;
-    this.showTooltip = true;
+    this.store.dispatch(new fromSearchResultsActions.OpenTooltip());
   }
 
   private clearTooltip(): void {
-    this.showTooltip = false;
+    this.store.dispatch(new fromSearchResultsActions.CloseTooltip());
     this.tooltipIndex = -1;
   }
 

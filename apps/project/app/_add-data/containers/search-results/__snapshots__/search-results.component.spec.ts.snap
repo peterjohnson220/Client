@@ -13,6 +13,7 @@ exports[`Project - Add Data - Search Results should show a table row with a load
   loadingResultsSub={[Function Subscriber]}
   resultsContainer={[Function ElementRef]}
   store={[Function Store]}
+  tooltipOpen$={[Function Store]}
 >
   <div
     class="results-header"
