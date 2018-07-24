@@ -9,6 +9,7 @@ export interface State {
   loadingResults: boolean;
   pagingOptions: ResultsPagingOptions;
   totalResultsOnServer: number;
+  tooltipOpen: boolean;
 }
 
 const initialState: State = {
@@ -19,7 +20,8 @@ const initialState: State = {
     page: 1,
     pageSize: 25
   },
-  totalResultsOnServer: 0
+  totalResultsOnServer: 0,
+  tooltipOpen: false
 };
 
 // Reducer function
@@ -58,7 +60,20 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       return {
         ...state,
         results: [],
-        totalResultsOnServer: 0
+        totalResultsOnServer: 0,
+        tooltipOpen: false
+      };
+    }
+    case fromSearchResultsActions.OPEN_TOOLTIP: {
+      return {
+        ...state,
+        tooltipOpen: true
+      };
+    }
+    case fromSearchResultsActions.CLOSE_TOOLTIP: {
+      return {
+        ...state,
+        tooltipOpen: false
       };
     }
     default: {
@@ -74,3 +89,4 @@ export const getLoadingMoreResults = (state: State) => state.loadingMoreResults;
 export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getNumberOfResults = (state: State) => state.totalResultsOnServer;
 export const hasMoreResultsOnServer = (state: State) => state.totalResultsOnServer > state.results.length;
+export const getTooltipOpen = (state: State) => state.tooltipOpen;

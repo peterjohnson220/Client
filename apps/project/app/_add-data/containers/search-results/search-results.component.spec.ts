@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 
@@ -92,6 +93,7 @@ describe('Project - Add Data - Search Results', () => {
   });
 
   it('should show tooltip when current tooltip index is not the same as the input index', () => {
+    const openTooltipAction = new fromSearchResultsActions.OpenTooltip();
     const jobResult: JobResult = generateMockSurveyJobResult();
     const data: JobDetailsToolTipData = {
       Job: jobResult,
@@ -101,12 +103,16 @@ describe('Project - Add Data - Search Results', () => {
     const inputTooltipIndex = 1;
 
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
     instance.handleJobTitleClick(data, inputTooltipIndex);
 
-    expect(instance.showTooltip).toEqual(true);
+    expect(store.dispatch).toHaveBeenCalledWith(openTooltipAction);
+    expect(instance.tooltipIndex).toEqual(inputTooltipIndex);
   });
 
   it('should not show tooltip when current tooltip index is the same as the input index', () => {
+    const closeTooltipAction = new fromSearchResultsActions.CloseTooltip();
     const jobResult: JobResult = generateMockSurveyJobResult();
     const data: JobDetailsToolTipData = {
       Job: jobResult,
@@ -118,8 +124,11 @@ describe('Project - Add Data - Search Results', () => {
     instance.tooltipIndex = 1;
 
     fixture.detectChanges();
+
+    spyOn(store, 'dispatch');
     instance.handleJobTitleClick(data, inputTooltipIndex);
 
-    expect(instance.showTooltip).toEqual(false);
+    expect(store.dispatch).toHaveBeenCalledWith(closeTooltipAction);
+    expect(instance.tooltipIndex).toEqual(-1);
   });
 });

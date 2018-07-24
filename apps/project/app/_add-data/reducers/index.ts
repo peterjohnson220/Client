@@ -88,6 +88,11 @@ export const getHasMoreResultsOnServer = createSelector(
   fromSearchResultsReducer.hasMoreResultsOnServer
 );
 
+export const getTooltipOpen = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getTooltipOpen
+);
+
 // Search Filters Selectors
 export const getFilters = createSelector(
   selectSearchFiltersState,
