@@ -8,9 +8,9 @@
   <div>
     <span class="pr-2"><strong>Family: </strong>{{job.Family}}</span>
     <span class="pr-2"><strong>Level: </strong>{{job.Level}}</span>
-    <span *ngIf="job.IsPayfactors"><strong>FLSA: </strong>{{job.FLSA}}</span>
+    <span *ngIf="job.IsPayfactors && !!job.FLSAStatus"><strong>FLSA: </strong>{{job.FLSAStatus}}</span>
   </div>
-  <div *ngIf="job.IsPayfactors">
+  <div *ngIf="job.IsPayfactors && !!job.Category">
     <strong>Job Category: </strong>{{job.Category}}
   </div>
   <p class="mt-3">

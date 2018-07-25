@@ -15,7 +15,9 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
       Description: sj.Job.Description,
       IsPayfactors: sj.IsPayfactorsJob,
       MatchCount: 0,
-      EffectiveDate: sj.Survey.EffectiveDateTime
+      EffectiveDate: sj.Survey.EffectiveDateTime,
+      Category: sj.Job.Category,
+      FLSAStatus: sj.Job.FLSAStatus
     };
   });
 }
