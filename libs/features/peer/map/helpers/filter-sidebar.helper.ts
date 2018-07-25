@@ -162,6 +162,17 @@ export class FilterSidebarHelper {
     }
   }
 
+  // Given a collection of Filter Aggregate Groups, map all children as selected items
+  static mapAggregateGroupSelections(aggGroups: FilterAggregateGroup[]): FilterAggregateGroup[] {
+    return cloneDeep(aggGroups).map(agg => {
+      agg.Aggregates.map(aggItem => {
+        aggItem.Selected = true;
+        return aggItem;
+      });
+      return agg;
+    });
+  }
+
   // Given a collection of Filter Aggregate Items, will sort the array by count first and then by Item name
   private static sortAggregateItems(aggregateItems: FilterAggregateItem[]) {
     aggregateItems.sort((a, b) => {

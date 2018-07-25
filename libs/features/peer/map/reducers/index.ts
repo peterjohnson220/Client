@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromMapReducer from './map.reducer';
 import * as fromFilterSidebarReducer from './filter-sidebar.reducer';
+import * as fromExchangeScopeReducer from './exchange-scope.reducer';
 
 // Feature area state
 export interface LibsPeerMapState {
   map: fromMapReducer.State;
   filterSidebar: fromFilterSidebarReducer.State;
+  exchangeScope: fromExchangeScopeReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   map: fromMapReducer.reducer,
-  filterSidebar: fromFilterSidebarReducer.reducer
+  filterSidebar: fromFilterSidebarReducer.reducer,
+  exchangeScope: fromExchangeScopeReducer.reducer
 };
 
 // Select Feature Area
@@ -30,6 +33,7 @@ export const selectLibsPeerMapState = createFeatureSelector<LibsPeerMapState>('f
 // Feature Selectors
 export const selectMapState = createSelector(selectLibsPeerMapState, (state: LibsPeerMapState) => state.map);
 export const selectPeerFiltersState = createSelector(selectLibsPeerMapState, (state: LibsPeerMapState) => state.filterSidebar);
+export const selectExchangeScopeState = createSelector(selectLibsPeerMapState, (state: LibsPeerMapState) => state.exchangeScope);
 
 // Map Data Selectors
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
@@ -44,6 +48,7 @@ export const getPeerMapInitialZoomLevel = createSelector(selectMapState, fromMap
 export const getPeerMapCentroid = createSelector(selectMapState, fromMapReducer.getMapCentroid);
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
+export const getPeerMapApplyingScope = createSelector(selectMapState, fromMapReducer.getApplyingScope);
 
 // Filter Sidebar Selectors
 export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
@@ -55,6 +60,19 @@ export const getPeerFilterPayMarket = createSelector(selectPeerFiltersState, fro
 export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getPreviewLimit);
 export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
 export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
+export const getPeerFilterScopeSelection = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getScopeSelection);
+
+// Exchange Scope Selectors
+export const {
+  selectAll: getExchangeScopes
+} = fromExchangeScopeReducer.adapter.getSelectors(selectExchangeScopeState);
+export const getExchangeScopesLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoading);
+export const getExchangeScopesLoadingError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingError);
+export const getExchangeScopeDetailsLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingDetails);
+export const getExchangeScopeDetailsLoadingError = createSelector(
+  selectExchangeScopeState,
+  fromExchangeScopeReducer.getLoadingDetailsError
+);
 
 // Combined State Selectors
 export const getExchangeDataCutRequestData = createSelector(
@@ -89,4 +107,22 @@ export const getNumberOfCompanySelections = createSelector(
   getPeerFilterSelections,
   (filterSelections) => !!filterSelections['CompanyIds'] ? filterSelections['CompanyIds'].length : 0
 );
+
+export const getSystemFilterExchangeJobIds = createSelector(
+  getSystemFilter,
+  (systemFilter) => !!systemFilter ? systemFilter.ExchangeJobIds : []
+);
+
+export const getPeerMapScopeRequestPayload = createSelector(
+  getExchangeDataCutRequestData,
+  getPeerFilterScopeSelection,
+  (filterModel, selectedExchangeScope) => {
+    return {
+      filterModel,
+      exchangeScopeGuid: !!selectedExchangeScope ? selectedExchangeScope.Id : null
+    };
+  }
+);
+
+export const getSystemFilterLoaded = createSelector(getSystemFilter, (systemFilter) => !!systemFilter);
 

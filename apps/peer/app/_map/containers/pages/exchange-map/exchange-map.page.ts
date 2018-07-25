@@ -27,6 +27,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   initialMapMoveComplete$: Observable<boolean>;
   peerMapLoadingError$: Observable<boolean>;
   numberOfCompanySelections$: Observable<number>;
+  numberOfSelections$: Observable<number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     this.initialMapMoveComplete$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerMapInitialMapMoveComplete);
     this.peerMapLoadingError$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerMapLoadingError);
     this.numberOfCompanySelections$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getNumberOfCompanySelections);
+    this.numberOfSelections$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount);
     this.exchangeId = +this.route.snapshot.params.id;
   }
 

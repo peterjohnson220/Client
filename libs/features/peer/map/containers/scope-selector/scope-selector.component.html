@@ -1,0 +1,45 @@
+<div class="scope-selector-container">
+
+  <button type="button"
+          class="btn btn-secondary selector"
+          [ngbPopover]="popContent"
+          popoverTitle="Select an Exchange Scope"
+          placement="right"
+          pfHandlePopoverClose
+          #p="ngbPopover">
+
+    <span class="selector-caret">
+    <i class="fas fa-caret-right"></i>
+    </span>
+
+    <span class="selector-label text-muted">Exchange Scope:</span>
+
+    <span class="selection">{{(selectedExchangeScopeItem$ | async)?.Name || 'Select a Scope...'}}</span>
+
+  </button>
+
+</div>
+
+<ng-template #popContent>
+  <div class="d-flex flex-column h-100">
+    <div class="popover-content">
+
+      <div *ngFor="let exchangeScopeItem of exchangeScopeItems$ | async"
+          (click)="handleExchangeScopeClicked(exchangeScopeItem)"
+          class="exchange-scope-selection"
+          [class.selected-scope]="itemSelected(exchangeScopeItem)">
+
+        <div class="d-flex justify-content-between">
+
+          <div class="ellipsis-overflowing-text">
+            {{exchangeScopeItem.Name}}
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</ng-template>

@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { UpsertExchangeScopeRequest, PeerMapScopeDetails, PeerMapScopeSystemDetails,
+         ExchangeScopeItem, ExchangeDataSearchFilter } from 'libs/models/peer';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { UpsertExchangeScopeRequest } from '../../../models/peer/requests/upsert-exchange-scope-request.model';
 
 @Injectable()
 export class ExchangeScopeApiService {
@@ -18,6 +20,24 @@ export class ExchangeScopeApiService {
   validateExchangeScopeName(exchangeId: number, exchangeScopeName: string): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidExchangeScopeName`,
       { params: { exchangeId: exchangeId, exchangeScopeName: exchangeScopeName } }
+    );
+  }
+
+  getExchangeScopes(exchangeJobIds: number[]): Observable<ExchangeScopeItem[]> {
+    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeList`,
+      { params: { exchangeJobIds: exchangeJobIds } }
+    );
+  }
+
+  getDataCutPeerMapScope(dataCutGuid: string): Observable<PeerMapScopeSystemDetails> {
+    return this.payfactorsApiService.get<PeerMapScopeSystemDetails>(`${this.endpoint}/GetDataCutPeerMapScope`,
+      { params: { dataCutGuid: dataCutGuid } }
+    );
+  }
+
+  getPeerMapScope(exchangeScopeGuid: string, filterModel: ExchangeDataSearchFilter): Observable<PeerMapScopeDetails> {
+    return this.payfactorsApiService.post<PeerMapScopeDetails>(`${this.endpoint}/GetPeerMapScope`,
+      { ExchangeScopeGuid: exchangeScopeGuid, FilterModel: filterModel }
     );
   }
 }

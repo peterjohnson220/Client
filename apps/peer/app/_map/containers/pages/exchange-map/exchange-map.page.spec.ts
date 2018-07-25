@@ -61,6 +61,7 @@ describe('Peer - Map - Exchange Map Page', () => {
     instance = fixture.componentInstance;
     instance.map = {getZoomLevel() { return mockUpsertExchangeScopeRequest.ZoomLevel; }} as MapComponent;
     instance.numberOfCompanySelections$ = of(0);
+    instance.numberOfSelections$ = of(1);
   });
 
   it('should show the exchange name as the page title', () => {
@@ -127,9 +128,16 @@ describe('Peer - Map - Exchange Map Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should display a disabled Save Scope button when numberOfCompanySelections$ is > 0 and < 5', () => {
+  it('should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5', () => {
     instance.numberOfCompanySelections$ = of(1);
 
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display a disabled Create Scope button when numberOfSelections$ is  0', () => {
+    instance.numberOfSelections$ = of(0);
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

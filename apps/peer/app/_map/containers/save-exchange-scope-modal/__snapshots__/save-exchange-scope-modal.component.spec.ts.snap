@@ -14,7 +14,7 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
-    title="Save Exchange Scope"
+    title="Create Exchange Scope"
   >
     
     <input
