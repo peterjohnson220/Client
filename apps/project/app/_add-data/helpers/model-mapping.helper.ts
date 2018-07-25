@@ -3,6 +3,7 @@ import { PagingOptions, SearchField, SurveyJob, SearchType } from 'libs/models/s
 import { Filter, JobResult, ResultsPagingOptions } from '../models';
 
 export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] {
+  const currentdate = new Date();
   return surveyJobs.map((sj: SurveyJob) => {
     return {
       Id: parseInt(sj.Id, 10),
@@ -15,7 +16,9 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
       Description: sj.Job.Description,
       IsPayfactors: sj.IsPayfactorsJob,
       MatchCount: 0,
-      EffectiveDate: sj.Survey.EffectiveDateTime,
+      EffectiveDate: sj.IsPayfactorsJob ?
+        new Date(currentdate.getFullYear(), currentdate.getMonth(), 1) :
+        sj.Survey.EffectiveDateTime,
       Category: sj.Job.Category,
       FLSAStatus: sj.Job.FLSAStatus
     };
