@@ -11,7 +11,7 @@ export interface JobResult {
     MatchCount: number;
     EffectiveDate: Date;
     Category?: string;
-    FLSA?: string;
+    FLSAStatus?: string;
     Scope?: string;
 }
 
@@ -57,7 +57,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     MatchCount: 0,
     EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
-    FLSA: 'Typically Exempt',
+    FLSAStatus: 'Typically Exempt',
     Scope: 'Boston - MA'
   };
 }

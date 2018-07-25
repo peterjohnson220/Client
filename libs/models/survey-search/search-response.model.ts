@@ -17,6 +17,8 @@ interface Job {
   Code: string;
   Family: string;
   Description: string;
+  FLSAStatus?: string;
+  Category?: string;
 }
 
 interface PagingResponse {
@@ -46,7 +48,9 @@ export function generateMockSurveyJob(): SurveyJob {
       Title: 'Accountant',
       Code: '1001',
       Family: 'Finance',
-      Description: 'Lorem Ipsum'
+      Description: 'Lorem Ipsum',
+      FLSAStatus: 'Typically Exempt',
+      Category: 'Professional'
     }
   };
 }
