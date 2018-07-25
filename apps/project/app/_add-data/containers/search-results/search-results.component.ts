@@ -54,7 +54,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loadingMoreResultsSub = this.loadingMoreResults$.subscribe(lmr => this.loadingMoreResults = lmr);
     this.hasMoreResultsOnServerSub = this.hasMoreResultsOnServer$.subscribe(hmr => this.hasMoreResultsOnServer = hmr);
-    this.loadingResultsSub = this.loadingResults$.subscribe(lr => this.resetResultsScrollToTop(lr));
+    this.loadingResultsSub = this.loadingResults$.subscribe(lr => this.resetResultsContainer(lr));
   }
 
   ngOnDestroy() {
@@ -83,11 +83,15 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   private resetResultsScrollToTop(loadingResults: boolean): void {
+    const resultsContainerEl = this.resultsContainer.nativeElement;
+    resultsContainerEl.scrollTop = !loadingResults ? 0 : resultsContainerEl.scrollTop;
+  }
+
+  private resetResultsContainer(loadingResults: boolean): void {
     if (!this.resultsContainer) {
       return;
     }
-
-    const resultsContainerEl = this.resultsContainer.nativeElement;
-    resultsContainerEl.scrollTop = !loadingResults ? 0 : resultsContainerEl.scrollTop;
+    this.resetResultsScrollToTop(loadingResults);
+    this.clearTooltip();
   }
 }
