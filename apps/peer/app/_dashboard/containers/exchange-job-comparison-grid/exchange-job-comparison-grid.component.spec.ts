@@ -70,61 +70,28 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should return absolute value with string when getExchangeIndexValue is called', () => {
+  it('should return value with % as string when getExchangeIndexValue is called', () => {
     const expected = '100%';
-    const mockExchangeIndex = -100.00;
+    const mockExchangeIndex = 100.00;
 
     const actual = instance.getExchangeIndexValue(mockExchangeIndex);
 
     expect(actual).toBe(expected);
   });
 
-  it('should return "text-success" string when getExchangeIndexFontColorClass is called with an index > 0', () => {
+  it('should return "text-success" string when getExchangeIndexFontColorClass is called with an index >= 100', () => {
     const expected = 'text-success';
-    const mockIndex = 1;
+    const mockIndex = 101;
 
     const actual = instance.getExchangeIndexFontColorClass(mockIndex);
 
     expect(actual).toBe(expected);
   });
 
-  it('should return "text-danger" string when getExchangeIndexFontColorClass is called with an index < 0', () => {
+  it('should return "text-danger" string when getExchangeIndexFontColorClass is called with an index < 50', () => {
     const expected = 'text-danger';
-    const mockIndex = -1;
+    const mockIndex = 49;
     const actual = instance.getExchangeIndexFontColorClass(mockIndex);
-
-    expect(actual).toBe(expected);
-  });
-
-  it('should return "text-info" string when getExchangeIndexFontColorClass is called with an index = 0', () => {
-    const expected = 'text-info';
-    const mockIndex = 0.00;
-    const actual = instance.getExchangeIndexFontColorClass(mockIndex);
-
-    expect(actual).toBe(expected);
-  });
-
-  it('should return "fa-chevron-down" string when getExchangeIndexIconClass is called with an index > 0', () => {
-    const expected = 'fa-chevron-down';
-    const mockIndex = -1;
-
-    const actual = instance.getExchangeIndexIconClass(mockIndex);
-
-    expect(actual).toBe(expected);
-  });
-
-  it('should return "fa-chevron-up" string when getExchangeIndexIconClass is called with an index < 0', () => {
-    const expected = 'fa-chevron-up';
-    const mockIndex = 1;
-    const actual = instance.getExchangeIndexIconClass(mockIndex);
-
-    expect(actual).toBe(expected);
-  });
-
-  it('should return "fa-sort" string when getExchangeIndexIconClass is called with an index = 0', () => {
-    const expected = 'fa-sort';
-    const mockIndex = 0.00;
-    const actual = instance.getExchangeIndexIconClass(mockIndex);
 
     expect(actual).toBe(expected);
   });

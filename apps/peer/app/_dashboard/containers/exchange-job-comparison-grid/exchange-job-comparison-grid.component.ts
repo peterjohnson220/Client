@@ -41,30 +41,15 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   }
 
   getExchangeIndexValue(exchangeIndex: number): string {
-    return Math.abs(exchangeIndex) + '%';
+    return exchangeIndex + '%';
   }
 
   getExchangeIndexFontColorClass(exchangeIndex: number): string {
-    if (exchangeIndex < 0) {
+    if (exchangeIndex < 50) {
       return 'text-danger';
     }
-    if (exchangeIndex > 0) {
+    if (exchangeIndex >= 100) {
       return 'text-success';
-    }
-    if (exchangeIndex === 0) {
-      return 'text-info';
-    }
-  }
-
-  getExchangeIndexIconClass(exchangeIndex: number): string {
-    if (exchangeIndex < 0) {
-      return 'fa-chevron-down';
-    }
-    if (exchangeIndex > 0) {
-      return 'fa-chevron-up';
-    }
-    if (exchangeIndex === 0) {
-      return 'fa-sort';
     }
   }
 

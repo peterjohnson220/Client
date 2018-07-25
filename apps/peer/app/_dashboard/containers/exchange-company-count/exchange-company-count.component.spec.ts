@@ -54,7 +54,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
 
   it('should display the participating company count and total company count', () => {
     instance.participatingCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
-    instance.allCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
+    instance.inProgressCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
 
     fixture.detectChanges();
 
@@ -76,16 +76,16 @@ describe('Peer Dashboard - Exchange Job Count', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a LoadingDetailChart action of Category "All Companies" on allCompaniesCountClick', () => {
+  it('should dispatch a LoadingDetailChart action of Category "In Progress Companies" on inProgressCompaniesCountClick', () => {
     fixture.detectChanges();
 
     const action = new fromExchangeDashboardActions.LoadingDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Company,
-      Category: 'All Companies'
+      Category: 'In Progress Companies'
     });
 
-    instance.allCompaniesCountClick();
+    instance.inProgressCompaniesCountClick();
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
