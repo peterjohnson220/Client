@@ -62,9 +62,10 @@ export class AddCommunityPollModalComponent implements OnInit {
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
     const newPoll: CommunityPollRequest = {
+      CommunityPollId: null,
       Question: this.question.value,
       DatePosted: new Date(),
-      ResponseOptions: this.responses.value,
+      ResponseOptions: [],
       CreatedByUser: -1
     };
     this.store.dispatch(new fromCommunityPollActions.AddingCommunityPoll(newPoll));
