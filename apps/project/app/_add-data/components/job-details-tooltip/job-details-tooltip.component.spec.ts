@@ -40,7 +40,7 @@ describe('JobDetailsTooltipComponent', () => {
     const tooltipHeight = 242;
     const toolTipDebugElement: DebugElement  = fixture.debugElement.query(By.css('.tooltip-container'));
     const tooltipElement: HTMLElement = toolTipDebugElement.nativeElement;
-    const updatedTopPx = 347;
+    const updatedTopPx = 357;
     instance.tooltipTopPx = 579;
     instance.job = generateMockPayfactorsJobResult();
     instance.updateTooltipElementTopPx(windowHeight, tooltipHeight);
@@ -75,6 +75,22 @@ describe('JobDetailsTooltipComponent', () => {
     fixture.detectChanges();
 
     expect(jobDescriptionElement.nativeElement.scrollTop).toEqual(0);
+  });
+
+  it('should reposition tooltip element when tooltip width is overlapped the container width', () => {
+    const containerWidth = 749;
+    const tooltipWidth = 398;
+    const toolTipDebugElement: DebugElement  = fixture.debugElement.query(By.css('.tooltip-container'));
+    const tooltipElement: HTMLElement = toolTipDebugElement.nativeElement;
+    const updatedLeftPx = 331;
+    instance.tooltipLeftPx = 384;
+    instance.job = generateMockSurveyJobResult();
+
+    instance.updateTooltipElementLeftPx(containerWidth, tooltipWidth);
+    fixture.detectChanges();
+
+    expect(instance.tooltipLeftPx).toEqual(updatedLeftPx);
+    expect(tooltipElement.style.left).toEqual(`${instance.tooltipLeftPx}px`);
   });
 
 });

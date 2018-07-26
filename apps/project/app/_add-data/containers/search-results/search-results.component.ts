@@ -33,6 +33,8 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   tooltipData: JobDetailsToolTipData;
   tooltipIndex: number;
   hasMoreResultsOnServer: boolean;
+  resultsContainerWidth: number;
+  resultsContainerHeight: number;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
@@ -77,6 +79,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     }
     this.tooltipData = data;
     this.tooltipIndex = index;
+    this.setResultsContainerSize();
     this.store.dispatch(new fromSearchResultsActions.OpenTooltip());
   }
 
@@ -106,5 +109,13 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     if (!tooltipOpen) {
       this.tooltipIndex = -1;
     }
+  }
+
+  private setResultsContainerSize(): void {
+    if (!this.resultsContainer) {
+      return;
+    }
+    this.resultsContainerWidth = this.resultsContainer.nativeElement.offsetWidth;
+    this.resultsContainerHeight = this.resultsContainer.nativeElement.offsetHeight;
   }
 }

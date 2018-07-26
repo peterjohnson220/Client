@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewChecked } from '@angular/core';
 
 import { JobResult } from '../../models';
 
@@ -7,33 +7,56 @@ import { JobResult } from '../../models';
   templateUrl: './job-details-tooltip.component.html',
   styleUrls: ['./job-details-tooltip.component.scss']
 })
-export class JobDetailsTooltipComponent implements OnChanges {
+export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
   @Input() job: JobResult;
   @Input() tooltipLeftPx: number;
   @Input() tooltipTopPx: number;
   @Input() visible: boolean;
+  @Input() containerHeight: number;
+  @Input() containerWidth: number;
 
   @ViewChild('tooltip') private tooltipElement: ElementRef;
   @ViewChild('jobDescription') private jobDescriptionElement: ElementRef;
 
-  private readonly tooltipMarginTop: number = 10;
+  private readonly tooltipMargin: number = 20;
+  private readonly tooltipPadding: number = 5;
+  private isTooltipTopPxChanged: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.job || (changes.visible &&
       changes.visible.currentValue === true &&
       changes.visible.previousValue === false)
     ) {
-      this.updateTooltipElementTopPx(window.innerHeight, this.tooltipElement.nativeElement.clientHeight);
       this.updateJobDescriptionScrollTop();
     }
+    this.isTooltipTopPxChanged = !!changes.tooltipTopPx;
   }
 
-  updateTooltipElementTopPx(windowHeight: number, tooltipHeight: number): void {
-    const isOverlapping = this.tooltipTopPx + tooltipHeight > windowHeight;
-    if (isOverlapping) {
-      this.tooltipTopPx = this.tooltipTopPx - tooltipHeight + this.tooltipMarginTop;
+  ngAfterViewChecked(): void {
+    if (!this.isTooltipTopPxChanged) {
+      return;
+    }
+    const tooltipHeight: number = this.tooltipElement.nativeElement.clientHeight;
+    const tooltipWidth: number = this.tooltipElement.nativeElement.clientWidth;
+    this.updateTooltipElementTopPx(this.containerHeight, tooltipHeight);
+    this.updateTooltipElementLeftPx(this.containerWidth, tooltipWidth);
+  }
+
+  updateTooltipElementTopPx(containerHeight: number, tooltipHeight: number): void {
+    const isOverlappingTop: boolean = this.tooltipTopPx + tooltipHeight > containerHeight;
+    if (isOverlappingTop) {
+      const newTopPx: number = this.tooltipTopPx - tooltipHeight + this.tooltipMargin;
+      this.tooltipTopPx = newTopPx < 0 ? 0 : newTopPx;
     }
     this.tooltipElement.nativeElement.style.top = `${this.tooltipTopPx}px`;
+  }
+
+  updateTooltipElementLeftPx(containerWidth: number, tooltipWidth: number): void {
+    const isOverlappingRight: boolean = this.tooltipLeftPx + tooltipWidth + this.tooltipPadding > containerWidth;
+    if (isOverlappingRight) {
+      this.tooltipLeftPx = containerWidth - tooltipWidth - this.tooltipMargin;
+    }
+    this.tooltipElement.nativeElement.style.left = `${this.tooltipLeftPx}px`;
   }
 
   updateJobDescriptionScrollTop(): void {
