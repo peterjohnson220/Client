@@ -6,7 +6,7 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockChartItem, ExchangeChartTypeEnum } from 'libs/models';
+import {  generateMockChartItem, ExchangeChartTypeEnum } from 'libs/models';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -54,6 +54,7 @@ describe('Peer Dashboard - Exchange Job Count', () => {
 
   it('should display the participating company count and total company count', () => {
     instance.participatingCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
+    instance.inProgressCompaniesChartItem = { ...generateMockChartItem(), Value: 10 };
 
     fixture.detectChanges();
 
@@ -70,6 +71,21 @@ describe('Peer Dashboard - Exchange Job Count', () => {
     });
 
     instance.participatingCompaniesCountClick();
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a LoadingDetailChart action of Category "In Progress Companies" on inProgressCompaniesCountClick', () => {
+    fixture.detectChanges();
+
+    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+      ExchangeId: 1,
+      ChartType: ExchangeChartTypeEnum.Company,
+      Category: 'In Progress Companies'
+    });
+
+    instance.inProgressCompaniesCountClick();
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
