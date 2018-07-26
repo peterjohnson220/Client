@@ -21,16 +21,6 @@ exports[`Peer Dashboard - Exchange Job Count should display the participating co
   >
      Category
   
-  </h3><small
-    class="text-muted"
-  >
-    <span
-      class="pf-link"
-    >
-      10
-    </span>
-     In Progress
-  
-  </small>
+  </h3>
 </pf-exchange-company-count>
 `;
