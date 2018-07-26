@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { CommunityPoll } from 'libs/models/community/community-poll.model';
-import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollAddRequest } from 'libs/models/community/community-poll-add-request.model';
 
 export const LOADING_COMMUNITY_POLLS  = '[Community/Poll] Loading Community Polls';
 export const LOADING_COMMUNITY_POLLS_SUCCESS  = '[Community/Poll] Loading Community Polls Success';
@@ -35,13 +35,11 @@ export class CloseAddCommunityPollModal implements Action {
 export class AddingCommunityPoll implements Action {
    readonly type = ADDING_COMMUNITY_POLL;
 
-   constructor(public payload: CommunityPollRequest) {}
+   constructor(public payload: CommunityPollAddRequest) {}
 }
 
 export class AddingCommunityPollSuccess implements Action {
    readonly type = ADDING_COMMUNITY_POLL_SUCCESS;
-
-   constructor(public payload: CommunityPoll) {}
 }
 
 export class AddingCommunityPollError implements Action {
