@@ -1,0 +1,40 @@
+<div class="card">
+  <div class="card-header">
+    Payfactors Polls
+  </div>
+  <div class="card-body">
+    <ngb-carousel [interval]="0"
+                  (slide)="onCarouselSlideChange($event)">
+      <ng-container *ngFor="let request of communityPollRequests$ | async;">
+        <ng-template ngbSlide>
+          <div *ngIf="!userSubmittedResponses.includes(request.CommunityPollId)" class="pb-5">
+            <div class="poll-question-container">
+              <p class="text-center lead">{{ request.Question}}</p>
+            </div>
+            <div class="poll-response-option-button-container" *ngFor="let option of request.ResponseOptions">
+              <div class="outer-element">
+                <div class="inner-element poll-response-option-button" (click)="selectOption(option.ResponseId)">
+                   <span class="selected-option-indicator h-100"
+                         [ngClass]="{'selected': option.ResponseId === selectedOption }">&nbsp;</span>
+                    <span class="response-option-text-container pl-1">{{ option.ResponseText}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-center pt-2">
+              <button type="button" class="btn btn-secondary submit-button-container"
+                      (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
+                <i class="fas fa-check pr-2"></i>Submit</button>
+            </div>
+          </div>
+          <div *ngIf="userSubmittedResponses.includes(request.CommunityPollId)" class="py-5">
+            <div class="outer-element">
+              <div class="inner-element pl-2 response-submitted-container">
+                <p class="lead text-center">Thank you for your response!</p>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ngb-carousel>
+  </div>
+</div>

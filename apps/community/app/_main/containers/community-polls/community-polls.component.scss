@@ -1,0 +1,64 @@
+@import 'colors';
+
+.card-header{
+  background-color:$header-background-color;
+  color: white;
+}
+
+.card-body{
+  background-color: $grey;
+}
+
+.poll-response-option-button-container{
+  margin-top: .25em;
+  margin-bottom: .25em;
+  height: 34px;
+}
+
+.submit-button-container{
+  color: cornflowerblue;
+}
+
+.inner-element{
+  background-color: white;
+  display: inline-block;
+  cursor: default;
+  height: 100%;
+  width: 100%;
+}
+
+.response-option-text-container{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.response-submitted-container{
+  background-color: $grey;
+}
+
+.selected-option-indicator{
+  width: 2%;
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.poll-response-option-button:hover{
+  background-color: #f4f4f4;
+  border-color: #adadad;
+}
+
+.outer-element{
+  padding-left: 15%;
+  padding-right: 15%;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+
+.selected{
+  background-color: #42f489;
+}
+
+/* fixes blue box in chrome that appears when clicking the carousel */
+.slide, .slide *{ outline: none !important; }
