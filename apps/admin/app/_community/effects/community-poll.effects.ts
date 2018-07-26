@@ -18,8 +18,8 @@ addCommunityPoll$: Observable<Action> = this.actions$
   .ofType(fromCommunityPollActions.ADDING_COMMUNITY_POLL).pipe(
     switchMap((action: fromCommunityPollActions.AddingCommunityPoll) =>
       this.communityPollService.addCommunityPoll(action.payload).pipe(
-        map((communityPoll: CommunityPoll) => {
-          return new fromCommunityPollActions.AddingCommunityPollSuccess(communityPoll);
+        map(() => {
+          return new fromCommunityPollActions.AddingCommunityPollSuccess();
         }),
         catchError(error => of(new fromCommunityPollActions.AddingCommunityPollError(error)))
       )

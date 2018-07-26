@@ -4,58 +4,28 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityPoll } from 'libs/models/community/community-poll.model';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollAddRequest } from '../../../models/community/community-poll-add-request.model';
 import { CommunityPollResponseOption } from 'libs/models/community/community-poll-response-option.model';
-import { CommunityPollStatusEnum } from 'libs/models/community/community-poll-status.enum';
 
 @Injectable()
 export class CommunityPollApiService {
-  private endpoint = 'Community';
+  private endpoint = 'CommunityNew';
 
   constructor(
     // private store: Store<fromCommunityPollReducer.State>,
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  addCommunityPoll(communityPollRequest: CommunityPollRequest): Observable<any> {
-    // TODO: return this.payfactorsApiService.post<any>(`${this.endpoint}/AddCommunityPoll`, communityPoll);
-
-    const demoPoll: CommunityPoll = {
-      CommunityPollId: 0,
-      Question: communityPollRequest.Question,
-      DatePosted: communityPollRequest.DatePosted,
-      Status: CommunityPollStatusEnum.Live,
-      NumberOfResponses: 0,
-      CreatedByUser: -1
-    };
-
-    return new Observable(o => {
-      setTimeout(() => {
-          o.next(demoPoll);
-     }, 1000);
+  addCommunityPoll(communityPollAddRequest: CommunityPollAddRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.AddCommunityPoll`,
+    {
+      Question: communityPollAddRequest.Question,
+      ResponseOptions: communityPollAddRequest.ResponseOptions
     });
   }
 
   getAllCommunityPolls(): Observable<CommunityPoll[]> {
-    // TODO: return this.payfactorsApiService.get<CommunityPoll[]>(`${this.endpoint}/GetAllCommunityPolls`);
-
-    // TODO: Remove when back-end endpoint is implemented
-      // TODO: Remove when back-end endpoint is implemented
-      const demoPoll: CommunityPoll = {
-      CommunityPollId: 0,
-      CreatedByUser: -1,
-      Question: 'This is a demo poll question',
-      DatePosted: new Date(),
-      Status: CommunityPollStatusEnum.Live,
-      NumberOfResponses: 0
-    };
-
-    const demoPolls = [demoPoll];
-
-    return new Observable(o => {
-      setTimeout(() => {
-          o.next(demoPolls);
-     }, 1000);
-    });
+    return this.payfactorsApiService.get<CommunityPoll[]>(`${this.endpoint}.GetAllCommunityPolls`);
   }
 
   getAllCommunityPollRequests(): Observable<CommunityPollRequest[]> {

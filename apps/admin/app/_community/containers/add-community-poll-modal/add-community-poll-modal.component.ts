@@ -9,7 +9,7 @@ import * as fromCommunityPollReducer from '../../reducers';
 
 import { PfValidators } from 'libs/forms';
 import { CommunityPollResponseComponent } from '../community-poll-response/community-poll-response.component';
-import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollAddRequest } from 'libs/models/community/community-poll-add-request.model';
 
 @Component({
   selector: 'pf-add-community-poll-modal',
@@ -61,12 +61,17 @@ export class AddCommunityPollModalComponent implements OnInit {
 
   handleFormSubmit(): void {
     this.attemptedSubmit = true;
-    const newPoll: CommunityPollRequest = {
-      CommunityPollId: null,
+
+    const responseOptions = [];
+
+    for (let index = 0; index < this.responses.length; index++) {
+      const responseOption = this.responses.at(index).get('response').value;
+      responseOptions.push(responseOption);
+    }
+
+    const newPoll: CommunityPollAddRequest = {
       Question: this.question.value,
-      DatePosted: new Date(),
-      ResponseOptions: [],
-      CreatedByUser: -1
+      ResponseOptions: responseOptions
     };
     this.store.dispatch(new fromCommunityPollActions.AddingCommunityPoll(newPoll));
   }
