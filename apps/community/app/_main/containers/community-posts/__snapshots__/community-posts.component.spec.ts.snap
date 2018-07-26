@@ -14,9 +14,7 @@ exports[`CommunityPostsComponent should change like button when there are likes 
       class="row mb-3 ml-0 mr-0"
     >
       <div
-        class="pl-1"
-        ng-reflect-klass="pl-1"
-        ng-reflect-ng-class="[object Object]"
+        class="pl-1 col-12"
       >
         <img
           alt="avatar"
@@ -103,9 +101,7 @@ exports[`CommunityPostsComponent should show posts 1`] = `
       class="row mb-3 ml-0 mr-0"
     >
       <div
-        class="pl-1"
-        ng-reflect-klass="pl-1"
-        ng-reflect-ng-class="[object Object]"
+        class="pl-1 col-12"
       >
         <img
           alt="avatar"
@@ -192,9 +188,7 @@ exports[`CommunityPostsComponent should show tags 1`] = `
       class="row mb-3 ml-0 mr-0"
     >
       <div
-        class="pl-1 undefined"
-        ng-reflect-klass="pl-1"
-        ng-reflect-ng-class="[object Object]"
+        class="pl-1 col-12"
       >
         <img
           alt="avatar"

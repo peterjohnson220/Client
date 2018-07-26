@@ -1,7 +1,7 @@
 <div class="posts-container p-2 scroll">
   <ng-container *ngFor="let post of CommunityPosts; let last = last;" >
     <div class="row mb-3 ml-0 mr-0">
-      <div class="pl-1" [ngClass]="{'col-12': post.Tags?.length > 0, 'col-12': post.Tags?.length == 0}">
+      <div class="pl-1 col-12">
           <img id="post-avatar" class="float-left" src="{{post.UserInfo.avatarSource}}"
                alt="avatar">
         <div class="post-offset">
