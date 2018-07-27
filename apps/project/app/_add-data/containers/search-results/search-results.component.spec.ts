@@ -123,8 +123,6 @@ describe('Project - Add Data - Search Results', () => {
     instance.tooltipData = data;
     instance.tooltipIndex = 1;
 
-    fixture.detectChanges();
-
     spyOn(store, 'dispatch');
     instance.handleJobTitleClick(data, inputTooltipIndex);
 
