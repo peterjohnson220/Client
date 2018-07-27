@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -24,7 +24,8 @@ describe('CommunityPollsComponent', () => {
           ...fromRootState.reducers,
           communityAdminMain: combineReducers(fromCommunityPollReducer.reducers)
         }),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [ CommunityPollsComponent ],
       // Shallow Testing

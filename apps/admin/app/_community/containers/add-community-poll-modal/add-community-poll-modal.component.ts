@@ -25,6 +25,9 @@ export class AddCommunityPollModalComponent implements OnInit {
   creatingCommunityPoll$: Observable<boolean>;
   addingCommunityPollError$: Observable<boolean>;
   addingCommunityPollSuccess$: Observable<boolean>;
+  updatingCommunityPollStatus$: Observable<boolean>;
+  updatingCommunityPollStatusError$: Observable<boolean>;
+  updatingCommunityPollStatusSuccess$: Observable<boolean>;
 
   addCommunityPollForm: FormGroup;
   itemsFormArray: FormArray;
@@ -33,11 +36,14 @@ export class AddCommunityPollModalComponent implements OnInit {
   get responses() { return this.addCommunityPollForm.get('responses') as FormArray; }
 
   constructor(private store: Store<fromCommunityPollReducer.State>, private fb: FormBuilder) {
-
     this.addingCommunityPoll$ = this.store.select(fromCommunityPollReducer.getCommunityAddingPoll);
     this.addingCommunityPollError$ = this.store.select(fromCommunityPollReducer.getCommunityAddingPollError);
     this.addingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getAddingCommunityPollSuccess);
+    this.updatingCommunityPollStatus$ = this.store.select(fromCommunityPollReducer.getUpdatingCommunitygPollStatus);
+    this.updatingCommunityPollStatusError$ = this.store.select(fromCommunityPollReducer.getUpdatingCommunitygPollStatusError);
+    this.updatingCommunityPollStatusSuccess$ = this.store.select(fromCommunityPollReducer.getUpdatingCommunitygPollStatusSuccess);
     this.addCommunityPollModalOpen$ = this.store.select(fromCommunityPollReducer.getCommunityAddPollModalOpen);
+
     this.createForm();
    }
 

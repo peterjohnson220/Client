@@ -25,10 +25,11 @@
           let-dataItem="dataItem">
           <kendo-dropdownlist  class="w-100 border" 
             [data]="CommunityPollStatuses"
-            textField="StatusName"
-            valueField="StatusValue"
+            textField="text"
+            valueField="value"
             [valuePrimitive]="true"
-            [value]="dataItem.Status">
+            [(ngModel)]="dataItem.Status"
+            (selectionChange)="selectionChange($event,dataItem.CommunityPollId)">
           </kendo-dropdownlist>
         </ng-template>
 

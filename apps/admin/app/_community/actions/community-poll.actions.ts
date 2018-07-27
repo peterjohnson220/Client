@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { CommunityPoll } from 'libs/models/community/community-poll.model';
 import { CommunityPollAddRequest } from 'libs/models/community/community-poll-add-request.model';
+import { CommunityPollUpdateStatusRequest } from 'libs/models/community/community-poll-update-status-request.model';
 
 export const LOADING_COMMUNITY_POLLS  = '[Community/Poll] Loading Community Polls';
 export const LOADING_COMMUNITY_POLLS_SUCCESS  = '[Community/Poll] Loading Community Polls Success';
@@ -10,6 +11,9 @@ export const ADDING_COMMUNITY_POLL_SUCCESS = '[Community/Poll] Adding Community 
 export const ADDING_COMMUNITY_POLL_ERROR = '[Community/Poll] Adding Community Poll Error';
 export const OPEN_ADD_COMMUNITY_POLL_MODAL = '[Community/Poll] Open Add Community Poll Modal';
 export const CLOSE_ADD_COMMUNITY_POLL_MODAL = '[Community/Poll] Close Add Community Poll Modal';
+export const UPDATING_COMMUNITY_POLL_STATUS = '[Community/Poll] Updating Community Poll Status';
+export const UPDATING_COMMUNITY_POLL_STATUS_SUCCESS  = '[Community/Poll] Updating Community Poll Status Success';
+export const UPDATING_COMMUNITY_POLL_STATUS_ERROR = '[Community/Poll] Updating Community Poll Status Error';
 
 export class LoadingCommunityPolls implements Action {
     readonly type = LOADING_COMMUNITY_POLLS;
@@ -47,6 +51,21 @@ export class AddingCommunityPollError implements Action {
    constructor(public payload: string) {}
 }
 
+export class UpdatingCommunityPollStatus implements Action {
+    readonly type = UPDATING_COMMUNITY_POLL_STATUS;
+
+    constructor(public payload: CommunityPollUpdateStatusRequest) {}
+}
+
+ export class UpdatingCommunityPollStatusSuccess implements Action {
+    readonly type = UPDATING_COMMUNITY_POLL_STATUS_SUCCESS;
+}
+
+ export class UpdatingCommunityPollStatusError implements Action {
+    readonly type = UPDATING_COMMUNITY_POLL_STATUS_ERROR;
+    constructor(public payload: string) {}
+}
+
 export type Actions
     = LoadingCommunityPolls
     | LoadingCommunityPollsSuccess
@@ -55,4 +74,7 @@ export type Actions
     | CloseAddCommunityPollModal
     | AddingCommunityPoll
     | AddingCommunityPollSuccess
-    | AddingCommunityPollError;
+    | AddingCommunityPollError
+    | UpdatingCommunityPollStatus
+    | UpdatingCommunityPollStatusSuccess
+    | UpdatingCommunityPollStatusError;

@@ -1,5 +1,5 @@
 export enum CommunityPollStatusEnum {
-    Draft = 'Draft',
-    Live = 'Live',
-    Archived = 'Archived'
+    Draft = 0,
+    Live,
+    Archived
   }

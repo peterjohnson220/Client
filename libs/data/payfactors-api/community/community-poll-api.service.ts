@@ -6,6 +6,7 @@ import { CommunityPoll } from 'libs/models/community/community-poll.model';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
 import { CommunityPollAddRequest } from '../../../models/community/community-poll-add-request.model';
 import { CommunityPollResponseOption } from 'libs/models/community/community-poll-response-option.model';
+import { CommunityPollUpdateStatusRequest } from '../../../models/community/community-poll-update-status-request.model';
 
 @Injectable()
 export class CommunityPollApiService {
@@ -21,6 +22,14 @@ export class CommunityPollApiService {
     {
       Question: communityPollAddRequest.Question,
       ResponseOptions: communityPollAddRequest.ResponseOptions
+    });
+  }
+
+  updateCommunityPollStatus(communityPollUpdateStatusRequest: CommunityPollUpdateStatusRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateCommunityPollStatus`,
+    {
+      CommunityPollId: communityPollUpdateStatusRequest.CommunityPollId,
+      Status: communityPollUpdateStatusRequest.Status
     });
   }
 

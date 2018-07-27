@@ -1,4 +1,4 @@
-import { CommunityPollStatusEnum } from './community-poll-status.enum';
+import { CommunityPollStatusEnum } from '.';
 
 export interface CommunityPoll {
     CommunityPollId: number;
