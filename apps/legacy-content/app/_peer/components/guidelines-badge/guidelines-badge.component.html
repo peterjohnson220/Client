@@ -47,12 +47,21 @@
 
       </small>
     </div>
-  </div>
 
+    <div class="guideline">
+
+      <div class="guideline-status" [class.passing]="validDataCut">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: validDataCut }"></ng-container>
+        Similarity Check
+      </div>
+
+      <small class="guideline-description text-muted">The results should not contain Companies or Employees that are too similar to an existing Peer cut. Please refine your filters.</small>
+    </div>
+  </div>
 </ng-template>
 
-<div *ngIf="!hasMinimumCompanies || !hasNoDominatingData"
-     [class.failing]="!hasMinimumCompanies"
+<div *ngIf="!hasMinimumCompanies || !hasNoDominatingData || !validDataCut"
+     [class.failing]="!hasMinimumCompanies || !validDataCut"
      [ngbPopover]="popContent"
      class="guidelines-label"
      triggers="mouseenter:mouseleave"
