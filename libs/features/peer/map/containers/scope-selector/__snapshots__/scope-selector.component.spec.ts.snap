@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Features - Peer - Exchange Scope Selector Component should display "Select a Scope..." message when there is no exchange scope selected 1`] = `
+exports[`Features - Peer - Exchange Scope Selector Component should disable scope selector button when there are no scopes 1`] = `
 <pf-scope-selector
-  exchangeScopeItems$={[Function Store]}
+  exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   popover={[Function NgbPopover]}
   selectedExchangeScopeItem$={[Function Store]}
@@ -14,16 +14,16 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "Sel
     class="scope-selector-container"
   >
     
-  
     
     <button
       class="btn btn-secondary selector"
+      disabled=""
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Scope"
+      ng-reflect-popover-title="Select a Scope"
       pfhandlepopoverclose=""
       placement="right"
-      popovertitle="Select an Exchange Scope"
+      popovertitle="Select a Scope"
       type="button"
     >
       
@@ -52,9 +52,82 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "Sel
   
       
       <span
-        class="selection"
+        class="selection no-selection"
       >
-        Select a Scope...
+        
+        No Selection
+      
+      </span>
+      
+  
+    
+    </button>
+    
+  
+  
+  </div>
+  
+  
+  
+</pf-scope-selector>
+`;
+
+exports[`Features - Peer - Exchange Scope Selector Component should display "No Selection" message when there is no exchange scope selected 1`] = `
+<pf-scope-selector
+  exchangeScopeItems$={[Function Observable]}
+  exchangeScopeItemsLoading$={[Function Store]}
+  popover={[Function NgbPopover]}
+  selectedExchangeScopeItem$={[Function Store]}
+  store={[Function Store]}
+  systemFilterLoaded$={[Function Store]}
+  systemFilterLoadedSubscription={[Function Subscriber]}
+>
+  <div
+    class="scope-selector-container"
+  >
+    
+    
+    <button
+      class="btn btn-secondary selector"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="right"
+      ng-reflect-popover-title="Select a Scope"
+      pfhandlepopoverclose=""
+      placement="right"
+      popovertitle="Select a Scope"
+      type="button"
+    >
+      
+  
+      
+      <span
+        class="selector-caret"
+      >
+        
+      
+        <i
+          class="fas fa-caret-right"
+        />
+        
+      
+      </span>
+      
+  
+      
+      <span
+        class="selector-label text-muted"
+      >
+        Exchange Scope:
+      </span>
+      
+  
+      
+      <span
+        class="selection no-selection"
+      >
+        
+        No Selection
+      
       </span>
       
   
@@ -72,7 +145,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "Sel
 
 exports[`Features - Peer - Exchange Scope Selector Component should display the currently selected exchange scope 1`] = `
 <pf-scope-selector
-  exchangeScopeItems$={[Function Store]}
+  exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   popover={[Function NgbPopover]}
   selectedExchangeScopeItem$={[Function Observable]}
@@ -84,16 +157,15 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
     class="scope-selector-container"
   >
     
-  
     
     <button
       class="btn btn-secondary selector"
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
-      ng-reflect-popover-title="Select an Exchange Scope"
+      ng-reflect-popover-title="Select a Scope"
       pfhandlepopoverclose=""
       placement="right"
-      popovertitle="Select an Exchange Scope"
+      popovertitle="Select a Scope"
       type="button"
     >
       
@@ -124,7 +196,9 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
       <span
         class="selection"
       >
-        Select a Scope...
+        
+        MockExchangeScopeItemName
+      
       </span>
       
   

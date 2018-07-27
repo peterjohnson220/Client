@@ -1,9 +1,9 @@
 <div class="scope-selector-container">
-
   <button type="button"
           class="btn btn-secondary selector"
+          [disabled]="(exchangeScopeItems$ | async)?.length === 0"
           [ngbPopover]="popContent"
-          popoverTitle="Select an Exchange Scope"
+          popoverTitle="Select a Scope"
           placement="right"
           pfHandlePopoverClose
           #p="ngbPopover">
@@ -14,7 +14,9 @@
 
     <span class="selector-label text-muted">Exchange Scope:</span>
 
-    <span class="selection">{{(selectedExchangeScopeItem$ | async)?.Name || 'Select a Scope...'}}</span>
+    <span class="selection" [class.no-selection]="!(selectedExchangeScopeItem$ | async)">
+      {{(selectedExchangeScopeItem$ | async)?.Name || "No Selection"}}
+    </span>
 
   </button>
 
