@@ -50,6 +50,8 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
     fixture = TestBed.createComponent(ScopeSelectorComponent);
     instance = fixture.componentInstance;
+
+    instance.exchangeScopeItems$ = of([generateMockExchangeScopeItem()]);
   });
 
   it('should close the popover when clicking on an a scope', () => {
@@ -102,10 +104,6 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   });
 
   it('should display the currently selected exchange scope', () => {
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-
     instance.selectedExchangeScopeItem$ = of(generateMockExchangeScopeItem());
 
     fixture.detectChanges();
@@ -113,8 +111,14 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display "Select a Scope..." message when there is no exchange scope selected', () => {
-    spyOn(store, 'dispatch');
+  it('should display "No Selection" message when there is no exchange scope selected', () => {
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should disable scope selector button when there are no scopes`, () => {
+    instance.exchangeScopeItems$ = of([]);
 
     fixture.detectChanges();
 
