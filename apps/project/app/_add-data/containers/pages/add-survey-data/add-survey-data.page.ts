@@ -32,6 +32,9 @@ export class AddSurveyDataPageComponent {
         this.store.dispatch(new fromSurveyFiltersActions.ClearFilters());
         this.store.dispatch(new fromSurveyResultsActions.ClearResults());
         break;
+      case 'Hide App':
+        this.store.dispatch(new fromSurveyResultsActions.CloseTooltip());
+        break;
     }
   }
 

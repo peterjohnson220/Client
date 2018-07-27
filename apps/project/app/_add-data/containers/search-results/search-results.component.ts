@@ -27,6 +27,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingMoreResultsSub: Subscription;
   hasMoreResultsOnServerSub: Subscription;
   loadingResultsSub: Subscription;
+  tooltipOpenSub: Subscription;
 
   loadingMoreResults: boolean;
   tooltipData: JobDetailsToolTipData;
@@ -55,12 +56,14 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreResultsSub = this.loadingMoreResults$.subscribe(lmr => this.loadingMoreResults = lmr);
     this.hasMoreResultsOnServerSub = this.hasMoreResultsOnServer$.subscribe(hmr => this.hasMoreResultsOnServer = hmr);
     this.loadingResultsSub = this.loadingResults$.subscribe(lr => this.resetResultsContainer(lr));
+    this.tooltipOpenSub = this.tooltipOpen$.subscribe(tooltipOpen => this.resetTooltipIndex(tooltipOpen));
   }
 
   ngOnDestroy() {
     this.loadingMoreResultsSub.unsubscribe();
     this.hasMoreResultsOnServerSub.unsubscribe();
     this.loadingMoreResultsSub.unsubscribe();
+    this.tooltipOpenSub.unsubscribe();
   }
 
   handleResultsScroll(): void {
@@ -93,5 +96,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     }
     this.resetResultsScrollToTop(loadingResults);
     this.clearTooltip();
+  }
+
+  private resetTooltipIndex(tooltipOpen: boolean): void {
+    if (!tooltipOpen) {
+      this.tooltipIndex = -1;
+    }
   }
 }
