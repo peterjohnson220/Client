@@ -8,7 +8,7 @@ import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
         CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
         RequestExchangeRequest, UpsertDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ExchangeRequestCandidatesRequest } from '../../../models/peer';
+import { ExchangeRequestCandidatesRequest, DataCutValidationInfo } from '../../../models/peer';
 
 @Injectable()
 export class ExchangeCompanyApiService {
@@ -66,6 +66,11 @@ export class ExchangeCompanyApiService {
 
   upsertDataCut(upsertDataCutRequest: UpsertDataCutRequest): Observable<number> {
     return this.payfactorsApiService.post<number>(`${this.endpoint}/UpsertDataCut`, upsertDataCutRequest);
+  }
+
+  getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
+    return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
+      {params: {companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId}});
   }
 
   createExchangeRequest(payload: RequestExchangeRequest): Observable<any> {

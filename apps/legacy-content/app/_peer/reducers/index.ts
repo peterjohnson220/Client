@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
+import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 
 // Feature area state
 export interface UpsertPeerDataState {
   upsertDataCutPage: fromUpsertDataCutPageReducer.State;
+  dataCutValidation: fromDataCutValidationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -18,7 +20,8 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  upsertDataCutPage: fromUpsertDataCutPageReducer.reducer
+  upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
+  dataCutValidation: fromDataCutValidationReducer.reducer
 };
 
 // Select Feature Area
@@ -26,6 +29,8 @@ export const selectUpsertPeerDataState = createFeatureSelector<UpsertPeerDataSta
 
 // Feature Selectors
 export const selectUpsertDataCutState = createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
+export const selectDataCutValidationState =
+  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 
 // Add Data Cut Selectors
 export const getUpsertDataCutAddingDataCut = createSelector(
@@ -48,3 +53,11 @@ export const getUpsertDataCutLoadingDataCutError = createSelector(
   selectUpsertDataCutState,
   fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
 );
+
+// Data Cut Validation Selectors
+export const {
+  selectAll: getDataCutValidationInfo
+} = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
+export const getDataCutValidationInfoLoading = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
+export const getDataCutValidationInfoLoadingError
+  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);

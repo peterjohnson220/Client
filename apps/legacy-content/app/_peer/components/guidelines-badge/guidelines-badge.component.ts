@@ -13,6 +13,7 @@ import { GuidelineLimits } from '../../models';
 export class GuidelinesBadgeComponent {
   @Input() companies: ExchangeStatCompanyMakeup[];
   @Input() guidelineLimits: GuidelineLimits;
+  @Input() validDataCut: boolean;
 
   get hasMinimumCompanies(): boolean {
     return this.hasCompaniesAndLimits &&

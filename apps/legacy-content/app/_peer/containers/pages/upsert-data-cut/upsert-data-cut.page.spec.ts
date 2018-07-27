@@ -7,14 +7,17 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
-import { generateMockExchangeMapResponse } from 'libs/models/peer';
+import { generateMockExchangeMapResponse, generateMockDataCutValidationInfo } from 'libs/models/peer';
+import { generateMockAggregateSelectionInfo } from 'libs/features/peer/map/models';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
+import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromLegacyAddPeerDataReducer from '../../../reducers';
 import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
+
 
 describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
@@ -95,6 +98,17 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should dispatch the LoadDataCutValidation action on init', () => {
+    const expectedAction = (new fromDataCutValidationActions.LoadDataCutValidation({
+      CompanyJobId: queryStringParams.companyJobId,
+      UserSessionId: queryStringParams.userSessionId
+    }));
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
   it('should dispatch the upsert data cut action when clicking add', () => {
     queryStringParams.dataCutGuid = null;
     const expectedAction = new fromUpsertDataCutActions.UpsertDataCut({
@@ -155,6 +169,57 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
 
     store.dispatch(new fromPeerMapActions.LoadPeerMapDataSuccess(mapResponse));
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should call validateDataCut when peerFilterSelections changes', () => {
+    const payload = generateMockAggregateSelectionInfo();
+    queryStringParams.dataCutGuid = null;
+
+    store.dispatch(new fromFilterSidebarActions.ToggleAggregateSelected(payload));
+    spyOn(instance, 'validateDataCut');
+    fixture.detectChanges();
+
+    expect(instance.validateDataCut).toHaveBeenCalled();
+  });
+
+  it('should expect validDataCut to be true when the lists are not similar', () => {
+    const dataValidationInfo = [generateMockDataCutValidationInfo()];
+    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6, 7] };
+
+    instance.dataCutValidationInfo = dataValidationInfo;
+    instance.peerFilterSelections = filterSelections;
+
+    instance.validateDataCut();
+
+    expect(instance.validDataCut).toBe(true);
+  });
+
+  it('should expect validDataCut to be false when the lists are too similar', () => {
+    const dataValidationInfo = [generateMockDataCutValidationInfo()];
+    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
+
+    instance.dataCutValidationInfo = dataValidationInfo;
+    instance.peerFilterSelections = filterSelections;
+
+    instance.validateDataCut();
+
+    expect(instance.validDataCut).toBe(false);
+  });
+
+  it('should enable the add button when validDataCut is true', () => {
+    instance.validDataCut = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should disable the add button when validDataCut is false', () => {
+    instance.validDataCut = false;
 
     fixture.detectChanges();
 

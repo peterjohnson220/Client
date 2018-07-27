@@ -20,12 +20,14 @@
       <div class="button-container d-flex justify-content-end align-items-center">
         <pf-guidelines-badge *ngIf="initialMapMoveComplete$ | async"
                              [companies]="(peerMapSummary$ | async)?.OverallMapStats.Companies"
-                             [guidelineLimits]="guidelineLimits">
+                             [guidelineLimits]="guidelineLimits"
+                             [validDataCut]="validDataCut">
         </pf-guidelines-badge>
 
         <div class="buttons">
           <button type="button" class="btn btn-primary"
-                  [disabled]="(peerMapSummary$ | async)?.OverallMapStats.CompanyCount < guidelineLimits.MinCompanies"
+                  [disabled]="((peerMapSummary$ | async)?.OverallMapStats.CompanyCount < guidelineLimits.MinCompanies)
+                   || !validDataCut"
                   (click)="upsert()">{{primaryButtonText}}</button>
 
           <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>

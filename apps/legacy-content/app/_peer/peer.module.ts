@@ -13,7 +13,7 @@ import { PfPeerMapModule } from 'libs/features/peer/map';
 
 import { UpsertDataCutPageComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { UpsertDataCutPageEffects } from './effects';
+import { UpsertDataCutPageEffects, DataCutValidationEffects } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
 
@@ -26,7 +26,8 @@ import { GuidelinesBadgeComponent } from './components';
     // 3rd party
     StoreModule.forFeature('legacy_upsertPeerData', reducers),
     EffectsModule.forFeature([
-      UpsertDataCutPageEffects
+      UpsertDataCutPageEffects,
+      DataCutValidationEffects
     ]),
     NgbPopoverModule,
 
