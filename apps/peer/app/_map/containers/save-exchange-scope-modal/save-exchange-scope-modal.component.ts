@@ -25,6 +25,7 @@ export class SaveExchangeScopeModalComponent {
   upsertingExchangeScope$: Observable<boolean>;
   upsertingExchangeScopeError$: Observable<boolean>;
   saveExchangeScopeModalOpen$: Observable<boolean>;
+  validatingScopeName = false;
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -58,10 +59,13 @@ export class SaveExchangeScopeModalComponent {
       const exchangeExists = !!this.exchange;
       const exchangeId = exchangeExists ? this.exchange.ExchangeId : 0;
       const exchangeName = exchangeExists ? this.exchange.ExchangeName : '';
-      return timer(500).pipe(switchMap(() => {
+      this.validatingScopeName = true;
+      return timer(500).pipe(
+        switchMap(() => {
         return this.exchangeScopeApiService
           .validateExchangeScopeName(exchangeId, exchangeScopeName).pipe(
             map(isValid => {
+              this.validatingScopeName = false;
               return isValid !== true ? {
                 exchangeScopeNameExists: 'The ' + exchangeName + ' exchange already has a scope by this name'
               } : null;

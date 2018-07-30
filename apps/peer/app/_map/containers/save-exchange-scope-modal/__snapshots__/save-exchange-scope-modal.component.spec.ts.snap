@@ -10,6 +10,7 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
   upsertExchangeScopeEvent={[Function EventEmitter]}
   upsertingExchangeScope$={[Function Store]}
   upsertingExchangeScopeError$={[Function Store]}
+  validatingScopeName="false"
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
