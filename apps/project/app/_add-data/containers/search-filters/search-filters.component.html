@@ -4,18 +4,30 @@
 
 <pf-filter-section
   *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
-  [title]="filter.displayName"
-  [ngSwitch]="filter.type">
+  [title]="filter.DisplayName"
+  [ngSwitch]="filter.Type">
 
-  <pf-input-debounce
-    *ngSwitchCase="filterTypes.Text"
-    [hideClearBtn]="true"
-    [placeholderText]="''"
-    [maxLength]="255"
-    [ngModel]="filter.values[0]"
-    (valueChanged)="handleValueChanged(filter.id, $event)"
-    [focus]="filter.id === 'jobTitleCode'"
-    [showing]="pageShown$ | async">
-  </pf-input-debounce>
+  <!--Text Filters-->
+  <ng-container *ngSwitchCase="filterTypes.Text">
+    <div class="px-2">
+      <pf-input-debounce
+        [hideClearBtn]="true"
+        [placeholderText]="''"
+        [maxLength]="255"
+        [ngModel]="filter.Value"
+        (valueChanged)="handleValueChanged(filter.Id, $event)"
+        [focus]="filter.Id === 'jobTitleCode'"
+        [showing]="pageShown$ | async">
+      </pf-input-debounce>
+    </div>
+  </ng-container>
+
+  <!--Multi Select Filters-->
+  <ng-container *ngSwitchCase="filterTypes.Multi">
+    <pf-multi-select-filter
+      [filter]="filter"
+      (optionSelected)="handleMultiSelectOptionSelected($event)">
+    </pf-multi-select-filter>
+  </ng-container>
 
 </pf-filter-section>

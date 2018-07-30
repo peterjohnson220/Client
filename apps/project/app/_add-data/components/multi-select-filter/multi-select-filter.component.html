@@ -1,0 +1,16 @@
+<ng-container *ngFor="let option of filter.Options">
+    <div class="option"
+      [title]="option.Name"
+      [class.selected]="option.Selected"
+      (click)="handleOptionSelected(filter.Id, option.Id)">
+
+    <div class="option-check">
+      <input type="checkbox" [ngModel]="option.Selected" /> {{option.Name}}
+    </div>
+
+    <div class="option-count">
+      {{option.Count}}
+    </div>
+
+  </div>
+</ng-container>

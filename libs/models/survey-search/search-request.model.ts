@@ -1,15 +1,8 @@
-import { GenericNameValueDto } from '../common';
-
-export enum SearchType {
-  Wild = 'wild',
-  Exact = 'exact'
-}
+import { SearchFilter } from './search-filter.model';
 
 export interface SearchField {
   Name: string;
   Value: any;
-  SearchType: SearchType;
-  Must: boolean;
 }
 
 export interface PagingOptions {
@@ -24,6 +17,7 @@ interface FilterOptions {
 
 export interface SearchRequest {
   SearchFields: SearchField[];
+  Filters: SearchFilter[];
   PagingOptions: PagingOptions;
   FilterOptions: FilterOptions;
 }

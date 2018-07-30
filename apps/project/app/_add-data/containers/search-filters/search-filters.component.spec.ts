@@ -7,7 +7,7 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
-import { Filter, generateMockFilter } from '../../models';
+import { Filter, generateMockTextFilter } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchFiltersComponent } from './search-filters.component';
 
@@ -39,20 +39,30 @@ describe('Project - Add Data - Search Filters', () => {
   });
 
   it('should dispatch a UpdateFilterValue action, when handling a value changed', () => {
-    const filterValueObj = { Id: 'jobTitleCode', Value: 'New Value'};
+    const filterValueObj = { filterId: 'jobTitleCode', value: 'New Value'};
     const expectedAction = new fromSearchFiltersActions.UpdateFilterValue(filterValueObj);
     spyOn(store, 'dispatch');
 
-    instance.handleValueChanged(filterValueObj.Id, filterValueObj.Value);
+    instance.handleValueChanged(filterValueObj.filterId, filterValueObj.value);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
   it('should return the filter id for tracking purposes ', () => {
-    const filter: Filter = generateMockFilter();
+    const filter: Filter = generateMockTextFilter();
 
     const filterId = instance.trackByFilterId(5, filter);
 
-    expect(filterId).toBe(filter.id);
+    expect(filterId).toBe(filter.Id);
+  });
+
+  it('should dispatch a ToggleMultiSelectOption action, when handling a multi select option selected', () => {
+    const idObj = { filterId: '329048', optionId: '209348'};
+    const expectedAction = new fromSearchFiltersActions.ToggleMultiSelectOption(idObj);
+    spyOn(store, 'dispatch');
+
+    instance.handleMultiSelectOptionSelected(idObj);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

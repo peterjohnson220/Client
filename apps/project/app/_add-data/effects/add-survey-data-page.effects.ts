@@ -21,7 +21,7 @@ export class AddSurveyDataPageEffects {
       map((action: fromAddSurveyDataPageActions.SetJobContext) => action.payload),
       mergeMap(jobContext => [
         new fromSearchFiltersActions.GetDefaultScopesFilter(),
-        new fromSearchFiltersActions.UpdateFilterValue({Id: 'jobTitleCode', Value: jobContext.JobTitle})
+        new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext.JobTitle})
       ]
     ));
 
