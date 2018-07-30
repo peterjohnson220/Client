@@ -11,7 +11,7 @@
   <ng-container form-content>
     <input type="text" class="form-control" placeholder="Name" formControlName="exchangeScopeName" id="exchange-scope-name"
            [readonly]="upsertingExchangeScope$ | async"
-           [pfValidatable]="true"
+           [pfValidatable]="!validatingScopeName"
            pfFocus>
     <ng-container *ngIf="exchangeScopeNameControl.errors">
       <div *ngIf="exchangeScopeNameControl.errors.exchangeScopeNameExists" class="invalid-feedback">
