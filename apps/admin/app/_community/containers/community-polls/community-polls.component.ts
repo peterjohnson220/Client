@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
-import { CommunityPollStatusEnum } from 'libs/models/community/community-poll-status.enum';
 import { CommunityPollUpdateStatusRequest } from 'libs/models/community/community-poll-update-status-request.model';
 
 @Component({
@@ -21,10 +20,10 @@ export class CommunityPollsComponent implements OnInit {
   communityPollListItems$: Observable<CommunityPoll[]>;
   addingCommunityPollSuccess$: Observable<boolean>;
 
-  CommunityPollStatuses: Array<{ text: string, value: CommunityPollStatusEnum }> = [
-    { text: 'Draft', value: CommunityPollStatusEnum.Draft },
-    { text: 'Live', value: CommunityPollStatusEnum.Live },
-    { text: 'Archived', value: CommunityPollStatusEnum.Archived }
+  CommunityPollStatuses: Array<{ text: string, value: number }> = [
+    { text: 'Draft', value: 0 },
+    { text: 'Live', value: 1 },
+    { text: 'Archived', value: 2 }
   ];
 
   constructor(private store: Store<fromCommunityPollReducer.State>) {
