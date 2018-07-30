@@ -70,6 +70,7 @@
     "typescript": "2.7.2"
   },
   "jest": {
+	"testURL": "http://localhost/",
     "preset": "jest-preset-angular",
     "globals": {
       "ts-jest": {
