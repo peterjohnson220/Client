@@ -56,3 +56,16 @@ export const getCommunityAddingPollError = createSelector(
 export const getCommunityAddPollModalOpen = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getAddCommunityPollModalOpen
 );
+
+export const getUpdatingCommunitygPollStatus = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatus
+);
+
+export const getUpdatingCommunitygPollStatusError = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatusError
+);
+
+export const getUpdatingCommunitygPollStatusSuccess = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatusSuccess
+);
+

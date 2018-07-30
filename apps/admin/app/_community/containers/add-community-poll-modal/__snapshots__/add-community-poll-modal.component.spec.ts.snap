@@ -10,6 +10,9 @@ exports[`AddCommunityPollModalComponent should not show the form text and should
   attemptedSubmit={[Function Boolean]}
   fb={[Function FormBuilder]}
   store={[Function Store]}
+  updatingCommunityPollStatus$={[Function Store]}
+  updatingCommunityPollStatusError$={[Function Store]}
+  updatingCommunityPollStatusSuccess$={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
@@ -82,6 +85,9 @@ exports[`AddCommunityPollModalComponent should show the form text and no error m
   attemptedSubmit="false"
   fb={[Function FormBuilder]}
   store={[Function Store]}
+  updatingCommunityPollStatus$={[Function Store]}
+  updatingCommunityPollStatusError$={[Function Store]}
+  updatingCommunityPollStatusSuccess$={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"

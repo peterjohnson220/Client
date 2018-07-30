@@ -9,6 +9,9 @@ export interface State extends EntityState<CommunityPoll> {
   addingCommunityPollError: boolean;
   addingCommunityPollSuccess: boolean;
   addCommunityPollModalOpen: boolean;
+  updatingCommunityPollStatus: boolean;
+  updatingCommunityPollStatusError: boolean;
+  updatingCommunityPollStatusSuccess: boolean;
 }
 
 // Create entity adapter
@@ -23,6 +26,9 @@ export const initialState: State = adapter.getInitialState ({
   addingCommunityPollError: false,
   addingCommunityPollSuccess: false,
   addCommunityPollModalOpen: false,
+  updatingCommunityPollStatus: false,
+  updatingCommunityPollStatusError: false,
+  updatingCommunityPollStatusSuccess: false
 });
 
 // Reducer
@@ -82,6 +88,27 @@ export function reducer(state = initialState, action: communityPollActions.Actio
           addCommunityPollModalOpen: false,
         };
     }
+    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS: {
+      return {
+        ...state,
+        updatingCommunityPollStatus: true,
+        updatingCommunityPollStatusError: false
+      };
+    }
+    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS_SUCCESS: {
+      return {
+        ...state,
+        updatingCommunityPollStatus: false,
+        updatingCommunityPollStatusSuccess: true
+      };
+    }
+    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS_ERROR: {
+      return {
+        ...state,
+        updatingCommunityPollStatus: false,
+        updatingCommunityPollStatusError: true
+      };
+    }
     default: {
       return state;
     }
@@ -95,3 +122,6 @@ export const getAddingCommunityPoll = (state: State) => state.addingCommunityPol
 export const getAddingCommunityPollError = (state: State) => state.addingCommunityPollError;
 export const getAddingCommunityPollSuccess = (state: State) => state.addingCommunityPollSuccess;
 export const getAddCommunityPollModalOpen = (state: State) => state.addCommunityPollModalOpen;
+export const getUpdatingCommunityPollStatus = (state: State) => state.updatingCommunityPollStatus;
+export const getUpdatingCommunityPollStatusError = (state: State) => state.updatingCommunityPollStatusError;
+export const getUpdatingCommunityPollStatusSuccess = (state: State) => state.updatingCommunityPollStatusSuccess;
