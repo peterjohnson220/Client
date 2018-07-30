@@ -11,7 +11,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent } from './components';
 import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent } from './containers';
-import { AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects } from './effects';
+import {AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects} from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';

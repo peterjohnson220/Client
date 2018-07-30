@@ -1,6 +1,6 @@
-import { PagingOptions, SearchField, SurveyJob, SearchType } from 'libs/models/survey-search';
+import { PagingOptions, SearchField, SurveyJob, SearchType, SurveyDataCut } from 'libs/models/survey-search';
 
-import { Filter, JobResult, ResultsPagingOptions } from '../models';
+import { Filter, JobResult, ResultsPagingOptions, DataCut } from '../models';
 
 export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] {
   const currentdate = new Date();
@@ -20,7 +20,10 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
         new Date(currentdate.getFullYear(), currentdate.getMonth(), 1) :
         sj.Survey.EffectiveDateTime,
       Category: sj.Job.Category,
-      FLSAStatus: sj.Job.FLSAStatus
+      FLSAStatus: sj.Job.FLSAStatus,
+      LoadingDataCuts: false,
+      DataCuts: [],
+      ShowDataCuts: false
     };
   });
 }
@@ -43,3 +46,18 @@ export function mapFiltersToSearchFields(filters: Filter[]): SearchField[] {
     };
   });
 }
+
+export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCut[]): DataCut[] {
+  return dataCuts.map((dc: SurveyDataCut) => {
+    return {
+      SurveyDataId: dc.SurveyDataId,
+      Title: dc.Title,
+      Country: dc.Country,
+      Weight: dc.Weight,
+      Base50th: dc.Base50,
+      TCC50th: dc.Tcc50,
+      Match: 0
+    };
+  });
+}
+
