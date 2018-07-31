@@ -27,9 +27,9 @@
     <div *ngIf="job.LoadingDataCuts">
       <pf-loading-indicator></pf-loading-indicator> Loading Data Cuts...
     </div>
-    <table class="job-cuts-table" *ngIf="showDataCuts && !job.LoadingDataCuts">
+    <div *ngIf="showDataCuts && !job.LoadingDataCuts">
       <pf-data-cuts [dataCuts]="job.DataCuts">
       </pf-data-cuts>
-    </table>
+    </div>
   </td>
 </tr>

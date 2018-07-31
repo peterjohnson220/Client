@@ -4,36 +4,43 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 <pf-data-cuts
   dataCuts={[Function Array]}
 >
-  <tr>
-    <td
-      class="data-cut-title"
-    >
-      Metropolitan/Big/Large
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      Incs (8)
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      50.5
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      85.5
-    </td>
-    <td
-      class="fixed-cell"
-    />
-  </tr>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr>
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          50.5
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          85.5
+        </td>
+        <td
+          class="fixed-cell"
+        />
+      </tr>
+    </tbody>
+  </table>
 </pf-data-cuts>
 `;
 
@@ -41,35 +48,42 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
 <pf-data-cuts
   dataCuts={[Function Array]}
 >
-  <tr>
-    <td
-      class="data-cut-title"
-    >
-      Metropolitan/Big/Large
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      Incs (8)
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      -
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      -
-    </td>
-    <td
-      class="fixed-cell"
-    />
-  </tr>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr>
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        />
+      </tr>
+    </tbody>
+  </table>
 </pf-data-cuts>
 `;
