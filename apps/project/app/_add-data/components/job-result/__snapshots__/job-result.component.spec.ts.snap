@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Project - Add Data - Job Result should display Show Cuts link when current job is not Payfactors 1`] = `
-<pf-job-result
+<div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
@@ -68,11 +68,11 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
       
     </td>
   </tr>
-</pf-job-result>
+</div>
 `;
 
 exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
-<pf-job-result
+<div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
@@ -130,5 +130,5 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
       
     </td>
   </tr>
-</pf-job-result>
+</div>
 `;

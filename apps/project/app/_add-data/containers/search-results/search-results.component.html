@@ -25,11 +25,16 @@
 
     <table>
       <tbody>
-        <pf-job-result *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
-            [job]="jobResult"
-            (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)">
-        </pf-job-result>
+        <tr>
+          <td colspan="6">
+            <table *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
+                   pf-job-result
+                   [job]="jobResult"
+                   (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)">
 
+            </table>
+          </td>
+        </tr>
         <tr class="loading-more-row" *ngIf="loadingMoreResults">
           <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
         </tr>

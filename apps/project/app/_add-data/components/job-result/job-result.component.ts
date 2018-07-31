@@ -12,7 +12,7 @@ import * as fromSearchResultActions from '../../actions/search-results.actions';
   // The job result table row needs to be an immediate child of the tbody.
   // this component will be used through an attribute selector.
   // tslint:disable-next-line
-  selector: 'pf-job-result',
+  selector: '[pf-job-result]',
   templateUrl: './job-result.component.html',
   styleUrls: ['./job-result.component.scss']
 })
