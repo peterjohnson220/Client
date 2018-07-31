@@ -56,6 +56,10 @@ tr.row-disabled {
   @extend %disabled-row;
 }
 
+.disabled {
+  @extend %disabled-row;
+}
+
 .space-out-children > * {
   margin-left: 0.5rem;
 }

@@ -14,7 +14,13 @@ export class FilterAggregateComponent {
 
   constructor() { }
 
+  get checkDisabled() {
+    return this.aggregate.Count === 0 && !this.aggregate.Selected;
+  }
+
   handleAggregateSelected(aggregate: FilterAggregateItem) {
-    this.aggregateSelected.emit(aggregate);
+    if (!this.checkDisabled) {
+      this.aggregateSelected.emit(aggregate);
+    }
   }
 }

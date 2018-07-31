@@ -9,11 +9,14 @@ $option-count-color: #9a9a9a;
   justify-content: space-between;
   padding: .3846rem .5rem;
   height: 28px;
-  cursor: pointer;
-}
 
-.option:hover{
-  background: lighten($selection-hover-background, 40%);
+  &:not(.disabled) {
+    cursor: pointer;
+
+    &:hover {
+      background: lighten($selection-hover-background, 40%);
+    }
+  }
 }
 
 .option.selected{
