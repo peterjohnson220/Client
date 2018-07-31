@@ -9,7 +9,12 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
+import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+
 @NgModule({
+  declarations: [
+    AppWrapperComponent],
   imports: [
     // Angular
     BrowserAnimationsModule,
@@ -23,6 +28,7 @@ import { AppRoutingModule } from './app-routing.module';
     PfStateModule,
     PfApiModule,
     PfAppRootModule,
+    PfLayoutWrapperModule,
 
     // Routing
     AppRoutingModule

@@ -3,7 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { UserContextGuard } from 'libs/security';
 import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
-import { AppWrapperComponent } from 'libs/features/app-root/app-wrapper.component';
+import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
 
 export const routes: Routes = [
   {
@@ -40,4 +40,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
