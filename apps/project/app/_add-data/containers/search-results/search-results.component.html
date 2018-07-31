@@ -56,5 +56,7 @@
   [job]="tooltipData.Job"
   [tooltipLeftPx]="tooltipData.TargetX"
   [tooltipTopPx]="tooltipData.TargetY"
-  [visible]="tooltipOpen$ | async">
+  [visible]="tooltipOpen$ | async"
+  [containerHeight]="resultsContainerHeight"
+  [containerWidth]="resultsContainerWidth">
 </pf-job-details-tooltip>

@@ -5,7 +5,8 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
   job={[Function Object]}
   jobDescriptionElement={[Function ElementRef]}
   tooltipElement={[Function ElementRef]}
-  tooltipMarginTop={[Function Number]}
+  tooltipMargin={[Function Number]}
+  tooltipPadding={[Function Number]}
 >
   <div
     class="tooltip-container"
@@ -106,7 +107,8 @@ exports[`JobDetailsTooltipComponent should display Survey Name when current job 
   job={[Function Object]}
   jobDescriptionElement={[Function ElementRef]}
   tooltipElement={[Function ElementRef]}
-  tooltipMarginTop={[Function Number]}
+  tooltipMargin={[Function Number]}
+  tooltipPadding={[Function Number]}
 >
   <div
     class="tooltip-container"
