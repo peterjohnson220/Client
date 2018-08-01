@@ -93,6 +93,12 @@ export const getTooltipOpen = createSelector(
   fromSearchResultsReducer.getTooltipOpen
 );
 
+// Select Data Cuts
+export const getSelectedDataCuts = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getSelectedDataCuts
+);
+
 // Search Filters Selectors
 export const getFilters = createSelector(
   selectSearchFiltersState,
@@ -103,5 +109,4 @@ export const getLoadingDefaultSurveyScopes = createSelector(
   selectSearchFiltersState,
   fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
 );
-
 

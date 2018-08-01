@@ -5,18 +5,19 @@ import {
   SurveyJob,
   SearchFilter,
   SearchFilterOption,
-  SurveyDataCut
+  SurveyDataCutResponse,
+  DataCut
 } from 'libs/models/survey-search';
 
 import {
   Filter, FilterType, isMultiFilter, isTextFilter, JobResult, MultiSelectFilter, MultiSelectOption,
-  ResultsPagingOptions, TextFilter,  DataCut,
+  ResultsPagingOptions, TextFilter,  SurveyDataCut,
 } from '../models';
 import { SearchFilterDisplaysAndBackings, SearchFilterBackingField } from '../data';
 
 
 // Exports
-export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] {
+export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataCuts: DataCut[]): JobResult[] {
   const currentdate = new Date();
   return surveyJobs.map((sj: SurveyJob) => {
     return {
@@ -38,7 +39,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
       CountryCode: sj.Job.CountryCode,
       LoadingDataCuts: false,
       DataCuts: [],
-      ShowDataCuts: false,
+      IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50Th: sj.Job.Base50Th,
       Tcc50Th: sj.Job.Tcc50Th
     };
@@ -93,8 +94,8 @@ export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOpti
   });
 }
 
-export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCut[]): DataCut[] {
-  return dataCuts.map((dc: SurveyDataCut) => {
+export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse[], selectedDataCuts: DataCut[]): SurveyDataCut[] {
+  return dataCuts.map((dc: SurveyDataCutResponse) => {
     return {
       SurveyDataId: dc.SurveyDataId,
       Title: dc.Title,
@@ -102,7 +103,8 @@ export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCut[]): Dat
       Weight: dc.Weight,
       Base50th: dc.Base50,
       TCC50th: dc.Tcc50,
-      Match: 0
+      Match: 0,
+      IsSelected: isCutSelected(dc, selectedDataCuts)
     };
   });
 }
@@ -114,6 +116,19 @@ function getAllSelectedOptions(filter: MultiSelectFilter): any[] {
 
 function getTextFiltersWithValues(filters: Filter[]) {
   return filters.filter(f => isTextFilter(f) && f.Value);
+}
+
+function isJobSelected(surveyJob: SurveyJob, selectedCuts: DataCut[]) {
+  if (!surveyJob.IsPayfactorsJob) {
+    return false;
+  }
+  return selectedCuts.some(cutData =>
+    cutData.CountryCode === surveyJob.Job.CountryCode && cutData.SurveyJobCode === surveyJob.Job.Code);
+}
+
+function isCutSelected(dataCut: SurveyDataCutResponse, selectedCuts: DataCut[]) {
+  return selectedCuts.some(cutData =>
+    cutData.DataCutId === dataCut.SurveyDataId);
 }
 
 function getMultiFiltersWithValues(filters: Filter[]) {

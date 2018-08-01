@@ -1,5 +1,5 @@
 <table class="job-cuts-table">
-  <tr *ngFor="let dataCut of dataCuts">
+  <tr *ngFor="let dataCut of dataCuts" (click)="toggleCutSelection(dataCut)" [ngClass]="{'selected-data-cut': dataCut.IsSelected }">
     <td class="data-cut-title">{{dataCut.Title}}</td>
     <td class="fixed-cell">{{dataCut.Country}}</td>
     <td class="fixed-cell">{{dataCut.Weight}}</td>

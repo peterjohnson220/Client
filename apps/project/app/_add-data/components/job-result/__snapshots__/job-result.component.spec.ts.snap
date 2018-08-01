@@ -2,11 +2,13 @@
 
 exports[`Project - Add Data - Job Result should display Show Cuts link when current job is not Payfactors 1`] = `
 <div
+  cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   store={[Function Store]}
@@ -14,6 +16,8 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 >
   <tr
     class="job-result-row"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
   >
     <td
       class="growing-cell"
@@ -79,18 +83,22 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 
 exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
 <div
+  cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
   <tr
-    class="job-result-row"
+    class="job-result-row payfactors-job-result"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
   >
     <td
       class="growing-cell"
@@ -152,18 +160,22 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
 exports[`Project - Add Data - Job Result should show values in the correct currency when is Payfactors job  1`] = `
 <div
   currencyCode={[Function String]}
+  cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
   <tr
-    class="job-result-row"
+    class="job-result-row payfactors-job-result"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
   >
     <td
       class="growing-cell"

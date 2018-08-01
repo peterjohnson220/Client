@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
 import { JobResultComponent } from './job-result.component';
 import { generateMockPayfactorsJobResult, generateMockSurveyJobResult, generateMockDataCut } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
-
 import * as fromJobResultActions from '../../actions/search-results.actions';
+
+
 
 describe('Project - Add Data - Job Result', () => {
   let component: JobResultComponent;
@@ -80,20 +81,6 @@ describe('Project - Add Data - Job Result', () => {
     fixture.detectChanges();
 
     expect(component.toggleDataCutsLabel).toEqual('Show Cuts');
-  });
-
-  it('should request data cut results from store when show cuts clicked', () => {
-    component.job = generateMockSurveyJobResult();
-    component.showDataCuts = false;
-
-    const getSurveyDataResultsAction = new fromJobResultActions.GetSurveyDataResults(component.job);
-
-    spyOn(store, 'dispatch');
-
-    fixture.detectChanges();
-    component.toggleDataCutsDisplay();
-
-    expect(store.dispatch).toHaveBeenCalledWith(getSurveyDataResultsAction);
   });
 
   it('should not request data cut results from store when show cuts clicked and cuts already loaded', () => {

@@ -1,4 +1,4 @@
-import {DataCut} from './data-cut.model';
+import {SurveyDataCut} from './data-cut.model';
 
 export interface JobResult {
     Id: number;
@@ -16,10 +16,11 @@ export interface JobResult {
     FLSAStatus?: string;
     Scope?: string;
     LoadingDataCuts: boolean;
-    DataCuts: DataCut[];
+    DataCuts: SurveyDataCut[];
     Base50Th: number;
     Tcc50Th: number;
     CountryCode?: string;
+    IsSelected: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -39,7 +40,8 @@ export function generateMockSurveyJobResult(): JobResult {
     DataCuts: [],
     Base50Th: 1,
     Tcc50Th: 1,
-    CountryCode: 'USA'
+    CountryCode: 'USA',
+    IsSelected: false
   };
 }
 
@@ -75,6 +77,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     DataCuts: [],
     Base50Th: 1,
     Tcc50Th: 1,
-    CountryCode: 'USA'
+    CountryCode: 'USA',
+    IsSelected: false
   };
 }

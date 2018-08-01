@@ -3,10 +3,12 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { JobResult, JobDetailsToolTipData, JobContext } from '../../models';
+import { DataCut } from 'libs/models/survey-search';
 
+import { JobResult, JobDetailsToolTipData, JobContext } from '../../models';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
+
 
 @Component({
   selector: 'pf-search-results',
@@ -83,6 +85,17 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.tooltipIndex = index;
     this.setResultsContainerSize();
     this.store.dispatch(new fromSearchResultsActions.OpenTooltip());
+  }
+
+  handleShowCutsClick(data: JobResult): void {
+    if (data.DataCuts.length) {
+      return;
+    }
+    this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(data));
+  }
+
+  handleCutSelectionToggle(data: DataCut): void {
+    this.store.dispatch(new fromSearchResultsActions.ToggleSurveyDataCutSelection(data));
   }
 
   trackByJobId(index, item: JobResult) {

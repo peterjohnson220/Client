@@ -1,3 +1,4 @@
+@import 'legacy-variables';
 @import 'colors';
 
 .job-data-cuts-row{
@@ -16,4 +17,12 @@
 
 .job-cuts-table{
   width: 100%;
+}
+
+.payfactors-job-result:hover{
+  background-color: $add-data-hover-background;
+  cursor: pointer;
+}
+.selected-job-result{
+  background-color: $add-data-selected-background;
 }

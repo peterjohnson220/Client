@@ -31,8 +31,9 @@
                    pf-job-result
                    [job]="jobResult"
                    [currencyCode]="(jobContext$ | async)?.CurrencyCode"
-                   (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)">
-
+                   (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
+                   (showCutsClick)="handleShowCutsClick($event)"
+                   (cutSelected)="handleCutSelectionToggle($event)">
             </table>
           </td>
         </tr>
