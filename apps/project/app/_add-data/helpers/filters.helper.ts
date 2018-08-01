@@ -1,10 +1,10 @@
-import {Filter} from '../models';
+import { Filter, TextFilter } from '../models';
 
 export function getCombinedScope(filters: Filter[]): string {
-  const combinedScopeFilter = filters.find(x => x.id === 'scope');
+  const combinedScopeFilter = <TextFilter>filters.find(f => f.Id === 'scope');
   let combinedScope = null;
-  if (combinedScopeFilter.values.length) {
-    combinedScope = combinedScopeFilter.values[0];
+  if (combinedScopeFilter.Value) {
+    combinedScope = combinedScopeFilter.Value;
   }
   return combinedScope;
 }

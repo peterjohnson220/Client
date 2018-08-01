@@ -36,6 +36,13 @@ export class SearchFiltersEffects {
       )
     );
 
+  @Effect()
+  toggleMultiSelectOption$ = this.actions$
+    .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
+    .pipe(
+      map(() => new fromSearchResultsActions.GetResults())
+    );
+
   constructor(
     private actions$: Actions,
     private surveySearchApiService: SurveySearchApiService,

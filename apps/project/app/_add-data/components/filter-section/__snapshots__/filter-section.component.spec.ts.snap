@@ -20,9 +20,7 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       </div>
     </div>
     
-    <div
-      class="px-2"
-    />
+    <div />
   </div>
 </pf-filter-section>
 `;
@@ -46,9 +44,7 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
         </div>
       </div>
       
-      <div
-        class="px-2"
-      >
+      <div>
         <h1>
           Transclusion Works!
         </h1>
@@ -102,9 +98,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-up icon in t
       </div>
     </div>
     
-    <div
-      class="px-2"
-    />
+    <div />
   </div>
 </pf-filter-section>
 `;

@@ -26,12 +26,16 @@ export class SearchFiltersComponent {
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
   }
 
-  handleValueChanged(id: string, value: string) {
-    this.store.dispatch(new fromSearchFiltersActions.UpdateFilterValue({Id: id, Value: value}));
+  handleValueChanged(filterId: string, value: string) {
+    this.store.dispatch(new fromSearchFiltersActions.UpdateFilterValue({filterId, value}));
   }
 
   trackByFilterId(index, item: Filter) {
-    return item.id;
+    return item.Id;
+  }
+
+  handleMultiSelectOptionSelected(idObj: { filterId: string, optionId: string }) {
+    this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(idObj));
   }
 }
 

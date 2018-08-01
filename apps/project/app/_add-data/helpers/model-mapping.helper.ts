@@ -1,7 +1,21 @@
-import { PagingOptions, SearchField, SurveyJob, SearchType, SurveyDataCut } from 'libs/models/survey-search';
+import { generateGuid } from 'libs/core/functions';
+import {
+  PagingOptions,
+  SearchField,
+  SurveyJob,
+  SearchFilter,
+  SearchFilterOption,
+  SurveyDataCut
+} from 'libs/models/survey-search';
 
-import { Filter, JobResult, ResultsPagingOptions, DataCut } from '../models';
+import {
+  Filter, FilterType, isMultiFilter, isTextFilter, JobResult, MultiSelectFilter, MultiSelectOption,
+  ResultsPagingOptions, TextFilter,  DataCut,
+} from '../models';
+import { SearchFilterDisplaysAndBackings, SearchFilterBackingField } from '../data';
 
+
+// Exports
 export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] {
   const currentdate = new Date();
   return surveyJobs.map((sj: SurveyJob) => {
@@ -37,12 +51,41 @@ export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: Res
 
 
 export function mapFiltersToSearchFields(filters: Filter[]): SearchField[] {
-  return filters.map((f: Filter) => {
+  return getTextFiltersWithValues(filters).map((f: TextFilter) => {
     return {
-      Name: f.backingField,
-      Value: f.values[ 0 ],
-      SearchType: SearchType.Wild,
-      Must: true
+      Name: f.BackingField,
+      Value: f.Value
+    };
+  });
+}
+
+export function mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
+  return getMultiFiltersWithValues(filters).map((f: MultiSelectFilter) => {
+    return {
+      Name: f.BackingField,
+      Options: getAllSelectedOptions(f)
+    };
+  });
+}
+
+export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelectFilter {
+  return {
+    Id: searchFilter.Name.split('_').join(''),
+    BackingField: SearchFilterBackingField[searchFilter.Name],
+    DisplayName: SearchFilterDisplaysAndBackings[searchFilter.Name],
+    Options: mapSearchFilterOptionsToMultiSelectOptions(searchFilter.Options),
+    Type: FilterType.Multi
+  };
+}
+
+export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOption[]): MultiSelectOption[] {
+  return sfo.map((o: SearchFilterOption): MultiSelectOption => {
+    return {
+      Id: generateGuid(),
+      Name: o.Name,
+      Value: o.Value,
+      Count: o.Count,
+      Selected: false
     };
   });
 }
@@ -61,3 +104,15 @@ export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCut[]): Dat
   });
 }
 
+function getAllSelectedOptions(filter: MultiSelectFilter): any[] {
+  return filter.Options.filter(o => o.Selected).map(o => ({ Value: o.Value}));
+}
+
+
+function getTextFiltersWithValues(filters: Filter[]) {
+  return filters.filter(f => isTextFilter(f) && f.Value);
+}
+
+function getMultiFiltersWithValues(filters: Filter[]) {
+  return filters.filter(f => isMultiFilter(f) && f.Options.some(o => o.Selected));
+}

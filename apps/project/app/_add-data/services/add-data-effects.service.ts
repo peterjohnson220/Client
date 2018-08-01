@@ -9,8 +9,11 @@ import { SearchResponse } from 'libs/models/survey-search';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import { Filter, FilterType } from '../models';
-import { mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields } from '../helpers';
+import {
+  mapFiltersToSearchFilters,
+  mapResultsPagingOptionsToPagingOptions,
+  mapFiltersToSearchFields
+} from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 
 @Injectable()
@@ -27,12 +30,14 @@ export class AddDataEffectsService {
 
       switchMap(filtersAndPaging => {
         // Build up request objects
-        const searchFieldsRequestObj = mapFiltersToSearchFields(this.getTextFiltersWithValues(filtersAndPaging.filters));
+        const searchFieldsRequestObj = mapFiltersToSearchFields(filtersAndPaging.filters);
+        const filtersRequestObj = mapFiltersToSearchFilters(filtersAndPaging.filters);
         const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersAndPaging.pagingOptions);
         const filterOptionsRequestObj = { ReturnFilters: true, AggregateCount: 5 };
 
         return this.surveySearchApiService.searchSurveyJobs({
           SearchFields: searchFieldsRequestObj,
+          Filters: filtersRequestObj,
           FilterOptions: filterOptionsRequestObj,
           PagingOptions: pagingOptionsRequestObj
         })
@@ -45,10 +50,6 @@ export class AddDataEffectsService {
           );
       })
     );
-  }
-
-  getTextFiltersWithValues(filters: Filter[]) {
-    return filters.filter(f => f.type === FilterType.Text && f.values[ 0 ]);
   }
 
   constructor(
