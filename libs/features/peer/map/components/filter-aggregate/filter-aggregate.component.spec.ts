@@ -33,4 +33,30 @@ describe('Legacy Content - Peer - Filter Aggregate Component', () => {
 
     expect(instance.aggregateSelected.emit).toHaveBeenCalledWith(instance.aggregate);
   });
+
+  it(`should NOT emit an aggregateSelected event with a FilterAggregateItem when handling AggregateSelected
+  and Count is 0 and Selected is false`, () => {
+    instance.aggregate = {...generateMockFilterAggregateItem(), Count: 0};
+    spyOn(instance.aggregateSelected, 'emit');
+
+    instance.handleAggregateSelected(instance.aggregate);
+
+    expect(instance.aggregateSelected.emit).not.toHaveBeenCalledWith(instance.aggregate);
+  });
+
+  it(`should be disabled if the aggregate Count is 0 and Selected is false`, () => {
+    instance.aggregate = {...generateMockFilterAggregateItem(), Count: 0};
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should NOT be disabled if the aggregate Count is 0 and Selected is true`, () => {
+    instance.aggregate = {...generateMockFilterAggregateItem(), Count: 0, Selected: true};
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
