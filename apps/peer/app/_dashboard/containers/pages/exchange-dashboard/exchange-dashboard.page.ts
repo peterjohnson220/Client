@@ -46,9 +46,9 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['map'], { relativeTo: this.route });
   }
 
-  getTitle(hasDataError: boolean, hasData: boolean): string {
+  getTitle(hasData: boolean, hasDataError: boolean): string {
     if (hasDataError) { return 'Failed to get map data'; }
-    if (!hasData) {return 'No exchange map data available'; }
+    if (!hasData) { return 'No exchange map data available'; }
     return '';
   }
 
@@ -58,7 +58,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
 
     this.exchangeSubscription = this.exchange$.subscribe(ex =>
       this.store.dispatch(new fromExchangeDashboardActions.LoadMapCount(ex.ExchangeId))
-     );
+    );
   }
 
   ngOnDestroy() {
