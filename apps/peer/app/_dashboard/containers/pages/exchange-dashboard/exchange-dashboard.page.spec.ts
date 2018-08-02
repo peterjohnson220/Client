@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import {  generateMockExchange } from 'libs/models';
+import { generateMockExchange } from 'libs/models';
 
 import { ExchangeDashboardPageComponent } from './exchange-dashboard.page';
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
@@ -36,14 +36,14 @@ describe('Peer - Exchange Dashboard', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { snapshot: { params: { id: 1 } } },
         },
       ],
       declarations: [
         ExchangeDashboardPageComponent
       ],
       // Shallow Testing
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     store = TestBed.get(Store);
@@ -61,13 +61,13 @@ describe('Peer - Exchange Dashboard', () => {
 
     instance.manageJobsClick();
 
-    expect(router.navigate).toHaveBeenCalledWith(['manage'], {relativeTo: activatedRoute});
+    expect(router.navigate).toHaveBeenCalledWith(['manage'], { relativeTo: activatedRoute });
   });
 
   it('should return expected strings after api result', () => {
-    expect(instance.getTitle(true, false)).toBe('Failed to get map data');
+    expect(instance.getTitle(false, true)).toBe('Failed to get map data');
     expect(instance.getTitle(false, false)).toBe('No exchange map data available');
-    expect(instance.getTitle(false, true)).toBe('');
+    expect(instance.getTitle(true, false)).toBe('');
   });
 
   it('should dispatch a CloseSidebar action on init', () => {
