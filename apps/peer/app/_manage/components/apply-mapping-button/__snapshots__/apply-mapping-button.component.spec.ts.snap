@@ -10,7 +10,7 @@ exports[`Peer - Apply Mapping Button should show a disabled Mapped button, when 
     disabled=""
     type="button"
   >
-     Mapped
+     Associated
   
   </button>
 </pf-apply-mapping-button>
@@ -28,7 +28,7 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button with a 
   >
     
     <span>
-       Apply Mapping 
+       Associate 
     </span>
     
     
@@ -47,7 +47,7 @@ exports[`Peer - Apply Mapping Button should show an apply mapping button, when u
   >
     
     <span>
-       Apply Mapping 
+       Associate 
     </span>
     
     
@@ -72,7 +72,7 @@ exports[`Peer - Apply Mapping Button should show an applying mapping... button w
     
     <span>
       <pf-loading-indicator />
-       Applying Mapping... 
+       Associating... 
     </span>
   </button>
 </pf-apply-mapping-button>
@@ -101,7 +101,7 @@ exports[`Peer - Apply Mapping Button should show an error message under a Retry 
     <i
       class="fal fa-exclamation-triangle"
     />
-     Error Applying Mapping
+     Error Associating Job
   
   </span>
 </pf-apply-mapping-button>
