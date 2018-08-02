@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SearchResponse, DataCut, SurveyDataResponse } from 'libs/models/survey-search';
+import { SearchResponse, DataCut, SurveyDataResponse, PricingMatchesResponse } from 'libs/models/survey-search';
 
 import { JobResult } from '../models/job-result.model';
 
@@ -15,7 +15,7 @@ export const TOGGLE_SURVEY_DATA_CUT_SELECTION = '[Project Add Data/Add Survey Da
 export const CLEAR_DATA_CUT_SELECTIONS = '[Project Add Data/Add Survey Data Page] Clear Data Cut Selections';
 export const GET_SURVEY_DATA_RESULTS = '[Project Add Data/Search Results] Get Survey Data Results';
 export const GET_SURVEY_DATA_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get Survey Data Results Success';
-
+export const UPDATE_RESULTS_MATCHES_COUNT = '[Project Add Data/Search Results] Update Results Matches Count';
 
 export class GetResults implements Action {
   readonly type = GET_RESULTS;
@@ -72,6 +72,12 @@ export class GetSurveyDataResultsSuccess implements Action {
   constructor(public payload: SurveyDataResponse) {}
 }
 
+export class UpdateResultsMatchesCount implements Action {
+  readonly type = UPDATE_RESULTS_MATCHES_COUNT;
+
+  constructor(public payload: PricingMatchesResponse) {}
+}
+
 export type Actions
   = GetResults
   | GetResultsSuccess
@@ -83,5 +89,5 @@ export type Actions
   | ToggleSurveyDataCutSelection
   | ClearDataCutSelections
   | GetSurveyDataResults
-  | GetSurveyDataResultsSuccess;
-
+  | GetSurveyDataResultsSuccess
+  | UpdateResultsMatchesCount;

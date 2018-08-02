@@ -30,7 +30,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       Source: sj.Survey.Publisher,
       Description: sj.Job.Description,
       IsPayfactors: sj.IsPayfactorsJob,
-      MatchCount: 0,
+      Matches: 0,
       EffectiveDate: sj.IsPayfactorsJob ?
         new Date(currentdate.getFullYear(), currentdate.getMonth(), 1) :
         sj.Survey.EffectiveDateTime,

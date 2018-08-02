@@ -31,11 +31,11 @@ export class SearchResultsEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
-	this.store.select(fromAddDataReducer.getJobContext),
+        this.store.select(fromAddDataReducer.getJobContext),
         (action: fromJobResultActions.GetSurveyDataResults, filters, jobContext) => ({ action, filters, jobContext })),
       mergeMap((dataCutContext) => {
           const surveyJobId = dataCutContext.action.payload.Id;
-	  const currencyCode = dataCutContext.jobContext.CurrencyCode;
+          const currencyCode = dataCutContext.jobContext.CurrencyCode;
 
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
           const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
@@ -43,7 +43,7 @@ export class SearchResultsEffects {
             SurveyJobId: surveyJobId,
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
-	    CurrencyCode: currencyCode
+            CurrencyCode: currencyCode
           })
             .pipe(
               map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({
@@ -52,6 +52,16 @@ export class SearchResultsEffects {
             );
         }
       ));
+
+  @Effect()
+  getResultsSuccess$ = this.addDataEffectsService.loadPricingMatches(
+    this.actions$.ofType(fromSearchResultsActions.GET_RESULTS_SUCCESS)
+  );
+
+  @Effect()
+  getMoreResultsSuccess$ = this.addDataEffectsService.loadPricingMatches(
+    this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS)
+  );
 
   constructor(
     private actions$: Actions,

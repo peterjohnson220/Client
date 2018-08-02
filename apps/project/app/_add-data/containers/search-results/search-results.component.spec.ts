@@ -7,7 +7,12 @@ import * as fromRootState from 'libs/state/state';
 import { DataCut, generateMockSearchResponse } from 'libs/models/survey-search';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
-import { generateMockSurveyJobResult, JobResult, JobDetailsToolTipData, generateMockDataCut } from '../../models';
+import {
+  generateMockSurveyJobResult,
+  JobResult,
+  JobDetailsToolTipData,
+  generateMockDataCut
+} from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchResultsComponent } from './search-results.component';
 

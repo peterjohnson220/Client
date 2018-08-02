@@ -4,7 +4,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import { DataCut } from 'libs/models/survey-search';
 
 import { JobResult, ResultsPagingOptions } from '../models';
-import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut } from '../helpers';
+import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
 
 
 export interface State {
@@ -136,7 +136,13 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         results: resultsCopy
       };
     }
-
+    case fromSearchResultsActions.UPDATE_RESULTS_MATCHES_COUNT: {
+      const resultsCopy = cloneDeep(state.results);
+      return {
+        ...state,
+        results: applyMatchesToJobResults(resultsCopy, action.payload)
+      };
+    }
     default: {
       return state;
     }

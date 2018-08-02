@@ -9,7 +9,6 @@ import { JobResult, JobDetailsToolTipData, JobContext } from '../../models';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
 
-
 @Component({
   selector: 'pf-search-results',
   templateUrl: './search-results.component.html',
@@ -73,6 +72,9 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   handleResultsScroll(): void {
+    if (this.tooltipIndex === -1) {
+      return;
+    }
     this.clearTooltip();
   }
 
@@ -133,4 +135,5 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.resultsContainerWidth = this.resultsContainer.nativeElement.offsetWidth;
     this.resultsContainerHeight = this.resultsContainer.nativeElement.offsetHeight;
   }
+
 }

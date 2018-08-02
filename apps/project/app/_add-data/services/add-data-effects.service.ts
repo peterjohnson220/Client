@@ -5,14 +5,15 @@ import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { SearchResponse } from 'libs/models/survey-search';
+import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/survey-search';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import {
   mapFiltersToSearchFilters,
   mapResultsPagingOptionsToPagingOptions,
-  mapFiltersToSearchFields
+  mapFiltersToSearchFields,
+  createPricingMatchesRequest
 } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 
@@ -49,6 +50,24 @@ export class AddDataEffectsService {
                 ? new fromSearchResultsActions.GetMoreResultsSuccess(searchResponse)
                 : new fromSearchResultsActions.GetResultsSuccess(searchResponse);
             })
+          );
+      })
+    );
+  }
+
+  loadPricingMatches(action$: Actions<Action>): Observable<Action> {
+    return action$.pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getResults),
+        this.store.select(fromAddDataReducer.getResultsPagingOptions),
+        (action, jobResults, pagingOptions) => ({ jobResults, pagingOptions })),
+      switchMap(({ jobResults, pagingOptions }) => {
+        const lastJobResultIndex = (pagingOptions.page - 1) * (pagingOptions.pageSize - 1);
+        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
+        return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
+          .pipe(
+            map((pricingMatchesResponse: PricingMatchesResponse) =>
+              new fromSearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse))
           );
       })
     );
