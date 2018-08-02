@@ -15,7 +15,7 @@ exports[`Peer - Manage - Delete Confirmation Modal should match snapshot on init
     primarybuttontextsubmitting="Deleting..."
     secondarybuttontext="No"
     size=""
-    title="Delete Mapping"
+    title="Delete Association"
   >
     
      You are about to delete the association between 

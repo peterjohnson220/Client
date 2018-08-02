@@ -1,7 +1,7 @@
   <div class="mapping-info-container card h-100">
     <div class="card-header">
       <div class="align-self-center mr-auto">
-        Mapping Information
+        Job Information
       </div>
       <ng-container *ngIf="selectedExchangeJobMapping.Mapped">
         <button id="add-mapping-button"
@@ -9,7 +9,7 @@
                 [disabled]="selectedExchangeJobMapping.CompanyJobMappings.length > 9"
                 [ngClass]="{ 'btn-secondary': !addingMapping, 'btn-warning': addingMapping }"
                 (click)="toggleAdding()">
-          {{ addingMapping ? 'Cancel Adding' : 'Add Mapping' }}
+          {{ addingMapping ? 'Cancel' : 'Add Association' }}
         </button>
       </ng-container>
 
