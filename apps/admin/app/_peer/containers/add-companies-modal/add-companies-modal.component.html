@@ -20,6 +20,7 @@
       <div class="form-group">
         <pf-input-debounce id="search-box"
                            [focus]="true"
+                           [showing]="addCompaniesModalOpen$ | async"
                            [delay]="400"
                            [(ngModel)]="searchTerm"
                            [ngModelOptions]="{standalone: true}"

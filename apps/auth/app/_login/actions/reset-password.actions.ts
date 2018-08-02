@@ -10,7 +10,7 @@ export const CHECK_RESET_PASSWORD_TOKEN_ERROR = '[Auth/Reset Password] Checking 
 
 export class ResetPassword implements Action {
   readonly type = RESET_PASSWORD;
-  constructor(public token: string, public password: string) {}
+  constructor(public payload: any) {}
 }
 
 export class ResetPasswordSuccess implements Action {
@@ -30,12 +30,12 @@ export class ResetPasswordError implements Action {
 
 export class CheckResetPasswordToken implements Action {
   readonly type = CHECK_RESET_PASSWORD_TOKEN;
-  constructor(public token: string) {}
+  constructor(public payload: string) {}
 }
 
 export class CheckResetPasswordTokenSuccess implements Action {
   readonly type = CHECK_RESET_PASSWORD_TOKEN_SUCCESS;
-  constructor(public tokenValid: boolean) {}
+  constructor(public payload: any) {}
 }
 
 export class CheckResetPasswordTokenError implements Action {

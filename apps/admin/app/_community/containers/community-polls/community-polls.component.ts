@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommunityPoll } from 'libs/models/community/community-poll.model';
 
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import * as fromCommunityPollActions from '../../actions/community-poll.actions';
+import * as fromCommunityPollReducer from '../../reducers';
+import { CommunityPollUpdateStatusRequest } from 'libs/models/community/community-poll-update-status-request.model';
+
 @Component({
   selector: 'pf-community-polls',
   templateUrl: './community-polls.component.html',
@@ -8,30 +15,45 @@ import { CommunityPoll } from 'libs/models/community/community-poll.model';
 })
 export class CommunityPollsComponent implements OnInit {
 
-  gridData: CommunityPoll[];
+  communityPollListLoading$: Observable<boolean>;
+  communityPollListLoadingError$: Observable<boolean>;
+  communityPollListItems$: Observable<CommunityPoll[]>;
+  addingCommunityPollSuccess$: Observable<boolean>;
 
-  CommunityPollStatuses: Array<{ StatusName: string, StatusValue: number }> = [
-    { StatusName: 'Draft', StatusValue: 1 },
-    { StatusName: 'Live', StatusValue: 2 },
-    { StatusName: 'Archived', StatusValue: 3 }
+  CommunityPollStatuses: Array<{ text: string, value: number }> = [
+    { text: 'Draft', value: 0 },
+    { text: 'Live', value: 1 },
+    { text: 'Archived', value: 2 }
   ];
 
-  constructor() {
-    // TODO: This demo poll question will be removed
-    const testPoll: CommunityPoll = {
-      Question: 'This is a demo poll question',
-      DatePosted: new Date(),
-      NumberOfResponses: 3,
-      Status: 2
-    };
-    this.gridData = [testPoll];
-  }
+  constructor(private store: Store<fromCommunityPollReducer.State>) {
+    this.communityPollListLoading$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoading);
+    this.communityPollListLoadingError$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoadingError);
+    this.communityPollListItems$ = this.store.select(fromCommunityPollReducer.getCommunityPollListItems);
+    this.addingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getAddingCommunityPollSuccess);
+   }
 
   ngOnInit() {
+    this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
+
+    this.addingCommunityPollSuccess$.subscribe(success => {
+      if (success) {
+        this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
+      }
+    });
   }
 
-  addClicked() {
-    // TODO: Open modal dialog
+  openCommunityPollModal() {
+    this.store.dispatch(new fromCommunityPollActions.OpenAddCommunityPollModal);
+  }
+
+  public selectionChange(status: any, communityPollId: string): void {
+
+    const pollStatusRequest: CommunityPollUpdateStatusRequest = {
+      CommunityPollId: communityPollId,
+      Status: status.value
+    };
+    this.store.dispatch(new fromCommunityPollActions.UpdatingCommunityPollStatus(pollStatusRequest));
   }
 
 }

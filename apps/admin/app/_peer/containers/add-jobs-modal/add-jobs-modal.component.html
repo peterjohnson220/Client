@@ -24,7 +24,8 @@
                            [(ngModel)]="searchTerm"
                            [ngModelOptions]="{standalone: true}"
                            [placeholderText]="'Search for a Job Title...'"
-                           [focus]="true">
+                           [focus]="true"
+                           [showing]="addJobsModalOpen$ | async">
         </pf-input-debounce>
       </div>
 

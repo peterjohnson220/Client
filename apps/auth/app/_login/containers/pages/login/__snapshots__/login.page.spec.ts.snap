@@ -6,18 +6,22 @@ exports[`Auth - Login should disable and show correct login button text when log
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
+  loggingIn={[Function Boolean]}
   login$={[Function Observable]}
+  loginError="false"
   loginError$={[Function Observable]}
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
   loginStore={[Function Store]}
+  loginSubscription={[Function Subscriber]}
+  loginSuccess={[Function Boolean]}
   loginSuccess$={[Function Observable]}
+  loginSuccessSubscription={[Function Subscriber]}
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
   store={[Function Store]}
-  submitted="false"
 >
   <div
     class="d-flex flex-row"
@@ -51,28 +55,31 @@ exports[`Auth - Login should disable and show correct login button text when log
           class="d-flex flex-column p-5 h-100 justify-content-center"
         >
           
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="email"
           >
              Email Address 
-          </div>
+          </label>
           <div
             class="form-group pb-3"
           >
             <input
-              class="form-group login-input ng-untouched ng-pristine ng-invalid"
+              autofocus=""
+              class="form-control login-input mb-1 ng-untouched ng-pristine ng-invalid"
               formcontrolname="email"
-              id="email"
+              id="Email"
               name="email"
               ng-reflect-name="email"
               type="email"
             />
           </div>
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="password"
           >
              Password 
-          </div>
+          </label>
           <div
             class="form-group pb-4"
           >
@@ -91,6 +98,7 @@ exports[`Auth - Login should disable and show correct login button text when log
             <button
               class="btn login-button disabled"
               disabled=""
+              id="Login"
               type="submit"
             >
               
@@ -122,18 +130,22 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
+  loggingIn="false"
   login$={[Function Observable]}
+  loginError="false"
   loginError$={[Function Observable]}
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
   loginStore={[Function Store]}
+  loginSubscription={[Function Subscriber]}
+  loginSuccess="false"
   loginSuccess$={[Function Observable]}
+  loginSuccessSubscription={[Function Subscriber]}
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
   store={[Function Store]}
-  submitted="false"
 >
   <div
     class="d-flex flex-row"
@@ -167,33 +179,31 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           class="d-flex flex-column p-5 h-100 justify-content-center"
         >
           
-          <p
-            class="alert-danger error-container text-center p-3"
-          >
-             The email and password combination that you've entered is incorrect. 
-          </p>
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="email"
           >
              Email Address 
-          </div>
+          </label>
           <div
             class="form-group pb-3"
           >
             <input
-              class="form-group login-input ng-untouched ng-pristine ng-invalid"
+              autofocus=""
+              class="form-control login-input mb-1 ng-untouched ng-pristine ng-invalid"
               formcontrolname="email"
-              id="email"
+              id="Email"
               name="email"
               ng-reflect-name="email"
               type="email"
             />
           </div>
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="password"
           >
              Password 
-          </div>
+          </label>
           <div
             class="form-group pb-4"
           >
@@ -210,8 +220,8 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
             class="pb-1 d-flex align-self-center"
           >
             <button
-              class="btn login-button disabled"
-              disabled=""
+              class="btn login-button"
+              id="Login"
               type="submit"
             >
               
@@ -243,18 +253,22 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
   gettingMarketingImageSuccess$={[Function Store]}
+  loggingIn="false"
   login$={[Function Observable]}
+  loginError="false"
   loginError$={[Function Observable]}
   loginErrorSubscription={[Function Subscriber]}
   loginForm={[Function FormGroup]}
   loginLogo={[Function String]}
   loginStore={[Function Store]}
+  loginSubscription={[Function Subscriber]}
+  loginSuccess="false"
   loginSuccess$={[Function Observable]}
+  loginSuccessSubscription={[Function Subscriber]}
   marketingImage$={[Function Store]}
   nextPage="undefined"
   route={[Function Object]}
   store={[Function Store]}
-  submitted="false"
 >
   <div
     class="d-flex flex-row"
@@ -288,28 +302,31 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           class="d-flex flex-column p-5 h-100 justify-content-center"
         >
           
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="email"
           >
              Email Address 
-          </div>
+          </label>
           <div
             class="form-group pb-3"
           >
             <input
-              class="form-group login-input ng-untouched ng-pristine ng-invalid"
+              autofocus=""
+              class="form-control login-input mb-1 ng-untouched ng-pristine ng-invalid"
               formcontrolname="email"
-              id="email"
+              id="Email"
               name="email"
               ng-reflect-name="email"
               type="email"
             />
           </div>
-          <div
-            class="pb-1 text-uppercase font-weight-bold"
+          <label
+            class="text-uppercase font-weight-bold"
+            for="password"
           >
              Password 
-          </div>
+          </label>
           <div
             class="form-group pb-4"
           >
@@ -326,8 +343,8 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
             class="pb-1 d-flex align-self-center"
           >
             <button
-              class="btn login-button disabled"
-              disabled=""
+              class="btn login-button"
+              id="Login"
               type="submit"
             >
               

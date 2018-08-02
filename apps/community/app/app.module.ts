@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
@@ -14,9 +14,9 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     // Angular
     BrowserModule,
-
     // 3rd Party
     NgbModalModule.forRoot(),
+    NgbCarouselModule.forRoot(),
 
     // PF Modules
     PfCommonUIModule,

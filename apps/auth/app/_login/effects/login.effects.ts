@@ -18,7 +18,13 @@ export class LoginEffects {
     .ofType(fromLoginAction.LOGIN).pipe(
       switchMap((action: fromLoginAction.Login) =>
         this.accountApiService.login({ email: action.payload.Email, password: action.payload.Password }).pipe(
-          map((response: any) => new fromLoginAction.LoginSuccess(action.payload.NextPage)),
+          map((response: any) => {
+            if (response !== null && response.first_login === 'true') {
+              return new fromLoginAction.LoginSuccess(environment.firstTimeLoginPage);
+            } else {
+              return new fromLoginAction.LoginSuccess(action.payload.NextPage);
+            }
+          }),
           catchError(error => of (new fromLoginAction.LoginError(error)))
         )
       )
@@ -28,8 +34,8 @@ export class LoginEffects {
   loginSuccess$ = this.actions$
     .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
       switchMap((action: fromLoginAction.LoginSuccess) => {
-          if (action.nextPage) {
-            return of(new fromLoginAction.LoginSuccessRouteToNextPage(action.nextPage));
+          if (action.payload) {
+            return of(new fromLoginAction.LoginSuccessRouteToNextPage(action.payload));
           } else {
             return of(new fromLoginAction.LoginSuccessRouteToHome());
           }
@@ -52,7 +58,7 @@ export class LoginEffects {
   LoginSuccessRouteToNextPage$ = this.actions$
     .ofType(fromLoginAction.LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE).pipe(
       map((action: fromLoginAction.LoginSuccessRouteToNextPage) => {
-        this.routeToNextPage(action.nextPage);
+        this.routeToNextPage(action.payload);
         }
       )
     );
@@ -60,7 +66,7 @@ export class LoginEffects {
   @Effect({ dispatch: false })
   loginError$ = this.actions$
     .ofType(fromLoginAction.LOGIN_ERROR).pipe(
-      map((action: fromLoginAction.LoginError) => action.error),
+      map((action: fromLoginAction.LoginError) => action.payload),
       switchMap(error => {
           if (error.status === 401) {
             return of(new fromLoginAction.Login401Error());

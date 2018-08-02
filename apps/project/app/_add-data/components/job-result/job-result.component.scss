@@ -1,6 +1,6 @@
 @import 'colors';
 
-:host{
+.job-data-cuts-row{
   border-bottom: 1px solid #eeeeee;
 }
 
@@ -12,4 +12,8 @@
 .link{
   color: $link-color;
   cursor: pointer;
+}
+
+.job-cuts-table{
+  width: 100%;
 }

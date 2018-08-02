@@ -3,22 +3,30 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
-import * as fromRootState from 'libs/state/state';
-import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
-import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
+import * as fromLibsRootState from 'libs/state/state';
+import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
+import * as fromLibsPeerMapActions from 'libs/features/peer/map/actions/map.actions';
+import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 import { generateMockExchange } from 'libs/models/peer';
+import {
+  generateMockUpsertExchangeScopeRequest,
+  UpsertExchangeScopeRequest
+} from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
+import { MapComponent } from 'libs/features/peer/map/containers/map';
 
 import * as fromSharedPeerExchangeActions from '../../../../shared/actions/exchange.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
+import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
 import { ExchangeMapPageComponent } from './exchange-map.page';
 
-describe('Peer - Exchange Map Page', () => {
+describe('Peer - Map - Exchange Map Page', () => {
+  const mockUpsertExchangeScopeRequest: UpsertExchangeScopeRequest = generateMockUpsertExchangeScopeRequest();
   let fixture: ComponentFixture<ExchangeMapPageComponent>;
   let instance: ExchangeMapPageComponent;
-  let store: Store<fromRootState.State>;
+  let store: Store<fromLibsRootState.State>;
   let route: ActivatedRoute;
 
   // Configure Testing Module for before each test
@@ -26,9 +34,9 @@ describe('Peer - Exchange Map Page', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          ...fromRootState.reducers,
+          ...fromLibsRootState.reducers,
           peer_shared: combineReducers(fromSharedPeerReducer.reducers),
-          feature_peerMap: combineReducers(fromPeerMapReducer.reducers)
+          feature_peerMap: combineReducers(fromLibsPeerMapReducer.reducers)
         })
       ],
       providers: [
@@ -51,6 +59,9 @@ describe('Peer - Exchange Map Page', () => {
 
     fixture = TestBed.createComponent(ExchangeMapPageComponent);
     instance = fixture.componentInstance;
+    instance.map = {getZoomLevel() { return mockUpsertExchangeScopeRequest.ZoomLevel; }} as MapComponent;
+    instance.numberOfCompanySelections$ = of(0);
+    instance.numberOfSelections$ = of(1);
   });
 
   it('should show the exchange name as the page title', () => {
@@ -62,7 +73,7 @@ describe('Peer - Exchange Map Page', () => {
   });
 
   it('should dispatch a LimitToExchange action upon Init with the routes exchange Id', () => {
-    const expectedAction = new fromFilterSidebarActions.LimitToExchange(route.snapshot.params.id);
+    const expectedAction = new fromLibsFilterSidebarActions.LimitToExchange(route.snapshot.params.id);
 
     fixture.detectChanges();
 
@@ -70,7 +81,7 @@ describe('Peer - Exchange Map Page', () => {
   });
 
   it('should dispatch a LoadPeerMapData action upon Init', () => {
-    const expectedAction = new fromPeerMapActions.LoadPeerMapData();
+    const expectedAction = new fromLibsPeerMapActions.LoadPeerMapData();
 
     fixture.detectChanges();
 
@@ -79,7 +90,7 @@ describe('Peer - Exchange Map Page', () => {
 
 
   it('should dispatch a ResetState action to the filterSidebar upon destroy', () => {
-    const expectedAction = new fromFilterSidebarActions.ResetState();
+    const expectedAction = new fromLibsFilterSidebarActions.ResetState();
 
     instance.ngOnDestroy();
 
@@ -87,10 +98,48 @@ describe('Peer - Exchange Map Page', () => {
   });
 
   it('should dispatch a ResetState action to the map upon destroy', () => {
-    const expectedAction = new fromPeerMapActions.ResetState();
+    const expectedAction = new fromLibsPeerMapActions.ResetState();
 
     instance.ngOnDestroy();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should dispatch an UpsertExchangeScope action when handleUpsertExchangeScopeEvent is triggered`, () => {
+    const expectedAction = new fromExchangeScopeActions.UpsertExchangeScope({
+      ExchangeScopeName: mockUpsertExchangeScopeRequest.ExchangeScopeName,
+      ZoomLevel: mockUpsertExchangeScopeRequest.ZoomLevel
+    });
+
+    fixture.detectChanges();
+
+    instance.handleUpsertExchangeScopeEvent(mockUpsertExchangeScopeRequest.ExchangeScopeName);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should dispatch an OpenSaveExchangeScopeModal action when handleSaveScopeClick is triggered`, () => {
+    const expectedAction = new fromExchangeScopeActions.OpenSaveExchangeScopeModal();
+
+    fixture.detectChanges();
+
+    instance.handleSaveScopeClick();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5', () => {
+    instance.numberOfCompanySelections$ = of(1);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display a disabled Create Scope button when numberOfSelections$ is  0', () => {
+    instance.numberOfSelections$ = of(0);
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

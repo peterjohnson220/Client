@@ -1,0 +1,21 @@
+<div class="filter-header">
+  Jobs: <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong>
+</div>
+
+<pf-filter-section
+  *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
+  [title]="filter.displayName"
+  [ngSwitch]="filter.type">
+
+  <pf-input-debounce
+    *ngSwitchCase="filterTypes.Text"
+    [hideClearBtn]="true"
+    [placeholderText]="''"
+    [maxLength]="255"
+    [ngModel]="filter.values[0]"
+    (valueChanged)="handleValueChanged(filter.id, $event)"
+    [focus]="filter.id === 'jobTitleCode'"
+    [showing]="pageShown$ | async">
+  </pf-input-debounce>
+
+</pf-filter-section>

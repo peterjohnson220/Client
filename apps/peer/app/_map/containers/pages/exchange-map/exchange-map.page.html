@@ -4,6 +4,16 @@
     {{ (exchange$ | async)?.ExchangeName }}
   </ng-container>
 
+  <ng-container page-actions>
+
+    <button type="button" class="btn btn-primary"
+            [disabled]="(numberOfSelections$ | async) === 0 || ((numberOfCompanySelections$ | async) > 0 && (numberOfCompanySelections$ | async) < 5)"
+            (click)="handleSaveScopeClick()">
+      Create Scope
+    </button>
+
+  </ng-container>
+
   <ng-container page-content>
 
     <pf-async-container
@@ -27,3 +37,8 @@
   </ng-container>
 
 </pf-page-with-title-bar>
+
+<pf-save-exchange-scope-modal
+  [exchange]="exchange$ | async"
+  (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
+</pf-save-exchange-scope-modal>

@@ -24,7 +24,7 @@ $danger-with-alpha: rgba($danger, .2);
   margin-bottom: .75rem;
 }
 
-.guideline:last-of-type {
+.guideline:nth-of-type(n+2) {
   border-top: 1px solid #DDDDDD;
   padding-top: .65rem;
 }

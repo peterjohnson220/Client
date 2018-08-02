@@ -25,7 +25,8 @@
 
       <pf-existing-company-selection-form
         [exchange]="exchange"
-        [requestCompanyForm]="requestCompanyForm">
+        [requestCompanyForm]="requestCompanyForm"
+        [showing]="existingCompaniesExchangeRequestModalOpen$ | async">
       </pf-existing-company-selection-form>
 
     </ng-container>

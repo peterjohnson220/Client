@@ -14,7 +14,6 @@
     <ng-container search-filters>
       <div class="filter">
         <pf-input-debounce id="search-box-job-title"
-                           [focus]="false"
                            [delay]="400"
                            [(ngModel)]="jobTitleSearchTerm"
                            [ngModelOptions]="{standalone: true}"
@@ -25,7 +24,6 @@
       <div class="filter">
         <pf-input-debounce id="search-box-jd"
                            name="searchFilter"
-                           [focus]="false"
                            [delay]="400"
                            [(ngModel)]="jobDescriptionSearchTerm"
                            [ngModelOptions]="{standalone: true}"

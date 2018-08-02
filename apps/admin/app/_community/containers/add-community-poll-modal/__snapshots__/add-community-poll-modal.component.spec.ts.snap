@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddCommunityPollModalComponent should not show the form text and should show a required error message once a submit has been attempted 1`] = `
+<pf-add-community-poll-modal
+  addCommunityPollForm={[Function FormGroup]}
+  addCommunityPollModalOpen$={[Function Store]}
+  addingCommunityPoll$={[Function Store]}
+  addingCommunityPollError$={[Function Store]}
+  addingCommunityPollSuccess$={[Function Store]}
+  attemptedSubmit={[Function Boolean]}
+  fb={[Function FormBuilder]}
+  store={[Function Store]}
+  updatingCommunityPollStatus$={[Function Store]}
+  updatingCommunityPollStatusError$={[Function Store]}
+  updatingCommunityPollStatusSuccess$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="New Poll"
+  >
+    
+    <div
+      class="form-group"
+    >
+      <label
+        class="col-form-label"
+        for="poll-question"
+      >
+        Poll Question
+      </label>
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="question"
+        id="poll-question"
+        ng-reflect-name="question"
+        pffocus=""
+        placeholder="Question"
+        type="text"
+      />
+      
+      
+      
+      <div
+        class="invalid-feedback"
+      >
+        Question is required.
+      </div>
+      
+      
+      
+      <br />
+      <label
+        class="col-form-label"
+        for="responses"
+      >
+        Poll Responses
+      </label>
+      <fieldset
+        class="ng-untouched ng-pristine ng-invalid"
+        formarrayname="responses"
+        ng-reflect-name="responses"
+      >
+        
+      </fieldset>
+      
+      <button
+        class="btn btn-secondary offset-sm-1"
+        type="button"
+      >
+        Add another response option
+      </button>
+    </div>
+  </pf-modal-form>
+</pf-add-community-poll-modal>
+`;
+
+exports[`AddCommunityPollModalComponent should show the form text and no error messages when a submit has not been attempted 1`] = `
+<pf-add-community-poll-modal
+  addCommunityPollForm={[Function FormGroup]}
+  addCommunityPollModalOpen$={[Function Store]}
+  addingCommunityPoll$={[Function Store]}
+  addingCommunityPollError$={[Function Store]}
+  addingCommunityPollSuccess$={[Function Store]}
+  attemptedSubmit="false"
+  fb={[Function FormBuilder]}
+  store={[Function Store]}
+  updatingCommunityPollStatus$={[Function Store]}
+  updatingCommunityPollStatusError$={[Function Store]}
+  updatingCommunityPollStatusSuccess$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="New Poll"
+  >
+    
+    <div
+      class="form-group"
+    >
+      <label
+        class="col-form-label"
+        for="poll-question"
+      >
+        Poll Question
+      </label>
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="question"
+        id="poll-question"
+        ng-reflect-name="question"
+        pffocus=""
+        placeholder="Question"
+        type="text"
+      />
+      
+      
+      <span
+        class="pf-placeholder"
+      />
+      <br />
+      <label
+        class="col-form-label"
+        for="responses"
+      >
+        Poll Responses
+      </label>
+      <fieldset
+        class="ng-untouched ng-pristine ng-invalid"
+        formarrayname="responses"
+        ng-reflect-name="responses"
+      >
+        
+      </fieldset>
+      
+      <button
+        class="btn btn-secondary offset-sm-1"
+        type="button"
+      >
+        Add another response option
+      </button>
+    </div>
+  </pf-modal-form>
+</pf-add-community-poll-modal>
+`;

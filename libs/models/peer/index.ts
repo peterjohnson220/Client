@@ -21,4 +21,5 @@ export * from './exchange-invitation.model';
 export * from './payfactors-company-exchange-invitation.model';
 export * from './new-company-exchange-invitation.model';
 export * from './exchange-job-request.model';
-export * from './exchange-data-cut-detail.model';
+export * from './exchange-scope';
+export * from './data-cut-validation-info.model';

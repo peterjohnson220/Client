@@ -7,21 +7,25 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
 
 import * as fromRootState from 'libs/state/state';
-import { GridTypeEnum } from 'libs/models/common';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { GridTypeEnum } from 'libs/models/common';
+import { generateMockExchangeCompany } from 'libs/models/peer';
 
 import * as fromExchangeCompaniesActions from '../../actions/exchange-companies.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeCompaniesComponent } from './exchange-companies.component';
 import { GridHelperService } from '../../services';
 
-describe('Exchange Commpanies', () => {
+
+describe('Exchange Companies', () => {
   let fixture: ComponentFixture<ExchangeCompaniesComponent>;
   let instance: ExchangeCompaniesComponent;
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
   let gridHelperService: GridHelperService;
+
+  const mockExchangeCompany = generateMockExchangeCompany();
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -58,6 +62,7 @@ describe('Exchange Commpanies', () => {
 
     fixture = TestBed.createComponent(ExchangeCompaniesComponent);
     instance = fixture.componentInstance;
+    instance.selectedCompany = mockExchangeCompany;
   });
 
   it('should dispatch a LoadingExchangeCompanies action when handleExchangeCompaniesGridReload is called', () => {
@@ -122,6 +127,14 @@ describe('Exchange Commpanies', () => {
     const action = new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal();
 
     instance.openAddExchangeCompaniesModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a OpenDeleteExchangeCompanyModal action when openDeleteExchangeCompanyModal is called', () => {
+    const action = new fromExchangeCompaniesActions.OpenDeleteExchangeCompanyModal();
+
+    instance.openDeleteExchangeCompanyModal(mockExchangeCompany);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

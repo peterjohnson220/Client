@@ -1,10 +1,12 @@
 .filters-sidebar{
-  width: 240px;
+  width: 243px;
+  border-right: 3px solid #cccccc;
 }
 
 .results-container{
   flex-grow: 1;
   position: relative;
+  margin-left: .3rem;
 }
 
 .button-container{

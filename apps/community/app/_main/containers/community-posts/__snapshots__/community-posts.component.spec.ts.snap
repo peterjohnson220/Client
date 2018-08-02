@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostsComponent should change like button when there are likes 1`] = `
+<pf-community-posts
+  CommunityPosts={[Function Array]}
+  LoadMockPosts="false"
+>
+  <div
+    class="posts-container p-2 scroll"
+  >
+    
+    
+    <div
+      class="row mb-3 ml-0 mr-0"
+    >
+      <div
+        class="pl-1 col-12"
+      >
+        <img
+          alt="avatar"
+          class="float-left"
+          id="post-avatar"
+          src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+        />
+        <div
+          class="post-offset"
+        >
+          <p
+            class="m-0"
+          >
+            <span
+              class="community-user-name-text"
+            >
+              Test User
+            </span>
+            <span
+              class="community-sub-text"
+            >
+               @ Test Company
+            </span>
+          </p>
+          <p
+            class="m-0 community-sub-text"
+          >
+            3 days ago
+          </p>
+          <p
+            class="mt-2 mb-2"
+          >
+            post text
+          </p>
+          <button
+            class="btn m-1 community-btn-clicked"
+            id="like"
+            ng-reflect-klass="btn m-1"
+            ng-reflect-ng-class="[object Object]"
+            type="button"
+          >
+            <i
+              class="far fa-thumbs-up fa-lg icon"
+            />
+            
+            
+            <span>
+               55 Liked
+            </span>
+          </button>
+          <button
+            class="btn community-btn m-1"
+            id="reply"
+            type="button"
+          >
+            <i
+              class="far fa-reply fa-lg icon"
+            />
+             Reply
+          </button>
+          <div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</pf-community-posts>
+`;
+
+exports[`CommunityPostsComponent should show posts 1`] = `
+<pf-community-posts
+  CommunityPosts={[Function Array]}
+  LoadMockPosts="false"
+>
+  <div
+    class="posts-container p-2 scroll"
+  >
+    
+    
+    <div
+      class="row mb-3 ml-0 mr-0"
+    >
+      <div
+        class="pl-1 col-12"
+      >
+        <img
+          alt="avatar"
+          class="float-left"
+          id="post-avatar"
+          src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+        />
+        <div
+          class="post-offset"
+        >
+          <p
+            class="m-0"
+          >
+            <span
+              class="community-user-name-text"
+            >
+              Test User
+            </span>
+            <span
+              class="community-sub-text"
+            >
+               @ Test Company
+            </span>
+          </p>
+          <p
+            class="m-0 community-sub-text"
+          >
+            3 days ago
+          </p>
+          <p
+            class="mt-2 mb-2"
+          >
+            post text
+          </p>
+          <button
+            class="btn m-1 community-btn"
+            id="like"
+            ng-reflect-klass="btn m-1"
+            ng-reflect-ng-class="[object Object]"
+            type="button"
+          >
+            <i
+              class="far fa-thumbs-up fa-lg icon"
+            />
+            
+            <span>
+               Like
+            </span>
+            
+          </button>
+          <button
+            class="btn community-btn m-1"
+            id="reply"
+            type="button"
+          >
+            <i
+              class="far fa-reply fa-lg icon"
+            />
+             Reply
+          </button>
+          <div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</pf-community-posts>
+`;
+
+exports[`CommunityPostsComponent should show tags 1`] = `
+<pf-community-posts
+  CommunityPosts={[Function Array]}
+  LoadMockPosts="false"
+>
+  <div
+    class="posts-container p-2 scroll"
+  >
+    
+    
+    <div
+      class="row mb-3 ml-0 mr-0"
+    >
+      <div
+        class="pl-1 col-12"
+      >
+        <img
+          alt="avatar"
+          class="float-left"
+          id="post-avatar"
+          src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+        />
+        <div
+          class="post-offset"
+        >
+          <p
+            class="m-0"
+          >
+            <span
+              class="community-user-name-text"
+            >
+              Test User
+            </span>
+            <span
+              class="community-sub-text"
+            >
+               @ Test Company
+            </span>
+          </p>
+          <p
+            class="m-0 community-sub-text"
+          >
+            3 days ago
+          </p>
+          <p
+            class="mt-2 mb-2"
+          >
+            post text
+          </p>
+          <button
+            class="btn m-1 community-btn-clicked"
+            id="like"
+            ng-reflect-klass="btn m-1"
+            ng-reflect-ng-class="[object Object]"
+            type="button"
+          >
+            <i
+              class="far fa-thumbs-up fa-lg icon"
+            />
+            
+            
+            <span>
+               55 Liked
+            </span>
+          </button>
+          <button
+            class="btn community-btn m-1"
+            id="reply"
+            type="button"
+          >
+            <i
+              class="far fa-reply fa-lg icon"
+            />
+             Reply
+          </button>
+          <div>
+            
+            
+            <button
+              class="btn m-1 tag p-1"
+              style="vertical-align: top"
+              type="button"
+            >
+              <i
+                class="far fa-tag fa-lg tag-icon"
+              />
+               Community tag
+            </button>
+            
+            <button
+              class="btn m-1 tag p-1"
+              style="vertical-align: top"
+              type="button"
+            >
+              <i
+                class="far fa-tag fa-lg tag-icon"
+              />
+               another tag
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</pf-community-posts>
+`;

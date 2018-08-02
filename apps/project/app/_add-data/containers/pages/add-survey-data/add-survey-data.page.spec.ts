@@ -6,10 +6,12 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
-import { AddSurveyDataPageComponent } from './add-survey-data.page';
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromAddDataReducer from '../../../reducers';
+import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
+import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import { generateMockJobContext, JobContext } from '../../../models';
+import * as fromAddDataReducer from '../../../reducers';
+import { AddSurveyDataPageComponent } from './add-survey-data.page';
 
 describe('Project - Add Data - Surveys Page', () => {
   let fixture: ComponentFixture<AddSurveyDataPageComponent>;
@@ -58,6 +60,40 @@ describe('Project - Add Data - Surveys Page', () => {
       }
     });
     const expectedAction = new fromAddSurveyDataPageActions.SetJobContext(payload);
+
+    spyOn(store, 'dispatch');
+
+    instance.onMessage(messageEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a Clear Filters action, when receiving a App Closed message', () => {
+    const messageEvent = new MessageEvent('Message from parent', {
+      data: {
+        payfactorsMessage: {
+          type: 'App Closed'
+        }
+      }
+    });
+    const expectedAction = new fromSearchFiltersActions.ClearFilters();
+
+    spyOn(store, 'dispatch');
+
+    instance.onMessage(messageEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a Clear Results action, when receiving a App Closed message', () => {
+    const messageEvent = new MessageEvent('Message from parent', {
+      data: {
+        payfactorsMessage: {
+          type: 'App Closed'
+        }
+      }
+    });
+    const expectedAction = new fromSurveyResultsActions.ClearResults();
 
     spyOn(store, 'dispatch');
 

@@ -1,8 +1,8 @@
 export interface CommunityPoll {
+    CommunityPollId: number;
     Question: string;
     DatePosted: Date;
-    NumberOfResponses: number;
+    CreatedByUser: number;
     Status: number;
+    NumberOfResponses: number;
   }
-
-

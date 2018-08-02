@@ -4,75 +4,131 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 <div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
+  loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
+  store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
-  <td
-    class="growing-cell"
+  <tr
+    class="job-result-row"
   >
-    <div
-      class="job-title"
+    <td
+      class="growing-cell"
     >
-      Blend of Gas Operations Top Executive-Corporate, G (13001)
-    </div>
-    <div
-      class="vendor"
+      <div
+        class="job-title"
+      >
+        <span>
+           Blend of Gas Operations Top Executive-Corporate, G 
+          
+          
+          (13001)
+        </span>
+      </div>
+      <div
+        class="vendor"
+      >
+         Hewitt Associates 
+        
+        
+        - TCM Executive Long Term Incentives Total Compensation by Industry
+      </div>
+    </td>
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+  </tr><tr
+    class="job-data-cuts-row"
+  >
+    <td
+      colspan="6"
     >
-       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry 
-    </div>
-    
-    <span
-      class="link"
-    >
-       Show Cuts 
-    </span>
-  </td><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  />
+      
+      <span
+        class="link"
+      >
+         Show Cuts 
+      </span>
+      
+      
+    </td>
+  </tr>
 </div>
 `;
 
-exports[`Project - Add Data - Job Result should hide Show Cuts link when the current job is Payfactors 1`] = `
+exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
 <div
   hideCutsLabel={[Function String]}
   job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
+  loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
   showCutsLabel={[Function String]}
-  showDataCuts={[Function Boolean]}
+  showDataCuts="false"
+  store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
-  <td
-    class="growing-cell"
+  <tr
+    class="job-result-row"
   >
-    <div
-      class="job-title"
+    <td
+      class="growing-cell"
     >
-      Accountant II (1002)
-    </div>
-    <div
-      class="vendor"
+      <div
+        class="job-title"
+      >
+        <span>
+           Accountant II 
+          
+        </span>
+      </div>
+      <div
+        class="vendor"
+      >
+         Payfactors 
+        
+      </div>
+    </td>
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    />
+  </tr><tr
+    class="job-data-cuts-row"
+  >
+    <td
+      colspan="6"
     >
-       Payfactors effective date June 1, 2018 - PayFactors 
-    </div>
-    
-  </td><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  /><td
-    class="fixed-cell"
-  />
+      
+      
+      
+    </td>
+  </tr>
 </div>
 `;

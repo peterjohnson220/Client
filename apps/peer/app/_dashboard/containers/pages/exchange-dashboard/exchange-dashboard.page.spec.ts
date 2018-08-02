@@ -64,12 +64,21 @@ describe('Peer - Exchange Dashboard', () => {
     expect(router.navigate).toHaveBeenCalledWith(['manage'], {relativeTo: activatedRoute});
   });
 
+  it('should return expected strings after api result', () => {
+    expect(instance.getTitle(true, false)).toBe('Failed to get map data');
+    expect(instance.getTitle(false, false)).toBe('No exchange map data available');
+    expect(instance.getTitle(false, true)).toBe('');
+  });
+
   it('should dispatch a CloseSidebar action on init', () => {
     instance.exchange$ = of(generateMockExchange());
     const action = new fromExchangeDashboardActions.CloseSidebar();
+    const exchange = generateMockExchange();
+    const actionLoadMapCount = new fromExchangeDashboardActions.LoadMapCount(exchange.ExchangeId);
 
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+    expect(store.dispatch).toHaveBeenCalledWith(actionLoadMapCount);
   });
 });

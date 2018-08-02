@@ -12,7 +12,7 @@
   </div>
   <div class="card-body">
 
-    <h4 class="mb-2">
+    <h4 *ngIf="(detailChartType$ | async) !== companyChartType " class="mb-2">
       {{ (detailChartCategory$ | async )}}
     </h4>
 

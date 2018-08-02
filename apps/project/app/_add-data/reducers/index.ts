@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
+import * as fromSearchFiltersReducer from './search-filters.reducer';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
   searchResults: fromSearchResultsReducer.State;
+  searchFilters: fromSearchFiltersReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
-  searchResults: fromSearchResultsReducer.reducer
+  searchResults: fromSearchResultsReducer.reducer,
+  searchFilters: fromSearchFiltersReducer.reducer
 };
 
 // Select Feature Area
@@ -38,20 +41,20 @@ export const selectSearchResultsState = createSelector(
   (state: AddDataState) => state.searchResults
 );
 
+export const selectSearchFiltersState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.searchFilters
+);
+
 // Add Survey Data Page Selectors
-export const getLoadingDefaultSurveyScopes = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getLoadingDefaultSurveyScopes
-);
-
-export const getFilters = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getFilters
-);
-
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getJobContext
+);
+
+export const getPageShown = createSelector(
+  selectAddSurveyDataPageState,
+  fromAddSurveyDataPageReducer.getPageShown
 );
 
 // Search Results Selectors
@@ -69,3 +72,36 @@ export const getLoadingMoreResults = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getLoadingMoreResults
 );
+
+export const getResultsPagingOptions = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getPagingOptions
+);
+
+export const getResultsTotal = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getNumberOfResults
+);
+
+export const getHasMoreResultsOnServer = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.hasMoreResultsOnServer
+);
+
+export const getTooltipOpen = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getTooltipOpen
+);
+
+// Search Filters Selectors
+export const getFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getFilters
+);
+
+export const getLoadingDefaultSurveyScopes = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
+);
+
+

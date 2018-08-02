@@ -6,9 +6,9 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 import { MappingHelper } from '../../../core/helpers';
 import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
         CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
-        RequestExchangeRequest, AddDataCutRequest, UpdateDataCutRequest } from '../../../models';
+        RequestExchangeRequest, UpsertDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ExchangeRequestCandidatesRequest } from '../../../models/peer';
+import { ExchangeRequestCandidatesRequest, DataCutValidationInfo } from '../../../models/peer';
 
 @Injectable()
 export class ExchangeCompanyApiService {
@@ -64,12 +64,13 @@ export class ExchangeCompanyApiService {
       { params: { getDetailChartRequest: JSON.stringify(getDetailChartRequest) } });
   }
 
-  addDataCut(addDataCutRequest: AddDataCutRequest): Observable<number> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/AddDataCut`, addDataCutRequest);
+  upsertDataCut(upsertDataCutRequest: UpsertDataCutRequest): Observable<number> {
+    return this.payfactorsApiService.post<number>(`${this.endpoint}/UpsertDataCut`, upsertDataCutRequest);
   }
 
-  updateDataCut(updateDataCutRequest: UpdateDataCutRequest): Observable<number> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpdateDataCut`, updateDataCutRequest);
+  getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
+    return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
+      {params: {companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId}});
   }
 
   createExchangeRequest(payload: RequestExchangeRequest): Observable<any> {

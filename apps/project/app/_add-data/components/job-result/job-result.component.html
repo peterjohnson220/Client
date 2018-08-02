@@ -1,16 +1,35 @@
-<td class="growing-cell">
-  <div class="job-title">{{job.Title}} ({{job.Code}})</div>
+<tr class="job-result-row">
+  <td class="growing-cell">
+    <div class="job-title">
+      <span (click)="handleJobTitleClick($event)">
+        {{job.Title}}
+        <ng-container *ngIf="!job.IsPayfactors">({{job.Code}})</ng-container>
+      </span>
+    </div>
 
-  <div class="vendor">
-    {{job.Source}} - {{job.SurveyName}}
-  </div>
+    <div class="vendor">
+      {{job.Source}}
+      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}}</ng-container>
+    </div>
 
-  <span *ngIf="!job.IsPayfactors" class="link" (click)="toggleDataCutsDisplay()">
+  </td>
+  <td class="fixed-cell"></td>
+  <td class="fixed-cell"></td>
+  <td class="fixed-cell"></td>
+  <td class="fixed-cell"></td>
+  <td class="fixed-cell"></td>
+</tr>
+<tr class="job-data-cuts-row">
+  <td colspan="6">
+    <span *ngIf="!job.IsPayfactors" class="link" (click)="toggleDataCutsDisplay()">
     {{toggleDataCutsLabel}}
-  </span>
-</td>
-<td class="fixed-cell"></td>
-<td class="fixed-cell"></td>
-<td class="fixed-cell"></td>
-<td class="fixed-cell"></td>
-<td class="fixed-cell"></td>
+    </span>
+    <div *ngIf="job.LoadingDataCuts">
+      <pf-loading-indicator></pf-loading-indicator> Loading Data Cuts...
+    </div>
+    <div *ngIf="showDataCuts && !job.LoadingDataCuts">
+      <pf-data-cuts [dataCuts]="job.DataCuts">
+      </pf-data-cuts>
+    </div>
+  </td>
+</tr>

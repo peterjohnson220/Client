@@ -24,7 +24,10 @@ export interface State {
   loadingDetailChartError: boolean;
   detailChartItems: ChartItem[];
   sidebarVisible: boolean;
-}
+  mapHasDataItem: boolean;
+  loadingMapHasData: boolean;
+  loadingMapHasDataError: boolean;
+  }
 
 // Initial State
 export const initialState: State = {
@@ -48,8 +51,11 @@ export const initialState: State = {
   loadingDetailChart: false,
   loadingDetailChartError: false,
   detailChartItems: null,
-  sidebarVisible: false
-};
+  sidebarVisible: false,
+  mapHasDataItem: false,
+  loadingMapHasData: false,
+  loadingMapHasDataError: false
+  };
 
 // Reducer
 export function reducer(
@@ -207,6 +213,30 @@ export function reducer(
         loadingDetailChartError: false
       };
     }
+    case fromExchangeDashboardActions.LOAD_MAP_COUNT: {
+      return {
+        ...state,
+        mapHasDataItem: false,
+        loadingMapHasData: true,
+        loadingMapHasDataError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOAD_MAP_COUNT_SUCCESS: {
+      return {
+        ...state,
+        mapHasDataItem: action.payload,
+        loadingMapHasData: false,
+        loadingMapHasDataError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOAD_MAP_COUNT_ERROR: {
+      return {
+        ...state,
+        mapHasDataItem : false,
+        loadingMapHasData: false,
+        loadingMapHasDataError: true
+      };
+    }
     default: {
       return state;
     }
@@ -235,3 +265,6 @@ export const getDetailChartItems = (state: State) => state.detailChartItems;
 export const getLoadingDetailChart = (state: State) => state.loadingDetailChart;
 export const getLoadingDetailChartError = (state: State) => state.loadingDetailChartError;
 export const getSidebarVisible = (state: State) => state.sidebarVisible;
+export const getMapHasDataItem = (state: State) => state.mapHasDataItem;
+export const getLoadingMapHasData = (state: State) => state.loadingMapHasData;
+export const getLoadingMapHasDataError = (state: State) => state.loadingMapHasDataError;

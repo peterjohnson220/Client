@@ -2,12 +2,20 @@
 
 exports[`Project - Add Data - Search Results should show a table row with a loading indicator, when loading more results 1`] = `
 <pf-search-results
+  hasMoreResultsOnServer={[Function Boolean]}
+  hasMoreResultsOnServer$={[Function Store]}
+  hasMoreResultsOnServerSub={[Function Subscriber]}
   jobResults$={[Function Store]}
   loadingMoreResults={[Function Boolean]}
   loadingMoreResults$={[Function Store]}
   loadingMoreResultsSub={[Function Subscriber]}
   loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
+  resultsContainer={[Function ElementRef]}
   store={[Function Store]}
+  tooltipIndex={[Function Number]}
+  tooltipOpen$={[Function Store]}
+  tooltipOpenSub={[Function Subscriber]}
 >
   <div
     class="results-header"
@@ -48,26 +56,38 @@ exports[`Project - Add Data - Search Results should show a table row with a load
         </tr>
       </thead>
     </table>
-  </div><div
-    class="results"
-    infinite-scroll=""
-  >
-    <table>
-      <tbody>
-        
-        
-        <tr
-          class="loading-more-row"
-        >
-          <td
-            colspan="6"
+  </div><pf-async-container>
+    
+    <div
+      class="results"
+      infinite-scroll=""
+    >
+      <table>
+        <tbody>
+          <tr>
+            <td
+              colspan="6"
+            >
+              
+              <table
+                pf-job-result=""
+              />
+            </td>
+          </tr>
+          
+          <tr
+            class="loading-more-row"
           >
-            <pf-loading-indicator />
-             Loading More Results...
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+            <td
+              colspan="6"
+            >
+              <pf-loading-indicator />
+               Loading More Results...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </pf-async-container>
 </pf-search-results>
 `;

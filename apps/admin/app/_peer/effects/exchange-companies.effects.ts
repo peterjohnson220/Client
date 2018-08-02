@@ -44,6 +44,21 @@ export class ExchangeCompaniesEffects {
       )
     );
 
+  @Effect()
+  deleteExchangeCompany$: Observable<Action> = this.actions$
+    .ofType(fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY).pipe(
+      map((action: fromExchangeCompaniesActions.DeletingExchangeCompany) => action.payload),
+      switchMap(payload =>
+        this.exchangeApiService.deleteExchangeCompany(payload).pipe(
+          map(() => {
+            this.gridHelperService.loadExchangeCompanies(payload.exchangeId);
+            return new fromExchangeCompaniesActions.DeletingExchangeCompanySuccess;
+          }),
+          catchError(error => of(new fromExchangeCompaniesActions.DeletingExchangeCompanyError))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,

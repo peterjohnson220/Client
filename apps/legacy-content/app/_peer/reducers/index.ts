@@ -4,35 +4,60 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromAddDataCutPageReducer from './add-data-cut-page.reducer';
+import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
+import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 
 // Feature area state
-export interface AddPeerDataState {
-  addDataCutPage: fromAddDataCutPageReducer.State;
+export interface UpsertPeerDataState {
+  upsertDataCutPage: fromUpsertDataCutPageReducer.State;
+  dataCutValidation: fromDataCutValidationReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  legacy_addPeerData: AddPeerDataState;
+  legacy_upsertPeerData: UpsertPeerDataState;
 }
 
 // Feature area reducers
 export const reducers = {
-  addDataCutPage: fromAddDataCutPageReducer.reducer
+  upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
+  dataCutValidation: fromDataCutValidationReducer.reducer
 };
 
 // Select Feature Area
-export const selectAddPeerDataState = createFeatureSelector<AddPeerDataState>('legacy_addPeerData');
+export const selectUpsertPeerDataState = createFeatureSelector<UpsertPeerDataState>('legacy_upsertPeerData');
 
 // Feature Selectors
-export const selectAddDataCutState = createSelector(selectAddPeerDataState, (state: AddPeerDataState) => state.addDataCutPage);
+export const selectUpsertDataCutState = createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
+export const selectDataCutValidationState =
+  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 
 // Add Data Cut Selectors
-export const getAddDataCutAddingDataCut = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCut);
-export const getAddDataCutAddingDataCutError = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getAddingDataCutError);
-export const getAddDataCutPageInViewInIframe = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getPageInViewInIframe);
-export const getAddDataCutLoadingDataCutDetails = createSelector(selectAddDataCutState, fromAddDataCutPageReducer.getLoadingDataCutDetails);
-export const getAddDataCutLoadingDataCutError = createSelector(
-  selectAddDataCutState,
-  fromAddDataCutPageReducer.getLoadingDataCutDetailsError
+export const getUpsertDataCutAddingDataCut = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutPageReducer.getUpsertingDataCut
 );
+export const getUpsertDataCutAddingDataCutError = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutPageReducer.getUpsertingDataCutError
+);
+export const getUpsertDataCutPageInViewInIframe = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutPageReducer.getPageInViewInIframe
+);
+export const getUpsertDataCutLoadingDataCutDetails = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutPageReducer.getLoadingDataCutDetails
+);
+export const getUpsertDataCutLoadingDataCutError = createSelector(
+  selectUpsertDataCutState,
+  fromUpsertDataCutPageReducer.getLoadingDataCutDetailsError
+);
+
+// Data Cut Validation Selectors
+export const {
+  selectAll: getDataCutValidationInfo
+} = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
+export const getDataCutValidationInfoLoading = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
+export const getDataCutValidationInfoLoadingError
+  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);

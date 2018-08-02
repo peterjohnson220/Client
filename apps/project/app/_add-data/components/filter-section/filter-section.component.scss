@@ -1,0 +1,19 @@
+@import 'legacy-variables';
+
+.header{
+  font-weight: $legacy-bold-font-weight;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: .45rem;
+  padding: .5rem .85rem;
+  background: $legacy-header-grey;
+}
+
+.filter{
+  margin-bottom: 1rem;
+}
+
+.fa-angle-down, .fa-angle-up{
+  color: #616161;
+}

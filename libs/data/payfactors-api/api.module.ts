@@ -6,7 +6,7 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService} from './ui-persistence-settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService } from './peer';
+import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService, ExchangeScopeApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService } from './surveys';
 import { DashboardApiService } from './dashboard';
@@ -35,7 +35,8 @@ import { TermsConditionsApiService } from './terms-conditions';
     UserProfileApiService,
     JobDescriptionApiService,
     TermsConditionsApiService,
-    SurveySearchApiService
+    SurveySearchApiService,
+    ExchangeScopeApiService
   ]
 })
 export class PfApiModule { }

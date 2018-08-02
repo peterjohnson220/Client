@@ -1,0 +1,64 @@
+
+@import 'colors';
+
+$post-avatar-width: 50px;
+$post-avatar-height: 50px;
+
+.posts-container
+{
+  border: 1px solid $border-grey;
+}
+
+#post-avatar
+{
+  width: $post-avatar-width;
+  height: $post-avatar-height;
+}
+
+.tag
+{
+  color: #515151;
+  background-color: $community-tag-color;
+}
+
+.tag-icon
+{
+  color: $community-tag-icon-color;
+}
+
+.post-offset
+{
+  margin-left: $post-avatar-width + 10px;
+}
+
+.community-btn {
+  background: transparent;
+  border: solid 1px #DDDDDD;
+}
+
+.community-btn .icon{
+  color: $community-icon-color;
+}
+
+.community-btn-clicked
+{
+  background-color: $community-like-button-color;
+  color: #FFFFFF;
+}
+
+.community-btn-clicked .icon
+{
+  color: #FFFFFF;
+}
+
+.community-user-name-text
+{
+  color: $community-user-name-text-color;
+  font-weight: bold;
+}
+
+.community-sub-text
+{
+  color: $community-sub-text-color;
+}
+

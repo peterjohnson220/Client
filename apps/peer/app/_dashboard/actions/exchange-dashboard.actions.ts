@@ -21,6 +21,9 @@ export const LOADING_DETAIL_CHART  = '[Peer Dashboard/Page] Loading Detail Chart
 export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Detail Chart Success';
 export const LOADING_DETAIL_CHART_ERROR  = '[Peer Dashboard/Page] Loading Detail Chart Error';
 export const CLOSE_SIDEBAR  = '[Peer Dashboard/Page] Close Sidebar';
+export const LOAD_MAP_COUNT  = '[Peer Dashboard/Page] Load Map Count';
+export const LOAD_MAP_COUNT_SUCCESS  = '[Peer Dashboard/Page] Load Map Count Success';
+export const LOAD_MAP_COUNT_ERROR  = '[Peer Dashboard/Page] Load Map Count Error';
 
 export class LoadingCompanyChart implements Action {
   readonly type = LOADING_COMPANY_CHART;
@@ -122,6 +125,22 @@ export class CloseSidebar implements Action {
   readonly type = CLOSE_SIDEBAR;
 }
 
+export class LoadMapCount implements Action {
+  readonly type = LOAD_MAP_COUNT;
+
+  constructor(public exchangeId: number) {}
+}
+
+export class LoadMapCountSuccess implements Action {
+  readonly type = LOAD_MAP_COUNT_SUCCESS;
+
+  constructor(public payload: boolean) {}
+}
+
+export class LoadMapCountError implements Action {
+  readonly type = LOAD_MAP_COUNT_ERROR;
+}
+
 export type Actions
   = LoadingCompanyChart
   | LoadingCompanyChartSuccess
@@ -141,4 +160,7 @@ export type Actions
   | LoadingDetailChart
   | LoadingDetailChartSuccess
   | LoadingDetailChartError
-  | CloseSidebar;
+  | CloseSidebar
+  | LoadMapCount
+  | LoadMapCountError
+  | LoadMapCountSuccess;

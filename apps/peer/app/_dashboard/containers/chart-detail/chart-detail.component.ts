@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { ChartItem } from 'libs/models';
+import { ChartItem, ExchangeChartTypeEnum } from 'libs/models';
 
 import * as fromPeerDashboardReducer from '../../reducers';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -14,6 +14,7 @@ import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.
   styleUrls: ['./chart-detail.component.scss']
 })
 export class ChartDetailComponent {
+  detailChartType$: Observable<string>;
   detailChartCategory$: Observable<string>;
   detailChartItems$: Observable<ChartItem[]>;
   loadingDetailChartItems$: Observable<boolean>;
@@ -22,10 +23,15 @@ export class ChartDetailComponent {
   constructor(
     private store: Store<fromPeerDashboardReducer.State>
   ) {
+    this.detailChartType$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardDetailChartType);
     this.detailChartCategory$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardDetailChartCategory);
     this.detailChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardDetailChartItems);
     this.loadingDetailChartItems$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingDetailChart);
     this.loadingDetailChartItemsError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardLoadingDetailChartError);
+  }
+
+  get companyChartType(): string {
+    return ExchangeChartTypeEnum.Company;
   }
 
   closeSidebar(): void {

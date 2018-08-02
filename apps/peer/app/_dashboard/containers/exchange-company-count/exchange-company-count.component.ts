@@ -18,7 +18,6 @@ import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.
 export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
   exchangeId: number;
   participatingCompaniesChartItem: ChartItem;
-  allCompaniesChartItem: ChartItem;
   companyChartItems$: Observable<ChartItem[]>;
   companyChartItemsSubscription: Subscription;
   loadingCompanyChartItems$: Observable<boolean>;
@@ -43,20 +42,10 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
   }
 
-  allCompaniesCountClick(): void {
-    const getDetailChartRequest: GetDetailChartRequest = {
-      ExchangeId: this.exchangeId,
-      ChartType: ExchangeChartTypeEnum.Company,
-      Category: 'All Companies'
-    };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
-  }
-
   ngOnInit() {
     this.companyChartItemsSubscription = this.companyChartItems$.subscribe(companyChartItem => {
       if (companyChartItem) {
         this.participatingCompaniesChartItem = companyChartItem[0];
-        this.allCompaniesChartItem = companyChartItem[1];
       }
     });
   }

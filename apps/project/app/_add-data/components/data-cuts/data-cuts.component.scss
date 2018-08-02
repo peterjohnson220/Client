@@ -1,0 +1,12 @@
+@import 'colors';
+
+tr{
+  width: 100%;
+}
+
+tr:hover{
+  background-color: $add-data-hover-background;
+}
+.data-cut-title{
+  width: 422px;
+}

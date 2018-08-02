@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Add Data - Filter Section should display the given title in the header 1`] = `
+<pf-filter-section
+  title={[Function String]}
+>
+  <div
+    class="filter"
+  >
+    <div
+      class="header"
+    >
+       Job Description 
+      
+      
+      <div>
+        <i
+          class="far fa-angle-up"
+        />
+      </div>
+    </div>
+    
+    <div
+      class="px-2"
+    />
+  </div>
+</pf-filter-section>
+`;
+
+exports[`Project - Add Data - Filter Section should display the transcluded content 1`] = `
+<ng-component>
+  <pf-filter-section>
+    <div
+      class="filter"
+    >
+      <div
+        class="header"
+      >
+          
+        
+        
+        <div>
+          <i
+            class="far fa-angle-up"
+          />
+        </div>
+      </div>
+      
+      <div
+        class="px-2"
+      >
+        <h1>
+          Transclusion Works!
+        </h1>
+      </div>
+    </div>
+  </pf-filter-section>
+</ng-component>
+`;
+
+exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in the header, when collapsed 1`] = `
+<pf-filter-section
+  collapsed={[Function Boolean]}
+>
+  <div
+    class="filter"
+  >
+    <div
+      class="header"
+    >
+        
+      
+      <div>
+        <i
+          class="far fa-angle-down"
+        />
+      </div>
+      
+    </div>
+    
+  </div>
+</pf-filter-section>
+`;
+
+exports[`Project - Add Data - Filter Section should show a fa-angle-up icon in the header, when NOT collapsed 1`] = `
+<pf-filter-section
+  collapsed="false"
+>
+  <div
+    class="filter"
+  >
+    <div
+      class="header"
+    >
+        
+      
+      
+      <div>
+        <i
+          class="far fa-angle-up"
+        />
+      </div>
+    </div>
+    
+    <div
+      class="px-2"
+    />
+  </div>
+</pf-filter-section>
+`;

@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
-import { ExchangeRequestTypeEnum } from 'libs/models';
+import { ExchangeRequestTypeEnum, Exchange } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
+import * as fromSharedPeerReducer from '../../../../shared/reducers';
 
 @Component({
   selector: 'pf-exchange-dashboard-page',
   templateUrl: './exchange-dashboard.page.html',
   styleUrls: ['./exchange-dashboard.page.scss']
 })
-export class ExchangeDashboardPageComponent implements OnInit {
+export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   sidebarVisible$: Observable<boolean>;
+  mapHasData$: Observable<boolean>;
+  mapHasDataError$: Observable<boolean>;
+  exchange$: Observable<Exchange>;
+  exchangeSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +29,9 @@ export class ExchangeDashboardPageComponent implements OnInit {
     private store: Store<fromPeerDashboardReducer.State>
   ) {
     this.sidebarVisible$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardSidebarVisible);
+    this.mapHasData$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardMapHasData);
+    this.mapHasDataError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardMapHasDataError);
+    this.exchange$ = this.store.select(fromSharedPeerReducer.getExchange);
   }
 
   manageJobsClick(): void {
@@ -38,8 +46,22 @@ export class ExchangeDashboardPageComponent implements OnInit {
     this.router.navigate(['map'], { relativeTo: this.route });
   }
 
+  getTitle(hasDataError: boolean, hasData: boolean): string {
+    if (hasDataError) { return 'Failed to get map data'; }
+    if (!hasData) {return 'No exchange map data available'; }
+    return '';
+  }
+
   // Lifecycle
   ngOnInit() {
     this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
+
+    this.exchangeSubscription = this.exchange$.subscribe(ex =>
+      this.store.dispatch(new fromExchangeDashboardActions.LoadMapCount(ex.ExchangeId))
+     );
+  }
+
+  ngOnDestroy() {
+    this.exchangeSubscription.unsubscribe();
   }
 }

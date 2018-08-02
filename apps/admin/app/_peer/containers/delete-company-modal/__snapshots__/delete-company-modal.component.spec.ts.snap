@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete Company Modal should match snapshot on init 1`] = `
+<pf-delete-company-modal
+  deleteCompanyModalOpen$={[Function Store]}
+  deletingCompany$={[Function Store]}
+  exchange$={[Function Observable]}
+  exchangeId="0"
+  selectedCompany={[Function Object]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-danger"
+    primarybuttontext="Remove"
+    primarybuttontextsubmitting="Removing..."
+    secondarybuttontext="Cancel"
+    size=""
+    title="Remove Company"
+  >
+    
+     You are about to remove 
+    <strong>
+      Mock Company
+    </strong>
+     from the 
+    <strong>
+      Mock Exchange
+    </strong>
+     exchange. This will completely remove 
+    <strong>
+      Mock Company
+    </strong>
+    , all of the Company to Exchange job mappings and associated data from the exchange. This cannot be undone. 
+    <br />
+    <br />
+     Would you like to continue? 
+  </pf-modal-form>
+</pf-delete-company-modal>
+`;

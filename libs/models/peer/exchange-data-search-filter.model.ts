@@ -19,7 +19,7 @@ export interface ExchangeDataSearchFilter extends SystemFilter {
   ClusterPrecision: number;
 }
 
-export function generateMockExchangeMapFilter(): ExchangeDataSearchFilter {
+export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter {
   return {
     ExchangeJobIds: [1, 2, 4],
     PayMarketLocation: generateMockPayMarketLocation(),

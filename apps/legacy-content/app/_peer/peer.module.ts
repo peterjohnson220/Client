@@ -11,9 +11,9 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
 import { PfPeerMapModule } from 'libs/features/peer/map';
 
-import { AddDataCutPageComponent } from './containers';
+import { UpsertDataCutPageComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { AddDataCutPageEffects } from './effects';
+import { UpsertDataCutPageEffects, DataCutValidationEffects } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
 
@@ -24,9 +24,10 @@ import { GuidelinesBadgeComponent } from './components';
     FormsModule,
 
     // 3rd party
-    StoreModule.forFeature('legacy_addPeerData', reducers),
+    StoreModule.forFeature('legacy_upsertPeerData', reducers),
     EffectsModule.forFeature([
-      AddDataCutPageEffects
+      UpsertDataCutPageEffects,
+      DataCutValidationEffects
     ]),
     NgbPopoverModule,
 
@@ -43,7 +44,7 @@ import { GuidelinesBadgeComponent } from './components';
     GuidelinesBadgeComponent,
 
     // Pages
-    AddDataCutPageComponent
+    UpsertDataCutPageComponent
   ],
   providers: [
     WindowCommunicationService

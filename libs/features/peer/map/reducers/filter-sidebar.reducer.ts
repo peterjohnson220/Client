@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
-import { PayMarket, ExchangeDataCutSideBarInfo, SystemFilter } from 'libs/models';
+import { PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter, ExchangeScopeItem, PeerMapScopeSideBarInfo } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';
@@ -17,6 +17,7 @@ export interface State {
   previewLimit: number;
   systemFilter: SystemFilter;
   selectionsCount: number;
+  scopeSelection: ExchangeScopeItem;
 }
 
 // Initial State
@@ -29,7 +30,8 @@ export const initialState: State = {
   selections: {},
   previewLimit: FilterSidebarHelper.PreviewLimit,
   systemFilter: null,
-  selectionsCount: 0
+  selectionsCount: 0,
+  scopeSelection: null
 };
 
 // Reducer
@@ -66,7 +68,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         ...state,
         filterAggregateGroups: newAggGroups,
         selections: FilterSidebarHelper.buildSelections(newAggGroups),
-        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups)
+        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups),
+        scopeSelection: null
       };
     }
     case fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET: {
@@ -92,7 +95,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         ...state,
         selections: initialState.selections,
         filterAggregateGroups: FilterSidebarHelper.clearAllSelections(state.filterAggregateGroups),
-        selectionsCount: initialState.selectionsCount
+        selectionsCount: initialState.selectionsCount,
+        scopeSelection: null
       };
     }
     case fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS: {
@@ -102,7 +106,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         ...state,
         filterAggregateGroups: newAggGroups,
         selections: FilterSidebarHelper.buildSelections(newAggGroups),
-        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups)
+        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups),
+        scopeSelection: null
       };
     }
     case fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS: {
@@ -123,15 +128,9 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       };
     }
     case fromFilterSidebarActions.APPLY_CUT_CRITERIA: {
-      const cutCriteria: ExchangeDataCutSideBarInfo = action.payload;
+      const cutCriteria: PeerMapScopeSystemSideBarInfo = action.payload;
       const systemFilter = cutCriteria.SystemFilter;
-      const aggSelections = cloneDeep(cutCriteria.FilterAggregateSelections).map(agg => {
-        agg.Aggregates.map(aggItem => {
-          aggItem.Selected = true;
-          return aggItem;
-        });
-        return agg;
-      });
+      const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
       const limitingToExchange = systemFilter && !!systemFilter.ExchangeId;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
         aggSelections, cutCriteria.FilterAggregateGroups, limitingToExchange);
@@ -143,6 +142,24 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups
+      };
+    }
+    case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
+      const cutCriteria: PeerMapScopeSideBarInfo = action.payload;
+      const aggSelections = FilterSidebarHelper.mapAggregateGroupSelections(cutCriteria.FilterAggregateSelections);
+      const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
+        aggSelections, cutCriteria.FilterAggregateGroups, false);
+      return {
+        ...state,
+        selections: cutCriteria.Selections,
+        selectionsCount: cutCriteria.SelectionsCount,
+        filterAggregateGroups: newAggGroups
+      };
+    }
+    case fromFilterSidebarActions.SET_EXCHANGE_SCOPE_SELECTION: {
+      return {
+        ...state,
+        scopeSelection: action.payload
       };
     }
     default: {
@@ -161,3 +178,4 @@ export const getPayMarket = (state: State) => state.payMarket;
 export const getPreviewLimit = (state: State) => state.previewLimit;
 export const getSystemFilter = (state: State) => state.systemFilter;
 export const getSelectionsCount = (state: State) => state.selectionsCount;
+export const getScopeSelection = (state: State) => state.scopeSelection;

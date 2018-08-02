@@ -1,10 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Peer - Exchange Map Page should show the exchange name as the page title 1`] = `
+exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfCompanySelections$ is > 0 and < 5 1`] = `
 <pf-exchange-map-page
   exchange$={[Function Store]}
   exchangeId={[Function Number]}
   initialMapMoveComplete$={[Function Store]}
+  libsPeerMapStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
   peerMapLoadingError$={[Function Store]}
   peerMapStore={[Function Store]}
   route={[Function Object]}
@@ -12,7 +16,15 @@ exports[`Peer - Exchange Map Page should show the exchange name as the page titl
 >
   <pf-page-with-title-bar>
     
-     Mock Exchange 
+      
+    
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="button"
+    >
+       Create Scope 
+    </button>
     
     <pf-async-container>
       <div
@@ -30,6 +42,97 @@ exports[`Peer - Exchange Map Page should show the exchange name as the page titl
         </div>
       </div>
     </pf-async-container>
-  </pf-page-with-title-bar>
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope button when numberOfSelections$ is  0 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeId={[Function Number]}
+  initialMapMoveComplete$={[Function Store]}
+  libsPeerMapStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+      
+    
+    <button
+      class="btn btn-primary"
+      disabled=""
+      type="button"
+    >
+       Create Scope 
+    </button>
+    
+    <pf-async-container>
+      <div
+        class="d-flex h-100"
+      >
+        <div
+          class="sidebar"
+        >
+          <pf-peer-data-cut-filter-sidebar />
+        </div>
+        <div
+          class="map"
+        >
+          <pf-peer-data-cut-map />
+        </div>
+      </div>
+    </pf-async-container>
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal />
+</pf-exchange-map-page>
+`;
+
+exports[`Peer - Map - Exchange Map Page should show the exchange name as the page title 1`] = `
+<pf-exchange-map-page
+  exchange$={[Function Store]}
+  exchangeId={[Function Number]}
+  initialMapMoveComplete$={[Function Store]}
+  libsPeerMapStore={[Function Store]}
+  map={[Function Object]}
+  numberOfCompanySelections$={[Function Observable]}
+  numberOfSelections$={[Function Observable]}
+  peerMapLoadingError$={[Function Store]}
+  peerMapStore={[Function Store]}
+  route={[Function Object]}
+  sharedPeerStore={[Function Store]}
+>
+  <pf-page-with-title-bar>
+    
+     Mock Exchange 
+    
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Create Scope 
+    </button>
+    
+    <pf-async-container>
+      <div
+        class="d-flex h-100"
+      >
+        <div
+          class="sidebar"
+        >
+          <pf-peer-data-cut-filter-sidebar />
+        </div>
+        <div
+          class="map"
+        >
+          <pf-peer-data-cut-map />
+        </div>
+      </div>
+    </pf-async-container>
+  </pf-page-with-title-bar><pf-save-exchange-scope-modal />
 </pf-exchange-map-page>
 `;

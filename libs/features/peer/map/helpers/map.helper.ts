@@ -1,3 +1,7 @@
+import { FeatureCollection, Point } from 'geojson';
+
+import { PeerMapScopeMapInfo, ExchangeMapSummary } from '../../../../models/peer';
+
 export class MapHelper {
 
   static buildMapFilter(currentState, mapProps) {
@@ -9,6 +13,32 @@ export class MapHelper {
       TopLeft: swappedBounds.TopLeft,
       BottomRight: swappedBounds.BottomRight,
       ClusterPrecision: this.getClusterPrecision(mapProps.zoom)
+    };
+  }
+
+  static getMapDetailsFromScope(scope: PeerMapScopeMapInfo, isDataCut: boolean = false): any {
+    const scopeCriteria: PeerMapScopeMapInfo = scope;
+    const mapResponse = scopeCriteria.MapResponse;
+    const mapSummary: ExchangeMapSummary = mapResponse.MapSummary;
+    const centroid = mapSummary.Centroid;
+    const tl = isDataCut ? mapSummary.TopLeft : scopeCriteria.ScopeTopLeft;
+    const br = isDataCut ? mapSummary.BottomRight : scopeCriteria.ScopeBottomRight;
+    const mapCollection: FeatureCollection<Point> = {
+      type: 'FeatureCollection',
+      features: mapResponse.FeatureCollection
+    };
+
+    return {
+      MapCollection: mapCollection,
+      MapSummary: mapSummary,
+      MapBounds: [tl.Lon, br.Lat, br.Lon, tl.Lat],
+      Centroid: !!centroid ? [centroid.Lon, centroid.Lat] : null,
+      ZoomLevel: scopeCriteria.ZoomLevel,
+      MapFilter: {
+        TopLeft: tl,
+        BottomRight: br,
+        ClusterPrecision: scopeCriteria.ClusterPrecision
+      }
     };
   }
 

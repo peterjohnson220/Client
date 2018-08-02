@@ -1,8 +1,10 @@
-<div *ngFor="let dataCut of dataCuts" class="row">
-  <div class="col">{{dataCut.Title}}</div>
-  <div class="col">{{dataCut.Country}}</div>
-  <div class="col">{{dataCut.Weight}}</div>
-  <div class="col">{{dataCut.Base50th}}</div>
-  <div class="col">{{dataCut.TCC50th}}</div>
-  <div class="col">{{dataCut.Match}}</div>
-</div>
+<table class="job-cuts-table">
+  <tr *ngFor="let dataCut of dataCuts">
+    <td class="data-cut-title">{{dataCut.Title}}</td>
+    <td class="fixed-cell">{{dataCut.Country}}</td>
+    <td class="fixed-cell">{{dataCut.Weight}}</td>
+    <td class="fixed-cell">{{dataCut.Base50th ? ( dataCut.Base50th| number: '1.1-1') : "-"}}</td>
+    <td class="fixed-cell">{{dataCut.TCC50th ? ( dataCut.TCC50th| number: '1.1-1') : "-"}}</td>
+    <td class="fixed-cell"></td>
+  </tr>
+</table>
