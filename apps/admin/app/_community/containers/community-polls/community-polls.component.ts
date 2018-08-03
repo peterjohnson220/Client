@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommunityPoll } from 'libs/models/community/community-poll.model';
+import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ export class CommunityPollsComponent implements OnInit {
 
   communityPollListLoading$: Observable<boolean>;
   communityPollListLoadingError$: Observable<boolean>;
-  communityPollListItems$: Observable<CommunityPoll[]>;
+  communityPollListItems$: Observable<CommunityPollList[]>;
   addingCommunityPollSuccess$: Observable<boolean>;
 
   CommunityPollStatuses: Array<{ text: string, value: number }> = [

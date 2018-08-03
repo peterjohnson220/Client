@@ -23,7 +23,10 @@
             <div class="d-flex justify-content-center pt-2">
               <button type="button" class="btn btn-secondary submit-button-container"
                       (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
-                <i class="fas fa-check pr-2"></i>Submit</button>
+                <i class="fas fa-check pr-2"></i>Submit
+                <pf-loading-indicator *ngIf="communityPollResponseSubmitting$ | async">
+                </pf-loading-indicator>
+              </button>
             </div>
           </div>
           <div *ngIf="userSubmittedResponses.includes(request.CommunityPollId)" class="py-5">

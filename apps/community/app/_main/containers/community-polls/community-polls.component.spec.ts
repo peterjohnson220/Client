@@ -1,16 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
 
 import * as fromRootState from 'libs/state/state';
-import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
 import * as fromCommunityPollRequestReducer from '../../reducers';
-
 import { CommunityPollsComponent } from './community-polls.component';
 
 describe('ItemFormControlComponent', () => {
@@ -44,6 +40,7 @@ describe('ItemFormControlComponent', () => {
   });
 
   it('should show polls', () => {
+    fixture.detectChanges();
     expect(fixture).toBeTruthy();
   });
 

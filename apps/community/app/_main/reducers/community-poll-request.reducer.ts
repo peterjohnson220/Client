@@ -75,4 +75,5 @@ export const getGettingCommunityPollRequests = (state: State) => state.loading;
 export const getGettingCommunityPollRequestsError = (state: State) => state.loadingError;
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
+export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;
 

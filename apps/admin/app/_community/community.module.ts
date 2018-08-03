@@ -25,7 +25,7 @@ import { AddCommunityPollModalComponent } from './containers/add-community-poll-
 import { CommunityPollResponseComponent } from './containers/community-poll-response/community-poll-response.component';
 
 // Services
-import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
+import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
 
 @NgModule({
   imports: [
@@ -53,6 +53,6 @@ import { CommunityPollApiService } from 'libs/data/payfactors-api/community/comm
       AddCommunityPollModalComponent,
       CommunityPollResponseComponent
   ],
-  providers: [ CommunityPollApiService ]
+  providers: [ CommunityPollAdminApiService ]
 })
 export class CommunityModule { }
