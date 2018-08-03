@@ -9,7 +9,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromJobResultActions from '../actions/search-results.actions';
 import { AddDataEffectsService } from '../services';
 import * as fromAddDataReducer from '../reducers';
-import {getCombinedScope} from '../helpers';
+import {mapFiltersToSearchFields, mapFiltersToSearchFilters} from '../helpers';
 
 
 @Injectable()
@@ -34,11 +34,16 @@ export class SearchResultsEffects {
         (action: fromJobResultActions.GetSurveyDataResults, filters) => ({ action, filters })),
       mergeMap((dataCutContext) => {
           const surveyJobId = dataCutContext.action.payload.Id;
-          const combinedScope = getCombinedScope(dataCutContext.filters);
-          return this.surveySearchApiService.searchDataCuts({SurveyJobId: surveyJobId,
-            CombinedScope: combinedScope })
+          const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
+          const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
+          return this.surveySearchApiService.searchDataCuts({
+            SurveyJobId: surveyJobId,
+            SearchFields: searchFieldsRequestObj,
+            Filters: filtersRequestObj
+          })
             .pipe(
-              map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({SurveyJobId: surveyJobId,
+              map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({
+                SurveyJobId: surveyJobId,
                 DataCuts: response}))
             );
         }
