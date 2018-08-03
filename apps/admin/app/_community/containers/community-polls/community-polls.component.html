@@ -23,17 +23,26 @@
        <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'">
           <ng-template kendoGridCellTemplate 
           let-dataItem="dataItem">
-          <kendo-dropdownlist  class="w-100 border" 
-            [data]="CommunityPollStatuses"
-            textField="text"
-            valueField="value"
-            [valuePrimitive]="true"
-            [(ngModel)]="dataItem.Status"
-            (selectionChange)="selectionChange($event,dataItem.CommunityPollId)">
-          </kendo-dropdownlist>
-        </ng-template>
-
+            <kendo-dropdownlist  class="w-100 border" 
+              [data]="CommunityPollStatuses"
+              textField="text"
+              valueField="value"
+              [valuePrimitive]="true"
+              [(ngModel)]="dataItem.Status"
+              (selectionChange)="selectionChange($event,dataItem.CommunityPollId)">
+            </kendo-dropdownlist>
+          </ng-template>
         </kendo-grid-column>
+
+        <kendo-grid-column title="Export Responses" [headerClass]="'font-weight-bold'" [width]="130" class="text-center" >
+          <ng-template kendoGridCellTemplate 
+            let-dataItem="dataItem">
+            <button kendoButton [icon]="'file-excel'" [look]="'outline'"
+                (click)="exportCommunityPoll(dataItem)">
+            </button>
+          </ng-template>
+        </kendo-grid-column>
+
       </kendo-grid>
     </ng-container>
 </pf-page-with-title-bar> 

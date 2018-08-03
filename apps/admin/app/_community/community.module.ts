@@ -26,6 +26,7 @@ import { CommunityPollResponseComponent } from './containers/community-poll-resp
 
 // Services
 import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    ButtonsModule,
 
     // 3rd Party
     GridModule,

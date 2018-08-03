@@ -13,6 +13,9 @@ export const CLOSE_ADD_COMMUNITY_POLL_MODAL = '[Community/Poll] Close Add Commun
 export const UPDATING_COMMUNITY_POLL_STATUS = '[Community/Poll] Updating Community Poll Status';
 export const UPDATING_COMMUNITY_POLL_STATUS_SUCCESS  = '[Community/Poll] Updating Community Poll Status Success';
 export const UPDATING_COMMUNITY_POLL_STATUS_ERROR = '[Community/Poll] Updating Community Poll Status Error';
+export const EXPORTING_COMMUNITY_POLL = '[Community/Poll] Exporting Community Poll';
+export const EXPORTING_COMMUNITY_POLL_SUCCESS = '[Community/Poll] Exporting Community Poll Success';
+export const EXPORTING_COMMUNITY_POLL_ERROR = '[Community/Poll] Exporting Community Poll Error';
 
 export class LoadingCommunityPolls implements Action {
     readonly type = LOADING_COMMUNITY_POLLS;
@@ -65,6 +68,23 @@ export class UpdatingCommunityPollStatus implements Action {
     constructor(public payload: string) {}
 }
 
+export class ExportingCommunityPoll implements Action {
+    readonly type = EXPORTING_COMMUNITY_POLL;
+
+    constructor(public payload: string) {}
+ }
+
+ export class ExportingCommunityPollSuccess implements Action {
+    readonly type = EXPORTING_COMMUNITY_POLL_SUCCESS;
+
+    constructor(public payload: any) {}
+ }
+
+ export class ExportingCommunityPollError implements Action {
+    readonly type = EXPORTING_COMMUNITY_POLL_ERROR;
+    constructor(public payload: string) {}
+ }
+
 export type Actions
     = LoadingCommunityPolls
     | LoadingCommunityPollsSuccess
@@ -76,4 +96,7 @@ export type Actions
     | AddingCommunityPollError
     | UpdatingCommunityPollStatus
     | UpdatingCommunityPollStatusSuccess
-    | UpdatingCommunityPollStatusError;
+    | UpdatingCommunityPollStatusError
+    | ExportingCommunityPoll
+    | ExportingCommunityPollSuccess
+    | ExportingCommunityPollError;
