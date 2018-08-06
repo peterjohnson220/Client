@@ -8,6 +8,7 @@ export const GET_RESULTS = '[Project Add Data/Search Results] Get Results';
 export const GET_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get Results Success';
 export const GET_MORE_RESULTS = '[Project Add Data/Search Results] Get More Results';
 export const GET_MORE_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get More Results Success';
+export const GET_RESULTS_ERROR = '[Project Add Data/Search Results] Get Results Error';
 export const CLEAR_RESULTS = '[Project Add Data/Search Results] Clear Results';
 export const OPEN_TOOLTIP = '[Project Add Data/Search Results] Open Tooltip';
 export const CLOSE_TOOLTIP = '[Project Add Data/Search Results] Close Tooltip';
@@ -35,6 +36,12 @@ export class GetMoreResultsSuccess implements Action {
   readonly type = GET_MORE_RESULTS_SUCCESS;
 
   constructor(public payload: SearchResponse) {}
+}
+
+export class GetResultsError implements Action {
+  readonly type = GET_RESULTS_ERROR;
+
+  constructor() {}
 }
 
 export class ClearResults implements Action {
@@ -83,6 +90,7 @@ export type Actions
   | GetResultsSuccess
   | GetMoreResults
   | GetMoreResultsSuccess
+  | GetResultsError
   | ClearResults
   | OpenTooltip
   | CloseTooltip

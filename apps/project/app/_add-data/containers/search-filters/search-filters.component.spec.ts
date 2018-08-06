@@ -7,7 +7,8 @@ import spyOn = jest.spyOn;
 import * as fromRootState from 'libs/state/state';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
-import { Filter, generateMockTextFilter } from '../../models';
+import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import { Filter, generateMockJobContext, generateMockTextFilter } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchFiltersComponent } from './search-filters.component';
 
@@ -36,6 +37,8 @@ describe('Project - Add Data - Search Filters', () => {
 
     fixture = TestBed.createComponent(SearchFiltersComponent);
     instance = fixture.componentInstance;
+
+    fixture.detectChanges();
   });
 
   it('should dispatch a UpdateFilterValue action, when handling a value changed', () => {
@@ -62,6 +65,39 @@ describe('Project - Add Data - Search Filters', () => {
     spyOn(store, 'dispatch');
 
     instance.handleMultiSelectOptionSelected(idObj);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a ResetAllFilters action, when handling reset all clicked', () => {
+    const expectedAction = new fromSearchFiltersActions.ResetAllFilters();
+    spyOn(store, 'dispatch');
+
+    instance.handleResetAllClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should set the focused filter to jobTitleCode anytime the page is shown', () => {
+    store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(generateMockJobContext()));
+
+    expect(instance.focusedFilter).toBe('jobTitleCode');
+  });
+
+  it('should set the focused filter to the filterId when handling a reset section', () => {
+    const filterId = 'iAmAFilterId';
+
+    instance.handleResetSection(filterId);
+
+    expect(instance.focusedFilter).toBe(filterId);
+  });
+
+  it('should should dispatch a ResetFilter action with the filterId, when handling a reset section', () => {
+    const filterId = 'iAmAFilterId';
+    const expectedAction = new fromSearchFiltersActions.ResetFilter(filterId);
+    spyOn(store, 'dispatch');
+
+    instance.handleResetSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

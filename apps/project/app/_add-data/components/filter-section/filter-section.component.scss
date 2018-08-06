@@ -1,4 +1,5 @@
 @import 'legacy-variables';
+@import 'search/filters-variables';
 
 .header{
   font-weight: $legacy-bold-font-weight;
@@ -16,4 +17,12 @@
 
 .fa-angle-down, .fa-angle-up{
   color: #616161;
+}
+
+.header-right{
+  display: flex;
+}
+
+.reset-link{
+  @extend %reset-link;
 }

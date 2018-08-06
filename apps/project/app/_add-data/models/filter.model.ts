@@ -7,6 +7,7 @@ export interface Filter {
   Id: string;
   BackingField: string;
   DisplayName: string;
+  Order: number;
   Type: FilterType;
 }
 
@@ -16,6 +17,7 @@ export interface TextFilter extends Filter {
 
 export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
+  RefreshOptionsFromServer: boolean;
 }
 
 
@@ -44,7 +46,8 @@ export function generateMockTextFilter(): TextFilter {
     BackingField: 'job_title_code',
     DisplayName: 'Job Title/Code',
     Value: 'Accountant',
-    Type: FilterType.Text
+    Type: FilterType.Text,
+    Order: 1
   };
 }
 
@@ -60,6 +63,8 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
       Value: 32,
       Selected: true
     }],
-    Type: FilterType.Multi
+    Type: FilterType.Multi,
+    RefreshOptionsFromServer: true,
+    Order: 1
   };
 }

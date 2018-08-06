@@ -1,16 +1,24 @@
-<ng-container *ngFor="let option of filter.Options">
+<ng-container *ngIf="filter.Options.length;else noOptions">
+
+  <ng-container *ngFor="let option of filter.Options">
     <div class="option"
-      [title]="option.Name"
-      [class.selected]="option.Selected"
-      (click)="handleOptionSelected(filter.Id, option.Id)">
+         [title]="option.Name"
+         [class.selected]="option.Selected"
+         (click)="handleOptionSelected(filter.Id, option.Id)">
 
-    <div class="option-check">
-      <input type="checkbox" [ngModel]="option.Selected" /> {{option.Name}}
+      <div class="option-check">
+        <input type="checkbox" [ngModel]="option.Selected" /> {{option.Name}}
+      </div>
+
+      <div class="option-count">
+        {{option.Count}}
+      </div>
+
     </div>
+  </ng-container>
 
-    <div class="option-count">
-      {{option.Count}}
-    </div>
-
-  </div>
 </ng-container>
+
+<ng-template #noOptions>
+  <div class="no-data">No Data</div>
+</ng-template>

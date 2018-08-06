@@ -98,10 +98,13 @@ export const getTooltipOpen = createSelector(
   fromSearchResultsReducer.getTooltipOpen
 );
 
-// Select Data Cuts
 export const getSelectedDataCuts = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedDataCuts
+);
+export const getSearchResultsError = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getError
 );
 
 // Search Filters Selectors

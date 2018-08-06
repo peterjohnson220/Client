@@ -7,6 +7,9 @@ export const UPDATE_FILTER_VALUE = '[Project Add Data/Search Filters] Update Val
 export const GET_DEFAULT_SURVEY_SCOPES_FILTER = '[Project Add Data/Add Survey Data Page] Get Default Survey Scopes Filter';
 export const GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS = '[Project Add Data/Add Survey Data Page] Get Default Survey Scopes Filter Success';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Project Add Data/Search Filters] Toggle Multi Select Option';
+export const REFRESH_FILTERS = '[Project Add Data/Search Filters] Refresh Filters';
+export const RESET_FILTER = '[Project Add Data/Search Filters] Reset Filter';
+export const RESET_ALL_FILTERS = '[Project Add Data/Search Filters] Reset All Filters';
 
 export class ClearFilters implements Action {
   readonly type = CLEAR_FILTERS;
@@ -34,9 +37,30 @@ export class ToggleMultiSelectOption implements Action {
   constructor(public payload: any) {}
 }
 
+export class RefreshFilters implements Action {
+  readonly type = REFRESH_FILTERS;
+
+  constructor(public payload: SearchFilter[]) {}
+}
+
+export class ResetFilter implements Action {
+  readonly type = RESET_FILTER;
+
+  constructor(public payload: string) {}
+}
+
+export class ResetAllFilters implements Action {
+  readonly type = RESET_ALL_FILTERS;
+
+  constructor() {}
+}
+
 export type Actions
   = ClearFilters
   | UpdateFilterValue
   | GetDefaultScopesFilter
   | GetDefaultScopesFilterSuccess
-  | ToggleMultiSelectOption;
+  | ToggleMultiSelectOption
+  | RefreshFilters
+  | ResetFilter
+  | ResetAllFilters;

@@ -6,7 +6,6 @@ import { DataCut } from 'libs/models/survey-search';
 import { JobResult, ResultsPagingOptions } from '../models';
 import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
 
-
 export interface State {
   results: JobResult[];
   loadingMoreResults: boolean;
@@ -15,6 +14,7 @@ export interface State {
   totalResultsOnServer: number;
   tooltipOpen: boolean;
   selectedDataCuts: DataCut[];
+  error: boolean;
 }
 
 const initialState: State = {
@@ -27,10 +27,9 @@ const initialState: State = {
   },
   totalResultsOnServer: 0,
   tooltipOpen: false,
-  selectedDataCuts: []
+  selectedDataCuts: [],
+  error: false
 };
-
-
 
 // Reducer function
 export function reducer(state = initialState, action: fromSearchResultsActions.Actions): State {
@@ -38,6 +37,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_RESULTS: {
       return {
         ...state,
+        error: false,
         loadingResults: true,
         pagingOptions: initialState.pagingOptions
       };
@@ -53,6 +53,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_MORE_RESULTS: {
       return {
         ...state,
+        error: false,
         loadingMoreResults: true,
         pagingOptions: {...state.pagingOptions, page: state.pagingOptions.page + 1}
       };
@@ -62,6 +63,12 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         ...state,
         results: state.results.concat(mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
         loadingMoreResults: false
+      };
+    }
+    case fromSearchResultsActions.GET_RESULTS_ERROR: {
+      return {
+        ...state,
+        error: true
       };
     }
     case fromSearchResultsActions.CLEAR_RESULTS: {
@@ -158,6 +165,7 @@ export const getNumberOfResults = (state: State) => state.totalResultsOnServer;
 export const hasMoreResultsOnServer = (state: State) => state.totalResultsOnServer > state.results.length;
 export const getTooltipOpen = (state: State) => state.tooltipOpen;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
+export const getError = (state: State) => state.error;
 
 function getMatchingDataCut(dataCut: DataCut, selectedDataCuts: DataCut[]) {
   let matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
