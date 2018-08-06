@@ -17,6 +17,7 @@ export interface JobResult {
     Scope?: string;
     LoadingDataCuts: boolean;
     DataCuts: DataCut[];
+    CountryCode?: string;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -33,7 +34,8 @@ export function generateMockSurveyJobResult(): JobResult {
     MatchCount: 5,
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
-    DataCuts: []
+    DataCuts: [],
+    CountryCode: 'USA'
   };
 }
 

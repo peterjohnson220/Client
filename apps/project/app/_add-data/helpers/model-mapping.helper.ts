@@ -35,6 +35,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
         sj.Survey.EffectiveDateTime,
       Category: sj.Job.Category,
       FLSAStatus: sj.Job.FLSAStatus,
+      CountryCode: sj.Job.CountryCode,
       LoadingDataCuts: false,
       DataCuts: [],
       ShowDataCuts: false
