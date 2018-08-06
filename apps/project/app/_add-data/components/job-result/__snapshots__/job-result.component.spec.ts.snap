@@ -39,7 +39,9 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      USA
+    </td>
     <td
       class="fixed-cell"
     />
@@ -106,7 +108,9 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
     <td
       class="fixed-cell"
     />

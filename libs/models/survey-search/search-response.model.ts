@@ -19,6 +19,7 @@ interface Job {
   Description: string;
   FLSAStatus?: string;
   Category?: string;
+  CountryCode?: string;
 }
 
 interface PagingResponse {
