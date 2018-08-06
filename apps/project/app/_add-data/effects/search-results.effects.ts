@@ -31,15 +31,19 @@ export class SearchResultsEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
-        (action: fromJobResultActions.GetSurveyDataResults, filters) => ({ action, filters })),
+	this.store.select(fromAddDataReducer.getJobContext),
+        (action: fromJobResultActions.GetSurveyDataResults, filters, jobContext) => ({ action, filters, jobContext })),
       mergeMap((dataCutContext) => {
           const surveyJobId = dataCutContext.action.payload.Id;
+	  const currencyCode = dataCutContext.jobContext.CurrencyCode;
+
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
           const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
           return this.surveySearchApiService.searchDataCuts({
             SurveyJobId: surveyJobId,
             SearchFields: searchFieldsRequestObj,
-            Filters: filtersRequestObj
+            Filters: filtersRequestObj,
+	    CurrencyCode: currencyCode
           })
             .pipe(
               map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({

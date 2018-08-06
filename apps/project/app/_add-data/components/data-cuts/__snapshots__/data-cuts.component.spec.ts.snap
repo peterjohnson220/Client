@@ -28,12 +28,12 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
         <td
           class="fixed-cell"
         >
-          50.5
+          $50.50
         </td>
         <td
           class="fixed-cell"
         >
-          85.5
+          $85.50
         </td>
         <td
           class="fixed-cell"
@@ -78,6 +78,51 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
           class="fixed-cell"
         >
           -
+        </td>
+        <td
+          class="fixed-cell"
+        />
+      </tr>
+    </tbody>
+  </table>
+</pf-data-cuts>
+`;
+
+exports[`DataCutsComponent should show the data cut in the proper currency 1`] = `
+<pf-data-cuts
+  currencyCode={[Function String]}
+  dataCuts={[Function Array]}
+>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr>
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          CA$50.50
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          CA$85.50
         </td>
         <td
           class="fixed-cell"

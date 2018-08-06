@@ -3,7 +3,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import {JobResult, JobDetailsToolTipData} from '../../models';
+import { JobResult, JobDetailsToolTipData, JobContext } from '../../models';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -22,6 +22,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingResults$: Observable<boolean>;
   hasMoreResultsOnServer$: Observable<boolean>;
   tooltipOpen$: Observable<boolean>;
+  jobContext$: Observable<JobContext>;
 
   // Subscriptions
   loadingMoreResultsSub: Subscription;
@@ -44,6 +45,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreResults$ = this.store.select(fromAddDataReducer.getLoadingMoreResults);
     this.hasMoreResultsOnServer$ = this.store.select(fromAddDataReducer.getHasMoreResultsOnServer);
     this.tooltipOpen$ = this.store.select(fromAddDataReducer.getTooltipOpen);
+    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
   }
 
   // Events

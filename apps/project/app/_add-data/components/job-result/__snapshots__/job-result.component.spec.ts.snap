@@ -47,10 +47,14 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     />
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
     <td
       class="fixed-cell"
     />
@@ -109,17 +113,98 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
     <td
       class="fixed-cell"
     >
-      
+      USA
     </td>
     <td
       class="fixed-cell"
     />
     <td
       class="fixed-cell"
-    />
+    >
+      
+      
+      -
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+      
+      $1.00
+    </td>
     <td
       class="fixed-cell"
     />
+  </tr><tr
+    class="job-data-cuts-row"
+  >
+    <td
+      colspan="6"
+    >
+      
+      
+      
+    </td>
+  </tr>
+</div>
+`;
+
+exports[`Project - Add Data - Job Result should show values in the correct currency when is Payfactors job  1`] = `
+<div
+  currencyCode={[Function String]}
+  hideCutsLabel={[Function String]}
+  job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
+  loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
+  showCutsLabel={[Function String]}
+  showDataCuts="false"
+  store={[Function Store]}
+  toggleDataCutsLabel={[Function String]}
+>
+  <tr
+    class="job-result-row"
+  >
+    <td
+      class="growing-cell"
+    >
+      <div
+        class="job-title"
+      >
+        <span>
+           Accountant II 
+          
+        </span>
+      </div>
+      <div
+        class="vendor"
+      >
+         Payfactors 
+        
+      </div>
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      USA
+    </td>
+    <td
+      class="fixed-cell"
+    />
+    <td
+      class="fixed-cell"
+    >
+      
+      
+      -
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+      
+      CA$1.00
+    </td>
     <td
       class="fixed-cell"
     />
