@@ -9,13 +9,12 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
-import { PfPeerExchangeListModule } from 'libs/features';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent,
          ManageExchangeSectionHeaderComponent, PendingExchangeAccessRequestsComponent,
          PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent,
-         ExchangeJobRequestsComponent } from './containers';
+         ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, PendingExchangeAccessRequestsEffects,
@@ -58,8 +57,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule,
-    PfPeerExchangeListModule
+    PfFormsModule
   ],
   declarations: [
     // Containers
@@ -75,6 +73,8 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     NewCompanyExchangeInvitationsComponent,
     ExchangeJobRequestsComponent,
     DeleteCompanyModalComponent,
+    ExchangeListComponent,
+    DeleteExchangeModalComponent,
 
     // Pages
     ExchangeListPageComponent,

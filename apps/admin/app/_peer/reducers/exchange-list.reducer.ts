@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ExchangeListItem } from 'libs/models';
+import { ExchangeListItem } from 'libs/models/index';
 
 import * as fromExchangeListActions from '../actions/exchange-list.actions';
 
@@ -12,6 +12,9 @@ export interface State extends EntityState<ExchangeListItem> {
   upsertingError: boolean;
   upsertingErrorMessage: string;
   createExchangeModalOpen: boolean;
+  deleting: boolean;
+  deletingError: boolean;
+  deleteExchangeModalOpen: boolean;
 }
 
 // Create entity adapter
@@ -27,7 +30,10 @@ export const initialState: State = adapter.getInitialState({
   upserting: false,
   upsertingError: false,
   upsertingErrorMessage: '',
-  createExchangeModalOpen: false
+  createExchangeModalOpen: false,
+  deleting: false,
+  deletingError: false,
+  deleteExchangeModalOpen: false
 });
 
 
@@ -37,20 +43,20 @@ export function reducer(
   action: fromExchangeListActions.Actions
 ): State {
   switch (action.type) {
-    case fromExchangeListActions.LOADING_EXCHANGES: {
+    case fromExchangeListActions.LOAD_EXCHANGES: {
       return {
         ...state,
         loading: true,
         loadingError: false
       };
     }
-    case fromExchangeListActions.LOADING_EXCHANGES_SUCCESS: {
+    case fromExchangeListActions.LOAD_EXCHANGES_SUCCESS: {
       return {
         ...adapter.addAll(action.payload, state),
         loading: false
       };
     }
-    case fromExchangeListActions.LOADING_EXCHANGES_ERROR: {
+    case fromExchangeListActions.LOAD_EXCHANGES_ERROR: {
       return {
         ...state,
         loading: false,
@@ -69,14 +75,14 @@ export function reducer(
         createExchangeModalOpen: false
       };
     }
-    case fromExchangeListActions.UPSERTING_EXCHANGE: {
+    case fromExchangeListActions.UPSERT_EXCHANGE: {
       return {
         ...state,
         upserting: true,
         upsertingError: false
       };
     }
-    case fromExchangeListActions.UPSERTING_EXCHANGE_SUCCESS: {
+    case fromExchangeListActions.UPSERT_EXCHANGE_SUCCESS: {
       const newState = {
         ...state,
         upserting: false,
@@ -84,13 +90,47 @@ export function reducer(
       };
       return newState;
     }
-    case fromExchangeListActions.UPSERTING_EXCHANGE_ERROR: {
+    case fromExchangeListActions.UPSERT_EXCHANGE_ERROR: {
       const payload: any = action.payload;
       return {
         ...state,
         upserting: false,
         upsertingError: true,
         upsertingErrorMessage: payload.error
+      };
+    }
+    case fromExchangeListActions.OPEN_DELETE_EXCHANGE_MODAL: {
+      return {
+        ...state,
+        deleteExchangeModalOpen: true
+      };
+    }
+    case fromExchangeListActions.CLOSE_DELETE_EXCHANGE_MODAL: {
+      return {
+        ...state,
+        deleteExchangeModalOpen: false
+      };
+    }
+    case fromExchangeListActions.DELETE_EXCHANGE: {
+      return {
+        ...state,
+        deleting: true
+      };
+    }
+    case fromExchangeListActions.DELETE_EXCHANGE_SUCCESS: {
+      return {
+        ...state,
+        deleting: false,
+        deletingError: false,
+        deleteExchangeModalOpen: false
+      };
+    }
+    case fromExchangeListActions.DELETE_EXCHANGE_ERROR: {
+      return {
+        ...state,
+        deleting: false,
+        deletingError: true,
+        deleteExchangeModalOpen: false
       };
     }
     default: {
@@ -106,3 +146,6 @@ export const getUpserting = (state: State) => state.upserting;
 export const getUpsertingError = (state: State) => state.upsertingError;
 export const getUpsertingErrorMessage = (state: State) => state.upsertingErrorMessage;
 export const getCreateExchangeModalOpen = (state: State) => state.createExchangeModalOpen;
+export const getDeleting = (state: State) => state.deleting;
+export const getDeletingError = (state: State) => state.deletingError;
+export const getDeleteExchangeModalOpen = (state: State) => state.deleteExchangeModalOpen;
