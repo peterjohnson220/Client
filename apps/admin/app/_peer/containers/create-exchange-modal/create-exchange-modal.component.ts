@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
-import * as fromExchangeListReducer from 'libs/features/peer/list/reducers';
+import * as fromExchangeListActions from '../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../reducers';
 import { PfValidators } from 'libs/forms/validators/pf-validators';
 import { UpsertExchangeRequest } from 'libs/models/peer';
 
@@ -25,11 +25,11 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
   private creatingExchangeError$: Observable<boolean>;
   private creatingExchangeErrorMessage$: Observable<string>;
 
-  constructor(private store: Store<fromExchangeListReducer.State>, private fb: FormBuilder) {
-    this.creatingExchange$ = this.store.select(fromExchangeListReducer.getExchangeListUpserting);
-    this.creatingExchangeError$ = this.store.select(fromExchangeListReducer.getExchangeListUpsertingError);
-    this.creatingExchangeErrorMessage$ = this.store.select(fromExchangeListReducer.getExchangeListUpsertingErrorMessage);
-    this.createExchangeModalOpen$ = this.store.select(fromExchangeListReducer.getExchangeListCreateExchangeModalOpen);
+  constructor(private store: Store<fromPeerAdminReducer.State>, private fb: FormBuilder) {
+    this.creatingExchange$ = this.store.select(fromPeerAdminReducer.getExchangeListUpserting);
+    this.creatingExchangeError$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingError);
+    this.creatingExchangeErrorMessage$ = this.store.select(fromPeerAdminReducer.getExchangeListUpsertingErrorMessage);
+    this.createExchangeModalOpen$ = this.store.select(fromPeerAdminReducer.getExchangeListCreateExchangeModalOpen);
     this.createForm();
   }
 
@@ -48,7 +48,7 @@ export class CreateExchangeModalComponent implements OnInit, OnDestroy {
       ExchangeName: this.name.value,
       CompanyIds: []
     };
-    this.store.dispatch(new fromExchangeListActions.UpsertingExchange(newExchange));
+    this.store.dispatch(new fromExchangeListActions.UpsertExchange(newExchange));
   }
 
   handleModalDismissed(): void {

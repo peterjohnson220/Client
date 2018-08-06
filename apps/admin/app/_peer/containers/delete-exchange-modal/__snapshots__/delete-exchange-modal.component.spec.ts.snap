@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delete Exchange Modal should match snapshot on init 1`] = `
+<pf-delete-exchange-modal
+  deleteExchangeModalOpen$={[Function Store]}
+  deletingExchange$={[Function Store]}
+  selectedExchange={[Function Object]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    primarybuttonclass="btn-danger"
+    primarybuttontext="Yes"
+    primarybuttontextsubmitting="Deleting..."
+    secondarybuttontext="No"
+    size=""
+    title="Delete Exchange"
+  >
+    
+     You are about to delete the 
+    <strong>
+      Airlines
+    </strong>
+     exchange. This cannot be undone. 
+    <br />
+    <br />
+     Would you like to continue? 
+  </pf-modal-form>
+</pf-delete-exchange-modal>
+`;

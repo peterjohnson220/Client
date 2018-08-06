@@ -1,0 +1,9 @@
+@import 'kendo-grid';
+
+.pending-access {
+  cursor: default;
+}
+
+.delete-exchange-button:focus {
+  box-shadow: none !important;
+}

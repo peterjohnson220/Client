@@ -3,10 +3,11 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
-import { ExchangeListItem, generateMockExchangeListItem } from '../../../../../models/peer';
-import * as fromRootState from '../../../../../state/state';
+import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer/index';
+import * as fromRootState from 'libs/state/state';
+
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
-import * as fromExchangeListReducer from '../../reducers';
+import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeListComponent } from './exchange-list.component';
 
 describe('Peer Features - Exchange List Component', () => {
@@ -14,13 +15,15 @@ describe('Peer Features - Exchange List Component', () => {
   let instance: ExchangeListComponent;
   let store: Store<fromRootState.State>;
 
+  const mockExchangeListItem = generateMockExchangeListItem();
+
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          feature_exchangeList: combineReducers(fromExchangeListReducer.reducers)
+          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         })
       ],
       declarations: [
@@ -39,7 +42,7 @@ describe('Peer Features - Exchange List Component', () => {
   });
 
   it('should dispatch a LoadingExchanges action upon Init', () => {
-    const action = new fromExchangeListActions.LoadingExchanges();
+    const action = new fromExchangeListActions.LoadExchanges();
 
     fixture.detectChanges();
 
@@ -47,7 +50,7 @@ describe('Peer Features - Exchange List Component', () => {
   });
 
   it('should dispatch a LoadingExchanges action when handleExchangeGridReload is called', () => {
-    const action = new fromExchangeListActions.LoadingExchanges();
+    const action = new fromExchangeListActions.LoadExchanges();
 
     instance.handleExchangeGridReload();
 
@@ -57,11 +60,27 @@ describe('Peer Features - Exchange List Component', () => {
   it('should emit an onCellClick event with the exchangeId when handleCellClick is triggered', () => {
     spyOn(instance.onCellClick, 'emit');
 
-    const exchangeListItem: ExchangeListItem = generateMockExchangeListItem();
+    const exchangeListItem: ExchangeListItem = mockExchangeListItem;
 
     instance.handleCellClick({ dataItem: exchangeListItem });
 
     expect(instance.onCellClick.emit).toHaveBeenCalledWith(exchangeListItem.ExchangeId);
   });
 
+  it('should dispatch a OpenDeleteExchangeModal action when openDeleteExchangeModal is called', () => {
+    const action = new fromExchangeListActions.OpenDeleteExchangeModal();
+    const event = new MouseEvent('click');
+
+    instance.openDeleteExchangeModal(event, mockExchangeListItem);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should set the selectedExchange when openDeleteExchangeModal is called', () => {
+    const event = new MouseEvent('click');
+
+    instance.openDeleteExchangeModal(event, mockExchangeListItem);
+
+    expect(instance.selectedExchange).toBe(mockExchangeListItem);
+  });
 });

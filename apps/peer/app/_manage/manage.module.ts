@@ -11,7 +11,6 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfPeerExchangeListModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
@@ -47,7 +46,6 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
     // Payfactors
     SharedModule,
     PfCommonUIModule,
-    PfPeerExchangeListModule,
     PfFormsModule,
     PfKendoExtensions,
     PfCommonModule

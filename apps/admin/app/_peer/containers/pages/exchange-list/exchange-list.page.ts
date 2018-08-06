@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
-import * as fromSharedPeerReducer from 'libs/features/peer/list/reducers';
+import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../../reducers';
 
 @Component({
   selector: 'pf-exchange-list-page',
@@ -13,7 +13,7 @@ import * as fromSharedPeerReducer from 'libs/features/peer/list/reducers';
 })
 export class ExchangeListPageComponent {
 
-  constructor(private store: Store<fromSharedPeerReducer.State>, private router: Router) { }
+  constructor(private store: Store<fromPeerAdminReducer.State>, private router: Router) { }
 
   openCreateExchangeModal() {
     this.store.dispatch(new fromExchangeListActions.OpenCreateExchangeModal);

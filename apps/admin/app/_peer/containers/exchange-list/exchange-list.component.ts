@@ -4,8 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
 
-import { ExchangeListItem } from '../../../../../models/peer';
-import * as fromSharedPeerReducer from '../../reducers';
+import { ExchangeListItem } from 'libs/models/peer/index';
+
+import * as fromPeerAdminReducer from '../../reducers';
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 
 @Component({
@@ -17,18 +18,19 @@ export class ExchangeListComponent implements OnInit {
   exchangeListLoading$: Observable<boolean>;
   exchangeListLoadingError$: Observable<boolean>;
   exchangeListItems$: Observable<ExchangeListItem[]>;
+  selectedExchange: ExchangeListItem;
 
   @Output() onCellClick = new EventEmitter();
 
-  constructor(private store: Store<fromSharedPeerReducer.State>) {
-    this.exchangeListLoading$ = this.store.select(fromSharedPeerReducer.getExchangeListLoading);
-    this.exchangeListLoadingError$ = this.store.select(fromSharedPeerReducer.getExchangeListLoadingError);
-    this.exchangeListItems$ = this.store.select(fromSharedPeerReducer.getExchangeListItems);
+  constructor(private store: Store<fromPeerAdminReducer.State>) {
+    this.exchangeListLoading$ = this.store.select(fromPeerAdminReducer.getExchangeListLoading);
+    this.exchangeListLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeListLoadingError);
+    this.exchangeListItems$ = this.store.select(fromPeerAdminReducer.getExchangeListItems);
   }
 
   // Events
   handleExchangeGridReload() {
-    this.store.dispatch(new fromExchangeListActions.LoadingExchanges());
+    this.store.dispatch(new fromExchangeListActions.LoadExchanges());
   }
 
   handleCellClick(cellClickEvent: any): void {
@@ -44,8 +46,14 @@ export class ExchangeListComponent implements OnInit {
     return context.dataItem.PendingAccess ? 'row-disabled' : '';
   }
 
+  openDeleteExchangeModal(buttonClickEvent: any, exchange: ExchangeListItem): void {
+    buttonClickEvent.stopPropagation();
+    this.selectedExchange = exchange;
+    this.store.dispatch(new fromExchangeListActions.OpenDeleteExchangeModal());
+  }
+
   // Lifecycle events
   ngOnInit(): void {
-    this.store.dispatch(new fromExchangeListActions.LoadingExchanges());
+    this.store.dispatch(new fromExchangeListActions.LoadExchanges());
   }
 }

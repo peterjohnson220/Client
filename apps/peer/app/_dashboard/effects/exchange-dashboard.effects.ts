@@ -7,9 +7,9 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { ExchangeCompanyApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
 import { ChartItem, ExchangeListItem } from 'libs/models';
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
+import * as fromExchangeListActions from 'apps/admin/app/_peer/actions/exchange-list.actions';
 
 @Injectable()
 export class ExchangeDashboardEffects {
@@ -93,13 +93,13 @@ export class ExchangeDashboardEffects {
 
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
-    .ofType(fromExchangeListActions.LOADING_EXCHANGES).pipe(
+    .ofType(fromExchangeListActions.LOAD_EXCHANGES).pipe(
       switchMap(() =>
         this.exchangeCompanyApiService.getExchanges().pipe(
           map((exchangeListItems: ExchangeListItem[]) => {
-            return new fromExchangeListActions.LoadingExchangesSuccess(exchangeListItems);
+            return new fromExchangeListActions.LoadExchangesSuccess(exchangeListItems);
           }),
-          catchError(() => of(new fromExchangeListActions.LoadingExchangesError()))
+          catchError(() => of(new fromExchangeListActions.LoadExchangesError()))
         )
       )
     );

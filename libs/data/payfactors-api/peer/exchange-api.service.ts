@@ -120,4 +120,8 @@ export class ExchangeApiService {
   deleteExchangeCompany(payload: any): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteExchangeCompany`, payload);
   }
+
+  deleteExchange(exchangeId: number): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DeleteExchange`, exchangeId);
+  }
 }

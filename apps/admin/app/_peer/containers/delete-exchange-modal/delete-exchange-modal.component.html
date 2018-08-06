@@ -1,0 +1,21 @@
+<pf-modal-form
+  [title]="'Delete Exchange'"
+  size=""
+  secondaryButtonText="No"
+  primaryButtonClass="btn-danger"
+  primaryButtonText="Yes"
+  primaryButtonTextSubmitting="Deleting..."
+  [submitting]="deletingExchange$ | async"
+  [isOpen$]="deleteExchangeModalOpen$"
+  (onSubmit)="handleDeleteConfirmed()"
+  (onDismiss)="handleDeleteDenied()">
+
+  <ng-container basic-content>
+    You are about to delete the
+    <strong>{{ selectedExchange?.ExchangeName }}</strong> exchange.
+    This cannot be undone.
+    <br /><br />
+    Would you like to continue?
+  </ng-container>
+
+</pf-modal-form>
