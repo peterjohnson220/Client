@@ -41,6 +41,15 @@ describe('Project - Add Data - Job Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show values in the correct currency when is Payfactors job ', () => {
+    component.job = generateMockPayfactorsJobResult();
+    component.currencyCode = 'CAD';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should hide Show Cuts link, survey name, and job code, when the current job is Payfactors', () => {
     component.job = generateMockPayfactorsJobResult();
 

@@ -38,7 +38,9 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[]): JobResult[] 
       CountryCode: sj.Job.CountryCode,
       LoadingDataCuts: false,
       DataCuts: [],
-      ShowDataCuts: false
+      ShowDataCuts: false,
+      Base50Th: sj.Job.Base50Th,
+      Tcc50Th: sj.Job.Tcc50Th
     };
   });
 }

@@ -10,6 +10,7 @@ import { DataCut } from '../../models';
 export class DataCutsComponent implements OnInit {
 
   @Input() dataCuts: DataCut[];
+  @Input() currencyCode: string;
 
   constructor() { }
 

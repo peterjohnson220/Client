@@ -20,4 +20,5 @@ export interface SearchRequest {
   Filters: SearchFilter[];
   PagingOptions: PagingOptions;
   FilterOptions: FilterOptions;
+  CurrencyCode: string;
 }

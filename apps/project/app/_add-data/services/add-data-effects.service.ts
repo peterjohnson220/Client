@@ -25,7 +25,8 @@ export class AddDataEffectsService {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
-        (action, filters, pagingOptions) => ({ filters, pagingOptions })),
+        this.store.select(fromAddDataReducer.getJobContext),
+        (action, filters, pagingOptions, jobContext) => ({ filters, pagingOptions, jobContext })),
 
 
       switchMap(filtersAndPaging => {
@@ -39,7 +40,8 @@ export class AddDataEffectsService {
           SearchFields: searchFieldsRequestObj,
           Filters: filtersRequestObj,
           FilterOptions: filterOptionsRequestObj,
-          PagingOptions: pagingOptionsRequestObj
+          PagingOptions: pagingOptionsRequestObj,
+          CurrencyCode: filtersAndPaging.jobContext.CurrencyCode
         })
           .pipe(
             map((searchResponse: SearchResponse) => {

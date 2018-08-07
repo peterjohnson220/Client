@@ -10,6 +10,7 @@ export interface SurveyDataCut {
 export interface SurveyDataCutResponse {
   SurveyJobId: number;
   DataCuts: SurveyDataCut[];
+  CurrencyCode?: string;
 }
 
 

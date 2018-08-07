@@ -19,6 +19,7 @@ import * as fromSearchResultActions from '../../actions/search-results.actions';
 export class JobResultComponent implements OnInit, OnDestroy {
 
   @Input() job: JobResult;
+  @Input() currencyCode: string;
   @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
 
   // observables
@@ -35,7 +36,6 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
-
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
