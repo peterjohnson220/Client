@@ -1,8 +1,8 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import * as communityPollActions from '../actions/community-poll.actions';
-import { CommunityPoll } from 'libs/models/community/community-poll.model';
+import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 
-export interface State extends EntityState<CommunityPoll> {
+export interface State extends EntityState<CommunityPollList> {
   loading: boolean;
   loadingError: boolean;
   addingCommunityPoll: boolean;
@@ -15,8 +15,8 @@ export interface State extends EntityState<CommunityPoll> {
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<CommunityPoll> = createEntityAdapter<CommunityPoll>({
-  selectId: (communityPollItem: CommunityPoll) => communityPollItem.CommunityPollId
+export const adapter: EntityAdapter<CommunityPollList> = createEntityAdapter<CommunityPollList>({
+  selectId: (communityPollItem: CommunityPollList) => communityPollItem.CommunityPollId
 });
 
 export const initialState: State = adapter.getInitialState ({

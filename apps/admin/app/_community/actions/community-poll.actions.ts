@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { CommunityPoll } from 'libs/models/community/community-poll.model';
 import { CommunityPollAddRequest } from 'libs/models/community/community-poll-add-request.model';
 import { CommunityPollUpdateStatusRequest } from 'libs/models/community/community-poll-update-status-request.model';
 
@@ -21,7 +20,7 @@ export class LoadingCommunityPolls implements Action {
 
 export class LoadingCommunityPollsSuccess implements Action {
     readonly type = LOADING_COMMUNITY_POLLS_SUCCESS;
-    constructor(public payload: CommunityPoll[]) {}
+    constructor(public payload: any) {}
 }
 
 export class LoadingCommunityPollsError implements Action {

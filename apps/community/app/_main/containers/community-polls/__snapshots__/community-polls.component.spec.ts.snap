@@ -6,6 +6,7 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   communityPollRequestResponsesSubscription={[Function Subscriber]}
   communityPollRequests$={[Function Store]}
   communityPollRequestsLoading$={[Function Store]}
+  communityPollResponseSubmitting$={[Function Store]}
   selectedOption="null"
   store={[Function Store]}
   userSubmittedResponses={[Function Array]}

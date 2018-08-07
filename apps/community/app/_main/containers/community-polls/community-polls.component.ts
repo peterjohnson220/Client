@@ -21,12 +21,15 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   communityPollRequestsLoading$: Observable<boolean>;
   communityPollRequestResponses$: Observable<number[]>;
   communityPollRequestResponsesSubscription: Subscription;
+  communityPollResponseSubmitting$: Observable<boolean>;
+  communityPollResponseSubmittingError$: Observable<boolean>;
   userSubmittedResponses: number[];
 
   constructor(public store: Store<fromCommunityPollRequestReducer.State>) {
     this.communityPollRequests$ = this.store.select(fromCommunityPollRequestReducer.getCommunityPollRequests);
     this.communityPollRequestsLoading$ = this.store.select(fromCommunityPollRequestReducer.getGettingCommunityPollRequests);
     this.communityPollRequestResponses$ = this.store.select(fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponses);
+    this.communityPollResponseSubmitting$ = this.store.select(fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse);
   }
 
   ngOnInit() {
@@ -44,7 +47,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   selectOption(selected: number) {
     this.selectedOption = selected;
   }
-  submitPollResponse(communityPollId: number, selectedResponseId: number) {
+  submitPollResponse(communityPollId: string, selectedResponseId: string) {
     this.store.dispatch(new fromCommunityPollRequestActions.SubmittingCommunityPollRequest(
       { communityPollId: communityPollId, selectedResponseId: selectedResponseId} ));
   }

@@ -42,3 +42,8 @@ export const getSubmittingCommunityPollRequestResponses = createSelector(
   selectFromCommunityPollRequestState,
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponses
 );
+
+export const getSubmittingCommunityPollRequestResponse = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse
+);
