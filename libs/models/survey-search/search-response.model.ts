@@ -19,8 +19,8 @@ interface Job {
   Description: string;
   FLSAStatus?: string;
   Category?: string;
-  Base50Th: number;
-  Tcc50Th: number;
+  Base50th: number;
+  TCC50th: number;
   CountryCode?: string;
 }
 
@@ -54,8 +54,8 @@ export function generateMockSurveyJob(): SurveyJob {
       Description: 'Lorem Ipsum',
       FLSAStatus: 'Typically Exempt',
       Category: 'Professional',
-      Base50Th: 1,
-      Tcc50Th: 1,
+      Base50th: 1,
+      TCC50th: 1,
       CountryCode: 'USA'
     }
   };

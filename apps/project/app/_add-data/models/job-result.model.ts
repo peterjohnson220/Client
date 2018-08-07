@@ -17,8 +17,8 @@ export interface JobResult {
     Scope?: string;
     LoadingDataCuts: boolean;
     DataCuts: SurveyDataCut[];
-    Base50Th: number;
-    Tcc50Th: number;
+    Base50th: number;
+    TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
 }
@@ -38,8 +38,8 @@ export function generateMockSurveyJobResult(): JobResult {
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
     DataCuts: [],
-    Base50Th: 1,
-    Tcc50Th: 1,
+    Base50th: 1,
+    TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false
   };
@@ -75,8 +75,8 @@ export function generateMockPayfactorsJobResult(): JobResult {
     Scope: 'Boston - MA',
     LoadingDataCuts: false,
     DataCuts: [],
-    Base50Th: 1,
-    Tcc50Th: 1,
+    Base50th: 1,
+    TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false
   };
