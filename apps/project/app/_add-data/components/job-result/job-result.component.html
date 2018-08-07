@@ -1,12 +1,9 @@
 <tr class="job-result-row" [ngClass]="{'payfactors-job-result': job.IsPayfactors,'selected-job-result': job.IsSelected}" (click)="toggleJobSelection()">
   <td class="growing-cell">
-    <div class="job-title">
-      <span (click)="handleJobTitleClick($event)">
+      <span class="job-title" (click)="handleJobTitleClick($event)">
         {{job.Title}}
         <ng-container *ngIf="!job.IsPayfactors">({{job.Code}})</ng-container>
       </span>
-    </div>
-
     <div class="vendor">
       {{job.Source}}
       <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}}</ng-container>

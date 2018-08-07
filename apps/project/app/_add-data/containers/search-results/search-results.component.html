@@ -60,5 +60,7 @@
   [tooltipTopPx]="tooltipData.TargetY"
   [visible]="tooltipOpen$ | async"
   [containerHeight]="resultsContainerHeight"
-  [containerWidth]="resultsContainerWidth">
+  [containerWidth]="resultsContainerWidth"
+  (closed)="clearTooltip()"
+  pfClickElsewhere [whitelist]="['job-title']" (clickElsewhere)="clearTooltip()">
 </pf-job-details-tooltip>

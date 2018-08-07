@@ -1,8 +1,8 @@
 <div #tooltip class="tooltip-container" [style.visibility]="!visible ? 'hidden': 'inherit'">
   <div class="d-flex">
       <div class="mr-auto pr-2"><h5>{{job.Title}} ({{job.Code}})</h5></div>
-      <div data-toggle="tooltip" title="Copy Job Description">
-        <i class="fa fa-clipboard" aria-hidden="true"></i>
+      <div data-toggle="tooltip" title="Close" (click)="hide()">
+        <i class="fa fa-times" aria-hidden="true"></i>
       </div>
   </div>
   <div>
@@ -21,5 +21,10 @@
   <p *ngIf="job.IsPayfactors">
     <strong>Scope: </strong>National
   </p>
-  <div #jobDescription class="job-description">{{job.Description}}</div>
+  <div class="d-flex">
+    <div #jobDescription class="job-description">{{job.Description}}</div>
+    <div data-toggle="tooltip" title="Copy Job Description" ngbTooltip="Copied" triggers="manual" #t="ngbTooltip" (click)="copyMessage(job.Description)">
+      <i class="fa fa-clipboard" aria-hidden="true"></i>
+    </div>
+  </div>
 </div>
