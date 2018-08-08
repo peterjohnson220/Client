@@ -1,23 +1,49 @@
+<div class="start-discussion-container mb-3">
+  <div class="start-discussion-header">
+    <ul class="mb-0">
+      <li class="pl-4 pr-4 section-active">Start a Discussion</li>
+      <li class="pl-4 pr-4">Ask a Question</li>
+      <li class="pl-4 pr-4">Post a Job</li>
+    </ul>
+  </div>
+  <div class="start-discussion-body p-2">
+    <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
+         alt="avatar">
+    <div class="w-100">
+      <textarea placeholder="Start a discussion..." maxlength="2000"></textarea>
+      <div class="ml-3 p-0">
+        <input id="internal-only" name="internal-only" type="checkbox" value="Internal Only"/>
+        <label for="internal-only" class="ml-1">Internal Only</label>
+        <button id="start-discussion-post-button" class="btn btn-primary m-1 float-right">Post</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="posts-container p-2 scroll">
-  <ng-container *ngFor="let post of CommunityPosts; let last = last;" >
+  <ng-container *ngFor="let post of CommunityPosts; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-          <img id="post-avatar" class="float-left" src="{{post.UserInfo.avatarSource}}"
-               alt="avatar">
+        <img id="post-avatar" class="float-left pf-avatar" src="{{post.UserInfo.avatarSource}}"
+             alt="avatar">
         <div class="post-offset">
-          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.userFirstName}} {{post.UserInfo.userLastName}}</span> <span class="community-sub-text"> @ {{post.UserInfo.companyName}}</span></p>
+          <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
+          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.userFirstName}} {{post.UserInfo.userLastName}}</span>
+            <span class="community-sub-text"> @ {{post.UserInfo.companyName}}</span></p>
           <p class="m-0 community-sub-text">{{post.Time}}</p>
           <p class="mt-2 mb-2">{{post.PostText}}</p>
-          <button id="like" type="button" class="btn m-1" [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}" >
+          <button id="like" type="button" class="btn m-1"
+                  [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}">
             <i class="far fa-thumbs-up fa-lg icon"></i>
             <span *ngIf="post.LikeCount == 0"> Like</span>
             <span *ngIf="post.LikeCount > 0"> {{post.LikeCount}} Liked</span>
           </button>
-          <button id="reply" type="button" class="btn community-btn m-1"><i class="far fa-reply fa-lg icon"></i> Reply</button>
+          <button id="reply" type="button" class="btn community-btn m-1"><i class="far fa-reply fa-lg icon"></i> Reply
+          </button>
           <div>
-          <ng-container *ngFor="let tag of post.Tags">
-            <button type="button" class="btn m-1 tag p-1" style="vertical-align: top"><i class="far fa-tag fa-lg tag-icon"></i> {{tag.TagName}}</button>
-          </ng-container>
+            <ng-container *ngFor="let tag of post.Tags">
+              <button type="button" class="btn m-1 tag p-1"><i class="far fa-tag fa-lg tag-icon"></i> {{tag.TagName}}
+              </button>
+            </ng-container>
           </div>
         </div>
       </div>

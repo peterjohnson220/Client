@@ -1,33 +1,77 @@
-
 @import 'colors';
 
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
-.posts-container
-{
+.start-discussion-container {
+  border: solid 1px $border-grey;
+}
+
+.start-discussion-header {
+  background-color: #FFB300;
+  height: 35px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.start-discussion-header ul > li {
+  color: rgba(255, 255, 255, .75);
+  display: inline;
+  line-height: 20px;
+}
+
+.start-discussion-header ul > li.section-active {
+  color: white;
+  border-bottom: solid 3px white;
+}
+
+.start-discussion-body {
+  display: flex;
+}
+
+#discussion-avatar {
+  width: $post-avatar-width;
+  min-width: $post-avatar-width;
+  height: $post-avatar-height;
+  align-self: start;
+}
+
+.start-discussion-body textarea {
+  width: calc(100% - 10px);
+  height: 50px;
+  margin-left: 10px;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+.start-discussion-body button {
+  background-color: #0883BE;
+  border-radius: 15px;
+  width: 150px;
+  border: none;
+}
+
+.posts-container {
   border: 1px solid $border-grey;
 }
 
-#post-avatar
-{
+#post-avatar {
   width: $post-avatar-width;
   height: $post-avatar-height;
 }
 
-.tag
-{
+.tag {
   color: #515151;
   background-color: $community-tag-color;
 }
 
-.tag-icon
-{
+.tag-icon {
   color: $community-tag-icon-color;
 }
 
-.post-offset
-{
+.post-offset {
   margin-left: $post-avatar-width + 10px;
 }
 
@@ -36,29 +80,32 @@ $post-avatar-height: 50px;
   border: solid 1px #DDDDDD;
 }
 
-.community-btn .icon{
+.community-btn .icon {
   color: $community-icon-color;
 }
 
-.community-btn-clicked
-{
+.community-btn-clicked {
   background-color: $community-like-button-color;
-  color: #FFFFFF;
+  color: white;
 }
 
-.community-btn-clicked .icon
-{
-  color: #FFFFFF;
+.community-btn-clicked .icon {
+  color: white;
 }
 
-.community-user-name-text
-{
+.community-user-name-text {
   color: $community-user-name-text-color;
   font-weight: bold;
 }
 
-.community-sub-text
-{
+.community-sub-text {
   color: $community-sub-text-color;
 }
 
+.internal {
+  background-color: #18a2b8;
+  color: white;
+  border-radius: 3px;
+  height: 20px;
+  font-size: .95rem;
+}
