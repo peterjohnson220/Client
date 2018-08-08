@@ -116,11 +116,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapBounds: mapDetails.MapBounds,
         initialZoom: mapDetails.ZoomLevel,
         initialMapCentroid: mapDetails.Centroid,
-        loading: false,
-        loadingError: false,
         mapFilter: mapDetails.MapFilter,
-        isInitialLoad: false,
-        initialMapMoveComplete: true,
+        applyingScope: true,
         maxZoom: 17
       };
     }
