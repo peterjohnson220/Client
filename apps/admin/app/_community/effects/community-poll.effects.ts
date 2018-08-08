@@ -52,6 +52,19 @@ addCommunityPoll$: Observable<Action> = this.actions$
       )
     );
 
+  @Effect()
+  exportCommunityPoll$: Observable<Action> = this.actions$
+  .ofType(fromCommunityPollActions.EXPORTING_COMMUNITY_POLL).pipe(
+    switchMap((action: fromCommunityPollActions.ExportingCommunityPoll) =>
+      this.communityPollAdminService.exportCommunityPoll(action.payload).pipe(
+        map((data) => {
+          return new fromCommunityPollActions.ExportingCommunityPollSuccess(data);
+        }),
+        catchError(error => of(new fromCommunityPollActions.ExportingCommunityPollError(error)))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
      private communityPollAdminService: CommunityPollAdminApiService,

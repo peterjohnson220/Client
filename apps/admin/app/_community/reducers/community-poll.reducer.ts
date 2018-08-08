@@ -12,6 +12,9 @@ export interface State extends EntityState<CommunityPollList> {
   updatingCommunityPollStatus: boolean;
   updatingCommunityPollStatusError: boolean;
   updatingCommunityPollStatusSuccess: boolean;
+  exportingCommunityPoll: boolean;
+  exportingCommunityPollError: boolean;
+  exportingCommunityPollSuccess: any;
 }
 
 // Create entity adapter
@@ -28,7 +31,10 @@ export const initialState: State = adapter.getInitialState ({
   addCommunityPollModalOpen: false,
   updatingCommunityPollStatus: false,
   updatingCommunityPollStatusError: false,
-  updatingCommunityPollStatusSuccess: false
+  updatingCommunityPollStatusSuccess: false,
+  exportingCommunityPoll: false,
+  exportingCommunityPollError: false,
+  exportingCommunityPollSuccess: null
 });
 
 // Reducer
@@ -109,6 +115,28 @@ export function reducer(state = initialState, action: communityPollActions.Actio
         updatingCommunityPollStatusError: true
       };
     }
+    case communityPollActions.EXPORTING_COMMUNITY_POLL: {
+      return {
+        ...state,
+        exportingCommunityPoll: true
+      };
+    }
+    case communityPollActions.EXPORTING_COMMUNITY_POLL_SUCCESS: {
+      return {
+        ...state,
+        exportingCommunityPoll: false,
+        exportingCommunityPollSuccess: action.payload,
+        exportingCommunityPollError: false
+      };
+    }
+    case communityPollActions.EXPORTING_COMMUNITY_POLL_ERROR: {
+      return {
+        ...state,
+        exportingCommunityPoll: false,
+        exportingCommunityPollSuccess: null,
+        exportingCommunityPollError: true
+      };
+    }
     default: {
       return state;
     }
@@ -125,3 +153,7 @@ export const getAddCommunityPollModalOpen = (state: State) => state.addCommunity
 export const getUpdatingCommunityPollStatus = (state: State) => state.updatingCommunityPollStatus;
 export const getUpdatingCommunityPollStatusError = (state: State) => state.updatingCommunityPollStatusError;
 export const getUpdatingCommunityPollStatusSuccess = (state: State) => state.updatingCommunityPollStatusSuccess;
+export const getExportingCommunityPoll = (state: State) => state.exportingCommunityPoll;
+export const getExportingCommunityPollError = (state: State) => state.exportingCommunityPollError;
+export const getExportingCommunityPollSuccess = (state: State) => state.exportingCommunityPollSuccess;
+
