@@ -19,7 +19,7 @@
               [selectable]="{
                 mode: 'single'
               }"
-              [kendoGridSelectBy]="'ExchangeJobId'"
+              [kendoGridSelectBy]="'Id'"
               [rowClass]="rowClass"
               (selectionChange)="handleSelectionChange($event)"
               (pageChange)="handlePageChanged($event)"
@@ -37,7 +37,7 @@
 
     <kendo-grid-column field="ExchangeJobTitle" title="Exchange Job Title" width="300"></kendo-grid-column>
     <kendo-grid-column field="ExchangeJobFamily" title="Exchange Job Family" width="225"></kendo-grid-column>
-    <kendo-grid-column field="CompanyJobMappingsCount" title="Associations" width="75" class="text-right" [sortable]="false"></kendo-grid-column>
+    <kendo-grid-column field="MappingCount" title="Associations" width="75" class="text-right"></kendo-grid-column>
     <kendo-grid-column field="PendingRequest" title="" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridCellTemplate let-dataItem>
         <span *ngIf="dataItem.PendingRequest" class="badge badge-warning">Pending Approval</span>

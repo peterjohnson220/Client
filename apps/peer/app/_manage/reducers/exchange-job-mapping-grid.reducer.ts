@@ -15,7 +15,7 @@ export interface State extends EntityState<ExchangeJobMapping> {
 }
 
 export const adapter: EntityAdapter<ExchangeJobMapping> = createEntityAdapter<ExchangeJobMapping>({
-  selectId: (exchangeJobMapping: ExchangeJobMapping) => exchangeJobMapping.ExchangeJobId
+  selectId: (exchangeJobMapping: ExchangeJobMapping) => exchangeJobMapping.Id
 });
 
 const initialState: State = adapter.getInitialState({
@@ -101,5 +101,5 @@ export const getPageRowIndexToScrollTo = (state: State) => state.pageRowIndexToS
 function findSelectedJobMapping(exchangeJobMappings: ExchangeJobMapping[], selectedJobMapping: ExchangeJobMapping) {
   if (!selectedJobMapping) { return null; }
 
-  return exchangeJobMappings.find(ejm => ejm.ExchangeJobId === selectedJobMapping.ExchangeJobId);
+  return exchangeJobMappings.find(ejm => ejm.Id === selectedJobMapping.Id);
 }
