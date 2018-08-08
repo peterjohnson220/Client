@@ -79,7 +79,7 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
       <strong>
         Scope: 
       </strong>
-      Boston - MA 
+      National 
     </p>
     <div
       class="job-description"
