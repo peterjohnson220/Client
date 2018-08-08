@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockSearchResponse } from 'libs/models/survey-search';
+import { DataCut, generateMockSearchResponse } from 'libs/models/survey-search';
 
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
-import { generateMockSurveyJobResult, JobResult, JobDetailsToolTipData } from '../../models';
+import { generateMockSurveyJobResult, JobResult, JobDetailsToolTipData, generateMockDataCut } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchResultsComponent } from './search-results.component';
 
@@ -128,5 +127,42 @@ describe('Project - Add Data - Search Results', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(closeTooltipAction);
     expect(instance.tooltipIndex).toEqual(-1);
+  });
+
+  it('should toggle the data cut selection when cut is selected ', () => {
+    const surveyDataCut: DataCut = {
+      IsPayfactorsJob: true,
+        CountryCode: 'USA',
+        SurveyJobCode: '1234'
+    };
+    const toggleSurveyDataCut = new fromSearchResultsActions.ToggleSurveyDataCutSelection(surveyDataCut);
+
+    spyOn(store, 'dispatch');
+    instance.handleCutSelectionToggle(surveyDataCut);
+
+    expect(store.dispatch).toHaveBeenCalledWith(toggleSurveyDataCut);
+  });
+
+  it('should get survey data results if cuts not already loaded', () => {
+    const jobData: JobResult = generateMockSurveyJobResult();
+
+    const getSurveyDataResults = new fromSearchResultsActions.GetSurveyDataResults(jobData);
+
+    spyOn(store, 'dispatch');
+    instance.handleShowCutsClick(jobData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(getSurveyDataResults);
+  });
+
+  it('should not get survey data results when cuts already loaded', () => {
+    const jobData: JobResult = generateMockSurveyJobResult();
+    jobData.DataCuts = [generateMockDataCut()];
+
+    const getSurveyDataResults = new fromSearchResultsActions.GetSurveyDataResults(jobData);
+
+    spyOn(store, 'dispatch');
+    instance.handleShowCutsClick(jobData);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(getSurveyDataResults);
   });
 });

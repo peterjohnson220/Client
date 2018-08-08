@@ -1,11 +1,13 @@
-import {Component, Input, OnInit, Output, EventEmitter, OnDestroy} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 
-import {Observable, Subscription} from 'rxjs/index';
+import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+
+import { DataCut } from 'libs/models/survey-search';
 
 import { JobResult, JobDetailsToolTipData } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
-import * as fromSearchResultActions from '../../actions/search-results.actions';
+
 
 
 @Component({
@@ -21,10 +23,11 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() job: JobResult;
   @Input() currencyCode: string;
   @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
+  @Output() showCutsClick: EventEmitter<JobResult> = new EventEmitter<JobResult>();
+  @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
 
   // observables
   loadingResults$: Observable<boolean>;
-
   // Subscription
   private loadingResultsSub: Subscription;
 
@@ -57,9 +60,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
 
     if (this.showDataCuts) {
-      if (this.job.DataCuts.length === 0) {
-        this.store.dispatch(new fromSearchResultActions.GetSurveyDataResults(this.job));
-      }
+      this.showCutsClick.emit(this.job);
     }
   }
 
@@ -72,5 +73,23 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.jobTitleClick.emit(data);
   }
 
+  toggleJobSelection(): void {
+    // only payfactors job results can be selected
+    if (!this.job.IsPayfactors) {
+      return;
+    }
+    this.cutSelected.emit({
+      IsPayfactorsJob: true,
+      SurveyJobCode: this.job.Code,
+      CountryCode: this.job.CountryCode
+    });
+  }
 
+  handleDataCutSelected(idObj: { dataCutId: number }) {
+    this.cutSelected.emit({
+      IsPayfactorsJob: false,
+      DataCutId: idObj.dataCutId,
+      SurveyJobId: this.job.Id
+    });
+  }
 }

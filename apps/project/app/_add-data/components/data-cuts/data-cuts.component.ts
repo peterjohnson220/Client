@@ -1,20 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-
-import { DataCut } from '../../models';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { SurveyDataCut } from '../../models';
 
 @Component({
   selector: 'pf-data-cuts',
   templateUrl: './data-cuts.component.html',
   styleUrls: ['./data-cuts.component.scss']
 })
-export class DataCutsComponent implements OnInit {
+export class DataCutsComponent {
 
-  @Input() dataCuts: DataCut[];
+  @Input() dataCuts: SurveyDataCut[];
   @Input() currencyCode: string;
+  @Output() dataCutSelected: EventEmitter<{dataCutId: number}> = new EventEmitter();
+  constructor() {}
 
-  constructor() { }
 
-  ngOnInit() {
+  toggleCutSelection(dataCut: SurveyDataCut): void {
+    this.dataCutSelected.emit({dataCutId: dataCut.SurveyDataId});
   }
+
 
 }

@@ -1,4 +1,4 @@
-<tr class="job-result-row">
+<tr class="job-result-row" [ngClass]="{'payfactors-job-result': job.IsPayfactors,'selected-job-result': job.IsSelected}" (click)="toggleJobSelection()">
   <td class="growing-cell">
     <div class="job-title">
       <span (click)="handleJobTitleClick($event)">
@@ -28,7 +28,9 @@
       <pf-loading-indicator></pf-loading-indicator> Loading Data Cuts...
     </div>
     <div *ngIf="showDataCuts && !job.LoadingDataCuts">
-      <pf-data-cuts [dataCuts]="job.DataCuts" [currencyCode]="currencyCode">
+      <pf-data-cuts [dataCuts]="job.DataCuts"
+                    [currencyCode]="currencyCode"
+                    (dataCutSelected)="handleDataCutSelected($event)">
       </pf-data-cuts>
     </div>
   </td>

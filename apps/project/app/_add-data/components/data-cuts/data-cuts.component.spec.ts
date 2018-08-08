@@ -9,6 +9,7 @@ import { DataCutsComponent } from './data-cuts.component';
 import { generateMockDataCut } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 
+
 describe('DataCutsComponent', () => {
   let component: DataCutsComponent;
   let fixture: ComponentFixture<DataCutsComponent>;
@@ -29,9 +30,11 @@ describe('DataCutsComponent', () => {
   });
 
   beforeEach(() => {
+    store = TestBed.get(Store);
+
     fixture = TestBed.createComponent(DataCutsComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+
   });
 
   it('should create', () => {
@@ -64,4 +67,17 @@ describe('DataCutsComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should show selected if the data cut has been selected', () => {
+    component.dataCuts = [generateMockDataCut()];
+    component.dataCuts[0].TCC50th = null;
+    component.dataCuts[0].Base50th = null;
+    component.dataCuts[0].IsSelected = true;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

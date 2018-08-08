@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SearchFilter, SearchRequest, SurveyDataFilterRequest, SurveyDataCut } from 'libs/models/survey-search';
+import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
+  SurveyDataCutResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -20,7 +21,11 @@ export class SurveySearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyJobs`, searchRequest);
   }
 
-  searchDataCuts(surveyDataFilter: SurveyDataFilterRequest): Observable<SurveyDataCut[]> {
+  searchDataCuts(surveyDataFilter: SurveyDataFilterRequest): Observable<SurveyDataCutResponse[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetSurveyJobData`, surveyDataFilter);
+  }
+
+  addSurveyDataCuts(addDataRequest: AddSurveyDataCutRequest): Observable<AddSurveyDataCutMatchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddSurveyDataCut`, addDataRequest);
   }
 }

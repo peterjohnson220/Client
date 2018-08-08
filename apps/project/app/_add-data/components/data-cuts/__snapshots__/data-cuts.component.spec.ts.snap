@@ -2,6 +2,7 @@
 
 exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 <pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
 >
   <table
@@ -9,7 +10,9 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
   >
     <tbody>
       
-      <tr>
+      <tr
+        ng-reflect-ng-class="[object Object]"
+      >
         <td
           class="data-cut-title"
         >
@@ -46,6 +49,7 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 
 exports[`DataCutsComponent should handle empty currency fields 1`] = `
 <pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
 >
   <table
@@ -53,7 +57,57 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
   >
     <tbody>
       
-      <tr>
+      <tr
+        ng-reflect-ng-class="[object Object]"
+      >
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        />
+      </tr>
+    </tbody>
+  </table>
+</pf-data-cuts>
+`;
+
+exports[`DataCutsComponent should show selected if the data cut has been selected 1`] = `
+<pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr
+        class="selected-data-cut"
+        ng-reflect-ng-class="[object Object]"
+      >
         <td
           class="data-cut-title"
         >
@@ -91,6 +145,7 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
 exports[`DataCutsComponent should show the data cut in the proper currency 1`] = `
 <pf-data-cuts
   currencyCode={[Function String]}
+  dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
 >
   <table
@@ -98,7 +153,9 @@ exports[`DataCutsComponent should show the data cut in the proper currency 1`] =
   >
     <tbody>
       
-      <tr>
+      <tr
+        ng-reflect-ng-class="[object Object]"
+      >
         <td
           class="data-cut-title"
         >
