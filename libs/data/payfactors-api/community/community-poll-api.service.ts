@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollResponse } from '../../../models/community/community-poll-response.model';
 
 @Injectable()
 export class CommunityPollApiService {
@@ -14,6 +15,10 @@ export class CommunityPollApiService {
 
   getAllCommunityPollRequests(): Observable<CommunityPollRequest[]> {
     return this.payfactorsApiService.get<CommunityPollRequest[]>(`${this.endpoint}/GetPollRequests`);
+  }
+
+  getAllCommunityPollResponses(): Observable<CommunityPollResponse[]> {
+    return this.payfactorsApiService.get<CommunityPollResponse[]>(`${this.endpoint}/GetPollResponses`);
   }
 
   submitCommunityPollRequestResponse(payload: any): Observable<boolean> {

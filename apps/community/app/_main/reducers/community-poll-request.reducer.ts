@@ -1,5 +1,6 @@
 import * as communityPollRequestActions from '../actions/community-poll-request.actions';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 export interface State {
   loading: boolean;
@@ -7,7 +8,10 @@ export interface State {
   entities: CommunityPollRequest[];
   submitting: boolean;
   submitted: boolean;
-  questionsSubmitted: number[];
+  questionsSubmitted: any;
+  loadingResponses: boolean;
+  loadingResponsesError: boolean;
+  pollResponses: CommunityPollResponse[];
 }
 
 export const initialState: State = {
@@ -16,7 +20,10 @@ export const initialState: State = {
   entities: [],
   submitting: false,
   submitted: false,
-  questionsSubmitted: []
+  questionsSubmitted: null,
+  loadingResponses: false,
+  loadingResponsesError: false,
+  pollResponses: []
 };
 
 export function reducer(state = initialState, action: communityPollRequestActions.Actions): State {
@@ -51,18 +58,33 @@ export function reducer(state = initialState, action: communityPollRequestAction
       };
     }
     case communityPollRequestActions.SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_SUCCESS: {
-
-      const updatedQuestionsSubmitted = [];
-      for (const question of state.questionsSubmitted) {
-        updatedQuestionsSubmitted.push(question);
-      }
-      updatedQuestionsSubmitted.push(action.payload);
-
       return {
         ...state,
         submitting: false,
         submitted: true,
-        questionsSubmitted: updatedQuestionsSubmitted
+        questionsSubmitted: action.payload
+      };
+    }
+    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES: {
+      return {
+        ...state,
+        loadingResponses: true,
+        loadingResponsesError: false,
+        pollResponses: []
+      };
+    }
+    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES_SUCCESS: {
+      return {
+        ...state,
+        loadingResponses: false,
+        pollResponses: action.payload
+      };
+    }
+    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES_ERROR: {
+      return {
+        ...state,
+        loadingResponses: false,
+        loadingResponsesError: true
       };
     }
     default: {
@@ -76,4 +98,6 @@ export const getGettingCommunityPollRequestsError = (state: State) => state.load
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
 export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;
-
+export const getGettingCommunityPollResponses = (state: State) => state.loadingResponses;
+export const getGettingCommunityPollResponsesError = (state: State) => state.loadingResponsesError;
+export const getGettingCommunityPollResponsesSuccess = (state: State) => state.pollResponses;

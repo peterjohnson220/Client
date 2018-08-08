@@ -1,14 +1,18 @@
 import { Action } from '@ngrx/store';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 export const LOADING_COMMUNITY_POLL_REQUEST = '[Community/Poll Request] Loading Community Polls';
 export const LOADING_COMMUNITY_POLL_REQUEST_SUCCESS  = '[Community/Poll Request] Loading Community Polls Success';
 export const LOADING_COMMUNITY_POLL_REQUEST_ERROR  = '[Community/Poll Request] Loading Community Polls Error';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE = '[Community/Poll Request] Submitting Community Poll Request Response';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_SUCCESS =
-  '[Community/Poll Request] Submitting Community Poll Request Response Success';
+'[Community/Poll Request] Submitting Community Poll Request Response Success';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_ERROR =
   '[Community/Poll Request] Submitting Community Poll Request Response Error';
+export const LOADING_COMMUNITY_POLL_RESPONSES = '[Community/Poll Responses] Loading Community Responses';
+export const LOADING_COMMUNITY_POLL_RESPONSES_SUCCESS  = '[Community/Poll Responses] Loading Community Polls Responses';
+export const LOADING_COMMUNITY_POLL_RESPONSES_ERROR  = '[Community/Poll Responses] Loading Community Polls Responses Error';
 
 export class LoadingCommunityPollRequests implements Action {
   readonly type = LOADING_COMMUNITY_POLL_REQUEST;
@@ -36,10 +40,26 @@ export class SubmittingCommunityPollRequestError implements Action {
   readonly type = SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_ERROR;
 }
 
+export class LoadingCommunityPollResponses implements Action {
+  readonly type = LOADING_COMMUNITY_POLL_RESPONSES;
+}
+
+export class LoadingCommunityPollResponsesSuccess implements Action {
+  readonly type = LOADING_COMMUNITY_POLL_RESPONSES_SUCCESS;
+  constructor(public payload: CommunityPollResponse[]) {}
+}
+
+export class LoadingCommunityPollResponsesError implements Action {
+  readonly type = LOADING_COMMUNITY_POLL_RESPONSES_ERROR;
+}
+
 export type Actions
   = LoadingCommunityPollRequests
   | LoadingCommunityPollRequestsSuccess
   | LoadingCommunityPollRequestsError
   | SubmittingCommunityPollRequest
   | SubmittingCommunityPollRequestSuccess
-  | SubmittingCommunityPollRequestError;
+  | SubmittingCommunityPollRequestError
+  | LoadingCommunityPollResponses
+  | LoadingCommunityPollResponsesSuccess
+  | LoadingCommunityPollResponsesError;

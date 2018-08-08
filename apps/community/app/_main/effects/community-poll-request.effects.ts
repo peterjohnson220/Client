@@ -7,7 +7,9 @@ import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
 
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
+
 import * as fromCommunityPollActions from '../actions/community-poll-request.actions';
 
 @Injectable()
@@ -32,15 +34,25 @@ export class CommunityPollRequestEffects {
       switchMap((action: fromCommunityPollActions.SubmittingCommunityPollRequest) =>
         this.communityPollService.submitCommunityPollRequestResponse(action.payload).pipe(
           map((response: boolean) => {
-            if (response) {
-              return new fromCommunityPollActions.SubmittingCommunityPollRequestSuccess(action.payload.communityPollId);
-            }
-            // TODO: add else when Api is added and response is defined
+              return new fromCommunityPollActions.SubmittingCommunityPollRequestSuccess(response);
           }),
           catchError(error => of(new fromCommunityPollActions.SubmittingCommunityPollRequestError()))
         )
       )
     );
+
+    @Effect()
+    loadCommunityPollResponses$: Observable<Action> = this.actions$
+      .ofType(fromCommunityPollActions.LOADING_COMMUNITY_POLL_RESPONSES).pipe(
+        switchMap(() =>
+          this.communityPollService.getAllCommunityPollResponses().pipe(
+            map((pollResponses: CommunityPollResponse[]) => {
+              return new fromCommunityPollActions.LoadingCommunityPollResponsesSuccess(pollResponses);
+            }),
+            catchError(error => of(new fromCommunityPollActions.LoadingCommunityPollResponsesError()))
+          )
+        )
+      );
 
   constructor(
     private actions$: Actions,
