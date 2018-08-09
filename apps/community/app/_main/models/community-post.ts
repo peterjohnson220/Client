@@ -5,6 +5,7 @@ export interface CommunityPost {
   LikeCount: number;
   Replies: CommunityReply[];
   Time: any;
+  IsInternalOnly: boolean;
 }
 
 export interface CommunityUserInfo {
@@ -27,15 +28,19 @@ export interface CommunityReply {
   Time: any;
 }
 
-export function generateMockCommunityPost(likeCount: number = 0, postText: string = '', tags: any = null): CommunityPost {
+export function generateMockCommunityPost(likeCount: number = 0, postText: string = '',
+                                          tags: any = null, isInternalOnly: boolean = false): CommunityPost {
   return {
     UserInfo:
-      {userId: 1, userFirstName: 'Test', userLastName: 'User', companyId: 2, companyName: 'Test Company',
-      avatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'},
+      {
+        userId: 1, userFirstName: 'Test', userLastName: 'User', companyId: 2, companyName: 'Test Company',
+        avatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
+      },
     PostText: postText,
     Tags: tags,
     LikeCount: likeCount,
-    Replies: [{UserInfo: 'another user', ReplyText: 'test reply text', Time: '5 minutes ago'}],
-    Time: '3 days ago'
+    Replies: [ { UserInfo: 'another user', ReplyText: 'test reply text', Time: '5 minutes ago' } ],
+    Time: '3 days ago',
+    IsInternalOnly: isInternalOnly
   };
 }

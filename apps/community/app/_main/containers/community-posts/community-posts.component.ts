@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { CommunityPost, generateMockCommunityPost } from '../../models/community-post';
 
 @Component({
@@ -7,11 +8,11 @@ import { CommunityPost, generateMockCommunityPost } from '../../models/community
   styleUrls: ['./community-posts.component.scss']
 })
 export class CommunityPostsComponent implements OnInit {
+  UserAvatarSource = 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg';
   LoadMockPosts = true;
   CommunityPosts: CommunityPost[] = [];
 
   constructor() {
-
   }
 
   ngOnInit() {
@@ -28,14 +29,14 @@ export class CommunityPostsComponent implements OnInit {
      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`;
 
       this.CommunityPosts.push(generateMockCommunityPost(0, mockPostText,
-        [{ TagId: 'aa', TagName: 'test another tag'}, {TagId: 'bb', TagName: 'another tag'}]));
+        [{ TagId: 'aa', TagName: 'test another tag'}, {TagId: 'bb', TagName: 'another tag'}], true));
       this.CommunityPosts.push(generateMockCommunityPost(1, mockPostText, [{ TagId: 'aa', TagName: 'test tag'},
-        { TagId: 'aa', TagName: 'Community'}, { TagId: 'aa', TagName: 'another'}]));
+        { TagId: 'aa', TagName: 'Community'}, { TagId: 'aa', TagName: 'another'}], true));
       this.CommunityPosts.push(generateMockCommunityPost(5, mockPostText, [{ TagId: 'aa', TagName: 'test tag'}]));
       this.CommunityPosts.push(generateMockCommunityPost(0, 'another test', [{ TagId: 'aa', TagName: 'test tag'}]));
-      this.CommunityPosts.push(generateMockCommunityPost(0, mockPostText, []));
+      this.CommunityPosts.push(generateMockCommunityPost(0, mockPostText, [], true));
       this.CommunityPosts.push(generateMockCommunityPost(75, mockPostText, [{ TagId: 'aa', TagName: 'test tag'}]));
-      this.CommunityPosts.push(generateMockCommunityPost(0, mockPostText, [{ TagId: 'aa', TagName: 'test tag'}]));
+      this.CommunityPosts.push(generateMockCommunityPost(0, mockPostText, [{ TagId: 'aa', TagName: 'test tag'}], true));
     }
 
   }

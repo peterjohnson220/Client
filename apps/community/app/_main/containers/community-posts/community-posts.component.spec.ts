@@ -48,4 +48,13 @@ describe('CommunityPostsComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should show internal tag when post is internal', () => {
+    component.CommunityPosts.push(generateMockCommunityPost(55, 'post text',
+      [{ TagId: 'aa', TagName: 'Community tag'}, { TagId: 'aa', TagName: 'another tag'}], true));
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
