@@ -1,10 +1,10 @@
 <table class="job-cuts-table">
-  <tr *ngFor="let dataCut of dataCuts" (click)="toggleCutSelection(dataCut)" [ngClass]="{'selected-data-cut': dataCut.IsSelected }">
+  <tr *ngFor="let dataCut of dataCuts" (click)="toggleCutSelection(dataCut)" [ngClass]="setDataCutClasses(dataCut)">
     <td class="data-cut-title">{{dataCut.Title}}</td>
     <td class="fixed-cell">{{dataCut.Country}}</td>
     <td class="fixed-cell">{{dataCut.Weight}}</td>
     <td class="fixed-cell">{{dataCut.Base50th ? (dataCut.Base50th | currency: currencyCode : 'symbol') : "-"}}</td>
     <td class="fixed-cell">{{dataCut.TCC50th ? (dataCut.TCC50th | currency: currencyCode : 'symbol') : "-"}}</td>
-    <td class="fixed-cell"></td>
+    <td class="fixed-cell">{{dataCut.Matches !== 0 ? dataCut.Matches : ''}}</td>
   </tr>
 </table>
