@@ -104,13 +104,8 @@ exports[`CommunityPostsComponent should change like button when there are likes 
             <span
               class="community-sub-text"
             >
-               @ Test Company
+               @ Test Company | 3 days ago
             </span>
-          </p>
-          <p
-            class="m-0 community-sub-text"
-          >
-            3 days ago
           </p>
           <p
             class="mt-2 mb-2"
@@ -141,9 +136,27 @@ exports[`CommunityPostsComponent should change like button when there are likes 
             <i
               class="far fa-reply fa-lg icon"
             />
-             Reply 
+            
+            <span>
+               Reply
+            </span>
+            
           </button>
           <div>
+            
+          </div>
+          <div
+            class="mt-2"
+          >
+            
+            
+            <div
+              class="reply-offset"
+            >
+              <span>
+                No Replies Yet
+              </span>
+            </div>
             
           </div>
         </div>
@@ -264,13 +277,8 @@ exports[`CommunityPostsComponent should show internal tag when post is internal 
             <span
               class="community-sub-text"
             >
-               @ Test Company
+               @ Test Company | 3 days ago
             </span>
-          </p>
-          <p
-            class="m-0 community-sub-text"
-          >
-            3 days ago
           </p>
           <p
             class="mt-2 mb-2"
@@ -301,7 +309,11 @@ exports[`CommunityPostsComponent should show internal tag when post is internal 
             <i
               class="far fa-reply fa-lg icon"
             />
-             Reply 
+            
+            <span>
+               Reply
+            </span>
+            
           </button>
           <div>
             
@@ -325,6 +337,20 @@ exports[`CommunityPostsComponent should show internal tag when post is internal 
               />
                another tag 
             </button>
+          </div>
+          <div
+            class="mt-2"
+          >
+            
+            
+            <div
+              class="reply-offset"
+            >
+              <span>
+                No Replies Yet
+              </span>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -439,13 +465,8 @@ exports[`CommunityPostsComponent should show posts 1`] = `
             <span
               class="community-sub-text"
             >
-               @ Test Company
+               @ Test Company | 3 days ago
             </span>
-          </p>
-          <p
-            class="m-0 community-sub-text"
-          >
-            3 days ago
           </p>
           <p
             class="mt-2 mb-2"
@@ -476,9 +497,27 @@ exports[`CommunityPostsComponent should show posts 1`] = `
             <i
               class="far fa-reply fa-lg icon"
             />
-             Reply 
+            
+            <span>
+               Reply
+            </span>
+            
           </button>
           <div>
+            
+          </div>
+          <div
+            class="mt-2"
+          >
+            
+            
+            <div
+              class="reply-offset"
+            >
+              <span>
+                No Replies Yet
+              </span>
+            </div>
             
           </div>
         </div>
@@ -594,13 +633,8 @@ exports[`CommunityPostsComponent should show tags 1`] = `
             <span
               class="community-sub-text"
             >
-               @ Test Company
+               @ Test Company | 3 days ago
             </span>
-          </p>
-          <p
-            class="m-0 community-sub-text"
-          >
-            3 days ago
           </p>
           <p
             class="mt-2 mb-2"
@@ -631,7 +665,11 @@ exports[`CommunityPostsComponent should show tags 1`] = `
             <i
               class="far fa-reply fa-lg icon"
             />
-             Reply 
+            
+            <span>
+               Reply
+            </span>
+            
           </button>
           <div>
             
@@ -655,6 +693,20 @@ exports[`CommunityPostsComponent should show tags 1`] = `
               />
                another tag 
             </button>
+          </div>
+          <div
+            class="mt-2"
+          >
+            
+            
+            <div
+              class="reply-offset"
+            >
+              <span>
+                No Replies Yet
+              </span>
+            </div>
+            
           </div>
         </div>
       </div>

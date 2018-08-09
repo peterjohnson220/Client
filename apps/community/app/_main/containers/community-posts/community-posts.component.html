@@ -28,8 +28,7 @@
         <div class="post-offset">
           <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
           <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.userFirstName}} {{post.UserInfo.userLastName}}</span>
-            <span class="community-sub-text"> @ {{post.UserInfo.companyName}}</span></p>
-          <p class="m-0 community-sub-text">{{post.Time}}</p>
+            <span class="community-sub-text"> @ {{post.UserInfo.companyName}} | {{post.Time}}</span></p>
           <p class="mt-2 mb-2">{{post.PostText}}</p>
           <button id="like" type="button" class="btn m-1"
                   [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}">
@@ -37,13 +36,38 @@
             <span *ngIf="post.LikeCount == 0"> Like</span>
             <span *ngIf="post.LikeCount > 0"> {{post.LikeCount}} Liked</span>
           </button>
-          <button id="reply" type="button" class="btn community-btn m-1"><i class="far fa-reply fa-lg icon"></i> Reply
+          <button id="reply" type="button" class="btn community-btn m-1"><i class="far fa-reply fa-lg icon"></i>
+            <span *ngIf="post.Replies == null || post.Replies.length == 0"> Reply</span>
+            <span *ngIf="post.Replies?.length > 0"> {{post.Replies.length}} Replied</span>
           </button>
           <div>
             <ng-container *ngFor="let tag of post.Tags">
               <button type="button" class="btn m-1 tag p-1"><i class="far fa-tag fa-lg tag-icon"></i> {{tag.TagName}}
               </button>
             </ng-container>
+          </div>
+          <div class="mt-2">
+            <ng-container *ngFor="let reply of post.Replies">
+              <img id="reply-avatar" class="float-left pf-avatar" src="{{reply.UserInfo.avatarSource}}"
+                   alt="avatar">
+              <div class="reply-offset">
+                <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.userFirstName}} {{reply.UserInfo.userLastName}}</span>
+                  <span class="community-sub-text"> @ {{reply.UserInfo.companyName}} | {{reply.Time}}</span></p>
+                <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
+                <button id="like-reply" type="button" class="btn m-1 pt-1 pb-1"
+                        [ngClass]="{'community-btn-clicked': reply.LikeCount > 0, 'community-btn': reply.LikeCount == 0}">
+                  <i class="far fa-thumbs-up fa-lg icon"></i>
+                  <span *ngIf="reply.LikeCount == 0"> Like</span>
+                  <span *ngIf="reply.LikeCount > 0"> {{reply.LikeCount}} Liked</span>
+                </button>
+              </div>
+            </ng-container>
+            <div class="reply-offset" *ngIf="!post.Replies || post.Replies?.length == 0">
+              <span>No Replies Yet</span>
+            </div>
+            <div class="mt-3 reply-offset community-link" *ngIf="post.HasMoreReplies">
+              <a>Show More Replies</a>
+            </div>
           </div>
         </div>
       </div>
