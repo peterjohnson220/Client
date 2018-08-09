@@ -17,7 +17,7 @@
   <td class="fixed-cell"></td>
   <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Base50th ? (job.Base50Th | currency: currencyCode : 'symbol') : "-"}}</ng-container></td>
   <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Tcc50Th ? (job.Tcc50Th | currency: currencyCode : 'symbol') : "-"}}</ng-container></td>
-  <td class="fixed-cell"></td>
+  <td class="fixed-cell"><span *ngIf="!!job.Matches">{{job.Matches}}</span></td>
 </tr>
 <tr class="job-data-cuts-row">
   <td colspan="6">

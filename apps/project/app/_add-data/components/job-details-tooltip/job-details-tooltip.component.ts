@@ -40,6 +40,7 @@ export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
     const tooltipWidth: number = this.tooltipElement.nativeElement.clientWidth;
     this.updateTooltipElementTopPx(this.containerHeight, tooltipHeight);
     this.updateTooltipElementLeftPx(this.containerWidth, tooltipWidth);
+    this.isTooltipTopPxChanged = false;
   }
 
   updateTooltipElementTopPx(containerHeight: number, tooltipHeight: number): void {

@@ -3,7 +3,10 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
-  SurveyDataCutResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse } from 'libs/models/survey-search';
+  SurveyDataCutResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
+  PricingMatchesResponse,
+  PricingMatchesRequest
+} from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -28,4 +31,9 @@ export class SurveySearchApiService {
   addSurveyDataCuts(addDataRequest: AddSurveyDataCutRequest): Observable<AddSurveyDataCutMatchResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/AddSurveyDataCut`, addDataRequest);
   }
+
+  getPricingMatches(pricingMatchesRequest: PricingMatchesRequest): Observable<PricingMatchesResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatches`, pricingMatchesRequest);
+  }
+
 }

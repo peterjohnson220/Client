@@ -93,4 +93,20 @@ describe('JobDetailsTooltipComponent', () => {
     expect(tooltipElement.style.left).toEqual(`${instance.tooltipLeftPx}px`);
   });
 
+  it('should not change tooltip element left position when tooltip width fits in the container width', () => {
+    const containerWidth = 749;
+    const tooltipWidth = 398;
+    const toolTipDebugElement: DebugElement  = fixture.debugElement.query(By.css('.tooltip-container'));
+    const tooltipElement: HTMLElement = toolTipDebugElement.nativeElement;
+    const updatedLeftPx = 200;
+    instance.tooltipLeftPx = 200;
+    instance.job = generateMockSurveyJobResult();
+
+    instance.updateTooltipElementLeftPx(containerWidth, tooltipWidth);
+    fixture.detectChanges();
+
+    expect(instance.tooltipLeftPx).toEqual(updatedLeftPx);
+    expect(tooltipElement.style.left).toEqual(`${instance.tooltipLeftPx}px`);
+  });
+
 });

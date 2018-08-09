@@ -10,7 +10,7 @@ export interface JobResult {
     Source: string;
     Description: string;
     IsPayfactors: boolean;
-    MatchCount: number;
+    Matches: number;
     EffectiveDate: Date;
     Category?: string;
     FLSAStatus?: string;
@@ -34,7 +34,7 @@ export function generateMockSurveyJobResult(): JobResult {
     Source: 'Hewitt Associates',
     Description: 'Job Description: Accountant',
     IsPayfactors: false,
-    MatchCount: 5,
+    Matches: 5,
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
     DataCuts: [],
@@ -68,7 +68,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
      Reports to: Typically reports to a department head or manager. Competencies: Analytical skills.
      Problem-solving. Ability to work within a team.`,
     IsPayfactors: true,
-    MatchCount: 0,
+    Matches: 0,
     EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
     FLSAStatus: 'Typically Exempt',

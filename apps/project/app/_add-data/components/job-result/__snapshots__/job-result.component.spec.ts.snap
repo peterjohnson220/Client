@@ -61,7 +61,12 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+      <span>
+        5
+      </span>
+    </td>
   </tr><tr
     class="job-data-cuts-row"
   >
@@ -142,7 +147,9 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
   </tr><tr
     class="job-data-cuts-row"
   >
@@ -219,7 +226,9 @@ exports[`Project - Add Data - Job Result should show values in the correct curre
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
   </tr><tr
     class="job-data-cuts-row"
   >
