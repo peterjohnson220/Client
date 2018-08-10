@@ -5,7 +5,7 @@ export interface SurveyDataCut {
   Weight: string;
   Base50th?: number;
   TCC50th?: number;
-  Match: number;
+  Matches: number;
   IsSelected: boolean;
 }
 
@@ -17,7 +17,7 @@ export function generateMockDataCut(): SurveyDataCut {
     Weight: 'Incs (8)',
     Base50th: 50.5,
     TCC50th: 85.5,
-    Match: 4,
+    Matches: 4,
     IsSelected: false
   };
 }

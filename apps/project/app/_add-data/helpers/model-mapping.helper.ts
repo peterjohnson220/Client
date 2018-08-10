@@ -103,7 +103,7 @@ export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse
       Weight: dc.Weight,
       Base50th: dc.Base50,
       TCC50th: dc.Tcc50,
-      Match: 0,
+      Matches: dc.Matches,
       IsSelected: isCutSelected(dc, selectedDataCuts)
     };
   });

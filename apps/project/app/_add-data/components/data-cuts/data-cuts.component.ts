@@ -18,5 +18,11 @@ export class DataCutsComponent {
     this.dataCutSelected.emit({dataCutId: dataCut.SurveyDataId});
   }
 
+  setDataCutClasses(dataCut: SurveyDataCut): any {
+    return {
+      'selected-data-cut' : dataCut.IsSelected,
+      'data-cut-matched' : (dataCut.Matches !== 0) && !dataCut.IsSelected
+    };
+  }
 
 }
