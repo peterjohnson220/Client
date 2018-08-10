@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading User Context should show a centered loading indicator, when we are getting the user assigned roles 1`] = `
+<pf-loading-user-assigned-roles
+  gettingUserAssignedRoles$={[Function Observable]}
+  store={[Function Store]}
+  userAssignedRoles$={[Function Store]}
+>
+  <div
+    class="h-100 d-flex justify-content-center align-items-center"
+  >
+    <h2
+      class="text-white"
+    >
+      <pf-loading-indicator />
+    </h2>
+  </div>
+</pf-loading-user-assigned-roles>
+`;
+
+exports[`Loading User Context should show a router outlet, when we are not getting the user assigned roles 1`] = `
+<pf-loading-user-assigned-roles
+  gettingUserAssignedRoles$={[Function Observable]}
+  store={[Function Store]}
+  userAssignedRoles$={[Function Store]}
+>
+  <router-outlet />
+</pf-loading-user-assigned-roles>
+`;

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
-         AsyncContainerComponent } from './loading';
+         AsyncContainerComponent, UserAssignedRolesComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
 import {TermsConditionsModalComponent} from './terms-conditions-modal';
 import { ValidationResultsComponent } from './validation';
@@ -23,7 +23,7 @@ const components = [
   ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent,
 
   // Loading
-  AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent,
+  AsyncContainerComponent, LoadingIndicatorComponent, LoadingUserContextComponent, UserAssignedRolesComponent,
 
   // Page Layouts
   PageWithTitleBarComponent,

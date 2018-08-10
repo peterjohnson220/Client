@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CompanySettingsEffects, UserContextEffects, UiPersistenceSettingsEffects } from './app-context/effects';
+import { CompanySettingsEffects, UserContextEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects } from './app-context/effects';
 import { reducers, metaReducers } from './state';
 import { environment } from '../../environments/environment';
 
@@ -15,7 +15,7 @@ import { environment } from '../../environments/environment';
     StoreModule.forRoot(reducers, { metaReducers }),
 
     // Effects
-    EffectsModule.forRoot([UserContextEffects, CompanySettingsEffects, UiPersistenceSettingsEffects]),
+    EffectsModule.forRoot([UserContextEffects, CompanySettingsEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects]),
 
     // Dev Tools
     !environment.production ? StoreDevtoolsModule.instrument() : []
