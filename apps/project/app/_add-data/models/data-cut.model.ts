@@ -21,3 +21,4 @@ export function generateMockDataCut(): SurveyDataCut {
     IsSelected: false
   };
 }
+

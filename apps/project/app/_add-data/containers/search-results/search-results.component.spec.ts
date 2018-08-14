@@ -10,7 +10,6 @@ import * as fromSearchResultsActions from '../../actions/search-results.actions'
 import {
   generateMockSurveyJobResult,
   JobResult,
-  JobDetailsToolTipData,
   generateMockDataCut
 } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
@@ -94,44 +93,6 @@ describe('Project - Add Data - Search Results', () => {
     instance.onScroll();
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getMoreResultsAction);
-  });
-
-  it('should show tooltip when current tooltip index is not the same as the input index', () => {
-    const openTooltipAction = new fromSearchResultsActions.OpenTooltip();
-    const jobResult: JobResult = generateMockSurveyJobResult();
-    const data: JobDetailsToolTipData = {
-      Job: jobResult,
-      TargetX: 300,
-      TargetY: 579
-    };
-    const inputTooltipIndex = 1;
-
-    fixture.detectChanges();
-
-    spyOn(store, 'dispatch');
-    instance.handleJobTitleClick(data, inputTooltipIndex);
-
-    expect(store.dispatch).toHaveBeenCalledWith(openTooltipAction);
-    expect(instance.tooltipIndex).toEqual(inputTooltipIndex);
-  });
-
-  it('should not show tooltip when current tooltip index is the same as the input index', () => {
-    const closeTooltipAction = new fromSearchResultsActions.CloseTooltip();
-    const jobResult: JobResult = generateMockSurveyJobResult();
-    const data: JobDetailsToolTipData = {
-      Job: jobResult,
-      TargetX: 300,
-      TargetY: 579
-    };
-    const inputTooltipIndex = 1;
-    instance.tooltipData = data;
-    instance.tooltipIndex = 1;
-
-    spyOn(store, 'dispatch');
-    instance.handleJobTitleClick(data, inputTooltipIndex);
-
-    expect(store.dispatch).toHaveBeenCalledWith(closeTooltipAction);
-    expect(instance.tooltipIndex).toEqual(-1);
   });
 
   it('should toggle the data cut selection when cut is selected ', () => {

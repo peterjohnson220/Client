@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
   SurveyDataCutResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
   PricingMatchesResponse,
-  PricingMatchesRequest
+  PricingMatchesRequest,
+  PricingMatchesDetailsRequest
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -34,6 +35,10 @@ export class SurveySearchApiService {
 
   getPricingMatches(pricingMatchesRequest: PricingMatchesRequest): Observable<PricingMatchesResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatches`, pricingMatchesRequest);
+  }
+
+  getPricingMatchesDetails(pricingMatchesDetailsRequest: PricingMatchesDetailsRequest): Observable<string[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatchesDetails`, pricingMatchesDetailsRequest);
   }
 
 }

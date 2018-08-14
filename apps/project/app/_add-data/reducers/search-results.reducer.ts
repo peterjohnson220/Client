@@ -12,7 +12,6 @@ export interface State {
   loadingResults: boolean;
   pagingOptions: ResultsPagingOptions;
   totalResultsOnServer: number;
-  tooltipOpen: boolean;
   selectedDataCuts: DataCut[];
   error: boolean;
 }
@@ -26,7 +25,6 @@ const initialState: State = {
     pageSize: 25
   },
   totalResultsOnServer: 0,
-  tooltipOpen: false,
   selectedDataCuts: [],
   error: false
 };
@@ -75,20 +73,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       return {
         ...state,
         results: [],
-        totalResultsOnServer: 0,
-        tooltipOpen: false
-      };
-    }
-    case fromSearchResultsActions.OPEN_TOOLTIP: {
-      return {
-        ...state,
-        tooltipOpen: true
-      };
-    }
-    case fromSearchResultsActions.CLOSE_TOOLTIP: {
-      return {
-        ...state,
-        tooltipOpen: false
+        totalResultsOnServer: 0
       };
     }
     case fromSearchResultsActions.TOGGLE_SURVEY_DATA_CUT_SELECTION: {
@@ -163,7 +148,6 @@ export const getLoadingMoreResults = (state: State) => state.loadingMoreResults;
 export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getNumberOfResults = (state: State) => state.totalResultsOnServer;
 export const hasMoreResultsOnServer = (state: State) => state.totalResultsOnServer > state.results.length;
-export const getTooltipOpen = (state: State) => state.tooltipOpen;
 export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 export const getError = (state: State) => state.error;
 

@@ -8,6 +8,7 @@ import { DataCut } from 'libs/models/survey-search';
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
 import * as fromSurveyFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
+import * as fromTooltipContainerActions from '../../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../../reducers';
 
 
@@ -44,10 +45,11 @@ export class AddSurveyDataPageComponent {
         this.store.dispatch(new fromSurveyFiltersActions.ClearFilters());
         this.store.dispatch(new fromSurveyResultsActions.ClearResults());
         this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+        this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
         this.excludeFromParticipation = false;
         break;
       case 'Hide App':
-        this.store.dispatch(new fromSurveyResultsActions.CloseTooltip());
+        this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
         break;
     }
   }

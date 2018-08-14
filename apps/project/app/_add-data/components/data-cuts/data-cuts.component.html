@@ -5,6 +5,12 @@
     <td class="fixed-cell">{{dataCut.Weight}}</td>
     <td class="fixed-cell">{{dataCut.Base50th ? (dataCut.Base50th | number: '1.1-1') : "-"}}</td>
     <td class="fixed-cell">{{dataCut.TCC50th ? (dataCut.TCC50th | number: '1.1-1') : "-"}}</td>
-    <td class="fixed-cell">{{dataCut.Matches !== 0 ? dataCut.Matches : ''}}</td>
+    <td class="fixed-cell">
+      <span *ngIf="dataCut.Matches" class="matches"
+      (mouseenter)="handleMatchesMouseEnter($event, dataCut)"
+      (mouseleave)="handleMatchesMouseLeave($event)">
+      {{dataCut.Matches}}
+    </span>
+    </td>
   </tr>
 </table>
