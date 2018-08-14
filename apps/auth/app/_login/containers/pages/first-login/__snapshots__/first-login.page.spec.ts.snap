@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Auth - First Time Login should disable Submit password button when password is not valid 1`] = `
+<pf-first-login-page
+  companySettingAttempted$={[Function Store]}
+  companySettings$={[Function Store]}
+  companySettingsLoading$={[Function Observable]}
+  formIsValid="false"
+  isFirstLogin={[Function Boolean]}
+  isValidating="false"
+  loadingCompanySettings="false"
+  loadingUserContext="false"
+  store={[Function Store]}
+  submitEnabled="false"
+  updateError="false"
+  updatingPasswordError$={[Function Store]}
+  userContext$={[Function Store]}
+  userContextAttempted$={[Function Store]}
+  userContextLoading$={[Function Observable]}
+  validatingFirstLogin$={[Function Observable]}
+  validatingFirstLoginSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3"
+  >
+    <h1
+      class="p-3"
+    >
+      This is your first time logging into Payfactors. Please set a new password before continuing.
+    </h1>
+    
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn m-4 submit-button"
+        disabled=""
+      >
+         Submit 
+      </button>
+    </div>
+  </div>
+</pf-first-login-page>
+`;
+
+exports[`Auth - First Time Login should show error notification on updatingPasswordError 1`] = `
+<pf-first-login-page
+  companySettingAttempted$={[Function Store]}
+  companySettings$={[Function Store]}
+  companySettingsLoading$={[Function Observable]}
+  formIsValid="false"
+  isFirstLogin={[Function Boolean]}
+  isValidating="false"
+  loadingCompanySettings="false"
+  loadingUserContext="false"
+  store={[Function Store]}
+  submitEnabled="false"
+  updateError={[Function Boolean]}
+  updatingPasswordError$={[Function Observable]}
+  userContext$={[Function Store]}
+  userContextAttempted$={[Function Store]}
+  userContextLoading$={[Function Observable]}
+  validatingFirstLogin$={[Function Observable]}
+  validatingFirstLoginSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3"
+  >
+    <h1
+      class="p-3"
+    >
+      This is your first time logging into Payfactors. Please set a new password before continuing.
+    </h1>
+    
+    <p
+      class="alert-danger p-4"
+    >
+       There was an error creating your new password, please try again. 
+    </p>
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn m-4 submit-button"
+        disabled=""
+      >
+         Submit 
+      </button>
+    </div>
+  </div>
+</pf-first-login-page>
+`;
+
+exports[`Auth - First Time Login should show reset password section when page is loaded 1`] = `
+<pf-first-login-page
+  companySettingAttempted$={[Function Store]}
+  companySettings$={[Function Store]}
+  companySettingsLoading$={[Function Observable]}
+  formIsValid="false"
+  isFirstLogin={[Function Boolean]}
+  isValidating="false"
+  loadingCompanySettings="false"
+  loadingUserContext="false"
+  store={[Function Store]}
+  submitEnabled="false"
+  updatingPasswordError$={[Function Store]}
+  userContext$={[Function Store]}
+  userContextAttempted$={[Function Store]}
+  userContextLoading$={[Function Observable]}
+  validatingFirstLogin$={[Function Observable]}
+  validatingFirstLoginSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3"
+  >
+    <h1
+      class="p-3"
+    >
+      This is your first time logging into Payfactors. Please set a new password before continuing.
+    </h1>
+    
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn m-4 submit-button"
+        disabled=""
+      >
+         Submit 
+      </button>
+    </div>
+  </div>
+</pf-first-login-page>
+`;
+
+exports[`Auth - First Time Login should show the loading message when the page is loading 1`] = `
+<pf-first-login-page
+  companySettingAttempted$={[Function Store]}
+  companySettings$={[Function Store]}
+  companySettingsLoading$={[Function Observable]}
+  formIsValid="false"
+  isFirstLogin="false"
+  isValidating={[Function Boolean]}
+  loadingCompanySettings={[Function Boolean]}
+  loadingUserContext={[Function Boolean]}
+  store={[Function Store]}
+  submitEnabled="false"
+  updatingPasswordError$={[Function Store]}
+  userContext$={[Function Store]}
+  userContextAttempted$={[Function Store]}
+  userContextLoading$={[Function Observable]}
+  validatingFirstLogin$={[Function Observable]}
+  validatingFirstLoginSuccess$={[Function Store]}
+>
+  <div
+    class="p-3"
+  >
+    <h1>
+      Validating first time login, please wait...
+    </h1>
+  </div>
+</pf-first-login-page>
+`;
