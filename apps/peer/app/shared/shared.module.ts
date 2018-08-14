@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
-import { ExchangeExistsGuard } from './guards';
-import { reducers } from './reducers';
-import { ExchangeRequestEffectsService } from './services';
+import { ExchangeExistsGuard, PeerPermissionsGuard } from './guards';
+import { ExchangeRequestEffectsService, PermissionApiService } from './services';
+import { PermissionsEffects } from './effects/permissions.effects';
+
 
 @NgModule({
   imports: [
-    // 3rd party
-    StoreModule.forFeature('peer_shared', reducers),
+    EffectsModule.forFeature([
+      PermissionsEffects
+    ])
   ],
   providers: [
-    ExchangeExistsGuard, ExchangeRequestEffectsService
+    ExchangeExistsGuard,
+    PeerPermissionsGuard,
+    ExchangeRequestEffectsService,
+    PermissionApiService
   ]
 })
 export class SharedModule { }

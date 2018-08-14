@@ -25,7 +25,7 @@ export const reducers: ActionReducerMap<State> = {
 
 // If you wish to have all actions and states logged to the console, add this to your metaReducers for development
 export function logger(reducer: ActionReducer<State>): ActionReducer<State> {
-  return function(state: State, action: any): State {
+  return function (state: State, action: any): State {
     console.log('state', state);
     console.log('action', action);
 
@@ -48,6 +48,8 @@ export const getGettingUserContextError =
   createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextError);
 export const getGettingUserContextAttempted =
   createSelector(getUserContextState, fromUserContextReducer.getGettingUserContextAttempted);
+
+export const getIsAdmin = createSelector(getUserContext, (f) => f.AccessLevel === 'Admin');
 
 /**
  * Company Settings Reducers
