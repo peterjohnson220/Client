@@ -1,6 +1,8 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewChecked, EventEmitter, Output } from '@angular/core';
 
 import { JobResult } from '../../models';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { copyTextToClipboard } from 'libs/core/functions';
 
 @Component({
   selector: 'pf-job-details-tooltip',
@@ -14,9 +16,11 @@ export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
   @Input() visible: boolean;
   @Input() containerHeight: number;
   @Input() containerWidth: number;
+  @Output() closed: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('tooltip') private tooltipElement: ElementRef;
   @ViewChild('jobDescription') private jobDescriptionElement: ElementRef;
+  @ViewChild('t') private tooltip: NgbTooltip;
 
   private readonly tooltipMargin: number = 20;
   private readonly tooltipPadding: number = 5;
@@ -62,5 +66,23 @@ export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
 
   updateJobDescriptionScrollTop(): void {
     this.jobDescriptionElement.nativeElement.scrollTop = 0;
+  }
+
+  hide() {
+    this.closed.emit();
+  }
+
+  copyMessage(val: string) {
+    copyTextToClipboard(val);
+    this.showCopySuccessToolTip();
+  }
+
+  private showCopySuccessToolTip() {
+    const isOpen = this.tooltip.isOpen();
+    this.tooltip.close();
+    if (!isOpen)  {
+      this.tooltip.open('Copied');
+      setTimeout(() => this.tooltip.close(),  2000);
+    }
   }
 }

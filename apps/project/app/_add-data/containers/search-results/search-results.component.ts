@@ -104,7 +104,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     return item.Id;
   }
 
-  private clearTooltip(): void {
+  clearTooltip(): void {
     this.store.dispatch(new fromSearchResultsActions.CloseTooltip());
     this.tooltipIndex = -1;
   }

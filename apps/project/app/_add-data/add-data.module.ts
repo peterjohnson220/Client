@@ -16,6 +16,7 @@ import {AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects} fr
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects]),
     InfiniteScrollModule,
+    NgbTooltipModule,
 
     // Routing
     AddDataRoutingModule,
