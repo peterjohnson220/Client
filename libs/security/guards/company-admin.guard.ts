@@ -24,7 +24,8 @@ export class CompanyAdminGuard implements CanActivate {
               window.location.href = '/ng/404';
               return false;
             }
-          })
+          }),
+          take(1)
         );
       })
     );
