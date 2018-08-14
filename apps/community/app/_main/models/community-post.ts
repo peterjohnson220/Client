@@ -4,6 +4,7 @@ export interface CommunityPost {
   Tags: CommunityTag[];
   LikeCount: number;
   Replies: CommunityReply[];
+  HasMoreReplies: Boolean;
   Time: any;
   IsInternalOnly: boolean;
 }
@@ -23,13 +24,15 @@ export interface CommunityTag {
 }
 
 export interface CommunityReply {
-  UserInfo: any;
+  UserInfo: CommunityUserInfo;
   ReplyText: string;
+  LikeCount: number;
   Time: any;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, postText: string = '',
-                                          tags: any = null, isInternalOnly: boolean = false): CommunityPost {
+                                          tags: any = null, isInternalOnly: boolean = false,
+                                          replies: CommunityReply[] = null, hasMoreReplies: boolean = false): CommunityPost {
   return {
     UserInfo:
       {
@@ -39,7 +42,8 @@ export function generateMockCommunityPost(likeCount: number = 0, postText: strin
     PostText: postText,
     Tags: tags,
     LikeCount: likeCount,
-    Replies: [ { UserInfo: 'another user', ReplyText: 'test reply text', Time: '5 minutes ago' } ],
+    Replies: replies,
+    HasMoreReplies: hasMoreReplies,
     Time: '3 days ago',
     IsInternalOnly: isInternalOnly
   };

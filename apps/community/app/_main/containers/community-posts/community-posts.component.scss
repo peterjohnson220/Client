@@ -3,6 +3,9 @@
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
+$reply-avatar-width: 35px;
+$reply-avatar-height: 35px;
+
 .start-discussion-container {
   border: solid 1px $border-grey;
 }
@@ -102,10 +105,36 @@ $post-avatar-height: 50px;
   color: $community-sub-text-color;
 }
 
+.community-link
+{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .internal {
   background-color: #18a2b8;
   color: white;
   border-radius: 3px;
   height: 20px;
   font-size: .95rem;
+}
+
+#reply-avatar {
+  width: $reply-avatar-width;
+  height: $reply-avatar-height;
+}
+
+.reply-offset {
+  margin-left: $reply-avatar-width + 10px;
+}
+
+#show-more-btn
+{
+  color: white;
+  background-color: #0883BE;
+}
+
+#show-more-btn > i
+{
+  color: white;
 }
