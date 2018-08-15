@@ -1,5 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -31,6 +32,8 @@ export class UserContextEffects {
       switchMap(error => {
           if (error.status === 401) {
             return of(new userContextActions.GetUserContext401Error());
+          } else if (error.status === 404) {
+            return of(new userContextActions.GetUserContext404Error());
           }
         }
       )
@@ -41,7 +44,19 @@ export class UserContextEffects {
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
       tap((action: userContextActions.GetUserContext401Error) => {
           if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/ng/404`;
+            window.location.href = `/`;
+          }
+          return null;
+        }
+      )
+    );
+
+  @Effect({ dispatch: false })
+  getUserContext404Error$ = this.actions$
+    .ofType(userContextActions.GET_USER_CONTEXT_404_ERROR).pipe(
+      tap((action: userContextActions.GetUserContext404Error) => {
+          if (isPlatformBrowser(this.platformId)) {
+            this.router.navigate(['/not-found']);
           }
           return null;
         }
@@ -50,6 +65,7 @@ export class UserContextEffects {
 
   constructor(private actions$: Actions,
               private companySecurityApiService: CompanySecurityApiService,
+              private router: Router,
               @Inject(PLATFORM_ID) private platformId: Object) {
   }
 }
