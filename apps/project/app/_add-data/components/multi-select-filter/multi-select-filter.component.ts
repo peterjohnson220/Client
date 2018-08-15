@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { MultiSelectFilter } from '../../models';
+import { MultiSelectFilter, MultiSelectOption } from '../../models';
 
 @Component({
   selector: 'pf-multi-select-filter',
@@ -13,7 +13,14 @@ export class MultiSelectFilterComponent {
 
   constructor() { }
 
-  handleOptionSelected(filterId: string, optionId: string) {
-    this.optionSelected.emit({ filterId, optionId });
+  optionDisabled(option: MultiSelectOption) {
+    return !option.Selected && option.Count === 0;
+  }
+
+  handleOptionSelected(filterId: string, option: MultiSelectOption) {
+    if (this.optionDisabled(option)) {
+      return;
+    }
+    this.optionSelected.emit({ filterId, optionId: option.Id });
   }
 }

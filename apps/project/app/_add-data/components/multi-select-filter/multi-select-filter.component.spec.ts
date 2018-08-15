@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
+import { generateMockMultiSelectFilter, generateMockMultiSelectOption } from '../../models';
 
 describe('Project - Add Data - Multi Select Filter', () => {
   let instance: MultiSelectFilterComponent;
@@ -18,12 +19,22 @@ describe('Project - Add Data - Multi Select Filter', () => {
   });
 
   it('should emit an object with a filterId and optionId when handling an option selected', () => {
-    const optionAndFilterId = { filterId: '23094', optionId: '679043'};
+    const mockMultiSelectOption = generateMockMultiSelectOption();
+    const filterAndOptionId = { filterId: '23094', optionId: mockMultiSelectOption.Id};
     spyOn(instance.optionSelected, 'emit');
 
-    instance.handleOptionSelected(optionAndFilterId.filterId, optionAndFilterId.optionId);
+    instance.handleOptionSelected(filterAndOptionId.filterId, mockMultiSelectOption);
 
-    expect(instance.optionSelected.emit).toHaveBeenCalledWith(optionAndFilterId);
+    expect(instance.optionSelected.emit).toHaveBeenCalledWith(filterAndOptionId);
+  });
+
+  it('should not emit anything when the option selected is disabled', () => {
+    const disabledOption = {...generateMockMultiSelectOption(), Count: 0, Selected: false};
+    spyOn(instance.optionSelected, 'emit');
+
+    instance.handleOptionSelected('23908423', disabledOption);
+
+    expect(instance.optionSelected.emit).not.toHaveBeenCalled();
   });
 
 });

@@ -18,14 +18,14 @@ export class SearchFiltersEffects {
   updateStaticFilterValue$ = this.actions$
     .ofType(fromSearchFiltersActions.UPDATE_FILTER_VALUE)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults())
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
     );
 
   @Effect()
   resetFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.RESET_FILTER)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults())
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );
 
   @Effect()
@@ -34,7 +34,7 @@ export class SearchFiltersEffects {
     .pipe(
       withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
       mergeMap(jobContext => [
-        new fromSearchResultsActions.GetResults(),
+        new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }),
         new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext ? jobContext.JobTitle : '' })
         ]
       )
@@ -58,7 +58,7 @@ export class SearchFiltersEffects {
   toggleMultiSelectOption$ = this.actions$
     .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults())
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );
 
   constructor(

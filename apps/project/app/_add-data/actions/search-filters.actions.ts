@@ -2,6 +2,8 @@ import { Action } from '@ngrx/store';
 
 import { SearchFilter } from 'libs/models/survey-search';
 
+import { Filter } from '../models';
+
 export const CLEAR_FILTERS = '[Project Add Data/Search Filters] Clear Filters';
 export const UPDATE_FILTER_VALUE = '[Project Add Data/Search Filters] Update Value';
 export const GET_DEFAULT_SURVEY_SCOPES_FILTER = '[Project Add Data/Add Survey Data Page] Get Default Survey Scopes Filter';
@@ -40,7 +42,7 @@ export class ToggleMultiSelectOption implements Action {
 export class RefreshFilters implements Action {
   readonly type = REFRESH_FILTERS;
 
-  constructor(public payload: SearchFilter[]) {}
+  constructor(public payload: { searchFilters: Filter[], keepFilteredOutOptions: boolean }) {}
 }
 
 export class ResetFilter implements Action {

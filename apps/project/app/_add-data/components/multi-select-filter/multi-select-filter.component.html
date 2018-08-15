@@ -4,10 +4,11 @@
     <div class="option"
          [title]="option.Name"
          [class.selected]="option.Selected"
-         (click)="handleOptionSelected(filter.Id, option.Id)">
+         [class.disabled]="optionDisabled(option)"
+         (click)="handleOptionSelected(filter.Id, option)">
 
       <div class="option-check">
-        <input type="checkbox" [ngModel]="option.Selected" /> {{option.Name}}
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
       </div>
 
       <div class="option-count">
