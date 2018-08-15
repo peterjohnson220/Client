@@ -1,6 +1,5 @@
 import * as communityPollRequestActions from '../actions/community-poll-request.actions';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
-import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 export interface State {
   loading: boolean;
@@ -9,9 +8,6 @@ export interface State {
   submitting: boolean;
   submitted: boolean;
   questionsSubmitted: any;
-  loadingResponses: boolean;
-  loadingResponsesError: boolean;
-  pollResponses: CommunityPollResponse[];
 }
 
 export const initialState: State = {
@@ -20,10 +16,7 @@ export const initialState: State = {
   entities: [],
   submitting: false,
   submitted: false,
-  questionsSubmitted: null,
-  loadingResponses: false,
-  loadingResponsesError: false,
-  pollResponses: []
+  questionsSubmitted: null
 };
 
 export function reducer(state = initialState, action: communityPollRequestActions.Actions): State {
@@ -65,28 +58,6 @@ export function reducer(state = initialState, action: communityPollRequestAction
         questionsSubmitted: action.payload
       };
     }
-    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES: {
-      return {
-        ...state,
-        loadingResponses: true,
-        loadingResponsesError: false,
-        pollResponses: []
-      };
-    }
-    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES_SUCCESS: {
-      return {
-        ...state,
-        loadingResponses: false,
-        pollResponses: action.payload
-      };
-    }
-    case communityPollRequestActions.LOADING_COMMUNITY_POLL_RESPONSES_ERROR: {
-      return {
-        ...state,
-        loadingResponses: false,
-        loadingResponsesError: true
-      };
-    }
     default: {
       return state;
     }
@@ -98,6 +69,3 @@ export const getGettingCommunityPollRequestsError = (state: State) => state.load
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
 export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;
-export const getGettingCommunityPollResponses = (state: State) => state.loadingResponses;
-export const getGettingCommunityPollResponsesError = (state: State) => state.loadingResponsesError;
-export const getGettingCommunityPollResponsesSuccess = (state: State) => state.pollResponses;

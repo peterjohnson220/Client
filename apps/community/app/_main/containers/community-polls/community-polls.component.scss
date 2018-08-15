@@ -87,5 +87,12 @@
   font-weight: bold;
 }
 
+.dismiss-poll-button {
+  font-size: 12px;
+  border:none; 
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* fixes blue box in chrome that appears when clicking the carousel */
 .slide, .slide *{ outline: none !important; }
