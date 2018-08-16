@@ -6,12 +6,11 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
+import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
 
-import { CommunityPostsComponent } from './community-posts.component';
-
-describe('CommunityPostsComponent', () => {
-  let fixture: ComponentFixture<CommunityPostsComponent>;
-  let instance: CommunityPostsComponent;
+describe('CommunityStartDiscussionComponent', () => {
+  let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
+  let instance: CommunityStartDiscussionComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -25,7 +24,7 @@ describe('CommunityPostsComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityPostsComponent
+        CommunityStartDiscussionComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -35,11 +34,11 @@ describe('CommunityPostsComponent', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(CommunityPostsComponent);
+    fixture = TestBed.createComponent(CommunityStartDiscussionComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should show community posts', () => {
+  it('should show community start discussion', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

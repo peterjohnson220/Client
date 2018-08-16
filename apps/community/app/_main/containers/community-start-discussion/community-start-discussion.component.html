@@ -1,0 +1,39 @@
+<div class="start-discussion-container mb-3">
+  <div class="start-discussion-header">
+    <ul class="mb-0">
+      <li class="pl-4 pr-4 section-active">Start a Discussion</li>
+      <li class="pl-4 pr-4">Ask a Question</li>
+      <li class="pl-4 pr-4">Post a Job</li>
+    </ul>
+  </div>
+  <form [formGroup]="communityDiscussionForm">
+    <div class="start-discussion-body p-2">
+        <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
+             alt="avatar">
+        <div class="w-100">
+          <textarea #newPost
+                    placeholder="Start a discussion..."
+                    maxlength="2000"
+                    formControlName="postText"
+          ></textarea>
+          <div class="ml-3 p-0">
+            <span placement="bottom"
+                  ngbTooltip="Will be visible to users within your organization">
+              <input #isInternal
+                     id="internal-only"
+                     name="internal-only"
+                     formControlName="isInternalOnly"
+                     type="checkbox" />
+              <label for="internal-only" class="ml-1">Internal Only</label>
+            </span>
+            <button id="start-discussion-post-button"
+                    [disabled]="communityDiscussionForm.controls['postText'].invalid"
+                    (click)="submitPost()" class="btn btn-primary m-1 float-right">Post
+              <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
+              </pf-loading-indicator></button>
+          </div>
+        </div>
+
+    </div>
+  </form>
+</div>

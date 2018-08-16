@@ -6,56 +6,6 @@ $post-avatar-height: 50px;
 $reply-avatar-width: 35px;
 $reply-avatar-height: 35px;
 
-.start-discussion-container {
-  border: solid 1px $border-grey;
-}
-
-.start-discussion-header {
-  background-color: #FFB300;
-  height: 35px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.start-discussion-header ul > li {
-  color: rgba(255, 255, 255, .75);
-  display: inline;
-  line-height: 20px;
-}
-
-.start-discussion-header ul > li.section-active {
-  color: white;
-  border-bottom: solid 3px white;
-}
-
-.start-discussion-body {
-  display: flex;
-}
-
-#discussion-avatar {
-  width: $post-avatar-width;
-  min-width: $post-avatar-width;
-  height: $post-avatar-height;
-  align-self: start;
-}
-
-.start-discussion-body textarea {
-  width: calc(100% - 10px);
-  height: 50px;
-  margin-left: 10px;
-  border: none;
-  resize: none;
-  outline: none;
-}
-
-.start-discussion-body button {
-  background-color: #0883BE;
-  border-radius: 15px;
-  width: 150px;
-  border: none;
-}
-
 .posts-container {
   border: 1px solid $border-grey;
 }

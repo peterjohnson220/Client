@@ -3,39 +3,49 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromCommunityPollRequestReducer from './community-poll-request.reducer';
+
 import * as fromCommunityPollResponseReducer from './community-poll-response.reducer';
+import * as fromCommunityPostReducer from './community-post.reducer';
 
 // Feature area state
-export interface CommunityPollState {
+export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
   communityPollResponse: fromCommunityPollResponseReducer.State;
+  communityPost: fromCommunityPostReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  communityPoll: CommunityPollState;
+  communityPoll: CommunityState;
 }
 
 // Feature area reducers
 export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
-  communityPollResponse: fromCommunityPollResponseReducer.reducer
+  communityPollResponse: fromCommunityPollResponseReducer.reducer,
+  communityPost: fromCommunityPostReducer.reducer
 };
 
-// Select Feature Area
-export const selectCommunityPollState = createFeatureSelector<CommunityPollState>('communityPoll');
+// select feature area
+export const selectCommunityState = createFeatureSelector<CommunityState>('community');
 
-// Feature Selectors
+// Feature selectors
 export const selectFromCommunityPollRequestState = createSelector(
-  selectCommunityPollState,
-  (state: CommunityPollState) => state.communityPollRequest
+  selectCommunityState,
+  (state: CommunityState) => state.communityPollRequest
 );
 
-export const selectFromCommunityPollResponseState = createSelector(
-  selectCommunityPollState,
-  (state: CommunityPollState) => state.communityPollResponse
+export const selectFromCommunityPollResponseState  = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPollResponse
 );
 
+export const selectFromCommunityPostState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPost
+);
+
+// Community Poll Selectors
 export const getGettingCommunityPollRequests = createSelector(
   selectFromCommunityPollRequestState,
   fromCommunityPollRequestReducer.getGettingCommunityPollRequests
@@ -91,3 +101,35 @@ export const getDismissingCommunityPollResponseError = createSelector(
   selectFromCommunityPollResponseState,
   fromCommunityPollResponseReducer.getDismissingCommunityPollResponseError
 );
+
+// Community Post Selectors
+export const getSubmittingCommunityPosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getSubmittingCommunityPosts
+);
+
+export const getSubmittingCommunityPostsError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getSubmittingCommunityPostsError
+);
+
+export const getSubmittingCommunityPostsSuccess = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getSubmittingCommunityPostsSuccess
+);
+
+export const getGettingCommunityPosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getGettingCommunityPosts
+);
+
+export const getCommunityPosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPosts
+);
+
+export const getGettingCommunityPostsError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getGettingCommunityPostsError
+);
+
