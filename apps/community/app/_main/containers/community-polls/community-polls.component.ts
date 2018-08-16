@@ -6,8 +6,9 @@ import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
 
-import * as fromCommunityPollRequestReducer from '../../reducers';
+import * as fromCommunityPollReducer from '../../reducers';
 import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
+import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
 import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 @Component({
@@ -24,40 +25,45 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   communityPollRequestResponsesSubscription: Subscription;
   communityPollResponseSubmitting$: Observable<boolean>;
   communityPollResponseSubmittingError$: Observable<boolean>;
-
-  communityPollResponses$: Observable<boolean>;
+  communityPollDismissResponseSuccess$: Observable<boolean>;
   communityPollResponsesSuccess$: Observable<CommunityPollResponse[]>;
-  communityPollResponsesError$: Observable<boolean>;
+
   communityPollResponsesSuccessSubscription: Subscription;
-  userSubmittedResponses: CommunityPollResponse[] = [];
+  userSubmittedResponses: CommunityPollResponse[];
 
-  constructor(public store: Store<fromCommunityPollRequestReducer.State>) {
-    this.communityPollRequests$ = this.store.select(fromCommunityPollRequestReducer.getCommunityPollRequests);
-    this.communityPollRequestsLoading$ = this.store.select(fromCommunityPollRequestReducer.getGettingCommunityPollRequests);
-    this.communityPollRequestResponses$ = this.store.select(fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponses);
-    this.communityPollResponseSubmitting$ = this.store.select(fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse);
+  constructor(public store: Store<fromCommunityPollReducer.State>) {
+    this.communityPollRequests$ = this.store.select(fromCommunityPollReducer.getCommunityPollRequests);
+    this.communityPollRequestsLoading$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollRequests);
+    this.communityPollRequestResponses$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
+    this.communityPollResponseSubmitting$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponse);
 
-    this.communityPollResponses$ = this.store.select(fromCommunityPollRequestReducer.getGettingCommunityPollResponses);
-    this.communityPollResponsesSuccess$ = this.store.select(fromCommunityPollRequestReducer.getGettingCommunityPollResponsesSuccess);
-    this.communityPollResponsesError$ = this.store.select(fromCommunityPollRequestReducer.getGettingCommunityPollResponsesError);
+    this.communityPollResponsesSuccess$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
   }
 
   ngOnInit() {
     this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollRequests());
-    this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollResponses());
+    this.store.dispatch(new fromCommunityPollResponseActions.LoadingCommunityPollResponses());
 
     this.communityPollResponsesSuccessSubscription = this.communityPollResponsesSuccess$.subscribe(responses => {
       if (responses != null) {
-        this.userSubmittedResponses = responses;
+
+        // this.userSubmittedResponses = responses; - doing this will make userSubmittedResponses immutable,
+        // since 'responses' comes from ngrx store as deep frozen. We don't want that.
+        this.userSubmittedResponses = responses.map(o => {
+          return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, IsDismissed: false };
+        });
       }
     });
 
     this.communityPollRequestResponsesSubscription = this.communityPollRequestResponses$.subscribe(responses => {
       if (responses != null) {
-        this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollResponses());
+        // need to return both questions and responses that have not been dismissed
+        this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollRequests());
+        this.store.dispatch(new fromCommunityPollResponseActions.LoadingCommunityPollResponses());
       }
       this.selectedOption = null;
     });
+
   }
 
   ngOnDestroy() {
@@ -68,10 +74,12 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   selectOption(selected: number) {
     this.selectedOption = selected;
   }
+
   submitPollResponse(communityPollId: string, selectedResponseId: string) {
     this.store.dispatch(new fromCommunityPollRequestActions.SubmittingCommunityPollRequest(
       { communityPollId: communityPollId, selectedResponseId: selectedResponseId} ));
   }
+
   onCarouselSlideChange(slideEvent: NgbSlideEvent): void {
     this.selectedOption = null;
   }
@@ -80,11 +88,26 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     return this.userSubmittedResponses.some(x => x.CommunityPollId === communityPollId);
   }
 
+  isResponseDismissed(communityPollId: string): boolean {
+    return this.userSubmittedResponses.some(x => x.CommunityPollId === communityPollId  && x.IsDismissed);
+  }
+
   getResponsePercentage(responseId: number, communityPollId: string): number {
     const communityPollUserResponses = this.userSubmittedResponses.find( x => x.CommunityPollId === communityPollId);
     if (communityPollUserResponses === null) {
       return 0;
     }
     return communityPollUserResponses.ResponsePercents[responseId];
+  }
+
+  dismissPoll(communityPollId: string): void {
+
+    this.store.dispatch(new fromCommunityPollResponseActions.DismissingCommunityPollResponse(
+      { communityPollId: communityPollId } ));
+
+      const response = this.userSubmittedResponses.find(x => x.CommunityPollId === communityPollId);
+      if (response != null) {
+        response.IsDismissed = true;
+      }
   }
 }

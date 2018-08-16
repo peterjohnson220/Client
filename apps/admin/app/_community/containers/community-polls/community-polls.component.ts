@@ -20,9 +20,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   communityPollListLoading$: Observable<boolean>;
   communityPollListLoadingError$: Observable<boolean>;
   communityPollListItems$: Observable<CommunityPollList[]>;
-  addingCommunityPollSuccess$: Observable<boolean>;
   exportingCommunityPollSuccess$: Observable<any>;
-  addingCommunityPollSuccessSubscription: Subscription;
   exportingCommunityPollSuccessSubscription: Subscription;
 
   CommunityPollStatuses: Array<{ text: string, value: number }> = [
@@ -35,18 +33,11 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     this.communityPollListLoading$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoading);
     this.communityPollListLoadingError$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoadingError);
     this.communityPollListItems$ = this.store.select(fromCommunityPollReducer.getCommunityPollListItems);
-    this.addingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getAddingCommunityPollSuccess);
-    this.exportingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getExportingCommunityPollSuccess);
+       this.exportingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getExportingCommunityPollSuccess);
     }
 
   ngOnInit() {
     this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
-
-    this.addingCommunityPollSuccessSubscription = this.addingCommunityPollSuccess$.subscribe(success => {
-      if (success) {
-        this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
-      }
-    });
 
     this.exportingCommunityPollSuccessSubscription = this.exportingCommunityPollSuccess$.subscribe(response => {
       if (response != null) {
@@ -57,7 +48,6 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addingCommunityPollSuccessSubscription.unsubscribe();
     this.exportingCommunityPollSuccessSubscription.unsubscribe();
   }
 

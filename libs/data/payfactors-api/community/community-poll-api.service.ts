@@ -24,4 +24,8 @@ export class CommunityPollApiService {
   submitCommunityPollRequestResponse(payload: any): Observable<boolean> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SubmitResponse`, payload);
   }
+
+  dismissCommunityPollResponse(payload: string): Observable<boolean> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/DismissCommunityPollResponse`, payload);
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
@@ -9,6 +9,7 @@ import { switchMap, catchError, map} from 'rxjs/operators';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
 import * as fromCommunityPollActions from '../actions/community-poll.actions';
+import * as fromCommunityPollReducer from '../reducers';
 
 @Injectable()
 export class CommunityPollEffects {
@@ -19,6 +20,7 @@ addCommunityPoll$: Observable<Action> = this.actions$
     switchMap((action: fromCommunityPollActions.AddingCommunityPoll) =>
       this.communityPollAdminService.addCommunityPoll(action.payload).pipe(
         map(() => {
+          this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
           return new fromCommunityPollActions.AddingCommunityPollSuccess();
         }),
         catchError(error => of(new fromCommunityPollActions.AddingCommunityPollError(error)))
@@ -68,5 +70,6 @@ addCommunityPoll$: Observable<Action> = this.actions$
   constructor(
     private actions$: Actions,
      private communityPollAdminService: CommunityPollAdminApiService,
+     private store: Store<fromCommunityPollReducer.State>
   ) {}
 }
