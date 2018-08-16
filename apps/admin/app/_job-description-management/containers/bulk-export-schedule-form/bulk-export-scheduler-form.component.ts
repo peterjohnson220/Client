@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule } from 'libs/models/jdm';
@@ -7,12 +7,13 @@ import { UserFilter } from 'libs/models/user-profile/index';
 import * as fromJdmAdminReducer from '../../reducers/index';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
 
+
 @Component({
   selector: 'pf-bulk-export-scheduler-form',
   templateUrl: './bulk-export-scheduler-form.component.html',
   styleUrls: ['./bulk-export-scheduler-form.component.scss']
 })
-export class BulkExportSchedulerFormComponent {
+export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() views: string[];
   @Input() filters: UserFilter[];
   @Input() schedules: BulkExportSchedule[];
@@ -22,6 +23,8 @@ export class BulkExportSchedulerFormComponent {
   validSchedule: boolean;
   clickedSchedule: string;
   addingSchedule$: Observable<boolean>;
+  addingScheduleError$: Observable<boolean>;
+  addScheduleErrorSubscription: Subscription;
   removingSchedule$: Observable<boolean>;
 
   weekday: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -33,6 +36,7 @@ export class BulkExportSchedulerFormComponent {
     this.schedule.Frequency = 'One-time';
     this.validSchedule = true;
     this.addingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAdding);
+    this.addingScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAddingError);
     this.removingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleRemoving);
   }
 
@@ -140,5 +144,18 @@ export class BulkExportSchedulerFormComponent {
 
   fileNameExists(filename) {
     return this.schedules.some(x => x.FileName === filename);
+  }
+
+  // Lifecycle
+  ngOnInit() {
+    this.addScheduleErrorSubscription = this.addingScheduleError$.subscribe(error => {
+      if (error) {
+        alert('There was an error saving the schedule.');
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.addScheduleErrorSubscription.unsubscribe();
   }
 }
