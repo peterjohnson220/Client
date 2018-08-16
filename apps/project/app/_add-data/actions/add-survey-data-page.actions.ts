@@ -6,6 +6,7 @@ export const SET_JOB_CONTEXT = '[Project Add Data/Add Survey Data Page] Set Job 
 export const CLOSE_SURVEY_SEARCH = '[Project Add Data/Add Survey Data Page] Close Survey Search';
 export const ADD_DATA = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project';
 export const ADD_DATA_SUCCESS = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Success';
+export const ADD_DATA_ERROR = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Error';
 
 export class SetJobContext implements Action {
   readonly type = SET_JOB_CONTEXT;
@@ -25,14 +26,21 @@ export class AddData implements Action {
   constructor(public payload: boolean) {}
 }
 
-export class AddDataCutsSuccess implements Action {
+export class AddDataSuccess implements Action {
   readonly type = ADD_DATA_SUCCESS;
 
   constructor(public payload: number[]) {}
+}
+
+export class AddDataError implements Action {
+  readonly type = ADD_DATA_ERROR;
+
+  constructor() {}
 }
 
 export type Actions
   = SetJobContext
   | CloseSurveySearch
   | AddData
-  | AddDataCutsSuccess;
+  | AddDataSuccess
+  | AddDataError;

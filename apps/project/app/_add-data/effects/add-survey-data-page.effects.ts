@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { switchMap, map, withLatestFrom, mergeMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap, map, withLatestFrom, mergeMap, tap, catchError } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import { WindowCommunicationService } from 'libs/core/services';
@@ -10,10 +11,8 @@ import { DataCut, AddSurveyDataCutMatchResponse } from 'libs/models/survey-searc
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
+import { JobContext } from '../models';
 import * as fromAddDataReducer from '../reducers';
-import { JobContext } from '../models/job-context.model';
-
-
 
 @Injectable()
 export class AddSurveyDataPageEffects {
@@ -57,10 +56,11 @@ export class AddSurveyDataPageEffects {
         })
           .pipe(
             mergeMap((addResponse: AddSurveyDataCutMatchResponse) => [
-              new fromAddSurveyDataPageActions.AddDataCutsSuccess(addResponse.JobMatchIds),
-              new fromAddSurveyDataPageActions.CloseSurveySearch()
-            ]
-            )
+                new fromAddSurveyDataPageActions.AddDataSuccess(addResponse.JobMatchIds),
+                new fromAddSurveyDataPageActions.CloseSurveySearch()
+              ]
+            ),
+            catchError(() => of(new fromAddSurveyDataPageActions.AddDataError()))
           );
       })
     );
@@ -70,7 +70,7 @@ export class AddSurveyDataPageEffects {
     .ofType(fromAddSurveyDataPageActions.ADD_DATA_SUCCESS)
     .pipe(
       withLatestFrom(this.store.select(fromAddDataReducer.getJobContext),
-        (action: fromAddSurveyDataPageActions.AddDataCutsSuccess, jobContext: JobContext) => ({action, jobContext})),
+        (action: fromAddSurveyDataPageActions.AddDataSuccess, jobContext: JobContext) => ({action, jobContext})),
       tap(jobContextAndMatches => {
         this.windowCommunicationService.postMessage(jobContextAndMatches.action.type,
           {
@@ -78,7 +78,6 @@ export class AddSurveyDataPageEffects {
           });
       })
     );
-
 
     constructor(
       private actions$: Actions,

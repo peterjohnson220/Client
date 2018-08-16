@@ -32,12 +32,12 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
         <td
           class="fixed-cell"
         >
-          $50.50
+          50.5
         </td>
         <td
           class="fixed-cell"
         >
-          $85.50
+          85.5
         </td>
         <td
           class="fixed-cell"
@@ -183,12 +183,12 @@ exports[`DataCutsComponent should show the data cut in the proper currency 1`] =
         <td
           class="fixed-cell"
         >
-          CA$50.50
+          50.5
         </td>
         <td
           class="fixed-cell"
         >
-          CA$85.50
+          85.5
         </td>
         <td
           class="fixed-cell"

@@ -57,6 +57,11 @@ export const getPageShown = createSelector(
   fromAddSurveyDataPageReducer.getPageShown
 );
 
+export const getAddingData = createSelector(
+  selectAddSurveyDataPageState,
+  fromAddSurveyDataPageReducer.getAddingData
+);
+
 // Search Results Selectors
 export const getResults = createSelector(
   selectSearchResultsState,
