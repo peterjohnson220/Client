@@ -1,35 +1,14 @@
-<div class="start-discussion-container mb-3">
-  <div class="start-discussion-header">
-    <ul class="mb-0">
-      <li class="pl-4 pr-4 section-active">Start a Discussion</li>
-      <li class="pl-4 pr-4">Ask a Question</li>
-      <li class="pl-4 pr-4">Post a Job</li>
-    </ul>
-  </div>
-  <div class="start-discussion-body p-2">
-    <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
-         alt="avatar">
-    <div class="w-100">
-      <textarea placeholder="Start a discussion..." maxlength="2000"></textarea>
-      <div class="ml-3 p-0">
-        <input id="internal-only" name="internal-only" type="checkbox" value="Internal Only"/>
-        <label for="internal-only" class="ml-1">Internal Only</label>
-        <button id="start-discussion-post-button" class="btn btn-primary m-1 float-right">Post</button>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="posts-container p-2 scroll">
-  <ng-container *ngFor="let post of CommunityPosts; let last = last;">
+  <ng-container *ngFor="let post of communityPosts$ | async; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-        <img id="post-avatar" class="float-left pf-avatar" src="{{post.UserInfo.avatarSource}}"
+        <img id="post-avatar" class="float-left pf-avatar" src="{{post.UserInfo?.AvatarSource}}"
              alt="avatar">
         <div class="post-offset">
           <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
-          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.userFirstName}} {{post.UserInfo.userLastName}}</span>
-            <span class="community-sub-text"> @ {{post.UserInfo.companyName}} | {{post.Time}}</span></p>
-          <p class="mt-2 mb-2">{{post.PostText}}</p>
+          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.UserFirstName}} {{post.UserInfo.UserLastName}}</span>
+            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>
+          <p class="mt-2 mb-2">{{post.Content}}</p>
           <button id="like" type="button" class="btn m-1"
                   [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}">
             <i class="far fa-thumbs-up fa-lg icon"></i>
@@ -48,10 +27,10 @@
           </div>
           <div class="mt-2">
             <ng-container *ngFor="let reply of post.Replies">
-              <img id="reply-avatar" class="float-left pf-avatar" src="{{reply.UserInfo.avatarSource}}"
+              <img id="reply-avatar" class="float-left pf-avatar" src="{{reply.UserInfo.AvatarSource}}"
                    alt="avatar">
               <div class="reply-offset">
-                <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.userFirstName}} {{reply.UserInfo.userLastName}}</span>
+                <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.UserFirstName}} {{reply.UserInfo.UserLastName}}</span>
                   <span class="community-sub-text"> @ {{reply.UserInfo.companyName}} | {{reply.Time}}</span></p>
                 <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
                 <button id="like-reply" type="button" class="btn m-1 pt-1 pb-1"
@@ -62,9 +41,6 @@
                 </button>
               </div>
             </ng-container>
-            <div class="reply-offset" *ngIf="!post.Replies || post.Replies?.length == 0">
-              <span>No Replies Yet</span>
-            </div>
             <div class="mt-3 reply-offset community-link" *ngIf="post.HasMoreReplies">
               <a>Show More Replies</a>
             </div>
