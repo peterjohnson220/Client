@@ -28,6 +28,7 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
   currentExchangeSub: Subscription;
   currentExchange: Exchange;
+  showRequestAccessButton = false;
 
   constructor(
     private store: Store<fromPeerDashboardReducer.State>,

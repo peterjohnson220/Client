@@ -9,6 +9,7 @@ exports[`Peer Dashboard - Exchange Selector should display the currently selecte
   popover={[Function NgbPopover]}
   router={[Function Object]}
   sharedStore={[Function Store]}
+  showRequestAccessButton="false"
   store={[Function Store]}
 >
   <button
