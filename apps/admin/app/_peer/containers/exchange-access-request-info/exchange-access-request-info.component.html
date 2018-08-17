@@ -1,0 +1,30 @@
+<div class="access-info-container card h-100">
+  <div class="card-header">
+    <div class="align-self-center mr-auto">
+      Access Request Information
+    </div>
+    <div (click)="close()" class="close-btn">
+      <i class="far fa-times"></i>
+    </div>
+  </div>
+  <div class="card-body d-flex">
+    <div class="info-container">
+      <div class="info-row">
+        <div class="label">Request Company:</div>
+        <div> {{ selectedAccessRequest.CompanyName }} </div>
+      </div>
+      <div class="info-row">
+        <div class="label">Request User:</div>
+        <div> {{ selectedAccessRequest.RequestUser }} </div>
+      </div>
+      <div class="info-row">
+        <div class="label">Request Date:</div>
+        <div>  {{ selectedAccessRequest.RequestDate | date:'short' }}  </div>
+      </div>
+      <div class="info-row-flex-column flex-grow-1">
+        <div class="label">Reason:</div>
+        <div class="reason-container"> {{ selectedAccessRequest.Reason }} </div>
+      </div>
+    </div>
+  </div>
+</div>

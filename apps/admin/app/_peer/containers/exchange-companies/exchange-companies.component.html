@@ -1,14 +1,12 @@
 <div class="d-flex flex-column h-100">
-  <div class="d-flex justify-content-between align-items-center">
-    <pf-manage-exchange-section-header
-      [sectionTitle]="'Exchange Companies'"
-      [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'"
-    >
-    </pf-manage-exchange-section-header>
-    <div class="d-flex space-out-children">
+  <pf-manage-exchange-section-header
+    [sectionTitle]="'Exchange Companies'"
+    [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'"
+  >
+    <ng-container header-actions>
       <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeCompaniesModal()">Add</button>
-    </div>
-  </div>
+    </ng-container>
+  </pf-manage-exchange-section-header>
   <div class="d-flex h-100">
     <pf-async-container
       [loading]="exchangeCompaniesLoading$ | async"

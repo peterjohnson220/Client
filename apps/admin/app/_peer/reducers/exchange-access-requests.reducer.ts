@@ -1,21 +1,21 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { PendingExchangeAccessRequestsInfo } from 'libs/models';
+import { ExchangeAccessRequest } from 'libs/models';
 import { GridTypeEnum } from 'libs/models/common';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 
-import * as fromPendingExchangeAccessRequestsActions from '../actions/pending-exchange-access-requests.actions';
+import * as fromExchangeAccessRequestsActions from '../actions/exchange-access-requests.actions';
 
 // Extended entity state
-export interface State extends EntityState<PendingExchangeAccessRequestsInfo> {
+export interface State extends EntityState<ExchangeAccessRequest> {
   loading: boolean;
   loadingError: boolean;
   total: number;
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<PendingExchangeAccessRequestsInfo> = createEntityAdapter<PendingExchangeAccessRequestsInfo>({
-  selectId: (pendingExchangeAccessRequestsInfo: PendingExchangeAccessRequestsInfo) => pendingExchangeAccessRequestsInfo.CompanyId
+export const adapter: EntityAdapter<ExchangeAccessRequest> = createEntityAdapter<ExchangeAccessRequest>({
+  selectId: (exchangeAccessRequestsInfo: ExchangeAccessRequest) => exchangeAccessRequestsInfo.CompanyId
 });
 
 // Initial State
@@ -28,25 +28,25 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(state, action) {
   return createGridReducer(
-    GridTypeEnum.PendingExchangeAccessRequests,
-    (featureState = initialState, featureAction: fromPendingExchangeAccessRequestsActions.Actions): State => {
+    GridTypeEnum.ExchangeAccessRequests,
+    (featureState = initialState, featureAction: fromExchangeAccessRequestsActions.Actions): State => {
       switch (featureAction.type) {
-        case fromPendingExchangeAccessRequestsActions.LOAD_PENDING_EXCHANGE_ACCESS_REQUESTS: {
+        case fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS: {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
             loadingError: false
           };
         }
-        case fromPendingExchangeAccessRequestsActions.LOAD_PENDING_EXCHANGE_ACCESS_REQUESTS_SUCCESS: {
-          const requests: PendingExchangeAccessRequestsInfo[] = featureAction.payload.data;
+        case fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS_SUCCESS: {
+          const requests: ExchangeAccessRequest[] = featureAction.payload.data;
           return {
             ...adapter.addAll(requests, featureState),
             loading: false,
             total: action.payload.total
           };
         }
-        case fromPendingExchangeAccessRequestsActions.LOAD_PENDING_EXCHANGE_ACCESS_REQUESTS_ERROR: {
+        case fromExchangeAccessRequestsActions.LOAD_EXCHANGE_ACCESS_REQUESTS_ERROR: {
           return {
             ...featureState,
             loading: false,

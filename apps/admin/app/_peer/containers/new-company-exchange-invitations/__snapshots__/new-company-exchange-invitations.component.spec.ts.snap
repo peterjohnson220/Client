@@ -12,11 +12,7 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
   <div
     class="d-flex flex-column h-100"
   >
-    <div
-      class="d-flex justify-content-between align-items-center"
-    >
-      <pf-manage-exchange-section-header />
-    </div>
+    <pf-manage-exchange-section-header />
     <div
       class="d-flex h-100"
     >
@@ -25,8 +21,16 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
       >
         <kendo-grid>
           <kendo-grid-column
+            field="RequestCompany"
+            title="Request Company"
+          />
+          <kendo-grid-column
+            field="RequestUser"
+            title="Request User"
+          />
+          <kendo-grid-column
             field="CompanyName"
-            title="Company Name"
+            title="New Company Name"
           />
           <kendo-grid-column
             field="CompanyIndustry"
@@ -49,14 +53,6 @@ exports[`New Company Exchange Invitations should match snapshot 1`] = `
           <kendo-grid-column
             field="ContactPhoneNumber"
             title="Contact Phone Number"
-          />
-          <kendo-grid-column
-            field="RequestUser"
-            title="Request User"
-          />
-          <kendo-grid-column
-            field="RequestCompany"
-            title="Request Company"
           />
           <kendo-grid-column
             field="RequestDate"

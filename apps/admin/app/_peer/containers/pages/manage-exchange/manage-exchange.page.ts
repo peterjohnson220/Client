@@ -21,7 +21,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   exchangeId: number;
   totalExchangeCompanies$: Observable<number>;
   totalExchangeJobs$: Observable<number>;
-  totalPendingExchangeAccessRequests$: Observable<number>;
+  totalExchangeAccessRequests$: Observable<number>;
   totalPayfactorsCompanyExchangeInvitations$: Observable<number>;
   totalNewCompanyExchangeInvitations$: Observable<number>;
   totalExchangeJobRequests$: Observable<number>;
@@ -33,7 +33,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.exchangeId = activeRoute.snapshot.params.id;
     this.totalExchangeCompanies$ = this.store.select(fromPeerAdminReducer.getTotalExchangeCompanies);
     this.totalExchangeJobs$ = this.store.select(fromPeerAdminReducer.getTotalExchangeJobs);
-    this.totalPendingExchangeAccessRequests$ = this.store.select(fromPeerAdminReducer.getTotalPendingExchangeAccessRequests);
+    this.totalExchangeAccessRequests$ = this.store.select(fromPeerAdminReducer.getTotalExchangeAccessRequests);
     this.totalPayfactorsCompanyExchangeInvitations$ = this.store.select(fromPeerAdminReducer.getTotalPayfactorsCompanyExchangeInvitations);
     this.totalNewCompanyExchangeInvitations$ = this.store.select(fromPeerAdminReducer.getTotalNewCompanyExchangeInvitations);
     this.totalExchangeJobRequests$ = this.store.select(fromPeerAdminReducer.getTotalExchangeJobRequests);
@@ -42,7 +42,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
-    this.gridHelperService.loadPendingExchangeAccessRequests(this.exchangeId);
+    this.gridHelperService.loadExchangeAccessRequests(this.exchangeId);
     this.gridHelperService.loadPayfactorsCompanyExchangeInvitations(this.exchangeId);
     this.gridHelperService.loadNewCompanyExchangeInvitations(this.exchangeId);
     this.gridHelperService.loadExchangeJobRequests(this.exchangeId);

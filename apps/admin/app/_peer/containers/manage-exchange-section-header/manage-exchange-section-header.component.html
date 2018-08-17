@@ -1,6 +1,12 @@
-<div class="section-header">
-  <h4>{{sectionTitle}}</h4>
-  <p>
-    {{sectionDescription}}
-  </p>
+<div class="section-header d-flex justify-content-between align-items-center">
+  <div>
+    <h4>{{sectionTitle}}</h4>
+    <p>
+      {{sectionDescription}}
+    </p>
+  </div>
+
+  <div class="d-flex space-out-children">
+    <ng-content select="[header-actions]"></ng-content>
+  </div>
 </div>
