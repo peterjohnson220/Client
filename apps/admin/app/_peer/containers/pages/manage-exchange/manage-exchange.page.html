@@ -34,7 +34,7 @@
               <a class="nav-link" [routerLink]="['accessrequests']" [routerLinkActive]="['selected']">
                 <i class="fas fa-unlock-alt font-a-icon"></i>
                 Access Requests
-                <span class="counts" *ngIf="totalPendingExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
+                <span class="counts" *ngIf="totalExchangeAccessRequests$ | async as accessRequests">{{accessRequests}}</span>
               </a>
             </div>
           </li>

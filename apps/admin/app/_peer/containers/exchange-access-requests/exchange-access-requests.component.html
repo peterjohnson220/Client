@@ -1,0 +1,60 @@
+<div class="d-flex flex-column h-100">
+  <pf-manage-exchange-section-header
+    [sectionTitle]="'Exchange Access Requests'"
+    [sectionDescription]="'Listed in the grid below are companies that have requested access to this exchange.'"
+  >
+  </pf-manage-exchange-section-header>
+  <div class="d-flex exchange-access-request-grid-container h-100" [class.collapse-grid]="collapse">
+    <pf-async-container
+      [loading]="exchangeAccessRequestsLoading$ | async"
+      [loadingError]="exchangeAccessRequestsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange access requests'"
+      (reload)="handleExchangeAccessRequestsGridReload()"
+      class="flex-grow-1"
+    >
+
+      <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+        [pfKendoScrollTo]="pageRowIndex"
+        [data]="exchangeAccessRequestsGrid$ | async"
+        [scrollable]="true"
+        [selectable]="{
+                mode: 'single'
+              }"
+        (cellClick)="handleCellClick($event)"
+      >
+
+        <kendo-grid-column field="CompanyName" title="Company Name">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.CompanyName}}">{{dataItem.CompanyName}}</span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="CompanyIndustry" title="Industry">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.CompanyIndustry}}">{{dataItem.CompanyIndustry}}</span>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="CompanyLocation" title="Location"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
+
+        <kendo-grid-column field="RequestDate" title="Request Date">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.RequestDate | date:'short' }}
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+    </div>
+    <div *ngIf="collapse" class=" d-flex mt-3 flex-grow-1 exchange-access-request-info-container">
+      <pf-exchange-access-requests-info
+        [selectedAccessRequest]="selectedAccessRequest"
+        (closeClicked)="handleCloseAccessRequestInfo()">
+      </pf-exchange-access-requests-info>
+    </div>
+
+</div>

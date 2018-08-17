@@ -6,18 +6,20 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 
+import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonModule } from 'libs/core';
 
 import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent,
          CreateExchangeModalComponent, ImportExchangeJobsModalComponent, ExchangeJobsComponent,
-         ManageExchangeSectionHeaderComponent, PendingExchangeAccessRequestsComponent,
+         ManageExchangeSectionHeaderComponent, ExchangeAccessRequestsComponent,
          PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent,
-         ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent } from './containers';
+         ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
+         ExchangeAccessRequestInfoComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
-  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, PendingExchangeAccessRequestsEffects,
+  ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
   PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
@@ -45,7 +47,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
       AvailableCompaniesEffects,
       ExchangeJobsEffects,
       AvailableJobsEffects,
-      PendingExchangeAccessRequestsEffects,
+      ExchangeAccessRequestsEffects,
       PayfactorsCompanyExchangeInvitationsEffects,
       NewCompanyExchangeInvitationsEffects,
       ExchangeJobRequestsEffects
@@ -55,6 +57,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     PeerAdminRoutingModule,
 
     // Payfactors
+    PfKendoExtensions,
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule
@@ -68,13 +71,14 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     ExchangeJobsComponent,
     AddJobsModalComponent,
     ManageExchangeSectionHeaderComponent,
-    PendingExchangeAccessRequestsComponent,
+    ExchangeAccessRequestsComponent,
     PayfactorsCompanyExchangeInvitationsComponent,
     NewCompanyExchangeInvitationsComponent,
     ExchangeJobRequestsComponent,
     DeleteCompanyModalComponent,
     ExchangeListComponent,
     DeleteExchangeModalComponent,
+    ExchangeAccessRequestInfoComponent,
 
     // Pages
     ExchangeListPageComponent,
