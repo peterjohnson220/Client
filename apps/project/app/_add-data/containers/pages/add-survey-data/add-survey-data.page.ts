@@ -19,11 +19,13 @@ import * as fromAddDataReducer from '../../../reducers';
 export class AddSurveyDataPageComponent {
   excludeFromParticipation: boolean;
   selectedCuts$: Observable<DataCut[]>;
+  addingData$: Observable<boolean>;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
   ) {
     this.selectedCuts$ = this.store.select(fromAddDataReducer.getSelectedDataCuts);
+    this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.excludeFromParticipation = false;
   }
 

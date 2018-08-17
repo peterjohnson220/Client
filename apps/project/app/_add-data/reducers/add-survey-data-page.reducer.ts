@@ -5,11 +5,15 @@ import { JobContext } from '../models';
 export interface State {
   jobContext: JobContext;
   pageShown: boolean;
+  addingData: boolean;
+  addingDataError: boolean;
 }
 
 const initialState: State = {
   jobContext: null,
-  pageShown: false
+  pageShown: false,
+  addingData: false,
+  addingDataError: false
 };
 
 // Reducer function
@@ -26,7 +30,22 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
     case fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH: {
       return {
         ...state,
-        pageShown: false
+        pageShown: false,
+        addingData: false
+      };
+    }
+    case fromAddSurveyDataPageActions.ADD_DATA: {
+      return {
+        ...state,
+        addingData: true,
+        addingDataError: false
+      };
+    }
+    case fromAddSurveyDataPageActions.ADD_DATA_ERROR: {
+      return {
+        ...state,
+        addingData: false,
+        addingDataError: true
       };
     }
     default: {
@@ -38,3 +57,4 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
 // Selector functions
 export const getJobContext = (state: State) => state.jobContext;
 export const getPageShown = (state: State) => state.pageShown;
+export const getAddingData = (state: State) => state.addingData;
