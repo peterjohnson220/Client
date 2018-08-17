@@ -4,7 +4,7 @@
     [sectionDescription]="'Listed in the grid below are companies that have requested access to this exchange.'"
   >
   </pf-manage-exchange-section-header>
-  <div class="d-flex exchange-access-request-grid-container h-100" [class.collapse-grid]="collapse">
+  <div class="d-flex exchange-access-request-grid-container" [ngClass]="collapse ? 'collapse-grid' : 'no-collapse'">
     <pf-async-container
       [loading]="exchangeAccessRequestsLoading$ | async"
       [loadingError]="exchangeAccessRequestsLoadingError$ | async"
