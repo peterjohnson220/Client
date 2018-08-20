@@ -3,9 +3,13 @@
 
   <!--Header-->
   <div class="aggregate-group-header" (click)="collapsed = !collapsed">
-
-    <div>
-      {{categoryLabel}}
+    <div class="header-left space-out-children-right">
+      <div>
+        <input type="checkbox" [ngModel]="allOptionsSelected" (click)="handleSelectAllChecked($event)">
+      </div>
+      <div>
+        {{categoryLabel}}
+      </div>
     </div>
 
     <div class="header-right">

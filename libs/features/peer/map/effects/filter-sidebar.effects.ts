@@ -103,7 +103,7 @@ export class FilterSidebarEffects {
 
   @Effect()
   clearGroupSelections$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS).pipe(
+    .ofType(fromFilterSidebarActions.TOGGLE_GROUP_SELECTIONS).pipe(
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
         new fromFilterSidebarActions.LoadFilterAggregates()

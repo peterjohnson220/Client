@@ -1,7 +1,8 @@
-import * as cloneDeep from 'lodash.clonedeep';
-
-import { FilterAggregateGroup } from 'libs/models/peer/aggregate-filters';
-import { PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter, ExchangeScopeItem, PeerMapScopeSideBarInfo } from 'libs/models';
+import {
+  PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter,
+  ExchangeScopeItem, PeerMapScopeSideBarInfo, FilterAggregateGroup,
+  ToggleAggregateGroupSelections
+} from 'libs/models';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import { FilterSidebarHelper } from '../helpers';
@@ -99,16 +100,22 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         scopeSelection: null
       };
     }
-    case fromFilterSidebarActions.CLEAR_GROUP_SELECTIONS: {
-      const newAggGroups = FilterSidebarHelper.clearGroupSelections(state.filterAggregateGroups, action.payload.MetaData.FilterProp);
+    case fromFilterSidebarActions.TOGGLE_GROUP_SELECTIONS: {
+      const toggleGroupSelectionsPayload: ToggleAggregateGroupSelections = action.payload;
+      const newAggGroupSelections = FilterSidebarHelper.toggleGroupOptions(
+        state.filterAggregateGroups,
+        toggleGroupSelectionsPayload.FilterProp,
+        toggleGroupSelectionsPayload.ShouldSelect
+      );
 
       return {
         ...state,
-        filterAggregateGroups: newAggGroups,
-        selections: FilterSidebarHelper.buildSelections(newAggGroups),
-        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroups),
+        filterAggregateGroups: newAggGroupSelections,
+        selections: FilterSidebarHelper.buildSelections(newAggGroupSelections),
+        selectionsCount: FilterSidebarHelper.getSelectionsCount(newAggGroupSelections),
         scopeSelection: null
       };
+
     }
     case fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS: {
       return {
