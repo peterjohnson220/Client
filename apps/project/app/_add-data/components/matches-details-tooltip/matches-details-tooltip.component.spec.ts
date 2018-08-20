@@ -22,7 +22,7 @@ describe('MatchesDetailsTooltipComponent', () => {
     const tooltipHeight = 242;
     const toolTipDebugElement: DebugElement  = fixture.debugElement.query(By.css('.tooltip-container'));
     const tooltipElement: HTMLElement = toolTipDebugElement.nativeElement;
-    const updatedTopPx = 357;
+    const updatedTopPx = 347;
     instance.tooltipTopPx = 579;
     instance.matchesDetails = [];
     instance.updateTooltipElementTopPx(windowHeight, tooltipHeight);
@@ -39,7 +39,7 @@ describe('MatchesDetailsTooltipComponent', () => {
     const toolTipDebugElement: DebugElement  = fixture.debugElement.query(By.css('.tooltip-container'));
     const tooltipElement: HTMLElement = toolTipDebugElement.nativeElement;
     instance.tooltipTopPx = 49;
-    const updatedTopPx = instance.tooltipTopPx + instance.tooltipMargin;
+    const updatedTopPx = 49;
     instance.matchesDetails = [];
     instance.updateTooltipElementTopPx(windowHeight, tooltipHeight);
 
