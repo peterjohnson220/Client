@@ -23,7 +23,7 @@
   </p>
   <div class="d-flex">
     <div #jobDescription class="job-description">{{job.Description}}</div>
-    <div data-toggle="tooltip" title="Copy Job Description" ngbTooltip="Copied" triggers="manual" #t="ngbTooltip" (click)="copyMessage(job.Description)">
+    <div *ngIf="job.Description" data-toggle="tooltip" title="Copy Job Description" ngbTooltip="Copied" triggers="manual" #t="ngbTooltip" (click)="copyMessage(job.Description)">
       <i class="fa fa-clipboard" aria-hidden="true"></i>
     </div>
   </div>
