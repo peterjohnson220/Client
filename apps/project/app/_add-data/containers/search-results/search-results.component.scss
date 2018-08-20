@@ -58,3 +58,10 @@
 .loading-more-row{
   height: 50px;
 }
+
+:host ::ng-deep .loading-blanket {
+  position: fixed !important;
+  left: 244px !important;
+  bottom: 27px !important;
+  top: 30px !important;
+}
