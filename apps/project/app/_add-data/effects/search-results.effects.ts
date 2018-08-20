@@ -5,12 +5,12 @@ import {Store} from '@ngrx/store';
 import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
 
 import {SurveySearchApiService} from 'libs/data/payfactors-api/surveys';
+
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromJobResultActions from '../actions/search-results.actions';
 import { AddDataEffectsService } from '../services';
 import * as fromAddDataReducer from '../reducers';
 import {mapFiltersToSearchFields, mapFiltersToSearchFilters} from '../helpers';
-
 
 @Injectable()
 export class SearchResultsEffects {

@@ -39,3 +39,20 @@ export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResu
   };
   return pricingMatchesRequest;
 }
+
+export function calculateTooltipTopPx(tooltipContainerData: TooltipContainerData): number {
+  let newTopPx: number = tooltipContainerData.Top;
+  const isOverlappingTop: boolean = tooltipContainerData.Top + tooltipContainerData.Height > tooltipContainerData.ContainerHeight;
+  if (isOverlappingTop) {
+    newTopPx = tooltipContainerData.Top - tooltipContainerData.Height + tooltipContainerData.Margin;
+    newTopPx = newTopPx < 0 ? 0 : newTopPx;
+  }
+  return newTopPx;
+}
+
+export interface TooltipContainerData {
+  Top: number;
+  Height: number;
+  Margin: number;
+  ContainerHeight: number;
+}

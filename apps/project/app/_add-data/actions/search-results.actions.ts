@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
 
-import { SearchResponse, DataCut, SurveyDataResponse, PricingMatchesResponse } from 'libs/models/survey-search';
+import {
+  SearchResponse,
+  DataCut,
+  SurveyDataResponse,
+  PricingMatchesResponse
+} from 'libs/models/survey-search';
 
 import { JobResult } from '../models/job-result.model';
 
@@ -10,8 +15,6 @@ export const GET_MORE_RESULTS = '[Project Add Data/Search Results] Get More Resu
 export const GET_MORE_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get More Results Success';
 export const GET_RESULTS_ERROR = '[Project Add Data/Search Results] Get Results Error';
 export const CLEAR_RESULTS = '[Project Add Data/Search Results] Clear Results';
-export const OPEN_TOOLTIP = '[Project Add Data/Search Results] Open Tooltip';
-export const CLOSE_TOOLTIP = '[Project Add Data/Search Results] Close Tooltip';
 export const TOGGLE_SURVEY_DATA_CUT_SELECTION = '[Project Add Data/Add Survey Data Page] Toggle Survey Data Cut Selection';
 export const CLEAR_DATA_CUT_SELECTIONS = '[Project Add Data/Add Survey Data Page] Clear Data Cut Selections';
 export const GET_SURVEY_DATA_RESULTS = '[Project Add Data/Search Results] Get Survey Data Results';
@@ -50,14 +53,6 @@ export class ClearResults implements Action {
   readonly type = CLEAR_RESULTS;
 }
 
-export class OpenTooltip implements Action {
-  readonly type = OPEN_TOOLTIP;
-}
-
-export class CloseTooltip implements Action {
-  readonly type = CLOSE_TOOLTIP;
-}
-
 export class ToggleSurveyDataCutSelection implements Action {
   readonly type = TOGGLE_SURVEY_DATA_CUT_SELECTION;
 
@@ -94,8 +89,6 @@ export type Actions
   | GetMoreResultsSuccess
   | GetResultsError
   | ClearResults
-  | OpenTooltip
-  | CloseTooltip
   | ToggleSurveyDataCutSelection
   | ClearDataCutSelections
   | GetSurveyDataResults

@@ -14,7 +14,13 @@
   <td class="fixed-cell"></td>
   <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Base50th ? (job.Base50th | number: '1.1-1') : "-"}}</ng-container></td>
   <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.TCC50th ? (job.TCC50th | number: '1.1-1') : "-"}}</ng-container></td>
-  <td class="fixed-cell"><span *ngIf="!!job.Matches">{{job.Matches}}</span></td>
+  <td class="fixed-cell">
+    <span *ngIf="!!job.Matches" class="matches"
+      (mouseenter)="handleMatchesMouseEnter($event)"
+      (mouseleave)="handleMatchesMouseLeave($event)">
+      {{job.Matches}}
+    </span>
+  </td>
 </tr>
 <tr class="job-data-cuts-row">
   <td colspan="6">
@@ -27,7 +33,9 @@
     <div *ngIf="showDataCuts && !job.LoadingDataCuts">
       <pf-data-cuts [dataCuts]="job.DataCuts"
                     [currencyCode]="currencyCode"
-                    (dataCutSelected)="handleDataCutSelected($event)">
+                    (dataCutSelected)="handleDataCutSelected($event)"
+                    (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
+                    (matchesMouseLeave)="handleMatchesMouseLeave($event)">
       </pf-data-cuts>
     </div>
   </td>

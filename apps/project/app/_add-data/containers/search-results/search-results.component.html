@@ -36,7 +36,9 @@
                      [currencyCode]="(jobContext$ | async)?.CurrencyCode"
                      (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
                      (showCutsClick)="handleShowCutsClick($event)"
-                     (cutSelected)="handleCutSelectionToggle($event)">
+                     (cutSelected)="handleCutSelectionToggle($event)"
+                     (matchesMouseEnter)="handleMatchesMouseEnter($event)"
+                     (matchesMouseLeave)="handleMatchesMouseLeave()">
               </table>
             </td>
           </tr>
@@ -56,14 +58,4 @@
   </div>
 </ng-template>
 
-<pf-job-details-tooltip
-  *ngIf="tooltipData"
-  [job]="tooltipData.Job"
-  [tooltipLeftPx]="tooltipData.TargetX"
-  [tooltipTopPx]="tooltipData.TargetY"
-  [visible]="tooltipOpen$ | async"
-  [containerHeight]="resultsContainerHeight"
-  [containerWidth]="resultsContainerWidth"
-  (closed)="clearTooltip()"
-  pfClickElsewhere [whitelist]="['job-title']" (clickElsewhere)="clearTooltip()">
-</pf-job-details-tooltip>
+<pf-tooltip-container #tooltipContainer></pf-tooltip-container>

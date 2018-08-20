@@ -3,11 +3,10 @@ import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angu
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { DataCut } from 'libs/models/survey-search';
+import { DataCut, PricingMatchesDetailsRequest, MatchesDetailsRequestJobTypes } from 'libs/models/survey-search';
 
-import { JobResult, JobDetailsToolTipData } from '../../models';
+import { JobResult, JobDetailsToolTipData, MatchesDetailsTooltipData } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
-
 
 
 @Component({
@@ -25,11 +24,23 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
   @Output() showCutsClick: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
+  @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
+  @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // Observables
   loadingResults$: Observable<boolean>;
   // Subscription
   private loadingResultsSub: Subscription;
+
+  toggleDataCutsLabel: string;
+  showDataCuts: boolean;
+  matchesTooltipX: number;
+  matchesTooltipY: number;
+  matchesMouseLeaveTimer: number;
+
+  private readonly showCutsLabel: string = 'Show Cuts';
+  private readonly hideCutsLabel: string = 'Hide Cuts';
+  private readonly matchesMouseLeaveTimeout: number = 100;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
@@ -37,22 +48,19 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
   }
 
-  toggleDataCutsLabel: string;
-  showDataCuts: boolean;
-
-  private readonly showCutsLabel: string = 'Show Cuts';
-  private readonly hideCutsLabel: string = 'Hide Cuts';
-
   ngOnInit(): void {
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
     this.loadingResultsSub = this.loadingResults$.subscribe(() => {
       this.showDataCuts = false;
       this.toggleDataCutsLabel = this.showCutsLabel;
     });
-
   }
+
   ngOnDestroy() {
     this.loadingResultsSub.unsubscribe();
+    if (!!this.matchesMouseLeaveTimer) {
+      clearTimeout(this.matchesMouseLeaveTimer);
+    }
   }
 
   toggleDataCutsDisplay(): void {
@@ -91,5 +99,36 @@ export class JobResultComponent implements OnInit, OnDestroy {
       DataCutId: idObj.dataCutId,
       SurveyJobId: this.job.Id
     });
+  }
+
+  handleMatchesMouseEnter(event: MouseEvent): void {
+    const request: PricingMatchesDetailsRequest = this.createPricingMatchesDetailsRequest();
+    const data: MatchesDetailsTooltipData = {
+      TargetX: event.offsetX,
+      TargetY: event.clientY,
+      Request: request
+    };
+    this.matchesMouseEnter.emit(data);
+  }
+
+  handleMatchesMouseLeave(event: MouseEvent): void {
+    this.matchesMouseLeaveTimer = setTimeout(() => {
+      this.matchesMouseLeave.emit(true);
+    }, this.matchesMouseLeaveTimeout);
+  }
+
+  handleDataCutMatchesMouseEnter(data: MatchesDetailsTooltipData): void {
+    this.matchesMouseEnter.emit(data);
+  }
+
+  private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {
+    const jobId: string = this.job.IsPayfactors ? this.job.Code : this.job.Id.toString();
+    const jobType: number = this.job.IsPayfactors ?
+      MatchesDetailsRequestJobTypes.PayfactorsJob : MatchesDetailsRequestJobTypes.SurveyJob;
+    const request: PricingMatchesDetailsRequest = {
+      JobId: jobId,
+      JobType: jobType
+    };
+    return request;
   }
 }

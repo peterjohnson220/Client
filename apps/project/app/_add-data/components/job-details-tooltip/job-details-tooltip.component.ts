@@ -1,8 +1,11 @@
 import { Component, Input, ViewChild, ElementRef, OnChanges, SimpleChanges, AfterViewChecked, EventEmitter, Output } from '@angular/core';
 
-import { JobResult } from '../../models';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+
 import { copyTextToClipboard } from 'libs/core/functions';
+
+import { JobResult } from '../../models';
+import { TooltipContainerData, calculateTooltipTopPx } from '../../helpers';
 
 @Component({
   selector: 'pf-job-details-tooltip',
@@ -48,11 +51,13 @@ export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
   }
 
   updateTooltipElementTopPx(containerHeight: number, tooltipHeight: number): void {
-    const isOverlappingTop: boolean = this.tooltipTopPx + tooltipHeight > containerHeight;
-    if (isOverlappingTop) {
-      const newTopPx: number = this.tooltipTopPx - tooltipHeight + this.tooltipMargin;
-      this.tooltipTopPx = newTopPx < 0 ? 0 : newTopPx;
-    }
+    const tooltipContainerData: TooltipContainerData = {
+      Top: this.tooltipTopPx,
+      Height: tooltipHeight,
+      Margin: this.tooltipMargin,
+      ContainerHeight: containerHeight
+    };
+    this.tooltipTopPx = calculateTooltipTopPx(tooltipContainerData);
     this.tooltipElement.nativeElement.style.top = `${this.tooltipTopPx}px`;
   }
 

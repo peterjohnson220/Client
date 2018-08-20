@@ -8,6 +8,9 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
   showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
@@ -61,8 +64,10 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
       class="fixed-cell"
     >
       
-      <span>
-        5
+      <span
+        class="matches"
+      >
+         5 
       </span>
     </td>
   </tr><tr
@@ -92,6 +97,9 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
   showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
@@ -169,6 +177,9 @@ exports[`Project - Add Data - Job Result should show values in the correct curre
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
   showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"

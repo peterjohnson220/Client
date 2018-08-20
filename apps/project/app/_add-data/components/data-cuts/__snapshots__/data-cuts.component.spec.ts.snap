@@ -4,6 +4,9 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
@@ -42,7 +45,12 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
         <td
           class="fixed-cell"
         >
-          4
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
         </td>
       </tr>
     </tbody>
@@ -54,6 +62,9 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
@@ -92,7 +103,12 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
         <td
           class="fixed-cell"
         >
-          4
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
         </td>
       </tr>
     </tbody>
@@ -104,6 +120,9 @@ exports[`DataCutsComponent should show selected if the data cut has been selecte
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
@@ -142,7 +161,12 @@ exports[`DataCutsComponent should show selected if the data cut has been selecte
         <td
           class="fixed-cell"
         >
-          4
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
         </td>
       </tr>
     </tbody>
@@ -155,6 +179,9 @@ exports[`DataCutsComponent should show the data cut in the proper currency 1`] =
   currencyCode={[Function String]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
@@ -193,7 +220,12 @@ exports[`DataCutsComponent should show the data cut in the proper currency 1`] =
         <td
           class="fixed-cell"
         >
-          4
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
         </td>
       </tr>
     </tbody>

@@ -7,3 +7,4 @@ export * from './add-data-cut-request.model';
 export * from './add-data-cut-response.model';
 export * from './pricing-matches-request.model';
 export * from './pricing-matches-response.model';
+export * from './pricing-matches-details-request.model';
