@@ -1,5 +1,28 @@
+@import 'search/filters-variables';
+
 .filter-header{
   height: 36px;
   color: #8B8B8B;
   padding: .5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 2px 16px 0px #d6d6d6;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters{
+  position: absolute;
+  top:36px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+
+.reset-filters{
+  @extend %reset-link;
+  padding-top: .35rem;
 }

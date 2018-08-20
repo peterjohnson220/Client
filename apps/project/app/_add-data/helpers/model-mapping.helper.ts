@@ -13,7 +13,7 @@ import {
   Filter, FilterType, isMultiFilter, isTextFilter, JobResult, MultiSelectFilter, MultiSelectOption,
   ResultsPagingOptions, TextFilter,  SurveyDataCut,
 } from '../models';
-import { SearchFilterDisplaysAndBackings, SearchFilterBackingField } from '../data';
+import { SearchFilterMappingData } from '../data';
 
 
 // Exports
@@ -75,10 +75,12 @@ export function mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
 export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelectFilter {
   return {
     Id: searchFilter.Name.split('_').join(''),
-    BackingField: SearchFilterBackingField[searchFilter.Name],
-    DisplayName: SearchFilterDisplaysAndBackings[searchFilter.Name],
+    BackingField: SearchFilterMappingData[searchFilter.Name].BackingField,
+    DisplayName: SearchFilterMappingData[searchFilter.Name].DisplayName,
     Options: mapSearchFilterOptionsToMultiSelectOptions(searchFilter.Options),
-    Type: FilterType.Multi
+    Type: FilterType.Multi,
+    RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
+    Order: SearchFilterMappingData[searchFilter.Name].Order
   };
 }
 
@@ -109,6 +111,12 @@ export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse
   });
 }
 
+export function mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[]): MultiSelectFilter[] {
+  return searchFilters.map(sf => mapSearchFilterToFilter(sf));
+}
+
+
+// Helpers
 function getAllSelectedOptions(filter: MultiSelectFilter): any[] {
   return filter.Options.filter(o => o.Selected).map(o => ({ Value: o.Value}));
 }

@@ -1,12 +1,19 @@
 <div class="filter">
   <div class="header" (click)="toggle()">
-    {{title}}
+    {{filter.DisplayName}}
 
-    <div *ngIf="collapsed">
-      <i class="far fa-angle-down"></i>
-    </div>
-    <div *ngIf="!collapsed">
-      <i class="far fa-angle-up"></i>
+    <div class="header-right">
+      <div class="reset-link" *ngIf="selectionCount > 0 || hasText" (click)="handleResetClicked($event, filter.Id)">
+        <ng-container *ngIf="!hasText">Reset ({{selectionCount}})</ng-container>
+        <ng-container *ngIf="hasText">Clear</ng-container>
+      </div>
+
+      <div *ngIf="collapsed">
+        <i class="far fa-angle-down"></i>
+      </div>
+      <div *ngIf="!collapsed">
+        <i class="far fa-angle-up"></i>
+      </div>
     </div>
 
   </div>

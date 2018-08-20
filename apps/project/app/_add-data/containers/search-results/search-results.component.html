@@ -13,39 +13,42 @@
   </table>
 </div>
 
-<pf-async-container [loading]="loadingResults$ | async">
-  <div *ngIf="(jobResults$ | async)?.length; else noResultsMessage"
-       #results
-       class="results"
-       infinite-scroll
-       [scrollWindow]="false"
-       [infiniteScrollDistance]="3"
-       (scroll)="handleResultsScroll()"
-       (scrolled)="onScroll()">
+<div #results
+     class="results"
+     infinite-scroll
+     [scrollWindow]="false"
+     [infiniteScrollDistance]="3"
+     (scroll)="handleResultsScroll()"
+     (scrolled)="onScroll()">
 
-    <table>
-      <tbody>
-        <tr>
-          <td colspan="6">
-            <table *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
-                   pf-job-result
-                   [job]="jobResult"
-                   [currencyCode]="(jobContext$ | async)?.CurrencyCode"
-                   (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
-                   (showCutsClick)="handleShowCutsClick($event)"
-                   (cutSelected)="handleCutSelectionToggle($event)">
-            </table>
-          </td>
-        </tr>
-        <tr class="loading-more-row" *ngIf="loadingMoreResults">
-          <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
-        </tr>
-      </tbody>
-    </table>
+    <pf-async-container
+      [loading]="loadingResults$ | async"
+      [loadingError]="error$ | async"
+      [hideReloadButton]="true">
+
+      <table *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+        <tbody>
+          <tr>
+            <td colspan="6">
+              <table *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
+                     pf-job-result
+                     [job]="jobResult"
+                     [currencyCode]="(jobContext$ | async)?.CurrencyCode"
+                     (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
+                     (showCutsClick)="handleShowCutsClick($event)"
+                     (cutSelected)="handleCutSelectionToggle($event)">
+              </table>
+            </td>
+          </tr>
+          <tr class="loading-more-row" *ngIf="loadingMoreResults">
+            <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </pf-async-container>
 
   </div>
-</pf-async-container>
-
 
 <ng-template #noResultsMessage>
   <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">

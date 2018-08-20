@@ -2,8 +2,9 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
-import { Filter } from '../models';
-import { mapSearchFilterToFilter } from '../helpers';
+import { Filter, isMultiFilter, isTextFilter } from '../models';
+import { mapSearchFiltersToMultiSelectFilters, mapSearchFilterToFilter } from '../helpers';
+import { mergeClientWithServerFilters } from '../helpers/filters.helper';
 
 export interface State {
   filters: Filter[];
@@ -64,6 +65,54 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       return {
         ...state,
         filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.REFRESH_FILTERS: {
+      const filtersNotBeingRefreshed = state.filters.filter(f => !isMultiFilter(f) || !f.RefreshOptionsFromServer);
+      const filtersToRefresh = cloneDeep(state.filters.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer));
+      const serverFilters = cloneDeep(action.payload);
+
+      const newFilters = mergeClientWithServerFilters(filtersToRefresh, mapSearchFiltersToMultiSelectFilters(serverFilters));
+      const allFilters = filtersNotBeingRefreshed.concat(newFilters);
+
+      allFilters.sort((a, b) => a.Order - b.Order);
+
+      return {
+        ...state,
+        filters: allFilters
+      };
+    }
+    case fromSearchFiltersActions.RESET_FILTER: {
+      const copiedFilters = cloneDeep(state.filters);
+      const filterToReset = copiedFilters.find(f => f.Id === action.payload);
+
+      if (isMultiFilter(filterToReset)) {
+        filterToReset.Options.map(o => o.Selected = false);
+      } else if (isTextFilter(filterToReset)) {
+        filterToReset.Value = '';
+      }
+
+      return {
+        ...state,
+        filters: copiedFilters
+      };
+    }
+    case fromSearchFiltersActions.RESET_ALL_FILTERS: {
+      let copiedFilters = cloneDeep(state.filters);
+
+      copiedFilters = copiedFilters.map(f => {
+        if (isMultiFilter(f)) {
+          f.Options.map(o => o.Selected = false);
+        } else if (isTextFilter(f)) {
+          f.Value = '';
+        }
+
+        return f;
+      });
+
+      return {
+        ...state,
+        filters: copiedFilters
       };
     }
     default: {

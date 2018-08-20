@@ -20,13 +20,23 @@ export class FocusDirective implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.focus &&
-      changes.elementShowing &&
-      changes.elementShowing.previousValue === false &&
-      changes.elementShowing.currentValue === true) {
+    if (this.focusWhenElementShows(changes) || this.focusWhenElementAlreadyShowing(changes)) {
       setTimeout(() => this.focusElement(), 0);
     }
+  }
+
+  focusWhenElementShows(changes: SimpleChanges): boolean {
+    return this.focus
+      && typeof changes.elementShowing !== 'undefined'
+      && changes.elementShowing.previousValue === false
+      && changes.elementShowing.currentValue === true;
+  }
+
+  focusWhenElementAlreadyShowing(changes: SimpleChanges): boolean {
+    return this.elementShowing
+      && typeof changes.focus !== 'undefined'
+      && changes.focus.previousValue === false
+      && changes.focus.currentValue === true;
   }
 
   focusElement() {

@@ -16,13 +16,13 @@ import {mapFiltersToSearchFields, mapFiltersToSearchFilters} from '../helpers';
 export class SearchResultsEffects {
 
   @Effect()
-  searchSurveyJobsOnGetMoreResults$ = this.addDataEffectsService.searchSurveyJobs(
-    this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS)
+  getResults$ = this.addDataEffectsService.searchSurveyJobs(
+    this.actions$.ofType(fromSearchResultsActions.GET_RESULTS)
   );
 
   @Effect()
-  getResults$ = this.addDataEffectsService.searchSurveyJobs(
-    this.actions$.ofType(fromSearchResultsActions.GET_RESULTS)
+  getMoreResults$ = this.addDataEffectsService.searchSurveyJobs(
+    this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS)
   );
 
   @Effect()

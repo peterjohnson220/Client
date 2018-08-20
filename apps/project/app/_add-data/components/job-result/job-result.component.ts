@@ -26,7 +26,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Output() showCutsClick: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
 
-  // observables
+  // Observables
   loadingResults$: Observable<boolean>;
   // Subscription
   private loadingResultsSub: Subscription;

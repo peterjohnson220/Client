@@ -1,8 +1,5 @@
 @import 'colors';
-
-$selected-option-color: rgba(255, 250, 203, 0.65);
-$hover-option-color: rgba(255, 250, 203, 1);
-$option-count-color: #9a9a9a;
+@import 'filters-variables';
 
 .option{
   display: flex;

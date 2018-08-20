@@ -1,3 +1,5 @@
+import { generateMockSearchFilter, SearchFilter } from './search-filter.model';
+
 export interface SurveyJob {
   Id: string;
   IsPayfactorsJob: boolean;
@@ -32,10 +34,8 @@ interface PagingResponse {
 export interface SearchResponse {
   SurveyJobs: SurveyJob[];
   Paging: PagingResponse;
-  // SearchFilter<string>> SearchFilters
+  SearchFilters: SearchFilter[];
 }
-
-
 
 export function generateMockSurveyJob(): SurveyJob {
   return {
@@ -67,6 +67,7 @@ export function generateMockSearchResponse(): SearchResponse {
     Paging: {
       TotalRecordCount: 20,
       RecordsReturned: 10
-    }
+    },
+    SearchFilters: [generateMockSearchFilter()]
   };
 }

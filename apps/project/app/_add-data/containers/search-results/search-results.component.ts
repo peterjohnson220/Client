@@ -24,6 +24,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   hasMoreResultsOnServer$: Observable<boolean>;
   tooltipOpen$: Observable<boolean>;
   jobContext$: Observable<JobContext>;
+  error$: Observable<boolean>;
 
   // Subscriptions
   loadingMoreResultsSub: Subscription;
@@ -47,6 +48,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.hasMoreResultsOnServer$ = this.store.select(fromAddDataReducer.getHasMoreResultsOnServer);
     this.tooltipOpen$ = this.store.select(fromAddDataReducer.getTooltipOpen);
     this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.error$ = this.store.select(fromAddDataReducer.getSearchResultsError);
   }
 
   // Events
