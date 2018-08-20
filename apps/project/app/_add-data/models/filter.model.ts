@@ -56,15 +56,19 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
     Id: 'publisher',
     BackingField: 'survey_publisher',
     DisplayName: 'Publisher',
-    Options: [{
-      Name: 'Option 1',
-      Count: 2,
-      Id: '3as0df89asdf',
-      Value: 32,
-      Selected: true
-    }],
+    Options: [generateMockMultiSelectOption()],
     Type: FilterType.Multi,
     RefreshOptionsFromServer: true,
     Order: 1
+  };
+}
+
+export function generateMockMultiSelectOption(): MultiSelectOption {
+  return {
+    Name: 'Option 1',
+    Count: 2,
+    Id: '3as0df89asdf',
+    Value: 32,
+    Selected: true
   };
 }

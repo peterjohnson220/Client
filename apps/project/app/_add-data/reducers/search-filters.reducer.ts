@@ -3,8 +3,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
 import { Filter, isMultiFilter, isTextFilter } from '../models';
-import { mapSearchFiltersToMultiSelectFilters, mapSearchFilterToFilter } from '../helpers';
-import { mergeClientWithServerFilters } from '../helpers/filters.helper';
+import { mapSearchFilterToFilter, mergeClientWithServerFilters } from '../helpers';
 
 export interface State {
   filters: Filter[];
@@ -70,9 +69,16 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.REFRESH_FILTERS: {
       const filtersNotBeingRefreshed = state.filters.filter(f => !isMultiFilter(f) || !f.RefreshOptionsFromServer);
       const filtersToRefresh = cloneDeep(state.filters.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer));
-      const serverFilters = cloneDeep(action.payload);
+      const serverFilters = cloneDeep(action.payload.searchFilters);
 
-      const newFilters = mergeClientWithServerFilters(filtersToRefresh, mapSearchFiltersToMultiSelectFilters(serverFilters));
+      const newFilters = mergeClientWithServerFilters(
+        {
+          serverFilters: serverFilters,
+          clientFilters: filtersToRefresh,
+          keepFilteredOutOptions: action.payload.keepFilteredOutOptions
+        }
+      );
+
       const allFilters = filtersNotBeingRefreshed.concat(newFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);

@@ -1,44 +1,81 @@
-import { Filter, MultiSelectFilter, MultiSelectOption, TextFilter } from '../models';
+import { MultiSelectFilter, MultiSelectOption } from '../models';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
-// TODO [BC]: This code is very simlar to the code in: libs/features/peer/map/helpers/filter-sidebar.helper.ts
-// Work on merging the peer model with this new more general model. And consolidate these functions
-export function mergeClientWithServerFilters(clientFilters: MultiSelectFilter[], serverFilters: MultiSelectFilter[]) {
+const maxNumberOfOptions = 5;
 
-  let mergedFilters: MultiSelectFilter[] = [];
+export interface MergeFiltersParams {
+  clientFilters: MultiSelectFilter[];
+  serverFilters: MultiSelectFilter[];
+  keepFilteredOutOptions: boolean;
+}
 
-  if (clientFilters.length) {
+export function mergeClientWithServerFilters(param: MergeFiltersParams) {
 
-    mergedFilters = serverFilters.map(sf => {
+  let mergedFilters: MultiSelectFilter[];
 
-      let clientFilterOptionsWithCountReplaced = [];
+  // No need to merge unless we have client filters to work with, just take server filters
+  if (param.clientFilters.length) {
 
-      const clientFilterMatchedWithServer = clientFilters.find(cf => cf.Id === sf.Id);
+    mergedFilters = param.serverFilters.map(sf => {
+      const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
 
-      if (!!clientFilterMatchedWithServer) {
-        clientFilterOptionsWithCountReplaced = clientFilterMatchedWithServer.Options
-          .filter(o => o.Selected)
-          .map(o => {
-            const optionFromServer = sf.Options.find(a => a.Value === o.Value);
-            o.Count = optionFromServer ? optionFromServer.Count : 0;
+      sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
 
-            return o;
-          });
+      if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
+        sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
       }
-
-      sf.Options = clientFilterOptionsWithCountReplaced
-        .concat(sf.Options.filter(o => !clientFilterOptionsWithCountReplaced.some(cfo => cfo.Value === o.Value)));
 
       sortOptions(sf.Options);
 
       return sf;
     });
   } else {
-    mergedFilters = serverFilters;
+    mergedFilters = param.serverFilters;
   }
 
   return mergedFilters;
+}
+
+
+function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {
+  let mergedOptions: MultiSelectOption[];
+
+  // Re-populate current selections onto server options
+  mergedOptions = serverFilter.Options.map(sfo => {
+    const matchedClientOptionIndex = clientFilter.Options.findIndex(cfo => cfo.Value === sfo.Value);
+
+    if (matchedClientOptionIndex >= 0) {
+      // Set selected to what it currently was
+      sfo.Selected = clientFilter.Options[matchedClientOptionIndex].Selected;
+
+      // Remove it from the current client filters
+      clientFilter.Options.splice(matchedClientOptionIndex, 1);
+    }
+
+    return sfo;
+  });
+
+  // Add Remaining selected options
+  mergedOptions = mergedOptions.concat(clientFilter.Options.filter(o => o.Selected).map(o => {
+    o.Count = 0;
+    return o;
+  }));
+
+  return mergedOptions;
+}
+
+// Fill in the remainder option spots with current unselected client options
+function fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption[], clientOptions: MultiSelectOption[]) {
+  return mergedOptions.concat(
+    clientOptions
+      .filter(o => !o.Selected)
+      .splice(0, maxNumberOfOptions - mergedOptions.length)
+      .map(o => {
+        o.Count = 0;
+        return o;
+      })
+  );
 }
 
 function sortOptions(options: MultiSelectOption[]) {
@@ -46,3 +83,6 @@ function sortOptions(options: MultiSelectOption[]) {
     return b.Count - a.Count || arraySortByString(a.Name, b.Name, SortDirection.Ascending);
   });
 }
+
+
+
