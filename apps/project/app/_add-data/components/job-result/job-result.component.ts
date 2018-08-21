@@ -123,7 +123,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {
     const jobId: string = this.job.IsPayfactors ? this.job.Code : this.job.Id.toString();
-    const jobType: number = this.job.IsPayfactors ?
+    const jobType: string = this.job.IsPayfactors ?
       MatchesDetailsRequestJobTypes.PayfactorsJob : MatchesDetailsRequestJobTypes.SurveyJob;
     const request: PricingMatchesDetailsRequest = {
       JobId: jobId,
