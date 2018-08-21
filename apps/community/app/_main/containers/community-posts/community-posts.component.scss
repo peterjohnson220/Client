@@ -10,9 +10,20 @@ $reply-avatar-height: 35px;
   border: 1px solid $border-grey;
 }
 
-#post-avatar {
+.post-avatar {
   width: $post-avatar-width;
   height: $post-avatar-height;
+}
+
+.default-post-avatar
+{
+  width: $post-avatar-width;
+  height: $post-avatar-height;
+  background-color: #0883BE;
+  color: white;
+  line-height: 50px;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .tag {

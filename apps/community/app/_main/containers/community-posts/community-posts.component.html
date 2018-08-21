@@ -2,8 +2,11 @@
   <ng-container *ngFor="let post of communityPosts$ | async; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-        <img id="post-avatar" class="float-left pf-avatar" src="{{post.UserInfo?.AvatarSource}}"
-             alt="avatar">
+        <div id="default-post-avatar" *ngIf="post.UserInfo?.AvatarSource ==='default_user.png'" class="float-left pf-avatar default-post-avatar">
+          {{ post.UserInfo.UserFirstName | slice:0:1 }}{{ post.UserInfo.UserLastName| slice:0:1 }}
+        </div>
+        <img id="post-avatar" class="post-avatar float-left pf-avatar" *ngIf="post.UserInfo?.AvatarSource !=='default_user.png'"
+             [src]="avatarUrl + post.UserInfo?.AvatarSource" alt="avatar" />
         <div class="post-offset">
           <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
           <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.UserFirstName}} {{post.UserInfo.UserLastName}}</span>

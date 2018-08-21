@@ -33,7 +33,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
     this.submittingCommunityPostSuccessSubscription = this.submittingCommunityPostSuccess$.subscribe((response) => {
       if (response) {
-        this.communityDiscussionForm.reset();
+        this.communityDiscussionForm.reset({ value: 'formState', isInternalOnly: false });
       }
     });
   }

@@ -2,6 +2,7 @@
 
 exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
+  avatarUrl={[Function String]}
   communityPosts$={[Function Store]}
   loadingCommunityPosts$={[Function Store]}
   store={[Function Store]}
