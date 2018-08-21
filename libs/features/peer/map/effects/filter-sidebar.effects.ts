@@ -49,12 +49,19 @@ export class FilterSidebarEffects {
   @Effect()
   loadFilterAggregates$: Observable<Action> = this.actions$
     .ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES).pipe(
+      map((action: fromFilterSidebarActions.LoadFilterAggregates) => action.payload),
       withLatestFrom(
         this.peerMapStore.select(fromPeerMapReducers.getExchangeDataCutRequestData),
-        (action, exchangeDataCutRequestData) => exchangeDataCutRequestData),
-      switchMap((filter: ExchangeDataSearchFilter) =>
-        this.exchangeDataSearchApiService.getFilterAggregates(filter).pipe(
-          map((aggregateGroups: FilterAggregateGroup[]) => new fromFilterSidebarActions.LoadFilterAggregatesSuccess(aggregateGroups)),
+        (action, exchangeDataCutRequestData) => {
+          return {action, exchangeDataCutRequestData};
+        }
+        ),
+      switchMap((results: any) =>
+        this.exchangeDataSearchApiService.getFilterAggregates(results.exchangeDataCutRequestData).pipe(
+          map((aggregateGroups: FilterAggregateGroup[]) => new fromFilterSidebarActions.LoadFilterAggregatesSuccess(
+            {aggregateGroups, shouldReplaceAggs: results.action}
+            )
+          ),
           catchError(() => of(new fromFilterSidebarActions.LoadFilterAggregatesError()))
         )
       )
@@ -65,7 +72,7 @@ export class FilterSidebarEffects {
     .ofType(fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED).pipe(
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
-        new fromFilterSidebarActions.LoadFilterAggregates()
+        new fromFilterSidebarActions.LoadFilterAggregates(false)
       ])
     );
 
