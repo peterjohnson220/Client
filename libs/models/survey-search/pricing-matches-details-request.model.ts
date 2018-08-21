@@ -1,10 +1,10 @@
 export interface PricingMatchesDetailsRequest {
   JobId: string;
-  JobType: number;
+  JobType: string;
 }
 
 export enum MatchesDetailsRequestJobTypes {
-  SurveyJob = 1,
-  SurveyData = 2,
-  PayfactorsJob = 3
+  SurveyJob = '1',
+  SurveyData = '2',
+  PayfactorsJob = '3'
 }
