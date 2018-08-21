@@ -1,5 +1,8 @@
 @import 'colors';
 
+$response-container-height: 37px;
+$response-container-line-height: 13px;
+
 .card-header{
   background-color:$header-background-color;
   color: white;
@@ -10,8 +13,8 @@
 }
 
 .poll-response-option-button-container{
-  height: 40px;
-  line-height: 15px;
+  height: $response-container-height;
+  line-height: $response-container-line-height;
 }
 
 .submit-button-container{
@@ -61,9 +64,8 @@
 }
 
 .poll-response-container{
-  position: relative;
-  line-height: 15px;
-  height: 45px;
+  line-height: $response-container-line-height;
+  height:$response-container-height;
   border-radius: 3px;
   color: lightgrey;
 }
@@ -73,13 +75,18 @@
 }
 
 .poll-response-yes{
-  background:teal;
+  background: #18a2b8;
+}
+
+.poll-response-option{
+  width: 100%;
+  font-size: .95rem
 }
 
 .poll-response-question{
   width: 70%;
-  word-break: normal;
   left: 2%;
+  font-size: .95rem
 }
 
 .poll-response-percent{

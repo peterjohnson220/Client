@@ -2,13 +2,12 @@
 
 exports[`ItemFormControlComponent should show the form text 1`] = `
 <pf-community-polls
-  communityPollRequestResponses$={[Function Store]}
-  communityPollRequestResponsesSubscription={[Function Subscriber]}
+  communityPolResponseSubmitted$={[Function Store]}
   communityPollRequests$={[Function Store]}
-  communityPollRequestsLoading$={[Function Store]}
-  communityPollResponseSubmitting$={[Function Store]}
-  communityPollResponsesSuccess$={[Function Store]}
+  communityPollResponseSubmittedSubscription={[Function Subscriber]}
+  communityPollResponses$={[Function Store]}
   communityPollResponsesSuccessSubscription={[Function Subscriber]}
+  dismissedPollIds={[Function Array]}
   store={[Function Store]}
 >
   <div

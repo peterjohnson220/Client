@@ -8,10 +8,11 @@ export interface State extends EntityState<CommunityPollList> {
   addingCommunityPoll: boolean;
   addingCommunityPollError: boolean;
   addingCommunityPollSuccess: boolean;
-  addCommunityPollModalOpen: boolean;
-  updatingCommunityPollStatus: boolean;
-  updatingCommunityPollStatusError: boolean;
-  updatingCommunityPollStatusSuccess: boolean;
+  editingCommunityPoll: boolean;
+  editingCommunityPollError: boolean;
+  editingCommunityPollSuccess: boolean;
+  communityPollModalOpen: boolean;
+  communityPollListToEdit: CommunityPollList;
   exportingCommunityPoll: boolean;
   exportingCommunityPollError: boolean;
   exportingCommunityPollSuccess: any;
@@ -28,10 +29,11 @@ export const initialState: State = adapter.getInitialState ({
   addingCommunityPoll: false,
   addingCommunityPollError: false,
   addingCommunityPollSuccess: false,
-  addCommunityPollModalOpen: false,
-  updatingCommunityPollStatus: false,
-  updatingCommunityPollStatusError: false,
-  updatingCommunityPollStatusSuccess: false,
+  editingCommunityPoll: false,
+  editingCommunityPollError: false,
+  editingCommunityPollSuccess: false,
+  communityPollModalOpen: false,
+  communityPollListToEdit: null,
   exportingCommunityPoll: false,
   exportingCommunityPollError: false,
   exportingCommunityPollSuccess: null
@@ -72,7 +74,7 @@ export function reducer(state = initialState, action: communityPollActions.Actio
         ...state,
         addingCommunityPoll: false,
         addingCommunityPollSuccess: true,
-        addCommunityPollModalOpen: false
+        communityPollModalOpen: false
       };
     }
     case communityPollActions.ADDING_COMMUNITY_POLL_ERROR: {
@@ -82,37 +84,39 @@ export function reducer(state = initialState, action: communityPollActions.Actio
         addingCommunityPollError: true
       };
     }
-    case communityPollActions.OPEN_ADD_COMMUNITY_POLL_MODAL: {
-        return {
-          ...state,
-          addCommunityPollModalOpen: true
-        };
-    }
-    case communityPollActions.CLOSE_ADD_COMMUNITY_POLL_MODAL: {
-        return {
-          ...state,
-          addCommunityPollModalOpen: false,
-        };
-    }
-    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS: {
+    case communityPollActions.EDITING_COMMUNITY_POLL: {
       return {
         ...state,
-        updatingCommunityPollStatus: true,
-        updatingCommunityPollStatusError: false
+        editingCommunityPoll: true,
+        editingCommunityPollError: false
       };
     }
-    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS_SUCCESS: {
+    case communityPollActions.EDITING_COMMUNITY_POLL_SUCCESS: {
       return {
         ...state,
-        updatingCommunityPollStatus: false,
-        updatingCommunityPollStatusSuccess: true
+        editingCommunityPoll: false,
+        editingCommunityPollSuccess: true,
+        communityPollModalOpen: false
       };
     }
-    case communityPollActions.UPDATING_COMMUNITY_POLL_STATUS_ERROR: {
+    case communityPollActions.EDITING_COMMUNITY_POLL_ERROR: {
       return {
         ...state,
-        updatingCommunityPollStatus: false,
-        updatingCommunityPollStatusError: true
+        editingCommunityPoll: false,
+        editingCommunityPollError: true
+      };
+    }
+    case communityPollActions.OPEN_COMMUNITY_POLL_MODAL: {
+      return {
+        ...state,
+        communityPollModalOpen: true,
+        communityPollListToEdit: action.payload
+      };
+    }
+    case communityPollActions.CLOSE_COMMUNITY_POLL_MODAL: {
+      return {
+        ...state,
+        communityPollModalOpen: false,
       };
     }
     case communityPollActions.EXPORTING_COMMUNITY_POLL: {
@@ -149,10 +153,11 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getAddingCommunityPoll = (state: State) => state.addingCommunityPoll;
 export const getAddingCommunityPollError = (state: State) => state.addingCommunityPollError;
 export const getAddingCommunityPollSuccess = (state: State) => state.addingCommunityPollSuccess;
-export const getAddCommunityPollModalOpen = (state: State) => state.addCommunityPollModalOpen;
-export const getUpdatingCommunityPollStatus = (state: State) => state.updatingCommunityPollStatus;
-export const getUpdatingCommunityPollStatusError = (state: State) => state.updatingCommunityPollStatusError;
-export const getUpdatingCommunityPollStatusSuccess = (state: State) => state.updatingCommunityPollStatusSuccess;
+export const getEditingCommunityPoll = (state: State) => state.editingCommunityPoll;
+export const getEditingCommunityPollError = (state: State) => state.editingCommunityPollError;
+export const getEditingCommunityPollSuccess = (state: State) => state.editingCommunityPollSuccess;
+export const getCommunityPollModalOpen = (state: State) => state.communityPollModalOpen;
+export const getCommunityPollListToEdit = (state: State) => state.communityPollListToEdit;
 export const getExportingCommunityPoll = (state: State) => state.exportingCommunityPoll;
 export const getExportingCommunityPollError = (state: State) => state.exportingCommunityPollError;
 export const getExportingCommunityPollSuccess = (state: State) => state.exportingCommunityPollSuccess;

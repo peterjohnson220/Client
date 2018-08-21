@@ -16,7 +16,7 @@ export class CommunityPollResponseComponent {
 
   static buildItem(val: string) {
     return new FormGroup({
-      response: new FormControl(val, Validators.required)
+      response: new FormControl(val, [Validators.required])
     });
   }
 }
