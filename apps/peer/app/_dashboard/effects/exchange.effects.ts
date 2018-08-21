@@ -20,11 +20,11 @@ export class ExchangeEffects {
         return { ExchangeId: action.payload.ExchangeId, ChartType: ''};
       }),
       mergeMap((getChartRequest) => [
-        new fromExchangeDashboardActions.LoadingCompanyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Company}),
-        new fromExchangeDashboardActions.LoadingIndustryChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Industry}),
-        new fromExchangeDashboardActions.LoadingRevenueChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Revenue}),
-        new fromExchangeDashboardActions.LoadingJobFamilyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Family}),
-        new fromExchangeDashboardActions.LoadingJobChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Job}),
+        new fromExchangeDashboardActions.LoadCompanyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Company}),
+        new fromExchangeDashboardActions.LoadIndustryChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Industry}),
+        new fromExchangeDashboardActions.LoadRevenueChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Revenue}),
+        new fromExchangeDashboardActions.LoadJobFamilyChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Family}),
+        new fromExchangeDashboardActions.LoadJobChart({...getChartRequest, ChartType: ExchangeChartTypeEnum.Job}),
         new fromExchangeJobComparisonGridActions.LoadExchangeJobComparisons(),
         new fromExchangeDashboardActions.CloseSidebar()
       ])

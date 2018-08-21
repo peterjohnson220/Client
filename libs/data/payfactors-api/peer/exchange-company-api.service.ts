@@ -102,4 +102,10 @@ export class ExchangeCompanyApiService {
       exchangeJobToCompanyJobId
       );
   }
+
+  getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {
+    return this.payfactorsApiService.get<string[]>(`${this.endpoint}/GetExchangeJobOrgs`,
+      { params: { exchangeJobId } }
+    );
+  }
 }

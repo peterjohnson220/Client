@@ -10,6 +10,9 @@ export interface State extends EntityState<ExchangeJobComparison> {
   loading: boolean;
   loadingError: boolean;
   total: number;
+  loadingExchangeJobOrgs: boolean;
+  loadingExchangeJobOrgsError: boolean;
+  exchangeJobOrgs: string[];
 }
 
 export const adapter: EntityAdapter<ExchangeJobComparison> = createEntityAdapter<ExchangeJobComparison>({
@@ -19,7 +22,10 @@ export const adapter: EntityAdapter<ExchangeJobComparison> = createEntityAdapter
 const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
-  total: 0
+  total: 0,
+  loadingExchangeJobOrgs: false,
+  loadingExchangeJobOrgsError: false,
+  exchangeJobOrgs: []
 });
 
 

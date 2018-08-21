@@ -39,7 +39,7 @@ export class ExchangeCompanyCountComponent implements OnInit, OnDestroy {
       ChartType: ExchangeChartTypeEnum.Company,
       Category: 'Participating Companies'
     };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
+    this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }
 
   ngOnInit() {

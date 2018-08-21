@@ -58,8 +58,8 @@ describe('Peer Dashboard - Revenue Chart', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadingDetailChart for the revenue on seriesClick', () => {
-    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+  it('should dispatch a LoadDetailChart for the revenue on seriesClick', () => {
+    const action = new fromExchangeDashboardActions.LoadDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Revenue,
       Category: 'Test'

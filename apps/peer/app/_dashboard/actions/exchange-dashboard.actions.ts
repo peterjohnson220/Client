@@ -1,124 +1,127 @@
 import { Action } from '@ngrx/store';
 
-import { GetChartRequest, GetDetailChartRequest, ChartItem } from 'libs/models';
+import { GetChartRequest, GetDetailChartRequest, ChartItem, ExchangeJobComparison } from 'libs/models';
 
-export const LOADING_COMPANY_CHART  = '[Peer Dashboard/Page] Loading Company Chart';
-export const LOADING_COMPANY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Company Chart Success';
-export const LOADING_COMPANY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Company Chart Error';
-export const LOADING_JOB_CHART  = '[Peer Dashboard/Page] Loading Job Chart';
-export const LOADING_JOB_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Job Chart Success';
-export const LOADING_JOB_CHART_ERROR  = '[Peer Dashboard/Page] Loading Job Chart Error';
-export const LOADING_INDUSTRY_CHART  = '[Peer Dashboard/Page] Loading Industry Chart';
-export const LOADING_INDUSTRY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Industry Chart Success';
-export const LOADING_INDUSTRY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Industry Chart Error';
-export const LOADING_JOB_FAMILY_CHART  = '[Peer Dashboard/Page] Loading Job Family Chart';
-export const LOADING_JOB_FAMILY_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Job Family Chart Success';
-export const LOADING_JOB_FAMILY_CHART_ERROR  = '[Peer Dashboard/Page] Loading Job Family Chart Error';
-export const LOADING_REVENUE_CHART  = '[Peer Dashboard/Page] Loading Revenue Chart';
-export const LOADING_REVENUE_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Revenue Chart Success';
-export const LOADING_REVENUE_CHART_ERROR  = '[Peer Dashboard/Page] Loading Revenue Chart Error';
-export const LOADING_DETAIL_CHART  = '[Peer Dashboard/Page] Loading Detail Chart';
-export const LOADING_DETAIL_CHART_SUCCESS  = '[Peer Dashboard/Page] Loading Detail Chart Success';
-export const LOADING_DETAIL_CHART_ERROR  = '[Peer Dashboard/Page] Loading Detail Chart Error';
+export const LOAD_COMPANY_CHART  = '[Peer Dashboard/Page] Load Company Chart';
+export const LOAD_COMPANY_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Company Chart Success';
+export const LOAD_COMPANY_CHART_ERROR  = '[Peer Dashboard/Page] Load Company Chart Error';
+export const LOAD_JOB_CHART  = '[Peer Dashboard/Page] Load Job Chart';
+export const LOAD_JOB_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Job Chart Success';
+export const LOAD_JOB_CHART_ERROR  = '[Peer Dashboard/Page] Load Job Chart Error';
+export const LOAD_INDUSTRY_CHART  = '[Peer Dashboard/Page] Load Industry Chart';
+export const LOAD_INDUSTRY_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Industry Chart Success';
+export const LOAD_INDUSTRY_CHART_ERROR  = '[Peer Dashboard/Page] Load Industry Chart Error';
+export const LOAD_JOB_FAMILY_CHART  = '[Peer Dashboard/Page] Load Job Family Chart';
+export const LOAD_JOB_FAMILY_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Job Family Chart Success';
+export const LOAD_JOB_FAMILY_CHART_ERROR  = '[Peer Dashboard/Page] Load Job Family Chart Error';
+export const LOAD_REVENUE_CHART  = '[Peer Dashboard/Page] Load Revenue Chart';
+export const LOAD_REVENUE_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Revenue Chart Success';
+export const LOAD_REVENUE_CHART_ERROR  = '[Peer Dashboard/Page] Load Revenue Chart Error';
+export const LOAD_DETAIL_CHART  = '[Peer Dashboard/Page] Load Detail Chart';
+export const LOAD_DETAIL_CHART_SUCCESS  = '[Peer Dashboard/Page] Load Detail Chart Success';
+export const LOAD_DETAIL_CHART_ERROR  = '[Peer Dashboard/Page] Load Detail Chart Error';
 export const CLOSE_SIDEBAR  = '[Peer Dashboard/Page] Close Sidebar';
 export const LOAD_MAP_COUNT  = '[Peer Dashboard/Page] Load Map Count';
 export const LOAD_MAP_COUNT_SUCCESS  = '[Peer Dashboard/Page] Load Map Count Success';
 export const LOAD_MAP_COUNT_ERROR  = '[Peer Dashboard/Page] Load Map Count Error';
+export const LOAD_EXCHANGE_JOB_ORGS = '[Peer Dashboard/Page] Load Exchange Job Orgs';
+export const LOAD_EXCHANGE_JOB_ORGS_SUCCESS = '[Peer Dashboard/Page] Load Exchange Job Orgs Success';
+export const LOAD_EXCHANGE_JOB_ORGS_ERROR = '[Peer Dashboard/Page] Load Exchange Job Orgs Error';
 
-export class LoadingCompanyChart implements Action {
-  readonly type = LOADING_COMPANY_CHART;
-
-  constructor(public payload: GetChartRequest) {}
-}
-
-export class LoadingCompanyChartSuccess implements Action {
-  readonly type = LOADING_COMPANY_CHART_SUCCESS;
-
-  constructor(public payload: ChartItem[]) {}
-}
-
-export class LoadingCompanyChartError implements Action {
-  readonly type = LOADING_COMPANY_CHART_ERROR;
-}
-
-export class LoadingJobChart implements Action {
-  readonly type = LOADING_JOB_CHART;
+export class LoadCompanyChart implements Action {
+  readonly type = LOAD_COMPANY_CHART;
 
   constructor(public payload: GetChartRequest) {}
 }
 
-export class LoadingJobChartSuccess implements Action {
-  readonly type = LOADING_JOB_CHART_SUCCESS;
+export class LoadCompanyChartSuccess implements Action {
+  readonly type = LOAD_COMPANY_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingJobChartError implements Action {
-  readonly type = LOADING_JOB_CHART_ERROR;
+export class LoadCompanyChartError implements Action {
+  readonly type = LOAD_COMPANY_CHART_ERROR;
 }
 
-export class LoadingIndustryChart implements Action {
-  readonly type = LOADING_INDUSTRY_CHART;
+export class LoadJobChart implements Action {
+  readonly type = LOAD_JOB_CHART;
 
   constructor(public payload: GetChartRequest) {}
 }
 
-export class LoadingIndustryChartSuccess implements Action {
-  readonly type = LOADING_INDUSTRY_CHART_SUCCESS;
+export class LoadJobChartSuccess implements Action {
+  readonly type = LOAD_JOB_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingIndustryChartError implements Action {
-  readonly type = LOADING_INDUSTRY_CHART_ERROR;
+export class LoadJobChartError implements Action {
+  readonly type = LOAD_JOB_CHART_ERROR;
 }
 
-export class LoadingJobFamilyChart implements Action {
-  readonly type = LOADING_JOB_FAMILY_CHART;
+export class LoadIndustryChart implements Action {
+  readonly type = LOAD_INDUSTRY_CHART;
 
   constructor(public payload: GetChartRequest) {}
 }
 
-export class LoadingJobFamilyChartSuccess implements Action {
-  readonly type = LOADING_JOB_FAMILY_CHART_SUCCESS;
+export class LoadIndustryChartSuccess implements Action {
+  readonly type = LOAD_INDUSTRY_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingJobFamilyChartError implements Action {
-  readonly type = LOADING_JOB_FAMILY_CHART_ERROR;
+export class LoadIndustryChartError implements Action {
+  readonly type = LOAD_INDUSTRY_CHART_ERROR;
 }
 
-export class LoadingRevenueChart implements Action {
-  readonly type = LOADING_REVENUE_CHART;
+export class LoadJobFamilyChart implements Action {
+  readonly type = LOAD_JOB_FAMILY_CHART;
 
   constructor(public payload: GetChartRequest) {}
 }
 
-export class LoadingRevenueChartSuccess implements Action {
-  readonly type = LOADING_REVENUE_CHART_SUCCESS;
+export class LoadJobFamilyChartSuccess implements Action {
+  readonly type = LOAD_JOB_FAMILY_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingRevenueChartError implements Action {
-  readonly type = LOADING_REVENUE_CHART_ERROR;
+export class LoadJobFamilyChartError implements Action {
+  readonly type = LOAD_JOB_FAMILY_CHART_ERROR;
 }
 
-export class LoadingDetailChart implements Action {
-  readonly type = LOADING_DETAIL_CHART;
+export class LoadRevenueChart implements Action {
+  readonly type = LOAD_REVENUE_CHART;
+
+  constructor(public payload: GetChartRequest) {}
+}
+
+export class LoadRevenueChartSuccess implements Action {
+  readonly type = LOAD_REVENUE_CHART_SUCCESS;
+
+  constructor(public payload: ChartItem[]) {}
+}
+
+export class LoadRevenueChartError implements Action {
+  readonly type = LOAD_REVENUE_CHART_ERROR;
+}
+
+export class LoadDetailChart implements Action {
+  readonly type = LOAD_DETAIL_CHART;
 
   constructor(public payload: GetDetailChartRequest) {}
 }
 
-export class LoadingDetailChartSuccess implements Action {
-  readonly type = LOADING_DETAIL_CHART_SUCCESS;
+export class LoadDetailChartSuccess implements Action {
+  readonly type = LOAD_DETAIL_CHART_SUCCESS;
 
   constructor(public payload: ChartItem[]) {}
 }
 
-export class LoadingDetailChartError implements Action {
-  readonly type = LOADING_DETAIL_CHART_ERROR;
+export class LoadDetailChartError implements Action {
+  readonly type = LOAD_DETAIL_CHART_ERROR;
 }
 
 export class CloseSidebar implements Action {
@@ -141,26 +144,45 @@ export class LoadMapCountError implements Action {
   readonly type = LOAD_MAP_COUNT_ERROR;
 }
 
+export class LoadExchangeJobOrgs implements Action {
+  readonly type = LOAD_EXCHANGE_JOB_ORGS;
+
+  constructor(public payload: ExchangeJobComparison) {}
+}
+
+export class LoadExchangeJobOrgsSuccess implements Action {
+  readonly type = LOAD_EXCHANGE_JOB_ORGS_SUCCESS;
+
+  constructor(public payload: string[]) {}
+}
+
+export class LoadExchangeJobOrgsError implements Action {
+  readonly type = LOAD_EXCHANGE_JOB_ORGS_ERROR;
+}
+
 export type Actions
-  = LoadingCompanyChart
-  | LoadingCompanyChartSuccess
-  | LoadingCompanyChartError
-  | LoadingJobChart
-  | LoadingJobChartSuccess
-  | LoadingJobChartError
-  | LoadingIndustryChart
-  | LoadingIndustryChartSuccess
-  | LoadingIndustryChartError
-  | LoadingJobFamilyChart
-  | LoadingJobFamilyChartSuccess
-  | LoadingJobFamilyChartError
-  | LoadingRevenueChart
-  | LoadingRevenueChartSuccess
-  | LoadingRevenueChartError
-  | LoadingDetailChart
-  | LoadingDetailChartSuccess
-  | LoadingDetailChartError
+  = LoadCompanyChart
+  | LoadCompanyChartSuccess
+  | LoadCompanyChartError
+  | LoadJobChart
+  | LoadJobChartSuccess
+  | LoadJobChartError
+  | LoadIndustryChart
+  | LoadIndustryChartSuccess
+  | LoadIndustryChartError
+  | LoadJobFamilyChart
+  | LoadJobFamilyChartSuccess
+  | LoadJobFamilyChartError
+  | LoadRevenueChart
+  | LoadRevenueChartSuccess
+  | LoadRevenueChartError
+  | LoadDetailChart
+  | LoadDetailChartSuccess
+  | LoadDetailChartError
   | CloseSidebar
   | LoadMapCount
   | LoadMapCountError
-  | LoadMapCountSuccess;
+  | LoadMapCountSuccess
+  | LoadExchangeJobOrgs
+  | LoadExchangeJobOrgsSuccess
+  | LoadExchangeJobOrgsError;

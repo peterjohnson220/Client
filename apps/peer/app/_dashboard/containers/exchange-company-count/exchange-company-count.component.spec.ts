@@ -60,10 +60,10 @@ describe('Peer Dashboard - Exchange Company Count', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadingDetailChart action of Category "Parcipitating Companies" on participatingCompaniesCountClick', () => {
+  it('should dispatch a LoadDetailChart action of Category "Parcipitating Companies" on participatingCompaniesCountClick', () => {
     fixture.detectChanges();
 
-    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+    const action = new fromExchangeDashboardActions.LoadDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Company,
       Category: 'Participating Companies'
