@@ -31,7 +31,8 @@ export class AddDataEffectsService {
       FilterOptions: filterOptionsRequestObj,
       PagingOptions: pagingOptionsRequestObj,
       CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode,
-      CountryCode: filtersPagingAndJobContext.jobContext.CountryCode
+      CountryCode: filtersPagingAndJobContext.jobContext.CountryCode,
+      ProjectId: filtersPagingAndJobContext.jobContext.ProjectId
     };
   }
 

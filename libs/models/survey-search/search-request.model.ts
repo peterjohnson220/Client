@@ -22,4 +22,5 @@ export interface SearchRequest {
   FilterOptions: FilterOptions;
   CurrencyCode: string;
   CountryCode: string;
+  ProjectId: number;
 }
