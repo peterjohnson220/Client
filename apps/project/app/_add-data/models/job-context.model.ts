@@ -4,6 +4,7 @@ export interface JobContext {
   CurrencyCode: string;
   CompanyJobId: number;
   ProjectId: number;
+  CountryCode: string;
 }
 
 export function generateMockJobContext(): JobContext {
@@ -12,6 +13,7 @@ export function generateMockJobContext(): JobContext {
     PayMarketId: 1234,
     CurrencyCode: 'USD',
     CompanyJobId: 12345,
-    ProjectId: 555
+    ProjectId: 555,
+    CountryCode: 'USA'
   };
 }
