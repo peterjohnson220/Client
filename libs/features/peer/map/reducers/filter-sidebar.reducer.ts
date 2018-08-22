@@ -46,8 +46,10 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
     }
     case fromFilterSidebarActions.LOAD_FILTER_AGGREGATES_SUCCESS: {
       const limitingToExchange = state.systemFilter && !!state.systemFilter.ExchangeId;
+      const serverAggGroups = action.payload.aggregateGroups;
+      const shouldReplaceAggs = action.payload.shouldReplaceAggs;
       const newAggGroups = FilterSidebarHelper.mergeServerAggregatesWithSelected(
-        state.filterAggregateGroups, action.payload, limitingToExchange);
+        state.filterAggregateGroups, serverAggGroups, limitingToExchange, shouldReplaceAggs);
 
       return {
         ...state,

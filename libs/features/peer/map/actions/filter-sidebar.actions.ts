@@ -24,6 +24,8 @@ export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Sidebar] Set Scope S
 
 export class LoadFilterAggregates implements Action {
   readonly type = LOAD_FILTER_AGGREGATES;
+
+  constructor(public payload = true) {}
 }
 
 export class LoadFilterAggregatesSuccess implements Action {
