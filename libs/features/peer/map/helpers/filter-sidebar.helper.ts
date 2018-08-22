@@ -106,8 +106,8 @@ export class FilterSidebarHelper {
   }
 
   // Given a collection of filter aggregate groups and a group identifier (FilterProp), will set the selected property
-  // for each aggregate item to false for the aggregate group provided.
-  static clearGroupSelections(aggregateGroups: FilterAggregateGroup[], aggGroupFilterProp: string) {
+  // for each aggregate item to the 'shouldSelect' value for the aggregate group provided.
+  static toggleGroupOptions(aggregateGroups: FilterAggregateGroup[], aggGroupFilterProp: string, shouldSelect = false) {
     const copiedAggregateGroups = cloneDeep(aggregateGroups);
 
     const aggGroup = copiedAggregateGroups
@@ -115,7 +115,7 @@ export class FilterSidebarHelper {
 
     aggGroup.Aggregates = aggGroup
       .Aggregates.map(a => {
-        a.Selected = false;
+        a.Selected = shouldSelect;
 
         return a;
       });

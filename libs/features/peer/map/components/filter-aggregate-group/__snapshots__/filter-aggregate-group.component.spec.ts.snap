@@ -3,8 +3,8 @@
 exports[`Features - Peer - Filter Aggregate Group Component should apply the collapsed class to the .aggregate-group when collapse is true 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
-  clearSelections={[Function EventEmitter]}
   collapsed={[Function Boolean]}
   previewLimit={[Function Number]}
 >
@@ -14,8 +14,17 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
     <div
       class="aggregate-group-header"
     >
-      <div>
-         MockLabel 
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           MockLabel 
+        </div>
       </div>
       <div
         class="header-right"
@@ -48,8 +57,8 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the col
 exports[`Features - Peer - Filter Aggregate Group Component should apply the show-all class to the .aggregate-container when showAllAggregates is true 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
-  clearSelections={[Function EventEmitter]}
   previewLimit={[Function Number]}
   showAllAggregates={[Function Boolean]}
 >
@@ -59,8 +68,17 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the sho
     <div
       class="aggregate-group-header"
     >
-      <div>
-         MockLabel 
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           MockLabel 
+        </div>
       </div>
       <div
         class="header-right"
@@ -90,11 +108,99 @@ exports[`Features - Peer - Filter Aggregate Group Component should apply the sho
 </pf-filter-aggregate-group>
 `;
 
+exports[`Features - Peer - Filter Aggregate Group Component should display 'select all' checkbox as checked when all items are selected 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
+  aggregateToggled={[Function EventEmitter]}
+  previewLimit={[Function Number]}
+>
+  <div
+    class="aggregate-group"
+  >
+    <div
+      class="aggregate-group-header"
+    >
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           
+        </div>
+      </div>
+      <div
+        class="header-right"
+      >
+        
+        
+        
+      </div>
+    </div>
+    <div
+      class="aggregate-container"
+    >
+      
+      
+    </div>
+    
+  </div>
+</pf-filter-aggregate-group>
+`;
+
+exports[`Features - Peer - Filter Aggregate Group Component should display 'select all' checkbox as un-checked when only some items are selected 1`] = `
+<pf-filter-aggregate-group
+  aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
+  aggregateToggled={[Function EventEmitter]}
+  previewLimit={[Function Number]}
+>
+  <div
+    class="aggregate-group"
+  >
+    <div
+      class="aggregate-group-header"
+    >
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           
+        </div>
+      </div>
+      <div
+        class="header-right"
+      >
+        
+        
+        
+      </div>
+    </div>
+    <div
+      class="aggregate-container"
+    >
+      
+      
+    </div>
+    
+  </div>
+</pf-filter-aggregate-group>
+`;
+
 exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show Less' link when showAllAggregates is true 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
-  clearSelections={[Function EventEmitter]}
   previewLimit={[Function Number]}
   showAllAggregates={[Function Boolean]}
 >
@@ -104,8 +210,17 @@ exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show 
     <div
       class="aggregate-group-header"
     >
-      <div>
-         MockLabel 
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           MockLabel 
+        </div>
       </div>
       <div
         class="header-right"
@@ -126,7 +241,6 @@ exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show 
       
       
       
-      <pf-filter-aggregate />
       <pf-filter-aggregate />
       <pf-filter-aggregate />
       <pf-filter-aggregate />
@@ -161,8 +275,8 @@ exports[`Features - Peer - Filter Aggregate Group Component should show a 'Show 
 exports[`Features - Peer - Filter Aggregate Group Component should show the Options Toggle when the number of aggregates is greater than the preview limit 1`] = `
 <pf-filter-aggregate-group
   aggregateGroup={[Function Object]}
+  aggregateGroupSelectionsToggled={[Function EventEmitter]}
   aggregateToggled={[Function EventEmitter]}
-  clearSelections={[Function EventEmitter]}
   previewLimit={[Function Number]}
 >
   <div
@@ -171,8 +285,17 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
     <div
       class="aggregate-group-header"
     >
-      <div>
-         MockLabel 
+      <div
+        class="header-left space-out-children-right"
+      >
+        <div>
+          <input
+            type="checkbox"
+          />
+        </div>
+        <div>
+           MockLabel 
+        </div>
       </div>
       <div
         class="header-right"
@@ -208,7 +331,7 @@ exports[`Features - Peer - Filter Aggregate Group Component should show the Opti
        Show 
       
       <span>
-         6 More 
+         5 More 
         <i
           class="far fa-angle-down"
         />
