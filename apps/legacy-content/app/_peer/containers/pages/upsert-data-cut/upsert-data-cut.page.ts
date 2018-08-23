@@ -13,6 +13,8 @@ import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
 import { GuidelineLimits } from '../../../models';
+import {GuidelinesBadgeComponent} from '../../../components/guidelines-badge';
+import {filter, map, take, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'pf-upsert-data-cut-page',
@@ -21,6 +23,7 @@ import { GuidelineLimits } from '../../../models';
 })
 export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent) map: MapComponent;
+  @ViewChild(GuidelinesBadgeComponent) guidelines: GuidelinesBadgeComponent;
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
@@ -66,6 +69,15 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
 
   get primaryButtonText(): string {
     return this.cutGuid != null ? 'Update' : 'Add';
+  }
+
+  get failsGuidelines(): boolean {
+    let mapMoveComplete = false;
+    this.initialMapMoveComplete$.pipe(take(1)).subscribe(x => {
+      mapMoveComplete = x;
+    });
+    console.log('mapMoveComplete: ', mapMoveComplete, ' - Guidelines: ', this.guidelines);
+    return !mapMoveComplete || (!!this.guidelines && !this.guidelines.passesGuidelines);
   }
 
   upsert() {

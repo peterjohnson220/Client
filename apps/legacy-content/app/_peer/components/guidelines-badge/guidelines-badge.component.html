@@ -60,10 +60,9 @@
   </div>
 </ng-template>
 
-<div *ngIf="!hasMinimumCompanies || !hasNoDominatingData || !validDataCut"
-     [class.failing]="!hasMinimumCompanies || !validDataCut"
+<div *ngIf="!passesGuidelines()"
      [ngbPopover]="popContent"
-     class="guidelines-label"
+     class="guidelines-label failing"
      triggers="mouseenter:mouseleave"
      popoverTitle="Guidelines">
 

@@ -40,5 +40,9 @@ export class GuidelinesBadgeComponent {
     return this.companies && !!this.guidelineLimits;
   }
 
+  passesGuidelines(): boolean {
+    return this.validDataCut && this.hasMinimumCompanies && this.hasNoDominatingData;
+  }
+
   constructor() { }
 }
