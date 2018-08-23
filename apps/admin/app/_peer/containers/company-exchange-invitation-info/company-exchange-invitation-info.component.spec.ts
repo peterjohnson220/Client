@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { generateMockPayfactorsCompanyExchangeInvitation } from 'libs/models/peer';
+import { generateMockExchangeInvitation } from 'libs/models/peer';
 
 import { CompanyExchangeInvitationInfoComponent } from './company-exchange-invitation-info.component';
 
@@ -23,7 +23,7 @@ describe('Company Exchange Invitation Info', () => {
     fixture = TestBed.createComponent(CompanyExchangeInvitationInfoComponent);
     instance = fixture.componentInstance;
 
-    instance.selectedCompanyInvitation = generateMockPayfactorsCompanyExchangeInvitation();
+    instance.selectedCompanyInvitation = generateMockExchangeInvitation();
   });
 
   it('should match snapshot', () => {
