@@ -4,7 +4,7 @@
     [sectionDescription]="'Listed in the grid below are Payfactors companies that have been invited to join this exchange.'"
   >
   </pf-manage-exchange-section-header>
-  <div class="d-flex h-100">
+  <div class="d-flex company-invitation-grid-container" [ngClass]="collapse ? 'collapse-grid' : 'no-collapse'">
     <pf-async-container
       [loading]="payfactorsCompanyExchangeInvitationsLoading$ | async"
       [loadingError]="payfactorsCompanyExchangeInvitationsLoadingError$ | async"
@@ -13,14 +13,27 @@
       class="flex-grow-1"
     >
 
-      <kendo-grid
+      <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+        [pfKendoScrollTo]="pageRowIndex"
         [data]="payfactorsCompanyExchangeInvitationsGrid$ | async"
         [scrollable]="true"
+        [selectable]="{
+            mode: 'single'
+          }"
+        (cellClick)="handleCellClick($event)"
       >
 
-        <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company Name">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.CompanyName}}">{{dataItem.CompanyName}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
-        <kendo-grid-column field="CompanyIndustry" title="Industry"></kendo-grid-column>
+        <kendo-grid-column field="CompanyIndustry" title="Industry">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.CompanyIndustry}}">{{dataItem.CompanyIndustry}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="CompanyRevenue" title="Revenue"></kendo-grid-column>
 
@@ -28,7 +41,11 @@
 
         <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
 
-        <kendo-grid-column field="RequestCompany" title="Request Company"></kendo-grid-column>
+        <kendo-grid-column field="RequestCompany" title="Request Company">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.RequestCompany}}">{{dataItem.RequestCompany}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="RequestDate" title="Request Date">
           <ng-template kendoGridCellTemplate let-dataItem>
@@ -39,5 +56,13 @@
       </kendo-grid>
 
     </pf-async-container>
+
   </div>
+  <div *ngIf="collapse" class=" d-flex mt-3 flex-grow-1 company-invitation-info-container">
+    <pf-company-exchange-invitation-info
+      [selectedCompanyInvitation]="selectedCompanyInvitation"
+      (closeClicked)="handleCloseInvitationInfo()">
+    </pf-company-exchange-invitation-info>
+  </div>
+
 </div>

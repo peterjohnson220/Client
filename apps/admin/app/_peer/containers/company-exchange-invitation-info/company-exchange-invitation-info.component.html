@@ -1,0 +1,34 @@
+<div class="invitation-info-container card h-100">
+  <div class="card-header">
+    <div class="align-self-center mr-auto">
+      Company Invitation Information
+    </div>
+    <div (click)="close()" class="close-btn">
+      <i class="far fa-times"></i>
+    </div>
+  </div>
+  <div class="card-body d-flex">
+    <div class="info-container">
+      <div class="info-row">
+        <div class="label">Company Invited:</div>
+        <div> {{ selectedCompanyInvitation.CompanyName }} </div>
+      </div>
+      <div class="info-row">
+        <div class="label">Request Company:</div>
+        <div> {{ selectedCompanyInvitation.RequestCompany }} </div>
+      </div>
+      <div class="info-row">
+        <div class="label">Request User:</div>
+        <div> {{ selectedCompanyInvitation.RequestUser }} </div>
+      </div>
+      <div class="info-row">
+        <div class="label">Request Date:</div>
+        <div>  {{ selectedCompanyInvitation.RequestDate | date:'short' }}  </div>
+      </div>
+      <div class="info-row-flex-column flex-grow-1">
+        <div class="label">Reason:</div>
+        <div class="reason-container"> {{ selectedCompanyInvitation.Reason }} </div>
+      </div>
+    </div>
+  </div>
+</div>

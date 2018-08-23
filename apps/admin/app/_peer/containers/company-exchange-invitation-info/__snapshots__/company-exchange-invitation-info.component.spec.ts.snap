@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Company Exchange Invitation Info should match snapshot 1`] = `
+<pf-company-exchange-invitation-info
+  closeClicked={[Function EventEmitter]}
+  selectedCompanyInvitation={[Function Object]}
+>
+  <div
+    class="invitation-info-container card h-100"
+  >
+    <div
+      class="card-header"
+    >
+      <div
+        class="align-self-center mr-auto"
+      >
+         Company Invitation Information 
+      </div>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body d-flex"
+    >
+      <div
+        class="info-container"
+      >
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Company Invited:
+          </div>
+          <div>
+             Mock Company 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request Company:
+          </div>
+          <div>
+             Mock Request Company 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request User:
+          </div>
+          <div>
+             Bob Johnson 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request Date:
+          </div>
+          <div>
+             1/1/18, 12:00 AM 
+          </div>
+        </div>
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          <div
+            class="label"
+          >
+            Reason:
+          </div>
+          <div
+            class="reason-container"
+          >
+             Because 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-company-exchange-invitation-info>
+`;

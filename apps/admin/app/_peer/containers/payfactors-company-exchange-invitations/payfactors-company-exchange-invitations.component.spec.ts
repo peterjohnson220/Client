@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockPayfactorsCompanyExchangeInvitation } from 'libs/models/peer';
 
 import { PayfactorsCompanyExchangeInvitationsComponent } from './payfactors-company-exchange-invitations.component';
 import * as fromPeerAdminReducer from '../../reducers';
@@ -62,5 +63,29 @@ describe('Payfactors Company Exchange Invitations', () => {
     instance.handlePayfactorsCompanyExchangeInvitationsGridReload();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should set collapse, selectedCompanyInvitation, and pageRowIndex correctly in the component when a cell is clicked', () => {
+    instance.collapse = false;
+    instance.pageRowIndex = null;
+    instance.selectedCompanyInvitation = null;
+    const mockInvite = generateMockPayfactorsCompanyExchangeInvitation();
+    const event = { dataItem: mockInvite, rowIndex: 1};
+
+    instance.handleCellClick(event);
+
+    expect(instance.collapse).toBe(true);
+    expect(instance.selectedCompanyInvitation).toEqual(mockInvite);
+    expect(instance.pageRowIndex).toBe(1);
+  });
+
+  it('should set collapse to false and pageRowIndex to null after the company exchange invitation info is closed', () => {
+    instance.collapse = true;
+    instance.pageRowIndex = 1;
+
+    instance.handleCloseInvitationInfo();
+
+    expect(instance.collapse).toBe(false);
+    expect(instance.pageRowIndex).toBeNull();
   });
 });
