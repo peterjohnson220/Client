@@ -23,7 +23,7 @@ export function applyMatchesToJobResults(jobResults: JobResult[], pricingMatches
 }
 
 export function createPricingMatchesRequest(jobResults: JobResult[], lastJobResultIndex: number): PricingMatchesRequest {
-  const latestResults: JobResult[] = jobResults.slice(lastJobResultIndex + 1, jobResults.length);
+  const latestResults: JobResult[] = jobResults.slice(lastJobResultIndex, jobResults.length);
   const jobIds: number[] = [];
   const jobCodes: string[] = [];
   latestResults.forEach((jobResult: JobResult) => {
