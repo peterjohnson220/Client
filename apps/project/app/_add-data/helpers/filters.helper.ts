@@ -2,7 +2,7 @@ import { MultiSelectFilter, MultiSelectOption } from '../models';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
-const maxNumberOfOptions = 5;
+export const maxNumberOfOptions = 5;
 
 export interface MergeFiltersParams {
   clientFilters: MultiSelectFilter[];

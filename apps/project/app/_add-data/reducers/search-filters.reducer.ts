@@ -57,9 +57,14 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const filtersCopy = cloneDeep(state.filters);
       const filterOption = filtersCopy
         .find(f => f.Id === action.payload.filterId).Options
-        .find(o => o.Id === action.payload.optionId);
+        .find(o => o.Value === action.payload.option.Value);
 
-      filterOption.Selected = !filterOption.Selected;
+      if (filterOption) {
+        filterOption.Selected = !filterOption.Selected;
+      } else {
+        filtersCopy.find(f => f.Id === action.payload.filterId)
+          .Options.push({...action.payload.option, Selected: true});
+      }
 
       return {
         ...state,

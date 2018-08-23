@@ -3,7 +3,10 @@
 exports[`Project - Add Data - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
   filter={[Function Object]}
+  filterTypes={[Function Object]}
   reset={[Function EventEmitter]}
+  searchClicked={[Function EventEmitter]}
+  searchValueChanged={[Function EventEmitter]}
 >
   <div
     class="filter"
@@ -11,7 +14,12 @@ exports[`Project - Add Data - Filter Section should display the given title in t
     <div
       class="header"
     >
-       Job Title/Code 
+      <div
+        class="header-left"
+      >
+         Job Title/Code 
+        
+      </div>
       <div
         class="header-right"
       >
@@ -25,16 +33,15 @@ exports[`Project - Add Data - Filter Section should display the given title in t
           Clear
         </div>
         
-        
-        <div>
-          <i
-            class="far fa-angle-up"
-          />
-        </div>
       </div>
     </div>
     
-    <div />
+    <div>
+      
+      <div
+        class="content"
+      />
+    </div>
   </div>
 </pf-filter-section>
 `;
@@ -52,7 +59,12 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
       <div
         class="header"
       >
-         Job Title/Code 
+        <div
+          class="header-left"
+        >
+           Job Title/Code 
+          
+        </div>
         <div
           class="header-right"
         >
@@ -66,19 +78,18 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
             Clear
           </div>
           
-          
-          <div>
-            <i
-              class="far fa-angle-up"
-            />
-          </div>
         </div>
       </div>
       
       <div>
-        <h1>
-          Transclusion Works!
-        </h1>
+        
+        <div
+          class="content"
+        >
+          <h1>
+            Transclusion Works!
+          </h1>
+        </div>
       </div>
     </div>
   </pf-filter-section>
@@ -89,7 +100,10 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 <pf-filter-section
   collapsed={[Function Boolean]}
   filter={[Function Object]}
+  filterTypes={[Function Object]}
   reset={[Function EventEmitter]}
+  searchClicked={[Function EventEmitter]}
+  searchValueChanged={[Function EventEmitter]}
 >
   <div
     class="filter"
@@ -97,46 +111,19 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
     <div
       class="header"
     >
-       Job Title/Code 
       <div
-        class="header-right"
+        class="header-left"
       >
+         Job Title/Code 
         
         <div
-          class="reset-link"
+          class="ml-2"
         >
-          
-          
-          
-          Clear
-        </div>
-        
-        <div>
           <i
             class="far fa-angle-down"
           />
         </div>
-        
       </div>
-    </div>
-    
-  </div>
-</pf-filter-section>
-`;
-
-exports[`Project - Add Data - Filter Section should show a fa-angle-up icon in the header, when NOT collapsed 1`] = `
-<pf-filter-section
-  collapsed="false"
-  filter={[Function Object]}
-  reset={[Function EventEmitter]}
->
-  <div
-    class="filter"
-  >
-    <div
-      class="header"
-    >
-       Job Title/Code 
       <div
         class="header-right"
       >
@@ -150,16 +137,9 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-up icon in t
           Clear
         </div>
         
-        
-        <div>
-          <i
-            class="far fa-angle-up"
-          />
-        </div>
       </div>
     </div>
     
-    <div />
   </div>
 </pf-filter-section>
 `;

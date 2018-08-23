@@ -1,0 +1,27 @@
+@import 'search/filters-variables';
+@import '../../styles/variables';
+
+.single-filter{
+  top: $filter-sidebar-header-height;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.back-to-all-filters {
+  @extend %uppercase-link;
+  @extend %filter-action;
+  display: flex;
+  justify-content: center;
+  padding: 1.25rem;
+  position: absolute;
+  height: 45px;
+  width: 100%;
+}
+
+.filter-section{
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  bottom: 0;
+}
