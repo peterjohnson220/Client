@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { PayfactorsCompanyExchangeInvitation } from 'libs/models/peer';
+import { ExchangeInvitation } from 'libs/models/peer';
 
 @Component({
   selector: 'pf-company-exchange-invitation-info',
@@ -9,7 +9,7 @@ import { PayfactorsCompanyExchangeInvitation } from 'libs/models/peer';
 })
 
 export class CompanyExchangeInvitationInfoComponent {
-  @Input() selectedCompanyInvitation: PayfactorsCompanyExchangeInvitation;
+  @Input() selectedCompanyInvitation: ExchangeInvitation;
   @Output() closeClicked = new EventEmitter();
 
   close() {

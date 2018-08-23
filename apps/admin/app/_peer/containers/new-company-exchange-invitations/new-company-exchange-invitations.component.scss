@@ -1,1 +1,19 @@
 @import 'kendo-grid';
+
+.company-invitation-grid-container {
+  position: relative;
+  min-height: 250px;
+}
+
+.company-invitation-info-container {
+  position: relative;
+  min-height: 300px;
+}
+
+.collapse-grid {
+  height: 350px;
+}
+
+.no-collapse {
+  height: 100%;
+}
