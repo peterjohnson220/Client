@@ -28,18 +28,19 @@ addCommunityPoll$: Observable<Action> = this.actions$
     )
   );
 
-  @Effect()
-  updateCommunityPollStatus$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPollActions.UPDATING_COMMUNITY_POLL_STATUS).pipe(
-      switchMap((action: fromCommunityPollActions.UpdatingCommunityPollStatus) =>
-        this.communityPollAdminService.updateCommunityPollStatus(action.payload).pipe(
-          map(() => {
-            return new fromCommunityPollActions.UpdatingCommunityPollStatusSuccess();
-          }),
-          catchError(error => of(new fromCommunityPollActions.UpdatingCommunityPollStatusError(error)))
-        )
+@Effect()
+editCommunityPoll$: Observable<Action> = this.actions$
+  .ofType(fromCommunityPollActions.EDITING_COMMUNITY_POLL).pipe(
+    switchMap((action: fromCommunityPollActions.EditingCommunityPoll) =>
+      this.communityPollAdminService.editCommunityPoll(action.payload).pipe(
+        map(() => {
+          this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
+          return new fromCommunityPollActions.EditingCommunityPollSuccess();
+        }),
+        catchError(error => of(new fromCommunityPollActions.EditingCommunityPollError(error)))
       )
-    );
+    )
+  );
 
   @Effect()
   loadCommunityPolls$: Observable<Action> = this.actions$

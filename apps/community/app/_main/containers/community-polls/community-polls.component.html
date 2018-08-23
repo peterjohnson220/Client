@@ -18,17 +18,19 @@
           
           <ng-template #poll_not_dismissed>
           
+            <div class="poll-question-container">
+              <p class="text-center lead">{{ request.Question}}</p>
+            </div>
+
             <div *ngIf="!includesCommunityPollId(request.CommunityPollId)" class="pb-5">
-              <div class="poll-question-container">
-                <p class="text-center lead">{{ request.Question}}</p>
-              </div>
-              <div class="poll-response-option-button-container mt-1" *ngFor="let option of request.ResponseOptions">
-                <div class="outer-element">
-                  <div class="inner-element poll-response-option-button" (click)="selectOption(option.ResponseId)">
-                    <span class="selected-option-indicator h-100"
-                          [ngClass]="{'selected': option.ResponseId === selectedOption }">&nbsp;</span>
-                      <span class="response-option-text-container pl-1">{{ option.ResponseText}}</span>
-                  </div>
+              <div class="outer-element">
+                <div *ngFor="let option of request.ResponseOptions">
+                  <div class="inner-element">
+                    <div class="poll-response-option-button-container poll-response-option-button mt-1" (click)="selectOption(option.ResponseId)">
+                      <div class="selected-option-indicator h-100" [ngClass]="{'selected': option.ResponseId === selectedOption }">&nbsp;</div>
+                      <div class="response-option-text-container poll-response-option pl-1">{{option.ResponseText}}</div>
+                    </div>
+                </div>
                 </div>
               </div>
               <div class="d-flex justify-content-center pt-2">
@@ -42,15 +44,14 @@
             </div>
 
             <div *ngIf="includesCommunityPollId(request.CommunityPollId)" class="pb-5">
-              <div class="poll-question-container">
-                <p class="text-center lead">{{request.Question}}</p>
-              </div>
-              <div class="outer-element">            
-                <div *ngFor="let option of request.ResponseOptions">     
-                    <div class="poll-response-container poll-response-no mt-1">
-                        <div class="poll-response-container poll-response-yes" [style.width.%]="getResponsePercentage(option.ResponseId,request.CommunityPollId)"></div>
-                        <div class ="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
-                        <div class ="response-option-text-container poll-response-percent">{{getResponsePercentage(option.ResponseId,request.CommunityPollId)}}%</div>
+              <div class="outer-element">          
+                <div *ngFor="let option of request.ResponseOptions">
+                    <div class="inner-element">
+                      <div class="poll-response-container poll-response-no mt-1">
+                          <div class="poll-response-container poll-response-yes" [style.width.%]="getResponsePercentage(option.ResponseId,request.CommunityPollId)"></div>
+                          <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
+                          <div class="response-option-text-container poll-response-percent">{{getResponsePercentage(option.ResponseId,request.CommunityPollId)}}%</div>
+                      </div>
                     </div>
                 </div>
                 <p class="dismiss-poll-button text-center mt-2" (click)="dismissPoll(request.CommunityPollId)">Dismiss poll</p>

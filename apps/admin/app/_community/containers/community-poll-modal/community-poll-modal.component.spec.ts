@@ -8,11 +8,11 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
 
-import { AddCommunityPollModalComponent } from './add-community-poll-modal.component';
+import { CommunityPollModalComponent } from './community-poll-modal.component';
 
-describe('AddCommunityPollModalComponent', () => {
-  let fixture: ComponentFixture<AddCommunityPollModalComponent>;
-  let instance: AddCommunityPollModalComponent;
+describe('CommunityPollModalComponent', () => {
+  let fixture: ComponentFixture<CommunityPollModalComponent>;
+  let instance: CommunityPollModalComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -26,7 +26,7 @@ describe('AddCommunityPollModalComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        AddCommunityPollModalComponent
+        CommunityPollModalComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -36,7 +36,7 @@ describe('AddCommunityPollModalComponent', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(AddCommunityPollModalComponent);
+    fixture = TestBed.createComponent(CommunityPollModalComponent);
     instance = fixture.componentInstance;
   });
 
@@ -62,7 +62,7 @@ describe('AddCommunityPollModalComponent', () => {
   });
 
   it('should dispatch an CloseAddCommunityPollModal action when handleModalDismissed is called', () => {
-    const action = new fromCommunityPollActions.CloseAddCommunityPollModal();
+    const action = new fromCommunityPollActions.CloseCommunityPollModal();
 
     instance.handleModalDismissed();
 

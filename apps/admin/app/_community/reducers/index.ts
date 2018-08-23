@@ -41,7 +41,7 @@ export const getCommunityPollListLoadingError = createSelector(
     selectCommunityPollState, fromCommunityPollReducer.getLoadingError
 );
 
-export const getCommunityAddingPoll = createSelector(
+export const getAddingCommunityPoll = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getAddingCommunityPoll
 );
 
@@ -49,24 +49,16 @@ export const getAddingCommunityPollSuccess = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getAddingCommunityPollSuccess
 );
 
-export const getCommunityAddingPollError = createSelector(
+export const getAddingCommunityPollError = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getAddingCommunityPollError
 );
 
-export const getCommunityAddPollModalOpen = createSelector(
-  selectCommunityPollState, fromCommunityPollReducer.getAddCommunityPollModalOpen
+export const getCommunityPollModalOpen = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getCommunityPollModalOpen
 );
 
-export const getUpdatingCommunitygPollStatus = createSelector(
-  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatus
-);
-
-export const getUpdatingCommunitygPollStatusError = createSelector(
-  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatusError
-);
-
-export const getUpdatingCommunitygPollStatusSuccess = createSelector(
-  selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatusSuccess
+export const getCommunityPollListToEdit = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getCommunityPollListToEdit
 );
 
 export const getCommunityExportingCommunityPoll = createSelector(
@@ -79,4 +71,16 @@ export const getExportingCommunityPollSuccess = createSelector(
 
 export const getCommunityExportingPollError = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getExportingCommunityPollError
+);
+
+export const getEditingCommunityPoll = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getEditingCommunityPoll
+);
+
+export const getEditingCommunityPollSuccess = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getEditingCommunityPollSuccess
+);
+
+export const getEditingCommunityPollError = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getEditingCommunityPollError
 );

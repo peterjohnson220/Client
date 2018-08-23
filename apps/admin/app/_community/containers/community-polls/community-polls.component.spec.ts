@@ -58,9 +58,9 @@ describe('CommunityPollsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch an OpenAddCommunityPollModal action on openCommunityPollModal handler', () => {
+  it('should dispatch an OpenCommunityPollModal action on openCommunityPollModal handler', () => {
     fixture.detectChanges();
-    const action = new fromCommunityPollActions.OpenAddCommunityPollModal();
+    const action = new fromCommunityPollActions.OpenCommunityPollModal();
     instance.openCommunityPollModal();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

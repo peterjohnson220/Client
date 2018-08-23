@@ -10,7 +10,9 @@
   <ng-container page-content>
     <kendo-grid
         [data]="communityPollListItems$ | async"
-        [scrollable]="true">
+        [scrollable]="true"
+        [selectable]="true"
+        (selectionChange)="onSelectCommunityPoll($event)">
 
         <kendo-grid-column field="Question" title="Question" [headerClass]="'font-weight-bold'"></kendo-grid-column>
         <kendo-grid-column field="DatePosted" title="Date Posted" [headerClass]="'font-weight-bold'" >
@@ -20,17 +22,11 @@
         </kendo-grid-column>
         <kendo-grid-column field="NumberOfResponses" title="Responses" [headerClass]="'font-weight-bold'"></kendo-grid-column>
         
-       <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'">
-          <ng-template kendoGridCellTemplate 
-          let-dataItem="dataItem">
-            <kendo-dropdownlist  class="w-100 border" 
-              [data]="CommunityPollStatuses"
-              textField="text"
-              valueField="value"
-              [valuePrimitive]="true"
-              [(ngModel)]="dataItem.Status"
-              (selectionChange)="selectionChange($event,dataItem.CommunityPollId)">
-            </kendo-dropdownlist>
+       <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'" [width]="130" class="text-center">
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+              <div class="btn btn-sm status-label-text" [ngClass]="{'btn-warning': dataItem.Status == 0, 'btn-success': dataItem.Status == 1, 'btn-danger': dataItem.Status == 2}">
+                    {{ CommunityPollStatuses[dataItem.Status].text }}
+              </div>  
           </ng-template>
         </kendo-grid-column>
 
@@ -47,4 +43,4 @@
     </ng-container>
 </pf-page-with-title-bar> 
 
-<pf-add-community-poll-modal></pf-add-community-poll-modal>
+<pf-community-poll-modal></pf-community-poll-modal>
