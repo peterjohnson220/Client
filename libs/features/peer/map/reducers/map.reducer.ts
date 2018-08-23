@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { PeerMapScopeMapInfo, ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapSummary } from 'libs/models/peer';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import { MapHelper } from '../helpers';
@@ -118,7 +118,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         initialMapCentroid: mapDetails.Centroid,
         mapFilter: mapDetails.MapFilter,
         applyingScope: true,
-        maxZoom: 17
+        maxZoom: 17,
+        initialMapMoveComplete: true,
+        isInitialLoad: false
       };
     }
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA: {
@@ -129,7 +131,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapSummary: mapDetails.MapSummary,
         mapBounds: mapDetails.MapBounds,
         mapFilter: mapDetails.MapFilter,
-        applyingScope: true
+        applyingScope: true,
+        initialMapMoveComplete: true,
+        isInitialLoad: false
       };
     }
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA_SUCCESS: {
