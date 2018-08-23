@@ -5,7 +5,7 @@
   [tooltipTopPx]="jobDetailsTooltipData.TargetY"
   [visible]="jobDetailsTooltipOpen$ | async"
   [containerHeight]="searchResultsContainerHeight"
-  [containerWidth]="searchReresultsContainerWidth"
+  [containerWidth]="searchResultsContainerWidth"
   (closed)="clearJobDetailsTooltip()"
   pfClickElsewhere [whitelist]="['job-title']" (clickElsewhere)="clearJobDetailsTooltip()">
 </pf-job-details-tooltip>

@@ -26,7 +26,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       Code: sj.Job.Code,
       SurveyName: sj.Survey.Title,
       Family: sj.Job.Family,
-      Level: '',
+      Level: sj.Job.Level,
       Source: sj.Survey.Publisher,
       Description: sj.Job.Description,
       IsPayfactors: sj.IsPayfactorsJob,

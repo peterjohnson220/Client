@@ -18,6 +18,7 @@ interface Job {
   Title: string;
   Code: string;
   Family: string;
+  Level: string;
   Description: string;
   FLSAStatus?: string;
   Category?: string;
@@ -51,6 +52,7 @@ export function generateMockSurveyJob(): SurveyJob {
       Title: 'Accountant',
       Code: '1001',
       Family: 'Finance',
+      Level: 'I',
       Description: 'Lorem Ipsum',
       FLSAStatus: 'Typically Exempt',
       Category: 'Professional',
