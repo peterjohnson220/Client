@@ -1,14 +1,16 @@
 @import 'kendo-grid';
 
-.exchange-access-request-grid-container{
+.exchange-access-request-grid-container {
   position: relative;
+  min-height: 350px;
 }
 
 .exchange-access-request-info-container {
   position: relative;
+  min-height: 275px;
 }
 
-.collapse-grid{
+.collapse-grid {
   height: 350px;
 }
 

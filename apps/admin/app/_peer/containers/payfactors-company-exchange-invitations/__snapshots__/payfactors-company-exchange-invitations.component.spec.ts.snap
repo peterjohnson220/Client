@@ -2,7 +2,9 @@
 
 exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
 <pf-company-exchange-invitations
+  collapse="false"
   exchangeId={[Function Number]}
+  pageRowIndex="null"
   payfactorsCompanyExchangeInvitationsGrid$={[Function Store]}
   payfactorsCompanyExchangeInvitationsLoading$={[Function Store]}
   payfactorsCompanyExchangeInvitationsLoadingError$={[Function Store]}
@@ -14,20 +16,28 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
   >
     <pf-manage-exchange-section-header />
     <div
-      class="d-flex h-100"
+      class="d-flex company-invitation-grid-container no-collapse"
+      ng-reflect-klass="d-flex company-invitation-grid"
+      ng-reflect-ng-class="no-collapse"
     >
       <pf-async-container
         class="flex-grow-1"
       >
-        <kendo-grid>
+        <kendo-grid
+          class="row-click-navigates no-wrap-ellipsis-values"
+        >
           <kendo-grid-column
             field="CompanyName"
             title="Company Name"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="CompanyIndustry"
             title="Industry"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="CompanyRevenue"
             title="Revenue"
@@ -43,7 +53,9 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
           <kendo-grid-column
             field="RequestCompany"
             title="Request Company"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="RequestDate"
             title="Request Date"
@@ -53,6 +65,7 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
         </kendo-grid>
       </pf-async-container>
     </div>
+    
   </div>
 </pf-company-exchange-invitations>
 `;

@@ -5,6 +5,7 @@ export interface ExchangeInvitation {
   RequestUser: string;
   RequestCompany: string;
   RequestDate: any;
+  Reason: string;
 }
 
 export function generateMockExchangeInvitation(): ExchangeInvitation {
@@ -14,6 +15,7 @@ export function generateMockExchangeInvitation(): ExchangeInvitation {
     CompanyIndustry: 'Retail',
     RequestUser: 'Bob Johnson',
     RequestCompany: 'Mock Request Company',
-    RequestDate: '01-01-2018'
+    RequestDate: '01-01-2018',
+    Reason: 'Because'
   };
 }
