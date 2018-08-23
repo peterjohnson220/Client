@@ -2,19 +2,37 @@ import { Injectable } from '@angular/core';
 
 import { Action, Store } from '@ngrx/store';
 import { Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
 
-import { SearchResponse } from 'libs/models/survey-search';
+import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse, SearchRequest } from 'libs/models/survey-search';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import { Filter, FilterType } from '../models';
-import { mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields } from '../helpers';
+import * as fromSearchFiltersActions from '../actions/search-filters.actions';
+import {
+  mapFiltersToSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
+  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters
+} from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 
 @Injectable()
 export class AddDataEffectsService {
+
+  private static buildSearchRequestObject(filtersPagingAndJobContext: any): SearchRequest {
+    const searchFieldsRequestObj = mapFiltersToSearchFields(filtersPagingAndJobContext.filters);
+    const filtersRequestObj = mapFiltersToSearchFilters(filtersPagingAndJobContext.filters);
+    const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersPagingAndJobContext.pagingOptions);
+    const filterOptionsRequestObj = { ReturnFilters: pagingOptionsRequestObj.From === 0, AggregateCount: 5 };
+
+    return {
+      SearchFields: searchFieldsRequestObj,
+      Filters: filtersRequestObj,
+      FilterOptions: filterOptionsRequestObj,
+      PagingOptions: pagingOptionsRequestObj,
+      CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode
+    };
+  }
 
   searchSurveyJobs(action$: Actions<Action>): Observable<Action> {
     return action$.pipe(
@@ -22,33 +40,53 @@ export class AddDataEffectsService {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
-        (action, filters, pagingOptions) => ({ filters, pagingOptions })),
+        this.store.select(fromAddDataReducer.getJobContext),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, jobContext) =>
+          ({ action, filters, pagingOptions, jobContext })
+      ),
 
+      switchMap(l => {
+        const searchRequest = AddDataEffectsService.buildSearchRequestObject(l);
 
-      switchMap(filtersAndPaging => {
-        // Build up request objects
-        const searchFieldsRequestObj = mapFiltersToSearchFields(this.getTextFiltersWithValues(filtersAndPaging.filters));
-        const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersAndPaging.pagingOptions);
-        const filterOptionsRequestObj = { ReturnFilters: true, AggregateCount: 5 };
-
-        return this.surveySearchApiService.searchSurveyJobs({
-          SearchFields: searchFieldsRequestObj,
-          FilterOptions: filterOptionsRequestObj,
-          PagingOptions: pagingOptionsRequestObj
-        })
+        return this.surveySearchApiService.searchSurveyJobs(searchRequest)
           .pipe(
-            map((searchResponse: SearchResponse) => {
-              return pagingOptionsRequestObj.From > 0
-                ? new fromSearchResultsActions.GetMoreResultsSuccess(searchResponse)
-                : new fromSearchResultsActions.GetResultsSuccess(searchResponse);
-            })
+            mergeMap((searchResponse: SearchResponse) => {
+              const actions = [];
+
+              if (searchRequest.PagingOptions.From > 0) {
+                actions.push(new fromSearchResultsActions.GetMoreResultsSuccess(searchResponse));
+              } else {
+                actions.push(new fromSearchResultsActions.GetResultsSuccess(searchResponse));
+                actions.push(new fromSearchFiltersActions.RefreshFilters({
+                  searchFilters: mapSearchFiltersToMultiSelectFilters(searchResponse.SearchFilters),
+                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
+                }));
+              }
+
+              return actions;
+            }),
+            catchError(() => of(new fromSearchResultsActions.GetResultsError()))
           );
       })
     );
   }
 
-  getTextFiltersWithValues(filters: Filter[]) {
-    return filters.filter(f => f.type === FilterType.Text && f.values[ 0 ]);
+  loadPricingMatches(action$: Actions<Action>): Observable<Action> {
+    return action$.pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getResults),
+        this.store.select(fromAddDataReducer.getResultsPagingOptions),
+        (action, jobResults, pagingOptions) => ({ jobResults, pagingOptions })),
+      switchMap(({ jobResults, pagingOptions }) => {
+        const lastJobResultIndex = (pagingOptions.page - 1) * (pagingOptions.pageSize - 1);
+        const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
+        return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
+          .pipe(
+            map((pricingMatchesResponse: PricingMatchesResponse) =>
+              new fromSearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse))
+          );
+      })
+    );
   }
 
   constructor(

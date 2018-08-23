@@ -1,0 +1,25 @@
+<ng-container *ngIf="filter.Options.length;else noOptions">
+
+  <ng-container *ngFor="let option of filter.Options">
+    <div class="option"
+         [title]="option.Name"
+         [class.selected]="option.Selected"
+         [class.disabled]="optionDisabled(option)"
+         (click)="handleOptionSelected(filter.Id, option)">
+
+      <div class="option-check">
+        <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
+      </div>
+
+      <div class="option-count">
+        {{option.Count}}
+      </div>
+
+    </div>
+  </ng-container>
+
+</ng-container>
+
+<ng-template #noOptions>
+  <div class="no-data">No Data</div>
+</ng-template>

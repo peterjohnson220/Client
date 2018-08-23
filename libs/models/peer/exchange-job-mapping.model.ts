@@ -1,4 +1,5 @@
 export interface ExchangeJobMapping {
+  Id: string;
   ExchangeJobId: number;
   ExchangeId: number;
   CompanyId: number;
@@ -9,7 +10,7 @@ export interface ExchangeJobMapping {
   ExchangeJobDescription: string;
   Mapped: boolean;
   PendingRequest: boolean;
-  CompanyJobMappingsCount: number;
+  MappingCount: number;
   CompanyJobMappings: CompanyJobMapping[];
 }
 
@@ -32,9 +33,12 @@ export function generateMockCompanyJobMapping(): CompanyJobMapping {
   };
 }
 export function generateMockExchangeJobMapping(): ExchangeJobMapping {
+  const exchangeJobId = 28947;
+  const companyId = 13;
   return {
-    ExchangeJobId: 28947,
-    ExchangeId: 1,
+    Id: exchangeJobId.toString() + '_' + companyId.toString(),
+    ExchangeJobId: exchangeJobId,
+    ExchangeId: companyId,
     CompanyId: 13,
     ExchangeJobCode: '1001',
     ExchangeJobTitle: 'Exchange Test Job',
@@ -43,7 +47,7 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     ExchangeJobDescription: 'Lorem Ipsum',
     Mapped: true,
     PendingRequest: false,
-    CompanyJobMappingsCount: 1,
+    MappingCount: 1,
     CompanyJobMappings: [generateMockCompanyJobMapping()]
   };
 }

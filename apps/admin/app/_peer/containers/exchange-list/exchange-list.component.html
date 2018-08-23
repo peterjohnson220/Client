@@ -1,0 +1,56 @@
+<pf-async-container
+  [loading]="exchangeListLoading$ | async"
+  [loadingError]="exchangeListLoadingError$ | async"
+  [loadingErrorMessage]="'Error Loading Exchanges'"
+  (reload)="handleExchangeGridReload()">
+
+  <kendo-grid class="row-click-navigates"
+              [data]="exchangeListItems$ | async"
+              [resizable]="true"
+              [pageable]="true"
+              [pageSize]="(exchangeListItems$ | async).length"
+              [rowClass]="rowClass"
+              (cellClick)="handleCellClick($event)">
+
+    <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
+
+    <kendo-grid-column field="CreatedBy" title="Created By" [width]="400"></kendo-grid-column>
+
+    <kendo-grid-column field="CreatedDate" title="Created Date" [width]="250">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.CreatedDate | date:'MM/dd/yyyy' }}
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="NumberOfCompanies" title="Exchange Companies" class="text-center"
+                       [width]="250"
+                       [headerClass]="'text-center'">
+    </kendo-grid-column>
+    <kendo-grid-column field="PendingAccess" title="" [width]="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="pending-access text-center" *ngIf="dataItem.PendingAccess">
+          <span class="badge badge-warning">Pending Approval</span>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column title="" [width]="50">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <button title="Delete Exchange" class="delete-exchange-button btn btn-sm btn-danger"
+                *ngIf="dataItem.NumberOfCompanies == 0" (click)="openDeleteExchangeModal($event, dataItem)">
+          <i class="fas fa-trash-alt fa-lg" aria-hidden="true"></i>
+        </button>
+      </ng-template>
+    </kendo-grid-column>
+
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+      <kendo-pager-info></kendo-pager-info>
+    </ng-template>
+  </kendo-grid>
+
+</pf-async-container>
+
+<pf-delete-exchange-modal
+  [selectedExchange]="selectedExchange"
+  >
+</pf-delete-exchange-modal>

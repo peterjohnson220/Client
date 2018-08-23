@@ -2,14 +2,21 @@
 
 exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 <pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
   >
     <tbody>
       
-      <tr>
+      <tr
+        class="data-cut-matched"
+        ng-reflect-ng-class="[object Object]"
+      >
         <td
           class="data-cut-title"
         >
@@ -37,7 +44,14 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
         </td>
         <td
           class="fixed-cell"
-        />
+        >
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -46,14 +60,21 @@ exports[`DataCutsComponent should display Title, Country and weight 1`] = `
 
 exports[`DataCutsComponent should handle empty currency fields 1`] = `
 <pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
 >
   <table
     class="job-cuts-table"
   >
     <tbody>
       
-      <tr>
+      <tr
+        class="data-cut-matched"
+        ng-reflect-ng-class="[object Object]"
+      >
         <td
           class="data-cut-title"
         >
@@ -81,7 +102,131 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
         </td>
         <td
           class="fixed-cell"
-        />
+        >
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</pf-data-cuts>
+`;
+
+exports[`DataCutsComponent should show selected if the data cut has been selected 1`] = `
+<pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr
+        class="selected-data-cut"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          -
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</pf-data-cuts>
+`;
+
+exports[`DataCutsComponent should show the data cut in the proper currency 1`] = `
+<pf-data-cuts
+  currencyCode={[Function String]}
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+>
+  <table
+    class="job-cuts-table"
+  >
+    <tbody>
+      
+      <tr
+        class="data-cut-matched"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <td
+          class="data-cut-title"
+        >
+          Metropolitan/Big/Large
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          USA
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          Incs (8)
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          50.5
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          85.5
+        </td>
+        <td
+          class="fixed-cell"
+        >
+          
+          <span
+            class="matches"
+          >
+             4 
+          </span>
+        </td>
       </tr>
     </tbody>
   </table>

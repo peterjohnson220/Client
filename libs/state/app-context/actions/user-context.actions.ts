@@ -6,6 +6,7 @@ export const GET_USER_CONTEXT = '[AppContext/User Context] Get User Context';
 export const GET_USER_CONTEXT_SUCCESS = '[AppContext/User Context] Get User Context Success';
 export const GET_USER_CONTEXT_ERROR = '[AppContext/User Context] Get User Context Error';
 export const GET_USER_CONTEXT_401_ERROR = '[AppContext/User Context] Get User Context 401 Error';
+export const GET_USER_CONTEXT_404_ERROR = '[AppContext/User Context] Get User Context 404 Error';
 
 export class GetUserContext implements Action {
   readonly type = GET_USER_CONTEXT;
@@ -27,8 +28,14 @@ export class GetUserContext401Error implements Action {
   constructor() { }
 }
 
+export class GetUserContext404Error implements Action {
+  readonly type = GET_USER_CONTEXT_404_ERROR;
+  constructor() { }
+}
+
 export type Actions =
   | GetUserContext
   | GetUserContextSuccess
   | GetUserContextError
-  | GetUserContext401Error;
+  | GetUserContext401Error
+  | GetUserContext404Error;

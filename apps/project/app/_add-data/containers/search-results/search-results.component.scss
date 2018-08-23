@@ -11,6 +11,7 @@
   background-color: $legacy-header-grey;
   display: flex;
   align-items: center;
+  padding-right: 1rem;
 }
 
 .results-header table{
@@ -36,7 +37,8 @@
 
 .results{
   @extend %positon-below-header;
-  overflow-y: auto;
+  bottom: 22px;
+  overflow-y: scroll;
 }
 
 .results table{
@@ -55,4 +57,11 @@
 
 .loading-more-row{
   height: 50px;
+}
+
+:host ::ng-deep .loading-blanket {
+  position: fixed !important;
+  left: 244px !important;
+  bottom: 27px !important;
+  top: 30px !important;
 }

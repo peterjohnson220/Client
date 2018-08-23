@@ -3,14 +3,19 @@
 exports[`Manage Exchange Section Header should provide correct values to the pf-manage-exchange-section-header 1`] = `
 <pf-manage-exchange-section-header>
   <div
-    class="section-header"
+    class="section-header d-flex justify-content-between align-items-center"
   >
-    <h4>
-      
-    </h4>
-    <p>
+    <div>
+      <h4>
         
-    </p>
+      </h4>
+      <p>
+          
+      </p>
+    </div>
+    <div
+      class="d-flex space-out-children"
+    />
   </div>
 </pf-manage-exchange-section-header>
 `;

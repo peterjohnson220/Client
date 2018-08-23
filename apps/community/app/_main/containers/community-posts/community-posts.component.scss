@@ -1,33 +1,30 @@
-
 @import 'colors';
 
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
-.posts-container
-{
+$reply-avatar-width: 35px;
+$reply-avatar-height: 35px;
+
+.posts-container {
   border: 1px solid $border-grey;
 }
 
-#post-avatar
-{
+#post-avatar {
   width: $post-avatar-width;
   height: $post-avatar-height;
 }
 
-.tag
-{
+.tag {
   color: #515151;
   background-color: $community-tag-color;
 }
 
-.tag-icon
-{
+.tag-icon {
   color: $community-tag-icon-color;
 }
 
-.post-offset
-{
+.post-offset {
   margin-left: $post-avatar-width + 10px;
 }
 
@@ -36,29 +33,58 @@ $post-avatar-height: 50px;
   border: solid 1px #DDDDDD;
 }
 
-.community-btn .icon{
+.community-btn .icon {
   color: $community-icon-color;
 }
 
-.community-btn-clicked
-{
+.community-btn-clicked {
   background-color: $community-like-button-color;
-  color: #FFFFFF;
+  color: white;
 }
 
-.community-btn-clicked .icon
-{
-  color: #FFFFFF;
+.community-btn-clicked .icon {
+  color: white;
 }
 
-.community-user-name-text
-{
+.community-user-name-text {
   color: $community-user-name-text-color;
   font-weight: bold;
 }
 
-.community-sub-text
-{
+.community-sub-text {
   color: $community-sub-text-color;
 }
 
+.community-link
+{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.internal {
+  background-color: #18a2b8;
+  color: white;
+  border-radius: 3px;
+  height: 20px;
+  font-size: .95rem;
+}
+
+#reply-avatar {
+  width: $reply-avatar-width;
+  height: $reply-avatar-height;
+}
+
+.reply-offset {
+  margin-left: $reply-avatar-width + 10px;
+}
+
+#show-more-btn
+{
+  color: white;
+  background-color: #0883BE;
+}
+
+#show-more-btn > i
+{
+  color: white;
+}

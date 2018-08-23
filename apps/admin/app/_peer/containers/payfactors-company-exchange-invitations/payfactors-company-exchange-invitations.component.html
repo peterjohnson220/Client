@@ -1,11 +1,9 @@
 <div class="d-flex flex-column h-100">
-  <div class="d-flex justify-content-between align-items-center">
-    <pf-manage-exchange-section-header
-      [sectionTitle]="'Payfactors Company Invitations'"
-      [sectionDescription]="'Listed in the grid below are Payfactors companies that have been invited to join this exchange.'"
-    >
-    </pf-manage-exchange-section-header>
-  </div>
+  <pf-manage-exchange-section-header
+    [sectionTitle]="'Payfactors Company Invitations'"
+    [sectionDescription]="'Listed in the grid below are Payfactors companies that have been invited to join this exchange.'"
+  >
+  </pf-manage-exchange-section-header>
   <div class="d-flex h-100">
     <pf-async-container
       [loading]="payfactorsCompanyExchangeInvitationsLoading$ | async"

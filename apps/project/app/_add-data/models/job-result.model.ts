@@ -1,4 +1,4 @@
-import {DataCut} from './data-cut.model';
+import {SurveyDataCut} from './data-cut.model';
 
 export interface JobResult {
     Id: number;
@@ -10,13 +10,17 @@ export interface JobResult {
     Source: string;
     Description: string;
     IsPayfactors: boolean;
-    MatchCount: number;
+    Matches: number;
     EffectiveDate: Date;
     Category?: string;
     FLSAStatus?: string;
     Scope?: string;
     LoadingDataCuts: boolean;
-    DataCuts: DataCut[];
+    DataCuts: SurveyDataCut[];
+    Base50th: number;
+    TCC50th: number;
+    CountryCode?: string;
+    IsSelected: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -30,10 +34,14 @@ export function generateMockSurveyJobResult(): JobResult {
     Source: 'Hewitt Associates',
     Description: 'Job Description: Accountant',
     IsPayfactors: false,
-    MatchCount: 5,
+    Matches: 5,
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
-    DataCuts: []
+    DataCuts: [],
+    Base50th: 1,
+    TCC50th: 1,
+    CountryCode: 'USA',
+    IsSelected: false
   };
 }
 
@@ -60,12 +68,16 @@ export function generateMockPayfactorsJobResult(): JobResult {
      Reports to: Typically reports to a department head or manager. Competencies: Analytical skills.
      Problem-solving. Ability to work within a team.`,
     IsPayfactors: true,
-    MatchCount: 0,
+    Matches: 0,
     EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
     FLSAStatus: 'Typically Exempt',
     Scope: 'Boston - MA',
     LoadingDataCuts: false,
-    DataCuts: []
+    DataCuts: [],
+    Base50th: 1,
+    TCC50th: 1,
+    CountryCode: 'USA',
+    IsSelected: false
   };
 }

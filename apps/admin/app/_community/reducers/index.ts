@@ -69,3 +69,14 @@ export const getUpdatingCommunitygPollStatusSuccess = createSelector(
   selectCommunityPollState, fromCommunityPollReducer.getUpdatingCommunityPollStatusSuccess
 );
 
+export const getCommunityExportingCommunityPoll = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getExportingCommunityPoll
+);
+
+export const getExportingCommunityPollSuccess = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getExportingCommunityPollSuccess
+);
+
+export const getCommunityExportingPollError = createSelector(
+  selectCommunityPollState, fromCommunityPollReducer.getExportingCommunityPollError
+);

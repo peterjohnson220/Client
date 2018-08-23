@@ -1,4 +1,4 @@
-@import 'colors';
+@import 'legacy-variables';
 
 tr{
   width: 100%;
@@ -6,7 +6,15 @@ tr{
 
 tr:hover{
   background-color: $add-data-hover-background;
+  cursor: pointer;
+}
+.selected-data-cut{
+  background-color: $add-data-selected-background;
 }
 .data-cut-title{
   width: 422px;
+}
+
+.data-cut-matched {
+  background-color: #f2f2f2;
 }

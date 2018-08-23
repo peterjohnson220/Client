@@ -7,7 +7,7 @@ export interface State {
   entities: CommunityPollRequest[];
   submitting: boolean;
   submitted: boolean;
-  questionsSubmitted: number[];
+  questionsSubmitted: any;
 }
 
 export const initialState: State = {
@@ -16,7 +16,7 @@ export const initialState: State = {
   entities: [],
   submitting: false,
   submitted: false,
-  questionsSubmitted: []
+  questionsSubmitted: null
 };
 
 export function reducer(state = initialState, action: communityPollRequestActions.Actions): State {
@@ -51,18 +51,11 @@ export function reducer(state = initialState, action: communityPollRequestAction
       };
     }
     case communityPollRequestActions.SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_SUCCESS: {
-
-      const updatedQuestionsSubmitted = [];
-      for (const question of state.questionsSubmitted) {
-        updatedQuestionsSubmitted.push(question);
-      }
-      updatedQuestionsSubmitted.push(action.payload);
-
       return {
         ...state,
         submitting: false,
         submitted: true,
-        questionsSubmitted: updatedQuestionsSubmitted
+        questionsSubmitted: action.payload
       };
     }
     default: {
@@ -75,4 +68,4 @@ export const getGettingCommunityPollRequests = (state: State) => state.loading;
 export const getGettingCommunityPollRequestsError = (state: State) => state.loadingError;
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
-
+export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;

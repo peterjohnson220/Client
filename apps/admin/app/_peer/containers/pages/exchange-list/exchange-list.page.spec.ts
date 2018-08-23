@@ -6,8 +6,9 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer';
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
-import * as fromSharedPeerReducer from 'libs/features/peer/list/reducers';
+
+import * as fromExchangeListActions from '../../../actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../../reducers';
 
 import { ExchangeListPageComponent } from './exchange-list.page';
 
@@ -23,7 +24,7 @@ describe('Admin - Exchange List Page', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          peerAdmin: combineReducers(fromSharedPeerReducer.reducers)
+          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         })
       ],
       providers: [

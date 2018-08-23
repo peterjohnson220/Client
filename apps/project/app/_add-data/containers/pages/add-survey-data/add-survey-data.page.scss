@@ -1,17 +1,19 @@
 .filters-sidebar{
   width: 243px;
-  border-right: 3px solid #cccccc;
+  position: relative;
 }
 
-.results-container{
+.results-and-actions{
   flex-grow: 1;
   position: relative;
   margin-left: .3rem;
 }
 
 .button-container{
+  width: 100%;
+  bottom: 0;
+  height: 22px;
+  position: absolute;
   display: flex;
   justify-content: center;
-  margin-bottom: 0.25rem;
-  min-height: 18px;
 }

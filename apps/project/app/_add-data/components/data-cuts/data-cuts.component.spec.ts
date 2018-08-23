@@ -1,30 +1,43 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
 
 import { DataCutsComponent } from './data-cuts.component';
-import {generateMockDataCut} from '../../models';
+import { generateMockDataCut, SurveyDataCut } from '../../models';
+import * as fromAddDataReducer from '../../reducers';
 
 describe('DataCutsComponent', () => {
-  let component: DataCutsComponent;
+  let instance: DataCutsComponent;
   let fixture: ComponentFixture<DataCutsComponent>;
+  let store: Store<fromAddDataReducer.State>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataCutsComponent ]
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+          project_addData: combineReducers(fromAddDataReducer.reducers)
+        })
+      ],
+      declarations: [ DataCutsComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataCutsComponent);
-    component = fixture.componentInstance;
-  });
+    store = TestBed.get(Store);
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    fixture = TestBed.createComponent(DataCutsComponent);
+    instance = fixture.componentInstance;
+
   });
 
   it('should display Title, Country and weight', () => {
-    component.dataCuts = [generateMockDataCut()];
+    instance.dataCuts = [generateMockDataCut()];
 
     fixture.detectChanges();
 
@@ -32,12 +45,54 @@ describe('DataCutsComponent', () => {
   });
 
   it('should handle empty currency fields', () => {
-    component.dataCuts = [generateMockDataCut()];
-    component.dataCuts[0].TCC50th = null;
-    component.dataCuts[0].Base50th = null;
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].TCC50th = null;
+    instance.dataCuts[0].Base50th = null;
 
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should show the data cut in the proper currency', () => {
+    instance.currencyCode = 'CAD';
+    instance.dataCuts = [generateMockDataCut()];
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show selected if the data cut has been selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].TCC50th = null;
+    instance.dataCuts[0].Base50th = null;
+    instance.dataCuts[0].IsSelected = true;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should emit matchesMouseEnter event when mouse enter Matches field', () => {
+    const dataCut: SurveyDataCut = generateMockDataCut();
+    const mouseEnterEvent: MouseEvent = new MouseEvent('mouseenter');
+
+    spyOn(instance.matchesMouseEnter, 'emit');
+    instance.handleMatchesMouseEnter(mouseEnterEvent, dataCut);
+
+    expect(instance.matchesMouseEnter.emit).toHaveBeenCalled();
+  });
+
+  it('should emit matchesMouseLeave event when mouse leave Matches field', fakeAsync(() => {
+    const mouseLeaveEvent: MouseEvent = new MouseEvent('mouseleave');
+
+    spyOn(instance.matchesMouseLeave, 'emit');
+    instance.handleMatchesMouseLeave(mouseLeaveEvent);
+    tick(100);
+
+    expect(instance.matchesMouseLeave.emit).toHaveBeenCalled();
+  }));
+
 });

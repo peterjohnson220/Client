@@ -6,8 +6,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockUpsertExchangeRequest } from 'libs/models/peer';
-import * as fromExchangeListReducer from 'libs/features/peer/list/reducers';
-import * as fromExchangeListActions from 'libs/features/peer/list/actions/exchange-list.actions';
+import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 
 import { CreateExchangeModalComponent } from './create-exchange-modal.component';
 
@@ -22,7 +22,7 @@ describe('Create Exchange Modal', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          feature_exchangeList: combineReducers(fromExchangeListReducer.reducers)
+          peerAdmin: combineReducers(fromPeerAdminReducer.reducers)
         }),
         ReactiveFormsModule
       ],
@@ -65,7 +65,7 @@ describe('Create Exchange Modal', () => {
 
     instance.name.setValue('test');
     instance.handleFormSubmit();
-    store.dispatch(new fromExchangeListActions.UpsertingExchangeError(<any>{error: 'Server Error'}));
+    store.dispatch(new fromExchangeListActions.UpsertExchangeError(<any>{error: 'Server Error'}));
 
     fixture.detectChanges();
 
@@ -81,7 +81,7 @@ describe('Create Exchange Modal', () => {
   });
 
   it('should dispatch an UpsertingExchange action with payload when handleFormSubmit is called', () => {
-    const action = new fromExchangeListActions.UpsertingExchange(generateMockUpsertExchangeRequest());
+    const action = new fromExchangeListActions.UpsertExchange(generateMockUpsertExchangeRequest());
     instance.name.setValue('test');
     instance.handleFormSubmit();
 

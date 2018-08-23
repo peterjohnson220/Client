@@ -3,8 +3,10 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import {JobResult, JobDetailsToolTipData} from '../../models';
+import { DataCut } from 'libs/models/survey-search';
 
+import { JobResult, JobDetailsToolTipData, JobContext, MatchesDetailsTooltipData } from '../../models';
+import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
 
@@ -15,26 +17,23 @@ import * as fromAddDataReducer from '../../reducers';
 })
 export class SearchResultsComponent implements OnInit, OnDestroy {
   @ViewChild('results') resultsContainer: ElementRef;
+  @ViewChild('tooltipContainer') tooltipContainer: TooltipContainerComponent;
 
   // Observables
   jobResults$: Observable<JobResult[]>;
   loadingMoreResults$: Observable<boolean>;
   loadingResults$: Observable<boolean>;
   hasMoreResultsOnServer$: Observable<boolean>;
-  tooltipOpen$: Observable<boolean>;
+  jobContext$: Observable<JobContext>;
+  error$: Observable<boolean>;
 
   // Subscriptions
   loadingMoreResultsSub: Subscription;
   hasMoreResultsOnServerSub: Subscription;
   loadingResultsSub: Subscription;
-  tooltipOpenSub: Subscription;
 
   loadingMoreResults: boolean;
-  tooltipData: JobDetailsToolTipData;
-  tooltipIndex: number;
   hasMoreResultsOnServer: boolean;
-  resultsContainerWidth: number;
-  resultsContainerHeight: number;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
@@ -43,7 +42,8 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromAddDataReducer.getLoadingMoreResults);
     this.hasMoreResultsOnServer$ = this.store.select(fromAddDataReducer.getHasMoreResultsOnServer);
-    this.tooltipOpen$ = this.store.select(fromAddDataReducer.getTooltipOpen);
+    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.error$ = this.store.select(fromAddDataReducer.getSearchResultsError);
   }
 
   // Events
@@ -58,38 +58,49 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreResultsSub = this.loadingMoreResults$.subscribe(lmr => this.loadingMoreResults = lmr);
     this.hasMoreResultsOnServerSub = this.hasMoreResultsOnServer$.subscribe(hmr => this.hasMoreResultsOnServer = hmr);
     this.loadingResultsSub = this.loadingResults$.subscribe(lr => this.resetResultsContainer(lr));
-    this.tooltipOpenSub = this.tooltipOpen$.subscribe(tooltipOpen => this.resetTooltipIndex(tooltipOpen));
   }
 
   ngOnDestroy() {
     this.loadingMoreResultsSub.unsubscribe();
     this.hasMoreResultsOnServerSub.unsubscribe();
     this.loadingMoreResultsSub.unsubscribe();
-    this.tooltipOpenSub.unsubscribe();
   }
 
   handleResultsScroll(): void {
-    this.clearTooltip();
+    this.tooltipContainer.handleSearchResultsContainerScroll();
   }
 
   handleJobTitleClick(data: JobDetailsToolTipData, index: number): void {
-    if (!!this.tooltipData && this.tooltipIndex === index) {
-      this.clearTooltip();
+    this.setResultsContainerSize();
+    this.tooltipContainer.handleJobTitleClick(data, index);
+  }
+
+  handleShowCutsClick(data: JobResult): void {
+    if (data.DataCuts.length) {
       return;
     }
-    this.tooltipData = data;
-    this.tooltipIndex = index;
-    this.setResultsContainerSize();
-    this.store.dispatch(new fromSearchResultsActions.OpenTooltip());
+    this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(data));
+  }
+
+  handleCutSelectionToggle(data: DataCut): void {
+    this.store.dispatch(new fromSearchResultsActions.ToggleSurveyDataCutSelection(data));
   }
 
   trackByJobId(index, item: JobResult) {
     return item.Id;
   }
 
-  private clearTooltip(): void {
-    this.store.dispatch(new fromSearchResultsActions.CloseTooltip());
-    this.tooltipIndex = -1;
+  handleMatchesMouseEnter(data: MatchesDetailsTooltipData): void {
+    this.setResultsContainerSize();
+    this.tooltipContainer.handleMatchesMouseEnter(data);
+  }
+
+  handleMatchesMouseLeave(): void {
+    this.tooltipContainer.handleMatchesMouseLeave();
+  }
+
+  setMatchesTooltipHovered(isHovered: boolean) {
+    this.tooltipContainer.setMatchesTooltipHovered(isHovered);
   }
 
   private resetResultsScrollToTop(loadingResults: boolean): void {
@@ -102,20 +113,15 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       return;
     }
     this.resetResultsScrollToTop(loadingResults);
-    this.clearTooltip();
-  }
-
-  private resetTooltipIndex(tooltipOpen: boolean): void {
-    if (!tooltipOpen) {
-      this.tooltipIndex = -1;
-    }
+    this.tooltipContainer.clearJobDetailsTooltip();
   }
 
   private setResultsContainerSize(): void {
-    if (!this.resultsContainer) {
+    if (!this.resultsContainer || (this.tooltipContainer.hasResultsContainerSize())) {
       return;
     }
-    this.resultsContainerWidth = this.resultsContainer.nativeElement.offsetWidth;
-    this.resultsContainerHeight = this.resultsContainer.nativeElement.offsetHeight;
+    this.tooltipContainer.searchResultsContainerWidth = this.resultsContainer.nativeElement.offsetWidth;
+    this.tooltipContainer.searchResultsContainerHeight = this.resultsContainer.nativeElement.offsetHeight;
   }
+
 }

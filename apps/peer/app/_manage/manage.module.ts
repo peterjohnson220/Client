@@ -11,19 +11,19 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { PfPeerExchangeListModule } from 'libs/features';
 import { PfCommonModule } from 'libs/core';
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
-import { ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
-          PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent } from './containers';
+import {
+  ExchangeJobMappingPageComponent, ExchangeJobMappingInfoComponent, ExchangeJobMappingGridComponent,
+  PayfactorsJobSelectionFormComponent, DeleteMappingConfirmationModalComponent
+} from './containers';
 import { ExchangeJobMappingGridEffects, ExchangeJobMappingInfoEffects, PayfactorsJobExchangeRequestEffects } from './effects';
 import { reducers } from './reducers';
 import { ExchangeJobMappingService, } from './services';
 import { ManageRoutingModule } from './manage-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import {RequestJobModalComponent} from './containers/request-job/request-job-modal';
-import {NewJobFormComponent} from './containers/request-job/new-job-form';
+import { RequestJobModalComponent } from './containers/request-job/request-job-modal';
+import { NewJobFormComponent } from './containers/request-job/new-job-form';
 
 @NgModule({
   imports: [
@@ -45,9 +45,7 @@ import {NewJobFormComponent} from './containers/request-job/new-job-form';
     ManageRoutingModule,
 
     // Payfactors
-    SharedModule,
     PfCommonUIModule,
-    PfPeerExchangeListModule,
     PfFormsModule,
     PfKendoExtensions,
     PfCommonModule

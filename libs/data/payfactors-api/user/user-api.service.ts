@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { HomePageLink } from '../../../models/user';
+import {UserAssignedRole} from '../../../models/security';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -20,5 +21,10 @@ export class UserApiService {
   getUserHomePage(userId: number) {
     return this.payfactorsApiService
       .get<HomePageLink>(`${this.endpoint}(${userId})/Default.GetUserHomePage`);
+  }
+
+  getUserAssignedRoles() {
+    return this.payfactorsApiService
+      .get<UserAssignedRole[]>(`${this.endpoint}/Default.GetAvailableAndAssignedRolesForCurrentUser`);
   }
 }

@@ -2,8 +2,10 @@
 
 exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope when current job is Payfactors 1`] = `
 <pf-job-details-tooltip
+  closed={[Function EventEmitter]}
   job={[Function Object]}
   jobDescriptionElement={[Function ElementRef]}
+  tooltip={[Function NgbTooltip]}
   tooltipElement={[Function ElementRef]}
   tooltipMargin={[Function Number]}
   tooltipPadding={[Function Number]}
@@ -24,11 +26,11 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
       </div>
       <div
         data-toggle="tooltip"
-        title="Copy Job Description"
+        title="Close"
       >
         <i
           aria-hidden="true"
-          class="fa fa-clipboard"
+          class="fa fa-times"
         />
       </div>
     </div>
@@ -79,12 +81,15 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
       <strong>
         Scope: 
       </strong>
-      Boston - MA 
+      National 
     </p>
     <div
-      class="job-description"
+      class="d-flex"
     >
-      Job Summary: Prepares, analyzes, and reviews financial statements using accounting principles.
+      <div
+        class="job-description"
+      >
+        Job Summary: Prepares, analyzes, and reviews financial statements using accounting principles.
        Job Duties: Keeps records of account entries by compiling and analyzing accounting activities.
        Prepares reports such as balance sheets, profit and loss statements,
        and other documents that project the organization's financial position.
@@ -97,6 +102,22 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
        Typically requires a Bachelor's degree and 2 to 4 years of experience. May require a CPA.
        Reports to: Typically reports to a department head or manager. Competencies: Analytical skills.
        Problem-solving. Ability to work within a team.
+      </div>
+      
+      <div
+        data-toggle="tooltip"
+        ng-reflect-ngb-tooltip="Copied"
+        ng-reflect-triggers="manual"
+        ngbtooltip="Copied"
+        title="Copy Job Description"
+        triggers="manual"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-clipboard"
+        />
+      </div>
+      
     </div>
   </div>
 </pf-job-details-tooltip>
@@ -104,8 +125,10 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
 
 exports[`JobDetailsTooltipComponent should display Survey Name when current job is not Payfactors and Survey Name is not empty 1`] = `
 <pf-job-details-tooltip
+  closed={[Function EventEmitter]}
   job={[Function Object]}
   jobDescriptionElement={[Function ElementRef]}
+  tooltip={[Function NgbTooltip]}
   tooltipElement={[Function ElementRef]}
   tooltipMargin={[Function Number]}
   tooltipPadding={[Function Number]}
@@ -126,11 +149,11 @@ exports[`JobDetailsTooltipComponent should display Survey Name when current job 
       </div>
       <div
         data-toggle="tooltip"
-        title="Copy Job Description"
+        title="Close"
       >
         <i
           aria-hidden="true"
-          class="fa fa-clipboard"
+          class="fa fa-times"
         />
       </div>
     </div>
@@ -169,9 +192,28 @@ exports[`JobDetailsTooltipComponent should display Survey Name when current job 
     </p>
     
     <div
-      class="job-description"
+      class="d-flex"
     >
-      Job Description: Accountant
+      <div
+        class="job-description"
+      >
+        Job Description: Accountant
+      </div>
+      
+      <div
+        data-toggle="tooltip"
+        ng-reflect-ngb-tooltip="Copied"
+        ng-reflect-triggers="manual"
+        ngbtooltip="Copied"
+        title="Copy Job Description"
+        triggers="manual"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-clipboard"
+        />
+      </div>
+      
     </div>
   </div>
 </pf-job-details-tooltip>

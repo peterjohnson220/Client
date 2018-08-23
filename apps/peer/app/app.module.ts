@@ -11,11 +11,17 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
+import { SharedModule } from './shared/shared.module';
+
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './shared/reducers';
+
 
 @NgModule({
   declarations: [
     AppWrapperComponent],
   imports: [
+
     // Angular
     BrowserAnimationsModule,
 
@@ -23,16 +29,19 @@ import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
     NgbModalModule.forRoot(),
     NgbPopoverModule.forRoot(),
     NgbCarouselModule.forRoot(),
+    StoreModule.forFeature('peer_shared', reducers),
 
     // PF Modules
     PfStateModule,
     PfApiModule,
     PfAppRootModule,
     PfLayoutWrapperModule,
+    SharedModule,
 
     // Routing
     AppRoutingModule
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

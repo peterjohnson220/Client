@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
+import * as fromUserAssignedRoleActions from 'libs/state/app-context/actions/user-assigned-roles.actions';
 import * as fromRootState from 'libs/state/state';
 
 import { UserContext } from '../../../../models';
@@ -28,6 +29,7 @@ export class LoadingUserContextComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromUserContextActions.GetUserContext());
+    this.store.dispatch(new fromUserAssignedRoleActions.GetUserAssignedRoles());
 
     // TODO: this initialize pendo code should be moved to the app-wrapper component when the app wrappers are consolidated
     this.userContext$.pipe(take(1)).subscribe(l => {

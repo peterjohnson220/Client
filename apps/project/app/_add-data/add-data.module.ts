@@ -9,12 +9,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent } from './components';
-import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent } from './containers';
-import {AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects} from './effects';
+import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
+         MultiSelectFilterComponent, MatchesDetailsTooltipComponent } from './components';
+import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent,
+         TooltipContainerComponent } from './containers';
+import {AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects, TooltipContainerEffects} from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -23,8 +26,11 @@ import { AddDataRoutingModule } from './add-data-routing.module';
 
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
-    EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects]),
+    EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
+      TooltipContainerEffects
+    ]),
     InfiniteScrollModule,
+    NgbTooltipModule,
 
     // Routing
     AddDataRoutingModule,
@@ -35,10 +41,11 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   ],
   declarations: [
     // Components
-    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
+    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent, MultiSelectFilterComponent,
+    MatchesDetailsTooltipComponent,
 
     // Containers
-    SearchResultsComponent, SearchFiltersComponent,
+    SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent,
 
     // Pages
     AddSurveyDataPageComponent

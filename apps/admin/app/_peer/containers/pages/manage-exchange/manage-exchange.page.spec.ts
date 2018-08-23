@@ -41,7 +41,7 @@ describe('Manage Exchange Page', () => {
           provide: GridHelperService,
           useValue: { loadExchangeJobs: jest.fn(),
                       loadExchangeCompanies: jest.fn(),
-                      loadPendingExchangeAccessRequests: jest.fn(),
+                      loadExchangeAccessRequests: jest.fn(),
                       loadPayfactorsCompanyExchangeInvitations: jest.fn(),
                       loadNewCompanyExchangeInvitations: jest.fn(),
                       loadExchangeJobRequests: jest.fn()}
@@ -71,12 +71,12 @@ describe('Manage Exchange Page', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a loadExchangeJobs, loadExchangeCompanies, loadPendingExchangeAccessRequests,' +
+  it('should dispatch a loadExchangeJobs, loadExchangeCompanies, loadExchangeAccessRequests,' +
     'loadPayfactorsCompanyExchangeInvitations and loadNewCompanyExchangeInvitations action with exchange id on init', () => {
     instance.exchange$ = of(generateMockExchange());
     spyOn(gridHelperService, 'loadExchangeJobs');
     spyOn(gridHelperService, 'loadExchangeCompanies');
-    spyOn(gridHelperService, 'loadPendingExchangeAccessRequests');
+    spyOn(gridHelperService, 'loadExchangeAccessRequests');
     spyOn(gridHelperService, 'loadPayfactorsCompanyExchangeInvitations');
     spyOn(gridHelperService, 'loadNewCompanyExchangeInvitations');
     spyOn(gridHelperService, 'loadExchangeJobRequests');
@@ -85,7 +85,7 @@ describe('Manage Exchange Page', () => {
 
     expect(gridHelperService.loadExchangeJobs).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadExchangeCompanies).toHaveBeenCalledWith(routeIdParam);
-    expect(gridHelperService.loadPendingExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
+    expect(gridHelperService.loadExchangeAccessRequests).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadPayfactorsCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadNewCompanyExchangeInvitations).toHaveBeenCalledWith(routeIdParam);
     expect(gridHelperService.loadExchangeJobRequests).toHaveBeenCalledWith(routeIdParam);

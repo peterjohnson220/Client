@@ -6,9 +6,10 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   communityPollRequestResponsesSubscription={[Function Subscriber]}
   communityPollRequests$={[Function Store]}
   communityPollRequestsLoading$={[Function Store]}
-  selectedOption="null"
+  communityPollResponseSubmitting$={[Function Store]}
+  communityPollResponsesSuccess$={[Function Store]}
+  communityPollResponsesSuccessSubscription={[Function Subscriber]}
   store={[Function Store]}
-  userSubmittedResponses={[Function Array]}
 >
   <div
     class="card"

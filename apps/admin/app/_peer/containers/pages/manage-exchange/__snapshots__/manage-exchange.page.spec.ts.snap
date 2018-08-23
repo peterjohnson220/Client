@@ -7,12 +7,12 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   exchangeId={[Function Number]}
   gridHelperService={[Function Object]}
   store={[Function Store]}
+  totalExchangeAccessRequests$={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
   totalExchangeJobRequests$={[Function Store]}
   totalExchangeJobs$={[Function Store]}
   totalNewCompanyExchangeInvitations$={[Function Store]}
   totalPayfactorsCompanyExchangeInvitations$={[Function Store]}
-  totalPendingExchangeAccessRequests$={[Function Store]}
 >
   <pf-page-with-title-bar>
     

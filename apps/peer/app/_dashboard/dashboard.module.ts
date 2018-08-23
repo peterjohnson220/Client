@@ -7,7 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
-import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import 'hammerjs';
 
 import { PfFormsModule } from 'libs/forms';
@@ -22,15 +22,16 @@ import {
   ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
   ChartDetailComponent, ExchangeJobComparisonGridComponent
 } from './containers';
-import { ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-         InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects } from './effects';
+import {
+  ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
+  InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+} from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { SharedModule } from '../shared/shared.module';
-import {InviteCompanyModalComponent} from './containers/invite-company/invite-company-modal';
-import {NewCompanyFormComponent} from './containers/invite-company/new-company-form';
-import {ExistingCompanySelectionFormComponent} from './containers/invite-company/existing-company-selection-form';
+import { InviteCompanyModalComponent } from './containers/invite-company/invite-company-modal';
+import { NewCompanyFormComponent } from './containers/invite-company/new-company-form';
+import { ExistingCompanySelectionFormComponent } from './containers/invite-company/existing-company-selection-form';
 
 
 @NgModule({
@@ -56,7 +57,6 @@ import {ExistingCompanySelectionFormComponent} from './containers/invite-company
     DashboardRoutingModule,
 
     // Payfactors
-    SharedModule,
     PfCommonUIModule,
     PfFormsModule,
     PfCommonModule,

@@ -1,0 +1,5 @@
+<div #tooltip class="tooltip-container" [style.visibility]="!visible ? 'hidden': 'inherit'">
+    <div class="d-flex" *ngFor="let matchDetails of matchesDetails">
+      <span>{{matchDetails}}</span>
+    </div>
+</div>

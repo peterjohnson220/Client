@@ -29,9 +29,14 @@ input {
 
 .legacy-primary-btn{
   @extend %legacy-btn;
-  background-color: #0883BE;
+  background-color: $legacy-primary-blue;
   color: #FFFFFF;
-  border: 1px solid #0883BE;
+  border: 1px solid $legacy-primary-blue;
+
+  &:disabled {
+    background-color: rgba($legacy-primary-blue, .65);
+    border-color: rgba($legacy-primary-blue, .65);
+  }
 }
 
 

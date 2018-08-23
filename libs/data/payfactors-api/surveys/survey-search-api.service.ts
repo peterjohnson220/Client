@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SearchFilter, SearchRequest, SurveyDataFilterRequest, SurveyDataCut } from 'libs/models/survey-search';
+import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
+  SurveyDataCutResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
+  PricingMatchesResponse,
+  PricingMatchesRequest,
+  PricingMatchesDetailsRequest
+} from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -20,7 +25,20 @@ export class SurveySearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyJobs`, searchRequest);
   }
 
-  searchDataCuts(surveyDataFilter: SurveyDataFilterRequest): Observable<SurveyDataCut[]> {
+  searchDataCuts(surveyDataFilter: SurveyDataFilterRequest): Observable<SurveyDataCutResponse[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetSurveyJobData`, surveyDataFilter);
   }
+
+  addSurveyDataCuts(addDataRequest: AddSurveyDataCutRequest): Observable<AddSurveyDataCutMatchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddSurveyDataCut`, addDataRequest);
+  }
+
+  getPricingMatches(pricingMatchesRequest: PricingMatchesRequest): Observable<PricingMatchesResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatches`, pricingMatchesRequest);
+  }
+
+  getPricingMatchesDetails(pricingMatchesDetailsRequest: PricingMatchesDetailsRequest): Observable<string[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatchesDetails`, pricingMatchesDetailsRequest);
+  }
+
 }

@@ -48,9 +48,9 @@ export class FirstLoginEffects {
 
   routeToHomePage(url: string) {
     if (url !== undefined && url != null) {
-     window.location.href = url;
+      window.location.href = url + '?login=true';
     } else {
-     window.location.href = environment.defaultHomePage;
+      window.location.href = environment.defaultHomePage;
     }
   }
 

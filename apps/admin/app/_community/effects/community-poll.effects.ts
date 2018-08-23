@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
 
-import { CommunityPoll } from 'libs/models/community/community-poll.model';
-import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
+import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
+import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
 import * as fromCommunityPollActions from '../actions/community-poll.actions';
+import * as fromCommunityPollReducer from '../reducers';
 
 @Injectable()
 export class CommunityPollEffects {
@@ -17,8 +18,9 @@ export class CommunityPollEffects {
 addCommunityPoll$: Observable<Action> = this.actions$
   .ofType(fromCommunityPollActions.ADDING_COMMUNITY_POLL).pipe(
     switchMap((action: fromCommunityPollActions.AddingCommunityPoll) =>
-      this.communityPollService.addCommunityPoll(action.payload).pipe(
+      this.communityPollAdminService.addCommunityPoll(action.payload).pipe(
         map(() => {
+          this.store.dispatch(new fromCommunityPollActions.LoadingCommunityPolls());
           return new fromCommunityPollActions.AddingCommunityPollSuccess();
         }),
         catchError(error => of(new fromCommunityPollActions.AddingCommunityPollError(error)))
@@ -30,7 +32,7 @@ addCommunityPoll$: Observable<Action> = this.actions$
   updateCommunityPollStatus$: Observable<Action> = this.actions$
     .ofType(fromCommunityPollActions.UPDATING_COMMUNITY_POLL_STATUS).pipe(
       switchMap((action: fromCommunityPollActions.UpdatingCommunityPollStatus) =>
-        this.communityPollService.updateCommunityPollStatus(action.payload).pipe(
+        this.communityPollAdminService.updateCommunityPollStatus(action.payload).pipe(
           map(() => {
             return new fromCommunityPollActions.UpdatingCommunityPollStatusSuccess();
           }),
@@ -43,8 +45,8 @@ addCommunityPoll$: Observable<Action> = this.actions$
   loadCommunityPolls$: Observable<Action> = this.actions$
     .ofType(fromCommunityPollActions.LOADING_COMMUNITY_POLLS).pipe(
       switchMap(() =>
-        this.communityPollService.getAllCommunityPolls().pipe(
-          map((communityPollListItems: CommunityPoll[]) => {
+        this.communityPollAdminService.getAllCommunityPolls().pipe(
+          map((communityPollListItems: CommunityPollList[]) => {
             return new fromCommunityPollActions.LoadingCommunityPollsSuccess(communityPollListItems);
           }),
           catchError(error => of(new fromCommunityPollActions.LoadingCommunityPollsError()))
@@ -52,8 +54,22 @@ addCommunityPoll$: Observable<Action> = this.actions$
       )
     );
 
+  @Effect()
+  exportCommunityPoll$: Observable<Action> = this.actions$
+  .ofType(fromCommunityPollActions.EXPORTING_COMMUNITY_POLL).pipe(
+    switchMap((action: fromCommunityPollActions.ExportingCommunityPoll) =>
+      this.communityPollAdminService.exportCommunityPoll(action.payload).pipe(
+        map((data) => {
+          return new fromCommunityPollActions.ExportingCommunityPollSuccess(data);
+        }),
+        catchError(error => of(new fromCommunityPollActions.ExportingCommunityPollError(error)))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
-     private communityPollService: CommunityPollApiService,
+     private communityPollAdminService: CommunityPollAdminApiService,
+     private store: Store<fromCommunityPollReducer.State>
   ) {}
 }

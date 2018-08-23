@@ -1,0 +1,48 @@
+@import 'colors';
+@import 'filters-variables';
+
+.option{
+  display: flex;
+  justify-content: space-between;
+  padding: .3846rem .5rem;
+  height: 28px;
+  cursor: pointer;
+
+  &:not(.disabled) {
+    &:hover {
+      background: lighten($selection-hover-background, 40%);
+    }
+  }
+}
+
+.option.disabled{
+  color: $disabled-option-color;
+  cursor: default;
+}
+
+.option.selected{
+  background: $selected-option-color;
+}
+
+.option.selected:hover{
+  background: $hover-option-color;
+}
+
+.option-check{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: .4rem;
+  width: 100%;
+}
+
+.option-count{
+  color: $option-count-color;
+  font-size: .95rem;
+}
+
+.no-data{
+  padding: .3846rem .65rem;
+  height: 28px;
+  font-style: italic;
+}

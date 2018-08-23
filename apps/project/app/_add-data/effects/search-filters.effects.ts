@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
@@ -18,9 +18,27 @@ export class SearchFiltersEffects {
   updateStaticFilterValue$ = this.actions$
     .ofType(fromSearchFiltersActions.UPDATE_FILTER_VALUE)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults())
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
     );
 
+  @Effect()
+  resetFilter$ = this.actions$
+    .ofType(fromSearchFiltersActions.RESET_FILTER)
+    .pipe(
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
+    );
+
+  @Effect()
+  resetAllFilter$ = this.actions$
+    .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
+    .pipe(
+      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
+      mergeMap(jobContext => [
+        new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }),
+        new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext ? jobContext.JobTitle : '' })
+        ]
+      )
+    );
 
   @Effect()
   getDefaultSurveyScopesFilter$ = this.actions$
@@ -34,6 +52,13 @@ export class SearchFiltersEffects {
             );
         }
       )
+    );
+
+  @Effect()
+  toggleMultiSelectOption$ = this.actions$
+    .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
+    .pipe(
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );
 
   constructor(

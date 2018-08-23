@@ -2,11 +2,16 @@
 
 exports[`Project - Add Data - Job Result should display Show Cuts link when current job is not Payfactors 1`] = `
 <div
+  cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   store={[Function Store]}
@@ -14,20 +19,20 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 >
   <tr
     class="job-result-row"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
   >
     <td
       class="growing-cell"
     >
-      <div
+      <span
         class="job-title"
       >
-        <span>
-           Blend of Gas Operations Top Executive-Corporate, G 
-          
-          
-          (13001)
-        </span>
-      </div>
+         Blend of Gas Operations Top Executive-Corporate, G 
+        
+        
+        (13001)
+      </span>
       <div
         class="vendor"
       >
@@ -39,19 +44,32 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      USA
+    </td>
     <td
       class="fixed-cell"
     />
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+    </td>
     <td
       class="fixed-cell"
-    />
+    >
+      
+      <span
+        class="matches"
+      >
+         5 
+      </span>
+    </td>
   </tr><tr
     class="job-data-cuts-row"
   >
@@ -73,30 +91,35 @@ exports[`Project - Add Data - Job Result should display Show Cuts link when curr
 
 exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
 <div
+  cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
   jobTitleClick={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  showCutsClick={[Function EventEmitter]}
   showCutsLabel={[Function String]}
   showDataCuts="false"
   store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
   <tr
-    class="job-result-row"
+    class="job-result-row payfactors-job-result"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
   >
     <td
       class="growing-cell"
     >
-      <div
+      <span
         class="job-title"
       >
-        <span>
-           Accountant II 
-          
-        </span>
-      </div>
+         Accountant II 
+        
+      </span>
       <div
         class="vendor"
       >
@@ -106,19 +129,111 @@ exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name
     </td>
     <td
       class="fixed-cell"
-    />
+    >
+      USA
+    </td>
     <td
       class="fixed-cell"
     />
     <td
       class="fixed-cell"
-    />
+    >
+      
+      
+      1.0
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+      
+      1.0
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+    </td>
+  </tr><tr
+    class="job-data-cuts-row"
+  >
+    <td
+      colspan="6"
+    >
+      
+      
+      
+    </td>
+  </tr>
+</div>
+`;
+
+exports[`Project - Add Data - Job Result should show values in the correct currency when is Payfactors job  1`] = `
+<div
+  currencyCode={[Function String]}
+  cutSelected={[Function EventEmitter]}
+  hideCutsLabel={[Function String]}
+  job={[Function Object]}
+  jobTitleClick={[Function EventEmitter]}
+  loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  showCutsClick={[Function EventEmitter]}
+  showCutsLabel={[Function String]}
+  showDataCuts="false"
+  store={[Function Store]}
+  toggleDataCutsLabel={[Function String]}
+>
+  <tr
+    class="job-result-row payfactors-job-result"
+    ng-reflect-klass="job-result-row"
+    ng-reflect-ng-class="[object Object]"
+  >
+    <td
+      class="growing-cell"
+    >
+      <span
+        class="job-title"
+      >
+         Accountant II 
+        
+      </span>
+      <div
+        class="vendor"
+      >
+         Payfactors 
+        
+      </div>
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      USA
+    </td>
     <td
       class="fixed-cell"
     />
     <td
       class="fixed-cell"
-    />
+    >
+      
+      
+      1.0
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+      
+      1.0
+    </td>
+    <td
+      class="fixed-cell"
+    >
+      
+    </td>
   </tr><tr
     class="job-data-cuts-row"
   >

@@ -10,9 +10,8 @@
 }
 
 .poll-response-option-button-container{
-  margin-top: .25em;
-  margin-bottom: .25em;
-  height: 34px;
+  height: 40px;
+  line-height: 15px;
 }
 
 .submit-button-container{
@@ -20,16 +19,17 @@
 }
 
 .inner-element{
-  background-color: white;
-  display: inline-block;
-  cursor: default;
-  height: 100%;
+  position: relative;
   width: 100%;
+  height: 100%;
+  background-color: white;
+  cursor: default;
 }
 
 .response-option-text-container{
-  display: inline-block;
-  vertical-align: middle;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .response-submitted-container{
@@ -58,6 +58,40 @@
 
 .selected{
   background-color: #42f489;
+}
+
+.poll-response-container{
+  position: relative;
+  line-height: 15px;
+  height: 45px;
+  border-radius: 3px;
+  color: lightgrey;
+}
+
+.poll-response-no{
+  background:white;
+}
+
+.poll-response-yes{
+  background:teal;
+}
+
+.poll-response-question{
+  width: 70%;
+  word-break: normal;
+  left: 2%;
+}
+
+.poll-response-percent{
+  right: 2%;
+  font-weight: bold;
+}
+
+.dismiss-poll-button {
+  font-size: 12px;
+  border:none; 
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* fixes blue box in chrome that appears when clicking the carousel */

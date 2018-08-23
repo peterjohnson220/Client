@@ -1,0 +1,24 @@
+@import 'colors';
+
+$selected-option-color: rgba(255, 250, 203, 0.65);
+$disabled-option-color: #c7c7c7;
+$hover-option-color: rgba(255, 250, 203, 1);
+$option-count-color: #9a9a9a;
+
+%uppercase-link {
+  text-transform: uppercase;
+  color: $link-color;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+%reset-link{
+  @extend %uppercase-link;
+  margin-right: .5rem;
+  padding: .05rem .5rem;
+  font-weight: normal;
+
+  &:hover{
+    background: darken(#eaeaea, 5%);
+  }
+}

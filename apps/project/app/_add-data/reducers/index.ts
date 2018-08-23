@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchFiltersReducer from './search-filters.reducer';
+import * as fromTooltipContainerReducer from './tooltip-container.reducer';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
   searchResults: fromSearchResultsReducer.State;
   searchFilters: fromSearchFiltersReducer.State;
+  tooltipContainer: fromTooltipContainerReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer,
-  searchFilters: fromSearchFiltersReducer.reducer
+  searchFilters: fromSearchFiltersReducer.reducer,
+  tooltipContainer: fromTooltipContainerReducer.reducer
 };
 
 // Select Feature Area
@@ -46,6 +49,11 @@ export const selectSearchFiltersState = createSelector(
   (state: AddDataState) => state.searchFilters
 );
 
+export const selectTooltipContainerState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.tooltipContainer
+);
+
 // Add Survey Data Page Selectors
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,
@@ -55,6 +63,11 @@ export const getJobContext = createSelector(
 export const getPageShown = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getPageShown
+);
+
+export const getAddingData = createSelector(
+  selectAddSurveyDataPageState,
+  fromAddSurveyDataPageReducer.getAddingData
 );
 
 // Search Results Selectors
@@ -88,9 +101,13 @@ export const getHasMoreResultsOnServer = createSelector(
   fromSearchResultsReducer.hasMoreResultsOnServer
 );
 
-export const getTooltipOpen = createSelector(
+export const getSelectedDataCuts = createSelector(
   selectSearchResultsState,
-  fromSearchResultsReducer.getTooltipOpen
+  fromSearchResultsReducer.getSelectedDataCuts
+);
+export const getSearchResultsError = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getError
 );
 
 // Search Filters Selectors
@@ -102,6 +119,27 @@ export const getFilters = createSelector(
 export const getLoadingDefaultSurveyScopes = createSelector(
   selectSearchFiltersState,
   fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
+);
+
+// Tooltip Container Selectors
+export const getJobDetailsTooltipOpen = createSelector(
+  selectTooltipContainerState,
+  fromTooltipContainerReducer.getJobDetailsTooltipOpen
+);
+
+export const getLoadingMatchesDetails = createSelector(
+  selectTooltipContainerState,
+  fromTooltipContainerReducer.getLoadingMatchesDetails
+);
+
+export const getMatchesDetails = createSelector(
+  selectTooltipContainerState,
+  fromTooltipContainerReducer.getMatchesDetails
+);
+
+export const getMatchesDetailsTooltipOpen = createSelector(
+  selectTooltipContainerState,
+  fromTooltipContainerReducer.getMatchesDetailsTooltipOpen
 );
 
 

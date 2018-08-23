@@ -7,17 +7,21 @@ import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageCo
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
 import { PageWithTitleBarComponent } from './page-layout';
-import {TermsConditionsModalComponent} from './terms-conditions-modal';
+import { TermsConditionsModalComponent } from './terms-conditions-modal';
 import { ValidationResultsComponent } from './validation';
 import { PfCommonModule } from '../../core';
 import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
+import { ClickElsewhereDirective } from './directives';
 
 const components = [
   // Content
   EllipsisViewMoreComponent,
   CardComponent,
   CardSelectorComponent,
+
+  // Directives
+  ClickElsewhereDirective,
 
   // Error
   ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent,

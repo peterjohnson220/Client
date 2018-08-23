@@ -1,49 +1,45 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { generateMockCommunityPost } from '../../models/community-post';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
+import * as fromCommunityPostReducer from '../../reducers';
+
 import { CommunityPostsComponent } from './community-posts.component';
 
 describe('CommunityPostsComponent', () => {
-  let component: CommunityPostsComponent;
   let fixture: ComponentFixture<CommunityPostsComponent>;
+  let instance: CommunityPostsComponent;
+  let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  // Configure Testing Module for before each test
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunityPostsComponent ],
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+          communityPollRequest: combineReducers(fromCommunityPostReducer.reducers)
+        }),
+        ReactiveFormsModule
+      ],
+      declarations: [
+        CommunityPostsComponent
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
-  }));
+    });
 
-  beforeEach(() => {
+    store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch');
+
     fixture = TestBed.createComponent(CommunityPostsComponent);
-    component = fixture.componentInstance;
-    component.LoadMockPosts = false;
-    fixture.detectChanges();
+    instance = fixture.componentInstance;
   });
 
-  it('should show posts', () => {
-
-    component.CommunityPosts.push(generateMockCommunityPost(0, 'post text'));
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should change like button when there are likes', () => {
-
-    component.CommunityPosts.push(generateMockCommunityPost(55, 'post text'));
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show tags', () => {
-    component.CommunityPosts.push(generateMockCommunityPost(55, 'post text',
-      [{ TagId: 'aa', TagName: 'Community tag'}, { TagId: 'aa', TagName: 'another tag'}]));
-
+  it('should show community posts', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

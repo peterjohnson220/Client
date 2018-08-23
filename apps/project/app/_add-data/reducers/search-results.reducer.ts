@@ -1,8 +1,10 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 
+import { DataCut } from 'libs/models/survey-search';
+
 import { JobResult, ResultsPagingOptions } from '../models';
-import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut } from '../helpers';
+import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
 
 export interface State {
   results: JobResult[];
@@ -10,7 +12,8 @@ export interface State {
   loadingResults: boolean;
   pagingOptions: ResultsPagingOptions;
   totalResultsOnServer: number;
-  tooltipOpen: boolean;
+  selectedDataCuts: DataCut[];
+  error: boolean;
 }
 
 const initialState: State = {
@@ -22,7 +25,8 @@ const initialState: State = {
     pageSize: 25
   },
   totalResultsOnServer: 0,
-  tooltipOpen: false
+  selectedDataCuts: [],
+  error: false
 };
 
 // Reducer function
@@ -31,6 +35,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_RESULTS: {
       return {
         ...state,
+        error: false,
         loadingResults: true,
         pagingOptions: initialState.pagingOptions
       };
@@ -38,7 +43,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: mapSurveyJobsToJobResults(action.payload.SurveyJobs),
+        results: mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts),
         loadingResults: false,
         totalResultsOnServer: action.payload.Paging.TotalRecordCount
       };
@@ -46,6 +51,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_MORE_RESULTS: {
       return {
         ...state,
+        error: false,
         loadingMoreResults: true,
         pagingOptions: {...state.pagingOptions, page: state.pagingOptions.page + 1}
       };
@@ -53,30 +59,54 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: state.results.concat(mapSurveyJobsToJobResults(action.payload.SurveyJobs)),
+        results: state.results.concat(mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
         loadingMoreResults: false
+      };
+    }
+    case fromSearchResultsActions.GET_RESULTS_ERROR: {
+      return {
+        ...state,
+        error: true
       };
     }
     case fromSearchResultsActions.CLEAR_RESULTS: {
       return {
         ...state,
         results: [],
-        totalResultsOnServer: 0,
-        tooltipOpen: false
+        totalResultsOnServer: 0
       };
     }
-    case fromSearchResultsActions.OPEN_TOOLTIP: {
+    case fromSearchResultsActions.TOGGLE_SURVEY_DATA_CUT_SELECTION: {
+      const resultsCopy = cloneDeep(state.results);
+      let selectedDataCuts = cloneDeep(state.selectedDataCuts);
+      const dataCut = action.payload;
+
+      const matchingDataCut = getMatchingDataCut(dataCut, selectedDataCuts);
+      if (matchingDataCut) {
+        // remove cut
+        selectedDataCuts = selectedDataCuts.filter(cutData => cutData !== matchingDataCut);
+        // deselect data cut in results
+        setSelectedPropertyInSearchResults(dataCut, resultsCopy, false);
+      } else {
+        // add cut
+        selectedDataCuts = selectedDataCuts.concat(dataCut);
+        // select data cut in results
+        setSelectedPropertyInSearchResults(dataCut, resultsCopy, true);
+      }
       return {
         ...state,
-        tooltipOpen: true
+        selectedDataCuts: selectedDataCuts,
+        results: resultsCopy
       };
     }
-    case fromSearchResultsActions.CLOSE_TOOLTIP: {
+
+    case fromSearchResultsActions.CLEAR_DATA_CUT_SELECTIONS: {
       return {
         ...state,
-        tooltipOpen: false
+        selectedDataCuts: []
       };
     }
+
     case fromSearchResultsActions.GET_SURVEY_DATA_RESULTS: {
       const surveyJobId = action.payload.Id;
       const resultsCopy = cloneDeep(state.results);
@@ -92,13 +122,19 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const resultsCopy = cloneDeep(state.results);
       const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
       surveyJob.LoadingDataCuts = false;
-      surveyJob.DataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts);
+      surveyJob.DataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
       return {
         ...state,
         results: resultsCopy
       };
     }
-
+    case fromSearchResultsActions.UPDATE_RESULTS_MATCHES_COUNT: {
+      const resultsCopy = cloneDeep(state.results);
+      return {
+        ...state,
+        results: applyMatchesToJobResults(resultsCopy, action.payload)
+      };
+    }
     default: {
       return state;
     }
@@ -112,4 +148,24 @@ export const getLoadingMoreResults = (state: State) => state.loadingMoreResults;
 export const getPagingOptions = (state: State) => state.pagingOptions;
 export const getNumberOfResults = (state: State) => state.totalResultsOnServer;
 export const hasMoreResultsOnServer = (state: State) => state.totalResultsOnServer > state.results.length;
-export const getTooltipOpen = (state: State) => state.tooltipOpen;
+export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
+export const getError = (state: State) => state.error;
+
+function getMatchingDataCut(dataCut: DataCut, selectedDataCuts: DataCut[]) {
+  let matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
+  if (!dataCut.IsPayfactorsJob) {
+    matchingDataCut = filter => filter.DataCutId === dataCut.DataCutId;
+  }
+  return selectedDataCuts.find(matchingDataCut);
+}
+
+function setSelectedPropertyInSearchResults(dataCut: DataCut, resultsCopy: JobResult[], isSelected: boolean) {
+  if (dataCut.IsPayfactorsJob) {
+    const payfactorsJob = resultsCopy.find(job => job.Code === dataCut.SurveyJobCode && job.CountryCode === dataCut.CountryCode);
+    payfactorsJob.IsSelected = isSelected;
+  } else {
+    const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);
+    const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
+    surveyCut.IsSelected = isSelected;
+  }
+}

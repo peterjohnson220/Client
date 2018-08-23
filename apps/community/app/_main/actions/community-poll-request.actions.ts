@@ -6,7 +6,7 @@ export const LOADING_COMMUNITY_POLL_REQUEST_SUCCESS  = '[Community/Poll Request]
 export const LOADING_COMMUNITY_POLL_REQUEST_ERROR  = '[Community/Poll Request] Loading Community Polls Error';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE = '[Community/Poll Request] Submitting Community Poll Request Response';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_SUCCESS =
-  '[Community/Poll Request] Submitting Community Poll Request Response Success';
+'[Community/Poll Request] Submitting Community Poll Request Response Success';
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_ERROR =
   '[Community/Poll Request] Submitting Community Poll Request Response Error';
 

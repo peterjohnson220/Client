@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Access Requests should match snapshot 1`] = `
+<pf-exchange-access-requests
+  collapse="false"
+  exchangeAccessRequestsGrid$={[Function Store]}
+  exchangeAccessRequestsLoading$={[Function Store]}
+  exchangeAccessRequestsLoadingError$={[Function Store]}
+  exchangeId={[Function Number]}
+  pageRowIndex="null"
+  route={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="d-flex flex-column h-100"
+  >
+    <pf-manage-exchange-section-header />
+    <div
+      class="d-flex exchange-access-request-grid-container no-collapse"
+      ng-reflect-klass="d-flex exchange-access-request"
+      ng-reflect-ng-class="no-collapse"
+    >
+      <pf-async-container
+        class="flex-grow-1"
+      >
+        <kendo-grid
+          class="row-click-navigates no-wrap-ellipsis-values"
+        >
+          <kendo-grid-column
+            field="CompanyName"
+            title="Company Name"
+          >
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            field="CompanyIndustry"
+            title="Industry"
+          >
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            field="CompanyLocation"
+            title="Location"
+          />
+          <kendo-grid-column
+            field="RequestUser"
+            title="Request User"
+          />
+          <kendo-grid-column
+            field="RequestDate"
+            title="Request Date"
+          >
+            
+          </kendo-grid-column>
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+    
+  </div>
+</pf-exchange-access-requests>
+`;

@@ -1,10 +1,9 @@
+import {SearchField} from './search-request.model';
+import {SearchFilter} from './search-filter.model';
+
 export interface SurveyDataFilterRequest {
     SurveyJobId: number;
-    DefaultScopes?: SurveyScope[];
-    CombinedScope?: string;
-  }
-
-  export interface SurveyScope {
-    SurveyId?: number;
-    CombinedScope: string;
+    SearchFields: SearchField[];
+    Filters: SearchFilter[];
+    CurrencyCode: string;
   }

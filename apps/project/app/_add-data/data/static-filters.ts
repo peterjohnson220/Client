@@ -1,25 +1,28 @@
-import { Filter, FilterType } from '../models';
+import { FilterType, TextFilter } from '../models';
 
-export const staticFilters: Filter[] = [
+export const staticFilters: TextFilter[] = [
   {
-    id: 'jobTitleCode',
-    backingField: 'job_title_code',
-    displayName: 'Job Title/Code',
-    type: FilterType.Text,
-    values: []
+    Id: 'jobTitleCode',
+    BackingField: 'job_title_code',
+    DisplayName: 'Job Title/Code',
+    Value: '',
+    Type: FilterType.Text,
+    Order: 1
   },
   {
-    id: 'jobDescription',
-    backingField: 'job_description',
-    displayName: 'Job Description',
-    type: FilterType.Text,
-    values: []
+    Id: 'jobDescription',
+    BackingField: 'job_description',
+    DisplayName: 'Job Description',
+    Value: '',
+    Type: FilterType.Text,
+    Order: 2,
   },
   {
-    id: 'scope',
-    backingField: 'combined_scope',
-    displayName: 'Scope',
-    type: FilterType.Text,
-    values: []
+    Id: 'scope',
+    BackingField: 'combined_scope',
+    DisplayName: 'Scope',
+    Value: '',
+    Type: FilterType.Text,
+    Order: 3
   }
 ];

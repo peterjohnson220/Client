@@ -1,18 +1,35 @@
-<div class="d-flex flex-column h-100">
+<div class="d-flex h-100">
 
-  <div class="d-flex flex-grow-1 mb-2">
-
-    <div class="filters-sidebar">
-      <pf-search-filters></pf-search-filters>
-    </div>
-    <div class="results-container">
-      <pf-search-results></pf-search-results>
-    </div>
+  <div class="filters-sidebar">
+    <pf-search-filters></pf-search-filters>
   </div>
+  <div class="results-and-actions">
+    <pf-search-results></pf-search-results>
 
-  <div class="button-container">
-    <button class="legacy-primary-btn mr-4">Add</button>
-    <button (click)="handleCancelClicked()" class="legacy-secondary-btn">Cancel</button>
+    <div class="button-container">
+      <button (click)="handleAddClicked()" [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length"
+              class="legacy-primary-btn mr-4">
+        <ng-container *ngIf="!(addingData$ | async); else addingData">
+          Add
+          <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
+        </ng-container>
+      </button>
+
+      <button (click)="handleCancelClicked()" class="legacy-secondary-btn mr-4">
+        Cancel
+      </button>
+
+      <span class="exclude-from-participation">
+      <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2"/>
+      <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
+    </span>
+    </div>
   </div>
 </div>
+
+<ng-template #addingData>
+  <pf-loading-indicator></pf-loading-indicator>
+  Adding...
+</ng-template>
+
 
