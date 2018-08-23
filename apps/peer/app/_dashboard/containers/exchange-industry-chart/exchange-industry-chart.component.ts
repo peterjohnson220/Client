@@ -37,7 +37,7 @@ export class ExchangeIndustryChartComponent {
       ChartType: ExchangeChartTypeEnum.Industry,
       Category: e.category
     };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
+    this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }
 }
 

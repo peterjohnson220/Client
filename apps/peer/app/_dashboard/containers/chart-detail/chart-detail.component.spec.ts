@@ -3,9 +3,11 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs/index';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { ExchangeChartTypeEnum } from 'libs/models/peer';
 
 import { ChartDetailComponent } from './chart-detail.component';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
@@ -65,5 +67,21 @@ describe('Peer Dashboard - Chart Detail', () => {
     instance.closeSidebar();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it(`should NOT show card body header when detailChartType$ is Company`, () => {
+    instance.detailChartType$ = of(ExchangeChartTypeEnum.Company);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should show a card header of 'Exchange Job Orgs' when the detailCharType$ is ExchangeJobOrgs`, () => {
+    instance.detailChartType$ = of(ExchangeChartTypeEnum.ExchangeJobOrgs);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

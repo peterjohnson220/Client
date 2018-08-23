@@ -3,5 +3,6 @@ export enum ExchangeChartTypeEnum {
   Family = 'Family',
   Revenue = 'Revenue',
   Company = 'Company',
-  Job = 'Job'
+  Job = 'Job',
+  ExchangeJobOrgs = 'ExchangeJobOrgs'
 }

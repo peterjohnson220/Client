@@ -37,6 +37,6 @@ export class ExchangeRevenueChartComponent {
       ChartType: ExchangeChartTypeEnum.Revenue,
       Category: e.category
     };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
+    this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }
 }

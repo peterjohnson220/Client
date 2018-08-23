@@ -1,5 +1,6 @@
 export interface ExchangeJobComparison {
   ExchangeJobToCompanyJobId: number;
+  ExchangeJobId: number;
   CompanyJobTitle: string;
   ExchangeJobTitle: string;
   ExchangeJobFamily: string;
@@ -13,6 +14,7 @@ export interface ExchangeJobComparison {
 export function generateMockExchangeJobComparison(): ExchangeJobComparison {
   return {
     ExchangeJobToCompanyJobId: 1,
+    ExchangeJobId: 1,
     CompanyJobTitle: 'MockCompanyJob',
     ExchangeJobTitle: 'MockExchangeJob',
     ExchangeJobFamily: 'MockExchangeJobFamily',

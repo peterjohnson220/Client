@@ -48,7 +48,7 @@ export class ExchangeJobFamilyChartComponent implements OnInit, OnDestroy {
       ChartType: ExchangeChartTypeEnum.Family,
       Category: e.category
     };
-    this.store.dispatch(new fromExchangeDashboardActions.LoadingDetailChart(getDetailChartRequest));
+    this.store.dispatch(new fromExchangeDashboardActions.LoadDetailChart(getDetailChartRequest));
   }
 
   ngOnInit() {

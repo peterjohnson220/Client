@@ -1,10 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Peer Dashboard - Chart Detail should NOT show card body header when detailChartType$ is Company 1`] = `
+<pf-chart-detail-component
+  detailChartCategory$={[Function Store]}
+  detailChartItems$={[Function Store]}
+  detailChartType={[Function String]}
+  detailChartType$={[Function Observable]}
+  detailChartTypeSubscription={[Function Subscriber]}
+  loadingDetailChartItems$={[Function Store]}
+  loadingDetailChartItemsError$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="card h-100 ml-2"
+  >
+    <div
+      class="chart-detail-header card-header d-flex"
+    >
+      <div
+        class="align-self-center mr-auto flex-grow-1"
+      >
+         Participating Companies 
+      </div>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      
+      
+      <div
+        class="no-detail-items"
+      >
+        No companies associated to .
+      </div>
+      
+    </div>
+  </div>
+</pf-chart-detail-component>
+`;
+
+exports[`Peer Dashboard - Chart Detail should show a card header of 'Exchange Job Orgs' when the detailCharType$ is ExchangeJobOrgs 1`] = `
+<pf-chart-detail-component
+  detailChartCategory$={[Function Store]}
+  detailChartItems$={[Function Store]}
+  detailChartType={[Function String]}
+  detailChartType$={[Function Observable]}
+  detailChartTypeSubscription={[Function Subscriber]}
+  loadingDetailChartItems$={[Function Store]}
+  loadingDetailChartItemsError$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="card h-100 ml-2"
+  >
+    <div
+      class="chart-detail-header card-header d-flex"
+    >
+      <div
+        class="align-self-center mr-auto flex-grow-1"
+      >
+         Exchange Job Orgs 
+      </div>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body"
+    >
+      
+      <h4
+        class="mb-2"
+      >
+          
+      </h4>
+      
+      <div
+        class="no-detail-items"
+      >
+        No companies associated to .
+      </div>
+      
+    </div>
+  </div>
+</pf-chart-detail-component>
+`;
+
 exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`] = `
 <pf-chart-detail-component
   detailChartCategory$={[Function Store]}
   detailChartItems$={[Function Store]}
+  detailChartType="null"
   detailChartType$={[Function Store]}
+  detailChartTypeSubscription={[Function Subscriber]}
   loadingDetailChartItems$={[Function Store]}
   loadingDetailChartItemsError$={[Function Store]}
   store={[Function Store]}
@@ -41,7 +140,7 @@ exports[`Peer Dashboard - Chart Detail should show the chart detail component 1`
       <div
         class="no-detail-items"
       >
-        No companies mapped to .
+        No companies associated to .
       </div>
       
     </div>

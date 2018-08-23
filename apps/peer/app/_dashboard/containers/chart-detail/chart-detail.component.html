@@ -2,7 +2,7 @@
   <div class="chart-detail-header card-header d-flex">
 
     <div class="align-self-center mr-auto flex-grow-1">
-      Participating Companies
+      {{cardHeaderText}}
     </div>
 
     <div (click)="closeSidebar()" class="close-btn">
@@ -12,7 +12,7 @@
   </div>
   <div class="card-body">
 
-    <h4 *ngIf="(detailChartType$ | async) !== companyChartType " class="mb-2">
+    <h4 *ngIf="!isCompanyChartType" class="mb-2">
       {{ (detailChartCategory$ | async )}}
     </h4>
 
@@ -31,7 +31,7 @@
     </ng-container>
 
     <ng-template #noDetailChartItems>
-      <div class="no-detail-items">No companies mapped to {{ (detailChartCategory$ | async )}}.</div>
+      <div class="no-detail-items">No companies associated to {{ (detailChartCategory$ | async )}}.</div>
     </ng-template>
 
   </div>

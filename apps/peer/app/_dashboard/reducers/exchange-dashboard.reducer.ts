@@ -1,6 +1,7 @@
-import { ChartItem } from 'libs/models';
+import { ChartItem, ExchangeJobComparison } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
+import {ExchangeChartTypeEnum} from '../../../../../libs/models/peer/exchange-chart-type.enum';
 
 export interface State {
   loadingCompanyChart: boolean;
@@ -63,7 +64,7 @@ export function reducer(
   action: fromExchangeDashboardActions.Actions
 ): State {
   switch (action.type) {
-    case fromExchangeDashboardActions.LOADING_COMPANY_CHART: {
+    case fromExchangeDashboardActions.LOAD_COMPANY_CHART: {
       return {
         ...state,
         companyChartItems: null,
@@ -71,7 +72,7 @@ export function reducer(
         loadingCompanyChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_COMPANY_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_COMPANY_CHART_SUCCESS: {
       return {
         ...state,
         companyChartItems: action.payload,
@@ -79,14 +80,14 @@ export function reducer(
         loadingCompanyChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_COMPANY_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_COMPANY_CHART_ERROR: {
       return {
         ...state,
         loadingCompanyChart: false,
         loadingCompanyChartError: true
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_CHART: {
+    case fromExchangeDashboardActions.LOAD_JOB_CHART: {
       return {
         ...state,
         jobChartItems: null,
@@ -94,7 +95,7 @@ export function reducer(
         loadingJobChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_JOB_CHART_SUCCESS: {
       return {
         ...state,
         jobChartItems: action.payload,
@@ -102,14 +103,14 @@ export function reducer(
         loadingJobChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_JOB_CHART_ERROR: {
       return {
         ...state,
         loadingJobChart: false,
         loadingJobChartError: true
       };
     }
-    case fromExchangeDashboardActions.LOADING_INDUSTRY_CHART: {
+    case fromExchangeDashboardActions.LOAD_INDUSTRY_CHART: {
       return {
         ...state,
         industryChartItems: null,
@@ -117,7 +118,7 @@ export function reducer(
         loadingIndustryChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_INDUSTRY_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_INDUSTRY_CHART_SUCCESS: {
       return {
         ...state,
         industryChartItems: action.payload,
@@ -125,14 +126,14 @@ export function reducer(
         loadingIndustryChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_INDUSTRY_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_INDUSTRY_CHART_ERROR: {
       return {
         ...state,
         loadingIndustryChart: false,
         loadingIndustryChartError: true
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART: {
+    case fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART: {
       return {
         ...state,
         jobFamilyChartItems: null,
@@ -140,7 +141,7 @@ export function reducer(
         loadingJobFamilyChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART_SUCCESS: {
       return {
         ...state,
         jobFamilyChartItems: action.payload,
@@ -148,14 +149,14 @@ export function reducer(
         loadingJobFamilyChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART_ERROR: {
       return {
         ...state,
         loadingJobFamilyChart: false,
         loadingJobFamilyChartError: true
       };
     }
-    case fromExchangeDashboardActions.LOADING_REVENUE_CHART: {
+    case fromExchangeDashboardActions.LOAD_REVENUE_CHART: {
       return {
         ...state,
         revenueChartItems: null,
@@ -163,7 +164,7 @@ export function reducer(
         loadingRevenueChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_REVENUE_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_REVENUE_CHART_SUCCESS: {
       return {
         ...state,
         revenueChartItems: action.payload,
@@ -171,14 +172,14 @@ export function reducer(
         loadingRevenueChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_REVENUE_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_REVENUE_CHART_ERROR: {
       return {
         ...state,
         loadingRevenueChart: false,
         loadingRevenueChartError: true
       };
     }
-    case fromExchangeDashboardActions.LOADING_DETAIL_CHART: {
+    case fromExchangeDashboardActions.LOAD_DETAIL_CHART: {
       return {
         ...state,
         detailChartType: action.payload.ChartType,
@@ -189,7 +190,7 @@ export function reducer(
         loadingDetailChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_DETAIL_CHART_SUCCESS: {
+    case fromExchangeDashboardActions.LOAD_DETAIL_CHART_SUCCESS: {
       return {
         ...state,
         detailChartItems: action.payload,
@@ -197,7 +198,7 @@ export function reducer(
         loadingDetailChartError: false
       };
     }
-    case fromExchangeDashboardActions.LOADING_DETAIL_CHART_ERROR: {
+    case fromExchangeDashboardActions.LOAD_DETAIL_CHART_ERROR: {
       return {
         ...state,
         loadingDetailChart: false,
@@ -235,6 +236,34 @@ export function reducer(
         mapHasDataItem : false,
         loadingMapHasData: false,
         loadingMapHasDataError: true
+      };
+    }
+    case fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS: {
+      const payload: ExchangeJobComparison = action.payload;
+      return {
+        ...state,
+        detailChartType: ExchangeChartTypeEnum.ExchangeJobOrgs,
+        detailChartCategory: payload.ExchangeJobTitle,
+        sidebarVisible: true,
+        detailChartItems: null,
+        loadingDetailChart: true,
+        loadingDetailChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS_SUCCESS: {
+      const exchangeJobMappings: ChartItem[] = action.payload.map(org => ({Category: org}) as ChartItem);
+      return {
+        ...state,
+        detailChartItems: exchangeJobMappings,
+        loadingDetailChart: false,
+        loadingDetailChartError: false
+      };
+    }
+    case fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS_ERROR: {
+      return {
+        ...state,
+        loadingDetailChart: false,
+        loadingDetailChartError: true
       };
     }
     default: {

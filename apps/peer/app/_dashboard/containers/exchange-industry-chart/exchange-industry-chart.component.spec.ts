@@ -58,10 +58,10 @@ describe('Peer Dashboard - Industry Chart', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadingDetailChart for the industry on seriesClick', () => {
+  it('should dispatch a LoadDetailChart for the industry on seriesClick', () => {
     fixture.detectChanges();
 
-    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+    const action = new fromExchangeDashboardActions.LoadDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Industry,
       Category: 'Test'

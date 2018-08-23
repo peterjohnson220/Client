@@ -4,6 +4,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { ExchangeChartTypeEnum } from 'libs/models/peer';
 
 // Import feature reducers
 import * as fromExchangeDashboardReducer from './exchange-dashboard.reducer';
@@ -180,6 +181,12 @@ export const getExchangeDashboardMapHasDataLoading = createSelector(
 export const getExchangeDashboardMapHasDataError = createSelector(
   selectExchangeDashboardState,
   fromExchangeDashboardReducer.getLoadingMapHasDataError
+);
+
+export const getExchangeDashboardExchangeJobOrgsDetailVisible = createSelector(
+  getExchangeDashboardDetailChartType,
+  getExchangeDashboardSidebarVisible,
+  (chartType: string, sidebarVisible: boolean) => chartType === ExchangeChartTypeEnum.ExchangeJobOrgs && sidebarVisible
 );
 
 // Exchange Request - Access
