@@ -12,6 +12,7 @@ import { PfValidators } from 'libs/forms';
 import { CommunityPollResponseComponent } from '../community-poll-response/community-poll-response.component';
 import { CommunityPollList} from 'libs/models';
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
+import { CommunityPollStatusEnum } from 'libs/models/community/community-poll-constants.model';
 
 @Component({
   selector: 'pf-community-poll-modal',
@@ -25,7 +26,9 @@ export class CommunityPollModalComponent implements OnInit {
 
   addCommunityPollForm: FormGroup;
   isEditMode = false;
+  enableEditingResponseOptions = true;
   attemptedSubmit = false;
+  pollStatusOptions = this.CommunityPollStatuses;
 
   get CommunityPollStatuses() { return constants.CommunityPollStatuses; }
 
@@ -51,8 +54,10 @@ export class CommunityPollModalComponent implements OnInit {
   ngOnInit() {
 
     this.communityPollListToEdit$.subscribe(poll => {
-      if (poll != null) {
 
+      this.updateStatusMode(poll);
+
+      if (poll != null) {
         this.isEditMode = true;
 
         this.communityPollId.setValue(poll.CommunityPollId);
@@ -60,12 +65,11 @@ export class CommunityPollModalComponent implements OnInit {
         this.question.setValue(poll.Question);
 
         poll.ResponseOptions.forEach(ro => {
-          this.responses.push(CommunityPollResponseComponent.buildItem(ro.ResponseText));
+          this.responses.push(CommunityPollResponseComponent.buildItem(ro.ResponseText, this.enableEditingResponseOptions));
         });
       } else {
         this.isEditMode = false;
       }
-
     });
 
     this.responses.setValidators(this.pollResponseOptionsLimits(this.responses));
@@ -104,7 +108,7 @@ export class CommunityPollModalComponent implements OnInit {
   }
 
   addResponseOption() {
-    this.responses.push(CommunityPollResponseComponent.buildItem(''));
+    this.responses.push(CommunityPollResponseComponent.buildItem('', true));
   }
 
   createForm(): void {
@@ -121,6 +125,31 @@ export class CommunityPollModalComponent implements OnInit {
       return 'Edit Poll';
     } else {
       return 'New Poll';
+    }
+  }
+
+  private updateStatusMode(poll: CommunityPollList) {
+
+    this.status.enable();
+    this.question.enable();
+    this.enableEditingResponseOptions = true;
+    this.pollStatusOptions = this.CommunityPollStatuses;
+
+    if (!poll) {
+      return;
+    }
+
+    if (poll.Status === CommunityPollStatusEnum.Live) {
+      this.question.disable();
+      this.enableEditingResponseOptions = false;
+
+      // remove DRAFT option from the menu
+      this.pollStatusOptions = this.CommunityPollStatuses.filter(x => x.value !== CommunityPollStatusEnum.Draft);
+
+    } else if (poll.Status === CommunityPollStatusEnum.Archived) {
+      this.status.disable();
+      this.question.disable();
+      this.enableEditingResponseOptions = false;
     }
   }
 

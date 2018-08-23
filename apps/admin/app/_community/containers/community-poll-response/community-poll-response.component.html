@@ -5,7 +5,10 @@
       <div class="col-sm-9">
             <input type="text" class="form-control" placeholder="Response" [attr.id]="'response'+index" formControlName="response" [maxLength]="45">    
       </div>
-      <div class="col-sm-1">
-            <button type="button" class="btn btn-secondary" (click)="removed.emit(index)"><i class="fas fa-times"></i></button>
+
+      <div *ngIf="enableEditingResponseOptions">
+            <div class="col-sm-1">
+                  <button type="button" class="btn btn-secondary" (click)="removed.emit(index)"><i class="fas fa-times"></i></button>
+            </div>
       </div>
 </div>
