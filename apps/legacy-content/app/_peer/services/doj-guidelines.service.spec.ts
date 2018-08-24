@@ -1,14 +1,13 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
-import {DojGuidelinesService} from './doj-guidelines.service';
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
-import * as fromRootState from '../../../../../libs/state/state';
-import * as fromPeerMapReducer from '../../../../../libs/features/peer/map/reducers';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import { generateMockDataCutValidationInfo, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
+import * as fromRootState from 'libs/state/state';
+import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
+
+import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
-import {ActivatedRoute} from '@angular/router';
-import {UpsertDataCutPageComponent} from '../containers/pages/upsert-data-cut';
 
 describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   let service: DojGuidelinesService;
@@ -37,6 +36,8 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     service.companies = [generateMockExchangeStatCompanyMakeup()];
 
     expect(service.hasMinimumCompanies).toBe(false);
+
+    expect(service.passesGuidelines).toBe(false);
   });
 
   it('should return true for hasMinimumCompanies when receiving >= to the minCompanies', () => {
@@ -55,6 +56,8 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     service.companies = [generateMockExchangeStatCompanyMakeup()];
 
     expect(service.hasNoDominatingData).toBe(true);
+
+    expect(service.passesGuidelines).toBe(false);
   });
 
   it('should return company and formatted percentages for dominatingCompanies when there is companies >= dominatingPercentage', () => {
@@ -69,5 +72,42 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     ];
 
     expect(service.dominatingCompanies).toEqual([companyNameAndPercentage]);
+  });
+
+
+  it('should expect validDataCut to be true when the lists are not similar', () => {
+    const dataValidationInfo = [generateMockDataCutValidationInfo()];
+    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6, 7] };
+
+    service.dataCutValidationInfo = dataValidationInfo;
+
+    service.validateDataCut(filterSelections, true);
+
+    expect(service.validDataCut).toBe(true);
+  });
+
+  it('should expect validDataCut to be false when the lists are too similar', () => {
+    const dataValidationInfo = [generateMockDataCutValidationInfo()];
+    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
+
+    service.dataCutValidationInfo = dataValidationInfo;
+
+    service.validateDataCut(filterSelections, true);
+
+    expect(service.validDataCut).toBe(false);
+
+    expect(service.passesGuidelines).toBe(false);
+  });
+
+  it('should expect validDataCut to be true when the lists are too similar and shouldCheckSimilarity is false', () => {
+    const dataValidationInfo = [generateMockDataCutValidationInfo()];
+    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
+    const mockShouldCheckSimilarity = false;
+
+    service.dataCutValidationInfo = dataValidationInfo;
+
+    service.validateDataCut(filterSelections, mockShouldCheckSimilarity);
+
+    expect(service.validDataCut).toBe(true);
   });
 });

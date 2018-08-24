@@ -15,11 +15,10 @@ import { GuidelineLimits } from '../models';
 export class DojGuidelinesService {
   // Private Properties
   private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
-  private dataCutValidationInfo: DataCutValidationInfo[];
   private previousSelections: number[] = [];
   private dataCutValid = true;
 
-
+  dataCutValidationInfo: DataCutValidationInfo[];
   companies: ExchangeStatCompanyMakeup[];
 
   // Observables
@@ -75,7 +74,12 @@ export class DojGuidelinesService {
     return this.dataCutValid && this.hasMinimumCompanies && this.hasNoDominatingData;
   }
 
-  validateDataCut(selections: any) {
+  validateDataCut(selections: any, shouldCheckSimilarity: boolean) {
+    if (!shouldCheckSimilarity) {
+      this.dataCutValid = true;
+      return;
+    }
+
     const validationInfo = this.dataCutValidationInfo;
     let validationPass = true;
 

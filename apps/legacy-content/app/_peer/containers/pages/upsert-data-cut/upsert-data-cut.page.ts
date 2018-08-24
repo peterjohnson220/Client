@@ -98,10 +98,9 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     ));
 
     this.peerFilterSubscription = this.peerFilterSelections$.subscribe(pfs => {
-      // If the cutGuid is null, we can assume that we are not editing a data cut and we therefor need to validate.
-      if (this.cutGuid == null) {
-        this.guidelinesService.validateDataCut(pfs);
-      }
+      // If the cutGuid is not null, we can assume that we are not editing a data cut and we therefor need to check similarity.
+      const shouldCheckSimilarity = this.cutGuid !== null;
+      this.guidelinesService.validateDataCut(pfs, shouldCheckSimilarity);
     });
   }
 
