@@ -2,10 +2,12 @@
 
 exports[`Exchange Job Requests should match snapshot 1`] = `
 <pf-exchange-job-requests
+  collapse="false"
   exchangeId={[Function Number]}
   exchangeJobRequestsGrid$={[Function Store]}
   exchangeJobRequestsLoading$={[Function Store]}
   exchangeJobRequestsLoadingError$={[Function Store]}
+  pageRowIndex="null"
   route={[Function Object]}
   store={[Function Store]}
 >
@@ -14,20 +16,28 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
   >
     <pf-manage-exchange-section-header />
     <div
-      class="d-flex h-100"
+      class="d-flex job-request-grid-container no-collapse"
+      ng-reflect-klass="d-flex job-request-grid-contai"
+      ng-reflect-ng-class="no-collapse"
     >
       <pf-async-container
         class="flex-grow-1"
       >
-        <kendo-grid>
+        <kendo-grid
+          class="row-click-navigates no-wrap-ellipsis-values"
+        >
           <kendo-grid-column
             field="JobTitle"
             title="Job Title"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobFamily"
             title="Job Family"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobLevel"
             title="Job Level"
@@ -39,7 +49,9 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
           <kendo-grid-column
             field="RequestCompany"
             title="Request Company"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="RequestDate"
             title="Request Date"
@@ -57,6 +69,7 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
         </kendo-grid>
       </pf-async-container>
     </div>
+    
   </div>
 </pf-exchange-job-requests>
 `;

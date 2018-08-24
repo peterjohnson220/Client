@@ -16,7 +16,8 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          ManageExchangeSectionHeaderComponent, ExchangeAccessRequestsComponent,
          PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent,
          ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
-         ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent } from './containers';
+         ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
+         ExchangeJobRequestInfoComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
@@ -80,6 +81,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     DeleteExchangeModalComponent,
     ExchangeAccessRequestInfoComponent,
     CompanyExchangeInvitationInfoComponent,
+    ExchangeJobRequestInfoComponent,
 
     // Pages
     ExchangeListPageComponent,

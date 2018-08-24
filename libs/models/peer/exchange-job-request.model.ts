@@ -3,6 +3,7 @@ export interface ExchangeJobRequest {
   JobTitle: string;
   JobFamily: string;
   JobLevel: string;
+  Reason: string;
   RequestUser: string;
   RequestCompany: string;
   RequestDate: any;
@@ -15,6 +16,7 @@ export function generateMockExchangeJobRequest(): ExchangeJobRequest {
     JobTitle: 'Mock Job',
     JobFamily: 'Mock Job Family',
     JobLevel: 'III',
+    Reason: 'Because',
     RequestUser: 'Mock Mobson',
     RequestCompany: 'Mock Company',
     RequestDate: '01-01-2018',

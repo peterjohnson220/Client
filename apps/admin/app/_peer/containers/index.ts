@@ -12,3 +12,4 @@ export * from './exchange-list';
 export * from './delete-exchange-modal';
 export * from './exchange-access-request-info';
 export * from './company-exchange-invitation-info';
+export * from './exchange-job-request-info';
