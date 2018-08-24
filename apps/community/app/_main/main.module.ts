@@ -15,6 +15,7 @@ import { MainRoutingModule } from './main-routing.module';
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
+import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
 
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
@@ -29,7 +30,8 @@ const components = [
   CommunityDashboardPageComponent,
   CommunityPostsComponent,
   CommunityStartDiscussionComponent,
-  CommunityPollsComponent
+  CommunityPollsComponent,
+  RadialTextCounterComponent
 ];
 
 @NgModule({

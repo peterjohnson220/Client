@@ -1,0 +1,44 @@
+svg.radial-counter {
+  transform: rotate(-90deg);
+}
+
+.radial-counter-safe {
+  stroke: #0782A6;
+}
+
+.radial-counter-warn {
+  stroke: #F9E214;
+}
+
+.radial-counter-danger {
+  stroke: #F94F14;
+}
+
+.radial-counter-underlay {
+  stroke: #DCE2E7;
+}
+
+@keyframes radial-counter-warning-pulse-keyframes {
+  0% { stroke-width:2 }
+  50% { stroke-width: 4; }
+  100% { stroke-width: 2; }
+}
+
+@keyframes radial-counter-danger-pulse-keyframes {
+  0% { stroke-width:2 }
+  50% { stroke-width: 4; }
+  100% { stroke-width: 2; }
+}
+
+.radial-counter-warn.radial-counter-pulse {
+  animation: radial-counter-warning-pulse-keyframes 0.3s ease-in-out;
+}
+
+.radial-counter-danger.radial-counter-pulse {
+  animation: radial-counter-danger-pulse-keyframes 0.3s ease-in-out;
+}
+
+.radial-counter-overlay
+{
+  stroke-dasharray: 50.2655;
+}

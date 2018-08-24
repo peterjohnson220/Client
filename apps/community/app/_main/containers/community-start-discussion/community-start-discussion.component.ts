@@ -16,6 +16,7 @@ import { CommunityPost, CommunityAddPost } from 'libs/models/community';
 export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   communityDiscussionForm: FormGroup;
   UserAvatarSource = 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg';
+  postMaxLength = 2000;
 
   submittingCommunityPost$: Observable<boolean>;
   submittingCommunityPostSuccess$: Observable<CommunityPost>;
@@ -44,7 +45,7 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityDiscussionForm = this.formBuilder.group({
-      postText:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(2000)]],
+      postText:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.postMaxLength)]],
       isInternalOnly:  [false]
     });
   }
