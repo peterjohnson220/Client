@@ -6,8 +6,10 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
   attemptedSubmit={[Function Boolean]}
   communityPollListToEdit$={[Function Store]}
   communityPollModalOpen$={[Function Store]}
+  enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
   isEditMode="false"
+  pollStatusOptions={[Function Array]}
   store={[Function Store]}
 >
   <pf-modal-form
@@ -62,12 +64,15 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
         
       </fieldset>
       
-      <button
-        class="btn btn-secondary offset-sm-1"
-        type="button"
-      >
-        Add another response option
-      </button>
+      <div>
+        
+        <button
+          class="btn btn-secondary offset-sm-1"
+          type="button"
+        >
+          Add another response option
+        </button>
+      </div>
     </div>
   </pf-modal-form>
 </pf-community-poll-modal>
@@ -79,8 +84,10 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
   attemptedSubmit="false"
   communityPollListToEdit$={[Function Store]}
   communityPollModalOpen$={[Function Store]}
+  enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
   isEditMode="false"
+  pollStatusOptions={[Function Array]}
   store={[Function Store]}
 >
   <pf-modal-form
@@ -129,12 +136,15 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
         
       </fieldset>
       
-      <button
-        class="btn btn-secondary offset-sm-1"
-        type="button"
-      >
-        Add another response option
-      </button>
+      <div>
+        
+        <button
+          class="btn btn-secondary offset-sm-1"
+          type="button"
+        >
+          Add another response option
+        </button>
+      </div>
     </div>
   </pf-modal-form>
 </pf-community-poll-modal>
