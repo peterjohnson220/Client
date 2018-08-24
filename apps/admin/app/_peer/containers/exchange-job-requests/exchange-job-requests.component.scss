@@ -3,3 +3,21 @@
 .jobstatus .badge{
   width: 75px;
 }
+
+.job-request-grid-container {
+  position: relative;
+  min-height: 250px;
+}
+
+.job-request-info-container {
+  position: relative;
+  min-height: 300px;
+}
+
+.collapse-grid {
+  height: 350px;
+}
+
+.no-collapse {
+  height: 100%;
+}

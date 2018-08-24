@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
+import { ExchangeJobRequest } from 'libs/models/peer';
+
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requests.actions';
 
@@ -18,7 +20,10 @@ export class ExchangeJobRequestsComponent {
   exchangeJobRequestsLoading$: Observable<boolean>;
   exchangeJobRequestsLoadingError$: Observable<boolean>;
   exchangeJobRequestsGrid$: Observable<GridDataResult>;
+  selectedJobRequest: ExchangeJobRequest;
   exchangeId: number;
+  collapse = false;
+  pageRowIndex: number = null;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -34,5 +39,16 @@ export class ExchangeJobRequestsComponent {
   // Events
   handleExchangeJobRequestsGridReload() {
     this.store.dispatch(new fromExchangeJobRequestsActions.LoadExchangeJobRequests(this.exchangeId));
+  }
+
+  handleCellClick(event: any) {
+    if (!this.collapse) { this.collapse = true; }
+    this.selectedJobRequest = event.dataItem;
+    this.pageRowIndex = event.rowIndex;
+  }
+
+  handleCloseRequestInfo() {
+    this.collapse = false;
+    this.pageRowIndex = null;
   }
 }

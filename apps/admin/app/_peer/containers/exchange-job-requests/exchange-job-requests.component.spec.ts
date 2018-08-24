@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockExchangeJobRequest } from 'libs/models/peer';
 
 import { ExchangeJobRequestsComponent } from './exchange-job-requests.component';
 import * as fromPeerAdminReducer from '../../reducers';
@@ -62,5 +63,29 @@ describe('Exchange Job Requests', () => {
     instance.handleExchangeJobRequestsGridReload();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should set collapse, selectedJobRequest, and pageRowIndex correctly in the component when a cell is clicked', () => {
+    instance.collapse = false;
+    instance.pageRowIndex = null;
+    instance.selectedJobRequest = null;
+    const mockRequest = generateMockExchangeJobRequest();
+    const event = { dataItem: mockRequest, rowIndex: 1};
+
+    instance.handleCellClick(event);
+
+    expect(instance.collapse).toBe(true);
+    expect(instance.selectedJobRequest).toEqual(mockRequest);
+    expect(instance.pageRowIndex).toBe(1);
+  });
+
+  it('should set collapse to false and pageRowIndex to null after the job request info is closed', () => {
+    instance.collapse = true;
+    instance.pageRowIndex = 1;
+
+    instance.handleCloseRequestInfo();
+
+    expect(instance.collapse).toBe(false);
+    expect(instance.pageRowIndex).toBeNull();
   });
 });
