@@ -86,7 +86,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
 
     instance.handleSearchChanged('New Search');
 
-    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalledWith(activatedRoute.snapshot.params.id);
+    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalled();
   });
 
   it('should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true', () => {

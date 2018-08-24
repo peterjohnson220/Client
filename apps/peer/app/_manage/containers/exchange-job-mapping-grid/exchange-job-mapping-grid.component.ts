@@ -2,15 +2,18 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { GridDataResult, PageChangeEvent, RowClassArgs } from '@progress/kendo-angular-grid';
-import { SortDescriptor, State } from '@progress/kendo-data-query';
+import { GridDataResult, RowClassArgs, DataStateChangeEvent, SelectionEvent } from '@progress/kendo-angular-grid';
+import { State } from '@progress/kendo-data-query';
 
-import { GridTypeEnum, ExchangeJobMapping} from 'libs/models';
+import { GridTypeEnum, ExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
+import { associationPending, associationStatus } from './exchange-job-mapping-grid-data-map';
+
+import * as cloneDeep from 'lodash.clonedeep';
 
 @Component({
   selector: 'pf-exchange-job-mapping-grid',
@@ -29,6 +32,9 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
   exchangeJobMappingGridStateSubscription: Subscription;
   exchangeJobMappingGridState: State;
+  associationData: any;
+  pendingStatusData: any;
+  selectedKey: string = "";
 
   constructor(
     private store: Store<fromPeerManagementReducer.State>,
@@ -41,22 +47,16 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
   }
 
-  // Grid
-  handlePageChanged(event: PageChangeEvent): void {
-    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.ExchangeJobMapping, event));
-    this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
-  }
-
-  handleSortChanged(sort: SortDescriptor[]): void {
-    this.store.dispatch(new fromGridActions.SortChange(GridTypeEnum.ExchangeJobMapping, sort));
-    this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
+  onDataStateChange(state: DataStateChangeEvent): void {
+    this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeJobMapping, state));
+    this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings());
   }
 
   rowClass(context: RowClassArgs): string {
     return context.dataItem.PendingRequest ? 'row-disabled' : '';
   }
 
-  handleSelectionChange(context: any) {
+  onSelectionChange(context: SelectionEvent) {
     // If the selected row is a pending request, revert selection.
     // This is kind of a "hacky" work-around, but the best that I could come up with. [JP]
     const invalidSelectionIndex = context.selectedRows.findIndex(
@@ -68,7 +68,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   }
 
   // CellClickEvent Interface is missing dataItem. Defining type as any to avoid error
-  handleCellClick(event: any) {
+  onCellClick(event: any) {
     if (event.dataItem && event.dataItem.PendingRequest === true) {
       return;
     }
@@ -79,10 +79,13 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
 
   // Lifecycle
   ngOnInit() {
-    this.exchangeJobMappingService.loadExchangeJobMappings(this.exchangeId);
+    this.exchangeJobMappingService.loadExchangeJobMappings();
+
+    this.associationData = associationStatus;
+    this.pendingStatusData = associationPending;
 
     this.exchangeJobMappingGridStateSubscription = this.exchangeJobMappingsGridState$.subscribe(gridState => {
-      this.exchangeJobMappingGridState = gridState;
+      this.exchangeJobMappingGridState = cloneDeep(gridState);
     });
   }
 
