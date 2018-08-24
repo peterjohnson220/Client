@@ -79,7 +79,7 @@ export class AddDataEffectsService {
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
         (action, jobResults, pagingOptions) => ({ jobResults, pagingOptions })),
       switchMap(({ jobResults, pagingOptions }) => {
-        const lastJobResultIndex = (pagingOptions.page - 1) * (pagingOptions.pageSize - 1);
+        const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
         const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(
