@@ -21,11 +21,6 @@ export class SearchResultsEffects {
   );
 
   @Effect()
-  getMoreResults$ = this.addDataEffectsService.searchSurveyJobs(
-    this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS)
-  );
-
-  @Effect()
   getSurveyDataCutResults$ = this.actions$
     .ofType(fromJobResultActions.GET_SURVEY_DATA_RESULTS)
     .pipe(
@@ -36,14 +31,15 @@ export class SearchResultsEffects {
       mergeMap((dataCutContext) => {
           const surveyJobId = dataCutContext.action.payload.Id;
           const currencyCode = dataCutContext.jobContext.CurrencyCode;
-
+          const projectId = dataCutContext.jobContext.ProjectId;
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
           const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
           return this.surveySearchApiService.searchDataCuts({
             SurveyJobId: surveyJobId,
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
-            CurrencyCode: currencyCode
+            CurrencyCode: currencyCode,
+            ProjectId: projectId
           })
             .pipe(
               map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({
@@ -52,6 +48,11 @@ export class SearchResultsEffects {
             );
         }
       ));
+
+  @Effect()
+  getMoreResults$ = this.addDataEffectsService.searchSurveyJobs(
+    this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS)
+  );
 
   @Effect()
   getResultsSuccess$ = this.addDataEffectsService.loadPricingMatches(
