@@ -3,4 +3,5 @@ export * from './state-abbrev-to-full-name';
 export * from './user-voice-url';
 export * from './generate-guid';
 export * from './copy-text-to-clipboard';
-
+export * from './check-arrays-one-off';
+export * from './arrays-equal';
