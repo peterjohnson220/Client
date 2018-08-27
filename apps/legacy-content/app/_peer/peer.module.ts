@@ -16,7 +16,6 @@ import { PeerRoutingModule } from './peer-routing.module';
 import { UpsertDataCutPageEffects, DataCutValidationEffects } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
-import {DojGuidelinesService} from './services/doj-guidelines.service';
 
 @NgModule({
   imports: [
@@ -48,7 +47,7 @@ import {DojGuidelinesService} from './services/doj-guidelines.service';
     UpsertDataCutPageComponent
   ],
   providers: [
-    WindowCommunicationService, DojGuidelinesService
+    WindowCommunicationService
   ]
 })
 export class PeerModule { }
