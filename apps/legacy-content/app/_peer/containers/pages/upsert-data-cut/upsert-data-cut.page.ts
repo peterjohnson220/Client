@@ -6,13 +6,13 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import { SystemFilter, ExchangeMapSummary, DataCutValidationInfo } from 'libs/models/peer';
+import { SystemFilter } from 'libs/models/peer';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
-import { GuidelineLimits } from '../../../models';
+import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 
 @Component({
   selector: 'pf-upsert-data-cut-page',
@@ -21,51 +21,42 @@ import { GuidelineLimits } from '../../../models';
 })
 export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent) map: MapComponent;
+
+  upsertDataCutPageInViewInIframe$: Observable<boolean>;
+  peerFilterSelections$: Observable<any>;
+  upsertingDataCut$: Observable<boolean>;
+  upsertingDataCutError$: Observable<boolean>;
+  initialMapMoveComplete$: Observable<boolean>;
+  systemFilter$: Observable<SystemFilter>;
+
+  // Subscriptions
+  peerFilterSubscription: Subscription;
+
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
   cutGuid: string;
-  peerFilterSelections: any;
-  validDataCut = true;
-  previousSelections: number[] = [];
-  dataCutValidationInfo: DataCutValidationInfo[];
-
-  // Subscriptions
-  dataCutValidationSubscription: Subscription;
-  peerFilterSubscription: Subscription;
-
-  readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
-
-  upsertingDataCut$: Observable<boolean>;
-  upsertingDataCutError$: Observable<boolean>;
-  peerMapSummary$: Observable<ExchangeMapSummary>;
-  initialMapMoveComplete$: Observable<boolean>;
-  systemFilter$: Observable<SystemFilter>;
-  upsertDataCutPageInViewInIframe$: Observable<boolean>;
-  dataCutValidationInfo$: Observable<DataCutValidationInfo[]>;
-  peerFilterSelections$: Observable<any>;
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
     private mapStore: Store<fromPeerMapReducers.State>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private guidelinesService: DojGuidelinesService
   ) {
     this.upsertingDataCut$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut);
     this.upsertingDataCutError$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError);
-    this.peerMapSummary$ = this.mapStore.select(fromPeerMapReducers.getPeerMapSummary);
     this.initialMapMoveComplete$ = this.mapStore.select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete);
     this.systemFilter$ = this.store.select(fromPeerMapReducers.getSystemFilter);
     this.upsertDataCutPageInViewInIframe$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe);
-    this.dataCutValidationInfo$ = this.store.select(fromUpsertPeerDataReducers.getDataCutValidationInfo);
     this.peerFilterSelections$ = this.store.select(fromPeerMapReducers.getPeerFilterSelections);
-  }
-
-  static checkEqualArrays(arr1, arr2) {
-    return (JSON.stringify(arr1) === JSON.stringify(arr2));
   }
 
   get primaryButtonText(): string {
     return this.cutGuid != null ? 'Update' : 'Add';
+  }
+
+  get failsGuidelines(): boolean {
+    return !this.guidelinesService.passesGuidelines;
   }
 
   upsert() {
@@ -80,54 +71,6 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
 
   cancel() {
     this.store.dispatch(new fromUpsertDataCutPageActions.CancelUpsertDataCut);
-  }
-
-  validateDataCut() {
-    const selections = this.peerFilterSelections;
-    const validationInfo = this.dataCutValidationInfo;
-    let validationPass = true;
-
-    // If there are no company filters selected then we don't care and the validation passes.
-    if (selections.CompanyIds) {
-      const selectedCompanies: number[] = selections.CompanyIds;
-      // If there are less than 5 company's selected or if the validationInfo array does not have any values the validation passes.
-      if (selectedCompanies.length > 4 && validationInfo.length > 0) {
-        // In an attempt to make this method faster, a previousSelections variable will be stored.
-        // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
-        if (!UpsertDataCutPageComponent.checkEqualArrays(selectedCompanies, this.previousSelections)) {
-          this.previousSelections = selectedCompanies;
-          // Check against each existing cut, if it fails we break out and set validation to false.
-          for (const value of validationInfo) {
-            if (this.checkArraysOneOff(selectedCompanies, value.CompanyIds)) {
-              validationPass = false;
-              break;
-            }
-          }
-        } else {
-          return;
-        }
-      }
-    }
-
-    this.validDataCut = validationPass;
-  }
-
-  checkArraysOneOff(selectedCompanies, validateCutCompanies) {
-    const selectedCompaniesOneMore = selectedCompanies.length === validateCutCompanies.length + 1;
-    // If the counts are not off by one (in either direction) then we do not need to check the contents of the lists.
-    if (!selectedCompaniesOneMore && !(selectedCompanies.length === validateCutCompanies.length - 1)) {
-      return false;
-    }
-    // If the selected companies array is larger we then want to check and
-    // see if every data cut company is in the selected companies array.
-    // If so, then the validation fails because we know that the selected companies array is only one larger than the data cut array.
-    if (selectedCompaniesOneMore) {
-      return (validateCutCompanies.every(val => selectedCompanies.includes(val)));
-      // If the data cut companies array is larger we then want to check and see if every selected company is in the data cut array.
-      // If so, then the validation fails because we know that the selected companies array is only one smaller than the data cut array.
-    } else {
-      return (selectedCompanies.every(val => validateCutCompanies.includes(val)));
-    }
   }
 
   // Lifecycle events
@@ -154,18 +97,14 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       }
     ));
 
-    this.dataCutValidationSubscription = this.dataCutValidationInfo$.subscribe(dcvi => this.dataCutValidationInfo = dcvi);
     this.peerFilterSubscription = this.peerFilterSelections$.subscribe(pfs => {
-      this.peerFilterSelections = pfs;
-      // If the cutGuid is null, we can assume that we are not editing a data cut and we therefor need to validate.
-      if (this.cutGuid == null) {
-        this.validateDataCut();
-      }
+      // If the cutGuid is not null, we can assume that we are not editing a data cut and we therefor need to check similarity.
+      const shouldCheckSimilarity = this.cutGuid !== null;
+      this.guidelinesService.validateDataCut(pfs, shouldCheckSimilarity);
     });
   }
 
   ngOnDestroy() {
-    this.dataCutValidationSubscription.unsubscribe();
     this.peerFilterSubscription.unsubscribe();
   }
 

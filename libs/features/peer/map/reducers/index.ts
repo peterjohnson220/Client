@@ -39,6 +39,10 @@ export const selectExchangeScopeState = createSelector(selectLibsPeerMapState, (
 export const getPeerMapLoading = createSelector(selectMapState, fromMapReducer.getLoading);
 export const getPeerMapLoadingError = createSelector(selectMapState, fromMapReducer.getLoadingError);
 export const getPeerMapSummary = createSelector(selectMapState, fromMapReducer.getMapSummary);
+export const getPeerMapCompaniesFromSummary = createSelector(
+  getPeerMapSummary,
+  (summary) => !!summary ? summary.OverallMapStats.Companies : []
+);
 export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);

@@ -3,27 +3,41 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute} from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
+import { of } from 'rxjs/internal/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
-import { generateMockExchangeMapResponse, generateMockDataCutValidationInfo } from 'libs/models/peer';
-import { generateMockAggregateSelectionInfo } from 'libs/features/peer/map/models';
+import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
+import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
+import { generateMockExchangeMapResponse } from 'libs/models/peer';
+import { generateMockAggregateSelectionInfo } from 'libs/features/peer/map/models';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromLegacyAddPeerDataReducer from '../../../reducers';
+import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
 
+class DojGuidelinesStub {
+  passing = true;
+
+  get passesGuidelines(): boolean {
+    return this.passing;
+  }
+
+  validateDataCut(selections: any, shouldCheckSimilarity) {
+    return;
+  }
+}
 
 describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
   let instance: UpsertDataCutPageComponent;
   let store: Store<fromRootState.State>;
   let route: ActivatedRouteStub;
+  let guidelinesService: DojGuidelinesStub;
   const mockDataCutGUID = 'MockCutGUID';
   const queryStringParams = { companyPayMarketId: 1, companyJobId: 2, userSessionId: 3, dataCutGuid: null };
 
@@ -43,7 +57,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
           useValue: {
             snapshot: { queryParamMap: { get: (key) => queryStringParams[key] } }
           }
-        }
+        },
+        { provide: DojGuidelinesService, useClass: DojGuidelinesStub}
       ],
       declarations: [
         UpsertDataCutPageComponent
@@ -54,6 +69,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     store = TestBed.get(Store);
     route = TestBed.get(ActivatedRoute);
+    guidelinesService = TestBed.get(DojGuidelinesService);
 
     spyOn(store, 'dispatch');
 
@@ -149,7 +165,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should enable the add button when the map data contains more than the MinCompanies', () => {
+  it('should enable the add button when passesGuidelines is true', () => {
     const mapResponse = generateMockExchangeMapResponse();
 
     queryStringParams.dataCutGuid = null;
@@ -162,13 +178,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should enable the update button when the map data contains more than the MinCompanies', () => {
-    const mapResponse = generateMockExchangeMapResponse();
-
+  it('should enable the update button when passesGuidelines is true', () => {
     queryStringParams.dataCutGuid = mockDataCutGUID;
-    mapResponse.MapSummary.OverallMapStats.CompanyCount = 5;
-
-    store.dispatch(new fromPeerMapActions.LoadPeerMapDataSuccess(mapResponse));
 
     fixture.detectChanges();
 
@@ -177,49 +188,19 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
   it('should call validateDataCut when peerFilterSelections changes', () => {
     const payload = generateMockAggregateSelectionInfo();
+    queryStringParams.dataCutGuid = mockDataCutGUID;
+    instance.peerFilterSelections$ = of(payload);
+
+    spyOn(guidelinesService, 'validateDataCut');
+
+    fixture.detectChanges();
+
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true);
+  });
+
+  it('should disable the add/updated button when passesGuidelines is false', () => {
     queryStringParams.dataCutGuid = null;
-
-    store.dispatch(new fromFilterSidebarActions.ToggleAggregateSelected(payload));
-    spyOn(instance, 'validateDataCut');
-    fixture.detectChanges();
-
-    expect(instance.validateDataCut).toHaveBeenCalled();
-  });
-
-  it('should expect validDataCut to be true when the lists are not similar', () => {
-    const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6, 7] };
-
-    instance.dataCutValidationInfo = dataValidationInfo;
-    instance.peerFilterSelections = filterSelections;
-
-    instance.validateDataCut();
-
-    expect(instance.validDataCut).toBe(true);
-  });
-
-  it('should expect validDataCut to be false when the lists are too similar', () => {
-    const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
-
-    instance.dataCutValidationInfo = dataValidationInfo;
-    instance.peerFilterSelections = filterSelections;
-
-    instance.validateDataCut();
-
-    expect(instance.validDataCut).toBe(false);
-  });
-
-  it('should enable the add button when validDataCut is true', () => {
-    instance.validDataCut = true;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should disable the add button when validDataCut is false', () => {
-    instance.validDataCut = false;
+    guidelinesService.passing = false;
 
     fixture.detectChanges();
 

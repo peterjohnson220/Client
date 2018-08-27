@@ -1,22 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Legacy Content - Peer - Upsert Data Cut should disable the add button when validDataCut is false 1`] = `
+exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
 <pf-upsert-data-cut-page
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
+  guidelinesService={[Function DojGuidelinesStub]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
   peerFilterSelections$={[Function Store]}
   peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -24,7 +18,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add button w
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
   userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -76,18 +69,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
+  guidelinesService={[Function DojGuidelinesStub]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
   peerFilterSelections$={[Function Store]}
   peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -95,7 +82,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
   userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -123,7 +109,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           >
             <button
               class="btn btn-primary"
-              disabled=""
               type="button"
             >
               Add
@@ -147,18 +132,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
+  guidelinesService={[Function DojGuidelinesStub]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
   peerFilterSelections$={[Function Store]}
   peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -166,7 +145,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
   userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -194,7 +172,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           >
             <button
               class="btn btn-primary"
-              disabled=""
               type="button"
             >
               Update
@@ -213,23 +190,17 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
 </pf-upsert-data-cut-page>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button when the map data contains more than the MinCompanies 1`] = `
+exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button when passesGuidelines is true 1`] = `
 <pf-upsert-data-cut-page
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
+  guidelinesService={[Function DojGuidelinesStub]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
   peerFilterSelections$={[Function Store]}
   peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -237,7 +208,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
   userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
 >
   <pf-async-container>
     <div
@@ -283,94 +253,17 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
 </pf-upsert-data-cut-page>
 `;
 
-exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button when validDataCut is true 1`] = `
-<pf-upsert-data-cut-page
-  companyJobId={[Function Number]}
-  companyPayMarketId={[Function Number]}
-  cutGuid="null"
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
-  initialMapMoveComplete$={[Function Store]}
-  map="undefined"
-  mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
-  route={[Function Object]}
-  store={[Function Store]}
-  systemFilter$={[Function Store]}
-  upsertDataCutPageInViewInIframe$={[Function Store]}
-  upsertingDataCut$={[Function Store]}
-  upsertingDataCutError$={[Function Store]}
-  userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
->
-  <pf-async-container>
-    <div
-      class="d-flex h-100 w-100"
-    >
-      <div
-        class="h-100 filters-container"
-      >
-        <pf-peer-data-cut-filter-sidebar />
-      </div>
-      <div
-        class="flex-grow-1 d-flex flex-column"
-      >
-        <div
-          class="map-container flex-grow-1"
-        >
-          
-        </div>
-        <div
-          class="button-container d-flex justify-content-end align-items-center"
-        >
-          
-          <div
-            class="buttons"
-          >
-            <button
-              class="btn btn-primary"
-              disabled=""
-              type="button"
-            >
-              Add
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </pf-async-container>
-</pf-upsert-data-cut-page>
-`;
-
-exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button when the map data contains more than the MinCompanies 1`] = `
+exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button when passesGuidelines is true 1`] = `
 <pf-upsert-data-cut-page
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
-  dataCutValidationInfo={[Function Array]}
-  dataCutValidationInfo$={[Function Store]}
-  dataCutValidationSubscription={[Function Subscriber]}
-  guidelineLimits={[Function Object]}
+  guidelinesService={[Function DojGuidelinesStub]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections={[Function Object]}
   peerFilterSelections$={[Function Store]}
   peerFilterSubscription={[Function Subscriber]}
-  peerMapSummary$={[Function Store]}
-  previousSelections={[Function Array]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -378,7 +271,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
   userSessionId={[Function Number]}
-  validDataCut={[Function Boolean]}
 >
   <pf-async-container>
     <div
