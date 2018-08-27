@@ -11,17 +11,17 @@
 
     <div class="guideline">
 
-      <div class="guideline-status" [class.passing]="guidelinesService.hasMinimumCompanies">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasMinimumCompanies }"></ng-container>
+      <div class="guideline-status" [class.passing]="hasMinimumCompanies">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: hasMinimumCompanies }"></ng-container>
         At Least 5 Companies
       </div>
 
       <small class="guideline-description text-muted">The results should not contain less than 5 companies</small>
 
-      <small *ngIf="!guidelinesService.hasMinimumCompanies" class="guideline-fail-detail">
+      <small *ngIf="!hasMinimumCompanies" class="guideline-fail-detail">
         <div class="d-flex justify-content-between">
           <span>Companies:</span>
-          <span>{{guidelinesService.numberOfCompanies}}</span>
+          <span>{{companies?.length}}</span>
         </div>
       </small>
 
@@ -29,16 +29,16 @@
 
     <div class="guideline">
 
-      <div class="guideline-status" [class.passing]="guidelinesService.hasNoDominatingData">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: guidelinesService.hasNoDominatingData }"></ng-container>
+      <div class="guideline-status" [class.passing]="hasNoDominatingData">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{passing: hasNoDominatingData }"></ng-container>
         Data Dominance
       </div>
 
       <small class="guideline-description text-muted">The results should not contain a company that makes up more than 25% of the overall data cut</small>
 
-      <small *ngIf="!guidelinesService.hasNoDominatingData" class="guideline-fail-detail">
+      <small *ngIf="!hasNoDominatingData" class="guideline-fail-detail">
 
-        <div *ngFor="let c of guidelinesService.dominatingCompanies">
+        <div *ngFor="let c of dominatingCompanies">
           <div class="d-flex justify-content-between">
             <span>{{c.Company}}</span>
             <span>{{c.Percentage}}%</span>
@@ -50,8 +50,8 @@
 
     <div class="guideline">
 
-      <div class="guideline-status" [class.passing]="guidelinesService.validDataCut">
-        <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: guidelinesService.validDataCut }"></ng-container>
+      <div class="guideline-status" [class.passing]="validDataCut">
+        <ng-container *ngTemplateOutlet="statusIndicator;context:{ passing: validDataCut }"></ng-container>
         Similarity Check
       </div>
 
@@ -60,9 +60,10 @@
   </div>
 </ng-template>
 
-<div *ngIf="!guidelinesService.passesGuidelines"
+<div *ngIf="!hasMinimumCompanies || !hasNoDominatingData || !validDataCut"
+     [class.failing]="!hasMinimumCompanies || !validDataCut"
      [ngbPopover]="popContent"
-     class="guidelines-label failing"
+     class="guidelines-label"
      triggers="mouseenter:mouseleave"
      popoverTitle="Guidelines">
 
