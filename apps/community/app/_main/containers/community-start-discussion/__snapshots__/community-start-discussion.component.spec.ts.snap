@@ -5,6 +5,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
   UserAvatarSource={[Function String]}
   communityDiscussionForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
+  postMaxLength={[Function Number]}
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
   submittingCommunityPostSuccess$={[Function Store]}
@@ -56,6 +57,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           <textarea
             class="ng-untouched ng-pristine ng-invalid"
             formcontrolname="postText"
+            id="discussion-text"
             maxlength="2000"
             ng-reflect-maxlength="2000"
             ng-reflect-name="postText"
@@ -64,6 +66,11 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           <div
             class="ml-3 p-0"
           >
+            <div
+              class="float-right"
+            >
+              <pf-radial-text-counter />
+            </div>
             <span
               ngbtooltip="Will be visible to users within your organization"
               placement="bottom"
@@ -84,7 +91,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
               </label>
             </span>
             <button
-              class="btn btn-primary m-1 float-right"
+              class="btn btn-primary float-right"
               disabled=""
               id="start-discussion-post-button"
             >

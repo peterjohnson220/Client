@@ -3,7 +3,6 @@
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
-
 .start-discussion-container {
   border: solid 1px $border-grey;
 }
@@ -38,6 +37,11 @@ $post-avatar-height: 50px;
   align-self: start;
 }
 
+#start-discussion-post-button
+{
+  clear: both;
+}
+
 .start-discussion-body textarea {
   width: calc(100% - 10px);
   height: 50px;
@@ -53,3 +57,4 @@ $post-avatar-height: 50px;
   width: 150px;
   border: none;
 }
+

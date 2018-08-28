@@ -11,12 +11,12 @@
         <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
              alt="avatar">
         <div class="w-100">
-          <textarea #newPost
+          <textarea id="discussion-text"
                     placeholder="Start a discussion..."
-                    maxlength="2000"
-                    formControlName="postText"
-          ></textarea>
+                    maxlength="{{postMaxLength}}"
+                    formControlName="postText" #discussionText></textarea>
           <div class="ml-3 p-0">
+            <div class="float-right"><pf-radial-text-counter [textToCount]="discussionText.value"></pf-radial-text-counter></div>
             <span placement="bottom"
                   ngbTooltip="Will be visible to users within your organization">
               <input #isInternal
@@ -26,14 +26,13 @@
                      type="checkbox" />
               <label for="internal-only" class="ml-1">Internal Only</label>
             </span>
-            <button id="start-discussion-post-button"
+            <button id="start-discussion-post-button" class="btn btn-primary"
                     [disabled]="communityDiscussionForm.controls['postText'].invalid"
-                    (click)="submitPost()" class="btn btn-primary m-1 float-right">Post
+                    (click)="submitPost()" class="btn btn-primary float-right">Post
               <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
               </pf-loading-indicator></button>
           </div>
         </div>
-
     </div>
   </form>
 </div>
