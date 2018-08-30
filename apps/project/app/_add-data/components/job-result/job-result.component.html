@@ -6,7 +6,7 @@
       </span>
     <div class="vendor">
       {{job.Source}}
-      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}}</ng-container>
+      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
     </div>
 
   </td>
