@@ -6,6 +6,7 @@ exports[`Async Container should not show the .loading-blanket, when it is not lo
   loadingError="false"
   reload={[Function EventEmitter]}
   reloadText={[Function String]}
+  spinnerType={[Function String]}
 >
   
 </pf-async-container>
@@ -17,6 +18,7 @@ exports[`Async Container should show the pf-error-indicator and no reload button
   loadingError={[Function Boolean]}
   reload={[Function EventEmitter]}
   reloadText={[Function String]}
+  spinnerType={[Function String]}
 >
   <div
     class="loading-blanket no-opacity"
@@ -43,6 +45,7 @@ exports[`Async Container should show the pf-error-indicator and reload button, w
   loadingError={[Function Boolean]}
   reload={[Function EventEmitter]}
   reloadText={[Function String]}
+  spinnerType={[Function String]}
 >
   <div
     class="loading-blanket no-opacity"
@@ -75,6 +78,7 @@ exports[`Async Container should show the pf-loading-indicator, when we are loadi
   loading={[Function Boolean]}
   reload={[Function EventEmitter]}
   reloadText={[Function String]}
+  spinnerType={[Function String]}
 >
   <div
     class="loading-blanket"

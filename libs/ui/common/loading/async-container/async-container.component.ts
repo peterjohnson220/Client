@@ -12,6 +12,7 @@ export class AsyncContainerComponent {
   @Input() reloadText = 'Reload';
   @Input() hideReloadButton: boolean;
   @Input() noOpactity: boolean;
+  @Input() spinnerType = 'SVG';
 
   @Output() reload = new EventEmitter();
 }

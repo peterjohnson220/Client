@@ -14,6 +14,7 @@ exports[`Project - Add Data - Search Results should show a table row with a load
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
   resultsContainer={[Function ElementRef]}
+  spinnerType={[Function String]}
   store={[Function Store]}
   tooltipContainer={[Function ElementRef]}
 >
