@@ -39,6 +39,19 @@ export class CommunityPostEffects {
       )
     );
 
+  @Effect()
+  updatingCommunityPostLike$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_LIKE).pipe(
+      switchMap((action: fromCommunityPostActions.UpdatingCommunityPostLike) =>
+        this.communityPostService.updatePostLike(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPostActions.UpdatingCommunityPostLikeSuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostActions.UpdatingCommunityPostLikeError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private communityPostService: CommunityPostApiService,
