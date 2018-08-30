@@ -28,7 +28,7 @@
     {{toggleDataCutsLabel}}
     </span>
     <div *ngIf="job.LoadingDataCuts">
-      <pf-loading-indicator></pf-loading-indicator> Loading Data Cuts...
+      <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
     </div>
     <div *ngIf="showDataCuts && !job.LoadingDataCuts">
       <pf-data-cuts [dataCuts]="job.DataCuts"

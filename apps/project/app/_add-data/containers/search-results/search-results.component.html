@@ -24,7 +24,8 @@
     <pf-async-container
       [loading]="loadingResults$ | async"
       [loadingError]="error$ | async"
-      [hideReloadButton]="true">
+      [hideReloadButton]="true"
+      [spinnerType]="spinnerType">
 
       <table *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
         <tbody>
@@ -43,7 +44,7 @@
             </td>
           </tr>
           <tr class="loading-more-row" *ngIf="loadingMoreResults">
-            <td colspan="6"><pf-loading-indicator></pf-loading-indicator> Loading More Results...</td>
+            <td colspan="6"><pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...</td>
           </tr>
         </tbody>
       </table>
