@@ -18,6 +18,7 @@ export interface TextFilter extends Filter {
 export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
   RefreshOptionsFromServer: boolean;
+  OptionCountDisabled?: boolean;
 }
 
 
