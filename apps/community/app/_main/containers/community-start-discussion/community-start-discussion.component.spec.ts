@@ -7,6 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
+import { HighlightHashTagPipe } from 'libs/core';
 
 describe('CommunityStartDiscussionComponent', () => {
   let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
@@ -24,7 +25,8 @@ describe('CommunityStartDiscussionComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityStartDiscussionComponent
+        CommunityStartDiscussionComponent,
+        HighlightHashTagPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
