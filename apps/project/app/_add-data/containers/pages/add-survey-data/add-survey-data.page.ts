@@ -6,11 +6,10 @@ import { Observable } from 'rxjs';
 import { DataCut } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromSurveyFiltersActions from '../../../actions/search-filters.actions';
+import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromTooltipContainerActions from '../../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../../reducers';
-
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -18,15 +17,20 @@ import * as fromAddDataReducer from '../../../reducers';
   styleUrls: ['./add-survey-data.page.scss']
 })
 export class AddSurveyDataPageComponent {
-  excludeFromParticipation: boolean;
   selectedCuts$: Observable<DataCut[]>;
   addingData$: Observable<boolean>;
+  numberOfResults$: Observable<number>;
+  searchingFilter$: Observable<boolean>;
+
+  excludeFromParticipation: boolean;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
   ) {
     this.selectedCuts$ = this.store.select(fromAddDataReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
+    this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
+    this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
     this.excludeFromParticipation = false;
   }
 
@@ -42,7 +46,7 @@ export class AddSurveyDataPageComponent {
         this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(event.data.payfactorsMessage.payload));
         break;
       case 'App Closed':
-        this.store.dispatch(new fromSurveyFiltersActions.ClearFilters());
+        this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
         this.store.dispatch(new fromSurveyResultsActions.ClearResults());
         this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
         this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
@@ -62,5 +66,7 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromAddSurveyDataPageActions.AddData(this.excludeFromParticipation));
   }
 
-
+  handleResetAllFilters() {
+    this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
+  }
 }

@@ -69,15 +69,6 @@ describe('Project - Add Data - Search Filters', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ResetAllFilters action, when handling reset all clicked', () => {
-    const expectedAction = new fromSearchFiltersActions.ResetAllFilters();
-    spyOn(store, 'dispatch');
-
-    instance.handleResetAllClicked();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should set the focused filter to jobTitleCode anytime the page is shown', () => {
     store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(generateMockJobContext()));
 

@@ -1,28 +1,76 @@
 @import 'legacy-variables';
 @import 'search/filters-variables';
 
+.filter{
+  padding-bottom: 1rem;
+}
+
 .header{
   font-weight: $legacy-bold-font-weight;
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
-  margin-bottom: .45rem;
-  padding: .5rem .85rem;
+  padding: .5rem .25rem .5rem .25rem;
   background: $legacy-header-grey;
+  height: 30px;
+  cursor: pointer;
 }
 
-.filter{
-  margin-bottom: 1rem;
+.content{
+  padding-top: .65rem;
+}
+
+.filter.singled{
+  height: 100%;
+
+  .header{
+    background-color: #e4eef6;
+    cursor: inherit;
+  }
+
+  .content{
+    padding-top: 0;
+    position: absolute;
+    top: 75px;
+    width: 100%;
+    overflow-y: scroll;
+    bottom: 0;
+  }
+}
+
+.search-filter{
+  position: absolute;
+  height: 40px;
+  width: 100%;
+  padding: .5rem .2rem;
 }
 
 .fa-angle-down, .fa-angle-up{
   color: #616161;
 }
 
+.header-left{
+  display: flex;
+  margin-left: .5rem;
+}
+
 .header-right{
   display: flex;
+  align-items: center;
+  color: #585858;
 }
 
 .reset-link{
   @extend %reset-link;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+.search{
+  @extend %filter-action;
+  margin-top: .15rem;
+
+  &:hover{
+    color: $link-color;
+    font-weight: bold;
+  }
 }

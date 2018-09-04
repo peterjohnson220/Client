@@ -1,11 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
+import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
-import { Filter, FilterType } from '../../models';
+import { Filter, FilterType, MultiSelectOption } from '../../models';
 
 @Component({
   selector: 'pf-search-filters',
@@ -13,8 +15,9 @@ import { Filter, FilterType } from '../../models';
   styleUrls: ['./search-filters.component.scss']
 })
 export class SearchFiltersComponent implements OnInit, OnDestroy {
+  @Input() visible: boolean;
+
   filters$: Observable<Filter[]>;
-  numberOfResults$: Observable<number>;
   pageShown$: Observable<boolean>;
 
   pageShowSub: Subscription;
@@ -27,7 +30,6 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef
   ) {
     this.filters$ = this.store.select(fromAddDataReducer.getFilters);
-    this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
   }
 
@@ -44,8 +46,8 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchFiltersActions.UpdateFilterValue({ filterId, value }));
   }
 
-  handleMultiSelectOptionSelected(idObj: { filterId: string, optionId: string }) {
-    this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(idObj));
+  handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption }) {
+    this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
 
   handleResetSection(filterId: string) {
@@ -56,8 +58,9 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchFiltersActions.ResetFilter(filterId));
   }
 
-  handleResetAllClicked() {
-    this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
+  handleSearchSection(filter: Filter) {
+    this.store.dispatch(new fromAddSurveyDataPageActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
   }
 
   // Lifecycle

@@ -10,6 +10,7 @@ import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { SearchSurveyAggregationsRequest } from '../../../models/survey-search/search-survey-aggregations-request.model';
 
 @Injectable()
 export class SurveySearchApiService {
@@ -41,4 +42,7 @@ export class SurveySearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/GetPricingMatchesDetails`, pricingMatchesDetailsRequest);
   }
 
+  searchSurveyAggregations(request: SearchSurveyAggregationsRequest): Observable<SearchFilter> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyAggregations`, request);
+  }
 }

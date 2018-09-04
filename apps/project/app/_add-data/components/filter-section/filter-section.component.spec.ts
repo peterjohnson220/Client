@@ -53,14 +53,6 @@ describe('Project - Add Data - Filter Section', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show a fa-angle-up icon in the header, when NOT collapsed', () => {
-    instance.collapsed = false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
   it('should set collapsed to true, when toggling', () => {
     instance.collapsed = false;
 

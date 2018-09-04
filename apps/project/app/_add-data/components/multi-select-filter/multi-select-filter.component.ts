@@ -9,7 +9,7 @@ import { MultiSelectFilter, MultiSelectOption } from '../../models';
 })
 export class MultiSelectFilterComponent {
   @Input() filter: MultiSelectFilter;
-  @Output() optionSelected: EventEmitter<{filterId: string, optionId: string}> = new EventEmitter();
+  @Output() optionSelected: EventEmitter<{filterId: string, option: MultiSelectOption}> = new EventEmitter();
 
   constructor() { }
 
@@ -21,6 +21,6 @@ export class MultiSelectFilterComponent {
     if (this.optionDisabled(option)) {
       return;
     }
-    this.optionSelected.emit({ filterId, optionId: option.Id });
+    this.optionSelected.emit({ filterId, option });
   }
 }

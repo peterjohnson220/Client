@@ -18,14 +18,14 @@ describe('Project - Add Data - Multi Select Filter', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should emit an object with a filterId and optionId when handling an option selected', () => {
+  it('should emit an object with a filterId and an option when handling an option selected', () => {
     const mockMultiSelectOption = generateMockMultiSelectOption();
-    const filterAndOptionId = { filterId: '23094', optionId: mockMultiSelectOption.Id};
+    const filterIdAndOption = { filterId: '23094', option: mockMultiSelectOption};
     spyOn(instance.optionSelected, 'emit');
 
-    instance.handleOptionSelected(filterAndOptionId.filterId, mockMultiSelectOption);
+    instance.handleOptionSelected(filterIdAndOption.filterId, mockMultiSelectOption);
 
-    expect(instance.optionSelected.emit).toHaveBeenCalledWith(filterAndOptionId);
+    expect(instance.optionSelected.emit).toHaveBeenCalledWith(filterIdAndOption);
   });
 
   it('should not emit anything when the option selected is disabled', () => {

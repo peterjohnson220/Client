@@ -8,3 +8,4 @@ export * from './add-data-cut-response.model';
 export * from './pricing-matches-request.model';
 export * from './pricing-matches-response.model';
 export * from './pricing-matches-details-request.model';
+export * from './search-survey-aggregations-request.model';

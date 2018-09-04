@@ -87,7 +87,6 @@ export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelect
 export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOption[]): MultiSelectOption[] {
   return sfo.map((o: SearchFilterOption): MultiSelectOption => {
     return {
-      Id: generateGuid(),
       Name: o.Name,
       Value: o.Value,
       Count: o.Count,
