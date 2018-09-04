@@ -6,12 +6,14 @@ import * as fromCommunityPollRequestReducer from './community-poll-request.reduc
 
 import * as fromCommunityPollResponseReducer from './community-poll-response.reducer';
 import * as fromCommunityPostReducer from './community-post.reducer';
+import * as fromCommunityTagReducer from './community-tag.reducer';
 
 // Feature area state
 export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
   communityPollResponse: fromCommunityPollResponseReducer.State;
   communityPost: fromCommunityPostReducer.State;
+  communityPopularTags: fromCommunityTagReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
   communityPollResponse: fromCommunityPollResponseReducer.reducer,
-  communityPost: fromCommunityPostReducer.reducer
+  communityPost: fromCommunityPostReducer.reducer,
+  communityPopularTags: fromCommunityTagReducer.reducer
 };
 
 // select feature area
@@ -43,6 +46,11 @@ export const selectFromCommunityPollResponseState  = createSelector(
 export const selectFromCommunityPostState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPost
+);
+
+export const selectFromCommunityTagState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPopularTags
 );
 
 // Community Poll Selectors
@@ -145,4 +153,20 @@ export const getAddingCommunityPostReplyError = createSelector(
 export const getAddingCommunityPostReplySuccess = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getAddingCommunityPostReplySuccess
+);
+
+// Community Popular Tag Selectors
+export const getLoadingCommunityPopularTags = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getLoadingCommunityPopularTags
+);
+
+export const getLoadingCommunityPopularTagsSuccess = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getCommunityPopularTags
+);
+
+export const getLoadingCommunityPopularTagsError = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getLoadingCommunityPopularTagsError
 );

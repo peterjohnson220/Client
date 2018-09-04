@@ -16,15 +16,20 @@ import { PfCommonModule } from 'libs/core';
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
+
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { RadialTextCounterComponent, CommunityPostsRepliesComponent } from './components';
+
+import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
+import { CommunityTagEffects } from './effects/community-tag.effects';
 
 import { CommunityPostEffects } from './effects';
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
+import { CommunityTagApiService } from '../../../../libs/data/payfactors-api/community/community-tag-api.service';
 
 
 const components = [
@@ -34,7 +39,8 @@ const components = [
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
-  CommunityPostsRepliesComponent
+  CommunityPostsRepliesComponent,
+  CommunityPopularTagsComponent
 ];
 
 @NgModule({
@@ -52,7 +58,8 @@ const components = [
     EffectsModule.forFeature([
       CommunityPollRequestEffects,
       CommunityPollResponseEffects,
-      CommunityPostEffects
+      CommunityPostEffects,
+      CommunityTagEffects
     ]),
 
     // Routing
@@ -65,7 +72,8 @@ const components = [
   declarations: components,
   providers: [
     CommunityPollApiService,
-    CommunityPostApiService
+    CommunityPostApiService,
+    CommunityTagApiService
   ]
 })
 export class MainModule {
