@@ -89,6 +89,10 @@ $reply-avatar-height: 35px;
   margin-left: $reply-avatar-width + 10px;
 }
 
+.post-body {
+  word-break: break-all;
+}
+
 #show-more-btn
 {
   color: white;
@@ -98,4 +102,8 @@ $reply-avatar-height: 35px;
 #show-more-btn > i
 {
   color: white;
+}
+
+:host ::ng-deep .hashtag-highlight{
+  color: rgb(64, 171, 221);
 }

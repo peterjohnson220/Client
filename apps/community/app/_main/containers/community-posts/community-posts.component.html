@@ -10,8 +10,9 @@
         <div class="post-offset">
           <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
           <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.UserFirstName}} {{post.UserInfo.UserLastName}}</span>
-            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>
-          <p class="mt-2 mb-2">{{post.Content}}</p>
+            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>       
+          <div class="post-body mt-2 mb-2"
+            [innerHtml]="post.Content | highlightHashTag"></div>     
           <button id="like" type="button" class="btn m-1"
                   [ngClass]="{'community-btn-clicked': post.LikedByCurrentUser, 'community-btn': !post.LikedByCurrentUser}" (click)="updatePostLike(post)">
             <i class="far fa-thumbs-up fa-lg icon"></i>
