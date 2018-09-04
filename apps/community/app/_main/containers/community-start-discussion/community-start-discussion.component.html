@@ -13,10 +13,10 @@
         <div class="w-100">
           <div class="textAreaContainer ml-3" #textAreaContainer>     
               <div #overlayTextArea 
-                class="overlayTextArea pl-2 pr-2"
+                class="overlayTextArea pl-2 pr-3"
                 [innerHtml]="discussionTextArea.value | highlightHashTag"></div>
               <textarea  #discussionTextArea
-                class="discussionTextArea pl-2 pr-2"
+                class="discussionTextArea pl-2 pr-3"
                 placeholder="Start a discussion..."
                 maxlength="{{postMaxLength}}"
                 formControlName="postText" 
