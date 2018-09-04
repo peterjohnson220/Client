@@ -61,10 +61,10 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
             class="textAreaContainer ml-3"
           >
             <div
-              class="overlayTextArea pl-2 pr-2"
+              class="overlayTextArea pl-2 pr-3"
             />
             <textarea
-              class="discussionTextArea pl-2 pr-2 ng-untouched ng-pristine ng-invalid"
+              class="discussionTextArea pl-2 pr-3 ng-untouched ng-pristine ng-invalid"
               formcontrolname="postText"
               maxlength="2000"
               ng-reflect-maxlength="2000"
