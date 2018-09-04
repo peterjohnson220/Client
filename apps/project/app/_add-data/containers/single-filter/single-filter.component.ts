@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
-import { Filter, MultiSelectOption } from '../../models';
-import * as fromAddDataReducer from '../../reducers';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
+import { Filter, MultiSelectOption } from '../../models';
+import * as fromAddDataReducer from '../../reducers';
 
 @Component({
   selector: 'pf-single-filter',

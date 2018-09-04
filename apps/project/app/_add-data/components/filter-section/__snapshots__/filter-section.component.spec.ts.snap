@@ -145,3 +145,58 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
   </div>
 </pf-filter-section>
 `;
+
+exports[`Project - Add Data - Filter Section should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
+<pf-filter-section
+  filter={[Function Object]}
+  filterTypes={[Function Object]}
+  maxOptions={[Function Number]}
+  reset={[Function EventEmitter]}
+  searchClicked={[Function EventEmitter]}
+  searchValueChanged={[Function EventEmitter]}
+  singled="false"
+>
+  <div
+    class="filter"
+  >
+    <div
+      class="header"
+    >
+      <div
+        class="header-left"
+      >
+         Publisher 
+        
+      </div>
+      <div
+        class="header-right"
+      >
+        
+        <div
+          class="reset-link"
+        >
+          
+          
+          Reset (5)
+          
+        </div>
+        
+        <div
+          class="search"
+        >
+          <i
+            class="far fa-search"
+          />
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      
+      <div
+        class="content"
+      />
+    </div>
+  </div>
+</pf-filter-section>
+`;
