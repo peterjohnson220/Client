@@ -13,7 +13,7 @@
             <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>
           <p class="mt-2 mb-2">{{post.Content}}</p>
           <button id="like" type="button" class="btn m-1"
-                  [ngClass]="{'community-btn-clicked': post.LikeCount > 0, 'community-btn': post.LikeCount == 0}">
+                  [ngClass]="{'community-btn-clicked': post.LikedByCurrentUser, 'community-btn': !post.LikedByCurrentUser}" (click)="updatePostLike(post)">
             <i class="far fa-thumbs-up fa-lg icon"></i>
             <span *ngIf="post.LikeCount == 0"> Like</span>
             <span *ngIf="post.LikeCount > 0"> {{post.LikeCount}} Liked</span>

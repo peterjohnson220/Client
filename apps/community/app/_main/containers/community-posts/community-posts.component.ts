@@ -27,4 +27,8 @@ export class CommunityPostsComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
   }
+
+  updatePostLike(post: any) {
+    this.store.dispatch(new fromCommunityPostActions.UpdatingCommunityPostLike({postId: post.Id, like: !post.LikedByCurrentUser}));
+  }
 }

@@ -70,6 +70,32 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         loadingError: true
       };
     }
+    case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_SUCCESS: {
+      const postId = action.payload['postId'];
+      const like = action.payload['like'];
+
+      const updatedEntities = state.entities.map(entity => {
+        if (entity.Id === postId) {
+        return {
+          ...entity,
+          LikedByCurrentUser: like,
+          LikeCount: like ? entity.LikeCount + 1 : entity.LikeCount - 1
+        };
+      } else {
+          return entity;
+        }
+      });
+    return {
+        ...state,
+        entities: updatedEntities
+      };
+    }
+    case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
     default: {
       return state;
     }

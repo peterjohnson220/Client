@@ -3,6 +3,7 @@ import { CommunityTag } from './community-tag.model';
 import { CommunityReply } from './community-reply.model';
 
 export interface CommunityPost {
+  Id: string;
   UserInfo: CommunityUserInfo;
   Content: string;
   Tags: CommunityTag[];
@@ -17,6 +18,7 @@ export function generateMockCommunityPost(likeCount: number = 0, postText: strin
                                           tags: any = null, isInternalOnly: boolean = false,
                                           replies: CommunityReply[] = null, hasMoreReplies: boolean = false): CommunityPost {
   return {
+    Id: 'testId',
     UserInfo:
       {
         UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company',
