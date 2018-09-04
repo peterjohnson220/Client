@@ -4,6 +4,7 @@ exports[`Project - Add Data - Filter Section should display the given title in t
 <pf-filter-section
   filter={[Function Object]}
   filterTypes={[Function Object]}
+  maxOptions={[Function Number]}
   reset={[Function EventEmitter]}
   searchClicked={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
@@ -101,6 +102,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
   collapsed={[Function Boolean]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
+  maxOptions={[Function Number]}
   reset={[Function EventEmitter]}
   searchClicked={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
