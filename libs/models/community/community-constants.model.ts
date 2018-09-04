@@ -10,4 +10,6 @@ export const CommunityPollStatuses: Array<{ text: string, value: number }> = [
     { text: 'Archived', value: CommunityPollStatusEnum.Archived }
   ];
 
+export const HashTagRegEx = new RegExp(/([#])([a-z0-9])\w+/ig, 'gi');
+
 

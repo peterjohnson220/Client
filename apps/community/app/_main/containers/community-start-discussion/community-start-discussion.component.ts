@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import * as constants from 'libs/models/community/community-constants.model';
 import { CommunityPost, CommunityAddPost } from 'libs/models/community';
 
 @Component({
@@ -22,6 +23,10 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   submittingCommunityPostSuccess$: Observable<CommunityPost>;
   submittingCommunityPostSuccessSubscription: Subscription;
 
+  @ViewChild('discussionTextArea') discussionTextArea: ElementRef;
+  @ViewChild('overlayTextArea') overlayTextArea: ElementRef;
+  @ViewChild('textAreaContainer') textAreaContainer: ElementRef;
+
   constructor(public store: Store<fromCommunityPostReducer.State>,
               private formBuilder: FormBuilder) {
     this.buildForm();
@@ -35,6 +40,10 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
     this.submittingCommunityPostSuccessSubscription = this.submittingCommunityPostSuccess$.subscribe((response) => {
       if (response) {
         this.communityDiscussionForm.reset({ value: 'formState', isInternalOnly: false });
+
+        while (  this.overlayTextArea.nativeElement.firstChild) {
+          this.overlayTextArea.nativeElement.removeChild(  this.overlayTextArea.nativeElement.firstChild);
+        }
       }
     });
   }
@@ -53,10 +62,26 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   submitPost() {
     if (this.communityDiscussionForm.valid) {
       const newPost: CommunityAddPost = {
+        // TODO: HashTags: this.discussionTextArea.nativeElement.value.match(constants.HashTagRegEx),
         PostText: this.communityDiscussionForm.controls['postText'].value,
         IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value
       };
       this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
     }
   }
+
+  onKeyDown(e) {
+    this.autogrow();
+  }
+
+  onKeyUp(e) {
+    this.autogrow();
+  }
+
+  private autogrow() {
+    if (this.discussionTextArea.nativeElement.scrollHeight >= 50) {
+      this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
+    }
+  }
+
 }

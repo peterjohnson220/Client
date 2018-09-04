@@ -4,12 +4,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 <pf-community-start-discussion
   UserAvatarSource={[Function String]}
   communityDiscussionForm={[Function FormGroup]}
+  discussionTextArea={[Function ElementRef]}
   formBuilder={[Function FormBuilder]}
+  overlayTextArea={[Function ElementRef]}
   postMaxLength={[Function Number]}
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
   submittingCommunityPostSuccess$={[Function Store]}
   submittingCommunityPostSuccessSubscription={[Function Subscriber]}
+  textAreaContainer={[Function ElementRef]}
 >
   <div
     class="start-discussion-container mb-3"
@@ -54,15 +57,24 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         <div
           class="w-100"
         >
-          <textarea
-            class="ng-untouched ng-pristine ng-invalid"
-            formcontrolname="postText"
-            id="discussion-text"
-            maxlength="2000"
-            ng-reflect-maxlength="2000"
-            ng-reflect-name="postText"
-            placeholder="Start a discussion..."
-          />
+          <div
+            class="textAreaContainer ml-3"
+          >
+            <div
+              class="overlayTextArea pl-2 pr-2"
+            />
+            <textarea
+              class="discussionTextArea pl-2 pr-2 ng-untouched ng-pristine ng-invalid"
+              formcontrolname="postText"
+              maxlength="2000"
+              ng-reflect-maxlength="2000"
+              ng-reflect-name="postText"
+              placeholder="Start a discussion..."
+              spellcheck="false"
+            >
+                            
+            </textarea>
+          </div>
           <div
             class="ml-3 p-0"
           >

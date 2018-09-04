@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
-import * as constants from 'libs/models/community/community-poll-constants.model';
+import * as constants from 'libs/models/community/community-constants.model';
 
 import { PfValidators } from 'libs/forms';
 import { CommunityPollResponseComponent } from '../community-poll-response/community-poll-response.component';
 import { CommunityPollList} from 'libs/models';
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
-import { CommunityPollStatusEnum } from 'libs/models/community/community-poll-constants.model';
+import { CommunityPollStatusEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-poll-modal',

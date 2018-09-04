@@ -7,7 +7,7 @@ import { GridComponent } from '@progress/kendo-angular-grid';
 
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
-import * as constants from 'libs/models/community/community-poll-constants.model';
+import * as constants from 'libs/models/community/community-constants.model';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 
 @Component({

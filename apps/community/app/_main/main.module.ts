@@ -11,6 +11,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
+import { PfCommonModule } from 'libs/core';
 
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
@@ -56,6 +57,7 @@ const components = [
     MainRoutingModule,
 
     // Payfactors
+    PfCommonModule,
     PfCommonUIModule
   ],
   declarations: components,
