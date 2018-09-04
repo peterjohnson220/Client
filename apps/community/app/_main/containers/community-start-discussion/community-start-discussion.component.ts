@@ -62,9 +62,9 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   submitPost() {
     if (this.communityDiscussionForm.valid) {
       const newPost: CommunityAddPost = {
-        // TODO: HashTags: this.discussionTextArea.nativeElement.value.match(constants.HashTagRegEx),
         PostText: this.communityDiscussionForm.controls['postText'].value,
-        IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value
+        IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
+        HashTags: this.discussionTextArea.nativeElement.value.match(constants.HashTagRegEx)
       };
       this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
     }
