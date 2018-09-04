@@ -80,7 +80,8 @@ export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelect
     Options: mapSearchFilterOptionsToMultiSelectOptions(searchFilter.Options),
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
-    Order: SearchFilterMappingData[searchFilter.Name].Order
+    Order: SearchFilterMappingData[searchFilter.Name].Order,
+    OptionCountDisabled: searchFilter.Name === 'country_code'
   };
 }
 

@@ -11,7 +11,7 @@
         <input type="checkbox" [disabled]="optionDisabled(option)" [ngModel]="option.Selected" /> {{option.Name}}
       </div>
 
-      <div class="option-count">
+      <div *ngIf="!filter.OptionCountDisabled" class="option-count">
         {{option.Count}}
       </div>
 
