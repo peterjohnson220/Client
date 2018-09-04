@@ -12,7 +12,7 @@
     (reset)="handleResetSection($event)"
     (searchValueChanged)="handleSearchValueChanged($event)">
 
-    <pf-async-container [loading]="loadingOptions$ | async">
+    <pf-async-container [loading]="loadingOptions$ | async" [spinnerType]="'GIF'">
       <pf-multi-select-filter
         [filter]="singledFilter$ | async"
         (optionSelected)="handleMultiSelectOptionSelected($event)">
