@@ -41,7 +41,8 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       DataCuts: [],
       IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50th: sj.Job.Base50th,
-      TCC50th: sj.Job.TCC50th
+      TCC50th: sj.Job.TCC50th,
+      EEO: sj.Job.EEO
     };
   });
 }

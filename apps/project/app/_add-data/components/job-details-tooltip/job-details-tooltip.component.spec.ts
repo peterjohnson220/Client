@@ -21,7 +21,7 @@ describe('JobDetailsTooltipComponent', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should display FLSA, Job Category and Scope when current job is Payfactors', () => {
+  it('should display FLSA, Job Category, Scope and EEO when current job is Payfactors', () => {
     instance.job = generateMockPayfactorsJobResult();
 
     fixture.detectChanges();
