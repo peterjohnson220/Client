@@ -24,6 +24,7 @@ import { ExchangeJobMappingService, } from './services';
 import { ManageRoutingModule } from './manage-routing.module';
 import { RequestJobModalComponent } from './containers/request-job/request-job-modal';
 import { NewJobFormComponent } from './containers/request-job/new-job-form';
+import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { NewJobFormComponent } from './containers/request-job/new-job-form';
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
 
     // Pages
-    ExchangeJobMappingPageComponent
+    ExchangeJobMappingPageComponent,
+    BoolFilterComponent
   ],
   providers: [
     ExchangeJobMappingService
