@@ -10,6 +10,7 @@ import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/surve
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
 import { mapFiltersToSearchFields, mapFiltersToSearchFilters } from '../helpers';
+import { isMultiFilter, MultiSelectFilter } from '../models';
 
 @Injectable()
 export class SingledFilterEffects {
@@ -35,7 +36,18 @@ export class SingledFilterEffects {
         };
 
         return this.surveySearchApiService.searchSurveyAggregations(request).pipe(
-          map((response: SearchFilter) => new fromSingledFilterActions.SearchAggregationSuccess(response.Options))
+
+          map((response: SearchFilter) => {
+            const matchingFilter = <MultiSelectFilter>data.filters.find(f => f.Id === data.singledFilter.Id);
+            const currentSelections = matchingFilter.Options.filter(o => o.Selected);
+
+            return new fromSingledFilterActions.SearchAggregationSuccess(
+              {
+                newOptions: response.Options,
+                currentSelections
+              }
+            );
+          })
         );
       })
     );

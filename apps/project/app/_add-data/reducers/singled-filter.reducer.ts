@@ -43,13 +43,10 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     }
     case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
       const filterCopy = cloneDeep(state.filter);
-      filterCopy.Options = mapSearchFilterOptionsToMultiSelectOptions(action.payload);
-
-      const singledFilter = <MultiSelectFilter>state.filter;
-      const selectedOptions = singledFilter.Options.filter(o => o.Selected);
+      filterCopy.Options = mapSearchFilterOptionsToMultiSelectOptions(action.payload.newOptions);
 
       filterCopy.Options = filterCopy.Options.map(o => {
-        o.Selected = selectedOptions.some(so => so.Value === o.Value);
+        o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
         return o;
       });
 

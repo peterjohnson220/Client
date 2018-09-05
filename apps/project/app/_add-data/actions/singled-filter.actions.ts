@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SearchFilterOption } from 'libs/models/survey-search';
 
-import { Filter } from '../models';
+import { Filter, MultiSelectOption } from '../models';
 
 export const SET_SINGLED_FILTER = '[Project Add Data/Singled Filter] Set Singled Filter';
 export const SEARCH_AGGREGATION = '[Project Add Data/Singled Filter] Search Aggregation';
@@ -25,7 +25,7 @@ export class SearchAggregation implements Action {
 export class SearchAggregationSuccess implements Action {
   readonly type = SEARCH_AGGREGATION_SUCCESS;
 
-  constructor(public payload: SearchFilterOption[]) {}
+  constructor(public payload: { newOptions: SearchFilterOption[], currentSelections: MultiSelectOption[] }) {}
 }
 
 export class ToggleMultiSelectOption implements Action {
