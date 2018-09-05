@@ -1,4 +1,5 @@
 export * from './community-add-post.model';
+export * from './community-add-reply.model';
 export * from './community-poll-list.model';
 export * from './community-poll-request.model';
 export * from './community-poll-response.model';

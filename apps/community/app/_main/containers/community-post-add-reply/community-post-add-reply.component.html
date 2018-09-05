@@ -1,0 +1,18 @@
+<form [formGroup]="communityPostReplyForm">
+  <div class="row community-reply-body m-2 pb-1">
+    <div class="col-10 p-0">
+      <textarea id="reply-text"
+                placeholder="Add Reply..."
+                formControlName="replyText"
+                class="reply-text-area w-100 p-0"></textarea>
+    </div>
+    <div class="col-2 p-0 align-self-end text-right">
+      <button id="reply" type="button" class="btn-sm community-btn mb-1 mr-1"
+              [disabled]="addingCommunityPostReply$ | async"
+              (click)="submitReply()">
+        <i class="fas fa-reply fa-lg icon"></i>
+        Reply
+      </button>
+    </div>
+  </div>
+</form>
