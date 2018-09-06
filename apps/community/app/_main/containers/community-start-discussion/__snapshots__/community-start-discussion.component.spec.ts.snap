@@ -11,7 +11,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
   submittingCommunityPostSuccess$={[Function Store]}
-  submittingCommunityPostSuccessSubscription={[Function Subscriber]}
+  suggestedCommunityTags$={[Function Store]}
   textAreaContainer={[Function ElementRef]}
 >
   <div
@@ -41,8 +41,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       </ul>
     </div>
     <form
-      class="ng-untouched ng-pristine ng-invalid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <div
@@ -52,7 +50,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           alt="avatar"
           class="pf-avatar ml-1"
           id="discussion-avatar"
-          src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
         />
         <div
           class="w-100"
@@ -64,17 +61,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
               class="overlayTextArea pl-2 pr-3"
             />
             <textarea
-              class="discussionTextArea pl-2 pr-3 ng-untouched ng-pristine ng-invalid"
+              class="discussionTextArea pl-2 pr-3"
               formcontrolname="postText"
-              maxlength="2000"
-              ng-reflect-maxlength="2000"
-              ng-reflect-name="postText"
               placeholder="Start a discussion..."
               spellcheck="false"
             >
                             
             </textarea>
           </div>
+          
           <div
             class="ml-3 p-0"
           >
@@ -88,11 +83,9 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
               placement="bottom"
             >
               <input
-                class="ng-untouched ng-pristine ng-valid"
                 formcontrolname="isInternalOnly"
                 id="internal-only"
                 name="internal-only"
-                ng-reflect-name="isInternalOnly"
                 type="checkbox"
               />
               <label
@@ -104,7 +97,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
             </span>
             <button
               class="btn btn-primary float-right"
-              disabled=""
               id="start-discussion-post-button"
             >
               Post 

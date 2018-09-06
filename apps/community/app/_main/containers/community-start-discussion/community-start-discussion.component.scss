@@ -2,6 +2,7 @@
 
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
+$hashtag-color:  rgb(64, 171, 221);
 
 .start-discussion-container {
   border: solid 1px $border-grey;
@@ -77,6 +78,25 @@ $post-avatar-height: 50px;
   left: 1px;
 }
 
+.suggested-tags {
+  position: absolute;
+  min-width: 100px;
+}
+
+.suggested-tags select {
+  width: 100%;
+  overflow: hidden;
+  border: solid 1px $hashtag-color;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.suggested-tags option {
+  font-weight: bold;
+  font-size: 14px;
+  color: rgb(73, 73, 73);
+}
+
 :host ::ng-deep .hashtag-highlight{
-  color: rgb(64, 171, 221);
+  color: $hashtag-color;
 }

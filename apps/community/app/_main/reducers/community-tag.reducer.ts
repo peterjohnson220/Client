@@ -5,12 +5,18 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   popularTags: CommunityTag[];
+  suggesting: boolean;
+  suggestingError: boolean;
+  entities: CommunityTag[];
 }
 
 export const initialState: State = {
   loading: false,
   loadingError: false,
-  popularTags: []
+  popularTags: [],
+  suggesting: false,
+  suggestingError: false,
+  entities: []
 };
 
 export function reducer(state = initialState, action: communityTagActions.Actions): State {
@@ -37,6 +43,27 @@ export function reducer(state = initialState, action: communityTagActions.Action
         loadingError: true
       };
     }
+    case communityTagActions.SUGGESTING_COMMUNITY_TAGS: {
+      return {
+        ...state,
+        suggesting: true,
+        suggestingError: false
+      };
+    }
+    case communityTagActions.SUGGESTING_COMMUNITY_TAGS_SUCCESS: {
+      return {
+        ...state,
+        suggesting: false,
+        entities: action.payload
+      };
+    }
+    case communityTagActions.SUGGESTING_COMMUNITY_TAGS_ERROR: {
+      return {
+        ...state,
+        suggesting: false,
+        suggestingError: true
+      };
+    }
     default: {
       return state;
     }
@@ -46,3 +73,6 @@ export function reducer(state = initialState, action: communityTagActions.Action
 export const getLoadingCommunityPopularTags = (state: State) => state.loading;
 export const getLoadingCommunityPopularTagsError = (state: State) => state.loadingError;
 export const getCommunityPopularTags = (state: State) => state.popularTags;
+export const getSuggestingCommunityTags = (state: State) => state.suggesting;
+export const getSuggestingCommunityTagsError = (state: State) => state.suggestingError;
+export const getCommunityTags = (state: State) => state.entities;

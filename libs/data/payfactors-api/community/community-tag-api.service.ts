@@ -15,4 +15,9 @@ export class CommunityTagApiService {
     return this.payfactorsApiService.get<CommunityTag[]>
     (`${this.endpoint}/GetPopularTags`);
   }
+
+  suggestTags(query: string): Observable<CommunityTag[]> {
+    return this.payfactorsApiService.get<CommunityTag[]>
+    (`${this.endpoint}/GetSuggestedTags`, {params: { query: query }} );
+  }
 }
