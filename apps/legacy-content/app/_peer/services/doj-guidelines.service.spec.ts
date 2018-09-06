@@ -46,13 +46,27 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     expect(service.hasMinimumCompanies).toBe(true);
   });
 
-  it('should return false for hasNoDominatingData when there is no companies >= dominatingPercentage', () => {
-    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: 1}];
+  it('should return false for hasNoDominatingData when there are companies > dominatingPercentage', () => {
+    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .26}];
 
     expect(service.hasNoDominatingData).toBe(false);
   });
 
-  it('should return true for hasNoDominatingData when there is companies < dominatingPercentage', () => {
+  it('should return true for hasNoDominatingData when there are companies <= dominatingPercentage', () => {
+    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .25}];
+
+    expect(service.hasNoDominatingData).toBe(true);
+
+    expect(service.passesGuidelines).toBe(false);
+  });
+
+  it('should return false for hasNoHardDominatingData when there are companies >= dominatingPercentageHard', () => {
+    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .5}];
+
+    expect(service.hasNoDominatingData).toBe(false);
+  });
+
+  it('should return true for hasNoHardDominatingData when there are companies < dominatingPercentageHard', () => {
     service.companies = [generateMockExchangeStatCompanyMakeup()];
 
     expect(service.hasNoDominatingData).toBe(true);
@@ -60,7 +74,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     expect(service.passesGuidelines).toBe(false);
   });
 
-  it('should return company and formatted percentages for dominatingCompanies when there is companies >= dominatingPercentage', () => {
+  it('should return company and formatted percentages for dominatingCompanies when there are companies >= dominatingPercentage', () => {
     const companyNameAndPercentage = {
       Company: 'MockCompany',
       Percentage: 55
