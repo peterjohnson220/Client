@@ -14,7 +14,7 @@ import { GuidelineLimits } from '../models';
 @Injectable()
 export class DojGuidelinesService {
   // Private Properties
-  private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25 };
+  private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25, DominatingPercentageHard: .5 };
   private previousSelections: number[] = [];
   private dataCutValid = true;
 
@@ -51,8 +51,13 @@ export class DojGuidelinesService {
   }
 
   get hasNoDominatingData(): boolean {
-    return this.hasCompaniesAndLimits &&
+    return this.hasNoHardDominatingData &&
       !this.companies.some(c => c.Percentage > this.guidelineLimits.DominatingPercentage);
+  }
+
+  get hasNoHardDominatingData(): boolean {
+    return this.hasCompaniesAndLimits &&
+      !this.companies.some(c => c.Percentage >= this.guidelineLimits.DominatingPercentageHard);
   }
 
   get dominatingCompanies(): any[] {
@@ -71,7 +76,7 @@ export class DojGuidelinesService {
   }
 
   get passesGuidelines(): boolean {
-    return this.dataCutValid && this.hasMinimumCompanies && this.hasNoDominatingData;
+    return this.dataCutValid && this.hasMinimumCompanies && this.hasNoHardDominatingData;
   }
 
   validateDataCut(selections: any, shouldCheckSimilarity: boolean) {

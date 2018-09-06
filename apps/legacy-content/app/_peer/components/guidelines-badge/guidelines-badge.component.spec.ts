@@ -7,9 +7,14 @@ import {DojGuidelinesService} from '../../services/doj-guidelines.service';
 
 class DojGuidelinesStub {
   passing = true;
+  noDominatingData = true;
 
   get passesGuidelines(): boolean {
     return this.passing;
+  }
+
+  get hasNoDominatingData(): boolean {
+    return this.noDominatingData;
   }
 }
 
@@ -35,6 +40,7 @@ describe('Legacy Content - Peer - Guidelines Badge Component', () => {
     instance = fixture.componentInstance;
 
     guidelinesService = TestBed.get(DojGuidelinesService);
+    guidelinesService.passing = true;
   });
 
   it(`should NOT display failing label when passingGuidelines is true`, () => {
@@ -45,6 +51,14 @@ describe('Legacy Content - Peer - Guidelines Badge Component', () => {
 
   it('should display failing label when passingGuidelines is false', () => {
     guidelinesService.passing = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display warning label when hasNoDominatingData is false and passingGuidelines is true', () => {
+    guidelinesService.noDominatingData = false;
 
     fixture.detectChanges();
 
