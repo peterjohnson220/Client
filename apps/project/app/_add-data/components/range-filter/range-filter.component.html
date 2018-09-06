@@ -1,0 +1,14 @@
+<ng-container *ngIf="showRangeControl;else noOptions">
+  <div class="custom-slider mx-2">
+    <ng5-slider
+      [(value)]="filter.SelectedMinValue"
+      [(highValue)]="filter.SelectedMaxValue"
+      [options]="options"
+      (userChangeEnd)="handleRangeSliderChange(filter.Id, $event)">
+    </ng5-slider>
+  </div>
+</ng-container>
+
+<ng-template #noOptions>
+  <div class="no-data">No Data</div>
+</ng-template>

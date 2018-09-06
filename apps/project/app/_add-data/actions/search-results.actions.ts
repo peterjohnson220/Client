@@ -7,7 +7,7 @@ import {
   PricingMatchesResponse
 } from 'libs/models/survey-search';
 
-import { JobResult } from '../models/job-result.model';
+import { JobResult } from '../models';
 
 export const GET_RESULTS = '[Project Add Data/Search Results] Get Results';
 export const GET_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get Results Success';
@@ -23,7 +23,6 @@ export const UPDATE_RESULTS_MATCHES_COUNT = '[Project Add Data/Search Results] U
 
 export class GetResults implements Action {
   readonly type = GET_RESULTS;
-
   constructor(public payload: { keepFilteredOutOptions: boolean }) {}
 }
 
