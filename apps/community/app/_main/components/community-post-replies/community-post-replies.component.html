@@ -1,0 +1,17 @@
+<div class="mt-2">
+  <ng-container *ngFor="let reply of replies">
+    <img id="reply-avatar" class="float-left pf-avatar" [src]="avatarUrl + reply.UserInfo?.AvatarSource"
+         alt="avatar">
+    <div class="reply-offset">
+      <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.UserFirstName}} {{reply.UserInfo.UserLastName}}</span>
+        <span class="community-sub-text"> @ {{reply.UserInfo.CompanyName}} | {{reply.Time}}</span></p>
+      <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
+      <button id="like-reply" type="button" class="btn m-1 pt-1 pb-1"
+              [ngClass]="{'community-btn-clicked': reply.LikeCount > 0, 'community-btn': reply.LikeCount == 0}">
+        <i class="far fa-thumbs-up fa-lg icon"></i>
+        <span *ngIf="reply.LikeCount == 0"> Like</span>
+        <span *ngIf="reply.LikeCount > 0"> {{reply.LikeCount}} Liked</span>
+      </button>
+    </div>
+  </ng-container>
+</div>

@@ -133,3 +133,16 @@ export const getGettingCommunityPostsError = createSelector(
   fromCommunityPostReducer.getGettingCommunityPostsError
 );
 
+export const getAddingCommunityPostReply = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReply
+);
+export const getAddingCommunityPostReplyError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReplyError
+);
+
+export const getAddingCommunityPostReplySuccess = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReplySuccess
+);

@@ -16,8 +16,8 @@ import { PfCommonModule } from 'libs/core';
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
-import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
-
+import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
+import { RadialTextCounterComponent, CommunityPostsRepliesComponent } from './components';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 
@@ -32,7 +32,9 @@ const components = [
   CommunityPostsComponent,
   CommunityStartDiscussionComponent,
   CommunityPollsComponent,
-  RadialTextCounterComponent
+  CommunityPostAddReplyComponent,
+  RadialTextCounterComponent,
+  CommunityPostsRepliesComponent
 ];
 
 @NgModule({

@@ -18,6 +18,7 @@ export class CommunityPostsComponent implements OnInit {
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
   loadingCommunityPosts$: Observable<boolean>;
+  toggle = {};
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPosts);
