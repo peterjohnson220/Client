@@ -21,6 +21,7 @@ export interface JobResult {
     TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
+    EEO: string;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -41,7 +42,8 @@ export function generateMockSurveyJobResult(): JobResult {
     Base50th: 1,
     TCC50th: 1,
     CountryCode: 'USA',
-    IsSelected: false
+    IsSelected: false,
+    EEO: null
   };
 }
 
@@ -78,6 +80,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     Base50th: 1,
     TCC50th: 1,
     CountryCode: 'USA',
-    IsSelected: false
+    IsSelected: false,
+    EEO: 'Yes'
   };
 }

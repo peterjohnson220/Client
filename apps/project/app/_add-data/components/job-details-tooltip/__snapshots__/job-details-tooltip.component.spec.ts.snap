@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope when current job is Payfactors 1`] = `
+exports[`JobDetailsTooltipComponent should display FLSA, Job Category, Scope and EEO when current job is Payfactors 1`] = `
 <pf-job-details-tooltip
   closed={[Function EventEmitter]}
   job={[Function Object]}
@@ -61,10 +61,22 @@ exports[`JobDetailsTooltipComponent should display FLSA, Job Category and Scope 
     </div>
     
     <div>
-      <strong>
-        Job Category: 
-      </strong>
-      Professional 
+      <span
+        class="pr-2"
+      >
+        <strong>
+          Job Category: 
+        </strong>
+        Professional
+      </span>
+      <span
+        class="pr-2"
+      >
+        <strong>
+          EEO: 
+        </strong>
+        Yes
+      </span>
     </div>
     <p
       class="mt-3"

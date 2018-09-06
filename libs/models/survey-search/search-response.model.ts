@@ -25,6 +25,7 @@ interface Job {
   Base50th: number;
   TCC50th: number;
   CountryCode?: string;
+  EEO: string;
 }
 
 interface PagingResponse {
@@ -58,7 +59,8 @@ export function generateMockSurveyJob(): SurveyJob {
       Category: 'Professional',
       Base50th: 1,
       TCC50th: 1,
-      CountryCode: 'USA'
+      CountryCode: 'USA',
+      EEO: 'Yes'
     }
   };
 }
