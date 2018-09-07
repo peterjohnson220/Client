@@ -74,7 +74,7 @@
         </kendo-grid-date-filter-menu>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
-        {{ dataItem.ExchangeJobCreateDate | date:"MM/dd/yyyy" }}
+        <span *ngIf="!dataItem.PendingRequest">{{ dataItem.ExchangeJobCreateDate | date:"MM/dd/yyyy" }}</span>
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>
