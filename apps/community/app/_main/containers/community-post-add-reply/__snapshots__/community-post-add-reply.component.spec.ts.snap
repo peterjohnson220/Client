@@ -7,6 +7,7 @@ exports[`CommunityStartDiscussionComponent should show community add reply 1`] =
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
   communityPostReplyForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
+  replyMaxLength={[Function Number]}
   store={[Function Store]}
 >
   <form
@@ -24,6 +25,8 @@ exports[`CommunityStartDiscussionComponent should show community add reply 1`] =
           class="reply-text-area w-100 p-0 ng-untouched ng-pristine ng-invalid"
           formcontrolname="replyText"
           id="reply-text"
+          maxlength="2000"
+          ng-reflect-maxlength="2000"
           ng-reflect-name="replyText"
           placeholder="Add Reply..."
         />
