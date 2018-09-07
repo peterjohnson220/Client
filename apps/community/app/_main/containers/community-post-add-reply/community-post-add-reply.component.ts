@@ -16,7 +16,7 @@ import { CommunityAddReply, CommunityPost } from 'libs/models/community';
 export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() postId: string;
   communityPostReplyForm: FormGroup;
-  postMaxLength: 2000;
+  replyMaxLength = 2000;
   addingCommunityPostReply$: Observable<boolean>;
   addingCommunityPostReplySuccess$: Observable<boolean>;
   addingCommunityPostReplySuccessSubscription: Subscription;
@@ -31,7 +31,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityPostReplyForm = this.formBuilder.group({
-      replyText:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.postMaxLength)]]
+      replyText:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
     });
   }
   ngOnInit()  {
