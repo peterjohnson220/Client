@@ -9,7 +9,7 @@ import { DojGuidelinesService } from '../../services/doj-guidelines.service';
 })
 export class GuidelinesBadgeComponent {
   constructor(public guidelinesService: DojGuidelinesService) { }
-  
+
   get dataDominanceMessage(): string {
     const shouldOrMust = this.guidelinesService.hasNoHardDominatingData ? 'should' : 'must';
     const percentageSoftOrHard = this.guidelinesService.hasNoHardDominatingData ? '25%' : 'or equal to 50%';

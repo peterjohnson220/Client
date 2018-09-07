@@ -12,8 +12,8 @@
     [kendoGridSelectBy]="'Id'" (cellClick)="onCellClick($event)">
     <kendo-grid-column field="Mapped" title="Status" width="75" class="text-center" headerClass="text-center">
       <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter let-filterService="filterService">
-        <bool-filter [isPrimitive]="false" [currentFilter]="filter" [filterService]="filterService" [data]="associationData" textField="Key"
-          valueField="Value" fieldToSearch="Mapped"></bool-filter>
+        <pf-bool-filter [isPrimitive]="false" [currentFilter]="filter" [filterService]="filterService" [data]="associationData" textField="Key"
+          valueField="Value" fieldToSearch="Mapped"></pf-bool-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <span class="mapped">
@@ -57,8 +57,8 @@
     </kendo-grid-column>
     <kendo-grid-column field="PendingRequest" title="Job Status" width="125" class="text-center" headerClass="text-center">
       <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter let-filterService="filterService">
-        <bool-filter [isPrimitive]="false" fieldToSearch="PendingRequest" [currentFilter]="filter" [filterService]="filterService"
-          textField="Key" valueField="Value" [data]="pendingStatusData"></bool-filter>
+        <pf-bool-filter [isPrimitive]="false" fieldToSearch="PendingRequest" [currentFilter]="filter" [filterService]="filterService"
+          textField="Key" valueField="Value" [data]="pendingStatusData"></pf-bool-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <span *ngIf="dataItem.PendingRequest" class="badge badge-warning">Pending Approval</span>

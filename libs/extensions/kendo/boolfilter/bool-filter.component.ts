@@ -4,7 +4,7 @@ import { CompositeFilterDescriptor, distinct, filterBy, FilterDescriptor } from 
 import { FilterService } from '@progress/kendo-angular-grid';
 
 @Component({
-    selector: 'bool-filter',
+    selector: 'pf-bool-filter',
     templateUrl: './bool-filter.component.html',
 })
 export class BoolFilterComponent implements AfterViewInit {
@@ -34,7 +34,7 @@ export class BoolFilterComponent implements AfterViewInit {
 
     public onSelectionChange(item) {
 
-        //we currently only support one filter per field, so we need to reset the array -DKG
+        // we currently only support one filter per field, so we need to reset the array -DKG
         this.selectedValues = [];
         this.selectedValues.push(item);
 
