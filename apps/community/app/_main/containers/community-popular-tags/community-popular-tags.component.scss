@@ -1,0 +1,18 @@
+@import 'colors';
+
+#tag-section-header
+{
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+#tag-container
+{
+  word-break: break-word;
+}
+
+.tag {
+  color: #515151;
+  background-color: $community-tag-color;
+  white-space: normal;
+}
