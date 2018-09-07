@@ -4,9 +4,11 @@ import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
-         ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
-         ExchangeJobsValidationResultModel, AddExchangeJobsRequest } from '../../../models';
+import {
+  ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
+  ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
+  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest
+} from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 
@@ -92,6 +94,14 @@ export class ExchangeApiService {
       },
       MappingHelper.mapListAreaResultToGridDataResult
     );
+  }
+
+  approveExchangeJobRequest(jobRequest: ExchangeJobRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ApproveExchangeJobRequest`, jobRequest);
+  }
+
+  denyExchangeJobRequest(jobRequest: ExchangeJobRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DenyExchangeJobRequest`, jobRequest);
   }
 
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {

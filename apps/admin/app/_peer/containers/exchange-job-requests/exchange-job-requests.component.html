@@ -4,7 +4,7 @@
     [sectionDescription]="'Listed in the grid below are jobs that companies have requested be included in this exchange.'"
   >
   </pf-manage-exchange-section-header>
-  <div class="d-flex job-request-grid-container" [ngClass]="collapse ? 'collapse-grid' : 'no-collapse'">
+  <div class="d-flex job-request-grid-container" [ngClass]="(jobRequestInfoOpen$ | async) ? 'collapse-grid' : 'no-collapse'">
     <pf-async-container
       [loading]="exchangeJobRequestsLoading$ | async"
       [loadingError]="exchangeJobRequestsLoadingError$ | async"
@@ -65,10 +65,12 @@
     </pf-async-container>
 
   </div>
-  <div *ngIf="collapse" class=" d-flex mt-3 flex-grow-1 job-request-info-container">
+  <div *ngIf="jobRequestInfoOpen$ | async" class=" d-flex mt-3 flex-grow-1 job-request-info-container">
     <pf-exchange-job-request-info
       [selectedJobRequest]="selectedJobRequest"
-      (closeClicked)="handleCloseRequestInfo()">
+      (closeClicked)="handleCloseRequestInfo()"
+      (approveClicked)="handleApproveJobRequest($event)"
+      (denyClicked)="handleDenyJobRequest($event)">
     </pf-exchange-job-request-info>
   </div>
 
