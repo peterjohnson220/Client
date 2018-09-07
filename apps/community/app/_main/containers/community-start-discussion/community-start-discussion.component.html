@@ -24,6 +24,14 @@
                 (keyup)="onKeyUp($event)"
                 spellcheck="false">
               </textarea>  
+          </div>
+          <div #suggestTagsContainer *ngIf="suggestedTags.length > 0" class="suggested-tags ml-3">     
+              <select
+                formControlName="suggestedTag" 
+                [size]=4
+                (change)="onSuggestedTagChange()">
+                  <option *ngFor="let item of suggestedTags" [ngValue]="item">{{item.Tag}}</option>
+              </select>
           </div>   
           <div class="ml-3 p-0">
             <div class="float-right"><pf-radial-text-counter [textToCount]="discussionTextArea.value"></pf-radial-text-counter></div>

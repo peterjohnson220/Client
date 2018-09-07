@@ -10,6 +10,8 @@ import { CommunityTagApiService } from 'libs/data/payfactors-api/community/commu
 
 import * as fromCommunityTagActions from '../actions/community-tag.actions';
 
+import { CommunityTag } from 'libs/models';
+
 @Injectable()
 export class CommunityTagEffects {
 
@@ -22,6 +24,19 @@ export class CommunityTagEffects {
             return new fromCommunityTagActions.LoadingCommunityPopularTagsSuccess(response);
           }),
           catchError(error => of(new fromCommunityTagActions.LoadingCommunityPopularTagsError()))
+        )
+      )
+    );
+
+  @Effect()
+  suggestingCommunityPosts$: Observable<Action> = this.actions$
+    .ofType(fromCommunityTagActions.SUGGESTING_COMMUNITY_TAGS).pipe(
+      switchMap((action: fromCommunityTagActions.SuggestingCommunityTags) =>
+        this.communityTagService.suggestTags(action.payload).pipe(
+          map((response: CommunityTag[]) => {
+            return new fromCommunityTagActions.SuggestingCommunityTagsSuccess(response);
+          }),
+          catchError(error => of(new fromCommunityTagActions.SuggestingCommunityTagsError()))
         )
       )
     );

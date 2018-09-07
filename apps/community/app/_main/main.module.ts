@@ -24,12 +24,12 @@ import { CommunityPopularTagsComponent } from './containers/community-popular-ta
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityTagEffects } from './effects/community-tag.effects';
-
 import { CommunityPostEffects } from './effects';
+
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
-import { CommunityTagApiService } from '../../../../libs/data/payfactors-api/community/community-tag-api.service';
+import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 
 
 const components = [
@@ -52,7 +52,6 @@ const components = [
     // 3rd party
     NgbCarouselModule,
     NgbTooltipModule,
-
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([
