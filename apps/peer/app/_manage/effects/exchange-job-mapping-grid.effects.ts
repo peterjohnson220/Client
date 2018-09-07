@@ -12,7 +12,7 @@ import { ExchangeRequestTypeEnum } from 'libs/models/peer/requests';
 import * as fromExchangeJobMappingGridActions from '../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeJobInfoActions from '../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeRequestActions from '../../shared/actions/exchange-request.actions';
-import * as fromPeerManageReducer from '../reducers/'
+import * as fromPeerManageReducer from '../reducers/';
 import * as fromSharedPeerReducer from '../../shared/reducers';
 
 @Injectable()
@@ -65,7 +65,10 @@ export class ExchangeJobMappingGridEffects {
   reselectExchangeJobMapping$: Observable<Action> = this.actions$
     .ofType(fromExchangeJobMappingGridActions.RESELECT_EXCHANGE_JOB_MAPPING, fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING)
     .pipe(
-      withLatestFrom(this.store.select(fromPeerManageReducer.getFirstCompanyJobMappingFromSelectedExchangeJob), (action, payload) => payload),
+      withLatestFrom(
+        this.store.select(fromPeerManageReducer.getFirstCompanyJobMappingFromSelectedExchangeJob),
+        (action, payload) => payload
+      ),
       switchMap(payload => of(new fromExchangeJobInfoActions.SetActiveMapping(payload)))
     );
 

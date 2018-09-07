@@ -1,20 +1,20 @@
 export const associationStatus = [
     {
-        Key: "Associated",
+        Key: 'Associated',
         Value: true
     },
     {
-        Key: "Not Associated",
+        Key: 'Not Associated',
         Value: false
     }
-]
+];
 
 export const associationPending = [
     {
-        Key: "Pending Approval",
+        Key: 'Pending Approval',
         Value: true
     }, {
-        Key: "Active",
+        Key: 'Active',
         Value: false
     }
-]
+];

@@ -34,7 +34,6 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   exchangeJobMappingGridState: State;
   associationData: any;
   pendingStatusData: any;
-  selectedKey: string = "";
 
   constructor(
     private store: Store<fromPeerManagementReducer.State>,

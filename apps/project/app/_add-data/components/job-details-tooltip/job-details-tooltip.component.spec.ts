@@ -1,10 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { JobDetailsTooltipComponent } from './job-details-tooltip.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { JobDetailsTooltipComponent } from './job-details-tooltip.component';
 import { generateMockPayfactorsJobResult, generateMockSurveyJobResult } from '../../models';
-import {DebugElement, NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('JobDetailsTooltipComponent', () => {
   let instance: JobDetailsTooltipComponent;
@@ -12,7 +13,7 @@ describe('JobDetailsTooltipComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[ NgbTooltipModule.forRoot() ],
+      imports: [ NgbTooltipModule.forRoot() ],
       declarations: [ JobDetailsTooltipComponent ]
     })
     .compileComponents();
