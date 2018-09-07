@@ -24,6 +24,7 @@ $reply-avatar-height: 35px;
 
 .community-btn {
   background: transparent;
+  color: #99A0A4;
 }
 
 .community-btn .icon {
@@ -31,10 +32,11 @@ $reply-avatar-height: 35px;
 }
 
 .community-btn-clicked {
-  background-color: $community-like-button-color;
-  color: white;
+  background:transparent;
+  color: #99A0A4;
 }
 
 .community-btn-clicked .icon {
-  color: white;
+  color: #FA4646;
 }
+

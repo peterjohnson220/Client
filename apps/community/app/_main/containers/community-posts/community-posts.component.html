@@ -2,22 +2,24 @@
   <ng-container *ngFor="let post of communityPosts$ | async; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-        <div id="default-post-avatar" *ngIf="post.UserInfo?.AvatarSource ==='default_user.png'" class="float-left pf-avatar default-post-avatar">
+        <div id="default-post-avatar" *ngIf="post.UserInfo?.AvatarSource ==='default_user.png'"
+             class="float-left pf-avatar default-post-avatar">
           {{ post.UserInfo.UserFirstName | slice:0:1 }}{{ post.UserInfo.UserLastName| slice:0:1 }}
         </div>
-        <img id="post-avatar" class="post-avatar float-left pf-avatar" *ngIf="post.UserInfo?.AvatarSource !=='default_user.png'"
-             [src]="avatarUrl + post.UserInfo?.AvatarSource" alt="avatar" />
+        <img id="post-avatar" class="post-avatar float-left pf-avatar"
+             *ngIf="post.UserInfo?.AvatarSource !=='default_user.png'"
+             [src]="avatarUrl + post.UserInfo?.AvatarSource" alt="avatar"/>
         <div class="post-offset">
           <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
           <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.UserFirstName}} {{post.UserInfo.UserLastName}}</span>
-            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>       
+            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>
           <div class="post-body mt-2 mb-2"
-            [innerHtml]="post.Content | highlightHashTag"></div>     
-          <button id="like" type="button" class="btn m-1"
-                  [ngClass]="{'community-btn-clicked': post.LikedByCurrentUser, 'community-btn': !post.LikedByCurrentUser}" (click)="updatePostLike(post)">
-            <i class="far fa-thumbs-up fa-lg icon"></i>
-            <span *ngIf="post.LikeCount == 0"> Like</span>
-            <span *ngIf="post.LikeCount > 0"> {{post.LikeCount}} Liked</span>
+               [innerHtml]="post.Content | highlightHashTag"></div>
+          <button id="like" type="button" class="btn m-1 p-0"
+                  [ngClass]="post.LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
+                  (click)="updatePostLike(post)">
+            <i class="fa-heart icon" [ngClass]="post.LikedByCurrentUser ? 'fas' : 'far'"></i>
+            <span> {{post.LikeCount > 0 ? post.LikeCount : ''}} {{post.LikeCount > 1 ? 'Likes' : 'Like'}}</span>
           </button>
           <a id="reply" href="javascript:void(0)" class="community-link m-1" (click)="toggle[i] = !toggle[i]">
             <span>Reply</span>

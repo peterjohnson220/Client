@@ -6,11 +6,10 @@
       <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.UserFirstName}} {{reply.UserInfo.UserLastName}}</span>
         <span class="community-sub-text"> @ {{reply.UserInfo.CompanyName}} | {{reply.Time}}</span></p>
       <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
-      <button id="like-reply" type="button" class="btn m-1 pt-1 pb-1"
-              [ngClass]="{'community-btn-clicked': reply.LikeCount > 0, 'community-btn': reply.LikeCount == 0}">
-        <i class="far fa-thumbs-up fa-lg icon"></i>
-        <span *ngIf="reply.LikeCount == 0"> Like</span>
-        <span *ngIf="reply.LikeCount > 0"> {{reply.LikeCount}} Liked</span>
+      <button id="like-reply" type="button" class="btn m-1 p-0"
+              [ngClass]="reply.LikeCount > 0 ? 'community-btn-clicked': 'community-btn'">
+        <i class="fa-heart icon" [ngClass]="reply.LikedByCurrentUser ? 'fas' : 'far'"></i>
+        <span> {{reply.LikeCount > 0 ? reply.LikeCount : ''}} {{reply.LikeCount > 1 ? 'Likes' : 'Like'}}</span>
       </button>
     </div>
   </ng-container>
