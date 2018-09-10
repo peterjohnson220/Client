@@ -20,9 +20,9 @@ export class ExchangeJobRequestsComponent {
   exchangeJobRequestsLoading$: Observable<boolean>;
   exchangeJobRequestsLoadingError$: Observable<boolean>;
   exchangeJobRequestsGrid$: Observable<GridDataResult>;
+  jobRequestInfoOpen$: Observable<boolean>;
   selectedJobRequest: ExchangeJobRequest;
   exchangeId: number;
-  collapse = false;
   pageRowIndex: number = null;
 
   constructor(
@@ -32,6 +32,7 @@ export class ExchangeJobRequestsComponent {
     this.exchangeJobRequestsLoading$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsLoading);
     this.exchangeJobRequestsLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsLoadingError);
     this.exchangeJobRequestsGrid$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsGrid);
+    this.jobRequestInfoOpen$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestInfoOpen);
 
     this.exchangeId = this.route.snapshot.parent.params.id;
   }
@@ -42,13 +43,21 @@ export class ExchangeJobRequestsComponent {
   }
 
   handleCellClick(event: any) {
-    if (!this.collapse) { this.collapse = true; }
+    this.store.dispatch(new fromExchangeJobRequestsActions.OpenJobRequestInfo());
     this.selectedJobRequest = event.dataItem;
     this.pageRowIndex = event.rowIndex;
   }
 
   handleCloseRequestInfo() {
-    this.collapse = false;
+    this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestInfo());
     this.pageRowIndex = null;
+  }
+
+  handleApproveJobRequest(jobRequest: ExchangeJobRequest) {
+    this.store.dispatch(new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(jobRequest));
+  }
+
+  handleDenyJobRequest(jobRequest: ExchangeJobRequest) {
+    this.store.dispatch(new fromExchangeJobRequestsActions.DenyExchangeJobRequest(jobRequest));
   }
 }

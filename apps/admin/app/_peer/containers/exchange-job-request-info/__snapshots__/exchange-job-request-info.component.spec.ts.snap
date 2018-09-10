@@ -2,8 +2,15 @@
 
 exports[`Exchange Job Request Info should match snapshot 1`] = `
 <pf-exchange-job-request-info
+  approveClicked={[Function EventEmitter]}
+  approvingError$={[Function Store]}
+  approvingJobRequest$={[Function Store]}
   closeClicked={[Function EventEmitter]}
+  denyClicked={[Function EventEmitter]}
+  denyingError$={[Function Store]}
+  denyingJobRequest$={[Function Store]}
   selectedJobRequest={[Function Object]}
+  store={[Function Store]}
 >
   <div
     class="job-request-info-container card h-100"
@@ -16,6 +23,28 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
       >
          Job Request Information 
       </div>
+      
+      
+      <button
+        class="btn btn-sm btn-success action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Approve 
+        </span>
+        
+      </button>
+      <button
+        class="btn btn-sm btn-danger action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Deny 
+        </span>
+        
+      </button>
       <div
         class="close-btn"
       >

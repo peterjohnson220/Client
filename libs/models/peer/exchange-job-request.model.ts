@@ -1,4 +1,5 @@
 export interface ExchangeJobRequest {
+  DocumentId: string;
   ExchangeId: number;
   JobTitle: string;
   JobFamily: string;
@@ -12,6 +13,7 @@ export interface ExchangeJobRequest {
 
 export function generateMockExchangeJobRequest(): ExchangeJobRequest {
   return {
+    DocumentId: '1234',
     ExchangeId: 1,
     JobTitle: 'Mock Job',
     JobFamily: 'Mock Job Family',
