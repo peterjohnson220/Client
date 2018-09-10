@@ -44,6 +44,7 @@ export function reducer(state, action) {
         case fromExchangeJobRequestsActions.LOAD_EXCHANGE_JOB_REQUESTS: {
           return {
             ...adapter.removeAll(featureState),
+            ...initialState,
             loading: true,
             loadingError: false
           };
