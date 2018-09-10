@@ -12,6 +12,7 @@ export interface SurveyDataResponse {
   SurveyJobId: number;
   DataCuts: SurveyDataCutResponse[];
   CurrencyCode?: string;
+  TotalResults: number;
 }
 
 
