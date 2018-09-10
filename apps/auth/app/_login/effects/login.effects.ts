@@ -33,11 +33,11 @@ export class LoginEffects {
   @Effect()
   loginSuccess$ = this.actions$
     .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
-      switchMap((action: fromLoginAction.LoginSuccess) => {
+      map((action: fromLoginAction.LoginSuccess) => {
           if (action.payload) {
-            return of(new fromLoginAction.LoginSuccessRouteToNextPage(action.payload));
+            return new fromLoginAction.LoginSuccessRouteToNextPage(action.payload);
           } else {
-            return of(new fromLoginAction.LoginSuccessRouteToHome());
+            return new fromLoginAction.LoginSuccessRouteToHome();
           }
         }
       )
@@ -67,9 +67,9 @@ export class LoginEffects {
   loginError$ = this.actions$
     .ofType(fromLoginAction.LOGIN_ERROR).pipe(
       map((action: fromLoginAction.LoginError) => action.payload),
-      switchMap(error => {
+      map(error => {
           if (error.status === 401) {
-            return of(new fromLoginAction.Login401Error());
+            return new fromLoginAction.Login401Error();
           }
         }
       )

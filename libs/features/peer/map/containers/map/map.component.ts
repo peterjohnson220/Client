@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
+import * as mapboxgl from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
 

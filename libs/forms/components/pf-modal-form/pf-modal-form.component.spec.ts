@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfModalFormComponent } from './pf-modal-form.component';

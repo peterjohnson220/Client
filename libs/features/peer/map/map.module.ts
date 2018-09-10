@@ -43,7 +43,7 @@ const declarations = [
       FilterSidebarEffects,
       ExchangeScopeEffects
     ]),
-    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
+    NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
     NgbPopoverModule,
 
     // Payfactors

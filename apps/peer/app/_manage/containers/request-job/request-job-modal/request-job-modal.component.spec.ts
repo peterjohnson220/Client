@@ -4,8 +4,7 @@ import { AbstractControl, AsyncValidatorFn, FormGroup, FormControl,
          FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
