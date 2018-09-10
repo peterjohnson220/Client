@@ -18,6 +18,8 @@ describe('Exchange Job Requests', () => {
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
 
+  const mockRequest = generateMockExchangeJobRequest();
+
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,27 +67,46 @@ describe('Exchange Job Requests', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should set collapse, selectedJobRequest, and pageRowIndex correctly in the component when a cell is clicked', () => {
-    instance.collapse = false;
+  it('should dispatch an OpenJobRequestInfo action' +
+    'and should set selectedJobRequest and pageRowIndex correctly in the component when a cell is clicked', () => {
+    const action = new fromExchangeJobRequestsActions.OpenJobRequestInfo();
     instance.pageRowIndex = null;
     instance.selectedJobRequest = null;
-    const mockRequest = generateMockExchangeJobRequest();
     const event = { dataItem: mockRequest, rowIndex: 1};
 
     instance.handleCellClick(event);
 
-    expect(instance.collapse).toBe(true);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
     expect(instance.selectedJobRequest).toEqual(mockRequest);
     expect(instance.pageRowIndex).toBe(1);
   });
 
-  it('should set collapse to false and pageRowIndex to null after the job request info is closed', () => {
-    instance.collapse = true;
+  it('should dispatch a CloseJobRequestInfo action ' +
+    'and set pageRowIndex to null when the job request info is closed', () => {
+    const action = new fromExchangeJobRequestsActions.CloseJobRequestInfo();
     instance.pageRowIndex = 1;
 
     instance.handleCloseRequestInfo();
 
-    expect(instance.collapse).toBe(false);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
     expect(instance.pageRowIndex).toBeNull();
+  });
+
+  it('should dispatch a ApproveExchangeJobRequest action ' +
+    'when handleApproveJobRequest is called', () => {
+    const action = new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(mockRequest);
+
+    instance.handleApproveJobRequest(mockRequest);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a DenyExchangeJobRequest action ' +
+    'when handleDenyJobRequest is called', () => {
+    const action = new fromExchangeJobRequestsActions.DenyExchangeJobRequest(mockRequest);
+
+    instance.handleDenyJobRequest(mockRequest);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

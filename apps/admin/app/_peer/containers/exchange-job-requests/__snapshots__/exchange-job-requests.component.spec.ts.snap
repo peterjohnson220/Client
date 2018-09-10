@@ -2,11 +2,11 @@
 
 exports[`Exchange Job Requests should match snapshot 1`] = `
 <pf-exchange-job-requests
-  collapse="false"
   exchangeId={[Function Number]}
   exchangeJobRequestsGrid$={[Function Store]}
   exchangeJobRequestsLoading$={[Function Store]}
   exchangeJobRequestsLoadingError$={[Function Store]}
+  jobRequestInfoOpen$={[Function Store]}
   pageRowIndex="null"
   route={[Function Object]}
   store={[Function Store]}
