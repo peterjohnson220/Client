@@ -8,7 +8,12 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
   exchangeJobRequestsLoadingError$={[Function Store]}
   jobRequestInfoOpen$={[Function Store]}
   pageRowIndex="null"
+  pageRowIndex$={[Function Store]}
+  pageRowIndexSubscription={[Function Subscriber]}
   route={[Function Object]}
+  selectedJobRequest="null"
+  selectedJobRequest$={[Function Store]}
+  selectedJobRequestSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div

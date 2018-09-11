@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeJobRequest } from 'libs/models/peer';
@@ -16,14 +16,19 @@ import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requ
   styleUrls: ['./exchange-job-requests.component.scss']
 })
 
-export class ExchangeJobRequestsComponent {
+export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
   exchangeJobRequestsLoading$: Observable<boolean>;
   exchangeJobRequestsLoadingError$: Observable<boolean>;
   exchangeJobRequestsGrid$: Observable<GridDataResult>;
   jobRequestInfoOpen$: Observable<boolean>;
+  selectedJobRequest$: Observable<ExchangeJobRequest>;
   selectedJobRequest: ExchangeJobRequest;
+  pageRowIndex$: Observable<number>;
+  pageRowIndex: number;
   exchangeId: number;
-  pageRowIndex: number = null;
+
+  selectedJobRequestSubscription: Subscription;
+  pageRowIndexSubscription: Subscription;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -33,6 +38,8 @@ export class ExchangeJobRequestsComponent {
     this.exchangeJobRequestsLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsLoadingError);
     this.exchangeJobRequestsGrid$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsGrid);
     this.jobRequestInfoOpen$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestInfoOpen);
+    this.selectedJobRequest$ = this.store.select(fromPeerAdminReducer.getSelectedExchangeJobRequest);
+    this.pageRowIndex$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestPageRowIndex);
 
     this.exchangeId = this.route.snapshot.parent.params.id;
   }
@@ -43,14 +50,14 @@ export class ExchangeJobRequestsComponent {
   }
 
   handleCellClick(event: any) {
-    this.store.dispatch(new fromExchangeJobRequestsActions.OpenJobRequestInfo());
-    this.selectedJobRequest = event.dataItem;
-    this.pageRowIndex = event.rowIndex;
+    this.store.dispatch(new fromExchangeJobRequestsActions.OpenJobRequestInfo({
+      selectedJobRequest: event.dataItem,
+      pageRowIndex: event.rowIndex
+    }));
   }
 
   handleCloseRequestInfo() {
     this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestInfo());
-    this.pageRowIndex = null;
   }
 
   handleApproveJobRequest(jobRequest: ExchangeJobRequest) {
@@ -59,5 +66,19 @@ export class ExchangeJobRequestsComponent {
 
   handleDenyJobRequest(jobRequest: ExchangeJobRequest) {
     this.store.dispatch(new fromExchangeJobRequestsActions.DenyExchangeJobRequest(jobRequest));
+  }
+
+  ngOnInit() {
+    this.selectedJobRequestSubscription = this.selectedJobRequest$.subscribe(selectedRequest => {
+      this.selectedJobRequest = selectedRequest;
+    });
+    this.pageRowIndexSubscription = this.pageRowIndex$.subscribe(pri => {
+      this.pageRowIndex = pri;
+    });
+  }
+
+  ngOnDestroy() {
+    this.selectedJobRequestSubscription.unsubscribe();
+    this.pageRowIndexSubscription.unsubscribe();
   }
 }

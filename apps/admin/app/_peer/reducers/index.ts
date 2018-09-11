@@ -437,6 +437,14 @@ export const getExchangeJobRequestInfoOpen = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getJobRequestInfoOpen
 );
 
+export const getSelectedExchangeJobRequest = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getSelectedJobRequest
+);
+
+export const getExchangeJobRequestPageRowIndex = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getPageRowIndex
+);
+
 export const getTotalExchangeJobRequests = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getTotal
 );

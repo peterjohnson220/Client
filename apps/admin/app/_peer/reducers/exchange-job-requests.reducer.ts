@@ -15,6 +15,8 @@ export interface State extends EntityState<ExchangeJobRequest> {
   denying: boolean;
   denyingError: boolean;
   jobRequestInfoOpen: boolean;
+  selectedJobRequest: ExchangeJobRequest;
+  pageRowIndex: number;
   total: number;
 }
 
@@ -32,6 +34,8 @@ export const initialState: State = adapter.getInitialState({
   denying: false,
   denyingError: false,
   jobRequestInfoOpen: false,
+  selectedJobRequest: null,
+  pageRowIndex: null,
   total: 0
 });
 
@@ -78,7 +82,9 @@ export function reducer(state, action) {
             ...featureState,
             approving: false,
             approvingError: false,
-            jobRequestInfoOpen: false
+            jobRequestInfoOpen: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
           };
         }
         case fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST_ERROR: {
@@ -102,7 +108,9 @@ export function reducer(state, action) {
             ...featureState,
             denying: false,
             denyingError: false,
-            jobRequestInfoOpen: false
+            jobRequestInfoOpen: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
           };
         }
         case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST_ERROR: {
@@ -117,7 +125,9 @@ export function reducer(state, action) {
             ...featureState,
             jobRequestInfoOpen: true,
             approvingError: false,
-            denyingError: false
+            denyingError: false,
+            selectedJobRequest: featureAction.payload.selectedJobRequest,
+            pageRowIndex: featureAction.payload.pageRowIndex
           };
         }
         case fromExchangeJobRequestsActions.CLOSE_JOB_REQUEST_INFO: {
@@ -125,7 +135,9 @@ export function reducer(state, action) {
             ...featureState,
             jobRequestInfoOpen: false,
             approvingError: false,
-            denyingError: false
+            denyingError: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
           };
         }
         default: {
@@ -144,3 +156,5 @@ export const getApprovingError = (state: State) => state.approvingError;
 export const getDenying = (state: State) => state.denying;
 export const getDenyingError = (state: State) => state.denyingError;
 export const getJobRequestInfoOpen = (state: State) => state.jobRequestInfoOpen;
+export const getSelectedJobRequest = (state: State) => state.selectedJobRequest;
+export const getPageRowIndex = (state: State) => state.pageRowIndex;
