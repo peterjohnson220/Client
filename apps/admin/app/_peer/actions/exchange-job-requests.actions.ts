@@ -70,6 +70,8 @@ export class DenyExchangeJobRequestError implements Action {
 
 export class OpenJobRequestInfo implements Action {
   readonly type = OPEN_JOB_REQUEST_INFO;
+
+  constructor(public payload: any) {}
 }
 
 export class CloseJobRequestInfo implements Action {

@@ -67,29 +67,24 @@ describe('Exchange Job Requests', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch an OpenJobRequestInfo action' +
-    'and should set selectedJobRequest and pageRowIndex correctly in the component when a cell is clicked', () => {
-    const action = new fromExchangeJobRequestsActions.OpenJobRequestInfo();
-    instance.pageRowIndex = null;
-    instance.selectedJobRequest = null;
+  it('should dispatch an OpenJobRequestInfo action when a cell is clicked', () => {
     const event = { dataItem: mockRequest, rowIndex: 1};
+    const action = new fromExchangeJobRequestsActions.OpenJobRequestInfo({
+      selectedJobRequest: mockRequest,
+      pageRowIndex: 1
+    });
 
     instance.handleCellClick(event);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-    expect(instance.selectedJobRequest).toEqual(mockRequest);
-    expect(instance.pageRowIndex).toBe(1);
   });
 
-  it('should dispatch a CloseJobRequestInfo action ' +
-    'and set pageRowIndex to null when the job request info is closed', () => {
+  it('should dispatch a CloseJobRequestInfo action when the job request info is closed', () => {
     const action = new fromExchangeJobRequestsActions.CloseJobRequestInfo();
-    instance.pageRowIndex = 1;
 
     instance.handleCloseRequestInfo();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
-    expect(instance.pageRowIndex).toBeNull();
   });
 
   it('should dispatch a ApproveExchangeJobRequest action ' +
