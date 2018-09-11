@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityTextAreaComponent should show community text area 1`] = `
+<pf-community-text-area
+  addingCommunityPostReplySuccess$={[Function Store]}
+  addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  discussionTextArea={[Function ElementRef]}
+  fb={[Function FormBuilder]}
+  overlayTextArea={[Function ElementRef]}
+  parentForm={[Function FormGroup]}
+  store={[Function Store]}
+  submittingCommunityPostSuccess$={[Function Store]}
+  submittingCommunityPostSuccessSubscription={[Function Subscriber]}
+  suggestTagsContainer="undefined"
+  suggestTagsContainerVisible={[Function Boolean]}
+  suggestedCommunityTags$={[Function Store]}
+  suggestedCommunityTagsPostId$={[Function Store]}
+  suggestedCommunityTagsPostIdSubscription={[Function Subscriber]}
+  suggestedCommunityTagsSubscription={[Function Subscriber]}
+  suggestedTags={[Function Array]}
+  textAreaContainer={[Function ElementRef]}
+>
+  <div
+    class="form-group ng-untouched ng-pristine ng-valid"
+    ng-reflect-form="[object Object]"
+  >
+    <div
+      class="textAreaContainer"
+    >
+      <div
+        class="overlayTextArea pl-2 pr-2"
+      />
+      <textarea
+        class="discussionTextArea pl-2 pr-2 ng-untouched ng-pristine ng-valid"
+        formcontrolname="text"
+        ng-reflect-maxlength=""
+        ng-reflect-name="text"
+        placeholder=""
+        spellcheck="false"
+      >
+            
+      </textarea>
+    </div>
+  </div>
+</pf-community-text-area>
+`;

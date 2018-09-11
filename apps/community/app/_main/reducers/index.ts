@@ -190,6 +190,11 @@ export const getCommunityTags = createSelector(
   fromCommunityTagReducer.getCommunityTags
 );
 
+export const getSuggestingCommunityTagsPostId = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getCommunityTagsPostId
+);
+
 export const getSuggestingCommunityTagsError = createSelector(
   selectFromCommunityTagState,
   fromCommunityTagReducer.getSuggestingCommunityTagsError

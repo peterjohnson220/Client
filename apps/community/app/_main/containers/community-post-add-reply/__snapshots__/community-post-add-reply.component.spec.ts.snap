@@ -15,36 +15,24 @@ exports[`CommunityStartDiscussionComponent should show community add reply 1`] =
     ng-reflect-form="[object Object]"
     novalidate=""
   >
+    <pf-community-text-area
+      class="reply-text-area"
+      maxtextlength="replyMaxLength"
+      textplaceholder="Add Reply..."
+    />
     <div
-      class="row community-reply-body m-2 pb-1"
+      class="text-right"
     >
-      <div
-        class="col-10 p-0"
+      <button
+        class="btn-sm community-btn mr-2"
+        id="reply"
+        type="button"
       >
-        <textarea
-          class="reply-text-area w-100 p-0 ng-untouched ng-pristine ng-invalid"
-          formcontrolname="replyText"
-          id="reply-text"
-          maxlength="2000"
-          ng-reflect-maxlength="2000"
-          ng-reflect-name="replyText"
-          placeholder="Add Reply..."
+        <i
+          class="fas fa-reply fa-lg icon"
         />
-      </div>
-      <div
-        class="col-2 p-0 align-self-end text-right"
-      >
-        <button
-          class="btn-sm community-btn mb-1 mr-1"
-          id="reply"
-          type="button"
-        >
-          <i
-            class="fas fa-reply fa-lg icon"
-          />
-           Reply 
-        </button>
-      </div>
+         Reply 
+      </button>
     </div>
   </form>
 </pf-community-post-add-reply>
