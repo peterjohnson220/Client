@@ -3,7 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
 import {DataStateChangeEvent, GridDataResult, RowArgs, SelectionEvent} from '@progress/kendo-angular-grid';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';

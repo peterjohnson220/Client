@@ -3,7 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';

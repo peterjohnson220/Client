@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TermsConditionsModalComponent } from './terms-conditions-modal.component';

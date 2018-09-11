@@ -2,13 +2,14 @@ import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
+
+import { generateMockUserContext } from 'libs/models';
+
 import { LayoutWrapperComponent } from './layout-wrapper';
 import * as fromRootState from '../../../../state/state';
 import * as fromLayoutReducer from '../../reducers';
 import * as fromHeaderActions from '../../actions/header.actions';
-import { generateMockUserContext } from 'libs/models';
-import 'rxjs/add/operator/take';
 
 // Host Component for testing transclusion
 @Component({

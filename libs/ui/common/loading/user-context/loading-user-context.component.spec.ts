@@ -2,8 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';

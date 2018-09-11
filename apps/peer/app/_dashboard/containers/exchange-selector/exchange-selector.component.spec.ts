@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/take';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';

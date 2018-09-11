@@ -1,7 +1,7 @@
 import { Component, NO_ERRORS_SCHEMA, OnInit, ViewChild } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { CardSelectorComponent } from './card-selector.component';
 import spyOn = jest.spyOn;

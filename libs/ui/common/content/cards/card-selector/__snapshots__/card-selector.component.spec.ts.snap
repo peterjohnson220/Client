@@ -174,8 +174,10 @@ exports[`UI/Common/Content - CardSelector should transclude content and template
     ng-reflect-card-data-error_="[object Object]"
     ng-reflect-card-data-loading_="[object Object]"
     ng-reflect-card-data_="[object Object]"
-    ng-reflect-card-identifier="function (card) {return card ?"
-    ng-reflect-card-is-disabled="function (card) {return false;"
+    ng-reflect-card-identifier="function (card) {
+              "
+    ng-reflect-card-is-disabled="function (card) {
+              "
     ng-reflect-card-selected-template="[object Object]"
   >
     <div
