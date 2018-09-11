@@ -105,6 +105,20 @@ describe('Tile Preview Chart With Calendar', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it ('should dispatch SaveUiPersistenceSetting when setShouldGetPricingsBeforeEffectiveDate is called', () => {
+    instance.model = getInstanceModel();
+
+    const clientSettingRequest = {
+      FeatureArea: 'Dashboard', SettingName: 'JobsTileShouldGetPricingsBeforeEffectiveDate',
+      SettingValue: 'true'
+    } as SaveUiPersistenceSettingRequest;
+
+    const action = new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(clientSettingRequest);
+
+    instance.setShouldGetPricingsBeforeEffectiveDate(true);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
 
  function getInstanceModel() {
    const categoryName = 'test category';

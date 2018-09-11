@@ -26,6 +26,8 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   savingSettingName$: Observable<string>;
   savingSettingName: string;
   savingSettingSuccessSubscription: any;
+  shouldGetPricingsBeforeEffectiveDate: boolean;
+
   constructor(public store: Store<fromFeatureReducer.State>) {
     this.savingSetting$ = this.store.select(fromRootState.getUiPersistenceSettingsSaving);
     this.savingSettingSuccess$ = this.store.select(fromRootState.getUiPersistenceSettingsSavingSuccess);
@@ -36,7 +38,8 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
     });
 
     this.savingSettingSuccessSubscription = this.savingSettingSuccess$.subscribe(savingSettingSuccess => {
-      if (savingSettingSuccess && this.savingSettingName === 'JobsTileEffectiveDate') {
+      if (savingSettingSuccess && (this.savingSettingName === 'JobsTileEffectiveDate' ||
+        this.savingSettingName === 'JobsTileShouldGetPricingsBeforeEffectiveDate')) {
        this.reloadTile();
       }
     });
@@ -51,6 +54,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
   ngOnInit(): void {
     if (this.model.ComponentData && this.model.ComponentData.TileMiddlePart) {
       this.selectedDate = new Date(this.model.ComponentData.TileMiddlePart.SelectedDate);
+      this.shouldGetPricingsBeforeEffectiveDate = this.model.ComponentData.TileMiddlePart.ShouldGetBeforeSelectedDate;
     }
   }
 
@@ -69,5 +73,17 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
       this.savingSettingSuccessSubscription.unsubscribe();
       this.store.dispatch(new fromTileGridActions.LoadingSingleTile(this.model.TileId));
     }
+  }
+
+  setShouldGetPricingsBeforeEffectiveDate(settingValue) {
+    this.shouldGetPricingsBeforeEffectiveDate = settingValue;
+
+    const saveUiPersistenceSettingRequest = {
+      FeatureArea: 'Dashboard', SettingName: 'JobsTileShouldGetPricingsBeforeEffectiveDate',
+      SettingValue: this.shouldGetPricingsBeforeEffectiveDate.toString()
+    } as SaveUiPersistenceSettingRequest;
+
+    this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting
+    (saveUiPersistenceSettingRequest));
   }
 }
