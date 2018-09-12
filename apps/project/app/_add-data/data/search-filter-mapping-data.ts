@@ -3,7 +3,7 @@ import { FilterType } from '../models';
 export const SearchFilterMappingData = {
   'default_survey_scopes': {
     Type: FilterType.Multi,
-    BackingField: 'combined_scope_weighted',
+    BackingField: 'combined_scopes_weighted',
     DisplayName: 'Default Survey Scopes',
     Order: 11
   },
@@ -43,9 +43,9 @@ export const SearchFilterMappingData = {
     DisplayName: 'Weighting',
     Order: 10
   },
-  'country_code': {
+  'country_codes': {
     Type: FilterType.Multi,
-    BackingField: 'country_code',
+    BackingField: 'country_codes',
     DisplayName: 'Country',
     Order: 9
   },
