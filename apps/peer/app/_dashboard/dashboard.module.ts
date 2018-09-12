@@ -13,7 +13,6 @@ import 'hammerjs';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
-import { PfNgBootstrapExtensionModule } from 'libs/extensions/ng-bootstrap';
 
 import { RedirectToExchangeComponent } from './components';
 import {
@@ -59,8 +58,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     // Payfactors
     PfCommonUIModule,
     PfFormsModule,
-    PfCommonModule,
-    PfNgBootstrapExtensionModule
+    PfCommonModule
   ],
   declarations: [
     // Components
