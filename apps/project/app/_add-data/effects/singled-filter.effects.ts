@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/survey-search';
@@ -10,7 +11,7 @@ import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/surve
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
 import { mapFiltersToSearchFields, mapFiltersToSearchFilters } from '../helpers';
-import { isMultiFilter, MultiSelectFilter } from '../models';
+import { MultiSelectFilter } from '../models';
 
 @Injectable()
 export class SingledFilterEffects {
@@ -47,7 +48,8 @@ export class SingledFilterEffects {
                 currentSelections
               }
             );
-          })
+          }),
+          catchError(() => of(new fromSingledFilterActions.SearchAggregationError()))
         );
       })
     );

@@ -7,6 +7,7 @@ import { Filter, MultiSelectOption } from '../models';
 export const SET_SINGLED_FILTER = '[Project Add Data/Singled Filter] Set Singled Filter';
 export const SEARCH_AGGREGATION = '[Project Add Data/Singled Filter] Search Aggregation';
 export const SEARCH_AGGREGATION_SUCCESS = '[Project Add Data/Singled Filter] Search Aggregation Success';
+export const SEARCH_AGGREGATION_ERROR = '[Project Add Data/Singled Filter] Search Aggregation Error';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Project Add Data/Singled Filter] Toggle Multi Select Option';
 export const CLEAR_SELECTIONS = '[Project Add Data/Singled Filter] Clear Selections';
 
@@ -28,6 +29,12 @@ export class SearchAggregationSuccess implements Action {
   constructor(public payload: { newOptions: SearchFilterOption[], currentSelections: MultiSelectOption[] }) {}
 }
 
+export class SearchAggregationError implements Action {
+  readonly type = SEARCH_AGGREGATION_ERROR;
+
+  constructor() {}
+}
+
 export class ToggleMultiSelectOption implements Action {
   readonly type = TOGGLE_MULTI_SELECT_OPTION;
 
@@ -44,5 +51,6 @@ export type Actions
   = SetSingledFilter
   | SearchAggregation
   | SearchAggregationSuccess
+  | SearchAggregationError
   | ToggleMultiSelectOption
   | ClearSelections;
