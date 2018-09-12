@@ -9,6 +9,7 @@ import { JobResult, JobDetailsToolTipData, JobContext, MatchesDetailsTooltipData
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
+import { hasMoreDataCuts } from '../../helpers';
 
 @Component({
   selector: 'pf-search-results',
@@ -76,8 +77,8 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.tooltipContainer.handleJobTitleClick(data, index);
   }
 
-  handleShowCutsClick(data: JobResult): void {
-    if (data.DataCuts.length) {
+  handleLoadDataCuts(data: JobResult): void {
+    if (!hasMoreDataCuts(data)) {
       return;
     }
     this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(data));

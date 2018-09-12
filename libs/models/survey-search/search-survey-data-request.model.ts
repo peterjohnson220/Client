@@ -1,4 +1,4 @@
-import {SearchField} from './search-request.model';
+import {SearchField, PagingOptions} from './search-request.model';
 import {SearchFilter} from './search-filter.model';
 
 export interface SurveyDataFilterRequest {
@@ -7,4 +7,5 @@ export interface SurveyDataFilterRequest {
     Filters: SearchFilter[];
     CurrencyCode: string;
     ProjectId: number;
+    PagingOptions: PagingOptions;
   }

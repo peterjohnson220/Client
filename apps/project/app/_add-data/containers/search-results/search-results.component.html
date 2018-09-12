@@ -36,7 +36,7 @@
                      [job]="jobResult"
                      [currencyCode]="(jobContext$ | async)?.CurrencyCode"
                      (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
-                     (showCutsClick)="handleShowCutsClick($event)"
+                     (loadDataCuts)="handleLoadDataCuts($event)"
                      (cutSelected)="handleCutSelectionToggle($event)"
                      (matchesMouseEnter)="handleMatchesMouseEnter($event)"
                      (matchesMouseLeave)="handleMatchesMouseLeave()">

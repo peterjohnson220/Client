@@ -22,6 +22,7 @@ export interface JobResult {
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
+    TotalDataCuts?: number;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
