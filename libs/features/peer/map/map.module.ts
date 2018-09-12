@@ -9,7 +9,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
-import { PfNgBootstrapExtensionModule } from 'libs/extensions/ng-bootstrap';
 
 import {
   FilterAggregateComponent,
@@ -45,9 +44,6 @@ const declarations = [
     ]),
     NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
     NgbPopoverModule,
-
-    // Payfactors
-    PfNgBootstrapExtensionModule
   ],
   declarations: declarations,
   exports: declarations
