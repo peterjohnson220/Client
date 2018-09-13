@@ -6,7 +6,7 @@
     <textarea  #discussionTextArea
       class="discussionTextArea pl-2 pr-2"
       formControlName="text" 
-      maxlength="{{maxlength}}"
+      maxlength="{{maxTextLength}}"
       placeholder="{{textPlaceholder}}"
       (keydown)="onKeyDown($event)"
       (keyup)="onKeyUp($event)"

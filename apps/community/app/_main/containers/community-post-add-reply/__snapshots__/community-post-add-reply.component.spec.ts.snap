@@ -17,7 +17,6 @@ exports[`CommunityStartDiscussionComponent should show community add reply 1`] =
   >
     <pf-community-text-area
       class="reply-text-area"
-      maxtextlength="replyMaxLength"
       textplaceholder="Add Reply..."
     />
     <div
