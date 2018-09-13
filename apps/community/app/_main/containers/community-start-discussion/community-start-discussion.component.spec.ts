@@ -8,6 +8,9 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
 import { HighlightHashTagPipe } from 'libs/core';
+import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { CommunityAddPost } from '../../../../../../libs/models/community';
 
 describe('CommunityStartDiscussionComponent', () => {
   let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
@@ -42,5 +45,21 @@ describe('CommunityStartDiscussionComponent', () => {
 
   it('should show community start discussion', () => {
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch SubmittingCommunityPost when calling submitPost', () => {
+
+    instance.communityDiscussionForm.controls['text'].setValue('hello world');
+
+    instance.submitPost();
+
+    const newPost: CommunityAddPost = {
+      PostText: 'hello world',
+      IsInternalOnly: false
+    };
+
+     const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);
+
+   expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
