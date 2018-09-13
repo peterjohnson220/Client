@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User Menu should show homepage link, when provided 1`] = `
+<pf-layout-wrapper-header
+  dropdownNavigationLinks={[Function Array]}
+  homePageLink={[Function Object]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    <a
+      class="navbar-brand mr-auto"
+      href="url"
+    >
+      <img
+        class="logo-style"
+        src="Img Src"
+      />
+    </a>
+    <pf-layout-wrapper-user-menu />
+  </nav>
+</pf-layout-wrapper-header>
+`;
+
+exports[`User Menu should show the header 1`] = `
+<pf-layout-wrapper-header
+  dropdownNavigationLinks={[Function Array]}
+  userContext={[Function Object]}
+>
+  <nav
+    class="navbar navbar-expand navbar-dark fixed-top"
+  >
+    <a
+      class="navbar-brand mr-auto"
+      href=""
+    >
+      <img
+        class="logo-style"
+        src="null"
+      />
+    </a>
+    <pf-layout-wrapper-user-menu />
+  </nav>
+</pf-layout-wrapper-header>
+`;
