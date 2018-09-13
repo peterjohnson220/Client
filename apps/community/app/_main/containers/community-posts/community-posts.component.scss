@@ -3,16 +3,25 @@
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
-$reply-avatar-width: 35px;
-$reply-avatar-height: 35px;
-
 .posts-container {
   border: 1px solid $border-grey;
+  word-break: break-word;
 }
 
-#post-avatar {
+.post-avatar {
   width: $post-avatar-width;
   height: $post-avatar-height;
+}
+
+.default-post-avatar
+{
+  width: $post-avatar-width;
+  height: $post-avatar-height;
+  background-color: #0883BE;
+  color: white;
+  line-height: 50px;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
 .tag {
@@ -30,7 +39,7 @@ $reply-avatar-height: 35px;
 
 .community-btn {
   background: transparent;
-  border: solid 1px #DDDDDD;
+  color: #99A0A4;
 }
 
 .community-btn .icon {
@@ -38,12 +47,12 @@ $reply-avatar-height: 35px;
 }
 
 .community-btn-clicked {
-  background-color: $community-like-button-color;
-  color: white;
+  background:transparent;
+  color: #99A0A4;
 }
 
 .community-btn-clicked .icon {
-  color: white;
+  color: #FA4646;
 }
 
 .community-user-name-text {
@@ -55,12 +64,6 @@ $reply-avatar-height: 35px;
   color: $community-sub-text-color;
 }
 
-.community-link
-{
-  text-decoration: underline;
-  cursor: pointer;
-}
-
 .internal {
   background-color: #18a2b8;
   color: white;
@@ -69,22 +72,27 @@ $reply-avatar-height: 35px;
   font-size: .95rem;
 }
 
-#reply-avatar {
-  width: $reply-avatar-width;
-  height: $reply-avatar-height;
+.hide {
+  display: none;
 }
 
-.reply-offset {
-  margin-left: $reply-avatar-width + 10px;
+.show {
+  display: inline;
 }
 
-#show-more-btn
-{
-  color: white;
-  background-color: #0883BE;
+.post-body {
+  word-break: break-all;
 }
 
-#show-more-btn > i
-{
-  color: white;
+.community-link {
+  color: #99A0A4;
+  vertical-align: middle;
+}
+
+a {
+  text-decoration: none;
+}
+
+:host ::ng-deep .hashtag-highlight {
+  color: rgb(64, 171, 221);
 }

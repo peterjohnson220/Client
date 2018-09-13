@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 
 import { CommunityPostsComponent } from './community-posts.component';
+import { HighlightHashTagPipe } from 'libs/core';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -25,7 +26,8 @@ describe('CommunityPostsComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityPostsComponent
+        CommunityPostsComponent,
+        HighlightHashTagPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

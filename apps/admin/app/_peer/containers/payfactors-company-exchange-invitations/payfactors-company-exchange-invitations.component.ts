@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
+import { PayfactorsCompanyExchangeInvitation } from 'libs/models/peer';
+
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromPayfactorsCompanyExchangeInvitationsActions from '../../actions/payfactors-company-exchange-invitations.actions';
 
@@ -18,7 +20,10 @@ export class PayfactorsCompanyExchangeInvitationsComponent {
   payfactorsCompanyExchangeInvitationsLoading$: Observable<boolean>;
   payfactorsCompanyExchangeInvitationsLoadingError$: Observable<boolean>;
   payfactorsCompanyExchangeInvitationsGrid$: Observable<GridDataResult>;
+  selectedCompanyInvitation: PayfactorsCompanyExchangeInvitation;
   exchangeId: number;
+  collapse = false;
+  pageRowIndex: number = null;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -36,5 +41,16 @@ export class PayfactorsCompanyExchangeInvitationsComponent {
   // Events
   handlePayfactorsCompanyExchangeInvitationsGridReload() {
     this.store.dispatch(new fromPayfactorsCompanyExchangeInvitationsActions.LoadPayfactorsCompanyExchangeInvitations(this.exchangeId));
+  }
+
+  handleCellClick(event: any) {
+    if (!this.collapse) { this.collapse = true; }
+    this.selectedCompanyInvitation = event.dataItem;
+    this.pageRowIndex = event.rowIndex;
+  }
+
+  handleCloseInvitationInfo() {
+    this.collapse = false;
+    this.pageRowIndex = null;
   }
 }

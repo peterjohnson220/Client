@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
@@ -10,83 +10,84 @@ import { ChartItem, ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeDashboardActions from '../actions/exchange-dashboard.actions';
 import * as fromExchangeListActions from 'apps/admin/app/_peer/actions/exchange-list.actions';
+import * as fromDashboardReducer from '../reducers';
 
 @Injectable()
 export class ExchangeDashboardEffects {
   @Effect()
   loadCompanyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_COMPANY_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingCompanyChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_COMPANY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadCompanyChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingCompanyChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadCompanyChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingCompanyChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadCompanyChartError()))
         )
       )
     );
 
   @Effect()
   loadJobChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_JOB_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingJobChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_JOB_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadJobChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingJobChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadJobChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingJobChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadJobChartError()))
         )
       )
     );
 
   @Effect()
   loadIndustryChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_INDUSTRY_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingIndustryChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_INDUSTRY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadIndustryChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingIndustryChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadIndustryChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingIndustryChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadIndustryChartError()))
         )
       )
     );
 
   @Effect()
   loadJobFamilyChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_JOB_FAMILY_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingJobFamilyChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_JOB_FAMILY_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadJobFamilyChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingJobFamilyChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadJobFamilyChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingJobFamilyChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadJobFamilyChartError()))
         )
       )
     );
 
   @Effect()
   loadRevenueChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_REVENUE_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingRevenueChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_REVENUE_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadRevenueChart) =>
         this.exchangeCompanyApiService.getChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingRevenueChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadRevenueChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingRevenueChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadRevenueChartError()))
         )
       )
     );
 
   @Effect()
   loadDetailChart$: Observable<Action> = this.actions$
-    .ofType(fromExchangeDashboardActions.LOADING_DETAIL_CHART).pipe(
-      switchMap((action: fromExchangeDashboardActions.LoadingDetailChart) =>
+    .ofType(fromExchangeDashboardActions.LOAD_DETAIL_CHART).pipe(
+      switchMap((action: fromExchangeDashboardActions.LoadDetailChart) =>
         this.exchangeCompanyApiService.getDetailChart(action.payload).pipe(
           map((chartItems: ChartItem[]) => {
-            return new fromExchangeDashboardActions.LoadingDetailChartSuccess(chartItems);
+            return new fromExchangeDashboardActions.LoadDetailChartSuccess(chartItems);
           }),
-          catchError(() => of(new fromExchangeDashboardActions.LoadingDetailChartError()))
+          catchError(() => of(new fromExchangeDashboardActions.LoadDetailChartError()))
         )
       )
     );
@@ -117,8 +118,24 @@ export class ExchangeDashboardEffects {
       )
     );
 
+
+  @Effect()
+  loadExchangeJobOrgs$: Observable<Action> = this.actions$
+    .ofType(fromExchangeDashboardActions.LOAD_EXCHANGE_JOB_ORGS).pipe(
+      map((action: fromExchangeDashboardActions.LoadExchangeJobOrgs) => action),
+      switchMap((action) =>
+        this.exchangeCompanyApiService.getExchangeJobOrgs(action.payload.ExchangeJobId).pipe(
+          map((orgs: string[]) => {
+            return new fromExchangeDashboardActions.LoadExchangeJobOrgsSuccess(orgs);
+          }),
+          catchError(() => of(new fromExchangeDashboardActions.LoadExchangeJobOrgsError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
+    private store: Store<fromDashboardReducer.State>,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
     private exchangeDataSearchApiService: ExchangeDataSearchApiService
   ) {}

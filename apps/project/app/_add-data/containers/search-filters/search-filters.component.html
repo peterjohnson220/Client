@@ -1,41 +1,37 @@
-<div class="filter-header">
-  <div>Jobs: <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong></div>
+<div [style.visibility]="visible ? 'visible' : 'hidden'">
+  <div class="filters">
+    <pf-filter-section
+      *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
+      [filter]="filter"
+      [ngSwitch]="filter.Type"
+      (reset)="handleResetSection($event)"
+      (searchClicked)="handleSearchSection($event)">
 
-  <div class="reset-filters" (click)="handleResetAllClicked()">
-    Reset All
+      <!--Text Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Text">
+        <div class="px-2">
+          <pf-input-debounce
+            [hideClearBtn]="true"
+            [placeholderText]="''"
+            [maxLength]="255"
+            [ngModel]="filter.Value"
+            (valueChanged)="handleValueChanged(filter.Id, $event)"
+            [focus]="shouldFocus(filter)"
+            [showing]="pageShown$ | async">
+          </pf-input-debounce>
+        </div>
+      </ng-container>
+
+      <!--Multi Select Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Multi">
+        <pf-multi-select-filter
+          [filter]="filter"
+          (optionSelected)="handleMultiSelectOptionSelected($event)">
+        </pf-multi-select-filter>
+      </ng-container>
+
+    </pf-filter-section>
   </div>
 </div>
 
-<div class="filters">
-  <pf-filter-section
-    *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
-    [filter]="filter"
-    [ngSwitch]="filter.Type"
-    (reset)="handleResetSection($event)">
-
-    <!--Text Filters-->
-    <ng-container *ngSwitchCase="filterTypes.Text">
-      <div class="px-2">
-        <pf-input-debounce
-          [hideClearBtn]="true"
-          [placeholderText]="''"
-          [maxLength]="255"
-          [ngModel]="filter.Value"
-          (valueChanged)="handleValueChanged(filter.Id, $event)"
-          [focus]="shouldFocus(filter)"
-          [showing]="pageShown$ | async">
-        </pf-input-debounce>
-      </div>
-    </ng-container>
-
-    <!--Multi Select Filters-->
-    <ng-container *ngSwitchCase="filterTypes.Multi">
-      <pf-multi-select-filter
-        [filter]="filter"
-        (optionSelected)="handleMultiSelectOptionSelected($event)">
-      </pf-multi-select-filter>
-    </ng-container>
-
-  </pf-filter-section>
-</div>
 

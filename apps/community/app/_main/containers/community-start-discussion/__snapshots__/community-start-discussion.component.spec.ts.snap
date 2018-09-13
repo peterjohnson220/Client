@@ -4,11 +4,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 <pf-community-start-discussion
   UserAvatarSource={[Function String]}
   communityDiscussionForm={[Function FormGroup]}
+  discussionTextArea={[Function ElementRef]}
   formBuilder={[Function FormBuilder]}
+  overlayTextArea={[Function ElementRef]}
+  postMaxLength={[Function Number]}
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
   submittingCommunityPostSuccess$={[Function Store]}
-  submittingCommunityPostSuccessSubscription={[Function Subscriber]}
+  suggestedCommunityTags$={[Function Store]}
+  textAreaContainer={[Function ElementRef]}
 >
   <div
     class="start-discussion-container mb-3"
@@ -37,8 +41,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       </ul>
     </div>
     <form
-      class="ng-untouched ng-pristine ng-invalid"
-      ng-reflect-form="[object Object]"
       novalidate=""
     >
       <div
@@ -48,32 +50,42 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           alt="avatar"
           class="pf-avatar ml-1"
           id="discussion-avatar"
-          src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
         />
         <div
           class="w-100"
         >
-          <textarea
-            class="ng-untouched ng-pristine ng-invalid"
-            formcontrolname="postText"
-            maxlength="2000"
-            ng-reflect-maxlength="2000"
-            ng-reflect-name="postText"
-            placeholder="Start a discussion..."
-          />
+          <div
+            class="textAreaContainer ml-3"
+          >
+            <div
+              class="overlayTextArea pl-2 pr-3"
+            />
+            <textarea
+              class="discussionTextArea pl-2 pr-3"
+              formcontrolname="postText"
+              placeholder="Start a discussion..."
+              spellcheck="false"
+            >
+                            
+            </textarea>
+          </div>
+          
           <div
             class="ml-3 p-0"
           >
+            <div
+              class="float-right"
+            >
+              <pf-radial-text-counter />
+            </div>
             <span
               ngbtooltip="Will be visible to users within your organization"
               placement="bottom"
             >
               <input
-                class="ng-untouched ng-pristine ng-valid"
                 formcontrolname="isInternalOnly"
                 id="internal-only"
                 name="internal-only"
-                ng-reflect-name="isInternalOnly"
                 type="checkbox"
               />
               <label
@@ -84,8 +96,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
               </label>
             </span>
             <button
-              class="btn btn-primary m-1 float-right"
-              disabled=""
+              class="btn btn-primary float-right"
               id="start-discussion-post-button"
             >
               Post 

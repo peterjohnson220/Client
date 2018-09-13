@@ -5,11 +5,11 @@ import { Observable, Subscription } from 'rxjs';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 import * as fromCommunityPollReducer from '../../reducers';
 import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
 import * as fromCommunityPollResponseActions from '../../actions/community-poll-response.actions';
-import { CommunityPollResponse } from 'libs/models/community/community-poll-response.model';
 
 @Component({
   selector: 'pf-community-polls',
@@ -18,47 +18,40 @@ import { CommunityPollResponse } from 'libs/models/community/community-poll-resp
 })
 
 export class CommunityPollsComponent implements OnInit, OnDestroy {
-  selectedOption: number;
   communityPollRequests$: Observable<CommunityPollRequest[]>;
-  communityPollRequestsLoading$: Observable<boolean>;
-  communityPollRequestResponses$: Observable<CommunityPollResponse>;
-  communityPollRequestResponsesSubscription: Subscription;
-  communityPollResponseSubmitting$: Observable<boolean>;
-  communityPollResponseSubmittingError$: Observable<boolean>;
-  communityPollDismissResponseSuccess$: Observable<boolean>;
-  communityPollResponsesSuccess$: Observable<CommunityPollResponse[]>;
+  communityPollResponses$: Observable<CommunityPollResponse[]>;
+  communityPolResponseSubmitted$: Observable<CommunityPollResponse>;
 
+  communityPollResponseSubmittedSubscription: Subscription;
   communityPollResponsesSuccessSubscription: Subscription;
+
   userSubmittedResponses: CommunityPollResponse[];
+  selectedOption: number;
+  dismissedPollIds: string[] = [];
 
   constructor(public store: Store<fromCommunityPollReducer.State>) {
     this.communityPollRequests$ = this.store.select(fromCommunityPollReducer.getCommunityPollRequests);
-    this.communityPollRequestsLoading$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollRequests);
-    this.communityPollRequestResponses$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
-    this.communityPollResponseSubmitting$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponse);
-
-    this.communityPollResponsesSuccess$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
+    this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
+    this.communityPolResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
   }
 
   ngOnInit() {
+
     this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollRequests());
     this.store.dispatch(new fromCommunityPollResponseActions.LoadingCommunityPollResponses());
 
-    this.communityPollResponsesSuccessSubscription = this.communityPollResponsesSuccess$.subscribe(responses => {
+    this.communityPollResponsesSuccessSubscription = this.communityPollResponses$.subscribe(responses => {
       if (responses != null) {
 
-        // this.userSubmittedResponses = responses; - doing this will make userSubmittedResponses immutable,
-        // since 'responses' comes from ngrx store as deep frozen. We don't want that.
         this.userSubmittedResponses = responses.map(o => {
           return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, IsDismissed: false };
         });
       }
+
     });
 
-    this.communityPollRequestResponsesSubscription = this.communityPollRequestResponses$.subscribe(responses => {
+    this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(responses => {
       if (responses != null) {
-        // need to return both questions and responses that have not been dismissed
-        this.store.dispatch(new fromCommunityPollRequestActions.LoadingCommunityPollRequests());
         this.store.dispatch(new fromCommunityPollResponseActions.LoadingCommunityPollResponses());
       }
       this.selectedOption = null;
@@ -67,7 +60,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.communityPollRequestResponsesSubscription.unsubscribe();
+    this.communityPollResponseSubmittedSubscription.unsubscribe();
     this.communityPollResponsesSuccessSubscription.unsubscribe();
   }
 
@@ -89,7 +82,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   }
 
   isResponseDismissed(communityPollId: string): boolean {
-    return this.userSubmittedResponses.some(x => x.CommunityPollId === communityPollId  && x.IsDismissed);
+    return this.dismissedPollIds.some(x => x === communityPollId);
   }
 
   getResponsePercentage(responseId: number, communityPollId: string): number {
@@ -101,6 +94,8 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   }
 
   dismissPoll(communityPollId: string): void {
+
+    this.dismissedPollIds.push(communityPollId);
 
     this.store.dispatch(new fromCommunityPollResponseActions.DismissingCommunityPollResponse(
       { communityPollId: communityPollId } ));

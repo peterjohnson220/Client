@@ -1,18 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AddCommunityPollModalComponent should not show the form text and should show a required error message once a submit has been attempted 1`] = `
-<pf-add-community-poll-modal
+exports[`CommunityPollModalComponent should not show the form text and should show a required error message once a submit has been attempted 1`] = `
+<pf-community-poll-modal
   addCommunityPollForm={[Function FormGroup]}
-  addCommunityPollModalOpen$={[Function Store]}
-  addingCommunityPoll$={[Function Store]}
-  addingCommunityPollError$={[Function Store]}
-  addingCommunityPollSuccess$={[Function Store]}
   attemptedSubmit={[Function Boolean]}
+  communityPollListToEdit$={[Function Store]}
+  communityPollModalOpen$={[Function Store]}
+  enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
+  isEditMode="false"
+  pollStatusOptions={[Function Array]}
   store={[Function Store]}
-  updatingCommunityPollStatus$={[Function Store]}
-  updatingCommunityPollStatusError$={[Function Store]}
-  updatingCommunityPollStatusSuccess$={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
@@ -23,6 +21,7 @@ exports[`AddCommunityPollModalComponent should not show the form text and should
     <div
       class="form-group"
     >
+      
       <label
         class="col-form-label"
         for="poll-question"
@@ -33,6 +32,7 @@ exports[`AddCommunityPollModalComponent should not show the form text and should
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="question"
         id="poll-question"
+        maxlength="150"
         ng-reflect-name="question"
         pffocus=""
         placeholder="Question"
@@ -64,30 +64,31 @@ exports[`AddCommunityPollModalComponent should not show the form text and should
         
       </fieldset>
       
-      <button
-        class="btn btn-secondary offset-sm-1"
-        type="button"
-      >
-        Add another response option
-      </button>
+      <div>
+        
+        <button
+          class="btn btn-secondary offset-sm-1"
+          type="button"
+        >
+          Add another response option
+        </button>
+      </div>
     </div>
   </pf-modal-form>
-</pf-add-community-poll-modal>
+</pf-community-poll-modal>
 `;
 
-exports[`AddCommunityPollModalComponent should show the form text and no error messages when a submit has not been attempted 1`] = `
-<pf-add-community-poll-modal
+exports[`CommunityPollModalComponent should show the form text and no error messages when a submit has not been attempted 1`] = `
+<pf-community-poll-modal
   addCommunityPollForm={[Function FormGroup]}
-  addCommunityPollModalOpen$={[Function Store]}
-  addingCommunityPoll$={[Function Store]}
-  addingCommunityPollError$={[Function Store]}
-  addingCommunityPollSuccess$={[Function Store]}
   attemptedSubmit="false"
+  communityPollListToEdit$={[Function Store]}
+  communityPollModalOpen$={[Function Store]}
+  enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
+  isEditMode="false"
+  pollStatusOptions={[Function Array]}
   store={[Function Store]}
-  updatingCommunityPollStatus$={[Function Store]}
-  updatingCommunityPollStatusError$={[Function Store]}
-  updatingCommunityPollStatusSuccess$={[Function Store]}
 >
   <pf-modal-form
     class="ng-untouched ng-pristine ng-invalid"
@@ -98,6 +99,7 @@ exports[`AddCommunityPollModalComponent should show the form text and no error m
     <div
       class="form-group"
     >
+      
       <label
         class="col-form-label"
         for="poll-question"
@@ -108,6 +110,7 @@ exports[`AddCommunityPollModalComponent should show the form text and no error m
         class="form-control ng-untouched ng-pristine ng-invalid"
         formcontrolname="question"
         id="poll-question"
+        maxlength="150"
         ng-reflect-name="question"
         pffocus=""
         placeholder="Question"
@@ -133,13 +136,16 @@ exports[`AddCommunityPollModalComponent should show the form text and no error m
         
       </fieldset>
       
-      <button
-        class="btn btn-secondary offset-sm-1"
-        type="button"
-      >
-        Add another response option
-      </button>
+      <div>
+        
+        <button
+          class="btn btn-secondary offset-sm-1"
+          type="button"
+        >
+          Add another response option
+        </button>
+      </div>
     </div>
   </pf-modal-form>
-</pf-add-community-poll-modal>
+</pf-community-poll-modal>
 `;

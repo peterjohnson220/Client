@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { FilterAggregateGroup, PayMarket, ExchangeMapSummary } from 'libs/models';
+import { FilterAggregateGroup, PayMarket, ExchangeMapSummary, ToggleAggregateGroupSelections } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromPeerMapReducer from '../../reducers';
@@ -51,8 +51,8 @@ export class FilterSidebarComponent implements OnInit {
     this.store.dispatch(new fromFilterSidebarActions.ToggleLimitToPayMarket());
   }
 
-  handleClearGroupSelections(aggregateGroup: FilterAggregateGroup) {
-    this.store.dispatch(new fromFilterSidebarActions.ClearGroupSelections(aggregateGroup));
+  handleAggregateGroupSelectionsToggled(toggleAggregateGroupSelectionsPayload: ToggleAggregateGroupSelections) {
+    this.store.dispatch(new fromFilterSidebarActions.ToggleGroupSelections(toggleAggregateGroupSelectionsPayload));
   }
 
   handleClearAllSelections() {

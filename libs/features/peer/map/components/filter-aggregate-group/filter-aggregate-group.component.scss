@@ -18,8 +18,12 @@
   margin-bottom: .45rem;
   padding: .5rem .85rem;
   background: #eaeaea;
-}
 
-.aggregate-group-header .header-right{
-  display: flex;
+  .header-left, .header-right {
+    display: flex;
+  }
+
+  .header-left {
+    margin-left: -.28rem;
+  }
 }

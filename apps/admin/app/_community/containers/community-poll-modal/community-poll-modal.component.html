@@ -1,16 +1,27 @@
 <pf-modal-form
   [size]="'md'"
-  [title]="'New Poll'"
+  [title]="getTitle()"
   [primaryButtonText]="'Save Poll'"
-  [submitting]="addingCommunityPoll$ | async"
-  [isOpen$]="addCommunityPollModalOpen$"
+  [isOpen$]="communityPollModalOpen$"
   [formGroup]="addCommunityPollForm"
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
   <ng-container form-content>
     <div class="form-group">
+
+      <div *ngIf="isEditMode">
+        <label class="col-form-label" for="poll-status">Poll Status</label>
+        <kendo-dropdownlist  id="poll-status" class="w-25 ml-2 border"
+          formControlName="status"
+          [data]="pollStatusOptions"
+          [textField]="'text'"
+          [valueField]="'value'"
+          [valuePrimitive]="true">
+        </kendo-dropdownlist>
+      </div>
+
       <label class="col-form-label" for="poll-question">Poll Question</label>
-      <input type="text" class="form-control" [readonly]="addingCommunityPoll$ | async" placeholder="Question" formControlName="question" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus>
+      <input type="text" class="form-control" placeholder="Question" formControlName="question" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus [maxLength]="150">
       <ng-container *ngIf="question.errors && attemptedSubmit">
         <div *ngIf="question.errors.required" class="invalid-feedback">Question is required.</div>
         <div *ngIf="question.errors.error" class="invalid-feedback">{{question.errors.error}}</div>
@@ -28,7 +39,9 @@
         </pf-community-poll-response>
       </fieldset>
 
-      <button type="button" class="btn btn-secondary offset-sm-1" *ngIf="responses.length<10" (click)="addItem()" >Add another response option</button> 
+      <div *ngIf="enableEditingResponseOptions">
+        <button type="button" class="btn btn-secondary offset-sm-1" *ngIf="responses.length<10" (click)="addResponseOption()" >Add another response option</button> 
+      </div>
     </div>
   </ng-container>
 </pf-modal-form>

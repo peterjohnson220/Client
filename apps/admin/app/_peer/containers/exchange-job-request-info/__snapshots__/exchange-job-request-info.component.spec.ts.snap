@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Job Request Info should match snapshot 1`] = `
+<pf-exchange-job-request-info
+  approveClicked={[Function EventEmitter]}
+  approvingError$={[Function Store]}
+  approvingJobRequest$={[Function Store]}
+  closeClicked={[Function EventEmitter]}
+  denyClicked={[Function EventEmitter]}
+  denyingError$={[Function Store]}
+  denyingJobRequest$={[Function Store]}
+  selectedJobRequest={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="job-request-info-container card h-100"
+  >
+    <div
+      class="card-header"
+    >
+      <div
+        class="align-self-center mr-auto"
+      >
+         Job Request Information 
+      </div>
+      
+      
+      <button
+        class="btn btn-sm btn-success action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Approve 
+        </span>
+        
+      </button>
+      <button
+        class="btn btn-sm btn-danger action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Deny 
+        </span>
+        
+      </button>
+      <div
+        class="close-btn"
+      >
+        <i
+          class="far fa-times"
+        />
+      </div>
+    </div>
+    <div
+      class="card-body d-flex"
+    >
+      <div
+        class="info-container"
+      >
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Job Requested:
+          </div>
+          <div>
+             Mock Job 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request Company:
+          </div>
+          <div>
+             Mock Company 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request User:
+          </div>
+          <div>
+             Mock Mobson 
+          </div>
+        </div>
+        <div
+          class="info-row"
+        >
+          <div
+            class="label"
+          >
+            Request Date:
+          </div>
+          <div>
+             1/1/18, 12:00 AM 
+          </div>
+        </div>
+        <div
+          class="info-row-flex-column flex-grow-1"
+        >
+          <div
+            class="label"
+          >
+            Reason:
+          </div>
+          <div
+            class="reason-container"
+          >
+             Because 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-exchange-job-request-info>
+`;

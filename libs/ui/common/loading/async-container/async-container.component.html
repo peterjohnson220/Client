@@ -2,7 +2,7 @@
   <div class="loading-blanket-center">
 
     <ng-container *ngIf="!loadingError">
-      <pf-loading-indicator></pf-loading-indicator>
+      <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator>
     </ng-container>
 
     <ng-container *ngIf="loadingError">

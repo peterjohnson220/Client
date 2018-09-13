@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { saveAs } from '@progress/kendo-file-saver';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
-import { CommunityPollUpdateStatusRequest } from 'libs/models/community/community-poll-update-status-request.model';
-import { saveAs } from '@progress/kendo-file-saver';
-
+import * as constants from 'libs/models/community/community-constants.model';
+import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
 
 @Component({
   selector: 'pf-community-polls',
@@ -23,17 +23,15 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   exportingCommunityPollSuccess$: Observable<any>;
   exportingCommunityPollSuccessSubscription: Subscription;
 
-  CommunityPollStatuses: Array<{ text: string, value: number }> = [
-    { text: 'Draft', value: 0 },
-    { text: 'Live', value: 1 },
-    { text: 'Archived', value: 2 }
-  ];
+  @ViewChild(GridComponent) grid: GridComponent;
+
+  get CommunityPollStatuses() { return constants.CommunityPollStatuses; }
 
   constructor(private store: Store<fromCommunityPollReducer.State>) {
-    this.communityPollListLoading$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoading);
-    this.communityPollListLoadingError$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoadingError);
-    this.communityPollListItems$ = this.store.select(fromCommunityPollReducer.getCommunityPollListItems);
-       this.exportingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getExportingCommunityPollSuccess);
+      this.communityPollListLoading$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoading);
+      this.communityPollListLoadingError$ = this.store.select(fromCommunityPollReducer.getCommunityPollListLoadingError);
+      this.communityPollListItems$ = this.store.select(fromCommunityPollReducer.getCommunityPollListItems);
+      this.exportingCommunityPollSuccess$ = this.store.select(fromCommunityPollReducer.getExportingCommunityPollSuccess);
     }
 
   ngOnInit() {
@@ -51,20 +49,17 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     this.exportingCommunityPollSuccessSubscription.unsubscribe();
   }
 
-  openCommunityPollModal() {
-    this.store.dispatch(new fromCommunityPollActions.OpenAddCommunityPollModal);
-  }
-
-  public selectionChange(status: any, communityPollId: string): void {
-
-    const pollStatusRequest: CommunityPollUpdateStatusRequest = {
-      CommunityPollId: communityPollId,
-      Status: status.value
-    };
-    this.store.dispatch(new fromCommunityPollActions.UpdatingCommunityPollStatus(pollStatusRequest));
+  public openCommunityPollModal() {
+    this.store.dispatch(new fromCommunityPollActions.OpenCommunityPollModal());
   }
 
   public exportCommunityPoll(communityPoll: CommunityPollList):  void {
       this.store.dispatch(new fromCommunityPollActions.ExportingCommunityPoll(communityPoll.CommunityPollId));
     }
+
+  public onSelectCommunityPoll({ index }) {
+    const dataResult = this.grid.data;
+    this.store.dispatch(new fromCommunityPollActions.OpenCommunityPollModal(dataResult[index]));
+  }
+
 }

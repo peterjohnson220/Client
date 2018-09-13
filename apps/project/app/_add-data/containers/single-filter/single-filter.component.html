@@ -1,0 +1,23 @@
+<div class="single-filter">
+
+  <div class="back-to-all-filters" (click)="backToAllFilters()">
+    < Back To All Filters
+  </div>
+
+  <pf-filter-section
+    class="filter-section"
+    [filter]="singledFilter$ | async"
+    [overriddenSelectionCount]="selectionCount$ | async"
+    [singled]="true"
+    (reset)="handleResetSection($event)"
+    (searchValueChanged)="handleSearchValueChanged($event)">
+
+    <pf-async-container [loading]="loadingOptions$ | async" [spinnerType]="'GIF'">
+      <pf-multi-select-filter
+        [filter]="singledFilter$ | async"
+        (optionSelected)="handleMultiSelectOptionSelected($event)">
+      </pf-multi-select-filter>
+    </pf-async-container>
+
+  </pf-filter-section>
+</div>

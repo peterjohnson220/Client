@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { FilterAggregateGroup } from 'libs/models/peer';
+import { SystemFilter, SystemFilterRequest, PeerMapScopeSystemSideBarInfo,
+  ExchangeScopeItem, ToggleAggregateGroupSelections } from 'libs/models/peer';
 
 import { AggregateSelectionInfo } from '../models';
-import { SystemFilter, SystemFilterRequest, PeerMapScopeSystemSideBarInfo, ExchangeScopeItem } from 'libs/models/peer';
 
 export const LOAD_FILTER_AGGREGATES  = '[Features/Peer/Sidebar] Load Filter Aggregates';
 export const LOAD_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Load Filter Aggregates Success';
@@ -13,7 +13,7 @@ export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Features/Peer/Sidebar] Toggle Limit 
 export const LOAD_PAYMARKET_INFORMATION  = '[Features/Peer/Sidebar] Load PayMarket Information';
 export const LOAD_PAYMARKET_INFORMATION_SUCCESS  = '[Features/Peer/Sidebar] Load PayMarket Information Success';
 export const CLEAR_ALL_SELECTIONS  = '[Features/Peer/Sidebar] Clear All Selections';
-export const CLEAR_GROUP_SELECTIONS  = '[Features/Peer/Sidebar] Clear Group Selections';
+export const TOGGLE_GROUP_SELECTIONS = '[Features/Peer/Sidebar] Toggle Group Selections';
 export const LOAD_SYSTEM_FILTER = '[Features/Peer/Sidebar] Load System Filter';
 export const LOAD_SYSTEM_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load System Filter Success';
 export const LIMIT_TO_EXCHANGE = '[Features/Peer/Sidebar] Limit to Exchange';
@@ -24,6 +24,8 @@ export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Sidebar] Set Scope S
 
 export class LoadFilterAggregates implements Action {
   readonly type = LOAD_FILTER_AGGREGATES;
+
+  constructor(public payload = true) {}
 }
 
 export class LoadFilterAggregatesSuccess implements Action {
@@ -64,10 +66,10 @@ export class ClearAllSelections implements Action {
   constructor() {}
 }
 
-export class ClearGroupSelections implements Action {
-  readonly type = CLEAR_GROUP_SELECTIONS;
+export class ToggleGroupSelections implements Action {
+  readonly type = TOGGLE_GROUP_SELECTIONS;
 
-  constructor(public payload: FilterAggregateGroup) {}
+  constructor(public payload: ToggleAggregateGroupSelections) {}
 }
 
 export class LoadSystemFilter implements Action {
@@ -119,7 +121,7 @@ export type Actions
   | LoadPayMarketInformation
   | LoadPayMarketInformationSuccess
   | ClearAllSelections
-  | ClearGroupSelections
+  | ToggleGroupSelections
   | LoadSystemFilter
   | LoadSystemFilterSuccess
   | LimitToExchange

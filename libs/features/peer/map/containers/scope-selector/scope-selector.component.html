@@ -14,7 +14,7 @@
 
     <span class="selector-label text-muted">Exchange Scope:</span>
 
-    <span class="selection" [class.no-selection]="!(selectedExchangeScopeItem$ | async)">
+    <span class="selection" [title]="(selectedExchangeScopeItem$ | async)?.Name || ''" [class.no-selection]="!(selectedExchangeScopeItem$ | async)">
       {{(selectedExchangeScopeItem$ | async)?.Name || "No Selection"}}
     </span>
 

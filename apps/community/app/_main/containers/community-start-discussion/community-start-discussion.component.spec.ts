@@ -1,12 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
+import { HighlightHashTagPipe } from 'libs/core';
 
 describe('CommunityStartDiscussionComponent', () => {
   let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
@@ -24,7 +25,8 @@ describe('CommunityStartDiscussionComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityStartDiscussionComponent
+        CommunityStartDiscussionComponent,
+        HighlightHashTagPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -39,8 +41,6 @@ describe('CommunityStartDiscussionComponent', () => {
   });
 
   it('should show community start discussion', () => {
-    fixture.detectChanges();
-
     expect(fixture).toMatchSnapshot();
   });
 });

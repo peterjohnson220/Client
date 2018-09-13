@@ -53,6 +53,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
       
       <span
         class="selection no-selection"
+        title=""
       >
         
         No Selection
@@ -124,6 +125,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
       
       <span
         class="selection no-selection"
+        title=""
       >
         
         No Selection
@@ -195,6 +197,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
       
       <span
         class="selection"
+        title="MockExchangeScopeItemName"
       >
         
         MockExchangeScopeItemName

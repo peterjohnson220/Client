@@ -15,10 +15,16 @@ interface FilterOptions {
   AggregateCount: number;
 }
 
-export interface SearchRequest {
+export interface BaseSearchRequest {
   SearchFields: SearchField[];
   Filters: SearchFilter[];
+  CountryCode: string;
+}
+
+export interface SearchRequest extends BaseSearchRequest {
   PagingOptions: PagingOptions;
   FilterOptions: FilterOptions;
   CurrencyCode: string;
+  CountryCode: string;
+  ProjectId: number;
 }

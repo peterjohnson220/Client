@@ -30,7 +30,9 @@ export class AddDataEffectsService {
       Filters: filtersRequestObj,
       FilterOptions: filterOptionsRequestObj,
       PagingOptions: pagingOptionsRequestObj,
-      CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode
+      CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode,
+      CountryCode: filtersPagingAndJobContext.jobContext.CountryCode,
+      ProjectId: filtersPagingAndJobContext.jobContext.ProjectId
     };
   }
 
@@ -78,7 +80,7 @@ export class AddDataEffectsService {
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
         (action, jobResults, pagingOptions) => ({ jobResults, pagingOptions })),
       switchMap(({ jobResults, pagingOptions }) => {
-        const lastJobResultIndex = (pagingOptions.page - 1) * (pagingOptions.pageSize - 1);
+        const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
         const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(

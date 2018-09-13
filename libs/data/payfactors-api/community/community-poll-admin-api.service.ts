@@ -3,8 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityPollList } from 'libs/models/community/community-poll-list.model';
-import { CommunityPollAddRequest } from '../../../models/community/community-poll-add-request.model';
-import { CommunityPollUpdateStatusRequest } from '../../../models/community/community-poll-update-status-request.model';
+import { CommunityPollUpsertRequest } from '../../../models/community/community-poll-upsert-request.model';
 
 @Injectable()
 export class CommunityPollAdminApiService {
@@ -14,19 +13,21 @@ export class CommunityPollAdminApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  addCommunityPoll(communityPollAddRequest: CommunityPollAddRequest): Observable<any> {
+  addCommunityPoll(communityPollUsertRequest: CommunityPollUpsertRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.AddCommunityPoll`,
       {
-        Question: communityPollAddRequest.Question,
-        ResponseOptions: communityPollAddRequest.ResponseOptions
+        Question: communityPollUsertRequest.Question,
+        ResponseOptions: communityPollUsertRequest.ResponseOptions
       });
   }
 
-  updateCommunityPollStatus(communityPollUpdateStatusRequest: CommunityPollUpdateStatusRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateCommunityPollStatus`,
+  editCommunityPoll(communityPollUsertRequest: CommunityPollUpsertRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.EditCommunityPoll`,
       {
-        CommunityPollId: communityPollUpdateStatusRequest.CommunityPollId,
-        Status: communityPollUpdateStatusRequest.Status
+        CommunityPollId: communityPollUsertRequest.CommunityPollId,
+        Status: communityPollUsertRequest.Status,
+        Question: communityPollUsertRequest.Question,
+        ResponseOptions: communityPollUsertRequest.ResponseOptions
       });
   }
 

@@ -6,4 +6,5 @@ export interface SurveyDataFilterRequest {
     SearchFields: SearchField[];
     Filters: SearchFilter[];
     CurrencyCode: string;
+    ProjectId: number;
   }

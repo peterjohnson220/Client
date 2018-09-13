@@ -3,15 +3,16 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 import * as fromCommunityPollRequestReducer from './community-poll-request.reducer';
-
 import * as fromCommunityPollResponseReducer from './community-poll-response.reducer';
 import * as fromCommunityPostReducer from './community-post.reducer';
+import * as fromCommunityTagReducer from './community-tag.reducer';
 
 // Feature area state
 export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
   communityPollResponse: fromCommunityPollResponseReducer.State;
   communityPost: fromCommunityPostReducer.State;
+  communityTags: fromCommunityTagReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +24,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
   communityPollResponse: fromCommunityPollResponseReducer.reducer,
-  communityPost: fromCommunityPostReducer.reducer
+  communityPost: fromCommunityPostReducer.reducer,
+  communityTags: fromCommunityTagReducer.reducer,
 };
 
 // select feature area
@@ -43,6 +45,11 @@ export const selectFromCommunityPollResponseState  = createSelector(
 export const selectFromCommunityPostState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPost
+);
+
+export const selectFromCommunityTagState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityTags
 );
 
 // Community Poll Selectors
@@ -133,3 +140,47 @@ export const getGettingCommunityPostsError = createSelector(
   fromCommunityPostReducer.getGettingCommunityPostsError
 );
 
+export const getAddingCommunityPostReply = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReply
+);
+export const getAddingCommunityPostReplyError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReplyError
+);
+
+export const getAddingCommunityPostReplySuccess = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityPostReplySuccess
+);
+
+// Community Tag Selectors
+export const getLoadingCommunityPopularTags = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getLoadingCommunityPopularTags
+);
+
+export const getLoadingCommunityPopularTagsSuccess = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getCommunityPopularTags
+);
+
+export const getLoadingCommunityPopularTagsError = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getLoadingCommunityPopularTagsError
+);
+
+export const getSuggestingCommunityTags = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getSuggestingCommunityTags
+);
+
+export const getCommunityTags = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getCommunityTags
+);
+
+export const getSuggestingCommunityTagsError = createSelector(
+  selectFromCommunityTagState,
+  fromCommunityTagReducer.getSuggestingCommunityTagsError
+);

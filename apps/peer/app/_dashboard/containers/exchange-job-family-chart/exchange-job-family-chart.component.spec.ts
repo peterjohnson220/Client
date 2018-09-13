@@ -57,8 +57,8 @@ describe('Peer Dashboard - Job Family Chart', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch a LoadingDetailChart for the job family on seriesClick', () => {
-    const action = new fromExchangeDashboardActions.LoadingDetailChart({
+  it('should dispatch a LoadDetailChart for the job family on seriesClick', () => {
+    const action = new fromExchangeDashboardActions.LoadDetailChart({
       ExchangeId: 1,
       ChartType: ExchangeChartTypeEnum.Family,
       Category: 'Test'

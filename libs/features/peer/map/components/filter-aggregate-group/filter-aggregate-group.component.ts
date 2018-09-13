@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer/aggregate-filters';
+import { FilterAggregateGroup, FilterAggregateItem, ToggleAggregateGroupSelections} from 'libs/models/peer/aggregate-filters';
 
 import { AggregateSelectionInfo } from '../../models';
 
@@ -14,7 +14,7 @@ export class FilterAggregateGroupComponent {
   @Input() aggregateGroup: FilterAggregateGroup;
   @Input() previewLimit: number;
   @Output() aggregateToggled = new EventEmitter<AggregateSelectionInfo>();
-  @Output() clearSelections = new EventEmitter<FilterAggregateGroup>();
+  @Output() aggregateGroupSelectionsToggled = new EventEmitter<ToggleAggregateGroupSelections>();
 
   collapsed: boolean;
   showAllAggregates: boolean;
@@ -37,6 +37,10 @@ export class FilterAggregateGroupComponent {
     return this.aggregateGroup.Aggregates.filter(a => a.Selected).length;
   }
 
+  get allOptionsSelected(): boolean {
+    return this.aggregateGroup.Aggregates.every(option => option.Selected);
+  }
+
   trackById(index: number, filterAggregateItem: FilterAggregateItem): number | string {
     return filterAggregateItem.Id ? filterAggregateItem.Id : filterAggregateItem.Item;
   }
@@ -44,7 +48,18 @@ export class FilterAggregateGroupComponent {
   // Events
   handleResetClicked(e: any) {
     e.stopPropagation();
-    this.clearSelections.emit(this.aggregateGroup);
+    this.aggregateGroupSelectionsToggled.emit({
+      FilterProp: this.aggregateGroup.MetaData.FilterProp,
+      ShouldSelect: false
+    });
+  }
+
+  handleSelectAllChecked(e: any) {
+    e.stopPropagation();
+    this.aggregateGroupSelectionsToggled.emit({
+      FilterProp: this.aggregateGroup.MetaData.FilterProp,
+      ShouldSelect: !this.allOptionsSelected
+    });
   }
 
   handleAggregateSelected(aggregateItem: FilterAggregateItem) {

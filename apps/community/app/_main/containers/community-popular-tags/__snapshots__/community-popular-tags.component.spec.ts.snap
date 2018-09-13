@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
+<pf-community-popular-tags
+  popularTags$={[Function Store]}
+  store={[Function Store]}
+>
+  <div
+    class="mb-3"
+    id="tag-container"
+  >
+    <div
+      id="tag-section-header"
+    >
+      Tags
+    </div>
+    
+  </div>
+</pf-community-popular-tags>
+`;

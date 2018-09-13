@@ -4,7 +4,7 @@
     [sectionDescription]="'Listed in the grid below are jobs that companies have requested be included in this exchange.'"
   >
   </pf-manage-exchange-section-header>
-  <div class="d-flex h-100">
+  <div class="d-flex job-request-grid-container" [ngClass]="(jobRequestInfoOpen$ | async) ? 'collapse-grid' : 'no-collapse'">
     <pf-async-container
       [loading]="exchangeJobRequestsLoading$ | async"
       [loadingError]="exchangeJobRequestsLoadingError$ | async"
@@ -13,20 +13,37 @@
       class="flex-grow-1"
     >
 
-      <kendo-grid
+      <kendo-grid class="row-click-navigates no-wrap-ellipsis-values"
+        [pfKendoScrollTo]="pageRowIndex"
         [data]="exchangeJobRequestsGrid$ | async"
         [scrollable]="true"
+        [selectable]="{
+            mode: 'single'
+          }"
+        (cellClick)="handleCellClick($event)"
       >
 
-        <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
+        <kendo-grid-column field="JobTitle" title="Job Title">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.JobTitle}}">{{dataItem.JobTitle}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
-        <kendo-grid-column field="JobFamily" title="Job Family"></kendo-grid-column>
+        <kendo-grid-column field="JobFamily" title="Job Family">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.JobFamily}}">{{dataItem.JobFamily}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="JobLevel" title="Job Level"></kendo-grid-column>
 
         <kendo-grid-column field="RequestUser" title="Request User"></kendo-grid-column>
 
-        <kendo-grid-column field="RequestCompany" title="Request Company"></kendo-grid-column>
+        <kendo-grid-column field="RequestCompany" title="Request Company">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <span title="{{dataItem.RequestCompany}}">{{dataItem.RequestCompany}}</span>
+          </ng-template>
+        </kendo-grid-column>
 
         <kendo-grid-column field="RequestDate" title="Request Date">
           <ng-template kendoGridCellTemplate let-dataItem>
@@ -48,4 +65,13 @@
     </pf-async-container>
 
   </div>
+  <div *ngIf="jobRequestInfoOpen$ | async" class=" d-flex mt-3 flex-grow-1 job-request-info-container">
+    <pf-exchange-job-request-info
+      [selectedJobRequest]="selectedJobRequest"
+      (closeClicked)="handleCloseRequestInfo()"
+      (approveClicked)="handleApproveJobRequest($event)"
+      (denyClicked)="handleDenyJobRequest($event)">
+    </pf-exchange-job-request-info>
+  </div>
+
 </div>

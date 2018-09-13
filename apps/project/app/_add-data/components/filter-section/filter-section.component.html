@@ -1,6 +1,12 @@
-<div class="filter">
+<div class="filter" [class.singled]="singled">
   <div class="header" (click)="toggle()">
-    {{filter.DisplayName}}
+    <div class="header-left">
+      {{filter.DisplayName}}
+
+      <div class="ml-2" *ngIf="collapsed">
+        <i class="far fa-angle-down"></i>
+      </div>
+    </div>
 
     <div class="header-right">
       <div class="reset-link" *ngIf="selectionCount > 0 || hasText" (click)="handleResetClicked($event, filter.Id)">
@@ -8,16 +14,19 @@
         <ng-container *ngIf="hasText">Clear</ng-container>
       </div>
 
-      <div *ngIf="collapsed">
-        <i class="far fa-angle-down"></i>
-      </div>
-      <div *ngIf="!collapsed">
-        <i class="far fa-angle-up"></i>
+      <div class="search" *ngIf="filter.Type === filterTypes.Multi && !singled && selectableOptionCount >= maxOptions" (click)="handleSearchClicked($event, filter)">
+        <i class="far fa-search"></i>
       </div>
     </div>
 
   </div>
   <div *ngIf="!collapsed">
-    <ng-content></ng-content>
+    <div class="search-filter" *ngIf="singled">
+      <pf-input-debounce (valueChanged)="handleSearchValueChanged($event)"></pf-input-debounce>
+    </div>
+
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
   </div>
 </div>

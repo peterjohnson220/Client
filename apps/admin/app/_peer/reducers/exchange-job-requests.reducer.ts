@@ -10,18 +10,32 @@ import * as fromExchangeJobRequestsActions from '../actions/exchange-job-request
 export interface State extends EntityState<ExchangeJobRequest> {
   loading: boolean;
   loadingError: boolean;
+  approving: boolean;
+  approvingError: boolean;
+  denying: boolean;
+  denyingError: boolean;
+  jobRequestInfoOpen: boolean;
+  selectedJobRequest: ExchangeJobRequest;
+  pageRowIndex: number;
   total: number;
 }
 
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeJobRequest> = createEntityAdapter<ExchangeJobRequest>({
-  selectId: (exchangeJobRequest: ExchangeJobRequest) => exchangeJobRequest.JobTitle
+  selectId: (exchangeJobRequest: ExchangeJobRequest) => exchangeJobRequest.DocumentId
 });
 
 // Initial State
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
+  approving: false,
+  approvingError: false,
+  denying: false,
+  denyingError: false,
+  jobRequestInfoOpen: false,
+  selectedJobRequest: null,
+  pageRowIndex: null,
   total: 0
 });
 
@@ -34,6 +48,7 @@ export function reducer(state, action) {
         case fromExchangeJobRequestsActions.LOAD_EXCHANGE_JOB_REQUESTS: {
           return {
             ...adapter.removeAll(featureState),
+            ...initialState,
             loading: true,
             loadingError: false
           };
@@ -53,6 +68,78 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
+        case fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST: {
+          return {
+            ...featureState,
+            approving: true,
+            approvingError: false,
+            denying: false,
+            denyingError: false
+          };
+        }
+        case fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST_SUCCESS: {
+          return {
+            ...featureState,
+            approving: false,
+            approvingError: false,
+            jobRequestInfoOpen: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
+          };
+        }
+        case fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST_ERROR: {
+          return {
+            ...featureState,
+            approving: false,
+            approvingError: true
+          };
+        }
+        case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST: {
+          return {
+            ...featureState,
+            denying: true,
+            denyingError: false,
+            approving: false,
+            approvingError: false
+          };
+        }
+        case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST_SUCCESS: {
+          return {
+            ...featureState,
+            denying: false,
+            denyingError: false,
+            jobRequestInfoOpen: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
+          };
+        }
+        case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST_ERROR: {
+          return {
+            ...featureState,
+            denying: false,
+            denyingError: true
+          };
+        }
+        case fromExchangeJobRequestsActions.OPEN_JOB_REQUEST_INFO: {
+          return {
+            ...featureState,
+            jobRequestInfoOpen: true,
+            approvingError: false,
+            denyingError: false,
+            selectedJobRequest: featureAction.payload.selectedJobRequest,
+            pageRowIndex: featureAction.payload.pageRowIndex
+          };
+        }
+        case fromExchangeJobRequestsActions.CLOSE_JOB_REQUEST_INFO: {
+          return {
+            ...featureState,
+            jobRequestInfoOpen: false,
+            approvingError: false,
+            denyingError: false,
+            selectedJobRequest: null,
+            pageRowIndex: null
+          };
+        }
         default: {
           return featureState;
         }
@@ -64,3 +151,10 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getApproving = (state: State) => state.approving;
+export const getApprovingError = (state: State) => state.approvingError;
+export const getDenying = (state: State) => state.denying;
+export const getDenyingError = (state: State) => state.denyingError;
+export const getJobRequestInfoOpen = (state: State) => state.jobRequestInfoOpen;
+export const getSelectedJobRequest = (state: State) => state.selectedJobRequest;
+export const getPageRowIndex = (state: State) => state.pageRowIndex;

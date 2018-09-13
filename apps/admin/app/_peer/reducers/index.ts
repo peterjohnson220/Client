@@ -417,6 +417,34 @@ export const getExchangeJobRequestsLoadingError = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getLoadingError
 );
 
+export const getExchangeJobRequestApproving = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getApproving
+);
+
+export const getExchangeJobRequestApprovingError = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getApprovingError
+);
+
+export const getExchangeJobRequestDenying = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getDenying
+);
+
+export const getExchangeJobRequestDenyingError = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getDenyingError
+);
+
+export const getExchangeJobRequestInfoOpen = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getJobRequestInfoOpen
+);
+
+export const getSelectedExchangeJobRequest = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getSelectedJobRequest
+);
+
+export const getExchangeJobRequestPageRowIndex = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getPageRowIndex
+);
+
 export const getTotalExchangeJobRequests = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getTotal
 );

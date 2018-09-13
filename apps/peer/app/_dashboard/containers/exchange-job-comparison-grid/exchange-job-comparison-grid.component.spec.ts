@@ -2,7 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { DataStateChangeEvent, GridDataResult} from '@progress/kendo-angular-grid';
+import {DataStateChangeEvent, GridDataResult, RowArgs, SelectionEvent} from '@progress/kendo-angular-grid';
 import { of } from 'rxjs/observable/of';
 import spyOn = jest.spyOn;
 
@@ -11,6 +11,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum, ExchangeJobComparison, generateMockExchangeJobComparison } from 'libs/models';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
+import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
 import { ExchangeJobComparisonGridComponent } from './exchange-job-comparison-grid.component';
 
@@ -46,6 +47,8 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     const mockJobComparison: ExchangeJobComparison = generateMockExchangeJobComparison();
     const gridDataResult: GridDataResult = {data: [mockJobComparison], total: 1};
     instance.exchangeJobComparisonsGridData$ = of(gridDataResult);
+    instance.selectedKeys = [1];
+    instance.exchangeJobOrgsDetailVisible$ = of(false);
 
     fixture.detectChanges();
   });
@@ -96,6 +99,29 @@ describe('Peer - Exchange Job Comparison Grid', () => {
     expect(actual).toBe(expected);
   });
 
+  it(`should clear selectedKeys when exchangeJobOrgsDetailVisible$ is false`, () => {
+    const expectedKeys = [];
+
+    expect(instance.selectedKeys).toEqual(expectedKeys);
+  });
+
+  it(`should NOT dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are no selections`, () => {
+    const mockSelectionEvent = {...generateMockSelectionEvent(), selectedRows: []};
+
+    instance.onSelectionChange(mockSelectionEvent);
+
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it(`should dispatch a LoadExchangeJobOrgs action when onSelectionChange is triggered and there are selections`, () => {
+    const mockExchangeJobComparison = generateMockExchangeJobComparison();
+    const expectedAction = new fromExchangeDashboardActions.LoadExchangeJobOrgs(mockExchangeJobComparison);
+
+    instance.onSelectionChange(generateMockSelectionEvent());
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
 });
 
 function generateMockDataStateChangeEvent(): DataStateChangeEvent {
@@ -107,5 +133,16 @@ function generateMockDataStateChangeEvent(): DataStateChangeEvent {
     sort: [
       {field: 'CompanyJobTitle', dir: 'desc'}
     ]
+  };
+}
+
+function generateMockSelectionEvent(): SelectionEvent {
+  return {
+    selectedRows: [{dataItem: generateMockExchangeJobComparison()} as RowArgs],
+    deselectedRows: [],
+    ctrlKey: false,
+    index: 0,
+    selected: true,
+    shiftKey: false
   };
 }

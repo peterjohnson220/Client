@@ -17,14 +17,9 @@ export class ExchangeJobMappingService {
     this.exchangeJobMappingsGridState$ = this.store.select(fromPeerMainReducer.getExchangeJobMappingsGridState);
   }
 
-  loadExchangeJobMappings(exchangeId: number): void {
+  loadExchangeJobMappings(): void {
     this.exchangeJobMappingsGridState$.pipe(take(1)).subscribe(gridState => {
-      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings(
-        {
-          exchangeId: exchangeId,
-          listState: gridState
-        }
-      ));
+      this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings());
     });
   }
 }

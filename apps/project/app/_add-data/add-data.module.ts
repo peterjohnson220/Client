@@ -10,10 +10,16 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-         MultiSelectFilterComponent, MatchesDetailsTooltipComponent } from './components';
+         MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent } from './components';
 import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent } from './containers';
-import {AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects, TooltipContainerEffects} from './effects';
+         TooltipContainerComponent, SingleFilterComponent } from './containers';
+import {
+  AddSurveyDataPageEffects,
+  SearchFiltersEffects,
+  SearchResultsEffects,
+  SingledFilterEffects,
+  TooltipContainerEffects
+} from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
@@ -27,7 +33,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects
+      TooltipContainerEffects, SingledFilterEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
@@ -42,10 +48,10 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     // Components
     JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent, MultiSelectFilterComponent,
-    MatchesDetailsTooltipComponent,
+    MatchesDetailsTooltipComponent, FilterHeaderComponent,
 
     // Containers
-    SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent,
+    SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
 
     // Pages
     AddSurveyDataPageComponent

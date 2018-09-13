@@ -1,6 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
+import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
@@ -14,7 +15,8 @@ export interface State extends EntityState<ExchangeScopeItem> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeScopeItem> = createEntityAdapter<ExchangeScopeItem>({
-  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.Id
+  selectId: (exchangeScopeItem: ExchangeScopeItem) => exchangeScopeItem.Id,
+  sortComparer: (a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending)
 });
 
 // Initial State

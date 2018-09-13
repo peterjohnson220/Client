@@ -1,0 +1,17 @@
+.status-label-text {
+  font-size: 1rem;
+}
+
+:host ::ng-deep .k-widget.k-grid tr:hover {
+  outline: 1px solid rgb(54, 136, 190);
+  outline-offset: -2px;
+  box-shadow: 1px 1px 1px lightblue; 
+  background: transparent;
+}
+
+/*:host ::ng-deep .k-widget.k-grid tr {
+  outline: solid lightgrey;
+  outline-width: thin;
+  background: transparent;
+}*/
+

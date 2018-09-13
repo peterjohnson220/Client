@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityStartDiscussionComponent should show community add reply 1`] = `
+<pf-community-post-add-reply
+  addingCommunityPostReply$={[Function Store]}
+  addingCommunityPostReplySuccess$={[Function Store]}
+  addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  communityPostReplyForm={[Function FormGroup]}
+  formBuilder={[Function FormBuilder]}
+  replyMaxLength={[Function Number]}
+  store={[Function Store]}
+>
+  <form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    novalidate=""
+  >
+    <div
+      class="row community-reply-body m-2 pb-1"
+    >
+      <div
+        class="col-10 p-0"
+      >
+        <textarea
+          class="reply-text-area w-100 p-0 ng-untouched ng-pristine ng-invalid"
+          formcontrolname="replyText"
+          id="reply-text"
+          maxlength="2000"
+          ng-reflect-maxlength="2000"
+          ng-reflect-name="replyText"
+          placeholder="Add Reply..."
+        />
+      </div>
+      <div
+        class="col-2 p-0 align-self-end text-right"
+      >
+        <button
+          class="btn-sm community-btn mb-1 mr-1"
+          id="reply"
+          type="button"
+        >
+          <i
+            class="fas fa-reply fa-lg icon"
+          />
+           Reply 
+        </button>
+      </div>
+    </div>
+  </form>
+</pf-community-post-add-reply>
+`;

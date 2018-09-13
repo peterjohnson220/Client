@@ -24,7 +24,7 @@
       [aggregateGroup]="aggregateGroup"
       [previewLimit]="previewLimit$ | async"
       (aggregateToggled)="handleAggregateToggled($event)"
-      (clearSelections)="handleClearGroupSelections($event)">
+      (aggregateGroupSelectionsToggled)="handleAggregateGroupSelectionsToggled($event)">
     </pf-filter-aggregate-group>
   </div>
 

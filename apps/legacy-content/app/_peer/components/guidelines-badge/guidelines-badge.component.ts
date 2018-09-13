@@ -1,44 +1,18 @@
-import { Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import { Component } from '@angular/core';
 
-import { ExchangeStatCompanyMakeup } from 'libs/models';
-
-import { GuidelineLimits } from '../../models';
+import { DojGuidelinesService } from '../../services/doj-guidelines.service';
 
 @Component({
   selector: 'pf-guidelines-badge',
   templateUrl: './guidelines-badge.component.html',
-  styleUrls: ['./guidelines-badge.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./guidelines-badge.component.scss']
 })
 export class GuidelinesBadgeComponent {
-  @Input() companies: ExchangeStatCompanyMakeup[];
-  @Input() guidelineLimits: GuidelineLimits;
-  @Input() validDataCut: boolean;
+  constructor(public guidelinesService: DojGuidelinesService) { }
 
-  get hasMinimumCompanies(): boolean {
-    return this.hasCompaniesAndLimits &&
-      this.companies.length >= this.guidelineLimits.MinCompanies;
+  get dataDominanceMessage(): string {
+    const shouldOrMust = this.guidelinesService.hasNoHardDominatingData ? 'should' : 'must';
+    const percentageSoftOrHard = this.guidelinesService.hasNoHardDominatingData ? '25%' : 'or equal to 50%';
+    return `The results ${shouldOrMust} not contain a company that makes up more than ${percentageSoftOrHard} of the overall data cut`;
   }
-
-  get hasNoDominatingData(): boolean {
-    return this.hasCompaniesAndLimits &&
-      !this.companies.some(c => c.Percentage > this.guidelineLimits.DominatingPercentage);
-  }
-
-  get dominatingCompanies(): any[] {
-    return this.hasCompaniesAndLimits &&
-      this.companies.filter(c => c.Percentage > this.guidelineLimits.DominatingPercentage).map(c => {
-        return {
-          Company: c.Company,
-          Percentage: +(c.Percentage * 100).toFixed(2)
-        };
-      }
-    );
-  }
-
-  get hasCompaniesAndLimits(): boolean {
-    return this.companies && !!this.guidelineLimits;
-  }
-
-  constructor() { }
 }

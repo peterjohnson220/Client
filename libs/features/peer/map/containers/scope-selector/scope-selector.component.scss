@@ -7,6 +7,7 @@
   .selector {
     width: 100%;
     text-align: left;
+    @extend %ellipsis-overflowing-text;
 
     .selection {
       padding-left: .5rem;

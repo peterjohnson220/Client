@@ -12,13 +12,15 @@ $option-count-color: #9a9a9a;
   cursor: pointer;
 }
 
-%reset-link{
-  @extend %uppercase-link;
-  margin-right: .5rem;
-  padding: .05rem .5rem;
-  font-weight: normal;
-
+%filter-action{
+  padding: .1rem .5rem;
   &:hover{
     background: darken(#eaeaea, 5%);
   }
+}
+
+%reset-link{
+  @extend %uppercase-link;
+  @extend %filter-action;
+  font-weight: normal;
 }

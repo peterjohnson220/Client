@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockExchangeJobRequest } from 'libs/models/peer';
 
 import { ExchangeJobRequestsComponent } from './exchange-job-requests.component';
 import * as fromPeerAdminReducer from '../../reducers';
@@ -16,6 +17,8 @@ describe('Exchange Job Requests', () => {
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
+
+  const mockRequest = generateMockExchangeJobRequest();
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -60,6 +63,44 @@ describe('Exchange Job Requests', () => {
     const action = new fromExchangeJobRequestsActions.LoadExchangeJobRequests(routeIdParam);
 
     instance.handleExchangeJobRequestsGridReload();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch an OpenJobRequestInfo action when a cell is clicked', () => {
+    const event = { dataItem: mockRequest, rowIndex: 1};
+    const action = new fromExchangeJobRequestsActions.OpenJobRequestInfo({
+      selectedJobRequest: mockRequest,
+      pageRowIndex: 1
+    });
+
+    instance.handleCellClick(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a CloseJobRequestInfo action when the job request info is closed', () => {
+    const action = new fromExchangeJobRequestsActions.CloseJobRequestInfo();
+
+    instance.handleCloseRequestInfo();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a ApproveExchangeJobRequest action ' +
+    'when handleApproveJobRequest is called', () => {
+    const action = new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(mockRequest);
+
+    instance.handleApproveJobRequest(mockRequest);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a DenyExchangeJobRequest action ' +
+    'when handleDenyJobRequest is called', () => {
+    const action = new fromExchangeJobRequestsActions.DenyExchangeJobRequest(mockRequest);
+
+    instance.handleDenyJobRequest(mockRequest);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

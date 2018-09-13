@@ -2,7 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FilterSectionComponent } from './filter-section.component';
-import { generateMockMultiSelectFilter, generateMockTextFilter, TextFilter } from '../../models';
+import {
+  generateMockMultiSelectFilter,
+  generateMockMultiSelectOption,
+  generateMockTextFilter,
+  MultiSelectFilter,
+  TextFilter
+} from '../../models';
 
 // Host Component for testing transclusion
 @Component({
@@ -47,14 +53,6 @@ describe('Project - Add Data - Filter Section', () => {
 
   it('should show a fa-angle-down icon in the header, when collapsed', () => {
     instance.collapsed = true;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show a fa-angle-up icon in the header, when NOT collapsed', () => {
-    instance.collapsed = false;
 
     fixture.detectChanges();
 
@@ -125,5 +123,15 @@ describe('Project - Add Data - Filter Section', () => {
     instance.filter = <TextFilter>{...generateMockTextFilter(), Value: ''};
 
     expect(instance.hasText).toBe(false);
+  });
+
+  it('should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max', () => {
+    instance.filter = <MultiSelectFilter>{...generateMockMultiSelectFilter(), Options: Array(5).fill(generateMockMultiSelectOption()) };
+    instance.singled = false;
+    instance.maxOptions = 5;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

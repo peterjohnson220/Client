@@ -34,6 +34,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
   loadingMoreResults: boolean;
   hasMoreResultsOnServer: boolean;
+  spinnerType = 'GIF';
 
   constructor(
     private store: Store<fromAddDataReducer.State>

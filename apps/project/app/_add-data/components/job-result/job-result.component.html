@@ -6,14 +6,14 @@
       </span>
     <div class="vendor">
       {{job.Source}}
-      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}}</ng-container>
+      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
     </div>
 
   </td>
   <td class="fixed-cell">{{job.CountryCode}}</td>
   <td class="fixed-cell"></td>
-  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Base50th ? (job.Base50th | number: '1.1-1') : "-"}}</ng-container></td>
-  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.TCC50th ? (job.TCC50th | number: '1.1-1') : "-"}}</ng-container></td>
+  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Base50th ? job.Base50th : "-"}}</ng-container></td>
+  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.TCC50th ? job.TCC50th : "-"}}</ng-container></td>
   <td class="fixed-cell">
     <span *ngIf="!!job.Matches" class="matches"
       (mouseenter)="handleMatchesMouseEnter($event)"
@@ -28,7 +28,7 @@
     {{toggleDataCutsLabel}}
     </span>
     <div *ngIf="job.LoadingDataCuts">
-      <pf-loading-indicator></pf-loading-indicator> Loading Data Cuts...
+      <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
     </div>
     <div *ngIf="showDataCuts && !job.LoadingDataCuts">
       <pf-data-cuts [dataCuts]="job.DataCuts"

@@ -21,7 +21,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
-import { AddCommunityPollModalComponent } from './containers/add-community-poll-modal/add-community-poll-modal.component';
+import { CommunityPollModalComponent } from './containers/community-poll-modal/community-poll-modal.component';
 import { CommunityPollResponseComponent } from './containers/community-poll-response/community-poll-response.component';
 
 // Services
@@ -52,8 +52,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
   declarations: [
       // Components
       CommunityPollsComponent,
-      AddCommunityPollModalComponent,
-      CommunityPollResponseComponent
+      CommunityPollResponseComponent,
+      CommunityPollModalComponent
   ],
   providers: [ CommunityPollAdminApiService ]
 })

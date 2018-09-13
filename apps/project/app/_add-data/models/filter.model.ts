@@ -18,11 +18,11 @@ export interface TextFilter extends Filter {
 export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
   RefreshOptionsFromServer: boolean;
+  OptionCountDisabled?: boolean;
 }
 
 
 export interface MultiSelectOption {
-  Id: string;
   Name: string;
   Value: any;
   Count?: number;
@@ -67,7 +67,6 @@ export function generateMockMultiSelectOption(): MultiSelectOption {
   return {
     Name: 'Option 1',
     Count: 2,
-    Id: '3as0df89asdf',
     Value: 32,
     Selected: true
   };

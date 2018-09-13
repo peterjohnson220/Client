@@ -26,7 +26,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       Code: sj.Job.Code,
       SurveyName: sj.Survey.Title,
       Family: sj.Job.Family,
-      Level: '',
+      Level: sj.Job.Level,
       Source: sj.Survey.Publisher,
       Description: sj.Job.Description,
       IsPayfactors: sj.IsPayfactorsJob,
@@ -41,7 +41,8 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       DataCuts: [],
       IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50th: sj.Job.Base50th,
-      TCC50th: sj.Job.TCC50th
+      TCC50th: sj.Job.TCC50th,
+      EEO: sj.Job.EEO
     };
   });
 }
@@ -80,14 +81,14 @@ export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelect
     Options: mapSearchFilterOptionsToMultiSelectOptions(searchFilter.Options),
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
-    Order: SearchFilterMappingData[searchFilter.Name].Order
+    Order: SearchFilterMappingData[searchFilter.Name].Order,
+    OptionCountDisabled: searchFilter.Name === 'country_code'
   };
 }
 
 export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOption[]): MultiSelectOption[] {
   return sfo.map((o: SearchFilterOption): MultiSelectOption => {
     return {
-      Id: generateGuid(),
       Name: o.Name,
       Value: o.Value,
       Count: o.Count,

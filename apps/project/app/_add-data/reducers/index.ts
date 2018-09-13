@@ -7,13 +7,16 @@ import * as fromRoot from 'libs/state/state';
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchFiltersReducer from './search-filters.reducer';
+import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromTooltipContainerReducer from './tooltip-container.reducer';
+import { isMultiFilter, MultiSelectFilter } from '../models';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
   searchResults: fromSearchResultsReducer.State;
   searchFilters: fromSearchFiltersReducer.State;
+  singledFilter: fromSingledFilterReducer.State;
   tooltipContainer: fromTooltipContainerReducer.State;
 }
 
@@ -27,6 +30,7 @@ export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer,
   searchFilters: fromSearchFiltersReducer.reducer,
+  singledFilter: fromSingledFilterReducer.reducer,
   tooltipContainer: fromTooltipContainerReducer.reducer
 };
 
@@ -49,6 +53,12 @@ export const selectSearchFiltersState = createSelector(
   (state: AddDataState) => state.searchFilters
 );
 
+export const selectSingledFilterState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.singledFilter
+);
+
+
 export const selectTooltipContainerState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.tooltipContainer
@@ -68,6 +78,11 @@ export const getPageShown = createSelector(
 export const getAddingData = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getAddingData
+);
+
+export const getSearchingFilter = createSelector(
+  selectAddSurveyDataPageState,
+  fromAddSurveyDataPageReducer.getSearchingFilter
 );
 
 // Search Results Selectors
@@ -142,4 +157,22 @@ export const getMatchesDetailsTooltipOpen = createSelector(
   fromTooltipContainerReducer.getMatchesDetailsTooltipOpen
 );
 
+// Singled Filter
+export const getSingledFilter = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getFilter
+);
 
+export const getLoadingOptions = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getLoadingOptions
+);
+
+export const getSingledFilterSelectionCount = createSelector(
+  getSingledFilter,
+  getFilters,
+  (singledFilter, filters) => {
+    const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === singledFilter.Id);
+    return backingFilter.Options.filter(o => o.Selected).length;
+  }
+);

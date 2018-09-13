@@ -5,14 +5,14 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
-import { generateMockFilterAggregateGroup,  generateMockFilterAggregateItem} from 'libs/models';
+import { generateMockFilterAggregateGroup,  generateMockFilterAggregateItem, generateMockToggleAggregateGroupSelections,
+         ToggleAggregateGroupSelections } from 'libs/models';
 import * as fromRootState from 'libs/state/state';
 import { FilterSidebarHelper } from 'libs/features/peer/map/helpers';
 
 import * as fromFeaturePeerMapReducer from '../../../map/reducers';
 import { AggregateSelectionInfo } from '../../models';
 import { FilterAggregateGroupComponent } from './filter-aggregate-group.component';
-
 
 describe('Features - Peer - Filter Aggregate Group Component', () => {
   let fixture: ComponentFixture<FilterAggregateGroupComponent>;
@@ -113,22 +113,71 @@ describe('Features - Peer - Filter Aggregate Group Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should emit a clearSelections event when handling Reset Clicked', () => {
-    spyOn(instance.clearSelections, 'emit');
+  it('should emit a aggregateGroupSelectionsToggled with shouldSelect equals false event when handling Reset Clicked', () => {
+    const expectedEmitPayload: ToggleAggregateGroupSelections = {
+      ...generateMockToggleAggregateGroupSelections(),
+      ShouldSelect: false
+    };
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
+
+    spyOn(instance.aggregateGroupSelectionsToggled, 'emit');
 
     instance.handleResetClicked({ stopPropagation: jest.fn()});
 
-    expect(instance.clearSelections.emit).toHaveBeenCalled();
+    expect(instance.aggregateGroupSelectionsToggled.emit).toHaveBeenCalledWith(expectedEmitPayload);
+  });
+
+  it(`should emit a aggregateGroupSelectionsToggled with shouldSelect equals true event when handleSelectAllChecked is called and
+  there are no selections`, () => {
+    const expectedEmitPayload: ToggleAggregateGroupSelections = generateMockToggleAggregateGroupSelections();
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems();
+    spyOn(instance.aggregateGroupSelectionsToggled, 'emit');
+
+    instance.handleSelectAllChecked({ stopPropagation: jest.fn()});
+
+    expect(instance.aggregateGroupSelectionsToggled.emit).toHaveBeenCalledWith(expectedEmitPayload);
+  });
+
+  it(`should emit a aggregateGroupSelectionsToggled with shouldSelect equals false event when handleSelectAllChecked is called
+  and all options are selected`, () => {
+    const expectedEmitPayload: ToggleAggregateGroupSelections = {
+      ...generateMockToggleAggregateGroupSelections(),
+      ShouldSelect: false
+    };
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
+
+    spyOn(instance.aggregateGroupSelectionsToggled, 'emit');
+
+    instance.handleSelectAllChecked({ stopPropagation: jest.fn()});
+
+    expect(instance.aggregateGroupSelectionsToggled.emit).toHaveBeenCalledWith(expectedEmitPayload);
+  });
+
+  it(`should display 'select all' checkbox as checked when all items are selected`, () => {
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should display 'select all' checkbox as un-checked when only some items are selected`, () => {
+    instance.aggregateGroup = buildAggregateGroupWithMultipleItems(true);
+    instance.aggregateGroup.Aggregates.push(generateMockFilterAggregateItem());
+
+    expect(fixture).toMatchSnapshot();
   });
 
 });
 
-function buildAggregateGroupWithMultipleItems() {
+function buildAggregateGroupWithMultipleItems(selectAll = false) {
   const aggGroup = generateMockFilterAggregateGroup();
-
+  const aggItems = [];
   for (let i = 0; i < 10; i++) {
-    aggGroup.Aggregates.push(generateMockFilterAggregateItem());
+    const aggItem = generateMockFilterAggregateItem();
+    aggItem.Selected = selectAll;
+    aggItems.push(aggItem);
   }
+
+  aggGroup.Aggregates = aggItems;
 
   FilterSidebarHelper.buildAggregatesPreview([aggGroup]);
 
