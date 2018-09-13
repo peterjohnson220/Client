@@ -24,7 +24,7 @@ export class LoadingCommunityPopularTagsError implements Action {
 
 export class SuggestingCommunityTags implements Action {
     readonly type = SUGGESTING_COMMUNITY_TAGS;
-    constructor(public payload: string) {}
+    constructor(public payload: {query: string, postId: string}) {}
 }
 
 export class SuggestingCommunityTagsSuccess implements Action {

@@ -1,4 +1,5 @@
 export interface CommunityTag {
   Tag: string;
-  NumberOfUses: string;
+  PostIds: string[];
+  ReplyIds: string[];
 }

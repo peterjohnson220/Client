@@ -16,6 +16,7 @@ import { PfCommonModule } from 'libs/core';
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
+import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { RadialTextCounterComponent } from './components';
@@ -39,6 +40,7 @@ const components = [
   CommunityPostsComponent,
   CommunityPostRepliesComponent,
   CommunityPostHeaderComponent,
+  CommunityTextAreaComponent,
   CommunityStartDiscussionComponent,
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,

@@ -10,31 +10,14 @@
     <div class="start-discussion-body p-2">
         <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
              alt="avatar">
-        <div class="w-100">
-          <div class="textAreaContainer ml-3" #textAreaContainer>     
-              <div #overlayTextArea 
-                class="overlayTextArea pl-2 pr-3"
-                [innerHtml]="discussionTextArea.value | highlightHashTag"></div>
-              <textarea  #discussionTextArea
-                class="discussionTextArea pl-2 pr-3"
-                placeholder="Start a discussion..."
-                maxlength="{{postMaxLength}}"
-                formControlName="postText" 
-                (keydown)="onKeyDown($event)"
-                (keyup)="onKeyUp($event)"
-                spellcheck="false">
-              </textarea>  
-          </div>
-          <div #suggestTagsContainer *ngIf="suggestedTags.length > 0" class="suggested-tags ml-3">     
-              <select
-                formControlName="suggestedTag" 
-                [size]=4
-                (change)="onSuggestedTagChange()">
-                  <option *ngFor="let item of suggestedTags" [ngValue]="item">{{item.Tag}}</option>
-              </select>
-          </div>   
+        <div class="w-100 pl-3">
+          <pf-community-text-area 
+            [parentForm]="communityDiscussionForm"
+            [maxTextLength]="postMaxLength"
+            textPlaceholder="Start a discussion...">
+          </pf-community-text-area>        
           <div class="ml-3 p-0">
-            <div class="float-right"><pf-radial-text-counter [textToCount]="discussionTextArea.value"></pf-radial-text-counter></div>
+            <div class="float-right"><pf-radial-text-counter [textToCount]="text.value"></pf-radial-text-counter></div>
             <span placement="bottom"
                   ngbTooltip="Will be visible to users within your organization">
               <input #isInternal
@@ -44,8 +27,7 @@
                      type="checkbox" />
               <label for="internal-only" class="ml-1">Internal Only</label>
             </span>
-            <button id="start-discussion-post-button" class="btn btn-primary"
-                    [disabled]="communityDiscussionForm.controls['postText'].invalid"
+            <button id="start-discussion-post-button" class="btn btn-primary"                
                     (click)="submitPost()" class="btn btn-primary float-right">Post
               <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
               </pf-loading-indicator></button>

@@ -1,0 +1,24 @@
+<div class="form-group" [formGroup]="parentForm">
+  <div class="textAreaContainer" #textAreaContainer>     
+    <div #overlayTextArea 
+        class="overlayTextArea pl-2 pr-2"
+        [innerHtml]="discussionTextArea.value | highlightHashTag"></div>
+    <textarea  #discussionTextArea
+      class="discussionTextArea pl-2 pr-2"
+      formControlName="text" 
+      maxlength="{{maxlength}}"
+      placeholder="{{textPlaceholder}}"
+      (keydown)="onKeyDown($event)"
+      (keyup)="onKeyUp($event)"
+      spellcheck="false">
+    </textarea> 
+  </div>
+</div>
+<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" class="suggested-tags">
+  <select class="form-control"
+    [size]=4
+    [(ngModel)]="suggestedTag" 
+    (change)="onSuggestedTagChange()">
+      <option *ngFor="let item of suggestedTags" [ngValue]="item">{{item.Tag}}</option>
+  </select>
+</div>
