@@ -14,8 +14,8 @@
     <tr>
       <td></td>
       <td>
-        <select id="view" [(ngModel)]="schedule.View">
-          <option *ngFor="let view of views" [ngValue]="view">{{view}}</option>
+        <select id="view" [(ngModel)]="schedule.ViewId">
+          <option *ngFor="let view of views" [ngValue]="view.Id">{{view.Name}}</option>
         </select>
       </td>
     </tr>

@@ -6,6 +6,7 @@ import { switchMap, map, catchError } from 'rxjs/operators';
 
 import { JobDescriptionManagementApiService } from 'libs/data/payfactors-api';
 import * as fromJdmViewActions from '../actions/view.actions';
+import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 @Injectable()
 export class JdmViewEffects {
@@ -15,7 +16,7 @@ export class JdmViewEffects {
     .ofType(fromJdmViewActions.LOADING_VIEWS).pipe(
       switchMap(() =>
         this.jobdescriptionManagementApiService.getViews().pipe(
-          map((views: string[]) => new fromJdmViewActions.LoadingViewsSuccess({viewNames: views})),
+          map((views: JobDescriptionViewModel[]) => new fromJdmViewActions.LoadingViewsSuccess({views: views})),
           catchError(error => of(new fromJdmViewActions.LoadingViewsError(error)))
         )
       )
