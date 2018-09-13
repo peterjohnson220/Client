@@ -6,10 +6,11 @@ import { environment } from 'environments/environment';
 @Component({
   selector: 'pf-community-post-replies',
   templateUrl: './community-post-replies.component.html',
-  styleUrls: ['./community-post-replies.component.scss']
+  styleUrls: ['./community-post-replies.component.scss'],
 })
-export class CommunityPostsRepliesComponent  {
+export class CommunityPostRepliesComponent {
   @Input() replies: CommunityReply[];
+  @Input() loading: boolean;
   avatarUrl = environment.avatarSource;
   constructor() {}
 }

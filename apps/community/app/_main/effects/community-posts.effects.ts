@@ -65,6 +65,19 @@ export class CommunityPostEffects {
       )
     );
 
+  @Effect()
+  loadingCommunityPostReplies$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST_REPLIES).pipe(
+      switchMap((action: fromCommunityPostActions.GettingCommunityPostReplies) =>
+        this.communityPostService.getReplies(action.payload).pipe(
+          map((response: boolean) => {
+            return new fromCommunityPostActions.GettingCommunityPostRepliesSuccess(response);
+          }),
+          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostRepliesError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private communityPostService: CommunityPostApiService,

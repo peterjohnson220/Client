@@ -154,6 +154,16 @@ export const getAddingCommunityPostReplySuccess = createSelector(
   fromCommunityPostReducer.getAddingCommunityPostReplySuccess
 );
 
+export const getGettingCommunityPostReplies = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getGettingCommunityPostReplies
+);
+
+export const getGettingCommunityPostRepliesError  = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getGettingCommunityPostRepliesError
+);
+
 // Community Tag Selectors
 export const getLoadingCommunityPopularTags = createSelector(
   selectFromCommunityTagState,

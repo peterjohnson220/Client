@@ -1,6 +1,5 @@
 @import 'colors';
 
-
 $reply-avatar-width: 35px;
 $reply-avatar-height: 35px;
 
@@ -11,15 +10,6 @@ $reply-avatar-height: 35px;
 
 .reply-offset {
   margin-left: $reply-avatar-width + 10px;
-}
-
-.community-user-name-text {
-  color: $community-user-name-text-color;
-  font-weight: bold;
-}
-
-.community-sub-text {
-  color: $community-sub-text-color;
 }
 
 .community-btn {
@@ -40,3 +30,6 @@ $reply-avatar-height: 35px;
   color: #FA4646;
 }
 
+.loading-indicator {
+  color:#99A0A4;
+}

@@ -10,6 +10,8 @@ export interface State {
   addingReply: boolean;
   addingReplyError: boolean;
   addingReplySuccess: boolean;
+  loadingReplies: boolean;
+  loadingRepliesError: boolean;
   entities: CommunityPost[];
   submittedPost: CommunityPost;
 }
@@ -22,6 +24,8 @@ export const initialState: State = {
   addingReply: false,
   addingReplyError: false,
   addingReplySuccess: false,
+  loadingReplies: false,
+  loadingRepliesError: false,
   entities: [],
   submittedPost: null
 };
@@ -119,6 +123,7 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         post.Replies = [];
       }
       post.Replies.unshift(action.payload);
+      post.ReplyCount = post.Replies.length;
       return {
         ...state,
         addingReply: false,
@@ -131,6 +136,37 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         ...state,
         addingReply: false,
         addingReplyError: true
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES: {
+      return {
+        ...state,
+        loadingReplies: true,
+        loadingRepliesError: false
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES_SUCCESS: {
+      const resultsCopy = cloneDeep(state.entities);
+      const replies = action.payload;
+      replies.forEach(reply => {
+        const post = resultsCopy.find(t => t.Id === reply.PostId);
+        if (!post.Replies) {
+          post.Replies = [];
+        }
+        post.Replies.push(reply);
+        post.ReplyCount = post.Replies.length;
+      });
+      return {
+        ...state,
+        loadingReplies: false,
+        entities: resultsCopy
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES_ERROR: {
+      return {
+        ...state,
+        loadingReplies: false,
+        loadingRepliesError: true
       };
     }
     default: {
@@ -149,3 +185,6 @@ export const getCommunityPosts = (state: State) => state.entities;
 export const getAddingCommunityPostReply = (state: State) => state.addingReply;
 export const getAddingCommunityPostReplyError = (state: State) => state.addingReplyError;
 export const getAddingCommunityPostReplySuccess = (state: State ) => state.addingReplySuccess;
+
+export const getGettingCommunityPostReplies = (state: State) => state.loadingReplies;
+export const getGettingCommunityPostRepliesError = (state: State) => state.loadingRepliesError;

@@ -18,15 +18,27 @@ export class CommunityPostsComponent implements OnInit {
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
   loadingCommunityPosts$: Observable<boolean>;
-  toggle = {};
+  loadingCommunityPostReplies$: Observable<boolean>;
+  showAddReply = {};
+  showReplies = [];
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPosts);
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
+    this.loadingCommunityPostReplies$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPostReplies);
   }
 
   ngOnInit() {
     this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
+  }
+
+  getReplies(item: number, postId: number) {
+    this.showReplies[item] = !this.showReplies[item];
+    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostReplies( { PostId: postId }));
+  }
+
+  hideReplies(item: number) {
+    this.showReplies[item] = !this.showReplies[item];
   }
 
   updatePostLike(post: any) {
