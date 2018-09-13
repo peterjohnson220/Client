@@ -18,7 +18,9 @@ import { CommunityStartDiscussionComponent } from './containers/community-start-
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
-import { RadialTextCounterComponent, CommunityPostsRepliesComponent } from './components';
+import { RadialTextCounterComponent } from './components';
+import { CommunityPostRepliesComponent } from './components/community-post-replies';
+import { CommunityPostHeaderComponent } from './components/commumity-post-header';
 
 import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
@@ -35,11 +37,12 @@ import { CommunityTagApiService } from 'libs/data/payfactors-api/community/commu
 const components = [
   CommunityDashboardPageComponent,
   CommunityPostsComponent,
+  CommunityPostRepliesComponent,
+  CommunityPostHeaderComponent,
   CommunityStartDiscussionComponent,
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
-  CommunityPostsRepliesComponent,
   CommunityPopularTagsComponent
 ];
 

@@ -55,23 +55,6 @@ $post-avatar-height: 50px;
   color: #FA4646;
 }
 
-.community-user-name-text {
-  color: $community-user-name-text-color;
-  font-weight: bold;
-}
-
-.community-sub-text {
-  color: $community-sub-text-color;
-}
-
-.internal {
-  background-color: #18a2b8;
-  color: white;
-  border-radius: 3px;
-  height: 20px;
-  font-size: .95rem;
-}
-
 .hide {
   display: none;
 }
@@ -92,7 +75,10 @@ $post-avatar-height: 50px;
 a {
   text-decoration: none;
 }
-
+.line {
+  stroke: rgb(153, 160, 164);
+  stroke-width: 2;
+}
 :host ::ng-deep .hashtag-highlight {
   color: rgb(64, 171, 221);
 }

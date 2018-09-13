@@ -3,8 +3,7 @@
     <img id="reply-avatar" class="float-left pf-avatar" [src]="avatarUrl + reply.UserInfo?.AvatarSource"
          alt="avatar">
     <div class="reply-offset">
-      <p class="m-0"><span class="community-user-name-text">{{reply.UserInfo.UserFirstName}} {{reply.UserInfo.UserLastName}}</span>
-        <span class="community-sub-text"> @ {{reply.UserInfo.CompanyName}} | {{reply.Time}}</span></p>
+      <pf-community-post-header [user]="reply.UserInfo" [time]="reply.Time"></pf-community-post-header>
       <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
       <button id="like-reply" type="button" class="btn m-1 p-0"
               [ngClass]="reply.LikeCount > 0 ? 'community-btn-clicked': 'community-btn'">
@@ -13,4 +12,6 @@
       </button>
     </div>
   </ng-container>
+  <pf-loading-indicator  class="loading-indicator reply-offset" *ngIf="loading && replies?.length < 1"></pf-loading-indicator>
+  <div class="reply-offset"  *ngIf="!loading && replies?.length == 0">No Replies</div>
 </div>

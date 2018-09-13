@@ -6,13 +6,14 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
+import { generateMockCommunityUserInfo } from 'libs/models/community/community-user-info.model';
 
-import { CommunityPostRepliesComponent } from './community-post-replies.component';
+import { CommunityPostHeaderComponent } from './community-post-header.component';
 
 
 describe('CommunityPostsComponent', () => {
-  let fixture: ComponentFixture<CommunityPostsRepliesComponent>;
-  let instance: CommunityPostsRepliesComponent;
+  let fixture: ComponentFixture<CommunityPostHeaderComponent>;
+  let instance: CommunityPostHeaderComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -26,7 +27,7 @@ describe('CommunityPostsComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityPostRepliesComponent
+        CommunityPostHeaderComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -36,21 +37,23 @@ describe('CommunityPostsComponent', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(CommunityPostRepliesComponent);
+    fixture = TestBed.createComponent(CommunityPostHeaderComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should show community post replies', () => {
-    instance.loading = false;
-    instance.replies = [];
-    fixture.detectChanges();
+  it('should show community post header', () => {
+      instance.user = generateMockCommunityUserInfo();
+      instance.time = '3 days ago';
+      instance.isInternalOnly = false;
+      fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+      expect(fixture).toMatchSnapshot();
   });
 
-  it('should show community post replies loading indicator', () => {
-    instance.loading = true;
-    instance.replies = [];
+  it('should show internal community post header', () => {
+    instance.user = generateMockCommunityUserInfo();
+    instance.time = '3 days ago';
+    instance.isInternalOnly = true;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

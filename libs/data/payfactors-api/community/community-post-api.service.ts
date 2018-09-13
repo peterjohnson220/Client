@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CommunityPost } from 'libs/models/community';
+import { CommunityPost, CommunityReply } from 'libs/models/community';
 
 @Injectable()
 export class CommunityPostApiService {
@@ -26,5 +26,14 @@ export class CommunityPostApiService {
 
   addReply(payload: any): Observable<boolean> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddReply`, payload);
+  }
+
+  getReplies(payload: any): Observable<any> {
+    return this.payfactorsApiService.get<CommunityReply[]>
+    (`${this.endpoint}/GetReplies`, {
+      params: {
+        PostId: payload.PostId
+      }
+    });
   }
 }
