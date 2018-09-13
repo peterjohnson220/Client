@@ -8,6 +8,7 @@ export interface TilePreviewChartWithCalendarPart {
   CategoryName: string;
   CategoryValue: number;
   SelectedDate: Date;
+  ShouldGetBeforeSelectedDate: boolean;
   ChartData?: { Key: string, Value: number }[];
 }
 
@@ -18,15 +19,15 @@ export function generateMockTilePreviewChartWithCalendarData(categoryName: strin
                                                              detailValue: number = 0): TilePreviewChartWithCalendarData {
   return {
     TileLeftPart: {
-      CategoryName: categoryName, CategoryValue: categoryValue, SelectedDate: selectedDate,
+      CategoryName: categoryName, CategoryValue: categoryValue, ShouldGetBeforeSelectedDate: false, SelectedDate: selectedDate,
       ChartData: [ { Key: detailKey, Value: detailValue } ]
     },
     TileMiddlePart: {
-      CategoryName: categoryName, CategoryValue: categoryValue, SelectedDate: selectedDate,
+      CategoryName: categoryName, CategoryValue: categoryValue, ShouldGetBeforeSelectedDate: false, SelectedDate: selectedDate,
       ChartData: [ { Key: detailKey, Value: detailValue } ]
     },
     TileRightPart: {
-      CategoryName: categoryName, CategoryValue: categoryValue, SelectedDate: selectedDate,
+      CategoryName: categoryName, CategoryValue: categoryValue, ShouldGetBeforeSelectedDate: false, SelectedDate: selectedDate,
       ChartData: [ { Key: detailKey, Value: detailValue } ]
     }
   };

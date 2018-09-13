@@ -12,9 +12,13 @@
    <span class="tile-text-large">
       {{model.ComponentData.TileMiddlePart.CategoryValue}}
     </span>
-    <span class="tile-text mb-2">
+    <span class="tile-text mb-0">
      {{model.ComponentData.TileMiddlePart.CategoryName}}
     </span>
+    <div id="date-setting-container" class="mt-0 mb-1">
+      <button id="btnBeforeEffectiveDate" class="m-0 pl-1 pr-1"  [ngClass]="shouldGetPricingsBeforeEffectiveDate ? 'toggle-setting-on' : 'toggle-setting-off'" (click)="setShouldGetPricingsBeforeEffectiveDate(true)">before</button>
+      <button id="btnAfterEffectiveDate" class="m-0 pl-1 pr-1"  [ngClass]="!shouldGetPricingsBeforeEffectiveDate ? 'toggle-setting-on' : 'toggle-setting-off'" (click)="setShouldGetPricingsBeforeEffectiveDate(false)">after</button>
+    </div>
     <kendo-datepicker [(value)]="selectedDate" (valueChange)="datePickerValueChanged()"
                       [format]="'MM/dd/yyyy'" onkeydown="return false;">
     </kendo-datepicker>

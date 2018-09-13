@@ -27,6 +27,7 @@
 
 .middle-tile-area {
   @extend %tile-area;
+  flex-basis: 100px;
 }
 
 .right-tile-area {
@@ -87,7 +88,7 @@ kendo-chart {
   }
 
   .hidden-tile-area {
-    display: block;
+   display: block;
   }
 
   .tile-text-large {
@@ -98,4 +99,47 @@ kendo-chart {
     visibility: hidden;
   }
 
+  .toggle-setting-on
+  {
+    background-color: #347290 !important;
+    border: solid 1px #347290 !important;
+  }
+
+  .toggle-setting-off
+  {
+    border: solid 1px #347290 !important;
+  }
 }
+
+.toggle-setting-on
+{
+  z-index: 2;
+  background-color: #6095B1;
+  color: white;
+  position: relative;
+  cursor:pointer;
+  border: solid 1px #6095B1;
+}
+
+.toggle-setting-off
+{
+  z-index: 2;
+  background: transparent;
+  color: #515151;
+  position: relative;
+  cursor:pointer;
+  border: solid 1px #6095B1;
+}
+
+#btnBeforeEffectiveDate
+{
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+#btnAfterEffectiveDate
+{
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
