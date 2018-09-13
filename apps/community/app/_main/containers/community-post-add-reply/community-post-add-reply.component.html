@@ -1,7 +1,7 @@
 <form [formGroup]="communityPostReplyForm">
   <pf-community-text-area class="reply-text-area"
     [parentForm]="communityPostReplyForm"
-    maxTextLength="replyMaxLength"
+    [maxTextLength]="replyMaxLength"
     textPlaceholder="Add Reply..."
     [postId]="postId">
   </pf-community-text-area>    

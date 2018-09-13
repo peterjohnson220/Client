@@ -51,7 +51,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
           class="w-100 pl-3"
         >
           <pf-community-text-area
-            maxtextlength="postMaxLength"
             textplaceholder="Start a discussion..."
           />
           <div
