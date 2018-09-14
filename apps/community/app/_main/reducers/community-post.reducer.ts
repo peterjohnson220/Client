@@ -157,7 +157,7 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         }
         const exists = post.Replies.find(o => isEqual(o, reply));
 
-        if (!exists){
+        if (!exists) {
           post.Replies.push(reply);
         }
         post.ReplyCount = post.Replies.length;

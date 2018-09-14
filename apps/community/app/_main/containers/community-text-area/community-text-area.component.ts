@@ -20,7 +20,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   suggestedTags: CommunityTag[] = [];
   activeTag: string;
-  suggestedTag: CommunityTag;
   suggestTagsContainerVisible = true;
 
   suggestedCommunityTags$: Observable<CommunityTag[]>;
@@ -32,6 +31,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   suggestedCommunityTagsPostIdSubscription: Subscription;
   submittingCommunityPostSuccessSubscription: Subscription;
   addingCommunityPostReplySuccessSubscription: Subscription;
+  textValueChangesSubscription: Subscription;
 
   @Input() public parentForm: FormGroup;
   @Input() public maxTextLength: number;
@@ -62,7 +62,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.suggestedCommunityTagsSubscription = this.suggestedCommunityTags$.subscribe((data) => {
-      this.suggestedTags = data;
+      this.mapToCommunityTags(data);
     });
 
     this.suggestedCommunityTagsPostIdSubscription = this.suggestedCommunityTagsPostId$.subscribe((data) => {
@@ -77,6 +77,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     this.addingCommunityPostReplySuccessSubscription = this.addingCommunityPostReplySuccess$.subscribe((response) => {
       if (response) {this.suggestedTags = []; }
     });
+
+    this.textValueChangesSubscription = this.text.valueChanges.subscribe(values => {
+      this.autogrow();
+    });
   }
 
   ngOnDestroy() {
@@ -84,21 +88,28 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     this.suggestedCommunityTagsSubscription.unsubscribe();
     this.submittingCommunityPostSuccessSubscription.unsubscribe();
     this.addingCommunityPostReplySuccessSubscription.unsubscribe();
-  }
-
-  onKeyDown(e) {
-    this.autogrow();
+    this.textValueChangesSubscription.unsubscribe();
   }
 
   onKeyUp(e) {
-    this.autogrow();
     this.updateTagSuggestions(e.target.selectionStart);
   }
 
-  onSuggestedTagChange() {
-    this.suggestTagsContainer.nativeElement.hidden = true;
+  onKeyDown(event) {
+    if (this.suggestedTags.length > 0 && this.suggestTagsContainerVisible) {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.suggestedTagsSelectionMoveUp();
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.suggestedTagsSelectionMoveDown();
+      }
+    }
+  }
+
+  onSuggestedTagChange(tag: CommunityTag) {
     const regExp = new RegExp('\\' + this.activeTag + '\\b');
-    const textWitheNewTags =  this.text.value.replace(regExp, this.suggestedTag.Tag);
+    const textWitheNewTags =  this.text.value.replace(regExp, tag);
     this.text.setValue(textWitheNewTags);
 
     this.suggestedTags = [];
@@ -136,5 +147,43 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       this.textAreaContainer.nativeElement.style.height = 0;
       this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
     }
+  }
+
+  private suggestedTagsSelectionMoveUp() {
+    let focusedTagIndex = this.suggestedTags.findIndex(x => x.IsSuggested === true);
+
+    if (focusedTagIndex <= 0) {
+      focusedTagIndex = this.suggestedTags.length - 1;
+    } else {
+      focusedTagIndex -= 1;
+    }
+
+    this.suggestedTags.forEach(element => { element.IsSuggested = false; });
+    this.suggestedTags[focusedTagIndex].IsSuggested = true;
+  }
+
+  private suggestedTagsSelectionMoveDown() {
+    let focusedTagIndex = this.suggestedTags.findIndex(x => x.IsSuggested === true);
+
+    if (focusedTagIndex < 0 || focusedTagIndex >= this.suggestedTags.length - 1) {
+      focusedTagIndex = 0;
+    } else {
+      focusedTagIndex += 1;
+    }
+
+    this.suggestedTags.forEach(element => { element.IsSuggested = false; });
+    this.suggestedTags[focusedTagIndex].IsSuggested = true;
+  }
+
+  private mapToCommunityTags(data: CommunityTag[]) {
+    this.suggestedTags = [];
+    data.forEach(tag => {
+      this.suggestedTags.push({
+        Tag: tag.Tag,
+        PostIds: tag.PostIds,
+        ReplyIds: tag.ReplyIds,
+        IsSuggested: false
+      });
+    });
   }
 }
