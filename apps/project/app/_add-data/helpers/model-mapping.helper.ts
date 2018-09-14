@@ -100,7 +100,7 @@ export function mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiS
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
     Order: SearchFilterMappingData[searchFilter.Name].Order,
-    OptionCountDisabled: searchFilter.Name === 'country_code'
+    OptionCountDisabled: searchFilter.Name === 'country_codes'
   };
 }
 
