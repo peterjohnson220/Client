@@ -8,13 +8,25 @@ tr:hover{
   background-color: $add-data-hover-background;
   cursor: pointer;
 }
+
+.job-cuts-table{
+  width: 100%;
+  margin: .5rem 0;
+}
+
 .selected-data-cut{
   background-color: $add-data-selected-background;
 }
+
 .data-cut-title{
   width: 422px;
 }
 
 .data-cut-matched {
   background-color: #f2f2f2;
+}
+
+.no-data-cuts-message{
+  width: 100%;
+  padding: 1rem 0;
 }
