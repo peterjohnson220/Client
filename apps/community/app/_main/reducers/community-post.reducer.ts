@@ -1,4 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
+import * as isEqual from 'lodash.isequal';
+
 import { CommunityPost } from 'libs/models/community';
 import * as communityPostActions from '../actions/community-post.actions';
 
@@ -153,7 +155,11 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         if (!post.Replies) {
           post.Replies = [];
         }
-        post.Replies.push(reply);
+        const exists = post.Replies.find(o => isEqual(o, reply));
+
+        if (!exists){
+          post.Replies.push(reply);
+        }
         post.ReplyCount = post.Replies.length;
       });
       return {
