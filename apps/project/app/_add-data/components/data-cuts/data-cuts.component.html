@@ -1,16 +1,24 @@
-<table class="job-cuts-table">
-  <tr *ngFor="let dataCut of dataCuts" (click)="toggleCutSelection(dataCut)" [ngClass]="setDataCutClasses(dataCut)">
-    <td class="data-cut-title">{{dataCut.Title}}</td>
-    <td class="fixed-cell">{{dataCut.Country}}</td>
-    <td class="fixed-cell">{{dataCut.Weight}}</td>
-    <td class="fixed-cell">{{dataCut.Base50th ? dataCut.Base50th : "-"}}</td>
-    <td class="fixed-cell">{{dataCut.TCC50th ? dataCut.TCC50th : "-"}}</td>
-    <td class="fixed-cell">
-      <span *ngIf="dataCut.Matches" class="matches"
-      (mouseenter)="handleMatchesMouseEnter($event, dataCut)"
-      (mouseleave)="handleMatchesMouseLeave($event)">
-      {{dataCut.Matches}}
-    </span>
-    </td>
-  </tr>
-</table>
+<ng-container *ngIf="dataCuts.length;else noDataCuts">
+  <table class="job-cuts-table">
+      <tr *ngFor="let dataCut of dataCuts" (click)="toggleCutSelection(dataCut)" [ngClass]="setDataCutClasses(dataCut)">
+        <td class="data-cut-title">{{dataCut.Title}}</td>
+        <td class="fixed-cell">{{dataCut.Country}}</td>
+        <td class="fixed-cell">{{dataCut.Weight}}</td>
+        <td class="fixed-cell">{{dataCut.Base50th ? dataCut.Base50th : "-"}}</td>
+        <td class="fixed-cell">{{dataCut.TCC50th ? dataCut.TCC50th : "-"}}</td>
+        <td class="fixed-cell">
+        <span *ngIf="dataCut.Matches" class="matches"
+              (mouseenter)="handleMatchesMouseEnter($event, dataCut)"
+              (mouseleave)="handleMatchesMouseLeave($event)">
+        {{dataCut.Matches}}
+      </span>
+        </td>
+      </tr>
+  </table>
+</ng-container>
+
+<ng-template #noDataCuts>
+  <div class="no-data-cuts-message">
+    No data cuts available. Please adjust your filters.
+  </div>
+</ng-template>
