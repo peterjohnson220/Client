@@ -9,6 +9,7 @@ import * as fromCommunityPollActions from '../../actions/community-poll.actions'
 import * as fromCommunityPollReducer from '../../reducers';
 
 import { CommunityPollModalComponent } from './community-poll-modal.component';
+import { CommunityPollUpsertRequest } from '../../../../../../libs/models/community/community-poll-upsert-request.model';
 
 describe('CommunityPollModalComponent', () => {
   let fixture: ComponentFixture<CommunityPollModalComponent>;
@@ -61,12 +62,68 @@ describe('CommunityPollModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should dispatch fromCommunityPollActions.EditingCommunityPoll when calling handleFormSubmit with isEditMode equal to true', () => {
+
+    instance.isEditMode = true;
+    instance.question.setValue('test');
+    instance.communityPollId.setValue('1');
+
+    instance.handleFormSubmit();
+
+    const communityPollEditRequest: CommunityPollUpsertRequest = {
+      CommunityPollId: '1',
+      Question: 'test',
+      ResponseOptions: [],
+      Status: 0
+    };
+
+    const action = new fromCommunityPollActions.EditingCommunityPoll(communityPollEditRequest);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch fromCommunityPollActions.AddingCommunityPoll when calling handleFormSubmit with isEditMode equal to false', () => {
+
+    instance.isEditMode = false;
+    instance.question.setValue('test');
+    instance.communityPollId.setValue('1');
+
+    fixture.detectChanges();
+    instance.handleFormSubmit();
+
+    const communityPollEditRequest: CommunityPollUpsertRequest = {
+      CommunityPollId: '1',
+      Question: 'test',
+      ResponseOptions: [],
+      Status: 0
+    };
+
+    const action = new fromCommunityPollActions.AddingCommunityPoll(communityPollEditRequest);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
   it('should dispatch an CloseAddCommunityPollModal action when handleModalDismissed is called', () => {
     const action = new fromCommunityPollActions.CloseCommunityPollModal();
 
     instance.handleModalDismissed();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it ('should call responses.push when calling addResponseOption', () => {
+    spyOn(instance.responses, 'push');
+
+    instance.addResponseOption();
+    expect(instance.responses.push).toHaveBeenCalled();
+  });
+
+  it ('should return correct text when calling getTitle with editMode true', () => {
+    instance.isEditMode = true;
+    expect(instance.getTitle()).toEqual('Edit Poll');
+  });
+
+  it ('should return correct text when calling getTitle with editMode false', () => {
+    instance.isEditMode = false;
+    expect(instance.getTitle()).toEqual('New Poll');
   });
 
 });

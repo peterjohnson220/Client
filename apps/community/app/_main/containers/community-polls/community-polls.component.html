@@ -4,7 +4,7 @@
   </div>
   <div class="card-body">
     <ngb-carousel [interval]="0"
-                  (slide)="onCarouselSlideChange($event)">
+                  (slide)="onCarouselSlideChange()">
       <ng-container *ngFor="let request of communityPollRequests$ | async;">
         <ng-template ngbSlide>
 

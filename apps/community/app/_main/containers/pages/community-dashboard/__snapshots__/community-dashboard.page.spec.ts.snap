@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityDashboardPageComponent should show community dashboard page 1`] = `
+<pf-community-dashboard-page>
+  <pf-page-with-title-bar>
+    
+     Community 
+    
+    <div
+      class="container-fluid community-container"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-3"
+        >
+          <pf-community-popular-tags />
+          <iframe
+            allowfullscreen=""
+            height="340"
+            id="podcastFrame"
+            mozallowfullscreen=""
+            msallowfullscreen=""
+            oallowfullscreen=""
+            scrolling="no"
+            src="//html5-player.libsyn.com/embed/destination/id/619888/height/340/theme/custom/autonext/no/autoplay/no/thumbnail/yes/preload/no/no_addthis/no/direction/backward/no-cache/true/render-playlist/yes/custom-color/000000/"
+            webkitallowfullscreen=""
+            width="100%"
+          />
+        </div>
+        <div
+          class="col-6"
+        >
+          <pf-community-start-discussion />
+          <pf-community-posts />
+        </div>
+        <div
+          class="col-3"
+        >
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            >
+              <pf-community-polls />
+            </div>
+          </div>
+          <div
+            class="row"
+          >
+            <div
+              class="col"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-community-dashboard-page>
+`;
