@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, mergeMap, switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, map, withLatestFrom, tap } from 'rxjs/operators';
 
 import { PayMarketApiService, ExchangeDataSearchApiService } from 'libs/data/payfactors-api';
-import { ExchangeDataSearchFilter, FilterAggregateGroup } from 'libs/models/peer';
+import { FilterAggregateGroup, SystemFilter, ExchangeScopeItem } from 'libs/models/peer';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerMapReducers from '../reducers';
-import { SystemFilter, ExchangeScopeItem } from '../../../../models/peer';
 
 @Injectable()
 export class FilterSidebarEffects {
   @Effect()
-  loadingSystemFilter$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER).pipe(
+  loadingSystemFilter$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER),
       map((action: fromFilterSidebarActions.LoadSystemFilter) => action.payload),
       switchMap(payload =>
         this.exchangeDataSearchApiService.getSystemFilter(payload).pipe(
@@ -29,15 +28,15 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  loadingSystemFilterSuccess$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS).pipe(
+  loadingSystemFilterSuccess$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS),
       map((action: fromFilterSidebarActions.LoadSystemFilterSuccess) => action.payload),
       switchMap(() => of(new fromPeerMapActions.LoadPeerMapData()))
     );
 
   @Effect()
-  loadPayMarketInformation$ = this.actions$
-    .ofType(fromFilterSidebarActions.LOAD_PAYMARKET_INFORMATION).pipe(
+  loadPayMarketInformation$ = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.LOAD_PAYMARKET_INFORMATION),
       map((action: fromFilterSidebarActions.LoadPayMarketInformation) => action.payload),
       switchMap((payload) => {
         return this.payMarketApiService.get(payload).pipe(
@@ -47,11 +46,11 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  loadFilterAggregates$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES).pipe(
+  loadFilterAggregates$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES),
       map((action: fromFilterSidebarActions.LoadFilterAggregates) => action.payload),
       withLatestFrom(
-        this.peerMapStore.select(fromPeerMapReducers.getExchangeDataCutRequestData),
+        this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
         (action, exchangeDataCutRequestData) => {
           return {action, exchangeDataCutRequestData};
         }
@@ -68,8 +67,8 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  aggregateSelected$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED).pipe(
+  aggregateSelected$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
         new fromFilterSidebarActions.LoadFilterAggregates(false)
@@ -77,12 +76,13 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  limitToPayMarketToggled$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET).pipe(
+  limitToPayMarketToggled$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET),
       withLatestFrom(
-        this.peerMapStore.select(fromPeerMapReducers.getPeerFilterScopeSelection),
+        this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerFilterScopeSelection)),
         (action, scopeSelection: ExchangeScopeItem) => !!scopeSelection
       ),
+      tap(() => this.peerMapStore.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
       mergeMap((scopeSelected: boolean) => {
         let obs;
         // Only clear selections on paymarket toggle if a scope is not selected
@@ -100,8 +100,8 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  clearAllSelections$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS).pipe(
+  clearAllSelections$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData(),
         new fromFilterSidebarActions.LoadFilterAggregates()
@@ -109,8 +109,8 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  clearGroupSelections$: Observable<Action> = this.actions$
-    .ofType(fromFilterSidebarActions.TOGGLE_GROUP_SELECTIONS).pipe(
+  clearGroupSelections$: Observable<Action> = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.TOGGLE_GROUP_SELECTIONS),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
         new fromFilterSidebarActions.LoadFilterAggregates()

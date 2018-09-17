@@ -12,6 +12,7 @@ export const RESET_STATE = '[Features/Peer/Map] Reset State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/Map] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/Map] Apply Scope Criteria';
 export const APPLY_SCOPE_CRITERIA_SUCCESS = '[Features/Peer/Map] Apply Scope Criteria Success';
+export const CLEAR_MAP_FILTER_BOUNDS = '[Features/Peer/Map] Clear Map Filter Bounds';
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -65,6 +66,10 @@ export class ApplyScopeCriteriaSuccess implements Action {
   readonly type = APPLY_SCOPE_CRITERIA_SUCCESS;
 }
 
+export class ClearMapFilterBounds implements Action {
+  readonly type = CLEAR_MAP_FILTER_BOUNDS;
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -75,4 +80,5 @@ export type Actions
   | ResetState
   | ApplyCutCriteria
   | ApplyScopeCriteria
-  | ApplyScopeCriteriaSuccess;
+  | ApplyScopeCriteriaSuccess
+  | ClearMapFilterBounds;
