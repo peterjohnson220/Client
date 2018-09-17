@@ -8,17 +8,21 @@
       formControlName="text" 
       maxlength="{{maxTextLength}}"
       placeholder="{{textPlaceholder}}"
-      (keydown)="onKeyDown($event)"
+      (keydown)="onKeyDown($event)"  
       (keyup)="onKeyUp($event)"
       spellcheck="false">
     </textarea> 
   </div>
 </div>
-<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" class="suggested-tags">
-  <select class="form-control"
-    [size]=4
-    [(ngModel)]="suggestedTag" 
-    (change)="onSuggestedTagChange()">
-      <option *ngFor="let item of suggestedTags" [ngValue]="item">{{item.Tag}}</option>
-  </select>
+<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" 
+  class="list-group suggested-tags"
+  (keydown)="onKeyDown($event)">    
+  <button *ngFor="let item of suggestedTags" 
+      class="list-group-item justify-content-between pb-1"
+      [pfFocus]="item.IsSuggested"
+      (click)="onSuggestedTagChange(item.Tag)">
+      <h6>{{item.Tag}}
+        <small >({{item.PostIds.length + item.ReplyIds.length}} posts)</small>
+      </h6>
+    </button>
 </div>

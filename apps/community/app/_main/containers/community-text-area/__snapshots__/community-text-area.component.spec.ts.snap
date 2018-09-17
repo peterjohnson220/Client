@@ -19,6 +19,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   suggestedCommunityTagsSubscription={[Function Subscriber]}
   suggestedTags={[Function Array]}
   textAreaContainer={[Function ElementRef]}
+  textValueChangesSubscription={[Function Subscriber]}
 >
   <div
     class="form-group ng-untouched ng-pristine ng-valid"

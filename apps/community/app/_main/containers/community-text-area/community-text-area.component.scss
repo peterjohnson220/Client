@@ -31,22 +31,19 @@ $hashtag-color:  rgb(64, 171, 221);
     position: absolute;
     min-width: 100px;
     z-index: 999;
-  }
-  
-  .suggested-tags select {
-    width: 100%;
     overflow: hidden;
-    border: solid 1px $hashtag-color;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
   }
-  
-  .suggested-tags option {
-    font-weight: bold;
-    font-size: 14px;
-    color: rgb(73, 73, 73);
+
+  button:hover {
+    outline: solid 1px $hashtag-color;
+    outline-offset: -2px;
   }
-  
+
+  button:focus {
+    outline: solid 2px $hashtag-color;
+    outline-offset: -2px;
+  }
+
   :host ::ng-deep .hashtag-highlight{
     color: $hashtag-color;
   }

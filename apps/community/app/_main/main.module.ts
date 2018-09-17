@@ -12,6 +12,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 import { PfCommonModule } from 'libs/core';
+import { PfFormsModule } from 'libs/forms';
 
 import { CommunityPostsComponent } from './containers/community-posts/community-posts.component';
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
@@ -71,7 +72,8 @@ const components = [
 
     // Payfactors
     PfCommonModule,
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: components,
   providers: [
