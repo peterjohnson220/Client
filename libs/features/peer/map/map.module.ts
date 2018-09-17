@@ -17,9 +17,8 @@ import {
   PayMarketFilterInfoComponent
 } from './components';
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
-import { FilterSidebarEffects, MapEffects } from './effects';
+import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
 import { reducers } from './reducers';
-import {ExchangeScopeEffects} from './effects/exchange-scope.effects';
 
 const declarations = [
   // Components
