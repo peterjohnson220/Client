@@ -37,9 +37,9 @@ export const SearchFilterMappingData = {
     DisplayName: 'Job Level',
     Order: 5
   },
-  'weighting_type': {
+  'weighting_types': {
     Type: FilterType.Multi,
-    BackingField: 'weighting_type',
+    BackingField: 'weighting_types',
     DisplayName: 'Weighting',
     Order: 10
   },
