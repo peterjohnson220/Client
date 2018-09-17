@@ -6,7 +6,8 @@
       <pf-community-post-header [user]="reply.UserInfo" [time]="reply.Time"></pf-community-post-header>
       <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
       <button id="like-reply" type="button" class="btn m-1 p-0"
-              [ngClass]="reply.LikeCount > 0 ? 'community-btn-clicked': 'community-btn'">
+              [ngClass]="reply.LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
+              (click)="updateReplyLike(reply)">
         <i class="fa-heart icon" [ngClass]="reply.LikedByCurrentUser ? 'fas' : 'far'"></i>
         <span> {{reply.LikeCount > 0 ? reply.LikeCount : ''}} {{reply.LikeCount > 1 ? 'Likes' : 'Like'}}</span>
       </button>
