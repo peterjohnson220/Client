@@ -12,6 +12,10 @@ import * as fromFeaturePeerMapReducer from '../../../map/reducers';
 import { generateMockAggregateSelectionInfo } from '../../models';
 import { FilterSidebarComponent } from './filter-sidebar.component';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Features - Peer - Filter Sidebar Component', () => {
   let fixture: ComponentFixture<FilterSidebarComponent>;
   let instance: FilterSidebarComponent;

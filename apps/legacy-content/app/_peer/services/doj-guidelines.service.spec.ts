@@ -9,6 +9,10 @@ import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   let service: DojGuidelinesService;
   let store: Store<fromRootState.State>;
