@@ -74,6 +74,7 @@ describe('CommunityLikeComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+  
   it('should dispatch UpdatingCommunityPostReplyLike when calling updateLike and ReplyId != undefined', () => {
     const likedByCurrentUser = true;
 

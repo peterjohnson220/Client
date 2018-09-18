@@ -7,7 +7,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 
-import { HighlightHashTagPipe } from 'libs/core';
+import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
 
 import { CommunityTextAreaComponent } from './community-text-area.component';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
@@ -35,7 +35,8 @@ describe('CommunityTextAreaComponent', () => {
       ],
       declarations: [
         CommunityTextAreaComponent,
-        HighlightHashTagPipe
+        HighlightHashTagPipe,
+        FormatLinkUrlPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

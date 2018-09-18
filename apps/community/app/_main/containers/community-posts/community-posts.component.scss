@@ -42,3 +42,29 @@ a {
 :host ::ng-deep .hashtag-highlight {
   color: rgb(64, 171, 221);
 }
+
+:host ::ng-deep .link-url {
+  color: rgb(64, 171, 221);
+  text-decoration: underline;
+}
+
+:host ::ng-deep .url-preview-card
+{
+  border: 1px solid $border-grey;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .url-preview-card-image-container
+{
+  float:left;
+  border-right: 1px solid $border-grey;
+}
+
+:host ::ng-deep .url-preview-card-image
+{
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+  color: #FA4646;
+}

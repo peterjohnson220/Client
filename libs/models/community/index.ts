@@ -8,3 +8,4 @@ export * from './community-post.model';
 export * from './community-reply.model';
 export * from './community-tag.model';
 export * from './community-user-info.model';
+export * from './community-url-preview-data.model';
