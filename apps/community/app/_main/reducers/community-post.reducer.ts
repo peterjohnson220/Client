@@ -175,6 +175,33 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         loadingRepliesError: true
       };
     }
+    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_SUCCESS: {
+      const postId = action.payload['postId'];
+      const replyId = action.payload['replyId'];
+      const like = action.payload['like'];
+
+      const resultsCopy = cloneDeep(state.entities);
+      const post = resultsCopy.find(p => p.Id === postId);
+
+      if (post) {
+        post.Replies.forEach(reply => {
+          if (reply.Id === replyId) {
+            reply.LikeCount = like ? reply.LikeCount + 1 : reply.LikeCount - 1;
+            reply.LikedByCurrentUser = like;
+          }
+        });
+      }
+      return {
+        ...state,
+        entities: resultsCopy
+      };
+    }
+    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
     default: {
       return state;
     }

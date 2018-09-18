@@ -1,6 +1,7 @@
 import { CommunityUserInfo, generateMockCommunityUserInfo } from './community-user-info.model';
 
 export interface CommunityReply {
+  Id: string;
   PostId: string;
   UserInfo: CommunityUserInfo;
   ReplyText: string;
@@ -10,6 +11,7 @@ export interface CommunityReply {
 
 export function generateMockCommunityReply(): CommunityReply {
   return {
+    Id: '1234',
     PostId: '12345',
     UserInfo: generateMockCommunityUserInfo(),
     ReplyText:  'Reply Text',

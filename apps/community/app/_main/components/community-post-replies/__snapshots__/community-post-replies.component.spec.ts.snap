@@ -5,6 +5,7 @@ exports[`CommunityPostsComponent should show community post replies 1`] = `
   avatarUrl={[Function String]}
   loading="false"
   replies={[Function Array]}
+  store={[Function Store]}
 >
   <div
     class="mt-2"
@@ -26,6 +27,7 @@ exports[`CommunityPostsComponent should show community post replies loading indi
   avatarUrl={[Function String]}
   loading={[Function Boolean]}
   replies={[Function Array]}
+  store={[Function Store]}
 >
   <div
     class="mt-2"

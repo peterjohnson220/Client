@@ -20,6 +20,10 @@ export const GETTING_COMMUNITY_POST_REPLIES = '[Community/Post Replies] Get Comm
 export const GETTING_COMMUNITY_POST_REPLIES_SUCCESS = '[Community/Post Replies] Get Community Post Replies Success';
 export const GETTING_COMMUNITY_POST_REPLIES_ERROR = '[Community/Post Replies] Get Community Post Replies Error';
 
+export const UPDATING_COMMUNITY_POST_REPLY_LIKE = '[Community/Post Replies] Updating Community Post Reply Like';
+export const UPDATING_COMMUNITY_POST_REPLY_LIKE_SUCCESS = '[Community/Post Replies] Updating Community Post Reply Like Success';
+export const UPDATING_COMMUNITY_POST_REPLY_LIKE_ERROR = '[Community/Post Replies] Updating Community Post Reply Like Error';
+
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
   constructor(public payload: any) {}
@@ -88,6 +92,21 @@ export class GettingCommunityPostRepliesSuccess implements Action {
 export class GettingCommunityPostRepliesError implements Action {
   readonly type = GETTING_COMMUNITY_POST_REPLIES_ERROR;
 }
+
+export class UpdatingCommunityPostReplyLike implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_REPLY_LIKE;
+  constructor(public payload: any) {}
+}
+
+export class UpdatingCommunityPostReplyLikeSuccess implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_REPLY_LIKE_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class UpdatingCommunityPostReplyLikeError implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_REPLY_LIKE_ERROR;
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -103,4 +122,7 @@ export type Actions
   | AddingCommunityPostReplyError
   | GettingCommunityPostReplies
   | GettingCommunityPostRepliesSuccess
-  | GettingCommunityPostRepliesError;
+  | GettingCommunityPostRepliesError
+  | UpdatingCommunityPostReplyLike
+  | UpdatingCommunityPostReplyLikeSuccess
+  | UpdatingCommunityPostReplyLikeError;
