@@ -3,6 +3,8 @@ export interface AddSurveyDataCutRequest {
   CompanyJobId: number;
   JobDataCuts: DataCut[];
   ExcludeFromParticipation: boolean;
+  PayMarketId: number;
+  JobCode: string;
 }
 
 export interface DataCut {
