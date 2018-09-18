@@ -1,6 +1,7 @@
 export interface JobContext {
   JobTitle: string;
   PayMarketId: number;
+  JobPayMarketId?: number;
   CurrencyCode: string;
   CompanyJobId: number;
   ProjectId: number;
