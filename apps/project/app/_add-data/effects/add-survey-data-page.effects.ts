@@ -54,7 +54,7 @@ export class AddSurveyDataPageEffects {
           ProjectId: jobContextAndCuts.jobContext.ProjectId,
           JobDataCuts: jobContextAndCuts.selectedDataCuts,
           ExcludeFromParticipation: jobContextAndCuts.action.payload,
-          PayMarketId : jobContextAndCuts.jobContext.PayMarketId,
+          PayMarketId : jobContextAndCuts.jobContext.JobPayMarketId,
           JobCode: jobContextAndCuts.jobContext.JobCode
         })
           .pipe(
