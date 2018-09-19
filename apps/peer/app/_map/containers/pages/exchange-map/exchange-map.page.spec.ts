@@ -22,6 +22,10 @@ import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
 import { ExchangeMapPageComponent } from './exchange-map.page';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Peer - Map - Exchange Map Page', () => {
   const mockUpsertExchangeScopeRequest: UpsertExchangeScopeRequest = generateMockUpsertExchangeScopeRequest();
   let fixture: ComponentFixture<ExchangeMapPageComponent>;

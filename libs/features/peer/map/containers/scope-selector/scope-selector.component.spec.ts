@@ -15,6 +15,10 @@ import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { ScopeSelectorComponent } from './scope-selector.component';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Features - Peer - Exchange Scope Selector Component', () => {
   let fixture: ComponentFixture<ScopeSelectorComponent>;
   let instance: ScopeSelectorComponent;

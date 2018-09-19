@@ -32,6 +32,10 @@ class DojGuidelinesStub {
   }
 }
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
   let instance: UpsertDataCutPageComponent;

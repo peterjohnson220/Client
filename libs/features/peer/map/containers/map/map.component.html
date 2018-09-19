@@ -1,17 +1,15 @@
 <mgl-map
   [style]="mapStyle"
   [attributionControl]="false"
-  [fitBounds]="canFitBounds ? (peerMapBounds$ | async) : null"
   [fitBoundsOptions]="{padding: 50}"
+  [fitBounds]="canFitBounds ? (peerMapBounds$ | async) : null"
   [center]="peerMapCentroid$ | async"
   [zoom]="peerMapInitialZoomLevel$ | async"
   [maxZoom]="peerMapMaxZoom$ | async"
   [cursorStyle]="cursorStyle"
   [renderWorldCopies]="false"
   [maxBounds]="[[-180, -85], [180, 85]]"
-  (moveStart)="handleMoveStartEvent($event)"
   (moveEnd)="handleMoveEndEvent($event)"
-  (move)="handleMoveEvent($event)"
   (load)="handleLoadEvent($event)"
   [ngClass]="{'map-no-data': (peerMapShowNoData$ | async)}"
 >
