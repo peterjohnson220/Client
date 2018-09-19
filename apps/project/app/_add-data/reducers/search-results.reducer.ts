@@ -111,7 +111,8 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const surveyJobId = action.payload.Id;
       const resultsCopy = cloneDeep(state.results);
       const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
-      surveyJob.LoadingDataCuts = true;
+      surveyJob.LoadingDataCuts = !surveyJob.DataCuts.length;
+      surveyJob.LoadingMoreDataCuts = !!surveyJob.DataCuts.length;
       return {
         ...state,
         results: resultsCopy
@@ -123,6 +124,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
       const dataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
       surveyJob.LoadingDataCuts = false;
+      surveyJob.LoadingMoreDataCuts = false;
       surveyJob.TotalDataCuts = action.payload.TotalResults;
       surveyJob.DataCuts = surveyJob.DataCuts.concat(dataCuts);
       return {
