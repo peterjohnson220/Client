@@ -27,16 +27,16 @@
     <span *ngIf="!job.IsPayfactors" class="link" (click)="toggleDataCutsDisplay()">
     {{toggleDataCutsLabel}}
     </span>
-    <div *ngIf="showDataCuts && job.DataCuts.length">
+    <div *ngIf="showDataCuts && !job.LoadingDataCuts">
       <pf-data-cuts [dataCuts]="job.DataCuts"
                     [currencyCode]="currencyCode"
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
                     (matchesMouseLeave)="handleMatchesMouseLeave($event)">
       </pf-data-cuts>
-      <span *ngIf="hasMoreDataCuts && !job.LoadingDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
+      <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
     </div>
-    <div *ngIf="job.LoadingDataCuts">
+    <div *ngIf="job.LoadingDataCuts || job.LoadingMoreDataCuts">
       <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
     </div>
   </td>

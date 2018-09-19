@@ -46,6 +46,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       FLSAStatus: sj.Job.FLSAStatus,
       CountryCode: sj.Job.CountryCode,
       LoadingDataCuts: false,
+      LoadingMoreDataCuts: false,
       DataCuts: [],
       IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50th: sj.Job.Base50th,

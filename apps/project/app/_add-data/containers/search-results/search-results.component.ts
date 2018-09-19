@@ -78,7 +78,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   handleLoadDataCuts(data: JobResult): void {
-    if (!hasMoreDataCuts(data)) {
+    if (data.DataCuts.length && !hasMoreDataCuts(data)) {
       return;
     }
     this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(data));
