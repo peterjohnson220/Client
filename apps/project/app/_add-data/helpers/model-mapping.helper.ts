@@ -100,7 +100,7 @@ export function mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiS
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
     Order: SearchFilterMappingData[searchFilter.Name].Order,
-    OptionCountDisabled: searchFilter.Name === 'country_codes'
+    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name)
   };
 }
 
@@ -199,4 +199,17 @@ function getRangeFilterAsMultiSelect(filters: Filter[]) {
         }]
       };
   });
+}
+
+function isOptionCountDisabled(filterOptionName: string) {
+  let result = false;
+  switch (filterOptionName) {
+    case 'country_codes':
+    case 'weighting_types':
+      result = true;
+      break;
+    default:
+      break;
+  }
+  return result;
 }
