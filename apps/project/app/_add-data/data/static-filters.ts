@@ -19,7 +19,7 @@ export const staticFilters: TextFilter[] = [
   },
   {
     Id: 'scope',
-    BackingField: 'combined_scope',
+    BackingField: 'combined_scopes',
     DisplayName: 'Scope',
     Value: '',
     Type: FilterType.Text,

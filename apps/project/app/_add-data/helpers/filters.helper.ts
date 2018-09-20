@@ -1,16 +1,21 @@
-import { MultiSelectFilter, MultiSelectOption } from '../models';
+import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 export const maxNumberOfOptions = 5;
 
-export interface MergeFiltersParams {
+export interface MultiSelectFiltersMergeParams {
   clientFilters: MultiSelectFilter[];
   serverFilters: MultiSelectFilter[];
   keepFilteredOutOptions: boolean;
 }
 
-export function mergeClientWithServerFilters(param: MergeFiltersParams) {
+export interface RangeFiltersMergeParams {
+  clientFilters: RangeFilter[];
+  serverFilters: RangeFilter[];
+}
+
+export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFiltersMergeParams) {
 
   let mergedFilters: MultiSelectFilter[];
 
@@ -37,6 +42,32 @@ export function mergeClientWithServerFilters(param: MergeFiltersParams) {
   return mergedFilters;
 }
 
+export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams) {
+  let mergedFilters: RangeFilter[];
+
+  if (param.clientFilters.length) {
+    mergedFilters = param.serverFilters.filter(f => isRangeFilter(f)).map(sf => {
+      const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
+
+      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMinValue !== null) {
+        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
+      } else {
+        sf.SelectedMinValue = sf.MinimumValue;
+      }
+
+      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMaxValue !== null) {
+        sf.SelectedMaxValue = matchedClientFilter.SelectedMaxValue;
+      } else {
+        sf.SelectedMaxValue = sf.MaximumValue;
+      }
+
+      return sf;
+    });
+  } else {
+   mergedFilters = param.serverFilters;
+  }
+  return mergedFilters;
+}
 
 function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {
   let mergedOptions: MultiSelectOption[];
@@ -83,6 +114,3 @@ function sortOptions(options: MultiSelectOption[]) {
     return b.Count - a.Count || arraySortByString(a.Name, b.Name, SortDirection.Ascending);
   });
 }
-
-
-

@@ -5,6 +5,7 @@ import {Store} from '@ngrx/store';
 import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
 
 import {SurveySearchApiService} from 'libs/data/payfactors-api/surveys';
+import { PagingOptions } from 'libs/models';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromJobResultActions from '../actions/search-results.actions';
@@ -34,17 +35,24 @@ export class SearchResultsEffects {
           const projectId = dataCutContext.jobContext.ProjectId;
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
           const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
+          const pagingOptions: PagingOptions = {
+            From: dataCutContext.action.payload.DataCuts.length,
+            Count: 150
+          };
           return this.surveySearchApiService.searchDataCuts({
             SurveyJobId: surveyJobId,
             SearchFields: searchFieldsRequestObj,
             Filters: filtersRequestObj,
             CurrencyCode: currencyCode,
-            ProjectId: projectId
+            ProjectId: projectId,
+            PagingOptions: pagingOptions
           })
             .pipe(
               map(response => new fromJobResultActions.GetSurveyDataResultsSuccess({
                 SurveyJobId: surveyJobId,
-                DataCuts: response}))
+                DataCuts: response.DataCuts,
+                TotalResults: response.TotalResults
+              }))
             );
         }
       ));

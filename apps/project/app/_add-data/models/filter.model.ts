@@ -1,6 +1,9 @@
+import { ChangeContext, PointerType } from 'ng5-slider';
+
 export enum FilterType {
   Text = 'Text',
-  Multi = 'Multi'
+  Multi = 'Multi',
+  Range = 'Range'
 }
 
 export interface Filter {
@@ -21,6 +24,12 @@ export interface MultiSelectFilter extends Filter {
   OptionCountDisabled?: boolean;
 }
 
+export interface RangeFilter extends Filter {
+  MinimumValue: number;
+  MaximumValue: number;
+  SelectedMinValue: number;
+  SelectedMaxValue: number;
+}
 
 export interface MultiSelectOption {
   Name: string;
@@ -38,6 +47,9 @@ export function isMultiFilter(filter: Filter): filter is MultiSelectFilter {
   return filter.Type === FilterType.Multi;
 }
 
+export function isRangeFilter(filter: Filter): filter is RangeFilter {
+  return filter.Type === FilterType.Range;
+}
 
 // Mock Functions
 export function generateMockTextFilter(): TextFilter {
@@ -69,5 +81,27 @@ export function generateMockMultiSelectOption(): MultiSelectOption {
     Count: 2,
     Value: 32,
     Selected: true
+  };
+}
+
+export function generateMockRangeFilter(): RangeFilter {
+  return {
+    Id: 'base50th',
+    Type: FilterType.Range,
+    Order: 12,
+    DisplayName: 'Base 50th',
+    MinimumValue: 45000,
+    MaximumValue: 90000,
+    SelectedMinValue: 50000,
+    SelectedMaxValue: 75000,
+    BackingField: 'base_50th'
+  };
+}
+
+export function generateMockChangeContext(): ChangeContext {
+  return {
+    pointerType: PointerType.Max,
+    value: 50000,
+    highValue: 75000
   };
 }

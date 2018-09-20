@@ -7,6 +7,7 @@ import { DataCut, PricingMatchesDetailsRequest, MatchesDetailsRequestJobTypes } 
 
 import { JobResult, JobDetailsToolTipData, MatchesDetailsTooltipData } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
+import { hasMoreDataCuts } from '../../helpers';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   @Input() job: JobResult;
   @Input() currencyCode: string;
   @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
-  @Output() showCutsClick: EventEmitter<JobResult> = new EventEmitter<JobResult>();
+  @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -68,7 +69,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
 
     if (this.showDataCuts) {
-      this.showCutsClick.emit(this.job);
+      this.handleLoadDataCuts();
     }
   }
 
@@ -119,6 +120,14 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   handleDataCutMatchesMouseEnter(data: MatchesDetailsTooltipData): void {
     this.matchesMouseEnter.emit(data);
+  }
+
+  handleLoadDataCuts(): void {
+    this.loadDataCuts.emit(this.job);
+  }
+
+  public get hasMoreDataCuts(): boolean {
+    return hasMoreDataCuts(this.job);
   }
 
   private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {

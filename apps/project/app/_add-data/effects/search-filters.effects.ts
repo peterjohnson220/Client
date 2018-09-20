@@ -22,6 +22,13 @@ export class SearchFiltersEffects {
     );
 
   @Effect()
+  updateRangeFilter$ = this.actions$
+    .ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER)
+    .pipe(
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
+    );
+
+  @Effect()
   resetFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.RESET_FILTER)
     .pipe(

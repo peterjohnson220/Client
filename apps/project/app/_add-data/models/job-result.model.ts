@@ -16,12 +16,14 @@ export interface JobResult {
     FLSAStatus?: string;
     Scope?: string;
     LoadingDataCuts: boolean;
+    LoadingMoreDataCuts: boolean;
     DataCuts: SurveyDataCut[];
     Base50th: number;
     TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
+    TotalDataCuts?: number;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -38,6 +40,7 @@ export function generateMockSurveyJobResult(): JobResult {
     Matches: 5,
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
+    LoadingMoreDataCuts: false,
     DataCuts: [],
     Base50th: 1,
     TCC50th: 1,
@@ -76,6 +79,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     FLSAStatus: 'Typically Exempt',
     Scope: 'Boston - MA',
     LoadingDataCuts: false,
+    LoadingMoreDataCuts: false,
     DataCuts: [],
     Base50th: 1,
     TCC50th: 1,
