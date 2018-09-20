@@ -1,38 +1,31 @@
 <div class="start-discussion-container mb-3">
   <div class="start-discussion-header">
-    <ul class="mb-0">
-      <li class="pl-4 pr-4 section-active">Start a Discussion</li>
-      <li class="pl-4 pr-4">Ask a Question</li>
-      <li class="pl-4 pr-4">Post a Job</li>
+    <ul #postTypeList class="mb-0">
+      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Discussion}">
+        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Discussion)">Start a Discussion</a>
+      </li>
+      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Question}">
+        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Question)">Ask a Question</a>
+      </li>
+      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Job}">
+        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Job)">Post a Job</a>
+      </li>
     </ul>
   </div>
-  <form [formGroup]="communityDiscussionForm">
-    <div class="start-discussion-body p-2">
-        <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
-             alt="avatar">
-        <div class="w-100 pl-3">
-          <pf-community-text-area 
-            [parentForm]="communityDiscussionForm"
-            [maxTextLength]="postMaxLength"
-            textPlaceholder="Start a discussion...">
-          </pf-community-text-area>        
-          <div class="ml-3 p-0">
-            <div class="float-right"><pf-radial-text-counter [textToCount]="text.value"></pf-radial-text-counter></div>
-            <span placement="bottom"
-                  ngbTooltip="Will be visible to users within your organization">
-              <input #isInternal
-                     id="internal-only"
-                     name="internal-only"
-                     formControlName="isInternalOnly"
-                     type="checkbox" />
-              <label for="internal-only" class="ml-1">Internal Only</label>
-            </span>
-            <button id="start-discussion-post-button" class="btn btn-primary"                
-                    (click)="submitPost()" class="btn btn-primary float-right">Post
-              <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
-              </pf-loading-indicator></button>
-          </div>
+
+  <div class="start-discussion-body p-2">
+      <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
+            alt="avatar">
+      <div class="w-100 pl-3">
+        <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
+        <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>          
+        <div class="ml-3 p-0">
+          <button id="start-discussion-post-button" class="btn btn-primary"                
+                  (click)="submitContent()" class="btn btn-primary float-right">Post
+            <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
+            </pf-loading-indicator></button>
         </div>
-    </div>
-  </form>
+      </div>
+  </div>
+
 </div>

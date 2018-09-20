@@ -1,17 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
-import { CommunityPostAddReplyComponent } from './community-post-add-reply.component';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
-describe('CommunityStartDiscussionComponent', () => {
-  let fixture: ComponentFixture<CommunityPostAddReplyComponent>;
-  let instance: CommunityPostAddReplyComponent;
+import { CommunityAddPost } from 'libs/models';
+import { CommunityNewPostComponent } from './community-new-post.component';
+
+describe('CommunityNewPostComponent', () => {
+  let fixture: ComponentFixture<CommunityNewPostComponent>;
+  let instance: CommunityNewPostComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -25,7 +27,7 @@ describe('CommunityStartDiscussionComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityPostAddReplyComponent
+        CommunityNewPostComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -35,29 +37,26 @@ describe('CommunityStartDiscussionComponent', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(CommunityPostAddReplyComponent);
+    fixture = TestBed.createComponent(CommunityNewPostComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should show community add reply', () => {
+  it('should show community start poll', () => {
     fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
+    expect(fixture).toBeTruthy();
   });
 
-  it ('should dispatch AddingCommunityPostReply when calling submitReply', () => {
+  it('should dispatch SubmittingCommunityPost when calling submit', () => {
+    instance.communityDiscussionForm.get('context').setValue('hello world');
+    instance.submit();
 
-    instance.postId = '99';
-    instance.communityPostReplyForm.controls['context'].setValue('hello world');
-
-    const newReply: any = {
-      PostId: '99',
-      ReplyText: 'hello world'
+    const newPost: CommunityAddPost = {
+      PostText: 'hello world',
+      IsInternalOnly: false
     };
-    const expectedAction = new fromCommunityPostActions.AddingCommunityPostReply(newReply);
 
-    instance.submitReply();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+     const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);
+     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+
 });

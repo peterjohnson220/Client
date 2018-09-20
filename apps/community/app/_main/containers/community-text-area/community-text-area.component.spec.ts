@@ -48,7 +48,7 @@ describe('CommunityTextAreaComponent', () => {
     fixture = TestBed.createComponent(CommunityTextAreaComponent);
     instance = fixture.componentInstance;
     instance.parentForm = new FormBuilder().group({
-      text:   ['']
+      context:   ['']
     });
 
   }));

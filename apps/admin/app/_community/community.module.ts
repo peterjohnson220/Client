@@ -22,7 +22,7 @@ import { PfFormsModule } from 'libs/forms';
 import { CommunityRoutingModule } from './community-routing.module';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPollModalComponent } from './containers/community-poll-modal/community-poll-modal.component';
-import { CommunityPollResponseComponent } from './containers/community-poll-response/community-poll-response.component';
+import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 
 // Services
 import { CommunityPollAdminApiService } from 'libs/data/payfactors-api/community/community-poll-admin-api.service';
@@ -52,8 +52,8 @@ import { ButtonsModule } from '@progress/kendo-angular-buttons';
   declarations: [
       // Components
       CommunityPollsComponent,
-      CommunityPollResponseComponent,
-      CommunityPollModalComponent
+      CommunityPollModalComponent,
+      CommunityPollChoicesComponent
   ],
   providers: [ CommunityPollAdminApiService ]
 })

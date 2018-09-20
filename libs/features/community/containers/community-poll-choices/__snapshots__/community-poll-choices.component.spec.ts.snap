@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPollChoicesComponent should not allow to update poll choices if !enableEditingResponseOptions 1`] = `
+<pf-community-poll-choices
+  removed={[Function EventEmitter]}
+>
+  <div
+    class="form-group row"
+  >
+    
+    <div
+      class="col-sm-9"
+    >
+      <input
+        class="form-control"
+        formcontrolname="response"
+        type="text"
+      />
+    </div>
+    
+  </div>
+</pf-community-poll-choices>
+`;
+
+exports[`CommunityPollChoicesComponent should not allow to update poll choices if enableEditingResponseOptions === true 1`] = `
+<pf-community-poll-choices
+  removed={[Function EventEmitter]}
+>
+  <div
+    class="form-group row"
+  >
+    
+    <div
+      class="col-sm-9"
+    >
+      <input
+        class="form-control"
+        formcontrolname="response"
+        type="text"
+      />
+    </div>
+    
+  </div>
+</pf-community-poll-choices>
+`;
+
+exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
+<pf-community-poll-choices
+  removed={[Function EventEmitter]}
+>
+  <div
+    class="form-group row"
+  >
+    
+    <div
+      class="col-sm-9"
+    >
+      <input
+        class="form-control"
+        formcontrolname="response"
+        type="text"
+      />
+    </div>
+    
+  </div>
+</pf-community-poll-choices>
+`;

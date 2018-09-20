@@ -33,9 +33,9 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
       />
       <textarea
         class="discussionTextArea pl-2 pr-2 ng-untouched ng-pristine ng-valid"
-        formcontrolname="text"
+        formcontrolname="context"
         ng-reflect-maxlength=""
-        ng-reflect-name="text"
+        ng-reflect-name="context"
         placeholder=""
         spellcheck="false"
       >

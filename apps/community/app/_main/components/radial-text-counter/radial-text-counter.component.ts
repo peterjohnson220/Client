@@ -19,11 +19,12 @@ export class RadialTextCounterComponent  {
   radialStrokeDashOffsetValue: any = this.radialStartValue;
   radialCounterClass = 'radial-counter-safe';
   charactersRemaining = this.textMaxLength;
-  radialIncrementValue = this.radialStartValue / this.textMaxLength;
+  radialIncrementValue: number;
 
   @Input()
   set textToCount(textToCount: string) {
 
+    this.radialIncrementValue = this.radialStartValue / this.textMaxLength;
     const inputTextLength = textToCount !== null ? textToCount.length : 0;
 
     this.radialStrokeDashOffsetValue = (this.radialStartValue - (inputTextLength * this.radialIncrementValue ));

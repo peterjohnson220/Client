@@ -30,10 +30,10 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="question"
+        formcontrolname="context"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="question"
+        ng-reflect-name="context"
         pffocus=""
         placeholder="Question"
         type="text"
@@ -52,17 +52,11 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
       <br />
       <label
         class="col-form-label"
-        for="responses"
+        for="choices"
       >
-        Poll Responses
+        Poll choices
       </label>
-      <fieldset
-        class="ng-untouched ng-pristine ng-invalid"
-        formarrayname="responses"
-        ng-reflect-name="responses"
-      >
-        
-      </fieldset>
+      
       
       <div>
         
@@ -108,10 +102,10 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
       </label>
       <input
         class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="question"
+        formcontrolname="context"
         id="poll-question"
         maxlength="150"
-        ng-reflect-name="question"
+        ng-reflect-name="context"
         pffocus=""
         placeholder="Question"
         type="text"
@@ -124,17 +118,11 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
       <br />
       <label
         class="col-form-label"
-        for="responses"
+        for="choices"
       >
-        Poll Responses
+        Poll choices
       </label>
-      <fieldset
-        class="ng-untouched ng-pristine ng-invalid"
-        formarrayname="responses"
-        ng-reflect-name="responses"
-      >
-        
-      </fieldset>
+      
       
       <div>
         

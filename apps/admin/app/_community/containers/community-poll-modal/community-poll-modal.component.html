@@ -21,27 +21,28 @@
       </div>
 
       <label class="col-form-label" for="poll-question">Poll Question</label>
-      <input type="text" class="form-control" placeholder="Question" formControlName="question" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus [maxLength]="150">
-      <ng-container *ngIf="question.errors && attemptedSubmit">
-        <div *ngIf="question.errors.required" class="invalid-feedback">Question is required.</div>
-        <div *ngIf="question.errors.error" class="invalid-feedback">{{question.errors.error}}</div>
+      <input type="text" class="form-control" placeholder="Question" formControlName="context" id="poll-question" [pfValidatable]="attemptedSubmit" pfFocus [maxLength]="150">
+      <ng-container *ngIf="context.errors && attemptedSubmit">
+        <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
+        <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>
       </ng-container>
-      <span *ngIf="!attemptedSubmit || !question.errors" class="pf-placeholder"></span>
+      <span *ngIf="!attemptedSubmit || !context.errors" class="pf-placeholder"></span>
 
       <br>
-      <label class="col-form-label" for="responses">Poll Responses</label>
-      <fieldset formArrayName="responses">
-        <pf-community-poll-response
-          *ngFor="let item of responses.controls; let i=index"
-          [index]="i"
-          [item]="item"
-          (removed)="responses.removeAt($event)">
-        </pf-community-poll-response>
-      </fieldset>
+      <label class="col-form-label" for="choices">Poll choices</label>
+
+      <pf-community-poll-choices
+        *ngFor="let item of choices.controls; let i=index"
+        [index]="i"
+        [item]="item"
+        [isAdmin]="true"
+        (removed)="choices.removeAt($event)">
+      </pf-community-poll-choices>
 
       <div *ngIf="enableEditingResponseOptions">
-        <button type="button" class="btn btn-secondary offset-sm-1" *ngIf="responses.length<10" (click)="addResponseOption()" >Add another response option</button> 
+        <button type="button" class="btn btn-secondary offset-sm-1" *ngIf="choices.length<10" (click)="addResponseOption()" >Add another response option</button> 
       </div>
+    
     </div>
   </ng-container>
 </pf-modal-form>
