@@ -56,14 +56,4 @@ describe('CommunityPostsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch UpdatingCommunityPostReplyLike when calling updateReplyLike', () => {
-    const likedByCurrentUser = true;
-    const replyPayload = {PostId: '1234', Id: '12345', LikedByCurrentUser: likedByCurrentUser};
-    instance.updateReplyLike(replyPayload);
-
-    const replyResult = {postId: '1234', replyId: '12345', like: !likedByCurrentUser};
-    const expectedAction = new fromCommunityPostActions.UpdatingCommunityPostReplyLike(replyResult);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
 });

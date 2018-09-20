@@ -23,6 +23,8 @@ import { CommunityPostAddReplyComponent } from './containers/community-post-add-
 import { RadialTextCounterComponent } from './components';
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostHeaderComponent } from './components/commumity-post-header';
+import { CommunityLikeComponent } from './components/community-like/community-like.component';
+import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
 
 import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
@@ -35,7 +37,6 @@ import { CommunityPollApiService } from 'libs/data/payfactors-api/community/comm
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 
-
 const components = [
   CommunityDashboardPageComponent,
   CommunityPostsComponent,
@@ -46,7 +47,9 @@ const components = [
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
-  CommunityPopularTagsComponent
+  CommunityPopularTagsComponent,
+  CommunityLikeComponent,
+  CommunityAvatarComponent
 ];
 
 @NgModule({

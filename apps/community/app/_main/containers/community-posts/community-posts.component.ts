@@ -41,7 +41,4 @@ export class CommunityPostsComponent implements OnInit {
     this.showReplies[item] = !this.showReplies[item];
   }
 
-  updatePostLike(post: any) {
-    this.store.dispatch(new fromCommunityPostActions.UpdatingCommunityPostLike({postId: post.Id, like: !post.LikedByCurrentUser}));
-  }
 }

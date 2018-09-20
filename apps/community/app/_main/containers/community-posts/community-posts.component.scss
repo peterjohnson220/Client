@@ -1,28 +1,6 @@
 @import 'colors';
 
 $post-avatar-width: 50px;
-$post-avatar-height: 50px;
-
-.posts-container {
-  border: 1px solid $border-grey;
-  word-break: break-word;
-}
-
-.post-avatar {
-  width: $post-avatar-width;
-  height: $post-avatar-height;
-}
-
-.default-post-avatar
-{
-  width: $post-avatar-width;
-  height: $post-avatar-height;
-  background-color: #0883BE;
-  color: white;
-  line-height: 50px;
-  text-align: center;
-  font-size: 1.5rem;
-}
 
 .tag {
   color: #515151;
@@ -35,24 +13,6 @@ $post-avatar-height: 50px;
 
 .post-offset {
   margin-left: $post-avatar-width + 10px;
-}
-
-.community-btn {
-  background: transparent;
-  color: #99A0A4;
-}
-
-.community-btn .icon {
-  color: $community-icon-color;
-}
-
-.community-btn-clicked {
-  background:transparent;
-  color: #99A0A4;
-}
-
-.community-btn-clicked .icon {
-  color: #FA4646;
 }
 
 .hide {
