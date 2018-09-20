@@ -1,0 +1,23 @@
+<pf-modal-form [size]="'lg'" [title]="'Import Job Associations'" [subTitle]="" [primaryButtonText]="btnText"
+    [primaryButtonTextSubmitting]="'Processing...'" [submitting]="(importStatus$ | async) === importStatus.InProcess"
+    [isOpen$]="importAssociationModalOpen$" [formGroup]="exchangeJobRequestForm" (onSubmit)="handleFormSubmit()"
+    (onDismiss)="handleModalDismissed()">
+
+    <ng-container form-content>
+        <kendo-upload [saveUrl]="uploadSaveUrl" [ngModelOptions]="{standalone: true}" [(ngModel)]="myFiles" [removeUrl]="uploadRemoveUrl"
+            [restrictions]="uploadRestrictions" [multiple]="false" (upload)="uploadEventHandler($event)" (success)="successEventHandler($event)"
+            (error)="errorEventHandler($event)"></kendo-upload>
+    </ng-container>
+
+    <div class="alert alert-danger" role="alert" *ngIf="uploadResult && uploadResult.errors.length > 0 " form-content>
+        <ul>
+            <li *ngFor="let f of uploadResult.errors">{{f}}</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-success" role="alert" *ngIf="uploadResult && uploadResult.errors.length === 0 "
+        form-content>
+        Successfully added {{uploadResult.recordsAdded}} records.
+    </div>
+
+</pf-modal-form>

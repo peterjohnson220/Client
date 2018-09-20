@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
 import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SharedModule } from './shared/shared.module';
+import { PayfactorsFrontEndApiService } from 'libs/data/payfactors-api/payfactors-frontend-api.service';
 
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './shared/reducers';
@@ -42,6 +43,7 @@ import { reducers } from './shared/reducers';
     AppRoutingModule
   ],
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [PayfactorsFrontEndApiService]
 })
 export class AppModule { }

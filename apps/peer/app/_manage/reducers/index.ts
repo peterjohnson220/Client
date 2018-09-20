@@ -13,6 +13,7 @@ import * as fromPfJobsExchangeRequestReducer from './pf-jobs.reducer';
 import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeRequestReducer from '../../shared/reducers/exchange-request.reducer';
 import * as fromJobFamiliesReducer from './job-families.reducer';
+import * as fromImportReducer from './import.reducer';
 
 // Feature area state
 export interface PeerManagementState {
@@ -20,6 +21,7 @@ export interface PeerManagementState {
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.State;
   pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.State;
   jobFamilies: fromJobFamiliesReducer.State;
+  import: fromImportReducer.State;
 }
 
 // Extend root state with feature area state
@@ -32,7 +34,8 @@ export const reducers = {
   exchangeJobMapping: fromExchangeJobMappingGridReducer.reducer,
   exchangeJobMappingInfo: fromExchangeJobMappingInfoReducer.reducer,
   pfJobsExchangeRequest: fromPfJobsExchangeRequestReducer.reducer,
-  jobFamilies: fromJobFamiliesReducer.reducer
+  jobFamilies: fromJobFamiliesReducer.reducer,
+  import: fromImportReducer.reducer
 };
 
 // Select Feature Area
@@ -57,6 +60,11 @@ export const selectPfJobsExchangeRequestState = createSelector(
 export const selectJobFamiliesState = createSelector(
   selectFeatureAreaState,
   (state: PeerManagementState) => state.jobFamilies
+);
+
+export const selectImportState = createSelector(
+  selectFeatureAreaState,
+  (state: PeerManagementState) => state.import
 );
 
 // Exchange Job Mapping Selectors
@@ -230,4 +238,15 @@ export const getJobFamiliesLoading = createSelector(
 export const getJobFamiliesLoadingError = createSelector(
   selectJobFamiliesState,
   fromJobFamiliesReducer.getLoadingError
+);
+
+// import
+export const getIsImportModalOpen = createSelector(
+  selectImportState,
+  fromImportReducer.getModalIsOpen
+);
+
+export const getImportStatus = createSelector(
+  selectImportState,
+  fromImportReducer.getImportStatus
 );

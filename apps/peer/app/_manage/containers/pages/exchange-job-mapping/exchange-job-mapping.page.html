@@ -15,13 +15,19 @@
         <i class="fas fa-download" aria-hidden="true"></i>
       </button>
     </a>
+
+    <button (click)="importAssociationClick()" *ngIf="isUserAdmin()" type="button" title="Import Associations" id="import-popover-btn"
+      class="btn btn-secondary" placement="bottom">
+      <i class="fas fa-upload" aria-hidden="true"></i>
+    </button>
   </ng-container>
 
   <ng-container page-content>
 
     <div class="flex-column-container">
       <div class="exchange-job-mapping-grid-container" [class.collapse-grid]="collapse">
-        <pf-exchange-job-mapping-grid [exchangeId]="exchangeId" [disableScrollTo]="disableGridScollTo" [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
+        <pf-exchange-job-mapping-grid [exchangeId]="exchangeId" [disableScrollTo]="disableGridScollTo"
+          [pageRowIndexToScrollTo]="gridPageRowIndexToScrollTo$ | async">
         </pf-exchange-job-mapping-grid>
       </div>
 
@@ -35,3 +41,4 @@
 </pf-page-with-title-bar>
 
 <pf-request-job-modal></pf-request-job-modal>
+<pf-association-import-modal></pf-association-import-modal>
