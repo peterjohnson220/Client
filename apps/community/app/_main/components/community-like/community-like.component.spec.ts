@@ -1,0 +1,87 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
+import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
+
+import { CommunityLikeComponent } from './community-like.component';
+
+describe('CommunityLikeComponent', () => {
+  let fixture: ComponentFixture<CommunityLikeComponent>;
+  let instance: CommunityLikeComponent;
+  let store: Store<fromRootState.State>;
+
+  // Configure Testing Module for before each test
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+          communityPost: combineReducers(fromCommunityPostReducer.reducers)
+        }),
+        ],
+        declarations: [
+        CommunityLikeComponent
+      ],
+      // Shallow Testing
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
+
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
+
+    fixture = TestBed.createComponent(CommunityLikeComponent);
+    instance = fixture.componentInstance;
+  });
+
+  it('should show like component', () => {
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display as liked if LikedByCurrentUser === true', () => {
+    instance.LikedByCurrentUser = true;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display as not liked if LikedByCurrentUser === false', () => {
+    instance.LikedByCurrentUser = false;
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch UpdatingCommunityPostLike when calling updateLike and ReplyId === undefined', () => {
+    const likedByCurrentUser = true;
+
+    instance.PostId = '1234';
+    instance.LikedByCurrentUser = likedByCurrentUser;
+    instance.updateLike();
+
+    const replyResult = {postId: '1234', like: !likedByCurrentUser};
+    const expectedAction = new fromCommunityPostActions.UpdatingCommunityPostLike(replyResult);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch UpdatingCommunityPostReplyLike when calling updateLike and ReplyId != undefined', () => {
+    const likedByCurrentUser = true;
+
+    instance.PostId = '1234';
+    instance.ReplyId = '12345';
+    instance.LikedByCurrentUser = likedByCurrentUser;
+    instance.updateLike();
+
+    const replyResult = {postId: '1234', replyId: '12345', like: !likedByCurrentUser};
+    const expectedAction = new fromCommunityPostActions.UpdatingCommunityPostReplyLike(replyResult);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+});

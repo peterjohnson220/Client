@@ -2,13 +2,11 @@
   <ng-container *ngFor="let post of communityPosts$ | async; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-        <div id="default-post-avatar" *ngIf="post.UserInfo?.AvatarSource ==='default_user.png'"
-             class="float-left pf-avatar default-post-avatar">
-          {{ post.UserInfo.UserFirstName | slice:0:1 }}{{ post.UserInfo.UserLastName| slice:0:1 }}
-        </div>
-        <img id="post-avatar" class="post-avatar float-left pf-avatar"
-             *ngIf="post.UserInfo?.AvatarSource !=='default_user.png'"
-             [src]="avatarUrl + post.UserInfo?.AvatarSource" alt="avatar"/>
+        <pf-community-avatar
+          [AvatarSource]="post.UserInfo?.AvatarSource"
+          [UserFirstName]="post.UserInfo.UserFirstName"
+          [UserLastName]="post.UserInfo.UserLastName">
+        </pf-community-avatar>
         <div class="post-offset">
           <pf-community-post-header [user]="post.UserInfo"
                                     [time]="post.Time"
@@ -17,12 +15,11 @@
           <div class="post-body mt-2 mb-2"
                [innerHtml]="post.Content | highlightHashTag">
           </div>
-          <button id="like" type="button" class="btn m-1 p-0"
-                  [ngClass]="post.LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
-                  (click)="updatePostLike(post)">
-            <i class="fa-heart icon" [ngClass]="post.LikedByCurrentUser ? 'fas' : 'far'"></i>
-            <span> {{post.LikeCount > 0 ? post.LikeCount : ''}} {{post.LikeCount > 1 ? 'Likes' : 'Like'}}</span>
-          </button>
+          <pf-community-like
+            [LikedByCurrentUser]="post.LikedByCurrentUser"
+            [PostId]="post.Id"
+            [LikeCount]="post.LikeCount">
+          </pf-community-like>
           <a id="reply" href="javascript:void(0)" class="community-link m-1" (click)="showAddReply[i] = !showAddReply[i]">
             <span>Reply</span>
           </a>

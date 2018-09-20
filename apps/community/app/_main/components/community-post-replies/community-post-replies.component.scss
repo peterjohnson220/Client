@@ -1,33 +1,9 @@
 @import 'colors';
 
 $reply-avatar-width: 35px;
-$reply-avatar-height: 35px;
-
-#reply-avatar {
-  width: $reply-avatar-width;
-  height: $reply-avatar-height;
-}
 
 .reply-offset {
   margin-left: $reply-avatar-width + 10px;
-}
-
-.community-btn {
-  background: transparent;
-  color: #99A0A4;
-}
-
-.community-btn .icon {
-  color: $community-icon-color;
-}
-
-.community-btn-clicked {
-  background:transparent;
-  color: #99A0A4;
-}
-
-.community-btn-clicked .icon {
-  color: #FA4646;
 }
 
 .loading-indicator {
