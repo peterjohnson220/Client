@@ -14,7 +14,7 @@ export class MultiSelectFilterComponent {
   constructor() { }
 
   optionDisabled(option: MultiSelectOption) {
-    return !option.Selected && option.Count === 0;
+    return (!option.Selected && option.Count === 0) || this.filter.Locked;
   }
 
   handleOptionSelected(filterId: string, option: MultiSelectOption) {

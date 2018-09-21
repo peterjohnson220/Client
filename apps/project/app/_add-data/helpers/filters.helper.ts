@@ -25,13 +25,15 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
     mergedFilters = param.serverFilters.map(sf => {
       const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
 
-      sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
+      if (!!matchedClientFilter) {
+        sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
 
-      if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
-        sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+        if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
+          sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+        }
+
+        sortOptions(sf.Options);
       }
-
-      sortOptions(sf.Options);
 
       return sf;
     });

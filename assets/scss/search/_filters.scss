@@ -28,7 +28,15 @@
   background: $hover-option-color;
 }
 
-.option-check{
+.option.locked{
+  color: inherit;
+
+  &:hover {
+    background: $selected-option-color;
+  }
+}
+
+.option-check {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;

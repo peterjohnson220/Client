@@ -5,6 +5,7 @@
          [title]="option.Name"
          [class.selected]="option.Selected"
          [class.disabled]="optionDisabled(option)"
+         [class.locked]="filter.Locked"
          (click)="handleOptionSelected(filter.Id, option)">
 
       <div class="option-check">

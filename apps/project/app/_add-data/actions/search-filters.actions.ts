@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { SearchFilter } from 'libs/models/survey-search';
 
-import { Filter } from '../models';
+import { Filter, MultiSelectFilter, TextFilter } from '../models';
 
 export const CLEAR_FILTERS = '[Project Add Data/Search Filters] Clear Filters';
 export const UPDATE_FILTER_VALUE = '[Project Add Data/Search Filters] Update Value';
@@ -13,6 +13,7 @@ export const UPDATE_RANGE_FILTER = '[Project Add Data/Search Filters] Update Ran
 export const REFRESH_FILTERS = '[Project Add Data/Search Filters] Refresh Filters';
 export const RESET_FILTER = '[Project Add Data/Search Filters] Reset Filter';
 export const RESET_ALL_FILTERS = '[Project Add Data/Search Filters] Reset All Filters';
+export const ADD_FILTER = '[Project Add Data/Search Filters] Add Filters';
 
 export class ClearFilters implements Action {
   readonly type = CLEAR_FILTERS;
@@ -64,6 +65,12 @@ export class ResetAllFilters implements Action {
   constructor() {}
 }
 
+export class AddFilter implements Action {
+  readonly type = ADD_FILTER;
+
+  constructor(public payload: TextFilter | MultiSelectFilter) {}
+}
+
 export type Actions
   = ClearFilters
   | UpdateFilterValue
@@ -73,5 +80,6 @@ export type Actions
   | ToggleMultiSelectOption
   | RefreshFilters
   | ResetFilter
-  | ResetAllFilters;
+  | ResetAllFilters
+  | AddFilter;
 

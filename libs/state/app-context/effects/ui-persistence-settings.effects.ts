@@ -5,7 +5,8 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
-import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api/ui-persistence-settings';
+import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
+
 import * as fromUiPersistenceSettingsActions from '../actions/ui-persistence-settings.actions';
 import { GenericNameValueDto } from '../../../models/common';
 

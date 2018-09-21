@@ -10,6 +10,9 @@ import {
   mergeClientWithServerRangeFilters
 } from '../helpers';
 
+const multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
+const filterToNotRefresh = f => isTextFilter(f) || multiSelectToNotRefresh(f);
+
 export interface State {
   filters: Filter[];
   loadingDefaultSurveyScopes: boolean;
@@ -77,15 +80,14 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.REFRESH_FILTERS: {
-      const filtersNotBeingRefreshed = state.filters.filter(f => !isRangeFilter(f) &&
-        (!isMultiFilter(f) || !f.RefreshOptionsFromServer));
-      const filtersToRefresh = cloneDeep(state.filters);
+      const clientFilters = cloneDeep(state.filters);
+      const clientFiltersNotBeingRefreshed = clientFilters.filter(filterToNotRefresh);
       const serverFilters = cloneDeep(action.payload.searchFilters);
 
       const newMultiSelectFilters = mergeClientWithServerMultiSelectFilters(
         {
-          serverFilters: serverFilters.filter(f => isMultiFilter(f)),
-          clientFilters: filtersToRefresh.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer),
+          serverFilters: serverFilters.filter(f => isMultiFilter(f) && !clientFiltersNotBeingRefreshed.some(cf => cf.Id === f.Id)),
+          clientFilters: clientFilters.filter(f => !filterToNotRefresh(f)),
           keepFilteredOutOptions: action.payload.keepFilteredOutOptions
         }
       );
@@ -93,11 +95,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const newRangeFilters = mergeClientWithServerRangeFilters(
         {
           serverFilters: serverFilters.filter(f => isRangeFilter(f)),
-          clientFilters: filtersToRefresh.filter(f => isRangeFilter(f))
+          clientFilters: clientFilters.filter(f => isRangeFilter(f))
         }
       );
 
-      const allFilters = filtersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -133,6 +135,15 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.ADD_FILTER: {
+      const filtersCopy = cloneDeep(state.filters);
+      filtersCopy.push(action.payload);
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     default: {
       return state;
     }
@@ -145,7 +156,7 @@ function resetFilters(filters: Filter[]): Filter[] {
 }
 
 function resetFilter(filter: Filter) {
-  if (isMultiFilter(filter)) {
+  if (isMultiFilter(filter) && !filter.Locked) {
     filter.Options.map(o => o.Selected = false);
   } else if (isRangeFilter(filter)) {
     filter.SelectedMaxValue = null;

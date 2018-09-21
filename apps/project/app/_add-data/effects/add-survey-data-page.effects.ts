@@ -5,14 +5,14 @@ import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, map, withLatestFrom, mergeMap, tap, catchError } from 'rxjs/operators';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SurveySearchApiService } from 'libs/data/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
 import { DataCut, AddSurveyDataCutMatchResponse } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import * as fromSingledFilterActions from '../actions/singled-filter.actions';
-import { JobContext } from '../models';
+import { SearchFilterMappingData } from '../data';
+import { JobContext, MultiSelectFilter } from '../models';
 import * as fromAddDataReducer from '../reducers';
 
 @Injectable()
@@ -23,11 +23,18 @@ export class AddSurveyDataPageEffects {
     .ofType(fromAddSurveyDataPageActions.SET_JOB_CONTEXT)
     .pipe(
       map((action: fromAddSurveyDataPageActions.SetJobContext) => action.payload),
-      mergeMap(jobContext => [
-        new fromSearchFiltersActions.GetDefaultScopesFilter(),
-        new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext.JobTitle})
-      ]
-    ));
+      mergeMap(jobContext => {
+        const actions = [];
+        actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
+        actions.push(new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext.JobTitle}));
+
+        if (jobContext.RestrictToCountryCode) {
+          actions.push(new fromSearchFiltersActions.AddFilter(AddSurveyDataPageEffects.buildLockedCountryCodeFilter(jobContext)));
+        }
+        return actions;
+       }
+      )
+    );
 
   @Effect({dispatch: false})
   closeSurveySearch$ = this.actions$
@@ -81,6 +88,25 @@ export class AddSurveyDataPageEffects {
           });
       })
     );
+
+    static buildLockedCountryCodeFilter(jobContext: JobContext): MultiSelectFilter {
+      const countryCodeData = SearchFilterMappingData['country_codes'];
+
+      return {
+        Id: 'countrycodes',
+        BackingField: countryCodeData.BackingField,
+        DisplayName: countryCodeData.DisplayName,
+        Order: countryCodeData.Order,
+        Type: countryCodeData.Type,
+        Options: [{
+          Name: jobContext.CountryCode,
+          Value: jobContext.CountryCode,
+          Selected: true
+        }],
+        RefreshOptionsFromServer: false,
+        Locked: true
+      };
+    }
 
     constructor(
       private actions$: Actions,
