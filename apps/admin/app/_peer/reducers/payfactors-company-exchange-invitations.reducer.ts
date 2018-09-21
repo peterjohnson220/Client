@@ -15,7 +15,7 @@ export interface State extends EntityState<PayfactorsCompanyExchangeInvitation> 
 
 // Create entity adapter
 export const adapter: EntityAdapter<PayfactorsCompanyExchangeInvitation> = createEntityAdapter<PayfactorsCompanyExchangeInvitation> ({
-  selectId: (payfactorsCompanyExchangeInvitation: PayfactorsCompanyExchangeInvitation) => payfactorsCompanyExchangeInvitation.CompanyId
+  selectId: (payfactorsCompanyExchangeInvitation: PayfactorsCompanyExchangeInvitation) => payfactorsCompanyExchangeInvitation.DocumentId
 });
 
 // Initial State

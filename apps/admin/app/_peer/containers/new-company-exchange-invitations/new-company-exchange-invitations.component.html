@@ -4,7 +4,7 @@
     [sectionDescription]="'Listed in the grid below are new companies that have been invited to join this exchange.'"
   >
   </pf-manage-exchange-section-header>
-  <div class="d-flex company-invitation-grid-container" [ngClass]="collapse ? 'collapse-grid' : 'no-collapse'">
+  <div class="d-flex company-invitation-grid-container" [ngClass]="(companyInvitationInfoOpen$ | async) ? 'collapse-grid' : 'no-collapse'">
     <pf-async-container
       [loading]="newCompanyExchangeInvitationsLoading$ | async"
       [loadingError]="newCompanyExchangeInvitationsLoadingError$ | async"
@@ -65,10 +65,12 @@
     </pf-async-container>
 
   </div>
-  <div *ngIf="collapse" class=" d-flex mt-3 flex-grow-1 company-invitation-info-container">
+  <div *ngIf="companyInvitationInfoOpen$ | async" class=" d-flex mt-3 flex-grow-1 company-invitation-info-container">
     <pf-company-exchange-invitation-info
       [selectedCompanyInvitation]="selectedCompanyInvitation"
-      (closeClicked)="handleCloseInvitationInfo()">
+      (closeClicked)="handleCloseInvitationInfo()"
+      (approveClicked)="handleApproveCompanyInvitation($event)"
+      (denyClicked)="handleDenyCompanyInvitation($event)">
     </pf-company-exchange-invitation-info>
   </div>
 

@@ -2,13 +2,18 @@
 
 exports[`New Company Exchange Invitations should match snapshot 1`] = `
 <pf-new-company-exchange-invitations
-  collapse="false"
+  companyInvitationInfoOpen$={[Function Store]}
   exchangeId={[Function Number]}
   newCompanyExchangeInvitationsGrid$={[Function Store]}
   newCompanyExchangeInvitationsLoading$={[Function Store]}
   newCompanyExchangeInvitationsLoadingError$={[Function Store]}
   pageRowIndex="null"
+  pageRowIndex$={[Function Store]}
+  pageRowIndexSubscription={[Function Subscriber]}
   route={[Function Object]}
+  selectedCompanyInvitation="null"
+  selectedCompanyInvitation$={[Function Store]}
+  selectedCompanyInvitationSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div

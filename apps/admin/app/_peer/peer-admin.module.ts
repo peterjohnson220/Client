@@ -21,7 +21,8 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
-  PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects
+  PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects,
+  CompanyExchangeInvitationInfoEffects
 } from './effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
@@ -51,7 +52,8 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
       ExchangeAccessRequestsEffects,
       PayfactorsCompanyExchangeInvitationsEffects,
       NewCompanyExchangeInvitationsEffects,
-      ExchangeJobRequestsEffects
+      ExchangeJobRequestsEffects,
+      CompanyExchangeInvitationInfoEffects
     ]),
 
     // Routing

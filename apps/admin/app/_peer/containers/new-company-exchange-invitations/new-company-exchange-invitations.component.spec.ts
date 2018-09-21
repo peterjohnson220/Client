@@ -10,6 +10,7 @@ import { generateMockNewCompanyExchangeInvitation } from 'libs/models/peer';
 import { NewCompanyExchangeInvitationsComponent } from './new-company-exchange-invitations.component';
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromNewCompanyExchangeInvitationsActions from '../../actions/new-company-exchange-invitations.actions';
+import * as fromCompanyExchangeInvitationInfoActions from '../../actions/company-exchange-invitation-info.actions';
 
 describe('New Company Exchange Invitations', () => {
   let fixture: ComponentFixture<NewCompanyExchangeInvitationsComponent>;
@@ -17,6 +18,8 @@ describe('New Company Exchange Invitations', () => {
   let store: Store<fromRootState.State>;
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
+
+  const mockInvitation = generateMockNewCompanyExchangeInvitation();
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -65,27 +68,23 @@ describe('New Company Exchange Invitations', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should set collapse, selectedCompanyInvitation, and pageRowIndex correctly in the component when a cell is clicked', () => {
-    instance.collapse = false;
-    instance.pageRowIndex = null;
-    instance.selectedCompanyInvitation = null;
-    const mockInvite = generateMockNewCompanyExchangeInvitation();
-    const event = { dataItem: mockInvite, rowIndex: 1};
+  it('should dispatch an OpenCompanyInvitationInfo action when a cell is clicked', () => {
+    const event = { dataItem: mockInvitation, rowIndex: 1};
+    const action = new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationInfo({
+      selectedCompanyInvitation: mockInvitation,
+      pageRowIndex: 1
+    });
 
     instance.handleCellClick(event);
 
-    expect(instance.collapse).toBe(true);
-    expect(instance.selectedCompanyInvitation).toEqual(mockInvite);
-    expect(instance.pageRowIndex).toBe(1);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should set collapse to false and pageRowIndex to null after the company exchange invitation info is closed', () => {
-    instance.collapse = true;
-    instance.pageRowIndex = 1;
+  it('should dispatch a CloseCompanyInvitationInfo action when the company invitation info is closed', () => {
+    const action = new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationInfo();
 
     instance.handleCloseInvitationInfo();
 
-    expect(instance.collapse).toBe(false);
-    expect(instance.pageRowIndex).toBeNull();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

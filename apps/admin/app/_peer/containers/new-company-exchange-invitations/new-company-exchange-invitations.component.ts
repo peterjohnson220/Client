@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { NewCompanyExchangeInvitation } from 'libs/models/peer';
+import { ExchangeInvitation } from 'libs/models/peer';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromNewCompanyExchangeInvitationsActions from '../../actions/new-company-exchange-invitations.actions';
+import * as fromCompanyExchangeInvitationInfoActions from '../../actions/company-exchange-invitation-info.actions';
 
 @Component({
   selector: 'pf-new-company-exchange-invitations',
@@ -16,22 +17,31 @@ import * as fromNewCompanyExchangeInvitationsActions from '../../actions/new-com
   styleUrls: ['./new-company-exchange-invitations.component.scss']
 })
 
-export class NewCompanyExchangeInvitationsComponent {
+export class NewCompanyExchangeInvitationsComponent implements OnInit, OnDestroy {
   newCompanyExchangeInvitationsLoading$: Observable<boolean>;
   newCompanyExchangeInvitationsLoadingError$: Observable<boolean>;
   newCompanyExchangeInvitationsGrid$: Observable<GridDataResult>;
-  selectedCompanyInvitation: NewCompanyExchangeInvitation;
+  companyInvitationInfoOpen$: Observable<boolean>;
+  selectedCompanyInvitation$: Observable<ExchangeInvitation>;
+  selectedCompanyInvitation: ExchangeInvitation;
+  pageRowIndex$: Observable<number>;
+  pageRowIndex: number;
   exchangeId: number;
-  collapse = false;
-  pageRowIndex: number = null;
+
+  selectedCompanyInvitationSubscription: Subscription;
+  pageRowIndexSubscription: Subscription;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
     private route: ActivatedRoute
   ) {
-    this.newCompanyExchangeInvitationsLoading$ = this.store.select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsLoading);
-    this.newCompanyExchangeInvitationsLoadingError$ = this.store.select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsLoadingError);
-    this.newCompanyExchangeInvitationsGrid$ = this.store.select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsGrid);
+    this.newCompanyExchangeInvitationsLoading$ = this.store.pipe(select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsLoading));
+    this.newCompanyExchangeInvitationsLoadingError$
+      = this.store.pipe(select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsLoadingError));
+    this.newCompanyExchangeInvitationsGrid$ = this.store.pipe(select(fromPeerAdminReducer.getNewCompanyExchangeInvitationsGrid));
+    this.companyInvitationInfoOpen$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationInfoOpen));
+    this.selectedCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getSelectedCompanyExchangeInvitation));
+    this.pageRowIndex$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationPageRowIndex));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
   }
@@ -42,13 +52,38 @@ export class NewCompanyExchangeInvitationsComponent {
   }
 
   handleCellClick(event: any) {
-    if (!this.collapse) { this.collapse = true; }
-    this.selectedCompanyInvitation = event.dataItem;
-    this.pageRowIndex = event.rowIndex;
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationInfo({
+      selectedCompanyInvitation: event.dataItem,
+      pageRowIndex: event.rowIndex
+    }));
   }
 
   handleCloseInvitationInfo() {
-    this.collapse = false;
-    this.pageRowIndex = null;
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationInfo());
+  }
+
+  handleApproveCompanyInvitation(companyInvitation: ExchangeInvitation) {
+    // NOT IMPLEMENTED
+    // this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.ApproveCompanyExchangeInvitation(companyInvitation));
+  }
+
+  handleDenyCompanyInvitation(companyInvitation: ExchangeInvitation) {
+    // NOT IMPLEMENTED
+    // this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.DenyCompanyExchangeInvitation(companyInvitation));
+  }
+
+  ngOnInit() {
+    this.selectedCompanyInvitationSubscription = this.selectedCompanyInvitation$.subscribe(selectedInvitation => {
+      this.selectedCompanyInvitation = selectedInvitation;
+    });
+    this.pageRowIndexSubscription = this.pageRowIndex$.subscribe(pri => {
+      this.pageRowIndex = pri;
+    });
+  }
+
+  ngOnDestroy() {
+    this.handleCloseInvitationInfo();
+    this.selectedCompanyInvitationSubscription.unsubscribe();
+    this.pageRowIndexSubscription.unsubscribe();
   }
 }
