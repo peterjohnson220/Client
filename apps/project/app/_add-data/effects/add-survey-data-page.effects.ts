@@ -26,7 +26,7 @@ export class AddSurveyDataPageEffects {
       mergeMap(jobContext => {
         const actions = [];
         actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
-        actions.push(new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext.JobTitle}));
+        actions.push(new fromSearchFiltersActions.SetDefaultValue({filterId: 'jobTitleCode', value: jobContext.JobTitle}));
 
         if (jobContext.RestrictToCountryCode) {
           actions.push(new fromSearchFiltersActions.AddFilter(AddSurveyDataPageEffects.buildLockedCountryCodeFilter(jobContext)));

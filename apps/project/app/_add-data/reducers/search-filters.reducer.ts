@@ -3,9 +3,9 @@ import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
-import { Filter, isMultiFilter, isRangeFilter, isTextFilter } from '../models';
+import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
 import {
-  mapSearchFilterToFilter,
+  mapSearchFilterToMultiFilter,
   mergeClientWithServerMultiSelectFilters,
   mergeClientWithServerRangeFilters
 } from '../helpers';
@@ -41,6 +41,24 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.SET_DEFAULT_VALUE: {
+      const filtersCopy = cloneDeep(state.filters);
+      const filter = filtersCopy.find(f => f.Id === action.payload.filterId);
+      if (isTextFilter(filter)) {
+        const textFilter = filter as TextFilter;
+        textFilter.DefaultValue = action.payload.value;
+        applyDefault(textFilter);
+      } else if (isMultiFilter(filter)) {
+        const multiFilter = filter as MultiSelectFilter;
+        multiFilter.DefaultSelections = action.payload.selections;
+        applyDefault(multiFilter);
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     case fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER: {
       return {
         ...state,
@@ -52,7 +70,10 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 
       if (action.payload.Options.length) {
         filters = cloneDeep(state.filters);
-        filters.push(mapSearchFilterToFilter(cloneDeep(action.payload)));
+        const defaultScopeFilter = mapSearchFilterToMultiFilter(cloneDeep(action.payload));
+        defaultScopeFilter.Options.map(o => o.Selected = true);
+        defaultScopeFilter.DefaultSelections = defaultScopeFilter.Options.map(o => o.Value);
+        filters.push(defaultScopeFilter);
       }
 
       return {
@@ -119,9 +140,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.RESET_ALL_FILTERS: {
+      let filters = resetFilters(cloneDeep(state.filters));
+      filters = applyDefaults(filters);
       return {
         ...state,
-        filters: resetFilters(cloneDeep(state.filters))
+        filters: filters
       };
     }
     case fromSearchFiltersActions.UPDATE_RANGE_FILTER: {
@@ -166,6 +189,26 @@ function resetFilter(filter: Filter) {
   } else if (isTextFilter(filter)) {
     filter.Value = '';
   }
+  return filter;
+}
+
+function applyDefaults(filters: Filter[]): Filter[] {
+  return filters.map(f => applyDefault(f) );
+}
+
+function applyDefault(filter: Filter): Filter {
+  if (isTextFilter(filter)) {
+    const textFilter = filter as TextFilter;
+    if (textFilter.DefaultValue) {
+      filter.Value = textFilter.DefaultValue;
+    }
+  } else if (isMultiFilter(filter)) {
+    const multiFilter = filter as MultiSelectFilter;
+    if (multiFilter.DefaultSelections && multiFilter.DefaultSelections.length) {
+      filter.Options.map(o => o.Selected = multiFilter.DefaultSelections.some(d => isEqual(d, o.Value)));
+    }
+  }
+
   return filter;
 }
 

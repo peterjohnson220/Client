@@ -17,12 +17,14 @@ export interface Filter {
 
 export interface TextFilter extends Filter {
   Value: string;
+  DefaultValue?: any;
 }
 
 export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
   RefreshOptionsFromServer: boolean;
   OptionCountDisabled?: boolean;
+  DefaultSelections?: any[];
 }
 
 export interface RangeFilter extends Filter {
