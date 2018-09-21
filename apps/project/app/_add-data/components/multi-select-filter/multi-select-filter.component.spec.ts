@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
+import { generateMockMultiSelectFilter, generateMockMultiSelectOption } from '../../models';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
-import { generateMockMultiSelectOption } from '../../models';
 
 describe('Project - Add Data - Multi Select Filter', () => {
   let instance: MultiSelectFilterComponent;
@@ -19,11 +19,12 @@ describe('Project - Add Data - Multi Select Filter', () => {
   });
 
   it('should emit an object with a filterId and an option when handling an option selected', () => {
-    const mockMultiSelectOption = generateMockMultiSelectOption();
-    const filterIdAndOption = { filterId: '23094', option: mockMultiSelectOption};
+    const mockMultiSelectFilter = generateMockMultiSelectFilter();
+    const filterIdAndOption = { filterId: '23094', option: mockMultiSelectFilter.Options[0]};
     spyOn(instance.optionSelected, 'emit');
 
-    instance.handleOptionSelected(filterIdAndOption.filterId, mockMultiSelectOption);
+    instance.filter = mockMultiSelectFilter;
+    instance.handleOptionSelected(filterIdAndOption.filterId, mockMultiSelectFilter.Options[0]);
 
     expect(instance.optionSelected.emit).toHaveBeenCalledWith(filterIdAndOption);
   });

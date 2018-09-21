@@ -9,12 +9,16 @@
     </div>
 
     <div class="header-right">
-      <div class="reset-link" *ngIf="selectionCount > 0 || hasText" (click)="handleResetClicked($event, filter.Id)">
+      <div class="reset-link"
+           *ngIf="(selectionCount > 0 || hasText) && !filter.Locked"
+           (click)="handleResetClicked($event, filter.Id)">
         <ng-container *ngIf="!hasText">Reset ({{selectionCount}})</ng-container>
         <ng-container *ngIf="hasText">Clear</ng-container>
       </div>
 
-      <div class="search" *ngIf="filter.Type === filterTypes.Multi && !singled && selectableOptionCount >= maxOptions" (click)="handleSearchClicked($event, filter)">
+      <div class="search"
+           *ngIf="filter.Type === filterTypes.Multi && !singled && selectableOptionCount >= maxOptions && !filter.Locked"
+           (click)="handleSearchClicked($event, filter)">
         <i class="far fa-search"></i>
       </div>
     </div>
