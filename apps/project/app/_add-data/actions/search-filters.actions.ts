@@ -14,6 +14,7 @@ export const REFRESH_FILTERS = '[Project Add Data/Search Filters] Refresh Filter
 export const RESET_FILTER = '[Project Add Data/Search Filters] Reset Filter';
 export const RESET_ALL_FILTERS = '[Project Add Data/Search Filters] Reset All Filters';
 export const ADD_FILTER = '[Project Add Data/Search Filters] Add Filters';
+export const SET_DEFAULT_VALUE = '[Project Add Data/Search Filters] Set Default Value';
 
 export class ClearFilters implements Action {
   readonly type = CLEAR_FILTERS;
@@ -21,6 +22,12 @@ export class ClearFilters implements Action {
 
 export class UpdateFilterValue implements Action {
   readonly type = UPDATE_FILTER_VALUE;
+
+  constructor(public payload: any) {}
+}
+
+export class SetDefaultValue implements Action {
+  readonly type = SET_DEFAULT_VALUE;
 
   constructor(public payload: any) {}
 }
@@ -81,5 +88,6 @@ export type Actions
   | RefreshFilters
   | ResetFilter
   | ResetAllFilters
-  | AddFilter;
+  | AddFilter
+  | SetDefaultValue;
 

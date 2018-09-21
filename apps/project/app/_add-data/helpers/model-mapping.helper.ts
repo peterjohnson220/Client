@@ -1,4 +1,3 @@
-import { generateGuid } from 'libs/core/functions';
 import {
   DataCut,
   PagingOptions,
