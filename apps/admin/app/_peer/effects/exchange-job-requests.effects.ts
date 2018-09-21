@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
@@ -15,8 +15,8 @@ import * as fromExchangeJobRequestsActions from '../actions/exchange-job-request
 export class ExchangeJobRequestsEffects {
 
   @Effect()
-  loadExchangeJobRequests$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobRequestsActions.LOAD_EXCHANGE_JOB_REQUESTS).pipe(
+  loadExchangeJobRequests$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeJobRequestsActions.LOAD_EXCHANGE_JOB_REQUESTS),
       map((action: fromExchangeJobRequestsActions.LoadExchangeJobRequests) => action.payload),
       switchMap(payload => {
         return this.exchangeApiService.getPendingExchangeJobRequests(payload.exchangeId).pipe(
@@ -30,13 +30,14 @@ export class ExchangeJobRequestsEffects {
   );
 
   @Effect()
-  approveExchangeJobRequest$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST).pipe(
+  approveExchangeJobRequest$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST),
       map((action: fromExchangeJobRequestsActions.ApproveExchangeJobRequest) => action.payload),
       switchMap(payload => {
         return this.exchangeApiService.approveExchangeJobRequest(payload).pipe(
           map(() => {
             this.gridHelperService.loadExchangeJobRequests(payload.ExchangeId);
+            this.gridHelperService.loadExchangeJobs(payload.ExchangeId);
             return new fromExchangeJobRequestsActions.ApproveExchangeJobRequestSuccess();
           }),
           catchError( error => of(new fromExchangeJobRequestsActions.ApproveExchangeJobRequestError()))
@@ -45,8 +46,8 @@ export class ExchangeJobRequestsEffects {
     );
 
   @Effect()
-  denyExchangeJobRequest$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST).pipe(
+  denyExchangeJobRequest$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST),
       map((action: fromExchangeJobRequestsActions.DenyExchangeJobRequest) => action.payload),
       switchMap(payload => {
         return this.exchangeApiService.denyExchangeJobRequest(payload).pipe(
