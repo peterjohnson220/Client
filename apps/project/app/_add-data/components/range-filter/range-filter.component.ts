@@ -11,9 +11,12 @@ import { RangeFilter } from '../../models';
 })
 export class RangeFilterComponent implements OnChanges {
     @Input() filter: RangeFilter;
+    @Input() precision: number;
     @Output() rangeChange: EventEmitter<{filterId: string, minValue: number, maxValue: number}> = new EventEmitter();
-    showRangeControl: boolean;
 
+    showRangeControl: boolean;
+    selectedMin: number;
+    selectedMax: number;
     options: Options;
 
     constructor() {}
@@ -21,6 +24,7 @@ export class RangeFilterComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
       if (changes.filter) {
         this.showRangeControl = this.filter.MinimumValue !== this.filter.MaximumValue && this.filter.MaximumValue > 0;
+        this.setSelectedMinAndMax();
         this.options = this.buildUpOptions();
       }
     }
@@ -30,13 +34,31 @@ export class RangeFilterComponent implements OnChanges {
     }
 
     buildUpOptions(): Options {
+      let tempPrecision = this.getPrecision();
+
+      if (!!this.precision) {
+        tempPrecision = this.precision;
+      }
+
       return {
         floor: this.filter.MinimumValue,
         ceil: this.filter.MaximumValue,
         showTicks: false,
-        translate: (value: number): string => {
-          return '$' + value;
-        }
+        step: 0.01,
+        precision: tempPrecision
       };
+    }
+
+    setSelectedMinAndMax() {
+      this.selectedMin = this.filter.SelectedMinValue || this.filter.MinimumValue;
+      this.selectedMax = this.filter.SelectedMaxValue || this.filter.MaximumValue;
+    }
+
+    getPrecision(): number {
+      if (!!this.filter && !!this.filter.MaximumValue && this.filter.MaximumValue % 1 !== 0) {
+        return (this.filter.MaximumValue + '').split('.')[1].length;
+      } else {
+        return 1;
+      }
     }
 }

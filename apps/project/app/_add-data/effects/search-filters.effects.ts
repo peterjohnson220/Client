@@ -25,7 +25,7 @@ export class SearchFiltersEffects {
   updateRangeFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );
 
   @Effect()

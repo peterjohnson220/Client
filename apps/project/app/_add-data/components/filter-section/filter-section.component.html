@@ -1,34 +1,29 @@
 <div class="filter" [class.singled]="singled">
   <div class="header" (click)="toggle()">
     <div class="header-left">
-      {{filter.DisplayName}}
+      {{filter.DisplayName}} <span *ngIf="isRangeFilter" class="pl-1">({{currencyCode}})</span>
 
       <div class="ml-2" *ngIf="collapsed">
         <i class="far fa-angle-down"></i>
       </div>
     </div>
-
     <div class="header-right">
-      <div class="reset-link"
-           *ngIf="(selectionCount > 0 || hasText) && !filter.Locked"
-           (click)="handleResetClicked($event, filter.Id)">
-        <ng-container *ngIf="!hasText">Reset ({{selectionCount}})</ng-container>
+      <div class="reset-link" *ngIf="shouldShowResetLink" (click)="handleResetClicked($event, filter.Id)">
+        <ng-container *ngIf="selectionCount > 0">Reset ({{selectionCount}})</ng-container>
+        <ng-container *ngIf="rangeHasSelection">Reset</ng-container>
         <ng-container *ngIf="hasText">Clear</ng-container>
       </div>
-
       <div class="search"
            *ngIf="filter.Type === filterTypes.Multi && !singled && selectableOptionCount >= maxOptions && !filter.Locked"
            (click)="handleSearchClicked($event, filter)">
         <i class="far fa-search"></i>
       </div>
     </div>
-
   </div>
   <div *ngIf="!collapsed">
     <div class="search-filter" *ngIf="singled">
       <pf-input-debounce (valueChanged)="handleSearchValueChanged($event)"></pf-input-debounce>
     </div>
-
     <div class="content">
       <ng-content></ng-content>
     </div>

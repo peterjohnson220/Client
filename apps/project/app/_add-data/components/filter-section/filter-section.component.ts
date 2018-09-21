@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { maxNumberOfOptions } from '../../helpers';
-import { Filter, FilterType, isMultiFilter, isTextFilter } from '../../models';
+import { Filter, FilterType, isMultiFilter, isTextFilter, isRangeFilter } from '../../models';
 
 @Component({
   selector: 'pf-filter-section',
@@ -10,6 +10,7 @@ import { Filter, FilterType, isMultiFilter, isTextFilter } from '../../models';
 })
 export class FilterSectionComponent {
   @Input() filter: Filter;
+  @Input() currencyCode: string;
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
   @Output() reset: EventEmitter<string> = new EventEmitter();
@@ -22,6 +23,10 @@ export class FilterSectionComponent {
 
   constructor() {}
 
+  get shouldShowResetLink(): boolean {
+    return (this.selectionCount > 0 || this.hasText || this.rangeHasSelection) && !this.filter.Locked;
+  }
+
   get selectionCount(): number {
     return this.overriddenSelectionCount ||
       (isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Selected).length : 0);
@@ -33,6 +38,14 @@ export class FilterSectionComponent {
 
   get hasText(): boolean {
     return isTextFilter(this.filter) ? this.filter.Value.length > 0 : false;
+  }
+
+  get rangeHasSelection(): boolean {
+    return isRangeFilter(this.filter) ? this.filter.SelectedMinValue > 0 || this.filter.SelectedMaxValue > 0 : false;
+  }
+
+  get isRangeFilter(): boolean {
+    return isRangeFilter(this.filter);
   }
 
   toggle() {
