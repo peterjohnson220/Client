@@ -1,16 +1,17 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 // Import all exports from our feature's actions
 import * as fromJdmViewActions from '../actions/view.actions';
 
 // Define our feature state
-export interface State extends EntityState<string> {
+export interface State extends EntityState<JobDescriptionViewModel> {
   loading: boolean;
   loadingError: boolean;
 }
 
-export const adapter: EntityAdapter<string> = createEntityAdapter<string>({
-  selectId: x => x
+export const adapter: EntityAdapter<JobDescriptionViewModel> = createEntityAdapter<JobDescriptionViewModel>({
+  selectId: (jobDescriptionViewModel: JobDescriptionViewModel) => jobDescriptionViewModel.Id
 });
 
 // Define our initial state
@@ -41,7 +42,7 @@ export function reducer(
     }
     case  fromJdmViewActions.LOADING_VIEWS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload.viewNames, state),
+        ...adapter.addAll(action.payload.views, state),
         loading: false
       };
     }

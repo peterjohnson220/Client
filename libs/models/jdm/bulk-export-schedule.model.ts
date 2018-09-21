@@ -1,7 +1,7 @@
 export class BulkExportSchedule {
   Id: number;
   FileName: string;
-  View: string;
+  ViewId: string;
   Filter: string;
   Frequency: string;
   DayOfWeek: string;
@@ -15,7 +15,7 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
   return {
     Id: 1,
     FileName: 'Mock',
-    View: 'MockView',
+    ViewId: 'MockViewId',
     Filter: 'MockFilter',
     Frequency: 'Weekly',
     DayOfWeek: '2,4,6',

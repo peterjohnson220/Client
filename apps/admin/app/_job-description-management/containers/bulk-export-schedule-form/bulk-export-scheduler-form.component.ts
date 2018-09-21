@@ -6,7 +6,7 @@ import { BulkExportSchedule } from 'libs/models/jdm';
 import { UserFilter } from 'libs/models/user-profile/index';
 import * as fromJdmAdminReducer from '../../reducers/index';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
-
+import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 @Component({
   selector: 'pf-bulk-export-scheduler-form',
@@ -14,7 +14,7 @@ import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-sch
   styleUrls: ['./bulk-export-scheduler-form.component.scss']
 })
 export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
-  @Input() views: string[];
+  @Input() views: JobDescriptionViewModel[];
   @Input() filters: UserFilter[];
   @Input() schedules: BulkExportSchedule[];
 
@@ -125,7 +125,7 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       return false;
     }
 
-    if (!this.schedule.View || !this.schedule.Filter) {
+    if (!this.schedule.ViewId || !this.schedule.Filter) {
       return false;
     }
     if (!this.schedule.Frequency) {
