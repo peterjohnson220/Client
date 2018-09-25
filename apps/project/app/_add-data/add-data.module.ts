@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -41,6 +41,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
+    NgbPopoverModule.forRoot(),
     Ng5SliderModule,
 
     // Routing

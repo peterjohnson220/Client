@@ -1,6 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
+import { SearchFilter } from 'libs/models';
+
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
 import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
@@ -15,12 +17,16 @@ const filterToNotRefresh = f => isTextFilter(f) || multiSelectToNotRefresh(f);
 
 export interface State {
   filters: Filter[];
+  savedFilters: SearchFilter[];
   loadingDefaultSurveyScopes: boolean;
+  loadingSavedFilters: boolean;
 }
 
 const initialState: State = {
   filters: staticFilters,
-  loadingDefaultSurveyScopes: false
+  savedFilters: [],
+  loadingDefaultSurveyScopes: false,
+  loadingSavedFilters: false
 };
 
 // Reducer function
@@ -120,7 +126,10 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         }
       );
 
-      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      let allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      if (action.payload.hasSavedFilters) {
+        allFilters = applySavedSelections(allFilters, state.savedFilters);
+      }
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -167,6 +176,19 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.GET_SAVED_FILTERS: {
+      return {
+        ...state,
+        loadingSavedFilters: true
+      };
+    }
+    case fromSearchFiltersActions.GET_SAVED_FILTERS_SUCCESS: {
+      return {
+        ...state,
+        savedFilters: action.payload,
+        loadingSavedFilters: false
+      };
+    }
     default: {
       return state;
     }
@@ -210,6 +232,19 @@ function applyDefault(filter: Filter): Filter {
   return filter;
 }
 
+function applySavedSelections(filters: Filter[], defaultFilters: SearchFilter[]): Filter[] {
+  defaultFilters.map(df => {
+    filters.filter(f => f.BackingField === df.Name)
+    .map((f: MultiSelectFilter) => {
+      f.DefaultSelections = df.Options.map(o => o.Value);
+      applyDefault(f);
+      return f;
+    });
+  });
+  return filters;
+}
+
 // Selector functions
 export const getFilters = (state: State) => state.filters;
 export const getLoadingDefaultSurveyScopes = (state: State) => state.loadingDefaultSurveyScopes;
+export const getSavedFilters = (state: State) => state.savedFilters;

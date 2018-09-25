@@ -74,4 +74,8 @@ export class AddSurveyDataPageComponent {
   handleResetAllFilters() {
     this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
   }
+
+  handleSaveFilters(isForAllPayMarkets: boolean): void {
+    this.store.dispatch(new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets }));
+  }
 }

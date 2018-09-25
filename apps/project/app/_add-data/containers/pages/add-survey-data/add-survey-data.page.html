@@ -4,7 +4,8 @@
     <pf-filter-header
       [numberOfResults]="numberOfResults$ | async"
       [singled]="!!(searchingFilter$ | async)"
-      (resetAll)="handleResetAllFilters()">
+      (resetAll)="handleResetAllFilters()"
+      (saveFilters)="handleSaveFilters($event)">
     </pf-filter-header>
 
     <pf-search-filters

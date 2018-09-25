@@ -71,7 +71,7 @@ export function mapFiltersToSearchFields(filters: Filter[]): SearchField[] {
   });
 }
 
-export function mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
+export function getSelectedSearchFilters(filters: Filter[]): SearchFilter[] {
   return getMultiFiltersWithValues(filters).map((f: MultiSelectFilter) => {
     return {
       Name: f.BackingField,
@@ -224,4 +224,14 @@ function isOptionCountDisabled(filterOptionName: string) {
       break;
   }
   return result;
+}
+
+export function replaceDefaultFiltersWithSavedFilters(filters: SearchFilter[], savedFilters: SearchFilter[]): any[] {
+  const combinedScopesWeighted = 'combined_scopes_weighted';
+  const hasSavedDefaultScopesFilter = savedFilters.some(f => f.Name === combinedScopesWeighted);
+  if (hasSavedDefaultScopesFilter) {
+    const currentScopesFilterIndex = filters.findIndex(f => f.Name === combinedScopesWeighted);
+    filters.splice(currentScopesFilterIndex, 1);
+  }
+  return filters.concat(savedFilters);
 }

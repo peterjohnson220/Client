@@ -14,8 +14,18 @@
   justify-content: space-between;
 }
 
-.reset-filters{
+.reset-filters,
+.save-filters {
   @extend %reset-link;
   padding-top: .35rem;
+  height: 24px;
 }
 
+.input-group {
+  padding: 3px;
+  margin: 5px 3px;
+  input[type='radio'] {
+    margin-right: 5px;
+    cursor: pointer;
+  }
+}

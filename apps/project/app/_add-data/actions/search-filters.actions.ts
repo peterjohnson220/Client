@@ -15,6 +15,10 @@ export const RESET_FILTER = '[Project Add Data/Search Filters] Reset Filter';
 export const RESET_ALL_FILTERS = '[Project Add Data/Search Filters] Reset All Filters';
 export const ADD_FILTER = '[Project Add Data/Search Filters] Add Filters';
 export const SET_DEFAULT_VALUE = '[Project Add Data/Search Filters] Set Default Value';
+export const SAVE_SEARCH_FILTERS = '[Project Add Data/Search Filters] Save Search Filters';
+export const SAVE_SEARCH_FILTERS_SUCCESS = '[Project Add Data/Search Filters] Save Search Filters Success';
+export const GET_SAVED_FILTERS = '[Project Add Data/Search Filters] Get Saved Filters';
+export const GET_SAVED_FILTERS_SUCCESS = '[Project Add Data/Search Filters] Get Saved Filters Success';
 
 export class ClearFilters implements Action {
   readonly type = CLEAR_FILTERS;
@@ -57,7 +61,11 @@ export class UpdateRangeFilter implements Action {
 export class RefreshFilters implements Action {
   readonly type = REFRESH_FILTERS;
 
-  constructor(public payload: { searchFilters: Filter[], keepFilteredOutOptions: boolean }) {}
+  constructor(public payload: {
+    searchFilters: Filter[],
+    keepFilteredOutOptions: boolean,
+    hasSavedFilters?: boolean
+  }) {}
 }
 
 export class ResetFilter implements Action {
@@ -78,6 +86,30 @@ export class AddFilter implements Action {
   constructor(public payload: TextFilter | MultiSelectFilter) {}
 }
 
+export class SaveSearchFilters implements Action {
+  readonly type = SAVE_SEARCH_FILTERS;
+
+  constructor(public payload: { isForAllPayMarkets: boolean }) {}
+}
+
+export class SaveSearchFiltersSuccess implements Action {
+  readonly type = SAVE_SEARCH_FILTERS_SUCCESS;
+
+  constructor() {}
+}
+
+export class GetSavedFilters implements Action {
+  readonly type = GET_SAVED_FILTERS;
+
+  constructor() {}
+}
+
+export class GetSavedFiltersSuccess implements Action {
+  readonly type = GET_SAVED_FILTERS_SUCCESS;
+
+  constructor(public payload: SearchFilter[]) {}
+}
+
 export type Actions
   = ClearFilters
   | UpdateFilterValue
@@ -89,5 +121,9 @@ export type Actions
   | ResetFilter
   | ResetAllFilters
   | AddFilter
-  | SetDefaultValue;
+  | SetDefaultValue
+  | SaveSearchFilters
+  | SaveSearchFiltersSuccess
+  | GetSavedFilters
+  | GetSavedFiltersSuccess;
 

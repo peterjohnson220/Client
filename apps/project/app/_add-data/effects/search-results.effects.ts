@@ -11,7 +11,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromJobResultActions from '../actions/search-results.actions';
 import { AddDataEffectsService } from '../services';
 import * as fromAddDataReducer from '../reducers';
-import {mapFiltersToSearchFields, mapFiltersToSearchFilters} from '../helpers';
+import {mapFiltersToSearchFields, getSelectedSearchFilters} from '../helpers';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -34,7 +34,7 @@ export class SearchResultsEffects {
           const currencyCode = dataCutContext.jobContext.CurrencyCode;
           const projectId = dataCutContext.jobContext.ProjectId;
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
-          const filtersRequestObj = mapFiltersToSearchFilters(dataCutContext.filters);
+          const filtersRequestObj = getSelectedSearchFilters(dataCutContext.filters);
           const pagingOptions: PagingOptions = {
             From: dataCutContext.action.payload.DataCuts.length,
             Count: 150
