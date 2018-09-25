@@ -107,7 +107,7 @@
           <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
           <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
           <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
-          <p>Using {{existingSchedule.View}} view</p>
+          <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
           <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
           <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
         </td>
