@@ -146,6 +146,16 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     return this.schedules.some(x => x.FileName === filename);
   }
 
+  getViewName(viewId) {
+    for (let view of this.views) {
+      if (view.Id === viewId) {
+        return view.Name;
+      }
+    }
+
+    return "";
+  }
+
   // Lifecycle
   ngOnInit() {
     this.addScheduleErrorSubscription = this.addingScheduleError$.subscribe(error => {
