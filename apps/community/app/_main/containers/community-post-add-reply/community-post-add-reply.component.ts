@@ -4,9 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromCommunityPostReducer from '../../reducers';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import { CommunityAddReply, CommunityPost } from 'libs/models/community';
+import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import { CommunityAddReply } from 'libs/models/community';
 
 @Component({
   selector: 'pf-community-post-add-reply',
@@ -21,12 +21,12 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   addingCommunityPostReplySuccess$: Observable<boolean>;
   addingCommunityPostReplySuccessSubscription: Subscription;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               private formBuilder: FormBuilder) {
     this.buildForm();
 
-    this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReducer.getAddingCommunityPostReply);
-    this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityPostReplySuccess);
+    this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReply);
+    this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess);
   }
 
   buildForm() {
@@ -52,7 +52,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         PostId: this.postId,
         ReplyText: this.communityPostReplyForm.controls['context'].value
       };
-      this.store.dispatch(new fromCommunityPostActions.AddingCommunityPostReply(newReply));
+      this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
     }
   }
 }

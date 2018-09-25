@@ -6,14 +6,11 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReplyReducer from '../../reducers';
-import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import { CommunityPostAddReplyViewComponent } from './community-post-add-reply-view.component';
 
-import { CommunityPostAddReplyComponent } from './community-post-add-reply.component';
-
-
-describe('CommunityPostAddReplyComponent', () => {
-  let fixture: ComponentFixture<CommunityPostAddReplyComponent>;
-  let instance: CommunityPostAddReplyComponent;
+describe('CommunityPostAddReplyViewComponent', () => {
+  let fixture: ComponentFixture<CommunityPostAddReplyViewComponent>;
+  let instance: CommunityPostAddReplyViewComponent;
   let store: Store<fromRootState.State>;
 
   // Configure Testing Module for before each test
@@ -27,7 +24,7 @@ describe('CommunityPostAddReplyComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityPostAddReplyComponent
+        CommunityPostAddReplyViewComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -37,29 +34,12 @@ describe('CommunityPostAddReplyComponent', () => {
 
     spyOn(store, 'dispatch');
 
-    fixture = TestBed.createComponent(CommunityPostAddReplyComponent);
+    fixture = TestBed.createComponent(CommunityPostAddReplyViewComponent);
     instance = fixture.componentInstance;
   });
-
-  it('should show community add reply', () => {
+  it('should show community add reply view', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
-  });
-
-  it ('should dispatch AddingCommunityPostReply when calling submitReply', () => {
-
-    instance.postId = '99';
-    instance.communityPostReplyForm.controls['context'].setValue('hello world');
-
-    const newReply: any = {
-      PostId: '99',
-      ReplyText: 'hello world'
-    };
-    const expectedAction = new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply);
-
-    instance.submitReply();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

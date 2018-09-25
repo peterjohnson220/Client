@@ -9,9 +9,13 @@ export interface CommunityPost {
   Time: any;
   IsInternalOnly: boolean;
   LikeCount: number;
+  LikedByCurrentUser: boolean;
   ReplyCount: number;
+  TimeTicks: number;
   Tags: CommunityTag[];
   Replies: CommunityReply[];
+  ReplyIds: string[];
+  HiddenReplyIds: string[];
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -25,11 +29,15 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
         UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company',
         AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
       },
-    Time: '3 days ago',
+    Time: new Date(),
     IsInternalOnly: isInternalOnly,
     LikeCount: likeCount,
+    LikedByCurrentUser: false,
     ReplyCount: replyCount,
+    TimeTicks: 12345,
     Tags: tags,
-    Replies: replies
+    Replies: replies,
+    ReplyIds: [ '1', '2' ],
+    HiddenReplyIds: [ '1' ]
   };
 }

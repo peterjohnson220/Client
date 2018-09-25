@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, OnDestroy, HostListener } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 
 import * as constants from 'libs/models/community/community-constants.model';
 import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostAddReplyReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
 import { CommunityTag, CommunityPost } from 'libs/models';
@@ -53,11 +54,12 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public store: Store<fromCommunityPostReducer.State>, private fb: FormBuilder) {
+  constructor(public store: Store<fromCommunityPostReducer.State>,
+              public replyStore: Store<fromCommunityPostAddReplyReducer.State>) {
     this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityPostReducer.getSuggestingCommunityTagsPostId);
     this.suggestedCommunityTags$ = this.store.select(fromCommunityPostReducer.getCommunityTags);
     this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
-    this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityPostReplySuccess);
+    this.addingCommunityPostReplySuccess$ = this.replyStore.select(fromCommunityPostAddReplyReducer.getAddingCommunityPostReplySuccess);
   }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     });
 
     this.suggestedCommunityTagsPostIdSubscription = this.suggestedCommunityTagsPostId$.subscribe((data) => {
-         this.suggestTagsContainerVisible = data === this.postId ? true : false;
+         this.suggestTagsContainerVisible = data === this.postId;
     });
 
     this.submittingCommunityPostSuccessSubscription = this.submittingCommunityPostSuccess$.subscribe((response) => {

@@ -11,12 +11,12 @@ export class CommunityPostApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getPosts(): Observable<any> {
+  getPosts(): Observable<CommunityPost[]> {
     return this.payfactorsApiService.get<CommunityPost[]>
     (`${this.endpoint}/GetPosts`);
   }
 
-  submitCommunityPost(payload: any): Observable<boolean> {
+  submitCommunityPost(payload: any): Observable<CommunityPost> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Post`, payload);
   }
 
@@ -28,11 +28,11 @@ export class CommunityPostApiService {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/UpdatePostReplyLike`, payload);
   }
 
-  addReply(payload: any): Observable<boolean> {
+  addReply(payload: any): Observable<CommunityReply> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddReply`, payload);
   }
 
-  getReplies(payload: any): Observable<any> {
+  getRepliesByPostId(payload: any): Observable<any> {
     return this.payfactorsApiService.get<CommunityReply[]>
     (`${this.endpoint}/GetReplies`, {
       params: {

@@ -6,7 +6,9 @@ export interface CommunityReply {
   UserInfo: CommunityUserInfo;
   ReplyText: string;
   LikeCount: number;
+  LikedByCurrentUser: boolean;
   Time: any;
+  TimeTicks: number;
 }
 
 export function generateMockCommunityReply(): CommunityReply {
@@ -16,6 +18,8 @@ export function generateMockCommunityReply(): CommunityReply {
     UserInfo: generateMockCommunityUserInfo(),
     ReplyText:  'Reply Text',
     LikeCount: 0,
-    Time: '2 hours ago'
+    LikedByCurrentUser: false,
+    Time: '2 hours ago',
+    TimeTicks: 12345
   };
 }

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostReplyComponent should show community post reply component 1`] = `
+<pf-community-post-reply
+  avatarUrl={[Function String]}
+  reply={[Function Object]}
+>
+  <pf-community-avatar /><div
+    class="reply-offset"
+  >
+    <pf-community-post-header />
+    <p
+      class="mt-2 mb-2"
+    >
+      Reply Text
+    </p>
+    <pf-community-like />
+  </div>
+</pf-community-post-reply>
+`;

@@ -1,32 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser === true  1`] = `
-<pf-community-like
-  LikedByCurrentUser={[Function Boolean]}
-  store={[Function Store]}
->
-  <button
-    class="btn m-1 p-0 community-btn-clicked"
-    id="like-reply"
-    ng-reflect-klass="btn m-1 p-0"
-    ng-reflect-ng-class="community-btn-clicked"
-    type="button"
-  >
-    <i
-      class="fa-heart icon fas"
-      ng-reflect-klass="fa-heart icon"
-      ng-reflect-ng-class="fas"
-    />
-    <span>
-        Like
-    </span>
-  </button>
-</pf-community-like>
-`;
-
 exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser === true 1`] = `
 <pf-community-like
   LikedByCurrentUser={[Function Boolean]}
+  replyStore={[Function Store]}
   store={[Function Store]}
 >
   <button
@@ -51,6 +28,7 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
 exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUser === false 1`] = `
 <pf-community-like
   LikedByCurrentUser="false"
+  replyStore={[Function Store]}
   store={[Function Store]}
 >
   <button
@@ -74,6 +52,7 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
 
 exports[`CommunityLikeComponent should show like component 1`] = `
 <pf-community-like
+  replyStore={[Function Store]}
   store={[Function Store]}
 >
   <button
