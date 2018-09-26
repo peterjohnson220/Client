@@ -79,7 +79,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
       const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
       if (state.isInitialLoad && shouldSetBounds) {
-        newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
+        newState.mapBounds = MapHelper.getBoundsForOneMapCopy(newTL, newBR);
         newState.mapFilter.TopLeft = newTL;
         newState.mapFilter.BottomRight = newBR;
       }
