@@ -9,7 +9,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class CommunityPollChoicesComponent {
 
   static enableEditingResponseOptionsStatic = true;
+
   get enableEditingResponseOptions() { return CommunityPollChoicesComponent.enableEditingResponseOptionsStatic; }
+  get getPlaceholder() { return this.index <= 1 ? `Choice ${this.index + 1}` : `Choice ${this.index + 1} (Optional)`; }
 
   @Input() public index: number;
 
