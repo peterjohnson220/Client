@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
 
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
-
+import { CommunityPost } from 'libs/models/community';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class CommunityPostEffects {
     .ofType(fromCommunityPostActions.SUBMITTING_COMMUNITY_POST).pipe(
       switchMap((action: fromCommunityPostActions.SubmittingCommunityPost) =>
         this.communityPostService.submitCommunityPost(action.payload).pipe(
-          map((response: boolean) => {
-            return new fromCommunityPostActions.SubmittingCommunityPostSuccess(response);
+          map((communityPost: CommunityPost) => {
+            return new fromCommunityPostActions.SubmittingCommunityPostSuccess(communityPost);
           }),
           catchError(error => of(new fromCommunityPostActions.SubmittingCommunityPostError()))
         )
@@ -31,8 +31,8 @@ export class CommunityPostEffects {
     .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS).pipe(
       switchMap(() =>
         this.communityPostService.getPosts().pipe(
-          map((response: boolean) => {
-            return new fromCommunityPostActions.GettingCommunityPostsSuccess(response);
+          map((communityPosts: CommunityPost[]) => {
+            return new fromCommunityPostActions.GettingCommunityPostsSuccess(communityPosts);
           }),
           catchError(error => of(new fromCommunityPostActions.GettingCommunityPostsError()))
         )
@@ -48,45 +48,6 @@ export class CommunityPostEffects {
             return new fromCommunityPostActions.UpdatingCommunityPostLikeSuccess(action.payload);
           }),
           catchError(error => of(new fromCommunityPostActions.UpdatingCommunityPostLikeError()))
-        )
-      )
-    );
-
-  @Effect()
-  updatingCommunityPostReplyLike$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_REPLY_LIKE).pipe(
-      switchMap((action: fromCommunityPostActions.UpdatingCommunityPostReplyLike) =>
-        this.communityPostService.updatePostReplyLike(action.payload).pipe(
-          map(() => {
-            return new fromCommunityPostActions.UpdatingCommunityPostReplyLikeSuccess(action.payload);
-          }),
-          catchError(error => of(new fromCommunityPostActions.UpdatingCommunityPostReplyLikeError()))
-        )
-      )
-    );
-
-  @Effect()
-  addingReply$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.ADDING_COMMUNITY_POST_REPLY).pipe(
-      switchMap((action: fromCommunityPostActions.AddingCommunityPostReply) =>
-        this.communityPostService.addReply(action.payload).pipe(
-          map((response) => {
-            return new fromCommunityPostActions.AddingCommunityPostReplySuccess(response);
-          }),
-          catchError(error => of(new fromCommunityPostActions.AddingCommunityPostReplyError()))
-        )
-      )
-    );
-
-  @Effect()
-  loadingCommunityPostReplies$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST_REPLIES).pipe(
-      switchMap((action: fromCommunityPostActions.GettingCommunityPostReplies) =>
-        this.communityPostService.getReplies(action.payload).pipe(
-          map((response: boolean) => {
-            return new fromCommunityPostActions.GettingCommunityPostRepliesSuccess(response);
-          }),
-          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostRepliesError()))
         )
       )
     );

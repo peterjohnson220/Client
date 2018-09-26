@@ -5,14 +5,17 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostReplyReducer from '../../reducers';
+
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 
 import { CommunityLikeComponent } from './community-like.component';
 
 describe('CommunityLikeComponent', () => {
   let fixture: ComponentFixture<CommunityLikeComponent>;
   let instance: CommunityLikeComponent;
-  let store: Store<fromRootState.State>;
+  let store: Store<fromCommunityPostReducer.State>;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -20,7 +23,8 @@ describe('CommunityLikeComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          communityPost: combineReducers(fromCommunityPostReducer.reducers)
+          communityPost: combineReducers(fromCommunityPostReducer.reducers),
+          communityPostReply:  combineReducers(fromCommunityPostReplyReducer.reducers)
         }),
         ],
         declarations: [
@@ -38,6 +42,7 @@ describe('CommunityLikeComponent', () => {
   });
 
   it('should show like component', () => {
+
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -69,7 +74,7 @@ describe('CommunityLikeComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
-
+  
   it('should dispatch UpdatingCommunityPostReplyLike when calling updateLike and ReplyId != undefined', () => {
     const likedByCurrentUser = true;
 
@@ -79,7 +84,7 @@ describe('CommunityLikeComponent', () => {
     instance.updateLike();
 
     const replyResult = {postId: '1234', replyId: '12345', like: !likedByCurrentUser};
-    const expectedAction = new fromCommunityPostActions.UpdatingCommunityPostReplyLike(replyResult);
+    const expectedAction = new fromCommunityPostReplyActions.UpdatingCommunityPostReplyLike(replyResult);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

@@ -1,5 +1,5 @@
 <div class="posts-container p-2 scroll">
-  <ng-container *ngFor="let post of communityPosts$ | async; let i = index; let last = last;">
+  <ng-container *ngFor="let post of (communityPosts$ | async); trackBy: trackByPostId; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
         <pf-community-avatar
@@ -25,6 +25,7 @@
           </a>
           <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
             <pf-community-post-add-reply [postId]="post.Id"></pf-community-post-add-reply>
+            <pf-community-post-add-reply-view [postId]="post.Id"></pf-community-post-add-reply-view>
           </div>
           <div *ngIf="post.ReplyCount > 0">
             <a id="replyAction" href="javascript:void(0)" class="community-link m-1" >
@@ -34,7 +35,7 @@
                   </svg>
               </span>
               <span *ngIf="!showReplies[i]" (click)="getReplies(i, post.Id)">View Replies ({{ post.ReplyCount }})</span>
-              <span *ngIf="showReplies[i]" (click)="hideReplies(i)">Hide Replies</span>
+              <span *ngIf="showReplies[i]" (click)="hideReplies(i, post.Id)">Hide Replies</span>
             </a>
           </div>
           <div *ngIf="showReplies[i]">

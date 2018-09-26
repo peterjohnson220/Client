@@ -1,38 +1,37 @@
-import * as cloneDeep from 'lodash.clonedeep';
-import * as isEqual from 'lodash.isequal';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { CommunityPost } from 'libs/models/community';
 import * as communityPostActions from '../actions/community-post.actions';
 
-export interface State {
+export interface State extends EntityState<CommunityPost> {
   submitting: boolean;
   submittingError: boolean;
   loading: boolean;
   loadingError: boolean;
-  addingReply: boolean;
-  addingReplyError: boolean;
-  addingReplySuccess: boolean;
-  loadingReplies: boolean;
-  loadingRepliesError: boolean;
-  entities: CommunityPost[];
   submittedPost: CommunityPost;
 }
 
-export const initialState: State = {
+function sortByTime(a: CommunityPost, b: CommunityPost) {
+  return b.TimeTicks -  a.TimeTicks;
+}
+// Create entity adapter
+export const adapter: EntityAdapter<CommunityPost> = createEntityAdapter<CommunityPost>({
+  selectId: (communityPost: CommunityPost) => communityPost.Id,
+  sortComparer: sortByTime
+});
+
+export const initialState: State = adapter.getInitialState({
   submitting: false,
   submittingError: false,
   loading: false,
   loadingError: false,
-  addingReply: false,
-  addingReplyError: false,
-  addingReplySuccess: false,
-  loadingReplies: false,
-  loadingRepliesError: false,
-  entities: [],
   submittedPost: null
-};
+});
 
-export function reducer(state = initialState, action: communityPostActions.Actions): State {
+export function reducer(
+  state = initialState,
+  action: communityPostActions.Actions
+): State {
   switch (action.type) {
     case communityPostActions.SUBMITTING_COMMUNITY_POST: {
       return {
@@ -42,17 +41,10 @@ export function reducer(state = initialState, action: communityPostActions.Actio
       };
     }
     case communityPostActions.SUBMITTING_COMMUNITY_POST_SUCCESS: {
-      const updatedEntities = [];
-      updatedEntities.push(action.payload);
-
-      for (const entity of state.entities) {
-        updatedEntities.push(entity);
-      }
       return {
-        ...state,
+        ...adapter.addOne(action.payload, state),
         submitting: false,
-        submittedPost: action.payload,
-        entities: updatedEntities
+        submittedPost: action.payload
       };
     }
     case communityPostActions.SUBMITTING_COMMUNITY_POST_ERROR: {
@@ -71,9 +63,8 @@ export function reducer(state = initialState, action: communityPostActions.Actio
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_SUCCESS: {
       return {
-        ...state,
-        loading: false,
-        entities: action.payload
+        ...adapter.addAll(action.payload, state),
+        loading: false
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_ERROR: {
@@ -86,21 +77,13 @@ export function reducer(state = initialState, action: communityPostActions.Actio
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_SUCCESS: {
       const postId = action.payload['postId'];
       const like = action.payload['like'];
+      const entity = state.entities[postId];
+      const updatedLikeCount = like ? entity.LikeCount + 1 : entity.LikeCount - 1;
 
-      const updatedEntities = state.entities.map(entity => {
-        if (entity.Id === postId) {
-        return {
-          ...entity,
-          LikedByCurrentUser: like,
-          LikeCount: like ? entity.LikeCount + 1 : entity.LikeCount - 1
-        };
-      } else {
-          return entity;
-        }
-      });
-    return {
-        ...state,
-        entities: updatedEntities
+      return {
+        ...adapter.updateOne(
+        { id: postId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount } },
+        state)
       };
     }
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_ERROR: {
@@ -109,97 +92,14 @@ export function reducer(state = initialState, action: communityPostActions.Actio
         submittingError: true
       };
     }
-    case communityPostActions.ADDING_COMMUNITY_POST_REPLY: {
-      return {
-        ...state,
-        addingReply: true,
-        addingReplyError: false,
-        addingReplySuccess: false
-      };
-    }
-    case communityPostActions.ADDING_COMMUNITY_POST_REPLY_SUCCESS: {
-      const postId = action.payload.PostId;
-      const resultsCopy = cloneDeep(state.entities);
-      const post = resultsCopy.find(t => t.Id === postId);
-      if (!post.Replies) {
-        post.Replies = [];
-      }
-      post.Replies.unshift(action.payload);
-      post.ReplyCount = post.Replies.length;
-      return {
-        ...state,
-        addingReply: false,
-        addingReplySuccess: true,
-        entities: resultsCopy
-      };
-    }
-    case communityPostActions.ADDING_COMMUNITY_POST_REPLY_ERROR: {
-      return {
-        ...state,
-        addingReply: false,
-        addingReplyError: true
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES: {
-      return {
-        ...state,
-        loadingReplies: true,
-        loadingRepliesError: false
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES_SUCCESS: {
-      const resultsCopy = cloneDeep(state.entities);
-      const replies = action.payload;
-      replies.forEach(reply => {
-        const post = resultsCopy.find(t => t.Id === reply.PostId);
-        if (!post.Replies) {
-          post.Replies = [];
-        }
-        const exists = post.Replies.find(o => o.Id === reply.Id);
-
-        if (!exists) {
-          post.Replies.push(reply);
-        }
-        post.ReplyCount = post.Replies.length;
-      });
-      return {
-        ...state,
-        loadingReplies: false,
-        entities: resultsCopy
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POST_REPLIES_ERROR: {
-      return {
-        ...state,
-        loadingReplies: false,
-        loadingRepliesError: true
-      };
-    }
-    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_SUCCESS: {
+    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_IDS: {
       const postId = action.payload['postId'];
-      const replyId = action.payload['replyId'];
-      const like = action.payload['like'];
+      const replyIds = action.payload['replyIds'];
 
-      const resultsCopy = cloneDeep(state.entities);
-      const post = resultsCopy.find(p => p.Id === postId);
-
-      if (post) {
-        post.Replies.forEach(reply => {
-          if (reply.Id === replyId) {
-            reply.LikeCount = like ? reply.LikeCount + 1 : reply.LikeCount - 1;
-            reply.LikedByCurrentUser = like;
-          }
-        });
-      }
       return {
-        ...state,
-        entities: resultsCopy
-      };
-    }
-    case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_ERROR: {
-      return {
-        ...state,
-        submittingError: true
+        ...adapter.updateOne(
+          { id: postId, changes: { ReplyIds: replyIds } },
+          state)
       };
     }
     default: {
@@ -213,11 +113,4 @@ export const getSubmittingCommunityPostsSuccess = (state: State ) => state.submi
 
 export const getGettingCommunityPosts = (state: State) => state.loading;
 export const getGettingCommunityPostsError = (state: State) => state.loadingError;
-export const getCommunityPosts = (state: State) => state.entities;
 
-export const getAddingCommunityPostReply = (state: State) => state.addingReply;
-export const getAddingCommunityPostReplyError = (state: State) => state.addingReplyError;
-export const getAddingCommunityPostReplySuccess = (state: State ) => state.addingReplySuccess;
-
-export const getGettingCommunityPostReplies = (state: State) => state.loadingReplies;
-export const getGettingCommunityPostRepliesError = (state: State) => state.loadingRepliesError;

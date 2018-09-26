@@ -1,10 +1,17 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+
+import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+
+import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
+import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
+
 import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
 
@@ -22,8 +29,11 @@ export class CommunityPostsComponent implements OnInit {
   showAddReply = {};
   showReplies = [];
 
-  constructor(public store: Store<fromCommunityPostReducer.State>) {
-    this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPosts);
+  constructor(public store: Store<fromCommunityPostReducer.State>,
+              public replyStore: Store<fromCommunityPostReplyReducer.State>,
+              public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
+
+    this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.loadingCommunityPostReplies$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPostReplies);
   }
@@ -34,11 +44,24 @@ export class CommunityPostsComponent implements OnInit {
 
   getReplies(item: number, postId: number) {
     this.showReplies[item] = !this.showReplies[item];
-    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostReplies( { PostId: postId }));
+    this.getCommunityPostReplies(postId);
   }
 
-  hideReplies(item: number) {
+  hideReplies(item: number, postId: number) {
     this.showReplies[item] = !this.showReplies[item];
+    this.clearRepliesFromAddView(postId);
+    this.getCommunityPostReplies(postId);
+  }
+
+  clearRepliesFromAddView(postId: number){
+    this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies({ PostId: postId }));
+  }
+
+  getCommunityPostReplies(postId: number){
+    this.replyStore.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
+  }
+  trackByPostId(index, item: CommunityPost) {
+    return item.Id;
   }
 
 }

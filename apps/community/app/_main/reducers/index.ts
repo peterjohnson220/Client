@@ -1,17 +1,23 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import * as fromRoot from 'libs/state/state';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromCommunityPollRequestReducer from './community-poll-request.reducer';
 import * as fromCommunityPollResponseReducer from './community-poll-response.reducer';
 import * as fromCommunityPostReducer from './community-post.reducer';
+import * as fromCommunityPostReplyReducer from './community-post-reply.reducer';
+import * as fromCommunityPostAddReplyViewReducer from './community-post-add-reply-view.reducer';
 import * as fromCommunityTagReducer from './community-tag.reducer';
 
+import * as CommunityPost from 'libs/models/community';
 // Feature area state
 export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
   communityPollResponse: fromCommunityPollResponseReducer.State;
   communityPost: fromCommunityPostReducer.State;
+  communityPostReply: fromCommunityPostReplyReducer.State;
+  communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.State;
   communityTags: fromCommunityTagReducer.State;
 }
 
@@ -25,6 +31,8 @@ export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
   communityPollResponse: fromCommunityPollResponseReducer.reducer,
   communityPost: fromCommunityPostReducer.reducer,
+  communityPostReply:  fromCommunityPostReplyReducer.reducer,
+  communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
 };
 
@@ -45,6 +53,16 @@ export const selectFromCommunityPollResponseState  = createSelector(
 export const selectFromCommunityPostState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPost
+);
+
+export const selectFromCommunityPostReplyState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostReply
+);
+
+export const selectFromCommunityPostAddReplyViewState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostAddReplyView
 );
 
 export const selectFromCommunityTagState =  createSelector(
@@ -110,6 +128,10 @@ export const getDismissingCommunityPollResponseError = createSelector(
 );
 
 // Community Post Selectors
+export const {
+  selectAll: getCommunityPosts,
+} = fromCommunityPostReducer.adapter.getSelectors(selectFromCommunityPostState);
+
 export const getSubmittingCommunityPosts = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getSubmittingCommunityPosts
@@ -130,40 +152,83 @@ export const getGettingCommunityPosts = createSelector(
   fromCommunityPostReducer.getGettingCommunityPosts
 );
 
-export const getCommunityPosts = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getCommunityPosts
-);
-
 export const getGettingCommunityPostsError = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getGettingCommunityPostsError
 );
 
-export const getAddingCommunityPostReply = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getAddingCommunityPostReply
-);
-export const getAddingCommunityPostReplyError = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getAddingCommunityPostReplyError
-);
+// Community Post Reply Selectors
 
-export const getAddingCommunityPostReplySuccess = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getAddingCommunityPostReplySuccess
-);
+export const {
+  selectAll: getCommunityPostReply,
+  selectEntities: getCommunityPostReplyEntities,
+} = fromCommunityPostReplyReducer.adapter.getSelectors(selectFromCommunityPostReplyState);
 
 export const getGettingCommunityPostReplies = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getGettingCommunityPostReplies
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getGettingCommunityPostReplies
 );
 
 export const getGettingCommunityPostRepliesError  = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getGettingCommunityPostRepliesError
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getGettingCommunityPostRepliesError
 );
 
+export const getAddingCommunityPostReply = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getAddingCommunityPostReply
+);
+
+export const getAddingCommunityPostReplyError = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getAddingCommunityPostReplyError
+);
+
+export const getAddingCommunityPostReplySuccess = createSelector(
+  selectFromCommunityPostReplyState,
+  fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess
+);
+
+// Community Post Add Reply View selector
+export const getCommunityPostAddReplyView = createSelector(
+  selectFromCommunityPostAddReplyViewState,
+  fromCommunityPostAddReplyViewReducer.getCommunityPostAddReplyView
+);
+
+export const getFilteredCommunityPostAddReplyView = createSelector(
+  getCommunityPostReplyEntities,
+  getCommunityPostAddReplyView,
+    (replies, addReplies) => addReplies.reduce((acc, id) => {
+      return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+    }, [])
+);
+// Community Post With Replies
+export const getCommunityPostsCombinedWithReplies = createSelector(
+  getCommunityPosts,
+  getCommunityPostReplyEntities,
+  getCommunityPostAddReplyView,
+  (posts, replies, addReplies) => {
+    if (posts && replies) {
+      const postlist = cloneDeep(posts);
+      postlist.forEach(post => {
+        if (post.ReplyIds && post.ReplyIds.length > 0) {
+          const filteredReplyIds = post.ReplyIds.filter(replyId => !addReplies.includes(replyId));
+          const filteredReplies = filteredReplyIds.reduce((acc, id) => {
+            return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+          }, []);
+          post.ReplyCount = filteredReplies.length;
+          filteredReplies.forEach(filteredReply => {
+              post.Replies.push(filteredReply);
+          });
+        }
+
+      });
+      return postlist;
+    } else {
+      return posts;
+    }
+  }
+);
 // Community Tag Selectors
 export const getLoadingCommunityPopularTags = createSelector(
   selectFromCommunityTagState,

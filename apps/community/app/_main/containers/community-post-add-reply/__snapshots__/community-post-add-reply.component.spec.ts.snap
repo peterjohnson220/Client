@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunityStartDiscussionComponent should show community add reply 1`] = `
+exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
 <pf-community-post-add-reply
   addingCommunityPostReply$={[Function Store]}
   addingCommunityPostReplySuccess$={[Function Store]}

@@ -20,6 +20,8 @@ import { CommunityStartDiscussionComponent } from './containers/community-start-
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
+import { CommunityPostReplyComponent } from './components/community-post-reply';
+import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
 import { CommunityPostHeaderComponent } from './components/commumity-post-header';
 import { CommunityLikeComponent } from './components/community-like/community-like.component';
 import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
@@ -32,7 +34,9 @@ import { RadialTextCounterComponent } from './components/radial-text-counter/rad
 
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
+
 import { CommunityPostEffects, CommunityTagEffects } from './effects';
+import { CommunityPostReplyEffects } from './effects';
 
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
@@ -43,6 +47,8 @@ const components = [
   CommunityDashboardPageComponent,
   CommunityPostsComponent,
   CommunityPostRepliesComponent,
+  CommunityPostReplyComponent,
+  CommunityPostAddReplyViewComponent,
   CommunityPostHeaderComponent,
   CommunityTextAreaComponent,
   CommunityStartDiscussionComponent,
@@ -73,6 +79,7 @@ const components = [
       CommunityPollRequestEffects,
       CommunityPollResponseEffects,
       CommunityPostEffects,
+      CommunityPostReplyEffects,
       CommunityTagEffects
     ]),
 

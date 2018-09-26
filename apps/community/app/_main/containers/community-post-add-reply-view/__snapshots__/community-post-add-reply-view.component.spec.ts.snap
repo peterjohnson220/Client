@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostAddReplyViewComponent should show community add reply view 1`] = `
+<pf-community-post-add-reply-view
+  addReplyViewStore={[Function Store]}
+  addedRepliesSubscription={[Function Subscriber]}
+  addedReplyView$={[Function Store]}
+  store={[Function Store]}
+>
+  
+</pf-community-post-add-reply-view>
+`;
