@@ -116,6 +116,23 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
 </pf-data-cuts>
 `;
 
+exports[`DataCutsComponent should show a message when there is no data cuts 1`] = `
+<pf-data-cuts
+  currencyCode=""
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+>
+  <div
+    class="no-data-cuts-message"
+  >
+     No data cuts available. Please adjust your filters. 
+  </div>
+</pf-data-cuts>
+`;
+
 exports[`DataCutsComponent should show selected if the data cut has been selected 1`] = `
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}

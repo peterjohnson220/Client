@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { PricingMatchesDetailsRequest, MatchesDetailsRequestJobTypes } from 'libs/models';
 
 import { JobResultComponent } from './job-result.component';
 import {
@@ -11,8 +10,8 @@ import {
   generateMockSurveyJobResult,
   generateMockDataCut,
   SurveyDataCut,
-  JobResult,
-  MatchesDetailsTooltipData
+  MatchesDetailsTooltipData,
+  JobDetailsToolTipData
 } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import * as fromJobResultActions from '../../actions/search-results.actions';
@@ -148,6 +147,59 @@ describe('Project - Add Data - Job Result', () => {
     instance.handleDataCutMatchesMouseEnter(matchesDetailsTooltipData);
 
     expect(instance.matchesMouseEnter.emit).toHaveBeenCalled();
+  });
+
+  it('should emit loadDataCuts event when Load More clicked', () => {
+    instance.job = generateMockSurveyJobResult();
+
+    spyOn(instance.loadDataCuts, 'emit');
+    instance.handleLoadDataCuts();
+
+    expect(instance.loadDataCuts.emit).toHaveBeenCalled();
+  });
+
+  it('should show Load More link when there are more data cuts from server', () => {
+    const dataCut: SurveyDataCut = generateMockDataCut();
+    instance.job = generateMockSurveyJobResult();
+    instance.job.DataCuts = [dataCut];
+    instance.job.TotalDataCuts = 5;
+    fixture.detectChanges();
+
+    instance.toggleDataCutsDisplay();
+    instance.job.LoadingDataCuts = false;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not show Load More link when there are no more data cuts results', () => {
+    const dataCut: SurveyDataCut = generateMockDataCut();
+    instance.job = generateMockSurveyJobResult();
+    instance.job.DataCuts = [dataCut];
+    instance.job.TotalDataCuts = 1;
+
+    fixture.detectChanges();
+
+    instance.toggleDataCutsDisplay();
+    instance.job.LoadingDataCuts = false;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should emit jobTitleClick event when job title clicked', () => {
+    const mouseEvent: MouseEvent = new MouseEvent('click');
+    instance.job = generateMockPayfactorsJobResult();
+    const tooltipData: JobDetailsToolTipData = {
+      TargetX: mouseEvent.offsetX + 10,
+      TargetY: mouseEvent.clientY,
+      Job: instance.job
+    };
+
+    spyOn(instance.jobTitleClick, 'emit');
+    instance.handleJobTitleClick(mouseEvent);
+
+    expect(instance.jobTitleClick.emit).toHaveBeenCalledWith(tooltipData);
   });
 
 });

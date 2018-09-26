@@ -115,7 +115,7 @@ describe('Project - Add Data - Search Results', () => {
     const getSurveyDataResults = new fromSearchResultsActions.GetSurveyDataResults(jobData);
 
     spyOn(store, 'dispatch');
-    instance.handleShowCutsClick(jobData);
+    instance.handleLoadDataCuts(jobData);
 
     expect(store.dispatch).toHaveBeenCalledWith(getSurveyDataResults);
   });
@@ -127,7 +127,7 @@ describe('Project - Add Data - Search Results', () => {
     const getSurveyDataResults = new fromSearchResultsActions.GetSurveyDataResults(jobData);
 
     spyOn(store, 'dispatch');
-    instance.handleShowCutsClick(jobData);
+    instance.handleLoadDataCuts(jobData);
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getSurveyDataResults);
   });

@@ -1,20 +1,28 @@
 import { generateGuid } from 'libs/core/functions';
 import {
+  DataCut,
   PagingOptions,
   SearchField,
-  SurveyJob,
   SearchFilter,
   SearchFilterOption,
   SurveyDataCutResponse,
-  DataCut
+  SurveyJob
 } from 'libs/models/survey-search';
 
 import {
-  Filter, FilterType, isMultiFilter, isTextFilter, JobResult, MultiSelectFilter, MultiSelectOption,
-  ResultsPagingOptions, TextFilter,  SurveyDataCut,
+  Filter,
+  FilterType,
+  isMultiFilter, isRangeFilter,
+  isTextFilter,
+  JobResult,
+  MultiSelectFilter,
+  MultiSelectOption,
+  RangeFilter,
+  ResultsPagingOptions,
+  SurveyDataCut,
+  TextFilter,
 } from '../models';
 import { SearchFilterMappingData } from '../data';
-
 
 // Exports
 export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataCuts: DataCut[]): JobResult[] {
@@ -38,6 +46,7 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       FLSAStatus: sj.Job.FLSAStatus,
       CountryCode: sj.Job.CountryCode,
       LoadingDataCuts: false,
+      LoadingMoreDataCuts: false,
       DataCuts: [],
       IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50th: sj.Job.Base50th,
@@ -54,7 +63,6 @@ export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: Res
   };
 }
 
-
 export function mapFiltersToSearchFields(filters: Filter[]): SearchField[] {
   return getTextFiltersWithValues(filters).map((f: TextFilter) => {
     return {
@@ -70,10 +78,21 @@ export function mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
       Name: f.BackingField,
       Options: getAllSelectedOptions(f)
     };
-  });
+  }).concat(getRangeFilterAsMultiSelect(filters));
 }
 
-export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelectFilter {
+export function mapSearchFilterToFilter(searchFilter: SearchFilter): Filter {
+  switch (SearchFilterMappingData[searchFilter.Name].Type) {
+    case FilterType.Multi:
+      return mapSearchFilterToMultiFilter(searchFilter);
+    case FilterType.Range:
+      return mapSearchFilterToRangeFilter(searchFilter);
+    default:
+        return null;
+  }
+}
+
+export function mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiSelectFilter {
   return {
     Id: searchFilter.Name.split('_').join(''),
     BackingField: SearchFilterMappingData[searchFilter.Name].BackingField,
@@ -82,7 +101,7 @@ export function mapSearchFilterToFilter(searchFilter: SearchFilter): MultiSelect
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
     Order: SearchFilterMappingData[searchFilter.Name].Order,
-    OptionCountDisabled: searchFilter.Name === 'country_code'
+    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name)
   };
 }
 
@@ -95,6 +114,31 @@ export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOpti
       Selected: false
     };
   });
+}
+
+export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeFilter {
+  const minValue = Number(getNumberValueFromSearchFilterOption(searchFilter.Options, 'min'));
+  const maxValue = Number(getNumberValueFromSearchFilterOption(searchFilter.Options, 'max'));
+  return {
+    Id: searchFilter.Name.split('_').join(''),
+    BackingField: SearchFilterMappingData[searchFilter.Name].BackingField,
+    DisplayName: SearchFilterMappingData[searchFilter.Name].DisplayName,
+    Order: SearchFilterMappingData[searchFilter.Name].Order,
+    Type: FilterType.Range,
+    MinimumValue: minValue,
+    MaximumValue: maxValue,
+    SelectedMinValue: minValue,
+    SelectedMaxValue: maxValue
+  };
+}
+
+export function getNumberValueFromSearchFilterOption(sfo: SearchFilterOption[], name: string): number {
+  let value = 0;
+  const filteredArray = sfo.filter(x => x.Name === name).map(x => x.Value);
+  if (filteredArray[0] !== undefined) {
+    value = filteredArray[0];
+  }
+  return value;
 }
 
 export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse[], selectedDataCuts: DataCut[]): SurveyDataCut[] {
@@ -112,16 +156,14 @@ export function mapSurveyDataCutResultsToDataCut(dataCuts: SurveyDataCutResponse
   });
 }
 
-export function mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[]): MultiSelectFilter[] {
+export function mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[]): Filter[] {
   return searchFilters.map(sf => mapSearchFilterToFilter(sf));
 }
-
 
 // Helpers
 function getAllSelectedOptions(filter: MultiSelectFilter): any[] {
   return filter.Options.filter(o => o.Selected).map(o => ({ Value: o.Value}));
 }
-
 
 function getTextFiltersWithValues(filters: Filter[]) {
   return filters.filter(f => isTextFilter(f) && f.Value);
@@ -142,4 +184,33 @@ function isCutSelected(dataCut: SurveyDataCutResponse, selectedCuts: DataCut[]) 
 
 function getMultiFiltersWithValues(filters: Filter[]) {
   return filters.filter(f => isMultiFilter(f) && f.Options.some(o => o.Selected));
+}
+
+function getRangeFilterAsMultiSelect(filters: Filter[]) {
+  return filters.filter(f => isRangeFilter(f)
+    && (f.MaximumValue !== f.SelectedMaxValue || f.MinimumValue !== f.SelectedMinValue)).map((f: RangeFilter) => {
+      return {
+        Name: f.BackingField,
+        Options: [{
+          Name: 'min',
+          Value: f.SelectedMinValue
+        }, {
+          Name: 'max',
+          Value: f.SelectedMaxValue
+        }]
+      };
+  });
+}
+
+function isOptionCountDisabled(filterOptionName: string) {
+  let result = false;
+  switch (filterOptionName) {
+    case 'country_codes':
+    case 'weighting_types':
+      result = true;
+      break;
+    default:
+      break;
+  }
+  return result;
 }

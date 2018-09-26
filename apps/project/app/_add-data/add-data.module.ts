@@ -5,14 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng5SliderModule } from 'ng5-slider';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-         MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent } from './components';
+         MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent
+} from './components';
+
 import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent,
          TooltipContainerComponent, SingleFilterComponent } from './containers';
+
 import {
   AddSurveyDataPageEffects,
   SearchFiltersEffects,
@@ -23,7 +28,6 @@ import {
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -37,6 +41,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
+    Ng5SliderModule,
 
     // Routing
     AddDataRoutingModule,
@@ -47,8 +52,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   declarations: [
     // Components
-    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent, MultiSelectFilterComponent,
-    MatchesDetailsTooltipComponent, FilterHeaderComponent,
+    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
+    MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
@@ -64,10 +69,3 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
   ]
 })
 export class AddDataModule { }
-
-
-
-
-
-
-

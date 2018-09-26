@@ -30,6 +30,14 @@
         </pf-multi-select-filter>
       </ng-container>
 
+      <!--Range Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Range">
+        <pf-range-filter
+          [filter]="filter"
+          (rangeChange)="handleRangeChange($event)">
+        </pf-range-filter>
+      </ng-container>
+
     </pf-filter-section>
   </div>
 </div>

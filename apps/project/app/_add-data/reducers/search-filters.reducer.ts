@@ -3,8 +3,12 @@ import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
-import { Filter, isMultiFilter, isTextFilter } from '../models';
-import { mapSearchFilterToFilter, mergeClientWithServerFilters } from '../helpers';
+import { Filter, isMultiFilter, isRangeFilter, isTextFilter } from '../models';
+import {
+  mapSearchFilterToFilter,
+  mergeClientWithServerMultiSelectFilters,
+  mergeClientWithServerRangeFilters
+} from '../helpers';
 
 export interface State {
   filters: Filter[];
@@ -73,19 +77,27 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.REFRESH_FILTERS: {
-      const filtersNotBeingRefreshed = state.filters.filter(f => !isMultiFilter(f) || !f.RefreshOptionsFromServer);
-      const filtersToRefresh = cloneDeep(state.filters.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer));
+      const filtersNotBeingRefreshed = state.filters.filter(f => !isRangeFilter(f) &&
+        (!isMultiFilter(f) || !f.RefreshOptionsFromServer));
+      const filtersToRefresh = cloneDeep(state.filters);
       const serverFilters = cloneDeep(action.payload.searchFilters);
 
-      const newFilters = mergeClientWithServerFilters(
+      const newMultiSelectFilters = mergeClientWithServerMultiSelectFilters(
         {
-          serverFilters: serverFilters,
-          clientFilters: filtersToRefresh,
+          serverFilters: serverFilters.filter(f => isMultiFilter(f)),
+          clientFilters: filtersToRefresh.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer),
           keepFilteredOutOptions: action.payload.keepFilteredOutOptions
         }
       );
 
-      const allFilters = filtersNotBeingRefreshed.concat(newFilters);
+      const newRangeFilters = mergeClientWithServerRangeFilters(
+        {
+          serverFilters: serverFilters.filter(f => isRangeFilter(f)),
+          clientFilters: filtersToRefresh.filter(f => isRangeFilter(f))
+        }
+      );
+
+      const allFilters = filtersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -97,12 +109,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.RESET_FILTER: {
       const copiedFilters = cloneDeep(state.filters);
       const filterToReset = copiedFilters.find(f => f.Id === action.payload);
-
-      if (isMultiFilter(filterToReset)) {
-        filterToReset.Options.map(o => o.Selected = false);
-      } else if (isTextFilter(filterToReset)) {
-        filterToReset.Value = '';
-      }
+      resetFilter(filterToReset);
 
       return {
         ...state,
@@ -110,27 +117,45 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.RESET_ALL_FILTERS: {
-      let copiedFilters = cloneDeep(state.filters);
-
-      copiedFilters = copiedFilters.map(f => {
-        if (isMultiFilter(f)) {
-          f.Options.map(o => o.Selected = false);
-        } else if (isTextFilter(f)) {
-          f.Value = '';
-        }
-
-        return f;
-      });
+      return {
+        ...state,
+        filters: resetFilters(cloneDeep(state.filters))
+      };
+    }
+    case fromSearchFiltersActions.UPDATE_RANGE_FILTER: {
+      const filtersCopy = cloneDeep(state.filters);
+      const rangeFilter = filtersCopy.find(f => f.Id === action.payload.filterId && isRangeFilter(f));
+      rangeFilter.SelectedMinValue = action.payload.minValue;
+      rangeFilter.SelectedMaxValue = action.payload.maxValue;
 
       return {
         ...state,
-        filters: copiedFilters
+        filters: filtersCopy
       };
     }
     default: {
       return state;
     }
   }
+}
+
+// Helper functions
+function resetFilters(filters: Filter[]): Filter[] {
+  return filters.map(f => resetFilter(f) );
+}
+
+function resetFilter(filter: Filter) {
+  if (isMultiFilter(filter)) {
+    filter.Options.map(o => o.Selected = false);
+  } else if (isRangeFilter(filter)) {
+    filter.SelectedMaxValue = null;
+    filter.SelectedMinValue = null;
+    filter.MaximumValue = null;
+    filter.MinimumValue = null;
+  } else if (isTextFilter(filter)) {
+    filter.Value = '';
+  }
+  return filter;
 }
 
 // Selector functions

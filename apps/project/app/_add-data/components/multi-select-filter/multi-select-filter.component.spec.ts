@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
-import { generateMockMultiSelectFilter, generateMockMultiSelectOption } from '../../models';
+import { generateMockMultiSelectOption } from '../../models';
 
 describe('Project - Add Data - Multi Select Filter', () => {
   let instance: MultiSelectFilterComponent;

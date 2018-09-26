@@ -24,8 +24,7 @@ describe('DataCutsComponent', () => {
       ],
       declarations: [ DataCutsComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
-    })
-    .compileComponents();
+    });
   });
 
   beforeEach(() => {
@@ -95,4 +94,12 @@ describe('DataCutsComponent', () => {
     expect(instance.matchesMouseLeave.emit).toHaveBeenCalled();
   }));
 
+  it('should show a message when there is no data cuts', () => {
+    instance.dataCuts = [];
+    instance.currencyCode = '';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });

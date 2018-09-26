@@ -50,6 +50,10 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
 
+  handleRangeChange(rangeObj: {filterId: string, minValue: number, maxValue: number}) {
+    this.store.dispatch(new fromSearchFiltersActions.UpdateRangeFilter(rangeObj));
+  }
+
   handleResetSection(filterId: string) {
     this.focusedFilter = '';
     this.changeDetector.detectChanges();
