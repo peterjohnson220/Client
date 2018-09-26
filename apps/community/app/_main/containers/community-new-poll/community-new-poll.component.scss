@@ -1,0 +1,8 @@
+@import 'colors';
+
+:host ::ng-deep .k-widget.k-dropdown {
+    width: 70px;
+    height: 35px;
+    border-radius: 5px;
+    border: solid 1px $tile-light-blue-color;
+}

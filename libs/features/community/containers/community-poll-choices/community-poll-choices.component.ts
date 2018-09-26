@@ -2,24 +2,26 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'pf-community-poll-response',
-  templateUrl: './community-poll-response.component.html',
-  styleUrls: ['./community-poll-response.component.scss']
+  selector: 'pf-community-poll-choices',
+  templateUrl: './community-poll-choices.component.html',
+  styleUrls: ['./community-poll-choices.component.scss']
 })
-export class CommunityPollResponseComponent {
+export class CommunityPollChoicesComponent {
 
   static enableEditingResponseOptionsStatic = true;
-  get enableEditingResponseOptions() { return CommunityPollResponseComponent.enableEditingResponseOptionsStatic; }
+  get enableEditingResponseOptions() { return CommunityPollChoicesComponent.enableEditingResponseOptionsStatic; }
 
   @Input() public index: number;
 
   @Input() public item: FormGroup;
 
+  @Input() public isAdmin: false;
+
   @Output() public removed: EventEmitter<number> = new EventEmitter<number>();
 
-  static buildItem(val: string, enableEditingResponseOptions: boolean) {
+  static buildItem(val: string, enableEditingResponseOptions = true) {
 
-    CommunityPollResponseComponent.enableEditingResponseOptionsStatic = enableEditingResponseOptions;
+    CommunityPollChoicesComponent.enableEditingResponseOptionsStatic = enableEditingResponseOptions;
     const responseOptionControl = new FormControl(val, [Validators.required]);
 
     if (!enableEditingResponseOptions) {

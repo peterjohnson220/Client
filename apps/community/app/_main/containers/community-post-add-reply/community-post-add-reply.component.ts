@@ -31,7 +31,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.communityPostReplyForm = this.formBuilder.group({
-      text:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
+      context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
     });
   }
   ngOnInit()  {
@@ -50,7 +50,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     if (this.communityPostReplyForm.valid) {
       const newReply: CommunityAddReply = {
         PostId: this.postId,
-        ReplyText: this.communityPostReplyForm.controls['text'].value
+        ReplyText: this.communityPostReplyForm.controls['context'].value
       };
       this.store.dispatch(new fromCommunityPostActions.AddingCommunityPostReply(newReply));
     }

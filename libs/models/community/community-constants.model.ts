@@ -4,6 +4,12 @@ export enum CommunityPollStatusEnum {
   Archived = 2
 }
 
+export enum CommunityPostTypeStatusEnum {
+  Discussion = 0,
+  Question = 1,
+  Job = 2
+}
+
 export const CommunityPollStatuses: Array<{ text: string, value: number }> = [
     { text: 'Draft', value: CommunityPollStatusEnum.Draft },
     { text: 'Live', value: CommunityPollStatusEnum.Live },

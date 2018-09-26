@@ -9,7 +9,7 @@ import * as fromCommunityPollActions from '../../actions/community-poll.actions'
 import * as fromCommunityPollReducer from '../../reducers';
 
 import { CommunityPollModalComponent } from './community-poll-modal.component';
-import { CommunityPollUpsertRequest } from '../../../../../../libs/models/community/community-poll-upsert-request.model';
+import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 
 describe('CommunityPollModalComponent', () => {
   let fixture: ComponentFixture<CommunityPollModalComponent>;
@@ -65,7 +65,7 @@ describe('CommunityPollModalComponent', () => {
   it('should dispatch fromCommunityPollActions.EditingCommunityPoll when calling handleFormSubmit with isEditMode equal to true', () => {
 
     instance.isEditMode = true;
-    instance.question.setValue('test');
+    instance.context.setValue('test');
     instance.communityPollId.setValue('1');
 
     instance.handleFormSubmit();
@@ -84,7 +84,7 @@ describe('CommunityPollModalComponent', () => {
   it('should dispatch fromCommunityPollActions.AddingCommunityPoll when calling handleFormSubmit with isEditMode equal to false', () => {
 
     instance.isEditMode = false;
-    instance.question.setValue('test');
+    instance.context.setValue('test');
     instance.communityPollId.setValue('1');
 
     fixture.detectChanges();
@@ -110,10 +110,10 @@ describe('CommunityPollModalComponent', () => {
   });
 
   it ('should call responses.push when calling addResponseOption', () => {
-    spyOn(instance.responses, 'push');
+    spyOn(instance.choices, 'push');
 
     instance.addResponseOption();
-    expect(instance.responses.push).toHaveBeenCalled();
+    expect(instance.choices.push).toHaveBeenCalled();
   });
 
   it ('should return correct text when calling getTitle with editMode true', () => {

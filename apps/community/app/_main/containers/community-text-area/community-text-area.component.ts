@@ -43,7 +43,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @ViewChild('textAreaContainer') textAreaContainer: ElementRef;
   @ViewChild('suggestTagsContainer') suggestTagsContainer: ElementRef;
 
-  get text() { return this.parentForm.get('text'); }
+  get context() { return this.parentForm.get('context'); }
 
   @HostListener('document:click', ['$event'])
   clickout(event) {
@@ -78,7 +78,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       if (response) {this.suggestedTags = []; }
     });
 
-    this.textValueChangesSubscription = this.text.valueChanges.subscribe(values => {
+    this.textValueChangesSubscription = this.context.valueChanges.subscribe(values => {
       this.autogrow();
     });
   }
@@ -109,14 +109,14 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   onSuggestedTagChange(tag: CommunityTag) {
     const regExp = new RegExp('\\' + this.activeTag + '\\b');
-    const textWitheNewTags =  this.text.value.replace(regExp, tag);
-    this.text.setValue(textWitheNewTags);
+    const textWitheNewTags =  this.context.value.replace(regExp, tag);
+    this.context.setValue(textWitheNewTags);
 
     this.suggestedTags = [];
   }
 
   private updateTagSuggestions(currentPos: any) {
-    const origText = this.text.value;
+    const origText = this.context.value;
     const slicedTextBeforeSelection = origText.slice(0, currentPos);
     let matches = slicedTextBeforeSelection.match(constants.HashTagRegEx);
 

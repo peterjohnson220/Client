@@ -94,7 +94,6 @@ exports[`CommunityStartDiscussionComponent should show radial text counter 1`] =
   WarningStartNumber={[Function Number]}
   charactersRemaining={[Function Number]}
   radialCounterClass={[Function String]}
-  radialIncrementValue={[Function Number]}
   radialStartValue={[Function Number]}
   radialStrokeDashOffsetValue={[Function Number]}
   textMaxLength={[Function Number]}

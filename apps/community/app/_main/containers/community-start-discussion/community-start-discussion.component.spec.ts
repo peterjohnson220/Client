@@ -44,22 +44,12 @@ describe('CommunityStartDiscussionComponent', () => {
   });
 
   it('should show community start discussion', () => {
+    instance.postType = instance.CommunityPostTypes.Discussion;
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should dispatch SubmittingCommunityPost when calling submitPost', () => {
-
-    instance.communityDiscussionForm.controls['text'].setValue('hello world');
-
-    instance.submitPost();
-
-    const newPost: CommunityAddPost = {
-      PostText: 'hello world',
-      IsInternalOnly: false
-    };
-
-     const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);
-
-   expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  it('should show community start poll', () => {
+    instance.postType = instance.CommunityPostTypes.Question;
+    expect(fixture).toMatchSnapshot();
   });
 });

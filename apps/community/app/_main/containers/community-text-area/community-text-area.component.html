@@ -5,12 +5,13 @@
         [innerHtml]="discussionTextArea.value | highlightHashTag"></div>
     <textarea  #discussionTextArea
       class="discussionTextArea pl-2 pr-2"
-      formControlName="text" 
+      formControlName="context" 
       maxlength="{{maxTextLength}}"
       placeholder="{{textPlaceholder}}"
       (keydown)="onKeyDown($event)"  
       (keyup)="onKeyUp($event)"
-      spellcheck="false">
+      spellcheck="false"
+      [pfFocus]="true">
     </textarea> 
   </div>
 </div>
