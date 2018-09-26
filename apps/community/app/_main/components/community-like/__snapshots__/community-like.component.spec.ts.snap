@@ -6,22 +6,23 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <button
-    class="btn m-1 p-0 community-btn-clicked"
+  <div
+    class="community-like m-1 p-0 community-btn-clicked"
     id="like-reply"
-    ng-reflect-klass="btn m-1 p-0"
+    ng-reflect-klass="community-like m-1 p-0"
     ng-reflect-ng-class="community-btn-clicked"
-    type="button"
   >
-    <i
-      class="fa-heart icon fas"
-      ng-reflect-klass="fa-heart icon"
-      ng-reflect-ng-class="fas"
-    />
+    
+    <span>
+      <i
+        class="fas fa-heart icon"
+      />
+    </span>
+    
     <span>
         Like
     </span>
-  </button>
+  </div>
 </pf-community-like>
 `;
 
@@ -31,22 +32,23 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <button
-    class="btn m-1 p-0 community-btn"
+  <div
+    class="community-like m-1 p-0 community-btn"
     id="like-reply"
-    ng-reflect-klass="btn m-1 p-0"
+    ng-reflect-klass="community-like m-1 p-0"
     ng-reflect-ng-class="community-btn"
-    type="button"
   >
-    <i
-      class="fa-heart icon far"
-      ng-reflect-klass="fa-heart icon"
-      ng-reflect-ng-class="far"
-    />
+    
+    
+    <span>
+      <i
+        class="far fa-heart icon"
+      />
+    </span>
     <span>
         Like
     </span>
-  </button>
+  </div>
 </pf-community-like>
 `;
 
@@ -55,21 +57,22 @@ exports[`CommunityLikeComponent should show like component 1`] = `
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <button
-    class="btn m-1 p-0 community-btn"
+  <div
+    class="community-like m-1 p-0 community-btn"
     id="like-reply"
-    ng-reflect-klass="btn m-1 p-0"
+    ng-reflect-klass="community-like m-1 p-0"
     ng-reflect-ng-class="community-btn"
-    type="button"
   >
-    <i
-      class="fa-heart icon far"
-      ng-reflect-klass="fa-heart icon"
-      ng-reflect-ng-class="far"
-    />
+    
+    
+    <span>
+      <i
+        class="far fa-heart icon"
+      />
+    </span>
     <span>
         Like
     </span>
-  </button>
+  </div>
 </pf-community-like>
 `;

@@ -15,7 +15,7 @@ export function reducer(state = initialState, action: fromCommunityPostAddReplyV
     case fromCommunityPostAddReplyViewActions.ADDING_COMMUNITY_POST_REPLY_TO_VIEW: {
       const replyId = action.payload['replyId'];
       let currentEntities = cloneDeep(state.entities);
-      if (!currentEntities){
+      if (!currentEntities) {
         currentEntities = [];
       }
       currentEntities.push(replyId);

@@ -53,11 +53,11 @@ export class CommunityPostsComponent implements OnInit {
     this.getCommunityPostReplies(postId);
   }
 
-  clearRepliesFromAddView(postId: number){
+  clearRepliesFromAddView(postId: number) {
     this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies({ PostId: postId }));
   }
 
-  getCommunityPostReplies(postId: number){
+  getCommunityPostReplies(postId: number) {
     this.replyStore.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
   }
   trackByPostId(index, item: CommunityPost) {
