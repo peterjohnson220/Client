@@ -1,6 +1,7 @@
-<button id="like-reply" type="button" class="btn m-1 p-0"
+<div id="like-reply" class="community-like m-1 p-0"
           [ngClass]="LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
           (click)="updateLike()">
-    <i class="fa-heart icon" [ngClass]="LikedByCurrentUser ? 'fas' : 'far'"></i>
+    <span *ngIf="LikedByCurrentUser"><i class="fas fa-heart icon"></i></span>
+    <span *ngIf="!LikedByCurrentUser"><i class="far fa-heart icon"></i></span>
     <span> {{LikeCount > 0 ? LikeCount : ''}} {{LikeCount > 1 ? 'Likes' : 'Like'}}</span>
-</button>
+</div>
