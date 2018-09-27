@@ -63,5 +63,10 @@ export class CommunityPostsComponent implements OnInit {
   trackByPostId(index, item: CommunityPost) {
     return item.Id;
   }
-
+  showReply(item: number) {
+    this.showAddReply[item] = !this.showAddReply[item];
+  }
+  onReplySubmitted(item: number) {
+    this.showReply(item);
+  }
 }

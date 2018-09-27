@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { CommunityAddReply } from 'libs/models/community';
 })
 export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() postId: string;
+  @Output() replySubmitted = new EventEmitter<boolean>();
   communityPostReplyForm: FormGroup;
   replyMaxLength = 2000;
   addingCommunityPostReply$: Observable<boolean>;
@@ -53,6 +54,7 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
         ReplyText: this.communityPostReplyForm.controls['context'].value
       };
       this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
+      this.replySubmitted.emit();
     }
   }
 }

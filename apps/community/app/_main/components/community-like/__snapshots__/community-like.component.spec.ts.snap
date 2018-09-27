@@ -6,10 +6,10 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <div
-    class="community-like m-1 p-0 community-btn-clicked"
+  <span
+    class="community-like p-0 community-btn-clicked"
     id="like-reply"
-    ng-reflect-klass="community-like m-1 p-0"
+    ng-reflect-klass="community-like p-0"
     ng-reflect-ng-class="community-btn-clicked"
   >
     
@@ -22,7 +22,7 @@ exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser ==
     <span>
         Like
     </span>
-  </div>
+  </span>
 </pf-community-like>
 `;
 
@@ -32,10 +32,10 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <div
-    class="community-like m-1 p-0 community-btn"
+  <span
+    class="community-like p-0 community-btn"
     id="like-reply"
-    ng-reflect-klass="community-like m-1 p-0"
+    ng-reflect-klass="community-like p-0"
     ng-reflect-ng-class="community-btn"
   >
     
@@ -48,7 +48,7 @@ exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUse
     <span>
         Like
     </span>
-  </div>
+  </span>
 </pf-community-like>
 `;
 
@@ -57,10 +57,10 @@ exports[`CommunityLikeComponent should show like component 1`] = `
   replyStore={[Function Store]}
   store={[Function Store]}
 >
-  <div
-    class="community-like m-1 p-0 community-btn"
+  <span
+    class="community-like p-0 community-btn"
     id="like-reply"
-    ng-reflect-klass="community-like m-1 p-0"
+    ng-reflect-klass="community-like p-0"
     ng-reflect-ng-class="community-btn"
   >
     
@@ -73,6 +73,6 @@ exports[`CommunityLikeComponent should show like component 1`] = `
     <span>
         Like
     </span>
-  </div>
+  </span>
 </pf-community-like>
 `;
