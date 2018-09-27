@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
-import * as fromTooltipContainerActions from '../../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../../reducers';
 
 @Component({
@@ -56,7 +55,6 @@ export class MultiMatchPageComponent {
     this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
     this.excludeFromParticipation = false;
   }
 

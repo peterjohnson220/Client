@@ -2,46 +2,31 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { FilterHeaderComponent } from './filter-header.component';
 import { NgbPopoverModule, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
-describe('Project - Add Data - Filter Header', () => {
-  let fixture: ComponentFixture<FilterHeaderComponent>;
-  let instance: FilterHeaderComponent;
+import { SearchActionsComponent } from './search-actions.component';
+
+describe('Project - Add Data - Search Actions', () => {
+  let fixture: ComponentFixture<SearchActionsComponent>;
+  let instance: SearchActionsComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ FilterHeaderComponent ],
-      schemas: [ NO_ERRORS_SCHEMA ],
-      imports: [ NgbPopoverModule.forRoot() ]
+      imports: [ NgbPopoverModule ],
+      declarations: [ SearchActionsComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    fixture = TestBed.createComponent(FilterHeaderComponent);
+    fixture = TestBed.createComponent(SearchActionsComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should emit a resetAll event when handling Reset All Clicked', () => {
-    spyOn(instance.resetAll, 'emit');
+  it('should emit a reset event when handling Reset Clicked', () => {
+    spyOn(instance.reset, 'emit');
 
-    instance.handleResetAllClicked();
+    instance.handleResetClicked();
 
-    expect(instance.resetAll.emit).toHaveBeenCalled();
-  });
-
-  it('should show a Reset All link when this not a "singled" filter', () => {
-    instance.singled = false;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show a formatted number of results', () => {
-    instance.numberOfResults = 3500;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
+    expect(instance.reset.emit).toHaveBeenCalled();
   });
 
   it('should open popover when save filters clicked', () => {

@@ -10,8 +10,7 @@ import {
   generateMockSurveyJobResult,
   generateMockDataCut,
   SurveyDataCut,
-  MatchesDetailsTooltipData,
-  JobDetailsToolTipData
+  MatchesDetailsTooltipData
 } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import * as fromJobResultActions from '../../actions/search-results.actions';
@@ -37,31 +36,10 @@ describe('Project - Add Data - Job Result', () => {
 
     fixture = TestBed.createComponent(JobResultComponent);
     instance = fixture.componentInstance;
-  });
 
-  it('should display Show Cuts link when current job is not Payfactors', () => {
+    // Set up
     instance.job = generateMockSurveyJobResult();
-
     fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show values in the correct currency when is Payfactors job ', () => {
-    instance.job = generateMockPayfactorsJobResult();
-    instance.currencyCode = 'CAD';
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should hide Show Cuts link, survey name, and job code, when the current job is Payfactors', () => {
-    instance.job = generateMockPayfactorsJobResult();
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
   });
 
   it('should display Hide Cuts link when toggling the data cuts display', () => {
@@ -127,10 +105,9 @@ describe('Project - Add Data - Job Result', () => {
   });
 
   it('should emit matchesMouseLeave event when mouse leave Matches field', fakeAsync(() => {
-    const mouseLeaveEvent: MouseEvent = new MouseEvent('mouseleave');
-
     spyOn(instance.matchesMouseLeave, 'emit');
-    instance.handleMatchesMouseLeave(mouseLeaveEvent);
+
+    instance.handleMatchesMouseLeave();
     tick(100);
 
     expect(instance.matchesMouseLeave.emit).toHaveBeenCalled();
@@ -185,21 +162,6 @@ describe('Project - Add Data - Job Result', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
-  });
-
-  it('should emit jobTitleClick event when job title clicked', () => {
-    const mouseEvent: MouseEvent = new MouseEvent('click');
-    instance.job = generateMockPayfactorsJobResult();
-    const tooltipData: JobDetailsToolTipData = {
-      TargetX: mouseEvent.offsetX + 10,
-      TargetY: mouseEvent.clientY,
-      Job: instance.job
-    };
-
-    spyOn(instance.jobTitleClick, 'emit');
-    instance.handleJobTitleClick(mouseEvent);
-
-    expect(instance.jobTitleClick.emit).toHaveBeenCalledWith(tooltipData);
   });
 
 });

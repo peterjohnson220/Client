@@ -26,14 +26,14 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
       return {
         ...state,
         jobContext: action.payload,
-        pageShown: true
+        pageShown: true,
+        addingData: false
       };
     }
     case fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH: {
       return {
         ...state,
         pageShown: false,
-        addingData: false,
         searchingFilter: false
       };
     }
@@ -55,6 +55,12 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
       return {
         ...state,
         searchingFilter: !state.searchingFilter
+      };
+    }
+    case fromAddSurveyDataPageActions.HIDE_FILTER_SEARCH: {
+      return {
+        ...state,
+        searchingFilter: false
       };
     }
     default: {

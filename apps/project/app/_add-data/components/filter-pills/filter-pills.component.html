@@ -1,0 +1,11 @@
+<div class="pills-container">
+  <div class="pill" [class.locked]="pill.Locked" *ngFor="let pill of pills; trackBy: pillTrackByFn" (click)="handlePillClicked(pill)">
+    <div class="pill-value">
+      <strong>{{pill.FilterName}}: </strong> {{pill.ValueName}}
+    </div>
+    <div class="icon" [class.locked]="pill.Locked">
+      <span *ngIf="!pill.Locked"><i class="fal fa-times"></i></span>
+      <span *ngIf="pill.Locked"><i class="fas fa-lock"></i></span>
+    </div>
+  </div>
+</div>

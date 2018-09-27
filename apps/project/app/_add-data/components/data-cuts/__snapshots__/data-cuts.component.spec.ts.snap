@@ -1,60 +1,115 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DataCutsComponent should display Title, Country and weight 1`] = `
+exports[`DataCutsComponent should display Scope, Country and Weight 1`] = `
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
 >
-  <table
-    class="job-cuts-table"
+  <div
+    class="data-cuts-container"
   >
-    <tbody>
-      
-      <tr
-        class="data-cut-matched"
-        ng-reflect-ng-class="[object Object]"
-      >
-        <td
-          class="data-cut-title"
-        >
-          Metropolitan/Big/Large
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          USA
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          Incs (8)
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          50.5
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          85.5
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          
-          <span
-            class="matches"
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
           >
-             4 
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
 </pf-data-cuts>
 `;
 
@@ -62,57 +117,112 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
 >
-  <table
-    class="job-cuts-table"
+  <div
+    class="data-cuts-container"
   >
-    <tbody>
-      
-      <tr
-        class="data-cut-matched"
-        ng-reflect-ng-class="[object Object]"
-      >
-        <td
-          class="data-cut-title"
-        >
-          Metropolitan/Big/Large
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          USA
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          Incs (8)
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          -
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          -
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          
-          <span
-            class="matches"
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
           >
-             4 
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
 </pf-data-cuts>
 `;
 
@@ -121,14 +231,25 @@ exports[`DataCutsComponent should show a message when there is no data cuts 1`] 
   currencyCode=""
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
 >
   <div
-    class="no-data-cuts-message"
+    class="data-cuts-container"
   >
-     No data cuts available. Please adjust your filters. 
+    
+    
+    
+    <div
+      class="no-data-cuts-message"
+    >
+       No data cuts available. Please adjust your filters. 
+    </div>
+    
+    
   </div>
 </pf-data-cuts>
 `;
@@ -137,57 +258,114 @@ exports[`DataCutsComponent should show selected if the data cut has been selecte
 <pf-data-cuts
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
 >
-  <table
-    class="job-cuts-table"
+  <div
+    class="data-cuts-container"
   >
-    <tbody>
-      
-      <tr
-        class="selected-data-cut"
-        ng-reflect-ng-class="[object Object]"
-      >
-        <td
-          class="data-cut-title"
-        >
-          Metropolitan/Big/Large
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          USA
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          Incs (8)
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          -
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          -
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          
-          <span
-            class="matches"
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
           >
-             4 
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        <tr
+          class="selected"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
 </pf-data-cuts>
 `;
 
@@ -196,56 +374,111 @@ exports[`DataCutsComponent should show the data cut in the proper currency 1`] =
   currencyCode={[Function String]}
   dataCutSelected={[Function EventEmitter]}
   dataCuts={[Function Array]}
+  job={[Function Object]}
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
 >
-  <table
-    class="job-cuts-table"
+  <div
+    class="data-cuts-container"
   >
-    <tbody>
-      
-      <tr
-        class="data-cut-matched"
-        ng-reflect-ng-class="[object Object]"
-      >
-        <td
-          class="data-cut-title"
-        >
-          Metropolitan/Big/Large
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          USA
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          Incs (8)
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          50.5
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          85.5
-        </td>
-        <td
-          class="fixed-cell"
-        >
-          
-          <span
-            class="matches"
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
           >
-             4 
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
 </pf-data-cuts>
 `;

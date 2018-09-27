@@ -1,19 +1,7 @@
-<pf-job-details-tooltip
-  *ngIf="jobDetailsTooltipData"
-  [job]="jobDetailsTooltipData.Job"
-  [tooltipLeftPx]="jobDetailsTooltipData.TargetX"
-  [tooltipTopPx]="jobDetailsTooltipData.TargetY"
-  [visible]="jobDetailsTooltipOpen$ | async"
-  [containerHeight]="searchResultsContainerHeight"
-  [containerWidth]="searchResultsContainerWidth"
-  (closed)="clearJobDetailsTooltip()"
-  pfClickElsewhere [whitelist]="['job-title']" (clickElsewhere)="clearJobDetailsTooltip()">
-</pf-job-details-tooltip>
-
 <pf-matches-details-tooltip
   *ngIf="matchesDetailsTooltipData"
   [matchesDetails]="matchesDetailsTooltipData.MatchesDetails"
-  [tooltipLeftPx]="matchesDetailsTooltipData.TargetX"
+  [tooltipRightPx]="matchesDetailsTooltipData.TargetX"
   [tooltipTopPx]="matchesDetailsTooltipData.TargetY"
   [visible]="matchesDetailsTooltipOpen$ | async"
   [containerHeight]="searchResultsContainerHeight"

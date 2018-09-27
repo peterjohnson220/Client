@@ -56,12 +56,12 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchFiltersActions.UpdateRangeFilter(rangeObj));
   }
 
-  handleResetSection(filterId: string) {
+  handleClearSection(filterId: string) {
     this.focusedFilter = '';
     this.changeDetector.detectChanges();
     this.focusedFilter = filterId;
 
-    this.store.dispatch(new fromSearchFiltersActions.ResetFilter(filterId));
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(filterId));
   }
 
   handleSearchSection(filter: Filter) {

@@ -9,7 +9,7 @@ import { calculateTooltipTopPx, TooltipContainerData } from '../../helpers';
 })
 export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewChecked {
   @Input() matchesDetails: string[];
-  @Input() tooltipLeftPx: number;
+  @Input() tooltipRightPx: number;
   @Input() tooltipTopPx: number;
   @Input() visible: boolean;
   @Input() containerHeight: number;
@@ -18,6 +18,7 @@ export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewCheck
   @ViewChild('tooltip') private tooltipElement: ElementRef;
 
   readonly tooltipMargin: number = 10;
+  readonly rightPadding: number = 50;
   private isTooltipTopPxChanged: boolean;
 
   constructor() { }
@@ -47,6 +48,7 @@ export class MatchesDetailsTooltipComponent implements OnChanges, AfterViewCheck
     };
     this.tooltipTopPx = calculateTooltipTopPx(tooltipContainerData);
     this.tooltipElement.nativeElement.style.top = `${this.tooltipTopPx}px`;
+    this.tooltipElement.nativeElement.style.right = `${this.tooltipRightPx + this.rightPadding}px`;
   }
 
   updateScrollTop(): void {

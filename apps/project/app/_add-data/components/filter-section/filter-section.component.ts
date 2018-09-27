@@ -13,7 +13,7 @@ export class FilterSectionComponent {
   @Input() currencyCode: string;
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
-  @Output() reset: EventEmitter<string> = new EventEmitter();
+  @Output() clear: EventEmitter<string> = new EventEmitter();
   @Output() searchClicked: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
 
@@ -23,7 +23,7 @@ export class FilterSectionComponent {
 
   constructor() {}
 
-  get shouldShowResetLink(): boolean {
+  get shouldShowClearLink(): boolean {
     return (this.selectionCount > 0 || this.hasText || this.rangeHasSelection) && !this.filter.Locked;
   }
 
@@ -54,9 +54,9 @@ export class FilterSectionComponent {
     }
   }
 
-  handleResetClicked(e, filterId: string) {
+  handleClearClicked(e, filterId: string) {
     e.stopPropagation();
-    this.reset.emit(filterId);
+    this.clear.emit(filterId);
   }
 
   handleSearchClicked(e: MouseEvent, filter: Filter) {

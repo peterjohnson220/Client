@@ -138,10 +138,20 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: allFilters
       };
     }
-    case fromSearchFiltersActions.RESET_FILTER: {
+    case fromSearchFiltersActions.CLEAR_FILTER: {
       const copiedFilters = cloneDeep(state.filters);
       const filterToReset = copiedFilters.find(f => f.Id === action.payload);
-      resetFilter(filterToReset);
+      clearFilter(filterToReset);
+
+      return {
+        ...state,
+        filters: copiedFilters
+      };
+    }
+    case fromSearchFiltersActions.REMOVE_FILTER_VALUE: {
+      const copiedFilters = cloneDeep(state.filters);
+      const filterToRemoveValueFrom = copiedFilters.find(f => f.Id === action.payload.filterId);
+      clearFilter(filterToRemoveValueFrom, action.payload.value);
 
       return {
         ...state,
@@ -149,7 +159,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.RESET_ALL_FILTERS: {
-      let filters = resetFilters(cloneDeep(state.filters));
+      let filters = clearFilters(cloneDeep(state.filters));
       filters = applyDefaults(filters);
       return {
         ...state,
@@ -196,13 +206,17 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 }
 
 // Helper functions
-function resetFilters(filters: Filter[]): Filter[] {
-  return filters.map(f => resetFilter(f) );
+function clearFilters(filters: Filter[]): Filter[] {
+  return filters.map(f => clearFilter(f) );
 }
 
-function resetFilter(filter: Filter) {
+function clearFilter(filter: Filter, optionValue?: any) {
   if (isMultiFilter(filter) && !filter.Locked) {
-    filter.Options.map(o => o.Selected = false);
+    if (!optionValue) {
+      filter.Options.map(o => o.Selected = false);
+    } else {
+      filter.Options.find(o => isEqual(o.Value, optionValue)).Selected = false;
+    }
   } else if (isRangeFilter(filter)) {
     filter.SelectedMaxValue = null;
     filter.SelectedMinValue = null;

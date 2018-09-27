@@ -42,8 +42,8 @@ export class SingleFilterComponent implements OnInit {
     this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
 
-  handleResetSection(filterId: string) {
-    this.store.dispatch(new fromSearchFiltersActions.ResetFilter(filterId));
+  handleClearSection(filterId: string) {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(filterId));
     this.store.dispatch(new fromSingledFilterActions.ClearSelections());
   }
 

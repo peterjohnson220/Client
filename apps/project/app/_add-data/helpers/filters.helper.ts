@@ -1,7 +1,17 @@
-import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter, ProjectSearchContext } from '../models';
-
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+
 import { SearchFilterMappingData } from '../data';
+import {
+  Filter,
+  Filters,
+  FilterType,
+  isRangeFilter,
+  MultiSelectFilter,
+  MultiSelectOption,
+  ProjectSearchContext,
+  RangeFilter
+} from '../models';
+
 
 export const maxNumberOfOptions = 5;
 
@@ -71,7 +81,7 @@ export function buildLockedCountryCodeFilter(projectSearchContext: ProjectSearch
     BackingField: countryCodeData.BackingField,
     DisplayName: countryCodeData.DisplayName,
     Order: countryCodeData.Order,
-    Type: countryCodeData.Type,
+    Type: FilterType.Multi,
     Options: [{
       Name: projectSearchContext.CountryCode,
       Value: projectSearchContext.CountryCode,
@@ -80,6 +90,28 @@ export function buildLockedCountryCodeFilter(projectSearchContext: ProjectSearch
     RefreshOptionsFromServer: false,
     Locked: true
   };
+}
+
+export function getFiltersWithValues(filters: Filter[]): Filter[] {
+ return filters.filter((filter: Filters) => {
+   let hasValue = false;
+
+   switch (filter.Type) {
+     case FilterType.Multi: {
+       hasValue = filter.Options.some(o => o.Selected);
+       break;
+     }
+     case FilterType.Text: {
+       hasValue = filter.Value.length > 0;
+       break;
+     }
+     case FilterType.Range: {
+       hasValue = !!filter.SelectedMinValue || !!filter.SelectedMaxValue;
+     }
+   }
+
+   return hasValue;
+ });
 }
 
 function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {

@@ -32,7 +32,14 @@ export class SearchFiltersEffects {
 
   @Effect()
   resetFilter$ = this.actions$
-    .ofType(fromSearchFiltersActions.RESET_FILTER)
+    .ofType(fromSearchFiltersActions.CLEAR_FILTER)
+    .pipe(
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
+    );
+
+  @Effect()
+  removeFilterValue$ = this.actions$
+    .ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE)
     .pipe(
       map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );

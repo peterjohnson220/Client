@@ -1,13 +1,6 @@
 <div class="d-flex h-100">
 
   <div class="filters-sidebar">
-    <pf-filter-header
-      [numberOfResults]="numberOfResults$ | async"
-      [singled]="!!(searchingFilter$ | async)"
-      (resetAll)="handleResetAllFilters()"
-      (saveFilters)="handleSaveFilters($event)">
-    </pf-filter-header>
-
     <pf-search-filters
       [visible]="!(searchingFilter$ | async)">
     </pf-search-filters>

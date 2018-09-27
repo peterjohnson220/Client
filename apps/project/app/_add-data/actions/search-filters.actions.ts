@@ -11,7 +11,7 @@ export const GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS = '[Project Add Data/Add S
 export const TOGGLE_MULTI_SELECT_OPTION = '[Project Add Data/Search Filters] Toggle Multi Select Option';
 export const UPDATE_RANGE_FILTER = '[Project Add Data/Search Filters] Update Range';
 export const REFRESH_FILTERS = '[Project Add Data/Search Filters] Refresh Filters';
-export const RESET_FILTER = '[Project Add Data/Search Filters] Reset Filter';
+export const CLEAR_FILTER = '[Project Add Data/Search Filters] Clear Filter';
 export const RESET_ALL_FILTERS = '[Project Add Data/Search Filters] Reset All Filters';
 export const ADD_FILTER = '[Project Add Data/Search Filters] Add Filters';
 export const SET_DEFAULT_VALUE = '[Project Add Data/Search Filters] Set Default Value';
@@ -19,6 +19,7 @@ export const SAVE_SEARCH_FILTERS = '[Project Add Data/Search Filters] Save Searc
 export const SAVE_SEARCH_FILTERS_SUCCESS = '[Project Add Data/Search Filters] Save Search Filters Success';
 export const GET_SAVED_FILTERS = '[Project Add Data/Search Filters] Get Saved Filters';
 export const GET_SAVED_FILTERS_SUCCESS = '[Project Add Data/Search Filters] Get Saved Filters Success';
+export const REMOVE_FILTER_VALUE = '[Project Add Data/Search Filters] Remove Value';
 
 export class ClearFilters implements Action {
   readonly type = CLEAR_FILTERS;
@@ -68,10 +69,16 @@ export class RefreshFilters implements Action {
   }) {}
 }
 
-export class ResetFilter implements Action {
-  readonly type = RESET_FILTER;
+export class ClearFilter implements Action {
+  readonly type = CLEAR_FILTER;
 
   constructor(public payload: string) {}
+}
+
+export class RemoveFilterValue implements Action {
+  readonly type = REMOVE_FILTER_VALUE;
+
+  constructor(public payload: {filterId: string, value: any}) {}
 }
 
 export class ResetAllFilters implements Action {
@@ -118,12 +125,13 @@ export type Actions
   | GetDefaultScopesFilterSuccess
   | ToggleMultiSelectOption
   | RefreshFilters
-  | ResetFilter
+  | ClearFilter
   | ResetAllFilters
   | AddFilter
   | SetDefaultValue
   | SaveSearchFilters
   | SaveSearchFiltersSuccess
   | GetSavedFilters
-  | GetSavedFiltersSuccess;
+  | GetSavedFiltersSuccess
+  | RemoveFilterValue;
 

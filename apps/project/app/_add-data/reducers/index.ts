@@ -180,10 +180,7 @@ export const getSavedFilters = createSelector(
 );
 
 // Tooltip Container Selectors
-export const getJobDetailsTooltipOpen = createSelector(
-  selectTooltipContainerState,
-  fromTooltipContainerReducer.getJobDetailsTooltipOpen
-);
+
 
 export const getLoadingMatchesDetails = createSelector(
   selectTooltipContainerState,

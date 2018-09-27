@@ -2,10 +2,10 @@
 
 exports[`Project - Add Data - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
+  clear={[Function EventEmitter]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  reset={[Function EventEmitter]}
   searchClicked={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
 >
@@ -103,11 +103,11 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
 
 exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in the header, when collapsed 1`] = `
 <pf-filter-section
+  clear={[Function EventEmitter]}
   collapsed={[Function Boolean]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  reset={[Function EventEmitter]}
   searchClicked={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
 >
@@ -154,10 +154,10 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 
 exports[`Project - Add Data - Filter Section should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
+  clear={[Function EventEmitter]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  reset={[Function EventEmitter]}
   searchClicked={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
   singled="false"
@@ -184,7 +184,7 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
         >
           
           
-          Reset (5)
+          Clear (5)
           
           
         </div>

@@ -9,7 +9,7 @@
     [filter]="singledFilter$ | async"
     [overriddenSelectionCount]="selectionCount$ | async"
     [singled]="true"
-    (reset)="handleResetSection($event)"
+    (clear)="handleClearSection($event)"
     (searchValueChanged)="handleSearchValueChanged($event)">
 
     <pf-async-container

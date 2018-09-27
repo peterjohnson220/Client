@@ -5,13 +5,14 @@
       [filter]="filter"
       [currencyCode]="(projectSearchContext$ |async)?.CurrencyCode"
       [ngSwitch]="filter.Type"
-      (reset)="handleResetSection($event)"
+      (clear)="handleClearSection($event)"
       (searchClicked)="handleSearchSection($event)">
 
       <!--Text Filters-->
       <ng-container *ngSwitchCase="filterTypes.Text">
         <div class="px-2">
           <pf-input-debounce
+            [id]="filter.Id"
             [hideClearBtn]="true"
             [placeholderText]="''"
             [maxLength]="255"
