@@ -46,21 +46,16 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
 
 export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams) {
   let mergedFilters: RangeFilter[];
-
   if (param.clientFilters.length) {
     mergedFilters = param.serverFilters.filter(f => isRangeFilter(f)).map(sf => {
       const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
 
-      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMinValue !== null) {
+      if (!!matchedClientFilter.SelectedMinValue) {
         sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
-      } else {
-        sf.SelectedMinValue = sf.MinimumValue;
       }
 
-      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMaxValue !== null) {
+      if (!!matchedClientFilter.SelectedMaxValue) {
         sf.SelectedMaxValue = matchedClientFilter.SelectedMaxValue;
-      } else {
-        sf.SelectedMaxValue = sf.MaximumValue;
       }
 
       return sf;

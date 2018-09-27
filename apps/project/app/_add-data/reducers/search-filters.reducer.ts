@@ -184,8 +184,6 @@ function resetFilter(filter: Filter) {
   } else if (isRangeFilter(filter)) {
     filter.SelectedMaxValue = null;
     filter.SelectedMinValue = null;
-    filter.MaximumValue = null;
-    filter.MinimumValue = null;
   } else if (isTextFilter(filter)) {
     filter.Value = '';
   }

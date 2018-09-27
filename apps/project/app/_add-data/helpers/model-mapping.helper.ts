@@ -126,8 +126,8 @@ export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeF
     Type: FilterType.Range,
     MinimumValue: minValue,
     MaximumValue: maxValue,
-    SelectedMinValue: minValue,
-    SelectedMaxValue: maxValue
+    SelectedMinValue: null,
+    SelectedMaxValue: null
   };
 }
 
@@ -187,7 +187,8 @@ function getMultiFiltersWithValues(filters: Filter[]) {
 
 function getRangeFilterAsMultiSelect(filters: Filter[]) {
   return filters.filter(f => isRangeFilter(f)
-    && (f.MaximumValue !== f.SelectedMaxValue || f.MinimumValue !== f.SelectedMinValue)).map((f: RangeFilter) => {
+    && (f.MaximumValue !== f.SelectedMaxValue || f.MinimumValue !== f.SelectedMinValue)
+    && f.SelectedMinValue != null && f.SelectedMaxValue != null).map((f: RangeFilter) => {
       return {
         Name: f.BackingField,
         Options: [{
