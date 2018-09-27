@@ -7,6 +7,7 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   enableEditingResponseOptions={[Function Boolean]}
   formBuilder={[Function FormBuilder]}
   isAdmin="false"
+  maxChoices={[Function Number]}
   maxTextLength={[Function Number]}
 >
   <div

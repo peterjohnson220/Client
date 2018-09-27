@@ -5,10 +5,10 @@
       </div>
 
       <div class="col-sm-9">
-            <input type="text" class="form-control" placeholder="Choice {{index+1}}" [attr.id]="'response'+index" formControlName="response" [maxLength]="45">    
+            <input type="text" class="form-control" [placeholder]=getPlaceholder [attr.id]="'response'+index" formControlName="response" [maxLength]="45">    
       </div>
 
-      <div *ngIf="enableEditingResponseOptions">
+      <div *ngIf="enableEditingResponseOptions && index > 1">
             <div class="col-sm-1">
                   <button type="button" class="btn btn-secondary border-0" (click)="removed.emit(index)"><i class="fas fa-times text-muted"></i></button>
             </div>

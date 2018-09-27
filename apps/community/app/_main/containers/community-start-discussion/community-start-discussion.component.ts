@@ -32,10 +32,18 @@ export class CommunityStartDiscussionComponent {
       this.postType = postType;
   }
 
+  get submitEnabled() {
+    if ( this.postType === this.CommunityPostTypes.Discussion &&  this.newPostComponent ) {
+      return this.newPostComponent.isFormValid;
+    } else if ( this.postType === this.CommunityPostTypes.Question  && this.newPollComponent) {
+      return this.newPollComponent.isFormValid;
+    } else { return false; }
+  }
+
   submitContent() {
-    if ( this.postType === this.CommunityPostTypes.Discussion ) {
+    if ( this.postType === this.CommunityPostTypes.Discussion &&  this.newPostComponent ) {
       this.newPostComponent.submit();
-    } else if ( this.postType === this.CommunityPostTypes.Question ) {
+    } else if ( this.postType === this.CommunityPostTypes.Question && this.newPollComponent) {
       this.newPollComponent.submit();
     }
   }

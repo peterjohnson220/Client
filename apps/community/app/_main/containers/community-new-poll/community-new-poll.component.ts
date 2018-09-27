@@ -17,12 +17,14 @@ export class CommunityNewPollComponent implements OnInit {
   @Input() public isAdmin = false;
 
   maxTextLength = 250;
+  maxChoices = 5;
   attemptedSubmit = false;
   pollLengthDays: Number[];
   pollLengthHours: Number[];
 
   get context() { return this.communityPollForm.get('context'); }
   get choices() { return this.communityPollForm.get('choices') as FormArray; }
+  get isFormValid() { return this.communityPollForm.valid; }
 
   pollResponseOptionsLimits(array: FormArray): ValidatorFn {
     return function() {

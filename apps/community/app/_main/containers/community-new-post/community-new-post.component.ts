@@ -23,7 +23,9 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   communityDiscussionForm: FormGroup;
 
   textMaxLength = 2000;
+
   get context() { return this.communityDiscussionForm.get('context'); }
+  get isFormValid() { return this.communityDiscussionForm.valid; }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
     private formBuilder: FormBuilder) {

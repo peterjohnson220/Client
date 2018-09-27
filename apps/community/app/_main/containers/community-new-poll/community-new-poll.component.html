@@ -34,7 +34,7 @@
     </fieldset>
 
     <div *ngIf="enableEditingResponseOptions">
-        <button type="button" class="btn btn-link" *ngIf="choices.length < 10" (click)="addResponseOption()">+ Add a choice</button> 
+        <button type="button" class="btn btn-link" *ngIf="choices.length < maxChoices" (click)="addResponseOption()">+ Add a choice</button> 
     </div>
   </div>
 
