@@ -24,18 +24,24 @@
               <p>{{post.UrlPreviewData.PreviewDescription}}</p>
             </a>
           </div>
-          <pf-community-like
-            [LikedByCurrentUser]="post.LikedByCurrentUser"
-            [PostId]="post.Id"
-            [LikeCount]="post.LikeCount">
-          </pf-community-like>
-          <a id="reply" href="javascript:void(0)" class="community-link m-1" (click)="showAddReply[i] = !showAddReply[i]">
-            <span>Reply</span>
-          </a>
-          <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
-            <pf-community-post-add-reply [postId]="post.Id"></pf-community-post-add-reply>
-            <pf-community-post-add-reply-view [postId]="post.Id"></pf-community-post-add-reply-view>
+          <div class="d-flex align-items-center">
+            <pf-community-like
+              [LikedByCurrentUser]="post.LikedByCurrentUser"
+              [PostId]="post.Id"
+              [LikeCount]="post.LikeCount">
+            </pf-community-like>
+            <a id="reply" href="javascript:void(0)" class="pl-2 community-link" (click)="showReply(i)">
+              <span>Reply</span>
+            </a>
           </div>
+          <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
+            <pf-community-post-add-reply
+              [postId]="post.Id"
+              (replySubmitted)="onReplySubmitted(i)">
+            </pf-community-post-add-reply>
+          </div>
+          <pf-community-post-add-reply-view
+            [postId]="post.Id"></pf-community-post-add-reply-view>
           <div *ngIf="post.ReplyCount > 0">
             <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
               <span class="mr-1">

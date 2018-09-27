@@ -8,6 +8,7 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   communityPostReplyForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
   replyMaxLength={[Function Number]}
+  replySubmitted={[Function EventEmitter]}
   store={[Function Store]}
 >
   <form

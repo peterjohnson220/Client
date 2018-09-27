@@ -68,7 +68,22 @@ describe('CommunityPostsComponent', () => {
 
     expect(instance.showReplies[item]).toBe(false);
   });
+  it('should show reply area when reply link clicked', () => {
+    const item = 1;
 
+    instance.showAddReply[item] = false;
+    instance.showReply(item);
+
+    expect(instance.showAddReply[item]).toBe(true);
+  });
+  it('should show reply area when onreplysubmitted', () => {
+    const item = 1;
+
+    instance.showAddReply[item] = false;
+    instance.onReplySubmitted(item);
+
+    expect(instance.showAddReply[item]).toBe(true);
+  });
   it('should return the id for tracking purposes ', () => {
     const filter: CommunityPost = generateMockCommunityPost();
 
