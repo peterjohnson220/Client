@@ -24,9 +24,9 @@
         
        <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'" [width]="130" class="text-center">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-              <div class="btn btn-sm status-label-text" [ngClass]="{'btn-warning': dataItem.Status == 0, 'btn-success': dataItem.Status == 1, 'btn-danger': dataItem.Status == 2}">
+              <label class="lbl-status" [ngClass]="{'lbl-draft': dataItem.Status == 0, 'lbl-live': dataItem.Status == 1, 'lbl-acrhived': dataItem.Status == 2}">
                     {{ CommunityPollStatuses[dataItem.Status].text }}
-              </div>  
+              </label>  
           </ng-template>
         </kendo-grid-column>
 
