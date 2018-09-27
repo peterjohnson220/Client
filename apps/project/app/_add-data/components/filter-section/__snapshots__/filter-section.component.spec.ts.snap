@@ -20,6 +20,7 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       >
          Job Title/Code 
         
+        
       </div>
       <div
         class="header-right"
@@ -28,6 +29,7 @@ exports[`Project - Add Data - Filter Section should display the given title in t
         <div
           class="reset-link"
         >
+          
           
           
           
@@ -65,6 +67,7 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
         >
            Job Title/Code 
           
+          
         </div>
         <div
           class="header-right"
@@ -73,6 +76,7 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
           <div
             class="reset-link"
           >
+            
             
             
             
@@ -118,6 +122,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
       >
          Job Title/Code 
         
+        
         <div
           class="ml-2"
         >
@@ -133,6 +138,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
         <div
           class="reset-link"
         >
+          
           
           
           
@@ -167,6 +173,7 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
       >
          Publisher 
         
+        
       </div>
       <div
         class="header-right"
@@ -178,6 +185,7 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
           
           
           Reset (5)
+          
           
         </div>
         
