@@ -43,19 +43,24 @@ export class AddSurveyDataPageComponent {
 
     switch (event.data.payfactorsMessage.type) {
       case 'Set Job Context':
+        this.resetApp();
         this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(event.data.payfactorsMessage.payload));
         break;
       case 'App Closed':
-        this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
-        this.store.dispatch(new fromSurveyResultsActions.ClearResults());
-        this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-        this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
-        this.excludeFromParticipation = false;
+        this.resetApp();
         break;
       case 'Hide App':
         this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
         break;
     }
+  }
+
+  resetApp() {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
+    this.store.dispatch(new fromSurveyResultsActions.ClearResults());
+    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+    this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
+    this.excludeFromParticipation = false;
   }
 
   handleCancelClicked() {
