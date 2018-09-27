@@ -1,4 +1,4 @@
-export interface JobDescriptionViewModel{
+export interface JobDescriptionViewModel {
   Id: string;
   Name: string;
   TemplateId: number;
