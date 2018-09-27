@@ -66,10 +66,11 @@ export function reducer(
       const entity = state.entities[replyId];
       const updatedLikeCount = like ? entity.LikeCount + 1 : entity.LikeCount - 1;
 ​
-      return adapter.updateOne(
-        { id: postId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount} },
-        state,
-      );
+      return {
+        ...adapter.updateOne(
+          { id: replyId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount } },
+          state)
+      };
     }
     case communityPostReplyActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_ERROR: {
       return {
