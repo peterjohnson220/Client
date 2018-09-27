@@ -11,14 +11,14 @@
         [textMaxLength]="2000">
       </pf-radial-text-counter>
     </div>
-    <span placement="bottom"
+    <span id="internal-only-container" class="pl-3" placement="right"
           ngbTooltip="Will be visible to users within your organization">
       <input #isInternal
             id="internal-only"
             name="internal-only"
             formControlName="isInternalOnly"
-            type="checkbox" />
-      <label for="internal-only" class="ml-1">Internal Only</label>
+            type="checkbox" class="k-checkbox" />
+      <label for="internal-only" class="ml-1 k-checkbox-label">Internal Only</label>
     </span>
   </div>
 </div>
