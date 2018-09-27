@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Exchange Job Association Utility Page should NOT display 'Run' button as disabled when there is both an exchangeSelection and companySelection 1`] = `
+<button
+  class="btn btn-primary mb-lg-2"
+  type="button"
+>
+  
+  
+  <span>
+    Run
+  </span>
+</button>
+`;
+
+exports[`Admin - Exchange Job Association Utility Page should display 'Run' button as disabled on init 1`] = `
+<button
+  class="btn btn-primary mb-lg-2"
+  disabled=""
+  type="button"
+>
+  
+  
+  <span>
+    Run
+  </span>
+</button>
+`;
+
+exports[`Admin - Exchange Job Association Utility Page should display danger alert when not currently associating, a run has been attempted, and there was an error 1`] = `
+<div
+  class="alert alert-danger"
+>
+   There was an error associating jobs for this company and exchange. 
+</div>
+`;
+
+exports[`Admin - Exchange Job Association Utility Page should display success alert when not currently associating, a run has been attempted, and there was NO error 1`] = `
+<div
+  class="alert alert-success"
+>
+   Jobs have been associated successfully! 
+</div>
+`;
+
+exports[`Admin - Exchange Job Association Utility Page should display success alert when not currently associating, a run has been attempted, and there was no error 1`] = `null`;
