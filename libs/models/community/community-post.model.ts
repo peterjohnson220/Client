@@ -1,6 +1,7 @@
 import { CommunityUserInfo } from './community-user-info.model';
 import { CommunityTag } from './community-tag.model';
 import { CommunityReply } from './community-reply.model';
+import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model';
 
 export interface CommunityPost {
   Id: string;
@@ -16,6 +17,7 @@ export interface CommunityPost {
   Replies: CommunityReply[];
   ReplyIds: string[];
   HiddenReplyIds: string[];
+  UrlPreviewData: CommunityUrlPreviewDataModel;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -38,6 +40,8 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     Tags: tags,
     Replies: replies,
     ReplyIds: [ '1', '2' ],
-    HiddenReplyIds: [ '1' ]
+    HiddenReplyIds: [ '1' ],
+    UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',
+      PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'}
   };
 }
