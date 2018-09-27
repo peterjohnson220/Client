@@ -2,22 +2,13 @@
 
 .community-like {
   cursor: pointer;
+  background: transparent;
 }
 
-.community-btn {
-    background: transparent;
-    color: #99A0A4;
-  }
-  
-  .community-btn .icon {
-    color: $community-icon-color;
-  }
-  
-  .community-btn-clicked {
-    background:transparent;
-    color: #99A0A4;
-  }
-  
-  .community-btn-clicked .icon {
-    color: #FA4646;
-  }
+.community-btn .icon {
+  color: $community-icon-color;
+}
+
+.community-btn-clicked .icon {
+  color: #FA4646;
+}
