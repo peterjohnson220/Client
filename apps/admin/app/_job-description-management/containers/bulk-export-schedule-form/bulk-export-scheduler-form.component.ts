@@ -147,13 +147,13 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   }
 
   getViewName(viewId) {
-    for (let view of this.views) {
+    for (const view of this.views) {
       if (view.Id === viewId) {
         return view.Name;
       }
     }
 
-    return "";
+    return '';
   }
 
   // Lifecycle
