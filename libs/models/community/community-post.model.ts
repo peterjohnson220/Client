@@ -8,6 +8,7 @@ export interface CommunityPost {
   Content: string;
   UserInfo: CommunityUserInfo;
   Time: any;
+  ElapsedTime: string;
   IsInternalOnly: boolean;
   LikeCount: number;
   LikedByCurrentUser: boolean;
@@ -32,6 +33,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
         AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
       },
     Time: new Date(),
+    ElapsedTime: '3 minutes ago',
     IsInternalOnly: isInternalOnly,
     LikeCount: likeCount,
     LikedByCurrentUser: false,
