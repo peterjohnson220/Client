@@ -25,13 +25,9 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   suggestedCommunityTags$: Observable<CommunityTag[]>;
   suggestedCommunityTagsPostId$: Observable<string>;
-  submittingCommunityPostSuccess$: Observable<CommunityPost>;
-  addingCommunityPostReplySuccess$: Observable<boolean>;
 
   suggestedCommunityTagsSubscription: Subscription;
   suggestedCommunityTagsPostIdSubscription: Subscription;
-  submittingCommunityPostSuccessSubscription: Subscription;
-  addingCommunityPostReplySuccessSubscription: Subscription;
   textValueChangesSubscription: Subscription;
 
   @Input() public parentForm: FormGroup;
@@ -56,13 +52,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
-              public replyStore: Store<fromCommunityPostAddReplyReducer.State>) {
+  constructor(public store: Store<fromCommunityPostReducer.State>) {
     this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityPostReducer.getSuggestingCommunityTagsPostId);
     this.suggestedCommunityTags$ = this.store.select(fromCommunityPostReducer.getCommunityTags);
-    this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
-    this.addingCommunityPostReplySuccess$ = this.replyStore.select(fromCommunityPostAddReplyReducer.getAddingCommunityPostReplySuccess);
-  }
+   }
 
   ngOnInit() {
     this.suggestedCommunityTagsSubscription = this.suggestedCommunityTags$.subscribe((data) => {
@@ -73,15 +66,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
          this.suggestTagsContainerVisible = data === this.postId;
     });
 
-    this.submittingCommunityPostSuccessSubscription = this.submittingCommunityPostSuccess$.subscribe((response) => {
-      if (response) {this.autogrow(); }
-    });
-
-    // TODO: Will NOT be needed when CommunityPostAddReplyComponent is closed after posting a reply
-    this.addingCommunityPostReplySuccessSubscription = this.addingCommunityPostReplySuccess$.subscribe((response) => {
-      if (response) {this.suggestedTags = []; }
-    });
-
     this.textValueChangesSubscription = this.context.valueChanges.subscribe(values => {
       this.autogrow();
     });
@@ -90,8 +74,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.suggestedCommunityTagsPostIdSubscription.unsubscribe();
     this.suggestedCommunityTagsSubscription.unsubscribe();
-    this.submittingCommunityPostSuccessSubscription.unsubscribe();
-    this.addingCommunityPostReplySuccessSubscription.unsubscribe();
     this.textValueChangesSubscription.unsubscribe();
   }
 
@@ -147,10 +129,8 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   }
 
   private autogrow() {
-    if (this.discussionTextArea.nativeElement.scrollHeight >= 50) {
-      this.textAreaContainer.nativeElement.style.height = 0;
-      this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
-    }
+    this.textAreaContainer.nativeElement.style.height = 0;
+    this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
   }
 
   private suggestedTagsSelectionMoveUp() {
@@ -190,4 +170,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       });
     });
   }
+
+
 }

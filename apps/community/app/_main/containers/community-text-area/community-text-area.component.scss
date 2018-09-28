@@ -7,7 +7,7 @@ $radial-counter-width: 25px;
   min-height: 50px;
   font-size: 14px;
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .discussionTextArea {
@@ -28,7 +28,10 @@ $radial-counter-width: 25px;
   height: 100%;
   top: 2px;
   left: 1px;
+  resize: none;
+  overflow: hidden;
   padding-right: $radial-counter-width;
+  border: solid 1px transparent;
 }
 
 .suggested-tags {
