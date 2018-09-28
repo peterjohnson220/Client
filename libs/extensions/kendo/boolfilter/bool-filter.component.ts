@@ -6,6 +6,7 @@ import { FilterService } from '@progress/kendo-angular-grid';
 @Component({
     selector: 'pf-bool-filter',
     templateUrl: './bool-filter.component.html',
+    styleUrls: ['./bool-filter.styles.scss']
 })
 export class BoolFilterComponent implements AfterViewInit {
     @Input() public isPrimitive: boolean;
