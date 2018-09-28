@@ -44,6 +44,12 @@ button:focus {
   outline-offset: -2px;
 }
 
+.radial-counter {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+}
+
 :host ::ng-deep .hashtag-highlight {
   color: $hashtag-color;
 }

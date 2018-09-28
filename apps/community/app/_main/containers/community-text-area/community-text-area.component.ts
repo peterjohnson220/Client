@@ -35,7 +35,9 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   textValueChangesSubscription: Subscription;
 
   @Input() public parentForm: FormGroup;
-  @Input() public maxTextLength: number;
+  @Input() public maxTextLength: 2000;
+  @Input() public warningStartNumber = 1500;
+  @Input() public dangerStartNumber = 1950;
   @Input() public textPlaceholder: string;
   @Input() public postId: string;
 

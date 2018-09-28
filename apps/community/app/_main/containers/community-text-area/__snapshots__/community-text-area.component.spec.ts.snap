@@ -4,6 +4,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
 <pf-community-text-area
   addingCommunityPostReplySuccess$={[Function Store]}
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  dangerStartNumber={[Function Number]}
   discussionTextArea={[Function ElementRef]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
@@ -20,6 +21,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   suggestedTags={[Function Array]}
   textAreaContainer={[Function ElementRef]}
   textValueChangesSubscription={[Function Subscriber]}
+  warningStartNumber={[Function Number]}
 >
   <div
     class="form-group ng-untouched ng-pristine ng-valid"
@@ -29,10 +31,10 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
       class="textAreaContainer"
     >
       <div
-        class="overlayTextArea pl-2 pr-2"
+        class="overlayTextArea pl-2 pr-4"
       />
       <textarea
-        class="discussionTextArea pl-2 pr-2 ng-untouched ng-pristine ng-valid"
+        class="discussionTextArea pl-2 pr-4 ng-untouched ng-pristine ng-valid"
         formcontrolname="context"
         ng-reflect-maxlength=""
         ng-reflect-name="context"
@@ -41,6 +43,9 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
       >
             
       </textarea>
+      <pf-radial-text-counter
+        class="radial-counter"
+      />
     </div>
   </div>
 </pf-community-text-area>

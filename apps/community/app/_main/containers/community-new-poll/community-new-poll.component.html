@@ -5,19 +5,11 @@
     <pf-community-text-area 
       [parentForm]="communityPollForm"
       [maxTextLength]="maxTextLength"
-      textPlaceholder="Ask a question..."
-      [pfFocus]="true">
+      [warningStartNumber]="200"
+      [dangerStartNumber]="225"
+      [pfFocus]="true"
+      textPlaceholder="Ask a question...">
     </pf-community-text-area>
-
-    <div *ngIf="!isAdmin" class="float-right ml-3 p-0">
-      <pf-radial-text-counter 
-        [textToCount]="context.value"
-        [textMaxLength]="maxTextLength"
-        [WarningStartNumber]="200"
-        [DangerStartNumber]="225">
-      </pf-radial-text-counter>
-    </div>
-
     <ng-container *ngIf="context.errors && attemptedSubmit">
       <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
       <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>

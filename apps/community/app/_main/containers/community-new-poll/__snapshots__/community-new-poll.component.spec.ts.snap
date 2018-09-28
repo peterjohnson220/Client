@@ -19,7 +19,6 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
     />
     
     
-    
     <fieldset
       formarrayname="choices"
     >
