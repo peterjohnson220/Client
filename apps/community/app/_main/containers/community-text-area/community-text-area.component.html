@@ -1,10 +1,10 @@
 <div class="form-group" [formGroup]="parentForm">
   <div class="textAreaContainer" #textAreaContainer>     
     <div #overlayTextArea 
-        class="overlayTextArea pl-2 pr-4"
+        class="overlayTextArea pl-2"
         [innerHtml]="discussionTextArea.value | highlightHashTag | formatLinkUrl"></div>
     <textarea  #discussionTextArea
-      class="discussionTextArea pl-2 pr-4"
+      class="discussionTextArea pl-2"
       formControlName="context" 
       maxlength="{{maxTextLength}}"
       placeholder="{{textPlaceholder}}"
