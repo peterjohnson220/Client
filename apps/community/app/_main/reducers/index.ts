@@ -212,7 +212,7 @@ export const getCommunityPostsCombinedWithReplies = createSelector(
       const postlist = cloneDeep(posts);
       postlist.forEach(post => {
         if (post.ReplyIds && post.ReplyIds.length > 0) {
-          const filteredReplyIds = post.ReplyIds.filter(replyId => !addReplies.includes(replyId));
+          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0);
           const filteredReplies = filteredReplyIds.reduce((acc, id) => {
             return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
           }, []);
