@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
@@ -23,14 +23,14 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   @ViewChild(MapComponent) map: MapComponent;
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
-  peerFilterSelections$: Observable<any>;
+  peerMapCompanies$: Observable<any>;
   upsertingDataCut$: Observable<boolean>;
   upsertingDataCutError$: Observable<boolean>;
   initialMapMoveComplete$: Observable<boolean>;
   systemFilter$: Observable<SystemFilter>;
 
   // Subscriptions
-  peerFilterSubscription: Subscription;
+  peerMapCompaniesSubscription: Subscription;
 
   companyJobId: number;
   companyPayMarketId: number;
@@ -43,12 +43,12 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private guidelinesService: DojGuidelinesService
   ) {
-    this.upsertingDataCut$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut);
-    this.upsertingDataCutError$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError);
-    this.initialMapMoveComplete$ = this.mapStore.select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete);
-    this.systemFilter$ = this.store.select(fromPeerMapReducers.getSystemFilter);
-    this.upsertDataCutPageInViewInIframe$ = this.store.select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe);
-    this.peerFilterSelections$ = this.store.select(fromPeerMapReducers.getPeerFilterSelections);
+    this.upsertingDataCut$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut));
+    this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
+    this.initialMapMoveComplete$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapInitialMapMoveComplete));
+    this.systemFilter$ = this.store.pipe(select(fromPeerMapReducers.getSystemFilter));
+    this.upsertDataCutPageInViewInIframe$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe));
+    this.peerMapCompanies$ = this.store.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
   }
 
   get primaryButtonText(): string {
@@ -97,15 +97,15 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       }
     ));
 
-    this.peerFilterSubscription = this.peerFilterSelections$.subscribe(pfs => {
+    this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
       // If the cutGuid is null, we can assume that we are NOT editing a data cut and we therefor need to check similarity.
       const shouldCheckSimilarity = this.cutGuid === null;
-      this.guidelinesService.validateDataCut(pfs, shouldCheckSimilarity);
+      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity);
     });
   }
 
   ngOnDestroy() {
-    this.peerFilterSubscription.unsubscribe();
+    this.peerMapCompaniesSubscription.unsubscribe();
   }
 
   // Add Data cut page within marketdata.asp specific code

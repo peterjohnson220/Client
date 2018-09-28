@@ -9,8 +9,8 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -73,8 +73,8 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -136,8 +136,8 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -199,8 +199,8 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
@@ -262,8 +262,8 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
-  peerFilterSelections$={[Function Store]}
-  peerFilterSubscription={[Function Subscriber]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}

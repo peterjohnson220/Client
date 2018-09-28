@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -15,7 +15,7 @@ import { GuidelineLimits } from '../models';
 export class DojGuidelinesService {
   // Private Properties
   private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25, DominatingPercentageHard: .5 };
-  private previousSelections: number[] = [];
+  private previousMapCompanies: number[] = [];
   private dataCutValid = true;
 
   dataCutValidationInfo: DataCutValidationInfo[];
@@ -30,8 +30,8 @@ export class DojGuidelinesService {
   peerMapCompaniesSubscription: Subscription;
 
   constructor(private store: Store<fromUpsertPeerDataReducers.State>, private mapStore: Store<fromPeerMapReducers.State>) {
-    this.peerMapCompanies$ = this.mapStore.select(fromPeerMapReducers.getPeerMapCompaniesFromSummary);
-    this.dataCutValidationInfo$ = this.store.select(fromUpsertPeerDataReducers.getDataCutValidationInfo);
+    this.peerMapCompanies$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
+    this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
 
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pmc => this.companies = pmc);
     this.dataCutValidationSubscription = this.dataCutValidationInfo$.subscribe(dcvi => this.dataCutValidationInfo = dcvi);
@@ -79,7 +79,7 @@ export class DojGuidelinesService {
     return this.dataCutValid && this.hasMinimumCompanies && this.hasNoHardDominatingData;
   }
 
-  validateDataCut(selections: any, shouldCheckSimilarity: boolean) {
+  validateDataCut(mapCompanies: any, shouldCheckSimilarity: boolean) {
     if (!shouldCheckSimilarity) {
       this.dataCutValid = true;
       return;
@@ -88,25 +88,21 @@ export class DojGuidelinesService {
     const validationInfo = this.dataCutValidationInfo;
     let validationPass = true;
 
-    // If there are no company filters selected then we don't care and the validation passes.
-    if (selections.CompanyIds) {
-      const selectedCompanies: number[] = selections.CompanyIds;
-      // If there are less than 5 company's selected or if the validationInfo array does not have any values the validation passes.
-      if (selectedCompanies.length > 4 && validationInfo.length > 0) {
-        // In an attempt to make this method faster, a previousSelections variable will be stored.
-        // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
-        if (!arraysEqual(selectedCompanies, this.previousSelections)) {
-          this.previousSelections = selectedCompanies;
-          // Check against each existing cut, if it fails we break out and set validation to false.
-          for (const value of validationInfo) {
-            if (checkArraysOneOff(selectedCompanies, value.CompanyIds)) {
-              validationPass = false;
-              break;
-            }
+    const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
+    if (currentMapCompanies.length > 4 && validationInfo.length > 0) {
+      // In an attempt to make this method faster, a previousSelections variable will be stored.
+      // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
+      if (!arraysEqual(currentMapCompanies, this.previousMapCompanies)) {
+        this.previousMapCompanies = currentMapCompanies;
+        // Check against each existing cut, if it fails we break out and set validation to false.
+        for (const value of validationInfo) {
+          if (checkArraysOneOff(currentMapCompanies, value.CompanyIds)) {
+            validationPass = false;
+            break;
           }
-        } else {
-          return;
         }
+      } else {
+        return;
       }
     }
 
