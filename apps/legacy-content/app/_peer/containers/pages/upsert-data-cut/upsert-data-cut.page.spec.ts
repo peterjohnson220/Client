@@ -189,7 +189,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should call validateDataCut when peerFilterSelections changes', () => {
+  it('should call validateDataCut when map summary changes changes', () => {
     const payload = generateMockExchangeStatCompanyMakeup();
     queryStringParams.dataCutGuid = null;
     instance.peerMapCompanies$ = of(payload);
@@ -198,7 +198,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     fixture.detectChanges();
 
-    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, false);
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {
