@@ -1,19 +1,22 @@
 <pf-async-container [loading]="loadingExchangeJobMappings$ | async" [loadingError]="loadingExchangeJobMappingsError$ | async"
   [hideReloadButton]="true">
 
-  <kendo-grid class="row-click-navigates no-wrap-ellipsis-values" [pfKendoScrollTo]="pageRowIndexToScrollTo" [pfKendoScrollToEnabled]="!disableScrollTo"
-    [data]="exchangeJobMappingsGridData$ | async" [pageSize]="exchangeJobMappingGridState?.take" [skip]="exchangeJobMappingGridState?.skip"
-    [sort]="exchangeJobMappingGridState?.sort" [filter]="exchangeJobMappingGridState?.filter" [pageable]="{
+  <kendo-grid class="row-click-navigates no-wrap-ellipsis-values" [pfKendoScrollTo]="pageRowIndexToScrollTo"
+    [pfKendoScrollToEnabled]="!disableScrollTo" [data]="exchangeJobMappingsGridData$ | async" [pageSize]="exchangeJobMappingGridState?.take"
+    [skip]="exchangeJobMappingGridState?.skip" [sort]="exchangeJobMappingGridState?.sort" [filter]="exchangeJobMappingGridState?.filter"
+    [pageable]="{
                     buttonCount: 5,
                     info: true
-                  }" [resizable]="true" [sortable]="true" [selectable]="{
+                  }" [resizable]="true"
+    [sortable]="true" [selectable]="{
                 mode: 'single'
-              }" [rowClass]="rowClass" filterable="menu" (selectionChange)="onSelectionChange($event)" (dataStateChange)="onDataStateChange($event)"
-    [kendoGridSelectBy]="'Id'" (cellClick)="onCellClick($event)">
+              }" [rowClass]="rowClass" filterable="menu"
+    (selectionChange)="onSelectionChange($event)" (dataStateChange)="onDataStateChange($event)" [kendoGridSelectBy]="'Id'"
+    (cellClick)="onCellClick($event)">
     <kendo-grid-column field="Mapped" title="Status" width="75" class="text-center" headerClass="text-center">
       <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter let-filterService="filterService">
-        <pf-bool-filter [isPrimitive]="false" [currentFilter]="filter" [filterService]="filterService" [data]="associationData" textField="Key"
-          valueField="Value" fieldToSearch="Mapped"></pf-bool-filter>
+        <pf-bool-filter [isPrimitive]="false" [currentFilter]="filter" [filterService]="filterService" [data]="associationData"
+          textField="Key" valueField="Value" fieldToSearch="Mapped"></pf-bool-filter>
       </ng-template>
       <ng-template kendoGridCellTemplate let-dataItem>
         <span class="mapped">
@@ -49,9 +52,14 @@
 
     <kendo-grid-column field="MappingCount" title="Associations" width="90" class="text-right">
       <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
-        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [decimals]="0" [step]="1" [min]="0" [filterService]="filterService"
-          [extra]="false">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [decimals]="0" [step]="1" [min]="0"
+          [filterService]="filterService" [extra]="false">
           <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-gt-operator></kendo-filter-gt-operator>
+          <kendo-filter-gte-operator></kendo-filter-gte-operator>
+          <kendo-filter-lt-operator></kendo-filter-lt-operator>
+          <kendo-filter-lte-operator></kendo-filter-lte-operator>
         </kendo-grid-numeric-filter-menu>
       </ng-template>
     </kendo-grid-column>
