@@ -58,7 +58,7 @@ export class RangeFilterComponent implements OnChanges {
     }
 
     getPrecision(): number {
-      if (!!this.filter && !!this.filter.MaximumValue) {
+      if (!!this.filter && !!this.filter.MaximumValue && this.filter.MaximumValue % 1 !== 0) {
         return (this.filter.MaximumValue + '').split('.')[1].length;
       } else {
         return 1;
