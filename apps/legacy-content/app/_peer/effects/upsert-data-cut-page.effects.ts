@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Store, select } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { map, catchError, switchMap, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
 
@@ -18,12 +18,13 @@ import * as fromUpsertDataCutPageActions from '../actions/upsert-data-cut-page.a
 export class UpsertDataCutPageEffects {
 
   @Effect()
-  upsertDataCut$ = this.actions$
-    .ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT).pipe(
+  upsertDataCut$ = this.actions$.pipe(
+    ofType(fromUpsertDataCutPageActions.UPSERT_DATA_CUT),
       map((action: fromUpsertDataCutPageActions.UpsertDataCut) => action.payload),
       withLatestFrom(
-        this.libsPeerMapStore.select(fromLibsPeerMapReducers.getUpsertDataCutRequestData),
-        (action, exchangeDataCutRequestData) => ({action, exchangeDataCutRequestData})
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getUpsertDataCutRequestData)),
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerMapSummary)),
+        (action, exchangeDataCutRequestData, mapSummaryData) => ({action, exchangeDataCutRequestData, mapSummaryData})
       ),
       switchMap((latest) => {
         return this.exchangeCompanyApiService.upsertDataCut({
@@ -33,7 +34,8 @@ export class UpsertDataCutPageEffects {
           ZoomLevel: latest.action.ZoomLevel,
           CompanyPayMarketId: latest.exchangeDataCutRequestData.PayMarketDetails.CompanyPayMarketId,
           Filter: latest.exchangeDataCutRequestData.FilterDetails,
-          PayMarketName: latest.exchangeDataCutRequestData.PayMarketDetails.PayMarketName
+          PayMarketName: latest.exchangeDataCutRequestData.PayMarketDetails.PayMarketName,
+          Companies: latest.mapSummaryData.OverallMapStats.Companies
         }).pipe(
           map((userJobMatchId) => new fromUpsertDataCutPageActions.UpsertDataCutSuccess(userJobMatchId)),
           catchError(() => of(new fromUpsertDataCutPageActions.UpsertDataCutError()))

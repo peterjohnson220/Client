@@ -73,6 +73,7 @@ export function generateMockAreaStats(): AreaStats {
 export interface ExchangeStatCompanyMakeup {
   Company: string;
   Count: number;
+  CompanyId: number;
   Percentage: number;
 }
 
@@ -80,6 +81,7 @@ export function generateMockExchangeStatCompanyMakeup(): ExchangeStatCompanyMake
   return {
     Company: 'MockCompany',
     Count: 1,
+    CompanyId: 1,
     Percentage: 0.1
   };
 }
