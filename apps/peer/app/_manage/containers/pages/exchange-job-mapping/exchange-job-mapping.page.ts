@@ -54,7 +54,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     }
 
     isUserAdmin(): boolean {
-        const isCompanyAdmin = false;
+        let isCompanyAdmin: boolean;
         let isSystemAdmin: boolean;
 
         this.store.select(fromRootState.getIsAdmin).pipe(
