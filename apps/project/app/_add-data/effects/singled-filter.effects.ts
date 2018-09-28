@@ -32,6 +32,8 @@ export class SingledFilterEffects {
           SearchFields: mapFiltersToSearchFields(data.filters),
           Filters: mapFiltersToSearchFilters(data.filters),
           CountryCode: data.context.CountryCode,
+          CurrencyCode: data.context.CurrencyCode,
+          ProjectId: data.context.ProjectId,
           SearchField: data.singledFilter.BackingField,
           TextQuery: data.action.payload
         };
