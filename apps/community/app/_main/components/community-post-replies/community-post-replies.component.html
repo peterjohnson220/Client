@@ -1,21 +1,6 @@
 <div class="mt-2">
   <ng-container *ngFor="let reply of replies">
-    <pf-community-avatar
-      [AvatarSource]="reply.UserInfo?.AvatarSource"
-      [UserFirstName]="reply.UserInfo.UserFirstName"
-      [UserLastName]="reply.UserInfo.UserLastName"
-      [IsReply]="true">
-    </pf-community-avatar>
-    <div class="reply-offset">
-      <pf-community-post-header [user]="reply.UserInfo" [time]="reply.Time"></pf-community-post-header>
-      <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
-      <pf-community-like
-        [LikedByCurrentUser]="reply.LikedByCurrentUser"
-        [PostId]="reply.PostId"
-        [ReplyId]="reply.Id"
-        [LikeCount]="reply.LikeCount">
-      </pf-community-like>
-    </div>
+    <pf-community-post-reply [reply]="reply"></pf-community-post-reply>
   </ng-container>
   <pf-loading-indicator  class="loading-indicator reply-offset" *ngIf="loading && replies?.length < 1"></pf-loading-indicator>
   <div class="reply-offset"  *ngIf="!loading && replies?.length == 0">No Replies</div>

@@ -8,6 +8,7 @@ export interface CommunityReply {
   LikeCount: number;
   LikedByCurrentUser: boolean;
   Time: any;
+  ElapsedTime: string;
   TimeTicks: number;
 }
 
@@ -19,7 +20,8 @@ export function generateMockCommunityReply(): CommunityReply {
     ReplyText:  'Reply Text',
     LikeCount: 0,
     LikedByCurrentUser: false,
-    Time: '2 hours ago',
+    Time: new Date(),
+    ElapsedTime: '3 hours ago',
     TimeTicks: 12345
   };
 }
