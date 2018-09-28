@@ -14,6 +14,7 @@ export class RangeFilterComponent implements OnChanges {
     @Input() precision: number;
     @Output() rangeChange: EventEmitter<{filterId: string, minValue: number, maxValue: number}> = new EventEmitter();
 
+    manualRefresh: EventEmitter<void> = new EventEmitter<void>();
     showRangeControl: boolean;
     selectedMin: number;
     selectedMax: number;
@@ -26,6 +27,10 @@ export class RangeFilterComponent implements OnChanges {
         this.showRangeControl = this.filter.MinimumValue !== this.filter.MaximumValue && this.filter.MaximumValue > 0;
         this.setSelectedMinAndMax();
         this.options = this.buildUpOptions();
+
+        // The ng5 slider has some issues with CSS after display is updated. Need to refresh the control after change
+        // detection is run: https://github.com/angular-slider/ng5-slider#documentation
+        setTimeout(() => this.manualRefresh.emit());
       }
     }
 
@@ -34,18 +39,16 @@ export class RangeFilterComponent implements OnChanges {
     }
 
     buildUpOptions(): Options {
-      let tempPrecision = this.getPrecision();
-
-      if (!!this.precision) {
-        tempPrecision = this.precision;
-      }
-
       return {
         floor: this.filter.MinimumValue,
         ceil: this.filter.MaximumValue,
         showTicks: false,
         step: 0.01,
-        precision: tempPrecision
+        precision: this.precision || this.getPrecision(),
+        // Precision of 1 drops the "." for whole numbers, need this custom translation
+        translate: (value: number): string => {
+          return value.toFixed(this.precision || this.getPrecision());
+        }
       };
     }
 
@@ -55,7 +58,7 @@ export class RangeFilterComponent implements OnChanges {
     }
 
     getPrecision(): number {
-      if (!!this.filter && !!this.filter.MaximumValue && this.filter.MaximumValue % 1 !== 0) {
+      if (!!this.filter && !!this.filter.MaximumValue) {
         return (this.filter.MaximumValue + '').split('.')[1].length;
       } else {
         return 1;
