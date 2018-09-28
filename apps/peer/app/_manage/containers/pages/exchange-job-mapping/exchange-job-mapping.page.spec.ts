@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
@@ -13,6 +14,7 @@ import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-jo
 import * as fromPeerManagementReducer from '../../../reducers';
 import { ExchangeJobMappingService } from '../../../services';
 import { ExchangeJobMappingPageComponent } from './exchange-job-mapping.page';
+import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 
 describe('Peer - Exchange Job Mapping Page', () => {
   let fixture: ComponentFixture<ExchangeJobMappingPageComponent>;
@@ -34,18 +36,22 @@ describe('Peer - Exchange Job Mapping Page', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { snapshot: { params: { id : 1 } } },
+          useValue: { snapshot: { params: { id: 1 } } },
         },
         {
           provide: ExchangeJobMappingService,
           useValue: { loadExchangeJobMappings: jest.fn() }
-        }
+        },
+        {
+          provide: CompanySecurityApiService,
+          useValue: { getIsCompanyAdmin: () => of(true) }
+        },
       ],
       declarations: [
         ExchangeJobMappingPageComponent
       ],
       // Shallow Testing
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     store = TestBed.get(Store);
@@ -73,7 +79,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
     const query = 'New Search';
     const action = new fromGridActions.UpdateFilter(
       GridTypeEnum.ExchangeJobMapping,
-      {columnName: 'ExchangeJobTitle', value: query}
+      { columnName: 'ExchangeJobTitle', value: query }
     );
 
     instance.handleSearchChanged(query);

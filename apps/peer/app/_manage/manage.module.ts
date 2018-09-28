@@ -7,11 +7,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { UploadModule } from '@progress/kendo-angular-upload';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
+
 
 import { CompanyJobMapResultComponent, JobInfoContainerComponent, ApplyMappingButtonComponent } from './components';
 import {
@@ -25,6 +28,7 @@ import { ManageRoutingModule } from './manage-routing.module';
 import { RequestJobModalComponent } from './containers/request-job/request-job-modal';
 import { NewJobFormComponent } from './containers/request-job/new-job-form';
 import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filter.component';
+import { AssociationImportModalComponent } from './containers/pages/exchange-job-mapping/association-import-modal/association-import-modal.component';
 
 @NgModule({
   imports: [
@@ -41,6 +45,7 @@ import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filte
     ]),
     DropDownsModule,
     NgbCarouselModule,
+    HttpClientModule, UploadModule,
 
     // Routing
     ManageRoutingModule,
@@ -58,6 +63,7 @@ import { BoolFilterComponent } from 'libs/extensions/kendo/boolfilter/bool-filte
     // Containers
     ExchangeJobMappingGridComponent, ExchangeJobMappingInfoComponent, PayfactorsJobSelectionFormComponent,
     RequestJobModalComponent, NewJobFormComponent, DeleteMappingConfirmationModalComponent,
+    AssociationImportModalComponent,
 
     // Pages
     ExchangeJobMappingPageComponent,
