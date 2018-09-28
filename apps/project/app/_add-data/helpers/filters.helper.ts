@@ -49,13 +49,9 @@ export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams
   if (param.clientFilters.length) {
     mergedFilters = param.serverFilters.filter(f => isRangeFilter(f)).map(sf => {
       const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
-
-      if (!!matchedClientFilter.SelectedMinValue) {
-        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
-      }
-
-      if (!!matchedClientFilter.SelectedMaxValue) {
+      if (!!matchedClientFilter) {
         sf.SelectedMaxValue = matchedClientFilter.SelectedMaxValue;
+        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
       }
 
       return sf;
