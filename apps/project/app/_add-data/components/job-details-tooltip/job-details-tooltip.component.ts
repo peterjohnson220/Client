@@ -87,7 +87,7 @@ export class JobDetailsTooltipComponent implements OnChanges, AfterViewChecked {
     this.tooltip.close();
     if (!isOpen)  {
       this.tooltip.open('Copied');
-      setTimeout(() => this.tooltip.close(),  2000);
+      window.setTimeout(() => this.tooltip.close(),  2000);
     }
   }
 }

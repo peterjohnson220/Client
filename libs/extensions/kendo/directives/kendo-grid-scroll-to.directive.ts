@@ -54,7 +54,7 @@ export class KendoGridScrollToDirective implements AfterViewInit, OnChanges {
       const val = easeInOutQuad(currentTime, start, change, duration);
       element.scrollTop = val;
       if (currentTime < duration) {
-        setTimeout(animateScroll, increment);
+        window.setTimeout(animateScroll, increment);
       }
     };
 

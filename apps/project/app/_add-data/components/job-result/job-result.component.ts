@@ -113,7 +113,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   }
 
   handleMatchesMouseLeave(event: MouseEvent): void {
-    this.matchesMouseLeaveTimer = setTimeout(() => {
+    this.matchesMouseLeaveTimer = window.setTimeout(() => {
       this.matchesMouseLeave.emit(true);
     }, this.matchesMouseLeaveTimeout);
   }

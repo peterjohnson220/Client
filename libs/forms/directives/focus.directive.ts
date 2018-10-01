@@ -21,7 +21,7 @@ export class FocusDirective implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.focusWhenElementShows(changes) || this.focusWhenElementAlreadyShowing(changes)) {
-      setTimeout(() => this.focusElement(), 0);
+      window.setTimeout(() => this.focusElement(), 0);
     }
   }
 
