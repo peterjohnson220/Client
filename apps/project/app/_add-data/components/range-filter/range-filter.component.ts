@@ -30,7 +30,7 @@ export class RangeFilterComponent implements OnChanges {
 
         // The ng5 slider has some issues with CSS after display is updated. Need to refresh the control after change
         // detection is run: https://github.com/angular-slider/ng5-slider#documentation
-        setTimeout(() => this.manualRefresh.emit());
+        window.setTimeout(() => this.manualRefresh.emit());
       }
     }
 

@@ -57,7 +57,7 @@ export class DataCutsComponent implements OnDestroy {
 
   handleMatchesMouseLeave(event: MouseEvent): void {
     this.isMatchesHovered = false;
-    this.matchesMouseLeaveTimer = setTimeout(() => {
+    this.matchesMouseLeaveTimer = window.setTimeout(() => {
       if (!this.isMatchesHovered) {
         this.matchesMouseLeave.emit(true);
       }

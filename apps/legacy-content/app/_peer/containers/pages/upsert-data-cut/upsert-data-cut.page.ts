@@ -116,7 +116,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       // an IFrame. Need to do this to allow the css positioning of the map to finish on the ASP side
       // before passing off the bounds to the map to initialize zooming. Otherwise we will run into the "Zoom Bug"
       // where the map does not zoom all the way in.
-      setTimeout(() => {
+      window.setTimeout(() => {
         this.store.dispatch(new fromUpsertDataCutPageActions.PageInViewInIframe());
       }, 100);
     }
