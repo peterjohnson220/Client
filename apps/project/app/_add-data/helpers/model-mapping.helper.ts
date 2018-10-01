@@ -118,6 +118,7 @@ export function mapSearchFilterOptionsToMultiSelectOptions(sfo: SearchFilterOpti
 export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeFilter {
   const minValue = Number(getNumberValueFromSearchFilterOption(searchFilter.Options, 'min'));
   const maxValue = Number(getNumberValueFromSearchFilterOption(searchFilter.Options, 'max'));
+  const precision = Number(getPrecisionFromSearchFilterOption(searchFilter.Options, 'max'));
   return {
     Id: searchFilter.Name.split('_').join(''),
     BackingField: SearchFilterMappingData[searchFilter.Name].BackingField,
@@ -126,6 +127,7 @@ export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeF
     Type: FilterType.Range,
     MinimumValue: minValue,
     MaximumValue: maxValue,
+    Precision: precision,
     SelectedMinValue: null,
     SelectedMaxValue: null
   };
@@ -136,6 +138,15 @@ export function getNumberValueFromSearchFilterOption(sfo: SearchFilterOption[], 
   const filteredArray = sfo.filter(x => x.Name === name).map(x => x.Value);
   if (filteredArray[0] !== undefined) {
     value = filteredArray[0];
+  }
+  return value;
+}
+
+export function getPrecisionFromSearchFilterOption(sfo: SearchFilterOption[], name: string): number {
+  let value = 1;
+  const filteredArray = sfo.filter(x => x.Name === name).map(x => x.Value);
+  if (filteredArray[0] !== undefined) {
+    value = (filteredArray[0] + '').split('.')[1].length;
   }
   return value;
 }

@@ -44,10 +44,10 @@ export class RangeFilterComponent implements OnChanges {
         ceil: this.filter.MaximumValue,
         showTicks: false,
         step: 0.01,
-        precision: this.precision || this.getPrecision(),
+        precision: this.precision || this.filter.Precision,
         // Precision of 1 drops the "." for whole numbers, need this custom translation
         translate: (value: number): string => {
-          return value.toFixed(this.precision || this.getPrecision());
+          return value.toFixed(this.precision || this.filter.Precision);
         }
       };
     }
@@ -55,13 +55,5 @@ export class RangeFilterComponent implements OnChanges {
     setSelectedMinAndMax() {
       this.selectedMin = this.filter.SelectedMinValue || this.filter.MinimumValue;
       this.selectedMax = this.filter.SelectedMaxValue || this.filter.MaximumValue;
-    }
-
-    getPrecision(): number {
-      if (!!this.filter && !!this.filter.MaximumValue && this.filter.MaximumValue % 1 !== 0) {
-        return (this.filter.MaximumValue + '').split('.')[1].length;
-      } else {
-        return 1;
-      }
     }
 }

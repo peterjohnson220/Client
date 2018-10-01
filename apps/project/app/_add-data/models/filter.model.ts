@@ -32,6 +32,7 @@ export interface RangeFilter extends Filter {
   MaximumValue: number;
   SelectedMinValue: number;
   SelectedMaxValue: number;
+  Precision: number;
 }
 
 export interface MultiSelectOption {
@@ -100,6 +101,7 @@ export function generateMockRangeFilter(): RangeFilter {
     SelectedMinValue: 50000,
     SelectedMaxValue: 75000,
     BackingField: 'base_50th',
+    Precision: 1,
     Locked: false
   };
 }
