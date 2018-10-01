@@ -1,0 +1,15 @@
+<h3>Price a Job</h3>
+
+<div>
+  Welcome<span *ngIf="userName$ | async"> {{userName$ | async}}</span>! Search below for a job title and location to price it.
+</div>
+
+<div class="form-group">
+  <label for="jobTitle">Job title</label>
+  <input type="text" class="form-control" id="jobTitle" placeholder="Job title" [(ngModel)]="jobTitle">
+</div>
+<div class="form-group">
+  <label for="location">Location</label>
+  <input type="text" class="form-control" id="location" placeholder="Location" [(ngModel)]="location">
+</div>
+<button type="button" class="btn btn-primary" (click)="search()">Search</button>

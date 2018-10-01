@@ -1,0 +1,13 @@
+<h2 class="mb-5 mt-5">Welcome to PayFactors Small Business!</h2>
+
+<div style="font-weight: bold; font-size: 1.2em;" class="mb-3">Please login below</div>
+
+<div class="form-group">
+  <label for="emailInput">Email address</label>
+  <input type="email" class="form-control" id="emailInput" placeholder="Enter email" [(ngModel)]="emailAddress">
+</div>
+<div class="form-group">
+  <label for="passwordInput">Password</label>
+  <input type="password" class="form-control" id="passwordInput" placeholder="Password" [(ngModel)]="password">
+</div>
+<button type="button" class="btn btn-primary" (click)="login()">Login</button>
