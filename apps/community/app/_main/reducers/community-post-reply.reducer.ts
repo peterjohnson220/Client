@@ -108,6 +108,12 @@ export function reducer(
         addingReplyError: false
       };
     }
+    case communityPostReplyActions.DELETING_COMMUNITY_POST_REPLY: {
+      const replyId = action.payload['replyId'];
+      return {
+        ...adapter.removeOne(replyId, state)
+      };
+    }
     default: {
       return state;
     }
@@ -120,4 +126,3 @@ export const getGettingCommunityPostRepliesError = (state: State) => state.loadi
 export const getAddingCommunityPostReply = (state: State) => state.addingReply;
 export const getAddingCommunityPostReplyError = (state: State) => state.addingReplyError;
 export const getAddingCommunityPostReplySuccess = (state: State ) => state.addingReplySuccess;
-

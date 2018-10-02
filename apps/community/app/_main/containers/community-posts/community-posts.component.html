@@ -10,7 +10,9 @@
         <div class="post-offset">
           <pf-community-post-header [user]="post.UserInfo"
                                     [time]="post.ElapsedTime"
-                                    [isInternalOnly]="post.IsInternalOnly">
+                                    [isInternalOnly]="post.IsInternalOnly"
+                                    [isCurrentUserPost]="post.IsCurrentUserPost"
+                                    [postId]="post.Id">
           </pf-community-post-header>
           <div class="post-body mt-2 mb-2"
                [innerHtml]="post.Content | highlightHashTag | formatLinkUrl">

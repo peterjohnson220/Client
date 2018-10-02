@@ -52,6 +52,19 @@ export class CommunityPostEffects {
       )
     );
 
+  @Effect()
+  deletingCommunityPost$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.DELETING_COMMUNITY_POST).pipe(
+      switchMap((action: fromCommunityPostActions.DeletingCommunityPost) =>
+        this.communityPostService.updatePostDeletedFlag(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostActions.DeletingCommunityPostError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private communityPostService: CommunityPostApiService,

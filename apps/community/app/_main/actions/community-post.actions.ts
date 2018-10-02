@@ -15,6 +15,10 @@ export const UPDATING_COMMUNITY_POST_LIKE_ERROR = '[Community/Post] Updating Com
 export const UPDATING_COMMUNITY_POST_REPLY_IDS = '[Community/Post] Updating Community Post Reply Ids';
 export const UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS = '[Community/Post] Updating Community Post Hidden Reply Ids';
 
+export const DELETING_COMMUNITY_POST = '[Community/Post] Deleting Community Post';
+export const DELETING_COMMUNITY_POST_SUCCESS = '[Community/Post] Deleting Community Post Success';
+export const DELETING_COMMUNITY_POST_ERROR = '[Community/Post] Deleting Community Post Error';
+
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
   constructor(public payload: any) {}
@@ -66,6 +70,20 @@ export class UpdatingCommunityPostHiddenReplyIds implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeletingCommunityPost implements Action {
+  readonly type = DELETING_COMMUNITY_POST;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_POST_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostError implements Action {
+  readonly type = DELETING_COMMUNITY_POST_ERROR;
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -77,4 +95,7 @@ export type Actions
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError
   | UpdatingCommunityPostReplyIds
-  | UpdatingCommunityPostHiddenReplyIds;
+  | UpdatingCommunityPostHiddenReplyIds
+  | DeletingCommunityPost
+  | DeletingCommunityPostSuccess
+  | DeletingCommunityPostError;

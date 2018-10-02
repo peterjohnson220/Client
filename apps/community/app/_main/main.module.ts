@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -22,7 +22,7 @@ import { CommunityPostAddReplyComponent } from './containers/community-post-add-
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
-import { CommunityPostHeaderComponent } from './components/commumity-post-header';
+import { CommunityPostHeaderComponent } from './components/community-post-header';
 import { CommunityLikeComponent } from './components/community-like/community-like.component';
 import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
 import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
@@ -72,6 +72,7 @@ const components = [
     // 3rd party
     NgbCarouselModule,
     NgbTooltipModule,
+    NgbDropdownModule,
     DropDownsModule,
 
     StoreModule.forFeature('community', reducers),

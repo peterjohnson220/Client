@@ -12,5 +12,4 @@ export class CommunityPostRepliesComponent {
   @Input() loading: boolean;
 
   constructor() {}
-
 }

@@ -5,7 +5,7 @@
   [IsReply]="true">
 </pf-community-avatar>
 <div class="reply-offset">
-  <pf-community-post-header [user]="reply.UserInfo" [time]="reply.ElapsedTime"></pf-community-post-header>
+  <pf-community-post-header [user]="reply.UserInfo" [time]="reply.ElapsedTime" [isReply]="true" [isCurrentUserPost]="reply.IsCurrentUserReply" [postId]="reply.PostId" [replyId]="reply.Id"></pf-community-post-header>
   <p class="mt-2 mb-2">{{reply.ReplyText}}</p>
   <pf-community-like
     [LikedByCurrentUser]="reply.LikedByCurrentUser"
@@ -14,4 +14,3 @@
     [LikeCount]="reply.LikeCount">
   </pf-community-like>
 </div>
-

@@ -10,12 +10,6 @@ exports[`CommunityPostRepliesComponent should show community post replies 1`] = 
   >
     
     
-    
-    <div
-      class="reply-offset"
-    >
-      No Replies
-    </div>
   </div>
 </pf-community-post-replies>
 `;
@@ -33,7 +27,6 @@ exports[`CommunityPostRepliesComponent should show community post replies loadin
     <pf-loading-indicator
       class="loading-indicator reply-offset"
     />
-    
   </div>
 </pf-community-post-replies>
 `;
