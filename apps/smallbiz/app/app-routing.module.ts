@@ -10,7 +10,8 @@ export const routes: Routes = [
     component: AppWrapperComponent,
     children: [
       { path: 'login', loadChildren: './_login/login.module#LoginModule' },
-      { path: 'home', loadChildren: './_home/home.module#HomeModule' }
+      { path: 'job-search', loadChildren: './_job-search/job-search.module#JobSearchModule' },
+      { path: 'job', loadChildren: './_job-detail/job-detail.module#JobDetailModule' }
     ]
   }
 ];

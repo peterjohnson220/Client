@@ -5,27 +5,33 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../../../../shared/state';
-import { UserContext } from '../../../../shared/models/user-context.model';
+import * as fromJobSearch from '../../../reducers';
+import * as fromJobSearchActions from '../../../actions/job-search.actions';
 import { Set } from '../../../../shared/actions/user-context.actions';
 
+import { UserContext } from '../../../../shared/models/user-context.model';
+import { JobTitle } from '../../../../shared/models/jobTitle';
+
 @Component({
-  selector: 'pf-home-page',
-  templateUrl: './home.page.html',
-  styleUrls: ['./home.page.scss']
+  selector: 'pf-job-search-page',
+  templateUrl: './job-search.page.html',
+  styleUrls: ['./job-search.page.scss']
 })
-export class HomePageComponent implements OnInit {
+export class JobSearchPageComponent implements OnInit {
   jobTitle: string;
   location: string;
+  results$: Observable<JobTitle[]>; // TODO this should probably be in it's own component
   userName$: Observable<string>;
 
   constructor(private store: Store<fromRoot.AppState>) {
     this.userName$ = store.select(fromRoot.selectUserContextModel).pipe(
       map((userContext: UserContext) => (userContext || ({} as UserContext)).name)
     );
+    this.results$ = store.select(fromJobSearch.selectSearchResults);
   }
 
   search() {
-    console.log(this.jobTitle, this.location);
+    this.store.dispatch(new fromJobSearchActions.JobSearch({ searchTerm: this.jobTitle || '' }));
   }
 
   ngOnInit() {
