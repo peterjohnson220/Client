@@ -35,6 +35,7 @@
       <ng-container *ngSwitchCase="filterTypes.Range">
         <pf-range-filter
           [filter]="filter"
+          [manualRefreshOnChange]="!(filterSearchVisible$ | async)"
           (rangeChange)="handleRangeChange($event)">
         </pf-range-filter>
       </ng-container>

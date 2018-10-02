@@ -12,6 +12,7 @@ import { RangeFilter } from '../../models';
 export class RangeFilterComponent implements OnChanges {
     @Input() filter: RangeFilter;
     @Input() precision: number;
+    @Input() manualRefreshOnChange: false;
     @Output() rangeChange: EventEmitter<{filterId: string, minValue: number, maxValue: number}> = new EventEmitter();
 
     manualRefresh: EventEmitter<void> = new EventEmitter<void>();
@@ -23,14 +24,17 @@ export class RangeFilterComponent implements OnChanges {
     constructor() {}
 
     ngOnChanges(changes: SimpleChanges): void {
+
+      // The ng5 slider has some issues with CSS after display is updated. Need to refresh the control after change
+      // detection is run: https://github.com/angular-slider/ng5-slider#documentation
+      if (this.manualRefreshOnChange) {
+        window.setTimeout(() => this.manualRefresh.emit());
+      }
+
       if (changes.filter) {
         this.showRangeControl = this.filter.MinimumValue !== this.filter.MaximumValue && this.filter.MaximumValue > 0;
         this.setSelectedMinAndMax();
         this.options = this.buildUpOptions();
-
-        // The ng5 slider has some issues with CSS after display is updated. Need to refresh the control after change
-        // detection is run: https://github.com/angular-slider/ng5-slider#documentation
-        window.setTimeout(() => this.manualRefresh.emit());
       }
     }
 
