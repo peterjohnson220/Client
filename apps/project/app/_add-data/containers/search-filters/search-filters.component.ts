@@ -20,9 +20,8 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   filters$: Observable<Filter[]>;
   pageShown$: Observable<boolean>;
   jobContext$: Observable<JobContext>;
-
+  filterSearchVisible$: Observable<boolean>;
   pageShowSub: Subscription;
-
   filterTypes = FilterType;
   focusedFilter: string;
 
@@ -33,6 +32,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.filters$ = this.store.select(fromAddDataReducer.getFilters);
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
     this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.filterSearchVisible$ = this.store.select(fromAddDataReducer.getSearchingFilter);
   }
 
   shouldFocus(filter: Filter) {
