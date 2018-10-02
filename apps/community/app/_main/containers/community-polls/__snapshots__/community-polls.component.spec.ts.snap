@@ -4,6 +4,7 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
 <pf-community-polls
   communityPolResponseSubmitted$={[Function Store]}
   communityPollRequests$={[Function Store]}
+  communityPollRequestsLoaded$={[Function Store]}
   communityPollResponseSubmittedSubscription={[Function Subscriber]}
   communityPollResponses$={[Function Store]}
   communityPollResponsesSuccessSubscription={[Function Subscriber]}
@@ -21,9 +22,7 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
     <div
       class="card-body"
     >
-      <ngb-carousel>
-        
-      </ngb-carousel>
+      
     </div>
   </div>
 </pf-community-polls>

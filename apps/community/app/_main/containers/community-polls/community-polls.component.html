@@ -3,7 +3,7 @@
     Payfactors Polls
   </div>
   <div class="card-body">
-    <ngb-carousel [interval]="10000"
+    <ngb-carousel *ngIf="communityPollRequestsLoaded$ | async" [interval]="0"
                   (slide)="onCarouselSlideChange()">
       <ng-container *ngFor="let request of communityPollRequests$ | async;">
         <ng-template ngbSlide>

@@ -86,6 +86,11 @@ export const getGettingCommunityPollRequestsError = createSelector(
   fromCommunityPollRequestReducer.getGettingCommunityPollRequestsError
 );
 
+export const getGettingCommunityPollRequestsLoaded = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getGettingCommunityPollRequestsLoaded
+);
+
 export const getSubmittingCommunityPollRequestResponses = createSelector(
   selectFromCommunityPollRequestState,
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponses
