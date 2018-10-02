@@ -40,6 +40,19 @@ export class CommunityPollRequestEffects {
       )
     );
 
+  @Effect()
+  addingCommunityUserPoll$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPollRequestActions.ADDING_COMMUNITY_USER_POLL).pipe(
+      switchMap((action: fromCommunityPollRequestActions.AddingCommunityUserPoll) =>
+        this.communityPollService.addCommunityUserPoll(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPollRequestActions.AddingCommunityUserPollSuccess();
+          }),
+          catchError(error => of(new fromCommunityPollRequestActions.AddingCommunityUserPollError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private communityPollService: CommunityPollApiService,

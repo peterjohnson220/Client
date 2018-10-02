@@ -46,7 +46,7 @@ editCommunityPoll$: Observable<Action> = this.actions$
   loadCommunityPolls$: Observable<Action> = this.actions$
     .ofType(fromCommunityPollActions.LOADING_COMMUNITY_POLLS).pipe(
       switchMap(() =>
-        this.communityPollAdminService.getAllCommunityPolls().pipe(
+        this.communityPollAdminService.getCommunityPolls().pipe(
           map((communityPollListItems: CommunityPollList[]) => {
             return new fromCommunityPollActions.LoadingCommunityPollsSuccess(communityPollListItems);
           }),

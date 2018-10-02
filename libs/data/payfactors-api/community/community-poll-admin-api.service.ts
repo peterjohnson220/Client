@@ -31,8 +31,8 @@ export class CommunityPollAdminApiService {
       });
   }
 
-  getAllCommunityPolls(): Observable<CommunityPollList[]> {
-    return this.payfactorsApiService.get<CommunityPollList[]>(`${this.endpoint}.GetAllCommunityPolls`);
+  getCommunityPolls(): Observable<CommunityPollList[]> {
+    return this.payfactorsApiService.get<CommunityPollList[]>(`${this.endpoint}.GetCommunityPolls`);
   }
 
   exportCommunityPoll(communityPollId: string): Observable<any> {

@@ -9,6 +9,7 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   isAdmin="false"
   maxChoices={[Function Number]}
   maxTextLength={[Function Number]}
+  store={[Function Store]}
 >
   <div
     class="form-group"
