@@ -46,19 +46,6 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
       </button>
     </a>
     
-    <button
-      class="btn btn-secondary"
-      id="import-popover-btn"
-      placement="bottom"
-      title="Import Associations"
-      type="button"
-    >
-      <i
-        aria-hidden="true"
-        class="fas fa-upload"
-      />
-    </button>
-    
     <div
       class="flex-column-container"
     >
@@ -74,6 +61,6 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         <pf-exchange-job-mapping-info />
       </div>
     </div>
-  </pf-page-with-title-bar><pf-request-job-modal /><pf-association-import-modal />
+  </pf-page-with-title-bar><pf-request-job-modal />
 </pf-exchange-job-mapping-page>
 `;
