@@ -19,6 +19,7 @@ import * as fromCommunityPollResponseActions from '../../actions/community-poll-
 
 export class CommunityPollsComponent implements OnInit, OnDestroy {
   communityPollRequests$: Observable<CommunityPollRequest[]>;
+  communityPollRequestsLoaded$: Observable<boolean>;
   communityPollResponses$: Observable<CommunityPollResponse[]>;
   communityPolResponseSubmitted$: Observable<CommunityPollResponse>;
 
@@ -31,6 +32,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityPollReducer.State>) {
     this.communityPollRequests$ = this.store.select(fromCommunityPollReducer.getCommunityPollRequests);
+    this.communityPollRequestsLoaded$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollRequestsLoaded);
     this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
     this.communityPolResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
   }
