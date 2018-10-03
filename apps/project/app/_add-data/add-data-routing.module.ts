@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AddSurveyDataPageComponent } from './containers/pages';
+import { AddSurveyDataPageComponent, MultiMatchPageComponent } from './containers/pages';
 
 const routes: Routes = [
   { path: '', redirectTo: 'surveys', pathMatch: 'full' },
   { path: 'surveys', component: AddSurveyDataPageComponent },
+  { path: 'multi-match', component: MultiMatchPageComponent }
 ];
 
 @NgModule({

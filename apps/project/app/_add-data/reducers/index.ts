@@ -5,15 +5,19 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
+import * as fromMultiMatchPageReducer from './multi-match-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchFiltersReducer from './search-filters.reducer';
 import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromTooltipContainerReducer from './tooltip-container.reducer';
+import * as fromSearchReducer from './search.reducer';
 import { MultiSelectFilter } from '../models';
 
 // Feature area state
 export interface AddDataState {
   addSurveyDataPage: fromAddSurveyDataPageReducer.State;
+  multiMatchPage: fromMultiMatchPageReducer.State;
+  search: fromSearchReducer.State;
   searchResults: fromSearchResultsReducer.State;
   searchFilters: fromSearchFiltersReducer.State;
   singledFilter: fromSingledFilterReducer.State;
@@ -28,10 +32,12 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
+  multiMatchPage: fromMultiMatchPageReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer,
   searchFilters: fromSearchFiltersReducer.reducer,
   singledFilter: fromSingledFilterReducer.reducer,
-  tooltipContainer: fromTooltipContainerReducer.reducer
+  tooltipContainer: fromTooltipContainerReducer.reducer,
+  search: fromSearchReducer.reducer
 };
 
 // Select Feature Area
@@ -41,6 +47,11 @@ export const selectFeatureAreaState = createFeatureSelector<AddDataState>('proje
 export const selectAddSurveyDataPageState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.addSurveyDataPage
+);
+
+export const selectMultiMatchPageState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.multiMatchPage
 );
 
 export const selectSearchResultsState = createSelector(
@@ -64,6 +75,28 @@ export const selectTooltipContainerState = createSelector(
   (state: AddDataState) => state.tooltipContainer
 );
 
+export const selectSearchState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.search
+);
+
+// Multi Match Page Selectors
+
+export const getMultiMatchPageShown = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getPageShown
+);
+
+export const getSearchingMultiMatchFilter = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getSearchingFilter
+);
+
+export const getMultimatchProjectContext = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getProjectContext
+);
+
 // Add Survey Data Page Selectors
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,
@@ -83,6 +116,11 @@ export const getAddingData = createSelector(
 export const getSearchingFilter = createSelector(
   selectAddSurveyDataPageState,
   fromAddSurveyDataPageReducer.getSearchingFilter
+);
+// Search Selectors
+export const getProjectSearchContext = createSelector(
+  selectSearchState,
+  fromSearchReducer.getProjectSearchContext
 );
 
 // Search Results Selectors

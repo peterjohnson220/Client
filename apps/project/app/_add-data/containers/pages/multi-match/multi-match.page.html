@@ -1,0 +1,38 @@
+<div class="d-flex h-100">
+
+  <div class="filters-sidebar">
+    <pf-filter-header
+      [numberOfResults]="numberOfResults$ | async"
+      [singled]="!!(searchingFilter$ | async)"
+      (resetAll)="handleResetAllFilters()">
+    </pf-filter-header>
+
+    <pf-search-filters
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="searchingFilter$ | async">
+    </pf-single-filter>
+  </div>
+
+  <div class="results-and-actions">
+    <pf-search-results></pf-search-results>
+
+    <div class="button-container">
+      <button  [disabled]="true" class="legacy-primary-btn mr-4">
+        Save
+      </button>
+
+      <button (click)="handleCancelClicked()" class="legacy-secondary-btn mr-4">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <div class="jobs-to-price">
+    Jobs to price
+    <div *ngFor="let jobId of jobListIds">
+      {{jobId}}
+    </div>
+  </div>
+</div>

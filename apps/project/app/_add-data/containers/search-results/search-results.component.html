@@ -34,7 +34,7 @@
               <table *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
                      pf-job-result
                      [job]="jobResult"
-                     [currencyCode]="(jobContext$ | async)?.CurrencyCode"
+                     [currencyCode]="(projectSearchContext$ | async)?.CurrencyCode"
                      (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
                      (loadDataCuts)="handleLoadDataCuts($event)"
                      (cutSelected)="handleCutSelectionToggle($event)"

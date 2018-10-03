@@ -48,9 +48,9 @@ export class SearchFiltersEffects {
   getDefaultSurveyScopesFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
-      switchMap((jobContext) => {
-          return this.surveySearchApiService.getDefaultSurveyScopesFilter(jobContext.PayMarketId)
+      withLatestFrom(this.store.select(fromAddDataReducer.getProjectSearchContext), (action, projectSearchContext) => projectSearchContext),
+      switchMap((projectSearchContext) => {
+          return this.surveySearchApiService.getDefaultSurveyScopesFilter(projectSearchContext.PayMarketId)
             .pipe(
               concatMap(response => [
                 new fromSearchFiltersActions.GetDefaultScopesFilterSuccess(response),
@@ -74,13 +74,13 @@ export class SearchFiltersEffects {
     .ofType(fromSearchFiltersActions.SAVE_SEARCH_FILTERS)
     .pipe(
       withLatestFrom(
-        this.store.select(fromAddDataReducer.getJobContext),
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
         this.store.select(fromAddDataReducer.getFilters),
-        (action: fromSearchFiltersActions.SaveSearchFilters, jobContext, filters) => ({action, jobContext, filters})),
-      switchMap(({action, jobContext, filters}) => {
+        (action: fromSearchFiltersActions.SaveSearchFilters, projectSearchContext, filters) => ({action, projectSearchContext, filters})),
+      switchMap(({action, projectSearchContext, filters}) => {
         const selectedFilters: SearchFilter[] = getSelectedSearchFilters(filters);
         const request: SaveSearchFiltersRequest = {
-          PayMarketId: action.payload.isForAllPayMarkets ? -1 : jobContext.PayMarketId,
+          PayMarketId: action.payload.isForAllPayMarkets ? -1 : projectSearchContext.PayMarketId,
           Filters: selectedFilters
         };
         return this.surveySearchApiService.saveSearchFilters(request)
@@ -94,9 +94,9 @@ export class SearchFiltersEffects {
   getSavedFilters$ = this.actions$
     .ofType(fromSearchFiltersActions.GET_SAVED_FILTERS)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
-      switchMap((jobContext) => {
-        return this.surveySearchApiService.getSavedFilters(jobContext.PayMarketId)
+      withLatestFrom(this.store.select(fromAddDataReducer.getProjectSearchContext), (action, projectSearchContext) => projectSearchContext),
+      switchMap((projectSearchContext) => {
+        return this.surveySearchApiService.getSavedFilters(projectSearchContext.PayMarketId)
           .pipe(
             concatMap(response => [
               new fromSearchFiltersActions.GetSavedFiltersSuccess(response),

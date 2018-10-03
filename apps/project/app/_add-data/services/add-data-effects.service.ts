@@ -24,7 +24,7 @@ export class AddDataEffectsService {
     const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersPagingAndJobContext.pagingOptions);
     const filterOptionsRequestObj = { ReturnFilters: pagingOptionsRequestObj.From === 0, AggregateCount: 5 };
     let filtersRequestObj = getSelectedSearchFilters(filtersPagingAndJobContext.filters);
-    if (!!filtersPagingAndJobContext.action.payload.savedFilters) {
+    if (!!filtersPagingAndJobContext.action.payload && !!filtersPagingAndJobContext.action.payload.savedFilters) {
       filtersRequestObj = replaceDefaultFiltersWithSavedFilters(filtersRequestObj, filtersPagingAndJobContext.action.payload.savedFilters);
     }
 
@@ -33,9 +33,9 @@ export class AddDataEffectsService {
       Filters: filtersRequestObj,
       FilterOptions: filterOptionsRequestObj,
       PagingOptions: pagingOptionsRequestObj,
-      CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode,
-      CountryCode: filtersPagingAndJobContext.jobContext.CountryCode,
-      ProjectId: filtersPagingAndJobContext.jobContext.ProjectId
+      CurrencyCode: filtersPagingAndJobContext.projectSearchContext.CurrencyCode,
+      CountryCode: filtersPagingAndJobContext.projectSearchContext.CountryCode,
+      ProjectId: filtersPagingAndJobContext.projectSearchContext.ProjectId
     };
   }
 
@@ -45,9 +45,9 @@ export class AddDataEffectsService {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
-        this.store.select(fromAddDataReducer.getJobContext),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, jobContext) =>
-          ({ action, filters, pagingOptions, jobContext })
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext) =>
+          ({ action, filters, pagingOptions, projectSearchContext })
       ),
 
       switchMap(l => {

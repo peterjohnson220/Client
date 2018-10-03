@@ -1,6 +1,6 @@
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 
-import { Filter, JobContext } from '../models';
+import { JobContext } from '../models';
 
 export interface State {
   jobContext: JobContext;

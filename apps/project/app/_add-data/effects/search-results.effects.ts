@@ -27,12 +27,12 @@ export class SearchResultsEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
-        this.store.select(fromAddDataReducer.getJobContext),
-        (action: fromJobResultActions.GetSurveyDataResults, filters, jobContext) => ({ action, filters, jobContext })),
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
+        (action: fromJobResultActions.GetSurveyDataResults, filters, projectSearchContext) => ({ action, filters, projectSearchContext })),
       mergeMap((dataCutContext) => {
           const surveyJobId = dataCutContext.action.payload.Id;
-          const currencyCode = dataCutContext.jobContext.CurrencyCode;
-          const projectId = dataCutContext.jobContext.ProjectId;
+          const currencyCode = dataCutContext.projectSearchContext.CurrencyCode;
+          const projectId = dataCutContext.projectSearchContext.ProjectId;
           const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
           const filtersRequestObj = getSelectedSearchFilters(dataCutContext.filters);
           const pagingOptions: PagingOptions = {

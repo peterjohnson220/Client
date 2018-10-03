@@ -7,7 +7,7 @@ import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-pag
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
-import { Filter, FilterType, JobContext, MultiSelectOption } from '../../models';
+import {Filter, FilterType, JobContext, MultiSelectOption, ProjectSearchContext} from '../../models';
 
 @Component({
   selector: 'pf-search-filters',
@@ -19,7 +19,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
 
   filters$: Observable<Filter[]>;
   pageShown$: Observable<boolean>;
-  jobContext$: Observable<JobContext>;
+  projectSearchContext$: Observable<ProjectSearchContext>;
   filterSearchVisible$: Observable<boolean>;
   pageShowSub: Subscription;
   filterTypes = FilterType;
@@ -31,7 +31,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   ) {
     this.filters$ = this.store.select(fromAddDataReducer.getFilters);
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
-    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.projectSearchContext$ = this.store.select(fromAddDataReducer.getProjectSearchContext);
     this.filterSearchVisible$ = this.store.select(fromAddDataReducer.getSearchingFilter);
   }
 
