@@ -15,11 +15,6 @@
         <i class="fas fa-download" aria-hidden="true"></i>
       </button>
     </a>
-
-    <button (click)="importAssociationClick()" *ngIf="isUserAdmin()" type="button" title="Import Associations" id="import-popover-btn"
-      class="btn btn-secondary" placement="bottom">
-      <i class="fas fa-upload" aria-hidden="true"></i>
-    </button>
   </ng-container>
 
   <ng-container page-content>
@@ -41,4 +36,3 @@
 </pf-page-with-title-bar>
 
 <pf-request-job-modal></pf-request-job-modal>
-<pf-association-import-modal></pf-association-import-modal>
