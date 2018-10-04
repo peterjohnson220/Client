@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 
 import * as fromPeerMainReducer from '../reducers';
 import * as fromExchangeJobMappingGridActions from '../../_manage/actions/exchange-job-mapping-grid.actions';
-import { PayfactorsFrontEndApiService } from 'libs/data/payfactors-api/payfactors-frontend-api.service';
+import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 
 @Injectable()
 export class ExchangeJobMappingService {
@@ -15,7 +15,7 @@ export class ExchangeJobMappingService {
 
   constructor(
     private store: Store<fromPeerMainReducer.State>,
-    private payfactorsFrontEndApiService: PayfactorsFrontEndApiService
+    private payfactorsApiService: PayfactorsApiService
   ) {
     this.exchangeJobMappingsGridState$ = this.store.select(fromPeerMainReducer.getExchangeJobMappingsGridState);
   }
@@ -27,6 +27,6 @@ export class ExchangeJobMappingService {
   }
 
   validateAndLoadAssociations(filename: string, exchangeId: number): Observable<any> {
-    return this.payfactorsFrontEndApiService.post<any>(`${this.endpoint}/FullReplace`, { filename, exchangeId });
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/FullReplace`, { filename, exchangeId });
   }
 }

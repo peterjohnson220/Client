@@ -29,7 +29,7 @@ export class AssociationImportModalComponent implements OnInit, OnDestroy {
     exchange: Exchange;
 
     // upload
-    uploadSaveUrl = '/payfactors/upload/upload';
+    uploadSaveUrl = '/odata/ExchangeJobAssociation/UploadFile';
     uploadRemoveUrl = 'removeUrl';
     public uploadRestrictions: FileRestrictions = {
         allowedExtensions: ['.xlx', '.xlsx']
