@@ -9,6 +9,9 @@ export interface State extends EntityState<CommunityPost> {
   loading: boolean;
   loadingError: boolean;
   submittedPost: CommunityPost;
+  addingCommunityDiscussionPoll: boolean;
+  addingCommunityDiscussionPollError: boolean;
+  addingCommunityDiscussionPollSuccess: boolean;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -25,7 +28,10 @@ export const initialState: State = adapter.getInitialState({
   submittingError: false,
   loading: false,
   loadingError: false,
-  submittedPost: null
+  submittedPost: null,
+  addingCommunityDiscussionPoll: false,
+  addingCommunityDiscussionPollError: false,
+  addingCommunityDiscussionPollSuccess: false
 });
 
 export function reducer(
@@ -116,6 +122,28 @@ export function reducer(
         submittingError: true
       };
     }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL: {
+      return {
+        ...state,
+        addingCommunityDiscussionPoll: true,
+        addingCommunityDiscussionPollError: false
+      };
+    }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state),
+        addingCommunityDiscussionPoll: false,
+        addingCommunityDiscussionPollSuccess: true,
+        submittedPost: action.payload
+      };
+    }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL_ERROR: {
+      return {
+        ...state,
+        addingCommunityDiscussionPoll: false,
+        addingCommunityDiscussionPollError: true
+      };
+    }
     default: {
       return state;
     }
@@ -127,3 +155,7 @@ export const getSubmittingCommunityPostsSuccess = (state: State ) => state.submi
 
 export const getGettingCommunityPosts = (state: State) => state.loading;
 export const getGettingCommunityPostsError = (state: State) => state.loadingError;
+
+export const getAddingCommunityDiscussionPoll = (state: State) => state.addingCommunityDiscussionPoll;
+export const getAddingCommunityDiscussionPollError = (state: State) => state.addingCommunityDiscussionPollError;
+export const getAddingCommunityDiscussionPollSuccess = (state: State) => state.addingCommunityDiscussionPollSuccess;

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 
 export const SUBMITTING_COMMUNITY_POST = '[Community/Post] Submitting Community Post';
 export const SUBMITTING_COMMUNITY_POST_SUCCESS = '[Community/Post] Submitting Community Post Success';
@@ -18,6 +19,10 @@ export const UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS = '[Community/Post] Updati
 export const DELETING_COMMUNITY_POST = '[Community/Post] Deleting Community Post';
 export const DELETING_COMMUNITY_POST_SUCCESS = '[Community/Post] Deleting Community Post Success';
 export const DELETING_COMMUNITY_POST_ERROR = '[Community/Post] Deleting Community Post Error';
+
+export const ADDING_COMMUNITY_DISCUSSION_POLL = '[Community/Post] Adding Community Discussion Poll';
+export const ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS = '[Community/Post] Adding Community Discussion Poll Success';
+export const ADDING_COMMUNITY_DISCUSSION_POLL_ERROR = '[Community/Post] Adding Community Discussion Poll Error';
 
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
@@ -84,6 +89,22 @@ export class DeletingCommunityPostError implements Action {
   readonly type = DELETING_COMMUNITY_POST_ERROR;
 }
 
+export class AddingCommunityDiscussionPoll implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL;
+
+  constructor(public payload: CommunityPollUpsertRequest) {}
+}
+
+export class AddingCommunityDiscussionPollSuccess implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class AddingCommunityDiscussionPollError implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -98,4 +119,7 @@ export type Actions
   | UpdatingCommunityPostHiddenReplyIds
   | DeletingCommunityPost
   | DeletingCommunityPostSuccess
-  | DeletingCommunityPostError;
+  | DeletingCommunityPostError
+  | AddingCommunityDiscussionPoll
+  | AddingCommunityDiscussionPollSuccess
+  | AddingCommunityDiscussionPollError;

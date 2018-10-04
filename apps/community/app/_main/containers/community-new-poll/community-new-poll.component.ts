@@ -1,21 +1,25 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormArray, ValidatorFn, Validators, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
+import { Subscription, Observable } from 'rxjs';
 
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPollStatusEnum } from 'libs/models/community/community-constants.model';
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 
-import * as fromCommunityPollRequestReducer from '../../reducers';
-import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
+import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 @Component({
   selector: 'pf-community-new-poll',
   templateUrl: './community-new-poll.component.html',
   styleUrls: ['./community-new-poll.component.scss']
 })
-export class CommunityNewPollComponent implements OnInit {
+export class CommunityNewPollComponent implements OnInit, OnDestroy {
+
+  addingCommunityUserPollSuccess$: Observable<boolean>;
+  addingCommunityUserPollSuccessSubscription: Subscription;
 
   @Input() public communityPollForm: FormGroup;
   @Input() public enableEditingResponseOptions = true;
@@ -40,8 +44,9 @@ export class CommunityNewPollComponent implements OnInit {
     };
   }
 
-  constructor(public store: Store<fromCommunityPollRequestReducer.State>,
+  constructor(public store: Store<fromCommunityPostReducer.State>,
     private formBuilder: FormBuilder) {
+      this.addingCommunityUserPollSuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess);
       this.buildForm();
   }
 
@@ -54,6 +59,18 @@ export class CommunityNewPollComponent implements OnInit {
 
     this.pollLengthDays = Array.from({length: 14}, (v, k) => k + 1);
     this.pollLengthHours = Array.from({length: 24}, (v, k) => k + 1);
+
+    this.addingCommunityUserPollSuccessSubscription = this.addingCommunityUserPollSuccess$.subscribe((response) => {
+      if (response) {
+          this.communityPollForm.reset({ value: 'formState'});
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.addingCommunityUserPollSuccessSubscription) {
+      this.addingCommunityUserPollSuccessSubscription.unsubscribe();
+    }
   }
 
   buildForm() {
@@ -88,7 +105,7 @@ export class CommunityNewPollComponent implements OnInit {
       Status: CommunityPollStatusEnum.Live,
       DurationInHours: this.days.value * 24 + this.hours.value
     };
-    this.store.dispatch(new fromCommunityPollRequestActions.AddingCommunityUserPoll(communityPollRequest));
+    this.store.dispatch(new fromCommunityPostActions.AddingCommunityDiscussionPoll(communityPollRequest));
   }
 
 }

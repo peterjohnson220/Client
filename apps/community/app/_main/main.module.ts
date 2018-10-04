@@ -31,6 +31,7 @@ import { CommunityNewPollComponent } from './containers/community-new-poll/commu
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
+import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
@@ -60,7 +61,8 @@ const components = [
   CommunityAvatarComponent,
   CommunityNewPollComponent,
   CommunityNewPostComponent,
-  CommunityPollChoicesComponent
+  CommunityPollChoicesComponent,
+  CommunityPollComponent
 ];
 
 @NgModule({

@@ -11,10 +11,6 @@ export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_SUCCESS =
 export const SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_ERROR =
   '[Community/Poll Request] Submitting Community Poll Request Response Error';
 
-export const ADDING_COMMUNITY_USER_POLL = '[Community/Poll Request] Adding Community User Poll';
-export const ADDING_COMMUNITY_USER_POLL_SUCCESS = '[Community/Poll Request] Adding Community User Poll Success';
-export const ADDING_COMMUNITY_USER_POLL_ERROR = '[Community/Poll Request] Adding Community User Poll Error';
-
 export class LoadingCommunityPollRequests implements Action {
   readonly type = LOADING_COMMUNITY_POLL_REQUEST;
 }
@@ -41,28 +37,10 @@ export class SubmittingCommunityPollRequestError implements Action {
   readonly type = SUBMITTING_COMMUNITY_POLL_REQUEST_RESPONSE_ERROR;
 }
 
-export class AddingCommunityUserPoll implements Action {
-  readonly type = ADDING_COMMUNITY_USER_POLL;
-
-  constructor(public payload: CommunityPollUpsertRequest) {}
-}
-
-export class AddingCommunityUserPollSuccess implements Action {
-  readonly type = ADDING_COMMUNITY_USER_POLL_SUCCESS;
-}
-
-export class AddingCommunityUserPollError implements Action {
-  readonly type = ADDING_COMMUNITY_USER_POLL_ERROR;
-  constructor(public payload: string) {}
-}
-
 export type Actions
   = LoadingCommunityPollRequests
   | LoadingCommunityPollRequestsSuccess
   | LoadingCommunityPollRequestsError
   | SubmittingCommunityPollRequest
   | SubmittingCommunityPollRequestSuccess
-  | SubmittingCommunityPollRequestError
-  | AddingCommunityUserPoll
-  | AddingCommunityUserPollSuccess
-  | AddingCommunityUserPollError;
+  | SubmittingCommunityPollRequestError;

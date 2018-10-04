@@ -52,8 +52,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',
     PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'},
     IsCurrentUserPost: false,
-    PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'},
     UserPollRequest : { CommunityPollId: '123', Question: 'Question', DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234},
-    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [], IsDismissed: false }
+    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] }
   };
 }

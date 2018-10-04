@@ -1,5 +1,5 @@
 <div class="posts-container p-2 scroll">
-  <ng-container *ngFor="let post of (communityPosts$ | async); trackBy: trackByPostId; let i = index; let last = last;">
+  <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
         <pf-community-avatar
@@ -64,7 +64,15 @@
               </pf-community-post-replies>
             </div>
           </div>
-          <ng-template #user_poll>User Poll Question: {{post.UserPollRequest.Question}}</ng-template>
+          <ng-template #user_poll>
+            <div class="px-5 pb-2">
+              <pf-community-poll
+                [request]="post.UserPollRequest"
+                [response]="post.UserPollResponse"
+                [type]="pollsType">
+              </pf-community-poll>
+            </div>
+          </ng-template>
           <div>
             <ng-container *ngFor="let tag of post.Tags">
               <button type="button" class="btn m-1 tag p-1"><i class="far fa-tag fa-lg tag-icon"></i> {{tag.TagName}}
