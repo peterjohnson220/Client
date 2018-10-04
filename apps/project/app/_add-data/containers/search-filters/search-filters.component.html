@@ -1,8 +1,9 @@
-<div [style.visibility]="visible ? 'visible' : 'hidden'">
+<div [style.display]="visible ? 'block' : 'none'">
   <div class="filters">
     <pf-filter-section
       *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
       [filter]="filter"
+      [currencyCode]="(jobContext$ |async)?.CurrencyCode"
       [ngSwitch]="filter.Type"
       (reset)="handleResetSection($event)"
       (searchClicked)="handleSearchSection($event)">

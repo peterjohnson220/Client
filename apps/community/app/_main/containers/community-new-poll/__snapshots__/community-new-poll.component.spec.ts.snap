@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityStartPollComponent should show community start poll 1`] = `
+<pf-community-new-poll
+  attemptedSubmit="false"
+  communityPollForm={[Function FormGroup]}
+  enableEditingResponseOptions={[Function Boolean]}
+  formBuilder={[Function FormBuilder]}
+  isAdmin="false"
+  maxChoices={[Function Number]}
+  maxTextLength={[Function Number]}
+>
+  <div
+    class="form-group"
+  >
+    
+    <pf-community-text-area
+      textplaceholder="Ask a question..."
+    />
+    
+    
+    <fieldset
+      formarrayname="choices"
+    >
+      
+    </fieldset>
+    
+    
+  </div>
+</pf-community-new-poll>
+`;

@@ -1,28 +1,6 @@
 @import 'colors';
 
 $post-avatar-width: 50px;
-$post-avatar-height: 50px;
-
-.posts-container {
-  border: 1px solid $border-grey;
-  word-break: break-word;
-}
-
-.post-avatar {
-  width: $post-avatar-width;
-  height: $post-avatar-height;
-}
-
-.default-post-avatar
-{
-  width: $post-avatar-width;
-  height: $post-avatar-height;
-  background-color: #0883BE;
-  color: white;
-  line-height: 50px;
-  text-align: center;
-  font-size: 1.5rem;
-}
 
 .tag {
   color: #515151;
@@ -35,41 +13,6 @@ $post-avatar-height: 50px;
 
 .post-offset {
   margin-left: $post-avatar-width + 10px;
-}
-
-.community-btn {
-  background: transparent;
-  color: #99A0A4;
-}
-
-.community-btn .icon {
-  color: $community-icon-color;
-}
-
-.community-btn-clicked {
-  background:transparent;
-  color: #99A0A4;
-}
-
-.community-btn-clicked .icon {
-  color: #FA4646;
-}
-
-.community-user-name-text {
-  color: $community-user-name-text-color;
-  font-weight: bold;
-}
-
-.community-sub-text {
-  color: $community-sub-text-color;
-}
-
-.internal {
-  background-color: #18a2b8;
-  color: white;
-  border-radius: 3px;
-  height: 20px;
-  font-size: .95rem;
 }
 
 .hide {
@@ -92,7 +35,36 @@ $post-avatar-height: 50px;
 a {
   text-decoration: none;
 }
-
+.line {
+  stroke: rgb(153, 160, 164);
+  stroke-width: 2;
+}
 :host ::ng-deep .hashtag-highlight {
   color: rgb(64, 171, 221);
+}
+
+:host ::ng-deep .link-url {
+  color: rgb(64, 171, 221);
+  text-decoration: underline;
+}
+
+:host ::ng-deep .url-preview-card
+{
+  border: 1px solid $border-grey;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .url-preview-card-image-container
+{
+  float:left;
+  border-right: 1px solid $border-grey;
+}
+
+:host ::ng-deep .url-preview-card-image
+{
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+  color: #FA4646;
 }

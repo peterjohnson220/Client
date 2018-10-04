@@ -2,7 +2,6 @@
 
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
-$hashtag-color:  rgb(64, 171, 221);
 
 .start-discussion-container {
   border: solid 1px $border-grey;
@@ -17,18 +16,23 @@ $hashtag-color:  rgb(64, 171, 221);
 }
 
 .start-discussion-header ul > li {
-  color: rgba(255, 255, 255, .75);
   display: inline;
   line-height: 20px;
 }
 
-.start-discussion-header ul > li.section-active {
+.start-discussion-header ul > li a {
+  color: rgba(255, 255, 255, .75);
+  text-decoration: none;
+}
+
+.start-discussion-header ul > li.section-active a {
   color: white;
   border-bottom: solid 3px white;
 }
 
 .start-discussion-body {
   display: flex;
+  position: relative;
 }
 
 #discussion-avatar {
@@ -38,8 +42,7 @@ $hashtag-color:  rgb(64, 171, 221);
   align-self: start;
 }
 
-#start-discussion-post-button
-{
+#start-discussion-post-button {
   clear: both;
 }
 
@@ -48,55 +51,4 @@ $hashtag-color:  rgb(64, 171, 221);
   border-radius: 15px;
   width: 150px;
   border: none;
-}
-
-.textAreaContainer {
-  position: relative;
-  width: calc(100% - 10px);
-  min-height: 50px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.discussionTextArea {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  color: transparent;
-  background: transparent;
-  caret-color: black;
-  resize: none;
-  overflow: hidden;
-}
-
-.overlayTextArea {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 2px;
-  left: 1px;
-}
-
-.suggested-tags {
-  position: absolute;
-  min-width: 100px;
-}
-
-.suggested-tags select {
-  width: 100%;
-  overflow: hidden;
-  border: solid 1px $hashtag-color;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.suggested-tags option {
-  font-weight: bold;
-  font-size: 14px;
-  color: rgb(73, 73, 73);
-}
-
-:host ::ng-deep .hashtag-highlight{
-  color: $hashtag-color;
 }

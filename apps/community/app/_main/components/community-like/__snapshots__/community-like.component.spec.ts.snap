@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityLikeComponent should display as liked if LikedByCurrentUser === true 1`] = `
+<pf-community-like
+  LikedByCurrentUser={[Function Boolean]}
+  replyStore={[Function Store]}
+  store={[Function Store]}
+>
+  <span
+    class="community-like p-0 community-btn-clicked"
+    id="like-reply"
+    ng-reflect-klass="community-like p-0"
+    ng-reflect-ng-class="community-btn-clicked"
+  >
+    
+    <span>
+      <i
+        class="fas fa-heart icon"
+      />
+    </span>
+    
+    <span>
+        Like
+    </span>
+  </span>
+</pf-community-like>
+`;
+
+exports[`CommunityLikeComponent should display as not liked if LikedByCurrentUser === false 1`] = `
+<pf-community-like
+  LikedByCurrentUser="false"
+  replyStore={[Function Store]}
+  store={[Function Store]}
+>
+  <span
+    class="community-like p-0 community-btn"
+    id="like-reply"
+    ng-reflect-klass="community-like p-0"
+    ng-reflect-ng-class="community-btn"
+  >
+    
+    
+    <span>
+      <i
+        class="far fa-heart icon"
+      />
+    </span>
+    <span>
+        Like
+    </span>
+  </span>
+</pf-community-like>
+`;
+
+exports[`CommunityLikeComponent should show like component 1`] = `
+<pf-community-like
+  replyStore={[Function Store]}
+  store={[Function Store]}
+>
+  <span
+    class="community-like p-0 community-btn"
+    id="like-reply"
+    ng-reflect-klass="community-like p-0"
+    ng-reflect-ng-class="community-btn"
+  >
+    
+    
+    <span>
+      <i
+        class="far fa-heart icon"
+      />
+    </span>
+    <span>
+        Like
+    </span>
+  </span>
+</pf-community-like>
+`;

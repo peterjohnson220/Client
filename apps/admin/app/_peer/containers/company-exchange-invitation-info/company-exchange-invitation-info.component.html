@@ -3,6 +3,24 @@
     <div class="align-self-center mr-auto">
       Company Invitation Information
     </div>
+    <div *ngIf="(approvingError$ | async)" class="align-self-center mr-auto error-label"><label>Error approving company invitation request.</label></div>
+    <div *ngIf="(denyingError$ | async)" class="align-self-center mr-auto error-label"><label>Error denying company invitation request.</label></div>
+    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" [disabled]="(approvingCompanyInvitation$ | async) || (denyingCompanyInvitation$ | async)" class="btn btn-sm btn-success action-buttons" (click)="approve()">
+      <span *ngIf="!(approvingCompanyInvitation$ | async)">
+        Approve
+      </span>
+      <span *ngIf="(approvingCompanyInvitation$ | async)">
+          <pf-loading-indicator></pf-loading-indicator> Approving...
+      </span>
+    </button>
+    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" [disabled]="(approvingCompanyInvitation$ | async) || (denyingCompanyInvitation$ | async)" class="btn btn-sm btn-danger action-buttons" (click)="deny()">
+      <span *ngIf="!(denyingCompanyInvitation$ | async)">
+        Deny
+      </span>
+      <span *ngIf="(denyingCompanyInvitation$ | async)">
+          <pf-loading-indicator></pf-loading-indicator> Denying...
+      </span>
+    </button>
     <div (click)="close()" class="close-btn">
       <i class="far fa-times"></i>
     </div>
@@ -11,23 +29,23 @@
     <div class="info-container">
       <div class="info-row">
         <div class="label">Company Invited:</div>
-        <div> {{ selectedCompanyInvitation.CompanyName }} </div>
+        <div> {{ selectedCompanyInvitation?.CompanyName }} </div>
       </div>
       <div class="info-row">
         <div class="label">Request Company:</div>
-        <div> {{ selectedCompanyInvitation.RequestCompany }} </div>
+        <div> {{ selectedCompanyInvitation?.RequestCompany }} </div>
       </div>
       <div class="info-row">
         <div class="label">Request User:</div>
-        <div> {{ selectedCompanyInvitation.RequestUser }} </div>
+        <div> {{ selectedCompanyInvitation?.RequestUser }} </div>
       </div>
       <div class="info-row">
         <div class="label">Request Date:</div>
-        <div>  {{ selectedCompanyInvitation.RequestDate | date:'short' }}  </div>
+        <div>  {{ selectedCompanyInvitation?.RequestDate | date:'short' }}  </div>
       </div>
       <div class="info-row-flex-column flex-grow-1">
         <div class="label">Reason:</div>
-        <div class="reason-container"> {{ selectedCompanyInvitation.Reason }} </div>
+        <div class="reason-container"> {{ selectedCompanyInvitation?.Reason }} </div>
       </div>
     </div>
   </div>

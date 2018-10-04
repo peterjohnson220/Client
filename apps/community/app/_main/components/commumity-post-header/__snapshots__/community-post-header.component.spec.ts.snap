@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostsComponent should show community post header 1`] = `
+<pf-community-post-header
+  isInternalOnly="false"
+  time={[Function String]}
+  user={[Function Object]}
+>
+  <p
+    class="m-0"
+  >
+    <span
+      class="community-user-name-text"
+    >
+      Testfirstname Testlastname
+    </span>
+    <span
+      class="community-sub-text"
+    >
+       @ Company Name | 3 days ago
+    </span>
+  </p>
+</pf-community-post-header>
+`;
+
+exports[`CommunityPostsComponent should show internal community post header 1`] = `
+<pf-community-post-header
+  isInternalOnly={[Function Boolean]}
+  time={[Function String]}
+  user={[Function Object]}
+>
+  <div
+    class="internal float-right pl-2 pr-2"
+  >
+    Internal
+  </div><p
+    class="m-0"
+  >
+    <span
+      class="community-user-name-text"
+    >
+      Testfirstname Testlastname
+    </span>
+    <span
+      class="community-sub-text"
+    >
+       @ Company Name | 3 days ago
+    </span>
+  </p>
+</pf-community-post-header>
+`;

@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
-import { Filter, generateMockJobContext, generateMockTextFilter } from '../../models';
+import { Filter, generateMockJobContext, generateMockMultiSelectOption, generateMockTextFilter } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 import { SearchFiltersComponent } from './search-filters.component';
 
@@ -60,7 +60,7 @@ describe('Project - Add Data - Search Filters', () => {
   });
 
   it('should dispatch a ToggleMultiSelectOption action, when handling a multi select option selected', () => {
-    const idObj = { filterId: '329048', optionId: '209348'};
+    const idObj = { filterId: '329048', option: generateMockMultiSelectOption()};
     const expectedAction = new fromSearchFiltersActions.ToggleMultiSelectOption(idObj);
     spyOn(store, 'dispatch');
 

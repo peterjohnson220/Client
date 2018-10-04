@@ -1,4 +1,5 @@
 import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '../exchange-data-search-filter.model';
+import { ExchangeStatCompanyMakeup, generateMockExchangeStatCompanyMakeup } from '../exchange-map-response.model';
 
 export interface UpsertDataCutRequest {
   DataCutGuid: string;
@@ -8,6 +9,7 @@ export interface UpsertDataCutRequest {
   Filter: ExchangeDataSearchFilter;
   ZoomLevel: number;
   PayMarketName: string;
+  Companies: ExchangeStatCompanyMakeup[];
 }
 
 export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest {
@@ -18,6 +20,7 @@ export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest {
     CompanyPayMarketId: 1,
     Filter: generateMockExchangeDataSearchFilter(),
     ZoomLevel: 1,
-    PayMarketName: 'MockPayMarket'
+    PayMarketName: 'MockPayMarket',
+    Companies: [generateMockExchangeStatCompanyMakeup()]
   };
 }

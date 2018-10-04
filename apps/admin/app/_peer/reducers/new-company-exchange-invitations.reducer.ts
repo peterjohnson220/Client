@@ -15,7 +15,7 @@ export interface State extends EntityState<NewCompanyExchangeInvitation> {
 
 // Create entity adapter
 export const adapter: EntityAdapter<NewCompanyExchangeInvitation> = createEntityAdapter<NewCompanyExchangeInvitation> ({
-  selectId: (newCompanyExchangeInvitation: NewCompanyExchangeInvitation) => newCompanyExchangeInvitation.CompanyName
+  selectId: (newCompanyExchangeInvitation: NewCompanyExchangeInvitation) => newCompanyExchangeInvitation.DocumentId
 });
 
 // Initial State

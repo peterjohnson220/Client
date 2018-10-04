@@ -2,8 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { GuidelinesBadgeComponent } from './guidelines-badge.component';
-import {DojGuidelinesService} from '../../services/doj-guidelines.service';
+import { DojGuidelinesService } from '../../services/doj-guidelines.service';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
 
 class DojGuidelinesStub {
   passing = true;

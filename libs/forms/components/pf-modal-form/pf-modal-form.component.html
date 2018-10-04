@@ -25,7 +25,9 @@
     <div class="flex-column space-out-children">
       <button type="button" class="btn btn-secondary" (click)="dismiss()">{{secondaryButtonText}}</button>
       <button type="button" class="btn" [ngClass]="primaryButtonClass" [disabled]="submitDisabled" (click)="submit()">
-        <span *ngIf="submitting"><pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}</span>
+        <span *ngIf="submitting">
+          <pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}
+        </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
     </div>

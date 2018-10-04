@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
+import { JobDescriptionViewModel } from '../../../models/jdm/job-description-view.model';
+
 
 @Injectable()
 export class JobDescriptionManagementApiService {
@@ -12,7 +14,7 @@ export class JobDescriptionManagementApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getViews(): Observable<string[]> {
-    return this.payfactorsApiService.get<string[]>(`${this.endpoint}.GetViews`);
+  getViews(): Observable<JobDescriptionViewModel[]> {
+    return this.payfactorsApiService.get<JobDescriptionViewModel[]>(`${this.endpoint}.GetViews`);
   }
 }

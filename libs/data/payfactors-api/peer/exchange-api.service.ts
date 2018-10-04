@@ -7,7 +7,7 @@ import { MappingHelper } from '../../../core/helpers';
 import {
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
-  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest
+  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -102,6 +102,14 @@ export class ExchangeApiService {
 
   denyExchangeJobRequest(jobRequest: ExchangeJobRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/DenyExchangeJobRequest`, jobRequest);
+  }
+
+  approveCompanyExchangeInvitaiton(companyInvitation: ExchangeInvitation): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ApproveCompanyExchangeInvitation`, companyInvitation);
+  }
+
+  denyCompanyExchangeInvitation(companyInvitation: ExchangeInvitation): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/DenyCompanyExchangeInvitation`, companyInvitation);
   }
 
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {

@@ -2,12 +2,21 @@ import { TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import { generateMockDataCutValidationInfo, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
+import {
+  ExchangeStatCompanyMakeup,
+  generateMockDataCutValidationInfo,
+  generateMockExchangeStatCompanyMakeup,
+  generateMockPeerMapScopeDetails
+} from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
+
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
 
 describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   let service: DojGuidelinesService;
@@ -91,22 +100,32 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
   it('should expect validDataCut to be true when the lists are not similar', () => {
     const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6, 7] };
+    const companies: ExchangeStatCompanyMakeup[] = [];
+    for (let i = 0; i < 7; i++) {
+      const companyStat = generateMockExchangeStatCompanyMakeup();
+      companyStat.CompanyId = i + 1;
+      companies.push(companyStat);
+    }
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(filterSelections, true);
+    service.validateDataCut(companies, true);
 
     expect(service.validDataCut).toBe(true);
   });
 
   it('should expect validDataCut to be false when the lists are too similar', () => {
     const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
+    const companies: ExchangeStatCompanyMakeup[] = [];
+    for (let i = 0; i < 6; i++) {
+      const companyStat = generateMockExchangeStatCompanyMakeup();
+      companyStat.CompanyId = i + 1;
+      companies.push(companyStat);
+    }
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(filterSelections, true);
+    service.validateDataCut(companies, true);
 
     expect(service.validDataCut).toBe(false);
 

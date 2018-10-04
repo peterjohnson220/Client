@@ -1,19 +1,16 @@
 <form [formGroup]="communityPostReplyForm">
-  <div class="row community-reply-body m-2 pb-1">
-    <div class="col-10 p-0">
-      <textarea id="reply-text"
-                placeholder="Add Reply..."
-                formControlName="replyText"
-                maxlength="{{replyMaxLength}}"
-                class="reply-text-area w-100 p-0"></textarea>
-    </div>
-    <div class="col-2 p-0 align-self-end text-right">
-      <button id="reply" type="button" class="btn-sm community-btn mb-1 mr-1"
+  <pf-community-text-area class="reply-text-area"
+    [parentForm]="communityPostReplyForm"
+    [maxTextLength]="replyMaxLength"
+    textPlaceholder="Add Reply..."
+    [postId]="postId">
+  </pf-community-text-area>    
+    <div class="text-right">
+      <button id="reply" type="button" class="btn-sm community-btn mr-2"
               [disabled]="addingCommunityPostReply$ | async"
               (click)="submitReply()">
         <i class="fas fa-reply fa-lg icon"></i>
         Reply
       </button>
     </div>
-  </div>
 </form>

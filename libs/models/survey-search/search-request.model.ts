@@ -19,12 +19,11 @@ export interface BaseSearchRequest {
   SearchFields: SearchField[];
   Filters: SearchFilter[];
   CountryCode: string;
+  CurrencyCode: string;
+  ProjectId: number;
 }
 
 export interface SearchRequest extends BaseSearchRequest {
   PagingOptions: PagingOptions;
   FilterOptions: FilterOptions;
-  CurrencyCode: string;
-  CountryCode: string;
-  ProjectId: number;
 }

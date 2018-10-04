@@ -1,0 +1,37 @@
+<div class="form-group" [formGroup]="parentForm">
+  <div class="textAreaContainer" #textAreaContainer>     
+    <div #overlayTextArea 
+        class="overlayTextArea pl-2"
+        [innerHtml]="discussionTextArea.value | highlightHashTag | formatLinkUrl"></div>
+    <textarea  #discussionTextArea
+      class="discussionTextArea pl-2"
+      formControlName="context" 
+      maxlength="{{maxTextLength}}"
+      placeholder="{{textPlaceholder}}"
+      (keydown)="onKeyDown($event)"  
+      (keyup)="onKeyUp($event)"
+      spellcheck="false"
+      [pfFocus]="true">
+    </textarea> 
+
+    <pf-radial-text-counter class="radial-counter"
+      [textToCount]="context.value"
+      [textMaxLength]="maxTextLength"
+      [WarningStartNumber]="warningStartNumber"
+      [DangerStartNumber]="dangerStartNumber">
+    </pf-radial-text-counter> 
+
+  </div>
+</div>
+<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" 
+  class="list-group suggested-tags"
+  (keydown)="onKeyDown($event)">    
+  <button *ngFor="let item of suggestedTags" 
+      class="list-group-item justify-content-between pb-1"
+      [pfFocus]="item.IsSuggested"
+      (click)="onSuggestedTagChange(item.Tag)">
+      <h6>{{item.Tag}}
+        <small >({{item.PostIds.length + item.ReplyIds.length}} posts)</small>
+      </h6>
+    </button>
+</div>

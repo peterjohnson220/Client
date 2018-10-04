@@ -9,7 +9,6 @@ import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
-import { PfNgBootstrapExtensionModule } from 'libs/extensions/ng-bootstrap';
 
 import {
   FilterAggregateComponent,
@@ -18,9 +17,8 @@ import {
   PayMarketFilterInfoComponent
 } from './components';
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
-import { FilterSidebarEffects, MapEffects } from './effects';
+import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
 import { reducers } from './reducers';
-import {ExchangeScopeEffects} from './effects/exchange-scope.effects';
 
 const declarations = [
   // Components
@@ -43,11 +41,8 @@ const declarations = [
       FilterSidebarEffects,
       ExchangeScopeEffects
     ]),
-    NgxMapboxGLModule.forRoot({accessToken: environment.mapboxAccessToken}),
+    NgxMapboxGLModule.withConfig({accessToken: environment.mapboxAccessToken}),
     NgbPopoverModule,
-
-    // Payfactors
-    PfNgBootstrapExtensionModule
   ],
   declarations: declarations,
   exports: declarations

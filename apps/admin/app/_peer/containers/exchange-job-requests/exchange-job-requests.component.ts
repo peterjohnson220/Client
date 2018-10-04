@@ -78,6 +78,7 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.handleCloseRequestInfo();
     this.selectedJobRequestSubscription.unsubscribe();
     this.pageRowIndexSubscription.unsubscribe();
   }

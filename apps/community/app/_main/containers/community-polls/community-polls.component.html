@@ -3,8 +3,8 @@
     Payfactors Polls
   </div>
   <div class="card-body">
-    <ngb-carousel [interval]="0"
-                  (slide)="onCarouselSlideChange($event)">
+    <ngb-carousel [interval]="10000"
+                  (slide)="onCarouselSlideChange()">
       <ng-container *ngFor="let request of communityPollRequests$ | async;">
         <ng-template ngbSlide>
 
@@ -15,9 +15,9 @@
                 </div>
               </div>
           </div>
-          
+
           <ng-template #poll_not_dismissed>
-          
+
             <div class="poll-question-container">
               <p class="text-center lead">{{ request.Question}}</p>
             </div>
@@ -44,7 +44,7 @@
             </div>
 
             <div *ngIf="includesCommunityPollId(request.CommunityPollId)" class="pb-5">
-              <div class="outer-element">          
+              <div class="outer-element">
                 <div *ngFor="let option of request.ResponseOptions">
                     <div class="inner-element">
                       <div class="poll-response-container poll-response-no mt-1">

@@ -1,33 +1,49 @@
 import { CommunityUserInfo } from './community-user-info.model';
 import { CommunityTag } from './community-tag.model';
 import { CommunityReply } from './community-reply.model';
+import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model';
 
 export interface CommunityPost {
   Id: string;
-  UserInfo: CommunityUserInfo;
   Content: string;
-  Tags: CommunityTag[];
-  LikeCount: number;
-  Replies: CommunityReply[];
+  UserInfo: CommunityUserInfo;
   Time: any;
+  ElapsedTime: string;
   IsInternalOnly: boolean;
+  LikeCount: number;
+  LikedByCurrentUser: boolean;
+  ReplyCount: number;
+  TimeTicks: number;
+  Tags: CommunityTag[];
+  Replies: CommunityReply[];
+  ReplyIds: string[];
+  HiddenReplyIds: string[];
+  UrlPreviewData: CommunityUrlPreviewDataModel;
 }
 
-export function generateMockCommunityPost(likeCount: number = 0, postText: string = '',
+export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
                                           tags: any = null, isInternalOnly: boolean = false,
                                           replies: CommunityReply[] = null): CommunityPost {
   return {
     Id: 'testId',
+    Content: postText,
     UserInfo:
       {
         UserId: 1, UserFirstName: 'Test', UserLastName: 'User', CompanyId: 2, CompanyName: 'Test Company',
         AvatarSource: 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg'
       },
-    Content: postText,
-    Tags: tags,
+    Time: new Date(),
+    ElapsedTime: '3 minutes ago',
+    IsInternalOnly: isInternalOnly,
     LikeCount: likeCount,
+    LikedByCurrentUser: false,
+    ReplyCount: replyCount,
+    TimeTicks: 12345,
+    Tags: tags,
     Replies: replies,
-    Time: '3 days ago',
-    IsInternalOnly: isInternalOnly
+    ReplyIds: [ '1', '2' ],
+    HiddenReplyIds: [ '1' ],
+    UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',
+      PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'}
   };
 }

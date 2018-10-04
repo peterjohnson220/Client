@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityTextAreaComponent should show community text area 1`] = `
+<pf-community-text-area
+  addingCommunityPostReplySuccess$={[Function Store]}
+  addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
+  dangerStartNumber={[Function Number]}
+  discussionTextArea={[Function ElementRef]}
+  overlayTextArea={[Function ElementRef]}
+  parentForm={[Function FormGroup]}
+  replyStore={[Function Store]}
+  store={[Function Store]}
+  submittingCommunityPostSuccess$={[Function Store]}
+  submittingCommunityPostSuccessSubscription={[Function Subscriber]}
+  suggestTagsContainer="undefined"
+  suggestTagsContainerVisible={[Function Boolean]}
+  suggestedCommunityTags$={[Function Store]}
+  suggestedCommunityTagsPostId$={[Function Store]}
+  suggestedCommunityTagsPostIdSubscription={[Function Subscriber]}
+  suggestedCommunityTagsSubscription={[Function Subscriber]}
+  suggestedTags={[Function Array]}
+  textAreaContainer={[Function ElementRef]}
+  textValueChangesSubscription={[Function Subscriber]}
+  warningStartNumber={[Function Number]}
+>
+  <div
+    class="form-group ng-untouched ng-pristine ng-valid"
+    ng-reflect-form="[object Object]"
+  >
+    <div
+      class="textAreaContainer"
+    >
+      <div
+        class="overlayTextArea pl-2"
+      />
+      <textarea
+        class="discussionTextArea pl-2 ng-untouched ng-pristine ng-valid"
+        formcontrolname="context"
+        ng-reflect-maxlength=""
+        ng-reflect-name="context"
+        placeholder=""
+        spellcheck="false"
+      >
+            
+      </textarea>
+      <pf-radial-text-counter
+        class="radial-counter"
+      />
+    </div>
+  </div>
+</pf-community-text-area>
+`;

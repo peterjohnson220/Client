@@ -2,13 +2,18 @@
 
 exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
 <pf-company-exchange-invitations
-  collapse="false"
+  companyInvitationInfoOpen$={[Function Store]}
   exchangeId={[Function Number]}
   pageRowIndex="null"
+  pageRowIndex$={[Function Store]}
+  pageRowIndexSubscription={[Function Subscriber]}
   payfactorsCompanyExchangeInvitationsGrid$={[Function Store]}
   payfactorsCompanyExchangeInvitationsLoading$={[Function Store]}
   payfactorsCompanyExchangeInvitationsLoadingError$={[Function Store]}
   route={[Function Object]}
+  selectedCompanyInvitation="null"
+  selectedCompanyInvitation$={[Function Store]}
+  selectedCompanyInvitationSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div

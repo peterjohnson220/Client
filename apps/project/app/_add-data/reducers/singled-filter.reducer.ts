@@ -6,11 +6,13 @@ import { mapSearchFilterOptionsToMultiSelectOptions } from '../helpers/model-map
 
 export interface State {
   loadingOptions: boolean;
+  loadingOptionsError: boolean;
   filter: Filter;
 }
 
 const initialState: State = {
   loadingOptions: false,
+  loadingOptionsError: false,
   filter: null
 };
 
@@ -38,7 +40,8 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     case fromSingledFilterActions.SEARCH_AGGREGATION: {
       return {
         ...state,
-        loadingOptions: true
+        loadingOptions: true,
+        loadingOptionsError: false
       };
     }
     case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
@@ -54,6 +57,13 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         ...state,
         loadingOptions: false,
         filter: filterCopy
+      };
+    }
+    case fromSingledFilterActions.SEARCH_AGGREGATION_ERROR: {
+      return {
+        ...state,
+        loadingOptions: false,
+        loadingOptionsError: true
       };
     }
     case fromSingledFilterActions.CLEAR_SELECTIONS: {
@@ -75,4 +85,5 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
 // Selector functions
 export const getFilter = (state: State) => state.filter;
 export const getLoadingOptions = (state: State) => state.loadingOptions;
+export const getLoadingOptionsError = (state: State) => state.loadingOptionsError;
 

@@ -33,7 +33,7 @@ export class CommunityTagEffects {
     .ofType(fromCommunityTagActions.SUGGESTING_COMMUNITY_TAGS).pipe(
       debounceTime(200),
       switchMap((action: fromCommunityTagActions.SuggestingCommunityTags) =>
-        this.communityTagService.suggestTags(action.payload).pipe(
+        this.communityTagService.suggestTags(action.payload.query).pipe(
           map((response: CommunityTag[]) => {
             return new fromCommunityTagActions.SuggestingCommunityTagsSuccess(response);
           }),

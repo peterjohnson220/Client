@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { UserFilter } from 'libs/models/user-profile';
 import { BulkExportSchedule } from 'libs/models/jdm';
+import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
 import * as fromJdmViewActions from '../../actions/view.actions';
 import * as fromJdmFilterActions from '../../actions/filter.actions';
@@ -17,7 +18,7 @@ import * as fromJdmAdminReducer from '../../reducers';
   styleUrls: ['./bulk-export-scheduler.page.scss']
 })
 export class BulkExportSchedulerPageComponent implements OnInit {
-  views$: Observable<string[]>;
+  views$: Observable<JobDescriptionViewModel[]>;
   filters$: Observable<UserFilter[]>;
   schedules$: Observable<BulkExportSchedule[]>;
 

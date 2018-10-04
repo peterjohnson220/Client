@@ -1,0 +1,12 @@
+@import 'colors';
+
+.poll-length-dropdown {
+    width: 38px;
+    height: 25px;
+    border: solid 1px $tile-light-blue-color;
+}
+
+:host ::ng-deep .k-widget.k-dropdown {
+    width: 60px;
+    border: solid 1px $tile-light-blue-color;
+}

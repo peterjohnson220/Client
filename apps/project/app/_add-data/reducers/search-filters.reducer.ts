@@ -3,12 +3,15 @@ import * as isEqual from 'lodash.isequal';
 
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
-import { Filter, isMultiFilter, isRangeFilter, isTextFilter } from '../models';
+import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
 import {
-  mapSearchFilterToFilter,
+  mapSearchFilterToMultiFilter,
   mergeClientWithServerMultiSelectFilters,
   mergeClientWithServerRangeFilters
 } from '../helpers';
+
+const multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
+const filterToNotRefresh = f => isTextFilter(f) || multiSelectToNotRefresh(f);
 
 export interface State {
   filters: Filter[];
@@ -38,6 +41,24 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
+    case fromSearchFiltersActions.SET_DEFAULT_VALUE: {
+      const filtersCopy = cloneDeep(state.filters);
+      const filter = filtersCopy.find(f => f.Id === action.payload.filterId);
+      if (isTextFilter(filter)) {
+        const textFilter = filter as TextFilter;
+        textFilter.DefaultValue = action.payload.value;
+        applyDefault(textFilter);
+      } else if (isMultiFilter(filter)) {
+        const multiFilter = filter as MultiSelectFilter;
+        multiFilter.DefaultSelections = action.payload.selections;
+        applyDefault(multiFilter);
+      }
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     case fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER: {
       return {
         ...state,
@@ -49,7 +70,10 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 
       if (action.payload.Options.length) {
         filters = cloneDeep(state.filters);
-        filters.push(mapSearchFilterToFilter(cloneDeep(action.payload)));
+        const defaultScopeFilter = mapSearchFilterToMultiFilter(cloneDeep(action.payload));
+        defaultScopeFilter.Options.map(o => o.Selected = true);
+        defaultScopeFilter.DefaultSelections = defaultScopeFilter.Options.map(o => o.Value);
+        filters.push(defaultScopeFilter);
       }
 
       return {
@@ -77,15 +101,14 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.REFRESH_FILTERS: {
-      const filtersNotBeingRefreshed = state.filters.filter(f => !isRangeFilter(f) &&
-        (!isMultiFilter(f) || !f.RefreshOptionsFromServer));
-      const filtersToRefresh = cloneDeep(state.filters);
+      const clientFilters = cloneDeep(state.filters);
+      const clientFiltersNotBeingRefreshed = clientFilters.filter(filterToNotRefresh);
       const serverFilters = cloneDeep(action.payload.searchFilters);
 
       const newMultiSelectFilters = mergeClientWithServerMultiSelectFilters(
         {
-          serverFilters: serverFilters.filter(f => isMultiFilter(f)),
-          clientFilters: filtersToRefresh.filter(f => isMultiFilter(f) && f.RefreshOptionsFromServer),
+          serverFilters: serverFilters.filter(f => isMultiFilter(f) && !clientFiltersNotBeingRefreshed.some(cf => cf.Id === f.Id)),
+          clientFilters: clientFilters.filter(f => !filterToNotRefresh(f)),
           keepFilteredOutOptions: action.payload.keepFilteredOutOptions
         }
       );
@@ -93,11 +116,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const newRangeFilters = mergeClientWithServerRangeFilters(
         {
           serverFilters: serverFilters.filter(f => isRangeFilter(f)),
-          clientFilters: filtersToRefresh.filter(f => isRangeFilter(f))
+          clientFilters: clientFilters.filter(f => isRangeFilter(f))
         }
       );
 
-      const allFilters = filtersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
+      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -117,9 +140,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.RESET_ALL_FILTERS: {
+      let filters = resetFilters(cloneDeep(state.filters));
+      filters = applyDefaults(filters);
       return {
         ...state,
-        filters: resetFilters(cloneDeep(state.filters))
+        filters: filters
       };
     }
     case fromSearchFiltersActions.UPDATE_RANGE_FILTER: {
@@ -127,6 +152,15 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const rangeFilter = filtersCopy.find(f => f.Id === action.payload.filterId && isRangeFilter(f));
       rangeFilter.SelectedMinValue = action.payload.minValue;
       rangeFilter.SelectedMaxValue = action.payload.maxValue;
+
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
+    case fromSearchFiltersActions.ADD_FILTER: {
+      const filtersCopy = cloneDeep(state.filters);
+      filtersCopy.push(action.payload);
 
       return {
         ...state,
@@ -145,16 +179,34 @@ function resetFilters(filters: Filter[]): Filter[] {
 }
 
 function resetFilter(filter: Filter) {
-  if (isMultiFilter(filter)) {
+  if (isMultiFilter(filter) && !filter.Locked) {
     filter.Options.map(o => o.Selected = false);
   } else if (isRangeFilter(filter)) {
     filter.SelectedMaxValue = null;
     filter.SelectedMinValue = null;
-    filter.MaximumValue = null;
-    filter.MinimumValue = null;
   } else if (isTextFilter(filter)) {
     filter.Value = '';
   }
+  return filter;
+}
+
+function applyDefaults(filters: Filter[]): Filter[] {
+  return filters.map(f => applyDefault(f) );
+}
+
+function applyDefault(filter: Filter): Filter {
+  if (isTextFilter(filter)) {
+    const textFilter = filter as TextFilter;
+    if (textFilter.DefaultValue) {
+      filter.Value = textFilter.DefaultValue;
+    }
+  } else if (isMultiFilter(filter)) {
+    const multiFilter = filter as MultiSelectFilter;
+    if (multiFilter.DefaultSelections && multiFilter.DefaultSelections.length) {
+      filter.Options.map(o => o.Selected = multiFilter.DefaultSelections.some(d => isEqual(d, o.Value)));
+    }
+  }
+
   return filter;
 }
 

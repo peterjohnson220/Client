@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 export const SUBMITTING_COMMUNITY_POST = '[Community/Post] Submitting Community Post';
 export const SUBMITTING_COMMUNITY_POST_SUCCESS = '[Community/Post] Submitting Community Post Success';
 export const SUBMITTING_COMMUNITY_POST_ERROR = '[Community/Post] Submitting Community Post Error';
+
 export const GETTING_COMMUNITY_POSTS = '[Community/Post] Get Community Posts';
 export const GETTING_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Community Posts Success';
 export const GETTING_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Community Posts Error';
@@ -11,9 +12,8 @@ export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
 export const UPDATING_COMMUNITY_POST_LIKE_ERROR = '[Community/Post] Updating Community Post Like Error';
 
-export const ADDING_COMMUNITY_POST_REPLY = '[Community/Post Reply] Adding Community Post Reply';
-export const ADDING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Reply] Adding Community Post ReplySuccess';
-export const ADDING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Reply] Adding Community Post Reply Error';
+export const UPDATING_COMMUNITY_POST_REPLY_IDS = '[Community/Post] Updating Community Post Reply Ids';
+export const UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS = '[Community/Post] Updating Community Post Hidden Reply Ids';
 
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
@@ -56,18 +56,14 @@ export class UpdatingCommunityPostLikeError implements Action {
   readonly type = UPDATING_COMMUNITY_POST_LIKE_ERROR;
 }
 
-export class AddingCommunityPostReply implements Action {
-  readonly type = ADDING_COMMUNITY_POST_REPLY;
+export class UpdatingCommunityPostReplyIds implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_REPLY_IDS;
   constructor(public payload: any) {}
 }
 
-export class AddingCommunityPostReplySuccess implements Action {
-  readonly type = ADDING_COMMUNITY_POST_REPLY_SUCCESS;
+export class UpdatingCommunityPostHiddenReplyIds implements Action {
+  readonly type = UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS;
   constructor(public payload: any) {}
-}
-
-export class AddingCommunityPostReplyError implements Action {
-  readonly type = ADDING_COMMUNITY_POST_REPLY_ERROR;
 }
 
 export type Actions
@@ -80,6 +76,5 @@ export type Actions
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError
-  | AddingCommunityPostReply
-  | AddingCommunityPostReplySuccess
-  | AddingCommunityPostReplyError;
+  | UpdatingCommunityPostReplyIds
+  | UpdatingCommunityPostHiddenReplyIds;

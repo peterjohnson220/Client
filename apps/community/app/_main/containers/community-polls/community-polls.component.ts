@@ -60,8 +60,13 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.communityPollResponseSubmittedSubscription.unsubscribe();
-    this.communityPollResponsesSuccessSubscription.unsubscribe();
+    if (this.communityPollResponseSubmittedSubscription) {
+      this.communityPollResponseSubmittedSubscription.unsubscribe();
+    }
+
+    if (this.communityPollResponsesSuccessSubscription) {
+      this.communityPollResponsesSuccessSubscription.unsubscribe();
+    }
   }
 
   selectOption(selected: number) {
@@ -73,7 +78,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
       { communityPollId: communityPollId, selectedResponseId: selectedResponseId} ));
   }
 
-  onCarouselSlideChange(slideEvent: NgbSlideEvent): void {
+  onCarouselSlideChange(): void {
     this.selectedOption = null;
   }
 
@@ -87,7 +92,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
 
   getResponsePercentage(responseId: number, communityPollId: string): number {
     const communityPollUserResponses = this.userSubmittedResponses.find( x => x.CommunityPollId === communityPollId);
-    if (communityPollUserResponses === null) {
+    if (communityPollUserResponses == null) {
       return 0;
     }
     return communityPollUserResponses.ResponsePercents[responseId];

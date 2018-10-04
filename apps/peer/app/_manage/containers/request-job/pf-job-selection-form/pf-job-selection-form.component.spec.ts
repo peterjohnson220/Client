@@ -3,7 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { Store, combineReducers, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
@@ -13,8 +13,7 @@ import * as fromSharedPeerReducer from '../../../../shared/reducers/index';
 import * as fromPeerManagementReducer from '../../../reducers/index';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import { PayfactorsJobSelectionFormComponent } from './pf-job-selection-form.component';
-import {generateMockExchangeJobRequestCandidate} from '../../../models';
-import {generateMockExistingCompany} from '../../../../_dashboard/models';
+import { generateMockExchangeJobRequestCandidate } from '../../../models';
 
 describe('Peer - Manage - Request Job - Payfactors Job Selection Form', () => {
   let fixture: ComponentFixture<PayfactorsJobSelectionFormComponent>;

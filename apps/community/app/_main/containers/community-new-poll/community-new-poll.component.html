@@ -1,0 +1,42 @@
+
+  <div class="form-group" [formGroup]="communityPollForm"> 
+
+    <label *ngIf="isAdmin" class="col-form-label mt-3" for="pollQuestion">Poll Question</label>
+    <pf-community-text-area 
+      [parentForm]="communityPollForm"
+      [maxTextLength]="maxTextLength"
+      [warningStartNumber]="200"
+      [dangerStartNumber]="225"
+      [pfFocus]="true"
+      textPlaceholder="Ask a question...">
+    </pf-community-text-area>
+    <ng-container *ngIf="context.errors && attemptedSubmit">
+      <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
+      <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>
+    </ng-container>
+    <span *ngIf="!attemptedSubmit || !context.errors" class="pf-placeholder"></span>
+    <!--TODO: Replace fieldset with bootstrap formatting-->
+    <fieldset formArrayName="choices">
+      <pf-community-poll-choices #pollChoices
+        *ngFor="let item of choices.controls; let i=index"
+        [index]="i"
+        [item]="item"
+        (removed)="choices.removeAt($event)">
+      </pf-community-poll-choices>
+    </fieldset>
+
+    <div *ngIf="enableEditingResponseOptions">
+        <button type="button" class="btn btn-link" *ngIf="choices.length < maxChoices" (click)="addResponseOption()">+ Add a choice</button> 
+    </div>
+    <div *ngIf="!isAdmin" class="mb-2">
+      <label class="col-form-label" for="days" class="text-muted mr-3">Poll length</label>   
+      <label class="col-form-label" for="days">Days </label>
+      <select #days  class="poll-length-dropdown ml-2 mr-4">
+        <option *ngFor="let day of pollLengthDays" [ngValue]="day">{{day}}</option>
+      </select>
+      <label class="col-form-label" for="hours">Hours </label>
+      <select #hours class="poll-length-dropdown ml-2">
+        <option *ngFor="let hour of pollLengthHours" [ngValue]="hour">{{hour}}</option>
+      </select>
+    </div>
+  </div>

@@ -31,7 +31,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-  constructor(private modalService: NgbModal) {  }
+  constructor(private modalService: NgbModal) { }
 
   get submitDisabled(): boolean {
     if (!this.formGroup) {

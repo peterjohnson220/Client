@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PayfactorsApiService } from './payfactors-api.service';
 import { NavigationApiService } from './navigation';
-import { UiPersistenceSettingsApiService} from './ui-persistence-settings';
+import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService, ExchangeScopeApiService } from './peer';
@@ -36,7 +36,8 @@ import { TermsConditionsApiService } from './terms-conditions';
     JobDescriptionApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
-    ExchangeScopeApiService
+    ExchangeScopeApiService,
+    CompanySettingsApiService
   ]
 })
 export class PfApiModule { }

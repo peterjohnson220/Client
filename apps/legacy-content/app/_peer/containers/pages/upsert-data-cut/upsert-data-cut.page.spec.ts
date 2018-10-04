@@ -11,8 +11,7 @@ import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
-import { generateMockExchangeMapResponse } from 'libs/models/peer';
-import { generateMockAggregateSelectionInfo } from 'libs/features/peer/map/models';
+import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
@@ -31,6 +30,10 @@ class DojGuidelinesStub {
     return;
   }
 }
+
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
 
 describe('Legacy Content - Peer - Upsert Data Cut', () => {
   let fixture: ComponentFixture<UpsertDataCutPageComponent>;
@@ -186,16 +189,16 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should call validateDataCut when peerFilterSelections changes', () => {
-    const payload = generateMockAggregateSelectionInfo();
-    queryStringParams.dataCutGuid = mockDataCutGUID;
-    instance.peerFilterSelections$ = of(payload);
+  it('should call validateDataCut when map summary changes changes', () => {
+    const payload = generateMockExchangeStatCompanyMakeup();
+    queryStringParams.dataCutGuid = null;
+    instance.peerMapCompanies$ = of(payload);
 
     spyOn(guidelinesService, 'validateDataCut');
 
     fixture.detectChanges();
 
-    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, false);
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {

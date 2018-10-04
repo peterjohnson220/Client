@@ -8,6 +8,9 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
 import { HighlightHashTagPipe } from 'libs/core';
+import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import { CommunityAddPost } from '../../../../../../libs/models/community';
 
 describe('CommunityStartDiscussionComponent', () => {
   let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
@@ -41,6 +44,12 @@ describe('CommunityStartDiscussionComponent', () => {
   });
 
   it('should show community start discussion', () => {
+    instance.postType = instance.CommunityPostTypes.Discussion;
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show community start poll', () => {
+    instance.postType = instance.CommunityPostTypes.Question;
     expect(fixture).toMatchSnapshot();
   });
 });

@@ -29,11 +29,11 @@ export class UserContextEffects {
   getUserContextError$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_ERROR).pipe(
       map((action: userContextActions.GetUserContextError) => action.error),
-      switchMap(error => {
+      map(error => {
           if (error.status === 401) {
-            return of(new userContextActions.GetUserContext401Error());
+            return new userContextActions.GetUserContext401Error();
           } else if (error.status === 404) {
-            return of(new userContextActions.GetUserContext404Error());
+            return new userContextActions.GetUserContext404Error();
           }
         }
       )

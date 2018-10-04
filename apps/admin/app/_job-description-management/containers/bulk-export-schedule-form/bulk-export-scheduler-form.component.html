@@ -14,8 +14,8 @@
     <tr>
       <td></td>
       <td>
-        <select id="view" [(ngModel)]="schedule.View">
-          <option *ngFor="let view of views" [ngValue]="view">{{view}}</option>
+        <select id="view" [(ngModel)]="schedule.ViewId">
+          <option *ngFor="let view of views" [ngValue]="view.Id">{{view.Name}}</option>
         </select>
       </td>
     </tr>
@@ -107,7 +107,7 @@
           <p *ngIf="existingSchedule.Frequency === 'One-time'">Sent on {{existingSchedule.Create_Date | date:'shortDate'}}</p>
           <p *ngIf="existingSchedule.Frequency === 'Weekly'">Sent Weekly every {{daysOfWeekAsString(existingSchedule.DayOfWeek)}}</p>
           <p *ngIf="existingSchedule.Frequency === 'Monthly'">Sent the {{occurrenceAsString(existingSchedule.Occurrence)}} {{daysOfWeekAsString(existingSchedule.DayOfWeek)}} of every {{existingSchedule.MonthlyOccurrence}} month(s)</p>
-          <p>Using {{existingSchedule.View}} view</p>
+          <p>Using {{getViewName(existingSchedule.ViewId)}} view</p>
           <p *ngIf="existingSchedule.Filter === 'All'">All Jobs</p>
           <p *ngIf="existingSchedule.Filter !== 'All'">Using {{existingSchedule.Filter}} filter</p>
         </td>

@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/take';
-import { of } from 'rxjs/index';
+import { of } from 'rxjs';
 import spyOn = jest.spyOn;
 
 import { generateMockExchangeScopeItem } from 'libs/models/peer/exchange-scope';
@@ -15,6 +14,10 @@ import * as fromLibsExchangeScopeActions from 'libs/features/peer/map/actions/ex
 import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { ScopeSelectorComponent } from './scope-selector.component';
+
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
 
 describe('Features - Peer - Exchange Scope Selector Component', () => {
   let fixture: ComponentFixture<ScopeSelectorComponent>;

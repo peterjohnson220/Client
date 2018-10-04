@@ -1,9 +1,10 @@
 <ng-container *ngIf="showRangeControl;else noOptions">
   <div class="custom-slider mx-2">
     <ng5-slider
-      [(value)]="filter.SelectedMinValue"
-      [(highValue)]="filter.SelectedMaxValue"
+      [(value)]="selectedMin"
+      [(highValue)]="selectedMax"
       [options]="options"
+      [manualRefresh]="manualRefresh"
       (userChangeEnd)="handleRangeSliderChange(filter.Id, $event)">
     </ng5-slider>
   </div>

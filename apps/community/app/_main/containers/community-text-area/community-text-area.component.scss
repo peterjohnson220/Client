@@ -1,0 +1,64 @@
+@import 'colors';
+
+$radial-counter-width: 25px;
+
+.textAreaContainer {
+  position: relative;
+  min-height: 50px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.discussionTextArea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  background: transparent;
+  caret-color: black;
+  resize: none;
+  overflow: hidden;
+  padding-right: $radial-counter-width;
+}
+
+.overlayTextArea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 2px;
+  left: 1px;
+  padding-right: $radial-counter-width;
+}
+
+.suggested-tags {
+  position: absolute;
+  min-width: 100px;
+  z-index: 999;
+  overflow: hidden;
+}
+
+button:hover {
+  outline: solid 1px $community-hashtag-color;
+  outline-offset: -2px;
+}
+
+button:focus {
+  outline: solid 2px $community-hashtag-color;
+  outline-offset: -2px;
+}
+
+.radial-counter {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+}
+
+:host ::ng-deep .hashtag-highlight {
+  color: $community-hashtag-color;
+}
+
+:host ::ng-deep .link-url {
+  color: rgb(64, 171, 221);
+  text-decoration: underline;
+}

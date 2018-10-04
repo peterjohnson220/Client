@@ -2,11 +2,15 @@
 
 exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
+  addReplyViewStore={[Function Store]}
   avatarUrl={[Function String]}
   communityPosts$={[Function Store]}
+  loadingCommunityPostReplies$={[Function Store]}
   loadingCommunityPosts$={[Function Store]}
+  replyStore={[Function Store]}
+  showAddReply={[Function Object]}
+  showReplies={[Function Array]}
   store={[Function Store]}
-  toggle={[Function Object]}
 >
   <div
     class="posts-container p-2 scroll"

@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromCommunityPostReducer from '../../reducers';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import { CommunityAddReply, CommunityPost } from 'libs/models/community';
+import * as fromCommunityPostReplyReducer from '../../reducers';
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import { CommunityAddReply } from 'libs/models/community';
 
 @Component({
   selector: 'pf-community-post-add-reply',
@@ -15,23 +15,24 @@ import { CommunityAddReply, CommunityPost } from 'libs/models/community';
 })
 export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() postId: string;
+  @Output() replySubmitted = new EventEmitter<boolean>();
   communityPostReplyForm: FormGroup;
   replyMaxLength = 2000;
   addingCommunityPostReply$: Observable<boolean>;
   addingCommunityPostReplySuccess$: Observable<boolean>;
   addingCommunityPostReplySuccessSubscription: Subscription;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               private formBuilder: FormBuilder) {
     this.buildForm();
 
-    this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReducer.getAddingCommunityPostReply);
-    this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityPostReplySuccess);
+    this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReply);
+    this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess);
   }
 
   buildForm() {
     this.communityPostReplyForm = this.formBuilder.group({
-      replyText:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
+      context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
     });
   }
   ngOnInit()  {
@@ -50,9 +51,10 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
     if (this.communityPostReplyForm.valid) {
       const newReply: CommunityAddReply = {
         PostId: this.postId,
-        ReplyText: this.communityPostReplyForm.controls['replyText'].value
+        ReplyText: this.communityPostReplyForm.controls['context'].value
       };
-      this.store.dispatch(new fromCommunityPostActions.AddingCommunityPostReply(newReply));
+      this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
+      this.replySubmitted.emit();
     }
   }
 }

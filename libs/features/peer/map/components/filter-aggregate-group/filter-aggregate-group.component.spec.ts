@@ -14,6 +14,10 @@ import * as fromFeaturePeerMapReducer from '../../../map/reducers';
 import { AggregateSelectionInfo } from '../../models';
 import { FilterAggregateGroupComponent } from './filter-aggregate-group.component';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  LngLatBounds: () => ({})
+}));
+
 describe('Features - Peer - Filter Aggregate Group Component', () => {
   let fixture: ComponentFixture<FilterAggregateGroupComponent>;
   let instance: FilterAggregateGroupComponent;

@@ -2,8 +2,15 @@
 
 exports[`Company Exchange Invitation Info should match snapshot 1`] = `
 <pf-company-exchange-invitation-info
+  approveClicked={[Function EventEmitter]}
+  approvingCompanyInvitation$={[Function Store]}
+  approvingError$={[Function Store]}
   closeClicked={[Function EventEmitter]}
+  denyClicked={[Function EventEmitter]}
+  denyingCompanyInvitation$={[Function Store]}
+  denyingError$={[Function Store]}
   selectedCompanyInvitation={[Function Object]}
+  store={[Function Store]}
 >
   <div
     class="invitation-info-container card h-100"
@@ -16,6 +23,30 @@ exports[`Company Exchange Invitation Info should match snapshot 1`] = `
       >
          Company Invitation Information 
       </div>
+      
+      
+      
+      <button
+        class="btn btn-sm btn-success action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Approve 
+        </span>
+        
+      </button>
+      
+      <button
+        class="btn btn-sm btn-danger action-buttons"
+        type="button"
+      >
+        
+        <span>
+           Deny 
+        </span>
+        
+      </button>
       <div
         class="close-btn"
       >

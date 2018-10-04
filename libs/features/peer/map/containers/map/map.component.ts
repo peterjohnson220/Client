@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
+import * as mapboxgl from 'mapbox-gl';
 
 import { ExchangeMapSummary } from 'libs/models/peer';
 
@@ -75,20 +76,16 @@ export class MapComponent {
     this.store.dispatch(new fromMapActions.MapLoaded());
   }
 
-  handleMoveStartEvent(e: any) {
-    e.target.moveStarted = true;
-  }
-
-  handleMoveEvent(e: any) {
-    if (e.target.moveStarted) {
-      e.target.mapDirty = e.target._placementDirty;
-    }
-  }
-
   handleMoveEndEvent(e: any) {
+    if (!!e.skipMapRefresh) {
+      return;
+    }
     let scopeApplied = false;
     this.peerMapApplyingScope$.pipe(take(1)).subscribe(as => {
       if (!!as) {
+        this.peerMapBounds$.pipe(take(1)).subscribe(b => {
+          this.map.fitBounds([[b[0], b[1]], [b[2], b[3]]], {padding: 50}, {skipMapRefresh: true} as any);
+        });
         this.store.dispatch(new fromMapActions.ApplyScopeCriteriaSuccess);
         scopeApplied = true;
       }
@@ -125,8 +122,8 @@ export class MapComponent {
 
   // Helper functions
   refreshMap(filterVars: any) {
-    this.canLoadPeerMap$.pipe(take(1)).subscribe(canload => {
-      if (canload) {
+    this.canLoadPeerMap$.pipe(take(1)).subscribe(canLoad => {
+      if (canLoad) {
         this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
       }
     });

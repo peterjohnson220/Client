@@ -74,8 +74,12 @@
         <kendo-grid-column field="Status" title="Status" width="125" class="text-center" headerClass="text-center">
           <ng-template kendoGridCellTemplate let-dataItem>
             <span class="mapped">
-              <span *ngIf="dataItem.Status == 0" class="badge badge-primary">Active</span>
-              <span *ngIf="dataItem.Status == 1" class="badge badge-warning">Pending Request</span>
+              <span *ngIf="dataItem.Status == 0" class="badge badge-primary"
+                    title="This company is part of the current exchange">Active</span>
+              <span *ngIf="dataItem.Status == 1" class="badge badge-warning"
+                    title="There is an outstanding access request for this company">Access Request Pending</span>
+              <span *ngIf="dataItem.Status == 2" class="badge badge-warning"
+                    title="There is an outstanding invitation for this company">Invitation Pending</span>
             </span>
           </ng-template>
         </kendo-grid-column>

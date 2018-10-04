@@ -3,16 +3,9 @@
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
   UserAvatarSource={[Function String]}
-  communityDiscussionForm={[Function FormGroup]}
-  discussionTextArea={[Function ElementRef]}
-  formBuilder={[Function FormBuilder]}
-  overlayTextArea={[Function ElementRef]}
-  postMaxLength={[Function Number]}
+  postType="0"
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
-  submittingCommunityPostSuccess$={[Function Store]}
-  suggestedCommunityTags$={[Function Store]}
-  textAreaContainer={[Function ElementRef]}
 >
   <div
     class="start-discussion-container mb-3"
@@ -24,88 +17,123 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         class="mb-0"
       >
         <li
-          class="pl-4 pr-4 section-active"
+          class="px-4"
         >
-          Start a Discussion
+          <a>
+            Start a Discussion
+          </a>
         </li>
         <li
-          class="pl-4 pr-4"
+          class="px-4"
         >
-          Ask a Question
+          <a>
+            Ask a Question
+          </a>
         </li>
         <li
-          class="pl-4 pr-4"
+          class="px-4"
         >
-          Post a Job
+          <a>
+            Post a Job
+          </a>
         </li>
       </ul>
     </div>
-    <form
-      novalidate=""
+    <div
+      class="start-discussion-body p-2"
     >
+      <img
+        alt="avatar"
+        class="pf-avatar ml-1"
+        id="discussion-avatar"
+      />
       <div
-        class="start-discussion-body p-2"
+        class="w-100 pl-3"
       >
-        <img
-          alt="avatar"
-          class="pf-avatar ml-1"
-          id="discussion-avatar"
-        />
+        
+        
         <div
-          class="w-100"
+          class="ml-3 p-0"
         >
-          <div
-            class="textAreaContainer ml-3"
+          <button
+            class="btn btn-primary float-right"
+            id="start-discussion-post-button"
           >
-            <div
-              class="overlayTextArea pl-2 pr-3"
-            />
-            <textarea
-              class="discussionTextArea pl-2 pr-3"
-              formcontrolname="postText"
-              placeholder="Start a discussion..."
-              spellcheck="false"
-            >
-                            
-            </textarea>
-          </div>
-          
-          <div
-            class="ml-3 p-0"
-          >
-            <div
-              class="float-right"
-            >
-              <pf-radial-text-counter />
-            </div>
-            <span
-              ngbtooltip="Will be visible to users within your organization"
-              placement="bottom"
-            >
-              <input
-                formcontrolname="isInternalOnly"
-                id="internal-only"
-                name="internal-only"
-                type="checkbox"
-              />
-              <label
-                class="ml-1"
-                for="internal-only"
-              >
-                Internal Only
-              </label>
-            </span>
-            <button
-              class="btn btn-primary float-right"
-              id="start-discussion-post-button"
-            >
-              Post 
-              
-            </button>
-          </div>
+            Post 
+            
+          </button>
         </div>
       </div>
-    </form>
+    </div>
+  </div>
+</pf-community-start-discussion>
+`;
+
+exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
+<pf-community-start-discussion
+  UserAvatarSource={[Function String]}
+  postType={[Function Number]}
+  store={[Function Store]}
+  submittingCommunityPost$={[Function Store]}
+>
+  <div
+    class="start-discussion-container mb-3"
+  >
+    <div
+      class="start-discussion-header"
+    >
+      <ul
+        class="mb-0"
+      >
+        <li
+          class="px-4"
+        >
+          <a>
+            Start a Discussion
+          </a>
+        </li>
+        <li
+          class="px-4"
+        >
+          <a>
+            Ask a Question
+          </a>
+        </li>
+        <li
+          class="px-4"
+        >
+          <a>
+            Post a Job
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      class="start-discussion-body p-2"
+    >
+      <img
+        alt="avatar"
+        class="pf-avatar ml-1"
+        id="discussion-avatar"
+      />
+      <div
+        class="w-100 pl-3"
+      >
+        
+        
+        <div
+          class="ml-3 p-0"
+        >
+          <button
+            class="btn btn-primary float-right"
+            id="start-discussion-post-button"
+          >
+            Post 
+            
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </pf-community-start-discussion>
 `;

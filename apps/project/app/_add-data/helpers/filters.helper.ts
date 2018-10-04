@@ -25,13 +25,15 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
     mergedFilters = param.serverFilters.map(sf => {
       const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
 
-      sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
+      if (!!matchedClientFilter) {
+        sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
 
-      if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
-        sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+        if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
+          sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+        }
+
+        sortOptions(sf.Options);
       }
-
-      sortOptions(sf.Options);
 
       return sf;
     });
@@ -44,21 +46,12 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
 
 export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams) {
   let mergedFilters: RangeFilter[];
-
   if (param.clientFilters.length) {
     mergedFilters = param.serverFilters.filter(f => isRangeFilter(f)).map(sf => {
       const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
-
-      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMinValue !== null) {
-        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
-      } else {
-        sf.SelectedMinValue = sf.MinimumValue;
-      }
-
-      if (matchedClientFilter !== undefined && matchedClientFilter.SelectedMaxValue !== null) {
+      if (!!matchedClientFilter) {
         sf.SelectedMaxValue = matchedClientFilter.SelectedMaxValue;
-      } else {
-        sf.SelectedMaxValue = sf.MaximumValue;
+        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
       }
 
       return sf;

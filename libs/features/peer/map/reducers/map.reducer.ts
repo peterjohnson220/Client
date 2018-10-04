@@ -72,12 +72,16 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapFilter: mapFilter,
         isInitialLoad: false
       };
-      if (state.isInitialLoad) {
-        const tl = mapSummary.TopLeft;
-        const br = mapSummary.BottomRight;
-        newState.mapBounds = [tl.Lon, br.Lat, br.Lon, tl.Lat];
-        newState.mapFilter.TopLeft = tl;
-        newState.mapFilter.BottomRight = br;
+
+      const newTL = mapSummary.TopLeft;
+      const newBR = mapSummary.BottomRight;
+      const hasNewTLBounds = !!newTL && !!newTL.Lat && !!newTL.Lon;
+      const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
+      const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
+      if (state.isInitialLoad && shouldSetBounds) {
+        newState.mapBounds = MapHelper.getBoundsForOneMapCopy(newTL, newBR);
+        newState.mapFilter.TopLeft = newTL;
+        newState.mapFilter.BottomRight = newBR;
       }
       return newState;
     }
@@ -140,6 +144,15 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       return {
         ...state,
         applyingScope: false
+      };
+    }
+    case fromPeerMapActions.CLEAR_MAP_FILTER_BOUNDS: {
+      return {
+        ...state,
+        mapFilter: {
+          ...initialState.mapFilter
+        },
+        isInitialLoad: true
       };
     }
     default: {

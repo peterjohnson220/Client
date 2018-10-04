@@ -1,34 +1,63 @@
 <div class="posts-container p-2 scroll">
-  <ng-container *ngFor="let post of communityPosts$ | async; let i = index; let last = last;">
+  <ng-container *ngFor="let post of (communityPosts$ | async); trackBy: trackByPostId; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
       <div class="pl-1 col-12">
-        <div id="default-post-avatar" *ngIf="post.UserInfo?.AvatarSource ==='default_user.png'"
-             class="float-left pf-avatar default-post-avatar">
-          {{ post.UserInfo.UserFirstName | slice:0:1 }}{{ post.UserInfo.UserLastName| slice:0:1 }}
-        </div>
-        <img id="post-avatar" class="post-avatar float-left pf-avatar"
-             *ngIf="post.UserInfo?.AvatarSource !=='default_user.png'"
-             [src]="avatarUrl + post.UserInfo?.AvatarSource" alt="avatar"/>
+        <pf-community-avatar
+          [AvatarSource]="post.UserInfo?.AvatarSource"
+          [UserFirstName]="post.UserInfo.UserFirstName"
+          [UserLastName]="post.UserInfo.UserLastName">
+        </pf-community-avatar>
         <div class="post-offset">
-          <div *ngIf="post.IsInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
-          <p class="m-0"><span class="community-user-name-text">{{post.UserInfo.UserFirstName}} {{post.UserInfo.UserLastName}}</span>
-            <span class="community-sub-text"> @ {{post.UserInfo.CompanyName}} | {{post.Time}}</span></p>
+          <pf-community-post-header [user]="post.UserInfo"
+                                    [time]="post.ElapsedTime"
+                                    [isInternalOnly]="post.IsInternalOnly">
+          </pf-community-post-header>
           <div class="post-body mt-2 mb-2"
-               [innerHtml]="post.Content | highlightHashTag"></div>
-          <button id="like" type="button" class="btn m-1 p-0"
-                  [ngClass]="post.LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
-                  (click)="updatePostLike(post)">
-            <i class="fa-heart icon" [ngClass]="post.LikedByCurrentUser ? 'fas' : 'far'"></i>
-            <span> {{post.LikeCount > 0 ? post.LikeCount : ''}} {{post.LikeCount > 1 ? 'Likes' : 'Like'}}</span>
-          </button>
-          <a id="reply" href="javascript:void(0)" class="community-link m-1" (click)="toggle[i] = !toggle[i]">
-            <span>Reply</span>
-          </a>
-          <div class="mt-2 py-1" [ngClass]="toggle[i] ? 'show' : 'hide'">
-            <pf-community-post-add-reply [postId]="post.Id"></pf-community-post-add-reply>
+               [innerHtml]="post.Content | highlightHashTag | formatLinkUrl">
           </div>
-          <div *ngIf="post.Replies"> <!--TODO: Add Logic in to get replies on Hide/Show-->
-            <pf-community-post-replies [replies]="post.Replies"></pf-community-post-replies>
+          <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
+            <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
+              <div class="url-preview-card-image-container mr-2">
+                <img class="url-preview-card-image" [src]="post.UrlPreviewData.PreviewImageSrc">
+              </div>
+              <p><b>{{post.UrlPreviewData.PreviewTitle}}</b></p>
+              <p>{{post.UrlPreviewData.PreviewDescription}}</p>
+            </a>
+          </div>
+          <div class="d-flex align-items-center">
+            <pf-community-like
+              [LikedByCurrentUser]="post.LikedByCurrentUser"
+              [PostId]="post.Id"
+              [LikeCount]="post.LikeCount">
+            </pf-community-like>
+            <a id="reply" href="javascript:void(0)" class="pl-2 community-link" (click)="showReply(i)">
+              <span>Reply</span>
+            </a>
+          </div>
+          <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
+            <pf-community-post-add-reply
+              [postId]="post.Id"
+              (replySubmitted)="onReplySubmitted(i)">
+            </pf-community-post-add-reply>
+          </div>
+          <pf-community-post-add-reply-view
+            [postId]="post.Id"></pf-community-post-add-reply-view>
+          <div *ngIf="post.ReplyCount > 0">
+            <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
+              <span class="mr-1">
+                  <svg height="5" width="20">
+                    <line class="line" x1="0" y1="0" x2="100" y2="0"/>
+                  </svg>
+              </span>
+              <span *ngIf="!showReplies[i]" (click)="getReplies(i, post.Id)">View Replies ({{ post.ReplyCount }})</span>
+              <span *ngIf="showReplies[i]" (click)="hideReplies(i, post.Id)">Hide Replies</span>
+            </a>
+          </div>
+          <div *ngIf="showReplies[i]">
+            <pf-community-post-replies
+              [replies]="post.Replies"
+              [loading]="loadingCommunityPostReplies$ | async">
+            </pf-community-post-replies>
           </div>
           <div>
             <ng-container *ngFor="let tag of post.Tags">

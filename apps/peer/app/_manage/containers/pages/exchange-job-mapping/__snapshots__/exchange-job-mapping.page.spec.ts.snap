@@ -3,6 +3,7 @@
 exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true 1`] = `
 <pf-exchange-job-mapping-page
   collapse={[Function Boolean]}
+  companySecurityApi={[Function Object]}
   disableGridScollTo="false"
   exchangeId={[Function Number]}
   exchangeJobMappingService={[Function Object]}
@@ -11,6 +12,7 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
   selectedExchangeJobMapping$={[Function Store]}
   selectedExchangeJobMappingSubscription={[Function Subscriber]}
   store={[Function Store]}
+  userContext$={[Function Store]}
 >
   <pf-page-with-title-bar>
     

@@ -18,6 +18,7 @@ export class SingleFilterComponent implements OnInit {
   singledFilter$: Observable<Filter>;
   selectionCount$: Observable<number>;
   loadingOptions$: Observable<boolean>;
+  loadingOptionsError$: Observable<boolean>;
 
   constructor(
     private store: Store<fromAddDataReducer.State>,
@@ -25,6 +26,7 @@ export class SingleFilterComponent implements OnInit {
     this.singledFilter$ = this.store.select(fromAddDataReducer.getSingledFilter);
     this.selectionCount$ = this.store.select(fromAddDataReducer.getSingledFilterSelectionCount);
     this.loadingOptions$ = this.store.select(fromAddDataReducer.getLoadingOptions);
+    this.loadingOptionsError$ = this.store.select(fromAddDataReducer.getLoadingOptionsError);
   }
 
   ngOnInit() {

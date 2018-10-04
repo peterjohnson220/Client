@@ -6,9 +6,12 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
-
+import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import { CommunityPostsComponent } from './community-posts.component';
-import { HighlightHashTagPipe } from 'libs/core';
+import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
+import { CommunityPost } from 'libs/models/community/community-post.model';
+import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -27,7 +30,8 @@ describe('CommunityPostsComponent', () => {
       ],
       declarations: [
         CommunityPostsComponent,
-        HighlightHashTagPipe
+        HighlightHashTagPipe,
+        FormatLinkUrlPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -45,5 +49,66 @@ describe('CommunityPostsComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show the replies when show replies clicked', () => {
+    const item = 1;
+    const postId = 1;
+    instance.showReplies[item] = false;
+    instance.getReplies(item, postId);
+
+    expect(instance.showReplies[item]).toBe(true);
+  });
+
+  it('should hide the replies when hdie replies clicked', () => {
+    const item = 1;
+    const postId = 1;
+    instance.showReplies[item] = true;
+    instance.hideReplies(item, postId);
+
+    expect(instance.showReplies[item]).toBe(false);
+  });
+  it('should show reply area when reply link clicked', () => {
+    const item = 1;
+
+    instance.showAddReply[item] = false;
+    instance.showReply(item);
+
+    expect(instance.showAddReply[item]).toBe(true);
+  });
+  it('should show reply area when onreplysubmitted', () => {
+    const item = 1;
+
+    instance.showAddReply[item] = false;
+    instance.onReplySubmitted(item);
+
+    expect(instance.showAddReply[item]).toBe(true);
+  });
+  it('should return the id for tracking purposes ', () => {
+    const filter: CommunityPost = generateMockCommunityPost();
+
+    const postId = instance.trackByPostId(5, filter);
+
+    expect(postId).toBe(filter.Id);
+  });
+
+  it('should dispatch on clearing the replies from the add view', () => {
+    const postId = 1;
+    const parameter = {
+      PostId: postId
+    };
+    const action = new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies(parameter);
+    instance.clearRepliesFromAddView(postId);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch on getting community post replies', () => {
+    const postId = 1;
+    const parameter = {
+      PostId: postId
+    };
+    const action = new fromCommunityPostReplyActions.GettingCommunityPostReplies(parameter);
+    instance.getCommunityPostReplies(postId);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

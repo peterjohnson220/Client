@@ -1,4 +1,4 @@
-<div class="form-check">
+<div class="form-check filterstyles">
     <div *ngFor="let item of currentData; let i = index;" (click)="onSelectionChange(valueAccessor(item))" style="padding: 7px 0">
         <input class="form-check-input" type="radio" id="rdo-{{fieldToSearch}}{{valueAccessor(item)}}" name="rdo-{{fieldToSearch}}"
             [checked]="isItemSelected(item)" />

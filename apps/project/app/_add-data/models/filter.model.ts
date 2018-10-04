@@ -12,16 +12,19 @@ export interface Filter {
   DisplayName: string;
   Order: number;
   Type: FilterType;
+  Locked?: boolean;
 }
 
 export interface TextFilter extends Filter {
   Value: string;
+  DefaultValue?: any;
 }
 
 export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
   RefreshOptionsFromServer: boolean;
   OptionCountDisabled?: boolean;
+  DefaultSelections?: any[];
 }
 
 export interface RangeFilter extends Filter {
@@ -29,6 +32,7 @@ export interface RangeFilter extends Filter {
   MaximumValue: number;
   SelectedMinValue: number;
   SelectedMaxValue: number;
+  Precision: number;
 }
 
 export interface MultiSelectOption {
@@ -59,7 +63,8 @@ export function generateMockTextFilter(): TextFilter {
     DisplayName: 'Job Title/Code',
     Value: 'Accountant',
     Type: FilterType.Text,
-    Order: 1
+    Order: 1,
+    Locked: false
   };
 }
 
@@ -71,7 +76,8 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
     Options: [generateMockMultiSelectOption()],
     Type: FilterType.Multi,
     RefreshOptionsFromServer: true,
-    Order: 1
+    Order: 1,
+    Locked: false
   };
 }
 
@@ -94,7 +100,9 @@ export function generateMockRangeFilter(): RangeFilter {
     MaximumValue: 90000,
     SelectedMinValue: 50000,
     SelectedMaxValue: 75000,
-    BackingField: 'base_50th'
+    BackingField: 'base_50th',
+    Precision: 1,
+    Locked: false
   };
 }
 

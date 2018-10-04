@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
@@ -25,7 +25,7 @@ export class SearchFiltersEffects {
   updateRangeFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.UPDATE_RANGE_FILTER)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
     );
 
   @Effect()
@@ -39,12 +39,7 @@ export class SearchFiltersEffects {
   resetAllFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
-      mergeMap(jobContext => [
-        new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }),
-        new fromSearchFiltersActions.UpdateFilterValue({filterId: 'jobTitleCode', value: jobContext ? jobContext.JobTitle : '' })
-        ]
-      )
+      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
     );
 
   @Effect()
@@ -55,7 +50,11 @@ export class SearchFiltersEffects {
       switchMap((jobContext) => {
           return this.surveySearchApiService.getDefaultSurveyScopesFilter(jobContext.PayMarketId)
             .pipe(
-              map(response => new fromSearchFiltersActions.GetDefaultScopesFilterSuccess(response))
+              concatMap(response => [
+                new fromSearchFiltersActions.GetDefaultScopesFilterSuccess(response),
+                new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false })
+              ]
+            )
             );
         }
       )
