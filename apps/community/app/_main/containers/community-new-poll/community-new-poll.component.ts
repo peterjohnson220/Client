@@ -1,9 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormArray, ValidatorFn, Validators, FormBuilder } from '@angular/forms';
 
+import { Store } from '@ngrx/store';
+
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPollStatusEnum } from 'libs/models/community/community-constants.model';
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
+
+import * as fromCommunityPollRequestReducer from '../../reducers';
+import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
 
 @Component({
   selector: 'pf-community-new-poll',
@@ -24,6 +29,8 @@ export class CommunityNewPollComponent implements OnInit {
 
   get context() { return this.communityPollForm.get('context'); }
   get choices() { return this.communityPollForm.get('choices') as FormArray; }
+  get days() { return this.communityPollForm.get('days'); }
+  get hours() { return this.communityPollForm.get('hours'); }
   get isFormValid() { return this.communityPollForm.valid; }
 
   pollResponseOptionsLimits(array: FormArray): ValidatorFn {
@@ -33,7 +40,8 @@ export class CommunityNewPollComponent implements OnInit {
     };
   }
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(public store: Store<fromCommunityPollRequestReducer.State>,
+    private formBuilder: FormBuilder) {
       this.buildForm();
   }
 
@@ -53,7 +61,9 @@ export class CommunityNewPollComponent implements OnInit {
       'communityPollId': [''],
       'context': ['', [Validators.required, Validators.minLength(1), Validators.maxLength(this.maxTextLength)]],
       'status': [0],
-      'choices': this.formBuilder.array([])
+      'choices': this.formBuilder.array([]),
+      'days':  this.pollLengthDays,
+      'hours': this.pollLengthHours
     });
   }
 
@@ -75,9 +85,10 @@ export class CommunityNewPollComponent implements OnInit {
       CommunityPollId: '',
       Question: this.context.value,
       ResponseOptions: responseOptions,
-      Status: CommunityPollStatusEnum.Live
+      Status: CommunityPollStatusEnum.Live,
+      DurationInHours: this.days.value * 24 + this.hours.value
     };
-    // TODO: this.store.dispatch(new fromCommunityAdminPollActions.AddingCommunityPoll(communityPollRequest));
+    this.store.dispatch(new fromCommunityPollRequestActions.AddingCommunityUserPoll(communityPollRequest));
   }
 
 }

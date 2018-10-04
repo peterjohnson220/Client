@@ -31,11 +31,13 @@
     <div *ngIf="!isAdmin" class="mb-2">
       <label class="col-form-label" for="days" class="text-muted mr-3">Poll length</label>   
       <label class="col-form-label" for="days">Days </label>
-      <select #days  class="poll-length-dropdown ml-2 mr-4">
+      <select #days  class="poll-length-dropdown ml-2 mr-4"
+        formControlName="days">
         <option *ngFor="let day of pollLengthDays" [ngValue]="day">{{day}}</option>
       </select>
       <label class="col-form-label" for="hours">Hours </label>
-      <select #hours class="poll-length-dropdown ml-2">
+      <select #hours class="poll-length-dropdown ml-2"
+        formControlName="hours">
         <option *ngFor="let hour of pollLengthHours" [ngValue]="hour">{{hour}}</option>
       </select>
     </div>

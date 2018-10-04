@@ -101,6 +101,20 @@ export const getSubmittingCommunityPollRequestResponse = createSelector(
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse
 );
 
+export const getAddingCommunityUserPoll = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getAddingCommunityUserPoll
+);
+
+export const getAddingCommunityUserPollSuccess = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getAddingCommunityUserPollSuccess
+);
+
+export const getAddingCommunityUserPollError = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getAddingCommunityUserPollError
+);
 
 export const getGettingCommunityPollResponses = createSelector(
   selectFromCommunityPollResponseState,
