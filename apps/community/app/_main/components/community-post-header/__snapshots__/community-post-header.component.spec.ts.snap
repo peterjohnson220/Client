@@ -3,6 +3,8 @@
 exports[`CommunityPostsComponent should show community post header 1`] = `
 <pf-community-post-header
   isInternalOnly="false"
+  isReply="false"
+  store={[Function Store]}
   time={[Function String]}
   user={[Function Object]}
 >
@@ -26,6 +28,8 @@ exports[`CommunityPostsComponent should show community post header 1`] = `
 exports[`CommunityPostsComponent should show internal community post header 1`] = `
 <pf-community-post-header
   isInternalOnly={[Function Boolean]}
+  isReply="false"
+  store={[Function Store]}
   time={[Function String]}
   user={[Function Object]}
 >

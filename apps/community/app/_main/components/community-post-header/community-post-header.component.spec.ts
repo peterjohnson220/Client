@@ -6,6 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import { generateMockCommunityUserInfo } from 'libs/models/community/community-user-info.model';
 
 import { CommunityPostHeaderComponent } from './community-post-header.component';
@@ -57,5 +58,52 @@ describe('CommunityPostsComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should call DeleteReply when isReply is true while calling Delete', () => {
+    instance.postId = '1';
+    instance.isReply = true;
+
+    spyOn(instance, 'DeleteReply');
+
+    instance.Delete();
+
+    expect(instance.DeleteReply).toHaveBeenCalled();
+  });
+
+  it('should call DeletePost when isReply is false while calling Delete', () => {
+    instance.postId = '1';
+    instance.isReply = false;
+
+    spyOn(instance, 'DeletePost');
+
+    instance.Delete();
+
+    expect(instance.DeletePost).toHaveBeenCalled();
+  });
+
+  it('should dispatch DeletingCommunityPost when DeletePost is called', () => {
+    instance.postId = '1';
+
+    instance.DeletePost();
+
+    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost({
+      postId: '1'
+    });
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch DeletingCommunityPostReply when DeleteReply is called', () => {
+    instance.postId = '1';
+    instance.replyId = '2';
+
+    instance.DeletePost();
+
+    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost({
+      postId: '1'
+    });
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

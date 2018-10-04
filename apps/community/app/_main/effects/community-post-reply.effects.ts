@@ -61,6 +61,19 @@ export class CommunityPostReplyEffects {
       )
     );
 
+  @Effect()
+  deletingCommunityPostReplyLike$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostReplyActions.DELETING_COMMUNITY_POST_REPLY).pipe(
+      switchMap((action: fromCommunityPostReplyActions.DeletingCommunityPostReply) =>
+        this.communityPostService.updatePostReplyDeletedFlag(action.payload).pipe(
+          map(() => {
+            return new fromCommunityPostReplyActions.DeletingCommunityPostReplySuccess(action.payload);
+          }),
+          catchError(error => of(new fromCommunityPostReplyActions.DeletingCommunityPostReplyError()))
+        )
+      )
+    );
+
 
   constructor(
     private actions$: Actions,

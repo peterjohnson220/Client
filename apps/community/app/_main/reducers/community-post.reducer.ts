@@ -102,6 +102,20 @@ export function reducer(
           state)
       };
     }
+
+    case communityPostActions.DELETING_COMMUNITY_POST_SUCCESS: {
+      const postId = action.payload['postId'];
+      return {
+        ...adapter.removeOne(postId,
+          state)
+      };
+    }
+    case communityPostActions.DELETING_COMMUNITY_POST_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
     default: {
       return state;
     }
@@ -113,4 +127,3 @@ export const getSubmittingCommunityPostsSuccess = (state: State ) => state.submi
 
 export const getGettingCommunityPosts = (state: State) => state.loading;
 export const getGettingCommunityPostsError = (state: State) => state.loadingError;
-

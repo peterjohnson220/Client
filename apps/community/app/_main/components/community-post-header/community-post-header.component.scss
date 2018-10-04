@@ -16,3 +16,19 @@
   height: 20px;
   font-size: .95rem;
 }
+
+.dropdown-toggle{
+  vertical-align: middle;
+  background-color: white;
+  border: solid 1px transparent;
+}
+
+.dropdown-toggle:hover{
+  vertical-align: middle;
+  background-color: white;
+  border: solid 1px lightgrey;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

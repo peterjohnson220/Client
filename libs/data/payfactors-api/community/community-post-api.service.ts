@@ -40,4 +40,12 @@ export class CommunityPostApiService {
       }
     });
   }
+
+  updatePostDeletedFlag(payload: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/DeletePost`, payload);
+  }
+
+  updatePostReplyDeletedFlag(payload: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/DeleteReply`, payload);
+  }
 }

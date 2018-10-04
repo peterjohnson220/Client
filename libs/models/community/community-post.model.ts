@@ -19,6 +19,7 @@ export interface CommunityPost {
   ReplyIds: string[];
   HiddenReplyIds: string[];
   UrlPreviewData: CommunityUrlPreviewDataModel;
+  IsCurrentUserPost: boolean;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -44,6 +45,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     ReplyIds: [ '1', '2' ],
     HiddenReplyIds: [ '1' ],
     UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',
-      PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'}
+      PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'},
+    IsCurrentUserPost: false
   };
 }
