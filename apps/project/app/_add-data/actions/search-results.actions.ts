@@ -4,7 +4,8 @@ import {
   SearchResponse,
   DataCut,
   SurveyDataResponse,
-  PricingMatchesResponse
+  PricingMatchesResponse,
+  SearchFilter
 } from 'libs/models/survey-search';
 
 import { JobResult } from '../models';
@@ -23,7 +24,7 @@ export const UPDATE_RESULTS_MATCHES_COUNT = '[Project Add Data/Search Results] U
 
 export class GetResults implements Action {
   readonly type = GET_RESULTS;
-  constructor(public payload: { keepFilteredOutOptions: boolean }) {}
+  constructor(public payload: { keepFilteredOutOptions: boolean, savedFilters?: SearchFilter[] }) {}
 }
 
 export class GetResultsSuccess implements Action {

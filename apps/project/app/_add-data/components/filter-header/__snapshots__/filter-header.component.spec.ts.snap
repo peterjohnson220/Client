@@ -3,22 +3,46 @@
 exports[`Project - Add Data - Filter Header should show a Reset All link when this not a "singled" filter 1`] = `
 <pf-filter-header
   resetAll={[Function EventEmitter]}
+  saveFilters={[Function EventEmitter]}
   singled="false"
 >
   <div
-    class="filter-header"
+    class="d-flex filter-header"
   >
     <div>
-      Jobs: 
-      <strong>
-        
-      </strong>
+      <div>
+        Jobs: 
+        <strong>
+          
+        </strong>
+      </div>
     </div>
-    
     <div
-      class="reset-filters"
+      class="d-flex flex-row ml-auto"
     >
-       Reset All 
+      
+      <div
+        class="reset-filters"
+      >
+         Reset All 
+      </div>
+      <div
+        class="vertical-separator"
+      />
+      <div
+        autoclose="false"
+        class="save-filters"
+        container="body"
+        ng-reflect-auto-close="false"
+        ng-reflect-container="body"
+        ng-reflect-ngb-popover="[object Object]"
+        ng-reflect-placement="bottom"
+        ng-reflect-triggers="manual"
+        placement="bottom"
+        triggers="manual"
+      >
+         Save Filters 
+      </div>
     </div>
   </div>
 </pf-filter-header>
@@ -28,21 +52,45 @@ exports[`Project - Add Data - Filter Header should show a formatted number of re
 <pf-filter-header
   numberOfResults={[Function Number]}
   resetAll={[Function EventEmitter]}
+  saveFilters={[Function EventEmitter]}
 >
   <div
-    class="filter-header"
+    class="d-flex filter-header"
   >
     <div>
-      Jobs: 
-      <strong>
-        3,500
-      </strong>
+      <div>
+        Jobs: 
+        <strong>
+          3,500
+        </strong>
+      </div>
     </div>
-    
     <div
-      class="reset-filters"
+      class="d-flex flex-row ml-auto"
     >
-       Reset All 
+      
+      <div
+        class="reset-filters"
+      >
+         Reset All 
+      </div>
+      <div
+        class="vertical-separator"
+      />
+      <div
+        autoclose="false"
+        class="save-filters"
+        container="body"
+        ng-reflect-auto-close="false"
+        ng-reflect-container="body"
+        ng-reflect-ngb-popover="[object Object]"
+        ng-reflect-placement="bottom"
+        ng-reflect-triggers="manual"
+        placement="bottom"
+        triggers="manual"
+      >
+         Save Filters 
+      </div>
     </div>
   </div>
 </pf-filter-header>

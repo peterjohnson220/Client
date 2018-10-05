@@ -76,3 +76,8 @@ tr.row-disabled {
   cursor: pointer;
   color: $link-color;
 }
+
+.vertical-separator{
+  border-left: 1px solid $border-grey;
+  box-shadow: -1px 0px 1px 0px #d8d8d8;
+}

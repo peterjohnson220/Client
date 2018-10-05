@@ -6,7 +6,8 @@ import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
   SurveyDataResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
   PricingMatchesResponse,
   PricingMatchesRequest,
-  PricingMatchesDetailsRequest
+  PricingMatchesDetailsRequest,
+  SaveSearchFiltersRequest
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -44,5 +45,13 @@ export class SurveySearchApiService {
 
   searchSurveyAggregations(request: SearchSurveyAggregationsRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyAggregations`, request);
+  }
+
+  saveSearchFilters(request: SaveSearchFiltersRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveSearchFilters`, request);
+  }
+
+  getSavedFilters(payMarketId: number): Observable<SearchFilter[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSavedFilters`, { params: { payMarketId } });
   }
 }

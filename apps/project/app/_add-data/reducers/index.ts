@@ -9,7 +9,7 @@ import * as fromSearchResultsReducer from './search-results.reducer';
 import * as fromSearchFiltersReducer from './search-filters.reducer';
 import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromTooltipContainerReducer from './tooltip-container.reducer';
-import { isMultiFilter, MultiSelectFilter } from '../models';
+import { MultiSelectFilter } from '../models';
 
 // Feature area state
 export interface AddDataState {
@@ -134,6 +134,11 @@ export const getFilters = createSelector(
 export const getLoadingDefaultSurveyScopes = createSelector(
   selectSearchFiltersState,
   fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
+);
+
+export const getSavedFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getSavedFilters
 );
 
 // Tooltip Container Selectors

@@ -11,8 +11,8 @@ import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import {
-  mapFiltersToSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
-  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters
+  getSelectedSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
+  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters, replaceDefaultFiltersWithSavedFilters
 } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 
@@ -21,9 +21,12 @@ export class AddDataEffectsService {
 
   private static buildSearchRequestObject(filtersPagingAndJobContext: any): SearchRequest {
     const searchFieldsRequestObj = mapFiltersToSearchFields(filtersPagingAndJobContext.filters);
-    const filtersRequestObj = mapFiltersToSearchFilters(filtersPagingAndJobContext.filters);
     const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersPagingAndJobContext.pagingOptions);
     const filterOptionsRequestObj = { ReturnFilters: pagingOptionsRequestObj.From === 0, AggregateCount: 5 };
+    let filtersRequestObj = getSelectedSearchFilters(filtersPagingAndJobContext.filters);
+    if (!!filtersPagingAndJobContext.action.payload.savedFilters) {
+      filtersRequestObj = replaceDefaultFiltersWithSavedFilters(filtersRequestObj, filtersPagingAndJobContext.action.payload.savedFilters);
+    }
 
     return {
       SearchFields: searchFieldsRequestObj,
@@ -61,7 +64,8 @@ export class AddDataEffectsService {
                 actions.push(new fromSearchResultsActions.GetResultsSuccess(searchResponse));
                 actions.push(new fromSearchFiltersActions.RefreshFilters({
                   searchFilters: mapSearchFiltersToMultiSelectFilters(searchResponse.SearchFilters),
-                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
+                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions,
+                  hasSavedFilters: !!l.action.payload.savedFilters
                 }));
               }
 
