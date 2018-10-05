@@ -32,7 +32,7 @@ export class LoginEffects {
   loginSuccessRouteToHome = this.actions$
     .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
       map((action: fromLoginAction.LoginSuccess) => {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/job-search']);
       })
     );
 
