@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as communityPollRequestActions from '../actions/community-poll-request.actions';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
 
@@ -9,9 +11,6 @@ export interface State {
   submitting: boolean;
   submitted: boolean;
   questionsSubmitted: any;
-  addingCommunityUserPoll: boolean;
-  addingCommunityUserPollError: boolean;
-  addingCommunityUserPollSuccess: boolean;
 }
 
 export const initialState: State = {
@@ -21,10 +20,7 @@ export const initialState: State = {
   entities: [],
   submitting: false,
   submitted: false,
-  questionsSubmitted: null,
-  addingCommunityUserPoll: false,
-  addingCommunityUserPollError: false,
-  addingCommunityUserPollSuccess: false,
+  questionsSubmitted: null
 };
 
 export function reducer(state = initialState, action: communityPollRequestActions.Actions): State {
@@ -43,7 +39,7 @@ export function reducer(state = initialState, action: communityPollRequestAction
         ...state,
         loading: false,
         loaded: true,
-        entities: action.payload
+        entities: cloneDeep(action.payload)
       };
     }
     case communityPollRequestActions.LOADING_COMMUNITY_POLL_REQUEST_ERROR: {
@@ -68,27 +64,6 @@ export function reducer(state = initialState, action: communityPollRequestAction
         questionsSubmitted: action.payload
       };
     }
-    case communityPollRequestActions.ADDING_COMMUNITY_USER_POLL: {
-      return {
-        ...state,
-        addingCommunityUserPoll: true,
-        addingCommunityUserPollError: false
-      };
-    }
-    case communityPollRequestActions.ADDING_COMMUNITY_USER_POLL_SUCCESS: {
-      return {
-        ...state,
-        addingCommunityUserPoll: false,
-        addingCommunityUserPollSuccess: true
-      };
-    }
-    case communityPollRequestActions.ADDING_COMMUNITY_USER_POLL_ERROR: {
-      return {
-        ...state,
-        addingCommunityUserPoll: false,
-        addingCommunityUserPollError: true
-      };
-    }
     default: {
       return state;
     }
@@ -101,7 +76,4 @@ export const getGettingCommunityPollRequestsLoaded = (state: State) => state.loa
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
 export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;
-export const getAddingCommunityUserPoll = (state: State) => state.addingCommunityUserPoll;
-export const getAddingCommunityUserPollError = (state: State) => state.addingCommunityUserPollError;
-export const getAddingCommunityUserPollSuccess = (state: State) => state.addingCommunityUserPollSuccess;
 

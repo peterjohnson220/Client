@@ -101,21 +101,6 @@ export const getSubmittingCommunityPollRequestResponse = createSelector(
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse
 );
 
-export const getAddingCommunityUserPoll = createSelector(
-  selectFromCommunityPollRequestState,
-  fromCommunityPollRequestReducer.getAddingCommunityUserPoll
-);
-
-export const getAddingCommunityUserPollSuccess = createSelector(
-  selectFromCommunityPollRequestState,
-  fromCommunityPollRequestReducer.getAddingCommunityUserPollSuccess
-);
-
-export const getAddingCommunityUserPollError = createSelector(
-  selectFromCommunityPollRequestState,
-  fromCommunityPollRequestReducer.getAddingCommunityUserPollError
-);
-
 export const getGettingCommunityPollResponses = createSelector(
   selectFromCommunityPollResponseState,
   fromCommunityPollResponseReducer.getGettingCommunityPollResponses
@@ -174,6 +159,21 @@ export const getGettingCommunityPosts = createSelector(
 export const getGettingCommunityPostsError = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getGettingCommunityPostsError
+);
+
+export const getAddingCommunityDiscussionPoll = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPoll
+);
+
+export const getAddingCommunityDiscussionPollSuccess = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess
+);
+
+export const getAddingCommunityDiscussionPollError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPollError
 );
 
 // Community Post Reply Selectors

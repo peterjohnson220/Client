@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPollComponent should show poll 1`] = `
+<pf-community-poll
+  communityPolResponseSubmitted$={[Function Store]}
+  communityPollResponseSubmittedSubscription={[Function Subscriber]}
+  communityPollResponses$={[Function Store]}
+  dismissedPollIds={[Function Array]}
+  pollTypes={[Function Object]}
+  request={[Function Object]}
+  response={[Function Object]}
+  store={[Function Store]}
+  type="0"
+>
+  <div
+    class="poll-question-container"
+  >
+    <p
+      class="text-center lead"
+    >
+      Who is here?
+    </p>
+  </div><div>
+    
+    <div>
+      <div
+        class="inner-element my-1"
+      >
+        <div
+          class="poll-choice poll-border"
+        />
+        <div
+          class="poll-border"
+          ng-reflect-klass="poll-border"
+          ng-reflect-ng-class="[object Object]"
+          style="width: 100%;"
+        />
+        <div
+          class="response-option-text-container poll-response-question"
+        >
+          yes
+        </div>
+        <div
+          class="response-option-text-container poll-response-percent"
+        >
+          0%
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="inner-element my-1"
+      >
+        <div
+          class="poll-choice poll-border"
+        />
+        <div
+          class="poll-border poll-choice-filled"
+          ng-reflect-klass="poll-border"
+          ng-reflect-ng-class="[object Object]"
+          style="width: 100%;"
+        />
+        <div
+          class="response-option-text-container poll-response-question"
+        >
+          no
+        </div>
+        <div
+          class="response-option-text-container poll-response-percent"
+        >
+          100%
+        </div>
+      </div>
+    </div>
+    
+    <p
+      class="dismiss-poll-button text-center mt-2"
+    >
+      Dismiss poll
+    </p>
+  </div>
+</pf-community-poll>
+`;

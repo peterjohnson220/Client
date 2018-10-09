@@ -2,6 +2,7 @@
 
 exports[`CommunityStartPollComponent should show community start poll 1`] = `
 <pf-community-new-poll
+  addingCommunityUserPollSuccess$={[Function Store]}
   attemptedSubmit="false"
   communityPollForm={[Function FormGroup]}
   enableEditingResponseOptions={[Function Boolean]}

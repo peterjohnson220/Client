@@ -1,0 +1,69 @@
+@import 'colors';
+
+$response-container-height: 35px;
+$response-container-line-height: 12px;
+
+.submit-button-container{
+  color: cornflowerblue;
+}
+
+.inner-element {
+  position: relative;
+  height: $response-container-height;
+  line-height: $response-container-line-height;
+  font-size: .95rem;
+}
+
+.response-option-text-container{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.response-submitted-container{
+  background-color: $grey;
+}
+
+.poll-response-option-button:hover{
+  background-color: #f4f4f4;
+}
+
+.poll-choice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.poll-border {
+  border: solid 1px $community-poll-option-border-color;
+  border-radius: 6px;
+  height: 100%;
+}
+
+.selected{
+  border-width: 3px;
+}
+
+.poll-choice-filled{
+  position: absolute;
+  height: 100%;
+  background: $community-poll-option-border-color;
+}
+
+.poll-response-question{
+  width: 70%;
+  left: 2%;
+}
+
+.poll-response-percent{
+  right: 2%;
+  font-weight: bold;
+}
+
+.dismiss-poll-button {
+  font-size: 12px;
+  border:none; 
+  text-decoration: underline;
+  cursor: pointer;
+}

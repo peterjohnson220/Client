@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { switchMap, catchError, map} from 'rxjs/operators';
 
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
+import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
+
 import { CommunityPost } from 'libs/models/community';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 
@@ -65,8 +67,23 @@ export class CommunityPostEffects {
       )
     );
 
+
+  @Effect()
+  addingCommunityUserPoll$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL).pipe(
+      switchMap((action: fromCommunityPostActions.AddingCommunityDiscussionPoll) =>
+        this.communityPollService.addCommunityUserPoll(action.payload).pipe(
+          map((communityPost: CommunityPost) => {
+            return new fromCommunityPostActions.AddingCommunityDiscussionPollSuccess(communityPost);
+          }),
+          catchError(error => of(new fromCommunityPostActions.AddingCommunityDiscussionPollError(error)))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private communityPostService: CommunityPostApiService,
+    private communityPollService: CommunityPollApiService,
   ) {}
 }
