@@ -14,7 +14,6 @@ import { CommunityNewPollComponent } from '../community-new-poll/community-new-p
   styleUrls: ['./community-start-discussion.component.scss']
 })
 export class CommunityStartDiscussionComponent {
-  UserAvatarSource = 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg';
   postType = CommunityPostTypeStatusEnum.Discussion;
 
   submittingCommunityPost$: Observable<boolean>;

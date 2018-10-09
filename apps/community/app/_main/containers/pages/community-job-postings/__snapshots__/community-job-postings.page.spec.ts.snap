@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityJobPostingsPageComponent should show community job postings page 1`] = `
+<pf-community-job-postings-page>
+  <pf-page-with-title-bar>
+    
+     Job Postings 
+    
+    <div
+      class="container-fluid community-job-postings-container"
+    >
+      <div
+        class="row justify-content-center"
+      >
+        <div
+          class="col-8"
+        >
+           Content in Here! 
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-community-job-postings-page>
+`;

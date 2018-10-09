@@ -2,7 +2,6 @@
 
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
-  UserAvatarSource={[Function String]}
   postType="0"
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
@@ -46,6 +45,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         alt="avatar"
         class="pf-avatar ml-1"
         id="discussion-avatar"
+        src="assets/images/placeholderphoto.jpg"
       />
       <div
         class="w-100 pl-3"
@@ -71,7 +71,6 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
-  UserAvatarSource={[Function String]}
   postType={[Function Number]}
   store={[Function Store]}
   submittingCommunityPost$={[Function Store]}
@@ -115,6 +114,7 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
         alt="avatar"
         class="pf-avatar ml-1"
         id="discussion-avatar"
+        src="assets/images/placeholderphoto.jpg"
       />
       <div
         class="w-100 pl-3"

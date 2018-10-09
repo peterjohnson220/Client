@@ -11,6 +11,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
+import { CommunityJobPostingsPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -45,6 +46,7 @@ import { CommunityTagApiService } from 'libs/data/payfactors-api/community/commu
 
 const components = [
   CommunityDashboardPageComponent,
+  CommunityJobPostingsPageComponent,
   CommunityPostsComponent,
   CommunityPostRepliesComponent,
   CommunityPostReplyComponent,
