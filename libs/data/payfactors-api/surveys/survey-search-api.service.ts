@@ -7,11 +7,12 @@ import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
   PricingMatchesResponse,
   PricingMatchesRequest,
   PricingMatchesDetailsRequest,
-  SaveSearchFiltersRequest
+  SaveSearchFiltersRequest,
+  SearchContextResponse,
+  SearchSurveyAggregationsRequest
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { SearchSurveyAggregationsRequest } from '../../../models/survey-search/search-survey-aggregations-request.model';
 
 @Injectable()
 export class SurveySearchApiService {
@@ -21,6 +22,10 @@ export class SurveySearchApiService {
 
   getDefaultSurveyScopesFilter(companyPayMarketId: number): Observable<SearchFilter> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDefaultSurveyScopesFilter`, { params: { companyPayMarketId } });
+  }
+
+  getProjectSearchContext(projectId: number): Observable<SearchContextResponse> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetProjectSearchContext`, { params: { projectId } });
   }
 
   searchSurveyJobs(searchRequest: SearchRequest): Observable<any> {

@@ -1,6 +1,7 @@
-import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
+import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter, ProjectSearchContext } from '../models';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+import { SearchFilterMappingData } from '../data';
 
 export const maxNumberOfOptions = 5;
 
@@ -60,6 +61,25 @@ export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams
    mergedFilters = param.serverFilters;
   }
   return mergedFilters;
+}
+
+export function buildLockedCountryCodeFilter(projectSearchContext: ProjectSearchContext): MultiSelectFilter {
+  const countryCodeData = SearchFilterMappingData['country_codes'];
+
+  return {
+    Id: 'countrycodes',
+    BackingField: countryCodeData.BackingField,
+    DisplayName: countryCodeData.DisplayName,
+    Order: countryCodeData.Order,
+    Type: countryCodeData.Type,
+    Options: [{
+      Name: projectSearchContext.CountryCode,
+      Value: projectSearchContext.CountryCode,
+      Selected: true
+    }],
+    RefreshOptionsFromServer: false,
+    Locked: true
+  };
 }
 
 function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {

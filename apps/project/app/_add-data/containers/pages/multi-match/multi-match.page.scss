@@ -1,0 +1,25 @@
+.filters-sidebar{
+  width: 243px;
+  position: relative;
+}
+
+.results-and-actions{
+  flex-grow: 1;
+  position: relative;
+  margin-left: .3rem;
+}
+
+.button-container{
+  width: 100%;
+  bottom: 0;
+  height: 22px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.jobs-to-price{
+  width: 400px;
+  position: relative;
+}

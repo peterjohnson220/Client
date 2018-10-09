@@ -15,11 +15,12 @@ import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetai
          MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent
 } from './components';
 
-import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent,
+import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
          TooltipContainerComponent, SingleFilterComponent } from './containers';
 
 import {
   AddSurveyDataPageEffects,
+  MultiMatchPageEffects,
   SearchFiltersEffects,
   SearchResultsEffects,
   SingledFilterEffects,
@@ -37,7 +38,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects
+      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
@@ -60,7 +61,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
 
     // Pages
-    AddSurveyDataPageComponent
+    AddSurveyDataPageComponent, MultiMatchPageComponent
   ],
   entryComponents: [
     JobDetailsTooltipComponent

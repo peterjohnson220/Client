@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { DataCut } from 'libs/models/survey-search';
 
-import { JobResult, JobDetailsToolTipData, JobContext, MatchesDetailsTooltipData } from '../../models';
+import {JobResult, JobDetailsToolTipData, JobContext, MatchesDetailsTooltipData, ProjectSearchContext} from '../../models';
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -25,7 +25,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingMoreResults$: Observable<boolean>;
   loadingResults$: Observable<boolean>;
   hasMoreResultsOnServer$: Observable<boolean>;
-  jobContext$: Observable<JobContext>;
+  projectSearchContext$: Observable<ProjectSearchContext>;
   error$: Observable<boolean>;
 
   // Subscriptions
@@ -44,7 +44,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
     this.loadingMoreResults$ = this.store.select(fromAddDataReducer.getLoadingMoreResults);
     this.hasMoreResultsOnServer$ = this.store.select(fromAddDataReducer.getHasMoreResultsOnServer);
-    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.projectSearchContext$ = this.store.select(fromAddDataReducer.getProjectSearchContext);
     this.error$ = this.store.select(fromAddDataReducer.getSearchResultsError);
   }
 

@@ -23,7 +23,7 @@ export class SingledFilterEffects {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getSingledFilter),
         this.store.select(fromAddDataReducer.getFilters),
-        this.store.select(fromAddDataReducer.getJobContext),
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
         (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context) => (
           { action, singledFilter, filters, context }
         )),

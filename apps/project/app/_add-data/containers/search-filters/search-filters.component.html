@@ -3,7 +3,7 @@
     <pf-filter-section
       *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
       [filter]="filter"
-      [currencyCode]="(jobContext$ |async)?.CurrencyCode"
+      [currencyCode]="(projectSearchContext$ |async)?.CurrencyCode"
       [ngSwitch]="filter.Type"
       (reset)="handleResetSection($event)"
       (searchClicked)="handleSearchSection($event)">
