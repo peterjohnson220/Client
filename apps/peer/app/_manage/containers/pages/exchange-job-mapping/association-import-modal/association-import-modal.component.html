@@ -9,15 +9,15 @@
             (error)="errorEventHandler($event)"></kendo-upload>
     </ng-container>
 
-    <div class="alert alert-danger" role="alert" *ngIf="uploadResult && uploadResult.errors.length > 0 " form-content>
+    <div class="alert alert-danger" role="alert" *ngIf="uploadResult && uploadResult.Errors.length > 0 " form-content>
         <ul>
-            <li *ngFor="let f of uploadResult.errors">{{f}}</li>
+            <li *ngFor="let f of uploadResult.Errors">{{f.Message}}</li>
         </ul>
     </div>
 
-    <div class="alert alert-success" role="alert" *ngIf="uploadResult && uploadResult.errors.length === 0 "
+    <div class="alert alert-success" role="alert" *ngIf="uploadResult && uploadResult.Errors.length === 0 "
         form-content>
-        Successfully added {{uploadResult.recordsAdded}} records.
+        Successfully added records.
     </div>
 
 </pf-modal-form>
