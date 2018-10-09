@@ -2,6 +2,7 @@
 
 exports[`CommunityPostsComponent should show community post header 1`] = `
 <pf-community-post-header
+  isExpiredPoll="false"
   isInternalOnly="false"
   isReply="false"
   store={[Function Store]}
@@ -27,6 +28,7 @@ exports[`CommunityPostsComponent should show community post header 1`] = `
 
 exports[`CommunityPostsComponent should show internal community post header 1`] = `
 <pf-community-post-header
+  isExpiredPoll="false"
   isInternalOnly={[Function Boolean]}
   isReply="false"
   store={[Function Store]}

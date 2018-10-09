@@ -12,15 +12,11 @@ exports[`CommunityPollComponent should show poll 1`] = `
   store={[Function Store]}
   type="0"
 >
-  <div
-    class="poll-question-container"
+  <p
+    class="text-center lead"
   >
-    <p
-      class="text-center lead"
-    >
-      Who is here?
-    </p>
-  </div><div>
+    Who is here?
+  </p><div>
     
     <div>
       <div

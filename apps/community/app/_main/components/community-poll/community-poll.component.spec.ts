@@ -101,4 +101,14 @@ describe('CommunityPollComponent', () => {
       expect(instance.dismissedPollIds).toContain(communityPollId);
     });
 
+    it('should show polls as not expired when IsExpired = false', () => {
+      instance.request.IsExpired = false;
+      expect(instance.request.IsExpired).toBe(false);
+    });
+
+    it('should show polls as expired when IsExpired = true', () => {
+      instance.request.IsExpired = true;
+      expect(instance.request.IsExpired).toBe(true);
+    });
+
 });

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -11,11 +11,13 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 import { HighlightHashTagPipe } from 'libs/core';
 import { CommunityNewPollComponent } from './community-new-poll.component';
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
+import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 
 describe('CommunityStartPollComponent', () => {
   let fixture: ComponentFixture<CommunityNewPollComponent>;
   let instance: CommunityNewPollComponent;
   let store: Store<fromRootState.State>;
+  let formBuilder: FormBuilder;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -35,6 +37,7 @@ describe('CommunityStartPollComponent', () => {
     });
 
     store = TestBed.get(Store);
+    formBuilder = TestBed.get(FormBuilder);
 
     spyOn(store, 'dispatch');
 
@@ -53,12 +56,21 @@ describe('CommunityStartPollComponent', () => {
       Question: 'Question',
       Status: 1,
       DurationInHours: 24,
-      ResponseOptions: []
+      ResponseOptions: ['yes', 'no']
     };
 
-    instance.communityPollForm.get('context').setValue(newPoll.Question);
-    instance.communityPollForm.get('status').setValue(newPoll.Status);
-    instance.communityPollForm.get('hours').setValue(newPoll.DurationInHours);
+
+    instance.communityPollForm = formBuilder.group({
+      'communityPollId': [''],
+      'context': [newPoll.Question, [Validators.required, Validators.minLength(1), Validators.maxLength(instance.maxTextLength)]],
+      'status': [newPoll.Status],
+      'choices': formBuilder.array([]),
+      'days':  [1],
+      'hours': [0]
+    });
+
+    instance.choices.push(CommunityPollChoicesComponent.buildItem('yes'));
+    instance.choices.push(CommunityPollChoicesComponent.buildItem('no'));
 
     instance.submit();
 

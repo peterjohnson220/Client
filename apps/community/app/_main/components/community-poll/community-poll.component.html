@@ -1,7 +1,5 @@
 <!--Poll question-->
-<div class="poll-question-container">
-  <p class="text-center lead">{{ request.Question}}</p>
-</div>
+<p class="text-center lead">{{request.Question}}</p>
 
 <div *ngIf="isResponseDismissed(request.CommunityPollId); else poll_not_dismissed" class="py-5">
     <div class="outer-element">
@@ -12,7 +10,7 @@
 </div>
 
 <ng-template #poll_not_dismissed>
-  <div *ngIf="request && !response">
+  <div *ngIf="request && !response && !request.IsExpired">
     <div *ngFor="let option of request.ResponseOptions">
       <div class="inner-element my-1">
         <div class="poll-choice poll-border poll-response-option-button mt-1" [ngClass]="{'selected': option.ResponseId === selectedOption }" (click)="selectOption(option.ResponseId)">
@@ -29,7 +27,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="response">
+  <div *ngIf="response || request.IsExpired">
     <div *ngFor="let option of request.ResponseOptions">
         <div class="inner-element my-1">
             <div class = "poll-choice poll-border"></div>

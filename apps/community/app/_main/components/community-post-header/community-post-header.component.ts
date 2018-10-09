@@ -20,6 +20,7 @@ export class CommunityPostHeaderComponent {
   @Input() postId: string;
   @Input() replyId: string;
   @Input() isReply = false;
+  @Input() isExpiredPoll = false;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }

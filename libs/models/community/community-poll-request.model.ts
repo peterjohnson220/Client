@@ -6,6 +6,7 @@ export interface CommunityPollRequest {
     DatePosted: Date;
     ResponseOptions: CommunityPollResponseOption[];
     CreatedByUser: number;
+    IsExpired: boolean;
   }
 
   export function generateMockCommunityPollRequest(): CommunityPollRequest {
@@ -14,6 +15,7 @@ export interface CommunityPollRequest {
       Question: 'Who is here?',
       DatePosted: new Date(),
       ResponseOptions: [generateMockCommunityPollResponseOption(0, 'yes'), generateMockCommunityPollResponseOption(1, 'no')],
-      CreatedByUser: 123
+      CreatedByUser: 123,
+      IsExpired: false
     };
   }

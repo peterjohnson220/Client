@@ -2,14 +2,14 @@
 
 exports[`CommunityStartPollComponent should show community start poll 1`] = `
 <pf-community-new-poll
-  addingCommunityUserPollSuccess$={[Function Store]}
+  addingCommunityDiscussionPollSuccess$={[Function Store]}
   attemptedSubmit="false"
   communityPollForm={[Function FormGroup]}
-  enableEditingResponseOptions={[Function Boolean]}
   formBuilder={[Function FormBuilder]}
-  isAdmin="false"
   maxChoices={[Function Number]}
   maxTextLength={[Function Number]}
+  pollLengthDays={[Function Array]}
+  pollLengthHours={[Function Array]}
   store={[Function Store]}
 >
   <div
@@ -27,7 +27,40 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
       
     </fieldset>
     
-    
+    <div
+      class="mb-2"
+    >
+      <label
+        class="text-muted mr-3"
+        for="days"
+      >
+        Poll length
+      </label>
+      <label
+        class="col-form-label"
+        for="days"
+      >
+        Days 
+      </label>
+      <select
+        class="poll-length-dropdown ml-2 mr-4"
+        formcontrolname="days"
+      >
+        
+      </select>
+      <label
+        class="col-form-label"
+        for="hours"
+      >
+        Hours 
+      </label>
+      <select
+        class="poll-length-dropdown ml-2"
+        formcontrolname="hours"
+      >
+        
+      </select>
+    </div>
   </div>
 </pf-community-new-poll>
 `;

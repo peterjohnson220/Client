@@ -126,6 +126,7 @@ export function reducer(
       return {
         ...state,
         addingCommunityDiscussionPoll: true,
+        addingCommunityDiscussionPollSuccess: false,
         addingCommunityDiscussionPollError: false
       };
     }
@@ -141,7 +142,8 @@ export function reducer(
       return {
         ...state,
         addingCommunityDiscussionPoll: false,
-        addingCommunityDiscussionPollError: true
+        addingCommunityDiscussionPollError: true,
+        addingCommunityDiscussionPollSuccess: false
       };
     }
     default: {
