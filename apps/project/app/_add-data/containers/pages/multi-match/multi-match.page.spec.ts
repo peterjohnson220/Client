@@ -136,4 +136,14 @@ describe('Project - Add Data - Multi Match Page', () => {
 
     expect(returnVal).toBe(undefined);
   });
+
+  it('should dispatch SaveSearchFilters action when handleSaveFilters is called', () => {
+    const isForAllPayMarkets = true;
+    const saveSearchFiltersAction = new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets });
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveFilters(isForAllPayMarkets);
+
+    expect(store.dispatch).toHaveBeenCalledWith(saveSearchFiltersAction);
+  });
 });

@@ -67,4 +67,8 @@ export class MultiMatchPageComponent {
   handleResetAllFilters() {
     this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
   }
+
+  handleSaveFilters(isForAllPayMarkets: boolean): void {
+    this.store.dispatch(new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets }));
+  }
 }
