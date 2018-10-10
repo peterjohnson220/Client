@@ -236,8 +236,10 @@ function applySavedSelections(filters: Filter[], defaultFilters: SearchFilter[])
   defaultFilters.map(df => {
     filters.filter(f => f.BackingField === df.Name)
     .map((f: MultiSelectFilter) => {
-      f.DefaultSelections = df.Options.map(o => o.Value);
-      applyDefault(f);
+      if (!f.Locked) {
+        f.DefaultSelections = df.Options.map(o => o.Value);
+        applyDefault(f);
+      }
       return f;
     });
   });
