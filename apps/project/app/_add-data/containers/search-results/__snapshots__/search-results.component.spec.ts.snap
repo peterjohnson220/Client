@@ -6,13 +6,13 @@ exports[`Project - Add Data - Search Results should show a table row with a load
   hasMoreResultsOnServer={[Function Boolean]}
   hasMoreResultsOnServer$={[Function Store]}
   hasMoreResultsOnServerSub={[Function Subscriber]}
-  jobContext$={[Function Store]}
   jobResults$={[Function Store]}
   loadingMoreResults={[Function Boolean]}
   loadingMoreResults$={[Function Store]}
   loadingMoreResultsSub={[Function Subscriber]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  projectSearchContext$={[Function Store]}
   resultsContainer={[Function ElementRef]}
   spinnerType={[Function String]}
   store={[Function Store]}
