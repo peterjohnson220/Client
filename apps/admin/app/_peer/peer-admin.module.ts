@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -17,13 +18,14 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent,
          ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
          ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
-         ExchangeJobRequestInfoComponent } from './containers';
+         ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
   PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects,
   CompanyExchangeInvitationInfoEffects
 } from './effects';
+import { ExchangeJobAssociationUtilityEffects } from './effects/exchange-job-association-utility.effects';
 import { ExchangeExistsGuard } from './guards';
 import { reducers } from './reducers';
 import { GridHelperService } from './services';
@@ -53,8 +55,10 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
       PayfactorsCompanyExchangeInvitationsEffects,
       NewCompanyExchangeInvitationsEffects,
       ExchangeJobRequestsEffects,
-      CompanyExchangeInvitationInfoEffects
+      CompanyExchangeInvitationInfoEffects,
+      ExchangeJobAssociationUtilityEffects
     ]),
+    DropDownsModule,
 
     // Routing
     PeerAdminRoutingModule,
@@ -87,7 +91,8 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
 
     // Pages
     ExchangeListPageComponent,
-    ManageExchangePageComponent
+    ManageExchangePageComponent,
+    ExchangeJobAssociationUtilityPageComponent
   ],
   providers: [
     // Guards

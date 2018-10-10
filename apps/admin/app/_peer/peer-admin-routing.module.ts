@@ -4,9 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
 import { PfAdminGuard } from 'libs/security/guards';
 
-import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
-         ExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
-         NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent } from './containers';
+import {
+  ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
+  ExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
+  NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent, ExchangeJobAssociationUtilityPageComponent
+} from './containers';
 import { ExchangeExistsGuard } from './guards';
 
 const routes: Routes = [
@@ -23,6 +25,7 @@ const routes: Routes = [
       { path: 'jobrequests', component: ExchangeJobRequestsComponent }
     ]
   },
+  { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent },
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
