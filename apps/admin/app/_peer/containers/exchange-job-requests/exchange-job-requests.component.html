@@ -65,7 +65,7 @@
     </pf-async-container>
 
   </div>
-  <div *ngIf="jobRequestInfoOpen$ | async" class=" d-flex mt-3 flex-grow-1 job-request-info-container">
+  <div *ngIf="jobRequestInfoOpen$ | async" class=" d-flex mt-2 flex-grow-1 job-request-info-container">
     <pf-exchange-job-request-info
       [selectedJobRequest]="selectedJobRequest"
       (closeClicked)="handleCloseRequestInfo()"
