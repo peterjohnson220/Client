@@ -226,12 +226,26 @@ function isOptionCountDisabled(filterOptionName: string) {
   return result;
 }
 
-export function replaceDefaultFiltersWithSavedFilters(filters: SearchFilter[], savedFilters: SearchFilter[]): any[] {
-  const combinedScopesWeighted = 'combined_scopes_weighted';
-  const hasSavedDefaultScopesFilter = savedFilters.some(f => f.Name === combinedScopesWeighted);
-  if (hasSavedDefaultScopesFilter) {
-    const currentScopesFilterIndex = filters.findIndex(f => f.Name === combinedScopesWeighted);
-    filters.splice(currentScopesFilterIndex, 1);
+export function replaceDefaultFiltersWithSavedFilters(filters: SearchFilter[], savedFilters: SearchFilter[]): SearchFilter[] {
+  savedFilters.forEach(savedFilter => {
+    const defaultFilterIndex = filters.findIndex(f => f.Name === savedFilter.Name);
+    if (defaultFilterIndex === -1) {
+      filters.push(savedFilter);
+    } else if (allowOverrideDefaultFilter(savedFilter.Name)) {
+      filters.splice(defaultFilterIndex, 1, savedFilter);
+    }
+  });
+  return filters;
+}
+
+function allowOverrideDefaultFilter(filterName: string) {
+  let result = true;
+  switch (filterName) {
+    case 'country_codes':
+      result = false;
+      break;
+    default:
+      break;
   }
-  return filters.concat(savedFilters);
+  return result;
 }
