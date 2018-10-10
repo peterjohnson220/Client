@@ -11,6 +11,7 @@ import * as fromSearchFiltersReducer from './search-filters.reducer';
 import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromTooltipContainerReducer from './tooltip-container.reducer';
 import * as fromSearchReducer from './search.reducer';
+import * as fromJobsToPriceReducer from './jobs-to-price.reducer';
 import { MultiSelectFilter } from '../models';
 
 // Feature area state
@@ -22,6 +23,7 @@ export interface AddDataState {
   searchFilters: fromSearchFiltersReducer.State;
   singledFilter: fromSingledFilterReducer.State;
   tooltipContainer: fromTooltipContainerReducer.State;
+  jobsToPrice: fromJobsToPriceReducer.State;
 }
 
 // Extend root state with feature area state
@@ -37,7 +39,8 @@ export const reducers = {
   searchFilters: fromSearchFiltersReducer.reducer,
   singledFilter: fromSingledFilterReducer.reducer,
   tooltipContainer: fromTooltipContainerReducer.reducer,
-  search: fromSearchReducer.reducer
+  search: fromSearchReducer.reducer,
+  jobsToPrice: fromJobsToPriceReducer.reducer
 };
 
 // Select Feature Area
@@ -78,6 +81,11 @@ export const selectTooltipContainerState = createSelector(
 export const selectSearchState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.search
+);
+
+export const selectJobsToPriceState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.jobsToPrice
 );
 
 // Multi Match Page Selectors
@@ -215,4 +223,20 @@ export const getSingledFilterSelectionCount = createSelector(
     const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === singledFilter.Id);
     return backingFilter.Options.filter(o => o.Selected).length;
   }
+
+);
+
+export const getLoadingJobsToPrice = createSelector(
+  selectJobsToPriceState,
+  fromJobsToPriceReducer.getLoadingJobs
+);
+
+export const getJobsToPrice = createSelector(
+  selectJobsToPriceState,
+  fromJobsToPriceReducer.getJobsToPrice
+);
+
+export const getLoadingJobsToPriceError = createSelector(
+  selectJobsToPriceState,
+  fromJobsToPriceReducer.getLoadingJobsError
 );

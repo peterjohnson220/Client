@@ -7,3 +7,4 @@ export * from './matches-details-tooltip-data.model';
 export * from './project-search-context.model';
 export * from './project-context.model';
 export * from './pill.model';
+export * from './job-to-price.model';

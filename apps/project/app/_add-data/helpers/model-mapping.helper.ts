@@ -1,5 +1,6 @@
 import {
   DataCut,
+  MatchedSurveyJob,
   PagingOptions,
   SearchField,
   SearchFilter,
@@ -11,9 +12,11 @@ import {
 import {
   Filter,
   FilterType,
-  isMultiFilter, isRangeFilter,
+  isMultiFilter,
+  isRangeFilter,
   isTextFilter,
   JobResult,
+  JobToPrice,
   MultiSelectFilter,
   MultiSelectOption,
   RangeFilter,
@@ -133,6 +136,23 @@ export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeF
     SelectedMaxValue: null,
     CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
   };
+}
+
+export function mapMatchedSurveyJobToJobsToPrice(sjl: MatchedSurveyJob[]): JobToPrice[] {
+  return sjl.map((sj: MatchedSurveyJob): JobToPrice => {
+    return {
+      Code: sj.Job.Code,
+      DataCuts: [],
+      Description: sj.Job.Description,
+      Family: sj.Job.Family,
+      Id: Number(sj.Id),
+      Level: sj.Job.Level,
+      Paymarket: sj.Paymarket,
+      PaymarketId: sj.PaymarketId,
+      Title: sj.Job.Title,
+      TotalDataCuts: sj.DataCutsCount
+    };
+  });
 }
 
 export function getNumberValueFromSearchFilterOption(sfo: SearchFilterOption[], name: string): number {

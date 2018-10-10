@@ -7,6 +7,7 @@ import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.ac
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromSearchActions from '../../../actions/search.actions';
+import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { Filter, Pill } from '../../../models';
 
@@ -45,7 +46,7 @@ export class MultiMatchPageComponent {
         this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(event.data.payfactorsMessage.payload));
         this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(event.data.payfactorsMessage.payload));
         // this will be an action sending these IDs to the new JobsToPrice component
-        this.jobListIds = event.data.payfactorsMessage.payload.JobValues;
+        this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(event.data.payfactorsMessage.payload));
         break;
       case 'App Closed':
         this.resetApp();
