@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -43,6 +44,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
 
     // 3rd Party
     GridModule,
+    LayoutModule,
     StoreModule.forFeature('peerAdmin', reducers),
     EffectsModule.forFeature([
       ExchangeListEffects,
