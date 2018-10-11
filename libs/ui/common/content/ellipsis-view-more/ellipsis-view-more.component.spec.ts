@@ -2,8 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { HighlightTextPipe } from 'libs/core/pipes';
+
 import { EllipsisViewMoreComponent } from './ellipsis-view-more.component';
-import { HighlightTextPipe } from '../../../../core/pipes';
 
 describe('UI/Common/Content - Ellipsis View More', () => {
   let fixture: ComponentFixture<EllipsisViewMoreComponent>;
@@ -12,6 +15,9 @@ describe('UI/Common/Content - Ellipsis View More', () => {
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NgbTooltipModule
+      ],
       declarations: [
         EllipsisViewMoreComponent,
         HighlightTextPipe

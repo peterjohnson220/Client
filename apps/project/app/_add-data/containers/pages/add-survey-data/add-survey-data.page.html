@@ -1,13 +1,15 @@
-<div class="d-flex h-100">
+<div class="add-survey-data-header">
+  <div class="d-flex align-items-center h-100 pr-3">
+    <pf-filter-pills [filters]="filters$ | async" (pillClicked)="handlePillClicked($event)"></pf-filter-pills>
+
+    <pf-search-actions (reset)="handleResetFilters()" (saveFilters)="handleSaveFilters($event)"></pf-search-actions>
+  </div>
+</div>
+
+
+<div class="filters-and-results">
 
   <div class="filters-sidebar">
-    <pf-filter-header
-      [numberOfResults]="numberOfResults$ | async"
-      [singled]="!!(searchingFilter$ | async)"
-      (resetAll)="handleResetAllFilters()"
-      (saveFilters)="handleSaveFilters($event)">
-    </pf-filter-header>
-
     <pf-search-filters
       [visible]="!(searchingFilter$ | async)">
     </pf-search-filters>
@@ -20,23 +22,28 @@
   <div class="results-and-actions">
     <pf-search-results></pf-search-results>
 
-    <div class="button-container">
-      <button (click)="handleAddClicked()" [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length"
-              class="legacy-primary-btn mr-4">
-        <ng-container *ngIf="!(addingData$ | async); else addingData">
-          Add
-          <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
-        </ng-container>
-      </button>
+    <div class="actions-container">
+      <div class="buttons">
+        <button (click)="handleAddClicked()" [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length"
+                class="btn btn-sm legacy-primary-btn mr-3">
+          <ng-container *ngIf="!(addingData$ | async); else addingData">
+            Add
+            <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
+          </ng-container>
+        </button>
 
-      <button (click)="handleCancelClicked()" class="legacy-secondary-btn mr-4">
-        Cancel
-      </button>
+        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+          Cancel
+        </button>
 
-      <span class="exclude-from-participation">
-      <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2"/>
-      <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
-    </span>
+        <div class="exclude-from-participation">
+          <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2"/>
+          <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
+        </div>
+      </div>
+      <div class="results-count">
+        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong> Jobs
+      </div>
     </div>
   </div>
 </div>

@@ -8,6 +8,7 @@ export const ADD_DATA = '[Project Add Data/Add Survey Data Page] Add Data Cuts t
 export const ADD_DATA_SUCCESS = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Success';
 export const ADD_DATA_ERROR = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Error';
 export const TOGGLE_FILTER_SEARCH = '[Project Add Data/Add Survey Data Page] Toggle Filter Search';
+export const HIDE_FILTER_SEARCH = '[Project Add Data/Add Survey Data Page] Hide Filter Search';
 
 export class SetJobContext implements Action {
   readonly type = SET_JOB_CONTEXT;
@@ -45,10 +46,18 @@ export class ToggleFilterSearch implements Action {
   constructor() {}
 }
 
+export class HideFilterSearch implements Action {
+  readonly type = HIDE_FILTER_SEARCH;
+
+  constructor() {}
+}
+
+
 export type Actions
   = SetJobContext
   | CloseSurveySearch
   | AddData
   | AddDataSuccess
   | AddDataError
-  | ToggleFilterSearch;
+  | ToggleFilterSearch
+  | HideFilterSearch;

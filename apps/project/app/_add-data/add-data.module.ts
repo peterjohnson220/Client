@@ -11,8 +11,8 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-         MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent
+import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
+  MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent
 } from './components';
 
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
@@ -54,17 +54,14 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   ],
   declarations: [
     // Components
-    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-    MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent,
+    JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
+    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
 
     // Pages
     AddSurveyDataPageComponent, MultiMatchPageComponent
-  ],
-  entryComponents: [
-    JobDetailsTooltipComponent
   ],
   providers: [
     AddDataEffectsService

@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, map, withLatestFrom, mergeMap, tap, catchError } from 'rxjs/operators';
+import { catchError, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
-import { DataCut, AddSurveyDataCutMatchResponse } from 'libs/models/survey-search';
+import { AddSurveyDataCutMatchResponse, DataCut } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';

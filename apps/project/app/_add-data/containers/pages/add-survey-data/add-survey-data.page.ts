@@ -9,8 +9,8 @@ import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-
 import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
-import * as fromTooltipContainerActions from '../../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../../reducers';
+import { Filter, Pill } from '../../../models';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -22,7 +22,9 @@ export class AddSurveyDataPageComponent {
   addingData$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
+  filters$: Observable<Filter[]>;
 
+  filters: Filter[];
   excludeFromParticipation: boolean;
 
   constructor(
@@ -32,6 +34,7 @@ export class AddSurveyDataPageComponent {
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
     this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
+    this.filters$ = this.store.select(fromAddDataReducer.getFilters);
     this.excludeFromParticipation = false;
   }
 
@@ -51,9 +54,6 @@ export class AddSurveyDataPageComponent {
       case 'App Closed':
         this.resetApp();
         break;
-      case 'Hide App':
-        this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
-        break;
     }
   }
 
@@ -61,10 +61,12 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
+    this.store.dispatch(new fromAddSurveyDataPageActions.HideFilterSearch());
     this.excludeFromParticipation = false;
   }
 
+
+  // Event Handling
   handleCancelClicked() {
     this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
   }
@@ -73,8 +75,13 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromAddSurveyDataPageActions.AddData(this.excludeFromParticipation));
   }
 
-  handleResetAllFilters() {
+  handleResetFilters() {
     this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
+    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+  }
+
+  handlePillClicked(pill: Pill) {
+    this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
   }
 
   handleSaveFilters(isForAllPayMarkets: boolean): void {

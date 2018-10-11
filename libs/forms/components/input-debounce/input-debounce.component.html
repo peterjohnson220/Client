@@ -1,4 +1,5 @@
 <input *ngIf="hideClearBtn" type="text" class="form-control"
+       [id]="id"
        (keyup)="onKey()"
        (paste)="onPaste()"
        [placeholder]="placeholderText"
@@ -9,6 +10,7 @@
        [maxlength]="maxLength">
 <div *ngIf="!hideClearBtn" class="input-group">
   <input type="text" class="form-control" [placeholder]="placeholderText"
+         [id]="id"
          (keyup)="onKey()"
          (paste)="onPaste()"
          [(ngModel)]="innerValue"

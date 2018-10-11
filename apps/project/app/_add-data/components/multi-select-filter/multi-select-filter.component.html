@@ -1,7 +1,7 @@
 <ng-container *ngIf="filter.Options.length;else noOptions">
 
   <ng-container *ngFor="let option of filter.Options">
-    <div class="option"
+    <div class="option alt-color"
          [title]="option.Name"
          [class.selected]="option.Selected"
          [class.disabled]="optionDisabled(option)"

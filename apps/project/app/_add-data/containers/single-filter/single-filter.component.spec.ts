@@ -72,22 +72,22 @@ describe('Project - Add Data - Single Filter', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ResetFilter action for the search filters when handling a reset section', () => {
+  it('should dispatch a ClearFilter action for the search filters when handling a clear section', () => {
     spyOn(store, 'dispatch');
     const filterId = 'blah';
-    const expectedAction = new fromSearchFiltersActions.ResetFilter(filterId);
+    const expectedAction = new fromSearchFiltersActions.ClearFilter(filterId);
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ClearSelections action for the singled filter when handling a reset section', () => {
+  it('should dispatch a ClearSelections action for the singled filter when handling a clear section', () => {
     spyOn(store, 'dispatch');
     const filterId = 'blah';
     const expectedAction = new fromSingledFilterActions.ClearSelections();
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

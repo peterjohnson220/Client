@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { StoreModule, combineReducers, Store } from '@ngrx/store';
@@ -6,10 +6,7 @@ import { StoreModule, combineReducers, Store } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { TooltipContainerComponent } from './tooltip-container.component';
-import {
-  MatchesDetailsTooltipData, generateMockSurveyJobResult, JobResult,
-  JobDetailsToolTipData, generateMatchesDetailsTooltipData
-} from '../../models';
+import { MatchesDetailsTooltipData, generateMatchesDetailsTooltipData } from '../../models';
 import * as fromTooltipContainerActions from '../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../reducers';
 
@@ -34,44 +31,6 @@ describe('TooltipContainerComponent', () => {
 
     fixture = TestBed.createComponent(TooltipContainerComponent);
     instance = fixture.componentInstance;
-  });
-
-  it('should show job details tooltip when current tooltip index is not the same as the input index', () => {
-    const openTooltipAction = new fromTooltipContainerActions.OpenJobDetailsTooltip();
-    const jobResult: JobResult = generateMockSurveyJobResult();
-    const data: JobDetailsToolTipData = {
-      Job: jobResult,
-      TargetX: 300,
-      TargetY: 579
-    };
-    const inputTooltipIndex = 1;
-
-    fixture.detectChanges();
-
-    spyOn(store, 'dispatch');
-    instance.handleJobTitleClick(data, inputTooltipIndex);
-
-    expect(store.dispatch).toHaveBeenCalledWith(openTooltipAction);
-    expect(instance.jobDetailsTooltipIndex).toEqual(inputTooltipIndex);
-  });
-
-  it('should not show tooltip when current tooltip index is the same as the input index', () => {
-    const closeTooltipAction = new fromTooltipContainerActions.CloseJobDetailsTooltip();
-    const jobResult: JobResult = generateMockSurveyJobResult();
-    const data: JobDetailsToolTipData = {
-      Job: jobResult,
-      TargetX: 300,
-      TargetY: 579
-    };
-    const inputTooltipIndex = 1;
-    instance.jobDetailsTooltipData = data;
-    instance.jobDetailsTooltipIndex = 1;
-
-    spyOn(store, 'dispatch');
-    instance.handleJobTitleClick(data, inputTooltipIndex);
-
-    expect(store.dispatch).toHaveBeenCalledWith(closeTooltipAction);
-    expect(instance.jobDetailsTooltipIndex).toEqual(-1);
   });
 
 

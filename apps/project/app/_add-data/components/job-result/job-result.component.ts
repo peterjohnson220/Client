@@ -1,28 +1,22 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
-import { DataCut, PricingMatchesDetailsRequest, MatchesDetailsRequestJobTypes } from 'libs/models/survey-search';
+import { DataCut, MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/survey-search';
 
-import { JobResult, JobDetailsToolTipData, MatchesDetailsTooltipData } from '../../models';
-import * as fromAddDataReducer from '../../reducers';
+import { JobResult, MatchesDetailsTooltipData } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
-
+import * as fromAddDataReducer from '../../reducers';
 
 @Component({
-  // The job result table row needs to be an immediate child of the tbody.
-  // this component will be used through an attribute selector.
-  // tslint:disable-next-line
-  selector: '[pf-job-result]',
+  selector: 'pf-job-result',
   templateUrl: './job-result.component.html',
   styleUrls: ['./job-result.component.scss']
 })
 export class JobResultComponent implements OnInit, OnDestroy {
-
   @Input() job: JobResult;
   @Input() currencyCode: string;
-  @Output() jobTitleClick: EventEmitter<JobDetailsToolTipData> = new EventEmitter<JobDetailsToolTipData>();
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
   @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
@@ -30,13 +24,13 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   // Observables
   loadingResults$: Observable<boolean>;
+
   // Subscription
   private loadingResultsSub: Subscription;
 
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
-  matchesTooltipX: number;
-  matchesTooltipY: number;
+  showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
 
   private readonly showCutsLabel: string = 'Show Cuts';
@@ -46,13 +40,20 @@ export class JobResultComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromAddDataReducer.State>
   ) {
+    // This is not ideal. "Dumb" components should not know about the store. However we need to track these
+    // components in the NgFor so they do not get re-initialized if they show up in subsequent searches. Currently this
+    // is the only way to know about a search so we can reset some things.
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
+  }
+  get toggleJobDetailLabel() {
+    return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }
 
   ngOnInit(): void {
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
     this.loadingResultsSub = this.loadingResults$.subscribe(() => {
       this.showDataCuts = false;
+      this.showJobDetail = false;
       this.toggleDataCutsLabel = this.showCutsLabel;
     });
   }
@@ -73,25 +74,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleJobTitleClick(event: MouseEvent): void {
-    const data: JobDetailsToolTipData = {
-      TargetX: event.offsetX + 10,
-      TargetY: event.clientY,
-      Job: this.job
-    };
-    this.jobTitleClick.emit(data);
-  }
-
-  toggleJobSelection(): void {
-    // only payfactors job results can be selected
-    if (!this.job.IsPayfactors) {
-      return;
-    }
-    this.cutSelected.emit({
-      IsPayfactorsJob: true,
-      SurveyJobCode: this.job.Code,
-      CountryCode: this.job.CountryCode
-    });
+  toggleJobDetailDisplay(): void {
+    this.showJobDetail = !this.showJobDetail;
   }
 
   handleDataCutSelected(idObj: { dataCutId: number }) {
@@ -99,6 +83,14 @@ export class JobResultComponent implements OnInit, OnDestroy {
       IsPayfactorsJob: false,
       DataCutId: idObj.dataCutId,
       SurveyJobId: this.job.Id
+    });
+  }
+
+  handlePayfactorsCutSelected() {
+    this.cutSelected.emit({
+      IsPayfactorsJob: true,
+      SurveyJobCode: this.job.Code,
+      CountryCode: this.job.CountryCode
     });
   }
 
@@ -112,7 +104,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.matchesMouseEnter.emit(data);
   }
 
-  handleMatchesMouseLeave(event: MouseEvent): void {
+  handleMatchesMouseLeave(): void {
     this.matchesMouseLeaveTimer = window.setTimeout(() => {
       this.matchesMouseLeave.emit(true);
     }, this.matchesMouseLeaveTimeout);

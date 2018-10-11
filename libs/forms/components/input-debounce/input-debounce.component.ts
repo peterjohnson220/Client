@@ -32,6 +32,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() showing = true;
   @Input() disabled = false;
   @Input() maxLength = 524288;
+  @Input() id: string;
   @Output() valueChanged = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {

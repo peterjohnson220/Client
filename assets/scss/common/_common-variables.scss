@@ -1,0 +1,18 @@
+%disabled-row {
+  color: #6c757d;
+  cursor: not-allowed;
+  &:hover {
+    background: transparent none;
+  }
+}
+
+%ellipsis-overflowing-text {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-right: .5rem;
+}
+
+%bottom-box-shadow {
+  box-shadow: 0 2px 16px 0 #d6d6d6;
+}

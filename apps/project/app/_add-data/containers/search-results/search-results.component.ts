@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { DataCut } from 'libs/models/survey-search';
 
-import {JobResult, JobDetailsToolTipData, JobContext, MatchesDetailsTooltipData, ProjectSearchContext} from '../../models';
+import {JobResult, JobContext, MatchesDetailsTooltipData, ProjectSearchContext} from '../../models';
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -68,20 +68,11 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.loadingMoreResultsSub.unsubscribe();
   }
 
-  handleResultsScroll(): void {
-    this.tooltipContainer.handleSearchResultsContainerScroll();
-  }
-
-  handleJobTitleClick(data: JobDetailsToolTipData, index: number): void {
-    this.setResultsContainerSize();
-    this.tooltipContainer.handleJobTitleClick(data, index);
-  }
-
-  handleLoadDataCuts(data: JobResult): void {
-    if (data.DataCuts.length && !hasMoreDataCuts(data)) {
+  handleLoadDataCuts(job: JobResult): void {
+    if ((job.DataCuts.length && !hasMoreDataCuts(job)) || job.IsPayfactors) {
       return;
     }
-    this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(data));
+    this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(job));
   }
 
   handleCutSelectionToggle(data: DataCut): void {
@@ -101,10 +92,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.tooltipContainer.handleMatchesMouseLeave();
   }
 
-  setMatchesTooltipHovered(isHovered: boolean) {
-    this.tooltipContainer.setMatchesTooltipHovered(isHovered);
-  }
-
   private resetResultsScrollToTop(loadingResults: boolean): void {
     const resultsContainerEl = this.resultsContainer.nativeElement;
     resultsContainerEl.scrollTop = !loadingResults ? 0 : resultsContainerEl.scrollTop;
@@ -115,7 +102,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
       return;
     }
     this.resetResultsScrollToTop(loadingResults);
-    this.tooltipContainer.clearJobDetailsTooltip();
   }
 
   private setResultsContainerSize(): void {

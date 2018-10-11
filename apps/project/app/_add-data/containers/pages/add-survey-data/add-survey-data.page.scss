@@ -1,3 +1,23 @@
+@import 'search/filters-variables';
+@import 'common/common-variables';
+
+%position-below-header{
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+}
+
+.add-survey-data-header{
+  height: 36px;
+  @extend %bottom-box-shadow;
+}
+
+.filters-and-results{
+  @extend %position-below-header;
+  width: 100%;
+  display: flex;
+}
+
 .filters-sidebar{
   width: 243px;
   position: relative;
@@ -6,15 +26,35 @@
 .results-and-actions{
   flex-grow: 1;
   position: relative;
-  margin-left: .3rem;
 }
 
-.button-container{
+.actions-container{
   width: 100%;
   bottom: 0;
-  height: 22px;
+  height: 30px;
   position: absolute;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.scroll-me {
+  position: relative;
+  display: flex;
+  width: 300px;
+}
+
+.buttons{
+  display: flex;
+}
+
+.results-count{
+  position: absolute;
+  right: 10px;
+  color: #656565;
+}
+
+.exclude-from-participation{
+  display: flex;
   align-items: center;
 }

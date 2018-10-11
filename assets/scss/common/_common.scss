@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'common-variables';
 
 .pf-avatar{
   width: 33px;
@@ -33,21 +34,6 @@
   margin-top: 0.25rem;
 }
 
-%disabled-row {
-  color: #6c757d;
-  cursor: not-allowed;
-  &:hover {
-    background: transparent none;
-  }
-}
-
-%ellipsis-overflowing-text {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  padding-right: .5rem;
-}
-
 .ellipsis-overflowing-text {
   @extend %ellipsis-overflowing-text;
 }
@@ -75,9 +61,4 @@ tr.row-disabled {
 .pf-link {
   cursor: pointer;
   color: $link-color;
-}
-
-.vertical-separator{
-  border-left: 1px solid $border-grey;
-  box-shadow: -1px 0px 1px 0px #d8d8d8;
 }

@@ -1,0 +1,52 @@
+@import 'search/filters-variables';
+@import 'legacy-variables';
+@import 'legacy-styles.scss';
+
+.actions{
+  width: 130px;
+  display: flex;
+  margin-left: 1rem;
+  justify-content: flex-end;
+}
+
+.reset-filters, .save-filters{
+  @extend %uppercase-link;
+  @extend %filter-action;
+}
+
+.form-check{
+  margin: .75rem;
+}
+
+.form-check-label{
+  cursor: pointer;
+  padding-left: .25rem;
+  padding-top: .15rem;
+}
+
+.save-filters-btns{
+  background-color: $legacy-light-header-grey;
+  border-top: 1px solid $legacy-dark-header-grey;
+  display: flex;
+  justify-content: flex-end;
+  padding: .25rem;
+  margin-top: 1rem;
+}
+
+// Popover overrides
+:host ::ng-deep .popover{
+  top: 27px !important;
+  left: 815px !important;
+  width: 180px;
+  font-size: $legacy-font-size;
+  font-family: $legacy-font-family;
+}
+
+:host ::ng-deep .popover .arrow{
+  left: 118px !important;
+}
+
+:host ::ng-deep .popover-body{
+  padding: 0;
+}
+

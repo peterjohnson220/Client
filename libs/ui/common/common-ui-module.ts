@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
@@ -43,7 +45,8 @@ const components = [
   imports:      [
     CommonModule,
     RouterModule,
-    PfCommonModule
+    PfCommonModule,
+    NgbTooltipModule
   ],
   declarations: components,
   exports: components

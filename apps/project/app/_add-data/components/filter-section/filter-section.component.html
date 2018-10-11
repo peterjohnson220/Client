@@ -8,9 +8,9 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="reset-link" *ngIf="shouldShowResetLink" (click)="handleResetClicked($event, filter.Id)">
-        <ng-container *ngIf="selectionCount > 0">Reset ({{selectionCount}})</ng-container>
-        <ng-container *ngIf="rangeHasSelection">Reset</ng-container>
+      <div class="reset-link" *ngIf="shouldShowClearLink" (click)="handleClearClicked($event, filter.Id)">
+        <ng-container *ngIf="selectionCount > 0">Clear ({{selectionCount}})</ng-container>
+        <ng-container *ngIf="rangeHasSelection">Clear</ng-container>
         <ng-container *ngIf="hasText">Clear</ng-container>
       </div>
       <div class="search"

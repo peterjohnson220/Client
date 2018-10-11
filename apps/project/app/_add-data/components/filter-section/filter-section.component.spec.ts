@@ -75,24 +75,24 @@ describe('Project - Add Data - Filter Section', () => {
     expect(instance.collapsed).toBe(false);
   });
 
-  it('should stop propagation on the mouse event when handling the reset clicked', () => {
+  it('should stop propagation on the mouse event when handling the clear clicked', () => {
     const mockEvent = { stopPropagation: jest.fn()};
     instance.filter = generateMockTextFilter();
     spyOn(mockEvent, 'stopPropagation');
 
-    instance.handleResetClicked(mockEvent, instance.filter.Id);
+    instance.handleClearClicked(mockEvent, instance.filter.Id);
 
     expect(mockEvent.stopPropagation).toHaveBeenCalled();
   });
 
-  it('should emit a reset event with the filterId when handling the reset clicked', () => {
+  it('should emit a clear event with the filterId when handling the clear clicked', () => {
     const mockEvent = { stopPropagation: jest.fn()};
     instance.filter = generateMockTextFilter();
-    spyOn(instance.reset, 'emit');
+    spyOn(instance.clear, 'emit');
 
-    instance.handleResetClicked(mockEvent, instance.filter.Id);
+    instance.handleClearClicked(mockEvent, instance.filter.Id);
 
-    expect(instance.reset.emit).toHaveBeenCalledWith(instance.filter.Id);
+    expect(instance.clear.emit).toHaveBeenCalledWith(instance.filter.Id);
   });
 
   it('the selection count should give the # of selections when the filter is a MultiSelect', () => {

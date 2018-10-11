@@ -75,20 +75,20 @@ describe('Project - Add Data - Search Filters', () => {
     expect(instance.focusedFilter).toBe('jobTitleCode');
   });
 
-  it('should set the focused filter to the filterId when handling a reset section', () => {
+  it('should set the focused filter to the filterId when handling a clear section', () => {
     const filterId = 'iAmAFilterId';
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(instance.focusedFilter).toBe(filterId);
   });
 
-  it('should should dispatch a ResetFilter action with the filterId, when handling a reset section', () => {
+  it('should should dispatch a ClearFilter action with the filterId, when handling a clear section', () => {
     const filterId = 'iAmAFilterId';
-    const expectedAction = new fromSearchFiltersActions.ResetFilter(filterId);
+    const expectedAction = new fromSearchFiltersActions.ClearFilter(filterId);
     spyOn(store, 'dispatch');
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
