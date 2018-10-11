@@ -18,6 +18,10 @@ import * as fromNewCompanyExchangeInvitationsReducer from './new-company-exchang
 import * as fromExchangeJobRequestsReducer from './exchange-job-requests.reducer';
 import * as fromExchangeListReducer from './exchange-list.reducer';
 import * as fromCompanyExchangeInvitationInfoReducer from './company-exchange-invitation-info.reducer';
+import * as fromExchangeJobAssociationUtilityReducers from './exchange-job-association-utility';
+import * as fromCompanyOptionsReducer from './exchange-job-association-utility/company-options.reducer';
+import * as fromExchangeOptionsReducer from './exchange-job-association-utility/exchange-options.reducer';
+import * as fromAssociateJobsReducer from './exchange-job-association-utility/associate-jobs.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -33,6 +37,7 @@ export interface PeerAdminState {
   exchangeJobRequests: IFeatureGridState<fromExchangeJobRequestsReducer.State>;
   exchangeList: fromExchangeListReducer.State;
   companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.State;
+  exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.State;
 }
 
 // Extend root state with feature area state
@@ -53,7 +58,8 @@ export const reducers = {
   newCompanyExchangeInvitations: fromNewCompanyExchangeInvitationsReducer.reducer,
   exchangeJobRequests: fromExchangeJobRequestsReducer.reducer,
   exchangeList: fromExchangeListReducer.reducer,
-  companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.reducer
+  companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.reducer,
+  exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.reducer
 };
 
 // Select Feature Area
@@ -76,6 +82,10 @@ export const selectExchangeJobRequestsState = createSelector(selectPeerAdminStat
 export const selectExchangeListState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeList);
 export const selectCompanyExchangeInvitationInfoState =
   createSelector(selectPeerAdminState, (state: PeerAdminState) => state.companyExchangeInvitationInfo);
+export const selectExchangeJobAssociationUtilityState = createSelector(
+  selectPeerAdminState,
+  (state: PeerAdminState) => state.exchangeJobAssociationUtility
+);
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
@@ -530,4 +540,62 @@ export const getSelectedCompanyExchangeInvitation = createSelector(
 
 export const getCompanyExchangeInvitationPageRowIndex = createSelector(
   selectCompanyExchangeInvitationInfoState, fromCompanyExchangeInvitationInfoReducer.getPageRowIndex
+);
+
+
+// ExchangeJobAssociationUtility Selectors
+export const selectCompanyOptionsState = createSelector(
+  selectExchangeJobAssociationUtilityState,
+  (state) => state.companyOptions
+);
+
+export const selectExchangeOptionsState = createSelector(
+  selectExchangeJobAssociationUtilityState,
+  (state) => state.exchangeOptions
+);
+
+export const selectAssociateJobsState = createSelector(
+  selectExchangeJobAssociationUtilityState,
+  (state) => state.associateJobs
+);
+
+// Company Options
+export const {
+  selectAll: getCompanyOptions
+} = fromCompanyOptionsReducer.adapter.getSelectors(selectCompanyOptionsState);
+
+export const getCompanyOptionsLoading = createSelector(
+  selectCompanyOptionsState,
+  fromCompanyOptionsReducer.getLoading
+);
+
+export const getCompanyOptionsLoadingError = createSelector(
+  selectCompanyOptionsState,
+  fromCompanyOptionsReducer.getLoadingError
+);
+
+// Exchange Options
+export const {
+  selectAll: getExchangeOptions
+} = fromExchangeOptionsReducer.adapter.getSelectors(selectExchangeOptionsState);
+
+export const getExchangeOptionsLoading = createSelector(
+  selectExchangeOptionsState,
+  fromExchangeOptionsReducer.getLoading
+);
+
+export const getExchangeOptionsLoadingError = createSelector(
+  selectExchangeOptionsState,
+  fromExchangeOptionsReducer.getLoadingError
+);
+
+// Associate Jobs
+export const getAssociatingJobs = createSelector(
+  selectAssociateJobsState,
+  fromAssociateJobsReducer.getAssociating
+);
+
+export const getAssociatingJobsError = createSelector(
+  selectAssociateJobsState,
+  fromAssociateJobsReducer.getAssociatingError
 );

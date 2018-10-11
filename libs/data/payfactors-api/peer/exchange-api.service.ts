@@ -7,10 +7,10 @@ import { MappingHelper } from '../../../core/helpers';
 import {
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
-  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation
+  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
+  GenericKeyValue, AutoAssociateExchangeJobsRequest
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-
 
 @Injectable()
 export class ExchangeApiService {
@@ -32,6 +32,21 @@ export class ExchangeApiService {
       },
       MappingHelper.mapListAreaResultToGridDataResult
     );
+  }
+
+  getPeerParticipantsDictionary(): Observable<GenericKeyValue<number, string>[]> {
+    return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(`${this.endpoint}/GetPeerParticipantsDictionary`);
+  }
+
+  getExchangeDictionaryForCompany(companyId: number): Observable<GenericKeyValue<number, string>[]> {
+    return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(`${this.endpoint}/GetExchangeDictionaryForCompany`,
+      {
+        params: { companyId: companyId }
+    });
+  }
+
+  autoAssociateExchangeJobs(autoAssociateExchangeJobsRequest: AutoAssociateExchangeJobsRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AutoAssociateExchangeJobs`, autoAssociateExchangeJobsRequest);
   }
 
   getCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
