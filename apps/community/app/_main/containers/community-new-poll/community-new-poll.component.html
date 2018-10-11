@@ -1,7 +1,5 @@
 
   <div class="form-group" [formGroup]="communityPollForm"> 
-
-    <label *ngIf="isAdmin" class="col-form-label mt-3" for="pollQuestion">Poll Question</label>
     <pf-community-text-area 
       [parentForm]="communityPollForm"
       [maxTextLength]="maxTextLength"

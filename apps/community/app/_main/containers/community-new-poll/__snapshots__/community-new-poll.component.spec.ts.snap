@@ -15,7 +15,6 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   <div
     class="form-group"
   >
-    
     <pf-community-text-area
       textplaceholder="Ask a question..."
     />
