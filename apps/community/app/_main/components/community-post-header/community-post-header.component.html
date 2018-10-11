@@ -5,6 +5,7 @@
   </div>
 </div>
 <div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
+<div *ngIf="isExpiredPoll" class="expired float-right pl-2 pr-2">Poll Expired</div>
 <p class="m-0"><span class="community-user-name-text">{{user.UserFirstName}} {{user.UserLastName}}</span>
   <span class="community-sub-text"> @ {{user.CompanyName}} | {{time}}</span>
 </p>

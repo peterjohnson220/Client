@@ -25,20 +25,19 @@
       </pf-community-poll-choices>
     </fieldset>
 
-    <div *ngIf="enableEditingResponseOptions">
-        <button type="button" class="btn btn-link" *ngIf="choices.length < maxChoices" (click)="addResponseOption()">+ Add a choice</button> 
-    </div>
-    <div *ngIf="!isAdmin" class="mb-2">
+    <button type="button" class="btn btn-link" *ngIf="choices.length < maxChoices" (click)="addResponseOption()">+ Add a choice</button> 
+    <div class="mb-2">
       <label class="col-form-label" for="days" class="text-muted mr-3">Poll length</label>   
       <label class="col-form-label" for="days">Days </label>
       <select #days  class="poll-length-dropdown ml-2 mr-4"
-        formControlName="days">
+        formControlName="days"
+        (change)="onDurationDaysChange()">
         <option *ngFor="let day of pollLengthDays" [ngValue]="day">{{day}}</option>
       </select>
       <label class="col-form-label" for="hours">Hours </label>
       <select #hours class="poll-length-dropdown ml-2"
         formControlName="hours">
-        <option *ngFor="let hour of pollLengthHours" [ngValue]="hour">{{hour}}</option>
+        <option *ngFor="let hour of pollLengthHours" [ngValue]="hour" [disabled]="hour===0 && isPollDurationDaysZero()">{{hour}}</option>
       </select>
     </div>
   </div>

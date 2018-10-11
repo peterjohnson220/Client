@@ -12,10 +12,10 @@
                                     [time]="post.ElapsedTime"
                                     [isInternalOnly]="post.IsInternalOnly"
                                     [isCurrentUserPost]="post.IsCurrentUserPost"
-                                    [postId]="post.Id">
+                                    [postId]="post.Id"
+                                    [isExpiredPoll]="post.UserPollRequest ? post.UserPollRequest.IsExpired : false">
           </pf-community-post-header>
-          <!--TODO: Display user polls in the feed. For now just show the fact that this is a poll-->
-          <div *ngIf="post.UserPollRequest==null; else user_poll">
+          <div *ngIf="!post.UserPollRequest; else user_poll">
             <div class="post-body mt-2 mb-2"
                 [innerHtml]="post.Content | highlightHashTag | formatLinkUrl">
             </div>
