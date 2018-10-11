@@ -9,7 +9,8 @@ import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, 
 import {
   mapSearchFilterToMultiFilter,
   mergeClientWithServerMultiSelectFilters,
-  mergeClientWithServerRangeFilters
+  mergeClientWithServerRangeFilters,
+  mapSearchFilterOptionsToMultiSelectOptions
 } from '../helpers';
 
 const multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
@@ -232,12 +233,16 @@ function applyDefault(filter: Filter): Filter {
   return filter;
 }
 
-function applySavedSelections(filters: Filter[], defaultFilters: SearchFilter[]): Filter[] {
-  defaultFilters.map(df => {
-    filters.filter(f => f.BackingField === df.Name)
+function applySavedSelections(filters: Filter[], savedFilters: SearchFilter[]): Filter[] {
+  savedFilters.map(sf => {
+    filters.filter(f => f.BackingField === sf.Name)
     .map((f: MultiSelectFilter) => {
       if (!f.Locked) {
-        f.DefaultSelections = df.Options.map(o => o.Value);
+        const searchFilterOptionsWithNoResults = sf.Options.filter(o => !f.Options.some(fo => isEqual(fo.Value, o.Value)));
+        const multiSelectOptionsWithNoResults = mapSearchFilterOptionsToMultiSelectOptions(searchFilterOptionsWithNoResults);
+        multiSelectOptionsWithNoResults.map(o => o.Selected = true);
+        f.Options = f.Options.concat(multiSelectOptionsWithNoResults);
+        f.DefaultSelections = sf.Options.map(o => o.Value);
         applyDefault(f);
       }
       return f;
