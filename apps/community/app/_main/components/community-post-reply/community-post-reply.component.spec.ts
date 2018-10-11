@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CommunityPostReplyComponent } from './community-post-reply.component';
 import { generateMockCommunityReply } from 'libs/models/community/community-reply.model';
+import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
 
 describe('CommunityPostReplyComponent', () => {
   let fixture: ComponentFixture<CommunityPostReplyComponent>;
@@ -13,7 +14,9 @@ describe('CommunityPostReplyComponent', () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [
-        CommunityPostReplyComponent
+        CommunityPostReplyComponent,
+        HighlightHashTagPipe,
+        FormatLinkUrlPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

@@ -12,6 +12,7 @@ import { CommunityPostsComponent } from './community-posts.component';
 import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -109,6 +110,21 @@ describe('CommunityPostsComponent', () => {
     };
     const action = new fromCommunityPostReplyActions.GettingCommunityPostReplies(parameter);
     instance.getCommunityPostReplies(postId);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch GettingCommunityPostsByTag when calling onMessage', () => {
+    const tag = 'testTag';
+
+    const messageParam = {
+      data: {action: 'getCommunityPostsByTag', tag: tag},
+    };
+
+    const actionParam = {tag: tag};
+    const action = new fromCommunityPostActions.GettingCommunityPostsByTag(actionParam);
+
+    instance.onMessage(messageParam);
+
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

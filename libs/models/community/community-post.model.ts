@@ -5,7 +5,6 @@ import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model
 import { CommunityPollRequest } from './community-poll-request.model';
 import { CommunityPollResponse } from './community-poll-response.model';
 
-
 export interface CommunityPost {
   Id: string;
   Content: string;
@@ -25,6 +24,7 @@ export interface CommunityPost {
   IsCurrentUserPost: boolean;
   UserPollRequest?: CommunityPollRequest;
   UserPollResponse?: CommunityPollResponse;
+  FilterTag: string;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -54,6 +54,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     IsCurrentUserPost: false,
     UserPollRequest : { CommunityPollId: '123', Question: 'Question',
       DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false },
-    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] }
+    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] },
+    FilterTag: '#TestTag'
   };
 }

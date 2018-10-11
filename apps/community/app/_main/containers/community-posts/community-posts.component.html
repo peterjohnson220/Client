@@ -1,3 +1,4 @@
+<pf-community-post-tag-filter></pf-community-post-tag-filter>
 <div class="posts-container p-2 scroll">
   <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
@@ -17,7 +18,7 @@
           </pf-community-post-header>
           <div *ngIf="!post.UserPollRequest; else user_poll">
             <div class="post-body mt-2 mb-2"
-                [innerHtml]="post.Content | highlightHashTag | formatLinkUrl">
+                [innerHtml]="post.Content | formatLinkUrl | highlightHashTag:'styleAndAction'">
             </div>
             <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
               <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
