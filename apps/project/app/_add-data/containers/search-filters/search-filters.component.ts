@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -65,7 +65,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleSearchSection(filter: Filter) {
-    this.store.dispatch(new fromAddSurveyDataPageActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
     this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
   }
 

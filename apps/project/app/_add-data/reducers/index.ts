@@ -87,11 +87,6 @@ export const getMultiMatchPageShown = createSelector(
   fromMultiMatchPageReducer.getPageShown
 );
 
-export const getSearchingMultiMatchFilter = createSelector(
-  selectMultiMatchPageState,
-  fromMultiMatchPageReducer.getSearchingFilter
-);
-
 export const getMultimatchProjectContext = createSelector(
   selectMultiMatchPageState,
   fromMultiMatchPageReducer.getProjectContext
@@ -113,16 +108,16 @@ export const getAddingData = createSelector(
   fromAddSurveyDataPageReducer.getAddingData
 );
 
-export const getSearchingFilter = createSelector(
-  selectAddSurveyDataPageState,
-  fromAddSurveyDataPageReducer.getSearchingFilter
-);
 // Search Selectors
 export const getProjectSearchContext = createSelector(
   selectSearchState,
   fromSearchReducer.getProjectSearchContext
 );
 
+export const getSearchingFilter = createSelector(
+  selectSearchState,
+  fromSearchReducer.getSearchingFilter
+);
 // Search Results Selectors
 export const getResults = createSelector(
   selectSearchResultsState,
