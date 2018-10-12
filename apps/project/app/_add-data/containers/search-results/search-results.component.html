@@ -19,7 +19,8 @@
           (loadDataCuts)="handleLoadDataCuts($event)"
           (cutSelected)="handleCutSelectionToggle($event)"
           (matchesMouseEnter)="handleMatchesMouseEnter($event)"
-          (matchesMouseLeave)="handleMatchesMouseLeave()">
+          (matchesMouseLeave)="handleMatchesMouseLeave()"
+		  [ngClass]="jobResult.IsPayfactors ? 'payfactors-job' : 'non-payfactors-job'">
         </pf-job-result>
       </ng-container>
 

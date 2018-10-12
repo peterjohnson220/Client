@@ -16,12 +16,17 @@ export class FilterSectionComponent {
   @Output() clear: EventEmitter<string> = new EventEmitter();
   @Output() searchClicked: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
-
+  protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
   maxOptions = maxNumberOfOptions;
 
   constructor() {}
+
+  get cssResetClearBtnAutomationName(): string {
+    const filterCssClassName = this.filter.CssClassName.toLowerCase().replace(this.cssReplacementRegex, '-');
+    return 'au-btn-clear-' + filterCssClassName;
+  }
 
   get shouldShowClearLink(): boolean {
     return (this.selectionCount > 0 || this.hasText || this.rangeHasSelection) && !this.filter.Locked;

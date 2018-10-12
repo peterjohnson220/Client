@@ -7,7 +7,8 @@ export const staticFilters: TextFilter[] = [
     DisplayName: 'Job Title/Code',
     Value: '',
     Type: FilterType.Text,
-    Order: 1
+    Order: 1,
+    CssClassName: 'job-title'
   },
   {
     Id: 'jobDescription',
@@ -16,6 +17,7 @@ export const staticFilters: TextFilter[] = [
     Value: '',
     Type: FilterType.Text,
     Order: 2,
+    CssClassName: 'job-description'
   },
   {
     Id: 'scope',
@@ -23,6 +25,7 @@ export const staticFilters: TextFilter[] = [
     DisplayName: 'Scope',
     Value: '',
     Type: FilterType.Text,
-    Order: 3
+    Order: 3,
+    CssClassName: 'scope'
   }
 ];

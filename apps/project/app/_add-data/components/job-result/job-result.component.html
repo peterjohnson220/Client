@@ -1,4 +1,4 @@
-<div class="result">
+<div class="result job-result-row" [ngClass]="{'payfactors-job-result': job.IsPayfactors,'selected-job-result': job.IsSelected}">
   <div class="d-flex justify-content-between">
     <div class="d-flex">
       <div class="job-title">
@@ -58,13 +58,13 @@
   </div>
 
   <div class="d-flex mt-2">
-    <div class="link" (click)="toggleDataCutsDisplay()">
+    <div class="link au-lnk-show-hide-data-cuts" (click)="toggleDataCutsDisplay()">
       {{toggleDataCutsLabel}}
     </div>
     <div class="link mx-2">
       |
     </div>
-    <div class="link" (click)="toggleJobDetailDisplay()">
+    <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
       {{toggleJobDetailLabel}}
     </div>
   </div>

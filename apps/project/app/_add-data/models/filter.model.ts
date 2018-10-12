@@ -13,6 +13,7 @@ export interface Filter {
   Order: number;
   Locked?: boolean;
   Type: FilterType;
+  CssClassName?: string;
 }
 
 export interface TextFilter extends Filter {
@@ -69,7 +70,8 @@ export function generateMockTextFilter(): TextFilter {
     Value: 'Accountant',
     Type: FilterType.Text,
     Order: 1,
-    Locked: false
+    Locked: false,
+    CssClassName: 'au-txt-job-title'
   };
 }
 
@@ -82,7 +84,8 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
     Type: FilterType.Multi,
     RefreshOptionsFromServer: true,
     Order: 1,
-    Locked: false
+    Locked: false,
+    CssClassName: 'au-chk-publisher'
   };
 }
 
