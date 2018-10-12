@@ -1243,7 +1243,8 @@
               }
             ],
             "styles": [
-              "apps/smallbiz/styles.scss"
+              "apps/smallbiz/styles.scss",
+              "node_modules/@progress/kendo-theme-default/dist/all.css"
             ],
             "scripts": [
               "assets/js/drift.js",

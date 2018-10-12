@@ -19,11 +19,10 @@ import { JobTitle } from '../../../../shared/models/jobTitle';
 })
 export class JobSearchPageComponent implements OnInit {
   jobTitle: string;
-  location: string;
   results$: Observable<JobTitle[]>; // TODO this should probably be in it's own component
   userName$: Observable<string>;
 
-  constructor(private store: Store<fromRoot.AppState>) {
+  constructor(private store: Store<fromJobSearch.State>) {
     this.userName$ = store.select(fromRoot.selectUserContextModel).pipe(
       map((userContext: UserContext) => (userContext || ({} as UserContext)).name)
     );
