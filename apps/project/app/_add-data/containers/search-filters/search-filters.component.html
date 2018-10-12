@@ -19,7 +19,8 @@
             [ngModel]="filter.Value"
             (valueChanged)="handleValueChanged(filter.Id, $event)"
             [focus]="shouldFocus(filter)"
-            [showing]="pageShown$ | async">
+            [showing]="pageShown$ | async"
+            [automationClassName]="'au-txt-'+filter.CssClassName">
           </pf-input-debounce>
         </div>
       </ng-container>

@@ -25,19 +25,19 @@
     <div class="actions-container">
       <div class="buttons">
         <button (click)="handleAddClicked()" [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length"
-                class="btn btn-sm legacy-primary-btn mr-3">
+                class="btn btn-sm legacy-primary-btn mr-3 au-btn-add">
           <ng-container *ngIf="!(addingData$ | async); else addingData">
             Add
             <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
           </ng-container>
         </button>
 
-        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
           Cancel
         </button>
 
         <div class="exclude-from-participation">
-          <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2"/>
+          <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2 au-chk-exclude-from-participation"/>
           <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
         </div>
       </div>

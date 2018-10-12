@@ -100,7 +100,8 @@ export function mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiS
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
     Order: SearchFilterMappingData[searchFilter.Name].Order,
-    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name)
+    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name),
+    CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
   };
 }
 
@@ -129,7 +130,8 @@ export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeF
     MaximumValue: maxValue,
     Precision: precision,
     SelectedMinValue: null,
-    SelectedMaxValue: null
+    SelectedMaxValue: null,
+    CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
   };
 }
 
