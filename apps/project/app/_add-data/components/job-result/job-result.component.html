@@ -1,4 +1,4 @@
-<div class="result job-result-row" [ngClass]="{'payfactors-job-result': job.IsPayfactors,'selected-job-result': job.IsSelected}">
+<div class="result job-result-row" [ngClass]="{'au-payfactors-job-result': job.IsPayfactors}">
   <div class="d-flex justify-content-between">
     <div class="d-flex">
       <div class="job-title">
@@ -21,42 +21,6 @@
     <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
   </div>
 
-  <div *ngIf="showJobDetail" class="job-detail">
-    <table>
-      <tbody>
-        <tr>
-          <th>Family:</th>
-          <td>{{job.Family || '-'}}</td>
-        </tr>
-        <tr>
-          <th>Level:</th>
-          <td>{{job.Level || '-'}}</td>
-        </tr>
-
-        <ng-container *ngIf="job.IsPayfactors && !!job.Category">
-          <tr>
-            <th>Job Category:</th>
-            <td>{{job.Category || '-'}}</td>
-          </tr>
-          <tr>
-            <th>EEO:</th>
-            <td>{{job.EEO || '-'}}</td>
-          </tr>
-        </ng-container>
-
-        <tr>
-          <th>Job Description:</th>
-          <td>
-            <ng-container *ngIf="job.Description; else noJobDescription">
-              <pf-ellipsis-view-more [copy]="true" [content]="job.Description" [maxLength]="300"></pf-ellipsis-view-more>
-          </ng-container>
-          </td>
-        </tr>
-      </tbody>
-
-    </table>
-  </div>
-
   <div class="d-flex mt-2">
     <div class="link au-lnk-show-hide-data-cuts" (click)="toggleDataCutsDisplay()">
       {{toggleDataCutsLabel}}
@@ -67,6 +31,42 @@
     <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
       {{toggleJobDetailLabel}}
     </div>
+  </div>
+
+  <div *ngIf="showJobDetail" class="job-detail">
+    <table>
+      <tbody>
+      <tr>
+        <th>Family:</th>
+        <td>{{job.Family || '-'}}</td>
+      </tr>
+      <tr>
+        <th>Level:</th>
+        <td>{{job.Level || '-'}}</td>
+      </tr>
+
+      <ng-container *ngIf="job.IsPayfactors && !!job.Category">
+        <tr>
+          <th>Job Category:</th>
+          <td>{{job.Category || '-'}}</td>
+        </tr>
+        <tr>
+          <th>EEO:</th>
+          <td>{{job.EEO || '-'}}</td>
+        </tr>
+      </ng-container>
+
+      <tr>
+        <th>Job Description:</th>
+        <td>
+          <ng-container *ngIf="job.Description; else noJobDescription">
+            <pf-ellipsis-view-more [copy]="true" [content]="job.Description" [maxLength]="300"></pf-ellipsis-view-more>
+          </ng-container>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
   </div>
 
   <div *ngIf="showDataCuts && !job.LoadingDataCuts">
