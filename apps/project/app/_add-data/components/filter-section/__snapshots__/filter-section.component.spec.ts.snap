@@ -3,6 +3,7 @@
 exports[`Project - Add Data - Filter Section should display the given title in the header 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
+  cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
@@ -18,7 +19,7 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       <div
         class="header-left"
       >
-         Job Title/Code 
+         Job Title/Code
         
         
       </div>
@@ -27,7 +28,9 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       >
         
         <div
-          class="reset-link"
+          class="reset-link au-btn-clear-au-txt-job-title"
+          ng-reflect-klass="reset-link"
+          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -65,7 +68,7 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
         <div
           class="header-left"
         >
-           Job Title/Code 
+           Job Title/Code
           
           
         </div>
@@ -74,7 +77,9 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
         >
           
           <div
-            class="reset-link"
+            class="reset-link au-btn-clear-au-txt-job-title"
+            ng-reflect-klass="reset-link"
+            ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
           >
             
             
@@ -105,6 +110,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 <pf-filter-section
   clear={[Function EventEmitter]}
   collapsed={[Function Boolean]}
+  cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
@@ -120,7 +126,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
       <div
         class="header-left"
       >
-         Job Title/Code 
+         Job Title/Code
         
         
         <div
@@ -136,7 +142,9 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
       >
         
         <div
-          class="reset-link"
+          class="reset-link au-btn-clear-au-txt-job-title"
+          ng-reflect-klass="reset-link"
+          ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
           
@@ -155,6 +163,7 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 exports[`Project - Add Data - Filter Section should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
+  cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
@@ -171,7 +180,7 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
       <div
         class="header-left"
       >
-         Publisher 
+         Publisher
         
         
       </div>
@@ -180,7 +189,9 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
       >
         
         <div
-          class="reset-link"
+          class="reset-link au-btn-clear-au-chk-publisher"
+          ng-reflect-klass="reset-link"
+          ng-reflect-ng-class="au-btn-clear-au-chk-publisher"
         >
           
           
@@ -190,7 +201,9 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
         </div>
         
         <div
-          class="search"
+          class="search au-btn-search-au-chk-publisher"
+          ng-reflect-klass="search"
+          ng-reflect-ng-class="au-btn-search-au-chk-publisher"
         >
           <i
             class="far fa-search"

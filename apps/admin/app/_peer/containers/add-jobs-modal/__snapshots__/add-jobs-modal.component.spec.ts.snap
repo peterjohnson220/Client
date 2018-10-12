@@ -51,12 +51,15 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
               id="search-jobs"
               maxlength="524288"
               ng-reflect-is-disabled="false"
+              ng-reflect-klass="form-control"
               ng-reflect-maxlength="524288"
               placeholder="Search for a Job Title..."
               type="text"
             />
             <div
-              class="input-group-append"
+              class="input-group-append undefined-clear"
+              ng-reflect-klass="input-group-append"
+              ng-reflect-ng-class="undefined-clear"
             >
               <span
                 class="input-group-text"
