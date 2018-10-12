@@ -222,6 +222,7 @@
               "apps/dashboard/styles.scss"
             ],
             "scripts": [
+              "assets/js/drift.js",
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js"
             ]
@@ -394,7 +395,6 @@
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
             "scripts": [
-              "assets/js/drift.js",
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js"
             ]
