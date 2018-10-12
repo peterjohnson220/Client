@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -20,14 +20,15 @@ import { CommunityPollTypeEnum } from 'libs/models/community/community-constants
 @Component({
   selector: 'pf-community-posts',
   templateUrl: './community-posts.component.html',
-  styleUrls: ['./community-posts.component.scss']
+  styleUrls: [ './community-posts.component.scss' ]
 })
 export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
   communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
-
+  loadingCommunityPosts$: Observable<boolean>;
+  loadingPostsSubscription: Subscription;
   showAddReply = {};
   showReplies = [];
 
@@ -42,30 +43,45 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
+    this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
+    this.getPosts();
+
+    this.loadingPostsSubscription = this.loadingCommunityPosts$.subscribe(model => {
+      if (model) {
+        this.showReplies = [];
+      }
+    });
 
     this.communityPostsSubscription = this.communityPosts$.subscribe(posts => {
       if (posts != null) {this.communityPosts = posts; }
     });
   }
 
+  getPosts() {
+    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
+  }
+
   ngOnDestroy() {
     if ( this.communityPostsSubscription) {
       this.communityPostsSubscription.unsubscribe();
     }
+
+    if (this.loadingPostsSubscription) {
+      this.loadingPostsSubscription.unsubscribe();
+    }
   }
 
   getReplies(item: number, postId: number) {
-    this.showReplies[item] = !this.showReplies[item];
+    this.showReplies[ item ] = !this.showReplies[ item ];
     this.getCommunityPostReplies(postId);
   }
 
   hideReplies(item: number, postId: number) {
-    this.showReplies[item] = !this.showReplies[item];
+    this.showReplies[ item ] = !this.showReplies[ item ];
     this.clearRepliesFromAddView(postId);
     this.getCommunityPostReplies(postId);
   }
@@ -83,10 +99,18 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   }
 
   showReply(item: number) {
-    this.showAddReply[item] = !this.showAddReply[item];
+    this.showAddReply[ item ] = !this.showAddReply[ item ];
   }
 
   onReplySubmitted(item: number) {
     this.showReply(item);
+  }
+
+  @HostListener('window:message', [ '$event' ])
+  onMessage(e) {
+    if (e && e.data &&  e.data.action === 'getCommunityPostsByTag' && e.data.tag) {
+      const tag = e.data.tag;
+      this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostsByTag({tag: tag}));
+    }
   }
 }

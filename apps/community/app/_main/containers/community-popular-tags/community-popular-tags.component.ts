@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityTagReducer from '../../reducers';
 import { CommunityTag } from 'libs/models/community';
 
@@ -21,6 +22,10 @@ export class CommunityPopularTagsComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromCommunityTagActions.LoadingCommunityPopularTags());
+  }
+
+  filterDiscussionByTag(tag) {
+    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostsByTag({tag: tag}));
   }
 
 }

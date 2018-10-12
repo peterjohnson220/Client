@@ -174,6 +174,11 @@ export const getAddingCommunityDiscussionPollSuccess = createSelector(
 export const getAddingCommunityDiscussionPollError = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getAddingCommunityDiscussionPollError
+  );
+
+export const getCommunityPostsFilterTag = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPostsFilterTag
 );
 
 // Community Post Reply Selectors

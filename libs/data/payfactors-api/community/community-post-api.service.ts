@@ -15,6 +15,12 @@ export class CommunityPostApiService {
     return this.payfactorsApiService.get<CommunityPost[]>
     (`${this.endpoint}/GetPosts`);
   }
+  getPostsByTag(payload: any): Observable<CommunityPost[]> {
+    return this.payfactorsApiService.get<CommunityPost[]>
+    (`${this.endpoint}/GetPostsAndRepliesByTag`, {
+      params: payload
+    });
+  }
 
   submitCommunityPost(payload: any): Observable<CommunityPost> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Post`, payload);

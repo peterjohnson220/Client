@@ -42,6 +42,19 @@ export class CommunityPostEffects {
     );
 
   @Effect()
+  loadingCommunityPostsByTag$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG).pipe(
+      switchMap((action: fromCommunityPostActions.GettingCommunityPostsByTag) =>
+        this.communityPostService.getPostsByTag(action.payload).pipe(
+          map((communityPosts: CommunityPost[]) => {
+            return new fromCommunityPostActions.GettingCommunityPostsByTagSuccess(communityPosts);
+          }),
+          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostsByTagError()))
+        )
+      )
+    );
+
+  @Effect()
   updatingCommunityPostLike$: Observable<Action> = this.actions$
     .ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_LIKE).pipe(
       switchMap((action: fromCommunityPostActions.UpdatingCommunityPostLike) =>
