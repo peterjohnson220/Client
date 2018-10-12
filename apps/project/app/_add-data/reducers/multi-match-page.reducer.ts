@@ -3,13 +3,11 @@ import {ProjectContext} from '../models';
 
 export interface State {
   pageShown: boolean;
-  searchingFilter: boolean;
   projectContext: ProjectContext;
 }
 
 const initialState: State = {
   pageShown: false,
-  searchingFilter: false,
   projectContext: null
 };
 
@@ -20,20 +18,13 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
     case fromMultiMatchPageActions.CLOSE_MULTI_MATCH: {
       return {
         ...state,
-        pageShown: false,
-        searchingFilter: false
+        pageShown: false
       };
     }
     case fromMultiMatchPageActions.SET_PROJECT_CONTEXT: {
       return {
         ...state,
         projectContext: action.payload
-      };
-    }
-    case fromMultiMatchPageActions.TOGGLE_FILTER_SEARCH: {
-      return {
-        ...state,
-        searchingFilter: !state.searchingFilter
       };
     }
     default: {
@@ -44,5 +35,4 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
 
 // Selector functions
 export const getPageShown = (state: State) => state.pageShown;
-export const getSearchingFilter = (state: State) => state.searchingFilter;
 export const getProjectContext = (state: State) => state.projectContext;

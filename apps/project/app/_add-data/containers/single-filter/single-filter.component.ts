@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import { Filter, MultiSelectOption } from '../../models';
@@ -34,7 +34,7 @@ export class SingleFilterComponent implements OnInit {
   }
 
   backToAllFilters() {
-    this.store.dispatch(new fromAddSurveyDataPageActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
   }
 
   handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption }) {

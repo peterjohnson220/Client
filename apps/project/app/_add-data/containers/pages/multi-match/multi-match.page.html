@@ -1,4 +1,12 @@
-<div class="d-flex h-100">
+<div class="multi-match-data-header">
+  <div class="d-flex align-items-center h-100 pr-3">
+    <pf-filter-pills [filters]="filters$ | async" (pillClicked)="handlePillClicked($event)"></pf-filter-pills>
+
+    <pf-search-actions (reset)="handleResetFilters()" (saveFilters)="handleSaveFilters($event)"></pf-search-actions>
+  </div>
+</div>
+
+<div class="filters-and-results">
 
   <div class="filters-sidebar">
     <pf-search-filters
@@ -13,14 +21,19 @@
   <div class="results-and-actions">
     <pf-search-results></pf-search-results>
 
-    <div class="button-container">
-      <button  [disabled]="true" class="legacy-primary-btn mr-4">
-        Save
-      </button>
+    <div class="actions-container">
+      <div class="buttons">
+        <button [disabled]="true" class="btn btn-sm legacy-primary-btn mr-3">
+         Save
+        </button>
 
-      <button (click)="handleCancelClicked()" class="legacy-secondary-btn mr-4">
-        Cancel
-      </button>
+        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+          Cancel
+        </button>
+      </div>
+      <div class="results-count">
+        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong> Jobs
+      </div>
     </div>
   </div>
   <div class="jobs-to-price">

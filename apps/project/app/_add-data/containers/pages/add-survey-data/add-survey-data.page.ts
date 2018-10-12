@@ -61,7 +61,7 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.store.dispatch(new fromAddSurveyDataPageActions.HideFilterSearch());
+    this.store.dispatch(new fromSearchActions.HideFilterSearch());
     this.excludeFromParticipation = false;
   }
 

@@ -6,7 +6,9 @@ import { Observable } from 'rxjs';
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
+import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromAddDataReducer from '../../../reducers';
+import { Filter, Pill } from '../../../models';
 
 @Component({
   selector: 'pf-multi-match-page',
@@ -16,7 +18,7 @@ import * as fromAddDataReducer from '../../../reducers';
 export class MultiMatchPageComponent {
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
-  excludeFromParticipation: boolean;
+  filters$: Observable<Filter[]>;
   // todo move this to a new component
   jobListIds: string[];
 
@@ -24,8 +26,8 @@ export class MultiMatchPageComponent {
     private store: Store<fromAddDataReducer.State>
   ) {
     this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
-    this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingMultiMatchFilter);
-    this.excludeFromParticipation = false;
+    this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
+    this.filters$ = this.store.select(fromAddDataReducer.getFilters);
     // todo move this to new component
     this.jobListIds = [];
   }
@@ -55,15 +57,20 @@ export class MultiMatchPageComponent {
     this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.excludeFromParticipation = false;
+    this.store.dispatch(new fromSearchActions.HideFilterSearch());
   }
 
   handleCancelClicked() {
     this.store.dispatch(new fromMultiMatchPageActions.CloseMultiMatch());
   }
 
-  handleResetAllFilters() {
+  handleResetFilters() {
     this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
+    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+  }
+
+  handlePillClicked(pill: Pill) {
+    this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
   }
 
   handleSaveFilters(isForAllPayMarkets: boolean): void {

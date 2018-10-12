@@ -7,15 +7,13 @@ export interface State {
   pageShown: boolean;
   addingData: boolean;
   addingDataError: boolean;
-  searchingFilter: boolean;
 }
 
 const initialState: State = {
   jobContext: null,
   pageShown: false,
   addingData: false,
-  addingDataError: false,
-  searchingFilter: false
+  addingDataError: false
 };
 
 // Reducer function
@@ -33,8 +31,7 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
     case fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH: {
       return {
         ...state,
-        pageShown: false,
-        searchingFilter: false
+        pageShown: false
       };
     }
     case fromAddSurveyDataPageActions.ADD_DATA: {
@@ -51,18 +48,6 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
         addingDataError: true
       };
     }
-    case fromAddSurveyDataPageActions.TOGGLE_FILTER_SEARCH: {
-      return {
-        ...state,
-        searchingFilter: !state.searchingFilter
-      };
-    }
-    case fromAddSurveyDataPageActions.HIDE_FILTER_SEARCH: {
-      return {
-        ...state,
-        searchingFilter: false
-      };
-    }
     default: {
       return state;
     }
@@ -73,4 +58,3 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
 export const getJobContext = (state: State) => state.jobContext;
 export const getPageShown = (state: State) => state.pageShown;
 export const getAddingData = (state: State) => state.addingData;
-export const getSearchingFilter = (state: State) => state.searchingFilter;

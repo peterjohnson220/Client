@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -45,7 +45,7 @@ describe('Project - Add Data - Single Filter', () => {
 
   it('should dispatch a ToggleFilterSearch action when going back to all filters', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromAddSurveyDataPageActions.ToggleFilterSearch();
+    const expectedAction = new fromSearchActions.ToggleFilterSearch();
 
     instance.backToAllFilters();
 
