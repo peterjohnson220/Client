@@ -54,7 +54,6 @@ exports[`Project - Add Data - Job Result should not show Load More link when the
       
       - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
     </div>
-    
     <div
       class="d-flex mt-2"
     >
@@ -74,6 +73,7 @@ exports[`Project - Add Data - Job Result should not show Load More link when the
          Show Job Detail 
       </div>
     </div>
+    
     
     <div>
       <pf-data-cuts />
@@ -138,7 +138,6 @@ exports[`Project - Add Data - Job Result should show Load More link when there a
       
       - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
     </div>
-    
     <div
       class="d-flex mt-2"
     >
@@ -158,6 +157,7 @@ exports[`Project - Add Data - Job Result should show Load More link when there a
          Show Job Detail 
       </div>
     </div>
+    
     
     <div>
       <pf-data-cuts />

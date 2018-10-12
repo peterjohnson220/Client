@@ -35,7 +35,6 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() id: string;
   @Input() automationClassName: '';
   @Output() valueChanged = new EventEmitter();
-  
 
   constructor(private elementRef: ElementRef) {
     this.clearEvent = new Subject();
