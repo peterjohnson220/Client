@@ -9,8 +9,8 @@ import * as fromCommunityPostReducer from './community-post.reducer';
 import * as fromCommunityPostReplyReducer from './community-post-reply.reducer';
 import * as fromCommunityPostAddReplyViewReducer from './community-post-add-reply-view.reducer';
 import * as fromCommunityTagReducer from './community-tag.reducer';
+import * as fromCommunityJobReducer from './community-job.reducer';
 
-import * as CommunityPost from 'libs/models/community';
 // Feature area state
 export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
@@ -19,6 +19,7 @@ export interface CommunityState {
   communityPostReply: fromCommunityPostReplyReducer.State;
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.State;
   communityTags: fromCommunityTagReducer.State;
+  communityJob: fromCommunityJobReducer.State;
 }
 
 // Extend root state with feature area state
@@ -34,6 +35,7 @@ export const reducers = {
   communityPostReply:  fromCommunityPostReplyReducer.reducer,
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
+  communityJob: fromCommunityJobReducer.reducer
 };
 
 // select feature area
@@ -68,6 +70,11 @@ export const selectFromCommunityPostAddReplyViewState =  createSelector(
 export const selectFromCommunityTagState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityTags
+);
+
+export const selectFromCommunityJobState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityJob
 );
 
 // Community Poll Selectors
@@ -287,4 +294,34 @@ export const getSuggestingCommunityTagsPostId = createSelector(
 export const getSuggestingCommunityTagsError = createSelector(
   selectFromCommunityTagState,
   fromCommunityTagReducer.getSuggestingCommunityTagsError
+);
+
+// Community Job Selectors
+export const {
+  selectAll: getCommunityJobs,
+} = fromCommunityJobReducer.adapter.getSelectors(selectFromCommunityJobState);
+
+export const getSubmittingCommunityJobs = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobs
+);
+
+export const getSubmittingCommunityJobsError = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobsError
+);
+
+export const getSubmittingCommunityJobsSuccess = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobsSuccess
+);
+
+export const getGettingCommunityJobs = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getGettingCommunityJobs
+);
+
+export const getGettingCommunityJobsError = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getGettingCommunityJobsError
 );

@@ -19,7 +19,9 @@
       <div class="w-100 pl-3">
         <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
         <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
-        <div class="ml-3 p-0">
+        <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
+
+        <div *ngIf="submitVisible" class="ml-3 p-0">
           <button id="start-discussion-post-button" [disabled]="!submitEnabled"
                   (click)="submitContent()" class="btn btn-primary float-right">Post
             <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
