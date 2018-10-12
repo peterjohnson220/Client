@@ -26,7 +26,10 @@ exports[`Project - Add Data - Search Results should show a message, when loading
       
       
       
-      <pf-job-result />
+      <pf-job-result
+        class="non-payfactors-job"
+        ng-reflect-ng-class="non-payfactors-job"
+      />
       
     </pf-async-container>
     
