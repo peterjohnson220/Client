@@ -42,8 +42,6 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
         if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
           sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
         }
-
-        sortOptions(sf.Options);
       }
 
       return sf;
@@ -152,10 +150,4 @@ function fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption
         return o;
       })
   );
-}
-
-function sortOptions(options: MultiSelectOption[]) {
-  options.sort((a, b) => {
-    return b.Count - a.Count || arraySortByString(a.Name, b.Name, SortDirection.Ascending);
-  });
 }
