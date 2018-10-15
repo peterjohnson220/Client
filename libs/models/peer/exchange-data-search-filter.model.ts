@@ -4,6 +4,7 @@ import { generateMockPayMarketLocation } from './pay-market-location.model';
 
 export interface ExchangeDataSearchFilter extends SystemFilter {
   ExchangeIds: number[];
+  Countries: string[];
   States: string[];
   Cities: string[];
   CompanyIds: number[];
@@ -25,6 +26,7 @@ export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter
     PayMarketLocation: generateMockPayMarketLocation(),
     ExchangeId: 1,
     ExchangeIds: [1, 2],
+    Countries: ['USA', 'CAN'],
     States: ['StateOne'],
     Cities: ['CityOne, StateOne'],
     CompanyIds: [2, 3],
