@@ -23,6 +23,7 @@ import { CommunityPostAddReplyComponent } from './containers/community-post-add-
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
+import { CommunityPostFilteredReplyViewComponent } from './containers/community-post-filtered-reply-view';
 import { CommunityPostHeaderComponent } from './components/community-post-header';
 import { CommunityLikeComponent } from './components/community-like/community-like.component';
 import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
@@ -54,6 +55,7 @@ const components = [
   CommunityPostRepliesComponent,
   CommunityPostReplyComponent,
   CommunityPostAddReplyViewComponent,
+  CommunityPostFilteredReplyViewComponent,
   CommunityPostHeaderComponent,
   CommunityTextAreaComponent,
   CommunityStartDiscussionComponent,

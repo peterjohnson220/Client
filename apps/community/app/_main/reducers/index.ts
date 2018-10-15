@@ -8,8 +8,11 @@ import * as fromCommunityPollResponseReducer from './community-poll-response.red
 import * as fromCommunityPostReducer from './community-post.reducer';
 import * as fromCommunityPostReplyReducer from './community-post-reply.reducer';
 import * as fromCommunityPostAddReplyViewReducer from './community-post-add-reply-view.reducer';
+import * as fromCommunityPostFilterReplyViewReducer from './community-post-filter-reply-view.reducer';
 import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
+import * as CommunityPost from 'libs/models/community';
+
 
 // Feature area state
 export interface CommunityState {
@@ -17,6 +20,7 @@ export interface CommunityState {
   communityPollResponse: fromCommunityPollResponseReducer.State;
   communityPost: fromCommunityPostReducer.State;
   communityPostReply: fromCommunityPostReplyReducer.State;
+  communityPostFilteredReplyView: fromCommunityPostFilterReplyViewReducer.State;
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.State;
   communityTags: fromCommunityTagReducer.State;
   communityJob: fromCommunityJobReducer.State;
@@ -32,7 +36,8 @@ export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
   communityPollResponse: fromCommunityPollResponseReducer.reducer,
   communityPost: fromCommunityPostReducer.reducer,
-  communityPostReply:  fromCommunityPostReplyReducer.reducer,
+  communityPostReply: fromCommunityPostReplyReducer.reducer,
+  communityPostFilteredReplyView: fromCommunityPostFilterReplyViewReducer.reducer,
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
   communityJob: fromCommunityJobReducer.reducer
@@ -47,27 +52,32 @@ export const selectFromCommunityPollRequestState = createSelector(
   (state: CommunityState) => state.communityPollRequest
 );
 
-export const selectFromCommunityPollResponseState  = createSelector(
+export const selectFromCommunityPollResponseState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPollResponse
 );
 
-export const selectFromCommunityPostState =  createSelector(
+export const selectFromCommunityPostState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPost
 );
 
-export const selectFromCommunityPostReplyState =  createSelector(
+export const selectFromCommunityPostReplyState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostReply
 );
 
-export const selectFromCommunityPostAddReplyViewState =  createSelector(
+export const selectFromCommunityPostAddReplyViewState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostAddReplyView
 );
 
-export const selectFromCommunityTagState =  createSelector(
+export const selectFromCommunityPostFilterReplyViewState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostFilteredReplyView
+);
+
+export const selectFromCommunityTagState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityTags
 );
@@ -181,7 +191,7 @@ export const getAddingCommunityDiscussionPollSuccess = createSelector(
 export const getAddingCommunityDiscussionPollError = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getAddingCommunityDiscussionPollError
-  );
+);
 
 export const getCommunityPostsFilterTag = createSelector(
   selectFromCommunityPostState,
@@ -200,7 +210,7 @@ export const getGettingCommunityPostReplies = createSelector(
   fromCommunityPostReplyReducer.getGettingCommunityPostReplies
 );
 
-export const getGettingCommunityPostRepliesError  = createSelector(
+export const getGettingCommunityPostRepliesError = createSelector(
   selectFromCommunityPostReplyState,
   fromCommunityPostReplyReducer.getGettingCommunityPostRepliesError
 );
@@ -229,30 +239,49 @@ export const getCommunityPostAddReplyView = createSelector(
 export const getFilteredCommunityPostAddReplyView = createSelector(
   getCommunityPostReplyEntities,
   getCommunityPostAddReplyView,
-    (replies, addReplies) => addReplies.reduce((acc, id) => {
-      return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
-    }, [])
+  (replies, addReplies) => addReplies.reduce((acc, id) => {
+    return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+  }, [])
 );
+
+// Community Post Filtered Reply View selector
+export const getCommunityPostFilterReplyView = createSelector(
+  selectFromCommunityPostFilterReplyViewState,
+  fromCommunityPostFilterReplyViewReducer.getCommunityPostFilterReplyView
+);
+
+export const getFilteredCommunityPostReplyView = createSelector(
+  getCommunityPostReplyEntities,
+  getCommunityPostFilterReplyView,
+  (replies, filterReplies) => filterReplies.reduce((acc, id) => {
+    return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+  }, [])
+);
+
+
 // Community Post With Replies
 export const getCommunityPostsCombinedWithReplies = createSelector(
   getCommunityPosts,
   getCommunityPostReplyEntities,
   getCommunityPostAddReplyView,
-  (posts, replies, addReplies) => {
+  getCommunityPostFilterReplyView,
+  (posts, replies, addReplies, filterReplies) => {
     if (posts && replies) {
       const postlist = cloneDeep(posts);
       postlist.forEach(post => {
         if (post.ReplyIds && post.ReplyIds.length > 0) {
-          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0);
+          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0
+            && filterReplies.indexOf(replyId) < 0);
+
           const filteredReplies = filteredReplyIds.reduce((acc, id) => {
             return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
           }, []);
+
           post.ReplyCount = filteredReplies.length;
           filteredReplies.forEach(filteredReply => {
-              post.Replies.push(filteredReply);
+            post.Replies.push(filteredReply);
           });
         }
-
       });
       return postlist;
     } else {
