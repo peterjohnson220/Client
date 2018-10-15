@@ -1,4 +1,4 @@
-<div class="multi-match-data-header">
+<div class="page-data-header">
   <div class="d-flex align-items-center h-100 pr-3">
     <pf-filter-pills [filters]="filters$ | async" (pillClicked)="handlePillClicked($event)"></pf-filter-pills>
 
@@ -32,7 +32,7 @@
         </button>
       </div>
       <div class="results-count">
-        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong> Jobs
+        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong>&nbsp;Jobs
       </div>
     </div>
   </div>

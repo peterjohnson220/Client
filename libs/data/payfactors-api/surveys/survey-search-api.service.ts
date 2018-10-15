@@ -16,7 +16,9 @@ import {
   SearchContextResponse,
   SearchSurveyAggregationsRequest,
   JobsToPriceRequest,
-  MatchedSurveyJob
+  MatchedSurveyJob,
+  JobMatchCutsRequest,
+  JobMatchCutsResponse
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -69,5 +71,9 @@ export class SurveySearchApiService {
 
   getJobsToPrice(request: JobsToPriceRequest): Observable<MatchedSurveyJob[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMatchedSurveyJobs`, request );
+  }
+
+  getJobMatchCuts(request: JobMatchCutsRequest): Observable<JobMatchCutsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMatchJobCuts`, request );
   }
 }

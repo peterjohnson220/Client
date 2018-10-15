@@ -8,7 +8,9 @@
     <ng-container *ngIf="(jobsToPrice$ | async)?.length; else noJobsToPriceMessage">
       <pf-job-to-price
         *ngFor="let job of jobsToPrice$ | async; trackBy: trackByJobId"
-        [job]="job">
+        [job]="job"
+        [rate]="(searchContext$ | async)?.Rate"
+        (loadDataCuts)="handleLoadDataCuts($event)">
       </pf-job-to-price>
     </ng-container>
   </pf-async-container>

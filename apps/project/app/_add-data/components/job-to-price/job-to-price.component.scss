@@ -70,3 +70,28 @@
   white-space: nowrap;
   vertical-align: top;
 }
+
+.data-cuts-container{
+  margin: .5rem 0 0 0;
+}
+
+.data-cuts-table{
+  width: 100%;
+  border: 1px solid $grey;
+  font-size: 11px;
+
+  td, th{
+    padding: .35rem;
+  }
+}
+.data-cuts-table thead tr{
+  background: $legacy-dark-header-grey;
+}
+
+.scope-cell{
+  width: 75%;
+}
+
+.fa-times{
+  cursor: pointer;
+}

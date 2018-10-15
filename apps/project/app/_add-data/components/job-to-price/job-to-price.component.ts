@@ -10,6 +10,7 @@ import { JobToPrice } from '../../models';
 })
 export class JobToPriceComponent implements OnInit {
   @Input() job: JobToPrice;
+  @Input() rate: string;
   @Output() loadDataCuts: EventEmitter<JobToPrice> = new EventEmitter<JobToPrice>();
 
   toggleDataCutsLabel: string;
@@ -32,10 +33,19 @@ export class JobToPriceComponent implements OnInit {
   toggleDataCutsDisplay(): void {
     this.showDataCuts = !this.showDataCuts;
     this.toggleDataCutsLabel = this.showDataCuts ? this.hideCutsLabel : this.showCutsLabel;
+
+    if (this.showDataCuts) {
+      this.loadDataCuts.emit(this.job);
+    }
   }
 
   toggleJobDetailDisplay(): void {
     this.showJobDetail = !this.showJobDetail;
+  }
+
+  formatCurrency(value: number): string {
+    const precision = this.rate === 'Hourly' ? 2 : 1;
+    return value.toFixed(precision);
   }
 
 }

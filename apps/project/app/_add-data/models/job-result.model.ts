@@ -9,13 +9,13 @@ export interface JobResult extends BaseJobInfo {
     Category?: string;
     FLSAStatus?: string;
     Scope?: string;
-    LoadingDataCuts: boolean;
     LoadingMoreDataCuts: boolean;
     Base50th: number;
     TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
+    DataCuts: SurveyDataCut[];
 }
 
 export interface BaseJobInfo {
@@ -26,7 +26,7 @@ export interface BaseJobInfo {
   Family: string;
   Level: string;
   TotalDataCuts?: number;
-  DataCuts: SurveyDataCut[];
+  LoadingDataCuts: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {

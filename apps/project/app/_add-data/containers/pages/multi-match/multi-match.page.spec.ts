@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromMultimatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
+import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import { generateProjectContext, ProjectContext } from '../../../models';
 import * as fromAddDataReducer from '../../../reducers';
 import { MultiMatchPageComponent } from './multi-match.page';
@@ -145,5 +146,21 @@ describe('Project - Add Data - Multi Match Page', () => {
     instance.handleSaveFilters(isForAllPayMarkets);
 
     expect(store.dispatch).toHaveBeenCalledWith(saveSearchFiltersAction);
+  });
+  it('should dispatch a Clear jobs action, when receiving a App Closed message', () => {
+    const messageEvent = new MessageEvent('Message from parent', {
+      data: {
+        payfactorsMessage: {
+          type: 'App Closed'
+        }
+      }
+    });
+    const expectedAction = new fromJobsToPriceActions.ClearAllJobs();
+
+    spyOn(store, 'dispatch');
+
+    instance.onMessage(messageEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
