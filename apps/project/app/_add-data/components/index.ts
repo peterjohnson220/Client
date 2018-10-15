@@ -6,3 +6,4 @@ export * from './matches-details-tooltip';
 export * from './multi-select-filter';
 export * from './range-filter';
 export * from './search-actions';
+export * from './job-to-price';

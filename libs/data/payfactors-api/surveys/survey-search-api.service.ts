@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
-  SurveyDataResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
+import {
+  SearchFilter,
+  SearchRequest,
+  SurveyDataFilterRequest,
+  SurveyDataResponse,
+  AddSurveyDataCutRequest,
+  AddSurveyDataCutMatchResponse,
   PricingMatchesResponse,
   PricingMatchesRequest,
   PricingMatchesDetailsRequest,
   SaveSearchFiltersRequest,
   SearchContextResponse,
-  SearchSurveyAggregationsRequest
+  SearchSurveyAggregationsRequest,
+  JobsToPriceRequest,
+  MatchedSurveyJob
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -58,5 +65,9 @@ export class SurveySearchApiService {
 
   getSavedFilters(payMarketId: number): Observable<SearchFilter[]> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetSavedFilters`, { params: { payMarketId } });
+  }
+
+  getJobsToPrice(request: JobsToPriceRequest): Observable<MatchedSurveyJob[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMatchedSurveyJobs`, request );
   }
 }

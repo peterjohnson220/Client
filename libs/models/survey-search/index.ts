@@ -11,3 +11,4 @@ export * from './pricing-matches-details-request.model';
 export * from './search-survey-aggregations-request.model';
 export * from './save-search-filters-request.model';
 export * from './search-context-response.model';
+export * from './jobs-to-price-request.model';

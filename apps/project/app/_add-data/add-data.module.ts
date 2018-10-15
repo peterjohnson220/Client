@@ -12,11 +12,12 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
-  MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent
+  MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
+  JobToPriceComponent
 } from './components';
 
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent, SingleFilterComponent } from './containers';
+         TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent } from './containers';
 
 import {
   AddSurveyDataPageEffects,
@@ -24,12 +25,12 @@ import {
   SearchFiltersEffects,
   SearchResultsEffects,
   SingledFilterEffects,
-  TooltipContainerEffects
+  TooltipContainerEffects,
+  JobsToPriceEffects
 } from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
-
 @NgModule({
   imports: [
     // Angular
@@ -38,7 +39,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects
+      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
@@ -56,9 +57,11 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // Components
     JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
     MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
+    JobToPriceComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
+    JobsToPriceComponent,
 
     // Pages
     AddSurveyDataPageComponent, MultiMatchPageComponent
