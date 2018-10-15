@@ -82,7 +82,7 @@ export class FilterPillsComponent implements OnInit, OnChanges {
           this.pills.push({
             FilterId: fwv.Id,
             FilterName: fwv.DisplayName,
-            ValueName: `${fwv.SelectedMinValue} - ${fwv.SelectedMaxValue}`,
+            ValueName: `${fwv.SelectedMinValue.toFixed(fwv.Precision)} - ${fwv.SelectedMaxValue.toFixed(fwv.Precision)}`,
             Value: null,
             Locked: fwv.Locked
           });
