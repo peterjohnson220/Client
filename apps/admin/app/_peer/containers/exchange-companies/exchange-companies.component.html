@@ -1,35 +1,23 @@
 <div class="d-flex flex-column h-100">
-  <pf-manage-exchange-section-header
-    [sectionTitle]="'Exchange Companies'"
-    [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'"
-  >
+  <pf-manage-exchange-section-header [sectionTitle]="'Exchange Companies'" [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'">
     <ng-container header-actions>
+      <div class="omni-box">
+        <pf-input-debounce [placeholderText]="'Search Exchange Participants...'" (valueChanged)="handleSearchChanged($event)">
+        </pf-input-debounce>
+      </div>
       <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeCompaniesModal()">Add</button>
     </ng-container>
   </pf-manage-exchange-section-header>
   <div class="d-flex h-100">
-    <pf-async-container
-      [loading]="exchangeCompaniesLoading$ | async"
-      [loadingError]="exchangeCompaniesLoadingError$ | async"
-      [loadingErrorMessage]="'Error loading exchange companies'"
-      (reload)="handleExchangeCompaniesGridReload()"
-      class="flex-grow-1"
-    >
+    <pf-async-container [loading]="exchangeCompaniesLoading$ | async" [loadingError]="exchangeCompaniesLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading exchange companies'" (reload)="handleExchangeCompaniesGridReload()" class="flex-grow-1">
 
-      <kendo-grid
-        [data]="exchangeCompaniesGrid$ | async"
-        [pageSize]="(gridState$ | async)?.take"
-        [skip]="(gridState$ | async)?.skip"
+      <kendo-grid [data]="exchangeCompaniesGrid$ | async" [pageSize]="(gridState$ | async)?.take" [skip]="(gridState$ | async)?.skip"
         [pageable]="{
               buttonCount: 5,
               info: true
-            }"
-        [sortable]="true"
-        [scrollable]="true"
-        [sort]="(gridState$ | async)?.sort"
-        (pageChange)="handlePageChange($event)"
-        (sortChange)="handleSortChange($event)"
-      >
+            }" [sortable]="true"
+        [scrollable]="true" [sort]="(gridState$ | async)?.sort" (pageChange)="handlePageChange($event)" (sortChange)="handleSortChange($event)">
 
         <kendo-grid-column field="CompanyName" title="Company Name"></kendo-grid-column>
 
@@ -41,8 +29,7 @@
 
         <kendo-grid-column width="50">
           <ng-template kendoGridCellTemplate let-dataItem>
-            <button title="Remove Company" class="delete-mapping-button btn btn-sm btn-danger"
-                    (click)="openDeleteExchangeCompanyModal(dataItem)">
+            <button title="Remove Company" class="delete-mapping-button btn btn-sm btn-danger" (click)="openDeleteExchangeCompanyModal(dataItem)">
               <i class="fas fa-trash-alt fa-lg" aria-hidden="true"></i>
             </button>
           </ng-template>
@@ -57,8 +44,5 @@
 
 <pf-add-companies-modal></pf-add-companies-modal>
 
-<pf-delete-company-modal
-  [selectedCompany]="selectedCompany"
-  [exchangeId]="exchangeId"
-  >
+<pf-delete-company-modal [selectedCompany]="selectedCompany" [exchangeId]="exchangeId">
 </pf-delete-company-modal>
