@@ -165,7 +165,8 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 </pf-filter-section>
 `;
 
-exports[`Project - Add Data - Filter Section should show a search icon and show more link, when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
+exports[`Project - Add Data - Filter Section should show a search icon and show more link, when the filter is a multi select,
+      not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
   cssReplacementRegex={[Function RegExp]}

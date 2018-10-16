@@ -144,7 +144,8 @@ describe('Project - Add Data - Filter Section', () => {
     expect(instance.hasText).toBe(false);
   });
 
-  it('should show a search icon and show more link, when the filter is a multi select, not singled, and the number of options is >= the max', () => {
+  it(`should show a search icon and show more link, when the filter is a multi select,
+      not singled, and the number of options is >= the max`, () => {
     instance.filter = <MultiSelectFilter>{...generateMockMultiSelectFilter(), Options: Array(5).fill(generateMockMultiSelectOption()) };
     instance.singled = false;
     instance.maxOptions = 5;
