@@ -1,0 +1,18 @@
+@import 'colors';
+
+.control-label {
+    text-align: right;
+}
+
+.input {
+    display: inline-block;
+}
+
+.form-group.required-indicator .control-label:after {
+    content:"*";
+    color: $community-invalid-field-color;
+  }
+
+.form-group input:invalid {
+    border-color: $community-invalid-field-color;
+}

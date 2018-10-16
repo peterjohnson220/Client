@@ -29,6 +29,7 @@ import { CommunityAvatarComponent } from './components/community-avatar/communit
 import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityNewPostComponent } from './containers/community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from './containers/community-new-poll/community-new-poll.component';
+import { CommunityNewJobComponent } from './containers/community-new-job/community-new-job.component';
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
@@ -38,13 +39,13 @@ import { CommunityPostTagFilterComponent} from './components/community-tag-filte
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 
-import { CommunityPostEffects, CommunityTagEffects } from './effects';
-import { CommunityPostReplyEffects } from './effects';
+import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
 
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
+import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
 
 const components = [
   CommunityDashboardPageComponent,
@@ -66,7 +67,8 @@ const components = [
   CommunityNewPostComponent,
   CommunityPollChoicesComponent,
   CommunityPollComponent,
-  CommunityPostTagFilterComponent
+  CommunityPostTagFilterComponent,
+  CommunityNewJobComponent
 ];
 
 @NgModule({
@@ -87,7 +89,8 @@ const components = [
       CommunityPollResponseEffects,
       CommunityPostEffects,
       CommunityPostReplyEffects,
-      CommunityTagEffects
+      CommunityTagEffects,
+      CommunityJobEffects
     ]),
 
     // Routing
@@ -102,7 +105,8 @@ const components = [
   providers: [
     CommunityPollApiService,
     CommunityPostApiService,
-    CommunityTagApiService
+    CommunityTagApiService,
+    CommunityJobApiService
   ]
 })
 export class MainModule {

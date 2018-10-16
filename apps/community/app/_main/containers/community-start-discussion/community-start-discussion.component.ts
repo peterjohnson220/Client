@@ -1,30 +1,52 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityJobReducer from '../../reducers';
+
 import { CommunityPostTypeStatusEnum } from 'libs/models/community/community-constants.model';
 import { CommunityNewPostComponent } from '../community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from '../community-new-poll/community-new-poll.component';
+import { CommunityNewJobComponent } from '../community-new-job/community-new-job.component';
+import { CommunityJob } from 'libs/models';
 
 @Component({
   selector: 'pf-community-start-discussion',
   templateUrl: './community-start-discussion.component.html',
   styleUrls: ['./community-start-discussion.component.scss']
 })
-export class CommunityStartDiscussionComponent {
+export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   postType = CommunityPostTypeStatusEnum.Discussion;
 
   submittingCommunityPost$: Observable<boolean>;
+  submittingCommunityJobSuccess$: Observable<CommunityJob>;
+
+  submittingCommunityJobSuccessSubscription: Subscription;
+  showPostJobButton = true;
 
   get CommunityPostTypes() { return CommunityPostTypeStatusEnum; }
 
   @ViewChild('newPostComponent') newPostComponent: CommunityNewPostComponent;
   @ViewChild('newPollComponent') newPollComponent: CommunityNewPollComponent;
+  @ViewChild('newJobComponent') newJobComponent: CommunityNewJobComponent;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
     this.submittingCommunityPost$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPosts);
+    this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityJobReducer.getSubmittingCommunityJobsSuccess);
+  }
+
+  ngOnInit() {
+    this.submittingCommunityJobSuccessSubscription = this.submittingCommunityJobSuccess$.subscribe((response) => {
+      this.showPostJobButton = response ? false : true;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.submittingCommunityJobSuccessSubscription) {
+      this.submittingCommunityJobSuccessSubscription.unsubscribe();
+    }
   }
 
   onPostTypeClick(postType) {
@@ -32,11 +54,21 @@ export class CommunityStartDiscussionComponent {
   }
 
   get submitEnabled() {
-    if ( this.postType === this.CommunityPostTypes.Discussion &&  this.newPostComponent ) {
+    if ( this.newPostComponent ) {
       return this.newPostComponent.isFormValid;
-    } else if ( this.postType === this.CommunityPostTypes.Question  && this.newPollComponent) {
+    } else if ( this.newPollComponent) {
       return this.newPollComponent.isFormValid;
+    } else if ( this.newJobComponent) {
+      return this.newJobComponent.isFormValid;
     } else { return false; }
+  }
+
+  get submitVisible() {
+    if ( this.postType === this.CommunityPostTypes.Discussion || this.postType === this.CommunityPostTypes.Question) {
+      return true;
+    } else if ( this.postType === this.CommunityPostTypes.Job) {
+      return this.showPostJobButton;
+    }
   }
 
   submitContent() {
@@ -44,7 +76,8 @@ export class CommunityStartDiscussionComponent {
       this.newPostComponent.submit();
     } else if ( this.postType === this.CommunityPostTypes.Question && this.newPollComponent) {
       this.newPollComponent.submit();
+    } else if ( this.postType === this.CommunityPostTypes.Job && this.newJobComponent) {
+      this.newJobComponent.submit();
     }
   }
-
 }
