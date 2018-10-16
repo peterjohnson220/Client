@@ -44,6 +44,7 @@ describe('Project - Add Data - Search Actions', () => {
     const popover: NgbPopover = fixture.debugElement.query(By.directive(NgbPopover)).references.popover;
     spyOn(instance.saveFilters, 'emit');
     instance.isForAllPayMarkets = true;
+    fixture.detectChanges();
 
     instance.handleSaveFilters(popover);
     fixture.detectChanges();

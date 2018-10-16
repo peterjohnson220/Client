@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, OnInit } from '@angular/core';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
@@ -8,13 +8,17 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./search-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchActionsComponent {
+export class SearchActionsComponent implements OnInit {
   @Output() reset = new EventEmitter();
   @Output() saveFilters: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   public isForAllPayMarkets: boolean;
 
   constructor() { }
+
+  ngOnInit(): void {
+    this.isForAllPayMarkets = false;
+  }
 
   handleResetClicked() {
     this.reset.emit();
