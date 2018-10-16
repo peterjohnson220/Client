@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="header-right">
-      <div class="reset-link" 
+      <div class="clear-link"
           [ngClass]="cssResetClearBtnAutomationName"
           *ngIf="shouldShowClearLink"
           (click)="handleClearClicked($event, filter.Id)">
@@ -18,7 +18,7 @@
       </div>
       <div class="search"
            [ngClass]=" 'au-btn-search-' + filter.CssClassName"
-           *ngIf="filter.Type === filterTypes.Multi && !singled && selectableOptionCount >= maxOptions && !filter.Locked"
+           *ngIf="allowedToSearch"
            (click)="handleSearchClicked($event, filter)">
         <i class="far fa-search"></i>
       </div>
@@ -30,6 +30,7 @@
     </div>
     <div class="content">
       <ng-content></ng-content>
+      <div (click)="handleShowMoreClicked(filter)" class="show-more-link" *ngIf="allowedToSearch">Show More</div>
     </div>
   </div>
 </div>

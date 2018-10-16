@@ -7,8 +7,9 @@ exports[`Project - Add Data - Filter Section should display the given title in t
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  searchClicked={[Function EventEmitter]}
+  search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  showMore={[Function EventEmitter]}
 >
   <div
     class="filter"
@@ -28,8 +29,8 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       >
         
         <div
-          class="reset-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="reset-link"
+          class="clear-link au-btn-clear-au-txt-job-title"
+          ng-reflect-klass="clear-link"
           ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
@@ -46,7 +47,9 @@ exports[`Project - Add Data - Filter Section should display the given title in t
       
       <div
         class="content"
-      />
+      >
+        
+      </div>
     </div>
   </div>
 </pf-filter-section>
@@ -77,8 +80,8 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
         >
           
           <div
-            class="reset-link au-btn-clear-au-txt-job-title"
-            ng-reflect-klass="reset-link"
+            class="clear-link au-btn-clear-au-txt-job-title"
+            ng-reflect-klass="clear-link"
             ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
           >
             
@@ -99,6 +102,7 @@ exports[`Project - Add Data - Filter Section should display the transcluded cont
           <h1>
             Transclusion Works!
           </h1>
+          
         </div>
       </div>
     </div>
@@ -114,8 +118,9 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  searchClicked={[Function EventEmitter]}
+  search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  showMore={[Function EventEmitter]}
 >
   <div
     class="filter"
@@ -142,8 +147,8 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
       >
         
         <div
-          class="reset-link au-btn-clear-au-txt-job-title"
-          ng-reflect-klass="reset-link"
+          class="clear-link au-btn-clear-au-txt-job-title"
+          ng-reflect-klass="clear-link"
           ng-reflect-ng-class="au-btn-clear-au-txt-job-title"
         >
           
@@ -160,15 +165,16 @@ exports[`Project - Add Data - Filter Section should show a fa-angle-down icon in
 </pf-filter-section>
 `;
 
-exports[`Project - Add Data - Filter Section should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
+exports[`Project - Add Data - Filter Section should show a search icon and show more link, when the filter is a multi select, not singled, and the number of options is >= the max 1`] = `
 <pf-filter-section
   clear={[Function EventEmitter]}
   cssReplacementRegex={[Function RegExp]}
   filter={[Function Object]}
   filterTypes={[Function Object]}
   maxOptions={[Function Number]}
-  searchClicked={[Function EventEmitter]}
+  search={[Function EventEmitter]}
   searchValueChanged={[Function EventEmitter]}
+  showMore={[Function EventEmitter]}
   singled="false"
 >
   <div
@@ -189,8 +195,8 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
       >
         
         <div
-          class="reset-link au-btn-clear-au-chk-publisher"
-          ng-reflect-klass="reset-link"
+          class="clear-link au-btn-clear-au-chk-publisher"
+          ng-reflect-klass="clear-link"
           ng-reflect-ng-class="au-btn-clear-au-chk-publisher"
         >
           
@@ -216,7 +222,14 @@ exports[`Project - Add Data - Filter Section should show a search icon when the 
       
       <div
         class="content"
-      />
+      >
+        
+        <div
+          class="show-more-link"
+        >
+          Show More
+        </div>
+      </div>
     </div>
   </div>
 </pf-filter-section>

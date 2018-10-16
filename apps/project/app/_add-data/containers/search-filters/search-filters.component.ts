@@ -65,8 +65,11 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleSearchSection(filter: Filter) {
-    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
-    this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
+    this.toggleFilterSearch(filter);
+  }
+
+  handleSectionShowMore(filter: Filter) {
+    this.toggleFilterSearch(filter);
   }
 
   // Lifecycle
@@ -80,6 +83,11 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.pageShowSub.unsubscribe();
+  }
+
+  private toggleFilterSearch(filter: Filter): void {
+    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
   }
 }
 

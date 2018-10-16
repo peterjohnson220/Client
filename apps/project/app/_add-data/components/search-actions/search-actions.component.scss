@@ -10,8 +10,7 @@
 }
 
 .reset-filters, .save-filters{
-  @extend %uppercase-link;
-  @extend %filter-action;
+  @extend %text-filter-action;
 }
 
 .form-check{
