@@ -95,6 +95,25 @@ describe('Project - Add Data - Filter Section', () => {
     expect(instance.clear.emit).toHaveBeenCalledWith(instance.filter.Id);
   });
 
+  it('should emit a show more event with the filter when handling the show more clicked', () => {
+    instance.filter = generateMockMultiSelectFilter();
+    spyOn(instance.showMore, 'emit');
+
+    instance.handleShowMoreClicked(instance.filter);
+
+    expect(instance.showMore.emit).toHaveBeenCalledWith(instance.filter);
+  });
+
+  it('should emit a search event with the filter when handling the search clicked', () => {
+    const mockEvent = { stopPropagation: jest.fn()};
+    instance.filter = generateMockMultiSelectFilter();
+    spyOn(instance.search, 'emit');
+
+    instance.handleSearchClicked(mockEvent, instance.filter);
+
+    expect(instance.search.emit).toHaveBeenCalledWith(instance.filter);
+  });
+
   it('the selection count should give the # of selections when the filter is a MultiSelect', () => {
     instance.filter = generateMockMultiSelectFilter();
 
@@ -125,7 +144,7 @@ describe('Project - Add Data - Filter Section', () => {
     expect(instance.hasText).toBe(false);
   });
 
-  it('should show a search icon when the filter is a multi select, not singled, and the number of options is >= the max', () => {
+  it('should show a search icon and show more link, when the filter is a multi select, not singled, and the number of options is >= the max', () => {
     instance.filter = <MultiSelectFilter>{...generateMockMultiSelectFilter(), Options: Array(5).fill(generateMockMultiSelectOption()) };
     instance.singled = false;
     instance.maxOptions = 5;

@@ -2,7 +2,7 @@
 @import 'search/filters-variables';
 
 .filter{
-  padding-bottom: 1rem;
+  padding-bottom: .75rem;
 }
 
 .header{
@@ -59,10 +59,8 @@
   color: #585858;
 }
 
-.reset-link{
-  @extend %reset-link;
-  padding-top: .25rem;
-  padding-bottom: .25rem;
+.clear-link{
+  @extend %text-filter-action;
 }
 
 .search{
@@ -72,5 +70,14 @@
   &:hover{
     color: $link-color;
     font-weight: bold;
+  }
+}
+
+.show-more-link{
+  @extend %uppercase-link;
+  padding: .5rem;
+
+  &:hover{
+    background-color: $hover-option-color-alt;
   }
 }

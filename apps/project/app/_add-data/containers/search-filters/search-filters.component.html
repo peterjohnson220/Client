@@ -6,7 +6,8 @@
       [currencyCode]="(projectSearchContext$ |async)?.CurrencyCode"
       [ngSwitch]="filter.Type"
       (clear)="handleClearSection($event)"
-      (searchClicked)="handleSearchSection($event)">
+      (search)="handleSearchSection($event)"
+      (showMore)="handleSectionShowMore($event)">
 
       <!--Text Filters-->
       <ng-container *ngSwitchCase="filterTypes.Text">

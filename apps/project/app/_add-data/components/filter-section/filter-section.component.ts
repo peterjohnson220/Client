@@ -14,7 +14,8 @@ export class FilterSectionComponent {
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
   @Output() clear: EventEmitter<string> = new EventEmitter();
-  @Output() searchClicked: EventEmitter<Filter> = new EventEmitter();
+  @Output() search: EventEmitter<Filter> = new EventEmitter();
+  @Output() showMore: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
@@ -53,6 +54,13 @@ export class FilterSectionComponent {
     return isRangeFilter(this.filter);
   }
 
+  get allowedToSearch(): boolean {
+    return this.filter.Type === this.filterTypes.Multi &&
+            !this.singled &&
+            this.selectableOptionCount >= this.maxOptions &&
+            !this.filter.Locked;
+  }
+
   toggle() {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
@@ -64,9 +72,13 @@ export class FilterSectionComponent {
     this.clear.emit(filterId);
   }
 
-  handleSearchClicked(e: MouseEvent, filter: Filter) {
+  handleSearchClicked(e, filter: Filter) {
     e.stopPropagation();
-    this.searchClicked.emit(filter);
+    this.search.emit(filter);
+  }
+
+  handleShowMoreClicked(filter: Filter) {
+    this.showMore.emit(filter);
   }
 
   handleSearchValueChanged(value: string) {
