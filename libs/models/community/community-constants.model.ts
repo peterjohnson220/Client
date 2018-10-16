@@ -25,3 +25,6 @@ export const HashTagRegEx = new RegExp(/([#])\w+/ig, 'gi');
 
 export const UrlLinkRegEx = new RegExp('(http(s)?:\\/\\/.)?(www\\.)?' +
   '[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)', 'gi');
+
+export const NewLineRegEx = new RegExp('(?:\r\n|\r|\n)', 'gi');
+export const NewMultiLineRegEx = new RegExp('(?:\r\n|\r|\n){2,}', 'gi');

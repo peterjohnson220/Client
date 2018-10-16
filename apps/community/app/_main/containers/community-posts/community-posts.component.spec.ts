@@ -9,7 +9,7 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import { CommunityPostsComponent } from './community-posts.component';
-import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
+import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
@@ -32,7 +32,8 @@ describe('CommunityPostsComponent', () => {
       declarations: [
         CommunityPostsComponent,
         HighlightHashTagPipe,
-        FormatLinkUrlPipe
+        FormatLinkUrlPipe,
+        NewLinePipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
