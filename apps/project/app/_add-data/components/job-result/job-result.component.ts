@@ -3,9 +3,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { DataCut, MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/survey-search';
+import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/survey-search';
 
-import { JobResult, MatchesDetailsTooltipData } from '../../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
 import * as fromAddDataReducer from '../../reducers';
 
@@ -16,14 +16,16 @@ import * as fromAddDataReducer from '../../reducers';
 })
 export class JobResultComponent implements OnInit, OnDestroy {
   @Input() job: JobResult;
+  @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
   @Output() loadDataCuts: EventEmitter<JobResult> = new EventEmitter<JobResult>();
-  @Output() cutSelected: EventEmitter<DataCut> = new EventEmitter<DataCut>();
+  @Output() cutSelected: EventEmitter<DataCutDetails> = new EventEmitter<DataCutDetails>();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // Observables
   loadingResults$: Observable<boolean>;
+  selectedCuts$: Observable<DataCutDetails[]>;
 
   // Subscription
   private loadingResultsSub: Subscription;
@@ -44,6 +46,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
     // components in the NgFor so they do not get re-initialized if they show up in subsequent searches. Currently this
     // is the only way to know about a search so we can reset some things.
     this.loadingResults$ = this.store.select(fromAddDataReducer.getLoadingResults);
+    this.selectedCuts$ = this.store.select(fromAddDataReducer.getSelectedDataCuts);
   }
   get toggleJobDetailLabel() {
     return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
@@ -78,11 +81,14 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.showJobDetail = !this.showJobDetail;
   }
 
-  handleDataCutSelected(idObj: { dataCutId: number }) {
+  handleDataCutSelected(idObj: SurveyDataCut) {
     this.cutSelected.emit({
       IsPayfactorsJob: false,
-      DataCutId: idObj.dataCutId,
-      SurveyJobId: this.job.Id
+      DataCutId: idObj.SurveyDataId,
+      SurveyJobId: this.job.Id,
+      Job: this.job,
+      TCC50th: idObj.TCC50th,
+      Base50th: idObj.Base50th
     });
   }
 
@@ -90,7 +96,10 @@ export class JobResultComponent implements OnInit, OnDestroy {
     this.cutSelected.emit({
       IsPayfactorsJob: true,
       SurveyJobCode: this.job.Code,
-      CountryCode: this.job.CountryCode
+      CountryCode: this.job.CountryCode,
+      Job: this.job,
+      Base50th: this.job.Base50th,
+      TCC50th: this.job.TCC50th
     });
   }
 

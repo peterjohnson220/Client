@@ -24,6 +24,7 @@ export class HideFilterSearch implements Action {
   constructor() {}
 }
 
+
 export type Actions
   = SetProjectSearchContext
   | ToggleFilterSearch

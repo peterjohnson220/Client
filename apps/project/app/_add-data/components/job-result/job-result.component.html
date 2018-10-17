@@ -72,6 +72,8 @@
   <div *ngIf="showDataCuts && !job.LoadingDataCuts">
     <pf-data-cuts [job]="job"
                   [dataCuts]="job.DataCuts"
+                  [numberCutsSelected]="(selectedCuts$ | async)?.length"
+                  [cutsDraggable]="cutsDraggable"
                   [currencyCode]="currencyCode"
                   (dataCutSelected)="handleDataCutSelected($event)"
                   (payFactorsCutSelected)="handlePayfactorsCutSelected()"

@@ -11,6 +11,7 @@ exports[`Project - Add Data - Job Result should not show Load More link when the
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   showJobDetail="false"
@@ -95,6 +96,7 @@ exports[`Project - Add Data - Job Result should show Load More link when there a
   matchesMouseEnter={[Function EventEmitter]}
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
+  selectedCuts$={[Function Store]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   showJobDetail="false"

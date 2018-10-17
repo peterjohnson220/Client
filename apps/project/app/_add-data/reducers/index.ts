@@ -126,6 +126,7 @@ export const getSearchingFilter = createSelector(
   selectSearchState,
   fromSearchReducer.getSearchingFilter
 );
+
 // Search Results Selectors
 export const getResults = createSelector(
   selectSearchResultsState,

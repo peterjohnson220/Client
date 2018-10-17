@@ -142,7 +142,7 @@ export function mapMatchedSurveyJobToJobsToPrice(sjl: MatchedSurveyJob[]): JobTo
   return sjl.map((sj: MatchedSurveyJob): JobToPrice => {
     return {
       Code: sj.Job.Code,
-      DataCuts: [],
+      JobMatchCuts: [],
       Description: sj.Job.Description,
       Family: sj.Job.Family,
       Id: Number(sj.Id),
