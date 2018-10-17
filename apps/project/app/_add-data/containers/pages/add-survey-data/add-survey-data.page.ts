@@ -22,6 +22,7 @@ export class AddSurveyDataPageComponent {
   addingData$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
+  pageShown$: Observable<boolean>;
   filters$: Observable<Filter[]>;
 
   filters: Filter[];
@@ -35,6 +36,7 @@ export class AddSurveyDataPageComponent {
     this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
     this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
     this.filters$ = this.store.select(fromAddDataReducer.getFilters);
+    this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
     this.excludeFromParticipation = false;
   }
 
