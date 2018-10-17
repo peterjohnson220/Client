@@ -10,6 +10,7 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 import { generateMockCommunityUserInfo } from 'libs/models/community/community-user-info.model';
 
 import { CommunityPostHeaderComponent } from './community-post-header.component';
+import { CommunityDeletePost } from '../../models/community-delete-post.model';
 
 
 describe('CommunityPostsComponent', () => {
@@ -60,49 +61,47 @@ describe('CommunityPostsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should call DeleteReply when isReply is true while calling Delete', () => {
+  it('should call DeleteReply when isReply is true while calling delete', () => {
     instance.postId = '1';
     instance.isReply = true;
 
-    spyOn(instance, 'DeleteReply');
+    spyOn(instance, 'deleteReply');
 
-    instance.Delete();
+    instance.delete();
 
-    expect(instance.DeleteReply).toHaveBeenCalled();
+    expect(instance.deleteReply).toHaveBeenCalled();
   });
 
-  it('should call DeletePost when isReply is false while calling Delete', () => {
+  it('should call DeletePost when isReply is false while calling delete', () => {
     instance.postId = '1';
     instance.isReply = false;
 
-    spyOn(instance, 'DeletePost');
+    spyOn(instance, 'deletePost');
 
-    instance.Delete();
+    instance.delete();
 
-    expect(instance.DeletePost).toHaveBeenCalled();
+    expect(instance.deletePost).toHaveBeenCalled();
   });
 
-  it('should dispatch DeletingCommunityPost when DeletePost is called', () => {
+  it('should dispatch DeletingCommunityPost when deletePost is called', () => {
     instance.postId = '1';
+    instance.isInternalOnly = false;
 
-    instance.DeletePost();
-
-    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost({
-      postId: '1'
-    });
+    instance.deletePost();
+    const post: CommunityDeletePost = { PostId: instance.postId, IsInternalOnly: instance.isInternalOnly  };
+    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost(post);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch DeletingCommunityPostReply when DeleteReply is called', () => {
+  it('should dispatch DeletingCommunityPostReply when deleteReply is called', () => {
     instance.postId = '1';
     instance.replyId = '2';
+    instance.isInternalOnly = false;
 
-    instance.DeletePost();
-
-    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost({
-      postId: '1'
-    });
+    instance.deletePost();
+    const post: CommunityDeletePost = { PostId: instance.postId, IsInternalOnly: instance.isInternalOnly  };
+    const expectedAction = new fromCommunityPostActions.DeletingCommunityPost(post);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  <div class="card-header">
+    ALL DISCUSSIONS
+  </div>
+  <div class="card-body container py-0">
+    <ng-container *ngFor="let category of categories$ | async;">
+    <div class="row pl-1 py-2">
+      <div class="col-8 py-1">
+        <span (onclick)="categoryClick(category.Name)" id="communityCategory{{ category.Name }} " class="category-element">{{ category.Name | communityCategoryDisplayName }}</span>
+      </div >
+      <div class="col-2 px-0 py-1 category-count text-center">
+        <span (onclick)="categoryClick(category.Name)" class="category-element">{{ category.Count }}</span>
+      </div>
+    </div>
+    </ng-container>
+  </div>
+</div>

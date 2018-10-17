@@ -20,6 +20,7 @@ import { CommunityPostsComponent } from './containers/community-posts/community-
 import { CommunityStartDiscussionComponent } from './containers/community-start-discussion';
 import { CommunityPollsComponent } from './containers/community-polls/community-polls.component';
 import { CommunityPostAddReplyComponent } from './containers/community-post-add-reply/community-post-add-reply.component';
+import { CommunityCategoriesComponent } from './containers/community-categories';
 import { CommunityPostRepliesComponent } from './components/community-post-replies';
 import { CommunityPostReplyComponent } from './components/community-post-reply';
 import { CommunityPostAddReplyViewComponent } from './containers/community-post-add-reply-view';
@@ -36,9 +37,9 @@ import { CommunityTextAreaComponent } from './containers/community-text-area/com
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 import { CommunityPostTagFilterComponent} from './components/community-tag-filter';
-
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
+import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
 
@@ -47,6 +48,8 @@ import { CommunityPollApiService } from 'libs/data/payfactors-api/community/comm
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
+import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
+import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 
 const components = [
   CommunityDashboardPageComponent,
@@ -70,7 +73,9 @@ const components = [
   CommunityPollChoicesComponent,
   CommunityPollComponent,
   CommunityPostTagFilterComponent,
-  CommunityNewJobComponent
+  CommunityNewJobComponent,
+  CommunityCategoriesComponent,
+  CommunityCategoryDisplayNamePipe
 ];
 
 @NgModule({
@@ -92,7 +97,8 @@ const components = [
       CommunityPostEffects,
       CommunityPostReplyEffects,
       CommunityTagEffects,
-      CommunityJobEffects
+      CommunityJobEffects,
+      CommunityCategoriesEffects
     ]),
 
     // Routing
@@ -108,7 +114,8 @@ const components = [
     CommunityPollApiService,
     CommunityPostApiService,
     CommunityTagApiService,
-    CommunityJobApiService
+    CommunityJobApiService,
+    CommunityCategoriesApiService
   ]
 })
 export class MainModule {

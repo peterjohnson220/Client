@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { CommunityUserInfo } from 'libs/models/community/community-user-info.model';
+
+import { CommunityDeletePost } from '../../models/community-delete-post.model';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
-import { Store } from '@ngrx/store';
+
 
 @Component({
   selector: 'pf-community-post-header',
@@ -25,22 +28,20 @@ export class CommunityPostHeaderComponent {
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }
 
-  Delete() {
+  delete() {
     if (this.isReply) {
-      this.DeleteReply();
+      this.deleteReply();
     } else {
-      this.DeletePost();
+      this.deletePost();
     }
   }
 
-  DeletePost() {
-    this.store.dispatch(new fromCommunityPostActions.DeletingCommunityPost(
-      {
-        postId: this.postId
-      }));
+  deletePost() {
+    const post: CommunityDeletePost = { PostId: this.postId, IsInternalOnly: this.isInternalOnly };
+    this.store.dispatch(new fromCommunityPostActions.DeletingCommunityPost(post));
   }
 
-  DeleteReply() {
+  deleteReply() {
     this.store.dispatch(new fromCommunityPostReplyActions.DeletingCommunityPostReply(
       { postId: this.postId, replyId: this.replyId}));
   }

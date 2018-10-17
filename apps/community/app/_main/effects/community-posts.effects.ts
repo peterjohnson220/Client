@@ -17,6 +17,8 @@ import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../actions/community-post-reply.actions';
 import * as fromCommunityPostFilterReplyActions from '../actions/community-post-filter-reply-view.actions';
 import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
+import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
+import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 
 @Injectable()
 export class CommunityPostEffects {
@@ -26,8 +28,26 @@ export class CommunityPostEffects {
     .ofType(fromCommunityPostActions.SUBMITTING_COMMUNITY_POST).pipe(
       switchMap((action: fromCommunityPostActions.SubmittingCommunityPost) =>
         this.communityPostService.submitCommunityPost(action.payload).pipe(
-          map((communityPost: CommunityPost) => {
-            return new fromCommunityPostActions.SubmittingCommunityPostSuccess(communityPost);
+          concatMap((communityPost: CommunityPost) => {
+            if (communityPost.IsInternalOnly) {
+              return [
+                new fromCommunityPostActions.SubmittingCommunityPostSuccess(communityPost),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.MyPosts }),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Unanswered }),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Internal })
+              ];
+            }  else {
+              return [
+                new fromCommunityPostActions.SubmittingCommunityPostSuccess(communityPost),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.MyPosts }),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Unanswered })
+              ];
+            }
           }),
           catchError(error => of(new fromCommunityPostActions.SubmittingCommunityPostError()))
         )
@@ -95,9 +115,27 @@ export class CommunityPostEffects {
   deletingCommunityPost$: Observable<Action> = this.actions$
     .ofType(fromCommunityPostActions.DELETING_COMMUNITY_POST).pipe(
       switchMap((action: fromCommunityPostActions.DeletingCommunityPost) =>
-        this.communityPostService.updatePostDeletedFlag(action.payload).pipe(
-          map(() => {
-            return new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload);
+        this.communityPostService.updatePostDeletedFlag({ postId: action.payload.PostId }).pipe(
+          concatMap(() => {
+            if (action.payload.IsInternalOnly) {
+              return [
+                new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload.PostId),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.MyPosts }),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Unanswered }),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Internal })
+              ];
+            } else {
+              return [
+                new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload.PostId),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.MyPosts }),
+                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Unanswered })
+              ];
+            }
           }),
           catchError(error => of(new fromCommunityPostActions.DeletingCommunityPostError()))
         )
