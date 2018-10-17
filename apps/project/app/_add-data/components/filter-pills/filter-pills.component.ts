@@ -32,7 +32,9 @@ export class FilterPillsComponent implements OnInit, OnChanges {
       this.buildPillsFromFilters(this.filters);
 
       if (this.ps) {
-        this.ps.update();
+        // Pushing this to the end of the event queue to ensure the content has been drawn is overflowing
+        // before calling perfect-scrollbar's update method. Otherwise race conditions can happen. [BC]
+        window.setTimeout(() => this.ps.update());
       }
     }
   }

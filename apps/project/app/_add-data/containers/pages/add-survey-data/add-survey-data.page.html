@@ -1,8 +1,15 @@
 <div class="add-survey-data-header">
   <div class="d-flex align-items-center h-100 pr-3">
-    <pf-filter-pills [filters]="filters$ | async" (pillClicked)="handlePillClicked($event)"></pf-filter-pills>
+    <pf-filter-pills
+      *ngIf="pageShown$ | async"
+      [filters]="filters$ | async"
+      (pillClicked)="handlePillClicked($event)">
+    </pf-filter-pills>
 
-    <pf-search-actions (reset)="handleResetFilters()" (saveFilters)="handleSaveFilters($event)"></pf-search-actions>
+    <pf-search-actions
+      (reset)="handleResetFilters()"
+      (saveFilters)="handleSaveFilters($event)">
+    </pf-search-actions>
   </div>
 </div>
 
