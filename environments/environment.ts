@@ -14,5 +14,5 @@ export const environment = {
   tableauPublicReportingServer: 'https://public.tableau.com/',
   defaultHomePage: '/client/dashboard',
   firstTimeLoginPage: '/client/auth/first-login',
-  smallBusinessApiUrl: 'https://localhost:44350/api/'
+  smallBusinessApiUrl: 'http://smallbizdev.payfactors.com/api/'
 };

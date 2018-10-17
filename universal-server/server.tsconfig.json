@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "../dist/smallbiz",
+    "outDir": "../dist/universal-server",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

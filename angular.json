@@ -1254,6 +1254,18 @@
             ]
           },
           "configurations": {
+            "local-universal": {
+              "baseHref": "/app/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
             "staging": {
               "optimization": true,
               "outputHashing": "all",
@@ -1272,6 +1284,7 @@
               ]
             },
             "production": {
+              "baseHref": "/app/",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
