@@ -250,14 +250,17 @@ function applyDefault(filter: Filter): Filter {
 function applySavedSelections(filters: Filter[], savedFilters: SearchFilter[]): Filter[] {
   savedFilters.map(sf => {
     filters.filter(f => f.BackingField === sf.Name)
-    .map((f: MultiSelectFilter) => {
-      if (!f.Locked) {
+    .map((f: Filter) => {
+      if (!f.Locked && isMultiFilter(f)) {
         const searchFilterOptionsWithNoResults = sf.Options.filter(o => !f.Options.some(fo => isEqual(fo.Value, o.Value)));
         const multiSelectOptionsWithNoResults = mapSearchFilterOptionsToMultiSelectOptions(searchFilterOptionsWithNoResults);
         multiSelectOptionsWithNoResults.map(o => o.Selected = true);
         f.Options = f.Options.concat(multiSelectOptionsWithNoResults);
         f.DefaultSelections = sf.Options.map(o => o.Value);
         applyDefault(f);
+      } else if (isRangeFilter(f)) {
+        f.SelectedMinValue = sf.Options.find(o => o.Name === 'min').Value;
+        f.SelectedMaxValue = sf.Options.find(o => o.Name === 'max').Value;
       }
       return f;
     });
