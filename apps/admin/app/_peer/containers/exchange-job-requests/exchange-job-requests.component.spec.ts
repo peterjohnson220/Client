@@ -98,9 +98,18 @@ describe('Exchange Job Requests', () => {
 
   it('should dispatch a DenyExchangeJobRequest action ' +
     'when handleDenyJobRequest is called', () => {
-    const action = new fromExchangeJobRequestsActions.DenyExchangeJobRequest(mockRequest);
+    const action = new fromExchangeJobRequestsActions.DenyExchangeJobRequest('reason');
 
-    instance.handleDenyJobRequest(mockRequest);
+    instance.handleDenyJobRequest('reason');
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a CloseJobRequestDenyModal action ' +
+    'when handleCloseDenyModal is called', () => {
+    const action = new fromExchangeJobRequestsActions.CloseJobRequestDenyModal();
+
+    instance.handleCloseDenyModal();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

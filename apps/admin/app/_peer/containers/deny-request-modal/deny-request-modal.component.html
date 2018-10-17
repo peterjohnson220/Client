@@ -1,0 +1,35 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="modalTitle"
+  [primaryButtonText]="'Deny'"
+  [primaryButtonTextSubmitting]="'Denying...'"
+  [primaryButtonClass]="'btn-danger'"
+  [secondaryButtonText]="'Cancel'"
+  [submitting]="submittingDenial$ | async"
+  [isOpen$]="denyRequestModalOpen$"
+  [formGroup]="denyReasonForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <ng-container>
+      <p [innerHTML]="modalText"> </p>
+      <div class="flex-grow-1 d-flex flex-column form-group mb-0">
+      <textarea
+        maxlength="1000"
+        id="deny-reason"
+        class="form-control"
+        rows="5"
+        name="reason"
+        formControlName="reason"
+        [placeholder]="denialPlaceholder"
+        [pfValidatable]="true"
+      ></textarea>
+      </div>
+
+    </ng-container>
+
+  </ng-container>
+
+</pf-modal-form>

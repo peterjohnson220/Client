@@ -9,6 +9,7 @@ import { generateMockExchangeJobRequest } from 'libs/models/peer';
 
 import { ExchangeJobRequestInfoComponent } from './exchange-job-request-info.component';
 import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requests.actions';
 
 describe('Exchange Job Request Info', () => {
   let fixture: ComponentFixture<ExchangeJobRequestInfoComponent>;
@@ -32,6 +33,9 @@ describe('Exchange Job Request Info', () => {
     });
 
     store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch');
+
     fixture = TestBed.createComponent(ExchangeJobRequestInfoComponent);
     instance = fixture.componentInstance;
 
@@ -70,16 +74,11 @@ describe('Exchange Job Request Info', () => {
     expect(instance.approveClicked.emit).toHaveBeenCalled();
   });
 
-  it('should emit a denyClicked event, when the deny button is clicked', () => {
-    // Spy on the emit method for the denyClicked EventEmitter
-    spyOn(instance.denyClicked, 'emit');
+  it('should dispatch a OpenJobRequestDenyModal action, when the deny button is clicked', () => {
+    const action = new fromExchangeJobRequestsActions.OpenJobRequestDenyModal();
 
-    fixture.detectChanges();
+    instance.deny();
 
-    // Find the deny button in the template and trigger a click
-    const denyButton = fixture.debugElement.query(By.css('.btn-danger'));
-    denyButton.triggerEventHandler('click', null);
-
-    expect(instance.denyClicked.emit).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

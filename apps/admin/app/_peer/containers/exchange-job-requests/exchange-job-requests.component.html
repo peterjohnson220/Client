@@ -69,9 +69,16 @@
     <pf-exchange-job-request-info
       [selectedJobRequest]="selectedJobRequest"
       (closeClicked)="handleCloseRequestInfo()"
-      (approveClicked)="handleApproveJobRequest($event)"
-      (denyClicked)="handleDenyJobRequest($event)">
+      (approveClicked)="handleApproveJobRequest($event)">
     </pf-exchange-job-request-info>
   </div>
 
+  <pf-deny-request-modal
+    [modalTitle]="denyRequestModalTitle"
+    [modalText]="denyModalText"
+    [submittingDenial$]="denyingJobRequest$"
+    [denyRequestModalOpen$]="denyRequestModalOpen$"
+    (denyClicked)="handleDenyJobRequest($event)"
+    (closeClicked)="handleCloseDenyModal()"
+  ></pf-deny-request-modal>
 </div>
