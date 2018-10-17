@@ -8,7 +8,8 @@ import { PfStateModule } from 'libs/state/state.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
-
+import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
+import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 import { SharedModule } from './shared/shared.module';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 
@@ -17,6 +18,9 @@ import { reducers } from './shared/reducers';
 
 
 @NgModule({
+  declarations: [
+    AppWrapperComponent
+  ],
   imports: [
 
     // Angular
@@ -32,6 +36,7 @@ import { reducers } from './shared/reducers';
     PfStateModule,
     PfApiModule,
     PfAppRootModule,
+    PfLayoutWrapperModule,
     SharedModule,
 
     // Routing

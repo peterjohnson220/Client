@@ -396,7 +396,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/drift.js"
             ]
           },
           "configurations": {
