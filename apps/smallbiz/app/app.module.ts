@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { StoreModule, ActionReducer, MetaReducer, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,6 +33,8 @@ export const NGRX_STATE = makeStateKey('NGRX_STATE');
     // Angular
     BrowserModule.withServerTransition({ appId: 'pf-smallbiz' }),
     BrowserTransferStateModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
 
     // Third Party
     StoreModule.forRoot(reducers, { metaReducers }),
