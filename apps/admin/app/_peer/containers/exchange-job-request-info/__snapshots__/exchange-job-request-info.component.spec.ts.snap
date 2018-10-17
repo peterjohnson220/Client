@@ -6,9 +6,7 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
   approvingError$={[Function Store]}
   approvingJobRequest$={[Function Store]}
   closeClicked={[Function EventEmitter]}
-  denyClicked={[Function EventEmitter]}
   denyingError$={[Function Store]}
-  denyingJobRequest$={[Function Store]}
   selectedJobRequest={[Function Object]}
   store={[Function Store]}
 >
@@ -39,11 +37,9 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
         class="btn btn-sm btn-danger action-buttons"
         type="button"
       >
-        
         <span>
            Deny 
         </span>
-        
       </button>
       <div
         class="close-btn"

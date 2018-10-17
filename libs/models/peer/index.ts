@@ -23,3 +23,5 @@ export * from './new-company-exchange-invitation.model';
 export * from './exchange-job-request.model';
 export * from './exchange-scope';
 export * from './data-cut-validation-info.model';
+export * from './exchange-job-request-action.model';
+export * from './exchange-request-action.enum';

@@ -5,7 +5,7 @@
     </div>
     <div *ngIf="(approvingError$ | async)" class="align-self-center mr-auto error-label"><label>Error approving job request.</label></div>
     <div *ngIf="(denyingError$ | async)" class="align-self-center mr-auto error-label"><label>Error denying job request.</label></div>
-    <button type="button" [disabled]="(approvingJobRequest$ | async) || (denyingJobRequest$ | async)" class="btn btn-sm btn-success action-buttons" (click)="approve()">
+    <button type="button" [disabled]="(approvingJobRequest$ | async)" class="btn btn-sm btn-success action-buttons" (click)="approve()">
       <span *ngIf="!(approvingJobRequest$ | async)">
         Approve
       </span>
@@ -13,12 +13,9 @@
           <pf-loading-indicator></pf-loading-indicator> Approving...
       </span>
     </button>
-    <button type="button" [disabled]="(approvingJobRequest$ | async) || (denyingJobRequest$ | async)" class="btn btn-sm btn-danger action-buttons" (click)="deny()">
-      <span *ngIf="!(denyingJobRequest$ | async)">
+    <button type="button" [disabled]="(approvingJobRequest$ | async)" class="btn btn-sm btn-danger action-buttons" (click)="deny()">
+      <span>
         Deny
-      </span>
-      <span *ngIf="(denyingJobRequest$ | async)">
-          <pf-loading-indicator></pf-loading-indicator> Denying...
       </span>
     </button>
     <div (click)="close()" class="close-btn">

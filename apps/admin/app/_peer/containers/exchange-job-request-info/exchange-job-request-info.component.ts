@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { ExchangeJobRequest } from 'libs/models/peer';
 
 import * as fromPeerAdminReducer from '../../reducers';
+import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requests.actions';
 
 @Component({
   selector: 'pf-exchange-job-request-info',
@@ -17,20 +18,17 @@ export class ExchangeJobRequestInfoComponent {
   @Input() selectedJobRequest: ExchangeJobRequest;
   @Output() closeClicked = new EventEmitter();
   @Output() approveClicked = new EventEmitter();
-  @Output() denyClicked = new EventEmitter();
 
   approvingJobRequest$: Observable<boolean>;
-  denyingJobRequest$: Observable<boolean>;
   approvingError$: Observable<boolean>;
   denyingError$: Observable<boolean>;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>
   ) {
-    this.approvingJobRequest$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestApproving);
-    this.denyingJobRequest$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestDenying);
-    this.approvingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestApprovingError);
-    this.denyingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestDenyingError);
+    this.approvingJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApproving));
+    this.approvingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApprovingError));
+    this.denyingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenyingError));
   }
 
   close() {
@@ -42,6 +40,6 @@ export class ExchangeJobRequestInfoComponent {
   }
 
   deny() {
-    this.denyClicked.emit(this.selectedJobRequest);
+    this.store.dispatch(new fromExchangeJobRequestsActions.OpenJobRequestDenyModal());
   }
 }

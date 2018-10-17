@@ -2,10 +2,16 @@
 
 exports[`Exchange Job Requests should match snapshot 1`] = `
 <pf-exchange-job-requests
+  denyRequestModalOpen$={[Function Store]}
+  denyRequestModalTitle={[Function String]}
+  denyingJobRequest$={[Function Store]}
+  exchange="null"
+  exchange$={[Function Store]}
   exchangeId={[Function Number]}
   exchangeJobRequestsGrid$={[Function Store]}
   exchangeJobRequestsLoading$={[Function Store]}
   exchangeJobRequestsLoadingError$={[Function Store]}
+  exchangeSubscription={[Function Subscriber]}
   jobRequestInfoOpen$={[Function Store]}
   pageRowIndex="null"
   pageRowIndex$={[Function Store]}
@@ -75,6 +81,7 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
       </pf-async-container>
     </div>
     
+    <pf-deny-request-modal />
   </div>
 </pf-exchange-job-requests>
 `;
