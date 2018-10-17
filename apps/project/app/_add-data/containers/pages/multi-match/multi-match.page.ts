@@ -45,7 +45,6 @@ export class MultiMatchPageComponent {
         this.resetApp();
         this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(event.data.payfactorsMessage.payload));
         this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(event.data.payfactorsMessage.payload));
-        // this will be an action sending these IDs to the new JobsToPrice component
         this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(event.data.payfactorsMessage.payload));
         break;
       case 'App Closed':
@@ -59,6 +58,7 @@ export class MultiMatchPageComponent {
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromSearchActions.HideFilterSearch());
+    this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
   }
 
   handleCancelClicked() {

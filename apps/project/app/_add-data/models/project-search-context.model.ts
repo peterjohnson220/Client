@@ -4,6 +4,7 @@ export interface ProjectSearchContext {
   ProjectId: number;
   CountryCode: string;
   RestrictToCountryCode: boolean;
+  Rate?: string;
 }
 
 export function generateMockProjectSearchContext(): ProjectSearchContext {

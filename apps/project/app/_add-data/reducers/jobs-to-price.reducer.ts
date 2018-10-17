@@ -1,3 +1,4 @@
+import * as cloneDeep from 'lodash.clonedeep';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 
@@ -35,6 +36,33 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Act
         ...state,
         loadingJobs: false,
         loadingJobsError: true
+      };
+    }
+    case fromJobsToPriceActions.GET_MATCH_JOB_CUTS: {
+      const jobToPriceId = action.payload.Id;
+      const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
+      const jobToPrice = jobsToPriceCopy.find(x => x.Id === jobToPriceId);
+      jobToPrice.LoadingDataCuts = true;
+      return {
+        ...state,
+        jobsToPrice: jobsToPriceCopy
+      };
+    }
+    case fromJobsToPriceActions.GET_MATCH_JOB_CUTS_SUCCESS: {
+      const jobToPriceId = action.payload.JobId;
+      const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
+      const jobToPrice = jobsToPriceCopy.find(x => x.Id === jobToPriceId);
+      jobToPrice.LoadingDataCuts = false;
+      jobToPrice.DataCuts = action.payload.JobMatchCuts;
+      return {
+        ...state,
+        jobsToPrice: jobsToPriceCopy
+      };
+    }
+    case fromJobsToPriceActions.CLEAR_ALL_JOBS: {
+      return {
+        ...state,
+        jobsToPrice: []
       };
     }
 

@@ -150,7 +150,8 @@ export function mapMatchedSurveyJobToJobsToPrice(sjl: MatchedSurveyJob[]): JobTo
       Paymarket: sj.Paymarket,
       PaymarketId: sj.PaymarketId,
       Title: sj.Job.Title,
-      TotalDataCuts: sj.DataCutsCount
+      TotalDataCuts: sj.DataCutsCount,
+      LoadingDataCuts: false
     };
   });
 }

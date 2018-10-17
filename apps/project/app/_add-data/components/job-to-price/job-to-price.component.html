@@ -50,10 +50,32 @@
       </tbody>
     </table>
   </div>
-
-
+  <div class="data-cuts-container" *ngIf="showDataCuts && !job.LoadingDataCuts">
+    <table class="data-cuts-table">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th class="text-center">Base 50th</th>
+        <th class="text-center">TCC 50th</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dataCut of job.DataCuts">
+          <td class="scope-cell">
+            {{dataCut.JobTitle}} ({{dataCut.JobCode}}) - {{dataCut.Source}}
+          </td>
+          <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
+          <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
+          <td class="text-center"><i class="far fa-times fa-lg"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="my-2" *ngIf="job.LoadingDataCuts">
+    <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
+  </div>
 </div>
-
 
 <ng-template #noJobDescription>
   <div class="no-job-description">

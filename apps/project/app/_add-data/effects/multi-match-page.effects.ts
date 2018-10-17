@@ -32,6 +32,7 @@ export class MultiMatchPageEffects {
                   CurrencyCode: response.CurrencyCode,
                   PayMarketId: response.PaymarketId,
                   ProjectId: response.ProjectId,
+                  Rate: response.Rate,
                   RestrictToCountryCode: projectContext.RestrictToCountryCode
                 };
                 actions.push(new fromSearchActions.SetProjectSearchContext(searchContext));
