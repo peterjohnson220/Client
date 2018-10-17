@@ -18,6 +18,7 @@ export interface CommunityPost {
   TimeTicks: number;
   Tags: CommunityTag[];
   Replies: CommunityReply[];
+  FilteredReplies: CommunityReply[];
   ReplyIds: string[];
   HiddenReplyIds: string[];
   UrlPreviewData: CommunityUrlPreviewDataModel;
@@ -47,6 +48,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     TimeTicks: 12345,
     Tags: tags,
     Replies: replies,
+    FilteredReplies: null,
     ReplyIds: [ '1', '2' ],
     HiddenReplyIds: [ '1' ],
     UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',

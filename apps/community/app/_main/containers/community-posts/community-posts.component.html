@@ -47,6 +47,7 @@
             </div>
             <pf-community-post-add-reply-view
               [postId]="post.Id"></pf-community-post-add-reply-view>
+            <pf-community-post-filtered-reply-view [postId]="post.Id"></pf-community-post-filtered-reply-view>
             <div *ngIf="post.ReplyCount > 0">
               <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
                 <span class="mr-1">
