@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import { CommunityPostFilteredReplyViewComponent } from './community-post-filtered-reply-view.component';
 
-describe('CommunityPostAddReplyViewComponent', () => {
+describe('CommunityPostFilteredReplyViewComponent', () => {
   let fixture: ComponentFixture<CommunityPostFilteredReplyViewComponent>;
   let instance: CommunityPostFilteredReplyViewComponent;
   let store: Store<fromRootState.State>;
