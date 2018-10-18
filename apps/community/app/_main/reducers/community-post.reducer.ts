@@ -135,7 +135,7 @@ export function reducer(
     }
 
     case communityPostActions.DELETING_COMMUNITY_POST_SUCCESS: {
-      const postId = action.payload['postId'];
+      const postId = action.payload;
       return {
         ...adapter.removeOne(postId,
           state)

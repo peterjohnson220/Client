@@ -15,6 +15,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
         <div
           class="col-3"
         >
+          <pf-community-categories />
           <pf-community-popular-tags />
           <iframe
             allow="autoplay"

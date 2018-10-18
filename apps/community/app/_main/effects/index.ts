@@ -1,3 +1,4 @@
+export * from './community-categories.effects';
 export * from './community-poll-request.effects';
 export * from './community-poll-response.effects';
 export * from './community-post-reply.effects';

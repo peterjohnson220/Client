@@ -12,7 +12,7 @@ import * as fromCommunityPostFilterReplyViewReducer from './community-post-filte
 import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
 import * as CommunityPost from 'libs/models/community';
-
+import * as fromCommunityCategoriesReducer from './community-categories.reducer';
 
 // Feature area state
 export interface CommunityState {
@@ -24,6 +24,7 @@ export interface CommunityState {
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.State;
   communityTags: fromCommunityTagReducer.State;
   communityJob: fromCommunityJobReducer.State;
+  communityCategories: fromCommunityCategoriesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -40,7 +41,8 @@ export const reducers = {
   communityPostFilteredReplyView: fromCommunityPostFilterReplyViewReducer.reducer,
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
-  communityJob: fromCommunityJobReducer.reducer
+  communityJob: fromCommunityJobReducer.reducer,
+  communityCategories: fromCommunityCategoriesReducer.reducer
 };
 
 // select feature area
@@ -85,6 +87,11 @@ export const selectFromCommunityTagState = createSelector(
 export const selectFromCommunityJobState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityJob
+);
+
+export const selectFromCommunityCategoriesState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityCategories
 );
 
 // Community Poll Selectors
@@ -354,3 +361,20 @@ export const getGettingCommunityJobsError = createSelector(
   selectFromCommunityJobState,
   fromCommunityJobReducer.getGettingCommunityJobsError
 );
+
+// Community Categories Selectors
+
+export const {
+  selectAll: getCommunityCategories,
+} = fromCommunityCategoriesReducer.adapter.getSelectors(selectFromCommunityCategoriesState);
+
+export const getGettingCommunityCategories = createSelector(
+  selectFromCommunityCategoriesState,
+  fromCommunityCategoriesReducer.getGettingCommunityCategories
+);
+
+export const getGettingCommunityCategoriesError = createSelector(
+  selectFromCommunityCategoriesState,
+  fromCommunityCategoriesReducer.getGettingCommunityCategoriesError
+);
+

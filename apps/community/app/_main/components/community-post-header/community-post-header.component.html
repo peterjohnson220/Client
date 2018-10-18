@@ -1,7 +1,7 @@
 <div ngbDropdown class="d-inline-block float-right ml-1" *ngIf="isCurrentUserPost">
   <button class="btn m-0 p-1" ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
-    <button class="dropdown-item" (click)="Delete()"><i class="fas fa-trash-alt"></i> Delete</button>
+    <button class="dropdown-item" (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
   </div>
 </div>
 <div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
