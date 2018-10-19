@@ -3,17 +3,6 @@
     Reset
   </div>
 
-  <div class="save-filters au-btn-save-filters"
-       [ngbPopover]="saveFiltersPopoverContent"
-       triggers="manual"
-       #popover="ngbPopover"
-       [autoClose]="'outside'"
-       placement="bottom"
-       (click)="openPopover(popover)">
-    Save Filters
-  </div>
-</div>
-
 <ng-template #saveFiltersPopoverContent>
     <div class="form-check">
       <input class="form-check-input" type="radio" name="savedFiltersPaymarket" id="all-paymarkets" [value]="true" [(ngModel)]="isForAllPayMarkets">
