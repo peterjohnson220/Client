@@ -9,8 +9,8 @@ import * as fromJobSearch from '../../../reducers';
 import * as fromJobSearchActions from '../../../actions/job-search.actions';
 import { Set } from '../../../../shared/actions/user-context.actions';
 
-import { UserContext } from '../../../../shared/models/user-context.model';
-import { JobTitle } from '../../../../shared/models/jobTitle';
+import { UserContext } from '../../../../shared/models';
+import { Job, JobSearchResult } from '../../../models';
 
 @Component({
   selector: 'pf-job-search-page',
@@ -18,19 +18,24 @@ import { JobTitle } from '../../../../shared/models/jobTitle';
   styleUrls: ['./job-search.page.scss']
 })
 export class JobSearchPageComponent implements OnInit {
-  jobTitle: string;
-  results$: Observable<JobTitle[]>; // TODO this should probably be in it's own component
+  searchResults$: Observable<Job[]>;
   userName$: Observable<string>;
 
   constructor(private store: Store<fromJobSearch.State>) {
     this.userName$ = store.select(fromRoot.selectUserContextModel).pipe(
       map((userContext: UserContext) => (userContext || ({} as UserContext)).name)
     );
-    this.results$ = store.select(fromJobSearch.selectSearchResults);
+    this.searchResults$ = store.select(fromJobSearch.selectSearchResult).pipe(
+      map((result: JobSearchResult) => !!result ? result.jobs : [])
+    );
   }
 
-  search() {
-    this.store.dispatch(new fromJobSearchActions.JobSearch({ searchTerm: this.jobTitle || '' }));
+  onSearchTermChange(searchTerm: string) {
+    this.store.dispatch(new fromJobSearchActions.JobSearch({ searchTerm }));
+  }
+
+  onJobSelected(selected: Job) {
+    this.store.dispatch(new fromJobSearchActions.JobSelected({ selected }));
   }
 
   ngOnInit() {

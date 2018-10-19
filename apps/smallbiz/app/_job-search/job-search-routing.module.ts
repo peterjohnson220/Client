@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { JobSearchPageComponent } from './containers/pages/job-search';
+import { JobSearchPageComponent, JobDetailPageComponent } from './containers';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
   {
-    path: '',
+    path: 'search',
     component: JobSearchPageComponent
+  },
+  {
+    path: ':id',
+    component: JobDetailPageComponent
   }
 ];
 

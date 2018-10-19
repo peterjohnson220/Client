@@ -1,5 +1,5 @@
 import * as fromPriceJobActions from '../actions/price-job.actions';
-import { Location } from '../../shared/models/location';
+import { Location } from '../models/location';
 
 export interface State {
   locationSearchTerm: string;

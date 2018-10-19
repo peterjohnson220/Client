@@ -6,7 +6,7 @@ import { of, Observable } from 'rxjs';
 import { map, catchError, switchMap, debounceTime } from 'rxjs/operators';
 
 import * as fromPriceJobAction from '../actions/price-job.actions';
-import { LocationService } from '../../shared/services/location.service';
+import { LocationService } from '../services/location.service';
 
 @Injectable()
 export class PriceJobEffects {

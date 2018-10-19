@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import * as fromPriceJobActions from '../../actions/price-job.actions';
+import * as fromPriceJobActions from '../../../_job-search/actions/price-job.actions';
 import * as fromPriceJob from '../../reducers';
-import { Location } from '../../../shared/models/location';
+import { Location } from '../../models/location';
 
 @Component({
   selector: 'pf-price-job',

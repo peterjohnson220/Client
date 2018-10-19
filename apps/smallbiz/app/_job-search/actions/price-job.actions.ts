@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Location } from '../../shared/models/location';
+import { Location } from '../models/location';
 
 export const LOCATION_SEARCH_TERM_CHANGED = '[PRICE JOB] LocationSearchTermChanged';
 export const LOCATION_SEARCH_SUCCESS = '[PRICE JOB] LocationSearchSuccess';

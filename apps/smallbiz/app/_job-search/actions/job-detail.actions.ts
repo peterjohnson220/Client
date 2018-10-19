@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Job } from '../../shared/models/job';
+import { Job } from '../models/job';
 
 export const LOAD_JOB = '[JOB DETAIL] LoadJob';
 export const LOAD_JOB_SUCCESS = '[JOB DETAIL] LoadJobSuccess';

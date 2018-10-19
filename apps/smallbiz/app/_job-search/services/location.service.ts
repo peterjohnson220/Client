@@ -2,13 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Location } from '../../shared/models/location';
+import { Location } from '../models/location';
 import { environment } from '../../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable()
 export class LocationService {
 
   locationTypes = { region: 'region', state: 'state', metro: 'metro', city: 'city' };
