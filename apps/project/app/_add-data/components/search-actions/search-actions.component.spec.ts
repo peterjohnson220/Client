@@ -29,29 +29,6 @@ describe('Project - Add Data - Search Actions', () => {
     expect(instance.reset.emit).toHaveBeenCalled();
   });
 
-  it('should open popover when save filters clicked', () => {
-    const popover: NgbPopover = fixture.debugElement.query(By.directive(NgbPopover)).references.popover;
-    const saveFilters = fixture.debugElement.query(By.css('.save-filters')).nativeElement;
-    spyOn(popover, 'open');
-
-    saveFilters.click();
-    fixture.detectChanges();
-
-    expect(popover.open).toHaveBeenCalled();
-  });
-
-  it('should emit save filters when Save button clicked', () => {
-    const popover: NgbPopover = fixture.debugElement.query(By.directive(NgbPopover)).references.popover;
-    spyOn(instance.saveFilters, 'emit');
-    instance.isForAllPayMarkets = true;
-    fixture.detectChanges();
-
-    instance.handleSaveFilters(popover);
-    fixture.detectChanges();
-
-    expect(instance.saveFilters.emit).toBeCalledWith(instance.isForAllPayMarkets);
-  });
-
   /**
    * isOpen() from NgbPopover is always false so this test won't pass
    *
