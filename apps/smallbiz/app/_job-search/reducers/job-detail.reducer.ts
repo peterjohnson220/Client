@@ -1,5 +1,5 @@
 import * as fromJobDetailActions from '../actions/job-detail.actions';
-import { Job } from '../../shared/models/job';
+import { Job } from '../models/job';
 
 export interface State {
   isLoading: boolean;
@@ -12,7 +12,7 @@ const initialState: State = {
   isLoading: false,
   loadSuccess: false,
   loadFailure: false,
-  job: {} as Job
+  job: null
 };
 
 export function reducer(state: State = initialState, action: fromJobDetailActions.JobDetailAction): State {

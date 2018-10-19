@@ -1,4 +1,4 @@
 export interface UserContext {
-    emailAddress: string;
-    name: string;
+  emailAddress: string;
+  name: string;
 }

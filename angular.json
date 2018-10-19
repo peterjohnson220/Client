@@ -1248,7 +1248,6 @@
               "node_modules/@progress/kendo-theme-default/dist/all.css"
             ],
             "scripts": [
-              "assets/js/drift.js",
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js"
             ]
