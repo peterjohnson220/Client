@@ -7,25 +7,30 @@
   bottom: 0;
 }
 
-.page-data-header{
+.results-header{
   height: 36px;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
   @extend %bottom-box-shadow;
 }
 
 .filters-and-results{
-  @extend %position-below-header;
   width: 100%;
   display: flex;
 }
 
 .filters-sidebar{
-  width: 243px;
+  height: 100%;
+  min-width: 243px;
   position: relative;
 }
 
-.results-and-actions{
+.content{
+  height: 100%;
   flex-grow: 1;
   position: relative;
+  overflow: hidden;
 }
 
 .actions-container{
@@ -50,4 +55,10 @@
   width: 35%;
   padding-right: 1rem;
   color: #656565;
+}
+
+
+.results{
+  @extend %position-below-header;
+  width: 100%;
 }

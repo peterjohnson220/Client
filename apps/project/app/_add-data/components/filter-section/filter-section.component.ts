@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { maxNumberOfOptions } from '../../helpers';
-import { Filter, FilterType, isMultiFilter, isTextFilter, isRangeFilter } from '../../models';
+import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
 
 @Component({
   selector: 'pf-filter-section',
   templateUrl: './filter-section.component.html',
-  styleUrls: ['./filter-section.component.scss']
+  styleUrls: ['./filter-section.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterSectionComponent {
   @Input() filter: Filter;
@@ -42,6 +43,10 @@ export class FilterSectionComponent {
     return isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Count > 0).length : 0;
   }
 
+  get optionCount(): number {
+    return isMultiFilter(this.filter) ? this.filter.Options.length : 0;
+  }
+
   get hasText(): boolean {
     return isTextFilter(this.filter) ? this.filter.Value.length > 0 : false;
   }
@@ -52,6 +57,10 @@ export class FilterSectionComponent {
 
   get isRangeFilter(): boolean {
     return isRangeFilter(this.filter);
+  }
+
+  get isMultiFilter(): boolean {
+    return isMultiFilter(this.filter);
   }
 
   get allowedToSearch(): boolean {
@@ -78,7 +87,9 @@ export class FilterSectionComponent {
   }
 
   handleShowMoreClicked(filter: Filter) {
-    this.showMore.emit(filter);
+    if (this.allowedToSearch) {
+      this.showMore.emit(filter);
+    }
   }
 
   handleSearchValueChanged(value: string) {

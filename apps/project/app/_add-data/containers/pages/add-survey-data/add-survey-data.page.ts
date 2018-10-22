@@ -10,7 +10,7 @@ import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../../reducers';
-import { Filter, Pill } from '../../../models';
+import { Filter, Pill, PillGroup } from '../../../models';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -67,7 +67,6 @@ export class AddSurveyDataPageComponent {
     this.excludeFromParticipation = false;
   }
 
-
   // Event Handling
   handleCancelClicked() {
     this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
@@ -82,8 +81,12 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
   }
 
-  handlePillClicked(pill: Pill) {
+  handleClearPill(pill: Pill) {
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
+  }
+
+  handleClearPillGroup(pillGroup: PillGroup) {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(pillGroup.FilterId));
   }
 
   handleSaveFilters(isForAllPayMarkets: boolean): void {
