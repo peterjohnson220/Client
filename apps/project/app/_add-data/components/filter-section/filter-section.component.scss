@@ -77,7 +77,12 @@
   @extend %uppercase-link;
   padding: .5rem;
 
-  &:hover{
+  &:not(.disabled):hover{
     background-color: $hover-option-color-alt;
+  }
+
+  &.disabled{
+    cursor: initial;
+    color: $disabled-option-color;
   }
 }

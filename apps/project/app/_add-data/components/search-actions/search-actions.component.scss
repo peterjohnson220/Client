@@ -2,14 +2,17 @@
 @import 'legacy-variables';
 @import 'legacy-styles.scss';
 
-.actions{
-  width: 130px;
-  display: flex;
+:host{
   margin-left: 1rem;
+}
+
+.actions{
+  width: 100%;
+  display: flex;
   justify-content: flex-end;
 }
 
-.reset-filters, .save-filters{
+.search-action{
   @extend %text-filter-action;
 }
 
