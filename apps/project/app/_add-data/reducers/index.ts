@@ -216,6 +216,11 @@ export const getLoadingOptionsError = createSelector(
   fromSingledFilterReducer.getLoadingOptionsError
 );
 
+export const getSingledFilterSearchValue = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getSearchValue
+);
+
 export const getSingledFilterSelectionCount = createSelector(
   getSingledFilter,
   getFilters,

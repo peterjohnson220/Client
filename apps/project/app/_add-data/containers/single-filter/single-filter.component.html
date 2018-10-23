@@ -9,6 +9,7 @@
     [filter]="singledFilter$ | async"
     [overriddenSelectionCount]="selectionCount$ | async"
     [singled]="true"
+    [searchValue]="searchValue$ | async"
     (clear)="handleClearSection($event)"
     (searchValueChanged)="handleSearchValueChanged($event)">
 

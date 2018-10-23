@@ -24,8 +24,9 @@ export class SingledFilterEffects {
         this.store.select(fromAddDataReducer.getSingledFilter),
         this.store.select(fromAddDataReducer.getFilters),
         this.store.select(fromAddDataReducer.getProjectSearchContext),
-        (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context) => (
-          { action, singledFilter, filters, context }
+        this.store.select(fromAddDataReducer.getSingledFilterSearchValue),
+        (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context, searchValue) => (
+          { action, singledFilter, filters, context, searchValue }
         )),
       switchMap(data => {
         const request: SearchSurveyAggregationsRequest = {
@@ -35,7 +36,7 @@ export class SingledFilterEffects {
           CurrencyCode: data.context.CurrencyCode,
           ProjectId: data.context.ProjectId,
           SearchField: data.singledFilter.BackingField,
-          TextQuery: data.action.payload
+          TextQuery: data.searchValue
         };
 
         return this.surveySearchApiService.searchSurveyAggregations(request).pipe(

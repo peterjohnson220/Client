@@ -141,8 +141,8 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     }
     case fromSearchFiltersActions.CLEAR_FILTER: {
       const copiedFilters = cloneDeep(state.filters);
-      const filterToReset = copiedFilters.find(f => f.Id === action.payload);
-      clearFilter(filterToReset);
+      const filterToClear = copiedFilters.find(f => f.Id === action.payload.filterId);
+      clearFilter(filterToClear);
 
       return {
         ...state,
