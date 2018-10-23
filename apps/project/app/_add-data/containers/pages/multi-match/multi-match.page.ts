@@ -8,8 +8,10 @@ import * as fromSearchFiltersActions from '../../../actions/search-filters.actio
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
+import * as fromSingledFilterActions from '../../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../../reducers';
-import { Filter, Pill } from '../../../models';
+import { Filter, Pill, PillGroup } from '../../../models';
+
 
 @Component({
   selector: 'pf-multi-match-page',
@@ -70,8 +72,14 @@ export class MultiMatchPageComponent {
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
   }
 
-  handlePillClicked(pill: Pill) {
+  handleClearPill(pill: Pill) {
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
+    this.store.dispatch(new fromSingledFilterActions.RemoveFilterValue({value: pill.Value}));
+  }
+
+  handleClearPillGroup(pillGroup: PillGroup) {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: pillGroup.FilterId}));
+    this.store.dispatch(new fromSingledFilterActions.ClearSelections());
   }
 
   handleSaveFilters(isForAllPayMarkets: boolean): void {
