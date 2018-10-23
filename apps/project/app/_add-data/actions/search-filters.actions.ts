@@ -72,7 +72,7 @@ export class RefreshFilters implements Action {
 export class ClearFilter implements Action {
   readonly type = CLEAR_FILTER;
 
-  constructor(public payload: string) {}
+  constructor(public payload: {filterId: string}) {}
 }
 
 export class RemoveFilterValue implements Action {

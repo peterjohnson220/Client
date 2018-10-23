@@ -1,19 +1,22 @@
 import * as cloneDeep from 'lodash.clonedeep';
+import * as isEqual from 'lodash.isequal';
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
-import { Filter, MultiSelectFilter } from '../models';
+import { Filter } from '../models';
 import { mapSearchFilterOptionsToMultiSelectOptions } from '../helpers/model-mapping.helper';
 
 export interface State {
   loadingOptions: boolean;
   loadingOptionsError: boolean;
   filter: Filter;
+  searchValue: string;
 }
 
 const initialState: State = {
   loadingOptions: false,
   loadingOptionsError: false,
-  filter: null
+  filter: null,
+  searchValue: ''
 };
 
 // Reducer function
@@ -22,7 +25,8 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     case fromSingledFilterActions.SET_SINGLED_FILTER: {
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
+        searchValue: ''
       };
     }
     case fromSingledFilterActions.TOGGLE_MULTI_SELECT_OPTION: {
@@ -69,11 +73,36 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     case fromSingledFilterActions.CLEAR_SELECTIONS: {
       const filterCopy = cloneDeep(state.filter);
 
-      filterCopy.Options.map(o => o.Selected = false);
+      if (filterCopy) {
+        filterCopy.Options.map(o => o.Selected = false);
+      }
 
       return {
         ...state,
         filter: filterCopy
+      };
+    }
+    case fromSingledFilterActions.REMOVE_FILTER_VALUE: {
+      const filterCopy = cloneDeep(state.filter);
+      let optionToRemove;
+
+      if (filterCopy) {
+        optionToRemove = filterCopy.Options.find(o => isEqual(o.Value, action.payload.value));
+      }
+
+      if (optionToRemove) {
+        optionToRemove.Selected = false;
+      }
+
+      return {
+        ...state,
+        filter: filterCopy
+      };
+    }
+    case fromSingledFilterActions.SET_SEARCH_VALUE: {
+      return {
+        ...state,
+        searchValue: action.payload
       };
     }
     default: {
@@ -86,4 +115,5 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
 export const getFilter = (state: State) => state.filter;
 export const getLoadingOptions = (state: State) => state.loadingOptions;
 export const getLoadingOptionsError = (state: State) => state.loadingOptionsError;
+export const getSearchValue = (state: State) => state.searchValue;
 

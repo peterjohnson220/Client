@@ -11,6 +11,7 @@ import * as fromSearchFiltersActions from '../../../actions/search-filters.actio
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { Filter, Pill, PillGroup } from '../../../models';
+import * as fromSingledFilterActions from '../../../actions/singled-filter.actions';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -83,10 +84,12 @@ export class AddSurveyDataPageComponent {
 
   handleClearPill(pill: Pill) {
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
+    this.store.dispatch(new fromSingledFilterActions.RemoveFilterValue({value: pill.Value}));
   }
 
   handleClearPillGroup(pillGroup: PillGroup) {
-    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(pillGroup.FilterId));
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: pillGroup.FilterId}));
+    this.store.dispatch(new fromSingledFilterActions.ClearSelections());
   }
 
   handleSaveFilters(isForAllPayMarkets: boolean): void {

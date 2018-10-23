@@ -75,7 +75,7 @@ describe('Project - Add Data - Single Filter', () => {
   it('should dispatch a ClearFilter action for the search filters when handling a clear section', () => {
     spyOn(store, 'dispatch');
     const filterId = 'blah';
-    const expectedAction = new fromSearchFiltersActions.ClearFilter(filterId);
+    const expectedAction = new fromSearchFiltersActions.ClearFilter({filterId: filterId});
 
     instance.handleClearSection(filterId);
 
