@@ -1,6 +1,17 @@
 @import '../../../styles/shared-page-styles';
 
-.jobs-to-price{
-  width: 27.5%;
-  position: relative;
+.results{
+  width: 72.5%;
 }
+
+.actions-container{
+  width: 72.5%;
+}
+
+.jobs-to-price{
+  @extend %position-below-header;
+  width: 27.5%;
+  right: 0;
+  margin-bottom: 30px;
+}
+
