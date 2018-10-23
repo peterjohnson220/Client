@@ -3,15 +3,17 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { map, concatMap, switchMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { map, concatMap, switchMap, withLatestFrom, catchError, mergeMap } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import { SearchFilter, SaveSearchFiltersRequest } from 'libs/models';
 
+import * as fromSearchActions from '../actions/search.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromAddDataReducer from '../reducers';
 import { getSelectedSearchFilters } from '../helpers';
+import * as fromAddDataReducer from '../reducers';
+import { AddDataEffectsService } from '../services';
 
 @Injectable()
 export class SearchFiltersEffects {
@@ -31,24 +33,34 @@ export class SearchFiltersEffects {
     );
 
   @Effect()
-  resetFilter$ = this.actions$
-    .ofType(fromSearchFiltersActions.CLEAR_FILTER)
-    .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
-    );
+  clearFilter$ = this.addDataEffectsService.handleFilterRemoval(
+    this.actions$.ofType(fromSearchFiltersActions.CLEAR_FILTER));
+
 
   @Effect()
-  removeFilterValue$ = this.actions$
-    .ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE)
-    .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
-    );
+  removeFilterValue$ = this.addDataEffectsService.handleFilterRemoval(
+    this.actions$.ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE));
 
   @Effect()
   resetAllFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
-      map(() => new fromSearchFiltersActions.GetSavedFilters())
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getSearchingFilter),
+        (action: fromSearchFiltersActions.ResetAllFilters, searchingFilter) => ({ action, searchingFilter })
+      ),
+      mergeMap(data => {
+          const actions = [];
+
+          if (data.searchingFilter) {
+            actions.push(new fromSearchActions.HideFilterSearch());
+          }
+
+          actions.push(new fromSearchFiltersActions.GetSavedFilters());
+
+          return actions;
+        }
+      )
     );
 
   @Effect()
@@ -122,6 +134,7 @@ export class SearchFiltersEffects {
   constructor(
     private actions$: Actions,
     private surveySearchApiService: SurveySearchApiService,
+    private addDataEffectsService: AddDataEffectsService,
     private store: Store<fromAddDataReducer.State>
   ) {
   }

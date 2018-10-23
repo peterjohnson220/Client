@@ -26,7 +26,11 @@
   </div>
   <div *ngIf="!collapsed">
     <div class="search-filter" *ngIf="singled">
-      <pf-input-debounce (valueChanged)="handleSearchValueChanged($event)" [automationClassName]="'au-txt-search-' + filter.CssClassName"></pf-input-debounce>
+      <pf-input-debounce
+        [ngModel]="searchValue"
+        (valueChanged)="handleSearchValueChanged($event)"
+        [automationClassName]="'au-txt-search-' + filter.CssClassName">
+      </pf-input-debounce>
     </div>
     <div class="content">
       <ng-content></ng-content>

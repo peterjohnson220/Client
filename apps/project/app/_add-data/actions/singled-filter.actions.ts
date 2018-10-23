@@ -10,6 +10,8 @@ export const SEARCH_AGGREGATION_SUCCESS = '[Project Add Data/Singled Filter] Sea
 export const SEARCH_AGGREGATION_ERROR = '[Project Add Data/Singled Filter] Search Aggregation Error';
 export const TOGGLE_MULTI_SELECT_OPTION = '[Project Add Data/Singled Filter] Toggle Multi Select Option';
 export const CLEAR_SELECTIONS = '[Project Add Data/Singled Filter] Clear Selections';
+export const SET_SEARCH_VALUE = '[Project Add Data/Singled Filter] Set Search Value';
+export const REMOVE_FILTER_VALUE = '[Project Add Data/Singled Filter] Remove Value';
 
 export class SetSingledFilter implements Action {
   readonly type = SET_SINGLED_FILTER;
@@ -20,7 +22,7 @@ export class SetSingledFilter implements Action {
 export class SearchAggregation implements Action {
   readonly type = SEARCH_AGGREGATION;
 
-  constructor(public payload?: string) {}
+  constructor() {}
 }
 
 export class SearchAggregationSuccess implements Action {
@@ -47,10 +49,24 @@ export class ClearSelections implements Action {
   constructor() {}
 }
 
+export class SetSearchValue implements Action {
+  readonly type = SET_SEARCH_VALUE;
+
+  constructor(public payload: string) {}
+}
+
+export class RemoveFilterValue implements Action {
+  readonly type = REMOVE_FILTER_VALUE;
+
+  constructor(public payload: {value: any}) {}
+}
+
 export type Actions
   = SetSingledFilter
   | SearchAggregation
   | SearchAggregationSuccess
   | SearchAggregationError
   | ToggleMultiSelectOption
-  | ClearSelections;
+  | ClearSelections
+  | SetSearchValue
+  | RemoveFilterValue;

@@ -14,10 +14,12 @@ export class FilterSectionComponent {
   @Input() currencyCode: string;
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
+  @Input() searchValue: string;
   @Output() clear: EventEmitter<string> = new EventEmitter();
   @Output() search: EventEmitter<Filter> = new EventEmitter();
   @Output() showMore: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
+
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;

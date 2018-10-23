@@ -15,6 +15,7 @@ import {
   createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters, replaceDefaultFiltersWithSavedFilters
 } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
+import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 
 @Injectable()
 export class AddDataEffectsService {
@@ -91,6 +92,27 @@ export class AddDataEffectsService {
             map((pricingMatchesResponse: PricingMatchesResponse) =>
               new fromSearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse))
           );
+      })
+    );
+  }
+
+  handleFilterRemoval(action$: Actions<Action>): Observable<Action> {
+    return action$.pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getSearchingFilter),
+        this.store.select(fromAddDataReducer.getSingledFilter),
+        (action: any, searchingFilter, singledFilter) => ({ action, searchingFilter, singledFilter })
+      ),
+      mergeMap(data => {
+        const actions = [];
+
+        if (data.searchingFilter && data.singledFilter.Id !== data.action.payload.filterId) {
+          actions.push(new fromSingledFilterActions.SearchAggregation());
+        }
+
+        actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));
+
+        return actions;
       })
     );
   }

@@ -61,7 +61,7 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.changeDetector.detectChanges();
     this.focusedFilter = filterId;
 
-    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(filterId));
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: filterId}));
   }
 
   handleSearchSection(filter: Filter) {

@@ -19,6 +19,7 @@ export class SingleFilterComponent implements OnInit {
   selectionCount$: Observable<number>;
   loadingOptions$: Observable<boolean>;
   loadingOptionsError$: Observable<boolean>;
+  searchValue$: Observable<string>;
 
   constructor(
     private store: Store<fromAddDataReducer.State>,
@@ -27,6 +28,7 @@ export class SingleFilterComponent implements OnInit {
     this.selectionCount$ = this.store.select(fromAddDataReducer.getSingledFilterSelectionCount);
     this.loadingOptions$ = this.store.select(fromAddDataReducer.getLoadingOptions);
     this.loadingOptionsError$ = this.store.select(fromAddDataReducer.getLoadingOptionsError);
+    this.searchValue$ = this.store.select(fromAddDataReducer.getSingledFilterSearchValue);
   }
 
   ngOnInit() {
@@ -43,11 +45,12 @@ export class SingleFilterComponent implements OnInit {
   }
 
   handleClearSection(filterId: string) {
-    this.store.dispatch(new fromSearchFiltersActions.ClearFilter(filterId));
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: filterId}));
     this.store.dispatch(new fromSingledFilterActions.ClearSelections());
   }
 
   handleSearchValueChanged(value: string) {
-    this.store.dispatch(new fromSingledFilterActions.SearchAggregation(value));
+    this.store.dispatch(new fromSingledFilterActions.SetSearchValue(value));
+    this.store.dispatch(new fromSingledFilterActions.SearchAggregation());
   }
 }
