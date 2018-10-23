@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { DataCut } from 'libs/models/survey-search';
 
-import {JobResult, JobContext, MatchesDetailsTooltipData, ProjectSearchContext} from '../../models';
+import { JobResult, MatchesDetailsTooltipData, ProjectSearchContext } from '../../models';
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -32,7 +32,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   loadingMoreResultsSub: Subscription;
   hasMoreResultsOnServerSub: Subscription;
   loadingResultsSub: Subscription;
-
   loadingMoreResults: boolean;
   hasMoreResultsOnServer: boolean;
   spinnerType = 'GIF';

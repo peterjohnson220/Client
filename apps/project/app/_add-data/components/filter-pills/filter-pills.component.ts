@@ -5,7 +5,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
-import { Filter, Filters, FilterType, Pill } from '../../models';
+import { Filter, Filters, isMultiFilter, isRangeFilter, MultiSelectFilter, Pill, PillGroup, RangeFilter } from '../../models';
 import { getFiltersWithValues } from '../../helpers';
 
 @Component({
@@ -16,9 +16,10 @@ import { getFiltersWithValues } from '../../helpers';
 })
 export class FilterPillsComponent implements OnInit, OnChanges {
   @Input() filters: Filter[];
-  @Output() pillClicked = new EventEmitter<Pill>();
+  @Output() clearPill = new EventEmitter<Pill>();
+  @Output() clearPillGroup = new EventEmitter<PillGroup>();
 
-  pills: Pill[];
+  pillGroups: PillGroup[];
   ps: PerfectScrollbar;
 
   constructor() {}
@@ -29,7 +30,7 @@ export class FilterPillsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.filters) {
-      this.buildPillsFromFilters(this.filters);
+      this.buildPillGroups(this.filters);
 
       if (this.ps) {
         // Pushing this to the end of the event queue to ensure the content has been drawn is overflowing
@@ -39,59 +40,82 @@ export class FilterPillsComponent implements OnInit, OnChanges {
     }
   }
 
-  pillTrackByFn(index, item: Pill) {
-    return item.FilterName + item.ValueName;
+  pillGroupTrackByFn(index, item: PillGroup) {
+    return item.GroupName;
   }
 
   handlePillClicked(pill: Pill) {
-    if (!pill.Locked) {
-      this.pillClicked.emit(pill);
-    }
+    this.clearPill.emit(pill);
   }
 
-  private buildPillsFromFilters(filters: Filter[]) {
-    this.pills = [];
+  handleClearAllClicked(pillGroup: PillGroup) {
+    this.clearPillGroup.emit(pillGroup);
+  }
 
-    getFiltersWithValues(filters).map((fwv: Filters) => {
-      switch (fwv.Type) {
-        case FilterType.Multi: {
-          cloneDeep(fwv.Options)
-            .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
-            .filter(o => o.Selected).map(opt => {
-              this.pills.push({
-                FilterId: fwv.Id,
-                FilterName: fwv.DisplayName,
-                ValueName: opt.Name,
-                Value: opt.Value,
-                Locked: fwv.Locked
-              });
-            });
+  private buildPillGroups(filters: Filter[]) {
+    this.pillGroups = [];
 
-          break;
-        }
-        case FilterType.Text: {
-          this.pills.push({
-            FilterId: fwv.Id,
-            FilterName: fwv.DisplayName,
-            ValueName: fwv.Value,
-            Value: fwv.Value,
-            Locked: fwv.Locked
-          });
+    getFiltersWithValues(filters).map((filter: Filters) => {
+      let pillGroup;
 
-          break;
-        }
-        case FilterType.Range: {
-          this.pills.push({
-            FilterId: fwv.Id,
-            FilterName: fwv.DisplayName,
-            ValueName: `${fwv.SelectedMinValue.toFixed(fwv.Precision)} - ${fwv.SelectedMaxValue.toFixed(fwv.Precision)}`,
-            Value: null,
-            Locked: fwv.Locked
-          });
+      if (isMultiFilter(filter)) {
+        pillGroup = this.buildMultiSelectPillGroup(filter);
+      } else if (isRangeFilter(filter)) {
+        pillGroup = this.buildRangePillGroup(filter);
+      }
 
-          break;
-        }
+      if (pillGroup) {
+        this.pillGroups.push(pillGroup);
       }
     });
+  }
+
+  private buildMultiSelectPillGroup(filter: MultiSelectFilter): PillGroup {
+    const pillGroup = this.buildPillGroupBaseInfo(filter);
+
+    const selectedOptions =
+      cloneDeep(filter.Options)
+      .sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending))
+      .filter(o => o.Selected);
+
+    const commaSeparatedOptions = selectedOptions.map(o => o.Name).join(', ');
+
+    pillGroup.PreviewString = commaSeparatedOptions.length > 40
+      ? `${commaSeparatedOptions.substr(0, 40)}...`
+      : commaSeparatedOptions;
+
+    pillGroup.Pills = selectedOptions.map(opt => {
+      return {
+        FilterId: filter.Id,
+        ValueName: opt.Name,
+        Value: opt.Value
+      };
+    });
+
+    return pillGroup;
+  }
+
+  private buildRangePillGroup(filter: RangeFilter): PillGroup {
+    const pillGroup = this.buildPillGroupBaseInfo(filter);
+    const valueDisplay = `${filter.SelectedMinValue.toFixed(filter.Precision)} - ${filter.SelectedMaxValue.toFixed(filter.Precision)}`;
+
+    pillGroup.PreviewString = valueDisplay;
+    pillGroup.Pills = [{
+      FilterId: filter.Id,
+      ValueName: valueDisplay,
+      Value: null
+    }];
+
+    return pillGroup;
+  }
+
+  private buildPillGroupBaseInfo(filter: Filter): PillGroup {
+    return{
+      FilterId: filter.Id,
+      GroupName: filter.DisplayName,
+      Locked: filter.Locked,
+      PreviewString: '',
+      Pills: []
+    };
   }
 }

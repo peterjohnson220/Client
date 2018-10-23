@@ -1,14 +1,5 @@
 @import 'legacy-styles';
 
-.growing-cell{
-  width: 100%;
-}
-
-.fixed-cell{
-  width: 65px;
-  text-align: center;
-}
-
 .matches {
   color: #006699;
 }
@@ -27,4 +18,9 @@
   position: fixed;
   background: white;
   z-index: 999;
+}
+
+.popover{
+  font-family: $legacy-font-family !important;
+  font-size: $legacy-font-size;
 }

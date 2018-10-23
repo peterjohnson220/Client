@@ -15,22 +15,14 @@ import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSel
   MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
   JobToPriceComponent
 } from './components';
-
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
          TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent } from './containers';
-
-import {
-  AddSurveyDataPageEffects,
-  MultiMatchPageEffects,
-  SearchFiltersEffects,
-  SearchResultsEffects,
-  SingledFilterEffects,
-  TooltipContainerEffects,
-  JobsToPriceEffects
-} from './effects';
+import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
+         TooltipContainerEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
+
 @NgModule({
   imports: [
     // Angular

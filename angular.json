@@ -909,7 +909,8 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/project/styles.scss"
+              "apps/project/styles.scss",
+              "apps/project/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",

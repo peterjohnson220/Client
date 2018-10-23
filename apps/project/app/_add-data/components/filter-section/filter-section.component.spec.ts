@@ -97,6 +97,9 @@ describe('Project - Add Data - Filter Section', () => {
 
   it('should emit a show more event with the filter when handling the show more clicked', () => {
     instance.filter = generateMockMultiSelectFilter();
+    instance.singled = false;
+    instance.maxOptions = 1;
+
     spyOn(instance.showMore, 'emit');
 
     instance.handleShowMoreClicked(instance.filter);

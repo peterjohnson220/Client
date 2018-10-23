@@ -1,26 +1,6 @@
 <div class="actions">
-  <div class="reset-filters au-btn-reset-filters" (click)="handleResetClicked()">
+  <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
     Reset
   </div>
-
-<ng-template #saveFiltersPopoverContent>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="savedFiltersPaymarket" id="all-paymarkets" [value]="true" [(ngModel)]="isForAllPayMarkets">
-      <label class="form-check-label" for="all-paymarkets">
-        All PayMarkets
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="savedFiltersPaymarket" id="current-paymarket" [value]="false" [(ngModel)]="isForAllPayMarkets">
-      <label class="form-check-label" for="current-paymarket">
-        Current PayMarket Only
-      </label>
-    </div>
-
-    <div class="save-filters-btns">
-      <button class="btn btn-sm legacy-primary-btn mr-2" (click)="handleSaveFilters(popover)">Save</button>
-      <button class="btn btn-sm btn-secondary" (click)="closePopover(popover)">Cancel</button>
-    </div>
-
-</ng-template>
+</div>
 
