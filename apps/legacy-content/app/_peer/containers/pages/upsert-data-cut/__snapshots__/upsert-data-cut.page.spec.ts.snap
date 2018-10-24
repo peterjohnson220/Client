@@ -6,6 +6,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
@@ -14,6 +15,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
@@ -37,25 +39,30 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
           
         </div>
         <div
-          class="button-container d-flex justify-content-end align-items-center"
+          class="button-container d-flex flex-row justify-content-between align-items-center"
         >
           
           <div
-            class="buttons"
+            class="flex-grow-1 d-flex justify-content-end"
           >
-            <button
-              class="btn btn-primary"
-              disabled=""
-              type="button"
+            
+            <div
+              class="buttons"
             >
-              Add
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-            >
-              Cancel
-            </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Add
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -70,6 +77,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
@@ -78,6 +86,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
@@ -101,24 +110,29 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           
         </div>
         <div
-          class="button-container d-flex justify-content-end align-items-center"
+          class="button-container d-flex flex-row justify-content-between align-items-center"
         >
           
           <div
-            class="buttons"
+            class="flex-grow-1 d-flex justify-content-end"
           >
-            <button
-              class="btn btn-primary"
-              type="button"
+            
+            <div
+              class="buttons"
             >
-              Add
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-            >
-              Cancel
-            </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Add
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -133,6 +147,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
@@ -141,6 +156,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
@@ -164,24 +180,112 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           
         </div>
         <div
-          class="button-container d-flex justify-content-end align-items-center"
+          class="button-container d-flex flex-row justify-content-between align-items-center"
         >
           
           <div
-            class="buttons"
+            class="flex-grow-1 d-flex justify-content-end"
           >
-            <button
-              class="btn btn-primary"
-              type="button"
+            
+            <div
+              class="buttons"
             >
-              Update
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Update
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
+<pf-upsert-data-cut-page
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Observable]}
+  initialMapMoveComplete$={[Function Store]}
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1"
+        >
+          
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="d-flex"
+          >
+            <label
+              for="include-untagged-incs"
             >
-              Cancel
-            </button>
+               Include 1 non geotagged employees that do not have location data? 
+              <input
+                id="include-untagged-incs"
+                type="checkbox"
+              />
+            </label>
+          </div>
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Add
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -196,6 +300,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
@@ -204,6 +309,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
@@ -227,24 +333,29 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
           
         </div>
         <div
-          class="button-container d-flex justify-content-end align-items-center"
+          class="button-container d-flex flex-row justify-content-between align-items-center"
         >
           
           <div
-            class="buttons"
+            class="flex-grow-1 d-flex justify-content-end"
           >
-            <button
-              class="btn btn-primary"
-              type="button"
+            
+            <div
+              class="buttons"
             >
-              Add
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-            >
-              Cancel
-            </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Add
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -259,6 +370,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   guidelinesService={[Function DojGuidelinesStub]}
+  includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   map="undefined"
   mapStore={[Function Store]}
@@ -267,6 +379,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   route={[Function Object]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
   upsertDataCutPageInViewInIframe$={[Function Store]}
   upsertingDataCut$={[Function Store]}
   upsertingDataCutError$={[Function Store]}
@@ -290,24 +403,29 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
           
         </div>
         <div
-          class="button-container d-flex justify-content-end align-items-center"
+          class="button-container d-flex flex-row justify-content-between align-items-center"
         >
           
           <div
-            class="buttons"
+            class="flex-grow-1 d-flex justify-content-end"
           >
-            <button
-              class="btn btn-primary"
-              type="button"
+            
+            <div
+              class="buttons"
             >
-              Update
-            </button>
-            <button
-              class="btn btn-secondary"
-              type="button"
-            >
-              Cancel
-            </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Update
+              </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>

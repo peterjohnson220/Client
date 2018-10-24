@@ -27,6 +27,8 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   upsertingDataCut$: Observable<boolean>;
   upsertingDataCutError$: Observable<boolean>;
   initialMapMoveComplete$: Observable<boolean>;
+  includeUntaggedIncumbents$: Observable<boolean>;
+  untaggedIncumbentCount$: Observable<number>;
   systemFilter$: Observable<SystemFilter>;
 
   // Subscriptions
@@ -49,6 +51,8 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.systemFilter$ = this.store.pipe(select(fromPeerMapReducers.getSystemFilter));
     this.upsertDataCutPageInViewInIframe$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutPageInViewInIframe));
     this.peerMapCompanies$ = this.store.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
+    this.includeUntaggedIncumbents$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterIncludeUntaggedIncumbents));
+    this.untaggedIncumbentCount$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterCountUnGeoTaggedIncumbents));
   }
 
   get primaryButtonText(): string {
@@ -57,6 +61,10 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
 
   get failsGuidelines(): boolean {
     return !this.guidelinesService.passesGuidelines;
+  }
+
+  handleUntaggedIncumbentsChecked(): void {
+    this.store.dispatch(new fromFilterSidebarActions.ToggleIncludeUntaggedEmployees);
   }
 
   upsert() {

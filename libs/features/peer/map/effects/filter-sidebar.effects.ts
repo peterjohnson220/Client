@@ -117,6 +117,15 @@ export class FilterSidebarEffects {
       ])
     );
 
+  @Effect()
+  includeUntaggedEmployeesToggled$: Observable<Action> = this.actions$.pipe(
+    ofType(fromFilterSidebarActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES),
+    mergeMap(() => [
+      new fromPeerMapActions.LoadPeerMapData,
+      new fromFilterSidebarActions.LoadFilterAggregates()
+    ])
+  );
+
   constructor(
     private actions$: Actions,
     private peerMapStore: Store<fromPeerMapReducers.State>,

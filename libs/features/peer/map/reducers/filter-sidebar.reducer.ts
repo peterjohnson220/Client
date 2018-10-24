@@ -1,7 +1,7 @@
 import {
   PayMarket, PeerMapScopeSystemSideBarInfo, SystemFilter,
   ExchangeScopeItem, PeerMapScopeSideBarInfo, FilterAggregateGroup,
-  ToggleAggregateGroupSelections
+  ToggleAggregateGroupSelections, PeerFilterEnum
 } from 'libs/models';
 
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
@@ -19,6 +19,7 @@ export interface State {
   systemFilter: SystemFilter;
   selectionsCount: number;
   scopeSelection: ExchangeScopeItem;
+  includeUntaggedEmployees: boolean;
 }
 
 // Initial State
@@ -32,7 +33,8 @@ export const initialState: State = {
   previewLimit: FilterSidebarHelper.PreviewLimit,
   systemFilter: null,
   selectionsCount: 0,
-  scopeSelection: null
+  scopeSelection: null,
+  includeUntaggedEmployees: false
 };
 
 // Reducer
@@ -171,6 +173,12 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         scopeSelection: action.payload
       };
     }
+    case fromFilterSidebarActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES: {
+      return {
+        ...state,
+        includeUntaggedEmployees: !state.includeUntaggedEmployees
+      };
+    }
     default: {
       return state;
     }
@@ -180,7 +188,17 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
-export const getFilterAggregateGroups = (state: State) => state.filterAggregateGroups;
+export const getFilterAggregateGroups = (state: State) => state.filterAggregateGroups.filter(
+  g => g.MetaData.IncludeInFilterSideBar
+);
+export const getCountUntaggedIncumbents = (state: State) => {
+  const aggItem = state.filterAggregateGroups.find(g => g.MetaData.PeerFilter === PeerFilterEnum.UntaggedIncumbents);
+  if (!aggItem || aggItem.Aggregates.length === 0) {
+    return 0;
+  }
+
+  return aggItem.Aggregates.map(agg => agg.Count).reduce((sum, currentAggCount) => sum + currentAggCount);
+};
 export const getSelections = (state: State) => state.selections;
 export const getLimitToPayMarket = (state: State) => state.limitToPayMarket;
 export const getPayMarket = (state: State) => state.payMarket;
@@ -188,3 +206,4 @@ export const getPreviewLimit = (state: State) => state.previewLimit;
 export const getSystemFilter = (state: State) => state.systemFilter;
 export const getSelectionsCount = (state: State) => state.selectionsCount;
 export const getScopeSelection = (state: State) => state.scopeSelection;
+export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntaggedEmployees;

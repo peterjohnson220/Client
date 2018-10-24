@@ -78,6 +78,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     fixture = TestBed.createComponent(UpsertDataCutPageComponent);
     instance = fixture.componentInstance;
+
+    instance.untaggedIncumbentCount$ = of(0);
   });
 
   it('should display the upsert data cut page with an Add button', () => {
@@ -165,6 +167,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     instance.cancel();
 
+    fixture.detectChanges();
+
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
@@ -208,5 +212,27 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should display untagged incumbents filter when untaggedIncumbentCount$ > 0`, () => {
+    instance.includeUntaggedIncumbents$ = of(false);
+    instance.untaggedIncumbentCount$ = of(1);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should dispatch a ToggleIncludeUntaggedEmployees action when handleUntaggedIncumbentsChecked is called`, () => {
+    const expectedAction = new fromFilterSidebarActions.ToggleIncludeUntaggedEmployees();
+
+    instance.includeUntaggedIncumbents$ = of(false);
+    instance.untaggedIncumbentCount$ = of(1);
+
+    fixture.detectChanges();
+
+    instance.handleUntaggedIncumbentsChecked();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 });

@@ -65,6 +65,14 @@ export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, 
 export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
 export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
 export const getPeerFilterScopeSelection = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getScopeSelection);
+export const getPeerFilterIncludeUntaggedIncumbents = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getIncludeUntaggedIncumbents
+);
+export const getPeerFilterCountUnGeoTaggedIncumbents = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getCountUntaggedIncumbents
+);
 
 // Exchange Scope Selectors
 export const {
@@ -84,12 +92,14 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  (sf, fs, pmf, pfltp) => {
+  getPeerFilterIncludeUntaggedIncumbents,
+  (sf, fs, pmf, pfltp, includeUntaggedIncumbents) => {
     return {
         ...sf,
         ...fs,
         ...pmf,
-        LimitToPayMarket: pfltp
+        LimitToPayMarket: pfltp,
+        IncludeUntaggedIncumbents: includeUntaggedIncumbents
     };
   });
 
