@@ -1,0 +1,40 @@
+@import 'colors';
+
+.smaller-text
+{
+  font-size: 0.95rem;
+}
+
+.sub-text
+{
+  color: $community-sub-text-color;
+}
+
+.job-container
+{
+  line-height: 50%;
+}
+
+.btn-primary
+{
+  background-color: $community-job-button-color;
+  border-color:  $community-job-button-color;
+}
+
+.btn-outline-primary
+{
+  border-color: $community-job-button-color;
+  color: $community-job-button-color;
+}
+
+.fa-building.fa-2x {
+  color: gray;
+}
+
+.fa-external-link {
+  font-size: 90%;
+}
+
+.fa-heart {
+  font-size: 90%;
+}

@@ -1,4 +1,4 @@
-import { CommunityUserInfo } from './community-user-info.model';
+import { CommunityUserInfo, generateMockCommunityUserInfo } from './community-user-info.model';
 
 export interface CommunityJob {
   Id: string;
@@ -8,4 +8,20 @@ export interface CommunityJob {
   UserInfo: CommunityUserInfo;
   DatePosted: Date;
   TimeTicks: number;
+  CompanyLogo: string;
+  ElapsedTime: string;
+}
+
+export function generateMockCommunityJob(): CommunityJob {
+  return {
+    Id: '1234',
+    PositionTitle: 'Job Title',
+    Location: 'Boston',
+    Url: 'https://www.google.com',
+    UserInfo: generateMockCommunityUserInfo(),
+    DatePosted: new Date(),
+    TimeTicks: 123456789,
+    CompanyLogo: '',
+    ElapsedTime: '1 week'
+  };
 }

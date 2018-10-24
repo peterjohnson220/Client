@@ -1,4 +1,4 @@
-<pf-page-with-title-bar  [returnUrl]="'/dashboard/'">
+<pf-page-with-title-bar  [returnUrl]="'/dashboard/'" [contentNoPadding]="true">
 
   <ng-container page-title>
    Job Postings
@@ -8,7 +8,19 @@
     <div class="container-fluid community-job-postings-container">
       <div class="row justify-content-center">
         <div class="col-8">
-         Content in Here!
+          <div class="sticky row justify-content-center mb-4">
+              <div class="input-wrapper-with-icon pr-3">
+                  <input id="search" placeholder="Search">
+                  <label for="search" class="fal fa-search input-icon"></label>
+              </div>
+              <div class="input-wrapper-with-icon">
+                  <input id="location" placeholder="City, state, or country">
+                  <label for="location" class="fal fa-map-marker-alt input-icon"></label>
+              </div>
+            <!--<input type="search" class="mr-3 col-5" placeholder="Search">
+            <input type="text" class="col-5" placeholder="City, state, or country">-->
+          </div>
+          <pf-community-jobs></pf-community-jobs>
         </div>
       </div>
     </div>
