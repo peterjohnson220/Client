@@ -1,0 +1,35 @@
+.header {
+  font-weight: bold;
+  font-size: larger;
+  height: 50px;
+}
+
+.list-box{
+  overflow: auto;
+  padding: 0 5px;
+  width: 50%;
+}
+
+.mapped-fields{
+  width: 65%;
+}
+
+table{
+  width: 100%;
+}
+
+table td{
+  width: 25%;
+  text-align: center;
+}
+
+.mapping-btn-container button{
+  margin: 10px auto;
+  display: block;
+}
+
+.upload-container input {
+  width: 25px;
+  margin-left: 15px;
+  display: inline-block;
+}

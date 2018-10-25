@@ -20,6 +20,8 @@ export const routes: Routes = [
       },
       { path: 'marketing', loadChildren: 'apps/admin/app/_marketing/marketing.module#MarketingModule' },
       { path: 'community', loadChildren: 'apps/admin/app/_community/community.module#CommunityModule' },
+      { path: 'org-data-loader',
+        loadChildren: 'apps/admin/app/_org-data-loader/org-data-loader.module#OrgDataLoaderModule' },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

@@ -1,0 +1,68 @@
+<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+  <ng-container page-title>
+    Org Data Autoloader Field Mappings
+  </ng-container>
+
+  <ng-container page-content>
+    <pf-company-selector
+      [loading]="companiesLoading$ | async"
+      [companies]="companies$ | async"
+      (companySelected)="onCompanySelected($event)">
+
+    </pf-company-selector>
+
+
+    <div [hidden]="!selectedCompany" class="mapping-container">
+      <h3 class="pull-left">Field Mapper</h3>
+      <hr class="clear" />
+      <kendo-tabstrip [keepTabContent]="true">
+        <kendo-tabstrip-tab title="Pay Markets" [selected]="true">
+          <ng-template kendoTabContent>
+            <pf-field-mapper
+              [payfactorsDataFields]="payfactorsPaymarketDataFields"
+              [loaderType]="'Pay Markets'"
+              (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
+          </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Jobs">
+          <ng-template kendoTabContent>
+            <pf-field-mapper
+              [payfactorsDataFields]="payfactorsJobDataFields"
+              [loaderType]="'Jobs'"
+              (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
+          </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Structures">
+          <ng-template kendoTabContent>
+            <pf-field-mapper
+              [payfactorsDataFields]="payfactorsStructureDataFields"
+              [loaderType]="'Structures'"
+              (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
+          </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Structure Mappings">
+          <ng-template kendoTabContent>
+            <pf-field-mapper
+              [payfactorsDataFields]="payfactorsStructureMappingDataFields"
+              [loaderType]="'Structure Mapping'"
+              (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
+          </ng-template>
+        </kendo-tabstrip-tab>
+        <kendo-tabstrip-tab title="Employees">
+          <ng-template kendoTabContent>
+            <pf-field-mapper
+              [payfactorsDataFields]="payfactorsEmployeeDataFields"
+              [loaderType]="'Employees'"
+              (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
+          </ng-template>
+        </kendo-tabstrip-tab>
+      </kendo-tabstrip>
+      <div class="save">
+        <span class="save-message {{saveClass}}" [hidden]="!saveMessage">{{saveMessage}}</span>
+        <button type="button" class="btn btn-primary"
+                [disabled]="!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete"
+                (click)="SaveMappings()">Update Mapping</button>
+      </div>
+    </div>
+  </ng-container>
+</pf-page-with-title-bar>

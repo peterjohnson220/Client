@@ -1,0 +1,736 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete="false"
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              disabled=""
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  selectedCompany="undefined"
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should not show a message when the mappings have not been saved yet 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  saveMessage=""
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  saveMessage={[Function String]}
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+            >
+              Saved Successfully
+            </span>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  jobMappingComplete={[Function Boolean]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  selectedCompany={[Function Number]}
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="save"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Update Mapping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;

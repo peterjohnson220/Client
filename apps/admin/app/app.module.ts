@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
@@ -22,6 +23,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
     // 3rd Party
     NgbModalModule.forRoot(),
+    LayoutModule,
 
     // PF Modules
     PfCommonUIModule,

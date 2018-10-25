@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanySelectorComponent should show a dropdown with companies when Companies are done loading 1`] = `
+<pf-company-selector
+  companySelected={[Function EventEmitter]}
+  loading="false"
+>
+  <div
+    class="company-selector-container"
+  >
+    <h3>
+      Select a Company
+    </h3>
+    <hr
+      style="clear: both"
+    />
+    <span
+      hidden=""
+    >
+      <i
+        class="fa fa-spinner fa-spin"
+      />
+       Loading Companies
+    </span>
+    <select
+      class="form-control ng-untouched ng-pristine ng-valid"
+    >
+      <option
+        ng-reflect-value="undefined"
+        value="undefined"
+      >
+        Select a Company
+      </option>
+      
+    </select>
+  </div>
+</pf-company-selector>
+`;
+
+exports[`CompanySelectorComponent should show a spinner when Companies are loading 1`] = `
+<pf-company-selector
+  companySelected={[Function EventEmitter]}
+  loading={[Function Boolean]}
+>
+  <div
+    class="company-selector-container"
+  >
+    <h3>
+      Select a Company
+    </h3>
+    <hr
+      class="clear"
+    />
+    <span>
+      <i
+        class="fa fa-spinner fa-spin"
+      />
+       Loading Companies
+    </span>
+    <select
+      class="form-control ng-untouched ng-pristine ng-valid"
+      hidden=""
+    >
+      <option
+        ng-reflect-value="undefined"
+        value="undefined"
+      >
+        Select a Company
+      </option>
+      
+    </select>
+  </div>
+</pf-company-selector>
+`;
