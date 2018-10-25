@@ -24,7 +24,8 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
     case fromMultiMatchPageActions.SET_PROJECT_CONTEXT: {
       return {
         ...state,
-        projectContext: action.payload
+        projectContext: action.payload,
+        pageShown: true
       };
     }
     default: {

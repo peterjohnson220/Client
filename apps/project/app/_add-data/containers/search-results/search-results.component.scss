@@ -1,16 +1,11 @@
 @import 'legacy-variables';
 @import 'common/common-variables';
 
-.results-header{
+:host{
   position: absolute;
-  height: 36px;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  padding-right: 1rem;
-  @extend %bottom-box-shadow;
+  top: 36px;
+  bottom: 0;
+  width: 100%;
 }
 
 .results{
@@ -24,7 +19,6 @@
   bottom: 30px;
   overflow-y: scroll;
 }
-
 
 .no-results-message-container{
   display: flex;

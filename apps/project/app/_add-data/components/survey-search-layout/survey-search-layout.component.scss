@@ -1,23 +1,6 @@
-@import 'search/filters-variables';
-@import 'common/common-variables';
-
-%position-below-header{
-  position: absolute;
-  top: 36px;
-  bottom: 0;
-}
-
-.results-header{
-  height: 36px;
+.survey-search{
   display: flex;
-  align-items: center;
-  padding-right: 1rem;
-  @extend %bottom-box-shadow;
-}
-
-.filters-and-results{
-  width: 100%;
-  display: flex;
+  height: 100%;
 }
 
 .filters-sidebar{
@@ -55,10 +38,4 @@
   width: 35%;
   padding-right: 1rem;
   color: #656565;
-}
-
-
-.results{
-  @extend %position-below-header;
-  width: 100%;
 }

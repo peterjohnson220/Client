@@ -50,44 +50,6 @@ describe('Project - Add Data - Multi Match Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a Set Project Context action with a payload, when receiving a Set Project Context message', () => {
-    const payload: ProjectContext = generateProjectContext();
-    const messageEvent = new MessageEvent('Message from parent', {
-      data: {
-        payfactorsMessage: {
-          type: 'Set Project Context',
-          payload: payload
-        }
-      }
-    });
-    const expectedAction = new fromMultimatchPageActions.SetProjectContext(payload);
-
-    spyOn(store, 'dispatch');
-
-    instance.onMessage(messageEvent);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch a Get Search Context action with a payload, when receiving a Set Project Context message', () => {
-    const payload: ProjectContext = generateProjectContext();
-    const messageEvent = new MessageEvent('Message from parent', {
-      data: {
-        payfactorsMessage: {
-          type: 'Set Project Context',
-          payload: payload
-        }
-      }
-    });
-    const expectedAction = new fromMultimatchPageActions.GetProjectSearchContext(payload);
-
-    spyOn(store, 'dispatch');
-
-    instance.onMessage(messageEvent);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should dispatch a Clear Filters action, when receiving a App Closed message', () => {
     const messageEvent = new MessageEvent('Message from parent', {
       data: {
@@ -138,15 +100,6 @@ describe('Project - Add Data - Multi Match Page', () => {
     expect(returnVal).toBe(undefined);
   });
 
-  it('should dispatch SaveSearchFilters action when handleSaveFilters is called', () => {
-    const isForAllPayMarkets = true;
-    const saveSearchFiltersAction = new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets });
-    spyOn(store, 'dispatch');
-
-    instance.handleSaveFilters(isForAllPayMarkets);
-
-    expect(store.dispatch).toHaveBeenCalledWith(saveSearchFiltersAction);
-  });
   it('should dispatch a Clear jobs action, when receiving a App Closed message', () => {
     const messageEvent = new MessageEvent('Message from parent', {
       data: {

@@ -1,0 +1,11 @@
+<div class="results-header">
+  <pf-filter-pills
+    [filters]="filters$ | async"
+    (clearPill)="handleClearPill($event)"
+    (clearPillGroup)="handleClearPillGroup($event)">
+  </pf-filter-pills>
+
+  <pf-filter-actions
+    (reset)="handleResetFilters()">
+  </pf-filter-actions>
+</div>

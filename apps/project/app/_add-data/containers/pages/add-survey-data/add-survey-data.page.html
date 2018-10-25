@@ -1,5 +1,7 @@
-<div class="d-flex h-100">
-  <div class="filters-sidebar">
+<pf-survey-search-layout [resultsCount]="numberOfResults$ | async">
+
+  <ng-container sidebar>
+
     <pf-search-filters
       [visible]="!(searchingFilter$ | async)">
     </pf-search-filters>
@@ -7,55 +9,38 @@
     <pf-single-filter
       *ngIf="searchingFilter$ | async">
     </pf-single-filter>
-  </div>
 
-  <div class="content">
+  </ng-container>
 
-    <div class="results-header">
-      <pf-filter-pills
-        *ngIf="pageShown$ | async"
-        [filters]="filters$ | async"
-        (clearPill)="handleClearPill($event)"
-        (clearPillGroup)="handleClearPillGroup($event)">
-      </pf-filter-pills>
+  <ng-container content>
 
-      <pf-search-actions
-        (reset)="handleResetFilters()">
-      </pf-search-actions>
+    <pf-results-header *ngIf="pageShown$ | async"></pf-results-header>
+    <pf-search-results></pf-search-results>
+
+  </ng-container>
+
+  <ng-container action-buttons>
+
+    <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+            (click)="handleAddClicked()"
+            [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length">
+      <ng-container *ngIf="!(addingData$ | async); else addingData">
+        Add <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
+      </ng-container>
+    </button>
+
+    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
+      Cancel
+    </button>
+
+    <div class="exclude-from-participation">
+      <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2 au-chk-exclude-from-participation"/>
+      <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
     </div>
 
-    <div class="results">
-      <pf-search-results></pf-search-results>
-    </div>
+  </ng-container>
 
-    <div class="actions-container">
-      <div class="buttons">
-        <button (click)="handleAddClicked()" [disabled]="(addingData$ | async) || !(selectedCuts$ | async).length"
-                class="btn btn-sm legacy-primary-btn mr-3 au-btn-add">
-          <ng-container *ngIf="!(addingData$ | async); else addingData">
-            Add
-            <span *ngIf="(selectedCuts$ | async)?.length">({{(selectedCuts$ | async).length}})</span>
-          </ng-container>
-        </button>
-
-        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
-          Cancel
-        </button>
-
-        <div class="exclude-from-participation">
-          <input type="checkbox" id="excludeFromParticipation" [(ngModel)]="excludeFromParticipation" class="mr-2 au-chk-exclude-from-participation"/>
-          <label class="mb-0" for="excludeFromParticipation">Exclude from Participation</label>
-        </div>
-      </div>
-      <div class="results-count">
-        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong>&nbsp;Jobs
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
+</pf-survey-search-layout>
 
 <ng-template #addingData>
   Adding...

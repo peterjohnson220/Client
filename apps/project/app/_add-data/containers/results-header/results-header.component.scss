@@ -1,0 +1,10 @@
+@import 'common/common-variables';
+@import '../../styles/shared-variables';
+
+.results-header{
+  height: $results-header-height;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  @extend %bottom-box-shadow;
+}

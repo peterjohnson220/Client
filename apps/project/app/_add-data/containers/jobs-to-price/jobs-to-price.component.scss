@@ -1,6 +1,14 @@
 @import 'legacy-variables';
-@import 'common/common-variables';
-.results{
+@import '../../styles/shared-variables';
+
+:host {
+  @extend %position-below-results-header;
+  width: 27.5%;
+  right: 0;
+  margin-bottom: 30px;
+}
+
+.jobs-to-price-container{
   position: absolute;
   margin-top: .5rem;
   margin-bottom: .5rem;
@@ -11,7 +19,6 @@
   bottom: 0;
   overflow-y: scroll;
 }
-
 
 .no-results-message-container{
   display: flex;
@@ -28,5 +35,5 @@
   position: fixed !important;
   left: 244px !important;
   bottom: 27px !important;
-  top: 30px !important;
+  top: $results-header-height !important;
 }
