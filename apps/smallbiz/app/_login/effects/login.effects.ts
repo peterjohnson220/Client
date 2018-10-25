@@ -20,13 +20,13 @@ export class LoginEffects {
       })
     );
 
-  @Effect()
-  loginSuccess: Observable<Action> = this.actions$
-    .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
-      switchMap((action: fromLoginAction.LoginSuccess) => {
-        return of(new fromUserContextAction.Set({ emailAddress: action.payload.emailAddress, name: action.payload.emailAddress }));
-      })
-    );
+  // @Effect()
+  // loginSuccess: Observable<Action> = this.actions$
+  //   .ofType(fromLoginAction.LOGIN_SUCCESS).pipe(
+  //     switchMap((action: fromLoginAction.LoginSuccess) => {
+  //       return of(new fromUserContextAction.Set({ emailAddress: action.payload.emailAddress, name: action.payload.emailAddress }));
+  //     })
+  //   );
 
   @Effect({ dispatch: false })
   loginSuccessRouteToHome = this.actions$

@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../shared/state';
 import * as fromJobSearch from '../../../reducers';
 import * as fromJobSearchActions from '../../../actions/job-search.actions';
-import { Set } from '../../../../shared/actions/user-context.actions';
 
 import { UserContext } from '../../../../shared/models';
 import { Job, JobSearchResult } from '../../../models';
@@ -23,7 +22,13 @@ export class JobSearchPageComponent implements OnInit {
 
   constructor(private store: Store<fromJobSearch.State>) {
     this.userName$ = store.select(fromRoot.selectUserContextModel).pipe(
-      map((userContext: UserContext) => (userContext || ({} as UserContext)).name)
+      map((userContext: UserContext) => {
+        if (!!userContext && !!userContext.firstName && !!userContext.lastName) {
+          return `${userContext.firstName} ${userContext.lastName}`;
+        } else {
+          return '';
+        }
+      })
     );
     this.searchResults$ = store.select(fromJobSearch.selectSearchResult).pipe(
       map((result: JobSearchResult) => !!result ? result.jobs : [])
@@ -35,11 +40,12 @@ export class JobSearchPageComponent implements OnInit {
   }
 
   onJobSelected(selected: Job) {
-    this.store.dispatch(new fromJobSearchActions.JobSelected({ selected }));
+    if (!!selected) {
+      this.store.dispatch(new fromJobSearchActions.JobSelected({ selected }));
+    }
   }
 
   ngOnInit() {
-    this.store.dispatch(new Set({ emailAddress: 'Test User', name: 'Test User' }));
   }
 
 }

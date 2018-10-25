@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromJobDetail from '../../../reducers';
-import * as fromJobDetailActions from '../../../../_job-search/actions/job-detail.actions';
+import * as fromJobDetailActions from '../../../actions/job-detail.actions';
 import { Job } from '../../../models/job';
 import { map } from 'rxjs/operators';
 
