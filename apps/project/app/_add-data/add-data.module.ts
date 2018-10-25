@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
+import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -15,7 +16,7 @@ import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSel
          MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
          JobToPriceComponent, SurveySearchLayoutComponent } from './components';
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent, ResultsHeaderComponent } from './containers';
+         TooltipContainerComponent, SingleFilterComponent, JobsToPriceContainerComponent, ResultsHeaderComponent } from './containers';
 import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
          TooltipContainerEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
@@ -36,6 +37,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     NgbTooltipModule,
     NgbPopoverModule.forRoot(),
     Ng5SliderModule,
+    DragulaModule.forRoot(),
 
     // Routing
     AddDataRoutingModule,
@@ -52,7 +54,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
-    JobsToPriceComponent, ResultsHeaderComponent,
+    JobsToPriceContainerComponent, ResultsHeaderComponent,
 
     // Pages
     AddSurveyDataPageComponent, MultiMatchPageComponent

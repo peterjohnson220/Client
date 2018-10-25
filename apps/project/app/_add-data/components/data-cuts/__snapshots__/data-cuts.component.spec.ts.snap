@@ -56,7 +56,10 @@ exports[`DataCutsComponent should display Scope, Country and Weight 1`] = `
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
         
         
         
@@ -101,6 +104,23 @@ exports[`DataCutsComponent should display Scope, Country and Weight 1`] = `
             >
                4 
             </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut(s) to job...
+              </div>
+            </div>
           </td>
         </tr>
         
@@ -169,7 +189,10 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
         
         
         
@@ -214,6 +237,23 @@ exports[`DataCutsComponent should handle empty currency fields 1`] = `
             >
                4 
             </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut(s) to job...
+              </div>
+            </div>
           </td>
         </tr>
         
@@ -310,7 +350,10 @@ exports[`DataCutsComponent should show selected if the data cut has been selecte
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
         
         
         
@@ -357,6 +400,23 @@ exports[`DataCutsComponent should show selected if the data cut has been selecte
             >
                4 
             </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut(s) to job...
+              </div>
+            </div>
           </td>
         </tr>
         

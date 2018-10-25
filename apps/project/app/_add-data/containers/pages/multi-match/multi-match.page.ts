@@ -3,10 +3,13 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { DragulaService } from 'ng2-dragula';
+
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { SurveySearchBase } from '../survey-search-base';
+import { enableDatacutsDragging } from '../../../helpers';
 
 @Component({
   selector: 'pf-multi-match-page',
@@ -14,16 +17,15 @@ import { SurveySearchBase } from '../survey-search-base';
   styleUrls: ['./multi-match.page.scss']
 })
 export class MultiMatchPageComponent extends SurveySearchBase {
-  // todo move this to a new component
-  jobListIds: string[];
+
   pageShown$: Observable<boolean>;
 
   constructor(
-    store: Store<fromAddDataReducer.State>
+    store: Store<fromAddDataReducer.State>,
+    private dragulaService: DragulaService
   ) {
     super(store);
-    // todo move this to new component
-    this.jobListIds = [];
+    enableDatacutsDragging(dragulaService);
     this.pageShown$ = this.store.select(fromAddDataReducer.getMultiMatchPageShown);
   }
 

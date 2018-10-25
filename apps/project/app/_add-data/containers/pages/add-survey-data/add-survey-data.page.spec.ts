@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
+import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -13,6 +14,7 @@ import * as fromSearchActions from '../../../actions/search.actions';
 import { generateMockJobContext, generateMockProjectSearchContext, JobContext, ProjectSearchContext } from '../../../models';
 import * as fromAddDataReducer from '../../../reducers';
 import { AddSurveyDataPageComponent } from './add-survey-data.page';
+
 
 describe('Project - Add Data - Surveys Page', () => {
   let fixture: ComponentFixture<AddSurveyDataPageComponent>;
@@ -26,7 +28,8 @@ describe('Project - Add Data - Surveys Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           project_addData: combineReducers(fromAddDataReducer.reducers),
-        })
+        }),
+        DragulaModule.forRoot()
       ],
       declarations: [
         AddSurveyDataPageComponent

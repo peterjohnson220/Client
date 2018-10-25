@@ -15,6 +15,7 @@
         <pf-job-result
           *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
           [job]="jobResult"
+          [cutsDraggable]="cutsDraggable"
           [currencyCode]="(projectSearchContext$ | async)?.CurrencyCode"
           (loadDataCuts)="handleLoadDataCuts($event)"
           (cutSelected)="handleCutSelectionToggle($event)"

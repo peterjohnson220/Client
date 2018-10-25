@@ -3,7 +3,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 
 import { DataCut } from 'libs/models/survey-search';
 
-import { JobResult, ResultsPagingOptions } from '../models';
+import { DataCutDetails, JobResult, ResultsPagingOptions } from '../models';
 import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
 
 export interface State {
@@ -12,7 +12,7 @@ export interface State {
   loadingResults: boolean;
   pagingOptions: ResultsPagingOptions;
   totalResultsOnServer: number;
-  selectedDataCuts: DataCut[];
+  selectedDataCuts: DataCutDetails[];
   error: boolean;
 }
 
@@ -101,9 +101,12 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     }
 
     case fromSearchResultsActions.CLEAR_DATA_CUT_SELECTIONS: {
+      const resultsCopy = cloneDeep(state.results);
+      deselectAllCutsInSearchResults(resultsCopy);
       return {
         ...state,
-        selectedDataCuts: []
+        selectedDataCuts: [],
+        results: resultsCopy
       };
     }
 
@@ -172,4 +175,12 @@ function setSelectedPropertyInSearchResults(dataCut: DataCut, resultsCopy: JobRe
     const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
     surveyCut.IsSelected = isSelected;
   }
+}
+
+function deselectAllCutsInSearchResults(resultsCopy: JobResult[]) {
+    resultsCopy.map(result => {
+      if (result.DataCuts && result.DataCuts.length) {
+        result.DataCuts.map(dc => dc.IsSelected = false);
+      }
+    });
 }

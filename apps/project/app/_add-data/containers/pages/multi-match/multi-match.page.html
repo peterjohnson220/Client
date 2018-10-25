@@ -11,8 +11,8 @@
 
   <ng-container content>
     <pf-results-header *ngIf="pageShown$ | async"></pf-results-header>
-    <pf-search-results></pf-search-results>
-    <pf-jobs-to-price></pf-jobs-to-price>
+      <pf-search-results [cutsDraggable]="true"></pf-search-results>
+      <pf-jobs-to-price-container></pf-jobs-to-price-container>
   </ng-container>
 
   <ng-container action-buttons>

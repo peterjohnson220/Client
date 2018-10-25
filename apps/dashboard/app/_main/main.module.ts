@@ -43,7 +43,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     CommonModule,
 
     // 3rd Party
-    DragulaModule,
+    DragulaModule.forRoot(),
     StoreModule.forFeature('dashboardMain', reducers),
     EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects, DashboardTcModalEffects]),
     ChartsModule,

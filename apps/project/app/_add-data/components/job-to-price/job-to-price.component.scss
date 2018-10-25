@@ -45,6 +45,10 @@
   border-left: 3px solid transparent;
 }
 
+.highlight{
+  background: rgba(255, 250, 203, 0.65);
+}
+
 .result:hover{
   border-left: 3px solid #b9d3e0;
 }
@@ -94,4 +98,20 @@
 
 .fa-times{
   cursor: pointer;
+}
+
+.dragging{
+  .dropzone{
+    min-height: 40px;
+    border: 2px dashed #b9d3e0;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.no-cuts-to-show {
+  font-style: italic;
+  color: #848484;
 }

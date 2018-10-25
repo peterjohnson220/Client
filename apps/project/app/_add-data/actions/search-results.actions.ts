@@ -2,13 +2,12 @@ import { Action } from '@ngrx/store';
 
 import {
   SearchResponse,
-  DataCut,
   SurveyDataResponse,
   PricingMatchesResponse,
   SearchFilter
 } from 'libs/models/survey-search';
 
-import { JobResult } from '../models';
+import { JobResult, DataCutDetails } from '../models';
 
 export const GET_RESULTS = '[Project Add Data/Search Results] Get Results';
 export const GET_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get Results Success';
@@ -56,7 +55,7 @@ export class ClearResults implements Action {
 export class ToggleSurveyDataCutSelection implements Action {
   readonly type = TOGGLE_SURVEY_DATA_CUT_SELECTION;
 
-  constructor(public payload: DataCut) {}
+  constructor(public payload: DataCutDetails) {}
 }
 
 export class ClearDataCutSelections implements Action {

@@ -1,3 +1,6 @@
+import { DataCut } from 'libs/models/survey-search';
+import { JobResult } from './index';
+
 export interface SurveyDataCut {
   SurveyDataId: number;
   Title: string;
@@ -9,6 +12,11 @@ export interface SurveyDataCut {
   IsSelected: boolean;
 }
 
+export interface DataCutDetails extends DataCut {
+  Job?: JobResult;
+  Base50th?: number;
+  TCC50th?: number;
+}
 export function generateMockDataCut(): SurveyDataCut {
   return {
     SurveyDataId: 1,

@@ -3,6 +3,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
+import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -13,6 +14,7 @@ import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions'
 import { generateProjectContext, ProjectContext } from '../../../models';
 import * as fromAddDataReducer from '../../../reducers';
 import { MultiMatchPageComponent } from './multi-match.page';
+
 
 describe('Project - Add Data - Multi Match Page', () => {
   let fixture: ComponentFixture<MultiMatchPageComponent>;
@@ -26,7 +28,8 @@ describe('Project - Add Data - Multi Match Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           project_addData: combineReducers(fromAddDataReducer.reducers),
-        })
+        }),
+        DragulaModule.forRoot()
       ],
       declarations: [
         MultiMatchPageComponent

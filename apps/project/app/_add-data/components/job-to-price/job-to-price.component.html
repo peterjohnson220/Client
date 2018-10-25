@@ -1,4 +1,4 @@
-<div class="result">
+<div class="result" [class.dragging]="dragging">
   <div class="d-flex justify-content-between">
     <div class="d-flex">
       <div class="job-title">
@@ -9,20 +9,19 @@
       </div>
     </div>
   </div>
-
+  <div class="dropzone" dragula="data-cuts-bag" [attr.data-job-id]="job.Id">
+  </div>
   <div class="paymarket">
     {{job.Paymarket}}
   </div>
 
   <div class="d-flex mt-2">
-    <ng-container *ngIf="(job.TotalDataCuts > 0)">
-      <div class="link" (click)="toggleDataCutsDisplay()">
-        {{toggleDataCutsLabel}}
-      </div>
-      <div class="link mx-2">
-        |
-      </div>
-    </ng-container>
+    <div class="link" *ngIf="(job.TotalDataCuts > 0); else noCutsToShow" (click)="toggleDataCutsDisplay()">
+      {{toggleDataCutsLabel}}
+    </div>
+    <div class="link mx-2">
+      |
+    </div>
     <div class="link" (click)="toggleJobDetailDisplay()">
       {{toggleJobDetailLabel}}
     </div>
@@ -61,13 +60,13 @@
       </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let dataCut of job.DataCuts">
+        <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.UserJobMatchId == null">
           <td class="scope-cell">
             {{dataCut.JobTitle}} ({{dataCut.JobCode}}) - {{dataCut.Source}}
           </td>
           <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
           <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
-          <td class="text-center"><i class="far fa-times fa-lg"></i></td>
+          <td class="text-center" (click)="removeMatchCut(dataCut)"><i class="far fa-times fa-lg" ></i></td>
         </tr>
       </tbody>
     </table>
@@ -80,6 +79,11 @@
 <ng-template #noJobDescription>
   <div class="no-job-description">
     No Job Description
+  </div>
+</ng-template>
+<ng-template #noCutsToShow>
+  <div class="no-cuts-to-show">
+    No Cuts Added
   </div>
 </ng-template>
 

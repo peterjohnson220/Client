@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DragulaService } from 'ng2-dragula';
 
 import { DataCut } from 'libs/models/survey-search';
 
@@ -9,6 +10,8 @@ import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-
 import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { SurveySearchBase } from '../survey-search-base';
+import { disableDatacutsDragging } from '../../../helpers';
+
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -22,13 +25,15 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
   excludeFromParticipation: boolean;
 
   constructor(
-    store: Store<fromAddDataReducer.State>
+    store: Store<fromAddDataReducer.State>,
+    private dragulaService: DragulaService
   ) {
     super(store);
     this.selectedCuts$ = this.store.select(fromAddDataReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
     this.excludeFromParticipation = false;
+    disableDatacutsDragging(dragulaService);
   }
 
   onResetApp() {
