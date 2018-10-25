@@ -11,13 +11,15 @@
 
   <ng-container content>
     <pf-results-header *ngIf="pageShown$ | async"></pf-results-header>
-      <pf-search-results [cutsDraggable]="true"></pf-search-results>
-      <pf-jobs-to-price-container></pf-jobs-to-price-container>
+    <pf-search-results [cutsDraggable]="true"></pf-search-results>
+    <pf-jobs-to-price-container></pf-jobs-to-price-container>
   </ng-container>
 
   <ng-container action-buttons>
-    <button [disabled]="true" class="btn btn-sm legacy-primary-btn mr-3">
-      Save
+    <button [disabled]="!changesToSave || (savingChanges$ | async)" (click)="handleSaveClicked()" class="btn btn-sm legacy-primary-btn mr-3">
+      <ng-container *ngIf="!(savingChanges$ | async); else savingChanges">
+        Save
+      </ng-container>
     </button>
 
     <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
@@ -26,3 +28,7 @@
   </ng-container>
 
 </pf-survey-search-layout>
+
+<ng-template #savingChanges>
+  Saving...
+</ng-template>

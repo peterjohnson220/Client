@@ -100,6 +100,16 @@ export const getMultimatchProjectContext = createSelector(
   fromMultiMatchPageReducer.getProjectContext
 );
 
+export const getSavingJobMatchUpdates = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getSavingChanges
+);
+
+export const getSavingJobMatchError = createSelector(
+  selectMultiMatchPageState,
+  fromMultiMatchPageReducer.getSavingChangesError
+);
+
 // Add Survey Data Page Selectors
 export const getJobContext = createSelector(
   selectAddSurveyDataPageState,

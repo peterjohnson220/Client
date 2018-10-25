@@ -4,11 +4,15 @@ import {ProjectContext} from '../models';
 export interface State {
   pageShown: boolean;
   projectContext: ProjectContext;
+  savingChanges: boolean;
+  saveChangesError: boolean;
 }
 
 const initialState: State = {
   pageShown: false,
-  projectContext: null
+  projectContext: null,
+  savingChanges: false,
+  saveChangesError: false
 };
 
 // Reducer function
@@ -28,6 +32,26 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
         pageShown: true
       };
     }
+    case fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES: {
+      return {
+        ...state,
+        savingChanges: true
+      };
+    }
+    case fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_ERROR: {
+      return {
+        ...state,
+        savingChanges: false,
+        saveChangesError: true
+      };
+    }
+    case fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_SUCCESS: {
+      return {
+        ...state,
+        savingChanges: false,
+        saveChangesError: false
+      };
+    }
     default: {
       return state;
     }
@@ -37,3 +61,5 @@ export function reducer(state = initialState, action: fromMultiMatchPageActions.
 // Selector functions
 export const getPageShown = (state: State) => state.pageShown;
 export const getProjectContext = (state: State) => state.projectContext;
+export const getSavingChanges = (state: State) => state.savingChanges;
+export const getSavingChangesError = (state: State) => state.saveChangesError;
