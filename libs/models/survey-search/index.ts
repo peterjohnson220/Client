@@ -14,3 +14,4 @@ export * from './search-context-response.model';
 export * from './jobs-to-price-request.model';
 export * from './job-match-cuts-request.model';
 export * from './job-match-cuts-response.model';
+export * from './update-user-job-matches.request.model';
