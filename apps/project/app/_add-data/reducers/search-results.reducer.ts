@@ -179,6 +179,7 @@ function setSelectedPropertyInSearchResults(dataCut: DataCut, resultsCopy: JobRe
 
 function deselectAllCutsInSearchResults(resultsCopy: JobResult[]) {
     resultsCopy.map(result => {
+      result.IsSelected = false;
       if (result.DataCuts && result.DataCuts.length) {
         result.DataCuts.map(dc => dc.IsSelected = false);
       }
