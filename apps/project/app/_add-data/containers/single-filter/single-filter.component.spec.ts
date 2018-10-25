@@ -95,7 +95,7 @@ describe('Project - Add Data - Single Filter', () => {
   it('should dispatch a SearchAggregation action for the singled filter when handling a search value changed', () => {
     spyOn(store, 'dispatch');
     const searchValue = 'Finance';
-    const expectedAction = new fromSingledFilterActions.SearchAggregation(searchValue);
+    const expectedAction = new fromSingledFilterActions.SearchAggregation();
 
     instance.handleSearchValueChanged(searchValue);
 

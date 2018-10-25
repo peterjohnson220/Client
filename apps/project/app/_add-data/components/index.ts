@@ -5,5 +5,6 @@ export * from './job-result';
 export * from './matches-details-tooltip';
 export * from './multi-select-filter';
 export * from './range-filter';
-export * from './search-actions';
+export * from './filter-actions';
 export * from './job-to-price';
+export * from './survey-search-layout';

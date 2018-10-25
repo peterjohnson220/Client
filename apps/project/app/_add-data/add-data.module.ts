@@ -12,11 +12,10 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
-  MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
-  JobToPriceComponent
-} from './components';
+         MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
+         JobToPriceComponent, SurveySearchLayoutComponent } from './components';
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent } from './containers';
+         TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent, ResultsHeaderComponent } from './containers';
 import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
          TooltipContainerEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
@@ -48,12 +47,12 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   declarations: [
     // Components
     JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
-    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
-    JobToPriceComponent,
+    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
+    JobToPriceComponent, SurveySearchLayoutComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
-    JobsToPriceComponent,
+    JobsToPriceComponent, ResultsHeaderComponent,
 
     // Pages
     AddSurveyDataPageComponent, MultiMatchPageComponent

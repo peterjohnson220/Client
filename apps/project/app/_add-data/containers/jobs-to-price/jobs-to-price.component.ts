@@ -6,8 +6,6 @@ import * as fromAddDataReducer from '../../reducers';
 import { JobToPrice, ProjectSearchContext } from '../../models';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
 
-
-
 @Component({
   selector: 'pf-jobs-to-price',
   templateUrl: './jobs-to-price.component.html',

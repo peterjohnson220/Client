@@ -1,0 +1,8 @@
+$results-header-height: 36px;
+
+%position-below-results-header{
+  position: absolute;
+  top: $results-header-height;
+  bottom: 0;
+  width: 100%;
+}
