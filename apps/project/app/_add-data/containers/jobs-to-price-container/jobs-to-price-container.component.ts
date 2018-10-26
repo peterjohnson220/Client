@@ -1,4 +1,4 @@
-import {  Component, OnDestroy, ViewChildren, QueryList } from '@angular/core';
+import {  Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs/index';
@@ -6,6 +6,7 @@ import { merge } from 'rxjs';
 import { mapTo, startWith } from 'rxjs/operators';
 
 import { DragulaService } from 'ng2-dragula';
+import * as autoScroll from 'dom-autoscroller';
 
 import { DataCut, JobMatchCut } from 'libs/models/survey-search';
 
@@ -22,7 +23,7 @@ import { JobToPriceComponent } from '../../components/job-to-price/job-to-price.
   templateUrl: './jobs-to-price-container.component.html',
   styleUrls: ['./jobs-to-price-container.component.scss']
 })
-export class JobsToPriceContainerComponent implements OnDestroy {
+export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
   @ViewChildren(JobToPriceComponent) jobsToPriceComponents !: QueryList<JobToPriceComponent>;
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
@@ -39,6 +40,8 @@ export class JobsToPriceContainerComponent implements OnDestroy {
   selectedDataCutsSubscription: Subscription;
 
   selectedCuts: DataCut[];
+  scroll: any;
+  isDragging: boolean;
 
   spinnerType = 'GIF';
 
@@ -58,6 +61,20 @@ export class JobsToPriceContainerComponent implements OnDestroy {
      this.selectedCuts = dataCuts;
     });
     this.configureDragEvents();
+  }
+
+  ngOnInit() {
+    const that = this;
+    this.scroll = autoScroll(
+      document.querySelector('.jobs-to-price-container'),
+      {
+        margin: 30,
+        maxSpeed: 25,
+        scrollWhenOutside: true,
+        autoScroll: function() {
+          return this.down && that.isDragging;
+        }
+      });
   }
 
   trackByJobId(index, item: JobToPrice) {
@@ -110,6 +127,10 @@ export class JobsToPriceContainerComponent implements OnDestroy {
         el.innerHTML = '';
         })
     );
+
+    this.isDragging$.subscribe(dragStatus => {
+      this.isDragging = dragStatus;
+    });
   }
 
   ngOnDestroy(): void {
