@@ -1,0 +1,4 @@
+<div *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId; let i = index; let last = last;">
+  <pf-community-job [job]="job"></pf-community-job>
+  <hr *ngIf="!last">
+</div>

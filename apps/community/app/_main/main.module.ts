@@ -36,7 +36,10 @@ import { CommunityPollChoicesComponent } from 'libs/features/community/container
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
+import { CommunityJobComponent } from './components/community-job/community-job.component';
+import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
 import { CommunityPostTagFilterComponent} from './components/community-tag-filter';
+
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
@@ -75,7 +78,9 @@ const components = [
   CommunityPostTagFilterComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
-  CommunityCategoryDisplayNamePipe
+  CommunityCategoryDisplayNamePipe,
+  CommunityJobComponent,
+  CommunityJobsComponent
 ];
 
 @NgModule({

@@ -7,7 +7,7 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
      Job Postings 
     
     <div
-      class="container-fluid community-job-postings-container"
+      class="container-fluid community-job-postings-container p-4"
     >
       <div
         class="row justify-content-center"
@@ -15,7 +15,35 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
         <div
           class="col-8"
         >
-           Content in Here! 
+          <div
+            class="sticky row justify-content-center mb-4"
+          >
+            <div
+              class="input-wrapper-with-icon pr-3"
+            >
+              <input
+                id="search"
+                placeholder="Search"
+              />
+              <label
+                class="fal fa-search input-icon"
+                for="search"
+              />
+            </div>
+            <div
+              class="input-wrapper-with-icon"
+            >
+              <input
+                id="location"
+                placeholder="City, state, or country"
+              />
+              <label
+                class="fal fa-map-marker-alt input-icon"
+                for="location"
+              />
+            </div>
+          </div>
+          <pf-community-jobs />
         </div>
       </div>
     </div>
