@@ -61,9 +61,11 @@ export class MultiMatchPageEffects {
         (action, jobsToPrice, projectContext ) => ({  jobsToPrice, projectContext  })
       ),
       switchMap((contextAndJobs) => {
+          const jobsWithUpdates = contextAndJobs.jobsToPrice.filter(j => (!!j.DataCutsToAdd && j.DataCutsToAdd.length)
+                                  || (!!j.DeletedJobMatchCutIds && j.DeletedJobMatchCutIds.length));
           return this.surveySearchApiService.updateUserJobMatches({
             ProjectId: contextAndJobs.projectContext.ProjectId,
-            SurveyJobMatchUpdates: this.buildMatchUpdates(contextAndJobs.jobsToPrice)
+            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
           })
             .pipe(
               mergeMap(() => [

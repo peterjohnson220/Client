@@ -68,6 +68,6 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   }
 
   private jobHasChangesToSave(job: JobToPrice): boolean {
-    return (job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
+    return (!!job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (!!job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
   }
 }
