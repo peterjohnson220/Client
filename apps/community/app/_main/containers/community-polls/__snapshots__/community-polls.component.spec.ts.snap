@@ -13,11 +13,6 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
     class="card"
   >
     <div
-      class="card-header"
-    >
-       Payfactors Polls 
-    </div>
-    <div
       class="card-body"
     >
       
