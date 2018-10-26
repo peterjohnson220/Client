@@ -9,14 +9,16 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { JobSearchRoutingModule } from './job-search-routing.module';
 import { JobDetailPageComponent, JobSearchPageComponent, PriceJobComponent } from './containers';
-import { JobDetailEffects, JobSearchEffects, PriceJobEffects } from './effects';
+import { JobDetailEffects, JobSearchEffects, PriceJobEffects, RelatedJobEffects } from './effects';
 import { JobService, LocationService } from './services';
+import { RelatedJobsComponent } from './components/related-jobs/related-jobs.component';
 
 @NgModule({
   declarations: [
     JobDetailPageComponent,
     JobSearchPageComponent,
-    PriceJobComponent
+    PriceJobComponent,
+    RelatedJobsComponent
   ],
   imports: [
     // Angular
@@ -25,7 +27,7 @@ import { JobService, LocationService } from './services';
 
     // Third Party
     StoreModule.forFeature('jobSearchArea', reducers),
-    EffectsModule.forFeature([JobDetailEffects, JobSearchEffects, PriceJobEffects]),
+    EffectsModule.forFeature([JobDetailEffects, JobSearchEffects, PriceJobEffects, RelatedJobEffects]),
     DropDownsModule,
 
     // Routing
