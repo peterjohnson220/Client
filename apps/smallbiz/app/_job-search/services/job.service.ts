@@ -19,8 +19,13 @@ export class JobService {
     return this.httpClient.get<JobSearchResult>(url);
   }
 
-  getJob(id: string): Observable<Job> {
+  getJob(id: number): Observable<Job> {
     const url = `${BASE_API_URL}job/${id}`;
     return this.httpClient.get<Job>(url);
+  }
+
+  getRelatedJobs(jobId: number): Observable<Job[]> {
+    const url = `${BASE_API_URL}job/${jobId}/related-jobs`;
+    return this.httpClient.get<Job[]>(url);
   }
 }
