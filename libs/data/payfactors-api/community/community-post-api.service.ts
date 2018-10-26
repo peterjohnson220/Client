@@ -15,6 +15,12 @@ export class CommunityPostApiService {
     return this.payfactorsApiService.get<CommunityPost[]>
     (`${this.endpoint}/GetPosts`);
   }
+  getPostsByTag(payload: any): Observable<CommunityPost[]> {
+    return this.payfactorsApiService.get<CommunityPost[]>
+    (`${this.endpoint}/GetPostsAndRepliesByTag`, {
+      params: payload
+    });
+  }
 
   submitCommunityPost(payload: any): Observable<CommunityPost> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Post`, payload);
@@ -39,5 +45,13 @@ export class CommunityPostApiService {
         PostId: payload.PostId
       }
     });
+  }
+
+  updatePostDeletedFlag(payload: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/DeletePost`, payload);
+  }
+
+  updatePostReplyDeletedFlag(payload: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/DeleteReply`, payload);
   }
 }

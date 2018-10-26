@@ -4,15 +4,18 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
   addReplyViewStore={[Function Store]}
   avatarUrl={[Function String]}
+  communityPollResponseSubmitted$={[Function Store]}
   communityPosts$={[Function Store]}
-  loadingCommunityPostReplies$={[Function Store]}
+  communityPostsSubscription={[Function Subscriber]}
   loadingCommunityPosts$={[Function Store]}
+  loadingPostsSubscription={[Function Subscriber]}
+  pollsType={[Function Number]}
   replyStore={[Function Store]}
   showAddReply={[Function Object]}
   showReplies={[Function Array]}
   store={[Function Store]}
 >
-  <div
+  <pf-community-post-tag-filter /><div
     class="posts-container p-2 scroll"
   >
     

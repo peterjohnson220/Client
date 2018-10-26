@@ -1,179 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Project - Add Data - Job Result should display Show Cuts link when current job is not Payfactors 1`] = `
-<div
-  cutSelected={[Function EventEmitter]}
-  hideCutsLabel={[Function String]}
-  job={[Function Object]}
-  jobTitleClick={[Function EventEmitter]}
-  loadDataCuts={[Function EventEmitter]}
-  loadingResults$={[Function Store]}
-  loadingResultsSub={[Function Subscriber]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
-  matchesMouseLeaveTimeout={[Function Number]}
-  showCutsLabel={[Function String]}
-  showDataCuts="false"
-  store={[Function Store]}
-  toggleDataCutsLabel={[Function String]}
->
-  <tr
-    class="job-result-row"
-    ng-reflect-klass="job-result-row"
-    ng-reflect-ng-class="[object Object]"
-  >
-    <td
-      class="growing-cell"
-    >
-      <span
-        class="job-title"
-      >
-         Blend of Gas Operations Top Executive-Corporate, G 
-        
-        
-        (13001)
-      </span>
-      <div
-        class="vendor"
-      >
-         Hewitt Associates 
-        
-        
-        - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
-      </div>
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    />
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-      <span
-        class="matches"
-      >
-         5 
-      </span>
-    </td>
-  </tr><tr
-    class="job-data-cuts-row"
-  >
-    <td
-      colspan="6"
-    >
-      
-      <span
-        class="link"
-      >
-         Show Cuts 
-      </span>
-      
-      
-    </td>
-  </tr>
-</div>
-`;
-
-exports[`Project - Add Data - Job Result should hide Show Cuts link, survey name, and job code, when the current job is Payfactors 1`] = `
-<div
-  cutSelected={[Function EventEmitter]}
-  hideCutsLabel={[Function String]}
-  job={[Function Object]}
-  jobTitleClick={[Function EventEmitter]}
-  loadDataCuts={[Function EventEmitter]}
-  loadingResults$={[Function Store]}
-  loadingResultsSub={[Function Subscriber]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
-  matchesMouseLeaveTimeout={[Function Number]}
-  showCutsLabel={[Function String]}
-  showDataCuts="false"
-  store={[Function Store]}
-  toggleDataCutsLabel={[Function String]}
->
-  <tr
-    class="job-result-row payfactors-job-result"
-    ng-reflect-klass="job-result-row"
-    ng-reflect-ng-class="[object Object]"
-  >
-    <td
-      class="growing-cell"
-    >
-      <span
-        class="job-title"
-      >
-         Accountant II 
-        
-      </span>
-      <div
-        class="vendor"
-      >
-         Payfactors 
-        
-      </div>
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    />
-    <td
-      class="fixed-cell"
-    >
-      
-      
-      1
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-      
-      1
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-  </tr><tr
-    class="job-data-cuts-row"
-  >
-    <td
-      colspan="6"
-    >
-      
-      
-      
-    </td>
-  </tr>
-</div>
-`;
-
 exports[`Project - Add Data - Job Result should not show Load More link when there are no more data cuts results 1`] = `
-<div
+<pf-job-result
   cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
-  jobTitleClick={[Function EventEmitter]}
   loadDataCuts={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
@@ -182,91 +13,82 @@ exports[`Project - Add Data - Job Result should not show Load More link when the
   matchesMouseLeaveTimeout={[Function Number]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
+  showJobDetail="false"
   store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
-  <tr
-    class="job-result-row"
-    ng-reflect-klass="job-result-row"
+  <div
+    class="result job-result-row"
+    ng-reflect-klass="result job-result-row"
     ng-reflect-ng-class="[object Object]"
   >
-    <td
-      class="growing-cell"
+    <div
+      class="d-flex justify-content-between"
     >
-      <span
-        class="job-title"
-      >
-         Blend of Gas Operations Top Executive-Corporate, G 
-        
-        
-        (13001)
-      </span>
       <div
-        class="vendor"
+        class="d-flex"
       >
-         Hewitt Associates 
-        
-        
-        - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+        <div
+          class="job-title"
+        >
+           Blend of Gas Operations Top Executive-Corporate, G 
+        </div>
+        <div
+          class="job-code"
+        >
+           (13001) 
+        </div>
       </div>
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    />
-    <td
-      class="fixed-cell"
-    >
       
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-      <span
+      <div
         class="matches"
       >
          5 
-      </span>
-    </td>
-  </tr><tr
-    class="job-data-cuts-row"
-  >
-    <td
-      colspan="6"
+      </div>
+    </div>
+    <div
+      class="vendor"
     >
+       Hewitt Associates 
       
-      <span
-        class="link"
+      
+      - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+    </div>
+    <div
+      class="d-flex mt-2"
+    >
+      <div
+        class="link au-lnk-show-hide-data-cuts"
       >
          Hide Cuts 
-      </span>
-      
-      <div>
-        <pf-data-cuts />
-        
       </div>
+      <div
+        class="link mx-2"
+      >
+         | 
+      </div>
+      <div
+        class="link au-lnk-show-hide-job-details"
+      >
+         Show Job Detail 
+      </div>
+    </div>
+    
+    
+    <div>
+      <pf-data-cuts />
       
-    </td>
-  </tr>
-</div>
+    </div>
+    
+  </div>
+</pf-job-result>
 `;
 
 exports[`Project - Add Data - Job Result should show Load More link when there are more data cuts from server 1`] = `
-<div
+<pf-job-result
   cutSelected={[Function EventEmitter]}
   hideCutsLabel={[Function String]}
   job={[Function Object]}
-  jobTitleClick={[Function EventEmitter]}
   loadDataCuts={[Function EventEmitter]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
@@ -275,166 +97,78 @@ exports[`Project - Add Data - Job Result should show Load More link when there a
   matchesMouseLeaveTimeout={[Function Number]}
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
+  showJobDetail="false"
   store={[Function Store]}
   toggleDataCutsLabel={[Function String]}
 >
-  <tr
-    class="job-result-row"
-    ng-reflect-klass="job-result-row"
+  <div
+    class="result job-result-row"
+    ng-reflect-klass="result job-result-row"
     ng-reflect-ng-class="[object Object]"
   >
-    <td
-      class="growing-cell"
+    <div
+      class="d-flex justify-content-between"
     >
-      <span
-        class="job-title"
-      >
-         Blend of Gas Operations Top Executive-Corporate, G 
-        
-        
-        (13001)
-      </span>
       <div
-        class="vendor"
+        class="d-flex"
       >
-         Hewitt Associates 
-        
-        
-        - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+        <div
+          class="job-title"
+        >
+           Blend of Gas Operations Top Executive-Corporate, G 
+        </div>
+        <div
+          class="job-code"
+        >
+           (13001) 
+        </div>
       </div>
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    />
-    <td
-      class="fixed-cell"
-    >
       
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-      <span
+      <div
         class="matches"
       >
          5 
-      </span>
-    </td>
-  </tr><tr
-    class="job-data-cuts-row"
-  >
-    <td
-      colspan="6"
+      </div>
+    </div>
+    <div
+      class="vendor"
     >
+       Hewitt Associates 
+      
+      
+      - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+    </div>
+    <div
+      class="d-flex mt-2"
+    >
+      <div
+        class="link au-lnk-show-hide-data-cuts"
+      >
+         Hide Cuts 
+      </div>
+      <div
+        class="link mx-2"
+      >
+         | 
+      </div>
+      <div
+        class="link au-lnk-show-hide-job-details"
+      >
+         Show Job Detail 
+      </div>
+    </div>
+    
+    
+    <div>
+      <pf-data-cuts />
       
       <span
         class="link"
       >
-         Hide Cuts 
+        Load More
       </span>
-      
-      <div>
-        <pf-data-cuts />
-        
-        <span
-          class="link"
-        >
-          Load More
-        </span>
-      </div>
-      
-    </td>
-  </tr>
-</div>
-`;
-
-exports[`Project - Add Data - Job Result should show values in the correct currency when is Payfactors job  1`] = `
-<div
-  currencyCode={[Function String]}
-  cutSelected={[Function EventEmitter]}
-  hideCutsLabel={[Function String]}
-  job={[Function Object]}
-  jobTitleClick={[Function EventEmitter]}
-  loadDataCuts={[Function EventEmitter]}
-  loadingResults$={[Function Store]}
-  loadingResultsSub={[Function Subscriber]}
-  matchesMouseEnter={[Function EventEmitter]}
-  matchesMouseLeave={[Function EventEmitter]}
-  matchesMouseLeaveTimeout={[Function Number]}
-  showCutsLabel={[Function String]}
-  showDataCuts="false"
-  store={[Function Store]}
-  toggleDataCutsLabel={[Function String]}
->
-  <tr
-    class="job-result-row payfactors-job-result"
-    ng-reflect-klass="job-result-row"
-    ng-reflect-ng-class="[object Object]"
-  >
-    <td
-      class="growing-cell"
-    >
-      <span
-        class="job-title"
-      >
-         Accountant II 
-        
-      </span>
-      <div
-        class="vendor"
-      >
-         Payfactors 
-        
-      </div>
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      USA
-    </td>
-    <td
-      class="fixed-cell"
-    />
-    <td
-      class="fixed-cell"
-    >
-      
-      
-      1
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-      
-      1
-    </td>
-    <td
-      class="fixed-cell"
-    >
-      
-    </td>
-  </tr><tr
-    class="job-data-cuts-row"
-  >
-    <td
-      colspan="6"
-    >
-      
-      
-      
-    </td>
-  </tr>
-</div>
+    </div>
+    
+  </div>
+</pf-job-result>
 `;

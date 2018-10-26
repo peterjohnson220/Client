@@ -460,6 +460,10 @@ export const getExchangeJobRequestPageRowIndex = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getPageRowIndex
 );
 
+export const getExchangeJobRequestDenyModalOpen = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getJobRequestDenyModalOpen
+);
+
 export const getTotalExchangeJobRequests = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getTotal
 );

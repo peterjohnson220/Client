@@ -3,11 +3,11 @@ import { ChangeDetectorRef, Component, OnInit, OnDestroy, Input } from '@angular
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
-import { Filter, FilterType, JobContext, MultiSelectOption } from '../../models';
+import {Filter, FilterType, JobContext, MultiSelectOption, ProjectSearchContext} from '../../models';
 
 @Component({
   selector: 'pf-search-filters',
@@ -19,10 +19,9 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
 
   filters$: Observable<Filter[]>;
   pageShown$: Observable<boolean>;
-  jobContext$: Observable<JobContext>;
-
+  projectSearchContext$: Observable<ProjectSearchContext>;
+  filterSearchVisible$: Observable<boolean>;
   pageShowSub: Subscription;
-
   filterTypes = FilterType;
   focusedFilter: string;
 
@@ -32,7 +31,8 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
   ) {
     this.filters$ = this.store.select(fromAddDataReducer.getFilters);
     this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
-    this.jobContext$ = this.store.select(fromAddDataReducer.getJobContext);
+    this.projectSearchContext$ = this.store.select(fromAddDataReducer.getProjectSearchContext);
+    this.filterSearchVisible$ = this.store.select(fromAddDataReducer.getSearchingFilter);
   }
 
   shouldFocus(filter: Filter) {
@@ -56,17 +56,20 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchFiltersActions.UpdateRangeFilter(rangeObj));
   }
 
-  handleResetSection(filterId: string) {
+  handleClearSection(filterId: string) {
     this.focusedFilter = '';
     this.changeDetector.detectChanges();
     this.focusedFilter = filterId;
 
-    this.store.dispatch(new fromSearchFiltersActions.ResetFilter(filterId));
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: filterId}));
   }
 
   handleSearchSection(filter: Filter) {
-    this.store.dispatch(new fromAddSurveyDataPageActions.ToggleFilterSearch());
-    this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
+    this.toggleFilterSearch(filter);
+  }
+
+  handleSectionShowMore(filter: Filter) {
+    this.toggleFilterSearch(filter);
   }
 
   // Lifecycle
@@ -80,6 +83,11 @@ export class SearchFiltersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.pageShowSub.unsubscribe();
+  }
+
+  private toggleFilterSearch(filter: Filter): void {
+    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSingledFilterActions.SetSingledFilter(filter));
   }
 }
 

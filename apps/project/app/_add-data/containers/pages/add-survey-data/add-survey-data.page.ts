@@ -6,10 +6,12 @@ import { Observable } from 'rxjs';
 import { DataCut } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
-import * as fromTooltipContainerActions from '../../../actions/tooltip-container.actions';
 import * as fromAddDataReducer from '../../../reducers';
+import { Filter, Pill, PillGroup } from '../../../models';
+import * as fromSingledFilterActions from '../../../actions/singled-filter.actions';
 
 @Component({
   selector: 'pf-add-survey-data-page',
@@ -21,7 +23,10 @@ export class AddSurveyDataPageComponent {
   addingData$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   searchingFilter$: Observable<boolean>;
+  pageShown$: Observable<boolean>;
+  filters$: Observable<Filter[]>;
 
+  filters: Filter[];
   excludeFromParticipation: boolean;
 
   constructor(
@@ -31,6 +36,8 @@ export class AddSurveyDataPageComponent {
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
     this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
+    this.filters$ = this.store.select(fromAddDataReducer.getFilters);
+    this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
     this.excludeFromParticipation = false;
   }
 
@@ -44,13 +51,11 @@ export class AddSurveyDataPageComponent {
     switch (event.data.payfactorsMessage.type) {
       case 'Set Job Context':
         this.resetApp();
-        this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(event.data.payfactorsMessage.payload));
+        this.store.dispatch(new fromSearchActions.SetProjectSearchContext(event.data.payfactorsMessage.payload.SearchContext));
+        this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(event.data.payfactorsMessage.payload.JobContext));
         break;
       case 'App Closed':
         this.resetApp();
-        break;
-      case 'Hide App':
-        this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
         break;
     }
   }
@@ -59,10 +64,11 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.store.dispatch(new fromTooltipContainerActions.CloseJobDetailsTooltip());
+    this.store.dispatch(new fromSearchActions.HideFilterSearch());
     this.excludeFromParticipation = false;
   }
 
+  // Event Handling
   handleCancelClicked() {
     this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
   }
@@ -71,7 +77,22 @@ export class AddSurveyDataPageComponent {
     this.store.dispatch(new fromAddSurveyDataPageActions.AddData(this.excludeFromParticipation));
   }
 
-  handleResetAllFilters() {
+  handleResetFilters() {
     this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
+    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+  }
+
+  handleClearPill(pill: Pill) {
+    this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
+    this.store.dispatch(new fromSingledFilterActions.RemoveFilterValue({value: pill.Value}));
+  }
+
+  handleClearPillGroup(pillGroup: PillGroup) {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: pillGroup.FilterId}));
+    this.store.dispatch(new fromSingledFilterActions.ClearSelections());
+  }
+
+  handleSaveFilters(isForAllPayMarkets: boolean): void {
+    this.store.dispatch(new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets }));
   }
 }

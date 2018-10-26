@@ -1,29 +1,38 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { maxNumberOfOptions } from '../../helpers';
-import { Filter, FilterType, isMultiFilter, isTextFilter, isRangeFilter } from '../../models';
+import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
 
 @Component({
   selector: 'pf-filter-section',
   templateUrl: './filter-section.component.html',
-  styleUrls: ['./filter-section.component.scss']
+  styleUrls: ['./filter-section.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterSectionComponent {
   @Input() filter: Filter;
   @Input() currencyCode: string;
   @Input() singled: boolean;
   @Input() overriddenSelectionCount: number;
-  @Output() reset: EventEmitter<string> = new EventEmitter();
-  @Output() searchClicked: EventEmitter<Filter> = new EventEmitter();
+  @Input() searchValue: string;
+  @Output() clear: EventEmitter<string> = new EventEmitter();
+  @Output() search: EventEmitter<Filter> = new EventEmitter();
+  @Output() showMore: EventEmitter<Filter> = new EventEmitter();
   @Output() searchValueChanged: EventEmitter<string> = new EventEmitter();
 
+  protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
   maxOptions = maxNumberOfOptions;
 
   constructor() {}
 
-  get shouldShowResetLink(): boolean {
+  get cssResetClearBtnAutomationName(): string {
+    const filterCssClassName = this.filter.CssClassName.toLowerCase().replace(this.cssReplacementRegex, '-');
+    return 'au-btn-clear-' + filterCssClassName;
+  }
+
+  get shouldShowClearLink(): boolean {
     return (this.selectionCount > 0 || this.hasText || this.rangeHasSelection) && !this.filter.Locked;
   }
 
@@ -34,6 +43,10 @@ export class FilterSectionComponent {
 
   get selectableOptionCount(): number {
     return isMultiFilter(this.filter) ? this.filter.Options.filter(o => o.Count > 0).length : 0;
+  }
+
+  get optionCount(): number {
+    return isMultiFilter(this.filter) ? this.filter.Options.length : 0;
   }
 
   get hasText(): boolean {
@@ -48,20 +61,37 @@ export class FilterSectionComponent {
     return isRangeFilter(this.filter);
   }
 
+  get isMultiFilter(): boolean {
+    return isMultiFilter(this.filter);
+  }
+
+  get allowedToSearch(): boolean {
+    return this.filter.Type === this.filterTypes.Multi &&
+            !this.singled &&
+            this.selectableOptionCount >= this.maxOptions &&
+            !this.filter.Locked;
+  }
+
   toggle() {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
     }
   }
 
-  handleResetClicked(e, filterId: string) {
+  handleClearClicked(e, filterId: string) {
     e.stopPropagation();
-    this.reset.emit(filterId);
+    this.clear.emit(filterId);
   }
 
-  handleSearchClicked(e: MouseEvent, filter: Filter) {
+  handleSearchClicked(e, filter: Filter) {
     e.stopPropagation();
-    this.searchClicked.emit(filter);
+    this.search.emit(filter);
+  }
+
+  handleShowMoreClicked(filter: Filter) {
+    if (this.allowedToSearch) {
+      this.showMore.emit(filter);
+    }
   }
 
   handleSearchValueChanged(value: string) {

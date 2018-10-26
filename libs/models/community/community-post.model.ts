@@ -2,6 +2,8 @@ import { CommunityUserInfo } from './community-user-info.model';
 import { CommunityTag } from './community-tag.model';
 import { CommunityReply } from './community-reply.model';
 import { CommunityUrlPreviewDataModel } from './community-url-preview-data.model';
+import { CommunityPollRequest } from './community-poll-request.model';
+import { CommunityPollResponse } from './community-poll-response.model';
 
 export interface CommunityPost {
   Id: string;
@@ -16,9 +18,14 @@ export interface CommunityPost {
   TimeTicks: number;
   Tags: CommunityTag[];
   Replies: CommunityReply[];
+  FilteredReplies: CommunityReply[];
   ReplyIds: string[];
   HiddenReplyIds: string[];
   UrlPreviewData: CommunityUrlPreviewDataModel;
+  IsCurrentUserPost: boolean;
+  UserPollRequest?: CommunityPollRequest;
+  UserPollResponse?: CommunityPollResponse;
+  FilterTag: string;
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -41,9 +48,15 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     TimeTicks: 12345,
     Tags: tags,
     Replies: replies,
+    FilteredReplies: null,
     ReplyIds: [ '1', '2' ],
     HiddenReplyIds: [ '1' ],
     UrlPreviewData: { PreviewImageSrc: 'Test Preview Image Src',
-      PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'}
+    PreviewDescription: 'Test Preview Description', PreviewTitle: 'Test Preview Title', PreviewUrl: 'www.testUrl.com'},
+    IsCurrentUserPost: false,
+    UserPollRequest : { CommunityPollId: '123', Question: 'Question',
+      DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false },
+    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] },
+    FilterTag: '#TestTag'
   };
 }

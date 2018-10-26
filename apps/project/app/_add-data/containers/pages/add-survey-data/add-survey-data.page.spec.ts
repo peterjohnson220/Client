@@ -9,7 +9,8 @@ import * as fromRootState from 'libs/state/state';
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
-import { generateMockJobContext, JobContext } from '../../../models';
+import * as fromSearchActions from '../../../actions/search.actions';
+import { generateMockJobContext, generateMockProjectSearchContext, JobContext, ProjectSearchContext } from '../../../models';
 import * as fromAddDataReducer from '../../../reducers';
 import { AddSurveyDataPageComponent } from './add-survey-data.page';
 
@@ -49,17 +50,40 @@ describe('Project - Add Data - Surveys Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a Set Job Context action with a payload, when receiving a Set Job Context message', () => {
+  it('should dispatch a Set Job Context action with a payload, when receiving a Set Context message', () => {
     const payload: JobContext = generateMockJobContext();
     const messageEvent = new MessageEvent('Message from parent', {
       data: {
         payfactorsMessage: {
           type: 'Set Job Context',
-          payload: payload
+          payload: {
+            JobContext: payload
+          }
         }
       }
     });
     const expectedAction = new fromAddSurveyDataPageActions.SetJobContext(payload);
+
+    spyOn(store, 'dispatch');
+
+    instance.onMessage(messageEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a Set Project Context action with a payload, when receiving a Set Context message', () => {
+    const payload: ProjectSearchContext = generateMockProjectSearchContext();
+    const messageEvent = new MessageEvent('Message from parent', {
+      data: {
+        payfactorsMessage: {
+          type: 'Set Job Context',
+          payload: {
+            SearchContext: payload
+          }
+        }
+      }
+    });
+    const expectedAction = new fromSearchActions.SetProjectSearchContext(payload);
 
     spyOn(store, 'dispatch');
 
@@ -116,5 +140,15 @@ describe('Project - Add Data - Surveys Page', () => {
     const returnVal = instance.onMessage(messageEvent);
 
     expect(returnVal).toBe(undefined);
+  });
+
+  it('should dispatch SaveSearchFilters action when handleSaveFilters is called', () => {
+    const isForAllPayMarkets = true;
+    const saveSearchFiltersAction = new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets });
+    spyOn(store, 'dispatch');
+
+    instance.handleSaveFilters(isForAllPayMarkets);
+
+    expect(store.dispatch).toHaveBeenCalledWith(saveSearchFiltersAction);
   });
 });

@@ -8,17 +8,23 @@ import * as fromCommunityPollResponseReducer from './community-poll-response.red
 import * as fromCommunityPostReducer from './community-post.reducer';
 import * as fromCommunityPostReplyReducer from './community-post-reply.reducer';
 import * as fromCommunityPostAddReplyViewReducer from './community-post-add-reply-view.reducer';
+import * as fromCommunityPostFilterReplyViewReducer from './community-post-filter-reply-view.reducer';
 import * as fromCommunityTagReducer from './community-tag.reducer';
-
+import * as fromCommunityJobReducer from './community-job.reducer';
 import * as CommunityPost from 'libs/models/community';
+import * as fromCommunityCategoriesReducer from './community-categories.reducer';
+
 // Feature area state
 export interface CommunityState {
   communityPollRequest: fromCommunityPollRequestReducer.State;
   communityPollResponse: fromCommunityPollResponseReducer.State;
   communityPost: fromCommunityPostReducer.State;
   communityPostReply: fromCommunityPostReplyReducer.State;
+  communityPostFilteredReplyView: fromCommunityPostFilterReplyViewReducer.State;
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.State;
   communityTags: fromCommunityTagReducer.State;
+  communityJob: fromCommunityJobReducer.State;
+  communityCategories: fromCommunityCategoriesReducer.State;
 }
 
 // Extend root state with feature area state
@@ -31,9 +37,12 @@ export const reducers = {
   communityPollRequest: fromCommunityPollRequestReducer.reducer,
   communityPollResponse: fromCommunityPollResponseReducer.reducer,
   communityPost: fromCommunityPostReducer.reducer,
-  communityPostReply:  fromCommunityPostReplyReducer.reducer,
+  communityPostReply: fromCommunityPostReplyReducer.reducer,
+  communityPostFilteredReplyView: fromCommunityPostFilterReplyViewReducer.reducer,
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
+  communityJob: fromCommunityJobReducer.reducer,
+  communityCategories: fromCommunityCategoriesReducer.reducer
 };
 
 // select feature area
@@ -45,29 +54,44 @@ export const selectFromCommunityPollRequestState = createSelector(
   (state: CommunityState) => state.communityPollRequest
 );
 
-export const selectFromCommunityPollResponseState  = createSelector(
+export const selectFromCommunityPollResponseState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPollResponse
 );
 
-export const selectFromCommunityPostState =  createSelector(
+export const selectFromCommunityPostState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPost
 );
 
-export const selectFromCommunityPostReplyState =  createSelector(
+export const selectFromCommunityPostReplyState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostReply
 );
 
-export const selectFromCommunityPostAddReplyViewState =  createSelector(
+export const selectFromCommunityPostAddReplyViewState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostAddReplyView
 );
 
-export const selectFromCommunityTagState =  createSelector(
+export const selectFromCommunityPostFilterReplyViewState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostFilteredReplyView
+);
+
+export const selectFromCommunityTagState = createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityTags
+);
+
+export const selectFromCommunityJobState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityJob
+);
+
+export const selectFromCommunityCategoriesState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityCategories
 );
 
 // Community Poll Selectors
@@ -86,6 +110,11 @@ export const getGettingCommunityPollRequestsError = createSelector(
   fromCommunityPollRequestReducer.getGettingCommunityPollRequestsError
 );
 
+export const getGettingCommunityPollRequestsLoaded = createSelector(
+  selectFromCommunityPollRequestState,
+  fromCommunityPollRequestReducer.getGettingCommunityPollRequestsLoaded
+);
+
 export const getSubmittingCommunityPollRequestResponses = createSelector(
   selectFromCommunityPollRequestState,
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponses
@@ -95,7 +124,6 @@ export const getSubmittingCommunityPollRequestResponse = createSelector(
   selectFromCommunityPollRequestState,
   fromCommunityPollRequestReducer.getSubmittingCommunityPollRequestResponse
 );
-
 
 export const getGettingCommunityPollResponses = createSelector(
   selectFromCommunityPollResponseState,
@@ -157,6 +185,26 @@ export const getGettingCommunityPostsError = createSelector(
   fromCommunityPostReducer.getGettingCommunityPostsError
 );
 
+export const getAddingCommunityDiscussionPoll = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPoll
+);
+
+export const getAddingCommunityDiscussionPollSuccess = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess
+);
+
+export const getAddingCommunityDiscussionPollError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getAddingCommunityDiscussionPollError
+);
+
+export const getCommunityPostsFilterTag = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPostsFilterTag
+);
+
 // Community Post Reply Selectors
 
 export const {
@@ -169,7 +217,7 @@ export const getGettingCommunityPostReplies = createSelector(
   fromCommunityPostReplyReducer.getGettingCommunityPostReplies
 );
 
-export const getGettingCommunityPostRepliesError  = createSelector(
+export const getGettingCommunityPostRepliesError = createSelector(
   selectFromCommunityPostReplyState,
   fromCommunityPostReplyReducer.getGettingCommunityPostRepliesError
 );
@@ -198,30 +246,49 @@ export const getCommunityPostAddReplyView = createSelector(
 export const getFilteredCommunityPostAddReplyView = createSelector(
   getCommunityPostReplyEntities,
   getCommunityPostAddReplyView,
-    (replies, addReplies) => addReplies.reduce((acc, id) => {
-      return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
-    }, [])
+  (replies, addReplies) => addReplies.reduce((acc, id) => {
+    return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+  }, [])
 );
+
+// Community Post Filtered Reply View selector
+export const getCommunityPostFilterReplyView = createSelector(
+  selectFromCommunityPostFilterReplyViewState,
+  fromCommunityPostFilterReplyViewReducer.getCommunityPostFilterReplyView
+);
+
+export const getFilteredCommunityPostReplyView = createSelector(
+  getCommunityPostReplyEntities,
+  getCommunityPostFilterReplyView,
+  (replies, filterReplies) => filterReplies.reduce((acc, id) => {
+    return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
+  }, [])
+);
+
+
 // Community Post With Replies
 export const getCommunityPostsCombinedWithReplies = createSelector(
   getCommunityPosts,
   getCommunityPostReplyEntities,
   getCommunityPostAddReplyView,
-  (posts, replies, addReplies) => {
+  getCommunityPostFilterReplyView,
+  (posts, replies, addReplies, filterReplies) => {
     if (posts && replies) {
       const postlist = cloneDeep(posts);
       postlist.forEach(post => {
         if (post.ReplyIds && post.ReplyIds.length > 0) {
-          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0);
+          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0
+            && filterReplies.indexOf(replyId) < 0);
+
           const filteredReplies = filteredReplyIds.reduce((acc, id) => {
             return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
           }, []);
+
           post.ReplyCount = filteredReplies.length;
           filteredReplies.forEach(filteredReply => {
-              post.Replies.push(filteredReply);
+            post.Replies.push(filteredReply);
           });
         }
-
       });
       return postlist;
     } else {
@@ -264,3 +331,50 @@ export const getSuggestingCommunityTagsError = createSelector(
   selectFromCommunityTagState,
   fromCommunityTagReducer.getSuggestingCommunityTagsError
 );
+
+// Community Job Selectors
+export const {
+  selectAll: getCommunityJobs,
+} = fromCommunityJobReducer.adapter.getSelectors(selectFromCommunityJobState);
+
+export const getSubmittingCommunityJobs = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobs
+);
+
+export const getSubmittingCommunityJobsError = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobsError
+);
+
+export const getSubmittingCommunityJobsSuccess = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getSubmittingCommunityJobsSuccess
+);
+
+export const getGettingCommunityJobs = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getGettingCommunityJobs
+);
+
+export const getGettingCommunityJobsError = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getGettingCommunityJobsError
+);
+
+// Community Categories Selectors
+
+export const {
+  selectAll: getCommunityCategories,
+} = fromCommunityCategoriesReducer.adapter.getSelectors(selectFromCommunityCategoriesState);
+
+export const getGettingCommunityCategories = createSelector(
+  selectFromCommunityCategoriesState,
+  fromCommunityCategoriesReducer.getGettingCommunityCategories
+);
+
+export const getGettingCommunityCategoriesError = createSelector(
+  selectFromCommunityCategoriesState,
+  fromCommunityCategoriesReducer.getGettingCommunityCategoriesError
+);
+

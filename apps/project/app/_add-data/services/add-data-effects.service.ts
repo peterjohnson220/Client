@@ -11,28 +11,32 @@ import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import {
-  mapFiltersToSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
-  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters
+  getSelectedSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
+  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters, replaceDefaultFiltersWithSavedFilters
 } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
+import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 
 @Injectable()
 export class AddDataEffectsService {
 
   private static buildSearchRequestObject(filtersPagingAndJobContext: any): SearchRequest {
     const searchFieldsRequestObj = mapFiltersToSearchFields(filtersPagingAndJobContext.filters);
-    const filtersRequestObj = mapFiltersToSearchFilters(filtersPagingAndJobContext.filters);
     const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersPagingAndJobContext.pagingOptions);
     const filterOptionsRequestObj = { ReturnFilters: pagingOptionsRequestObj.From === 0, AggregateCount: 5 };
+    let filtersRequestObj = getSelectedSearchFilters(filtersPagingAndJobContext.filters);
+    if (!!filtersPagingAndJobContext.action.payload && !!filtersPagingAndJobContext.action.payload.savedFilters) {
+      filtersRequestObj = replaceDefaultFiltersWithSavedFilters(filtersRequestObj, filtersPagingAndJobContext.action.payload.savedFilters);
+    }
 
     return {
       SearchFields: searchFieldsRequestObj,
       Filters: filtersRequestObj,
       FilterOptions: filterOptionsRequestObj,
       PagingOptions: pagingOptionsRequestObj,
-      CurrencyCode: filtersPagingAndJobContext.jobContext.CurrencyCode,
-      CountryCode: filtersPagingAndJobContext.jobContext.CountryCode,
-      ProjectId: filtersPagingAndJobContext.jobContext.ProjectId
+      CurrencyCode: filtersPagingAndJobContext.projectSearchContext.CurrencyCode,
+      CountryCode: filtersPagingAndJobContext.projectSearchContext.CountryCode,
+      ProjectId: filtersPagingAndJobContext.projectSearchContext.ProjectId
     };
   }
 
@@ -42,9 +46,9 @@ export class AddDataEffectsService {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getFilters),
         this.store.select(fromAddDataReducer.getResultsPagingOptions),
-        this.store.select(fromAddDataReducer.getJobContext),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, jobContext) =>
-          ({ action, filters, pagingOptions, jobContext })
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext) =>
+          ({ action, filters, pagingOptions, projectSearchContext })
       ),
 
       switchMap(l => {
@@ -61,7 +65,8 @@ export class AddDataEffectsService {
                 actions.push(new fromSearchResultsActions.GetResultsSuccess(searchResponse));
                 actions.push(new fromSearchFiltersActions.RefreshFilters({
                   searchFilters: mapSearchFiltersToMultiSelectFilters(searchResponse.SearchFilters),
-                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
+                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions,
+                  hasSavedFilters: !!l.action.payload.savedFilters
                 }));
               }
 
@@ -87,6 +92,27 @@ export class AddDataEffectsService {
             map((pricingMatchesResponse: PricingMatchesResponse) =>
               new fromSearchResultsActions.UpdateResultsMatchesCount(pricingMatchesResponse))
           );
+      })
+    );
+  }
+
+  handleFilterRemoval(action$: Actions<Action>): Observable<Action> {
+    return action$.pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getSearchingFilter),
+        this.store.select(fromAddDataReducer.getSingledFilter),
+        (action: any, searchingFilter, singledFilter) => ({ action, searchingFilter, singledFilter })
+      ),
+      mergeMap(data => {
+        const actions = [];
+
+        if (data.searchingFilter && data.singledFilter.Id !== data.action.payload.filterId) {
+          actions.push(new fromSingledFilterActions.SearchAggregation());
+        }
+
+        actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));
+
+        return actions;
       })
     );
   }

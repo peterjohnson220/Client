@@ -1,0 +1,43 @@
+@import 'colors';
+
+.community-user-name-text {
+  color: $community-user-name-text-color;
+  font-weight: bold;
+}
+
+.community-sub-text {
+  color: $community-sub-text-color;
+}
+
+.internal {
+  background-color: #18a2b8;
+  color: white;
+  border-radius: 3px;
+  height: 20px;
+  font-size: .95rem;
+}
+
+.expired {
+  display: inline-block;
+  background-color: $community-poll-expired-tag-color;
+  color: white;
+  border-radius: 3px;
+  height: 20px;
+  font-size: .95rem;
+}
+
+.dropdown-toggle{
+  vertical-align: middle;
+  background-color: white;
+  border: solid 1px transparent;
+}
+
+.dropdown-toggle:hover{
+  vertical-align: middle;
+  background-color: white;
+  border: solid 1px lightgrey;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

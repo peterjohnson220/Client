@@ -1,29 +1,32 @@
-import {SurveyDataCut} from './data-cut.model';
+import { SurveyDataCut } from './data-cut.model';
 
-export interface JobResult {
-    Id: number;
-    Title: string;
-    Code: string;
+export interface JobResult extends BaseJobInfo {
     SurveyName: string ;
-    Family: string;
-    Level: string;
     Source: string;
-    Description: string;
     IsPayfactors: boolean;
     Matches: number;
     EffectiveDate: Date;
     Category?: string;
     FLSAStatus?: string;
     Scope?: string;
-    LoadingDataCuts: boolean;
     LoadingMoreDataCuts: boolean;
-    DataCuts: SurveyDataCut[];
     Base50th: number;
     TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
-    TotalDataCuts?: number;
+    DataCuts: SurveyDataCut[];
+}
+
+export interface BaseJobInfo {
+  Id: number;
+  Title: string;
+  Code: string;
+  Description: string;
+  Family: string;
+  Level: string;
+  TotalDataCuts?: number;
+  LoadingDataCuts: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {

@@ -2,12 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { map, concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { map, concatMap, switchMap, withLatestFrom, catchError, mergeMap } from 'rxjs/operators';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SearchFilter, SaveSearchFiltersRequest } from 'libs/models';
 
+import * as fromSearchActions from '../actions/search.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
+import { getSelectedSearchFilters } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 import { AddDataEffectsService } from '../services';
 
@@ -29,30 +33,47 @@ export class SearchFiltersEffects {
     );
 
   @Effect()
-  resetFilter$ = this.actions$
-    .ofType(fromSearchFiltersActions.RESET_FILTER)
-    .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
-    );
+  clearFilter$ = this.addDataEffectsService.handleFilterRemoval(
+    this.actions$.ofType(fromSearchFiltersActions.CLEAR_FILTER));
+
+
+  @Effect()
+  removeFilterValue$ = this.addDataEffectsService.handleFilterRemoval(
+    this.actions$.ofType(fromSearchFiltersActions.REMOVE_FILTER_VALUE));
 
   @Effect()
   resetAllFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
     .pipe(
-      map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }))
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getSearchingFilter),
+        (action: fromSearchFiltersActions.ResetAllFilters, searchingFilter) => ({ action, searchingFilter })
+      ),
+      mergeMap(data => {
+          const actions = [];
+
+          if (data.searchingFilter) {
+            actions.push(new fromSearchActions.HideFilterSearch());
+          }
+
+          actions.push(new fromSearchFiltersActions.GetSavedFilters());
+
+          return actions;
+        }
+      )
     );
 
   @Effect()
   getDefaultSurveyScopesFilter$ = this.actions$
     .ofType(fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext), (action, jobContext) => jobContext),
-      switchMap((jobContext) => {
-          return this.surveySearchApiService.getDefaultSurveyScopesFilter(jobContext.PayMarketId)
+      withLatestFrom(this.store.select(fromAddDataReducer.getProjectSearchContext), (action, projectSearchContext) => projectSearchContext),
+      switchMap((projectSearchContext) => {
+          return this.surveySearchApiService.getDefaultSurveyScopesFilter(projectSearchContext.PayMarketId)
             .pipe(
               concatMap(response => [
                 new fromSearchFiltersActions.GetDefaultScopesFilterSuccess(response),
-                new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false })
+                new fromSearchFiltersActions.GetSavedFilters()
               ]
             )
             );
@@ -65,6 +86,49 @@ export class SearchFiltersEffects {
     .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
     .pipe(
       map(() => new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }))
+    );
+
+  @Effect()
+  saveSearchFilters$ = this.actions$
+    .ofType(fromSearchFiltersActions.SAVE_SEARCH_FILTERS)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
+        this.store.select(fromAddDataReducer.getFilters),
+        (action: fromSearchFiltersActions.SaveSearchFilters, projectSearchContext, filters) => ({action, projectSearchContext, filters})),
+      switchMap(({action, projectSearchContext, filters}) => {
+        const selectedFilters: SearchFilter[] = getSelectedSearchFilters(filters);
+        const request: SaveSearchFiltersRequest = {
+          PayMarketId: action.payload.isForAllPayMarkets ? -1 : projectSearchContext.PayMarketId,
+          Filters: selectedFilters
+        };
+        return this.surveySearchApiService.saveSearchFilters(request)
+          .pipe(
+            map(() => new fromSearchFiltersActions.SaveSearchFiltersSuccess())
+          );
+      })
+    );
+
+  @Effect()
+  getSavedFilters$ = this.actions$
+    .ofType(fromSearchFiltersActions.GET_SAVED_FILTERS)
+    .pipe(
+      withLatestFrom(this.store.select(fromAddDataReducer.getProjectSearchContext), (action, projectSearchContext) => projectSearchContext),
+      switchMap((projectSearchContext) => {
+        return this.surveySearchApiService.getSavedFilters(projectSearchContext.PayMarketId)
+          .pipe(
+            concatMap(response => [
+              new fromSearchFiltersActions.GetSavedFiltersSuccess(response),
+              new fromSearchResultsActions.GetResults({
+                keepFilteredOutOptions: false,
+                savedFilters: response
+              })
+            ]),
+            catchError(() => of(new fromSearchResultsActions.GetResults({
+              keepFilteredOutOptions: false
+            })))
+          );
+      })
     );
 
   constructor(

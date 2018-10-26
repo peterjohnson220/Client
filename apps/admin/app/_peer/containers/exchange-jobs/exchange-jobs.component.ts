@@ -58,6 +58,14 @@ export class ExchangeJobsComponent {
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
   }
 
+  handleSearchChanged(query: string): void {
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.ExchangeJobs,
+      { columnName: 'Job_Title', value: query }
+    ));
+    this.gridHelperService.loadExchangeJobs(this.exchangeId);
+  }
+
   openImportExchangeJobsModal() {
     this.store.dispatch(new fromImportExchangeJobsActions.OpeningImportExchangeJobsModal());
   }

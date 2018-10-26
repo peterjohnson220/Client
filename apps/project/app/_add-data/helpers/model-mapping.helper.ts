@@ -1,5 +1,6 @@
 import {
   DataCut,
+  MatchedSurveyJob,
   PagingOptions,
   SearchField,
   SearchFilter,
@@ -11,9 +12,11 @@ import {
 import {
   Filter,
   FilterType,
-  isMultiFilter, isRangeFilter,
+  isMultiFilter,
+  isRangeFilter,
   isTextFilter,
   JobResult,
+  JobToPrice,
   MultiSelectFilter,
   MultiSelectOption,
   RangeFilter,
@@ -71,7 +74,7 @@ export function mapFiltersToSearchFields(filters: Filter[]): SearchField[] {
   });
 }
 
-export function mapFiltersToSearchFilters(filters: Filter[]): SearchFilter[] {
+export function getSelectedSearchFilters(filters: Filter[]): SearchFilter[] {
   return getMultiFiltersWithValues(filters).map((f: MultiSelectFilter) => {
     return {
       Name: f.BackingField,
@@ -100,7 +103,8 @@ export function mapSearchFilterToMultiFilter(searchFilter: SearchFilter): MultiS
     Type: FilterType.Multi,
     RefreshOptionsFromServer: searchFilter.Name !== 'default_survey_scopes',
     Order: SearchFilterMappingData[searchFilter.Name].Order,
-    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name)
+    OptionCountDisabled: isOptionCountDisabled(searchFilter.Name),
+    CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
   };
 }
 
@@ -129,8 +133,27 @@ export function mapSearchFilterToRangeFilter(searchFilter: SearchFilter): RangeF
     MaximumValue: maxValue,
     Precision: precision,
     SelectedMinValue: null,
-    SelectedMaxValue: null
+    SelectedMaxValue: null,
+    CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
   };
+}
+
+export function mapMatchedSurveyJobToJobsToPrice(sjl: MatchedSurveyJob[]): JobToPrice[] {
+  return sjl.map((sj: MatchedSurveyJob): JobToPrice => {
+    return {
+      Code: sj.Job.Code,
+      DataCuts: [],
+      Description: sj.Job.Description,
+      Family: sj.Job.Family,
+      Id: Number(sj.Id),
+      Level: sj.Job.Level,
+      Paymarket: sj.Paymarket,
+      PaymarketId: sj.PaymarketId,
+      Title: sj.Job.Title,
+      TotalDataCuts: sj.DataCutsCount,
+      LoadingDataCuts: false
+    };
+  });
 }
 
 export function getNumberValueFromSearchFilterOption(sfo: SearchFilterOption[], name: string): number {
@@ -219,6 +242,30 @@ function isOptionCountDisabled(filterOptionName: string) {
     case 'country_codes':
     case 'weighting_types':
       result = true;
+      break;
+    default:
+      break;
+  }
+  return result;
+}
+
+export function replaceDefaultFiltersWithSavedFilters(filters: SearchFilter[], savedFilters: SearchFilter[]): SearchFilter[] {
+  savedFilters.forEach(savedFilter => {
+    const defaultFilterIndex = filters.findIndex(f => f.Name === savedFilter.Name);
+    if (defaultFilterIndex === -1) {
+      filters.push(savedFilter);
+    } else if (allowOverrideDefaultFilter(savedFilter.Name)) {
+      filters.splice(defaultFilterIndex, 1, savedFilter);
+    }
+  });
+  return filters;
+}
+
+function allowOverrideDefaultFilter(filterName: string) {
+  let result = true;
+  switch (filterName) {
+    case 'country_codes':
+      result = false;
       break;
     default:
       break;

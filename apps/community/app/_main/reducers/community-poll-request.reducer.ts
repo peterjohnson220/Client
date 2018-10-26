@@ -1,9 +1,12 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as communityPollRequestActions from '../actions/community-poll-request.actions';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
+  loaded: boolean;
   entities: CommunityPollRequest[];
   submitting: boolean;
   submitted: boolean;
@@ -13,6 +16,7 @@ export interface State {
 export const initialState: State = {
   loading: false,
   loadingError: false,
+  loaded: false,
   entities: [],
   submitting: false,
   submitted: false,
@@ -25,6 +29,7 @@ export function reducer(state = initialState, action: communityPollRequestAction
       return {
         ...state,
         loading: true,
+        loaded: false,
         loadingError: false,
         entities: []
       };
@@ -33,7 +38,8 @@ export function reducer(state = initialState, action: communityPollRequestAction
       return {
         ...state,
         loading: false,
-        entities: action.payload
+        loaded: true,
+        entities: cloneDeep(action.payload)
       };
     }
     case communityPollRequestActions.LOADING_COMMUNITY_POLL_REQUEST_ERROR: {
@@ -66,6 +72,8 @@ export function reducer(state = initialState, action: communityPollRequestAction
 
 export const getGettingCommunityPollRequests = (state: State) => state.loading;
 export const getGettingCommunityPollRequestsError = (state: State) => state.loadingError;
+export const getGettingCommunityPollRequestsLoaded = (state: State) => state.loaded;
 export const getCommunityPollRequests = (state: State) => state.entities;
 export const getSubmittingCommunityPollRequestResponses = (state: State) => state.questionsSubmitted;
 export const getSubmittingCommunityPollRequestResponse = (state: State ) => state.submitting;
+

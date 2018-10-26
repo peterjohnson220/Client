@@ -6,9 +6,7 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
   approvingError$={[Function Store]}
   approvingJobRequest$={[Function Store]}
   closeClicked={[Function EventEmitter]}
-  denyClicked={[Function EventEmitter]}
   denyingError$={[Function Store]}
-  denyingJobRequest$={[Function Store]}
   selectedJobRequest={[Function Object]}
   store={[Function Store]}
 >
@@ -39,11 +37,9 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
         class="btn btn-sm btn-danger action-buttons"
         type="button"
       >
-        
         <span>
            Deny 
         </span>
-        
       </button>
       <div
         class="close-btn"
@@ -65,7 +61,7 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           <div
             class="label"
           >
-            Job Requested:
+            Job Title:
           </div>
           <div>
              Mock Job 
@@ -77,10 +73,10 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           <div
             class="label"
           >
-            Request Company:
+            Job Family:
           </div>
           <div>
-             Mock Company 
+             Mock Job Family 
           </div>
         </div>
         <div
@@ -89,22 +85,10 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           <div
             class="label"
           >
-            Request User:
+            Job Level:
           </div>
           <div>
-             Mock Mobson 
-          </div>
-        </div>
-        <div
-          class="info-row"
-        >
-          <div
-            class="label"
-          >
-            Request Date:
-          </div>
-          <div>
-             1/1/18, 12:00 AM 
+             III 
           </div>
         </div>
         <div
@@ -113,14 +97,42 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
           <div
             class="label"
           >
-            Reason:
+            Job Description:
           </div>
+          
           <div
-            class="reason-container"
+            class="jd-container"
           >
-             Because 
+             Mock Job Description 
           </div>
+          
         </div>
+      </div>
+      <div
+        class="vertical-separator"
+      />
+      <div
+        class="info-container"
+      >
+        <kendo-tabstrip
+          class="tabstrip-no-borders bold-tabs"
+        >
+          <kendo-tabstrip-tab
+            title="Reason"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="Exchange Associations"
+          >
+            
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab
+            title="History"
+          >
+            
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
       </div>
     </div>
   </div>

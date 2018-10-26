@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityCategoriesComponent should show community categories 1`] = `
+<pf-community-categories
+  categories$={[Function Store]}
+  router={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="card mb-3"
+  >
+    <div
+      class="card-header"
+    >
+       ALL DISCUSSIONS 
+    </div>
+    <div
+      class="card-body container py-0"
+    >
+      
+    </div>
+  </div>
+</pf-community-categories>
+`;

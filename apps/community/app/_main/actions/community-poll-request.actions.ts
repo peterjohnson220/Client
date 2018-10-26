@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { CommunityPollRequest } from 'libs/models/community/community-poll-request.model';
+import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 
 export const LOADING_COMMUNITY_POLL_REQUEST = '[Community/Poll Request] Loading Community Polls';
 export const LOADING_COMMUNITY_POLL_REQUEST_SUCCESS  = '[Community/Poll Request] Loading Community Polls Success';

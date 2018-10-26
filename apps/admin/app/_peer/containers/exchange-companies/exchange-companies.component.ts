@@ -56,6 +56,14 @@ export class ExchangeCompaniesComponent {
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
   }
 
+  handleSearchChanged(query: string): void {
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.ExchangeCompanies,
+      { columnName: 'CompanyName', value: query }
+    ));
+    this.gridHelperService.loadExchangeCompanies(this.exchangeId);
+  }
+
   openAddExchangeCompaniesModal(): void {
     this.store.dispatch(new fromExchangeCompaniesActions.OpenAddExchangeCompaniesModal());
   }

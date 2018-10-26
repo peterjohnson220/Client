@@ -1,43 +1,95 @@
-<tr class="job-result-row" [ngClass]="{'payfactors-job-result': job.IsPayfactors,'selected-job-result': job.IsSelected}" (click)="toggleJobSelection()">
-  <td class="growing-cell">
-      <span class="job-title" (click)="handleJobTitleClick($event)">
+<div class="result job-result-row" [ngClass]="{'au-payfactors-job-result': job.IsPayfactors}">
+  <div class="d-flex justify-content-between">
+    <div class="d-flex">
+      <div class="job-title">
         {{job.Title}}
-        <ng-container *ngIf="!job.IsPayfactors">({{job.Code}})</ng-container>
-      </span>
-    <div class="vendor">
-      {{job.Source}}
-      <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
+      </div>
+      <div class="job-code">
+        ({{job.Code}})
+      </div>
     </div>
-
-  </td>
-  <td class="fixed-cell">{{job.CountryCode}}</td>
-  <td class="fixed-cell"></td>
-  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.Base50th ? job.Base50th : "-"}}</ng-container></td>
-  <td class="fixed-cell"><ng-container *ngIf="job.IsPayfactors">{{job.TCC50th ? job.TCC50th : "-"}}</ng-container></td>
-  <td class="fixed-cell">
-    <span *ngIf="!!job.Matches" class="matches"
-      (mouseenter)="handleMatchesMouseEnter($event)"
-      (mouseleave)="handleMatchesMouseLeave($event)">
+    <div *ngIf="!!job.Matches"
+         class="matches"
+         (mouseenter)="handleMatchesMouseEnter($event)"
+         (mouseleave)="handleMatchesMouseLeave()">
       {{job.Matches}}
-    </span>
-  </td>
-</tr>
-<tr class="job-data-cuts-row">
-  <td colspan="6">
-    <span *ngIf="!job.IsPayfactors" class="link" (click)="toggleDataCutsDisplay()">
-    {{toggleDataCutsLabel}}
-    </span>
-    <div *ngIf="showDataCuts && !job.LoadingDataCuts">
-      <pf-data-cuts [dataCuts]="job.DataCuts"
-                    [currencyCode]="currencyCode"
-                    (dataCutSelected)="handleDataCutSelected($event)"
-                    (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
-                    (matchesMouseLeave)="handleMatchesMouseLeave($event)">
-      </pf-data-cuts>
-      <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
     </div>
-    <div *ngIf="job.LoadingDataCuts || job.LoadingMoreDataCuts">
-      <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
+  </div>
+
+  <div class="vendor">
+    {{job.Source}}
+    <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
+  </div>
+
+  <div class="d-flex mt-2">
+    <div class="link au-lnk-show-hide-data-cuts" (click)="toggleDataCutsDisplay()">
+      {{toggleDataCutsLabel}}
     </div>
-  </td>
-</tr>
+    <div class="link mx-2">
+      |
+    </div>
+    <div class="link au-lnk-show-hide-job-details" (click)="toggleJobDetailDisplay()">
+      {{toggleJobDetailLabel}}
+    </div>
+  </div>
+
+  <div *ngIf="showJobDetail" class="job-detail">
+    <table>
+      <tbody>
+      <tr>
+        <th>Family:</th>
+        <td>{{job.Family || '-'}}</td>
+      </tr>
+      <tr>
+        <th>Level:</th>
+        <td>{{job.Level || '-'}}</td>
+      </tr>
+
+      <ng-container *ngIf="job.IsPayfactors && !!job.Category">
+        <tr>
+          <th>Job Category:</th>
+          <td>{{job.Category || '-'}}</td>
+        </tr>
+        <tr>
+          <th>EEO:</th>
+          <td>{{job.EEO || '-'}}</td>
+        </tr>
+      </ng-container>
+
+      <tr>
+        <th>Job Description:</th>
+        <td>
+          <ng-container *ngIf="job.Description; else noJobDescription">
+            <pf-ellipsis-view-more [copy]="true" [content]="job.Description" [maxLength]="300"></pf-ellipsis-view-more>
+          </ng-container>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+
+  <div *ngIf="showDataCuts && !job.LoadingDataCuts">
+    <pf-data-cuts [job]="job"
+                  [dataCuts]="job.DataCuts"
+                  [currencyCode]="currencyCode"
+                  (dataCutSelected)="handleDataCutSelected($event)"
+                  (payFactorsCutSelected)="handlePayfactorsCutSelected()"
+                  (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
+                  (matchesMouseLeave)="handleMatchesMouseLeave()">
+    </pf-data-cuts>
+
+    <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
+  </div>
+  <div class="my-2" *ngIf="job.LoadingDataCuts || job.LoadingMoreDataCuts">
+    <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
+  </div>
+</div>
+
+
+<ng-template #noJobDescription>
+  <div class="no-job-description">
+    No Job Description
+  </div>
+</ng-template>
+

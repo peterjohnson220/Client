@@ -2,7 +2,7 @@
 @import 'search/filters-variables';
 
 .filter{
-  padding-bottom: 1rem;
+  padding-bottom: .75rem;
 }
 
 .header{
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: space-between;
   padding: .5rem .25rem .5rem .25rem;
-  background: $legacy-header-grey;
+  background: $legacy-light-header-grey;
   height: 30px;
   cursor: pointer;
 }
@@ -59,10 +59,8 @@
   color: #585858;
 }
 
-.reset-link{
-  @extend %reset-link;
-  padding-top: .25rem;
-  padding-bottom: .25rem;
+.clear-link{
+  @extend %text-filter-action;
 }
 
 .search{
@@ -72,5 +70,19 @@
   &:hover{
     color: $link-color;
     font-weight: bold;
+  }
+}
+
+.show-more-link{
+  @extend %uppercase-link;
+  padding: .5rem;
+
+  &:not(.disabled):hover{
+    background-color: $hover-option-color-alt;
+  }
+
+  &.disabled{
+    cursor: initial;
+    color: $disabled-option-color;
   }
 }

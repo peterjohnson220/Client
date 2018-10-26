@@ -11,13 +11,15 @@ export interface Filter {
   BackingField: string;
   DisplayName: string;
   Order: number;
-  Type: FilterType;
   Locked?: boolean;
+  Type: FilterType;
+  CssClassName?: string;
 }
 
 export interface TextFilter extends Filter {
   Value: string;
   DefaultValue?: any;
+  Type: FilterType.Text;
 }
 
 export interface MultiSelectFilter extends Filter {
@@ -25,6 +27,7 @@ export interface MultiSelectFilter extends Filter {
   RefreshOptionsFromServer: boolean;
   OptionCountDisabled?: boolean;
   DefaultSelections?: any[];
+  Type: FilterType.Multi;
 }
 
 export interface RangeFilter extends Filter {
@@ -33,6 +36,7 @@ export interface RangeFilter extends Filter {
   SelectedMinValue: number;
   SelectedMaxValue: number;
   Precision: number;
+  Type: FilterType.Range;
 }
 
 export interface MultiSelectOption {
@@ -41,6 +45,8 @@ export interface MultiSelectOption {
   Count?: number;
   Selected: boolean;
 }
+
+export type Filters = MultiSelectFilter | RangeFilter | TextFilter;
 
 // Type Helpers
 export function isTextFilter(filter: Filter): filter is TextFilter {
@@ -64,7 +70,8 @@ export function generateMockTextFilter(): TextFilter {
     Value: 'Accountant',
     Type: FilterType.Text,
     Order: 1,
-    Locked: false
+    Locked: false,
+    CssClassName: 'au-txt-job-title'
   };
 }
 
@@ -77,7 +84,8 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
     Type: FilterType.Multi,
     RefreshOptionsFromServer: true,
     Order: 1,
-    Locked: false
+    Locked: false,
+    CssClassName: 'au-chk-publisher'
   };
 }
 

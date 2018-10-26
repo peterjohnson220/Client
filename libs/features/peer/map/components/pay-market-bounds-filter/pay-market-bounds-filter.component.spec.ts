@@ -33,7 +33,12 @@ describe('Features - Peer - Pay Market Bounds Filter', () => {
 
   it('should build a paymarket bounds filter label with \'Metro\' appended when the GeoLabel is \'Metro\'', () => {
     const filterLabel = instance.buildLabel(generateMockPayMarket());
-    expect(filterLabel.split(' ').slice(-1)[0]).toBe('Metro');
+    expect(filterLabel.split(' ').slice(-2)[0]).toBe('Metro');
+  });
+
+  it('should build a paymarket bounds filter label with \'USA\' appended when the Country Code is \'USA\'', () => {
+    const filterLabel = instance.buildLabel(generateMockPayMarket());
+    expect(filterLabel.split(' ').slice(-1)[0]).toBe('USA');
   });
 
   it('should emit a limitToPayMarketToggled event when handling the switch toggle', () => {

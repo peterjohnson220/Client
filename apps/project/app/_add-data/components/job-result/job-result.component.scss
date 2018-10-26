@@ -1,13 +1,9 @@
 @import 'legacy-variables';
 @import 'colors';
+@import 'common/common';
 
 .job-data-cuts-row{
   border-bottom: 1px solid #eeeeee;
-}
-
-.job-title{
-  color: #006699;
-  font-weight: bold;
 }
 
 .link{
@@ -15,10 +11,61 @@
   cursor: pointer;
 }
 
-.payfactors-job-result:hover{
-  background-color: $add-data-hover-background;
+.copy-jd{
   cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: normal;
+  padding-right: .25rem;
 }
-.selected-job-result{
-  background-color: $add-data-selected-background;
+
+.job-title{
+  color: #006699;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.job-code{
+  color: #848484;
+  padding-left: .5rem;
+}
+
+.job-description{
+  margin: .25rem 0;
+  cursor: auto;
+}
+
+.no-job-description{
+  font-style: italic;
+}
+
+.result{
+  padding: .75rem 1.5rem .75rem .5rem;
+  border-bottom: 1px solid $grey;
+  border-left: 3px solid transparent;
+}
+
+.result:hover{
+  border-left: 3px solid #b9d3e0;
+}
+
+.vendor{
+  margin: .25rem 0;
+  color: #848484;
+}
+
+
+.job-detail{
+  background: #f7f7f7;
+  padding: .5rem;
+  margin: .75rem -.5rem;
+}
+
+.job-detail th,td{
+  padding: .25rem;
+}
+
+.job-detail th{
+  white-space: nowrap;
+  vertical-align: top;
 }

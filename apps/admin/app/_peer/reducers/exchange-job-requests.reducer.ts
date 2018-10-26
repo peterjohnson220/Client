@@ -17,6 +17,7 @@ export interface State extends EntityState<ExchangeJobRequest> {
   jobRequestInfoOpen: boolean;
   selectedJobRequest: ExchangeJobRequest;
   pageRowIndex: number;
+  jobRequestDenyModalOpen: boolean;
   total: number;
 }
 
@@ -36,6 +37,7 @@ export const initialState: State = adapter.getInitialState({
   jobRequestInfoOpen: false,
   selectedJobRequest: null,
   pageRowIndex: null,
+  jobRequestDenyModalOpen: false,
   total: 0
 });
 
@@ -110,14 +112,16 @@ export function reducer(state, action) {
             denyingError: false,
             jobRequestInfoOpen: false,
             selectedJobRequest: null,
-            pageRowIndex: null
+            pageRowIndex: null,
+            jobRequestDenyModalOpen: false
           };
         }
         case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST_ERROR: {
           return {
             ...featureState,
             denying: false,
-            denyingError: true
+            denyingError: true,
+            jobRequestDenyModalOpen: false
           };
         }
         case fromExchangeJobRequestsActions.OPEN_JOB_REQUEST_INFO: {
@@ -140,6 +144,18 @@ export function reducer(state, action) {
             pageRowIndex: null
           };
         }
+        case fromExchangeJobRequestsActions.OPEN_JOB_REQUEST_DENY_MODAL: {
+          return {
+            ...featureState,
+            jobRequestDenyModalOpen: true
+          };
+        }
+        case fromExchangeJobRequestsActions.CLOSE_JOB_REQUEST_DENY_MODAL: {
+          return {
+            ...featureState,
+            jobRequestDenyModalOpen: false
+          };
+        }
         default: {
           return featureState;
         }
@@ -158,3 +174,4 @@ export const getDenyingError = (state: State) => state.denyingError;
 export const getJobRequestInfoOpen = (state: State) => state.jobRequestInfoOpen;
 export const getSelectedJobRequest = (state: State) => state.selectedJobRequest;
 export const getPageRowIndex = (state: State) => state.pageRowIndex;
+export const getJobRequestDenyModalOpen = (state: State) => state.jobRequestDenyModalOpen;

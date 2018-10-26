@@ -9,6 +9,10 @@ export interface State extends EntityState<CommunityPost> {
   loading: boolean;
   loadingError: boolean;
   submittedPost: CommunityPost;
+  addingCommunityDiscussionPoll: boolean;
+  addingCommunityDiscussionPollError: boolean;
+  addingCommunityDiscussionPollSuccess: boolean;
+  filterTag: string;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -25,7 +29,11 @@ export const initialState: State = adapter.getInitialState({
   submittingError: false,
   loading: false,
   loadingError: false,
-  submittedPost: null
+  submittedPost: null,
+  addingCommunityDiscussionPoll: false,
+  addingCommunityDiscussionPollError: false,
+  addingCommunityDiscussionPollSuccess: false,
+  filterTag: null
 });
 
 export function reducer(
@@ -58,7 +66,8 @@ export function reducer(
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
+        filterTag: null
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_SUCCESS: {
@@ -72,6 +81,28 @@ export function reducer(
         ...state,
         loading: false,
         loadingError: true
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        filterTag: action.payload.tag
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS: {
+      return {
+        ...adapter.addAll(action.payload, state),
+        loading: false
+      };
+    }
+    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true,
+        filterTag: null
       };
     }
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_SUCCESS: {
@@ -102,6 +133,44 @@ export function reducer(
           state)
       };
     }
+
+    case communityPostActions.DELETING_COMMUNITY_POST_SUCCESS: {
+      const postId = action.payload;
+      return {
+        ...adapter.removeOne(postId,
+          state)
+      };
+    }
+    case communityPostActions.DELETING_COMMUNITY_POST_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL: {
+      return {
+        ...state,
+        addingCommunityDiscussionPoll: true,
+        addingCommunityDiscussionPollSuccess: false,
+        addingCommunityDiscussionPollError: false
+      };
+    }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS: {
+      return {
+        ...adapter.addOne(action.payload, state),
+        addingCommunityDiscussionPoll: false,
+        addingCommunityDiscussionPollSuccess: true,
+        submittedPost: action.payload
+      };
+    }
+    case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL_ERROR: {
+      return {
+        ...state,
+        addingCommunityDiscussionPoll: false,
+        addingCommunityDiscussionPollError: true,
+        addingCommunityDiscussionPollSuccess: false
+      };
+    }
     default: {
       return state;
     }
@@ -114,3 +183,8 @@ export const getSubmittingCommunityPostsSuccess = (state: State ) => state.submi
 export const getGettingCommunityPosts = (state: State) => state.loading;
 export const getGettingCommunityPostsError = (state: State) => state.loadingError;
 
+export const getAddingCommunityDiscussionPoll = (state: State) => state.addingCommunityDiscussionPoll;
+export const getAddingCommunityDiscussionPollError = (state: State) => state.addingCommunityDiscussionPollError;
+export const getAddingCommunityDiscussionPollSuccess = (state: State) => state.addingCommunityDiscussionPollSuccess;
+
+export const getCommunityPostsFilterTag = (state: State) => state.filterTag;

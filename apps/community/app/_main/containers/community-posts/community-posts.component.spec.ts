@@ -9,9 +9,10 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import { CommunityPostsComponent } from './community-posts.component';
-import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
+import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -31,7 +32,8 @@ describe('CommunityPostsComponent', () => {
       declarations: [
         CommunityPostsComponent,
         HighlightHashTagPipe,
-        FormatLinkUrlPipe
+        FormatLinkUrlPipe,
+        NewLinePipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -109,6 +111,21 @@ describe('CommunityPostsComponent', () => {
     };
     const action = new fromCommunityPostReplyActions.GettingCommunityPostReplies(parameter);
     instance.getCommunityPostReplies(postId);
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch GettingCommunityPostsByTag when calling onMessage', () => {
+    const tag = 'testTag';
+
+    const messageParam = {
+      data: {action: 'getCommunityPostsByTag', tag: tag},
+    };
+
+    const actionParam = {tag: tag};
+    const action = new fromCommunityPostActions.GettingCommunityPostsByTag(actionParam);
+
+    instance.onMessage(messageParam);
+
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

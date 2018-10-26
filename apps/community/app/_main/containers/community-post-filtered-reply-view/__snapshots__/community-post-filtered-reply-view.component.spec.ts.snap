@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostFilteredReplyViewComponent should show community filter reply view 1`] = `
+<pf-community-post-filtered-reply-view
+  filteredRepliesSubscription={[Function Subscriber]}
+  filteredReplyView$={[Function Store]}
+  store={[Function Store]}
+>
+  
+</pf-community-post-filtered-reply-view>
+`;

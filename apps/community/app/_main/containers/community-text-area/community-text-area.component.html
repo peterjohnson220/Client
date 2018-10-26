@@ -2,7 +2,7 @@
   <div class="textAreaContainer" #textAreaContainer>     
     <div #overlayTextArea 
         class="overlayTextArea pl-2"
-        [innerHtml]="discussionTextArea.value | highlightHashTag | formatLinkUrl"></div>
+        [innerHtml]="discussionTextArea.value | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
     <textarea  #discussionTextArea
       class="discussionTextArea pl-2"
       formControlName="context" 

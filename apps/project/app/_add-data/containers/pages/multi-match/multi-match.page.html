@@ -1,0 +1,43 @@
+<div class="page-data-header">
+  <div class="d-flex align-items-center h-100 pr-3">
+    <pf-filter-pills [filters]="filters$ | async" (pillClicked)="handlePillClicked($event)"></pf-filter-pills>
+
+    <pf-search-actions (reset)="handleResetFilters()" (saveFilters)="handleSaveFilters($event)"></pf-search-actions>
+  </div>
+</div>
+
+<div class="filters-and-results">
+
+  <div class="filters-sidebar">
+    <pf-search-filters
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="searchingFilter$ | async">
+    </pf-single-filter>
+  </div>
+
+  <div class="results-and-actions">
+    <pf-search-results></pf-search-results>
+
+    <div class="actions-container">
+      <div class="buttons">
+        <button [disabled]="true" class="btn btn-sm legacy-primary-btn mr-3">
+         Save
+        </button>
+
+        <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3">
+          Cancel
+        </button>
+      </div>
+      <div class="results-count">
+        <strong>{{(numberOfResults$ | async).toLocaleString('en')}}</strong>&nbsp;Jobs
+      </div>
+    </div>
+  </div>
+
+  <div class="jobs-to-price">
+    <pf-jobs-to-price></pf-jobs-to-price>
+  </div>
+</div>

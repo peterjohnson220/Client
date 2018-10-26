@@ -1,94 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Project - Add Data - Search Results should show a table row with a loading indicator, when loading more results 1`] = `
+exports[`Project - Add Data - Search Results should show a message, when loading more results 1`] = `
 <pf-search-results
   error$={[Function Store]}
   hasMoreResultsOnServer={[Function Boolean]}
   hasMoreResultsOnServer$={[Function Store]}
   hasMoreResultsOnServerSub={[Function Subscriber]}
-  jobContext$={[Function Store]}
   jobResults$={[Function Store]}
   loadingMoreResults={[Function Boolean]}
   loadingMoreResults$={[Function Store]}
   loadingMoreResultsSub={[Function Subscriber]}
   loadingResults$={[Function Store]}
   loadingResultsSub={[Function Subscriber]}
+  projectSearchContext$={[Function Store]}
   resultsContainer={[Function ElementRef]}
   spinnerType={[Function String]}
   store={[Function Store]}
   tooltipContainer={[Function ElementRef]}
 >
   <div
-    class="results-header"
-  >
-    <table>
-      <thead>
-        <tr>
-          <th
-            class="growing-cell text-center"
-          >
-            Title
-          </th>
-          <th
-            class="fixed-cell"
-          >
-            Country
-          </th>
-          <th
-            class="fixed-cell"
-          >
-            Weighting
-          </th>
-          <th
-            class="fixed-cell"
-          >
-            Base 50th
-          </th>
-          <th
-            class="fixed-cell"
-          >
-            TCC 50th
-          </th>
-          <th
-            class="fixed-cell"
-          >
-            Matches
-          </th>
-        </tr>
-      </thead>
-    </table>
-  </div><div
     class="results"
     infinite-scroll=""
   >
     <pf-async-container>
       
-      <table>
-        <tbody>
-          <tr>
-            <td
-              colspan="6"
-            >
-              
-              <table
-                pf-job-result=""
-              />
-            </td>
-          </tr>
-          
-          <tr
-            class="loading-more-row"
-          >
-            <td
-              colspan="6"
-            >
-              <pf-loading-indicator />
-               Loading More Results...
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      
+      
+      <pf-job-result
+        class="non-payfactors-job"
+        ng-reflect-ng-class="non-payfactors-job"
+      />
+      
     </pf-async-container>
+    
+    <div
+      class="m-3"
+    >
+      <pf-loading-indicator />
+       Loading More Results... 
+    </div>
   </div><pf-tooltip-container />
 </pf-search-results>
 `;

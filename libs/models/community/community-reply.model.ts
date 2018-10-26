@@ -10,6 +10,7 @@ export interface CommunityReply {
   Time: any;
   ElapsedTime: string;
   TimeTicks: number;
+  IsCurrentUserReply: boolean;
 }
 
 export function generateMockCommunityReply(): CommunityReply {
@@ -22,6 +23,7 @@ export function generateMockCommunityReply(): CommunityReply {
     LikedByCurrentUser: false,
     Time: new Date(),
     ElapsedTime: '3 hours ago',
-    TimeTicks: 12345
+    TimeTicks: 300,
+    IsCurrentUserReply: false
   };
 }

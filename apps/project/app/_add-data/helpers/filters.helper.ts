@@ -1,6 +1,17 @@
-import { isRangeFilter, MultiSelectFilter, MultiSelectOption, RangeFilter } from '../models';
-
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+
+import { SearchFilterMappingData } from '../data';
+import {
+  Filter,
+  Filters,
+  FilterType,
+  isRangeFilter,
+  MultiSelectFilter,
+  MultiSelectOption,
+  ProjectSearchContext,
+  RangeFilter
+} from '../models';
+
 
 export const maxNumberOfOptions = 5;
 
@@ -31,8 +42,6 @@ export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFilter
         if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
           sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
         }
-
-        sortOptions(sf.Options);
       }
 
       return sf;
@@ -60,6 +69,47 @@ export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams
    mergedFilters = param.serverFilters;
   }
   return mergedFilters;
+}
+
+export function buildLockedCountryCodeFilter(projectSearchContext: ProjectSearchContext): MultiSelectFilter {
+  const countryCodeData = SearchFilterMappingData['country_codes'];
+
+  return {
+    Id: 'countrycodes',
+    BackingField: countryCodeData.BackingField,
+    DisplayName: countryCodeData.DisplayName,
+    Order: countryCodeData.Order,
+    Type: FilterType.Multi,
+    Options: [{
+      Name: projectSearchContext.CountryCode,
+      Value: projectSearchContext.CountryCode,
+      Selected: true
+    }],
+    RefreshOptionsFromServer: false,
+    Locked: true
+  };
+}
+
+export function getFiltersWithValues(filters: Filter[]): Filter[] {
+ return filters.filter((filter: Filters) => {
+   let hasValue = false;
+
+   switch (filter.Type) {
+     case FilterType.Multi: {
+       hasValue = filter.Options.some(o => o.Selected);
+       break;
+     }
+     case FilterType.Text: {
+       hasValue = filter.Value.length > 0;
+       break;
+     }
+     case FilterType.Range: {
+       hasValue = !!filter.SelectedMinValue || !!filter.SelectedMaxValue;
+     }
+   }
+
+   return hasValue;
+ });
 }
 
 function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {
@@ -100,10 +150,4 @@ function fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption
         return o;
       })
   );
-}
-
-function sortOptions(options: MultiSelectOption[]) {
-  options.sort((a, b) => {
-    return b.Count - a.Count || arraySortByString(a.Name, b.Name, SortDirection.Ascending);
-  });
 }

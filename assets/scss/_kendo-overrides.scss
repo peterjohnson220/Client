@@ -46,3 +46,11 @@
 .k-grid-content, .k-grid-footer-wrap, .k-grid-header-wrap {
   flex-basis: 100%;
 }
+
+kendo-tabstrip.tabstrip-no-borders > .k-content {
+  border-width: 0;
+}
+
+kendo-tabstrip.bold-tabs .k-tabstrip-items {
+  font-weight: bold;
+}

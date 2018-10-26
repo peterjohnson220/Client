@@ -1,0 +1,30 @@
+@import 'colors';
+
+.card {
+  font-size: 1.25rem;
+}
+
+.card-header {
+  color:  $community-categories-header;
+  font-weight: 500;
+  background-color:  white;
+  border-bottom-color: $community-categories-border;
+}
+
+.category-count {
+  border-style: solid;
+  border-color: $community-categories-border;
+  border-radius: 2.25px;
+  border-width: 1px;
+}
+
+.category-element {
+  color: $community-categories-body;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.category-element:hover {
+  text-decoration: underline;
+}

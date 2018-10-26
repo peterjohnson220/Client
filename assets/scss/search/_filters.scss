@@ -13,26 +13,34 @@
       background: lighten($selection-hover-background, 40%);
     }
   }
-}
 
-.option.disabled{
-  color: $disabled-option-color;
-  cursor: default;
-}
+  &.disabled {
+    color: $disabled-option-color;
+    cursor: default;
+  }
 
-.option.selected{
-  background: $selected-option-color;
-}
-
-.option.selected:hover{
-  background: $hover-option-color;
-}
-
-.option.locked{
-  color: inherit;
-
-  &:hover {
+  &.selected{
     background: $selected-option-color;
+
+    &.alt-color{
+      background: $selected-option-color-alt;
+    }
+  }
+
+  &.selected:hover{
+    background: $hover-option-color;
+
+    &.alt-color{
+      background: $hover-option-color-alt;
+    }
+  }
+
+  &.locked {
+    color: inherit;
+
+    &:hover {
+      background: $selected-option-color;
+    }
   }
 }
 

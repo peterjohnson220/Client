@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { stateAbbrevToFullName } from 'libs/core/functions';
 import { PayMarket } from 'libs/models';
@@ -32,6 +32,10 @@ export class PayMarketBoundsFilterComponent {
       default:
         boundsLabel = payMarket.GeoValue;
         break;
+    }
+
+    if (payMarket.CountryCode) {
+      boundsLabel = boundsLabel + ' ' + payMarket.CountryCode;
     }
 
     return boundsLabel;

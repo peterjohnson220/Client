@@ -41,7 +41,7 @@ describe('Project - Add Data - Search Results', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should show a table row with a loading indicator, when loading more results', () => {
+  it('should show a message, when loading more results', () => {
     store.dispatch(new fromSearchResultsActions.GetResultsSuccess(generateMockSearchResponse()));
     store.dispatch(new fromSearchResultsActions.GetMoreResults());
 

@@ -14,13 +14,15 @@
   </div>
 
   <div class="start-discussion-body p-2">
-      <img id="discussion-avatar" class="pf-avatar ml-1" [src]="UserAvatarSource"
+      <img id="discussion-avatar" class="pf-avatar ml-1" src="assets/images/placeholderphoto.jpg"
             alt="avatar">
       <div class="w-100 pl-3">
         <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
-        <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>          
-        <div class="ml-3 p-0">
-          <button id="start-discussion-post-button" [disabled]="!submitEnabled"               
+        <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
+        <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
+
+        <div *ngIf="submitVisible" class="ml-3 p-0">
+          <button id="start-discussion-post-button" [disabled]="!submitEnabled"
                   (click)="submitContent()" class="btn btn-primary float-right">Post
             <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
             </pf-loading-indicator></button>

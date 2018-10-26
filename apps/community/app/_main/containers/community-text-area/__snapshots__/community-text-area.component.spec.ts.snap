@@ -2,16 +2,11 @@
 
 exports[`CommunityTextAreaComponent should show community text area 1`] = `
 <pf-community-text-area
-  addingCommunityPostReplySuccess$={[Function Store]}
-  addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
   dangerStartNumber={[Function Number]}
   discussionTextArea={[Function ElementRef]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
-  replyStore={[Function Store]}
   store={[Function Store]}
-  submittingCommunityPostSuccess$={[Function Store]}
-  submittingCommunityPostSuccessSubscription={[Function Subscriber]}
   suggestTagsContainer="undefined"
   suggestTagsContainerVisible={[Function Boolean]}
   suggestedCommunityTags$={[Function Store]}

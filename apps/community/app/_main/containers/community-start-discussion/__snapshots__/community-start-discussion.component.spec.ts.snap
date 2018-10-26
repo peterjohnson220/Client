@@ -2,9 +2,10 @@
 
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
-  UserAvatarSource={[Function String]}
   postType="0"
+  showPostJobButton={[Function Boolean]}
   store={[Function Store]}
+  submittingCommunityJobSuccess$={[Function Store]}
   submittingCommunityPost$={[Function Store]}
 >
   <div
@@ -46,23 +47,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         alt="avatar"
         class="pf-avatar ml-1"
         id="discussion-avatar"
+        src="assets/images/placeholderphoto.jpg"
       />
       <div
         class="w-100 pl-3"
       >
         
         
-        <div
-          class="ml-3 p-0"
-        >
-          <button
-            class="btn btn-primary float-right"
-            id="start-discussion-post-button"
-          >
-            Post 
-            
-          </button>
-        </div>
+        
+        
       </div>
     </div>
   </div>
@@ -71,9 +64,10 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
-  UserAvatarSource={[Function String]}
   postType={[Function Number]}
+  showPostJobButton={[Function Boolean]}
   store={[Function Store]}
+  submittingCommunityJobSuccess$={[Function Store]}
   submittingCommunityPost$={[Function Store]}
 >
   <div
@@ -115,23 +109,15 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
         alt="avatar"
         class="pf-avatar ml-1"
         id="discussion-avatar"
+        src="assets/images/placeholderphoto.jpg"
       />
       <div
         class="w-100 pl-3"
       >
         
         
-        <div
-          class="ml-3 p-0"
-        >
-          <button
-            class="btn btn-primary float-right"
-            id="start-discussion-post-button"
-          >
-            Post 
-            
-          </button>
-        </div>
+        
+        
       </div>
     </div>
   </div>

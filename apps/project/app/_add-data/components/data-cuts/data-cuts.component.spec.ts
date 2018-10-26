@@ -6,7 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { DataCutsComponent } from './data-cuts.component';
-import { generateMockDataCut, SurveyDataCut } from '../../models';
+import { generateMockDataCut, generateMockSurveyJobResult, SurveyDataCut } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 
 describe('DataCutsComponent', () => {
@@ -33,9 +33,11 @@ describe('DataCutsComponent', () => {
     fixture = TestBed.createComponent(DataCutsComponent);
     instance = fixture.componentInstance;
 
+    // Set up
+    instance.job = generateMockSurveyJobResult();
   });
 
-  it('should display Title, Country and weight', () => {
+  it('should display Scope, Country and Weight', () => {
     instance.dataCuts = [generateMockDataCut()];
 
     fixture.detectChanges();
@@ -47,15 +49,6 @@ describe('DataCutsComponent', () => {
     instance.dataCuts = [generateMockDataCut()];
     instance.dataCuts[0].TCC50th = null;
     instance.dataCuts[0].Base50th = null;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should show the data cut in the proper currency', () => {
-    instance.currencyCode = 'CAD';
-    instance.dataCuts = [generateMockDataCut()];
 
     fixture.detectChanges();
 

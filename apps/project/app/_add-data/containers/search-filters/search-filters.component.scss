@@ -1,15 +1,9 @@
-@import 'search/filters-variables';
-
 .filters{
   position: absolute;
-  top:36px;
+  top: 3px;
   bottom: 0;
   right: 0;
   left: 0;
+  width: 100%;
   overflow-y: scroll;
-}
-
-.reset-filters{
-  @extend %reset-link;
-  padding-top: .35rem;
 }

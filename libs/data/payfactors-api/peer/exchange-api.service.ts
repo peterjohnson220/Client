@@ -8,7 +8,7 @@ import {
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
-  GenericKeyValue, AutoAssociateExchangeJobsRequest
+  GenericKeyValue, AutoAssociateExchangeJobsRequest, ExchangeJobRequestAction, ExchangeRequestActionEnum
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -111,12 +111,9 @@ export class ExchangeApiService {
     );
   }
 
-  approveExchangeJobRequest(jobRequest: ExchangeJobRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ApproveExchangeJobRequest`, jobRequest);
-  }
-
-  denyExchangeJobRequest(jobRequest: ExchangeJobRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/DenyExchangeJobRequest`, jobRequest);
+  exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string, action: ExchangeRequestActionEnum): Observable<any> {
+    const requestAction: ExchangeJobRequestAction = {JobRequest: jobRequest, Reason: reason, Action: action.toString()};
+    return this.payfactorsApiService.post(`${this.endpoint}/ExchangeJobRequestAction`, requestAction);
   }
 
   approveCompanyExchangeInvitaiton(companyInvitation: ExchangeInvitation): Observable<any> {

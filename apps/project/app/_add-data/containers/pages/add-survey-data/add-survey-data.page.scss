@@ -1,20 +1,6 @@
-.filters-sidebar{
-  width: 243px;
-  position: relative;
-}
+@import '../../../styles/shared-page-styles';
 
-.results-and-actions{
-  flex-grow: 1;
-  position: relative;
-  margin-left: .3rem;
-}
-
-.button-container{
-  width: 100%;
-  bottom: 0;
-  height: 22px;
-  position: absolute;
+.exclude-from-participation{
   display: flex;
-  justify-content: center;
   align-items: center;
 }

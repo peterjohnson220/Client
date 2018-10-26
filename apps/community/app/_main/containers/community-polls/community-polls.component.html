@@ -3,63 +3,13 @@
     Payfactors Polls
   </div>
   <div class="card-body">
-    <ngb-carousel [interval]="10000"
-                  (slide)="onCarouselSlideChange()">
-      <ng-container *ngFor="let request of communityPollRequests$ | async;">
+    <ngb-carousel *ngIf="communityPollRequestsLoaded$ | async" [interval]="0" class="px-5 pb-5">
+      <ng-container *ngFor="let request of communityPollRequests;">
         <ng-template ngbSlide>
-
-          <div *ngIf="isResponseDismissed(request.CommunityPollId); else poll_not_dismissed" class="py-5">
-              <div class="outer-element">
-                <div class="inner-element pl-2 response-submitted-container">
-                  <p class="lead text-center">Poll Dismissed</p>
-                </div>
-              </div>
-          </div>
-
-          <ng-template #poll_not_dismissed>
-
-            <div class="poll-question-container">
-              <p class="text-center lead">{{ request.Question}}</p>
-            </div>
-
-            <div *ngIf="!includesCommunityPollId(request.CommunityPollId)" class="pb-5">
-              <div class="outer-element">
-                <div *ngFor="let option of request.ResponseOptions">
-                  <div class="inner-element">
-                    <div class="poll-response-option-button-container poll-response-option-button mt-1" (click)="selectOption(option.ResponseId)">
-                      <div class="selected-option-indicator h-100" [ngClass]="{'selected': option.ResponseId === selectedOption }">&nbsp;</div>
-                      <div class="response-option-text-container poll-response-option pl-1">{{option.ResponseText}}</div>
-                    </div>
-                </div>
-                </div>
-              </div>
-              <div class="d-flex justify-content-center pt-2">
-                <button type="button" class="btn btn-secondary submit-button-container"
-                        (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
-                  <i class="fas fa-check pr-2"></i>Submit
-                  <pf-loading-indicator *ngIf="communityPollResponseSubmitting$ | async">
-                  </pf-loading-indicator>
-                </button>
-              </div>
-            </div>
-
-            <div *ngIf="includesCommunityPollId(request.CommunityPollId)" class="pb-5">
-              <div class="outer-element">
-                <div *ngFor="let option of request.ResponseOptions">
-                    <div class="inner-element">
-                      <div class="poll-response-container poll-response-no mt-1">
-                          <div class="poll-response-container poll-response-yes" [style.width.%]="getResponsePercentage(option.ResponseId,request.CommunityPollId)"></div>
-                          <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
-                          <div class="response-option-text-container poll-response-percent">{{getResponsePercentage(option.ResponseId,request.CommunityPollId)}}%</div>
-                      </div>
-                    </div>
-                </div>
-                <p class="dismiss-poll-button text-center mt-2" (click)="dismissPoll(request.CommunityPollId)">Dismiss poll</p>
-              </div>
-            </div>
-
-          </ng-template>
-
+          <pf-community-poll
+            [request]="request"
+            [response]="getPollResponse(request.CommunityPollId)">      
+          </pf-community-poll>        
         </ng-template>
       </ng-container>
     </ngb-carousel>

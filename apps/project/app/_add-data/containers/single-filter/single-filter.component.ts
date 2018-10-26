@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import { Filter, MultiSelectOption } from '../../models';
@@ -19,6 +19,7 @@ export class SingleFilterComponent implements OnInit {
   selectionCount$: Observable<number>;
   loadingOptions$: Observable<boolean>;
   loadingOptionsError$: Observable<boolean>;
+  searchValue$: Observable<string>;
 
   constructor(
     private store: Store<fromAddDataReducer.State>,
@@ -27,6 +28,7 @@ export class SingleFilterComponent implements OnInit {
     this.selectionCount$ = this.store.select(fromAddDataReducer.getSingledFilterSelectionCount);
     this.loadingOptions$ = this.store.select(fromAddDataReducer.getLoadingOptions);
     this.loadingOptionsError$ = this.store.select(fromAddDataReducer.getLoadingOptionsError);
+    this.searchValue$ = this.store.select(fromAddDataReducer.getSingledFilterSearchValue);
   }
 
   ngOnInit() {
@@ -34,7 +36,7 @@ export class SingleFilterComponent implements OnInit {
   }
 
   backToAllFilters() {
-    this.store.dispatch(new fromAddSurveyDataPageActions.ToggleFilterSearch());
+    this.store.dispatch(new fromSearchActions.ToggleFilterSearch());
   }
 
   handleMultiSelectOptionSelected(optionSelectedObj: { filterId: string, option: MultiSelectOption }) {
@@ -42,12 +44,13 @@ export class SingleFilterComponent implements OnInit {
     this.store.dispatch(new fromSearchFiltersActions.ToggleMultiSelectOption(optionSelectedObj));
   }
 
-  handleResetSection(filterId: string) {
-    this.store.dispatch(new fromSearchFiltersActions.ResetFilter(filterId));
+  handleClearSection(filterId: string) {
+    this.store.dispatch(new fromSearchFiltersActions.ClearFilter({filterId: filterId}));
     this.store.dispatch(new fromSingledFilterActions.ClearSelections());
   }
 
   handleSearchValueChanged(value: string) {
-    this.store.dispatch(new fromSingledFilterActions.SearchAggregation(value));
+    this.store.dispatch(new fromSingledFilterActions.SetSearchValue(value));
+    this.store.dispatch(new fromSingledFilterActions.SearchAggregation());
   }
 }

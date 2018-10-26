@@ -5,26 +5,20 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-import { JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-         MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent
+import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
+  MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
+  JobToPriceComponent
 } from './components';
-
-import { AddSurveyDataPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent, SingleFilterComponent } from './containers';
-
-import {
-  AddSurveyDataPageEffects,
-  SearchFiltersEffects,
-  SearchResultsEffects,
-  SingledFilterEffects,
-  TooltipContainerEffects
-} from './effects';
+import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
+         TooltipContainerComponent, SingleFilterComponent, JobsToPriceComponent } from './containers';
+import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
+         TooltipContainerEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
@@ -37,10 +31,11 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects
+      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
+    NgbPopoverModule.forRoot(),
     Ng5SliderModule,
 
     // Routing
@@ -52,17 +47,16 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   ],
   declarations: [
     // Components
-    JobResultComponent, DataCutsComponent, FilterSectionComponent, JobDetailsTooltipComponent,
-    MultiSelectFilterComponent, MatchesDetailsTooltipComponent, FilterHeaderComponent, RangeFilterComponent,
+    JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
+    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, SearchActionsComponent,
+    JobToPriceComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
+    JobsToPriceComponent,
 
     // Pages
-    AddSurveyDataPageComponent
-  ],
-  entryComponents: [
-    JobDetailsTooltipComponent
+    AddSurveyDataPageComponent, MultiMatchPageComponent
   ],
   providers: [
     AddDataEffectsService

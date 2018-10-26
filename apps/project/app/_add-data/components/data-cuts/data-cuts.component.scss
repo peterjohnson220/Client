@@ -1,32 +1,49 @@
 @import 'legacy-variables';
+@import 'colors';
+
+// Variables
+$scope-cell-width: 350px;
 
 tr{
   width: 100%;
 }
 
-tr:hover{
-  background-color: $add-data-hover-background;
-  cursor: pointer;
-}
-
-.job-cuts-table{
-  width: 100%;
-  margin: .5rem 0;
-}
-
-.selected-data-cut{
-  background-color: $add-data-selected-background;
-}
-
-.data-cut-title{
-  width: 422px;
-}
-
-.data-cut-matched {
-  background-color: #f2f2f2;
-}
-
 .no-data-cuts-message{
   width: 100%;
   padding: 1rem 0;
+}
+
+.data-cuts-container{
+  margin: .5rem 0 0 0;
+}
+
+.data-cuts-table{
+  width: 100%;
+  border: 1px solid $grey;
+
+  td, th{
+    padding: .35rem;
+  }
+
+  td{
+    cursor: pointer;
+  }
+}
+
+.selected{
+  background-color: $selected-item-background-color;
+}
+
+.data-cuts-table tbody tr:not(.selected):hover {
+  background: $selection-hover-background;
+  cursor: pointer;
+}
+
+.data-cuts-table thead tr{
+  background: $legacy-dark-header-grey;
+}
+
+.scope-cell{
+  min-width: $scope-cell-width;
+  max-width: $scope-cell-width;
 }

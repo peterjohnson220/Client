@@ -13,5 +13,6 @@ export const environment = {
   tableauPayfactorsReportingServer: 'https://stagereports.payfactors.com/',
   tableauPublicReportingServer: 'https://public.tableau.com/',
   defaultHomePage: '/client/dashboard',
-  firstTimeLoginPage: '/client/auth/first-login'
+  firstTimeLoginPage: '/client/auth/first-login',
+  smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/'
 };

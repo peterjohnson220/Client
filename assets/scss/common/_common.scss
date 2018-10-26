@@ -1,0 +1,69 @@
+@import 'colors';
+@import 'common-variables';
+
+.pf-avatar{
+  width: 33px;
+  height: 33px;
+  border-radius: 33px;
+}
+
+// Overwriting the compiled Boostrap sytling manually for our secondary buttons right now. There is no easy way to
+// customize the border colors after overriding the secondary theme color. https://github.com/twbs/bootstrap/issues/23450
+.btn-secondary{
+  color: #292b2c;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-secondary:hover{
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.btn-secondary:focus {
+  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5)
+}
+
+// This helper class can be used when you want an empty html element to act as a placeholder for positioning purposes
+.pf-placeholder:after {
+  content: ".";
+  visibility: hidden;
+}
+.pf-placeholder {
+  font-size: 80%;
+  margin-top: 0.25rem;
+}
+
+.ellipsis-overflowing-text {
+  @extend %ellipsis-overflowing-text;
+}
+
+tr.row-disabled {
+  @extend %disabled-row;
+}
+
+.disabled {
+  @extend %disabled-row;
+}
+
+.space-out-children > * {
+  margin-left: 0.5rem;
+}
+
+.space-out-children-right > *:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.form-group.form-group-validation {
+  margin-bottom: -.35rem;
+}
+
+.pf-link {
+  cursor: pointer;
+  color: $link-color;
+}
+
+.vertical-separator{
+  border-left: 1px solid $border-grey;
+  box-shadow: -1px 0px 1px 0px #d8d8d8;
+}

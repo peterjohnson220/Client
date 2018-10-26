@@ -1,0 +1,41 @@
+<!--Poll question-->
+<p class="text-center lead">{{request.Question}}</p>
+
+<div *ngIf="isResponseDismissed(request.CommunityPollId); else poll_not_dismissed" class="py-5">
+    <div class="outer-element">
+      <div class="inner-element pl-2 response-submitted-container">
+        <p class="lead text-center">Poll Dismissed</p>
+      </div>
+    </div>
+</div>
+
+<ng-template #poll_not_dismissed>
+  <div *ngIf="request && !response && !request.IsExpired">
+    <div *ngFor="let option of request.ResponseOptions">
+      <div class="inner-element my-1">
+        <div class="poll-choice poll-border poll-response-option-button mt-1" [ngClass]="{'selected': option.ResponseId === selectedOption }" (click)="selectOption(option.ResponseId)">
+          <div class="response-option-text-container pl-1" >{{option.ResponseText}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center pt-2">
+      <button type="button" class="btn btn-secondary submit-button-container"
+              (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
+        <i class="fas fa-check pr-2"></i>Submit
+        <pf-loading-indicator *ngIf="communityPollResponseSubmitting$ | async">
+        </pf-loading-indicator>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="response || request.IsExpired">
+    <div *ngFor="let option of request.ResponseOptions">
+        <div class="inner-element my-1">
+            <div class = "poll-choice poll-border"></div>
+            <div class = "poll-border" [ngClass] ="{'poll-choice-filled': response.ResponsePercents[option.ResponseId] > 0}" [style.width.%]="getPercentage(option.ResponseId)"></div>
+            <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
+            <div class="response-option-text-container poll-response-percent">{{response.ResponsePercents[option.ResponseId]}}%</div>
+        </div>
+    </div>
+    <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2" (click)="dismissPoll(request.CommunityPollId)">Dismiss poll</p>
+  </div>
+</ng-template>

@@ -1,0 +1,16 @@
+// Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
+// If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
+// add those styles to this file.
+
+.popover.pill-detail-popover{
+  min-width: 200px;
+}
+
+.popover.pill-detail-popover .popover-header{
+  font-weight: bold;
+}
+
+.popover.pill-detail-popover .popover-body{
+  max-height: 250px;
+  overflow-y: auto;
+}

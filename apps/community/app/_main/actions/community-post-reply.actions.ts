@@ -13,6 +13,10 @@ export const ADDING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Add Reply] A
 export const ADDING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Add Reply] Adding Community Post Add Reply Error';
 export const CLEARING_COMMUNITY_POST_REPLIES = '[Community/Post Add Reply] Clearing Community Post Replies';
 
+export const DELETING_COMMUNITY_POST_REPLY = '[Community/Post Replies] Deleting Community Post Reply';
+export const DELETING_COMMUNITY_POST_REPLY_SUCCESS = '[Community/Post Replies] Deleting Community Post Reply Success';
+export const DELETING_COMMUNITY_POST_REPLY_ERROR = '[Community/Post Replies] Deleting Community Post Reply Delete';
+
 
 export class GettingCommunityPostReplies implements Action {
   readonly type = GETTING_COMMUNITY_POST_REPLIES;
@@ -60,6 +64,22 @@ export class ClearingCommunityPostReplies implements Action {
   readonly type = CLEARING_COMMUNITY_POST_REPLIES;
   constructor(public payload: any) {}
 }
+
+export class DeletingCommunityPostReply implements Action {
+  readonly type = DELETING_COMMUNITY_POST_REPLY;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostReplySuccess implements Action {
+  readonly type = DELETING_COMMUNITY_POST_REPLY_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostReplyError implements Action {
+  readonly type = DELETING_COMMUNITY_POST_REPLY_ERROR;
+}
+
+
 export type Actions
   = GettingCommunityPostReplies
   | GettingCommunityPostRepliesSuccess
@@ -70,4 +90,7 @@ export type Actions
   | AddingCommunityPostReply
   | AddingCommunityPostReplySuccess
   | AddingCommunityPostReplyError
-  | ClearingCommunityPostReplies;
+  | ClearingCommunityPostReplies
+  | DeletingCommunityPostReply
+  | DeletingCommunityPostReplySuccess
+  | DeletingCommunityPostReplyError;

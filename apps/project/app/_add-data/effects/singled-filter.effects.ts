@@ -10,7 +10,7 @@ import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/surve
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
-import { mapFiltersToSearchFields, mapFiltersToSearchFilters } from '../helpers';
+import { mapFiltersToSearchFields, getSelectedSearchFilters } from '../helpers';
 import { MultiSelectFilter } from '../models';
 
 @Injectable()
@@ -23,19 +23,20 @@ export class SingledFilterEffects {
       withLatestFrom(
         this.store.select(fromAddDataReducer.getSingledFilter),
         this.store.select(fromAddDataReducer.getFilters),
-        this.store.select(fromAddDataReducer.getJobContext),
-        (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context) => (
-          { action, singledFilter, filters, context }
+        this.store.select(fromAddDataReducer.getProjectSearchContext),
+        this.store.select(fromAddDataReducer.getSingledFilterSearchValue),
+        (action: fromSingledFilterActions.SearchAggregation, singledFilter, filters, context, searchValue) => (
+          { action, singledFilter, filters, context, searchValue }
         )),
       switchMap(data => {
         const request: SearchSurveyAggregationsRequest = {
           SearchFields: mapFiltersToSearchFields(data.filters),
-          Filters: mapFiltersToSearchFilters(data.filters),
+          Filters: getSelectedSearchFilters(data.filters),
           CountryCode: data.context.CountryCode,
           CurrencyCode: data.context.CurrencyCode,
           ProjectId: data.context.ProjectId,
           SearchField: data.singledFilter.BackingField,
-          TextQuery: data.action.payload
+          TextQuery: data.searchValue
         };
 
         return this.surveySearchApiService.searchSurveyAggregations(request).pipe(

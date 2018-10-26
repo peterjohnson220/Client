@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromAddSurveyDataPageActions from '../../actions/add-survey-data-page.actions';
+import * as fromSearchActions from '../../actions/search.actions';
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -45,7 +45,7 @@ describe('Project - Add Data - Single Filter', () => {
 
   it('should dispatch a ToggleFilterSearch action when going back to all filters', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromAddSurveyDataPageActions.ToggleFilterSearch();
+    const expectedAction = new fromSearchActions.ToggleFilterSearch();
 
     instance.backToAllFilters();
 
@@ -72,22 +72,22 @@ describe('Project - Add Data - Single Filter', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ResetFilter action for the search filters when handling a reset section', () => {
+  it('should dispatch a ClearFilter action for the search filters when handling a clear section', () => {
     spyOn(store, 'dispatch');
     const filterId = 'blah';
-    const expectedAction = new fromSearchFiltersActions.ResetFilter(filterId);
+    const expectedAction = new fromSearchFiltersActions.ClearFilter({filterId: filterId});
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ClearSelections action for the singled filter when handling a reset section', () => {
+  it('should dispatch a ClearSelections action for the singled filter when handling a clear section', () => {
     spyOn(store, 'dispatch');
     const filterId = 'blah';
     const expectedAction = new fromSingledFilterActions.ClearSelections();
 
-    instance.handleResetSection(filterId);
+    instance.handleClearSection(filterId);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

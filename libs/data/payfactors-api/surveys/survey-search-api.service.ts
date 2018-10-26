@@ -2,15 +2,26 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SearchFilter, SearchRequest, SurveyDataFilterRequest,
-  SurveyDataResponse, AddSurveyDataCutRequest, AddSurveyDataCutMatchResponse,
+import {
+  SearchFilter,
+  SearchRequest,
+  SurveyDataFilterRequest,
+  SurveyDataResponse,
+  AddSurveyDataCutRequest,
+  AddSurveyDataCutMatchResponse,
   PricingMatchesResponse,
   PricingMatchesRequest,
-  PricingMatchesDetailsRequest
+  PricingMatchesDetailsRequest,
+  SaveSearchFiltersRequest,
+  SearchContextResponse,
+  SearchSurveyAggregationsRequest,
+  JobsToPriceRequest,
+  MatchedSurveyJob,
+  JobMatchCutsRequest,
+  JobMatchCutsResponse
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { SearchSurveyAggregationsRequest } from '../../../models/survey-search/search-survey-aggregations-request.model';
 
 @Injectable()
 export class SurveySearchApiService {
@@ -20,6 +31,10 @@ export class SurveySearchApiService {
 
   getDefaultSurveyScopesFilter(companyPayMarketId: number): Observable<SearchFilter> {
     return this.payfactorsApiService.get(`${this.endpoint}/GetDefaultSurveyScopesFilter`, { params: { companyPayMarketId } });
+  }
+
+  getProjectSearchContext(projectId: number): Observable<SearchContextResponse> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetProjectSearchContext`, { params: { projectId } });
   }
 
   searchSurveyJobs(searchRequest: SearchRequest): Observable<any> {
@@ -44,5 +59,21 @@ export class SurveySearchApiService {
 
   searchSurveyAggregations(request: SearchSurveyAggregationsRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyAggregations`, request);
+  }
+
+  saveSearchFilters(request: SaveSearchFiltersRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SaveSearchFilters`, request);
+  }
+
+  getSavedFilters(payMarketId: number): Observable<SearchFilter[]> {
+    return this.payfactorsApiService.get(`${this.endpoint}/GetSavedFilters`, { params: { payMarketId } });
+  }
+
+  getJobsToPrice(request: JobsToPriceRequest): Observable<MatchedSurveyJob[]> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMatchedSurveyJobs`, request );
+  }
+
+  getJobMatchCuts(request: JobMatchCutsRequest): Observable<JobMatchCutsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetMatchJobCuts`, request );
   }
 }

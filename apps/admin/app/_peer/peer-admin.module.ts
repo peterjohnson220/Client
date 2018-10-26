@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { LayoutModule } from '@progress/kendo-angular-layout';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -18,7 +19,8 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          PayfactorsCompanyExchangeInvitationsComponent, NewCompanyExchangeInvitationsComponent,
          ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
          ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
-         ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent } from './containers';
+         ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent,
+         DenyRequestModalComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
@@ -43,6 +45,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
 
     // 3rd Party
     GridModule,
+    LayoutModule,
     StoreModule.forFeature('peerAdmin', reducers),
     EffectsModule.forFeature([
       ExchangeListEffects,
@@ -88,6 +91,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     ExchangeAccessRequestInfoComponent,
     CompanyExchangeInvitationInfoComponent,
     ExchangeJobRequestInfoComponent,
+    DenyRequestModalComponent,
 
     // Pages
     ExchangeListPageComponent,

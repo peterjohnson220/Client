@@ -3,5 +3,4 @@
     <pf-community-post-reply [reply]="reply"></pf-community-post-reply>
   </ng-container>
   <pf-loading-indicator  class="loading-indicator reply-offset" *ngIf="loading && replies?.length < 1"></pf-loading-indicator>
-  <div class="reply-offset"  *ngIf="!loading && replies?.length == 0">No Replies</div>
 </div>

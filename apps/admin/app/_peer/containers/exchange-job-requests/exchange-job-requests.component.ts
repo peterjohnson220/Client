@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeJobRequest } from 'libs/models/peer';
+import { Exchange, ExchangeJobRequest } from 'libs/models/peer';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requests.actions';
@@ -17,6 +17,8 @@ import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requ
 })
 
 export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
+  exchange$: Observable<Exchange>;
+  exchange: Exchange;
   exchangeJobRequestsLoading$: Observable<boolean>;
   exchangeJobRequestsLoadingError$: Observable<boolean>;
   exchangeJobRequestsGrid$: Observable<GridDataResult>;
@@ -26,22 +28,35 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
   pageRowIndex$: Observable<number>;
   pageRowIndex: number;
   exchangeId: number;
+  denyRequestModalTitle = 'Deny Job Request';
+  denyRequestModalOpen$: Observable<boolean>;
+  denyingJobRequest$: Observable<boolean>;
 
   selectedJobRequestSubscription: Subscription;
   pageRowIndexSubscription: Subscription;
+  exchangeSubscription: Subscription;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
     private route: ActivatedRoute
   ) {
-    this.exchangeJobRequestsLoading$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsLoading);
-    this.exchangeJobRequestsLoadingError$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsLoadingError);
-    this.exchangeJobRequestsGrid$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestsGrid);
-    this.jobRequestInfoOpen$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestInfoOpen);
-    this.selectedJobRequest$ = this.store.select(fromPeerAdminReducer.getSelectedExchangeJobRequest);
-    this.pageRowIndex$ = this.store.select(fromPeerAdminReducer.getExchangeJobRequestPageRowIndex);
+    this.exchangeJobRequestsLoading$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestsLoading));
+    this.exchangeJobRequestsLoadingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestsLoadingError));
+    this.exchangeJobRequestsGrid$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestsGrid));
+    this.jobRequestInfoOpen$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestInfoOpen));
+    this.selectedJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getSelectedExchangeJobRequest));
+    this.pageRowIndex$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestPageRowIndex));
+    this.denyRequestModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenyModalOpen));
+    this.denyingJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenying));
+    this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
+  }
+
+  get denyModalText(): string {
+    return 'This action will deny the <strong>' + (this.selectedJobRequest ? this.selectedJobRequest.JobTitle : 'job')
+      + '</strong> from being added to the <strong>' + (this.exchange ? this.exchange.ExchangeName : '')
+      + '</strong> exchange.';
   }
 
   // Events
@@ -64,8 +79,12 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(jobRequest));
   }
 
-  handleDenyJobRequest(jobRequest: ExchangeJobRequest) {
-    this.store.dispatch(new fromExchangeJobRequestsActions.DenyExchangeJobRequest(jobRequest));
+  handleDenyJobRequest(reason: string) {
+    this.store.dispatch(new fromExchangeJobRequestsActions.DenyExchangeJobRequest(reason));
+  }
+
+  handleCloseDenyModal() {
+    this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestDenyModal());
   }
 
   ngOnInit() {
@@ -75,11 +94,15 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
     this.pageRowIndexSubscription = this.pageRowIndex$.subscribe(pri => {
       this.pageRowIndex = pri;
     });
+    this.exchangeSubscription = this.exchange$.subscribe(e => {
+      this.exchange = e;
+    });
   }
 
   ngOnDestroy() {
     this.handleCloseRequestInfo();
     this.selectedJobRequestSubscription.unsubscribe();
     this.pageRowIndexSubscription.unsubscribe();
+    this.exchangeSubscription.unsubscribe();
   }
 }

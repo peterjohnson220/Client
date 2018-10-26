@@ -1,24 +1,8 @@
-<div class="results-header">
-  <table>
-    <thead>
-      <tr>
-        <th class="growing-cell text-center">Title</th>
-        <th class="fixed-cell">Country</th>
-        <th class="fixed-cell">Weighting</th>
-        <th class="fixed-cell">Base 50th</th>
-        <th class="fixed-cell">TCC 50th</th>
-        <th class="fixed-cell">Matches</th>
-      </tr>
-    </thead>
-  </table>
-</div>
-
 <div #results
      class="results"
      infinite-scroll
      [scrollWindow]="false"
-     [infiniteScrollDistance]="3"
-     (scroll)="handleResultsScroll()"
+     [infiniteScrollDistance]="2"
      (scrolled)="onScroll()">
 
     <pf-async-container
@@ -27,30 +11,24 @@
       [hideReloadButton]="true"
       [spinnerType]="spinnerType">
 
-      <table *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
-        <tbody>
-          <tr>
-            <td colspan="6">
-              <table *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId; index as tooltipIndex"
-                     pf-job-result
-                     [job]="jobResult"
-                     [currencyCode]="(jobContext$ | async)?.CurrencyCode"
-                     (jobTitleClick)="handleJobTitleClick($event, tooltipIndex)"
-                     (loadDataCuts)="handleLoadDataCuts($event)"
-                     (cutSelected)="handleCutSelectionToggle($event)"
-                     (matchesMouseEnter)="handleMatchesMouseEnter($event)"
-                     (matchesMouseLeave)="handleMatchesMouseLeave()">
-              </table>
-            </td>
-          </tr>
-          <tr class="loading-more-row" *ngIf="loadingMoreResults">
-            <td colspan="6"><pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...</td>
-          </tr>
-        </tbody>
-      </table>
+      <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+        <pf-job-result
+          *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
+          [job]="jobResult"
+          [currencyCode]="(projectSearchContext$ | async)?.CurrencyCode"
+          (loadDataCuts)="handleLoadDataCuts($event)"
+          (cutSelected)="handleCutSelectionToggle($event)"
+          (matchesMouseEnter)="handleMatchesMouseEnter($event)"
+          (matchesMouseLeave)="handleMatchesMouseLeave()"
+		  [ngClass]="jobResult.IsPayfactors ? 'payfactors-job' : 'non-payfactors-job'">
+        </pf-job-result>
+      </ng-container>
 
     </pf-async-container>
 
+    <div class="m-3" *ngIf="loadingMoreResults$ | async">
+      <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...
+    </div>
   </div>
 
 <ng-template #noResultsMessage>

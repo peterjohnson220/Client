@@ -3,22 +3,25 @@
     <pf-filter-section
       *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
       [filter]="filter"
-      [currencyCode]="(jobContext$ |async)?.CurrencyCode"
+      [currencyCode]="(projectSearchContext$ |async)?.CurrencyCode"
       [ngSwitch]="filter.Type"
-      (reset)="handleResetSection($event)"
-      (searchClicked)="handleSearchSection($event)">
+      (clear)="handleClearSection($event)"
+      (search)="handleSearchSection($event)"
+      (showMore)="handleSectionShowMore($event)">
 
       <!--Text Filters-->
       <ng-container *ngSwitchCase="filterTypes.Text">
         <div class="px-2">
           <pf-input-debounce
+            [id]="filter.Id"
             [hideClearBtn]="true"
             [placeholderText]="''"
             [maxLength]="255"
             [ngModel]="filter.Value"
             (valueChanged)="handleValueChanged(filter.Id, $event)"
             [focus]="shouldFocus(filter)"
-            [showing]="pageShown$ | async">
+            [showing]="pageShown$ | async"
+            [automationClassName]="'au-txt-'+filter.CssClassName">
           </pf-input-debounce>
         </div>
       </ng-container>
@@ -35,6 +38,7 @@
       <ng-container *ngSwitchCase="filterTypes.Range">
         <pf-range-filter
           [filter]="filter"
+          [manualRefreshOnChange]="!(filterSearchVisible$ | async)"
           (rangeChange)="handleRangeChange($event)">
         </pf-range-filter>
       </ng-container>

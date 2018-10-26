@@ -1,20 +1,23 @@
-import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
-import { PricingMatchesDetailsRequest, MatchesDetailsRequestJobTypes } from 'libs/models';
+import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models';
 
-import { SurveyDataCut, MatchesDetailsTooltipData } from '../../models';
+import { JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
 
 @Component({
   selector: 'pf-data-cuts',
   templateUrl: './data-cuts.component.html',
-  styleUrls: ['./data-cuts.component.scss']
+  styleUrls: ['./data-cuts.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataCutsComponent implements OnDestroy {
 
+  @Input() job: JobResult;
   @Input() dataCuts: SurveyDataCut[];
   @Input() currencyCode: string;
 
   @Output() dataCutSelected: EventEmitter<{dataCutId: number}> = new EventEmitter();
+  @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -30,15 +33,12 @@ export class DataCutsComponent implements OnDestroy {
     }
   }
 
-  toggleCutSelection(dataCut: SurveyDataCut): void {
+  toggleDataCutSelection(dataCut: SurveyDataCut): void {
     this.dataCutSelected.emit({dataCutId: dataCut.SurveyDataId});
   }
 
-  setDataCutClasses(dataCut: SurveyDataCut): any {
-    return {
-      'selected-data-cut' : dataCut.IsSelected,
-      'data-cut-matched' : (dataCut.Matches !== 0) && !dataCut.IsSelected
-    };
+  togglePayfactorsSelection(): void {
+    this.payFactorsCutSelected.emit();
   }
 
   handleMatchesMouseEnter(event: MouseEvent, dataCut: SurveyDataCut): void {
@@ -57,7 +57,7 @@ export class DataCutsComponent implements OnDestroy {
 
   handleMatchesMouseLeave(event: MouseEvent): void {
     this.isMatchesHovered = false;
-    this.matchesMouseLeaveTimer = setTimeout(() => {
+    this.matchesMouseLeaveTimer = window.setTimeout(() => {
       if (!this.isMatchesHovered) {
         this.matchesMouseLeave.emit(true);
       }

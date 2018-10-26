@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 
 export const SUBMITTING_COMMUNITY_POST = '[Community/Post] Submitting Community Post';
 export const SUBMITTING_COMMUNITY_POST_SUCCESS = '[Community/Post] Submitting Community Post Success';
@@ -8,12 +9,24 @@ export const GETTING_COMMUNITY_POSTS = '[Community/Post] Get Community Posts';
 export const GETTING_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Community Posts Success';
 export const GETTING_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Community Posts Error';
 
+export const GETTING_COMMUNITY_POSTS_BY_TAG = '[Community/Post] Get Community Posts By Tag';
+export const GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS = '[Community/Post] Get Community Posts By Tag Success';
+export const GETTING_COMMUNITY_POSTS_BY_TAG_ERROR = '[Community/Post] Get Community Posts By Tag Error';
+
 export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community Post Like';
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
 export const UPDATING_COMMUNITY_POST_LIKE_ERROR = '[Community/Post] Updating Community Post Like Error';
 
 export const UPDATING_COMMUNITY_POST_REPLY_IDS = '[Community/Post] Updating Community Post Reply Ids';
 export const UPDATING_COMMUNITY_POST_HIDDEN_REPLY_IDS = '[Community/Post] Updating Community Post Hidden Reply Ids';
+
+export const DELETING_COMMUNITY_POST = '[Community/Post] Deleting Community Post';
+export const DELETING_COMMUNITY_POST_SUCCESS = '[Community/Post] Deleting Community Post Success';
+export const DELETING_COMMUNITY_POST_ERROR = '[Community/Post] Deleting Community Post Error';
+
+export const ADDING_COMMUNITY_DISCUSSION_POLL = '[Community/Post] Adding Community Discussion Poll';
+export const ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS = '[Community/Post] Adding Community Discussion Poll Success';
+export const ADDING_COMMUNITY_DISCUSSION_POLL_ERROR = '[Community/Post] Adding Community Discussion Poll Error';
 
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
@@ -42,6 +55,20 @@ export class GettingCommunityPostsError implements Action {
   readonly type = GETTING_COMMUNITY_POSTS_ERROR;
 }
 
+export class GettingCommunityPostsByTag implements Action {
+  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG;
+  constructor(public payload: any) {}
+}
+
+export class GettingCommunityPostsByTagSuccess implements Action {
+  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingCommunityPostsByTagError implements Action {
+  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG_ERROR;
+}
+
 export class UpdatingCommunityPostLike implements Action {
   readonly type = UPDATING_COMMUNITY_POST_LIKE;
   constructor(public payload: any) {}
@@ -66,6 +93,36 @@ export class UpdatingCommunityPostHiddenReplyIds implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeletingCommunityPost implements Action {
+  readonly type = DELETING_COMMUNITY_POST;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_POST_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityPostError implements Action {
+  readonly type = DELETING_COMMUNITY_POST_ERROR;
+}
+
+export class AddingCommunityDiscussionPoll implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL;
+
+  constructor(public payload: CommunityPollUpsertRequest) {}
+}
+
+export class AddingCommunityDiscussionPollSuccess implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class AddingCommunityDiscussionPollError implements Action {
+  readonly type = ADDING_COMMUNITY_DISCUSSION_POLL_ERROR;
+  constructor(public payload: string) {}
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -73,8 +130,17 @@ export type Actions
   | GettingCommunityPosts
   | GettingCommunityPostsSuccess
   | GettingCommunityPostsError
+  | GettingCommunityPostsByTag
+  | GettingCommunityPostsByTagSuccess
+  | GettingCommunityPostsByTagError
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError
   | UpdatingCommunityPostReplyIds
-  | UpdatingCommunityPostHiddenReplyIds;
+  | UpdatingCommunityPostHiddenReplyIds
+  | DeletingCommunityPost
+  | DeletingCommunityPostSuccess
+  | DeletingCommunityPostError
+  | AddingCommunityDiscussionPoll
+  | AddingCommunityDiscussionPollSuccess
+  | AddingCommunityDiscussionPollError;

@@ -1,0 +1,64 @@
+@import 'search/filters-variables';
+@import 'common/common-variables';
+
+%position-below-header{
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+}
+
+.results-header{
+  height: 36px;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  @extend %bottom-box-shadow;
+}
+
+.filters-and-results{
+  width: 100%;
+  display: flex;
+}
+
+.filters-sidebar{
+  height: 100%;
+  min-width: 243px;
+  position: relative;
+}
+
+.content{
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.actions-container{
+  width: 100%;
+  bottom: 0;
+  height: 30px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons{
+  display: flex;
+  width: 65%;
+  justify-content: flex-end;
+}
+
+.results-count{
+  display: flex;
+  justify-content: flex-end;
+  width: 35%;
+  padding-right: 1rem;
+  color: #656565;
+}
+
+
+.results{
+  @extend %position-below-header;
+  width: 100%;
+}

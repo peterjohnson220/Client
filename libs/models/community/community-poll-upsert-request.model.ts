@@ -3,4 +3,5 @@ export interface CommunityPollUpsertRequest {
     Question: string;
     ResponseOptions: string[];
     Status: number;
+    DurationInHours?: number;
   }
