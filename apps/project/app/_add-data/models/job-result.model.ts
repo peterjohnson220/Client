@@ -1,5 +1,16 @@
 import { SurveyDataCut } from './data-cut.model';
 
+export interface BaseJobInfo {
+  Id: number;
+  Title: string;
+  Code: string;
+  Description: string;
+  Family: string;
+  Level: string;
+  TotalDataCuts?: number;
+  LoadingDataCuts: boolean;
+}
+
 export interface JobResult extends BaseJobInfo {
     SurveyName: string ;
     Source: string;
@@ -16,17 +27,6 @@ export interface JobResult extends BaseJobInfo {
     IsSelected: boolean;
     EEO: string;
     DataCuts: SurveyDataCut[];
-}
-
-export interface BaseJobInfo {
-  Id: number;
-  Title: string;
-  Code: string;
-  Description: string;
-  Family: string;
-  Level: string;
-  TotalDataCuts?: number;
-  LoadingDataCuts: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
