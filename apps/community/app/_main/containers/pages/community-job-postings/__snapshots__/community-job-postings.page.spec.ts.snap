@@ -7,7 +7,7 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
      Job Postings 
     
     <div
-      class="container-fluid community-job-postings-container"
+      class="container-fluid community-job-postings-container p-4"
     >
       <div
         class="row justify-content-center"
