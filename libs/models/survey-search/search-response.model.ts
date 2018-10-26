@@ -1,16 +1,16 @@
 import { generateMockSearchFilter, SearchFilter } from './search-filter.model';
 
-export interface MatchedSurveyJob extends SurveyJob {
-  DataCutsCount?: number;
-  Paymarket?: string;
-  PaymarketId?: number;
-}
-
 export interface SurveyJob {
   Id: string;
   IsPayfactorsJob: boolean;
   Survey: Survey;
   Job: Job;
+}
+
+export interface MatchedSurveyJob extends SurveyJob {
+  DataCutsCount?: number;
+  Paymarket?: string;
+  PaymarketId?: number;
 }
 
 interface Survey {
