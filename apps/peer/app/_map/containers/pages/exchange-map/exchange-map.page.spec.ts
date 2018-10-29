@@ -66,6 +66,7 @@ describe('Peer - Map - Exchange Map Page', () => {
     instance.map = {getZoomLevel() { return mockUpsertExchangeScopeRequest.ZoomLevel; }} as MapComponent;
     instance.numberOfCompanySelections$ = of(0);
     instance.numberOfSelections$ = of(1);
+    instance.peerMapCompaniesCount$ = of(5);
   });
 
   it('should show the exchange name as the page title', () => {
@@ -146,6 +147,14 @@ describe('Peer - Map - Exchange Map Page', () => {
 
   it('should display a disabled Create Scope button when numberOfSelections$ is  0', () => {
     instance.numberOfSelections$ = of(0);
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5', () => {
+    instance.peerMapCompaniesCount$ = of(1);
+
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();

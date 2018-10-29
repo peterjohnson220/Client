@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class PayfactorsApiService {
@@ -21,6 +22,40 @@ export class PayfactorsApiService {
   post<T>(url: string, body: any = {}): Observable<T> {
     return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
       map(this.extractValueFromOdata)
+    );
+  }
+
+  downloadFile(url: string, body: any = {}): Observable<boolean> {
+    const options: any = {
+      responseType: 'blob',
+      observe: 'response'
+    };
+    return this.http.post<any>(`${environment.payfactorsApiUrl}${url}`, body, options).pipe(
+      map((response: any) => {
+        const blob = response.body;
+        const fileName = this.getHeaderTokenValue(response.headers, 'filename', 'Content-Disposition');
+        if (navigator.msSaveBlob) {
+          // IE 10+
+          navigator.msSaveBlob(blob, fileName);
+          return true;
+        }
+
+        const link = document.createElement('a');
+
+        // Browsers that support HTML5 download attribute
+        if (link.download !== undefined) {
+          const downloadLink = URL.createObjectURL(blob);
+          link.setAttribute('href', downloadLink);
+          link.setAttribute('download', fileName);
+          link.style.visibility = 'hidden';
+
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        return true;
+      })
     );
   }
 
@@ -44,4 +79,10 @@ export class PayfactorsApiService {
     return typeof response.value !== 'undefined' ? response.value : false || response || {};
   }
 
+  private getHeaderTokenValue(headers: Headers, tokenName: string, headerName: string): string {
+    const header: string = headers.get(headerName);
+    const headerTokens = header.split(';');
+    const token = headerTokens.find(ht => ht.split('=')[0].trim() === tokenName);
+    return token.split('=')[1].slice(1, -1);
+  }
 }

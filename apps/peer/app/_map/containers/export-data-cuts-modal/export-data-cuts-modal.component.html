@@ -1,0 +1,116 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Export Data Cuts'"
+  [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
+  [submitting]="exportingDataCuts$ | async"
+  [isOpen$]="exportDataCutsModalOpen$"
+  [formGroup]="exportDataCutsForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+
+    <pf-async-container
+      [loading]="exchangeCompanyJobsLoading$ | async"
+      [loadingError]="exchangeCompanyJobsLoadingError$ | async"
+      [loadingErrorMessage]="'Error loading company jobs'"
+      (reload)="loadExchangeCompanyJobs()">
+
+      <kendo-grid class="row-click-selects no-wrap-ellipsis-values"
+                  height="500"
+                  [data]="view$ | async"
+                  [pageSize]="gridState?.take"
+                  [skip]="gridState?.skip"
+                  [sort]="gridState?.sort"
+                  [filter]="gridState?.filter"
+                  [pageable]="{
+                    buttonCount: 5,
+                    info: true
+                  }"
+                  [sortable]="true"
+                  [selectable]="{
+                    checkboxOnly: true
+                  }"
+                  [rowClass]="rowClass"
+                  [kendoGridSelectBy]="selectionKey"
+                  filterable="menu"
+                  [selectedKeys]="selections$ | async"
+                  (cellClick)="handleCellClick($event)"
+                  (dataStateChange)="handleDataStateChange($event)">
+
+        <kendo-grid-column field="CompanyJobCode" title="Company Job Code" width="25">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [title]="getCellTitle(dataItem.IsInMapScope)">
+              {{dataItem.CompanyJobCode}}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="CompanyJobTitle" title="Company Job Title" width="50">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [title]="getCellTitle(dataItem.IsInMapScope)">
+              {{dataItem.CompanyJobTitle}}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column field="CompanyJobFamily" title="Company Job Family" width="25">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" [extra]="false">
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-not-contains-operator></kendo-filter-not-contains-operator>
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div [title]="getCellTitle(dataItem.IsInMapScope)">
+              {{dataItem.CompanyJobFamily}}
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+
+      </kendo-grid>
+
+    </pf-async-container>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [ngModel]="selections$ | async" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
+        <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
+      </ng-container>
+    </div>
+
+  </ng-container>
+
+  <ng-container footer-left>
+    <small>*Cells will be blank for jobs that don’t meet the pricing guidelines. Must include 5 other companies or companies
+      that don’t make up more than 50% of the data cut.
+    </small>
+  </ng-container>
+
+</pf-modal-form>
+

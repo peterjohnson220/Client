@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Exchange } from 'libs/models';
@@ -11,6 +11,7 @@ import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/fi
 import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import * as fromExchangeScopeActions from '../../../actions/exchange-scope.actions';
+import * as fromExportDataCutsActions from '../../../actions/export-data-cuts.actions';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
 import * as fromPeerMapReducer from '../../../reducers';
 
@@ -28,6 +29,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   peerMapLoadingError$: Observable<boolean>;
   numberOfCompanySelections$: Observable<number>;
   numberOfSelections$: Observable<number>;
+  peerMapCompaniesCount$: Observable<number>;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,11 +37,12 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>,
     private peerMapStore: Store<fromPeerMapReducer.State>
   ) {
-    this.exchange$ = this.sharedPeerStore.select(fromSharedPeerReducer.getExchange);
-    this.initialMapMoveComplete$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerMapInitialMapMoveComplete);
-    this.peerMapLoadingError$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerMapLoadingError);
-    this.numberOfCompanySelections$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getNumberOfCompanySelections);
-    this.numberOfSelections$ = this.libsPeerMapStore.select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount);
+    this.exchange$ = this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchange));
+    this.initialMapMoveComplete$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapInitialMapMoveComplete));
+    this.peerMapLoadingError$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapLoadingError));
+    this.numberOfCompanySelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getNumberOfCompanySelections));
+    this.numberOfSelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount));
+    this.peerMapCompaniesCount$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapCompaniesCount));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 
@@ -54,6 +57,10 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
       ExchangeScopeDescription: scopeItem.Description,
       ZoomLevel: zoomLevel
     }));
+  }
+
+  handleExportDataCutsClick() {
+    this.peerMapStore.dispatch(new fromExportDataCutsActions.OpenExportDataCutsModal());
   }
 
   ngOnDestroy() {

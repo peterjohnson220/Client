@@ -60,13 +60,15 @@ export interface AreaStats {
   SalaryCount: number;
   CompanyCount: number;
   Companies: ExchangeStatCompanyMakeup[];
+  ExchangeJobIds: number[];
 }
 
 export function generateMockAreaStats(): AreaStats {
   return {
     SalaryCount: 1,
     CompanyCount: 1,
-    Companies: [generateMockExchangeStatCompanyMakeup()]
+    Companies: [generateMockExchangeStatCompanyMakeup()],
+    ExchangeJobIds: [1, 2]
   };
 }
 
