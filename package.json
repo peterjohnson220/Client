@@ -81,6 +81,7 @@
     "@types/mapbox-gl": "0.48.0",
     "@types/node": "10.10.1",
     "@types/node-fetch": "2.1.2",
+    "@types/dragula": "2.1.33",
     "codelyzer": "4.4.4",
     "copyfiles": "2.1.0",
     "jest": "23.6.0",
