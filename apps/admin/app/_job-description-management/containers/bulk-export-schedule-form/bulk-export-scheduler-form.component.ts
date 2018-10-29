@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BulkExportSchedule } from 'libs/models/jdm';
-import { UserFilter } from 'libs/models/user-profile/index';
+import { JdmListFilter } from 'libs/models/user-profile/index';
 import * as fromJdmAdminReducer from '../../reducers/index';
 import * as fromJdmBulkExportScheduleActions from '../../actions/bulk-export-schedule.actions';
 import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
@@ -15,7 +15,7 @@ import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.mo
 })
 export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   @Input() views: JobDescriptionViewModel[];
-  @Input() filters: UserFilter[];
+  @Input() filters: JdmListFilter[];
   @Input() schedules: BulkExportSchedule[];
 
   schedule: BulkExportSchedule = new BulkExportSchedule();

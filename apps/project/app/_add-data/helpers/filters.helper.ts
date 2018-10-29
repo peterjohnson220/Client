@@ -1,153 +1,146 @@
-import { arraySortByString, SortDirection } from 'libs/core/functions';
+import * as isEqual from 'lodash.isequal';
 
+import { Filter, Filters, FilterType, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, MultiSelectOption,
+         RangeFilter, TextFilter } from '../models';
 import { SearchFilterMappingData } from '../data';
-import {
-  Filter,
-  Filters,
-  FilterType,
-  isRangeFilter,
-  MultiSelectFilter,
-  MultiSelectOption,
-  ProjectSearchContext,
-  RangeFilter
-} from '../models';
 
 
-export const maxNumberOfOptions = 5;
+export class FiltersHelper {
+  static clearFilters(filters: Filter[]): Filter[] {
+    return filters.map(f => this.clearFilter(f) );
+  }
 
-export interface MultiSelectFiltersMergeParams {
-  clientFilters: MultiSelectFilter[];
-  serverFilters: MultiSelectFilter[];
-  keepFilteredOutOptions: boolean;
-}
+  static clearFilter(filter: Filter, optionValue?: any): Filter {
+    if (isMultiFilter(filter) && !filter.Locked) {
+      if (!optionValue) {
+        filter.Options.map(o => o.Selected = false);
+      } else {
+        filter.Options.find(o => isEqual(o.Value, optionValue)).Selected = false;
+      }
+    } else if (isRangeFilter(filter)) {
+      filter.SelectedMaxValue = null;
+      filter.SelectedMinValue = null;
+    } else if (isTextFilter(filter)) {
+      filter.Value = '';
+    }
+    return filter;
+  }
 
-export interface RangeFiltersMergeParams {
-  clientFilters: RangeFilter[];
-  serverFilters: RangeFilter[];
-}
+  static applyDefaults(filters: Filter[]): Filter[] {
+    return filters.map(f => this.applyDefault(f) );
+  }
 
-export function mergeClientWithServerMultiSelectFilters(param: MultiSelectFiltersMergeParams) {
+  static applyDefault(filter: Filter): Filter {
+    if (isTextFilter(filter)) {
+      const textFilter = filter as TextFilter;
+      if (textFilter.DefaultValue) {
+        filter.Value = textFilter.DefaultValue;
+      }
+    } else if (isMultiFilter(filter)) {
+      const multiFilter = filter as MultiSelectFilter;
+      if (multiFilter.DefaultSelections && multiFilter.DefaultSelections.length) {
+        filter.Options.map(o => o.Selected = multiFilter.DefaultSelections.some(d => isEqual(d, o.Value)));
+      }
+    }
 
-  let mergedFilters: MultiSelectFilter[];
+    return filter;
+  }
 
-  // No need to merge unless we have client filters to work with, just take server filters
-  if (param.clientFilters.length) {
+  static hasDefault(filter: Filters): boolean {
+    let hasDefault = false;
 
-    mergedFilters = param.serverFilters.map(sf => {
-      const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
+    switch (filter.Type) {
+      case FilterType.Multi: {
+        hasDefault = filter.DefaultSelections.length > 0;
+        break;
+      }
+      case FilterType.Text: {
+        hasDefault = filter.DefaultValue.length > 0;
+        break;
+      }
+      case FilterType.Range: {
+        hasDefault = false;
+      }
+    }
 
-      if (!!matchedClientFilter) {
-        sf.Options = mergeClientAndServerOptions(sf, matchedClientFilter);
+    return hasDefault;
+  }
 
-        if (param.keepFilteredOutOptions && sf.Options.length < maxNumberOfOptions) {
-          sf.Options = fillOptionsWithUnselectedClientOptions(sf.Options, matchedClientFilter.Options);
+  static buildLockedCountryCodeFilter(countryCode: string): MultiSelectFilter {
+    const countryCodeData = SearchFilterMappingData['country_codes'];
+
+    return {
+      Id: 'countrycodes',
+      BackingField: countryCodeData.BackingField,
+      DisplayName: countryCodeData.DisplayName,
+      Order: countryCodeData.Order,
+      Type: FilterType.Multi,
+      Options: [{
+        Name: countryCode,
+        Value: countryCode,
+        Selected: true
+      }],
+      RefreshOptionsFromServer: false,
+      Locked: true,
+      DefaultSelections: []
+    };
+  }
+
+  static getFiltersWithValues(filters: Filter[]): Filter[] {
+    return filters.filter((filter: Filters) => {
+      let hasValue = false;
+
+      switch (filter.Type) {
+        case FilterType.Multi: {
+          hasValue = filter.Options.some(o => o.Selected);
+          break;
+        }
+        case FilterType.Text: {
+          hasValue = filter.Value.length > 0;
+          break;
+        }
+        case FilterType.Range: {
+          hasValue = (filter.MaximumValue !== filter.SelectedMaxValue || filter.MinimumValue !== filter.SelectedMinValue)
+            && (filter.SelectedMinValue != null && filter.SelectedMaxValue != null);
         }
       }
 
-      return sf;
+      return hasValue;
     });
-  } else {
-    mergedFilters = param.serverFilters;
   }
 
-  return mergedFilters;
-}
+  static getTextFiltersWithValues(filters: Filter[]) {
+    return filters.filter(f => isTextFilter(f) && f.Value);
+  }
 
-export function mergeClientWithServerRangeFilters(param: RangeFiltersMergeParams) {
-  let mergedFilters: RangeFilter[];
-  if (param.clientFilters.length) {
-    mergedFilters = param.serverFilters.filter(f => isRangeFilter(f)).map(sf => {
-      const matchedClientFilter = param.clientFilters.find(cf => cf.Id === sf.Id);
-      if (!!matchedClientFilter) {
-        sf.SelectedMaxValue = matchedClientFilter.SelectedMaxValue;
-        sf.SelectedMinValue = matchedClientFilter.SelectedMinValue;
+  static getMultiSelectFiltersWithSelections(filters: Filter[]): MultiSelectFilter[] {
+    return <MultiSelectFilter[]>filters.filter(f => isMultiFilter(f) && f.Options.some(o => o.Selected));
+  }
+
+  static getMultiSelectFilterSelectedOptions(multiSelectFilter: MultiSelectFilter): MultiSelectOption[] {
+    return multiSelectFilter.Options.filter(o => o.Selected);
+  }
+
+  static getRangeFiltersWithSelections(filters: Filter[]): RangeFilter[] {
+    return <RangeFilter[]>filters.filter(f => isRangeFilter(f) &&
+      (f.MaximumValue !== f.SelectedMaxValue || f.MinimumValue !== f.SelectedMinValue) &&
+      (f.SelectedMinValue != null && f.SelectedMaxValue != null));
+  }
+
+  static selectAll(filters: Filter[]): Filter[] {
+    filters.map((filter: Filters) => {
+      switch (filter.Type) {
+        case FilterType.Multi: {
+          filter.Options.map(o => o.Selected = true);
+          break;
+        }
+        case FilterType.Range: {
+          break;
+        }
       }
-
-      return sf;
     });
-  } else {
-   mergedFilters = param.serverFilters;
+
+    return filters;
   }
-  return mergedFilters;
 }
 
-export function buildLockedCountryCodeFilter(projectSearchContext: ProjectSearchContext): MultiSelectFilter {
-  const countryCodeData = SearchFilterMappingData['country_codes'];
-
-  return {
-    Id: 'countrycodes',
-    BackingField: countryCodeData.BackingField,
-    DisplayName: countryCodeData.DisplayName,
-    Order: countryCodeData.Order,
-    Type: FilterType.Multi,
-    Options: [{
-      Name: projectSearchContext.CountryCode,
-      Value: projectSearchContext.CountryCode,
-      Selected: true
-    }],
-    RefreshOptionsFromServer: false,
-    Locked: true
-  };
-}
-
-export function getFiltersWithValues(filters: Filter[]): Filter[] {
- return filters.filter((filter: Filters) => {
-   let hasValue = false;
-
-   switch (filter.Type) {
-     case FilterType.Multi: {
-       hasValue = filter.Options.some(o => o.Selected);
-       break;
-     }
-     case FilterType.Text: {
-       hasValue = filter.Value.length > 0;
-       break;
-     }
-     case FilterType.Range: {
-       hasValue = !!filter.SelectedMinValue || !!filter.SelectedMaxValue;
-     }
-   }
-
-   return hasValue;
- });
-}
-
-function mergeClientAndServerOptions(serverFilter: MultiSelectFilter, clientFilter: MultiSelectFilter) {
-  let mergedOptions: MultiSelectOption[];
-
-  // Re-populate current selections onto server options
-  mergedOptions = serverFilter.Options.map(sfo => {
-    const matchedClientOptionIndex = clientFilter.Options.findIndex(cfo => cfo.Value === sfo.Value);
-
-    if (matchedClientOptionIndex >= 0) {
-      // Set selected to what it currently was
-      sfo.Selected = clientFilter.Options[matchedClientOptionIndex].Selected;
-
-      // Remove it from the current client filters
-      clientFilter.Options.splice(matchedClientOptionIndex, 1);
-    }
-
-    return sfo;
-  });
-
-  // Add Remaining selected options
-  mergedOptions = mergedOptions.concat(clientFilter.Options.filter(o => o.Selected).map(o => {
-    o.Count = 0;
-    return o;
-  }));
-
-  return mergedOptions;
-}
-
-// Fill in the remainder option spots with current unselected client options
-function fillOptionsWithUnselectedClientOptions(mergedOptions: MultiSelectOption[], clientOptions: MultiSelectOption[]) {
-  return mergedOptions.concat(
-    clientOptions
-      .filter(o => !o.Selected)
-      .splice(0, maxNumberOfOptions - mergedOptions.length)
-      .map(o => {
-        o.Count = 0;
-        return o;
-      })
-  );
-}

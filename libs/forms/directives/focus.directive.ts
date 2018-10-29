@@ -28,14 +28,14 @@ export class FocusDirective implements AfterViewInit, OnChanges {
   focusWhenElementShows(changes: SimpleChanges): boolean {
     return this.focus
       && typeof changes.elementShowing !== 'undefined'
-      && changes.elementShowing.previousValue === false
+      && !changes.elementShowing.previousValue
       && changes.elementShowing.currentValue === true;
   }
 
   focusWhenElementAlreadyShowing(changes: SimpleChanges): boolean {
     return this.elementShowing
       && typeof changes.focus !== 'undefined'
-      && changes.focus.previousValue === false
+      && !changes.focus.previousValue
       && changes.focus.currentValue === true;
   }
 

@@ -10,10 +10,9 @@ import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiSer
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService } from './surveys';
 import { DashboardApiService } from './dashboard';
-import { UserApiService } from './user';
+import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
-import { UserProfileApiService } from './user-profile';
 import { TermsConditionsApiService } from './terms-conditions';
 import { OrgDataFieldMappingsApiService } from './org-data-loader';
 
@@ -34,6 +33,7 @@ import { OrgDataFieldMappingsApiService } from './org-data-loader';
     PayfactorsApiService,
     JobDescriptionManagementApiService,
     UserProfileApiService,
+    UserFilterApiService,
     JobDescriptionApiService,
     TermsConditionsApiService,
     SurveySearchApiService,

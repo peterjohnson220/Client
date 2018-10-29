@@ -14,7 +14,7 @@ import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromAddDataReducer from '../reducers';
 
 import * as fromSearchActions from '../actions/search.actions';
-import { buildLockedCountryCodeFilter } from '../helpers';
+import { FiltersHelper } from '../helpers';
 import { JobToPrice } from '../models';
 
 @Injectable()
@@ -41,7 +41,9 @@ export class MultiMatchPageEffects {
                 actions.push(new fromSearchActions.SetProjectSearchContext(searchContext));
                 actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
                 if (projectContext.RestrictToCountryCode) {
-                  actions.push(new fromSearchFiltersActions.AddFilter(buildLockedCountryCodeFilter(searchContext)));
+                  actions.push(new fromSearchFiltersActions.AddFilters([
+                    FiltersHelper.buildLockedCountryCodeFilter(searchContext.CountryCode)
+                  ]));
                 }
                 return actions;
               }

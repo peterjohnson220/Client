@@ -2,5 +2,29 @@
   <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
     Reset
   </div>
+  <div class="search-action au-btn-save-filters" [class.disabled]="!canSaveFilters" (click)="handleSaveClicked()">
+    Save
+  </div>
+  <div class="search-action au-btn-view-filters"
+       [ngbPopover]="popContent"
+       [popoverClass]="'saved-filters-popover'"
+       [container]="'body'"
+       [placement]="'bottom'"
+       [popoverTitle]="'Saved Filters'"
+       [autoClose]="'outside'">
+    Filters <i class="fas fa-caret-down"></i>
+  </div>
 </div>
 
+<ng-template #popContent>
+  <pf-saved-filters
+    [savedFilters]="savedFilters"
+    [deleting]="deletingSavedFilter"
+    [filterIdToDelete]="filterIdToDelete"
+    [loading]="loadingSavedFilters"
+    (filterClicked)="handleSavedFilterClicked($event)"
+    (deleteFilter)="handleDeleteSavedFilter($event)"
+    (cancelDelete)="handleCancelDeleteSavedFilter()"
+    (deleteFilterConfirmed)="handleDeleteSavedFilterConfirmed()">
+  </pf-saved-filters>
+</ng-template>

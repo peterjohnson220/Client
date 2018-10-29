@@ -12,6 +12,7 @@ import * as fromSingledFilterReducer from './singled-filter.reducer';
 import * as fromTooltipContainerReducer from './tooltip-container.reducer';
 import * as fromSearchReducer from './search.reducer';
 import * as fromJobsToPriceReducer from './jobs-to-price.reducer';
+import * as fromResultsHeaderReducer from './results-header.reducer';
 import { MultiSelectFilter } from '../models';
 
 // Feature area state
@@ -20,6 +21,7 @@ export interface AddDataState {
   multiMatchPage: fromMultiMatchPageReducer.State;
   search: fromSearchReducer.State;
   searchResults: fromSearchResultsReducer.State;
+  resultsHeader: fromResultsHeaderReducer.State;
   searchFilters: fromSearchFiltersReducer.State;
   singledFilter: fromSingledFilterReducer.State;
   tooltipContainer: fromTooltipContainerReducer.State;
@@ -36,6 +38,7 @@ export const reducers = {
   addSurveyDataPage: fromAddSurveyDataPageReducer.reducer,
   multiMatchPage: fromMultiMatchPageReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer,
+  resultsHeader: fromResultsHeaderReducer.reducer,
   searchFilters: fromSearchFiltersReducer.reducer,
   singledFilter: fromSingledFilterReducer.reducer,
   tooltipContainer: fromTooltipContainerReducer.reducer,
@@ -62,6 +65,11 @@ export const selectSearchResultsState = createSelector(
   (state: AddDataState) => state.searchResults
 );
 
+export const selectResultsHeaderState = createSelector(
+  selectFeatureAreaState,
+  (state: AddDataState) => state.resultsHeader
+);
+
 export const selectSearchFiltersState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.searchFilters
@@ -71,7 +79,6 @@ export const selectSingledFilterState = createSelector(
   selectFeatureAreaState,
   (state: AddDataState) => state.singledFilter
 );
-
 
 export const selectTooltipContainerState = createSelector(
   selectFeatureAreaState,
@@ -177,6 +184,47 @@ export const getSearchResultsError = createSelector(
   fromSearchResultsReducer.getError
 );
 
+// Results Header Selectors
+export const getLoadingSavedFilters = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getLoadingSavedFilters
+);
+
+export const getSavedFilters = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getSavedFilters
+);
+
+export const getSavingFilter = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getSavingFilter
+);
+
+export const getDeletingSavedFilter = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getDeletingSavedFilter
+);
+
+export const getFilterIdToDelete = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getFilterIdToDelete
+);
+
+export const getSavingFilterConflict = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getSavingFilterConflict
+);
+
+export const getSavingFilterError = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getSavingFilterError
+);
+
+export const getSaveFilterModalOpen = createSelector(
+  selectResultsHeaderState,
+  fromResultsHeaderReducer.getSaveFilterModalOpen
+);
+
 // Search Filters Selectors
 export const getFilters = createSelector(
   selectSearchFiltersState,
@@ -188,14 +236,7 @@ export const getLoadingDefaultSurveyScopes = createSelector(
   fromSearchFiltersReducer.getLoadingDefaultSurveyScopes
 );
 
-export const getSavedFilters = createSelector(
-  selectSearchFiltersState,
-  fromSearchFiltersReducer.getSavedFilters
-);
-
 // Tooltip Container Selectors
-
-
 export const getLoadingMatchesDetails = createSelector(
   selectTooltipContainerState,
   fromTooltipContainerReducer.getLoadingMatchesDetails

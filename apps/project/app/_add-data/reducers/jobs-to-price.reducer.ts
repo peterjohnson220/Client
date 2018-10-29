@@ -6,8 +6,6 @@ import { arraySortByString, SortDirection } from 'libs/core/functions';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice, DataCutDetails } from '../models';
 
-
-
 export interface State {
   loadingJobs: boolean;
   loadingJobsError: boolean;

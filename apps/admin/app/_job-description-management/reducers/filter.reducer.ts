@@ -2,16 +2,16 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 // Import all exports from our feature's actions
 import * as fromJdmFilterActions from '../actions/filter.actions';
-import { UserFilter } from 'libs/models/user-profile';
+import { JdmListFilter } from 'libs/models/user-profile';
 
 // Define our feature state
-export interface State extends EntityState<UserFilter> {
+export interface State extends EntityState<JdmListFilter> {
   loading: boolean;
   loadingError: boolean;
 }
 
-export const adapter: EntityAdapter<UserFilter> = createEntityAdapter<UserFilter>({
-  selectId: (userFilter: UserFilter) => userFilter.Id
+export const adapter: EntityAdapter<JdmListFilter> = createEntityAdapter<JdmListFilter>({
+  selectId: (userFilter: JdmListFilter) => userFilter.Id
 });
 
 // Define our initial state

@@ -3,7 +3,7 @@ import * as isEqual from 'lodash.isequal';
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import { Filter } from '../models';
-import { mapSearchFilterOptionsToMultiSelectOptions } from '../helpers/model-mapping.helper';
+import { PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   loadingOptions: boolean;
@@ -50,7 +50,7 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
     }
     case fromSingledFilterActions.SEARCH_AGGREGATION_SUCCESS: {
       const filterCopy = cloneDeep(state.filter);
-      filterCopy.Options = mapSearchFilterOptionsToMultiSelectOptions(action.payload.newOptions);
+      filterCopy.Options = PayfactorsApiModelMapper.mapSearchFilterOptionsToMultiSelectOptions(action.payload.newOptions);
 
       filterCopy.Options = filterCopy.Options.map(o => {
         o.Selected = action.payload.currentSelections.some(so => so.Value === o.Value);
