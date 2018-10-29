@@ -38,7 +38,7 @@ import { RadialTextCounterComponent } from './components/radial-text-counter/rad
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 import { CommunityJobComponent } from './components/community-job/community-job.component';
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
-import { CommunityPostTagFilterComponent} from './components/community-tag-filter';
+import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
 
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
@@ -75,7 +75,7 @@ const components = [
   CommunityNewPostComponent,
   CommunityPollChoicesComponent,
   CommunityPollComponent,
-  CommunityPostTagFilterComponent,
+  CommunityPostFilterOptionsComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityCategoryDisplayNamePipe,

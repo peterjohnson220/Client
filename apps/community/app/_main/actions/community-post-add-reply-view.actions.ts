@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const ADDING_COMMUNITY_POST_REPLY_TO_VIEW = '[Community/Post Add Reply] Adding Community Post Add Reply To View';
 export const CLEARING_COMMUNITY_POST_REPLIES = '[Community/Post Add Reply] Clearing Community Post Replies';
-
+export const CLEARING_ALL_COMMUNITY_POST_REPLIES = '[Community/Post Add Reply] Clearing Community Post Replies';
 
 export class AddingCommunityPostReplyToView implements Action {
   readonly type = ADDING_COMMUNITY_POST_REPLY_TO_VIEW;
@@ -11,8 +11,14 @@ export class AddingCommunityPostReplyToView implements Action {
 
 export class ClearingCommunityPostReplies implements Action {
   readonly type = CLEARING_COMMUNITY_POST_REPLIES;
-  constructor(public payload: any) {}
+  constructor() {}
+}
+
+export class ClearingAllCommunityPostReplies implements Action {
+  readonly type = CLEARING_ALL_COMMUNITY_POST_REPLIES;
+  constructor() {}
 }
 export type Actions
   = AddingCommunityPostReplyToView
-  | ClearingCommunityPostReplies;
+  | ClearingCommunityPostReplies
+  | ClearingAllCommunityPostReplies;

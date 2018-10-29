@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityCategoriesComponent should show community categories 1`] = `
+<pf-community-post-filter-options
+  filterStore={[Function Store]}
+  filters$={[Function Store]}
+  store={[Function Store]}
+>
+  
+</pf-community-post-filter-options>
+`;

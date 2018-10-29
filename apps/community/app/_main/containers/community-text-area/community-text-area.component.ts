@@ -163,6 +163,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     this.suggestedTags = [];
     data.forEach(tag => {
       this.suggestedTags.push({
+        Id: tag.Id,
         Tag: tag.Tag,
         PostIds: tag.PostIds,
         ReplyIds: tag.ReplyIds,

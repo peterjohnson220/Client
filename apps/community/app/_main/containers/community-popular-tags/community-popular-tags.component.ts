@@ -3,10 +3,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import * as fromCommunityTagReducer from '../../reducers';
-import { CommunityTag } from 'libs/models/community';
+import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 
+import { CommunityTag } from 'libs/models/community';
+import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 
 @Component({
   selector: 'pf-community-popular-tags',
@@ -16,7 +18,8 @@ import { CommunityTag } from 'libs/models/community';
 export class CommunityPopularTagsComponent implements OnInit {
   popularTags$: Observable<CommunityTag[]>;
 
-  constructor(public store: Store<fromCommunityTagReducer.State>) {
+  constructor(public store: Store<fromCommunityTagReducer.State>,
+              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
     this.popularTags$ = this.store.select(fromCommunityTagReducer.getLoadingCommunityPopularTagsSuccess);
   }
 
@@ -24,8 +27,8 @@ export class CommunityPopularTagsComponent implements OnInit {
     this.store.dispatch(new fromCommunityTagActions.LoadingCommunityPopularTags());
   }
 
-  filterDiscussionByTag(tag) {
-    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostsByTag({tag: tag}));
+  buttonClicked(popularTag: CommunityTag) {
+    const tag = mapCommunityTagToTag(popularTag);
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
   }
-
 }

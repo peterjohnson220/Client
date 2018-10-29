@@ -1,7 +1,7 @@
 <div id="tag-container" class="mb-3">
   <div id="tag-section-header">Tags</div>
     <ng-container *ngFor="let popularTag of popularTags$ | async">
-      <button type="button" class="btn m-1 tag p-1" (click)="filterDiscussionByTag(popularTag.Tag)">{{popularTag.Tag}}
+      <button type="button" class="btn m-1 tag p-1" (click)="buttonClicked(popularTag)">{{popularTag.Tag}}
       </button>
     </ng-container>
 </div>

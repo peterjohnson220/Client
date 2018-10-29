@@ -8,7 +8,10 @@ import * as fromCommunityPostActions from '../../actions/community-post.actions'
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPollReducer from '../../reducers';
+import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
+
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
@@ -16,6 +19,8 @@ import * as fromCommunityPostAddReplyViewActions from '../../actions/community-p
 import { CommunityPost, CommunityPollResponse } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
+import { CommunityTag } from 'libs/models/community/community-tag.model';
+import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 
 @Component({
   selector: 'pf-community-posts',
@@ -40,7 +45,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               public replyStore: Store<fromCommunityPostReplyReducer.State>,
-              public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
+              public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
+              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
@@ -87,7 +93,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   }
 
   clearRepliesFromAddView(postId: number) {
-    this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies({ PostId: postId }));
+    this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies());
   }
 
   getCommunityPostReplies(postId: number) {
@@ -109,8 +115,16 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   @HostListener('window:message', [ '$event' ])
   onMessage(e) {
     if (e && e.data &&  e.data.action === 'getCommunityPostsByTag' && e.data.tag) {
-      const tag = e.data.tag;
-      this.store.dispatch(new fromCommunityPostActions.GettingCommunityPostsByTag({tag: tag}));
+      const communityTag: CommunityTag  = {
+        Id: null,
+        Tag: e.data.tag,
+        PostIds: null,
+        ReplyIds: null,
+        IsSuggested: null
+      };
+
+      const tag = mapCommunityTagToTag(communityTag);
+      this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
     }
   }
 }

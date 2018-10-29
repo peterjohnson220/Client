@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
 
 import { Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map, concatMap } from 'rxjs/operators';
-
-import * as cloneDeep from 'lodash.clonedeep';
+import { switchMap, catchError, map, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
 
+import { CommunitySearchResult } from 'libs/models/community/community-search-result.model';
 import { CommunityPost } from 'libs/models/community';
+import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
+import { PagingOptions } from '../models/paging-options.model';
 
+import * as fromCommunityPostFilterOptionsReducer from '../reducers';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../actions/community-post-reply.actions';
-import * as fromCommunityPostFilterReplyActions from '../actions/community-post-filter-reply-view.actions';
+import * as fromCommunityPostFilterReplyViewActions from '../actions/community-post-filter-reply-view.actions';
 import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
-import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
+
+
 
 @Injectable()
 export class CommunityPostEffects {
@@ -57,46 +61,33 @@ export class CommunityPostEffects {
   @Effect()
   loadingCommunityPosts$: Observable<Action> = this.actions$
     .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS).pipe(
-      switchMap(() =>
-        this.communityPostService.getPosts().pipe(
-          concatMap((communityPosts: CommunityPost[]) => {
+      withLatestFrom(
+        this.store.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions),
+        (action: fromCommunityPostActions.GettingCommunityPosts, filters) => ({ action, filters })),
+      mergeMap((communityPostContext) => {
+        // TODO: modify paging options when implement infinte scroll
+        const pagingOptions: PagingOptions = {
+          StartIndex: 0,
+          NumberOfPosts: 60
+        };
+        return this.communityPostService.getPosts({
+          PagingOptions: pagingOptions,
+          FilterOptions: communityPostContext.filters
+        }).pipe(
+          concatMap((communitySearchResult: CommunitySearchResult) => {
+            const replyIds = communitySearchResult.FilteredReplies.map(reply => reply.Id);
             return [
-              new fromCommunityPostFilterReplyActions.ClearingCommunityPostFilteredRepliesToView(communityPosts),
-              new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies(communityPosts),
-              new fromCommunityPostActions.GettingCommunityPostsSuccess(communityPosts) ];
+              new fromCommunityPostFilterReplyViewActions.ClearingCommunityPostFilteredRepliesToView(communitySearchResult.FilteredReplies),
+              new fromCommunityPostAddReplyViewActions.ClearingAllCommunityPostReplies(),
+              new fromCommunityPostActions.GettingCommunityPostsSuccess(communitySearchResult.Posts),
+              new fromCommunityPostReplyActions.GettingCommunityPostRepliesSuccess(communitySearchResult.FilteredReplies),
+              new fromCommunityPostFilterReplyViewActions.AddingCommunityPostFilteredRepliesToView({ replyIds: replyIds })];
           }),
           catchError(error => of(new fromCommunityPostActions.GettingCommunityPostsError()))
-        )
-      )
-    );
+        );
+      }
+    ));
 
-  @Effect()
-  loadingCommunityPostsByTag$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG).pipe(
-      switchMap((action: fromCommunityPostActions.GettingCommunityPostsByTag) =>
-        this.communityPostService.getPostsByTag(action.payload).pipe(
-          concatMap((communityPosts: CommunityPost[]) => {
-            const replies = [];
-
-            communityPosts.forEach(post => {
-              post.FilteredReplies.forEach(reply => {
-                replies.push(cloneDeep(reply));
-              });
-            });
-
-            const replyIds = replies.map(reply => reply.Id);
-
-            return [
-              new fromCommunityPostActions.GettingCommunityPostsByTagSuccess(communityPosts),
-              new fromCommunityPostReplyActions.GettingCommunityPostRepliesSuccess(replies),
-              new fromCommunityPostFilterReplyActions.AddingCommunityPostFilteredRepliesToView({ replyIds: replyIds }),
-              new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies(communityPosts),
-            ];
-          }),
-          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostsByTagError()))
-        )
-      )
-    );
 
   @Effect()
   updatingCommunityPostLike$: Observable<Action> = this.actions$
@@ -142,7 +133,6 @@ export class CommunityPostEffects {
       )
     );
 
-
   @Effect()
   addingCommunityUserPoll$: Observable<Action> = this.actions$
     .ofType(fromCommunityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL).pipe(
@@ -158,6 +148,7 @@ export class CommunityPostEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store<fromCommunityPostFilterOptionsReducer.State>,
     private communityPostService: CommunityPostApiService,
     private communityPollService: CommunityPollApiService,
   ) {

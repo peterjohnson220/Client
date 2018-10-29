@@ -9,9 +9,6 @@ export const GETTING_COMMUNITY_POSTS = '[Community/Post] Get Community Posts';
 export const GETTING_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Community Posts Success';
 export const GETTING_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Community Posts Error';
 
-export const GETTING_COMMUNITY_POSTS_BY_TAG = '[Community/Post] Get Community Posts By Tag';
-export const GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS = '[Community/Post] Get Community Posts By Tag Success';
-export const GETTING_COMMUNITY_POSTS_BY_TAG_ERROR = '[Community/Post] Get Community Posts By Tag Error';
 
 export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community Post Like';
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
@@ -53,20 +50,6 @@ export class GettingCommunityPostsSuccess implements Action {
 
 export class GettingCommunityPostsError implements Action {
   readonly type = GETTING_COMMUNITY_POSTS_ERROR;
-}
-
-export class GettingCommunityPostsByTag implements Action {
-  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG;
-  constructor(public payload: any) {}
-}
-
-export class GettingCommunityPostsByTagSuccess implements Action {
-  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS;
-  constructor(public payload: any) {}
-}
-
-export class GettingCommunityPostsByTagError implements Action {
-  readonly type = GETTING_COMMUNITY_POSTS_BY_TAG_ERROR;
 }
 
 export class UpdatingCommunityPostLike implements Action {
@@ -130,9 +113,6 @@ export type Actions
   | GettingCommunityPosts
   | GettingCommunityPostsSuccess
   | GettingCommunityPostsError
-  | GettingCommunityPostsByTag
-  | GettingCommunityPostsByTagSuccess
-  | GettingCommunityPostsByTagError
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError

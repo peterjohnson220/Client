@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CommunityPost, CommunityReply } from 'libs/models/community';
+import { CommunityPost, CommunityReply, CommunitySearchResult } from 'libs/models/community';
 
 @Injectable()
 export class CommunityPostApiService {
@@ -11,15 +11,9 @@ export class CommunityPostApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getPosts(): Observable<CommunityPost[]> {
-    return this.payfactorsApiService.get<CommunityPost[]>
-    (`${this.endpoint}/GetPosts`);
-  }
-  getPostsByTag(payload: any): Observable<CommunityPost[]> {
-    return this.payfactorsApiService.get<CommunityPost[]>
-    (`${this.endpoint}/GetPostsAndRepliesByTag`, {
-      params: payload
-    });
+  getPosts(searchRequest: any): Observable<CommunitySearchResult> {
+    return this.payfactorsApiService.post<CommunitySearchResult>
+    (`${this.endpoint}/CommunityPosts`, searchRequest);
   }
 
   submitCommunityPost(payload: any): Observable<CommunityPost> {

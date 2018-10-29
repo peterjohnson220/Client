@@ -25,7 +25,14 @@ export function reducer(state = initialState, action: fromCommunityPostAddReplyV
       };
     }
     case fromCommunityPostAddReplyViewActions.CLEARING_COMMUNITY_POST_REPLIES: {
-      const postId = action.payload['PostId'];
+    // TODO: this should only clear replies specific to the post
+      const filteredEntities = [];
+      return {
+        ...state,
+        entities: filteredEntities
+      };
+    }
+    case fromCommunityPostAddReplyViewActions.CLEARING_ALL_COMMUNITY_POST_REPLIES: {
 
       const filteredEntities = [];
       return {
