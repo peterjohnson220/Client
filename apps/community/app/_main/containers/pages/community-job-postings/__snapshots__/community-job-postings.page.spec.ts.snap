@@ -23,7 +23,7 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
             >
               <input
                 id="search"
-                placeholder="Search"
+                placeholder="Search Jobs"
               />
               <label
                 class="fal fa-search input-icon"

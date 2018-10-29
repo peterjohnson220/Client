@@ -1,0 +1,13 @@
+<div class="list-group-item border-bottom border-white"
+  [ngClass]="active ? 'active' : 'not-active'">
+  <div class="div-background"></div>
+  <span class="fa-stack fa-2x tab-content">
+      <i class="fas fa-circle fa-stack-2x outer-circe-icon"></i>
+      <i class="fas fa-circle fa-stack-2x inner-circle-icon"></i>
+      <i class="fas {{icon}} fa-stack-1x"></i>
+  </span>
+  <span class="tab-content">
+    <h5 class="tab-text">{{primaryText}}</h5>
+    <p class="tab-text">{{secondaryText}}</p>
+  </span>
+</div>

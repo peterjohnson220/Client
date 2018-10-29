@@ -39,6 +39,7 @@ import { CommunityPollComponent } from './components/community-poll/community-po
 import { CommunityJobComponent } from './components/community-job/community-job.component';
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
 import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
+import { CommunityTabComponent } from './components/community-tab/community-tab.component';
 
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
@@ -80,7 +81,8 @@ const components = [
   CommunityCategoriesComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityJobComponent,
-  CommunityJobsComponent
+  CommunityJobsComponent,
+  CommunityTabComponent
 ];
 
 @NgModule({

@@ -9,39 +9,21 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
   submittingCommunityPost$={[Function Store]}
 >
   <div
-    class="start-discussion-container mb-3"
+    class="row mb-3"
   >
     <div
-      class="start-discussion-header"
+      class="col-4"
     >
-      <ul
-        class="mb-0"
+      <div
+        class="list-group"
       >
-        <li
-          class="px-4"
-        >
-          <a>
-            Start a Discussion
-          </a>
-        </li>
-        <li
-          class="px-4"
-        >
-          <a>
-            Ask a Question
-          </a>
-        </li>
-        <li
-          class="px-4"
-        >
-          <a>
-            Post a Job
-          </a>
-        </li>
-      </ul>
+        <pf-community-tab />
+        <pf-community-tab />
+        <pf-community-tab />
+      </div>
     </div>
     <div
-      class="start-discussion-body p-2"
+      class="col-8 start-discussion-body pt-2 pb-2 pr-3"
     >
       <img
         alt="avatar"
@@ -58,7 +40,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         
       </div>
     </div>
-  </div>
+  </div><hr />
 </pf-community-start-discussion>
 `;
 
@@ -71,39 +53,21 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
   submittingCommunityPost$={[Function Store]}
 >
   <div
-    class="start-discussion-container mb-3"
+    class="row mb-3"
   >
     <div
-      class="start-discussion-header"
+      class="col-4"
     >
-      <ul
-        class="mb-0"
+      <div
+        class="list-group"
       >
-        <li
-          class="px-4"
-        >
-          <a>
-            Start a Discussion
-          </a>
-        </li>
-        <li
-          class="px-4"
-        >
-          <a>
-            Ask a Question
-          </a>
-        </li>
-        <li
-          class="px-4"
-        >
-          <a>
-            Post a Job
-          </a>
-        </li>
-      </ul>
+        <pf-community-tab />
+        <pf-community-tab />
+        <pf-community-tab />
+      </div>
     </div>
     <div
-      class="start-discussion-body p-2"
+      class="col-8 start-discussion-body pt-2 pb-2 pr-3"
     >
       <img
         alt="avatar"
@@ -120,6 +84,6 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
         
       </div>
     </div>
-  </div>
+  </div><hr />
 </pf-community-start-discussion>
 `;
