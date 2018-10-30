@@ -13,6 +13,7 @@ import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
 import * as CommunityPost from 'libs/models/community';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
+import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 
 // Feature area state
 export interface CommunityState {
@@ -25,6 +26,7 @@ export interface CommunityState {
   communityTags: fromCommunityTagReducer.State;
   communityJob: fromCommunityJobReducer.State;
   communityCategories: fromCommunityCategoriesReducer.State;
+  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -42,7 +44,8 @@ export const reducers = {
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
   communityJob: fromCommunityJobReducer.reducer,
-  communityCategories: fromCommunityCategoriesReducer.reducer
+  communityCategories: fromCommunityCategoriesReducer.reducer,
+  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer
 };
 
 // select feature area
@@ -92,6 +95,11 @@ export const selectFromCommunityJobState =  createSelector(
 export const selectFromCommunityCategoriesState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityCategories
+);
+
+export const selectFromCommunityPostFilterOptionsState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostFilterOptions
 );
 
 // Community Poll Selectors
@@ -198,11 +206,6 @@ export const getAddingCommunityDiscussionPollSuccess = createSelector(
 export const getAddingCommunityDiscussionPollError = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getAddingCommunityDiscussionPollError
-);
-
-export const getCommunityPostsFilterTag = createSelector(
-  selectFromCommunityPostState,
-  fromCommunityPostReducer.getCommunityPostsFilterTag
 );
 
 // Community Post Reply Selectors
@@ -378,3 +381,7 @@ export const getGettingCommunityCategoriesError = createSelector(
   fromCommunityCategoriesReducer.getGettingCommunityCategoriesError
 );
 
+export const getCommunityPostFilterOptions = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions
+);

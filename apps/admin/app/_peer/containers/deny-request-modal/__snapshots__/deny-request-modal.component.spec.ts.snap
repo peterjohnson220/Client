@@ -33,37 +33,3 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
   </pf-modal-form>
 </pf-deny-request-modal>
 `;
-
-exports[`Deny Request Modal should match the snapshot 1`] = `
-<pf-deny-request-modal
-  closeClicked={[Function EventEmitter]}
-  denyClicked={[Function EventEmitter]}
-  denyReasonForm={[Function FormGroup]}
-  fb={[Function FormBuilder]}
->
-  <pf-modal-form
-    class="ng-untouched ng-pristine ng-invalid"
-    ng-reflect-form="[object Object]"
-    title="undefined"
-  >
-    
-    
-    <p />
-    <div
-      class="flex-grow-1 d-flex flex-column form-group mb-0"
-    >
-      <textarea
-        class="form-control ng-untouched ng-pristine ng-invalid"
-        formcontrolname="reason"
-        id="deny-reason"
-        maxlength="1000"
-        name="reason"
-        ng-reflect-maxlength="1000"
-        ng-reflect-name="reason"
-        placeholder="Please provide a reason for denial..."
-        rows="5"
-      />
-    </div>
-  </pf-modal-form>
-</pf-deny-request-modal>
-`;

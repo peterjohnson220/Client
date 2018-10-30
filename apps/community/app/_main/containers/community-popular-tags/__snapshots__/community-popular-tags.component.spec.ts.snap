@@ -2,6 +2,7 @@
 
 exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
 <pf-community-popular-tags
+  filterStore={[Function Store]}
   popularTags$={[Function Store]}
   store={[Function Store]}
 >

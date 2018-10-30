@@ -12,7 +12,6 @@ export interface State extends EntityState<CommunityPost> {
   addingCommunityDiscussionPoll: boolean;
   addingCommunityDiscussionPollError: boolean;
   addingCommunityDiscussionPollSuccess: boolean;
-  filterTag: string;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -32,8 +31,7 @@ export const initialState: State = adapter.getInitialState({
   submittedPost: null,
   addingCommunityDiscussionPoll: false,
   addingCommunityDiscussionPollError: false,
-  addingCommunityDiscussionPollSuccess: false,
-  filterTag: null
+  addingCommunityDiscussionPollSuccess: false
 });
 
 export function reducer(
@@ -66,8 +64,7 @@ export function reducer(
       return {
         ...state,
         loading: true,
-        loadingError: false,
-        filterTag: null
+        loadingError: false
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_SUCCESS: {
@@ -81,28 +78,6 @@ export function reducer(
         ...state,
         loading: false,
         loadingError: true
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG: {
-      return {
-        ...state,
-        loading: true,
-        loadingError: false,
-        filterTag: action.payload.tag
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG_SUCCESS: {
-      return {
-        ...adapter.addAll(action.payload, state),
-        loading: false
-      };
-    }
-    case communityPostActions.GETTING_COMMUNITY_POSTS_BY_TAG_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        loadingError: true,
-        filterTag: null
       };
     }
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_SUCCESS: {
@@ -187,4 +162,3 @@ export const getAddingCommunityDiscussionPoll = (state: State) => state.addingCo
 export const getAddingCommunityDiscussionPollError = (state: State) => state.addingCommunityDiscussionPollError;
 export const getAddingCommunityDiscussionPollSuccess = (state: State) => state.addingCommunityDiscussionPollSuccess;
 
-export const getCommunityPostsFilterTag = (state: State) => state.filterTag;

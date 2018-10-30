@@ -8,6 +8,8 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityCategoriesReducer from '../../reducers';
 import * as fromCommunityCategoriesActions from '../../actions/community-categories.actions';
+import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
+
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { CommunityCategoriesComponent } from './community-categories.component';
 import { CommunityCategoryDisplayNamePipe } from '../../pipes/community-category-displayname.pipe';
@@ -65,8 +67,15 @@ describe('CommunityCategoriesComponent', () => {
   it('should navigate to the job postings if job postings category clicked', () => {
     spyOn(router, 'navigate');
 
-    instance.categoryClick(CommunityCategoryEnum.JobPostings);
+    instance.onClick(CommunityCategoryEnum.JobPostings);
 
     expect(router.navigate).toHaveBeenCalledWith(['/job-postings']);
+  });
+  it('should dispatch if My Posts Category clicked', () => {
+    const expectedAction = new fromCommunityPostFilterOptionsActions.AddingCommunityCategoryToFilterOptions(CommunityCategoryEnum.MyPosts);
+
+    instance.onClick(CommunityCategoryEnum.MyPosts);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
