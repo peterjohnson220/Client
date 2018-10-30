@@ -112,12 +112,16 @@ describe('Peer - Map - Exchange Map Page', () => {
   it(`should dispatch an UpsertExchangeScope action when handleUpsertExchangeScopeEvent is triggered`, () => {
     const expectedAction = new fromExchangeScopeActions.UpsertExchangeScope({
       ExchangeScopeName: mockUpsertExchangeScopeRequest.ExchangeScopeName,
+      ExchangeScopeDescription: mockUpsertExchangeScopeRequest.ExchangeScopeDescription,
       ZoomLevel: mockUpsertExchangeScopeRequest.ZoomLevel
     });
 
     fixture.detectChanges();
 
-    instance.handleUpsertExchangeScopeEvent(mockUpsertExchangeScopeRequest.ExchangeScopeName);
+    instance.handleUpsertExchangeScopeEvent({
+      Name: mockUpsertExchangeScopeRequest.ExchangeScopeName,
+      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDescription
+    });
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

@@ -35,6 +35,17 @@ exports[`Peer - Map - Save Exchange Scope Modal should show the form text and no
     <span
       class="pf-placeholder"
     />
+    <textarea
+      class="form-control text-area-no-resize ng-untouched ng-pristine ng-valid"
+      formcontrolname="exchangeScopeDescription"
+      id="exchange-scope-description"
+      maxlength="1000"
+      name="exchangeScopeDescription"
+      ng-reflect-maxlength="1000"
+      ng-reflect-name="exchangeScopeDescription"
+      placeholder="Add a brief description about the Exchange Scope you are creating..."
+      rows="5"
+    />
   </pf-modal-form>
 </pf-save-exchange-scope-modal>
 `;

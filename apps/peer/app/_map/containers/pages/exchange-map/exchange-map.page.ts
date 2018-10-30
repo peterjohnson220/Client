@@ -47,10 +47,11 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     this.peerMapStore.dispatch(new fromExchangeScopeActions.OpenSaveExchangeScopeModal());
   }
 
-  handleUpsertExchangeScopeEvent(scopeName: string) {
+  handleUpsertExchangeScopeEvent(scopeItem: any) {
     const zoomLevel = this.map.getZoomLevel();
     this.peerMapStore.dispatch(new fromExchangeScopeActions.UpsertExchangeScope({
-      ExchangeScopeName: scopeName,
+      ExchangeScopeName: scopeItem.Name,
+      ExchangeScopeDescription: scopeItem.Description,
       ZoomLevel: zoomLevel
     }));
   }
