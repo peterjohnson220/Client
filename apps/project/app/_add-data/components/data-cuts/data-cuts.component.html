@@ -34,7 +34,7 @@
       <!-- Hidden Cell for Drag/Drop Re-Order -->
       <td class="gu-mirror-show">
         <div class="card">
-          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cuts to job...</div>
+          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
         </div>
       </td>
     </tr>
@@ -59,7 +59,7 @@
       <!-- Hidden Cell for Drag/Drop Re-Order -->
       <td class="gu-mirror-show">
         <div class="card">
-          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut(s) to job...</div>
+          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
         </div>
       </td>
     </tr>
