@@ -68,11 +68,15 @@ describe('Peer - Map - Save Exchange Scope Modal', () => {
 
   it('should emit an upsertExchangeScopeEvent event with exchangeScopeName when handleFormSubmit is called', () => {
     instance.exchangeScopeNameControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeName);
+    instance.exchangeScopeDescriptionControl.setValue(mockUpsertExchangeScopeRequest.ExchangeScopeDescription);
 
     spyOn(instance.upsertExchangeScopeEvent, 'emit');
 
     instance.handleFormSubmit();
 
-    expect(instance.upsertExchangeScopeEvent.emit).toHaveBeenCalledWith(mockUpsertExchangeScopeRequest.ExchangeScopeName);
+    expect(instance.upsertExchangeScopeEvent.emit).toHaveBeenCalledWith({
+      Name: mockUpsertExchangeScopeRequest.ExchangeScopeName,
+      Description: mockUpsertExchangeScopeRequest.ExchangeScopeDescription
+    });
   });
 });

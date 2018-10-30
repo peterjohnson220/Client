@@ -3,6 +3,7 @@ import { ExchangeDataSearchFilter, generateMockExchangeDataSearchFilter } from '
 export interface UpsertExchangeScopeRequest {
   ExchangeScopeGuid: string;
   ExchangeScopeName: string;
+  ExchangeScopeDescription: string;
   Filter: ExchangeDataSearchFilter;
   ZoomLevel: number;
 }
@@ -11,6 +12,7 @@ export function generateMockUpsertExchangeScopeRequest(): UpsertExchangeScopeReq
   return {
     ExchangeScopeGuid: 'MockExchangeScopeGuid',
     ExchangeScopeName: 'MockExchangeScopeName',
+    ExchangeScopeDescription: 'MockExchangeScopeDescription',
     Filter: generateMockExchangeDataSearchFilter(),
     ZoomLevel: 0
   };

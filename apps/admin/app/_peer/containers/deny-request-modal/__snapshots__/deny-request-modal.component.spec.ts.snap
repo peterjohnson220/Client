@@ -19,7 +19,7 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
       class="flex-grow-1 d-flex flex-column form-group mb-0"
     >
       <textarea
-        class="form-control ng-untouched ng-pristine ng-invalid"
+        class="form-control text-area-no-resize ng-untouched ng-pristine ng-invalid"
         formcontrolname="reason"
         id="deny-reason"
         maxlength="1000"

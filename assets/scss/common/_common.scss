@@ -67,3 +67,7 @@ tr.row-disabled {
   border-left: 1px solid $border-grey;
   box-shadow: -1px 0px 1px 0px #d8d8d8;
 }
+
+.text-area-no-resize {
+  resize: none;
+}
