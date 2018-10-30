@@ -95,4 +95,61 @@ describe('DataCutsComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should have a draggable class if cuts draggable and cut is selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].IsSelected = true;
+    instance.cutsDraggable = true;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not have a draggable class if cuts draggable and cut is not selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].IsSelected = false;
+    instance.cutsDraggable = true;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not have a draggable class if cuts not draggable and cut is selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].IsSelected = true;
+    instance.cutsDraggable = false;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should pluralize drag cuts message if multiple data cuts selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].IsSelected = true;
+    instance.cutsDraggable = false;
+    instance.numberCutsSelected = 2;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display singular drag cuts message if single cut selected', () => {
+    instance.dataCuts = [generateMockDataCut()];
+    instance.dataCuts[0].IsSelected = true;
+    instance.cutsDraggable = false;
+    instance.numberCutsSelected = 1;
+
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
 });
