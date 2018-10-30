@@ -1,8 +1,0 @@
-<div *ngIf="(tagFilter$ | async);">
-  <span class="filter-text font-weight-bold">Showing content with tag:</span>
-  <div class="d-inline-block m-1 filter-container p-1">{{tagFilter$ | async}}
-    <button class="m-0 p-0 border-0 d-inline-block font-weight-bold" (click)="removeTagFilter()"><i class="fas fa-times-circle icon"></i>
-    </button>
-  </div>
-  <hr>
-</div>
