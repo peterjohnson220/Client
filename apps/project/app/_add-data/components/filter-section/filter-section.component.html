@@ -34,7 +34,7 @@
     </div>
     <div class="content">
       <ng-content></ng-content>
-      <div *ngIf="optionCount >= maxOptions && !singled" (click)="handleShowMoreClicked(filter)" class="show-more-link" [class.disabled]="!allowedToSearch">Show More</div>
+      <div *ngIf="displayShowMore" (click)="handleShowMoreClicked(filter)" class="show-more-link" [class.disabled]="!allowedToSearch">Show More</div>
     </div>
   </div>
 </div>

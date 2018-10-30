@@ -28,6 +28,7 @@ export interface MultiSelectFilter extends Filter {
   OptionCountDisabled?: boolean;
   DefaultSelections?: any[];
   Type: FilterType.Multi;
+  ShowAllOptions?: boolean;
 }
 
 export interface RangeFilter extends Filter {

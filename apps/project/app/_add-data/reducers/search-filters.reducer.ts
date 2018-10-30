@@ -80,6 +80,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         const defaultScopeFilter = mapSearchFilterToMultiFilter(cloneDeep(action.payload));
         defaultScopeFilter.Options.map(o => o.Selected = true);
         defaultScopeFilter.DefaultSelections = defaultScopeFilter.Options.map(o => o.Value);
+        defaultScopeFilter.ShowAllOptions = true;
         filters.push(defaultScopeFilter);
       }
 
