@@ -1,0 +1,433 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  delimiter={[Function String]}
+  fileRestrictions={[Function Object]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  selectedClientField={[Function String]}
+  selectedPfField=""
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="upload-container"
+  >
+    <label
+      for="delimiter"
+    >
+      Delimiter: 
+    </label>
+    <input
+      class="form-control"
+      id="delimiter"
+      type="text"
+    />
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Select file..."
+      />
+    </kendo-upload>
+  </div><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should disable the Remove Mapping button when a mapping has NOT been selected 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  delimiter={[Function String]}
+  fileRestrictions={[Function Object]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  selectedMapping=""
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="upload-container"
+  >
+    <label
+      for="delimiter"
+    >
+      Delimiter: 
+    </label>
+    <input
+      class="form-control"
+      id="delimiter"
+      type="text"
+    />
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Select file..."
+      />
+    </kendo-upload>
+  </div><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should enable the Map button when a payfactors field AND client field have been selected 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  delimiter={[Function String]}
+  fileRestrictions={[Function Object]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  selectedClientField={[Function String]}
+  selectedPfField={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="upload-container"
+  >
+    <label
+      for="delimiter"
+    >
+      Delimiter: 
+    </label>
+    <input
+      class="form-control"
+      id="delimiter"
+      type="text"
+    />
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Select file..."
+      />
+    </kendo-upload>
+  </div><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should enable the Remove Mapping button when a mapping has been selected 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  delimiter={[Function String]}
+  fileRestrictions={[Function Object]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  selectedMapping={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="upload-container"
+  >
+    <label
+      for="delimiter"
+    >
+      Delimiter: 
+    </label>
+    <input
+      class="form-control"
+      id="delimiter"
+      type="text"
+    />
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Select file..."
+      />
+    </kendo-upload>
+  </div><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                &lt; Remove Mapping
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
