@@ -72,6 +72,14 @@ export class FilterSectionComponent {
             !this.filter.Locked;
   }
 
+  get showAllOptions(): boolean {
+    return isMultiFilter(this.filter) && this.filter.ShowAllOptions;
+  }
+
+  get displayShowMore(): boolean {
+    return this.optionCount >= this.maxOptions && !this.singled && !this.showAllOptions;
+  }
+
   toggle() {
     if (!this.singled) {
       this.collapsed = !this.collapsed;
