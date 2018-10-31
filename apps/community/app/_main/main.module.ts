@@ -43,6 +43,7 @@ import { CommunityPostFilterOptionsComponent } from './containers/community-post
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
+import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
 
@@ -103,7 +104,8 @@ const components = [
       CommunityPostReplyEffects,
       CommunityTagEffects,
       CommunityJobEffects,
-      CommunityCategoriesEffects
+      CommunityCategoriesEffects,
+      CommunityPostFilterOptionsEffects
     ]),
 
     // Routing
