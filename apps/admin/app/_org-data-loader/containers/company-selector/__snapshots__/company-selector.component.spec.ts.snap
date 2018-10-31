@@ -12,7 +12,7 @@ exports[`CompanySelectorComponent should show a dropdown with companies when Com
       Select a Company
     </h3>
     <hr
-      style="clear: both"
+      class="clear"
     />
     <span
       hidden=""
