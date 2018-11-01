@@ -17,16 +17,31 @@
           [canFitBounds]="upsertDataCutPageInViewInIframe$ | async">
         </pf-peer-data-cut-map>
       </div>
-      <div class="button-container d-flex justify-content-end align-items-center">
-        <pf-guidelines-badge *ngIf="initialMapMoveComplete$ | async">
-        </pf-guidelines-badge>
+      <div class="button-container d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex" *ngIf="(untaggedIncumbentCount$ | async) > 0">
 
-        <div class="buttons">
-          <button type="button" class="btn btn-primary"
-                  [disabled]="failsGuidelines"
-                  (click)="upsert()">{{primaryButtonText}}</button>
+          <label for="include-untagged-incs">
+            Include {{untaggedIncumbentCount$ | async | number }} non geotagged employees
+            that do not have location data?
 
-          <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+            <input id="include-untagged-incs"
+                   type="checkbox"
+                   [ngModel]="includeUntaggedIncumbents$ | async"
+                   (click)="handleUntaggedIncumbentsChecked()">
+          </label>
+        </div>
+        <div class="flex-grow-1 d-flex justify-content-end">
+          <pf-guidelines-badge *ngIf="initialMapMoveComplete$ | async">
+          </pf-guidelines-badge>
+
+          <div class="buttons">
+            <button type="button" class="btn btn-primary"
+                    [disabled]="failsGuidelines"
+                    (click)="upsert()">{{primaryButtonText}}</button>
+
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+          </div>
+
         </div>
       </div>
     </div>
