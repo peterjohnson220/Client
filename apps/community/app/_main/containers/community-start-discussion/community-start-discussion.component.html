@@ -1,33 +1,38 @@
-<div class="start-discussion-container mb-3">
-  <div class="start-discussion-header">
-    <ul #postTypeList class="mb-0">
-      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Discussion}">
-        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Discussion)">Start a Discussion</a>
-      </li>
-      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Question}">
-        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Question)">Ask a Question</a>
-      </li>
-      <li class="px-4" [ngClass]="{'section-active' : postType === CommunityPostTypes.Job}">
-        <a [routerLink]="" (click)="onPostTypeClick(CommunityPostTypes.Job)">Post a Job</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="start-discussion-body p-2">
-      <img id="discussion-avatar" class="pf-avatar ml-1" src="assets/images/placeholderphoto.jpg"
-            alt="avatar">
-      <div class="w-100 pl-3">
-        <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
-        <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
-        <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
-
-        <div *ngIf="submitVisible" class="ml-3 p-0">
-          <button id="start-discussion-post-button" [disabled]="!submitEnabled"
-                  (click)="submitContent()" class="btn btn-primary float-right">Post
-            <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
-            </pf-loading-indicator></button>
-        </div>
+<div class="row mb-3">
+    <div class="col-4">
+      <div class="list-group">
+        <pf-community-tab
+          [type]="CommunityPostTypes.Discussion"
+          [active]="postType === CommunityPostTypes.Discussion"
+          (click)="onPostTypeClick(CommunityPostTypes.Discussion)">
+        </pf-community-tab>
+        <pf-community-tab
+          [type]="CommunityPostTypes.Question"
+          [active]="postType === CommunityPostTypes.Question"
+          (click)="onPostTypeClick(CommunityPostTypes.Question)">
+        </pf-community-tab>
+        <pf-community-tab
+          [type]="CommunityPostTypes.Job"
+          [active]="postType === CommunityPostTypes.Job"
+          (click)="onPostTypeClick(CommunityPostTypes.Job)">
+        </pf-community-tab>        
       </div>
+    </div>
+  <div class="col-8 start-discussion-body pt-2 pb-2 pr-3">
+        <img id="discussion-avatar" class="pf-avatar ml-1" src="assets/images/placeholderphoto.jpg"
+              alt="avatar">
+        <div class="w-100 pl-3">
+          <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
+          <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
+          <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
+  
+          <div *ngIf="submitVisible" class="ml-3 p-0">
+            <button id="start-discussion-post-button" [disabled]="!submitEnabled"
+                    (click)="submitContent()" class="btn btn-primary float-right">Post
+              <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
+              </pf-loading-indicator></button>
+          </div>
+        </div>
   </div>
-
 </div>
+<hr >
