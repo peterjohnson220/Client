@@ -1,0 +1,10 @@
+#location-wrapper
+{
+  position: relative;
+}
+
+#suggested-locations {
+  position: absolute;
+  z-index: 1;
+  width: 100%
+}

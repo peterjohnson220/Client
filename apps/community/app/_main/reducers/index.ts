@@ -11,7 +11,6 @@ import * as fromCommunityPostAddReplyViewReducer from './community-post-add-repl
 import * as fromCommunityPostFilterReplyViewReducer from './community-post-filter-reply-view.reducer';
 import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
-import * as CommunityPost from 'libs/models/community';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 import { CommunityConstants } from '../models';
@@ -101,7 +100,7 @@ export const selectFromCommunityCategoriesState =  createSelector(
 export const selectFromCommunityPostFilterOptionsState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostFilterOptions
-);
+  );
 
 // Community Poll Selectors
 export const getGettingCommunityPollRequests = createSelector(
