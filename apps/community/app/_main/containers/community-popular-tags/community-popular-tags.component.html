@@ -1,7 +1,8 @@
 <div id="tag-container" class="mb-3">
-  <div id="tag-section-header">Tags</div>
+  <div id="tag-section-header">TAGS</div>
+  <hr class="my-3" >
     <ng-container *ngFor="let popularTag of popularTags$ | async">
-      <button type="button" class="btn m-1 tag p-1" (click)="buttonClicked(popularTag)">{{popularTag.Tag}}
+      <button type="button" class="btn m-1 tag py-2 px-3" (click)="buttonClicked(popularTag)">{{popularTag.Tag}}
       </button>
     </ng-container>
 </div>

@@ -2,8 +2,8 @@
 
 #tag-section-header
 {
-  font-size: 14px;
-  font-weight: bolder;
+  font-weight: 500;
+  color: $community-tags-header-color;
 }
 
 #tag-container
@@ -12,7 +12,19 @@
 }
 
 .tag {
-  color: #515151;
-  background-color: $community-tag-color;
+  color: $community-tags-body-color;
+  border-color: $community-tags-border-color;
+  border-width: 1px;
+  background-color: #fff;
+  font-weight: 400;
   white-space: normal;
+}
+
+.tag:hover{
+  background-color: $community-tags-hover-color;
+  color:#fff;
+}
+
+.hr {
+  color: $community-tags-line-color;
 }
