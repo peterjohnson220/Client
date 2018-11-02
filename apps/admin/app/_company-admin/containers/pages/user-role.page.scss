@@ -1,0 +1,33 @@
+@import 'colors';
+
+.card-group {
+  height: inherit;
+  width: inherit;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: $selection-hover-background;
+  cursor: pointer;
+}
+
+.roles-list-column {
+  font-weight: bold;
+  min-width: 150px;
+}
+
+.card-header{
+  max-height: 44px;
+}
+
+.tab-container{
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: 100%;
+  width: 100%;
+}

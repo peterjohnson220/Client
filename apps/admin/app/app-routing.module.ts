@@ -15,6 +15,10 @@ export const routes: Routes = [
       { path: 'peer', loadChildren: 'apps/admin/app/_peer/peer-admin.module#PeerAdminModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       {
+        path: 'company-admin',
+        loadChildren: 'apps/admin/app/_company-admin/company-admin.module#CompanyAdminModule'
+      },
+      {
         path: 'job-description-management',
         loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule'
       },
