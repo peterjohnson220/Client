@@ -1,0 +1,55 @@
+<div class="container-fluid h-100 w-i">
+  <div class="row card-group">
+    <div class="col-1 p-0 roles-list-column">
+      <div class="card h-100 w-100 rounded-0">
+        <div class="card-header">
+          <div class="align-self-center mr-auto">
+            <h4>Roles</h4>
+          </div>
+        </div>
+        <div class="card-block">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a>Admin</a>
+            </li>
+            <li class="list-group-item">
+              <a>Sales</a>
+            </li>
+            <li class="list-group-item">
+              <a>Manager</a>
+            </li>
+            <li class="list-group-item">
+              <a>Client</a>
+            </li>
+            <li class="list-group-item">
+              <a>HR</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col p-0">
+      <div class="card h-100 w-100 rounded-0">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+              <button class="nav-link" [ngClass]="{ 'active': currentUserRoleTabState === _UserRoleTabState.FUNCTION }"
+                      (click)="handleRolesClick(_UserRoleTabState.FUNCTION)">
+                Function
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" [ngClass]="{ 'active': currentUserRoleTabState === _UserRoleTabState.USERS }" (click)="handleRolesClick(_UserRoleTabState.USERS)">Users</button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-block">
+          <div class="tab-container">
+            <pf-user-role-function-tab *ngIf="currentUserRoleTabState === _UserRoleTabState.FUNCTION"></pf-user-role-function-tab>
+            <pf-user-role-users-tab *ngIf="currentUserRoleTabState === _UserRoleTabState.USERS"></pf-user-role-users-tab>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
