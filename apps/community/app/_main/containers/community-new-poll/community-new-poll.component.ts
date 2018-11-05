@@ -34,6 +34,18 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   get status() { return this.communityPollForm.get('status'); }
   get isFormValid() { return this.communityPollForm.valid; }
 
+  get pollLengthText() {
+    let text = '';
+
+    if (this.days.value > 0) {
+      text =  this.days.value === 1 ?  this.days.value + ' day ' : this.days.value + ' days ';
+    }
+    if (this.hours.value > 0) {
+      text += this.hours.value === 1 ? this.hours.value + ' hour' : this.hours.value + ' hours';
+    }
+    return text;
+  }
+
   pollResponseOptionsLimits(array: FormArray): ValidatorFn {
     return function() {
       const notEnoughOptions = array.length < 2 || array.length > 10 ? true : false;
@@ -108,6 +120,10 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
 
   isPollDurationDaysZero () {
     return this.days.value <= 0;
+  }
+
+  configurePollLength () {
+    // TODO: abiltity to configure poll duration will be implemented as part of the future story.
   }
 
   onDurationDaysChange() {

@@ -1,6 +1,11 @@
+@import 'colors';
+
 #internal-only-container
 {
   position: absolute;
-  bottom: 0;
-  left: 0;
+}
+
+.k-checkbox:checked + .k-checkbox-label::before{
+  background-color:$community-tab-color;
+  border-color: $community-tab-color;
 }
