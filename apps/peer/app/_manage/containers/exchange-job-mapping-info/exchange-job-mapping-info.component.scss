@@ -11,6 +11,14 @@
   padding-bottom: .25rem;
 }
 
+.search-box{
+  width: 50%;
+}
+
+.search-box:first-child{
+  margin-right:15px;
+}
+
 .mapping-info-container{
   position: absolute;
   height: 100%;

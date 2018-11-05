@@ -4,9 +4,11 @@ import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
-import { ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
-        CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
-        RequestExchangeRequest, UpsertDataCutRequest } from '../../../models';
+import {
+  ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
+  CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
+  RequestExchangeRequest, UpsertDataCutRequest
+} from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { ExchangeRequestCandidatesRequest, DataCutValidationInfo } from '../../../models/peer';
 
@@ -22,7 +24,7 @@ export class ExchangeCompanyApiService {
 
   getTopCandidates<T>(exchangeRequestCandidatesRequest: ExchangeRequestCandidatesRequest): Observable<T[]> {
     return this.payfactorsApiService.get<T[]>(`${this.endpoint}/GetTopCandidates`,
-      { params: {exchangeRequestCandidatesRequest: JSON.stringify(exchangeRequestCandidatesRequest)} }
+      { params: { exchangeRequestCandidatesRequest: JSON.stringify(exchangeRequestCandidatesRequest) } }
     );
   }
 
@@ -42,11 +44,12 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getTopCompanyJobsToMapTo(exchangeId: number, query: string): Observable<CompanyJobToMapTo[]> {
+  getTopCompanyJobsToMapTo(exchangeId: number, jobTitleAndCodeQuery: string, jobDescriptionQuery: string): Observable<CompanyJobToMapTo[]> {
     return this.payfactorsApiService.get<CompanyJobToMapTo[]>(`${this.endpoint}/GetTopCompanyJobsToMapTo`,
-      { params: { exchangeId, query } }
+      { params: { exchangeId, jobTitleAndCodeQuery, jobDescriptionQuery } }
     );
   }
+
 
   upsertExchangeJobMap(upsertExchangeJobMapRequest: UpsertExchangeJobMapRequest) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeJobMap`,
@@ -70,7 +73,7 @@ export class ExchangeCompanyApiService {
 
   getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
     return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
-      {params: {companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId}});
+      { params: { companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId } });
   }
 
   createExchangeRequest(payload: RequestExchangeRequest): Observable<any> {
@@ -80,7 +83,7 @@ export class ExchangeCompanyApiService {
   validateNewCompanyName(exchangeId: number, companyName: string): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidCompanyName`,
       { params: { exchangeId: exchangeId, companyName: companyName } }
-      );
+    );
   }
 
   getCompanyIndustries(): Observable<string[]> {
@@ -90,7 +93,7 @@ export class ExchangeCompanyApiService {
   validateNewJobTitle(exchangeId: number, jobTitle: string): Observable<any> {
     return this.payfactorsApiService.get<any>(`${this.endpoint}/IsValidJobTitle`,
       { params: { exchangeId: exchangeId, jobTitle: jobTitle } }
-      );
+    );
   }
 
   getPayfactorsJobFamilies(): Observable<string[]> {
@@ -100,7 +103,7 @@ export class ExchangeCompanyApiService {
   deleteExchangeJobMapping(exchangeJobToCompanyJobId: number): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DeleteExchangeJobMapping`,
       exchangeJobToCompanyJobId
-      );
+    );
   }
 
   getExchangeJobOrgs(exchangeJobId: number): Observable<string[]> {
