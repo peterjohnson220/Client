@@ -19,46 +19,26 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
       textplaceholder="Ask a question..."
     />
     
-    
-    <fieldset
-      formarrayname="choices"
+    <div
+      class="pr-5"
     >
       
-    </fieldset>
-    
+    </div>
     <div
-      class="mb-2"
+      class="pl-5"
     >
       <label
-        class="text-muted mr-3"
-        for="days"
+        class="text-muted mr-1 pt-1"
+        for="duration"
       >
-        Poll length
+        Poll Length:
       </label>
-      <label
-        class="col-form-label"
-        for="days"
-      >
-        Days 
-      </label>
-      <select
-        class="poll-length-dropdown ml-2 mr-4"
-        formcontrolname="days"
+      <button
+        class="btn btn-link pt-1"
+        type="button"
       >
         
-      </select>
-      <label
-        class="col-form-label"
-        for="hours"
-      >
-        Hours 
-      </label>
-      <select
-        class="poll-length-dropdown ml-2"
-        formcontrolname="hours"
-      >
-        
-      </select>
+      </button>
     </div>
   </div>
 </pf-community-new-poll>

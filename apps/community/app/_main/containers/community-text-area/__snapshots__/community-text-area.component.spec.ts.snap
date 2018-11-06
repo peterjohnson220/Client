@@ -4,6 +4,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
 <pf-community-text-area
   dangerStartNumber={[Function Number]}
   discussionTextArea={[Function ElementRef]}
+  minimumHeight={[Function String]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
   store={[Function Store]}
@@ -24,6 +25,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   >
     <div
       class="textAreaContainer"
+      style="min-height: 50px;"
     >
       <div
         class="overlayTextArea pl-2"

@@ -36,6 +36,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @Input() public dangerStartNumber = 1950;
   @Input() public textPlaceholder: string;
   @Input() public postId: string;
+  @Input() public minimumHeight = '50';
 
   @ViewChild('discussionTextArea') discussionTextArea: ElementRef;
   @ViewChild('overlayTextArea') overlayTextArea: ElementRef;
@@ -58,6 +59,9 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
+    // minimum height is configurable
+    this.textAreaContainer.nativeElement.style.minHeight = this.minimumHeight + 'px';
+
     this.suggestedCommunityTagsSubscription = this.suggestedCommunityTags$.subscribe((data) => {
       this.mapToCommunityTags(data);
     });
