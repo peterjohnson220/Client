@@ -1,4 +1,40 @@
-<div *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId; let i = index; let last = last;">
-  <pf-community-job [job]="job"></pf-community-job>
-  <hr *ngIf="!last">
+<div #jobSearchResults
+   class="job-search-results"
+   infinite-scroll
+   [scrollWindow]="false"
+   [infiniteScrollDistance]="2"
+   [infiniteScrollThrottle]="50"
+   (scrolled)="onScroll()">
+
+  <pf-async-container
+    [loading]="loadingCommunityJobs$ | async"
+    [loadingError]="loadingCommunityJobsError$ | async"
+    [hideReloadButton]="true">
+
+    <ng-container *ngIf="(communityJobs$ | async)?.length; else noResultsMessage">
+      <div class="row mx-0">
+        <div class="col-8 offset-2">
+          <pf-community-job
+            *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId;let i = index; let last = last;"
+            [job]="job"
+            [endOfList]="last && !hasMoreResultsOnServer">
+          </pf-community-job>
+        </div>
+      </div>
+    </ng-container>
+
+  </pf-async-container>
+  <div class="row m-3" *ngIf="loadingMoreCommunityJobs$ | async">
+    <div class="col-8 offset-2">
+      <pf-loading-indicator></pf-loading-indicator> Loading More Results...
+    </div>
+  </div>
 </div>
+
+<ng-template #noResultsMessage>
+  <div *ngIf="!(loadingCommunityJobs$ | async)" class="row no-results-message-container">
+    <div class="col-8 offset-2">
+      No results. Please change your filter criteria and search again.
+    </div>
+  </div>
+</ng-template>

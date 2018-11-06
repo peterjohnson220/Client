@@ -13,3 +13,5 @@ export * from './community-search-result.model';
 export * from './community-user-info.model';
 export * from './community-url-preview-data.model';
 export * from './community-job.model';
+export * from './community-job-search-response.model';
+export * from './paging-response.model';

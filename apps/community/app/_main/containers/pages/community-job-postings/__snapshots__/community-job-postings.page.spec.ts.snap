@@ -7,45 +7,45 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
      Job Postings 
     
     <div
-      class="container-fluid community-job-postings-container p-4"
+      class="search-container"
     >
       <div
-        class="row justify-content-center"
+        class="h-100"
       >
         <div
-          class="col-8"
+          class="row h-100 p-4 vertical-align"
         >
           <div
-            class="sticky row justify-content-center mb-4"
+            class="col-4 offset-2 input-container h-100"
           >
-            <div
-              class="input-wrapper-with-icon pr-3"
-            >
-              <input
-                id="search"
-                placeholder="Search Jobs"
-              />
-              <label
-                class="fal fa-search input-icon"
-                for="search"
-              />
-            </div>
-            <div
-              class="input-wrapper-with-icon"
-            >
-              <input
-                id="location"
-                placeholder="City, state, or country"
-              />
-              <label
-                class="fal fa-map-marker-alt input-icon"
-                for="location"
-              />
-            </div>
+            <input
+              id="search"
+              placeholder="Search Jobs"
+            />
+            <label
+              class="fal fa-search input-icon"
+              for="search"
+            />
           </div>
-          <pf-community-jobs />
+          <div
+            class="col-4 input-container h-100"
+          >
+            <input
+              id="location"
+              placeholder="City, state, or country"
+            />
+            <label
+              class="fal fa-map-marker-alt input-icon"
+              for="location"
+            />
+          </div>
         </div>
       </div>
+    </div>
+    <div
+      class="search-results-container"
+    >
+      <pf-community-jobs />
     </div>
   </pf-page-with-title-bar>
 </pf-community-job-postings-page>

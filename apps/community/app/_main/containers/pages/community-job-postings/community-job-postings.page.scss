@@ -1,16 +1,8 @@
-div.sticky {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    background-color: #E9EAED;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    z-index: 999;
-}
+
 
 .input-icon{
     position: absolute;
-    left: 5px;
+    left: 20px;
     top: calc(50% - 0.5em);
 }
 
@@ -23,7 +15,31 @@ input{
     height: 30px;
 }
 
-.input-wrapper-with-icon{
-    position: relative;
-    width: 47%;
+.search-container{
+  height: 15%;
 }
+
+.search-results-container{
+  height: 85%;
+}
+
+.input-container{
+  background-color: #E9EAED;
+}
+
+.vertical-align {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Optional, to align inner items
+                              horizontally inside the column */
+}
+
+:host ::ng-deep  .page-content{
+   overflow: hidden !important;
+ }

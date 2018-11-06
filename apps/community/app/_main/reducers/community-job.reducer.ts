@@ -2,13 +2,18 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as communityJobActions from '../actions/community-job.actions';
 import { CommunityJob } from 'libs/models/community/community-job.model';
+import { PagingOptions } from '../models/paging-options.model';
+
 
 export interface State extends EntityState<CommunityJob> {
   submitting: boolean;
   submittingError: boolean;
   loading: boolean;
+  loadingMoreResults: boolean;
+  pagingOptions: PagingOptions;
   loadingError: boolean;
   submittedJob: CommunityJob;
+  totalResultsOnServer: number;
 }
 
 function sortByTime(a: CommunityJob, b: CommunityJob) {
@@ -25,8 +30,14 @@ export const initialState: State = adapter.getInitialState({
   submitting: false,
   submittingError: false,
   loading: false,
+  loadingMoreResults: false,
+  pagingOptions: {
+    StartIndex: 1,
+    NumberOfPosts: 20
+  },
   loadingError: false,
-  submittedJob: null
+  submittedJob: null,
+  totalResultsOnServer: 0
 });
 
 export function reducer(
@@ -64,14 +75,35 @@ export function reducer(
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_SUCCESS: {
       return {
-        ...adapter.addAll(action.payload, state),
-        loading: false
+        ...adapter.addAll(action.payload.CommunityJobResults, state),
+        loading: false,
+        totalResultsOnServer: action.payload.Paging.TotalRecordCount
       };
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_ERROR: {
       return {
         ...state,
         loading: false,
+        loadingError: true
+      };
+    }
+    case communityJobActions.GETTING_MORE_COMMUNITY_JOBS: {
+      return {
+        ...state,
+        loadingError: false,
+        loadingMoreResults: true,
+        pagingOptions: {...state.pagingOptions, StartIndex: state.pagingOptions.StartIndex + 1}
+      };
+    }
+    case communityJobActions.GETTING_MORE_COMMUNITY_JOBS_SUCCESS: {
+      return {
+        ...adapter.addMany(action.payload.CommunityJobResults, state),
+        loadingMoreResults: false
+      };
+    }
+    case communityJobActions.GETTING_MORE_COMMUNITY_JOBS_ERROR: {
+      return {
+        ...state,
         loadingError: true
       };
     }
@@ -91,4 +123,7 @@ export const getSubmittingCommunityJobsError = (state: State) => state.submittin
 export const getSubmittingCommunityJobsSuccess = (state: State ) => state.submittedJob;
 
 export const getGettingCommunityJobs = (state: State) => state.loading;
+export const getLoadingMoreResults = (state: State) => state.loadingMoreResults;
 export const getGettingCommunityJobsError = (state: State) => state.loadingError;
+export const getPagingOptions = (state: State) => state.pagingOptions;
+export const getTotalResultsOnServer = (state: State) => state.totalResultsOnServer;

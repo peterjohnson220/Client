@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
@@ -47,6 +48,7 @@ import { CommunityCategoriesEffects } from './effects/community-categories.effec
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
+import { CommunityJobEffectsService } from './services/community-job-effects-service';
 
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
@@ -97,6 +99,7 @@ const components = [
     NgbTooltipModule,
     NgbDropdownModule,
     DropDownsModule,
+    InfiniteScrollModule,
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([
@@ -124,7 +127,8 @@ const components = [
     CommunityPostApiService,
     CommunityTagApiService,
     CommunityJobApiService,
-    CommunityCategoriesApiService
+    CommunityCategoriesApiService,
+    CommunityJobEffectsService
   ]
 })
 export class MainModule {
