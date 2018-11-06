@@ -10,6 +10,8 @@ import { CommunityJobApiService } from 'libs/data/payfactors-api/community/commu
 
 import { CommunityJob } from 'libs/models/community';
 import * as fromCommunityJobActions from '../actions/community-job.actions';
+import { CommunityJobEffectsService } from '../services/community-job-effects-service';
+
 
 @Injectable()
 export class CommunityJobEffects {
@@ -28,20 +30,18 @@ export class CommunityJobEffects {
     );
 
   @Effect()
-  loadingCommunityJobs$: Observable<Action> = this.actions$
-    .ofType(fromCommunityJobActions.GETTING_COMMUNITY_JOBS).pipe(
-      switchMap(() =>
-        this.communityJobService.getJobs().pipe(
-          map((communityJobs: CommunityJob[]) => {
-            return new fromCommunityJobActions.GettingCommunityJobsSuccess(communityJobs);
-          }),
-          catchError(error => of(new fromCommunityJobActions.GettingCommunityJobsError()))
-        )
-      )
-    );
+  loadingCommunityJobs$ = this.communityJobEffectsService.searchCompanyJobs(
+    this.actions$.ofType(fromCommunityJobActions.GETTING_COMMUNITY_JOBS)
+  );
+
+  @Effect()
+  getMoreCompanyJobs$ = this.communityJobEffectsService.searchCompanyJobs(
+    this.actions$.ofType(fromCommunityJobActions.GETTING_MORE_COMMUNITY_JOBS)
+  );
 
   constructor(
     private actions$: Actions,
     private communityJobService: CommunityJobApiService,
+    private communityJobEffectsService: CommunityJobEffectsService
   ) {}
 }

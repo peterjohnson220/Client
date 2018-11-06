@@ -59,9 +59,9 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
 }
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: ResultsPagingOptions): PagingOptions {
-  return {
-    From: resultsPagingOptions.pageSize * (resultsPagingOptions.page - 1),
-    Count: resultsPagingOptions.pageSize
+      return {
+        From: resultsPagingOptions.pageSize * (resultsPagingOptions.page - 1),
+        Count: resultsPagingOptions.pageSize
   };
 }
 

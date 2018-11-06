@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CommunityJob } from 'libs/models/community/community-job.model';
+import { CommunityJobSearchResponse } from 'libs/models/community/community-job-search-response.model';
 
 @Injectable()
 export class CommunityJobApiService {
@@ -11,10 +12,8 @@ export class CommunityJobApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  // TODO: Get range of jobs (start index, number)
-  getJobs(): Observable<CommunityJob[]> {
-    return this.payfactorsApiService.get<CommunityJob[]>
-    (`${this.endpoint}/GetJobs`);
+  getJobs(jobSearchRequest: any): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobs`, jobSearchRequest);
   }
 
   submitCommunityJob(payload: any): Observable<CommunityJob> {

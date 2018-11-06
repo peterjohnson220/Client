@@ -4,7 +4,14 @@ import { FilterOptions } from '../models/filter-options.model';
 import { TagFilter } from '../models/tag-filter.model';
 import { CategoryFilter } from '../models/category-filter.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
-import { CommunityCategory } from '../../../../../libs/models/community/community-categories.model';
+import { PagingOptions } from '../models/paging-options.model';
+
+export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
+  return {
+    StartIndex: resultsPagingOptions.StartIndex,
+    NumberOfPosts: resultsPagingOptions.NumberOfPosts
+  };
+}
 
 export function mapCommunityTagToTag(communityTag: CommunityTag): Tag {
   return  {

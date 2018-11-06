@@ -9,6 +9,8 @@ import { environment } from 'environments/environment';
 })
 export class CommunityJobComponent {
   @Input() job: CommunityJob;
+  @Input() endOfList: boolean;
+
   get companyLogo() { return environment.companyLogoSource + this.job.CompanyLogo; }
 
   constructor() { }

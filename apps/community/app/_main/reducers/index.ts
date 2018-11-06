@@ -365,6 +365,29 @@ export const getGettingCommunityJobsError = createSelector(
   fromCommunityJobReducer.getGettingCommunityJobsError
 );
 
+export const getLoadingMoreResults = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getLoadingMoreResults
+);
+
+export const getPagingOptions = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getPagingOptions
+);
+
+export const getTotalResultsOnServer = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getTotalResultsOnServer
+);
+
+export const getHasMoreResultsOnServer = createSelector(
+  getCommunityJobs,
+  getTotalResultsOnServer,
+  (jobs, totalOnServer) => {
+    return totalOnServer > jobs.length;
+  }
+);
+
 // Community Categories Selectors
 
 export const {
