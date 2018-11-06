@@ -107,3 +107,5 @@ export const getLoginSuccess =
   createSelector(loginState, fromLoginReducer.getLoginSuccess);
 export const getLoginError =
   createSelector(loginState, fromLoginReducer.getLoginError);
+export const getShowRequestAccessForm =
+  createSelector(loginState, fromLoginReducer.getShowRequestAccessForm);

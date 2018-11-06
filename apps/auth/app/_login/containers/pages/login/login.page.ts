@@ -108,5 +108,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     const control = this.loginForm.get(controlName);
     return control.value.toString();
   }
-}
 
+  onRequestAccessClick() {
+    this.loginStore.dispatch(new fromLoginActions.LoginOpenRequestAccess());
+  }
+}

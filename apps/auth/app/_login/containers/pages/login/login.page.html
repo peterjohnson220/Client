@@ -53,7 +53,10 @@
         </div>
     </form>
     <div *ngIf="allowSelfRegistration" class="mt-5 mb-2 d-flex flex-column justify-content-center">
-      <button id="au-btn-request-access" class="btn align-self-center">Request Access <i class="fas fa-arrow-right"></i></button>
+      <button id="au-btn-request-access" class="btn align-self-center" (click)="onRequestAccessClick()">
+        Request Access <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </div>
 </div>
+<pf-request-access-modal *ngIf="allowSelfRegistration"></pf-request-access-modal>

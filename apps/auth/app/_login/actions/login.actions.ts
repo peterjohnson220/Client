@@ -7,6 +7,9 @@ export const LOGIN_SUCCESS_ROUTE_TO_HOME = '[Auth/Login] Validate Login Success 
 export const LOGIN_SUCCESS_ROUTE_TO_NEXT_PAGE = '[Auth/Login] Validate Login Success Route To Next Page Error';
 export const LOGIN_401_ERROR = '[Auth/Login] Validate Login 401 Error';
 
+export const LOGIN_OPEN_REQUEST_ACCESS = '[Auth/Login] Open Request Access';
+export const LOGIN_DISMISS_REQUEST_ACCESS = '[Auth/Login] Dismiss Request Access';
+
 export class Login implements Action {
   readonly type = LOGIN;
   constructor(public payload: any) {}
@@ -36,10 +39,23 @@ export class Login401Error implements Action {
   readonly type = LOGIN_401_ERROR;
   constructor() { }
 }
+
+export class LoginOpenRequestAccess implements Action {
+  readonly type = LOGIN_OPEN_REQUEST_ACCESS;
+  constructor() { }
+}
+
+export class LoginDismissRequestAccess implements Action {
+  readonly type = LOGIN_DISMISS_REQUEST_ACCESS;
+  constructor() { }
+}
+
 export type Actions
   = Login
   | LoginSuccess
   | LoginError
   | LoginSuccessRouteToHome
   | LoginSuccessRouteToNextPage
-  | Login401Error;
+  | Login401Error
+  | LoginOpenRequestAccess
+  | LoginDismissRequestAccess;
