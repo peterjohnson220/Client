@@ -4,7 +4,14 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
 <pf-community-dashboard-page>
   <pf-page-with-title-bar>
     
-     Community 
+    <h1>
+      payfactors 
+      <span
+        class="header-bold"
+      >
+        COMMUNITY
+      </span>
+    </h1>
     
     <div
       class="container-fluid community-container"
@@ -30,6 +37,12 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           class="col-6"
         >
           <pf-community-start-discussion />
+          <p
+            class="sub-header"
+          >
+            See what people are talking about...
+          </p>
+          <hr />
           <pf-community-posts />
         </div>
         <div
