@@ -2,6 +2,7 @@
 
 exports[`Auth - Login should disable and show correct login button text when logging in 1`] = `
 <pf-login-page
+  allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
@@ -47,14 +48,18 @@ exports[`Auth - Login should disable and show correct login button text when log
       class="p-2"
     >
       <form
-        class="h-100 ng-untouched ng-pristine ng-invalid"
+        class="ng-untouched ng-pristine ng-invalid"
         ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
-          class="d-flex flex-column p-5 h-100 justify-content-center"
+          class="d-flex flex-column p-2 justify-content-center"
         >
-          
+          <div
+            class="error-spacer"
+          >
+            
+          </div>
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -119,6 +124,20 @@ exports[`Auth - Login should disable and show correct login button text when log
           </div>
         </div>
       </form>
+      
+      <div
+        class="mt-5 mb-2 d-flex flex-column justify-content-center"
+      >
+        <button
+          class="btn align-self-center"
+          id="au-btn-request-access"
+        >
+          Request Access 
+          <i
+            class="fas fa-arrow-right"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </pf-login-page>
@@ -126,6 +145,7 @@ exports[`Auth - Login should disable and show correct login button text when log
 
 exports[`Auth - Login should show error notification on submitError 1`] = `
 <pf-login-page
+  allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
@@ -171,14 +191,18 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
       class="p-2"
     >
       <form
-        class="h-100 ng-untouched ng-pristine ng-invalid"
+        class="ng-untouched ng-pristine ng-invalid"
         ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
-          class="d-flex flex-column p-5 h-100 justify-content-center"
+          class="d-flex flex-column p-2 justify-content-center"
         >
-          
+          <div
+            class="error-spacer"
+          >
+            
+          </div>
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -242,6 +266,20 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
           </div>
         </div>
       </form>
+      
+      <div
+        class="mt-5 mb-2 d-flex flex-column justify-content-center"
+      >
+        <button
+          class="btn align-self-center"
+          id="au-btn-request-access"
+        >
+          Request Access 
+          <i
+            class="fas fa-arrow-right"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </pf-login-page>
@@ -249,6 +287,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
 
 exports[`Auth - Login should show login when page is loaded 1`] = `
 <pf-login-page
+  allowSelfRegistration={[Function Boolean]}
   fb={[Function FormBuilder]}
   gettingMarketingImage$={[Function Store]}
   gettingMarketingImageError$={[Function Store]}
@@ -294,14 +333,18 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
       class="p-2"
     >
       <form
-        class="h-100 ng-untouched ng-pristine ng-invalid"
+        class="ng-untouched ng-pristine ng-invalid"
         ng-reflect-form="[object Object]"
         novalidate=""
       >
         <div
-          class="d-flex flex-column p-5 h-100 justify-content-center"
+          class="d-flex flex-column p-2 justify-content-center"
         >
-          
+          <div
+            class="error-spacer"
+          >
+            
+          </div>
           <label
             class="text-uppercase font-weight-bold"
             for="email"
@@ -365,6 +408,20 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
           </div>
         </div>
       </form>
+      
+      <div
+        class="mt-5 mb-2 d-flex flex-column justify-content-center"
+      >
+        <button
+          class="btn align-self-center"
+          id="au-btn-request-access"
+        >
+          Request Access 
+          <i
+            class="fas fa-arrow-right"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </pf-login-page>

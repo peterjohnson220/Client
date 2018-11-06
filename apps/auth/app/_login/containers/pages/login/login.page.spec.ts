@@ -90,4 +90,22 @@ describe('Auth - Login', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it ('should show the Request Access button when the feature is on', () => {
+    instance.allowSelfRegistration = true;
+
+    fixture.detectChanges();
+
+    const requestAccessButtonHtml = fixture.nativeElement.querySelector('button#au-btn-request-access').innerHTML;
+    expect(requestAccessButtonHtml).toContain('Request Access');
+  });
+
+  it ('should hide the Request Access button when the feature is off', () => {
+    instance.allowSelfRegistration = false;
+
+    fixture.detectChanges();
+
+    const requestAccessButton = fixture.nativeElement.querySelector('button#au-btn-request-access');
+    expect(requestAccessButton).toBeNull();
+  });
+
 });

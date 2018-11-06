@@ -13,11 +13,13 @@
     </div>
   </div>
   <div class="p-2">
-    <form class="h-100" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="d-flex flex-column p-5 h-100 justify-content-center">
-          <p id="errormessage" *ngIf="loginError" class="alert-danger error-container text-center p-3">
-            The email and password combination that you've entered is incorrect.
-          </p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="d-flex flex-column p-2 justify-content-center">
+          <div class="error-spacer">
+            <p id="errormessage" *ngIf="loginError" class="alert-danger error-container text-center p-3 position-absolute">
+                The email and password combination that you've entered is incorrect. 
+            </p>
+          </div>
           <label class="text-uppercase font-weight-bold" for="email">
                 Email Address
           </label>
@@ -50,5 +52,8 @@
           </div>
         </div>
     </form>
+    <div *ngIf="allowSelfRegistration" class="mt-5 mb-2 d-flex flex-column justify-content-center">
+      <button id="au-btn-request-access" class="btn align-self-center">Request Access <i class="fas fa-arrow-right"></i></button>
+    </div>
   </div>
 </div>

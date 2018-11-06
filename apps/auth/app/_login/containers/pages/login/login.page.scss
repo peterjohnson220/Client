@@ -1,3 +1,5 @@
+@import '_colors';
+
 .image-container {
   width: 478px;
   height: 392px;
@@ -13,10 +15,30 @@
 .login-input {
   width: 275px;
 }
-.error-container{
-  width: 275px;
+
+.error-spacer {
+  height: 80px;
+  .error-container{
+    width: 275px;
+  }
 }
 
 .disabled {
   cursor: not-allowed;
+}
+
+#au-btn-request-access {
+  background-color: transparent;
+  border-color: $pf-brand-secondary-color;
+  color: $pf-brand-secondary-color;
+  i.fa-arrow-right {
+    color: $pf-brand-secondary-color;
+  }
+  svg.fa-arrow-right {
+    transition: transform .2s ease-in-out;
+    font-size: 12px;
+  }
+  &:hover svg.fa-arrow-right {
+    transform: translateX(4px);
+  }
 }
