@@ -15,3 +15,7 @@
 .flex-column.flex-column-half {
   width: 48%;
 }
+.d-flex {
+  //Firefox requires that flexbox has a min-height to calculate flex-item heights [JP]
+  min-height: 0;
+}
