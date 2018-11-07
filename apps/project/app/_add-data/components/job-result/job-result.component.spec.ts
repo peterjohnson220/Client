@@ -164,4 +164,19 @@ describe('Project - Add Data - Job Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show error state if issue loading data cuts', () => {
+    instance.job = generateMockSurveyJobResult();
+    instance.job.DataCuts = [];
+    instance.job.TotalDataCuts = 1;
+
+    fixture.detectChanges();
+
+    instance.toggleDataCutsDisplay();
+    instance.job.LoadingDataCuts = false;
+    instance.job.LoadingDataCutsError = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
 });

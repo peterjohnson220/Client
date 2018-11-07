@@ -53,7 +53,8 @@ export function mapSurveyJobsToJobResults(surveyJobs: SurveyJob[], selectedDataC
       IsSelected: isJobSelected(sj, selectedDataCuts),
       Base50th: sj.Job.Base50th,
       TCC50th: sj.Job.TCC50th,
-      EEO: sj.Job.EEO
+      EEO: sj.Job.EEO,
+      LoadingDataCutsError: false
     };
   });
 }
@@ -151,7 +152,8 @@ export function mapMatchedSurveyJobToJobsToPrice(sjl: MatchedSurveyJob[]): JobTo
       PaymarketId: sj.PaymarketId,
       Title: sj.Job.Title,
       TotalDataCuts: sj.DataCutsCount,
-      LoadingDataCuts: false
+      LoadingDataCuts: false,
+      LoadingDataCutsError: false
     };
   });
 }

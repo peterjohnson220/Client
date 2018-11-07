@@ -50,26 +50,28 @@
     </table>
   </div>
   <div class="data-cuts-container" *ngIf="showDataCuts && !job.LoadingDataCuts">
-    <table class="data-cuts-table">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th class="text-center">Base 50th</th>
-        <th class="text-center">TCC 50th</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.UserJobMatchId == null">
-          <td class="scope-cell">
-            {{dataCut.JobTitle}} ({{dataCut.JobCode}}) - {{dataCut.Source}}
-          </td>
-          <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
-          <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
-          <td class="text-center" (click)="removeMatchCut(dataCut)"><i class="far fa-times fa-lg" ></i></td>
+    <ng-container *ngIf="!job.LoadingDataCutsError;else loadingDataCutsError">
+      <table class="data-cuts-table">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th class="text-center">Base 50th</th>
+          <th class="text-center">TCC 50th</th>
+          <th></th>
         </tr>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dataCut of job.JobMatchCuts" [class.highlight]="dataCut.UserJobMatchId == null">
+            <td class="scope-cell">
+              {{dataCut.JobTitle}} ({{dataCut.JobCode}}) - {{dataCut.Source}}
+            </td>
+            <td class="text-center">{{dataCut.Base50 ? formatCurrency(dataCut.Base50) : "-"}}</td>
+            <td class="text-center">{{dataCut.TCC50 ? formatCurrency(dataCut.TCC50) : "-"}}</td>
+            <td class="text-center" (click)="removeMatchCut(dataCut)"><i class="far fa-times fa-lg" ></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
   </div>
   <div class="my-2" *ngIf="job.LoadingDataCuts">
     <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
@@ -84,6 +86,11 @@
 <ng-template #noCutsToShow>
   <div class="no-cuts-to-show">
     No Cuts Added
+  </div>
+</ng-template>
+<ng-template #loadingDataCutsError>
+  <div class="loading-datacuts-error">
+    <i class="fas fa-exclamation-triangle icon"></i> Error loading data cuts. Please try again later.
   </div>
 </ng-template>
 

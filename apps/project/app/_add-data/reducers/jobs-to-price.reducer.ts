@@ -59,9 +59,21 @@ export function reducer(state = initialState, action: fromJobsToPriceActions.Act
       const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
       const jobToPrice = jobsToPriceCopy.find(x => x.Id === jobToPriceId);
       jobToPrice.LoadingDataCuts = false;
+      jobToPrice.LoadingDataCutsError = false;
       jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts || [];
       jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(action.payload.JobMatchCuts);
       jobToPrice.JobMatchCuts.sort((a, b) => arraySortByString(a.JobTitle, b.JobTitle, SortDirection.Ascending));
+      return {
+        ...state,
+        jobsToPrice: jobsToPriceCopy
+      };
+    }
+    case fromJobsToPriceActions.GET_MATCH_JOB_CUTS_ERROR: {
+      const jobToPriceId = action.payload.Id;
+      const jobsToPriceCopy = cloneDeep(state.jobsToPrice);
+      const jobToPrice = jobsToPriceCopy.find(x => x.Id === jobToPriceId);
+      jobToPrice.LoadingDataCuts = false;
+      jobToPrice.LoadingDataCutsError = true;
       return {
         ...state,
         jobsToPrice: jobsToPriceCopy
