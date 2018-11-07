@@ -7,10 +7,11 @@
 
       <div class="mt-2">
 
-        <ng-container
-          *ngIf="companyJobToMapTo.JobDescription && companyJobToMapTo.JobDescription.length; else noJobDescription">
+        <ng-container *ngIf="companyJobToMapTo.JobDescription && companyJobToMapTo.JobDescription.length; else noJobDescription">
 
-          <pf-ellipsis-view-more [content]="companyJobToMapTo.JobDescription" [maxLength]="175"></pf-ellipsis-view-more>
+          <pf-ellipsis-view-more [highlightFilter]="highlightFilter"
+                                 [content]="companyJobToMapTo.JobDescription"
+                                 [maxLength]="175"></pf-ellipsis-view-more>
         </ng-container>
 
         <ng-template #noJobDescription>
@@ -21,12 +22,11 @@
     </div>
 
     <div class="apply-mapping-container">
-      <pf-apply-mapping-button
-        [mapped]="companyJobToMapTo.Mapped"
-        [applyingMapping]="applyingMapping"
-        [applyingMappingError]="applyingMappingError"
-        [selectedMapping]="selectedMapping"
-        (applyMapping)="handleApplyMapping(companyJobToMapTo.CompanyJobId)">
+      <pf-apply-mapping-button [mapped]="companyJobToMapTo.Mapped"
+                               [applyingMapping]="applyingMapping"
+                               [applyingMappingError]="applyingMappingError"
+                               [selectedMapping]="selectedMapping"
+                               (applyMapping)="handleApplyMapping(companyJobToMapTo.CompanyJobId)">
       </pf-apply-mapping-button>
     </div>
   </div>
