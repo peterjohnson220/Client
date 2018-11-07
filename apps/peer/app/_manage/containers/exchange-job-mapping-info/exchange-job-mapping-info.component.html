@@ -74,15 +74,13 @@
           <pf-input-debounce [placeholderText]="'Search for a Job Code or Title...'"
                              [(ngModel)]="companyJobQuery"
                              [disabled]="applyingMapping$ | async"
-                             [hideClearBtn]="true"
-                             (valueChanged)="handleSearchValueChanged()"
+                             (valueChanged)="handleSearchTitleValueChanged($event)"
                              class="search-box">
           </pf-input-debounce>
           <pf-input-debounce [placeholderText]="'Search in the Job Description...'"
                              [(ngModel)]="companyDescriptionQuery"
                              [disabled]="applyingMapping$ | async"
-                             [hideClearBtn]="true"
-                             (valueChanged)="handleSearchValueChanged()"
+                             (valueChanged)="handleSearchDescValueChanged($event)"
                              class="search-box">
           </pf-input-debounce>
         </div>
@@ -100,7 +98,8 @@
                                          [applyingMapping]="applyingMapping$ | async"
                                          [applyingMappingError]="applyingMappingError$ | async"
                                          [selectedMapping]="(selectedMappingCompanyJobId$ | async) == companyJobToMapTo.CompanyJobId"
-                                         (applyMapping)="handleApplyMapping($event)">
+                                         (applyMapping)="handleApplyMapping($event)"
+                                         [highlightFilter]="companyDescriptionQuery">
               </pf-company-job-map-result>
 
             </ng-container>
@@ -108,8 +107,8 @@
             <ng-container *ngIf="!(companyJobsToMapTo$ | async).length && !(companyJobsToMapToLoading$ | async)">
 
               <div class="d-flex flex-column mt-5 align-items-center">
-                <h6 class="mb-1">No Results for {{ debouncedQueryValue || selectedExchangeJobMapping.ExchangeJobTitle
-                  }}</h6>
+                <h6 class="mb-1"
+                    innerHTML="{{buildNoResultsString()}}"></h6>
                 <h5><small class="text-muted">Please change your filter criteria to search again.</small></h5>
               </div>
 

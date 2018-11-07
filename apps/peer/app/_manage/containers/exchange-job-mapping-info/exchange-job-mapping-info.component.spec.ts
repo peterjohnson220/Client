@@ -96,7 +96,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: instance.exchangeId,
-      jobTitleAndCodeQuery: exchangeJobMappingMock.ExchangeJobTitle
+      jobTitleAndCodeQuery: exchangeJobMappingMock.ExchangeJobTitle,
+      jobDescriptionQuery: ''
     });
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -137,7 +138,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     const payload = { exchangeId: instance.exchangeId, jobTitleAndCodeQuery: 'Accountant', jobDescriptionQuery: 'Job Description' };
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery(payload);
-    instance.handleSearchValueChanged();
+    instance.searchChanged();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -199,9 +200,9 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: instance.exchangeId,
-      jobTitleAndCodeQuery: exchangeJobMappingMock.ExchangeJobTitle
+      jobTitleAndCodeQuery: exchangeJobMappingMock.ExchangeJobTitle,
+      jobDescriptionQuery: ''
     });
-
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 

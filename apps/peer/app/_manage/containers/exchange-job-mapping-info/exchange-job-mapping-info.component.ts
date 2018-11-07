@@ -64,8 +64,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.activeExchangeJobToCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoActiveMapping));
   }
 
-  handleSearchValueChanged() {
-
+  searchChanged() {
     this.debouncedQueryValue = this.companyJobQuery;
 
     if (this.companyJobQuery.length <= 0 && this.companyDescriptionQuery.length <= 0) {
@@ -77,6 +76,16 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       jobTitleAndCodeQuery: this.debouncedQueryValue,
       jobDescriptionQuery: this.companyDescriptionQuery
     }));
+  }
+
+  handleSearchDescValueChanged(event: string) {
+    this.companyDescriptionQuery = event;
+    this.searchChanged();
+  }
+
+  handleSearchTitleValueChanged(event: string) {
+    this.companyJobQuery = event;
+    this.searchChanged();
   }
 
   handleApplyMapping(companyJobId: number) {
@@ -159,6 +168,27 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.addingMappingSubscription = this.addingMapping$.subscribe(em => this.addingMapping = em);
   }
 
+  buildNoResultsString(): string {
+
+    let s = 'No results for ';
+    if (!this.companyJobQuery && !this.companyDescriptionQuery) {
+      s += '<u>' + this.selectedExchangeJobMapping.ExchangeJobTitle + '</u>';
+    } else if (this.companyJobQuery) {
+      s += '<u>' + this.companyJobQuery + '</u>';
+
+      if (this.companyDescriptionQuery) {
+        s += ' <i>and</i> ';
+      }
+    }
+
+    if (this.companyDescriptionQuery) {
+      s += '<u>' + this.companyDescriptionQuery + '</u>';
+    }
+
+    return s;
+
+  }
+
   ngOnDestroy() {
     this.selectedExchangeJobMappingSubscription.unsubscribe();
     this.addingMappingSubscription.unsubscribe();
@@ -168,7 +198,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   private dispatchLoadCompanyJobsToMapToByQuery(): void {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: this.exchangeId,
-      jobTitleAndCodeQuery: this.selectedExchangeJobMapping.ExchangeJobTitle
+      jobTitleAndCodeQuery: this.selectedExchangeJobMapping.ExchangeJobTitle,
+      jobDescriptionQuery: ''
     }));
   }
 
