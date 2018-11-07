@@ -9,6 +9,7 @@ export interface BaseJobInfo {
   Level: string;
   TotalDataCuts?: number;
   LoadingDataCuts: boolean;
+  LoadingDataCutsError: boolean;
 }
 
 export interface JobResult extends BaseJobInfo {
@@ -49,7 +50,8 @@ export function generateMockSurveyJobResult(): JobResult {
     TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false,
-    EEO: null
+    EEO: null,
+    LoadingDataCutsError: false
   };
 }
 
@@ -88,6 +90,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false,
-    EEO: 'Yes'
+    EEO: 'Yes',
+    LoadingDataCutsError: false
   };
 }

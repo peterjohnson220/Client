@@ -19,6 +19,7 @@ export const TOGGLE_SURVEY_DATA_CUT_SELECTION = '[Project Add Data/Add Survey Da
 export const CLEAR_DATA_CUT_SELECTIONS = '[Project Add Data/Add Survey Data Page] Clear Data Cut Selections';
 export const GET_SURVEY_DATA_RESULTS = '[Project Add Data/Search Results] Get Survey Data Results';
 export const GET_SURVEY_DATA_RESULTS_SUCCESS = '[Project Add Data/Search Results] Get Survey Data Results Success';
+export const GET_SURVEY_DATA_RESULTS_ERROR = '[Project Add Data/Search Results] Get Survey Data Results Error';
 export const UPDATE_RESULTS_MATCHES_COUNT = '[Project Add Data/Search Results] Update Results Matches Count';
 
 export class GetResults implements Action {
@@ -75,6 +76,12 @@ export class GetSurveyDataResultsSuccess implements Action {
   constructor(public payload: SurveyDataResponse) {}
 }
 
+export class GetSurveyDataResultsError implements Action {
+  readonly type = GET_SURVEY_DATA_RESULTS_ERROR;
+
+  constructor(public payload: number) {}
+}
+
 export class UpdateResultsMatchesCount implements Action {
   readonly type = UPDATE_RESULTS_MATCHES_COUNT;
 
@@ -92,4 +99,5 @@ export type Actions
   | ClearDataCutSelections
   | GetSurveyDataResults
   | GetSurveyDataResultsSuccess
+  | GetSurveyDataResultsError
   | UpdateResultsMatchesCount;

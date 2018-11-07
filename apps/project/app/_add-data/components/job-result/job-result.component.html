@@ -70,18 +70,19 @@
   </div>
 
   <div *ngIf="showDataCuts && !job.LoadingDataCuts">
-    <pf-data-cuts [job]="job"
-                  [dataCuts]="job.DataCuts"
-                  [numberCutsSelected]="(selectedCuts$ | async)?.length"
-                  [cutsDraggable]="cutsDraggable"
-                  [currencyCode]="currencyCode"
-                  (dataCutSelected)="handleDataCutSelected($event)"
-                  (payFactorsCutSelected)="handlePayfactorsCutSelected()"
-                  (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
-                  (matchesMouseLeave)="handleMatchesMouseLeave()">
-    </pf-data-cuts>
-
-    <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
+    <ng-container *ngIf="!job.LoadingDataCutsError;else loadingDataCutsError">
+      <pf-data-cuts [job]="job"
+                    [dataCuts]="job.DataCuts"
+                    [numberCutsSelected]="(selectedCuts$ | async)?.length"
+                    [cutsDraggable]="cutsDraggable"
+                    [currencyCode]="currencyCode"
+                    (dataCutSelected)="handleDataCutSelected($event)"
+                    (payFactorsCutSelected)="handlePayfactorsCutSelected()"
+                    (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
+                    (matchesMouseLeave)="handleMatchesMouseLeave()">
+      </pf-data-cuts>
+      <span *ngIf="hasMoreDataCuts && !job.LoadingMoreDataCuts" class="link" (click)="handleLoadDataCuts()">Load More</span>
+    </ng-container>
   </div>
   <div class="my-2" *ngIf="job.LoadingDataCuts || job.LoadingMoreDataCuts">
     <pf-loading-indicator [spinnerType]="'GIF'"></pf-loading-indicator> Loading Data Cuts...
@@ -92,6 +93,11 @@
 <ng-template #noJobDescription>
   <div class="no-job-description">
     No Job Description
+  </div>
+</ng-template>
+<ng-template #loadingDataCutsError>
+  <div class="loading-datacuts-error">
+    <i class="fas fa-exclamation-triangle icon"></i> Error loading data cuts. Please try again later.
   </div>
 </ng-template>
 
