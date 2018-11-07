@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ import * as fromPeerMapReducer from '../../reducers';
   templateUrl: './map.component.html',
   styleUrls: [ './map.component.scss' ]
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   // Conditionally allow the map to fit to the provided bounds.
   @Input() canFitBounds: boolean;
 
@@ -127,5 +127,9 @@ export class MapComponent {
         this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(new fromMapActions.LoadZoomPrecisionDictionary());
   }
 }
