@@ -1,0 +1,39 @@
+label.error, p.error {
+  font-style: italic;
+  color: tomato;
+}
+
+label.error {
+  margin-left: 8px;
+}
+
+p.error {
+  position: absolute;
+  margin-top: -4px;
+}
+
+input {
+  transition: border-color, background-color .3s ease-in-out;
+  &.error {
+    border-color: tomato;
+    background-color: rgba(255, 99, 71, 0.12);
+  }
+}
+
+#au-cont-success {
+  position: absolute;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+  &.shown {
+    opacity: 1;
+  }
+}
+
+#au-cont-form {
+  position: relative;
+  z-index: 100;
+  transition: opacity .2s ease-in-out;
+  &.hidden {
+    opacity: 0;
+  }
+}

@@ -40,12 +40,12 @@ export class Login401Error implements Action {
   constructor() { }
 }
 
-export class LoginOpenRequestAccess implements Action {
+export class LoginOpenSelfRegistration implements Action {
   readonly type = LOGIN_OPEN_REQUEST_ACCESS;
   constructor() { }
 }
 
-export class LoginDismissRequestAccess implements Action {
+export class LoginDismissSelfRegistration implements Action {
   readonly type = LOGIN_DISMISS_REQUEST_ACCESS;
   constructor() { }
 }
@@ -57,5 +57,5 @@ export type Actions
   | LoginSuccessRouteToHome
   | LoginSuccessRouteToNextPage
   | Login401Error
-  | LoginOpenRequestAccess
-  | LoginDismissRequestAccess;
+  | LoginOpenSelfRegistration
+  | LoginDismissSelfRegistration;

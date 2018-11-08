@@ -5,7 +5,7 @@ $header-color: darken(#f7f7f7, 10%);
 $header-background-color: #1f2f3d;
 $branded-color: #0882BE;
 
-#au-modal-request-access {
+#au-modal-self-registration {
   .modal-content {
     border-radius: .4rem;
     .modal-header {
@@ -43,7 +43,7 @@ $branded-color: #0882BE;
       position: relative;
       display: inline-block;
       top: -7px;
-      left: $header-width - 28;
+      left: $header-width - 29;
       z-index: 100;
     }
   }

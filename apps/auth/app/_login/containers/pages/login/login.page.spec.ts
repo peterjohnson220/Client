@@ -95,8 +95,8 @@ describe('Auth - Login', () => {
 
     fixture.detectChanges();
 
-    const requestAccessButtonHtml = fixture.nativeElement.querySelector('button#au-btn-request-access').innerHTML;
-    expect(requestAccessButtonHtml).toContain('Request Access');
+    const selfRegistrationButtonHtml = fixture.nativeElement.querySelector('button#au-btn-self-registration').innerHTML;
+    expect(selfRegistrationButtonHtml).toContain('Request Access');
   });
 
   it ('should hide the Request Access button when the feature is off', () => {
@@ -104,8 +104,8 @@ describe('Auth - Login', () => {
 
     fixture.detectChanges();
 
-    const requestAccessButton = fixture.nativeElement.querySelector('button#au-btn-request-access');
-    expect(requestAccessButton).toBeNull();
+    const selfRegistrationButton = fixture.nativeElement.querySelector('button#au-btn-self-registration');
+    expect(selfRegistrationButton).toBeNull();
   });
 
   it ('should show the Request Access modal wrapper when the feature is on', () => {
@@ -113,8 +113,8 @@ describe('Auth - Login', () => {
 
     fixture.detectChanges();
 
-    const requestAccessButtonHtml = fixture.nativeElement.querySelector('pf-request-access-modal');
-    expect(requestAccessButtonHtml).toBeTruthy();
+    const selfRegistrationButtonHtml = fixture.nativeElement.querySelector('pf-self-registration-modal');
+    expect(selfRegistrationButtonHtml).toBeTruthy();
   });
 
   it ('should hide the Request Access modal wrapper when the feature is off', () => {
@@ -122,8 +122,8 @@ describe('Auth - Login', () => {
 
     fixture.detectChanges();
 
-    const requestAccessButton = fixture.nativeElement.querySelector('pf-request-access-modal');
-    expect(requestAccessButton).toBeNull();
+    const selfRegistrationButton = fixture.nativeElement.querySelector('pf-self-registration-modal');
+    expect(selfRegistrationButton).toBeNull();
   });
 
 });

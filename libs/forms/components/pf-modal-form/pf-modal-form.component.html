@@ -18,7 +18,7 @@
     <ng-container *ngIf="!formGroup" [ngTemplateOutlet]="basicContent">
     </ng-container>
   </div>
-  <div class="modal-footer d-flex justify-content-between">
+  <div *ngIf="showFooter" class="modal-footer d-flex justify-content-between">
     <div class="flex-column space-out-children" [ngClass]="{'w-50': (size != 'sm')}">
       <ng-content select="[footer-left]"></ng-content>
     </div>
