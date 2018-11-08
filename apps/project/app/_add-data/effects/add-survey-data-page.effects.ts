@@ -11,7 +11,7 @@ import { AddSurveyDataCutMatchResponse, DataCut } from 'libs/models/survey-searc
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import * as fromResultsHeaderActions from '../actions/results-header.actions';
+import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import { JobContext, ProjectSearchContext } from '../models';
 import * as fromAddDataReducer from '../reducers';
 import { FiltersHelper } from '../helpers';

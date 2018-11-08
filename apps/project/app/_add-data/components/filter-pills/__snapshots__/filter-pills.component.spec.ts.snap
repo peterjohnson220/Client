@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Add Data - Filter Pills should apply a locked class to the pill, the pill icon, and show a locked icon (fa-lock), when its locked 1`] = `
+<pf-filter-pills
+  clearPill={[Function EventEmitter]}
+  clearPillGroup={[Function EventEmitter]}
+  filters={[Function Array]}
+  pillGroups={[Function Array]}
+  previewStringLength={[Function Number]}
+  psDirectiveRef={[Function PerfectScrollbarDirective]}
+>
+  <div
+    class="pills-container ps"
+    ng-reflect-config=""
+    perfectscrollbar=""
+  >
+    
+    <div
+      class="pill locked"
+      container="body"
+      ng-reflect-auto-close="outside"
+      ng-reflect-container="body"
+      ng-reflect-disable-popover="true"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom"
+      ng-reflect-popover-class="pill-detail-popover"
+      ng-reflect-popover-title="Publisher"
+      placement="bottom"
+    >
+      
+      <div
+        class="pill-value"
+      >
+         Option 1 
+      </div>
+      <div
+        class="icon locked"
+      >
+        
+        
+        <span>
+          <i
+            class="fas fa-lock"
+          />
+        </span>
+      </div>
+    </div>
+    
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</pf-filter-pills>
+`;
+
+exports[`Project - Add Data - Filter Pills should not add a locked class to the pill or icon, and show a (fa-angle-down) icon, when its not locked 1`] = `
+<pf-filter-pills
+  clearPill={[Function EventEmitter]}
+  clearPillGroup={[Function EventEmitter]}
+  filters={[Function Array]}
+  pillGroups={[Function Array]}
+  previewStringLength={[Function Number]}
+  psDirectiveRef={[Function PerfectScrollbarDirective]}
+>
+  <div
+    class="pills-container ps"
+    ng-reflect-config=""
+    perfectscrollbar=""
+  >
+    
+    <div
+      class="pill"
+      container="body"
+      ng-reflect-auto-close="outside"
+      ng-reflect-container="body"
+      ng-reflect-disable-popover="false"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom"
+      ng-reflect-popover-class="pill-detail-popover"
+      ng-reflect-popover-title="Publisher"
+      placement="bottom"
+    >
+      
+      <div
+        class="pill-value"
+      >
+         Option 1 
+      </div>
+      <div
+        class="icon"
+      >
+        
+        <span>
+          <i
+            class="far fa-angle-down"
+          />
+        </span>
+        
+      </div>
+    </div>
+    
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</pf-filter-pills>
+`;
+
+exports[`Project - Add Data - Filter Pills should show a comma separated list of multi select option values for the pill value 1`] = `
+<pf-filter-pills
+  clearPill={[Function EventEmitter]}
+  clearPillGroup={[Function EventEmitter]}
+  filters={[Function Array]}
+  pillGroups={[Function Array]}
+  previewStringLength={[Function Number]}
+  psDirectiveRef={[Function PerfectScrollbarDirective]}
+>
+  <div
+    class="pills-container ps"
+    ng-reflect-config=""
+    perfectscrollbar=""
+  >
+    
+    <div
+      class="pill"
+      container="body"
+      ng-reflect-auto-close="outside"
+      ng-reflect-container="body"
+      ng-reflect-disable-popover="false"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom"
+      ng-reflect-popover-class="pill-detail-popover"
+      ng-reflect-popover-title="Publisher"
+      placement="bottom"
+    >
+      
+      <div
+        class="pill-value"
+      >
+         Option 1, Option 2 
+      </div>
+      <div
+        class="icon"
+      >
+        
+        <span>
+          <i
+            class="far fa-angle-down"
+          />
+        </span>
+        
+      </div>
+    </div>
+    
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</pf-filter-pills>
+`;
+
+exports[`Project - Add Data - Filter Pills should show a comma separated list of multi select option values with an ellipsis, when it exceeds the preview length 1`] = `
+<pf-filter-pills
+  clearPill={[Function EventEmitter]}
+  clearPillGroup={[Function EventEmitter]}
+  filters={[Function Array]}
+  pillGroups={[Function Array]}
+  previewStringLength={[Function Number]}
+  psDirectiveRef={[Function PerfectScrollbarDirective]}
+>
+  <div
+    class="pills-container ps"
+    ng-reflect-config=""
+    perfectscrollbar=""
+  >
+    
+    <div
+      class="pill"
+      container="body"
+      ng-reflect-auto-close="outside"
+      ng-reflect-container="body"
+      ng-reflect-disable-popover="false"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom"
+      ng-reflect-popover-class="pill-detail-popover"
+      ng-reflect-popover-title="Publisher"
+      placement="bottom"
+    >
+      
+      <div
+        class="pill-value"
+      >
+         Option 1, Very long multi select option ... 
+      </div>
+      <div
+        class="icon"
+      >
+        
+        <span>
+          <i
+            class="far fa-angle-down"
+          />
+        </span>
+        
+      </div>
+    </div>
+    
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</pf-filter-pills>
+`;
+
+exports[`Project - Add Data - Filter Pills should show range filters selected min and max as the pill value (min - max) 1`] = `
+<pf-filter-pills
+  clearPill={[Function EventEmitter]}
+  clearPillGroup={[Function EventEmitter]}
+  filters={[Function Array]}
+  pillGroups={[Function Array]}
+  previewStringLength={[Function Number]}
+  psDirectiveRef={[Function PerfectScrollbarDirective]}
+>
+  <div
+    class="pills-container ps"
+    ng-reflect-config=""
+    perfectscrollbar=""
+  >
+    
+    <div
+      class="pill"
+      container="body"
+      ng-reflect-auto-close="outside"
+      ng-reflect-container="body"
+      ng-reflect-disable-popover="false"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom"
+      ng-reflect-popover-class="pill-detail-popover"
+      ng-reflect-popover-title="Base 50th"
+      placement="bottom"
+    >
+      
+      <div
+        class="pill-value"
+      >
+         50000.0 - 75000.0 
+      </div>
+      <div
+        class="icon"
+      >
+        
+        <span>
+          <i
+            class="far fa-angle-down"
+          />
+        </span>
+        
+      </div>
+    </div>
+    
+    <div
+      class="ps__rail-x"
+      style="left: 0px; top: 0px;"
+    >
+      <div
+        class="ps__thumb-x"
+        style="left: 0px; width: 0px;"
+        tabindex="0"
+      />
+    </div>
+    <div
+      class="ps__rail-y"
+      style="top: 0px; left: 0px;"
+    >
+      <div
+        class="ps__thumb-y"
+        style="top: 0px; height: 0px;"
+        tabindex="0"
+      />
+    </div>
+  </div>
+</pf-filter-pills>
+`;

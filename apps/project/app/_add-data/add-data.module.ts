@@ -8,17 +8,19 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbTooltipModule, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng5SliderModule } from 'ng5-slider';
 import { DragulaModule } from 'ng2-dragula';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
-         MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
-         JobToPriceComponent, SurveySearchLayoutComponent, SavedFiltersComponent } from './components';
+         MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, JobToPriceComponent,
+         SurveySearchLayoutComponent, SaveFilterModalComponent } from './components';
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
-         TooltipContainerComponent, SingleFilterComponent, JobsToPriceContainerComponent, ResultsHeaderComponent } from './containers';
+         TooltipContainerComponent, SingleFilterComponent, JobsToPriceContainerComponent, SavedFiltersComponent,
+         ResultsHeaderComponent } from './containers';
 import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
-         TooltipContainerEffects, JobsToPriceEffects, ResultsHeaderEffects } from './effects';
+         TooltipContainerEffects, JobsToPriceEffects, SavedFiltersEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
@@ -31,13 +33,14 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects, ResultsHeaderEffects
+      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects, SavedFiltersEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
     NgbPopoverModule.forRoot(),
     Ng5SliderModule,
     DragulaModule.forRoot(),
+    PerfectScrollbarModule,
 
     // Routing
     AddDataRoutingModule,
@@ -49,12 +52,12 @@ import { AddDataRoutingModule } from './add-data-routing.module';
   declarations: [
     // Components
     JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
-    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
-    JobToPriceComponent, SurveySearchLayoutComponent, SavedFiltersComponent,
+    MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, JobToPriceComponent,
+    SurveySearchLayoutComponent, SaveFilterModalComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
-    JobsToPriceContainerComponent, ResultsHeaderComponent,
+    JobsToPriceContainerComponent, SavedFiltersComponent, ResultsHeaderComponent,
 
     // Pages
     AddSurveyDataPageComponent, MultiMatchPageComponent

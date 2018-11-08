@@ -1,5 +1,3 @@
-import { generateMockSurveyJobResult } from './job-result.model';
-
 export interface PillGroup {
   GroupName: string;
   FilterId: string;

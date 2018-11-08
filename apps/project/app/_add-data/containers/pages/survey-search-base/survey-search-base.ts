@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import * as fromAddDataReducer from '../../../reducers';
 import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
 import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
+import * as fromSavedFiltersActions from '../../../actions/saved-filters.actions';
 import * as fromSearchActions from '../../../actions/search.actions';
-import * as fromResultsHeaderActions from '../../../actions/results-header.actions';
 
 @Injectable()
 export abstract class SurveySearchBase {
@@ -38,12 +38,12 @@ export abstract class SurveySearchBase {
   }
 
   private resetApp() {
-    this.store.dispatch(new fromResultsHeaderActions.CloseSaveFilterModal());
+    this.store.dispatch(new fromSavedFiltersActions.CloseSaveFilterModal());
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromSearchActions.HideFilterSearch());
-    this.store.dispatch(new fromResultsHeaderActions.ClearSavedFilters());
+    this.store.dispatch(new fromSavedFiltersActions.ClearSavedFilters());
     this.onResetApp();
   }
 

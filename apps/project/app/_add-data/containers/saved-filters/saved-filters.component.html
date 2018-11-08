@@ -1,0 +1,75 @@
+<div class="d-flex">
+  <div class="search-action au-btn-save-filters"
+       [class.disabled]="!canSaveFilters"
+       (click)="handleSaveClicked()">
+    Save
+  </div>
+  <div class="search-action au-btn-view-filters"
+       [ngbPopover]="popContent"
+       [popoverClass]="'saved-filters-popover'"
+       [container]="'body'"
+       [placement]="'bottom'"
+       [popoverTitle]="'Saved Filters'"
+       [autoClose]="'outside'">
+    Filters <i class="fas fa-caret-down"></i>
+  </div>
+</div>
+
+<ng-template #popContent>
+  <div class="saved-filters">
+  <pf-async-container [loading]="loading$ | async">
+    <ng-container *ngIf="savedFilters.length; else noSavedFiltersMessage">
+      <div class="header">
+        <pf-input-debounce
+          [delay]="200"
+          [disabled]="filterIdToDelete.length > 0"
+          [placeholderText]="'Search Filters...'"
+          (valueChanged)="handleSearchValueChanged($event)">
+        </pf-input-debounce>
+      </div>
+
+      <div class="filters"
+           *ngIf="filteredSavedFilters.length; else noSavedFiltersMessage"
+           [class.delete-mode]="filterIdToDelete.length > 0">
+        <div class="filter"
+             *ngFor="let savedFilter of filteredSavedFilters; trackBy: trackByFilterId"
+             [class.to-be-deleted]="savedFilter.Id === filterIdToDelete"
+             [class.selected]="savedFilter.Selected"
+             (click)="handleFilterClicked(savedFilter)">
+
+          <div class="name-and-preview">
+            <div class="name">{{savedFilter.Name}}</div>
+            <div class="preview">{{getFilterPreview(savedFilter)}}</div>
+          </div>
+          <div class="options">
+            <div class="option" (click)="handleDeleteBtnClicked(savedFilter.Id)">Delete</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer" *ngIf="filterIdToDelete">
+        <button class="btn btn-sm btn-secondary" [class.disabled]="deleting$ | async" (click)="handleCancelDeleteClicked()">Cancel</button>
+        <button class="btn btn-sm btn-danger ml-2" (click)="handleDeleteFilterConfirmClicked()">
+          <span *ngIf="!(deleting$ | async)">Delete</span>
+          <span *ngIf="deleting$ | async"><pf-loading-indicator></pf-loading-indicator> Deleting...</span>
+        </button>
+      </div>
+    </ng-container>
+  </pf-async-container>
+</div>
+</ng-template>
+
+
+<ng-template #noSavedFiltersMessage>
+  <div class="no-filters-message">No Saved Filters</div>
+</ng-template>
+
+
+<pf-save-filter-modal
+  [savingFilterConflict]="savingFilterConflict$ | async"
+  [savingFilterError]="savingFilterError$ | async"
+  [savingFilters]="savingFilter$ | async"
+  [isOpen$]="saveFilterModalOpen$"
+  (saveFilter)="handleSaveFilter($event)"
+  (dismissed)="handleSaveFilterModalDismissed()">
+</pf-save-filter-modal>

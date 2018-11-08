@@ -5,4 +5,4 @@ export * from './singled-filter.effects';
 export * from './tooltip-container.effects';
 export * from './multi-match-page.effects';
 export * from './jobs-to-price.effects';
-export * from './results-header.effects';
+export * from './saved-filters.effects';

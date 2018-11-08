@@ -10,7 +10,7 @@ import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import * as fromResultsHeaderActions from '../actions/results-header.actions';
+import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
 import { PayfactorsApiHelper, PayfactorsApiModelMapper, createPricingMatchesRequest } from '../helpers';
@@ -93,7 +93,7 @@ export class AddDataEffectsService {
         }
 
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));
-        actions.push(new fromResultsHeaderActions.UnselectSavedFilter());
+        actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
 
         return actions;
       })
