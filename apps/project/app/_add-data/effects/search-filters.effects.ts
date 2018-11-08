@@ -67,6 +67,7 @@ export class SearchFiltersEffects {
             actions.push(new fromSearchActions.HideFilterSearch());
           }
 
+          actions.push(new fromResultsHeaderActions.UnselectSavedFilter());
           actions.push(new fromResultsHeaderActions.ApplyDefaultSavedFilter());
 
           return actions;
