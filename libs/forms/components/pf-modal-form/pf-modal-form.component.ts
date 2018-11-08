@@ -28,6 +28,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() submitting: boolean;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
+  @Input() backdrop: boolean | 'static' = 'static';
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
@@ -75,7 +76,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
         this.cleanUpModal();
       } else {
         this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
-          backdrop: 'static',
+          backdrop: this.backdrop,
           container: `#${this.modalId}.modal-container`,
           size: this.size
         });
