@@ -1,39 +1,28 @@
 import * as cloneDeep from 'lodash.clonedeep';
 import * as isEqual from 'lodash.isequal';
 
-import { SearchFilter } from 'libs/models';
-
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import { staticFilters } from '../data';
-import { Filter, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
-import {
-  mapSearchFilterToMultiFilter,
-  mergeClientWithServerMultiSelectFilters,
-  mergeClientWithServerRangeFilters,
-  mapSearchFilterOptionsToMultiSelectOptions
-} from '../helpers';
+import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter, MultiSelectFilter, TextFilter } from '../models';
+import { ClientServerFilterHelper, FiltersHelper, PayfactorsApiModelMapper } from '../helpers';
 
 const multiSelectToNotRefresh = f => isMultiFilter(f) && (!f.RefreshOptionsFromServer || f.Locked);
 const filterToNotRefresh = f => isTextFilter(f) || multiSelectToNotRefresh(f);
 
 export interface State {
   filters: Filter[];
-  savedFilters: SearchFilter[];
   loadingDefaultSurveyScopes: boolean;
-  loadingSavedFilters: boolean;
 }
 
 const initialState: State = {
   filters: staticFilters,
-  savedFilters: [],
-  loadingDefaultSurveyScopes: false,
-  loadingSavedFilters: false
+  loadingDefaultSurveyScopes: false
 };
 
 // Reducer function
 export function reducer(state = initialState, action: fromSearchFiltersActions.Actions): State {
   switch (action.type) {
-    case fromSearchFiltersActions.CLEAR_FILTERS: {
+    case fromSearchFiltersActions.REMOVE_FILTERS: {
       return {
         ...state,
         filters: initialState.filters
@@ -54,11 +43,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       if (isTextFilter(filter)) {
         const textFilter = filter as TextFilter;
         textFilter.DefaultValue = action.payload.value;
-        applyDefault(textFilter);
+        FiltersHelper.applyDefault(textFilter);
       } else if (isMultiFilter(filter)) {
         const multiFilter = filter as MultiSelectFilter;
         multiFilter.DefaultSelections = action.payload.selections;
-        applyDefault(multiFilter);
+        FiltersHelper.applyDefault(multiFilter);
       }
 
       return {
@@ -77,7 +66,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
 
       if (action.payload.Options.length) {
         filters = cloneDeep(state.filters);
-        const defaultScopeFilter = mapSearchFilterToMultiFilter(cloneDeep(action.payload));
+        const defaultScopeFilter = <MultiSelectFilter>PayfactorsApiModelMapper.mapSearchFilterToFilter(cloneDeep(action.payload));
         defaultScopeFilter.Options.map(o => o.Selected = true);
         defaultScopeFilter.DefaultSelections = defaultScopeFilter.Options.map(o => o.Value);
         defaultScopeFilter.ShowAllOptions = true;
@@ -113,7 +102,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const clientFiltersNotBeingRefreshed = clientFilters.filter(filterToNotRefresh);
       const serverFilters = cloneDeep(action.payload.searchFilters);
 
-      const newMultiSelectFilters = mergeClientWithServerMultiSelectFilters(
+      const newMultiSelectFilters = ClientServerFilterHelper.mergeClientWithServerMultiSelectFilters(
         {
           serverFilters: serverFilters.filter(f => isMultiFilter(f) && !clientFiltersNotBeingRefreshed.some(cf => cf.Id === f.Id)),
           clientFilters: clientFilters.filter(f => !filterToNotRefresh(f)),
@@ -121,17 +110,14 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         }
       );
 
-      const newRangeFilters = mergeClientWithServerRangeFilters(
+      const newRangeFilters = ClientServerFilterHelper.mergeClientWithServerRangeFilters(
         {
           serverFilters: serverFilters.filter(f => isRangeFilter(f)),
           clientFilters: clientFilters.filter(f => isRangeFilter(f))
         }
       );
 
-      let allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
-      if (action.payload.hasSavedFilters) {
-        allFilters = applySavedSelections(allFilters, state.savedFilters);
-      }
+      const allFilters = clientFiltersNotBeingRefreshed.concat(newMultiSelectFilters).concat(newRangeFilters);
 
       allFilters.sort((a, b) => a.Order - b.Order);
 
@@ -143,7 +129,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.CLEAR_FILTER: {
       const copiedFilters = cloneDeep(state.filters);
       const filterToClear = copiedFilters.find(f => f.Id === action.payload.filterId);
-      clearFilter(filterToClear);
+      FiltersHelper.clearFilter(filterToClear);
 
       return {
         ...state,
@@ -153,7 +139,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     case fromSearchFiltersActions.REMOVE_FILTER_VALUE: {
       const copiedFilters = cloneDeep(state.filters);
       const filterToRemoveValueFrom = copiedFilters.find(f => f.Id === action.payload.filterId);
-      clearFilter(filterToRemoveValueFrom, action.payload.value);
+      FiltersHelper.clearFilter(filterToRemoveValueFrom, action.payload.value);
 
       return {
         ...state,
@@ -161,8 +147,8 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       };
     }
     case fromSearchFiltersActions.RESET_ALL_FILTERS: {
-      let filters = clearFilters(cloneDeep(state.filters));
-      filters = applyDefaults(filters);
+      let filters = FiltersHelper.clearFilters(cloneDeep(state.filters));
+      filters = FiltersHelper.applyDefaults(filters);
       return {
         ...state,
         filters: filters
@@ -179,26 +165,77 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: filtersCopy
       };
     }
-    case fromSearchFiltersActions.ADD_FILTER: {
+    case fromSearchFiltersActions.ADD_FILTERS: {
       const filtersCopy = cloneDeep(state.filters);
-      filtersCopy.push(action.payload);
+
+      action.payload.map(f => filtersCopy.push(f));
 
       return {
         ...state,
         filters: filtersCopy
       };
     }
-    case fromSearchFiltersActions.GET_SAVED_FILTERS: {
+    case fromSearchFiltersActions.REPLACE_FILTERS: {
+      const filtersCopy = cloneDeep(state.filters);
+
+      action.payload.map(f => {
+        const matchedFilterIndex = filtersCopy.findIndex(mf => mf.Id === f.Id);
+
+        if (!!matchedFilterIndex) {
+          filtersCopy[matchedFilterIndex] = f;
+        } else {
+          filtersCopy.push(f);
+        }
+      });
+
       return {
         ...state,
-        loadingSavedFilters: true
+        filters: filtersCopy
       };
     }
-    case fromSearchFiltersActions.GET_SAVED_FILTERS_SUCCESS: {
+    case fromSearchFiltersActions.APPLY_SAVED_FILTERS: {
+      const filtersCopy = cloneDeep(state.filters);
+      let savedFilters = cloneDeep(action.payload);
+
+      // Start with just text filters
+      const newFilters = filtersCopy.filter(f => f.Type === FilterType.Text);
+
+      // Keep any locked filters
+      filtersCopy.filter(f => f.Locked).map(f => newFilters.push(f));
+
+      // When we have non text filters that have system applied defaults override them only when they are present in the saved
+      // filter. Otherwise re-apply all the defaults.
+      const nonTextFiltersWithDefaults = filtersCopy.filter(f => f.Type !== FilterType.Text && FiltersHelper.hasDefault(f));
+      nonTextFiltersWithDefaults.map(df => {
+        const hasSavedFilter = savedFilters.some(sf => sf.Id === df.Id);
+
+        if (hasSavedFilter) {
+          const matchedSavedFilter = savedFilters.find(sf => sf.Id === df.Id);
+          df.Options.map(o => o.Selected = matchedSavedFilter.Options.some(msf => isEqual(msf.Value, o.Value)));
+          savedFilters = savedFilters.filter(sf => sf.Id !== df.Id);
+        } else {
+          FiltersHelper.applyDefault(df);
+        }
+
+        newFilters.push(df);
+      });
+
+      // Handle range filters. Need to set the selections from the save min and max values.
+      // TODO [BC]: Find a better place for this.
+      savedFilters.map(sf => {
+        if (isRangeFilter(sf)) {
+          sf.SelectedMinValue = sf.MinimumValue;
+          sf.SelectedMaxValue = sf.MaximumValue;
+          sf.MinimumValue = null;
+          sf.MaximumValue = null;
+        }
+
+        newFilters.push(sf);
+      });
+
       return {
         ...state,
-        savedFilters: action.payload,
-        loadingSavedFilters: false
+        filters: newFilters
       };
     }
     default: {
@@ -207,69 +244,6 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
   }
 }
 
-// Helper functions
-function clearFilters(filters: Filter[]): Filter[] {
-  return filters.map(f => clearFilter(f) );
-}
-
-function clearFilter(filter: Filter, optionValue?: any) {
-  if (isMultiFilter(filter) && !filter.Locked) {
-    if (!optionValue) {
-      filter.Options.map(o => o.Selected = false);
-    } else {
-      filter.Options.find(o => isEqual(o.Value, optionValue)).Selected = false;
-    }
-  } else if (isRangeFilter(filter)) {
-    filter.SelectedMaxValue = null;
-    filter.SelectedMinValue = null;
-  } else if (isTextFilter(filter)) {
-    filter.Value = '';
-  }
-  return filter;
-}
-
-function applyDefaults(filters: Filter[]): Filter[] {
-  return filters.map(f => applyDefault(f) );
-}
-
-function applyDefault(filter: Filter): Filter {
-  if (isTextFilter(filter)) {
-    const textFilter = filter as TextFilter;
-    if (textFilter.DefaultValue) {
-      filter.Value = textFilter.DefaultValue;
-    }
-  } else if (isMultiFilter(filter)) {
-    const multiFilter = filter as MultiSelectFilter;
-    if (multiFilter.DefaultSelections && multiFilter.DefaultSelections.length) {
-      filter.Options.map(o => o.Selected = multiFilter.DefaultSelections.some(d => isEqual(d, o.Value)));
-    }
-  }
-
-  return filter;
-}
-
-function applySavedSelections(filters: Filter[], savedFilters: SearchFilter[]): Filter[] {
-  savedFilters.map(sf => {
-    filters.filter(f => f.BackingField === sf.Name)
-    .map((f: Filter) => {
-      if (!f.Locked && isMultiFilter(f)) {
-        const searchFilterOptionsWithNoResults = sf.Options.filter(o => !f.Options.some(fo => isEqual(fo.Value, o.Value)));
-        const multiSelectOptionsWithNoResults = mapSearchFilterOptionsToMultiSelectOptions(searchFilterOptionsWithNoResults);
-        multiSelectOptionsWithNoResults.map(o => o.Selected = true);
-        f.Options = f.Options.concat(multiSelectOptionsWithNoResults);
-        f.DefaultSelections = sf.Options.map(o => o.Value);
-        applyDefault(f);
-      } else if (isRangeFilter(f)) {
-        f.SelectedMinValue = sf.Options.find(o => o.Name === 'min').Value;
-        f.SelectedMaxValue = sf.Options.find(o => o.Name === 'max').Value;
-      }
-      return f;
-    });
-  });
-  return filters;
-}
-
 // Selector functions
 export const getFilters = (state: State) => state.filters;
 export const getLoadingDefaultSurveyScopes = (state: State) => state.loadingDefaultSurveyScopes;
-export const getSavedFilters = (state: State) => state.savedFilters;

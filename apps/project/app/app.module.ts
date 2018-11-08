@@ -7,11 +7,15 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
     // Angular
     BrowserModule,
+
+    // Third Party
+    NgbModalModule,
 
     // PF Modules
     PfStateModule,

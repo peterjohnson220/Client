@@ -6,7 +6,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import { Filter, Filters, isMultiFilter, isRangeFilter, MultiSelectFilter, Pill, PillGroup, RangeFilter } from '../../models';
-import { getFiltersWithValues } from '../../helpers';
+import { FiltersHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-filter-pills',
@@ -55,7 +55,9 @@ export class FilterPillsComponent implements OnInit, OnChanges {
   private buildPillGroups(filters: Filter[]) {
     this.pillGroups = [];
 
-    getFiltersWithValues(filters).map((filter: Filters) => {
+    FiltersHelper.getFiltersWithValues(filters)
+      .sort((a, b) => a.Order - b.Order)
+      .map((filter: Filters) => {
       let pillGroup;
 
       if (isMultiFilter(filter)) {

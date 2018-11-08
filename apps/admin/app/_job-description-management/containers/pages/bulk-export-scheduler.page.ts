@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
-import { UserFilter } from 'libs/models/user-profile';
+import { JdmListFilter } from 'libs/models/user-profile';
 import { BulkExportSchedule } from 'libs/models/jdm';
 import { JobDescriptionViewModel } from 'libs/models/jdm/job-description-view.model';
 
@@ -19,7 +19,7 @@ import * as fromJdmAdminReducer from '../../reducers';
 })
 export class BulkExportSchedulerPageComponent implements OnInit {
   views$: Observable<JobDescriptionViewModel[]>;
-  filters$: Observable<UserFilter[]>;
+  filters$: Observable<JdmListFilter[]>;
   schedules$: Observable<BulkExportSchedule[]>;
 
 

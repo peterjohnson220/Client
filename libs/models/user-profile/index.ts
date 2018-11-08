@@ -1,1 +1,1 @@
-export * from './user-filter.model';
+export * from './jdm-list-filter.model';

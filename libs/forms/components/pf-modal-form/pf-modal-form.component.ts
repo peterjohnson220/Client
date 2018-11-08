@@ -26,6 +26,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
   @Input() secondaryButtonText = 'Cancel';
   @Input() submitting: boolean;
+  @Input() backdropClass: string;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
   @Input() backdrop: boolean | 'static' = 'static';
@@ -77,6 +78,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
       } else {
         this.activeModal = this.modalService.open(this.templateRef, <NgbModalOptions>{
           backdrop: this.backdrop,
+          backdropClass: this.backdropClass,
           container: `#${this.modalId}.modal-container`,
           size: this.size
         });

@@ -12,7 +12,6 @@ import {
   PricingMatchesResponse,
   PricingMatchesRequest,
   PricingMatchesDetailsRequest,
-  SaveSearchFiltersRequest,
   SearchContextResponse,
   SearchSurveyAggregationsRequest,
   JobsToPriceRequest,
@@ -60,14 +59,6 @@ export class SurveySearchApiService {
 
   searchSurveyAggregations(request: SearchSurveyAggregationsRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyAggregations`, request);
-  }
-
-  saveSearchFilters(request: SaveSearchFiltersRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveSearchFilters`, request);
-  }
-
-  getSavedFilters(payMarketId: number): Observable<SearchFilter[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSavedFilters`, { params: { payMarketId } });
   }
 
   getJobsToPrice(request: JobsToPriceRequest): Observable<MatchedSurveyJob[]> {

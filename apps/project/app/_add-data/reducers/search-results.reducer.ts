@@ -4,7 +4,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import { DataCut } from 'libs/models/survey-search';
 
 import { DataCutDetails, JobResult, ResultsPagingOptions } from '../models';
-import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
+import { applyMatchesToJobResults, PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   results: JobResult[];
@@ -43,7 +43,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts),
+        results: PayfactorsApiModelMapper.mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts),
         loadingResults: false,
         totalResultsOnServer: action.payload.Paging.TotalRecordCount
       };
@@ -59,7 +59,8 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: state.results.concat(mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
+        results: state.results.concat(
+          PayfactorsApiModelMapper.mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
         loadingMoreResults: false
       };
     }
@@ -125,7 +126,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const surveyJobId = action.payload.SurveyJobId;
       const resultsCopy = cloneDeep(state.results);
       const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
-      const dataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
+      const dataCuts = PayfactorsApiModelMapper.mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
       surveyJob.LoadingDataCuts = false;
       surveyJob.LoadingMoreDataCuts = false;
       surveyJob.LoadingDataCutsError = false;

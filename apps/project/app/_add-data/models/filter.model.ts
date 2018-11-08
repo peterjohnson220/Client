@@ -26,7 +26,7 @@ export interface MultiSelectFilter extends Filter {
   Options: MultiSelectOption[];
   RefreshOptionsFromServer: boolean;
   OptionCountDisabled?: boolean;
-  DefaultSelections?: any[];
+  DefaultSelections: any[];
   Type: FilterType.Multi;
   ShowAllOptions?: boolean;
 }
@@ -84,6 +84,7 @@ export function generateMockMultiSelectFilter(): MultiSelectFilter {
     Options: [generateMockMultiSelectOption()],
     Type: FilterType.Multi,
     RefreshOptionsFromServer: true,
+    DefaultSelections: [],
     Order: 1,
     Locked: false,
     CssClassName: 'au-chk-publisher'

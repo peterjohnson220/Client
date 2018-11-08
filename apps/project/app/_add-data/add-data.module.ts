@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -14,11 +14,11 @@ import { PfFormsModule } from 'libs/forms';
 
 import { JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
          MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
-         JobToPriceComponent, SurveySearchLayoutComponent } from './components';
+         JobToPriceComponent, SurveySearchLayoutComponent, SavedFiltersComponent } from './components';
 import { AddSurveyDataPageComponent, MultiMatchPageComponent, SearchResultsComponent, SearchFiltersComponent,
          TooltipContainerComponent, SingleFilterComponent, JobsToPriceContainerComponent, ResultsHeaderComponent } from './containers';
 import { AddSurveyDataPageEffects, MultiMatchPageEffects, SearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
-         TooltipContainerEffects, JobsToPriceEffects } from './effects';
+         TooltipContainerEffects, JobsToPriceEffects, ResultsHeaderEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataEffectsService } from './services';
 import { AddDataRoutingModule } from './add-data-routing.module';
@@ -26,12 +26,12 @@ import { AddDataRoutingModule } from './add-data-routing.module';
 @NgModule({
   imports: [
     // Angular
-    CommonModule, FormsModule,
+    CommonModule, FormsModule, ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('project_addData', reducers),
     EffectsModule.forFeature([AddSurveyDataPageEffects, SearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects
+      TooltipContainerEffects, SingledFilterEffects, MultiMatchPageEffects, JobsToPriceEffects, ResultsHeaderEffects
     ]),
     InfiniteScrollModule,
     NgbTooltipModule,
@@ -50,7 +50,7 @@ import { AddDataRoutingModule } from './add-data-routing.module';
     // Components
     JobResultComponent, DataCutsComponent, FilterSectionComponent, MultiSelectFilterComponent,
     MatchesDetailsTooltipComponent, FilterPillsComponent, RangeFilterComponent, FilterActionsComponent,
-    JobToPriceComponent, SurveySearchLayoutComponent,
+    JobToPriceComponent, SurveySearchLayoutComponent, SavedFiltersComponent,
 
     // Containers
     SearchResultsComponent, SearchFiltersComponent, TooltipContainerComponent, SingleFilterComponent,
