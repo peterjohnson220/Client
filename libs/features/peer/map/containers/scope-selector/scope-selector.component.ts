@@ -1,7 +1,7 @@
-import {Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/internal/operators';
 
@@ -21,6 +21,9 @@ import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 export class ScopeSelectorComponent implements OnInit, OnDestroy {
   @ViewChild('p') popover: NgbPopover;
 
+  @Input() addDataModal: boolean;
+  @Input() exchangeId: number;
+
   systemFilterLoaded$: Observable<boolean>;
   exchangeScopeItemsLoading$: Observable<boolean>;
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
@@ -30,10 +33,10 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromLibsPeerMapReducer.State>
   ) {
-    this.exchangeScopeItems$ = this.store.select(fromLibsPeerMapReducer.getExchangeScopes);
-    this.exchangeScopeItemsLoading$ = this.store.select(fromLibsPeerMapReducer.getExchangeScopesLoading);
-    this.systemFilterLoaded$ = this.store.select(fromLibsPeerMapReducer.getSystemFilterLoaded);
-    this.selectedExchangeScopeItem$ = this.store.select(fromLibsPeerMapReducer.getPeerFilterScopeSelection);
+    this.exchangeScopeItems$ = this.store.pipe(select(fromLibsPeerMapReducer.getExchangeScopes));
+    this.exchangeScopeItemsLoading$ = this.store.pipe(select(fromLibsPeerMapReducer.getExchangeScopesLoadingByJobs));
+    this.systemFilterLoaded$ = this.store.pipe(select(fromLibsPeerMapReducer.getSystemFilterLoaded));
+    this.selectedExchangeScopeItem$ = this.store.pipe(select(fromLibsPeerMapReducer.getPeerFilterScopeSelection));
   }
 
   handleExchangeScopeClicked(exchangeScopeItem: ExchangeScopeItem) {
@@ -56,7 +59,11 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.systemFilterLoadedSubscription = this.systemFilterLoaded$.subscribe(loaded => {
       if (loaded) {
-        this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopes);
+        if (this.addDataModal) {
+          this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs);
+        } else {
+          this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(this.exchangeId));
+        }
       }
     });
   }
@@ -64,5 +71,4 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.systemFilterLoadedSubscription.unsubscribe();
   }
-
 }

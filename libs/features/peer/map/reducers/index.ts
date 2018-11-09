@@ -87,8 +87,11 @@ export const getPeerFilterCountUnGeoTaggedIncumbents = createSelector(
 export const {
   selectAll: getExchangeScopes
 } = fromExchangeScopeReducer.adapter.getSelectors(selectExchangeScopeState);
-export const getExchangeScopesLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoading);
-export const getExchangeScopesLoadingError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingError);
+export const getExchangeScopesLoadingByJobs = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobs);
+export const getExchangeScopesLoadingByJobsError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobsError);
+export const getExchangeScopesLoadingByExchange = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByExchange);
+export const getExchangeScopesLoadingByExchangeError =
+  createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByExchangeError);
 export const getExchangeScopeDetailsLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingDetails);
 export const getExchangeScopeDetailsLoadingError = createSelector(
   selectExchangeScopeState,

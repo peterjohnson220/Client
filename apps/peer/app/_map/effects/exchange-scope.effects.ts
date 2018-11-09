@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Action, Store, select } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError, withLatestFrom, concatMap } from 'rxjs/operators';
 
 import { ExchangeScopeApiService } from 'libs/data/payfactors-api';
+import { ExchangeScopeItem } from 'libs/models/peer/exchange-scope';
 import { UpsertExchangeScopeRequest } from 'libs/models/peer/requests/upsert-exchange-scope-request.model';
 import * as fromLibsPeerMapReducers from 'libs/features/peer/map/reducers';
+import * as fromLibsExchangeScopeActions from 'libs/features/peer/map/actions/exchange-scope.actions';
+import * as fromLibsFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 
 import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
@@ -28,8 +31,12 @@ export class ExchangeScopeEffects {
         }
       ),
       switchMap((request: UpsertExchangeScopeRequest) => this.exchangeScopeApiService.upsertExchangeScope(request).pipe(
-        map(() => {
-          return new fromExchangeScopeActions.UpsertExchangeScopeSuccess();
+        concatMap((exchangeScopeItem: ExchangeScopeItem) => {
+          return [
+            new fromExchangeScopeActions.UpsertExchangeScopeSuccess(),
+            new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(request.Filter.ExchangeId),
+            new fromLibsFilterSidebarActions.SetExchangeScopeSelection(exchangeScopeItem)
+          ];
         }),
         catchError(() => of(new fromExchangeScopeActions.UpsertExchangeScopeError()))
       ))
