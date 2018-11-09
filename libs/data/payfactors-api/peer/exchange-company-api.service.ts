@@ -7,10 +7,9 @@ import { MappingHelper } from '../../../core/helpers';
 import {
   ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
   CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
-  RequestExchangeRequest, UpsertDataCutRequest
+  RequestExchangeRequest, UpsertDataCutRequest, ExchangeRequestCandidatesRequest
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { ExchangeRequestCandidatesRequest, DataCutValidationInfo } from '../../../models/peer';
 
 @Injectable()
 export class ExchangeCompanyApiService {
@@ -50,6 +49,13 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  getExchangeCompanyJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(
+      `${this.endpoint}/GetExchangeCompanyJobs`,
+      { params: { exchangeId, listState: JSON.stringify(listState) } },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
 
   upsertExchangeJobMap(upsertExchangeJobMapRequest: UpsertExchangeJobMapRequest) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeJobMap`,
@@ -65,15 +71,6 @@ export class ExchangeCompanyApiService {
   getDetailChart(getDetailChartRequest: GetDetailChartRequest): Observable<ChartItem[]> {
     return this.payfactorsApiService.get<ChartItem[]>(`${this.endpoint}/GetDetailChart`,
       { params: { getDetailChartRequest: JSON.stringify(getDetailChartRequest) } });
-  }
-
-  upsertDataCut(upsertDataCutRequest: UpsertDataCutRequest): Observable<number> {
-    return this.payfactorsApiService.post<number>(`${this.endpoint}/UpsertDataCut`, upsertDataCutRequest);
-  }
-
-  getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
-    return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
-      { params: { companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId } });
   }
 
   createExchangeRequest(payload: RequestExchangeRequest): Observable<any> {

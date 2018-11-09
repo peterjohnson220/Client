@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfPeerMapModule } from 'libs/features/peer/map';
 import { PfFormsModule } from 'libs/forms';
 
 import { SharedModule } from '../shared/shared.module';
-import { ExchangeMapPageComponent } from './containers';
 import { MapRoutingModule } from './map-routing.module';
 
-import { ExchangeScopeEffects } from './effects';
+import { ExchangeMapPageComponent, SaveExchangeScopeModalComponent, ExportDataCutsModalComponent } from './containers';
+import { ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects } from './effects';
 import { reducers } from './reducers';
-import { SaveExchangeScopeModalComponent } from './containers/save-exchange-scope-modal';
 
 @NgModule({
   imports: [
@@ -27,9 +27,10 @@ import { SaveExchangeScopeModalComponent } from './containers/save-exchange-scop
     MapRoutingModule,
 
     // 3rd Party
+    GridModule,
     StoreModule.forFeature('peer_map', reducers),
     EffectsModule.forFeature([
-      ExchangeScopeEffects
+      ExchangeScopeEffects, ExchangeCompanyJobsGridEffects, ExportDataCutsEffects
     ]),
 
     // Payfactors
@@ -43,7 +44,7 @@ import { SaveExchangeScopeModalComponent } from './containers/save-exchange-scop
     ExchangeMapPageComponent,
 
     // Containers
-    SaveExchangeScopeModalComponent
+    SaveExchangeScopeModalComponent, ExportDataCutsModalComponent
   ]
 })
 export class MapModule { }

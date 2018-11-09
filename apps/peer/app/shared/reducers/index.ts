@@ -55,6 +55,10 @@ export const getExchangeId = createSelector(
   getExchange,
   (exchange) => exchange ? exchange.ExchangeId : 0
 );
+export const getExchangeName = createSelector(
+  getExchange,
+  (exchange) => exchange ? exchange.ExchangeName : ''
+);
 
 // Exchange Access Selector
 export const getExchangeAccess = createSelector(

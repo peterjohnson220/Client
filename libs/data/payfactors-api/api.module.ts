@@ -6,7 +6,8 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService, ExchangeScopeApiService } from './peer';
+import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
+         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService } from './surveys';
 import { DashboardApiService } from './dashboard';
@@ -39,7 +40,8 @@ import { OrgDataFieldMappingsApiService } from './org-data-loader';
     SurveySearchApiService,
     ExchangeScopeApiService,
     CompanySettingsApiService,
-    OrgDataFieldMappingsApiService
+    OrgDataFieldMappingsApiService,
+    ExchangeDataCutsApiService
   ]
 })
 export class PfApiModule { }
