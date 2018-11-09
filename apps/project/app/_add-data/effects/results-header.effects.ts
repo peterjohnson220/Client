@@ -86,6 +86,7 @@ export class ResultsHeaderEffects {
             (!!data.jobContext && data.jobContext.JobPayMarketId) ||
             (!!data.projectSearchContext && data.projectSearchContext.PayMarketId);
           upsertRequest.SavedFilter.MetaInfo.DefaultPayMarkets = [payMarketId];
+
           const currentDefault = data.savedFilters
             .find(sf => sf.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString()));
           if (!!currentDefault) {
@@ -168,7 +169,7 @@ export class ResultsHeaderEffects {
         const savedFilter = cloneDeep(action.payload.savedFilter);
 
         savedFilter.MetaInfo.DefaultPayMarkets = savedFilter.MetaInfo.DefaultPayMarkets
-          .filter(dpmid => dpmid.toString() !== action.payload.payMarketId);
+          .filter(dpmid => dpmid.toString() !== action.payload.payMarketId.toString());
 
         return this.userFilterApiService.upsert({
           SavedFilter: {
