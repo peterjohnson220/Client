@@ -95,9 +95,26 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectAction);
   });
 
-  it('should dispatch a LoadExchangeScopes action on init if the systemFilter has been loaded', () => {
-    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopes();
+  it('should dispatch a LoadExchangeScopesByJobs action on init if the systemFilter has been loaded and we are in the ' +
+           'add data cuts modal', () => {
+    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopesByJobs();
     instance.systemFilterLoaded$ = of(true);
+    instance.addDataModal = true;
+
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should dispatch a LoadExchangeScopesByExchange action on init if the systemFilter has been loaded and we are not in the' +
+           'add data cuts modal', () => {
+    const exchangeId = 1;
+    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopesByExchange(exchangeId);
+    instance.systemFilterLoaded$ = of(true);
+    instance.addDataModal = false;
+    instance.exchangeId = exchangeId;
 
     spyOn(store, 'dispatch');
 
@@ -108,6 +125,7 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it('should display the currently selected exchange scope', () => {
     instance.selectedExchangeScopeItem$ = of(generateMockExchangeScopeItem());
+    instance.addDataModal = true;
 
     fixture.detectChanges();
 
@@ -115,6 +133,8 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   });
 
   it('should display "No Selection" message when there is no exchange scope selected', () => {
+    instance.addDataModal = true;
+
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -122,6 +142,23 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
 
   it(`should disable scope selector button when there are no scopes`, () => {
     instance.exchangeScopeItems$ = of([]);
+    instance.addDataModal = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should match snapshot when in add data cuts modal', () => {
+    instance.addDataModal = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should match snapshot when on big map', () => {
+    instance.addDataModal = false;
 
     fixture.detectChanges();
 

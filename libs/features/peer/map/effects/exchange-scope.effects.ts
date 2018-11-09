@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Action, Store, select } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, withLatestFrom, concatMap } from 'rxjs/operators';
 
@@ -16,23 +16,36 @@ import * as fromLibsPeerMapReducers from '../reducers';
 @Injectable()
 export class ExchangeScopeEffects {
   @Effect()
-  loadExchangeScopes: Observable<Action> = this.actions$
-    .ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPES).pipe(
-      withLatestFrom(this.libsPeerMapStore.select(fromLibsPeerMapReducers.getSystemFilterExchangeJobIds),
+  loadExchangeScopesByJobs: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS)).pipe(
+      withLatestFrom(this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getSystemFilterExchangeJobIds)),
         (action, systemFilterExchangeJobIds) => systemFilterExchangeJobIds),
       switchMap((systemFilterExchangeJobIds: number[]) =>
-        this.exchangeScopeApiService.getExchangeScopes(systemFilterExchangeJobIds).pipe(
+        this.exchangeScopeApiService.getExchangeScopesByJobs(systemFilterExchangeJobIds).pipe(
           map((exchangeScopeItems: ExchangeScopeItem[]) => new fromLibsExchangeScopeActions
-            .LoadExchangeScopesSuccess(exchangeScopeItems)),
-          catchError(() => of(new fromLibsExchangeScopeActions.LoadExchangeScopesError))
+            .LoadExchangeScopesByJobsSuccess(exchangeScopeItems)),
+          catchError(() => of(new fromLibsExchangeScopeActions.LoadExchangeScopesByJobsError))
         )
       )
     );
 
   @Effect()
-  loadExchangeScopeDetails: Observable<Action> = this.actions$
-    .ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS).pipe(
-      withLatestFrom(this.libsPeerMapStore.select(fromLibsPeerMapReducers.getPeerMapScopeRequestPayload),
+  loadExchangeScopesByExchange: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE)).pipe(
+    map((action: fromLibsExchangeScopeActions.LoadExchangeScopesByExchange) => action.payload),
+    switchMap((payload) =>
+        this.exchangeScopeApiService.getExchangeScopesByExchange(payload).pipe(
+          map((exchangeScopeItems: ExchangeScopeItem[]) => new fromLibsExchangeScopeActions
+            .LoadExchangeScopesByExchangeSuccess(exchangeScopeItems)),
+          catchError(() => of(new fromLibsExchangeScopeActions.LoadExchangeScopesByExchangeError))
+        )
+      )
+    );
+
+  @Effect()
+  loadExchangeScopeDetails: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS)).pipe(
+      withLatestFrom(this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerMapScopeRequestPayload)),
         (action, peerMapScopeRequestPayload) => peerMapScopeRequestPayload),
       switchMap(payload =>
         this.exchangeScopeApiService.getPeerMapScope(payload.exchangeScopeGuid, payload.filterModel).pipe(
@@ -44,8 +57,8 @@ export class ExchangeScopeEffects {
     );
 
   @Effect()
-  loadExchangeScopeDetailsSuccess$: Observable<Action> = this.actions$
-    .ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS).pipe(
+  loadExchangeScopeDetailsSuccess$: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS)).pipe(
       map((action: fromLibsExchangeScopeActions.LoadExchangeScopeDetailsSuccess) => action.payload),
       concatMap(payload => {
         return [

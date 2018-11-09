@@ -13,8 +13,8 @@ export class ExchangeScopeApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  upsertExchangeScope(request: UpsertExchangeScopeRequest): Observable<any> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeScope`, request);
+  upsertExchangeScope(request: UpsertExchangeScopeRequest): Observable<ExchangeScopeItem> {
+    return this.payfactorsApiService.post<ExchangeScopeItem>(`${this.endpoint}/UpsertExchangeScope`, request);
   }
 
   validateExchangeScopeName(exchangeId: number, exchangeScopeName: string): Observable<any> {
@@ -23,9 +23,15 @@ export class ExchangeScopeApiService {
     );
   }
 
-  getExchangeScopes(exchangeJobIds: number[]): Observable<ExchangeScopeItem[]> {
-    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeList`,
+  getExchangeScopesByJobs(exchangeJobIds: number[]): Observable<ExchangeScopeItem[]> {
+    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByJobs`,
       { params: { exchangeJobIds: exchangeJobIds } }
+    );
+  }
+
+  getExchangeScopesByExchange(exchangeId: number): Observable<ExchangeScopeItem[]> {
+    return this.payfactorsApiService.get<ExchangeScopeItem[]>(`${this.endpoint}/GetExchangeScopeListByExchange`,
+      { params: { exchangeId: exchangeId } }
     );
   }
 

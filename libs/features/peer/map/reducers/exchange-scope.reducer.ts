@@ -7,8 +7,10 @@ import * as fromExchangeScopeActions from '../actions/exchange-scope.actions';
 
 // Extended entity state
 export interface State extends EntityState<ExchangeScopeItem> {
-  loading: boolean;
-  loadingError: boolean;
+  loadingByJobs: boolean;
+  loadingByJobsError: boolean;
+  loadingByExchange: boolean;
+  loadingByExchangeError: boolean;
   loadingDetails: boolean;
   loadingDetailsError: boolean;
 }
@@ -21,8 +23,10 @@ export const adapter: EntityAdapter<ExchangeScopeItem> = createEntityAdapter<Exc
 
 // Initial State
 export const initialState: State = adapter.getInitialState({
-  loading: false,
-  loadingError: false,
+  loadingByJobs: false,
+  loadingByJobsError: false,
+  loadingByExchange: false,
+  loadingByExchangeError: false,
   loadingDetails: false,
   loadingDetailsError: false
 });
@@ -30,24 +34,44 @@ export const initialState: State = adapter.getInitialState({
 // Reducer
 export function reducer(state = initialState, action: fromExchangeScopeActions.Actions): State {
   switch (action.type) {
-    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES: {
-      return {
-        ...adapter.removeAll(state),
-        loading: true
-      };
-    }
-    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_SUCCESS: {
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS: {
+    return {
+      ...adapter.removeAll(state),
+      loadingByJobs: true
+    };
+  }
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_SUCCESS: {
       const scopes: ExchangeScopeItem[] = action.payload;
       return {
         ...adapter.addAll(scopes, state),
-        loading: false
+        loadingByJobs: false
       };
     }
-    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_ERROR: {
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_JOBS_ERROR: {
       return {
         ...state,
-        loading: false,
-        loadingError: true
+        loadingByJobs: false,
+        loadingByJobsError: true
+      };
+    }
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE: {
+      return {
+        ...adapter.removeAll(state),
+        loadingByExchange: true
+      };
+    }
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_SUCCESS: {
+      const scopes: ExchangeScopeItem[] = action.payload;
+      return {
+        ...adapter.addAll(scopes, state),
+        loadingByExchange: false
+      };
+    }
+    case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR: {
+      return {
+        ...state,
+        loadingByExchange: false,
+        loadingByExchangeError: true
       };
     }
     case fromExchangeScopeActions.LOAD_EXCHANGE_SCOPE_DETAILS: {
@@ -76,7 +100,9 @@ export function reducer(state = initialState, action: fromExchangeScopeActions.A
 }
 
 // Selector Functions
-export const getLoading = (state: State) => state.loading;
-export const getLoadingError = (state: State) => state.loadingError;
+export const getLoadingByJobs = (state: State) => state.loadingByJobs;
+export const getLoadingByJobsError = (state: State) => state.loadingByJobsError;
+export const getLoadingByExchange = (state: State) => state.loadingByExchange;
+export const getLoadingByExchangeError = (state: State) => state.loadingByExchangeError;
 export const getLoadingDetails = (state: State) => state.loadingDetails;
 export const getLoadingDetailsError = (state: State) => state.loadingDetailsError;

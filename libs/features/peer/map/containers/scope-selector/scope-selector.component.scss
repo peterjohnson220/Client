@@ -6,11 +6,13 @@
 
   .selector {
     width: 100%;
+    min-width: 210px;
     text-align: left;
     @extend %ellipsis-overflowing-text;
 
     .selection {
       padding-left: .5rem;
+      padding-right: .5rem;
       font-weight: bolder;
 
       &.no-selection {
@@ -27,7 +29,7 @@
 
 .popover-content {
   max-height: 300px;
-  min-width: 200px;
+  min-width: 210px;
   overflow-y: auto;
   padding: .5rem 0;
 }
@@ -60,15 +62,27 @@
 }
 
 // Popover overrides
-:host ::ng-deep .popover {
+.custom-modal-popover ::ng-deep .popover {
   top: 60px !important;
+}
+
+.custom-map-popover ::ng-deep .popover {
+  top: 90px !important;
+  width: 212px;
+}
+
+.custom-modal-arrow ::ng-deep .arrow {
+  top: 1rem !important;
+}
+
+.custom-map-arrow ::ng-deep .arrow {
+  display: none;
+}
+
+:host ::ng-deep .popover {
   font-size: 1rem;
 }
 
 :host ::ng-deep .popover-body {
   padding: 0;
-}
-
-:host ::ng-deep .arrow {
-  top: 1rem !important;
 }

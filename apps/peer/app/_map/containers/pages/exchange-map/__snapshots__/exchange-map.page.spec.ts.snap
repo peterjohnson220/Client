@@ -19,6 +19,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     
       
     
+    <pf-scope-selector />
     <button
       class="btn btn-secondary"
       type="button"
@@ -72,6 +73,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     
       
     
+    <pf-scope-selector />
     <button
       class="btn btn-secondary"
       type="button"
@@ -125,6 +127,7 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
     
       
     
+    <pf-scope-selector />
     <button
       class="btn btn-secondary"
       disabled=""
@@ -178,6 +181,7 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
     
      Mock Exchange 
     
+    <pf-scope-selector />
     <button
       class="btn btn-secondary"
       type="button"
