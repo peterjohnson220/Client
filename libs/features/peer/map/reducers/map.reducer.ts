@@ -31,7 +31,7 @@ export const initialState: State = {
     Centroid: [-98, 38.88]
   },
   mapSummary: null,
-  mapBounds: [0, 0, 0, 0],
+  mapBounds: null,
   loading: false,
   loadingError: false,
   shouldUpdateBounds: true,
