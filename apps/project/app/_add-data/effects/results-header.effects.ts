@@ -12,8 +12,10 @@ import { SavedFilterType } from 'libs/models/payfactors-api/user-filter/saved-fi
 import * as fromResultsHeaderActions from '../actions/results-header.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
+import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
 import { PayfactorsApiHelper, PayfactorsApiModelMapper } from '../helpers';
+import { MultiSelectFilter } from '../models';
 
 @Injectable()
 export class ResultsHeaderEffects {
@@ -135,11 +137,27 @@ export class ResultsHeaderEffects {
   selectSavedFilter$ = this.actions$
     .ofType(fromResultsHeaderActions.SELECT_SAVED_FILTER)
     .pipe(
-      mergeMap((action: fromResultsHeaderActions.SelectSavedFilter) => [
-          new fromSearchFiltersActions.ApplySavedFilters(action.payload.Filters),
-          new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false })
-        ]
-      )
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getSearchingFilter),
+        this.store.select(fromAddDataReducer.getSingledFilter),
+        (action: fromResultsHeaderActions.SelectSavedFilter, searchingFilter, singledFilter) =>
+          ({ action, searchingFilter, singledFilter })),
+      mergeMap(data => {
+        const actions = [];
+        const savedFilters = data.action.payload.Filters;
+
+        if (data.searchingFilter) {
+          const savedFiltersSearchingFilter = <MultiSelectFilter>savedFilters.find(sf => sf.Id === data.singledFilter.Id);
+          const selections = !!savedFiltersSearchingFilter ? savedFiltersSearchingFilter.Options : [];
+
+          actions.push(new fromSingledFilterActions.ApplySelections(selections));
+        }
+
+        actions.push(new fromSearchFiltersActions.ApplySavedFilters(savedFilters));
+        actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
+
+        return actions;
+      })
     );
 
   @Effect({dispatch: false})

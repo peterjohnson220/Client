@@ -105,6 +105,20 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         searchValue: action.payload
       };
     }
+    case fromSingledFilterActions.APPLY_SELECTIONS: {
+      const filterCopy = cloneDeep(state.filter);
+
+      if (action.payload.length) {
+        filterCopy.Options.map(fo => {
+          fo.Selected = action.payload.some(po => isEqual(fo.Value, po.Value));
+        });
+      }
+
+      return {
+        ...state,
+        filter: filterCopy
+      };
+    }
     default: {
       return state;
     }
