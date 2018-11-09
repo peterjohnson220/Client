@@ -33,15 +33,23 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   communityPosts$: Observable<CommunityPost[]>;
   communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
   loadingCommunityPosts$: Observable<boolean>;
-  loadingPostsSubscription: Subscription;
+  loadingMoreCommunityPosts$: Observable<boolean>;
+  hasMoreResultsOnServer$: Observable<boolean>;
+
   showAddReply = {};
   showReplies = [];
 
-  userSubmittedResponses: CommunityPollResponse[];
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
 
+  loadingPostsSubscription: Subscription;
   communityPostsSubscription: Subscription;
+  loadingMoreCommunityPostsSubscription: Subscription;
+  hasMoreResultsOnServerSubscription: Subscription;
+
+  loadingMoreCommunityPosts: boolean;
+  hasMoreResultsOnServer: boolean;
+
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               public replyStore: Store<fromCommunityPostReplyReducer.State>,
@@ -51,6 +59,15 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
+
+    this.loadingMoreCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingMorePosts);
+    this.hasMoreResultsOnServer$ = this.store.select(fromCommunityPostReducer.getHasMoreDiscussionResultsOnServer);
+  }
+
+  onScroll() {
+    if (!this.loadingMoreCommunityPosts && this.hasMoreResultsOnServer) {
+      this.store.dispatch(new fromCommunityPostActions.GettingMoreCommunityPosts());
+    }
   }
 
   ngOnInit() {
@@ -63,22 +80,44 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     });
 
     this.communityPostsSubscription = this.communityPosts$.subscribe(posts => {
-      if (posts != null) {this.communityPosts = posts; }
+      if (posts != null) {
+        this.communityPosts = posts;
+      }
+    });
+
+    this.loadingMoreCommunityPostsSubscription = this.loadingMoreCommunityPosts$.subscribe(value => {
+      if (value != null) {
+        this.loadingMoreCommunityPosts = value;
+      }
+    });
+
+    this.hasMoreResultsOnServerSubscription = this.hasMoreResultsOnServer$.subscribe(value => {
+      if (value != null) {
+        this.hasMoreResultsOnServer = value;
+      }
     });
   }
 
-  getPosts() {
-    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
-  }
-
   ngOnDestroy() {
-    if ( this.communityPostsSubscription) {
+    if (this.communityPostsSubscription) {
       this.communityPostsSubscription.unsubscribe();
     }
 
     if (this.loadingPostsSubscription) {
       this.loadingPostsSubscription.unsubscribe();
     }
+
+    if (this.loadingMoreCommunityPostsSubscription) {
+      this.loadingMoreCommunityPostsSubscription.unsubscribe();
+    }
+
+    if (this.hasMoreResultsOnServerSubscription) {
+      this.hasMoreResultsOnServerSubscription.unsubscribe();
+    }
+  }
+
+  getPosts() {
+    this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
   }
 
   getReplies(item: number, postId: number) {
@@ -114,8 +153,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   @HostListener('window:message', [ '$event' ])
   onMessage(e) {
-    if (e && e.data &&  e.data.action === 'getCommunityPostsByTag' && e.data.tag) {
-      const communityTag: CommunityTag  = {
+    if (e && e.data && e.data.action === 'getCommunityPostsByTag' && e.data.tag) {
+      const communityTag: CommunityTag = {
         Id: null,
         Tag: e.data.tag,
         PostIds: null,

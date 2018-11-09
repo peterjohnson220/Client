@@ -1,3 +1,11 @@
+.filter-wrapper
+{
+  background-color: white;
+  position: sticky;
+  top: -10px;
+  z-index: 999;
+}
+
 .filter-container {
   background-color: #ECF0F5;
   color: #515151;

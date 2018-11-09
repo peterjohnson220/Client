@@ -1,5 +1,17 @@
 @import 'colors';
 
+.page-header{
+  background: $grey;
+  border-bottom: 1px solid $border-grey;
+  height: 67px;
+  flex-shrink: 0;
+  padding: 0 0.85rem;
+}
+
+.page-content {
+  background-color: #FFFFFF;
+}
+
 .community-container
 {
   min-width: 1000px;

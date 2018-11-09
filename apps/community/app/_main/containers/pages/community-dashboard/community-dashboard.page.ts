@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { CommunityPostsComponent } from '../../community-posts';
 
 @Component({
   selector: 'pf-community-dashboard-page',
@@ -8,4 +9,10 @@ import { Component } from '@angular/core';
 export class CommunityDashboardPageComponent {
 
   constructor() { }
+
+  @ViewChild('posts') postsComponent: CommunityPostsComponent;
+
+  onScroll() {
+    this.postsComponent.onScroll();
+  }
 }

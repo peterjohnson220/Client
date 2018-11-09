@@ -48,10 +48,10 @@ export class CommunityJobsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-     if (!this.loadingMoreCommunityJobsSub) {
+     if (this.loadingMoreCommunityJobsSub) {
        this.loadingMoreCommunityJobsSub.unsubscribe();
      }
-     if (!this.hasMoreResultsOnServerSub) {
+     if (this.hasMoreResultsOnServerSub) {
        this.hasMoreResultsOnServerSub.unsubscribe();
      }
   }

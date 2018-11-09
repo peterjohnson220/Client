@@ -5,23 +5,19 @@ import { Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, map, concatMap, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, catchError, map, concatMap} from 'rxjs/operators';
 
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
 
-import { CommunitySearchResult } from 'libs/models/community/community-search-result.model';
 import { CommunityPost } from 'libs/models/community';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
-import { PagingOptions } from '../models/paging-options.model';
+
 
 import * as fromCommunityPostFilterOptionsReducer from '../reducers';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
-import * as fromCommunityPostReplyActions from '../actions/community-post-reply.actions';
-import * as fromCommunityPostFilterReplyViewActions from '../actions/community-post-filter-reply-view.actions';
-import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
-
+import { CommunityPostEffectsService } from '../services/community-post-effects-service';
 
 
 @Injectable()
@@ -59,35 +55,14 @@ export class CommunityPostEffects {
     );
 
   @Effect()
-  loadingCommunityPosts$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS).pipe(
-      withLatestFrom(
-        this.store.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions),
-        (action: fromCommunityPostActions.GettingCommunityPosts, filters) => ({ action, filters })),
-      mergeMap((communityPostContext) => {
-        // TODO: modify paging options when implement infinte scroll
-        const pagingOptions: PagingOptions = {
-          StartIndex: 0,
-          NumberOfPosts: 60
-        };
-        return this.communityPostService.getPosts({
-          PagingOptions: pagingOptions,
-          FilterOptions: communityPostContext.filters
-        }).pipe(
-          concatMap((communitySearchResult: CommunitySearchResult) => {
-            const replyIds = communitySearchResult.FilteredReplies.map(reply => reply.Id);
-            return [
-              new fromCommunityPostFilterReplyViewActions.ClearingCommunityPostFilteredRepliesToView(communitySearchResult.FilteredReplies),
-              new fromCommunityPostAddReplyViewActions.ClearingAllCommunityPostReplies(),
-              new fromCommunityPostActions.GettingCommunityPostsSuccess(communitySearchResult.Posts),
-              new fromCommunityPostReplyActions.GettingCommunityPostRepliesSuccess(communitySearchResult.FilteredReplies),
-              new fromCommunityPostFilterReplyViewActions.AddingCommunityPostFilteredRepliesToView({ replyIds: replyIds })];
-          }),
-          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostsError()))
-        );
-      }
-    ));
+  loadingCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
+    this.actions$.ofType(fromCommunityPostActions.GETTING_COMMUNITY_POSTS)
+  );
 
+  @Effect()
+  loadingMoreCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
+    this.actions$.ofType(fromCommunityPostActions.GETTING_MORE_COMMUNITY_POSTS)
+  );
 
   @Effect()
   updatingCommunityPostLike$: Observable<Action> = this.actions$
@@ -151,6 +126,7 @@ export class CommunityPostEffects {
     private store: Store<fromCommunityPostFilterOptionsReducer.State>,
     private communityPostService: CommunityPostApiService,
     private communityPollService: CommunityPollApiService,
+    private communityPostEffectsService: CommunityPostEffectsService
   ) {
   }
 }

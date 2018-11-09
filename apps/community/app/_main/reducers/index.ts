@@ -208,6 +208,29 @@ export const getAddingCommunityDiscussionPollError = createSelector(
   fromCommunityPostReducer.getAddingCommunityDiscussionPollError
 );
 
+export const getDiscussionPagingOptions = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getDiscussionPagingOptions
+);
+
+export const getTotalDiscussionResultsOnServer = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getTotalResultsOnServer
+);
+
+export const getLoadingMorePosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingMorePosts
+);
+
+export const getHasMoreDiscussionResultsOnServer = createSelector(
+  getCommunityPosts,
+  getTotalDiscussionResultsOnServer,
+  (posts, totalOnServer) => {
+    return totalOnServer > posts.length;
+  }
+);
+
 // Community Post Reply Selectors
 
 export const {
