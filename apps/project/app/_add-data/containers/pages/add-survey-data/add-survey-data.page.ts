@@ -40,6 +40,10 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
     this.excludeFromParticipation = false;
   }
 
+  onAppClosed() {
+    this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
+  }
+
   onSetContext(payload: any) {
     this.store.dispatch(new fromSearchActions.SetProjectSearchContext(payload.SearchContext));
     this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(payload.JobContext));

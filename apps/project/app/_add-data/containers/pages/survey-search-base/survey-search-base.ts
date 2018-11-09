@@ -33,6 +33,7 @@ export abstract class SurveySearchBase {
         this.onSetContext(event.data.payfactorsMessage.payload);
         break;
       case 'App Closed':
+        this.onAppClosed();
         this.resetApp();
         break;
     }
@@ -48,5 +49,6 @@ export abstract class SurveySearchBase {
   }
 
   onResetApp?(): void;
+  onAppClosed?(): void;
   onSetContext?(payload: any): void;
 }
