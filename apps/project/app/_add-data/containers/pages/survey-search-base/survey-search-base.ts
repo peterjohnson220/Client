@@ -33,8 +33,8 @@ export abstract class SurveySearchBase {
         this.onSetContext(event.data.payfactorsMessage.payload);
         break;
       case 'App Closed':
-        this.onAppClosed();
         this.resetApp();
+        this.closeApp();
         break;
     }
   }
@@ -46,6 +46,11 @@ export abstract class SurveySearchBase {
     this.store.dispatch(new fromSearchActions.HideFilterSearch());
     this.store.dispatch(new fromResultsHeaderActions.ClearSavedFilters());
     this.onResetApp();
+  }
+
+  private closeApp() {
+    this.store.dispatch(new fromResultsHeaderActions.CloseSaveFilterModal());
+    this.onAppClosed();
   }
 
   onResetApp?(): void;
