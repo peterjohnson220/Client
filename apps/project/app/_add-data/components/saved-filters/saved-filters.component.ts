@@ -62,9 +62,8 @@ export class SavedFiltersComponent implements OnChanges {
 
   handleSearchValueChanged(value: string) {
     this.searchSavedFiltersValue = value;
-    this.filteredSavedFilters = value
-      ? this.savedFilters.filter(sf => sf.Name.toLowerCase().includes(value.toLowerCase()))
-      : this.savedFilters;
+    this.filterAndSortSaveFilters();
+
   }
 
   trackByFilterId(index: number, item: SavedFilter) {
@@ -75,12 +74,15 @@ export class SavedFiltersComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.savedFilters) {
       this.savedFilters = cloneDeep(this.savedFilters);
-
-      this.filteredSavedFilters = this.searchSavedFiltersValue
-        ? this.savedFilters.filter(sf => sf.Name.toLowerCase().includes(this.searchSavedFiltersValue.toLowerCase()))
-        : this.savedFilters;
-
-      this.filteredSavedFilters.sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending));
+      this.filterAndSortSaveFilters();
     }
+  }
+
+  private filterAndSortSaveFilters(): void {
+    this.filteredSavedFilters = this.searchSavedFiltersValue
+      ? this.savedFilters.filter(sf => sf.Name.toLowerCase().includes(this.searchSavedFiltersValue.toLowerCase()))
+      : this.savedFilters;
+
+    this.filteredSavedFilters.sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending));
   }
 }
