@@ -197,6 +197,7 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
       const filtersCopy = cloneDeep(state.filters);
       let savedFilters = cloneDeep(action.payload);
 
+      // TODO [BC]: Move this logic out into a helper
       // Start with just text filters
       const newFilters = filtersCopy.filter(f => f.Type === FilterType.Text);
 
@@ -220,9 +221,9 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         newFilters.push(df);
       });
 
-      // Handle range filters. Need to set the selections from the save min and max values.
-      // TODO [BC]: Find a better place for this.
+      // Add saved filters
       savedFilters.map(sf => {
+        // Handle range filters. Need to set the selections from the save min and max values.
         if (isRangeFilter(sf)) {
           sf.SelectedMinValue = sf.MinimumValue;
           sf.SelectedMaxValue = sf.MaximumValue;
@@ -230,7 +231,11 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
           sf.MaximumValue = null;
         }
 
-        newFilters.push(sf);
+        const matchedFilter = filtersCopy.find(f => sf.Id === f.Id);
+        if (!(matchedFilter && matchedFilter.Locked)) {
+          newFilters.push(sf);
+        }
+
       });
 
       return {
