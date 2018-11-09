@@ -112,6 +112,8 @@ export function reducer(state = initialState, action: fromSingledFilterActions.A
         filterCopy.Options.map(fo => {
           fo.Selected = action.payload.some(po => isEqual(fo.Value, po.Value));
         });
+      } else {
+        filterCopy.Options.map(fo => fo.Selected = false);
       }
 
       return {
