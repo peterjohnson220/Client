@@ -12,6 +12,7 @@ export const TOGGLE_MULTI_SELECT_OPTION = '[Project Add Data/Singled Filter] Tog
 export const CLEAR_SELECTIONS = '[Project Add Data/Singled Filter] Clear Selections';
 export const SET_SEARCH_VALUE = '[Project Add Data/Singled Filter] Set Search Value';
 export const REMOVE_FILTER_VALUE = '[Project Add Data/Singled Filter] Remove Value';
+export const APPLY_SELECTIONS = '[Project Add Data/Singled Filter] Apply Selections';
 
 export class SetSingledFilter implements Action {
   readonly type = SET_SINGLED_FILTER;
@@ -61,6 +62,12 @@ export class RemoveFilterValue implements Action {
   constructor(public payload: {value: any}) {}
 }
 
+export class ApplySelections implements Action {
+  readonly type = APPLY_SELECTIONS;
+
+  constructor(public payload: MultiSelectOption[]) {}
+}
+
 export type Actions
   = SetSingledFilter
   | SearchAggregation
@@ -69,4 +76,5 @@ export type Actions
   | ToggleMultiSelectOption
   | ClearSelections
   | SetSearchValue
-  | RemoveFilterValue;
+  | RemoveFilterValue
+  | ApplySelections;
