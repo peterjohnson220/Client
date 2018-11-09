@@ -244,6 +244,7 @@ export class PayfactorsApiModelMapper {
   }
 
   private static getMappingData(searchFilterName: string) {
-    return Object.values(SearchFilterMappingData).find(sfmd => sfmd.BackingField === searchFilterName);
+    return Object.keys(SearchFilterMappingData).map(e => SearchFilterMappingData[e])
+      .find(sfmd => sfmd.BackingField === searchFilterName);
   }
 }
