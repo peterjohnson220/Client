@@ -36,6 +36,14 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
         height="500"
       >
         <kendo-grid-column
+          field="CompanyJobTitle"
+          title="Company Job Title"
+          width="40"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
           field="CompanyJobCode"
           title="Company Job Code"
           width="25"
@@ -44,17 +52,9 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
           
         </kendo-grid-column>
         <kendo-grid-column
-          field="CompanyJobTitle"
-          title="Company Job Title"
-          width="50"
-        >
-          
-          
-        </kendo-grid-column>
-        <kendo-grid-column
           field="CompanyJobFamily"
           title="Company Job Family"
-          width="25"
+          width="35"
         >
           
           
