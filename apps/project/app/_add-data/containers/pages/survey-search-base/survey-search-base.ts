@@ -30,16 +30,15 @@ export abstract class SurveySearchBase {
 
     switch (event.data.payfactorsMessage.type) {
       case 'Set Context':
-        this.onSetContext(event.data.payfactorsMessage.payload);
-        break;
-      case 'App Closed':
+        // Always reset the app before setting the context (on open)
         this.resetApp();
-        this.closeApp();
+        this.onSetContext(event.data.payfactorsMessage.payload);
         break;
     }
   }
 
   private resetApp() {
+    this.store.dispatch(new fromResultsHeaderActions.CloseSaveFilterModal());
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
     this.store.dispatch(new fromSurveyResultsActions.ClearResults());
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
@@ -48,12 +47,6 @@ export abstract class SurveySearchBase {
     this.onResetApp();
   }
 
-  private closeApp() {
-    this.store.dispatch(new fromResultsHeaderActions.CloseSaveFilterModal());
-    this.onAppClosed();
-  }
-
   onResetApp?(): void;
-  onAppClosed?(): void;
   onSetContext?(payload: any): void;
 }
