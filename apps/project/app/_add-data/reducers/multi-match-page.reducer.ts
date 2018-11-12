@@ -18,8 +18,7 @@ const initialState: State = {
 // Reducer function
 export function reducer(state = initialState, action: fromMultiMatchPageActions.Actions): State {
   switch (action.type) {
-
-    case fromMultiMatchPageActions.CLOSE_MULTI_MATCH: {
+    case fromMultiMatchPageActions.HIDE_PAGE: {
       return {
         ...state,
         pageShown: false
