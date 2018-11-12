@@ -1,0 +1,19 @@
+<div class="result job-result-row" (click)="handleJobClicked()">
+  <div class="d-flex">
+    <div class="job-title">
+      <input type="checkbox" [ngModel]="job.IsSelected" />
+      {{job.Title}}
+    </div>
+    <div class="job-code">
+      ({{job.Code}})
+    </div>
+    <div *ngIf="job.IsMappedToPeerExchange" class="fa fa-exchange-alt fa-w-16 peer-icon"
+      title="Job is associated to at least one exchange job"></div>
+  </div>
+
+  <div class="d-flex flex-column job-subtitle">
+    <div>{{job.Source}}</div>
+    <div>Base MRP: {{job.BaseMRP}}</div>
+    <div>TCC MRP: {{job.TCCMRP}}</div>
+  </div>
+</div>

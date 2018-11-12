@@ -1,0 +1,29 @@
+<div #results
+  class="results"
+  infinite-scroll
+  [scrollWindow]="false"
+  [infiniteScrollDistance]="2"
+  (scrolled)="onScroll()">
+
+  <pf-async-container
+    [hideReloadButton]="true"
+    [spinnerType]="spinnerType">
+    <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+      <pf-job-result
+        *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
+        [job]="jobResult"
+        (jobClicked)="handleJobSelectionToggle(jobResult)">
+      </pf-job-result>
+    </ng-container>
+  </pf-async-container>
+
+  <div class="m-3" *ngIf="loadingMoreResults$ | async">
+    <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...
+  </div>
+</div>
+
+<ng-template #noResultsMessage>
+  <div class="no-results-message-container">
+    No results. Please change your filter criteria and search again.
+  </div>
+</ng-template>

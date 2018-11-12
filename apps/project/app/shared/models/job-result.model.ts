@@ -13,7 +13,7 @@ export interface BaseJobInfo {
 }
 
 export interface JobResult extends BaseJobInfo {
-    SurveyName: string ;
+    SurveyName: string;
     Source: string;
     IsPayfactors: boolean;
     Matches: number;
