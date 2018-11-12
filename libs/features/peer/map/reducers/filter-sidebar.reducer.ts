@@ -152,7 +152,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         systemFilter: cutCriteria.SystemFilter,
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
-        filterAggregateGroups: newAggGroups
+        filterAggregateGroups: newAggGroups,
+        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
