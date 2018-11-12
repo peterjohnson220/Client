@@ -6,7 +6,7 @@
 
   .selector {
     width: 100%;
-    min-width: 210px;
+    min-width: 250px;
     text-align: left;
     @extend %ellipsis-overflowing-text;
 
@@ -29,9 +29,13 @@
 
 .popover-content {
   max-height: 300px;
-  min-width: 210px;
+  min-width: 250px;
   overflow-y: auto;
   padding: .5rem 0;
+}
+
+.scope-selector-no-padding {
+  padding-right: 0;
 }
 
 // We may end up wanting a footer here [JP]
@@ -68,7 +72,7 @@
 
 .custom-map-popover ::ng-deep .popover {
   top: 90px !important;
-  width: 212px;
+  width: 252px;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {
