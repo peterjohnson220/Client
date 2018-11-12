@@ -47,11 +47,8 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   }
 
   onResetApp() {
+    this.store.dispatch(new fromMultiMatchPageActions.HidePage());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
-  }
-
-  onAppClosed() {
-    this.store.dispatch(new fromMultiMatchPageActions.CloseMultiMatch());
   }
 
   onSetContext(payload: any) {

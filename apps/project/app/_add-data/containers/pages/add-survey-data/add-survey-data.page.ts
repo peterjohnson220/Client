@@ -37,11 +37,8 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
   }
 
   onResetApp() {
+    this.store.dispatch(new fromAddSurveyDataPageActions.HidePage());
     this.excludeFromParticipation = false;
-  }
-
-  onAppClosed() {
-    this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
   }
 
   onSetContext(payload: any) {

@@ -8,6 +8,7 @@ export const SAVE_JOB_MATCH_UPDATES = '[Project Add Data/Multi Match Page] Save 
 export const SAVE_JOB_MATCH_UPDATES_SUCCESS = '[Project Add Data/Multi Match Page] Save Job Match Changes Success';
 export const SAVE_JOB_MATCH_UPDATES_ERROR = '[Project Add Data/Multi Match Page] Save Job Match Changes Error';
 export const CLOSE_MULTI_MATCH = '[Project Add Data/Multi Match Page] Close Multi Match';
+export const HIDE_PAGE = '[Project Add Data/Multi Match Page] Hide Page';
 
 export class SetProjectContext implements Action {
   readonly type = SET_PROJECT_CONTEXT;
@@ -51,6 +52,12 @@ export class CloseMultiMatch implements Action {
   constructor() {}
 }
 
+export class HidePage implements Action {
+  readonly type = HIDE_PAGE;
+
+  constructor() {}
+}
+
 export type Actions
   = SetProjectContext
   | GetProjectSearchContext
@@ -58,4 +65,5 @@ export type Actions
   | CloseMultiMatch
   | SaveJobMatchUpdates
   | SaveJobMatchUpdatesSuccess
-  | SaveJobMatchUpdatesError;
+  | SaveJobMatchUpdatesError
+  | HidePage;
