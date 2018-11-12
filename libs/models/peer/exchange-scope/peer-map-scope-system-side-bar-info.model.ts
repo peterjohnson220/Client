@@ -3,6 +3,7 @@ import { generateMockSystemFilter, SystemFilter } from '../exchange-job-pay-mark
 import { generateMockPeerMapScopeSideBarInfo, PeerMapScopeSideBarInfo } from './peer-map-scope-side-bar-info.model';
 
 export interface PeerMapScopeSystemSideBarInfo extends PeerMapScopeSideBarInfo {
+  IncludeUntaggedIncumbents: boolean;
   LimitToPayMarket: boolean;
   PayMarket: PayMarket;
   SystemFilter: SystemFilter;
@@ -11,6 +12,7 @@ export interface PeerMapScopeSystemSideBarInfo extends PeerMapScopeSideBarInfo {
 export function generateMockPeerMapScopeSystemSideBarInfo(): PeerMapScopeSystemSideBarInfo {
   return {
     ...generateMockPeerMapScopeSideBarInfo(),
+    IncludeUntaggedIncumbents: false,
     LimitToPayMarket: false,
     PayMarket: generateMockPayMarket(),
     SystemFilter: generateMockSystemFilter()
