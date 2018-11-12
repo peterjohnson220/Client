@@ -89,8 +89,9 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
 
   // Grid
-  getCellTitle(isInMapScope: boolean): string {
-    return isInMapScope ? '' : 'There is no peer data for this job in the selected scope.';
+  getCellTitle(isInMapScope: boolean, fieldValue: string): string {
+    const scopeMessage = isInMapScope ? '' : ' - There is no peer data for this job in the selected scope.';
+    return fieldValue + scopeMessage;
   }
 
   selectionKey(context: RowArgs): number {
