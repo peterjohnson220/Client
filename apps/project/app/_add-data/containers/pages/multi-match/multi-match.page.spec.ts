@@ -53,23 +53,6 @@ describe('Project - Add Data - Multi Match Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a Clear Results action, when receiving a App Closed message', () => {
-    const messageEvent = new MessageEvent('Message from parent', {
-      data: {
-        payfactorsMessage: {
-          type: 'App Closed'
-        }
-      }
-    });
-    const expectedAction = new fromSurveyResultsActions.ClearResults();
-
-    spyOn(store, 'dispatch');
-
-    instance.onMessage(messageEvent);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should do nothing, when receiving message with no data', () => {
     const messageEvent = new MessageEvent('Message from parent');
 
@@ -84,22 +67,5 @@ describe('Project - Add Data - Multi Match Page', () => {
     const returnVal = instance.onMessage(messageEvent);
 
     expect(returnVal).toBe(undefined);
-  });
-
-  it('should dispatch a Clear jobs action, when receiving a App Closed message', () => {
-    const messageEvent = new MessageEvent('Message from parent', {
-      data: {
-        payfactorsMessage: {
-          type: 'App Closed'
-        }
-      }
-    });
-    const expectedAction = new fromJobsToPriceActions.ClearAllJobs();
-
-    spyOn(store, 'dispatch');
-
-    instance.onMessage(messageEvent);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
