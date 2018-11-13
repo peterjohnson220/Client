@@ -113,6 +113,28 @@ export function reducer(
         submittedJob: null
       };
     }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        pagingOptions: {...state.pagingOptions, StartIndex: 1}
+      };
+    }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS_SUCCESS: {
+      return {
+        ...adapter.addMany(action.payload.CommunityJobResults, state),
+        loading: false,
+        totalResultsOnServer: action.payload.Paging.TotalRecordCount
+      };
+    }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
     default: {
       return state;
     }
