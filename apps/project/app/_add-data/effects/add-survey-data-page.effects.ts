@@ -10,21 +10,21 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { AddSurveyDataCutMatchResponse, DataCut } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
-import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
-import { JobContext, ProjectSearchContext } from '../models';
-import * as fromAddDataReducer from '../reducers';
-import { FiltersHelper } from '../helpers';
+import * as fromSearchFiltersActions from '../../shared/actions/search-filters.actions';
+import * as fromSearchActions from '../../shared/actions/search.actions';
+import { JobContext, ProjectSearchContext } from '../../shared/models';
+import * as fromSharedReducer from '../../shared/reducers';
+import { FiltersHelper } from '../../shared/helpers';
 
 @Injectable()
 export class AddSurveyDataPageEffects {
 
   @Effect()
   setJobContext$ = this.actions$
-    .ofType(fromAddSurveyDataPageActions.SET_JOB_CONTEXT)
+    .ofType(fromSearchActions.SET_JOB_CONTEXT)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getProjectSearchContext),
-        (action: fromAddSurveyDataPageActions.SetJobContext,
+      withLatestFrom(this.store.select(fromSharedReducer.getProjectSearchContext),
+        (action: fromSearchActions.SetJobContext,
          projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
       mergeMap(context => {
         const actions = [];
@@ -41,24 +41,15 @@ export class AddSurveyDataPageEffects {
       )
     );
 
-  @Effect({dispatch: false})
-  closeSurveySearch$ = this.actions$
-    .ofType(fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH)
-    .pipe(
-      tap((action: fromAddSurveyDataPageActions.CloseSurveySearch) => {
-        this.windowCommunicationService.postMessage(action.type);
-      })
-    );
-
   @Effect()
   addSurveyData$ = this.actions$
     .ofType(fromAddSurveyDataPageActions.ADD_DATA)
     .pipe(
       // Get the current filters and paging options from the store
       withLatestFrom(
-        this.store.select(fromAddDataReducer.getJobContext),
-        this.store.select(fromAddDataReducer.getProjectSearchContext),
-        this.store.select(fromAddDataReducer.getSelectedDataCuts),
+        this.store.select(fromSharedReducer.getJobContext),
+        this.store.select(fromSharedReducer.getProjectSearchContext),
+        this.store.select(fromSharedReducer.getSelectedDataCuts),
         (action: fromAddSurveyDataPageActions.AddData, jobContext: JobContext,
          projectSearchContext: ProjectSearchContext, selectedDataCuts: DataCut[]) =>
           ({ action, jobContext, selectedDataCuts, projectSearchContext })),
@@ -74,7 +65,7 @@ export class AddSurveyDataPageEffects {
           .pipe(
             mergeMap((addResponse: AddSurveyDataCutMatchResponse) => [
                 new fromAddSurveyDataPageActions.AddDataSuccess(addResponse.JobMatchIds),
-                new fromAddSurveyDataPageActions.CloseSurveySearch()
+                new fromSearchActions.CloseSearchPage()
               ]
             ),
             catchError(() => of(new fromAddSurveyDataPageActions.AddDataError()))
@@ -86,7 +77,7 @@ export class AddSurveyDataPageEffects {
   addDataSuccess$ = this.actions$
     .ofType(fromAddSurveyDataPageActions.ADD_DATA_SUCCESS)
     .pipe(
-      withLatestFrom(this.store.select(fromAddDataReducer.getJobContext),
+      withLatestFrom(this.store.select(fromSharedReducer.getJobContext),
         (action: fromAddSurveyDataPageActions.AddDataSuccess, jobContext: JobContext) => ({action, jobContext})),
       tap(jobContextAndMatches => {
         this.windowCommunicationService.postMessage(jobContextAndMatches.action.type,
@@ -99,7 +90,7 @@ export class AddSurveyDataPageEffects {
     constructor(
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
-      private store: Store<fromAddDataReducer.State>,
+      private store: Store<fromSharedReducer.State>,
       private windowCommunicationService: WindowCommunicationService
   ) {}
 }

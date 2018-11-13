@@ -8,10 +8,8 @@ import { DragulaModule } from 'ng2-dragula';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
-import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
-import * as fromSearchActions from '../../../actions/search.actions';
-import { generateMockJobContext, generateMockProjectSearchContext, JobContext, ProjectSearchContext } from '../../../models';
+import * as fromSurveyResultsActions from '../../../../shared/actions/search-results.actions';
+import * as fromSearchActions from '../../../../shared/actions/search.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { AddSurveyDataPageComponent } from './add-survey-data.page';
 
@@ -45,7 +43,7 @@ describe('Project - Add Data - Surveys Page', () => {
   });
 
   it('should dispatch a close survey search action, when handling cancel clicked', () => {
-    const expectedAction = new fromAddSurveyDataPageActions.CloseSurveySearch();
+    const expectedAction = new fromSearchActions.CloseSearchPage();
     spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();
