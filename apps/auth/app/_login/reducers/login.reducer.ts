@@ -4,14 +4,14 @@ export interface State {
   login: boolean;
   loginSuccess: boolean;
   loginError: boolean;
-  showRequestAccessForm: boolean;
+  showSelfRegistrationForm: boolean;
 }
 
 export const initialState: State = {
   login: false,
   loginSuccess: false,
   loginError: false,
-  showRequestAccessForm: false
+  showSelfRegistrationForm: false
 };
 
 export function reducer(state = initialState, action: fromLoginActions.Actions): State {
@@ -41,13 +41,13 @@ export function reducer(state = initialState, action: fromLoginActions.Actions):
     case fromLoginActions.LOGIN_OPEN_REQUEST_ACCESS: {
       return {
         ...state,
-        showRequestAccessForm: true
+        showSelfRegistrationForm: true
       };
     }
     case fromLoginActions.LOGIN_DISMISS_REQUEST_ACCESS: {
       return {
         ...state,
-        showRequestAccessForm: false
+        showSelfRegistrationForm: false
       };
     }
     default: {
@@ -60,4 +60,4 @@ export function reducer(state = initialState, action: fromLoginActions.Actions):
 export const getLogin = (state: State) => state.login;
 export const getLoginSuccess = (state: State) => state.loginSuccess;
 export const getLoginError = (state: State) => state.loginError;
-export const getShowRequestAccessForm = (state: State) => state.showRequestAccessForm;
+export const getShowSelfRegistrationForm = (state: State) => state.showSelfRegistrationForm;

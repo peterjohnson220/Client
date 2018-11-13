@@ -1,0 +1,110 @@
+<pf-modal-form 
+  [modalId]="'au-modal-self-registration'" 
+  [title]="'Request Access'" 
+  [subTitle]="'Request access to Payfactors compensation platform'"
+  [isOpen$]="showSelfRegistrationModal$" 
+  [size]="'md'" 
+  [primaryButtonText]="'Send Request'"
+  [showFooter]="!(showSuccessMessage$ | async)"
+  [formGroup]="selfRegistrationForm"
+  [submitting]="false" 
+  [backdrop]="true" 
+  [resetFormOnClose]="false"
+  (onSubmit)="onSelfRegistrationSubmit()" 
+  (onDismiss)="onSelfRegistrationDismiss()">
+  <ng-container form-content>
+    <div id="au-cont-success" [ngClass]="(showSuccessMessage$ | async) ? 'shown' : ''">
+      <h2>Success!</h2>
+      <p>An email confirmation will be sent to {{ email }}. Please use the URL from the email to verify your account.</p>
+    </div>
+    <div id="au-cont-form" (keydown)="onKeyDown($event)" [ngClass]="!(showSuccessMessage$ | async) ? '' : 'hidden'">
+      <p *ngIf="isSubmitError$ | async" class="error">
+        An unexpected error has occurred
+      </p>
+
+      <!-- FIRST NAME -->
+      <label class="mt-4">First Name*</label>
+      <label *ngIf="selfRegistrationForm.controls.FirstName.touched && selfRegistrationForm.controls.FirstName.errors" class="error">
+        Enter at least two letters and no special characters or numbers
+      </label>
+      <input
+        #firstName
+        id="au-tb-self-registration-first-name"
+        class="form-control"
+        (blur)="onFieldBlur('FirstName')"
+        [ngClass]="selfRegistrationForm.controls.FirstName.touched && selfRegistrationForm.controls.FirstName.errors ? 'error' : ''"
+        [maxLength]="validationService.NAME_LENGTH.max"
+        formControlName="FirstName"
+        type="text">
+
+      <!-- LAST NAME -->
+      <label class="mt-4">Last Name*</label>
+      <label *ngIf="selfRegistrationForm.controls.LastName.touched && selfRegistrationForm.controls.LastName.errors" class="error">
+        Enter at least two letters and no special characters or numbers
+      </label>
+      <input 
+        id="au-tb-self-registration-last-name"
+        class="form-control"
+        (blur)="onFieldBlur('LastName')"
+        [ngClass]="selfRegistrationForm.controls.LastName.touched && selfRegistrationForm.controls.LastName.errors ? 'error' : ''"
+        [maxLength]="validationService.NAME_LENGTH.max"
+        formControlName="LastName" 
+        type="text">
+
+      <!-- WORK EMAIL -->
+      <label class="mt-4">Work Email</label>
+      <input 
+        id="au-tb-self-registration-work-email" 
+        class="form-control"
+        (blur)="onFieldBlur('Email'); onEmailBlur()" 
+        formControlName="Email" 
+        type="email">
+
+      <!-- TITLE -->
+      <label class="mt-4">Title*</label>
+      <label *ngIf="selfRegistrationForm.controls.Title.touched && selfRegistrationForm.controls.Title.errors" class="error">
+        Enter at least five letters and no special characters or numbers
+      </label>
+      <input
+        id="au-tb-self-registration-title"
+        class="form-control"
+        (blur)="onFieldBlur('Title')"
+        [ngClass]="selfRegistrationForm.controls.Title.touched && selfRegistrationForm.controls.Title.errors ? 'error' : ''"
+        [maxLength]="validationService.TITLE_LENGTH.max"
+        formControlName="Title" 
+        type="text">
+
+      <!-- COMPANY NAME -->
+      <label class="mt-4">Company Name*</label>
+      <label *ngIf="selfRegistrationForm.controls.CompanyName.touched && selfRegistrationForm.controls.CompanyName.errors" class="error">
+        Enter at least two characters
+      </label>
+      <input 
+        id="au-tb-self-registration-company-name"
+        class="form-control"
+        (blur)="onFieldBlur('CompanyName')"
+        [ngClass]="selfRegistrationForm.controls.CompanyName.touched && selfRegistrationForm.controls.CompanyName.errors ? 'error' : ''"
+        [maxLength]="validationService.COMPANY_LENGTH.max"
+        formControlName="CompanyName" 
+        type="text">
+
+      <!-- WEBSITE -->
+      <label class="mt-4">Website*</label>
+      <label *ngIf="selfRegistrationForm.controls.Website.touched && selfRegistrationForm.controls.Website.errors" class="error">
+        Enter a valid website
+      </label>
+      <input 
+        id="au-tb-self-registration-website" 
+        class="form-control"
+        (blur)="onFieldBlur('Website')"
+        [ngClass]="selfRegistrationForm.controls.Website.touched && selfRegistrationForm.controls.Website.errors ? 'error' : ''"
+        [maxLength]="validationService.WEBSITE_LENGTH.max"
+        formControlName="Website"
+        type="text">
+
+      <!-- NUMBER OF EMPLOYEES -->
+      <label class="mt-4">Number of Employees</label>
+      <input id="au-tb-self-registration-number-of-employees" class="form-control" formControlName="NumberEmployees" type="text">
+    </div>
+  </ng-container>
+</pf-modal-form>

@@ -25,11 +25,13 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() primaryButtonClass = 'btn-primary';
   @Input() primaryButtonTextSubmitting = this.primaryButtonText;
   @Input() secondaryButtonText = 'Cancel';
+  @Input() showFooter = true;
   @Input() submitting: boolean;
   @Input() backdropClass: string;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
   @Input() backdrop: boolean | 'static' = 'static';
+  @Input() resetFormOnClose = true;
   @Output() onSubmit = new EventEmitter();
   @Output() onDismiss = new EventEmitter();
   @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
@@ -56,7 +58,10 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   cleanUpModal(): void {
     if (this.activeModal) {
       this.activeModal.close();
-      this.resetForm();
+
+      if (this.resetFormOnClose) {
+        this.resetForm();
+      }
     }
   }
 
