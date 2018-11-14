@@ -70,7 +70,8 @@ export function reducer(
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
+        pagingOptions: {...state.pagingOptions, StartIndex: 1}
       };
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_SUCCESS: {
