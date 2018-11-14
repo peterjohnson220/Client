@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import PerfectScrollbar from 'perfect-scrollbar';
 import * as cloneDeep from 'lodash.clonedeep';
+import { PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
@@ -14,29 +14,21 @@ import { FiltersHelper } from '../../helpers';
   styleUrls: ['./filter-pills.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FilterPillsComponent implements OnInit, OnChanges {
+export class FilterPillsComponent implements OnChanges {
   @Input() filters: Filter[];
   @Output() clearPill = new EventEmitter<Pill>();
   @Output() clearPillGroup = new EventEmitter<PillGroup>();
+  @ViewChild(PerfectScrollbarDirective) psDirectiveRef?: PerfectScrollbarDirective;
 
   pillGroups: PillGroup[];
-  ps: PerfectScrollbar;
+  private previewStringLength = 40;
 
   constructor() {}
-
-  ngOnInit() {
-    this.ps = new PerfectScrollbar('.pills-container');
-  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.filters) {
       this.buildPillGroups(this.filters);
-
-      if (this.ps) {
-        // Pushing this to the end of the event queue to ensure the content has been drawn is overflowing
-        // before calling perfect-scrollbar's update method. Otherwise race conditions can happen. [BC]
-        window.setTimeout(() => this.ps.update());
-      }
+      this.psDirectiveRef.update();
     }
   }
 
@@ -82,8 +74,8 @@ export class FilterPillsComponent implements OnInit, OnChanges {
 
     const commaSeparatedOptions = selectedOptions.map(o => o.Name).join(', ');
 
-    pillGroup.PreviewString = commaSeparatedOptions.length > 40
-      ? `${commaSeparatedOptions.substr(0, 40)}...`
+    pillGroup.PreviewString = commaSeparatedOptions.length > this.previewStringLength
+      ? `${commaSeparatedOptions.substr(0, this.previewStringLength)}...`
       : commaSeparatedOptions;
 
     pillGroup.Pills = selectedOptions.map(opt => {
@@ -110,6 +102,7 @@ export class FilterPillsComponent implements OnInit, OnChanges {
 
     return pillGroup;
   }
+
 
   private buildPillGroupBaseInfo(filter: Filter): PillGroup {
     return{

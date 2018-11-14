@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import * as fromResultsHeaderActions from '../actions/results-header.actions';
+import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import { SavedFilter } from '../models/saved-filter.model';
 
 export interface State {
@@ -26,29 +26,29 @@ const initialState: State = {
 };
 
 // Reducer function
-export function reducer(state = initialState, action: fromResultsHeaderActions.Actions): State {
+export function reducer(state = initialState, action: fromSavedFiltersActions.Actions): State {
   switch (action.type) {
-    case fromResultsHeaderActions.GET_SAVED_FILTERS: {
+    case fromSavedFiltersActions.GET_SAVED_FILTERS: {
       return {
         ...state,
         loadingSavedFilters: true
       };
     }
-    case fromResultsHeaderActions.GET_SAVED_FILTERS_SUCCESS: {
+    case fromSavedFiltersActions.GET_SAVED_FILTERS_SUCCESS: {
       return {
         ...state,
         loadingSavedFilters: false,
         savedFilters: action.payload
       };
     }
-    case fromResultsHeaderActions.CLEAR_SAVED_FILTERS: {
+    case fromSavedFiltersActions.CLEAR_SAVED_FILTERS: {
       return {
         ...state,
         loadingSavedFilters: false,
         savedFilters: []
       };
     }
-    case fromResultsHeaderActions.SAVE_FILTER: {
+    case fromSavedFiltersActions.SAVE_FILTER: {
       return {
         ...state,
         savingFilter: true,
@@ -56,39 +56,39 @@ export function reducer(state = initialState, action: fromResultsHeaderActions.A
         savingFilterConflict: false
       };
     }
-    case fromResultsHeaderActions.SAVE_FILTER_SUCCESS: {
+    case fromSavedFiltersActions.SAVE_FILTER_SUCCESS: {
       return {
         ...state,
         savingFilter: false,
         savedFilterModalOpen: false
       };
     }
-    case fromResultsHeaderActions.MARK_FILTER_TO_DELETE: {
+    case fromSavedFiltersActions.MARK_FILTER_TO_DELETE: {
       return {
         ...state,
         filterIdToDelete: action.payload.filterId
       };
     }
-    case fromResultsHeaderActions.UNMARK_FILTER_TO_DELETE: {
+    case fromSavedFiltersActions.UNMARK_FILTER_TO_DELETE: {
       return {
         ...state,
         filterIdToDelete: ''
       };
     }
-    case fromResultsHeaderActions.DELETE_SAVED_FILTER: {
+    case fromSavedFiltersActions.DELETE_SAVED_FILTER: {
       return {
         ...state,
         deletingSavedFilter: true
       };
     }
-    case fromResultsHeaderActions.DELETE_SAVED_FILTER_SUCCESS: {
+    case fromSavedFiltersActions.DELETE_SAVED_FILTER_SUCCESS: {
       return {
         ...state,
         deletingSavedFilter: false,
         filterIdToDelete: ''
       };
     }
-    case fromResultsHeaderActions.SELECT_SAVED_FILTER: {
+    case fromSavedFiltersActions.SELECT_SAVED_FILTER: {
       const savedFiltersCopy = cloneDeep(state.savedFilters);
       savedFiltersCopy.map(sf => sf.Selected = false);
       savedFiltersCopy.find(sf => sf.Id === action.payload.Id).Selected = true;
@@ -98,7 +98,7 @@ export function reducer(state = initialState, action: fromResultsHeaderActions.A
         savedFilters: savedFiltersCopy
       };
     }
-    case fromResultsHeaderActions.UNSELECT_SAVED_FILTER: {
+    case fromSavedFiltersActions.UNSELECT_SAVED_FILTER: {
       const savedFiltersCopy = cloneDeep(state.savedFilters);
       savedFiltersCopy.map(sf => sf.Selected = false);
 
@@ -107,27 +107,27 @@ export function reducer(state = initialState, action: fromResultsHeaderActions.A
         savedFilters: savedFiltersCopy
       };
     }
-    case fromResultsHeaderActions.SAVED_FILTER_SAVE_ERROR: {
+    case fromSavedFiltersActions.SAVED_FILTER_SAVE_ERROR: {
       return {
         ...state,
         savingFilterError: true,
         savingFilter: false
       };
     }
-    case fromResultsHeaderActions.SAVED_FILTER_SAVE_CONFLICT: {
+    case fromSavedFiltersActions.SAVED_FILTER_SAVE_CONFLICT: {
       return {
         ...state,
         savingFilter: false,
         savingFilterConflict: true
       };
     }
-    case fromResultsHeaderActions.OPEN_SAVE_FILTER_MODAL: {
+    case fromSavedFiltersActions.OPEN_SAVE_FILTER_MODAL: {
       return {
         ...state,
         savedFilterModalOpen: true
       };
     }
-    case fromResultsHeaderActions.CLOSE_SAVE_FILTER_MODAL: {
+    case fromSavedFiltersActions.CLOSE_SAVE_FILTER_MODAL: {
       return {
         ...state,
         savedFilterModalOpen: false

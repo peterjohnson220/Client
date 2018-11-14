@@ -1,4 +1,5 @@
 @import 'common/common-variables';
+@import '../../styles/shared-styles';
 @import '../../styles/shared-variables';
 
 .results-header{
@@ -9,10 +10,9 @@
   @extend %bottom-box-shadow;
 }
 
-:host ::ng-deep .modal-backdrop.light-backdrop{
-  background: #dcdcdc;
-}
-
-:host ::ng-deep .modal-dialog{
-  max-width: 350px;
+.actions{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 1rem;
+  width: 190px;
 }

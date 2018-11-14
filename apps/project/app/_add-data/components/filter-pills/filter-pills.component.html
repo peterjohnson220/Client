@@ -1,14 +1,14 @@
-<div class="pills-container">
+<div class="pills-container" perfectScrollbar>
   <div *ngFor="let pillGroup of pillGroups; trackBy: pillGroupTrackByFn;"
        class="pill"
        [class.locked]="pillGroup.Locked"
        [ngbPopover]="pillDetail"
        [popoverTitle]="pillGroup.GroupName"
-       container="body"
-       #popover="ngbPopover"
        [popoverClass]="'pill-detail-popover'"
        [disablePopover]="pillGroup.Locked"
        [autoClose]="'outside'"
+       container="body"
+       #popover="ngbPopover"
        placement="bottom">
 
       <ng-template #pillDetail>

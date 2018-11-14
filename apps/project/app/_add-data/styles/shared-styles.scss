@@ -1,16 +1,5 @@
 @import 'search/filters-variables';
 
-:host{
-  margin-left: 1rem;
-  width: 190px;
-}
-
-.actions{
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .search-action{
   @extend %text-filter-action;
 }

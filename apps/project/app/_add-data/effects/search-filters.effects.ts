@@ -9,7 +9,7 @@ import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 import * as fromSearchActions from '../actions/search.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromResultsHeaderActions from '../actions/results-header.actions';
+import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import * as fromAddDataReducer from '../reducers';
 import { AddDataEffectsService } from '../services';
 
@@ -29,7 +29,7 @@ export class SearchFiltersEffects {
     .pipe(
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
-        new fromResultsHeaderActions.UnselectSavedFilter()
+        new fromSavedFiltersActions.UnselectSavedFilter()
       ])
     );
 
@@ -48,7 +48,7 @@ export class SearchFiltersEffects {
     .pipe(
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
-        new fromResultsHeaderActions.UnselectSavedFilter()
+        new fromSavedFiltersActions.UnselectSavedFilter()
       ])
     );
 
@@ -67,8 +67,8 @@ export class SearchFiltersEffects {
             actions.push(new fromSearchActions.HideFilterSearch());
           }
 
-          actions.push(new fromResultsHeaderActions.UnselectSavedFilter());
-          actions.push(new fromResultsHeaderActions.ApplyDefaultSavedFilter());
+          actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
+          actions.push(new fromSavedFiltersActions.ApplyDefaultSavedFilter());
 
           return actions;
         }
@@ -93,7 +93,7 @@ export class SearchFiltersEffects {
   getDefaultSurveyScopesFilterSuccess$ = this.actions$
     .ofType(fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS)
     .pipe(
-      map(() => new fromResultsHeaderActions.InitSavedFilters())
+      map(() => new fromSavedFiltersActions.InitSavedFilters())
     );
 
 

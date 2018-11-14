@@ -5,55 +5,13 @@
     (clearPillGroup)="handleClearPillGroup($event)">
   </pf-filter-pills>
 
-  <pf-filter-actions
-    (reset)="handleResetFilters()"
-    (save)="handleSaveFilters()"
-    (deleteSavedFilter)="handleDeleteSavedFilter($event)"
-    (cancelDeleteSavedFilter)="handleCancelDeleteSavedFilter()"
-    (deleteSavedFilterConfirmed)="handleDeleteSavedFilterConfirmed()"
-    (savedFilterSelected)="handleApplySaveFilter($event)"
-    [loadingSavedFilters]="loadingSavedFilters$ | async"
-    [savedFilters]="savedFilters"
-    [canSaveFilters]="hasNonLockedFilters && !hasSelectedSavedFilter"
-    [filterIdToDelete]="filterIdToDelete$ | async"
-    [deletingSavedFilter]="deletingSavedFilter$ | async">
-  </pf-filter-actions>
-</div>
-
-<pf-modal-form
-  [backdropClass]="'light-backdrop'"
-  [submitting]="savingFilter$ | async"
-  [primaryButtonTextSubmitting]="'Saving...'"
-  [title]="'Save Filters'"
-  [primaryButtonClass]="'legacy-primary-btn'"
-  [primaryButtonText]="'Save'"
-  [isOpen$]="saveFilterModalOpen$"
-  [formGroup]="nameFilterForm"
-  (onDismiss)="handleNameFilterModalDismiss()"
-  (onSubmit)="handleNameFilterModalSubmit()">
-
-  <ng-container form-content>
-    <input type="text" class="form-control" formControlName="name"
-           [placeholder]="'Filter Name...'"
-           [pfFocus]="true"
-           [pfFocusElementShowing]="saveFilterModalOpen$ | async"
-           (input)="showErrorMessages = false" />
-
-    <ng-container *ngIf="showErrorMessages">
-      <div class="text-danger mt-2" *ngIf="savingFilterConflict$ | async">Name in use. Please choose a unique filter name.</div>
-      <div class="text-danger mt-2" *ngIf="savingFilterError$ | async">Error Saving Filter.</div>
-    </ng-container>
-  </ng-container>
-
-  <ng-container footer-left>
-
-    <div class="form-check">
-      <input class="form-check-input" id="paymarket-default" formControlName="setAsPayMarketDefault" type="checkbox">
-      <label class="form-check-label" for="paymarket-default">
-        PayMarket Default
-      </label>
+  <div class="actions">
+    <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
+      Reset
     </div>
+    <pf-saved-filters
+      [canSaveFilters]="hasNonLockedFilters && !hasSelectedSavedFilter">
+    </pf-saved-filters>
+  </div>
 
-  </ng-container>
-
-</pf-modal-form>
+</div>
