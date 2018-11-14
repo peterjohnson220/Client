@@ -39,6 +39,11 @@ export class CommunityJobEffects {
     this.actions$.ofType(fromCommunityJobActions.GETTING_MORE_COMMUNITY_JOBS)
   );
 
+  @Effect()
+  getBackToTopCompanyJobs$ = this.communityJobEffectsService.searchCompanyJobs(
+    this.actions$.ofType(fromCommunityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS)
+  );
+
   constructor(
     private actions$: Actions,
     private communityJobService: CommunityJobApiService,

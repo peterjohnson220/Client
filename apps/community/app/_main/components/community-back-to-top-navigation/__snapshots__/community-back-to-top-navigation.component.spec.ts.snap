@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityBackToTopNavigationComponent should show back to top button 1`] = `
+<pf-community-back-to-top-navigation
+  backToTopClicked={[Function EventEmitter]}
+>
+  <div
+    class="back-to-top-container"
+  >
+    <span
+      class="arrow-color"
+    >
+      <i
+        class="fas fa-arrow-alt-circle-up fa-3x"
+      />
+    </span>
+  </div>
+</pf-community-back-to-top-navigation>
+`;

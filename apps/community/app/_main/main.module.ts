@@ -41,7 +41,7 @@ import { CommunityJobComponent } from './components/community-job/community-job.
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
 import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
 import { CommunityTabComponent } from './components/community-tab/community-tab.component';
-
+import { CommunityBackToTopNavigationComponent } from './components/community-back-to-top-navigation';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
@@ -73,6 +73,7 @@ const components = [
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
+  CommunityBackToTopNavigationComponent,
   CommunityPopularTagsComponent,
   CommunityLikeComponent,
   CommunityAvatarComponent,
