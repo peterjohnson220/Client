@@ -16,6 +16,7 @@ import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { OrgDataFieldMappingsApiService } from './org-data-loader';
+import { AppEnvironmentApiService } from './app-environment';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -41,7 +42,8 @@ import { OrgDataFieldMappingsApiService } from './org-data-loader';
     ExchangeScopeApiService,
     CompanySettingsApiService,
     OrgDataFieldMappingsApiService,
-    ExchangeDataCutsApiService
+    ExchangeDataCutsApiService,
+    AppEnvironmentApiService
   ]
 })
 export class PfApiModule { }

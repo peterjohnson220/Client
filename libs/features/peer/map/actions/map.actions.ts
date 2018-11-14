@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { ExchangeMapResponse, PeerMapScopeMapInfo } from 'libs/models/peer';
+import { ExchangeMapResponse, PeerMapScopeMapInfo, GenericKeyValue } from 'libs/models/';
 
 export const LOAD_PEER_MAP_DATA  = '[Features/Peer/Map] Load Peer Map Data';
 export const LOAD_PEER_MAP_DATA_SUCCESS  = '[Features/Peer/Map] Load Peer Map Data Success';
@@ -13,6 +13,9 @@ export const APPLY_CUT_CRITERIA = '[Features/Peer/Map] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/Map] Apply Scope Criteria';
 export const APPLY_SCOPE_CRITERIA_SUCCESS = '[Features/Peer/Map] Apply Scope Criteria Success';
 export const CLEAR_MAP_FILTER_BOUNDS = '[Features/Peer/Map] Clear Map Filter Bounds';
+export const LOAD_ZOOM_PRECISION_DICTIONARY = '[Features/Peer/Map] Load Zoom Precision Dictionary';
+export const LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS = '[Features/Peer/Map] Load Zoom Precision Dictionary Success';
+export const LOAD_ZOOM_PRECISION_DICTIONARY_ERROR = '[Features/Peer/Map] Load Zoom Precision Dictionary Error';
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -70,6 +73,20 @@ export class ClearMapFilterBounds implements Action {
   readonly type = CLEAR_MAP_FILTER_BOUNDS;
 }
 
+export class LoadZoomPrecisionDictionary implements Action {
+  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY;
+}
+
+export class LoadZoomPrecisionDictionarySuccess implements Action {
+  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS;
+
+  constructor(public payload: GenericKeyValue<number, number>[]) {}
+}
+
+export class LoadZoomPrecisionDictionaryError implements Action {
+  readonly type = LOAD_ZOOM_PRECISION_DICTIONARY_ERROR;
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -81,4 +98,7 @@ export type Actions
   | ApplyCutCriteria
   | ApplyScopeCriteria
   | ApplyScopeCriteriaSuccess
-  | ClearMapFilterBounds;
+  | ClearMapFilterBounds
+  | LoadZoomPrecisionDictionary
+  | LoadZoomPrecisionDictionarySuccess
+  | LoadZoomPrecisionDictionaryError;
