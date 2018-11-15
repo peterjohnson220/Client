@@ -18,7 +18,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Containers
-import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponent, ResetPasswordPageComponent } from './containers';
+import { FirstLoginPageComponent, LoginPageComponent, ForgotPasswordPageComponent, ResetPasswordPageComponent,
+  SelfRegistrationPageComponent } from './containers';
 
 // Libs / Controls
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -66,7 +67,8 @@ import { SelfRegistrationModalComponent } from './components/self-registration-m
     ForgotPasswordPageComponent,
     LoginPageComponent,
     ResetPasswordPageComponent,
-    SelfRegistrationModalComponent
+    SelfRegistrationModalComponent,
+    SelfRegistrationPageComponent
   ],
   providers: [ MarketingApiService ]
 })

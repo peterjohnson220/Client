@@ -1,0 +1,231 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelfRegistrationPage should disable Submit password button when password is not valid 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3 registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       Welcome to PayFactors! Please create your new password to continue. 
+    </h5>
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn btn-default m-3"
+        disabled=""
+      >
+         Continue 
+      </button>
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should enable Submit password button when password is valid 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  password={[Function String]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled={[Function Boolean]}
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3 registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       Welcome to PayFactors! Please create your new password to continue. 
+    </h5>
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn btn-default m-3"
+      >
+         Continue 
+      </button>
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should should allow choosing password when page is loaded successfully 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="p-3 registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       Welcome to PayFactors! Please create your new password to continue. 
+    </h5>
+    <pf-confirm-password />
+    <div
+      class="text-center"
+    >
+      <button
+        class="btn btn-default m-3"
+        disabled=""
+      >
+         Continue 
+      </button>
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show an error message when page is loaded if the account exists 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Observable]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3 d-flex flex-column align-items-center registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       An account for 
+      <strong>
+        
+      </strong>
+       already exists. Please log in. 
+    </h5>
+    <button
+      class="btn btn-default m-3"
+      routerlink="/login"
+    >
+       Login 
+    </button>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show an error message when page is loaded if the token is expired 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Observable]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3 d-flex flex-column align-items-center registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       Your link is expired. Please click below to return to the login page and retry. Or we could let you resend the email right here at some point. 
+    </h5>
+    <button
+      class="btn btn-default m-3"
+      routerlink="/login"
+    >
+       Return to Login 
+    </button>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show an error message when page is loaded if the token is invalid 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Observable]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3 d-flex flex-column align-items-center registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+       Your link is invalid. Please make sure that your link is correct, otherwise return to the login page and retry requesting access. Or some other such words. 
+    </h5>
+    <button
+      class="btn btn-default m-3"
+      routerlink="/login"
+    >
+       Return to Login 
+    </button>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show the loading message when the page is loading 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3"
+  >
+    <h5
+      class="p-3"
+    >
+      Loading, please wait...
+    </h5>
+  </div>
+</pf-self-registration-page>
+`;

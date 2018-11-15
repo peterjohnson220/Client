@@ -38,4 +38,8 @@ export class AccountApiService {
     const payload = { Request: { ...selfRegistrationForm } };
     return this.payfactorsApiService.post<any>(`${this.endpoint}.SelfRegistrationRequest`, payload);
   }
+
+  validateSelfRegistrationToken(token: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.ValidateSelfRegistration`, { token });
+  }
 }

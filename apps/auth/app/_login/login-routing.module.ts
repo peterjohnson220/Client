@@ -6,7 +6,8 @@ import {
   FirstLoginPageComponent,
   ForgotPasswordPageComponent,
   LoginPageComponent,
-  ResetPasswordPageComponent
+  ResetPasswordPageComponent,
+  SelfRegistrationPageComponent
 } from './containers/pages';
 
 
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'first-login', component: FirstLoginPageComponent, canLoad: [UserContextGuard] },
   { path: 'forgot-password', component: ForgotPasswordPageComponent },
   { path: 'login', component: LoginPageComponent },
-  { path: 'reset-password', component: ResetPasswordPageComponent }
+  { path: 'reset-password', component: ResetPasswordPageComponent },
+  { path: 'self-registration', component: SelfRegistrationPageComponent }
 ];
 
 @NgModule({

@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromLoginReducer from '../../reducers';
 import * as fromLoginActions from '../../actions/login.actions';
-import * as fromSelfRegistrationActions from '../../actions/self-registration.action';
+import * as fromSelfRegistrationActions from '../../actions/self-registration.actions';
 
 import { PfValidators } from 'libs/forms/validators';
 import { SelfRegistrationValidationService } from '../../services/self-registration-validation.service';

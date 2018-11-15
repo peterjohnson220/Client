@@ -7,7 +7,7 @@ import { PfFormsModule } from 'libs/forms/forms.module';
 import * as fromRootState from 'libs/state/state';
 import * as fromLoginReducer from '../../reducers';
 import * as fromLoginActions from '../../actions/login.actions';
-import * as fromSelfRegistrationActions from '../../actions/self-registration.action';
+import * as fromSelfRegistrationActions from '../../actions/self-registration.actions';
 
 import { SelfRegistrationModalComponent } from './self-registration-modal.component';
 
