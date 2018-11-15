@@ -35,6 +35,10 @@ export class DataCutsComponent implements OnDestroy {
     }
   }
 
+  trackByDataCutId(index, item: SurveyDataCut) {
+    return item.SurveyDataId;
+  }
+
   toggleDataCutSelection(dataCut: SurveyDataCut): void {
     this.dataCutSelected.emit(dataCut);
   }
