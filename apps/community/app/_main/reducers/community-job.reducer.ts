@@ -136,6 +136,19 @@ export function reducer(
         loadingError: true
       };
     }
+    case communityJobActions.DELETING_COMMUNITY_JOB_SUCCESS: {
+      const jobId = action.payload;
+      return {
+        ...adapter.removeOne(jobId,
+          state)
+      };
+    }
+    case communityJobActions.DELETING_COMMUNITY_JOB_ERROR: {
+      return {
+        ...state,
+        submittingError: true
+      };
+    }
     default: {
       return state;
     }

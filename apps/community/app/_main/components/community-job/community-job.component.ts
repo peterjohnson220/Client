@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+
 import { CommunityJob } from 'libs/models';
 import { environment } from 'environments/environment';
+
+import * as fromCommunityJobReducer from '../../reducers';
+import * as fromCommunityJobActions from '../../actions/community-job.actions';
 
 @Component({
   selector: 'pf-community-job',
@@ -10,8 +15,14 @@ import { environment } from 'environments/environment';
 export class CommunityJobComponent {
   @Input() job: CommunityJob;
   @Input() endOfList: boolean;
+  @Input() isCurrentUserJob: boolean;
 
   get companyLogo() { return environment.companyLogoSource + this.job.CompanyLogo; }
 
-  constructor() { }
+  constructor(public store: Store<fromCommunityJobReducer.State>) { }
+
+  delete() {
+    this.store.dispatch(new fromCommunityJobActions.DeletingCommunityJob(this.job.Id));
+  }
+
 }

@@ -10,6 +10,7 @@ export interface CommunityJob {
   TimeTicks: number;
   CompanyLogo: string;
   ElapsedTime: string;
+  IsCurrentUserJob: boolean;
 }
 
 export function generateMockCommunityJob(): CommunityJob {
@@ -22,6 +23,7 @@ export function generateMockCommunityJob(): CommunityJob {
     DatePosted: new Date(),
     TimeTicks: 123456789,
     CompanyLogo: '',
-    ElapsedTime: '1 week'
+    ElapsedTime: '1 week',
+    IsCurrentUserJob: true
   };
 }

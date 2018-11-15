@@ -19,4 +19,8 @@ export class CommunityJobApiService {
   submitCommunityJob(payload: any): Observable<CommunityJob> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/Post`, payload);
   }
+
+  updateJobDeletedFlag(payload: any): Observable<CommunityJob> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/DeleteJob`, payload);
+  }
 }

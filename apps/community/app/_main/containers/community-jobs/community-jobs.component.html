@@ -17,7 +17,8 @@
           <pf-community-job
             *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId;let i = index; let last = last;"
             [job]="job"
-            [endOfList]="last && !hasMoreResultsOnServer">
+            [endOfList]="last && !hasMoreResultsOnServer"
+            [isCurrentUserJob]="job.IsCurrentUserJob">
           </pf-community-job>
         </div>
       </div>
