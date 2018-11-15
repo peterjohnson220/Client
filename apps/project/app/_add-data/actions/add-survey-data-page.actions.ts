@@ -1,25 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { JobContext } from '../models';
-
-export const SET_JOB_CONTEXT = '[Project Add Data/Add Survey Data Page] Set Job Context';
-export const CLOSE_SURVEY_SEARCH = '[Project Add Data/Add Survey Data Page] Close Survey Search';
 export const ADD_DATA = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project';
 export const ADD_DATA_SUCCESS = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Success';
 export const ADD_DATA_ERROR = '[Project Add Data/Add Survey Data Page] Add Data Cuts to Project Error';
-export const HIDE_PAGE = '[Project Add Data/Add Survey Data Page] Hide Page';
-
-export class SetJobContext implements Action {
-  readonly type = SET_JOB_CONTEXT;
-
-  constructor(public payload: JobContext) {}
-}
-
-export class CloseSurveySearch implements Action {
-  readonly type = CLOSE_SURVEY_SEARCH;
-
-  constructor() {}
-}
 
 export class AddData implements Action {
   readonly type = ADD_DATA;
@@ -39,16 +22,8 @@ export class AddDataError implements Action {
   constructor() {}
 }
 
-export class HidePage implements Action {
-  readonly type = HIDE_PAGE;
-
-  constructor() {}
-}
 
 export type Actions
-  = SetJobContext
-  | CloseSurveySearch
-  | AddData
+  = AddData
   | AddDataSuccess
-  | AddDataError
-  | HidePage;
+  | AddDataError;

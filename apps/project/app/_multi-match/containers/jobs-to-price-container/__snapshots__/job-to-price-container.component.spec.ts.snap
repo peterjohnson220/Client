@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - MultiMatch - JobToPrice Container Component should dispatch a delete cut action when job cut deleted 1`] = `
+<pf-jobs-to-price-container
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToPrice$={[Function Store]}
+  jobsToPriceComponents={[Function QueryList]}
+  loadingJobs$={[Function Store]}
+  scroll={[Function AutoScroller]}
+  searchContext$={[Function Store]}
+  selectedCuts={[Function Array]}
+  selectedCuts$={[Function Store]}
+  selectedDataCutsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-price-container"
+  >
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-price-container>
+`;
+
+exports[`Project - MultiMatch - JobToPrice Container Component should display Title, code and paymarket 1`] = `
+<pf-jobs-to-price-container
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToPrice$={[Function Store]}
+  jobsToPriceComponents={[Function QueryList]}
+  loadingJobs$={[Function Store]}
+  scroll={[Function AutoScroller]}
+  searchContext$={[Function Store]}
+  selectedCuts={[Function Array]}
+  selectedCuts$={[Function Store]}
+  selectedDataCutsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-price-container"
+  >
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-price-container>
+`;
+
+exports[`Project - MultiMatch - JobToPrice Container Component should get job match cuts when load cuts clicked 1`] = `
+<pf-jobs-to-price-container
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToPrice$={[Function Store]}
+  jobsToPriceComponents={[Function QueryList]}
+  loadingJobs$={[Function Store]}
+  scroll={[Function AutoScroller]}
+  searchContext$={[Function Store]}
+  selectedCuts={[Function Array]}
+  selectedCuts$={[Function Store]}
+  selectedDataCutsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-price-container"
+  >
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-price-container>
+`;
+
+exports[`Project - MultiMatch - JobToPrice Container Component should not get job match cuts when load cuts clicked but job cuts already loaded 1`] = `
+<pf-jobs-to-price-container
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToPrice$={[Function Store]}
+  jobsToPriceComponents={[Function QueryList]}
+  loadingJobs$={[Function Store]}
+  scroll={[Function AutoScroller]}
+  searchContext$={[Function Store]}
+  selectedCuts={[Function Array]}
+  selectedCuts$={[Function Store]}
+  selectedDataCutsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-price-container"
+  >
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-price-container>
+`;
+
+exports[`Project - MultiMatch - JobToPrice Container Component should not get job match cuts when load cuts clicked but job has no cuts 1`] = `
+<pf-jobs-to-price-container
+  dragEnd$={[Function AnonymousSubject]}
+  dragStart$={[Function AnonymousSubject]}
+  dragSubs={[Function Subscription]}
+  dragulaService={[Function DragulaService]}
+  error$={[Function Store]}
+  isDragging="false"
+  isDragging$={[Function Observable]}
+  jobsToPrice$={[Function Store]}
+  jobsToPriceComponents={[Function QueryList]}
+  loadingJobs$={[Function Store]}
+  scroll={[Function AutoScroller]}
+  searchContext$={[Function Store]}
+  selectedCuts={[Function Array]}
+  selectedCuts$={[Function Store]}
+  selectedDataCutsSubscription={[Function Subscriber]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="jobs-to-price-container"
+  >
+    <pf-async-container>
+      
+      
+      <div
+        class="no-results-message-container"
+      >
+         No valid jobs selected. Please try again. 
+      </div>
+      
+    </pf-async-container>
+  </div>
+</pf-jobs-to-price-container>
+`;

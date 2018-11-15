@@ -7,10 +7,11 @@ import { DragulaService } from 'ng2-dragula';
 import { DataCut } from 'libs/models/survey-search';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromSearchActions from '../../../actions/search.actions';
+import * as fromSearchActions from '../../../../shared/actions/search.actions';
 import * as fromAddDataReducer from '../../../reducers';
-import { SurveySearchBase } from '../survey-search-base';
-import { disableDatacutsDragging } from '../../../helpers';
+import * as fromSharedReducer from '../../../../shared/reducers';
+import { SurveySearchBase } from '../../../../shared/containers/pages/survey-search-base';
+import { disableDatacutsDragging } from '../../../../shared/helpers';
 
 
 @Component({
@@ -25,30 +26,30 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
   excludeFromParticipation: boolean;
 
   constructor(
-    store: Store<fromAddDataReducer.State>,
+    store: Store<fromSharedReducer.State>,
     private dragulaService: DragulaService
   ) {
     super(store);
-    this.selectedCuts$ = this.store.select(fromAddDataReducer.getSelectedDataCuts);
+    this.selectedCuts$ = this.store.select(fromSharedReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
-    this.pageShown$ = this.store.select(fromAddDataReducer.getPageShown);
+    this.pageShown$ = this.store.select(fromSharedReducer.getPageShown);
     this.excludeFromParticipation = false;
     disableDatacutsDragging(dragulaService);
   }
 
   onResetApp() {
-    this.store.dispatch(new fromAddSurveyDataPageActions.HidePage());
+    this.store.dispatch(new fromSearchActions.HidePage());
     this.excludeFromParticipation = false;
   }
 
   onSetContext(payload: any) {
     this.store.dispatch(new fromSearchActions.SetProjectSearchContext(payload.SearchContext));
-    this.store.dispatch(new fromAddSurveyDataPageActions.SetJobContext(payload.JobContext));
+    this.store.dispatch(new fromSearchActions.SetJobContext(payload.JobContext));
   }
 
   // Event Handling
   handleCancelClicked() {
-    this.store.dispatch(new fromAddSurveyDataPageActions.CloseSurveySearch());
+    this.store.dispatch(new fromSearchActions.CloseSearchPage());
   }
 
   handleAddClicked() {
