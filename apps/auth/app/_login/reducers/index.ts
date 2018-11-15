@@ -113,7 +113,7 @@ export const getLoginError =
 export const getShowSelfRegistrationForm =
   createSelector(loginState, fromLoginReducer.getShowSelfRegistrationForm);
 
-// request access/self reg
+// Self Registration
 export const selfRegistrationState =
   createSelector(selectAuthMainState, (state: AuthMainState) => state.selfRegistration);
 export const getSelfRegistrationForm =
@@ -124,3 +124,17 @@ export const getSelfRegistrationSubmitSuccess =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSubmitSuccess);
 export const getSelfRegistrationSubmitError =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSubmitError);
+export const getValidatingToken =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingToken);
+export const getValidatingTokenSuccess =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenSuccess);
+export const getValidatingTokenError =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenError);
+export const getValidatingTokenExpired =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenExpired);
+export const getValidatingTokenAccountExists =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenAccountExists);
+export const getValidatedToken =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatedToken);
+export const getAccountEmail =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getAccountEmail);

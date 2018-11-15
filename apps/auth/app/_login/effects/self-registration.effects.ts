@@ -1,20 +1,37 @@
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Effect, Actions } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
-import { catchError, map, switchMap, withLatestFrom, debounceTime } from 'rxjs/operators';
+import { catchError, map, switchMap, debounceTime, withLatestFrom } from 'rxjs/operators';
 
-import * as fromSelfRegistrationActions from '../actions/self-registration.action';
+import { AccountApiService } from 'libs/data/payfactors-api/auth/account-api.service';
+
+import * as fromSelfRegistrationActions from '../actions/self-registration.actions';
 import * as fromLoginReducer from '../reducers';
-import { AccountApiService } from 'libs/data/payfactors-api/auth';
 
 @Injectable()
 export class SelfRegistrationEffects {
-  constructor(
-    private actions$: Actions,
-    private accountApiService: AccountApiService,
-    private store: Store<fromLoginReducer.State>) { }
+  @Effect()
+  validateRegistrationToken$: Observable<Action> = this.actions$
+    .ofType(fromSelfRegistrationActions.VALIDATE_TOKEN).pipe(
+      switchMap((action: fromSelfRegistrationActions.ValidateToken) =>
+        this.accountApiService.validateSelfRegistrationToken(action.payload.token).pipe(
+          map(() => new fromSelfRegistrationActions.ValidateTokenSuccess({ token: action.payload.token })),
+          catchError<any, fromSelfRegistrationActions.Actions>((errorResponse: HttpErrorResponse) => {
+            const errorMessage: string = errorResponse.error.message;
+            if (errorResponse.status === 400 && errorMessage === 'token_expired') {
+              return of(new fromSelfRegistrationActions.ValidateTokenExpired());
+            } else if (errorResponse.status === 400 && errorMessage === 'user_exists') {
+              return of(new fromSelfRegistrationActions.ValidateTokenAccountExists({ accountEmail: errorResponse.error.email }));
+            } else {
+              return of(new fromSelfRegistrationActions.ValidateTokenError());
+            }
+          })
+        )
+      )
+    );
 
   @Effect()
   submitForm$: Observable<Action> = this.actions$
@@ -32,4 +49,10 @@ export class SelfRegistrationEffects {
         );
       }),
     );
+
+  constructor(
+    private actions$: Actions,
+    private accountApiService: AccountApiService,
+    private store: Store<fromLoginReducer.State>
+  ) {}
 }
