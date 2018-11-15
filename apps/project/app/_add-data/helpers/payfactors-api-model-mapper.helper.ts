@@ -224,8 +224,9 @@ export class PayfactorsApiModelMapper {
   private static getPrecisionFromSearchFilterOption(sfo: SearchFilterOption[], name: string): number {
     let value = 1;
     const filteredArray = sfo.filter(x => x.Name === name).map(x => x.Value);
-    if (filteredArray[0] !== undefined) {
-      value = (filteredArray[0] + '').split('.')[1].length;
+    if (!!filteredArray.length) {
+      const splits = filteredArray[0].toString().split('.');
+      value = splits.length > 1 ? splits[1].length : 1;
     }
     return value;
   }
