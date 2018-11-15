@@ -1,18 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import {CdkScrollable} from '@angular/cdk/scrolling';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
+import * as fromCommunityPostActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
+import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { CommunityPostsComponent } from './community-posts.component';
 import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
-import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { Tag } from '../../models/tag.model';
 
 describe('CommunityPostsComponent', () => {
@@ -30,6 +32,8 @@ describe('CommunityPostsComponent', () => {
         }),
         ReactiveFormsModule
       ],
+      providers: [ CdkScrollable
+        ],
       declarations: [
         CommunityPostsComponent,
         HighlightHashTagPipe,
@@ -131,4 +135,69 @@ describe('CommunityPostsComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
+
+  it('should dispatch GettingPreviousBatchCommunityPosts when calling onScrollUp ' +
+    'when hasPreviousBatchOnServer and not loadingPreviousBatchCommunityPosts', () => {
+    const action = new fromCommunityPostActions.GettingPreviousBatchCommunityPosts();
+    instance.loadingPreviousBatchCommunityPosts = false;
+    instance.hasPreviousBatchOnServer = true;
+    instance.onScrollUp();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should not dispatch GettingPreviousBatchCommunityPosts when calling onScrollUp ' +
+    'when loadingPreviousBatchCommunityPosts', () => {
+    const action = new fromCommunityPostActions.GettingPreviousBatchCommunityPosts();
+    instance.loadingPreviousBatchCommunityPosts = true;
+    instance.hasPreviousBatchOnServer = true;
+    instance.onScrollUp();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(action);
+  });
+
+  it('should not dispatch GettingPreviousBatchCommunityPosts when calling onScrollUp ' +
+    'when not hasPreviousBatchOnServer', () => {
+    const action = new fromCommunityPostActions.GettingPreviousBatchCommunityPosts();
+    instance.loadingPreviousBatchCommunityPosts = false;
+    instance.hasPreviousBatchOnServer = false;
+    instance.onScrollUp();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
+    'when hasNextBatchOnServer and not loadingNextBatchCommunityPosts', () => {
+    const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
+    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.loadingNextBatchCommunityPosts = false;
+    instance.hasNextBatchOnServer = true;
+    instance.onScrollDown();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should not dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
+  'when loadingNextBatchCommunityPosts', () => {
+    const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
+    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.loadingNextBatchCommunityPosts = true;
+    instance.hasNextBatchOnServer = true;
+    instance.onScrollDown();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(action);
+  });
+
+  it('should not dispatch GettingNextBatchCommunityPosts when calling onScrollDown' +
+    'when not hasNextBatchOnServer', () => {
+    const action = new fromCommunityPostActions.GettingNextBatchCommunityPosts();
+    instance.communityPosts  = [generateMockCommunityPost()];
+    instance.loadingNextBatchCommunityPosts = false;
+    instance.hasNextBatchOnServer = false;
+    instance.onScrollDown();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(action);
+  });
+
+
 });

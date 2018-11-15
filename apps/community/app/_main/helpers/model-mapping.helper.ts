@@ -8,7 +8,7 @@ import { PagingOptions } from '../models/paging-options.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
-    StartIndex: resultsPagingOptions.StartIndex,
+    PageIndex: resultsPagingOptions.PageIndex,
     NumberOfPosts: resultsPagingOptions.NumberOfPosts
   };
 }

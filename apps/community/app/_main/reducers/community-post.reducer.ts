@@ -1,26 +1,31 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { CommunityPost } from 'libs/models/community';
+
 import * as communityPostActions from '../actions/community-post.actions';
-import { PagingOptions } from '../models';
+import { CommunityConstants, PagingOptions } from '../models';
 
 export interface State extends EntityState<CommunityPost> {
   submitting: boolean;
   submittingError: boolean;
   loading: boolean;
   loadingError: boolean;
-  loadingMorePosts: boolean;
+  loadingNextBatchPosts: boolean;
+  loadingPreviousBatchPosts: boolean;
   submittedPost: CommunityPost;
   addingCommunityDiscussionPoll: boolean;
   addingCommunityDiscussionPollError: boolean;
   addingCommunityDiscussionPollSuccess: boolean;
+  startIndexDisplayed: number;
+  endIndexDisplayed: number;
   pagingOptions: PagingOptions;
   totalResultsOnServer: number;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
-  return b.TimeTicks -  a.TimeTicks;
+  return b.TimeTicks - a.TimeTicks;
 }
+
 // Create entity adapter
 export const adapter: EntityAdapter<CommunityPost> = createEntityAdapter<CommunityPost>({
   selectId: (communityPost: CommunityPost) => communityPost.Id,
@@ -32,14 +37,17 @@ export const initialState: State = adapter.getInitialState({
   submittingError: false,
   loading: false,
   loadingError: false,
-  loadingMorePosts: false,
+  loadingNextBatchPosts: false,
+  loadingPreviousBatchPosts: false,
   submittedPost: null,
   addingCommunityDiscussionPoll: false,
   addingCommunityDiscussionPollError: false,
   addingCommunityDiscussionPollSuccess: false,
+  startIndexDisplayed: 1,
+  endIndexDisplayed: 1,
   pagingOptions: {
-    StartIndex: 1,
-    NumberOfPosts: 20
+    PageIndex: 1,
+    NumberOfPosts: CommunityConstants.POSTS_PER_BATCH
   },
   totalResultsOnServer: 0
 });
@@ -75,7 +83,7 @@ export function reducer(
         ...state,
         loading: true,
         loadingError: false,
-        pagingOptions: {...state.pagingOptions, StartIndex: 1}
+        pagingOptions: { ...state.pagingOptions, PageIndex: 1 }
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_SUCCESS: {
@@ -92,37 +100,116 @@ export function reducer(
         loadingError: true
       };
     }
-    case communityPostActions.GETTING_MORE_COMMUNITY_POSTS: {
+    case communityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS: {
+
+      let newStartIndexDisplayed = state.startIndexDisplayed;
+      let newEndIndexDisplayed = state.endIndexDisplayed;
+      const hasNextBatchOnServer = state.totalResultsOnServer > CommunityConstants.POSTS_PER_BATCH * (state.endIndexDisplayed + 1);
+
+      if (hasNextBatchOnServer) {
+        newStartIndexDisplayed = newEndIndexDisplayed;
+      }
+
+      newEndIndexDisplayed += 1;
+
       return {
         ...state,
-        loadingMorePosts: true,
-        pagingOptions: {...state.pagingOptions, StartIndex: state.pagingOptions.StartIndex + 1, NumberOfPosts: 15}
+        loadingNextBatchPosts: true,
+        startIndexDisplayed: newStartIndexDisplayed,
+        endIndexDisplayed: newEndIndexDisplayed,
+        pagingOptions: { ...state.pagingOptions, PageIndex: newEndIndexDisplayed, NumberOfPosts: CommunityConstants.POSTS_PER_BATCH }
       };
     }
-    case communityPostActions.GETTING_MORE_COMMUNITY_POSTS_SUCCESS: {
+    case communityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS_SUCCESS: {
+      const existingPostsInStore = Object.keys(state.entities).map(function(key) {
+        return state.entities[key];
+      });
+
+      existingPostsInStore.sort(sortByTime);
+
+      const payloadPostCount = action.payload.Posts.length;
+      let addModifiedState = adapter.addMany(action.payload.Posts, state);
+
+      const hasNextBatchOnServer = state.totalResultsOnServer > CommunityConstants.POSTS_PER_BATCH  * state.pagingOptions.PageIndex;
+
+      if (existingPostsInStore.length >= (CommunityConstants.POST_PAGING_FACTOR * CommunityConstants.POSTS_PER_BATCH)
+        && hasNextBatchOnServer) {
+        const postIds = existingPostsInStore.map(o => {
+          return o.Id;
+        });
+        addModifiedState = adapter.removeMany(postIds.slice(0, payloadPostCount), addModifiedState);
+      }
+
       return {
-        ...adapter.addMany(action.payload.Posts, state),
-        loadingMorePosts: false
+        ...addModifiedState,
+        loadingNextBatchPosts: false
       };
     }
-    case communityPostActions.GETTING_MORE_COMMUNITY_POSTS_ERROR: {
+    case communityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS_ERROR: {
       return {
         ...state,
-        loadingMorePosts: false,
+        loadingNextBatchPosts: false,
+        loadingError: true
+      };
+    }
+
+    case communityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS: {
+      let newStartIndexDisplayed = state.startIndexDisplayed;
+      let newEndIndexDisplayed = state.endIndexDisplayed;
+
+      if (state.startIndexDisplayed > 1) {
+        newEndIndexDisplayed = state.startIndexDisplayed;
+        newStartIndexDisplayed = state.startIndexDisplayed - 1;
+      }
+
+      return {
+        ...state,
+        loadingPreviousBatchPosts: true,
+        startIndexDisplayed: newStartIndexDisplayed,
+        endIndexDisplayed: newEndIndexDisplayed,
+        pagingOptions: { ...state.pagingOptions, PageIndex: newStartIndexDisplayed, NumberOfPosts: CommunityConstants.POSTS_PER_BATCH  }
+      };
+    }
+    case communityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_SUCCESS: {
+      const existingPostsInStore = Object.keys(state.entities).map(function(key) {
+        return state.entities[key];
+      });
+
+      existingPostsInStore.sort(sortByTime);
+
+      const postIds = existingPostsInStore.map(o => {
+        return o.Id;
+      });
+
+      let addModifiedState = adapter.addMany(action.payload.Posts, state);
+
+      if (postIds.length >= CommunityConstants.POST_PAGING_FACTOR * CommunityConstants.POSTS_PER_BATCH) {
+        addModifiedState = adapter.removeMany(postIds.slice(CommunityConstants.POSTS_PER_BATCH , postIds.length), addModifiedState);
+      }
+
+      return {
+        ...addModifiedState,
+        loadingPreviousBatchPosts: false
+      };
+    }
+    case communityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_ERROR: {
+      return {
+        ...state,
+        loadingPreviousBatchPosts: false,
         loadingError: true
       };
     }
 
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_SUCCESS: {
-      const postId = action.payload['postId'];
-      const like = action.payload['like'];
-      const entity = state.entities[postId];
+      const postId = action.payload[ 'postId' ];
+      const like = action.payload[ 'like' ];
+      const entity = state.entities[ postId ];
       const updatedLikeCount = like ? entity.LikeCount + 1 : entity.LikeCount - 1;
 
       return {
         ...adapter.updateOne(
-        { id: postId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount } },
-        state)
+          { id: postId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount } },
+          state)
       };
     }
     case communityPostActions.UPDATING_COMMUNITY_POST_LIKE_ERROR: {
@@ -132,8 +219,8 @@ export function reducer(
       };
     }
     case communityPostActions.UPDATING_COMMUNITY_POST_REPLY_IDS: {
-      const postId = action.payload['postId'];
-      const replyIds = action.payload['replyIds'];
+      const postId = action.payload[ 'postId' ];
+      const replyIds = action.payload[ 'replyIds' ];
 
       return {
         ...adapter.updateOne(
@@ -184,9 +271,10 @@ export function reducer(
     }
   }
 }
+
 export const getSubmittingCommunityPosts = (state: State) => state.submitting;
 export const getSubmittingCommunityPostsError = (state: State) => state.submittingError;
-export const getSubmittingCommunityPostsSuccess = (state: State ) => state.submittedPost;
+export const getSubmittingCommunityPostsSuccess = (state: State) => state.submittedPost;
 
 export const getGettingCommunityPosts = (state: State) => state.loading;
 export const getGettingCommunityPostsError = (state: State) => state.loadingError;
@@ -196,5 +284,6 @@ export const getAddingCommunityDiscussionPollError = (state: State) => state.add
 export const getAddingCommunityDiscussionPollSuccess = (state: State) => state.addingCommunityDiscussionPollSuccess;
 export const getTotalResultsOnServer = (state: State) => state.totalResultsOnServer;
 export const getDiscussionPagingOptions = (state: State) => state.pagingOptions;
-export const getLoadingMorePosts = (state: State) => state.loadingMorePosts;
+export const getLoadingNextBatchPosts = (state: State) => state.loadingNextBatchPosts;
+export const getLoadingPreviousBatchPosts = (state: State) => state.loadingPreviousBatchPosts;
 

@@ -60,8 +60,13 @@ export class CommunityPostEffects {
   );
 
   @Effect()
-  loadingMoreCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
-    this.actions$.ofType(fromCommunityPostActions.GETTING_MORE_COMMUNITY_POSTS)
+  loadingNextBatchCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
+    this.actions$.ofType(fromCommunityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS)
+  );
+
+  @Effect()
+  loadingPreviousBatchCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
+    this.actions$.ofType(fromCommunityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS)
   );
 
   @Effect()

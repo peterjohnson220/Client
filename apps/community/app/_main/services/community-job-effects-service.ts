@@ -43,7 +43,7 @@ export class CommunityJobEffectsService {
           .pipe(
             mergeMap((searchResponse: CommunityJobSearchResponse) => {
               const actions = [];
-                if (searchRequest.PagingOptions.StartIndex > 1) {
+                if (searchRequest.PagingOptions.PageIndex > 1) {
                   actions.push(new fromCommunityJobActions.GettingMoreCommunityJobsSuccess(searchResponse));
                 } else {
                   actions.push(new fromCommunityJobActions.GettingCommunityJobsSuccess(searchResponse));

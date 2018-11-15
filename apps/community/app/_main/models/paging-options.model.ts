@@ -1,4 +1,4 @@
 export interface PagingOptions {
-  StartIndex: number;
+  PageIndex: number;
   NumberOfPosts: number;
 }
