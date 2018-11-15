@@ -103,8 +103,25 @@
         type="text">
 
       <!-- NUMBER OF EMPLOYEES -->
-      <label class="mt-4">Number of Employees</label>
-      <input id="au-tb-self-registration-number-of-employees" class="form-control" formControlName="NumberEmployees" type="text">
+      <label class="mt-4">Number of Employees*</label>
+      <label *ngIf="selfRegistrationForm.controls.NumberEmployees.touched && selfRegistrationForm.controls.NumberEmployees.errors" class="error">
+        Select a non blank value
+      </label>
+      <select 
+        id="au-ddm-self-registration-number-of-employees" 
+        class="form-control" 
+        formControlName="NumberEmployees"
+        [ngClass]="selfRegistrationForm.controls.NumberEmployees.touched && selfRegistrationForm.controls.NumberEmployees.errors ? 'error' : ''">
+        <option [ngValue]="0"></option>
+        <option [ngValue]="1">1-20</option>
+        <option [ngValue]="21">21-50</option>
+        <option [ngValue]="51">51-100</option>
+        <option [ngValue]="81">81-150</option>
+        <option [ngValue]="151">151-250</option>
+        <option [ngValue]="251">251-500</option>
+        <option [ngValue]="501">501-1000</option>
+        <option [ngValue]="1000">> 1000</option>
+      </select>
     </div>
   </ng-container>
 </pf-modal-form>

@@ -141,7 +141,12 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
           validator.validateCharsInWebsite
         ]
       ],
-      NumberEmployees: [''],
+      NumberEmployees: [
+        0,
+        [
+          validator.validateNumberEmployees
+        ]
+      ],
     });
   }
 }
