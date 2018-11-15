@@ -2,6 +2,7 @@
 
 exports[`Features - Peer - Exchange Scope Selector Component should disable scope selector button when there are no scopes 1`] = `
 <pf-scope-selector
+  addDataModal={[Function Boolean]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -11,7 +12,9 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
   systemFilterLoadedSubscription={[Function Subscriber]}
 >
   <div
-    class="scope-selector-container"
+    class="scope-selector-container custom-modal-popover custom-modal-arrow"
+    ng-reflect-klass="scope-selector-container"
+    ng-reflect-ng-class="[object Object]"
   >
     
     
@@ -21,7 +24,6 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
-      placement="right"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -32,10 +34,14 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
         class="selector-caret"
       >
         
-      
+        
+        
         <i
           class="fas fa-caret-right"
         />
+        
+        
+        
         
       
       </span>
@@ -74,6 +80,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should disable scop
 
 exports[`Features - Peer - Exchange Scope Selector Component should display "No Selection" message when there is no exchange scope selected 1`] = `
 <pf-scope-selector
+  addDataModal={[Function Boolean]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -83,7 +90,9 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
   systemFilterLoadedSubscription={[Function Subscriber]}
 >
   <div
-    class="scope-selector-container"
+    class="scope-selector-container custom-modal-popover custom-modal-arrow"
+    ng-reflect-klass="scope-selector-container"
+    ng-reflect-ng-class="[object Object]"
   >
     
     
@@ -92,7 +101,6 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
-      placement="right"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -103,10 +111,14 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
         class="selector-caret"
       >
         
-      
+        
+        
         <i
           class="fas fa-caret-right"
         />
+        
+        
+        
         
       
       </span>
@@ -145,6 +157,7 @@ exports[`Features - Peer - Exchange Scope Selector Component should display "No 
 
 exports[`Features - Peer - Exchange Scope Selector Component should display the currently selected exchange scope 1`] = `
 <pf-scope-selector
+  addDataModal={[Function Boolean]}
   exchangeScopeItems$={[Function Observable]}
   exchangeScopeItemsLoading$={[Function Store]}
   popover={[Function NgbPopover]}
@@ -154,7 +167,9 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
   systemFilterLoadedSubscription={[Function Subscriber]}
 >
   <div
-    class="scope-selector-container"
+    class="scope-selector-container custom-modal-popover custom-modal-arrow"
+    ng-reflect-klass="scope-selector-container"
+    ng-reflect-ng-class="[object Object]"
   >
     
     
@@ -163,7 +178,6 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
       ng-reflect-ngb-popover="[object Object]"
       ng-reflect-placement="right"
       ng-reflect-popover-title="Select a Scope"
-      placement="right"
       popovertitle="Select a Scope"
       type="button"
     >
@@ -174,10 +188,14 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
         class="selector-caret"
       >
         
-      
+        
+        
         <i
           class="fas fa-caret-right"
         />
+        
+        
+        
         
       
       </span>
@@ -198,6 +216,160 @@ exports[`Features - Peer - Exchange Scope Selector Component should display the 
       >
         
         MockExchangeScopeItemName
+      
+      </span>
+      
+  
+    
+    </button>
+    
+  
+  
+  </div>
+  
+  
+  
+</pf-scope-selector>
+`;
+
+exports[`Features - Peer - Exchange Scope Selector Component should match snapshot when in add data cuts modal 1`] = `
+<pf-scope-selector
+  addDataModal={[Function Boolean]}
+  exchangeScopeItems$={[Function Observable]}
+  exchangeScopeItemsLoading$={[Function Store]}
+  popover={[Function NgbPopover]}
+  selectedExchangeScopeItem$={[Function Store]}
+  store={[Function Store]}
+  systemFilterLoaded$={[Function Store]}
+  systemFilterLoadedSubscription={[Function Subscriber]}
+>
+  <div
+    class="scope-selector-container custom-modal-popover custom-modal-arrow"
+    ng-reflect-klass="scope-selector-container"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <button
+      class="btn btn-secondary selector"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="right"
+      ng-reflect-popover-title="Select a Scope"
+      popovertitle="Select a Scope"
+      type="button"
+    >
+      
+  
+      
+      <span
+        class="selector-caret"
+      >
+        
+        
+        
+        <i
+          class="fas fa-caret-right"
+        />
+        
+        
+        
+        
+      
+      </span>
+      
+  
+      
+      <span
+        class="selector-label text-muted"
+      >
+        Exchange Scope:
+      </span>
+      
+  
+      
+      <span
+        class="selection no-selection"
+        title=""
+      >
+        
+        No Selection
+      
+      </span>
+      
+  
+    
+    </button>
+    
+  
+  
+  </div>
+  
+  
+  
+</pf-scope-selector>
+`;
+
+exports[`Features - Peer - Exchange Scope Selector Component should match snapshot when on big map 1`] = `
+<pf-scope-selector
+  addDataModal="false"
+  exchangeScopeItems$={[Function Observable]}
+  exchangeScopeItemsLoading$={[Function Store]}
+  popover={[Function NgbPopover]}
+  selectedExchangeScopeItem$={[Function Store]}
+  store={[Function Store]}
+  systemFilterLoaded$={[Function Store]}
+  systemFilterLoadedSubscription={[Function Subscriber]}
+>
+  <div
+    class="scope-selector-container custom-map-popover custom-map-arrow scope-selector-no-padding"
+    ng-reflect-klass="scope-selector-container"
+    ng-reflect-ng-class="[object Object]"
+  >
+    
+    
+    <button
+      class="btn btn-secondary selector"
+      ng-reflect-ngb-popover="[object Object]"
+      ng-reflect-placement="bottom-right"
+      ng-reflect-popover-title="Select a Scope"
+      popovertitle="Select a Scope"
+      type="button"
+    >
+      
+  
+      
+      <span
+        class="selector-caret"
+      >
+        
+        
+        
+        
+        
+        
+        <i
+          class="fas fa-caret-down"
+        />
+        
+      
+      </span>
+      
+  
+      
+      <span
+        class="selector-label text-muted"
+      >
+        Exchange Scope:
+      </span>
+      
+  
+      
+      <span
+        class="selection no-selection"
+        title=""
+      >
+        
+        No Selection
       
       </span>
       

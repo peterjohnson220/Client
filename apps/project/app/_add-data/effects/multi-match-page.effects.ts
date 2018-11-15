@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import {switchMap, map, tap, mergeMap} from 'rxjs/operators';
+import { switchMap, map, tap, mergeMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { of } from 'rxjs/index';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
+import { SurveyJobMatchUpdate } from 'libs/models/survey-search';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
@@ -12,7 +14,8 @@ import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromAddDataReducer from '../reducers';
 
 import * as fromSearchActions from '../actions/search.actions';
-import {buildLockedCountryCodeFilter} from '../helpers';
+import { FiltersHelper } from '../helpers';
+import { JobToPrice } from '../models';
 
 @Injectable()
 export class MultiMatchPageEffects {
@@ -38,12 +41,42 @@ export class MultiMatchPageEffects {
                 actions.push(new fromSearchActions.SetProjectSearchContext(searchContext));
                 actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
                 if (projectContext.RestrictToCountryCode) {
-                  actions.push(new fromSearchFiltersActions.AddFilter(buildLockedCountryCodeFilter(searchContext)));
+                  actions.push(new fromSearchFiltersActions.AddFilters([
+                    FiltersHelper.buildLockedCountryCodeFilter(searchContext.CountryCode)
+                  ]));
                 }
                 return actions;
               }
             )
           );
+        }
+      )
+    );
+
+  @Effect()
+  saveJobMatchUpdates$ = this.actions$
+    .ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromAddDataReducer.getJobsToPrice),
+        this.store.select(fromAddDataReducer.getMultimatchProjectContext),
+        (action, jobsToPrice, projectContext ) => ({  jobsToPrice, projectContext  })
+      ),
+      switchMap((contextAndJobs) => {
+          const jobsWithUpdates = contextAndJobs.jobsToPrice.filter(j => (!!j.DataCutsToAdd && j.DataCutsToAdd.length)
+                                  || (!!j.DeletedJobMatchCutIds && j.DeletedJobMatchCutIds.length));
+          return this.surveySearchApiService.updateUserJobMatches({
+            ProjectId: contextAndJobs.projectContext.ProjectId,
+            SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
+          })
+            .pipe(
+              mergeMap(() => [
+                  new fromMultiMatchPageActions.SaveJobMatchUpdatesSuccess(),
+                  new fromMultiMatchPageActions.CloseMultiMatch()
+                ]
+              ),
+              catchError(() => of(new fromMultiMatchPageActions.SaveJobMatchUpdatesError()))
+            );
         }
       )
     );
@@ -56,6 +89,25 @@ export class MultiMatchPageEffects {
         this.windowCommunicationService.postMessage(action.type);
       })
     );
+
+  @Effect({dispatch: false})
+  saveJobMatchUpdatesSuccess$ = this.actions$
+    .ofType(fromMultiMatchPageActions.SAVE_JOB_MATCH_UPDATES_SUCCESS)
+    .pipe(
+      tap((action: fromMultiMatchPageActions.SaveJobMatchUpdatesSuccess) => {
+        this.windowCommunicationService.postMessage(action.type);
+      })
+    );
+
+  private buildMatchUpdates(jobsToPrice: JobToPrice[]): SurveyJobMatchUpdate[] {
+    return jobsToPrice.map(job => {
+      return {
+        UserJobListTempId: job.Id,
+        MatchesToDelete: job.DeletedJobMatchCutIds,
+        DataCutMatchesToAdd: job.DataCutsToAdd
+      };
+    });
+  }
 
     constructor(
       private actions$: Actions,

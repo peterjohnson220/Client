@@ -1,5 +1,9 @@
 import { Action } from '@ngrx/store';
-import { JobToPrice, ProjectContext } from '../models';
+
+import { JobMatchCut } from 'libs/models/survey-search';
+
+import { JobToPrice, ProjectContext, DataCutDetails } from '../models';
+
 
 export const GET_JOBS_TO_PRICE = '[Project Add Data/Jobs to Price] Get Jobs To Price';
 export const GET_JOBS_TO_PRICE_SUCCESS = '[Project Add Data/Jobs to Price] Get Jobs To Price Success';
@@ -7,6 +11,8 @@ export const GET_JOBS_TO_PRICE_ERROR = '[Project Add Data/Jobs to Price] Get Job
 export const GET_MATCH_JOB_CUTS = '[Project Add Data/Jobs to Price] Get Match Job Cuts';
 export const GET_MATCH_JOB_CUTS_SUCCESS = '[Project Add Data/Jobs to Price] Get Match Job Cuts Success';
 export const GET_MATCH_JOB_CUTS_ERROR = '[Project Add Data/Jobs to Price] Get Match Job Cuts Error';
+export const ADD_DATA_CUTS_TO_JOB_TO_PRICE = '[Project Add Data/Jobs to Price] Add new data Cuts to Job';
+export const REMOVE_JOB_CUT = '[Project Add Data/Jobs to Price] Remove Job Cut';
 export const CLEAR_ALL_JOBS = '[Project Add Data/Jobs to Price] Remove all Jobs';
 
 
@@ -51,6 +57,16 @@ export class ClearAllJobs implements Action {
 
   constructor() {}
 }
+export class AddNewDataCuts implements Action {
+  readonly type = ADD_DATA_CUTS_TO_JOB_TO_PRICE;
+
+  constructor(public payload: {JobId: number, DataCuts: DataCutDetails[]}) {}
+}
+export class RemoveJobCut implements Action {
+  readonly type = REMOVE_JOB_CUT;
+
+  constructor(public payload: {JobId: number, DataCut: JobMatchCut}) {}
+}
 
 export type Actions
   = GetJobsToPrice
@@ -59,4 +75,6 @@ export type Actions
   | GetMatchJobCuts
   | GetMatchJobCutsSuccess
   | GetMatchJobCutsError
-  | ClearAllJobs;
+  | ClearAllJobs
+  | AddNewDataCuts
+  | RemoveJobCut;

@@ -11,10 +11,10 @@ import { AddSurveyDataCutMatchResponse, DataCut } from 'libs/models/survey-searc
 
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import {  buildLockedCountryCodeFilter } from '../helpers';
+import * as fromResultsHeaderActions from '../actions/results-header.actions';
 import { JobContext, ProjectSearchContext } from '../models';
 import * as fromAddDataReducer from '../reducers';
-
+import { FiltersHelper } from '../helpers';
 
 @Injectable()
 export class AddSurveyDataPageEffects {
@@ -28,11 +28,13 @@ export class AddSurveyDataPageEffects {
          projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
       mergeMap(context => {
         const actions = [];
-        actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
         actions.push(new fromSearchFiltersActions.SetDefaultValue({filterId: 'jobTitleCode', value: context.action.payload.JobTitle}));
+        actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
 
         if (context.projectSearchContext.RestrictToCountryCode) {
-          actions.push(new fromSearchFiltersActions.AddFilter(buildLockedCountryCodeFilter(context.projectSearchContext)));
+          actions.push(new fromSearchFiltersActions.AddFilters([
+            FiltersHelper.buildLockedCountryCodeFilter(context.projectSearchContext.CountryCode)
+          ]));
         }
         return actions;
        }

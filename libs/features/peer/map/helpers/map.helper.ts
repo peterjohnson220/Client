@@ -27,7 +27,7 @@ export class MapHelper {
       type: 'FeatureCollection',
       features: mapResponse.FeatureCollection
     };
-    const boundsForOneMapCopy = this.getBoundsForOneMapCopy(tl, br);
+    const boundsForOneMapCopy = [tl.Lon, br.Lat, br.Lon, tl.Lat];
     const lngLatBounds = new LngLatBounds(
       [boundsForOneMapCopy[0], boundsForOneMapCopy[1]],
       [boundsForOneMapCopy[2], boundsForOneMapCopy[3]]
@@ -44,12 +44,6 @@ export class MapHelper {
         ClusterPrecision: scopeCriteria.ClusterPrecision
       }
     };
-  }
-
-  static getBoundsForOneMapCopy(topLeft: GeoCoordinates, bottomRight: GeoCoordinates): number[] {
-    const westMostLng = topLeft.Lon <= bottomRight.Lon ? topLeft.Lon : bottomRight.Lon;
-    const eastMostLng = bottomRight.Lon >= topLeft.Lon ? bottomRight.Lon : topLeft.Lon;
-    return [westMostLng, bottomRight.Lat, eastMostLng, topLeft.Lat];
   }
 
   private static swapBounds(bounds: any): any {

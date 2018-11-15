@@ -12,6 +12,10 @@ $reply-avatar-height: 35px;
   margin-left: $reply-avatar-width + 10px;
 }
 
+.reply-body {
+  word-wrap: break-word;
+}
+
 .community-btn {
   background: transparent;
   color: #99A0A4;

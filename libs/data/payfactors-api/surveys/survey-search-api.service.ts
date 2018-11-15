@@ -12,13 +12,13 @@ import {
   PricingMatchesResponse,
   PricingMatchesRequest,
   PricingMatchesDetailsRequest,
-  SaveSearchFiltersRequest,
   SearchContextResponse,
   SearchSurveyAggregationsRequest,
   JobsToPriceRequest,
   MatchedSurveyJob,
   JobMatchCutsRequest,
-  JobMatchCutsResponse
+  JobMatchCutsResponse,
+  UpdateUserJobMatchesRequest
 } from 'libs/models/survey-search';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -61,19 +61,15 @@ export class SurveySearchApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyAggregations`, request);
   }
 
-  saveSearchFilters(request: SaveSearchFiltersRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/SaveSearchFilters`, request);
-  }
-
-  getSavedFilters(payMarketId: number): Observable<SearchFilter[]> {
-    return this.payfactorsApiService.get(`${this.endpoint}/GetSavedFilters`, { params: { payMarketId } });
-  }
-
   getJobsToPrice(request: JobsToPriceRequest): Observable<MatchedSurveyJob[]> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMatchedSurveyJobs`, request );
   }
 
   getJobMatchCuts(request: JobMatchCutsRequest): Observable<JobMatchCutsResponse> {
     return this.payfactorsApiService.post(`${this.endpoint}/GetMatchJobCuts`, request );
+  }
+
+  updateUserJobMatches(request: UpdateUserJobMatchesRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/UpdateUserJobMatches`, request );
   }
 }

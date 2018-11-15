@@ -12,11 +12,12 @@ export class CompanyJobMapResultComponent {
   @Input() applyingMapping: boolean;
   @Input() applyingMappingError: boolean;
   @Input() selectedMapping: boolean;
+  @Input() highlightFilter: string;
 
   @Output() applyMapping = new EventEmitter();
   @Output() clicked = new EventEmitter();
 
-  constructor() {}
+  constructor() { }
 
   handleApplyMapping(companyJobId: number) {
     this.applyMapping.emit(companyJobId);

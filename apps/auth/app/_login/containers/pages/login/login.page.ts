@@ -12,6 +12,8 @@ import * as fromMarketingActions from '../../../actions/marketing-image.actions'
 import * as fromLoginReducer from '../../../reducers';
 import * as fromLoginActions from '../../../actions/login.actions';
 
+import { environment } from 'environments/environment';
+
 @Component({
   selector: 'pf-login-page',
   templateUrl: './login.page.html',
@@ -36,6 +38,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   loggingIn = false;
   loginSuccess = false;
   loginError = false;
+  allowSelfRegistration = environment.allowSelfRegistration;
 
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
@@ -105,5 +108,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     const control = this.loginForm.get(controlName);
     return control.value.toString();
   }
-}
 
+  onRequestAccessClick() {
+    this.loginStore.dispatch(new fromLoginActions.LoginOpenRequestAccess());
+  }
+}

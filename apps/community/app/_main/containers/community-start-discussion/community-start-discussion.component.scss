@@ -3,36 +3,9 @@
 $post-avatar-width: 50px;
 $post-avatar-height: 50px;
 
-.start-discussion-container {
-  border: solid 1px $border-grey;
-}
-
-.start-discussion-header {
-  background-color: #FFB300;
-  height: 35px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.start-discussion-header ul > li {
-  display: inline;
-  line-height: 20px;
-}
-
-.start-discussion-header ul > li a {
-  color: rgba(255, 255, 255, .75);
-  text-decoration: none;
-}
-
-.start-discussion-header ul > li.section-active a {
-  color: white;
-  border-bottom: solid 3px white;
-}
-
 .start-discussion-body {
   display: flex;
-  position: relative;
+  width: 100%;
 }
 
 #discussion-avatar {
@@ -49,6 +22,7 @@ $post-avatar-height: 50px;
 .start-discussion-body button {
   background-color: #0883BE;
   border-radius: 15px;
-  width: 150px;
+  width: 80px;
   border: none;
 }
+

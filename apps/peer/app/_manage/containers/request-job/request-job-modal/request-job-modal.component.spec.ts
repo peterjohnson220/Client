@@ -198,6 +198,21 @@ describe('Peer - Manage - Request Job Modal', () => {
     expect(newJobForm).toBe(null);
   });
 
+  it(`should clear the childFormGroup from the exchangeJobRequestForm after form submits`, () => {
+    instance.newJobFormEnabled = true;
+
+    fixture.detectChanges();
+
+    instance.exchangeJobRequestForm.addControl('newJobForm', generateMockNewJobForm());
+
+    fixture.detectChanges();
+
+    instance.handleSwitchToggled();
+
+    const childForm = instance.childFormGroup;
+    expect(childForm).toBe(null);
+  });
+
   it(`should have the exchange name in the modalSubtitle`, () => {
     const expectedModalSubtitle = `Search for and select an existing job, or create a new job that you would like added to the
             ${mockExchange.ExchangeName} exchange. The exchange administrator will

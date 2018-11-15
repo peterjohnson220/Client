@@ -1,4 +1,4 @@
-<pf-community-post-tag-filter></pf-community-post-tag-filter>
+<pf-community-post-filter-options></pf-community-post-filter-options>
 <div class="posts-container p-2 scroll">
   <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
     <div class="row mb-3 ml-0 mr-0">
@@ -18,7 +18,7 @@
           </pf-community-post-header>
           <div *ngIf="!post.UserPollRequest; else user_poll">
             <div class="post-body mt-2 mb-2"
-                [innerHtml]="post.Content | newline | formatLinkUrl | highlightHashTag:'styleAndAction'">
+                 [innerHtml]="post.Content | newline | formatLinkUrl | highlightHashTag:'styleAndAction'">
             </div>
             <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
               <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
@@ -55,7 +55,8 @@
                       <line class="line" x1="0" y1="0" x2="100" y2="0"/>
                     </svg>
                 </span>
-                <span *ngIf="!showReplies[i]" (click)="getReplies(i, post.Id)">View Replies ({{ post.ReplyCount }})</span>
+                <span *ngIf="!showReplies[i]"
+                      (click)="getReplies(i, post.Id)">View Replies ({{ post.ReplyCount }})</span>
                 <span *ngIf="showReplies[i]" (click)="hideReplies(i, post.Id)">Hide Replies</span>
               </a>
             </div>
@@ -85,5 +86,15 @@
       </div>
     </div>
     <hr *ngIf="!last">
+    <div *ngIf="last && !hasMoreResultsOnServer" class="row">
+      <div class="col-8">
+        All results are displayed.
+      </div>
+    </div>
   </ng-container>
+  <div class="row m-3" *ngIf="loadingMoreCommunityPosts$ | async">
+    <div class="col-8 offset-2">
+      <pf-loading-indicator></pf-loading-indicator> Loading More Results...
+    </div>
+  </div>
 </div>

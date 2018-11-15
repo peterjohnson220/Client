@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchange company jobs grid when exportDataCutsModalOpen$ is true 1`] = `
+<pf-export-data-cuts-modal
+  attemptedSubmit="false"
+  exchangeCompanyJobsLoading$={[Function Store]}
+  exchangeCompanyJobsLoadingError$={[Function Store]}
+  exchangeId={[Function Number]}
+  exportDataCutsForm={[Function FormGroup]}
+  exportDataCutsModalOpen$={[Function Observable]}
+  exportDataCutsModalOpenSubscription={[Function Subscriber]}
+  exportingDataCuts$={[Function Store]}
+  exportingDataCutsError$={[Function Store]}
+  exportingJobsErrorSubscription={[Function Subscriber]}
+  fb={[Function FormBuilder]}
+  gridState={[Function Object]}
+  gridState$={[Function Observable]}
+  gridStateSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  selections={[Function Array]}
+  selections$={[Function Observable]}
+  selectionsSubscription={[Function Subscriber]}
+  store={[Function Store]}
+  view$={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Export Data Cuts"
+  >
+    
+    <pf-async-container>
+      <kendo-grid
+        class="row-click-selects no-wrap-ellipsis-values"
+        filterable="menu"
+        height="500"
+      >
+        <kendo-grid-column
+          field="CompanyJobTitle"
+          title="Company Job Title"
+          width="40"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="CompanyJobCode"
+          title="Company Job Code"
+          width="25"
+        >
+          
+          
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="CompanyJobFamily"
+          title="Company Job Family"
+          width="35"
+        >
+          
+          
+        </kendo-grid-column>
+      </kendo-grid>
+    </pf-async-container>
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="selections"
+        name="hasSelections"
+        ng-reflect-model=""
+        ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
+        type="hidden"
+        value=""
+      />
+      
+    </div>
+    
+    <small>
+      *Cells will be blank for jobs that don’t meet the pricing guidelines. Must include 5 other companies or companies that don’t make up more than 50% of the data cut. 
+    </small>
+  </pf-modal-form>
+</pf-export-data-cuts-modal>
+`;

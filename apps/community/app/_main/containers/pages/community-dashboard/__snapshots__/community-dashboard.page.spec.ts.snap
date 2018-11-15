@@ -1,59 +1,91 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CommunityDashboardPageComponent should show community dashboard page 1`] = `
-<pf-community-dashboard-page>
-  <pf-page-with-title-bar>
-    
-     Community 
-    
+<pf-community-dashboard-page
+  postsComponent={[Function ElementRef]}
+>
+  <div
+    class="flex-column-container"
+  >
     <div
-      class="container-fluid community-container"
+      class="page-header d-flex justify-content-between align-items-center"
     >
       <div
-        class="row"
+        class="d-flex"
+      >
+        <h1>
+          payfactors 
+          <span
+            class="header-bold"
+          >
+            COMMUNITY
+          </span>
+        </h1>
+      </div>
+    </div>
+    <div
+      class="page-content"
+      infinite-scroll=""
+    >
+      <div
+        class="container-fluid community-container"
       >
         <div
-          class="col-3"
-        >
-          <pf-community-categories />
-          <pf-community-popular-tags />
-          <iframe
-            allow="autoplay"
-            frameborder="no"
-            height="450"
-            scrolling="no"
-            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-            width="100%"
-          />
-        </div>
-        <div
-          class="col-6"
-        >
-          <pf-community-start-discussion />
-          <pf-community-posts />
-        </div>
-        <div
-          class="col-3"
+          class="row"
         >
           <div
-            class="row"
+            class="col-3"
           >
+            <pf-community-categories />
+            <pf-community-popular-tags />
             <div
-              class="col"
+              class="sticky-top"
             >
-              <pf-community-polls />
+              <iframe
+                allow="autoplay"
+                frameborder="no"
+                height="450"
+                scrolling="no"
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                width="100%"
+              />
             </div>
           </div>
           <div
-            class="row"
+            class="col-6"
+          >
+            <pf-community-start-discussion />
+            <p
+              class="sub-header"
+            >
+              See what people are talking about...
+            </p>
+            <hr />
+            <pf-community-posts />
+          </div>
+          <div
+            class="col-3"
           >
             <div
-              class="col"
-            />
+              class="row sticky-top"
+            >
+              <div
+                class="col"
+              >
+                <pf-community-polls />
+              </div>
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="col"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </pf-page-with-title-bar>
+  </div>
 </pf-community-dashboard-page>
 `;

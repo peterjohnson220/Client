@@ -11,7 +11,8 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', redirectTo: 'add-data', pathMatch: 'full' },
-      { path: 'add-data', loadChildren: 'apps/project/app/_add-data/add-data.module#AddDataModule' }
+      { path: 'add-data', loadChildren: 'apps/project/app/_add-data/add-data.module#AddDataModule' },
+      { path: 'add-jobs', loadChildren: 'apps/project/app/_add-jobs/add-jobs.module#AddJobsModule' }
     ]
   }
 ];

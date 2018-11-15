@@ -1,80 +1,75 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs/index';
+
+import { DragulaService } from 'ng2-dragula';
 
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
-import * as fromSearchFiltersActions from '../../../actions/search-filters.actions';
-import * as fromSurveyResultsActions from '../../../actions/search-results.actions';
-import * as fromSearchActions from '../../../actions/search.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import * as fromAddDataReducer from '../../../reducers';
-import { Filter, Pill } from '../../../models';
+import { SurveySearchBase } from '../survey-search-base';
+import { enableDatacutsDragging } from '../../../helpers';
+import { JobToPrice } from '../../../models';
+import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
+
 
 @Component({
   selector: 'pf-multi-match-page',
   templateUrl: './multi-match.page.html',
   styleUrls: ['./multi-match.page.scss']
 })
-export class MultiMatchPageComponent {
-  numberOfResults$: Observable<number>;
-  searchingFilter$: Observable<boolean>;
-  filters$: Observable<Filter[]>;
-  // todo move this to a new component
-  jobListIds: string[];
+export class MultiMatchPageComponent extends SurveySearchBase implements OnInit, OnDestroy {
+
+  jobsToPrice$: Observable<JobToPrice[]>;
+  savingChanges$: Observable<boolean>;
+  pageShown$: Observable<boolean>;
+  changesToSave: boolean;
+  // Subscription
+  private jobsToPriceSubscription: Subscription;
 
   constructor(
-    private store: Store<fromAddDataReducer.State>
+    store: Store<fromAddDataReducer.State>,
+    private dragulaService: DragulaService
   ) {
-    this.numberOfResults$ = this.store.select(fromAddDataReducer.getResultsTotal);
-    this.searchingFilter$ = this.store.select(fromAddDataReducer.getSearchingFilter);
-    this.filters$ = this.store.select(fromAddDataReducer.getFilters);
-    // todo move this to new component
-    this.jobListIds = [];
+    super(store);
+    enableDatacutsDragging(dragulaService);
+    this.pageShown$ = this.store.select(fromAddDataReducer.getMultiMatchPageShown);
+    this.jobsToPrice$ = this.store.select(fromAddDataReducer.getJobsToPrice);
+    this.savingChanges$ = this.store.select(fromAddDataReducer.getSavingJobMatchUpdates);
   }
 
-  // Listen for messages to the window
-  @HostListener('window:message', ['$event'])
-  onMessage(event: MessageEvent) {
-    if (!event.data || !event.data.payfactorsMessage) {
-      return;
-    }
-
-    switch (event.data.payfactorsMessage.type) {
-      case 'Set Project Context':
-        this.resetApp();
-        this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(event.data.payfactorsMessage.payload));
-        this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(event.data.payfactorsMessage.payload));
-        this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(event.data.payfactorsMessage.payload));
-        break;
-      case 'App Closed':
-        this.resetApp();
-        break;
-    }
+  ngOnInit(): void {
+    this.jobsToPriceSubscription = this.jobsToPrice$.subscribe((jobsToPrice) => {
+      this.changesToSave = jobsToPrice.some(job => this.jobHasChangesToSave(job));
+    });
   }
 
-  resetApp() {
-    this.store.dispatch(new fromSearchFiltersActions.ClearFilters());
-    this.store.dispatch(new fromSurveyResultsActions.ClearResults());
-    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
-    this.store.dispatch(new fromSearchActions.HideFilterSearch());
+  onResetApp() {
+    this.store.dispatch(new fromMultiMatchPageActions.HidePage());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
+  }
+
+  onSetContext(payload: any) {
+    this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(payload));
+    this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(payload));
+    this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(payload));
   }
 
   handleCancelClicked() {
     this.store.dispatch(new fromMultiMatchPageActions.CloseMultiMatch());
   }
 
-  handleResetFilters() {
-    this.store.dispatch(new fromSearchFiltersActions.ResetAllFilters());
-    this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+  handleSaveClicked() {
+    this.store.dispatch(new fromMultiMatchPageActions.SaveJobMatchUpdates());
   }
 
-  handlePillClicked(pill: Pill) {
-    this.store.dispatch(new fromSearchFiltersActions.RemoveFilterValue({filterId: pill.FilterId, value: pill.Value}));
+  ngOnDestroy(): void {
+    this.jobsToPriceSubscription.unsubscribe();
   }
 
-  handleSaveFilters(isForAllPayMarkets: boolean): void {
-    this.store.dispatch(new fromSearchFiltersActions.SaveSearchFilters({ isForAllPayMarkets }));
+  private jobHasChangesToSave(job: JobToPrice): boolean {
+    return (!!job.DataCutsToAdd && job.DataCutsToAdd.length > 0) || (!!job.DeletedJobMatchCutIds && job.DeletedJobMatchCutIds.length > 0);
   }
 }

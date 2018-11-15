@@ -1,6 +1,6 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,7 @@ import * as fromPeerManagementReducer from '../../reducers';
 @Component({
   selector: 'pf-exchange-job-mapping-info',
   templateUrl: './exchange-job-mapping-info.component.html',
-  styleUrls: [ './exchange-job-mapping-info.component.scss' ]
+  styleUrls: ['./exchange-job-mapping-info.component.scss']
 })
 export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   @Input() exchangeId: number;
@@ -45,31 +45,47 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   selectedCompanyJobInfoModels: Job[];
   exchangeJobInfo: Job;
   companyJobQuery: string;
+  companyDescriptionQuery: string;
   debouncedQueryValue: string;
   addingMapping: boolean;
 
   constructor(private store: Store<fromPeerManagementReducer.State>) {
-    this.loadingExchangeJobMappings$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoading);
-    this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
-    this.companyJobsToMapTo$ = this.store.select(fromPeerManagementReducer.getCompanyJobsToMapTo);
-    this.companyJobsToMapToLoading$ = this.store.select(fromPeerManagementReducer.getCompanyJobsToMapToLoading);
-    this.companyJobsToMapToLoadingError$ = this.store.select(fromPeerManagementReducer.getCompanyJobsToMapToLoadingError);
-    this.applyingMapping$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMapping);
-    this.applyingMappingError$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMappingError);
-    this.selectedMappingCompanyJobId$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoSelectedMappingCompanyJobId);
-    this.addingMapping$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoAddingMapping);
-    this.deletingMapping$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMapping);
-    this.deletingMappingError$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMappingError);
-    this.activeExchangeJobToCompanyJobId$ = this.store.select(fromPeerManagementReducer.getExchangeJobsInfoActiveMapping);
+    this.loadingExchangeJobMappings$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobMappingsLoading));
+    this.selectedExchangeJobMapping$ = this.store.pipe(select(fromPeerManagementReducer.getSelectedExchangeJobMapping));
+    this.companyJobsToMapTo$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapTo));
+    this.companyJobsToMapToLoading$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapToLoading));
+    this.companyJobsToMapToLoadingError$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapToLoadingError));
+    this.applyingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMapping));
+    this.applyingMappingError$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMappingError));
+    this.selectedMappingCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoSelectedMappingCompanyJobId));
+    this.addingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoAddingMapping));
+    this.deletingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMapping));
+    this.deletingMappingError$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMappingError));
+    this.activeExchangeJobToCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoActiveMapping));
   }
 
-  handleSearchValueChanged(value: string) {
-    this.debouncedQueryValue = value || this.selectedExchangeJobMapping.ExchangeJobTitle;
+  searchChanged() {
+    this.debouncedQueryValue = this.companyJobQuery;
+
+    if (this.companyJobQuery.length <= 0 && this.companyDescriptionQuery.length <= 0) {
+      this.debouncedQueryValue = this.selectedExchangeJobMapping.ExchangeJobTitle;
+    }
 
     this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: this.exchangeId,
-      query: this.debouncedQueryValue
+      jobTitleAndCodeQuery: this.debouncedQueryValue,
+      jobDescriptionQuery: this.companyDescriptionQuery
     }));
+  }
+
+  handleSearchDescValueChanged(event: string) {
+    this.companyDescriptionQuery = event;
+    this.searchChanged();
+  }
+
+  handleSearchTitleValueChanged(event: string) {
+    this.companyJobQuery = event;
+    this.searchChanged();
   }
 
   handleApplyMapping(companyJobId: number) {
@@ -84,12 +100,17 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.OpenDeleteConfirmationModal());
   }
 
+  resetValues() {
+    this.companyJobQuery = '';
+    this.companyDescriptionQuery = '';
+    this.debouncedQueryValue = '';
+  }
+
   toggleAdding() {
     if (this.addingMapping) {
       this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
     } else {
-      this.companyJobQuery = '';
-      this.debouncedQueryValue = '';
+      this.resetValues();
       this.dispatchLoadCompanyJobsToMapToByQuery();
       this.store.dispatch(new fromExchangeJobMappingInfoActions.AddMapping());
     }
@@ -125,8 +146,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(sm => {
       if (sm) {
         this.selectedExchangeJobMapping = sm;
-        this.companyJobQuery = '';
-        this.debouncedQueryValue = '';
+        this.resetValues();
 
         this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
         this.buildJobModels(sm);
@@ -148,6 +168,27 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.addingMappingSubscription = this.addingMapping$.subscribe(em => this.addingMapping = em);
   }
 
+  buildNoResultsString(): string {
+
+    let s = 'No results for ';
+    if (!this.companyJobQuery && !this.companyDescriptionQuery) {
+      s += '<u>' + this.selectedExchangeJobMapping.ExchangeJobTitle + '</u>';
+    } else if (this.companyJobQuery) {
+      s += '<u>' + this.companyJobQuery + '</u>';
+
+      if (this.companyDescriptionQuery) {
+        s += ' <i>and</i> ';
+      }
+    }
+
+    if (this.companyDescriptionQuery) {
+      s += '<u>' + this.companyDescriptionQuery + '</u>';
+    }
+
+    return s;
+
+  }
+
   ngOnDestroy() {
     this.selectedExchangeJobMappingSubscription.unsubscribe();
     this.addingMappingSubscription.unsubscribe();
@@ -157,7 +198,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   private dispatchLoadCompanyJobsToMapToByQuery(): void {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: this.exchangeId,
-      query: this.selectedExchangeJobMapping.ExchangeJobTitle
+      jobTitleAndCodeQuery: this.selectedExchangeJobMapping.ExchangeJobTitle,
+      jobDescriptionQuery: ''
     }));
   }
 

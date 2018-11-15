@@ -13,10 +13,12 @@ import { JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../model
 export class DataCutsComponent implements OnDestroy {
 
   @Input() job: JobResult;
+  @Input() numberCutsSelected: number;
   @Input() dataCuts: SurveyDataCut[];
+  @Input() cutsDraggable: boolean;
   @Input() currencyCode: string;
 
-  @Output() dataCutSelected: EventEmitter<{dataCutId: number}> = new EventEmitter();
+  @Output() dataCutSelected: EventEmitter<SurveyDataCut> = new EventEmitter();
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -34,7 +36,7 @@ export class DataCutsComponent implements OnDestroy {
   }
 
   toggleDataCutSelection(dataCut: SurveyDataCut): void {
-    this.dataCutSelected.emit({dataCutId: dataCut.SurveyDataId});
+    this.dataCutSelected.emit(dataCut);
   }
 
   togglePayfactorsSelection(): void {

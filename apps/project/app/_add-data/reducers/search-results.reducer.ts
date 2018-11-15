@@ -3,8 +3,8 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 
 import { DataCut } from 'libs/models/survey-search';
 
-import { JobResult, ResultsPagingOptions } from '../models';
-import { mapSurveyJobsToJobResults, mapSurveyDataCutResultsToDataCut, applyMatchesToJobResults } from '../helpers';
+import { DataCutDetails, JobResult, ResultsPagingOptions } from '../models';
+import { applyMatchesToJobResults, PayfactorsApiModelMapper } from '../helpers';
 
 export interface State {
   results: JobResult[];
@@ -12,7 +12,7 @@ export interface State {
   loadingResults: boolean;
   pagingOptions: ResultsPagingOptions;
   totalResultsOnServer: number;
-  selectedDataCuts: DataCut[];
+  selectedDataCuts: DataCutDetails[];
   error: boolean;
 }
 
@@ -43,7 +43,7 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts),
+        results: PayfactorsApiModelMapper.mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts),
         loadingResults: false,
         totalResultsOnServer: action.payload.Paging.TotalRecordCount
       };
@@ -59,7 +59,8 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS: {
       return {
         ...state,
-        results: state.results.concat(mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
+        results: state.results.concat(
+          PayfactorsApiModelMapper.mapSurveyJobsToJobResults(action.payload.SurveyJobs, state.selectedDataCuts)),
         loadingMoreResults: false
       };
     }
@@ -101,9 +102,12 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     }
 
     case fromSearchResultsActions.CLEAR_DATA_CUT_SELECTIONS: {
+      const resultsCopy = cloneDeep(state.results);
+      deselectAllCutsInSearchResults(resultsCopy);
       return {
         ...state,
-        selectedDataCuts: []
+        selectedDataCuts: [],
+        results: resultsCopy
       };
     }
 
@@ -122,11 +126,24 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       const surveyJobId = action.payload.SurveyJobId;
       const resultsCopy = cloneDeep(state.results);
       const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
-      const dataCuts = mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
+      const dataCuts = PayfactorsApiModelMapper.mapSurveyDataCutResultsToDataCut(action.payload.DataCuts, state.selectedDataCuts);
       surveyJob.LoadingDataCuts = false;
       surveyJob.LoadingMoreDataCuts = false;
+      surveyJob.LoadingDataCutsError = false;
       surveyJob.TotalDataCuts = action.payload.TotalResults;
       surveyJob.DataCuts = surveyJob.DataCuts.concat(dataCuts);
+      return {
+        ...state,
+        results: resultsCopy
+      };
+    }
+    case fromSearchResultsActions.GET_SURVEY_DATA_RESULTS_ERROR: {
+      const surveyJobId = action.payload;
+      const resultsCopy = cloneDeep(state.results);
+      const surveyJob = resultsCopy.find(t => t.Id === surveyJobId);
+      surveyJob.LoadingDataCuts = false;
+      surveyJob.LoadingMoreDataCuts = false;
+      surveyJob.LoadingDataCutsError = true;
       return {
         ...state,
         results: resultsCopy
@@ -172,4 +189,13 @@ function setSelectedPropertyInSearchResults(dataCut: DataCut, resultsCopy: JobRe
     const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
     surveyCut.IsSelected = isSelected;
   }
+}
+
+function deselectAllCutsInSearchResults(resultsCopy: JobResult[]) {
+    resultsCopy.map(result => {
+      result.IsSelected = false;
+      if (result.DataCuts && result.DataCuts.length) {
+        result.DataCuts.map(dc => dc.IsSelected = false);
+      }
+    });
 }

@@ -13,6 +13,7 @@ import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
 import * as CommunityPost from 'libs/models/community';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
+import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 
 // Feature area state
 export interface CommunityState {
@@ -25,6 +26,7 @@ export interface CommunityState {
   communityTags: fromCommunityTagReducer.State;
   communityJob: fromCommunityJobReducer.State;
   communityCategories: fromCommunityCategoriesReducer.State;
+  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -42,7 +44,8 @@ export const reducers = {
   communityPostAddReplyView: fromCommunityPostAddReplyViewReducer.reducer,
   communityTags: fromCommunityTagReducer.reducer,
   communityJob: fromCommunityJobReducer.reducer,
-  communityCategories: fromCommunityCategoriesReducer.reducer
+  communityCategories: fromCommunityCategoriesReducer.reducer,
+  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer
 };
 
 // select feature area
@@ -92,6 +95,11 @@ export const selectFromCommunityJobState =  createSelector(
 export const selectFromCommunityCategoriesState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityCategories
+);
+
+export const selectFromCommunityPostFilterOptionsState =  createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communityPostFilterOptions
 );
 
 // Community Poll Selectors
@@ -200,9 +208,27 @@ export const getAddingCommunityDiscussionPollError = createSelector(
   fromCommunityPostReducer.getAddingCommunityDiscussionPollError
 );
 
-export const getCommunityPostsFilterTag = createSelector(
+export const getDiscussionPagingOptions = createSelector(
   selectFromCommunityPostState,
-  fromCommunityPostReducer.getCommunityPostsFilterTag
+  fromCommunityPostReducer.getDiscussionPagingOptions
+);
+
+export const getTotalDiscussionResultsOnServer = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getTotalResultsOnServer
+);
+
+export const getLoadingMorePosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingMorePosts
+);
+
+export const getHasMoreDiscussionResultsOnServer = createSelector(
+  getCommunityPosts,
+  getTotalDiscussionResultsOnServer,
+  (posts, totalOnServer) => {
+    return totalOnServer > posts.length;
+  }
 );
 
 // Community Post Reply Selectors
@@ -362,6 +388,29 @@ export const getGettingCommunityJobsError = createSelector(
   fromCommunityJobReducer.getGettingCommunityJobsError
 );
 
+export const getLoadingMoreResults = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getLoadingMoreResults
+);
+
+export const getPagingOptions = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getPagingOptions
+);
+
+export const getTotalResultsOnServer = createSelector(
+  selectFromCommunityJobState,
+  fromCommunityJobReducer.getTotalResultsOnServer
+);
+
+export const getHasMoreResultsOnServer = createSelector(
+  getCommunityJobs,
+  getTotalResultsOnServer,
+  (jobs, totalOnServer) => {
+    return totalOnServer > jobs.length;
+  }
+);
+
 // Community Categories Selectors
 
 export const {
@@ -378,3 +427,7 @@ export const getGettingCommunityCategoriesError = createSelector(
   fromCommunityCategoriesReducer.getGettingCommunityCategoriesError
 );
 
+export const getCommunityPostFilterOptions = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions
+);

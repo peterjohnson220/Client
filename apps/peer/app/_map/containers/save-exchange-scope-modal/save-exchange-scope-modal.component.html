@@ -9,7 +9,11 @@
   (onSubmit)="handleFormSubmit()"
   (onDismiss)="handleModalDismissed()">
   <ng-container form-content>
-    <input type="text" class="form-control" placeholder="Name" formControlName="exchangeScopeName" id="exchange-scope-name"
+    <input type="text"
+           class="form-control"
+           placeholder="Name"
+           formControlName="exchangeScopeName"
+           id="exchange-scope-name"
            [readonly]="upsertingExchangeScope$ | async"
            [pfValidatable]="!validatingScopeName"
            pfFocus>
@@ -19,5 +23,15 @@
       </div>
     </ng-container>
     <span *ngIf="!exchangeScopeNameControl?.errors?.exchangeScopeNameExists" class="pf-placeholder"></span>
+    <textarea
+      maxlength="1000"
+      id="exchange-scope-description"
+      class="form-control text-area-no-resize"
+      rows="5"
+      name="exchangeScopeDescription"
+      formControlName="exchangeScopeDescription"
+      [placeholder]="descriptionPlaceholder"
+      [pfValidatable]="false"
+    ></textarea>
   </ng-container>
 </pf-modal-form>

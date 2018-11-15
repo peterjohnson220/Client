@@ -2,19 +2,20 @@
   <pf-community-text-area
       [parentForm]="communityDiscussionForm"
       [maxTextLength]="2000"
-      textPlaceholder="Start a discussion...">
+      textPlaceholder="Start a discussion..."
+      minimumHeight="160">
   </pf-community-text-area> 
-  <div class="ml-3 p-0">
-    <span id="internal-only-container" class="pl-3 pb-1" placement="right"
+
+    <span id="internal-only-container" class="pb-3" placement="right"
           ngbTooltip="Will be visible to users within your organization">
       <input #isInternal
             id="internal-only"
             name="internal-only"
             formControlName="isInternalOnly"
             type="checkbox" class="k-checkbox" />
-      <label for="internal-only" class="ml-1 k-checkbox-label">Internal Only</label>
+      <label for="internal-only" class="k-checkbox-label">Internal Only</label>
     </span>
-  </div>
+
 </div>
 
 

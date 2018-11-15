@@ -6,15 +6,16 @@ import { NavigationApiService } from './navigation';
 import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './settings';
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
-import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService, ExchangeScopeApiService } from './peer';
+import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
+         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService } from './surveys';
 import { DashboardApiService } from './dashboard';
-import { UserApiService } from './user';
+import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
-import { UserProfileApiService } from './user-profile';
 import { TermsConditionsApiService } from './terms-conditions';
+import { OrgDataFieldMappingsApiService } from './org-data-loader';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -33,11 +34,14 @@ import { TermsConditionsApiService } from './terms-conditions';
     PayfactorsApiService,
     JobDescriptionManagementApiService,
     UserProfileApiService,
+    UserFilterApiService,
     JobDescriptionApiService,
     TermsConditionsApiService,
     SurveySearchApiService,
     ExchangeScopeApiService,
-    CompanySettingsApiService
+    CompanySettingsApiService,
+    OrgDataFieldMappingsApiService,
+    ExchangeDataCutsApiService
   ]
 })
 export class PfApiModule { }

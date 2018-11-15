@@ -7,17 +7,45 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
      Job Postings 
     
     <div
-      class="container-fluid community-job-postings-container"
+      class="search-container"
     >
       <div
-        class="row justify-content-center"
+        class="h-100"
       >
         <div
-          class="col-8"
+          class="row h-100 p-4 vertical-align"
         >
-           Content in Here! 
+          <div
+            class="col-4 offset-2 input-container h-100"
+          >
+            <input
+              id="search"
+              placeholder="Search Jobs"
+            />
+            <label
+              class="fal fa-search input-icon"
+              for="search"
+            />
+          </div>
+          <div
+            class="col-4 input-container h-100"
+          >
+            <input
+              id="location"
+              placeholder="City, state, or country"
+            />
+            <label
+              class="fal fa-map-marker-alt input-icon"
+              for="location"
+            />
+          </div>
         </div>
       </div>
+    </div>
+    <div
+      class="search-results-container"
+    >
+      <pf-community-jobs />
     </div>
   </pf-page-with-title-bar>
 </pf-community-job-postings-page>

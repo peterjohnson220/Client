@@ -20,3 +20,8 @@ $navbar-dark-hover-color: $navbar-dark-color;
     outline: none;
   }
 }
+
+.modal-dialog.modal-xlg {
+  max-width: 65%;
+  min-height: 65%;
+}

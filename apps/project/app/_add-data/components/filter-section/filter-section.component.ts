@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { maxNumberOfOptions } from '../../helpers';
+import { ClientServerFilterHelper } from '../../helpers';
 import { Filter, FilterType, isMultiFilter, isRangeFilter, isTextFilter } from '../../models';
 
 @Component({
@@ -23,7 +23,7 @@ export class FilterSectionComponent {
   protected cssReplacementRegex = /[\s]/g;
   collapsed: boolean;
   filterTypes = FilterType;
-  maxOptions = maxNumberOfOptions;
+  maxOptions = ClientServerFilterHelper.maxNumberOfOptions;
 
   constructor() {}
 

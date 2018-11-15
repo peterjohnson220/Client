@@ -7,7 +7,12 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   communityPollResponseSubmitted$={[Function Store]}
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
+  filterStore={[Function Store]}
+  hasMoreResultsOnServer$={[Function Store]}
+  hasMoreResultsOnServerSubscription={[Function Subscriber]}
   loadingCommunityPosts$={[Function Store]}
+  loadingMoreCommunityPosts$={[Function Store]}
+  loadingMoreCommunityPostsSubscription={[Function Subscriber]}
   loadingPostsSubscription={[Function Subscriber]}
   pollsType={[Function Number]}
   replyStore={[Function Store]}
@@ -15,9 +20,10 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   showReplies={[Function Array]}
   store={[Function Store]}
 >
-  <pf-community-post-tag-filter /><div
+  <pf-community-post-filter-options /><div
     class="posts-container p-2 scroll"
   >
+    
     
   </div>
 </pf-community-posts>

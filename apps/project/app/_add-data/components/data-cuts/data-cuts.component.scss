@@ -11,6 +11,7 @@ tr{
 .no-data-cuts-message{
   width: 100%;
   padding: 1rem 0;
+  font-style: italic;
 }
 
 .data-cuts-container{
@@ -34,6 +35,15 @@ tr{
   background-color: $selected-item-background-color;
 }
 
+.draggable{
+  td {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+  }
+}
+
 .data-cuts-table tbody tr:not(.selected):hover {
   background: $selection-hover-background;
   cursor: pointer;
@@ -46,4 +56,48 @@ tr{
 .scope-cell{
   min-width: $scope-cell-width;
   max-width: $scope-cell-width;
+}
+
+
+/*Hide mirror image from drag*/
+.gu-transit{
+  display: none;
+}
+
+.gu-mirror{
+  opacity: 1;
+  cursor: move;
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  td {
+    cursor: move;
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
+}
+.gu-mirror td:not(.gu-mirror-show) {
+  display: none;
+}
+
+.gu-mirror-show{
+  display: none;
+}
+
+.gu-mirror .gu-mirror-show{
+  display: block;
+}
+
+.gu-mirror .card{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gu-mirror .card-block{
+  height: 30px;
+  width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 25px;
 }

@@ -15,11 +15,17 @@ export const routes: Routes = [
       { path: 'peer', loadChildren: 'apps/admin/app/_peer/peer-admin.module#PeerAdminModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       {
+        path: 'company-admin',
+        loadChildren: 'apps/admin/app/_company-admin/company-admin.module#CompanyAdminModule'
+      },
+      {
         path: 'job-description-management',
         loadChildren: 'apps/admin/app/_job-description-management/bulk-export-scheduler.module#JdmBulkExportSchedulerModule'
       },
       { path: 'marketing', loadChildren: 'apps/admin/app/_marketing/marketing.module#MarketingModule' },
       { path: 'community', loadChildren: 'apps/admin/app/_community/community.module#CommunityModule' },
+      { path: 'org-data-loader',
+        loadChildren: 'apps/admin/app/_org-data-loader/org-data-loader.module#OrgDataLoaderModule' },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }

@@ -7,6 +7,7 @@ import * as fromRoot from 'libs/state/state';
 import * as fromMapReducer from './map.reducer';
 import * as fromFilterSidebarReducer from './filter-sidebar.reducer';
 import * as fromExchangeScopeReducer from './exchange-scope.reducer';
+import {ExchangeStatCompanyMakeup} from '../../../../models/peer';
 
 // Feature area state
 export interface LibsPeerMapState {
@@ -43,6 +44,14 @@ export const getPeerMapCompaniesFromSummary = createSelector(
   getPeerMapSummary,
   (summary) => !!summary ? summary.OverallMapStats.Companies : []
 );
+export const getPeerMapExchangeJobIdsFromSummary = createSelector(
+  getPeerMapSummary,
+  (summary) => !!summary ? summary.OverallMapStats.ExchangeJobIds : []
+);
+export const getPeerMapCompaniesCount = createSelector(
+  getPeerMapCompaniesFromSummary,
+  (companies: ExchangeStatCompanyMakeup[]) => !companies ? 0 : companies.length
+);
 export const getPeerMapFilter = createSelector(selectMapState, fromMapReducer.getMapFilter);
 export const getPeerMapCollection = createSelector(selectMapState, fromMapReducer.getMapCollection);
 export const getPeerMapBounds = createSelector(selectMapState, fromMapReducer.getMapBounds);
@@ -65,13 +74,24 @@ export const getPeerFilterPreviewLimit = createSelector(selectPeerFiltersState, 
 export const getSystemFilter = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSystemFilter);
 export const getPeerFilterSelectionsCount = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getSelectionsCount);
 export const getPeerFilterScopeSelection = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getScopeSelection);
+export const getPeerFilterIncludeUntaggedIncumbents = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getIncludeUntaggedIncumbents
+);
+export const getPeerFilterCountUnGeoTaggedIncumbents = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getCountUntaggedIncumbents
+);
 
 // Exchange Scope Selectors
 export const {
   selectAll: getExchangeScopes
 } = fromExchangeScopeReducer.adapter.getSelectors(selectExchangeScopeState);
-export const getExchangeScopesLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoading);
-export const getExchangeScopesLoadingError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingError);
+export const getExchangeScopesLoadingByJobs = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobs);
+export const getExchangeScopesLoadingByJobsError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByJobsError);
+export const getExchangeScopesLoadingByExchange = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByExchange);
+export const getExchangeScopesLoadingByExchangeError =
+  createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingByExchangeError);
 export const getExchangeScopeDetailsLoading = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getLoadingDetails);
 export const getExchangeScopeDetailsLoadingError = createSelector(
   selectExchangeScopeState,
@@ -84,12 +104,14 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerFilterSelections,
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
-  (sf, fs, pmf, pfltp) => {
+  getPeerFilterIncludeUntaggedIncumbents,
+  (sf, fs, pmf, pfltp, includeUntaggedIncumbents) => {
     return {
         ...sf,
         ...fs,
         ...pmf,
-        LimitToPayMarket: pfltp
+        LimitToPayMarket: pfltp,
+        IncludeUntaggedIncumbents: includeUntaggedIncumbents
     };
   });
 

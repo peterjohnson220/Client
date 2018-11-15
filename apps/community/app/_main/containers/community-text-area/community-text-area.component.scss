@@ -4,7 +4,6 @@ $radial-counter-width: 25px;
 
 .textAreaContainer {
   position: relative;
-  min-height: 50px;
   font-size: 14px;
   white-space: pre-wrap;
   word-break: break-word;
@@ -20,6 +19,8 @@ $radial-counter-width: 25px;
   resize: none;
   overflow: hidden;
   padding-right: $radial-counter-width;
+  border-color: $community-categories-border;
+  border-radius: 5px;
 }
 
 .overlayTextArea {
@@ -64,4 +65,11 @@ button:focus {
 :host ::ng-deep .link-url {
   color: rgb(64, 171, 221);
   text-decoration: underline;
+}
+
+
+.discussionTextArea:focus {
+    outline: none !important;
+    border:1px solid $community-tab-active-color;
+    box-shadow: 0 0 2px $community-tab-active-color;
 }

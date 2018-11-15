@@ -21,6 +21,7 @@ export const RESET_STATE = '[Features/Peer/Sidebar] Reset State';
 export const APPLY_CUT_CRITERIA = '[Features/Peer/Sidebar] Apply Cut Criteria';
 export const APPLY_SCOPE_CRITERIA = '[Features/Peer/Sidebar] Apply Scope Criteria';
 export const SET_EXCHANGE_SCOPE_SELECTION = '[Features/Peer/Sidebar] Set Scope Selection';
+export const TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES = '[Features/Peer/Sidebar] Toggle Include Untagged Employees';
 
 export class LoadFilterAggregates implements Action {
   readonly type = LOAD_FILTER_AGGREGATES;
@@ -112,6 +113,10 @@ export class SetExchangeScopeSelection implements Action {
   constructor(public payload: ExchangeScopeItem) {}
 }
 
+export class ToggleIncludeUntaggedEmployees implements Action {
+  readonly type = TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES;
+}
+
 export type Actions
   = LoadFilterAggregates
   | LoadFilterAggregatesSuccess
@@ -128,4 +133,5 @@ export type Actions
   | ResetState
   | ApplyCutCriteria
   | ApplyScopeCriteria
-  | SetExchangeScopeSelection;
+  | SetExchangeScopeSelection
+  | ToggleIncludeUntaggedEmployees;

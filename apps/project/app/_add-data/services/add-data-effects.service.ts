@@ -5,40 +5,18 @@ import { Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
 
-import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse, SearchRequest } from 'libs/models/survey-search';
+import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/survey-search';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
-import {
-  getSelectedSearchFilters, mapResultsPagingOptionsToPagingOptions, mapFiltersToSearchFields,
-  createPricingMatchesRequest, mapSearchFiltersToMultiSelectFilters, replaceDefaultFiltersWithSavedFilters
-} from '../helpers';
-import * as fromAddDataReducer from '../reducers';
+import * as fromResultsHeaderActions from '../actions/results-header.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
+import * as fromAddDataReducer from '../reducers';
+import { PayfactorsApiHelper, PayfactorsApiModelMapper, createPricingMatchesRequest } from '../helpers';
 
 @Injectable()
 export class AddDataEffectsService {
-
-  private static buildSearchRequestObject(filtersPagingAndJobContext: any): SearchRequest {
-    const searchFieldsRequestObj = mapFiltersToSearchFields(filtersPagingAndJobContext.filters);
-    const pagingOptionsRequestObj = mapResultsPagingOptionsToPagingOptions(filtersPagingAndJobContext.pagingOptions);
-    const filterOptionsRequestObj = { ReturnFilters: pagingOptionsRequestObj.From === 0, AggregateCount: 5 };
-    let filtersRequestObj = getSelectedSearchFilters(filtersPagingAndJobContext.filters);
-    if (!!filtersPagingAndJobContext.action.payload && !!filtersPagingAndJobContext.action.payload.savedFilters) {
-      filtersRequestObj = replaceDefaultFiltersWithSavedFilters(filtersRequestObj, filtersPagingAndJobContext.action.payload.savedFilters);
-    }
-
-    return {
-      SearchFields: searchFieldsRequestObj,
-      Filters: filtersRequestObj,
-      FilterOptions: filterOptionsRequestObj,
-      PagingOptions: pagingOptionsRequestObj,
-      CurrencyCode: filtersPagingAndJobContext.projectSearchContext.CurrencyCode,
-      CountryCode: filtersPagingAndJobContext.projectSearchContext.CountryCode,
-      ProjectId: filtersPagingAndJobContext.projectSearchContext.ProjectId
-    };
-  }
 
   searchSurveyJobs(action$: Actions<Action>): Observable<Action> {
     return action$.pipe(
@@ -52,7 +30,11 @@ export class AddDataEffectsService {
       ),
 
       switchMap(l => {
-        const searchRequest = AddDataEffectsService.buildSearchRequestObject(l);
+        const searchRequest = PayfactorsApiHelper.buildSurveySearchRequest({
+          Filters: l.filters,
+          ProjectSearchContext: l.projectSearchContext,
+          PagingOptions: l.pagingOptions
+        });
 
         return this.surveySearchApiService.searchSurveyJobs(searchRequest)
           .pipe(
@@ -64,9 +46,8 @@ export class AddDataEffectsService {
               } else {
                 actions.push(new fromSearchResultsActions.GetResultsSuccess(searchResponse));
                 actions.push(new fromSearchFiltersActions.RefreshFilters({
-                  searchFilters: mapSearchFiltersToMultiSelectFilters(searchResponse.SearchFilters),
-                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions,
-                  hasSavedFilters: !!l.action.payload.savedFilters
+                  searchFilters: PayfactorsApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters),
+                  keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
                 }));
               }
 
@@ -87,6 +68,7 @@ export class AddDataEffectsService {
       switchMap(({ jobResults, pagingOptions }) => {
         const lastJobResultIndex = (pagingOptions.page - 1) * pagingOptions.pageSize;
         const pricingMatchesRequest: PricingMatchesRequest = createPricingMatchesRequest(jobResults, lastJobResultIndex);
+
         return this.surveySearchApiService.getPricingMatches(pricingMatchesRequest)
           .pipe(
             map((pricingMatchesResponse: PricingMatchesResponse) =>
@@ -111,6 +93,7 @@ export class AddDataEffectsService {
         }
 
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));
+        actions.push(new fromResultsHeaderActions.UnselectSavedFilter());
 
         return actions;
       })

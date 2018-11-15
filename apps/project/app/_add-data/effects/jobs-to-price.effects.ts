@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
@@ -6,8 +7,8 @@ import { of } from 'rxjs/index';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
 
-import { mapMatchedSurveyJobToJobsToPrice } from '../helpers';
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
+import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddDataReducer from '../reducers';
 import { ProjectSearchContext } from '../models';
 
@@ -24,8 +25,10 @@ export class JobsToPriceEffects {
           JobMatchIds: projectContext.JobValues.map(x => Number(x)),
           ProjectId: projectContext.ProjectId
         }).pipe(
-            map(response => new fromJobsToPriceActions.GetJobsToPriceSuccess(mapMatchedSurveyJobToJobsToPrice(response))),
-            catchError(error => of(new fromJobsToPriceActions.GetJobsToPriceError()))
+            map(response => new fromJobsToPriceActions.GetJobsToPriceSuccess(
+              PayfactorsApiModelMapper.mapMatchedSurveyJobToJobsToPrice(response))
+            ),
+            catchError(() => of(new fromJobsToPriceActions.GetJobsToPriceError()))
           );
         }
       )
@@ -49,7 +52,7 @@ export class JobsToPriceEffects {
               JobMatchCuts: response.JobMatchCuts,
               JobId: jobToPrice.Id
             })),
-            catchError(error => of(new fromJobsToPriceActions.GetMatchJobCutsError(jobToPrice)))
+            catchError(() => of(new fromJobsToPriceActions.GetMatchJobCutsError(jobToPrice)))
           );
         }
       )

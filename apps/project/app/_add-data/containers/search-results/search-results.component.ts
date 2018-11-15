@@ -1,11 +1,9 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { DataCut } from 'libs/models/survey-search';
-
-import { JobResult, MatchesDetailsTooltipData, ProjectSearchContext } from '../../models';
+import { JobResult, MatchesDetailsTooltipData, ProjectSearchContext, DataCutDetails } from '../../models';
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
 import * as fromAddDataReducer from '../../reducers';
@@ -19,6 +17,7 @@ import { hasMoreDataCuts } from '../../helpers';
 export class SearchResultsComponent implements OnInit, OnDestroy {
   @ViewChild('results') resultsContainer: ElementRef;
   @ViewChild('tooltipContainer') tooltipContainer: TooltipContainerComponent;
+  @Input() cutsDraggable: boolean;
 
   // Observables
   jobResults$: Observable<JobResult[]>;
@@ -74,7 +73,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSearchResultsActions.GetSurveyDataResults(job));
   }
 
-  handleCutSelectionToggle(data: DataCut): void {
+  handleCutSelectionToggle(data: DataCutDetails): void {
     this.store.dispatch(new fromSearchResultsActions.ToggleSurveyDataCutSelection(data));
   }
 

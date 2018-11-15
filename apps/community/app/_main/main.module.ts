@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
@@ -36,12 +37,19 @@ import { CommunityPollChoicesComponent } from 'libs/features/community/container
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
-import { CommunityPostTagFilterComponent} from './components/community-tag-filter';
+import { CommunityJobComponent } from './components/community-job/community-job.component';
+import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
+import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
+import { CommunityTabComponent } from './components/community-tab/community-tab.component';
+
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
+import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
+import { CommunityJobEffectsService } from './services/community-job-effects-service';
+import { CommunityPostEffectsService } from './services/community-post-effects-service';
 
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
@@ -72,10 +80,13 @@ const components = [
   CommunityNewPostComponent,
   CommunityPollChoicesComponent,
   CommunityPollComponent,
-  CommunityPostTagFilterComponent,
+  CommunityPostFilterOptionsComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
-  CommunityCategoryDisplayNamePipe
+  CommunityCategoryDisplayNamePipe,
+  CommunityJobComponent,
+  CommunityJobsComponent,
+  CommunityTabComponent
 ];
 
 @NgModule({
@@ -89,6 +100,7 @@ const components = [
     NgbTooltipModule,
     NgbDropdownModule,
     DropDownsModule,
+    InfiniteScrollModule,
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([
@@ -98,7 +110,8 @@ const components = [
       CommunityPostReplyEffects,
       CommunityTagEffects,
       CommunityJobEffects,
-      CommunityCategoriesEffects
+      CommunityCategoriesEffects,
+      CommunityPostFilterOptionsEffects
     ]),
 
     // Routing
@@ -115,7 +128,9 @@ const components = [
     CommunityPostApiService,
     CommunityTagApiService,
     CommunityJobApiService,
-    CommunityCategoriesApiService
+    CommunityCategoriesApiService,
+    CommunityJobEffectsService,
+    CommunityPostEffectsService
   ]
 })
 export class MainModule {

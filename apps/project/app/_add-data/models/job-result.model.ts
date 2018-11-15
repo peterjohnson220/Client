@@ -1,5 +1,17 @@
 import { SurveyDataCut } from './data-cut.model';
 
+export interface BaseJobInfo {
+  Id: number;
+  Title: string;
+  Code: string;
+  Description: string;
+  Family: string;
+  Level: string;
+  TotalDataCuts?: number;
+  LoadingDataCuts: boolean;
+  LoadingDataCutsError: boolean;
+}
+
 export interface JobResult extends BaseJobInfo {
     SurveyName: string ;
     Source: string;
@@ -16,17 +28,6 @@ export interface JobResult extends BaseJobInfo {
     IsSelected: boolean;
     EEO: string;
     DataCuts: SurveyDataCut[];
-}
-
-export interface BaseJobInfo {
-  Id: number;
-  Title: string;
-  Code: string;
-  Description: string;
-  Family: string;
-  Level: string;
-  TotalDataCuts?: number;
-  LoadingDataCuts: boolean;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
@@ -49,7 +50,8 @@ export function generateMockSurveyJobResult(): JobResult {
     TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false,
-    EEO: null
+    EEO: null,
+    LoadingDataCutsError: false
   };
 }
 
@@ -88,6 +90,7 @@ export function generateMockPayfactorsJobResult(): JobResult {
     TCC50th: 1,
     CountryCode: 'USA',
     IsSelected: false,
-    EEO: 'Yes'
+    EEO: 'Yes',
+    LoadingDataCutsError: false
   };
 }

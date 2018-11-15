@@ -7,10 +7,11 @@ import { Observable, of } from 'rxjs';
 import { concatMap, switchMap, catchError, map} from 'rxjs/operators';
 
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
-import { CommunityReply } from 'libs/models/community';
+import { CommunityReply, CommunityCategoryEnum } from 'libs/models/community';
 import * as fromCommunityPostReplyActions from '../actions/community-post-reply.actions';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityPostAddReplyViewActions from '../actions/community-post-add-reply-view.actions';
+import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
 
 @Injectable()
 export class CommunityPostReplyEffects {
@@ -34,10 +35,19 @@ export class CommunityPostReplyEffects {
       switchMap((action: fromCommunityPostReplyActions.AddingCommunityPostReply) =>
         this.communityPostService.addReply(action.payload).pipe(
           concatMap((reply: CommunityReply) => {
+            if (reply.IsOnlyPostReply ) {
+            return [
+              new fromCommunityPostReplyActions.AddingCommunityPostReplySuccess(reply),
+              new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id}),
+              new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                { communityCategory: CommunityCategoryEnum.Unanswered })
+            ];
+          } else {
             return [
               new fromCommunityPostReplyActions.AddingCommunityPostReplySuccess(reply),
               new fromCommunityPostAddReplyViewActions.AddingCommunityPostReplyToView({ replyId:  reply.Id})
             ];
+          }
           }),
           catchError(error => of(new fromCommunityPostReplyActions.AddingCommunityPostReplyError()))
         )
@@ -66,8 +76,19 @@ export class CommunityPostReplyEffects {
     .ofType(fromCommunityPostReplyActions.DELETING_COMMUNITY_POST_REPLY).pipe(
       switchMap((action: fromCommunityPostReplyActions.DeletingCommunityPostReply) =>
         this.communityPostService.updatePostReplyDeletedFlag(action.payload).pipe(
-          map(() => {
-            return new fromCommunityPostReplyActions.DeletingCommunityPostReplySuccess(action.payload);
+
+          concatMap((numberOfPostReplies: any) => {
+            if ( numberOfPostReplies > 0) {
+            return [
+              new fromCommunityPostReplyActions.DeletingCommunityPostReplySuccess(action.payload),
+            ];
+            } else {
+              return [
+                new fromCommunityPostReplyActions.DeletingCommunityPostReplySuccess(action.payload),
+                new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                  { communityCategory: CommunityCategoryEnum.Unanswered })
+              ];
+            }
           }),
           catchError(error => of(new fromCommunityPostReplyActions.DeletingCommunityPostReplyError()))
         )

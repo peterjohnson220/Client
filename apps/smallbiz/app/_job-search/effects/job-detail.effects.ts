@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { of, Observable } from 'rxjs';
-import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromJobDetailAction from '../actions/job-detail.actions';
 import * as fromJobSearch from '../reducers';

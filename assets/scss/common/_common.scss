@@ -16,8 +16,10 @@
 }
 
 .btn-secondary:hover{
-  background-color: #e6e6e6;
-  border-color: #adadad;
+  &:not(:disabled) {
+    background-color: #e6e6e6;
+    border-color: #adadad;
+  }
 }
 
 .btn-secondary:focus {
@@ -66,4 +68,12 @@ tr.row-disabled {
 .vertical-separator{
   border-left: 1px solid $border-grey;
   box-shadow: -1px 0px 1px 0px #d8d8d8;
+}
+
+.text-area-no-resize {
+  resize: none;
+}
+
+.search-highlight{
+  background-color: #F2E366;
 }

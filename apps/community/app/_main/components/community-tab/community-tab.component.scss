@@ -1,0 +1,86 @@
+@import 'colors';
+
+$tab-width: 160px;
+$tab-height: 70px;
+$tab-icon-width: 60px;
+
+.list-group-item
+{
+  position: relative;
+  color: #ffffff;
+  border: none; 
+  height: $tab-height;
+  width: 100%;
+  min-width: $tab-width;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  cursor: pointer; 
+  background-color: #333333;
+  background-image: #333333;
+}
+
+.div-background
+{
+  position: absolute;
+  background-color: #ffffff;
+  height: $tab-height;
+  width: $tab-icon-width / 2;
+}
+
+.active
+{
+    background-color: $community-tab-active-color;
+    background-image: $community-tab-active-color;
+
+    .inner-circle-icon
+    {
+        color: $community-tab-active-color;
+    }
+}
+
+.not-active
+{
+    background-color: $community-tab-color;
+    background-image: $community-tab-color;
+
+    .inner-circle-icon
+    {
+        color: $community-tab-color;
+    }
+}
+
+.active:after{
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -$tab-height/2;
+  border-bottom: $tab-height/2 solid transparent;
+  border-top: $tab-height/2 solid transparent;
+  border-left: $tab-height/3 solid $community-tab-active-color;
+}
+
+.tab-content {
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  line-height: 12px;
+}
+
+.tab-text
+{
+  padding-left: $tab-icon-width + 5px;
+}
+
+.inner-circle-icon 
+{
+  margin-left: 1px;
+}
+
+.outer-circe-icon
+{
+  font-size: 1.1em;
+}
+

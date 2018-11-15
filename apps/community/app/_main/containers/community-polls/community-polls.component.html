@@ -1,7 +1,4 @@
 <div class="card">
-  <div class="card-header">
-    Payfactors Polls
-  </div>
   <div class="card-body">
     <ngb-carousel *ngIf="communityPollRequestsLoaded$ | async" [interval]="0" class="px-5 pb-5">
       <ng-container *ngFor="let request of communityPollRequests;">

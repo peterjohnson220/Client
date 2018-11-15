@@ -12,7 +12,8 @@ import { CommunityPostsComponent } from './community-posts.component';
 import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
+import { Tag } from '../../models/tag.model';
 
 describe('CommunityPostsComponent', () => {
   let fixture: ComponentFixture<CommunityPostsComponent>;
@@ -62,7 +63,7 @@ describe('CommunityPostsComponent', () => {
     expect(instance.showReplies[item]).toBe(true);
   });
 
-  it('should hide the replies when hdie replies clicked', () => {
+  it('should hide the replies when hide replies clicked', () => {
     const item = 1;
     const postId = 1;
     instance.showReplies[item] = true;
@@ -114,15 +115,17 @@ describe('CommunityPostsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch GettingCommunityPostsByTag when calling onMessage', () => {
+  it('should dispatch AddingCommunityTagToFilterOptions when calling onMessage', () => {
     const tag = 'testTag';
 
     const messageParam = {
       data: {action: 'getCommunityPostsByTag', tag: tag},
     };
-
-    const actionParam = {tag: tag};
-    const action = new fromCommunityPostActions.GettingCommunityPostsByTag(actionParam);
+    const newTag: Tag  = {
+      Id: null,
+      TagName: tag
+    };
+    const action = new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(newTag);
 
     instance.onMessage(messageParam);
 

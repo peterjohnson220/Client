@@ -15,7 +15,11 @@
     (valueChange)="onJobSelected($event)"
     [textField]="'title'"
     [valueField]="'id'"
+    style="width: 100%"
   >
-    
+  <ng-template kendoComboBoxItemTemplate let-dataItem>
+    <span class="mr-1">{{ dataItem.title }}</span>
+    <span>({{ dataItem.nationalBase25 | number:'1.0-0' }} - {{ dataItem.nationalBase75 | number:'1.0-0' }})</span>
+  </ng-template>
   </kendo-combobox>
 </div>

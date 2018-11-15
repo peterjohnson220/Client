@@ -6,24 +6,24 @@
 </div>
 <ng-template #job_not_sumbitted>
 <div class="form-group required-indicator" [formGroup]="communityJobForm" > 
-    <label for="positionTitle" class="control-label col-sm-2 px-0">Position Title</label>
-    <div class="input col-sm-10 py-2">
+    <label for="positionTitle" class="control-label col-3 px-0">Position Title</label>
+    <div class="input col-9 pt-2 pb-4 pr-0">
       <input #positionTitle
           type="text" 
           class="form-control" 
           formControlName="positionTitle" 
           [maxLength]="textMaxLength">  
     </div>
-    <label for="location" class="control-label col-sm-2 px-0">Location</label>
-    <div class="input col-sm-10 pb-2">
+    <label for="location" class="control-label col-3 px-0">Location</label>
+    <div class="input col-9 pb-4 pr-0">
       <input #location
           type="text" 
           class="form-control" 
           formControlName="location" 
           [maxLength]="textMaxLength">  
     </div>
-    <label for="postingUrl" class="control-label col-sm-2 px-0">Posting URL</label>
-    <div class="input col-sm-10">
+    <label for="postingUrl" class="control-label col-3 px-0">Posting URL</label>
+    <div class="input col-9 pb-4 pr-0">
       <input #postingUrl
           type="url"
           class="form-control"

@@ -1,9 +1,12 @@
+import { PeerFilterEnum } from './peer-filter.enum';
+
 export interface FilterAggregateMetaData {
   Id: string;
-  PeerFilter: number;
+  PeerFilter: PeerFilterEnum;
   FilterProp: string;
   Label: string;
   Placeholder: string;
+  IncludeInFilterSideBar: boolean;
 }
 
 export function generateMockFilterAggregateMetaData(peerFilter = 1): FilterAggregateMetaData {
@@ -12,6 +15,7 @@ export function generateMockFilterAggregateMetaData(peerFilter = 1): FilterAggre
     PeerFilter: peerFilter,
     FilterProp: 'MockProp',
     Label: 'MockLabel',
-    Placeholder: 'MockPlaceholder'
+    Placeholder: 'MockPlaceholder',
+    IncludeInFilterSideBar: true
   };
 }

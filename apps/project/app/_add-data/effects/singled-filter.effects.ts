@@ -10,7 +10,7 @@ import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/surve
 
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromAddDataReducer from '../reducers';
-import { mapFiltersToSearchFields, getSelectedSearchFilters } from '../helpers';
+import { PayfactorsApiHelper } from '../helpers';
 import { MultiSelectFilter } from '../models';
 
 @Injectable()
@@ -30,8 +30,8 @@ export class SingledFilterEffects {
         )),
       switchMap(data => {
         const request: SearchSurveyAggregationsRequest = {
-          SearchFields: mapFiltersToSearchFields(data.filters),
-          Filters: getSelectedSearchFilters(data.filters),
+          SearchFields: PayfactorsApiHelper.getTextFiltersWithValuesAsSearchFields(data.filters),
+          Filters: PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
           CountryCode: data.context.CountryCode,
           CurrencyCode: data.context.CurrencyCode,
           ProjectId: data.context.ProjectId,

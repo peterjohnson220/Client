@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { JobMatchCut } from 'libs/models/survey-search';
 
 import { JobToPrice } from '../../models';
+
 
 @Component({
   selector: 'pf-job-to-price',
@@ -11,7 +13,10 @@ import { JobToPrice } from '../../models';
 export class JobToPriceComponent implements OnInit {
   @Input() job: JobToPrice;
   @Input() rate: string;
+  @Input() dragging: boolean;
   @Output() loadDataCuts: EventEmitter<JobToPrice> = new EventEmitter<JobToPrice>();
+  @Output() cutDeleted: EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>
+    = new EventEmitter<{ jobCut: JobMatchCut, job: JobToPrice }>();
 
   toggleDataCutsLabel: string;
   showDataCuts: boolean;
@@ -43,9 +48,27 @@ export class JobToPriceComponent implements OnInit {
     this.showJobDetail = !this.showJobDetail;
   }
 
+  removeMatchCut(cutToRemove: JobMatchCut): void {
+    if (this.job.TotalDataCuts === 1) {
+      this.hideDataCutsDisplay();
+    }
+    this.cutDeleted.emit({jobCut: cutToRemove, job: this.job});
+  }
+
   formatCurrency(value: number): string {
     const precision = this.rate === 'Hourly' ? 2 : 1;
     return value.toFixed(precision);
+  }
+
+  showDataCutsDisplay(): void {
+    this.showDataCuts = true;
+    this.toggleDataCutsLabel = this.hideCutsLabel;
+    this.loadDataCuts.emit(this.job);
+  }
+
+  private hideDataCutsDisplay(): void {
+    this.showDataCuts = false;
+    this.toggleDataCutsLabel = this.showCutsLabel;
   }
 
 }

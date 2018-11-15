@@ -200,6 +200,21 @@ describe('Peer - Dashboard - Invite Company Modal', () => {
     expect(newJobForm).toBe(null);
   });
 
+  it(`should clear the childFormGroup from the requestCompanyForm after form submits`, () => {
+    instance.newCompanyFormEnabled = true;
+
+    fixture.detectChanges();
+
+    instance.requestCompanyForm.addControl('newCompanyForm', generateMockNewCompanyForm());
+
+    fixture.detectChanges();
+
+    instance.handleSwitchToggled();
+
+    const childForm = instance.childFormGroup;
+    expect(childForm).toBe(null);
+  });
+
   it(`should have the exchange name in the modalSubtitle`, () => {
     const expectedModalSubtitle = `Search for and select an existing company, or invite a new company that you would like added to the
             ${mockExchange.ExchangeName} exchange. The exchange administrator will

@@ -1,0 +1,51 @@
+<div class="upload-container">
+  <label for="delimiter">Delimiter: </label>
+  <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+  <kendo-upload [disabled]="!delimiter"
+    [saveUrl]="uploadSaveUrl"
+    [removeUrl]="removeUrl"
+    [autoUpload]="true"
+    [restrictions]="fileRestrictions"
+    [multiple]="false"
+    (success)="successEventHandler($event)"
+    (upload)="uploadEventHandler($event)"
+    (remove)="removeEventHandler()">
+    <kendo-upload-messages select="Select file...">
+    </kendo-upload-messages>
+  </kendo-upload>
+</div>
+
+
+<div class="field-mappings-container">
+  <table>
+    <tr class="header">
+      <td>Payfactors fields</td>
+      <td>Client fields</td>
+      <td></td>
+      <td>Mapping</td>
+    </tr>
+    <tr>
+      <td>
+        <select name="payfactors_fields" size="20" class="list-box" [(ngModel)]="selectedPfField">
+          <option *ngFor="let field of payfactorsDataFields" value="{{field}}">{{field}}</option>
+        </select>
+      </td>
+      <td>
+        <select name="client_fields" size="20" class="list-box" [(ngModel)]="selectedClientField">
+          <option *ngFor="let field of clientFields" value="{{field}}">{{field}}</option>
+        </select>
+      </td>
+      <td>
+        <div class="mapping-btn-container" role="group">
+          <button type="button" class="btn btn-primary" (click)="ApplyMapping()" [disabled]="!selectedPfField || !selectedClientField">Map > </button>
+          <button type="button" class="btn btn-primary" (click)="RemoveMapping()" [disabled]="!selectedMapping">< Remove Mapping</button>
+        </div>
+      </td>
+      <td>
+        <select name="mapped_fields" size="20" class="list-box mapped-fields" [(ngModel)]="selectedMapping">
+          <option *ngFor="let field of mappedFields" value="{{field}}">{{formatMappingForDisplay(field)}}</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+</div>

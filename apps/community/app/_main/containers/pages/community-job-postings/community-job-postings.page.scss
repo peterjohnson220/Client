@@ -1,0 +1,45 @@
+
+
+.input-icon{
+    position: absolute;
+    left: 20px;
+    top: calc(50% - 0.5em);
+}
+
+input{
+    border: none;
+    padding-left: 20px;
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 4px 2px -2px gray;
+    height: 30px;
+}
+
+.search-container{
+  height: 15%;
+}
+
+.search-results-container{
+  height: 85%;
+}
+
+.input-container{
+  background-color: #E9EAED;
+}
+
+.vertical-align {
+  display: flex;
+  flex-direction: row;
+}
+
+.vertical-align > [class^="col-"],
+.vertical-align > [class*=" col-"] {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Optional, to align inner items
+                              horizontally inside the column */
+}
+
+:host ::ng-deep  .page-content{
+   overflow: hidden !important;
+ }

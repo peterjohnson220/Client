@@ -1,6 +1,8 @@
-@import '../../../styles/shared-page-styles';
-
-.jobs-to-price{
-  width: 27.5%;
-  position: relative;
+:host ::ng-deep .results{
+  width: 72.5% !important;
 }
+
+:host ::ng-deep .actions-container{
+  width: 72.5% !important;
+}
+

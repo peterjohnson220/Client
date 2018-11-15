@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, BrowserTransferStateModule, makeStateKey, TransferState } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 
 import { StoreModule, ActionReducer, MetaReducer, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,8 +10,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppWrapperComponent } from './shared/app-wrapper/app-wrapper.component';
-
 import { reducers, AppState } from './shared/state';
+import { ApiAuthInterceptor } from './shared/services/api-auth.service';
 
 export function stateSetter(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state: any, action: any) {
@@ -33,6 +34,7 @@ export const NGRX_STATE = makeStateKey('NGRX_STATE');
     // Angular
     BrowserModule.withServerTransition({ appId: 'pf-smallbiz' }),
     BrowserTransferStateModule,
+    TransferHttpCacheModule,
     BrowserAnimationsModule,
     HttpClientModule,
 
@@ -42,6 +44,9 @@ export const NGRX_STATE = makeStateKey('NGRX_STATE');
 
     // Routing
     AppRoutingModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiAuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

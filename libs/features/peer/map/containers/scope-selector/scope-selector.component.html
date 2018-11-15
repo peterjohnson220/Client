@@ -1,14 +1,16 @@
-<div class="scope-selector-container">
+<div class="scope-selector-container"
+     [ngClass]="{'custom-modal-popover custom-modal-arrow': addDataModal, 'custom-map-popover custom-map-arrow scope-selector-no-padding': !addDataModal}">
   <button type="button"
           class="btn btn-secondary selector"
           [disabled]="(exchangeScopeItems$ | async)?.length === 0"
           [ngbPopover]="popContent"
           popoverTitle="Select a Scope"
-          placement="right"
+          [placement]="addDataModal ? 'right' : 'bottom-right'"
           #p="ngbPopover">
 
     <span class="selector-caret">
-    <i class="fas fa-caret-right"></i>
+      <i *ngIf="addDataModal" class="fas fa-caret-right"></i>
+      <i *ngIf="!addDataModal" class="fas fa-caret-down"></i>
     </span>
 
     <span class="selector-label text-muted">Exchange Scope:</span>

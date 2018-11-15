@@ -28,7 +28,7 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
         addingData: false
       };
     }
-    case fromAddSurveyDataPageActions.CLOSE_SURVEY_SEARCH: {
+    case fromAddSurveyDataPageActions.HIDE_PAGE: {
       return {
         ...state,
         pageShown: false

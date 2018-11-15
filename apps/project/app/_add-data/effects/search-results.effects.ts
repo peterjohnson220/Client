@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import {Store} from '@ngrx/store';
-import {map, mergeMap, withLatestFrom} from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs/index';
 
 import {SurveySearchApiService} from 'libs/data/payfactors-api/surveys';
 import { PagingOptions } from 'libs/models';
@@ -11,7 +12,7 @@ import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromJobResultActions from '../actions/search-results.actions';
 import { AddDataEffectsService } from '../services';
 import * as fromAddDataReducer from '../reducers';
-import {mapFiltersToSearchFields, getSelectedSearchFilters} from '../helpers';
+import { PayfactorsApiModelMapper, FiltersHelper, PayfactorsApiHelper } from '../helpers';
 
 @Injectable()
 export class SearchResultsEffects {
@@ -33,8 +34,8 @@ export class SearchResultsEffects {
           const surveyJobId = dataCutContext.action.payload.Id;
           const currencyCode = dataCutContext.projectSearchContext.CurrencyCode;
           const projectId = dataCutContext.projectSearchContext.ProjectId;
-          const searchFieldsRequestObj = mapFiltersToSearchFields(dataCutContext.filters);
-          const filtersRequestObj = getSelectedSearchFilters(dataCutContext.filters);
+          const searchFieldsRequestObj = PayfactorsApiHelper.getTextFiltersWithValuesAsSearchFields(dataCutContext.filters);
+          const filtersRequestObj = PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(dataCutContext.filters);
           const pagingOptions: PagingOptions = {
             From: dataCutContext.action.payload.DataCuts.length,
             Count: 150
@@ -52,7 +53,8 @@ export class SearchResultsEffects {
                 SurveyJobId: surveyJobId,
                 DataCuts: response.DataCuts,
                 TotalResults: response.TotalResults
-              }))
+              })),
+              catchError(() => of(new fromJobResultActions.GetSurveyDataResultsError(surveyJobId)))
             );
         }
       ));

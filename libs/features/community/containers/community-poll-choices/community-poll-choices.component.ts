@@ -14,12 +14,17 @@ export class CommunityPollChoicesComponent {
   get getPlaceholder() { return this.index <= 1 ? `Choice ${this.index + 1}` : `Choice ${this.index + 1} (Optional)`; }
 
   @Input() public index: number;
-
+  @Input() public isLastChoice: boolean;
   @Input() public item: FormGroup;
 
   @Input() public isAdmin: false;
 
+  @Output() public added: EventEmitter<number> = new EventEmitter<number>();
   @Output() public removed: EventEmitter<number> = new EventEmitter<number>();
+
+  get colWidth() {
+    return this.isAdmin ? 'col-10' : 'col-12';
+  }
 
   static buildItem(val: string, enableEditingResponseOptions = true) {
 

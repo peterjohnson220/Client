@@ -6,8 +6,18 @@
 
   <ng-container page-actions>
 
+    <pf-scope-selector [addDataModal]="false"
+                       [exchangeId]="exchangeId"></pf-scope-selector>
+
+    <button type="button" class="btn btn-secondary"
+            [disabled]="(peerMapCompaniesCount$ | async) < 5"
+            (click)="handleExportDataCutsClick()">
+      Export Data Cuts
+    </button>
+
     <button type="button" class="btn btn-primary"
-            [disabled]="(numberOfSelections$ | async) === 0 || ((numberOfCompanySelections$ | async) > 0 && (numberOfCompanySelections$ | async) < 5)"
+            [disabled]="(numberOfSelections$ | async) === 0 ||
+              ((numberOfCompanySelections$ | async) > 0 && (numberOfCompanySelections$ | async) < 5)"
             (click)="handleSaveScopeClick()">
       Create Scope
     </button>
@@ -42,3 +52,4 @@
   [exchange]="exchange$ | async"
   (upsertExchangeScopeEvent)="handleUpsertExchangeScopeEvent($event)">
 </pf-save-exchange-scope-modal>
+<pf-export-data-cuts-modal></pf-export-data-cuts-modal>

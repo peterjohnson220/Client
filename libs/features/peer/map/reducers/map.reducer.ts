@@ -31,7 +31,7 @@ export const initialState: State = {
     Centroid: [-98, 38.88]
   },
   mapSummary: null,
-  mapBounds: [0, 0, 0, 0],
+  mapBounds: [-180, -65, 100, 85],
   loading: false,
   loadingError: false,
   shouldUpdateBounds: true,
@@ -79,7 +79,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
       const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
       if (state.isInitialLoad && shouldSetBounds) {
-        newState.mapBounds = MapHelper.getBoundsForOneMapCopy(newTL, newBR);
+        newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
         newState.mapFilter.TopLeft = newTL;
         newState.mapFilter.BottomRight = newBR;
       }

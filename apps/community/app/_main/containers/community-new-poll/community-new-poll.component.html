@@ -8,24 +8,29 @@
       [pfFocus]="true"
       textPlaceholder="Ask a question...">
     </pf-community-text-area>
+
     <ng-container *ngIf="context.errors && attemptedSubmit">
       <div *ngIf="context.errors.required" class="invalid-feedback">Question is required.</div>
       <div *ngIf="context.errors.error" class="invalid-feedback">{{context.errors.error}}</div>
     </ng-container>
-    <span *ngIf="!attemptedSubmit || !context.errors" class="pf-placeholder"></span>
-    <!--TODO: Replace fieldset with bootstrap formatting-->
-    <fieldset formArrayName="choices">
-      <pf-community-poll-choices #pollChoices
-        *ngFor="let item of choices.controls; let i=index"
+    
+    <div class="pr-5">
+      <pf-community-poll-choices
+        *ngFor="let item of choices.controls; let i=index; let last = last"
         [index]="i"
         [item]="item"
-        (removed)="choices.removeAt($event)">
+        [isLastChoice]="last"
+        (removed)="choices.removeAt($event)"
+        (added)="addResponseOption()"
+        class="pr-0">
       </pf-community-poll-choices>
-    </fieldset>
+    </div>
 
-    <button type="button" class="btn btn-link" *ngIf="choices.length < maxChoices" (click)="addResponseOption()">+ Add a choice</button> 
-    <div class="mb-2">
-      <label class="col-form-label" for="days" class="text-muted mr-3">Poll length</label>   
+    <div class="pl-5">
+      <label class="col-form-label" for="duration" class="text-muted mr-1 pt-1">Poll Length:</label>
+      <button #duration type="button" class="btn btn-link pt-1" (click)="configurePollLength()">{{pollLengthText}}</button>   
+      
+      <!--TODO: Abiltity to configure poll duration will be implemented as part of the future story.
       <label class="col-form-label" for="days">Days </label>
       <select #days  class="poll-length-dropdown ml-2 mr-4"
         formControlName="days"
@@ -36,6 +41,6 @@
       <select #hours class="poll-length-dropdown ml-2"
         formControlName="hours">
         <option *ngFor="let hour of pollLengthHours" [ngValue]="hour" [disabled]="hour===0 && isPollDurationDaysZero()">{{hour}}</option>
-      </select>
+      </select>-->
     </div>
   </div>
