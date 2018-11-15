@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { Exchange, ExchangeListItem, ExchangeRequestTypeEnum } from 'libs/models/peer';
+import { GridTypeEnum, Exchange, ExchangeListItem, ExchangeRequestTypeEnum } from 'libs/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeSelectorActions from '../../actions/exchange-selector.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
@@ -40,15 +41,18 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
   }
 
   handleExchangeClicked(exchangeListItem: ExchangeListItem) {
-      this.popover.close();
-      this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
-        {
-          FeatureArea: 'PeerDashboard',
-          SettingName: 'SelectedExchangeId',
-          SettingValue: exchangeListItem.ExchangeId.toString()
-        }
-      ));
-      this.router.navigate(['/exchange', exchangeListItem.ExchangeId]);
+    this.popover.close();
+
+    this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobComparison));
+
+    this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
+      {
+        FeatureArea: 'PeerDashboard',
+        SettingName: 'SelectedExchangeId',
+        SettingValue: exchangeListItem.ExchangeId.toString()
+      }
+    ));
+    this.router.navigate(['/exchange', exchangeListItem.ExchangeId]);
   }
 
   openRequestAccessModal(): void {
