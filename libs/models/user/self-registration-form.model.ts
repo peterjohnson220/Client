@@ -5,5 +5,5 @@ export interface SelfRegistrationForm {
   Title: string;
   CompanyName: string;
   Website: string;
-  NumberEmployees: string;
+  NumberEmployees: number;
 }

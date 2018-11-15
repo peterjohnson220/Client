@@ -30,4 +30,8 @@ export class SelfRegistrationValidationService {
 
     return websiteRegex.test(website) ? null : { 'invalidCharacter': true };
   }
+
+  validateNumberEmployees(control: FormControl) {
+    return (control.value > 0) ? null : { 'invalidValue': true };
+  }
 }
