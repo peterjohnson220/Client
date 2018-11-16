@@ -44,6 +44,7 @@ export abstract class SurveySearchBase {
     this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromSearchActions.HideFilterSearch());
     this.store.dispatch(new fromSavedFiltersActions.ClearSavedFilters());
+    this.store.dispatch(new fromSavedFiltersActions.CloseSavedFiltersPopover());
     this.onResetApp();
   }
 

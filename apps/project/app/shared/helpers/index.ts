@@ -5,3 +5,4 @@ export * from './dragula.helper';
 export * from './payfactors-api.helper';
 export * from './payfactors-api-model-mapper.helper';
 export * from './job-result.helper';
+export * from './saved-filter.helper';

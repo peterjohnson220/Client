@@ -173,6 +173,26 @@ export const getSaveFilterModalOpen = createSelector(
   fromSavedFiltersReducer.getSaveFilterModalOpen
 );
 
+export const getFilterDataToEdit = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getFilterDataToEdit
+);
+
+export const getSavedFiltersPopoverOpen = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavedFiltersPopoverOpen
+);
+
+export const getDefaultFilterId = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getDefaultFilterId
+);
+
+export const getFilterIdToSelect = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getFilterIdToSelect
+);
+
 // Search Filters Selectors
 export const getFilters = createSelector(
   selectSearchFiltersState,

@@ -4,7 +4,7 @@
   [primaryButtonTextSubmitting]="'Saving...'"
   [title]="'Save Filters'"
   [primaryButtonClass]="'legacy-primary-btn'"
-  [primaryButtonText]="'Save'"
+  [primaryButtonText]="isEditMode ? 'Update' : 'Save'"
   [isOpen$]="isOpen$"
   [formGroup]="nameFilterForm"
   (onDismiss)="handleModalDismiss()"
