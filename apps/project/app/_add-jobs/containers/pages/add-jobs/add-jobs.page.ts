@@ -6,8 +6,6 @@ import { Observable } from 'rxjs';
 import * as fromAddJobsReducer from '../../../reducers';
 import * as fromJobsPageActionsfrom from '../../../actions/add-jobs.page.actions';
 
-
-
 @Component({
   selector: 'pf-add-jobs-page',
   templateUrl: './add-jobs.page.html',
@@ -15,9 +13,12 @@ import * as fromJobsPageActionsfrom from '../../../actions/add-jobs.page.actions
 })
 export class AddJobsPageComponent  {
 
+  selectedJobIds$: Observable<number[]>;
+
   constructor(
     private store: Store<fromAddJobsReducer.State>,
   ) {
+    this.selectedJobIds$ = this.store.select(fromAddJobsReducer.getSelectedJobIds);
   }
 
   // Event Handling

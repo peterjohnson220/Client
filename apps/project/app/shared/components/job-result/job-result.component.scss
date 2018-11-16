@@ -1,6 +1,7 @@
 @import 'legacy-variables';
 @import 'colors';
 @import 'common/common';
+@import 'job-result';
 
 .job-data-cuts-row{
   border-bottom: 1px solid #eeeeee;
@@ -19,17 +20,6 @@
   padding-right: .25rem;
 }
 
-.job-title{
-  color: #006699;
-  font-weight: bold;
-  font-size: 12px;
-}
-
-.job-code{
-  color: #848484;
-  padding-left: .5rem;
-}
-
 .job-description{
   margin: .25rem 0;
   cursor: auto;
@@ -37,16 +27,6 @@
 
 .no-job-description{
   font-style: italic;
-}
-
-.result{
-  padding: .75rem 1.5rem .75rem .5rem;
-  border-bottom: 1px solid $grey;
-  border-left: 3px solid transparent;
-}
-
-.result:hover{
-  border-left: 3px solid #b9d3e0;
 }
 
 .vendor{

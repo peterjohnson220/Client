@@ -4,17 +4,16 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
-
-import { AddJobsPageComponent } from './containers';
-import { reducers } from './reducers';
-
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
-import { AddJobsPageEffects } from './effects/add-jobs-page.effects';
+import { reducers } from './reducers';
+import { AddJobsPageEffects, SearchResultsEffects } from './effects';
+import { AddJobsPageComponent, SearchResultsComponent } from './containers';
+import { JobResultComponent } from './components';
 
 @NgModule({
   imports: [
@@ -24,8 +23,10 @@ import { AddJobsPageEffects } from './effects/add-jobs-page.effects';
     // 3rd Party
     StoreModule.forFeature('project_addJobs', reducers),
     EffectsModule.forFeature([
-      AddJobsPageEffects
+      AddJobsPageEffects,
+      SearchResultsEffects
     ]),
+    InfiniteScrollModule,
     // Routing
     AddJobsRoutingModule,
 
@@ -35,6 +36,8 @@ import { AddJobsPageEffects } from './effects/add-jobs-page.effects';
   ],
   declarations: [
     // Components
+    SearchResultsComponent,
+    JobResultComponent,
 
     // Pages
     AddJobsPageComponent
