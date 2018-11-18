@@ -1,18 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
-import { ManageFieldMappingsPageComponent } from './containers/pages';
-import { PfCommonUIModule } from '../../../../libs/ui/common';
+import { FormsModule } from '@angular/forms';
+
 import { LayoutModule } from '@progress/kendo-angular-layout';
-import { FieldMapperComponent } from './containers/field-mapper/field-mapper.component';
+import { EffectsModule } from '@ngrx/effects';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+
+import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFormsModule } from 'libs/forms';
+
+import { OrgDataLoaderRoutingModule } from './org-data-loader-routing.module';
+import { ManageFieldMappingsPageComponent } from './containers/pages';
+import { FieldMapperComponent } from './containers/field-mapper/field-mapper.component';
 import { reducers } from './reducers';
-import { FormsModule } from '@angular/forms';
 import { CompanySelectorEffects } from './effects/company-selector.effects';
 import { CompanySelectorComponent } from './containers/company-selector/company-selector.component';
 import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.effects';
+import { EmailRecipientsComponent } from './containers/email-recipients/email-recipients.component';
+import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effects';
+
 
 @NgModule({
   imports:      [
@@ -22,7 +29,7 @@ import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.e
 
     // 3rd Party
     StoreModule.forFeature('orgDataLoader', reducers),
-    EffectsModule.forFeature([CompanySelectorEffects, OrgDataFieldMappingsEffects]),
+    EffectsModule.forFeature([CompanySelectorEffects, OrgDataFieldMappingsEffects, OrgDataEmailRecipientsEffects]),
 
     // 3rd Party
     LayoutModule,
@@ -32,13 +39,15 @@ import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.e
     OrgDataLoaderRoutingModule,
 
     // Payfactors
-    PfCommonUIModule
+    PfCommonUIModule,
+    PfFormsModule
   ],
   declarations: [
     // Pages
     ManageFieldMappingsPageComponent,
     FieldMapperComponent,
-    CompanySelectorComponent
+    CompanySelectorComponent,
+    EmailRecipientsComponent
   ]
 })
 export class OrgDataLoaderModule { }

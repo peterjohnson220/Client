@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserOrEmailPickerComponent should not show a spinner when no search is being performed 1`] = `
+<pf-user-or-email-picker
+  companyApiService="undefined"
+  identity$={[Function Store]}
+  searchFailed="false"
+  searching="false"
+  selected={[Function EventEmitter]}
+  userApiService="undefined"
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control ng-untouched ng-pristine ng-valid"
+      ng-reflect-ngb-typeahead="function (text$) {
+             "
+      ng-reflect-result-template="[object Object]"
+      placeholder="Name or Email"
+      role="combobox"
+      type="text"
+    />
+    
+    
+  </div>
+</pf-user-or-email-picker>
+`;
+
+exports[`UserOrEmailPickerComponent should show a spinner when a search is in progress 1`] = `
+<pf-user-or-email-picker
+  companyApiService="undefined"
+  identity$={[Function Store]}
+  searchFailed="false"
+  searching={[Function Boolean]}
+  selected={[Function EventEmitter]}
+  userApiService="undefined"
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control ng-untouched ng-pristine ng-valid"
+      ng-reflect-ngb-typeahead="function (text$) {
+             "
+      ng-reflect-result-template="[object Object]"
+      placeholder="Name or Email"
+      role="combobox"
+      type="text"
+    />
+    
+    <span>
+      <i
+        aria-hidden="true"
+        class="fas fa-spin fa-circle-notch picker-searching-icon"
+      />
+    </span>
+    
+  </div>
+</pf-user-or-email-picker>
+`;
+
+exports[`UserOrEmailPickerComponent should show an error message when a search failed 1`] = `
+<pf-user-or-email-picker
+  companyApiService="undefined"
+  identity$={[Function Store]}
+  searchFailed={[Function Boolean]}
+  searching="false"
+  selected={[Function EventEmitter]}
+  userApiService="undefined"
+  userContextStore={[Function Store]}
+  userOrEmailTypeaheadFn={[Function Function]}
+>
+  <div
+    class="form-group has-danger"
+  >
+    <input
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-multiline="false"
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class="form-control ng-untouched ng-pristine ng-valid"
+      ng-reflect-ngb-typeahead="function (text$) {
+             "
+      ng-reflect-result-template="[object Object]"
+      placeholder="Name or Email"
+      role="combobox"
+      type="text"
+    />
+    
+    
+    <div
+      class="form-control-feedback"
+    >
+       Sorry, suggestions could not be loaded. 
+    </div>
+  </div>
+</pf-user-or-email-picker>
+`;

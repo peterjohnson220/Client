@@ -27,4 +27,15 @@ export class UserApiService {
     return this.payfactorsApiService
       .get<UserAssignedRole[]>(`${this.endpoint}/Default.GetAvailableAndAssignedRolesForCurrentUser`);
   }
+
+  getEmailRecipientsSearchResults(companyId: number, searchTerm: string, loaderType: string) {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}/Default.GetEmailRecipientsSearchResults`,
+      {
+        params: {
+          companyId: companyId,
+          search: searchTerm,
+          loaderType: loaderType
+        }
+      });
+  }
 }
