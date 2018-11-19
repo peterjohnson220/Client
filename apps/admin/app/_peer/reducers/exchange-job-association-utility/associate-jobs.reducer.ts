@@ -3,12 +3,14 @@ import * as fromAssociateJobsActions from '../../actions/exchange-job-associatio
 export interface State {
   associating: boolean;
   associatingError: boolean;
+  associationCount: number;
 }
 
 // Initial State
 export const initialState: State = {
   associating: false,
-  associatingError: false
+  associatingError: false,
+  associationCount: 0
 };
 
 // Reducer
@@ -27,6 +29,7 @@ export function reducer(
     case fromAssociateJobsActions.ASSOCIATE_JOBS_SUCCESS: {
       return {
         ...state,
+        associationCount: action.payload,
         associating: false
       };
     }
@@ -45,4 +48,5 @@ export function reducer(
 
 // Selector Functions
 export const getAssociating = (state: State) => state.associating;
+export const getAssociatingCount = (state: State) => state.associationCount;
 export const getAssociatingError = (state: State) => state.associatingError;
