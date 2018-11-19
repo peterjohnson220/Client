@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
+import * as lodash from 'lodash';
 
 import { CompanyJobToMapTo, ExchangeJobMapping, Job, CompanyJobMapping } from 'libs/models';
 
@@ -171,20 +172,22 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   buildNoResultsString(): string {
 
     let s = 'No results for ';
-    if (!this.companyJobQuery && !this.companyDescriptionQuery) {
-      s += '<u>' + this.selectedExchangeJobMapping.ExchangeJobTitle + '</u>';
-    } else if (this.companyJobQuery) {
-      s += '<u>' + this.companyJobQuery + '</u>';
 
-      if (this.companyDescriptionQuery) {
+    const companyJob = lodash.escape(this.companyJobQuery);
+    const jobDescription = lodash.escape(this.companyDescriptionQuery);
+
+    if (!companyJob && !jobDescription) {
+      s += '<u>' + this.selectedExchangeJobMapping.ExchangeJobTitle + '</u>';
+    } else if (companyJob) {
+      s += '<u>' + companyJob + '</u>';
+      if (jobDescription) {
         s += ' <i>and</i> ';
       }
     }
 
-    if (this.companyDescriptionQuery) {
-      s += '<u>' + this.companyDescriptionQuery + '</u>';
+    if (jobDescription) {
+      s += '<u>' + jobDescription + '</u>';
     }
-
     return s;
 
   }
