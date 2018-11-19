@@ -20,11 +20,13 @@ import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
+import { CompanyAdminApiService } from './company-admin';
 
 @NgModule({
   imports:      [ HttpClientModule ],
   providers:    [
     CompanyApiService,
+    CompanyAdminApiService,
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,

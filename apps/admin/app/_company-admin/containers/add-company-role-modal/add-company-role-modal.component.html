@@ -1,0 +1,34 @@
+<pf-modal-form
+  [modalId]="'au-modal-add-company-role'"
+  [title]="'Create New Role'"
+  [isOpen$]="addCompanyRoleModalIsOpen$"
+  [size]="'md'"
+  [primaryButtonText]="'Create'"
+  [formGroup]="addCompanyRoleForm"
+  [submitting]="false"
+  [backdrop]="true"
+  [resetFormOnClose]="true"
+  (onSubmit)="onAddCompanyRoleSubmit()"
+  (onDismiss)="onAddCompanyRoleDismiss()">
+  <ng-container form-content>
+    <div id="au-company-role-cont-form" (keydown)="onKeyDown($event)">
+      <!-- COMPANY ROLE NAME -->
+      <label class="mt-4">User Role Name</label>
+      <input
+        #companyRoleName
+        id="au-tb-company-role-name"
+        class="form-control"
+        [pfFocus]="true"
+        [pfFocusElementShowing]="addCompanyRoleModalIsOpen$ | async"
+        (blur)="onFieldBlur('CompanyRoleName')"
+        [maxLength]="validationService.NAME_LENGTH.max"
+        formControlName="CompanyRoleName"
+        type="text" autofocus>
+    </div>
+    <div *ngIf="AddCompanyRoleError" >
+      <label class="alert alert-danger pt-3">
+        Error: {{AddCompanyRoleError}}
+      </label>
+    </div>
+  </ng-container>
+</pf-modal-form>

@@ -1,3 +1,11 @@
-<h3>
-  Functions Tab
-</h3>
+<div *ngIf="currentRole">
+  <div  class="scrollable">
+    <ul class="list-group nav" >
+      <li class="nav-item"*ngFor="let prm of currentRole.Permissions" [ngClass] = "!prm.IsParent?'subPermission':'parentPermission'">
+        <input type="checkbox" (change)="handleCheckBoxCheck(prm)" [checked]="prm.IsChecked"/>
+        {{prm.Name}}
+      </li>
+    </ul>
+  </div>
+  <button type="button" *ngIf="currentRole" class="btn btn-primary" (click)="handleSaveClicked()">{{saveButtonText}}</button>
+</div>

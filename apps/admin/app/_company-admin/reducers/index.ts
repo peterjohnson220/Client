@@ -36,3 +36,37 @@ export const getUserRoleViewState = createSelector(
 export const getUserRoleCurrentTabState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleCurrentTab
 );
+
+export const getCurrentUserRole = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getCurrentUserRole
+);
+
+export const getCompanyRoles = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getCompanyRoles
+);
+
+export const getAddCompanyRoleModalIsOpen = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getAddCompanyRoleModalIsOpen
+);
+
+export const getAddCompanyRoleForm = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getAddCompanyRoleForm
+);
+
+export const getAddCompanyRoleError = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getAddCompanyRoleError
+);
+
+export const getFunctionSaveButtonText = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getFunctionSaveButtonText
+);
+
+// Users tab
+export const getUsersAndRoles = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getUsersAndRoles
+);
+
+export const getUsersAndRolesError = createSelector(
+  selectUserRoleState, fromUserRoleViewReducer.getUsersAndRolesError
+);
+

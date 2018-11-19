@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserRolePageComponent should display user roles in au-user-assigned-role-nav 1`] = `
+<pf-user-role-page
+  _UserRoleTabState={[Function Object]}
+  companyRolesSubscription={[Function Subscriber]}
+  currentRole="undefined"
+  currentRoleSubscription={[Function Subscriber]}
+  currentTabStateSubscription={[Function Subscriber]}
+  currentUserRoleTabState="0"
+  store={[Function Store]}
+  userAssignedRoles={[Function Array]}
+  userRoleService={[Function UserRoleService]}
+>
+  <pf-page-with-title-bar>
+    
+     User Roles 
+    
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      Create
+    </button>
+    
+    <div
+      class="container-fluid h-100 w-i"
+    >
+      <div
+        class="row h-100"
+      >
+        <div
+          class="col-1 p-0 roles-list-column inner-nav"
+        >
+          <div
+            class="h-100 w-100 rounded-0"
+          >
+            <div>
+              <div
+                class="align-self-center mr-auto"
+              >
+                <h4>
+                  Roles
+                </h4>
+              </div>
+            </div>
+            <div>
+              <ul
+                class="list-group nav au-user-assigned-role-nav"
+              >
+                
+                <li
+                  class="nav-item"
+                >
+                  <a>
+                    
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <a
+                class="outer-nav-link"
+              >
+                Create New Role
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col p-0"
+        >
+          <div
+            class="card h-100 w-100 rounded-0"
+          >
+            <div
+              class="card-header"
+            >
+              <ul
+                class="nav nav-tabs card-header-tabs"
+              >
+                
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link active"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Data Access 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Function 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Users 
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="card-block"
+            >
+              <div
+                class="tab-containe mx-2 py-2"
+              >
+                
+                <pf-user-role-data-access-tab />
+                
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar><pf-add-company-role-modal />
+</pf-user-role-page>
+`;
+
+exports[`UserRolePageComponent should match snapshot 1`] = `
+<pf-user-role-page
+  _UserRoleTabState={[Function Object]}
+  companyRolesSubscription={[Function Subscriber]}
+  currentRole="undefined"
+  currentRoleSubscription={[Function Subscriber]}
+  currentTabStateSubscription={[Function Subscriber]}
+  currentUserRoleTabState="0"
+  store={[Function Store]}
+  userAssignedRoles="null"
+  userRoleService={[Function UserRoleService]}
+>
+  <pf-page-with-title-bar>
+    
+     User Roles 
+    
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      Create
+    </button>
+    
+    <div
+      class="container-fluid h-100 w-i"
+    >
+      <div
+        class="row h-100"
+      >
+        <div
+          class="col-1 p-0 roles-list-column inner-nav"
+        >
+          <div
+            class="h-100 w-100 rounded-0"
+          >
+            <div>
+              <div
+                class="align-self-center mr-auto"
+              >
+                <h4>
+                  Roles
+                </h4>
+              </div>
+            </div>
+            <div>
+              <ul
+                class="list-group nav au-user-assigned-role-nav"
+              >
+                
+              </ul>
+            </div>
+            <div>
+              <a
+                class="outer-nav-link"
+              >
+                Create New Role
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col p-0"
+        >
+          <div
+            class="card h-100 w-100 rounded-0"
+          >
+            <div
+              class="card-header"
+            >
+              <ul
+                class="nav nav-tabs card-header-tabs"
+              >
+                
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link active"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Data Access 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Function 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Users 
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="card-block"
+            >
+              <div
+                class="tab-containe mx-2 py-2"
+              >
+                
+                <pf-user-role-data-access-tab />
+                
+                <pf-user-role-users-tab />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar><pf-add-company-role-modal />
+</pf-user-role-page>
+`;

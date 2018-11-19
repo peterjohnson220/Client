@@ -1,3 +1,43 @@
-<h3>
-  Users Tab
-</h3>
+<div *ngIf="currentUserRoleTabState === _UserRoleTabState.USERS">
+  <div id="users-not-in-role" class="scrollable">
+    <table class="table au-table-users-not-in-role-table">
+      <tr class="au-table-header-row-users-not-in-role-table">
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>User ID</th>
+        <th>Email Address</th>
+        <th>Last Login</th>
+        <th>Add</th>
+      </tr>
+      <tr *ngFor="let user of usersNotInRole" class="au-tr-users-not-in-role-table">
+        <td class="au-td-users-not-in-role-first-name">{{user.FirstName}}</td>
+        <td class="au-td-users-not-in-role-last-name">{{user.LastName}}</td>
+        <td class="au-td-users-not-in-role-user-id">{{user.UserId}}</td>
+        <td class="au-td-users-not-in-role-email">{{user.EmailAddress}}</td>
+        <td class="au-td-users-not-in-role-last-login">{{user.LastLogin | date:'short'}}</td>
+        <td class="au-td-users-not-in-role-add">X</td>
+      </tr>
+    </table>
+  </div>
+  <div id="users-in-role" class="scrollable">
+    <h3>Users Assigned to This Role</h3>
+    <table class="table au-table-users-in-role-table">
+      <tr class="au-table-header-row-users-in-role-table">
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>User ID</th>
+        <th>Email Address</th>
+        <th>Last Login</th>
+        <th>Remove</th>
+      </tr>
+      <tr *ngFor="let user of usersInSelectedRole" class="au-tr-users-in-role-table">
+        <td class="au-td-users-in-role-first-name">{{user.FirstName}}</td>
+        <td class="au-td-users-in-role-last-name">{{user.LastName}}</td>
+        <td class="au-td-users-in-role-user-id">{{user.UserId}}</td>
+        <td class="au-td-users-in-role-email">{{user.EmailAddress}}</td>
+        <td class="au-td-users-in-role-last-login">{{user.LastLogin | date:'short'}}</td>
+        <td class="au-td-users-in-role-remove">X</td>
+      </tr>
+    </table>
+  </div>
+</div>
