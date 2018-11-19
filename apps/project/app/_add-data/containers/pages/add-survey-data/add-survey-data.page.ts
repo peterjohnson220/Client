@@ -45,6 +45,7 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
   onSetContext(payload: any) {
     this.store.dispatch(new fromSearchActions.SetProjectSearchContext(payload.SearchContext));
     this.store.dispatch(new fromSearchActions.SetJobContext(payload.JobContext));
+    this.store.dispatch(new fromAddSurveyDataPageActions.ResetAddData());
   }
 
   // Event Handling

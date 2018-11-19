@@ -20,6 +20,13 @@ export function reducer(state = initialState, action: fromAddSurveyDataPageActio
         addingDataError: false
       };
     }
+    case fromAddSurveyDataPageActions.RESET_ADD_DATA: {
+      return {
+        ...state,
+        addingData: false,
+        addingDataError: false
+      };
+    }
     case fromAddSurveyDataPageActions.ADD_DATA_ERROR: {
       return {
         ...state,
