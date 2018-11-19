@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { PfFormsModule } from 'libs/forms/forms.module';
@@ -26,6 +27,8 @@ describe('SelfRegistrationModalComponent', () => {
         PfFormsModule
       ],
       declarations: [SelfRegistrationModalComponent],
+      // Shallow Testing
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
 
@@ -92,34 +95,41 @@ describe('SelfRegistrationModalComponent', () => {
 
   it('should auto populate website from email if the email is valid', () => {
     component.initForm();
-    component.selfRegistrationForm.controls.Email.setValue('valid@email.com');
+    component.selfRegistrationForm.controls.Email.setValue('valid@test.com');
 
     component.onEmailBlur();
 
-    expect(component.selfRegistrationForm.controls.Website.value).toBe('email.com');
+    expect(component.selfRegistrationForm.controls.Website.value).toBe('test.com');
   });
 
   it('should trim entered text fields on blur', () => {
-    const formControlNames = ['FirstName', 'LastName', 'Email', 'Title', 'CompanyName', 'Website'];
+    const formControls = [
+      component.firstNameControl,
+      component.lastNameControl,
+      component.emailControl,
+      component.titleControl,
+      component.companyNameControl,
+      component.websiteControl
+    ];
 
     component.initForm();
 
     // set each form value to have a starting and trailing space
-    formControlNames.forEach(controlName => {
-      component.selfRegistrationForm.controls[controlName].setValue(` ${controlName} `);
+    formControls.forEach(control => {
+      control.setValue(` test value `);
     });
 
     // call onFieldBlur for each control
-    formControlNames.forEach(controlName => {
-      component.onFieldBlur(controlName);
+    formControls.forEach(control => {
+      component.onFieldBlur(control);
     });
 
     // loop through each of the controls, and assert the first and last values are not spaces
-    formControlNames.forEach(controlName => {
-      expect(component.selfRegistrationForm.controls[controlName].value.charAt(0)).not.toMatch(' ');
+    formControls.forEach(control => {
+      expect(control.value.charAt(0)).not.toMatch(' ');
 
-      const lastCharacterIndex = component.selfRegistrationForm.controls[controlName].value.length - 1;
-      expect(component.selfRegistrationForm.controls[controlName].value.charAt(lastCharacterIndex)).not.toMatch(' ');
+      const lastCharacterIndex = control.value.length - 1;
+      expect(control.value.charAt(lastCharacterIndex)).not.toMatch(' ');
     });
   });
 });

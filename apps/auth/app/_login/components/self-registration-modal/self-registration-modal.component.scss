@@ -14,7 +14,7 @@ p.error {
 
 input, select {
   transition: border-color, background-color .3s ease-in-out;
-  &.error {
+  &.ng-invalid.ng-dirty.ng-touched {
     border-color: tomato;
     background-color: rgba(255, 99, 71, 0.12);
   }
