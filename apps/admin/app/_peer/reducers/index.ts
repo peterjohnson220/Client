@@ -180,7 +180,7 @@ export const getExchangeCompaniesGrid = createSelector(
   getExchangeCompanies,
   getTotalExchangeCompanies,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -228,7 +228,7 @@ export const getAvailableCompaniesGrid = createSelector(
   getAvailableCompanies,
   getTotalAvailableCompanies,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -278,7 +278,7 @@ export const getExchangeJobsGrid = createSelector(
   getExchangeJobs,
   getTotalExchangeJobs,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -320,7 +320,7 @@ export const getAvailableJobsGrid = createSelector(
   getAvailableJobs,
   getTotalAvailableJobs,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -350,7 +350,7 @@ export const getExchangeAccessRequestsGrid = createSelector(
   getExchangeAccessRequests,
   getTotalExchangeAccessRequests,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -380,7 +380,7 @@ export const getPayfactorsCompanyExchangeInvitationsGrid = createSelector(
   getPayfactorsCompanyExchangeInvitations,
   getTotalPayfactorsCompanyExchangeInvitations,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -410,7 +410,7 @@ export const getNewCompanyExchangeInvitationsGrid = createSelector(
   getNewCompanyExchangeInvitations,
   getTotalNewCompanyExchangeInvitations,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -472,7 +472,7 @@ export const getExchangeJobRequestsGrid = createSelector(
   getExchangeJobRequests,
   getTotalExchangeJobRequests,
   (data, total) => {
-    return {data: data, total: total};
+    return { data: data, total: total };
   }
 );
 
@@ -602,4 +602,9 @@ export const getAssociatingJobs = createSelector(
 export const getAssociatingJobsError = createSelector(
   selectAssociateJobsState,
   fromAssociateJobsReducer.getAssociatingError
+);
+
+export const getAssociatingJobsCount = createSelector(
+  selectAssociateJobsState,
+  fromAssociateJobsReducer.getAssociatingCount
 );

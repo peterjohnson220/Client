@@ -28,6 +28,7 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   exchangeOptionsLoading$: Observable<boolean>;
   autoAssociatingError$: Observable<boolean>;
   autoAssociating$: Observable<boolean>;
+  autoAssociatingCount$: Observable<number>;
 
   exchangeOptionsSubscription: Subscription;
   companyOptionsSubscription: Subscription;
@@ -51,6 +52,7 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
     this.exchangeOptionsLoading$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeOptionsLoading));
     this.autoAssociating$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobs));
     this.autoAssociatingError$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobsError));
+    this.autoAssociatingCount$ = this.store.pipe(select(fromPeerAdminReducer.getAssociatingJobsCount));
   }
 
   get companySelectionControl(): FormControl {
