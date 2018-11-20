@@ -24,103 +24,106 @@
 
       <!-- FIRST NAME -->
       <label class="mt-4">First Name*</label>
-      <label *ngIf="selfRegistrationForm.controls.FirstName.touched && selfRegistrationForm.controls.FirstName.errors" class="error">
+      <label *ngIf="showControlValidationError(firstNameControl)" class="error">
         Enter at least two letters and no special characters or numbers
       </label>
       <input
         #firstName
         id="au-tb-self-registration-first-name"
         class="form-control"
-        (blur)="onFieldBlur('FirstName')"
-        [ngClass]="selfRegistrationForm.controls.FirstName.touched && selfRegistrationForm.controls.FirstName.errors ? 'error' : ''"
+        (blur)="onFieldBlur(firstNameControl)"
         [maxLength]="validationService.NAME_LENGTH.max"
         formControlName="FirstName"
         type="text">
 
       <!-- LAST NAME -->
       <label class="mt-4">Last Name*</label>
-      <label *ngIf="selfRegistrationForm.controls.LastName.touched && selfRegistrationForm.controls.LastName.errors" class="error">
+      <label *ngIf="showControlValidationError(lastNameControl)" class="error">
         Enter at least two letters and no special characters or numbers
       </label>
       <input 
         id="au-tb-self-registration-last-name"
         class="form-control"
-        (blur)="onFieldBlur('LastName')"
-        [ngClass]="selfRegistrationForm.controls.LastName.touched && selfRegistrationForm.controls.LastName.errors ? 'error' : ''"
+        (blur)="onFieldBlur(lastNameControl)"
         [maxLength]="validationService.NAME_LENGTH.max"
         formControlName="LastName" 
         type="text">
 
       <!-- WORK EMAIL -->
-      <label class="mt-4">Work Email</label>
+      <label class="mt-4">Work Email*</label>
+      <label *ngIf="showControlValidationError(emailControl)" class="error">
+        <ng-container *ngIf="emailControl.errors.workEmail.domain else genericEmailError">
+          Please enter your business email address. This form does not accept addresses from
+          <strong>{{ emailControl.errors.workEmail.domain }}</strong>
+        </ng-container>
+        <ng-template #genericEmailError>
+          Please enter a valid business email address.
+        </ng-template>
+      </label>
       <input 
-        id="au-tb-self-registration-work-email" 
+        id="au-tb-self-registration-work-email"
         class="form-control"
-        (blur)="onFieldBlur('Email'); onEmailBlur()" 
+        (blur)="onFieldBlur(emailControl); onEmailBlur()"
         formControlName="Email" 
         type="email">
 
       <!-- TITLE -->
       <label class="mt-4">Title*</label>
-      <label *ngIf="selfRegistrationForm.controls.Title.touched && selfRegistrationForm.controls.Title.errors" class="error">
+      <label *ngIf="showControlValidationError(titleControl)" class="error">
         Enter at least five letters and no special characters or numbers
       </label>
       <input
         id="au-tb-self-registration-title"
         class="form-control"
-        (blur)="onFieldBlur('Title')"
-        [ngClass]="selfRegistrationForm.controls.Title.touched && selfRegistrationForm.controls.Title.errors ? 'error' : ''"
+        (blur)="onFieldBlur(titleControl)"
         [maxLength]="validationService.TITLE_LENGTH.max"
         formControlName="Title" 
         type="text">
 
       <!-- COMPANY NAME -->
       <label class="mt-4">Company Name*</label>
-      <label *ngIf="selfRegistrationForm.controls.CompanyName.touched && selfRegistrationForm.controls.CompanyName.errors" class="error">
+      <label *ngIf="showControlValidationError(companyNameControl)" class="error">
         Enter at least two characters
       </label>
       <input 
         id="au-tb-self-registration-company-name"
         class="form-control"
-        (blur)="onFieldBlur('CompanyName')"
-        [ngClass]="selfRegistrationForm.controls.CompanyName.touched && selfRegistrationForm.controls.CompanyName.errors ? 'error' : ''"
+        (blur)="onFieldBlur(companyNameControl)"
         [maxLength]="validationService.COMPANY_LENGTH.max"
         formControlName="CompanyName" 
         type="text">
 
       <!-- WEBSITE -->
       <label class="mt-4">Website*</label>
-      <label *ngIf="selfRegistrationForm.controls.Website.touched && selfRegistrationForm.controls.Website.errors" class="error">
+      <label *ngIf="showControlValidationError(websiteControl)" class="error">
         Enter a valid website
       </label>
       <input 
         id="au-tb-self-registration-website" 
         class="form-control"
-        (blur)="onFieldBlur('Website')"
-        [ngClass]="selfRegistrationForm.controls.Website.touched && selfRegistrationForm.controls.Website.errors ? 'error' : ''"
+        (blur)="onFieldBlur(websiteControl)"
         [maxLength]="validationService.WEBSITE_LENGTH.max"
         formControlName="Website"
         type="text">
 
       <!-- NUMBER OF EMPLOYEES -->
       <label class="mt-4">Number of Employees*</label>
-      <label *ngIf="selfRegistrationForm.controls.NumberEmployees.touched && selfRegistrationForm.controls.NumberEmployees.errors" class="error">
+      <label *ngIf="showControlValidationError(numberEmployeesControl)" class="error">
         Select a non blank value
       </label>
       <select 
         id="au-ddm-self-registration-number-of-employees" 
         class="form-control" 
-        formControlName="NumberEmployees"
-        [ngClass]="selfRegistrationForm.controls.NumberEmployees.touched && selfRegistrationForm.controls.NumberEmployees.errors ? 'error' : ''">
-        <option [value]="0"></option>
-        <option [value]="1">1-20</option>
-        <option [value]="21">21-50</option>
-        <option [value]="51">51-100</option>
-        <option [value]="81">81-150</option>
-        <option [value]="151">151-250</option>
-        <option [value]="251">251-500</option>
-        <option [value]="501">501-1000</option>
-        <option [value]="1000">> 1000</option>
+        formControlName="NumberEmployees">
+        <option [ngValue]="0"></option>
+        <option [ngValue]="1">1-20</option>
+        <option [ngValue]="21">21-50</option>
+        <option [ngValue]="51">51-100</option>
+        <option [ngValue]="81">81-150</option>
+        <option [ngValue]="151">151-250</option>
+        <option [ngValue]="251">251-500</option>
+        <option [ngValue]="501">501-1000</option>
+        <option [ngValue]="1000">> 1000</option>
       </select>
     </div>
   </ng-container>

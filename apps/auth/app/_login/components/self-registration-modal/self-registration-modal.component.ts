@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -8,7 +8,7 @@ import * as fromLoginReducer from '../../reducers';
 import * as fromLoginActions from '../../actions/login.actions';
 import * as fromSelfRegistrationActions from '../../actions/self-registration.actions';
 
-import { PfValidators } from 'libs/forms/validators';
+import { PfValidators, PfEmailValidators } from 'libs/forms/validators';
 import { SelfRegistrationValidationService } from '../../services/self-registration-validation.service';
 
 @Component({
@@ -44,13 +44,22 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
     // setup a subscriber to send an action with the form contents every time a field is updated
     this.formValueChangesSubscription = this.selfRegistrationForm.valueChanges.subscribe(() => {
       this.loginStore.dispatch(new fromSelfRegistrationActions.FieldChange(this.selfRegistrationForm.value));
-      this.email = this.selfRegistrationForm.controls.Email.value;
+      this.email = this.emailControl.value;
     });
 
-    // setup a subscriber for when the modal is opened so the top field can be focused
     this.showSelfRegistrationModalSubscription = this.showSelfRegistrationModal$.subscribe(showForm => {
+      // when the modal is opened, focus on top field
       if (showForm) {
         setTimeout(() => { this.firstName.nativeElement.focus(); }, 0);
+      } else {
+        // when the modal is closed, reset form control markers if they are empty
+        Object.keys(this.selfRegistrationForm.controls).forEach(controlName => {
+          const control = this.selfRegistrationForm.get(controlName);
+          if (!control.value) {
+            control.markAsPristine();
+            control.markAsUntouched();
+          }
+        });
       }
     });
   }
@@ -68,20 +77,16 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
     this.loginStore.dispatch(new fromLoginActions.LoginDismissSelfRegistration());
   }
 
-  onFieldBlur(formControlName: string) {
+  onFieldBlur(formControl: AbstractControl) {
     // when a text field is blurred trim it's contents
-    const formControl = this.selfRegistrationForm.controls[formControlName];
     formControl.setValue(formControl.value.trim());
   }
 
   onEmailBlur() {
-    const emailControl = this.selfRegistrationForm.controls.Email;
-    const websiteControl =  this.selfRegistrationForm.controls.Website;
-
     // if the email is valid auto fill the website on blur, but only if website is untouched
-    if (emailControl.value && emailControl.valid && !websiteControl.touched) {
-      const indexOfStrudel = emailControl.value.indexOf('@');
-      this.selfRegistrationForm.controls.Website.setValue(emailControl.value.substring(indexOfStrudel + 1));
+    if (this.emailControl.valid && !this.websiteControl.touched) {
+      const indexOfStrudel = this.emailControl.value.indexOf('@');
+      this.websiteControl.setValue(this.emailControl.value.substring(indexOfStrudel + 1));
     }
   }
 
@@ -90,6 +95,10 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
     if (event.keyCode === 13 && this.selfRegistrationForm.valid) {
       this.loginStore.dispatch(new fromSelfRegistrationActions.Submit());
     }
+  }
+
+  showControlValidationError(control: AbstractControl): boolean {
+    return control.invalid && control.touched && control.dirty;
   }
 
   initForm() {
@@ -114,7 +123,14 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
           validator.validateSpecialChars
         ]
       ],
-      Email: [''],
+      Email: [
+        '',
+        [
+          PfValidators.required,
+          PfEmailValidators.emailFormat,
+          PfEmailValidators.workEmail
+        ]
+      ],
       Title: [
         '',
         [
@@ -148,5 +164,27 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
         ]
       ],
     });
+  }
+
+  get firstNameControl(): AbstractControl {
+    return this.selfRegistrationForm.get('FirstName');
+  }
+  get lastNameControl(): AbstractControl {
+    return this.selfRegistrationForm.get('LastName');
+  }
+  get emailControl(): AbstractControl {
+    return this.selfRegistrationForm.get('Email');
+  }
+  get titleControl(): AbstractControl {
+    return this.selfRegistrationForm.get('Title');
+  }
+  get companyNameControl(): AbstractControl {
+    return this.selfRegistrationForm.get('CompanyName');
+  }
+  get websiteControl(): AbstractControl {
+    return this.selfRegistrationForm.get('Website');
+  }
+  get numberEmployeesControl(): AbstractControl {
+    return this.selfRegistrationForm.get('NumberEmployees');
   }
 }
