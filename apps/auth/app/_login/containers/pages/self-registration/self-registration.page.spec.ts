@@ -88,6 +88,26 @@ describe('SelfRegistrationPage', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show an error message when page is loaded if the company exists and is Enterprise', () => {
+
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenExistingCompany$ = of({ name: 'Company', type: 'Enterprise' });
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show an error message when page is loaded if the company exists and is Small Business', () => {
+
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenExistingCompany$ = of({ name: 'Company', type: 'SmallBusiness' });
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should should allow choosing password when page is loaded successfully', () => {
 
     instance.validatingToken$ = of(false);

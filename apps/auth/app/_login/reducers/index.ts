@@ -138,3 +138,5 @@ export const getValidatedToken =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatedToken);
 export const getAccountEmail =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getAccountEmail);
+export const getValidatingTokenExistingCompany =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenExistingCompany);

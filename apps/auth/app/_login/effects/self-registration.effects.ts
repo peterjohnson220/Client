@@ -25,6 +25,10 @@ export class SelfRegistrationEffects {
               return of(new fromSelfRegistrationActions.ValidateTokenExpired());
             } else if (errorResponse.status === 400 && errorMessage === 'user_exists') {
               return of(new fromSelfRegistrationActions.ValidateTokenAccountExists({ accountEmail: errorResponse.error.email }));
+            } else if (errorResponse.status === 400 && errorMessage === 'company_exists') {
+              return of(new fromSelfRegistrationActions.ValidateTokenCompanyExists(
+                { type: errorResponse.error.type, name: errorResponse.error.name }
+              ));
             } else {
               return of(new fromSelfRegistrationActions.ValidateTokenError());
             }

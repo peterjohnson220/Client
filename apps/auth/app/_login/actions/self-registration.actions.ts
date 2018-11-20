@@ -1,11 +1,13 @@
 import { Action } from '@ngrx/store';
 import { SelfRegistrationForm } from 'libs/models/user/self-registration-form.model';
+import { SelfRegistrationExistingCompany } from '../models/self-registration-existing-company.model';
 
 export const VALIDATE_TOKEN = '[Self Registration/Validate] Validate Token';
 export const VALIDATE_TOKEN_SUCCESS = '[Self Registration/Validate] Validate Token Success';
 export const VALIDATE_TOKEN_ERROR = '[Self Registration/Validate] Validate Token Error';
 export const VALIDATE_TOKEN_EXPIRED = '[Self Registration/Validate] Validate Token Expired';
 export const VALIDATE_TOKEN_ACCOUNT_EXISTS = '[Self Registration/Validate] Validate Token Account Exists';
+export const VALIDATE_TOKEN_COMPANY_EXISTS = '[Self Registration/Validate] Validate Token Company Exists';
 export const FIELD_CHANGE = '[Self Registration/Request] Field Change';
 export const SUBMIT = '[Self Registration/Request] Submit';
 export const SUBMIT_SUCCESS = '[Self Registration/Request] Submit Success';
@@ -56,12 +58,18 @@ export class ValidateTokenAccountExists implements Action {
   constructor(public payload: { accountEmail: string }) {}
 }
 
+export class ValidateTokenCompanyExists implements Action {
+  readonly type = VALIDATE_TOKEN_COMPANY_EXISTS;
+  constructor(public payload: SelfRegistrationExistingCompany) {}
+}
+
 export type Actions
   = ValidateToken
   | ValidateTokenSuccess
   | ValidateTokenError
   | ValidateTokenExpired
   | ValidateTokenAccountExists
+  | ValidateTokenCompanyExists
   | FieldChange
   | Submit
   | SubmitSuccess
