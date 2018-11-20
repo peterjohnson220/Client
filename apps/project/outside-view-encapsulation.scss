@@ -12,6 +12,11 @@
   font-weight: bold;
 }
 
+.popover.pill-detail-popover .popover-body{
+  max-height: 250px;
+  overflow-y: auto;
+}
+
 // Saved Filters
 .popover.saved-filters-popover{
   min-width: 300px;
