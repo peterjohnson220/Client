@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import * as fromSelfRegistrationReducer from '../../../reducers';
 import * as fromSelfRegistrationActions from '../../../actions/self-registration.actions';
+import { SelfRegistrationExistingCompany } from '../../../models/self-registration-existing-company.model';
 
 @Component({
   selector: 'pf-self-registration-page',
@@ -17,6 +18,7 @@ export class SelfRegistrationPageComponent implements OnInit {
   validatingTokenExpired$: Observable<boolean>;
   validatingTokenSuccess$: Observable<boolean>;
   validatingTokenAccountExists$: Observable<boolean>;
+  validatingTokenExistingCompany$: Observable<SelfRegistrationExistingCompany>;
   accountEmail$: Observable<string>;
   password: string;
   submitEnabled: boolean;
@@ -32,6 +34,7 @@ export class SelfRegistrationPageComponent implements OnInit {
     this.validatingTokenSuccess$ = store.select(fromSelfRegistrationReducer.getValidatingTokenSuccess);
     this.validatingTokenAccountExists$ = store.select(fromSelfRegistrationReducer.getValidatingTokenAccountExists);
     this.accountEmail$ = store.select(fromSelfRegistrationReducer.getAccountEmail);
+    this.validatingTokenExistingCompany$ = store.select(fromSelfRegistrationReducer.getValidatingTokenExistingCompany);
     this.submitEnabled = false;
   }
 

@@ -30,6 +30,14 @@
       Login
     </button>
   </div>
+
+  <div *ngIf="validatingTokenExistingCompany$ | async" class="p-3 registration-box">
+    <h5 class="p-3">
+      <strong>{{ (validatingTokenExistingCompany$ | async).name }}</strong> already owns a Payfactors
+      <ng-container *ngIf="(validatingTokenExistingCompany$ | async).type === 'SmallBusiness'"> for Small Business </ng-container>
+      account. Please contact your system administrator.
+    </h5>
+  </div>
   
   <div *ngIf="validatingTokenSuccess$ | async" class="p-3 registration-box">
     <h5 class="p-3">

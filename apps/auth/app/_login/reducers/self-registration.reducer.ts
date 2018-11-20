@@ -1,5 +1,6 @@
 import * as fromSelfRegistrationActions from '../actions/self-registration.actions';
 import { SelfRegistrationForm } from 'libs/models/user/self-registration-form.model';
+import { SelfRegistrationExistingCompany } from '../models/self-registration-existing-company.model';
 
 export interface State {
   selfRegistrationForm: SelfRegistrationForm;
@@ -11,6 +12,7 @@ export interface State {
   validatingTokenError: boolean;
   validatingTokenExpired: boolean;
   validatingTokenAccountExists: boolean;
+  validatingTokenExistingCompany: SelfRegistrationExistingCompany;
   validatedToken: string;
   accountEmail: string;
 }
@@ -25,6 +27,7 @@ export const initialState: State = {
   validatingTokenError: false,
   validatingTokenExpired: false,
   validatingTokenAccountExists: false,
+  validatingTokenExistingCompany: null,
   validatedToken: null,
   accountEmail: null
 };
@@ -93,6 +96,13 @@ export function reducer(state = initialState, action: fromSelfRegistrationAction
         accountEmail: action.payload.accountEmail
       };
     }
+    case fromSelfRegistrationActions.VALIDATE_TOKEN_COMPANY_EXISTS: {
+      return {
+        ...state,
+        validatingToken: false,
+        validatingTokenExistingCompany: action.payload,
+      };
+    }
     default: {
       return state;
     }
@@ -111,3 +121,4 @@ export const getValidatingTokenExpired = (state: State) => state.validatingToken
 export const getValidatingTokenAccountExists = (state: State) => state.validatingTokenAccountExists;
 export const getValidatedToken = (state: State) => state.validatedToken;
 export const getAccountEmail = (state: State) => state.accountEmail;
+export const getValidatingTokenExistingCompany = (state: State) => state.validatingTokenExistingCompany;

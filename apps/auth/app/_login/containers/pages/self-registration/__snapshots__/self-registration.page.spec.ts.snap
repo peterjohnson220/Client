@@ -10,6 +10,7 @@ exports[`SelfRegistrationPage should disable Submit password button when passwor
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Observable]}
 >
@@ -47,6 +48,7 @@ exports[`SelfRegistrationPage should enable Submit password button when password
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Observable]}
 >
@@ -82,6 +84,7 @@ exports[`SelfRegistrationPage should should allow choosing password when page is
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Observable]}
 >
@@ -118,6 +121,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Observable]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Store]}
 >
@@ -143,6 +147,70 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 </pf-self-registration-page>
 `;
 
+exports[`SelfRegistrationPage should show an error message when page is loaded if the company exists and is Enterprise 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Observable]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3 registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+      <strong>
+        Company
+      </strong>
+       already owns a Payfactors 
+      
+       account. Please contact your system administrator. 
+    </h5>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show an error message when page is loaded if the company exists and is Small Business 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Observable]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Store]}
+>
+  <div
+    class="p-3 registration-box"
+  >
+    <h5
+      class="p-3"
+    >
+      <strong>
+        Company
+      </strong>
+       already owns a Payfactors 
+      
+      
+       for Small Business 
+       account. Please contact your system administrator. 
+    </h5>
+  </div>
+</pf-self-registration-page>
+`;
+
 exports[`SelfRegistrationPage should show an error message when page is loaded if the token is expired 1`] = `
 <pf-self-registration-page
   accountEmail$={[Function Store]}
@@ -153,6 +221,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Observable]}
   validatingTokenSuccess$={[Function Store]}
 >
@@ -184,6 +253,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Observable]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Store]}
 >
@@ -215,6 +285,7 @@ exports[`SelfRegistrationPage should show the loading message when the page is l
   validatingToken$={[Function Observable]}
   validatingTokenAccountExists$={[Function Store]}
   validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
   validatingTokenExpired$={[Function Store]}
   validatingTokenSuccess$={[Function Store]}
 >
