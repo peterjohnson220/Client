@@ -1,5 +1,7 @@
 @import 'colors';
 
+$dropdown-toggle-width: 22px;
+
 .smaller-text
 {
   font-size: 0.95rem;
@@ -8,6 +10,7 @@
 .sub-text
 {
   color: $community-sub-text-color;
+  margin-right:  $dropdown-toggle-width;
 }
 
 .job-container
@@ -37,4 +40,43 @@
 
 .fa-heart {
   font-size: 90%;
+}
+
+.dropdown-toggle{
+  background-color: white;
+  border: solid 1px transparent;
+  position: relative;
+  height: 30px;
+  width: $dropdown-toggle-width;
+  padding: 0;
+}
+
+.dropdown-toggle:hover{
+  background-color: white;
+  border: solid 1px lightgrey;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle-disabled{
+  vertical-align: middle;
+  background-color: white;
+  border: solid 1px transparent;
+}
+
+.right-col {
+  min-width: 180px;
+}
+
+.delete-btn-disabled{
+  width: $dropdown-toggle-width;
+}
+
+.delete-btn-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 0;
 }
