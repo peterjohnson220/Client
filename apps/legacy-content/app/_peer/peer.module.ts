@@ -1,54 +1,74 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { WindowCommunicationService } from 'libs/core/services';
-import { PfPeerMapModule } from 'libs/features/peer/map';
+import { PfPeerMapModule, ExchangeSelectorComponent } from 'libs/features/peer/';
+import { CompanyJobApiService } from 'libs/data/payfactors-api/';
+import { PfCommonModule } from 'libs/core';
 
-import { UpsertDataCutPageComponent } from './containers';
+import {
+  JobInfoContainerComponent, CompanyJobMapResultComponent,
+  ApplyMappingButtonComponent
+} from './../../../peer/app/_manage/components';
+import { UpsertDataCutPageComponent, AssociateCompanyJobComponent } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { UpsertDataCutPageEffects, DataCutValidationEffects } from './effects';
+import { UpsertDataCutPageEffects, DataCutValidationEffects, AssociateCompanyJobEffects } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
-import {DojGuidelinesService} from './services/doj-guidelines.service';
+import { DojGuidelinesService } from './services/doj-guidelines.service';
+
+
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // 3rd party
     StoreModule.forFeature('legacy_upsertPeerData', reducers),
     EffectsModule.forFeature([
       UpsertDataCutPageEffects,
-      DataCutValidationEffects
+      DataCutValidationEffects,
+      AssociateCompanyJobEffects
     ]),
     NgbPopoverModule,
+    DropDownsModule,
 
     // Routing
     PeerRoutingModule,
 
     // Payfactors
     PfCommonUIModule,
+    PfCommonModule,
     PfFormsModule,
     PfPeerMapModule
   ],
   declarations: [
     // Components
     GuidelinesBadgeComponent,
+    JobInfoContainerComponent,
+    ExchangeSelectorComponent,
+    CompanyJobMapResultComponent,
+    ApplyMappingButtonComponent,
 
     // Pages
-    UpsertDataCutPageComponent
+    UpsertDataCutPageComponent,
+    AssociateCompanyJobComponent,
+
+    // pipe
   ],
   providers: [
-    WindowCommunicationService, DojGuidelinesService
+    WindowCommunicationService, DojGuidelinesService, CompanyJobApiService
   ]
 })
 export class PeerModule { }

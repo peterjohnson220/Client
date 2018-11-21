@@ -5,6 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
+  ExchangeJobSearch,
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
@@ -154,5 +155,10 @@ export class ExchangeApiService {
 
   deleteExchange(exchangeId: number): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteExchange`, exchangeId);
+  }
+
+  getExchangeJobSearch(exchangeId: number, jobTitleSearch: string, jobDescriptionSearch: string) {
+    return this.payfactorsApiService.get<ExchangeJobSearch[]>(`${this.endpoint}/GetExchangeJobSearch`,
+      { params: { exchangeId: exchangeId, jobTitleSearch: jobTitleSearch, jobDescriptionSearch: jobDescriptionSearch } });
   }
 }
