@@ -97,8 +97,8 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  showControlValidationError(control: AbstractControl): boolean {
-    return control.invalid && control.touched && control.dirty;
+  hideControlValidationError(control: AbstractControl): boolean {
+    return !(control.invalid && control.touched && control.dirty);
   }
 
   initForm() {
