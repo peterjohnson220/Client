@@ -23,108 +23,122 @@
       </p>
 
       <!-- FIRST NAME -->
-      <label class="mt-4">First Name*</label>
-      <label *ngIf="showControlValidationError(firstNameControl)" class="error">
-        Enter at least two letters and no special characters or numbers
-      </label>
-      <input
-        #firstName
-        id="au-tb-self-registration-first-name"
-        class="form-control"
-        (blur)="onFieldBlur(firstNameControl)"
-        [maxLength]="validationService.NAME_LENGTH.max"
-        formControlName="FirstName"
-        type="text">
+      <div class="form-group">
+        <label>First Name*</label>
+        <input
+          #firstName
+          id="au-tb-self-registration-first-name"
+          class="form-control"
+          (blur)="onFieldBlur(firstNameControl)"
+          [maxLength]="validationService.NAME_LENGTH.max"
+          formControlName="FirstName"
+          type="text">
+        <label [class.invisible]="hideControlValidationError(firstNameControl)" class="error">
+          Enter at least two letters and no special characters or numbers
+        </label>
+      </div>
 
       <!-- LAST NAME -->
-      <label class="mt-4">Last Name*</label>
-      <label *ngIf="showControlValidationError(lastNameControl)" class="error">
-        Enter at least two letters and no special characters or numbers
-      </label>
-      <input 
-        id="au-tb-self-registration-last-name"
-        class="form-control"
-        (blur)="onFieldBlur(lastNameControl)"
-        [maxLength]="validationService.NAME_LENGTH.max"
-        formControlName="LastName" 
-        type="text">
+      <div class="form-group">
+        <label>Last Name*</label>
+        <input 
+          id="au-tb-self-registration-last-name"
+          class="form-control"
+          (blur)="onFieldBlur(lastNameControl)"
+          [maxLength]="validationService.NAME_LENGTH.max"
+          formControlName="LastName" 
+          type="text">
+        <label [class.invisible]="hideControlValidationError(lastNameControl)" class="error">
+          Enter at least two letters and no special characters or numbers
+        </label>
+      </div>
 
       <!-- WORK EMAIL -->
-      <label class="mt-4">Work Email*</label>
-      <label *ngIf="showControlValidationError(emailControl)" class="error">
-        <ng-container *ngIf="emailControl.errors.workEmail.domain else genericEmailError">
-          Please enter your business email address. This form does not accept addresses from
-          <strong>{{ emailControl.errors.workEmail.domain }}</strong>
-        </ng-container>
-        <ng-template #genericEmailError>
-          Please enter a valid business email address.
-        </ng-template>
-      </label>
-      <input 
-        id="au-tb-self-registration-work-email"
-        class="form-control"
-        (blur)="onFieldBlur(emailControl); onEmailBlur()"
-        formControlName="Email" 
-        type="email">
+      <div class="form-group">
+        <label>Work Email*</label>
+        <input 
+          id="au-tb-self-registration-work-email"
+          class="form-control"
+          (blur)="onFieldBlur(emailControl); onEmailBlur()"
+          formControlName="Email" 
+          type="email">
+        <label [class.invisible]="hideControlValidationError(emailControl)" class="error">
+          <ng-container *ngIf="emailControl.errors?.workEmail.domain else genericEmailError">
+            Please enter your business email address. This form does not accept addresses from
+            <strong>{{ emailControl.errors.workEmail.domain }}</strong>
+          </ng-container>
+          <ng-template #genericEmailError>
+            Please enter a valid business email address.
+          </ng-template>
+        </label>
+      </div>
 
       <!-- TITLE -->
-      <label class="mt-4">Title*</label>
-      <label *ngIf="showControlValidationError(titleControl)" class="error">
-        Enter at least five letters and no special characters or numbers
-      </label>
-      <input
-        id="au-tb-self-registration-title"
-        class="form-control"
-        (blur)="onFieldBlur(titleControl)"
-        [maxLength]="validationService.TITLE_LENGTH.max"
-        formControlName="Title" 
-        type="text">
+      <div class="form-group">
+        <label>Title*</label>
+        <input
+          id="au-tb-self-registration-title"
+          class="form-control"
+          (blur)="onFieldBlur(titleControl)"
+          [maxLength]="validationService.TITLE_LENGTH.max"
+          formControlName="Title" 
+          type="text">
+        <label [class.invisible]="hideControlValidationError(titleControl)" class="error">
+          Enter at least five letters and no special characters or numbers
+        </label>
+      </div>
 
       <!-- COMPANY NAME -->
-      <label class="mt-4">Company Name*</label>
-      <label *ngIf="showControlValidationError(companyNameControl)" class="error">
-        Enter at least two characters
-      </label>
-      <input 
-        id="au-tb-self-registration-company-name"
-        class="form-control"
-        (blur)="onFieldBlur(companyNameControl)"
-        [maxLength]="validationService.COMPANY_LENGTH.max"
-        formControlName="CompanyName" 
-        type="text">
+      <div class="form-group">
+        <label>Company Name*</label>
+        <input 
+          id="au-tb-self-registration-company-name"
+          class="form-control"
+          (blur)="onFieldBlur(companyNameControl)"
+          [maxLength]="validationService.COMPANY_LENGTH.max"
+          formControlName="CompanyName" 
+          type="text">
+        <label [class.invisible]="hideControlValidationError(companyNameControl)" class="error">
+          Enter at least two characters
+        </label>
+      </div>
 
       <!-- WEBSITE -->
-      <label class="mt-4">Website*</label>
-      <label *ngIf="showControlValidationError(websiteControl)" class="error">
-        Enter a valid website
-      </label>
-      <input 
-        id="au-tb-self-registration-website" 
-        class="form-control"
-        (blur)="onFieldBlur(websiteControl)"
-        [maxLength]="validationService.WEBSITE_LENGTH.max"
-        formControlName="Website"
-        type="text">
+      <div class="form-group">
+        <label>Website*</label>
+        <input 
+          id="au-tb-self-registration-website" 
+          class="form-control"
+          (blur)="onFieldBlur(websiteControl)"
+          [maxLength]="validationService.WEBSITE_LENGTH.max"
+          formControlName="Website"
+          type="text">
+        <label [class.invisible]="hideControlValidationError(websiteControl)" class="error">
+          Enter a valid website
+        </label>
+      </div>
 
       <!-- NUMBER OF EMPLOYEES -->
-      <label class="mt-4">Number of Employees*</label>
-      <label *ngIf="showControlValidationError(numberEmployeesControl)" class="error">
-        Select a non blank value
-      </label>
-      <select 
-        id="au-ddm-self-registration-number-of-employees" 
-        class="form-control" 
-        formControlName="NumberEmployees">
-        <option [ngValue]="0"></option>
-        <option [ngValue]="1">1-20</option>
-        <option [ngValue]="21">21-50</option>
-        <option [ngValue]="51">51-100</option>
-        <option [ngValue]="81">81-150</option>
-        <option [ngValue]="151">151-250</option>
-        <option [ngValue]="251">251-500</option>
-        <option [ngValue]="501">501-1000</option>
-        <option [ngValue]="1000">> 1000</option>
-      </select>
+      <div class="form-group">
+        <label>Number of Employees*</label>
+        <select 
+          id="au-ddm-self-registration-number-of-employees" 
+          class="form-control" 
+          formControlName="NumberEmployees">
+          <option [ngValue]="0"></option>
+          <option [ngValue]="1">1-20</option>
+          <option [ngValue]="21">21-50</option>
+          <option [ngValue]="51">51-100</option>
+          <option [ngValue]="81">81-150</option>
+          <option [ngValue]="151">151-250</option>
+          <option [ngValue]="251">251-500</option>
+          <option [ngValue]="501">501-1000</option>
+          <option [ngValue]="1000">> 1000</option>
+        </select>
+        <label [class.invisible]="hideControlValidationError(numberEmployeesControl)" class="error">
+          Select a non blank value
+        </label>
+      </div>
     </div>
   </ng-container>
 </pf-modal-form>
