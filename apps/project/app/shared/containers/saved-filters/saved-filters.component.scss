@@ -20,12 +20,12 @@
     padding: .5rem;
 
     .filter{
-      height: 45px;
+      height: 58px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid $border-grey;
-      padding: 0 .5rem;
+      padding: 0.25rem .5rem;
 
       &:hover{
         background-color: $selection-hover-background;
@@ -115,11 +115,14 @@
   }
 }
 
-
 :host ::ng-deep .modal-backdrop.light-backdrop{
   background: #dcdcdc;
 }
 
 :host ::ng-deep .modal-dialog{
   max-width: 350px;
+}
+
+.default-badge {
+  padding: .2rem .5rem;
 }

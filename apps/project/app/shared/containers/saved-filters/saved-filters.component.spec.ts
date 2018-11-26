@@ -187,4 +187,23 @@ describe('Project - Add Data - Saved Filters', () => {
     expect(instance.getFilterPreview(savedFilter)).toBe(expectedPreviewString);
   });
 
+  it('should dispatch EditSavedFilter action when Edit button clicked', () => {
+    spyOn(store, 'dispatch');
+    const savedFilter = generateMockSavedFilter();
+    const editSavedFilterAction = new fromSavedFiltersActions.EditSavedFilter(savedFilter);
+
+    instance.handleEditBtnClicked(savedFilter);
+
+    expect(store.dispatch).toHaveBeenCalledWith(editSavedFilterAction);
+  });
+
+  it('should dispatch OpenSavedFiltersPopover action when popover is shown', () => {
+    spyOn(store, 'dispatch');
+    const openSavedFiltersPopoverAction = new fromSavedFiltersActions.OpenSavedFiltersPopover();
+
+    instance.handlePopoverShown();
+
+    expect(store.dispatch).toHaveBeenCalledWith(openSavedFiltersPopoverAction);
+  });
+
 });

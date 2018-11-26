@@ -1,13 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
 import { Observable, Subscription } from 'rxjs';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import * as fromSavedFiltersActions from '../../actions/saved-filters.actions';
-import { Filter, isMultiFilter, isRangeFilter, SavedFilter } from '../../models';
+import { Filter, isMultiFilter, isRangeFilter, SavedFilter, SaveFilterModalData } from '../../models';
 import * as fromAddDataReducer from '../../reducers';
 
 @Component({
@@ -17,6 +18,7 @@ import * as fromAddDataReducer from '../../reducers';
 })
 export class SavedFiltersComponent implements OnInit, OnDestroy {
   @Input() canSaveFilters: boolean;
+  @ViewChild(NgbPopover) popover: NgbPopover;
 
   loading$: Observable<boolean>;
   deleting$: Observable<boolean>;
@@ -26,14 +28,20 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
   savingFilterError$: Observable<boolean>;
   savingFilterConflict$: Observable<boolean>;
   saveFilterModalOpen$: Observable<boolean>;
+  filterDataToEdit$: Observable<SaveFilterModalData>;
+  savedFiltersPopoverOpen$: Observable<boolean>;
+  defaultFilterId$: Observable<string>;
 
   filterIdToDeleteSub: Subscription;
   savedFiltersSub: Subscription;
+  filterDataToEditSub: Subscription;
+  savedFiltersPopoverOpenSub: Subscription;
 
   filterIdToDelete: string;
   savedFilters: SavedFilter[];
   filteredSavedFilters: SavedFilter[];
   searchSavedFiltersValue: string;
+  filterDataToEdit: SaveFilterModalData;
 
   constructor(
     private store: Store<fromAddDataReducer.State>
@@ -46,6 +54,9 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
     this.savingFilterConflict$ = this.store.select(fromAddDataReducer.getSavingFilterConflict);
     this.savingFilterError$ = this.store.select(fromAddDataReducer.getSavingFilterError);
     this.saveFilterModalOpen$ = this.store.select(fromAddDataReducer.getSaveFilterModalOpen);
+    this.filterDataToEdit$ = this.store.select(fromAddDataReducer.getFilterDataToEdit);
+    this.savedFiltersPopoverOpen$ = this.store.select(fromAddDataReducer.getSavedFiltersPopoverOpen);
+    this.defaultFilterId$ = this.store.select(fromAddDataReducer.getDefaultFilterId);
   }
 
   getFilterPreview(savedFilter: SavedFilter) {
@@ -58,6 +69,11 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
     }).join(', ');
   }
 
+  handleEditBtnClicked(savedFilter: SavedFilter) {
+    this.closePopover();
+    this.store.dispatch(new fromSavedFiltersActions.EditSavedFilter(savedFilter));
+  }
+
   handleDeleteBtnClicked(filterId: string) {
     this.store.dispatch(new fromSavedFiltersActions.MarkFilterToDelete({ filterId }));
   }
@@ -67,7 +83,7 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleFilterClicked(savedFilter: SavedFilter) {
-    if (!this.filterIdToDelete && !savedFilter.Selected) {
+    if (!this.filterIdToDelete && !savedFilter.Selected && !this.filterDataToEdit) {
       this.store.dispatch(new fromSavedFiltersActions.SelectSavedFilter(savedFilter));
     }
   }
@@ -81,7 +97,7 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
     this.filterSavedFilters();
   }
 
-  handleSaveFilter(saveFilterObj: { Name: string, SetAsPayMarketDefault}): void {
+  handleSaveFilter(saveFilterObj: SaveFilterModalData): void {
     this.store.dispatch(new fromSavedFiltersActions.SaveFilter(saveFilterObj));
   }
 
@@ -95,6 +111,10 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  handlePopoverShown() {
+    this.store.dispatch(new fromSavedFiltersActions.OpenSavedFiltersPopover());
+  }
+
   trackByFilterId(index: number, item: SavedFilter) {
     return item.Id;
   }
@@ -106,11 +126,18 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
       this.savedFilters = sf;
       this.filterSavedFilters();
     });
+    this.filterDataToEditSub = this.filterDataToEdit$.subscribe(data => this.filterDataToEdit = data);
+    this.savedFiltersPopoverOpenSub = this.savedFiltersPopoverOpen$.subscribe(isOpen => {
+      if (!isOpen) {
+        this.closePopover();
+      }
+    });
   }
 
   ngOnDestroy() {
     this.filterIdToDeleteSub.unsubscribe();
     this.savedFiltersSub.unsubscribe();
+    this.filterDataToEditSub.unsubscribe();
   }
 
   private filterSavedFilters(): void {
@@ -121,5 +148,11 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
       : this.savedFilters;
 
     this.filteredSavedFilters.sort((a, b) => arraySortByString(a.Name, b.Name, SortDirection.Ascending));
+  }
+
+  private closePopover(): void {
+    if (this.popover && this.popover.isOpen()) {
+      this.popover.close();
+    }
   }
 }

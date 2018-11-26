@@ -8,3 +8,5 @@ export * from './project-search-context.model';
 export * from './project-context.model';
 export * from './pill.model';
 export * from './saved-filter.model';
+export * from './save-filter-modal-data.model';
+export * from './saved-filter-upsert-request.model';

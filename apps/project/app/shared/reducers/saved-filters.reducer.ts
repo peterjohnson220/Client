@@ -2,6 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import { SavedFilter } from '../models/saved-filter.model';
+import { SaveFilterModalData } from '../models';
 
 export interface State {
   loadingSavedFilters: boolean;
@@ -12,6 +13,10 @@ export interface State {
   deletingSavedFilter: boolean;
   filterIdToDelete: string;
   savedFilterModalOpen: boolean;
+  filterDataToEdit: SaveFilterModalData;
+  savedFiltersPopoverOpen: boolean;
+  filterIdToSelect: string;
+  defaultFilterId: string;
 }
 
 const initialState: State = {
@@ -22,12 +27,22 @@ const initialState: State = {
   savingFilterError: false,
   deletingSavedFilter: false,
   filterIdToDelete: '',
-  savedFilterModalOpen: false
+  savedFilterModalOpen: false,
+  filterDataToEdit: null,
+  savedFiltersPopoverOpen: false,
+  filterIdToSelect: '',
+  defaultFilterId: ''
 };
 
 // Reducer function
 export function reducer(state = initialState, action: fromSavedFiltersActions.Actions): State {
   switch (action.type) {
+    case fromSavedFiltersActions.INIT_SAVED_FILTERS: {
+      return {
+        ...state,
+        filterIdToSelect: ''
+      };
+    }
     case fromSavedFiltersActions.GET_SAVED_FILTERS: {
       return {
         ...state,
@@ -35,10 +50,14 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
       };
     }
     case fromSavedFiltersActions.GET_SAVED_FILTERS_SUCCESS: {
+      const savedFiltersCopy = cloneDeep(action.payload);
+      if (!!state.filterIdToSelect) {
+        savedFiltersCopy.find(sf => sf.Id === state.filterIdToSelect).Selected = true;
+      }
       return {
         ...state,
         loadingSavedFilters: false,
-        savedFilters: action.payload
+        savedFilters: savedFiltersCopy
       };
     }
     case fromSavedFiltersActions.CLEAR_SAVED_FILTERS: {
@@ -57,10 +76,12 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
       };
     }
     case fromSavedFiltersActions.SAVE_FILTER_SUCCESS: {
+      const filterIdToSelect = action.payload.isNew ? action.payload.savedFilterId : state.filterIdToSelect;
       return {
         ...state,
         savingFilter: false,
-        savedFilterModalOpen: false
+        savedFilterModalOpen: false,
+        filterIdToSelect: filterIdToSelect
       };
     }
     case fromSavedFiltersActions.MARK_FILTER_TO_DELETE: {
@@ -95,7 +116,8 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
 
       return {
         ...state,
-        savedFilters: savedFiltersCopy
+        savedFilters: savedFiltersCopy,
+        filterIdToSelect: action.payload.Id
       };
     }
     case fromSavedFiltersActions.UNSELECT_SAVED_FILTER: {
@@ -104,7 +126,8 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
 
       return {
         ...state,
-        savedFilters: savedFiltersCopy
+        savedFilters: savedFiltersCopy,
+        filterIdToSelect: ''
       };
     }
     case fromSavedFiltersActions.SAVED_FILTER_SAVE_ERROR: {
@@ -130,7 +153,38 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
     case fromSavedFiltersActions.CLOSE_SAVE_FILTER_MODAL: {
       return {
         ...state,
-        savedFilterModalOpen: false
+        savedFilterModalOpen: false,
+        filterDataToEdit: null
+      };
+    }
+    case fromSavedFiltersActions.SET_FILTER_DATA_TO_EDIT: {
+      return {
+        ...state,
+        filterDataToEdit: action.payload
+      };
+    }
+    case fromSavedFiltersActions.OPEN_SAVED_FILTERS_POPOVER: {
+      return {
+        ...state,
+        savedFiltersPopoverOpen: true
+      };
+    }
+    case fromSavedFiltersActions.CLOSE_SAVED_FILTERS_POPOVER: {
+      return {
+        ...state,
+        savedFiltersPopoverOpen: false
+      };
+    }
+    case fromSavedFiltersActions.SET_DEFAULT_FILTER: {
+      return {
+        ...state,
+        defaultFilterId: action.payload
+      };
+    }
+    case fromSavedFiltersActions.UNMARK_FILTER_TO_SELECT: {
+      return {
+        ...state,
+        filterIdToSelect: ''
       };
     }
     default: {
@@ -148,3 +202,7 @@ export const getSavingFilterError = (state: State) => state.savingFilterError;
 export const getFilterIdToDelete = (state: State) => state.filterIdToDelete;
 export const getDeletingSavedFilter = (state: State) => state.deletingSavedFilter;
 export const getSaveFilterModalOpen = (state: State) => state.savedFilterModalOpen;
+export const getFilterDataToEdit = (state: State) => state.filterDataToEdit;
+export const getSavedFiltersPopoverOpen = (state: State) => state.savedFiltersPopoverOpen;
+export const getDefaultFilterId = (state: State) => state.defaultFilterId;
+export const getFilterIdToSelect = (state: State) => state.filterIdToSelect;

@@ -10,7 +10,8 @@
        [container]="'body'"
        [placement]="'bottom'"
        [popoverTitle]="'Saved Filters'"
-       [autoClose]="'outside'">
+       [autoClose]="'outside'"
+       (shown)="handlePopoverShown()">
     Filters <i class="fas fa-caret-down"></i>
   </div>
 </div>
@@ -40,8 +41,10 @@
           <div class="name-and-preview">
             <div class="name">{{savedFilter.Name}}</div>
             <div class="preview">{{getFilterPreview(savedFilter)}}</div>
+            <div *ngIf="savedFilter.Id === (defaultFilterId$ | async)" class="badge badge-info default-badge">Default</div>
           </div>
           <div class="options">
+            <div class="option" (click)="handleEditBtnClicked(savedFilter)">Edit</div>
             <div class="option" (click)="handleDeleteBtnClicked(savedFilter.Id)">Delete</div>
           </div>
         </div>
@@ -70,6 +73,7 @@
   [savingFilterError]="savingFilterError$ | async"
   [savingFilters]="savingFilter$ | async"
   [isOpen$]="saveFilterModalOpen$"
+  [modalData]="filterDataToEdit$ | async"
   (saveFilter)="handleSaveFilter($event)"
   (dismissed)="handleSaveFilterModalDismissed()">
 </pf-save-filter-modal>

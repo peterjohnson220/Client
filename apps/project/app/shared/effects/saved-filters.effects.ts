@@ -14,7 +14,7 @@ import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSharedSearchReducer from '../../shared/reducers';
-import { PayfactorsApiHelper, PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiHelper, PayfactorsApiModelMapper, SavedFilterHelper } from '../helpers';
 import { MultiSelectFilter } from '../models';
 
 @Injectable()
@@ -40,17 +40,23 @@ export class SavedFiltersEffects {
   getSavedFilters$ = this.actions$
     .ofType(fromSavedFiltersActions.GET_SAVED_FILTERS)
     .pipe(
-      switchMap((action: fromSavedFiltersActions.GetSavedFilters) => {
+      withLatestFrom(
+        this.store.select(fromSharedSearchReducer.getJobContext),
+        this.store.select(fromSharedSearchReducer.getProjectSearchContext),
+        (action: fromSavedFiltersActions.GetSavedFilters, jobContext, projectSearchContext) =>
+          ({action, jobContext, projectSearchContext})),
+      switchMap((data) => {
           return this.userFilterApiService.getAll({ Type: SavedFilterType.SurveySearch })
             .pipe(
-              map(response => {
+              mergeMap(response => {
+                const actions = [];
                 const savedFilters = PayfactorsApiModelMapper.mapSurveySavedFilterResponseToSavedFilter(response);
-
-                if (action.payload && action.payload.savedFilterIdToSelect) {
-                  savedFilters.find(sf => sf.Id === action.payload.savedFilterIdToSelect).Selected = true;
-                }
-
-                return new fromSavedFiltersActions.GetSavedFiltersSuccess(savedFilters);
+                const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+                const defaultFilterForThisPayMarket = SavedFilterHelper.getDefaultFilter(payMarketId, savedFilters);
+                const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
+                actions.push(new fromSavedFiltersActions.SetDefaultFilter(defaultFilterId));
+                actions.push(new fromSavedFiltersActions.GetSavedFiltersSuccess(savedFilters));
+                return actions;
               })
             );
       })
@@ -69,37 +75,39 @@ export class SavedFiltersEffects {
           ({action, filters, jobContext, projectSearchContext, savedFilters})),
       switchMap((data) => {
         const actions = [];
+        const modalData = data.action.payload;
+        const savedFilterId = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
+        const isEditMode = !!savedFilterId;
+        const searchFilters = isEditMode
+          ? null
+          : PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked));
 
-        const upsertRequest = {
-          Type: SavedFilterType.SurveySearch,
-          SavedFilter: {
-            Name: data.action.payload.Name,
-            Filters: PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked)),
-            MetaInfo: {
-              DefaultPayMarkets: []
-            }
-          }
-        };
+        const upsertRequest = SavedFilterHelper.getUpsertRequest(savedFilterId, modalData.Name, searchFilters);
+        const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const isPayMarketDefault = isEditMode
+          ? SavedFilterHelper.isPayMarketDefaultFilter(modalData.SavedFilter, payMarketId)
+          : false;
+        let defaultPayMarkets = isEditMode
+          ? cloneDeep(modalData.SavedFilter.MetaInfo.DefaultPayMarkets)
+          : [];
 
-        if (data.action.payload.SetAsPayMarketDefault) {
-          const payMarketId =
-            (!!data.jobContext && data.jobContext.JobPayMarketId) ||
-            (!!data.projectSearchContext && data.projectSearchContext.PayMarketId);
-          upsertRequest.SavedFilter.MetaInfo.DefaultPayMarkets = [payMarketId];
-
-          const currentDefault = data.savedFilters
-            .find(sf => sf.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString()));
+        if (modalData.SetAsPayMarketDefault && !isPayMarketDefault) {
+          const currentDefault = SavedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
+          defaultPayMarkets = defaultPayMarkets.concat(payMarketId.toString());
           if (!!currentDefault) {
             actions.push(new fromSavedFiltersActions.RemoveSavedFilterAsDefault({ savedFilter: currentDefault, payMarketId }));
           }
+        } else if (!modalData.SetAsPayMarketDefault) {
+          defaultPayMarkets = defaultPayMarkets.filter(id => id.toString() !== payMarketId.toString());
         }
+
+        upsertRequest.SavedFilter.MetaInfo.DefaultPayMarkets = defaultPayMarkets;
 
         return this.userFilterApiService.upsert(upsertRequest)
           .pipe(
             mergeMap((response) => {
-              actions.push(new fromSavedFiltersActions.SaveFilterSuccess());
-              actions.push(new fromSavedFiltersActions.GetSavedFilters({ savedFilterIdToSelect: response}));
-
+              actions.push(new fromSavedFiltersActions.SaveFilterSuccess({isNew: !isEditMode, savedFilterId: response}));
+              actions.push(new fromSavedFiltersActions.GetSavedFilters());
               return actions;
             }),
             catchError(response => {
@@ -117,7 +125,9 @@ export class SavedFiltersEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromSharedSearchReducer.getFilterIdToDelete),
-        (action: fromSavedFiltersActions.DeleteSavedFilter, filterIdToDelete) => ({action, filterIdToDelete})),
+        this.store.select(fromSharedSearchReducer.getFilterIdToSelect),
+        (action: fromSavedFiltersActions.DeleteSavedFilter, filterIdToDelete, filterIdToSelect) =>
+          ({action, filterIdToDelete, filterIdToSelect})),
       switchMap((data) => {
         return this.userFilterApiService.remove({
           SavedFilter: {
@@ -126,10 +136,15 @@ export class SavedFiltersEffects {
           Type: SavedFilterType.SurveySearch
         })
         .pipe(
-          mergeMap(() => [
-              new fromSavedFiltersActions.DeleteSavedFilterSuccess(),
-              new fromSavedFiltersActions.GetSavedFilters()
-          ])
+          mergeMap(() => {
+            const actions = [];
+            if (data.filterIdToDelete === data.filterIdToSelect) {
+              actions.push(new fromSavedFiltersActions.UnmarkFilterToSelect());
+            }
+            actions.push(new fromSavedFiltersActions.DeleteSavedFilterSuccess());
+            actions.push(new fromSavedFiltersActions.GetSavedFilters());
+            return actions;
+          })
         );
       })
     );
@@ -192,23 +207,46 @@ export class SavedFiltersEffects {
         this.store.select(fromSharedSearchReducer.getSavedFilters),
         (action: fromSavedFiltersActions.ApplyDefaultSavedFilter, jobContext, projectSearchContext, savedFilters) =>
           ({ action, jobContext, projectSearchContext, savedFilters })),
-      map(data => {
-        const payMarketId =
-          (!!data.jobContext && data.jobContext.JobPayMarketId) ||
-          (!!data.projectSearchContext && data.projectSearchContext.PayMarketId);
-
-        const defaultFilterForThisPayMarket = data.savedFilters
-          .find(sf => sf.MetaInfo.DefaultPayMarkets
-            .some(dpmid => dpmid.toString() === payMarketId.toString()));
+      mergeMap(data => {
+        const actions = [];
+        const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const defaultFilterForThisPayMarket = SavedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
+        const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';
+        actions.push(new fromSavedFiltersActions.SetDefaultFilter(defaultFilterId));
 
         if (defaultFilterForThisPayMarket) {
-          return new fromSavedFiltersActions.SelectSavedFilter(defaultFilterForThisPayMarket);
+          actions.push(new fromSavedFiltersActions.SelectSavedFilter(defaultFilterForThisPayMarket));
         } else {
-          return new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false });
+          actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
         }
+        return actions;
       })
     );
 
+  @Effect()
+  editSavedFilter$ = this.actions$
+    .ofType(fromSavedFiltersActions.EDIT_SAVED_FILTER)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromSharedSearchReducer.getJobContext),
+        this.store.select(fromSharedSearchReducer.getProjectSearchContext),
+        (action: fromSavedFiltersActions.EditSavedFilter, jobContext, projectSearchContext) =>
+          ({ action, jobContext, projectSearchContext })),
+      mergeMap(data => {
+        const actions = [];
+        const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
+        const isPayMarketDefault = SavedFilterHelper.isPayMarketDefaultFilter(data.action.payload, payMarketId);
+
+        actions.push(new fromSavedFiltersActions.SetFilterDataToEdit({
+          Name: data.action.payload.Name,
+          SetAsPayMarketDefault: isPayMarketDefault,
+          SavedFilter: data.action.payload
+        }));
+        actions.push(new fromSavedFiltersActions.OpenSaveFilterModal());
+
+        return actions;
+      })
+    );
 
   constructor(
     private actions$: Actions,
