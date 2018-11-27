@@ -28,6 +28,7 @@ export class DashboardTCModalComponent implements OnInit {
   tcTitle: string;
   tcContent: string;
   termAndConditionsFeatureName = 'Peer';
+  showClose = true;
 
   constructor(private store: Store<fromDashboardTCReducer.State>, private route: ActivatedRoute) {
     this.tcModel$ = this.store.select(fromDashboardTCReducer.getTCData);

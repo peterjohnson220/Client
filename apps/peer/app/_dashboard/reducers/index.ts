@@ -16,6 +16,7 @@ import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
 import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 import * as fromCompanyIndustriesReducer from './company-industries.reducer';
+import * as fromExchangeDashboardTCModalReducer from './exchange-dashboard-tc-modal.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -26,6 +27,7 @@ export interface DashboardState {
   exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
   exchangeSelector: fromExchangeSelectorReducer.State;
   companyIndustries: fromCompanyIndustriesReducer.State;
+  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -41,7 +43,8 @@ export const reducers = {
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
   exchangeSelector: fromExchangeSelectorReducer.reducer,
-  companyIndustries: fromCompanyIndustriesReducer.reducer
+  companyIndustries: fromCompanyIndustriesReducer.reducer,
+  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer
 };
 
 // Select Feature Area
@@ -81,6 +84,11 @@ export const selectExchangeSelectorState = createSelector(
 export const selectCompanyIndustriesState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.companyIndustries
+);
+
+export const selectExchangeDashboardTCModalState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.exchangeDashboardTCModal
 );
 
 // Exchange Dashboard Selectors
@@ -326,4 +334,40 @@ export const getCompanyIndustriesLoading = createSelector(
 export const getCompanyIndustriesLoadingError = createSelector(
   selectCompanyIndustriesState,
   fromCompanyIndustriesReducer.getLoadingError
+);
+
+// Exchange Dashboard Tc Modal
+export const getTCLoading = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCLoading
+);
+
+export const getTCLoadingError = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCLoadingError
+);
+
+export const getTCSubmitting = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmitting
+);
+
+export const getTCSubmittingError = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmittingError
+);
+
+export const getTCSubmittingSuccess = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmittingSuccess
+);
+
+export const getTCData = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCData
+);
+
+export const hasTCData = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.hasTCData
 );

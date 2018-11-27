@@ -19,11 +19,11 @@ import {
   ExchangeDashboardPageComponent, NoExchangesPageComponent, ExchangeSelectorComponent,
   AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
   ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
-  ChartDetailComponent, ExchangeJobComparisonGridComponent
+  ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeDashboardTCModalComponent
 } from './containers';
 import {
   ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-  InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+  InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects
 } from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
@@ -48,7 +48,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     StoreModule.forFeature('peer_dashboard', reducers),
     EffectsModule.forFeature([
       ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-      InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+      InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects
     ]),
     NgbPopoverModule,
 
@@ -69,6 +69,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
     AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeSelectorComponent,
     InviteCompanyModalComponent, NewCompanyFormComponent, ExistingCompanySelectionFormComponent,
+    ExchangeDashboardTCModalComponent,
 
     // Pages
     NoExchangesPageComponent
