@@ -10,7 +10,7 @@ exports[`CommunityCategoriesComponent should show community categories 1`] = `
   store={[Function Store]}
 >
   <div
-    class="card mb-3"
+    class="card mb-3 community-border-radius"
   >
     <div
       class="card-header"

@@ -10,7 +10,7 @@ exports[`ItemFormControlComponent should show the form text 1`] = `
   store={[Function Store]}
 >
   <div
-    class="card"
+    class="card community-border-radius"
   >
     <div
       class="card-body"

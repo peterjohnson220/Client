@@ -23,7 +23,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
         class="inner-element my-1"
       >
         <div
-          class="poll-choice poll-border"
+          class="poll-choice poll-border community-border-radius"
         />
         <div
           class="poll-border"
@@ -48,7 +48,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
         class="inner-element my-1"
       >
         <div
-          class="poll-choice poll-border"
+          class="poll-choice poll-border community-border-radius"
         />
         <div
           class="poll-border poll-choice-filled"

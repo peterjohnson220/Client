@@ -19,6 +19,7 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
             class="col-4 offset-2 input-container h-100"
           >
             <input
+              class="community-border-radius"
               id="search"
               placeholder="Search Jobs"
             />
@@ -31,6 +32,7 @@ exports[`CommunityJobPostingsPageComponent should show community job postings pa
             class="col-4 input-container h-100"
           >
             <input
+              class="community-border-radius"
               id="location"
               placeholder="City, state, or country"
             />

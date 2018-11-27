@@ -4,8 +4,8 @@
     <button class="dropdown-item" (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
   </div>
 </div>
-<div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2">Internal</div>
-<div *ngIf="isExpiredPoll" class="expired float-right pl-2 pr-2">Poll Expired</div>
+<div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2 community-border-radius">Internal</div>
+<div *ngIf="isExpiredPoll" class="expired float-right pl-2 pr-2 community-border-radius">Poll Expired</div>
 <p class="m-0"><span class="community-user-name-text">{{user.UserFirstName}} {{user.UserLastName}}</span>
   <span class="community-sub-text"> @ {{user.CompanyName}} | {{time}}</span>
 </p>

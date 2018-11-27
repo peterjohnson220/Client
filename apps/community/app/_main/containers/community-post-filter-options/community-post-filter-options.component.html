@@ -7,7 +7,7 @@
   <span *ngIf="filter.TagFilter.Tags.length > 0 || filter.CategoryFilter.Category.length > 0" class="filter-text font-weight-bold">Showing content with:</span>
   <ng-container *ngFor="let category of filter.CategoryFilter.Category;">
 
-    <span class="d-inline-block m-1 filter-container p-1">
+    <span class="d-inline-block m-1 filter-container p-1 community-border-radius">
       <button class="m-0 p-0 border-0 d-inline-block font-weight-bold" (click)="buttonClicked('category', category)">
         <span class="pr-1">{{ category }}</span>
         <i class="fas fa-times-circle icon"></i>

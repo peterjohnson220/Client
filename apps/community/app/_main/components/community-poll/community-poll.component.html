@@ -30,7 +30,7 @@
   <div *ngIf="response || request.IsExpired">
     <div *ngFor="let option of request.ResponseOptions">
         <div class="inner-element my-1">
-            <div class = "poll-choice poll-border"></div>
+            <div class = "poll-choice poll-border community-border-radius"></div>
             <div class = "poll-border" [ngClass] ="{'poll-choice-filled': response.ResponsePercents[option.ResponseId] > 0}" [style.width.%]="getPercentage(option.ResponseId)"></div>
             <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
             <div class="response-option-text-container poll-response-percent">{{response.ResponsePercents[option.ResponseId]}}%</div>
