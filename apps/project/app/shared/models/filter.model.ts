@@ -14,6 +14,7 @@ export interface Filter {
   Locked?: boolean;
   Type: FilterType;
   CssClassName?: string;
+  SaveDisabled?: boolean;
 }
 
 export interface TextFilter extends Filter {
