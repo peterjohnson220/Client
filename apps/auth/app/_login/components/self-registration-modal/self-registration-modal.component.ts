@@ -34,8 +34,8 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
     public loginStore: Store<fromLoginReducer.State>) {
 
     this.showSelfRegistrationModal$ = this.loginStore.select(fromLoginReducer.getShowSelfRegistrationForm);
-    this.showSuccessMessage$ = this.loginStore.select(fromLoginReducer.getSelfRegistrationSubmitSuccess);
-    this.isSubmitError$ = this.loginStore.select(fromLoginReducer.getSelfRegistrationSubmitError);
+    this.showSuccessMessage$ = this.loginStore.select(fromLoginReducer.getSelfRegistrationRequestSubmitSuccess);
+    this.isSubmitError$ = this.loginStore.select(fromLoginReducer.getSelfRegistrationRequestSubmitError);
 
     this.initForm();
   }
@@ -70,7 +70,7 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
   }
 
   onSelfRegistrationSubmit() {
-    this.loginStore.dispatch(new fromSelfRegistrationActions.Submit());
+    this.loginStore.dispatch(new fromSelfRegistrationActions.RequestSubmit());
   }
 
   onSelfRegistrationDismiss() {
@@ -93,7 +93,7 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
   onKeyDown(event) {
     // submit the form if the enter key is clicked and form is valid
     if (event.keyCode === 13 && this.selfRegistrationForm.valid) {
-      this.loginStore.dispatch(new fromSelfRegistrationActions.Submit());
+      this.loginStore.dispatch(new fromSelfRegistrationActions.RequestSubmit());
     }
   }
 

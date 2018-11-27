@@ -38,18 +38,29 @@ export class SelfRegistrationEffects {
     );
 
   @Effect()
-  submitForm$: Observable<Action> = this.actions$
-    .ofType(fromSelfRegistrationActions.SUBMIT).pipe(
+  submitRequestForm$: Observable<Action> = this.actions$
+    .ofType(fromSelfRegistrationActions.REQUEST_SUBMIT).pipe(
       // in case of an error the form can be re-submitted rapidly by holding enter, so debounce that
       debounceTime(400),
       // get the form data from the store so it can be passed along in the post body
       withLatestFrom(
         this.store.select(fromLoginReducer.getSelfRegistrationForm),
-        (action: fromSelfRegistrationActions.FieldChange, form) => ({ action, form })),
+        (action: fromSelfRegistrationActions.RequestSubmit, form) => ({ action, form })),
       switchMap((selfRegistration) => {
-        return this.accountApiService.submitSelfRegistration(selfRegistration.form).pipe(
-          map(() => new fromSelfRegistrationActions.SubmitSuccess()),
-          catchError(error => of(new fromSelfRegistrationActions.SubmitError(error)))
+        return this.accountApiService.submitSelfRegistrationRequest(selfRegistration.form).pipe(
+          map(() => new fromSelfRegistrationActions.RequestSubmitSuccess()),
+          catchError(error => of(new fromSelfRegistrationActions.RequestSubmitError(error)))
+        );
+      }),
+    );
+
+  @Effect()
+  submitCompletionForm$: Observable<Action> = this.actions$
+    .ofType(fromSelfRegistrationActions.COMPLETION_SUBMIT).pipe(
+      switchMap((action: fromSelfRegistrationActions.CompletionSubmit) => {
+        return this.accountApiService.submitSelfRegistrationCompletion(action.payload.Token, action.payload.Password).pipe(
+          map(() => new fromSelfRegistrationActions.CompletionSubmitSuccess()),
+          catchError(error => of(new fromSelfRegistrationActions.CompletionSubmitError(error)))
         );
       }),
     );

@@ -118,12 +118,21 @@ export const selfRegistrationState =
   createSelector(selectAuthMainState, (state: AuthMainState) => state.selfRegistration);
 export const getSelfRegistrationForm =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSelfRegistrationForm);
-export const getSelfRegistrationIsSubmitting =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getIsSubmitting);
-export const getSelfRegistrationSubmitSuccess =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSubmitSuccess);
-export const getSelfRegistrationSubmitError =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSubmitError);
+// Self Registration request submission
+export const getSelfRegistrationRequestIsSubmitting =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestIsSubmitting);
+export const getSelfRegistrationRequestSubmitSuccess =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestSubmitSuccess);
+export const getSelfRegistrationRequestSubmitError =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestSubmitError);
+// Self Registration request submission
+export const getSelfRegistrationCompletionIsSubmitting =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionIsSubmitting);
+export const getSelfRegistrationCompletionSubmitSuccess =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionSubmitSuccess);
+export const getSelfRegistrationCompletionSubmitError =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionSubmitError);
+// Token/misc
 export const getValidatingToken =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingToken);
 export const getValidatingTokenSuccess =
@@ -136,7 +145,7 @@ export const getValidatingTokenAccountExists =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenAccountExists);
 export const getValidatedToken =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatedToken);
-export const getAccountEmail =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getAccountEmail);
 export const getValidatingTokenExistingCompany =
   createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenExistingCompany);
+export const getAccountEmail =
+  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getAccountEmail);

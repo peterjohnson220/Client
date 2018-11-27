@@ -1,64 +1,76 @@
-<div *ngIf="validatingToken$ | async" class="p-3">
-  <h5 class="p-3">Loading, please wait...</h5>
-</div>
-
-<ng-container *ngIf="!(validatingToken$ | async)">
-  <div *ngIf="validatingTokenError$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
-    <h5 class="p-3">
-      Your link is invalid. Please make sure that your link is correct, otherwise return to the login page and retry requesting access. Or some other
-      such words.
-    </h5>
-    <button class="btn btn-default m-3" routerLink="/login">
-      Return to Login
-    </button>
-  </div>
-  
-  <div *ngIf="validatingTokenExpired$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
-    <h5 class="p-3">
-      Your link is expired. Please click below to return to the login page and retry. Or we could let you resend the email right here at some point.
-    </h5>
-    <button class="btn btn-default m-3" routerLink="/login">
-      Return to Login
-    </button>
-  </div>
-  
-  <div *ngIf="validatingTokenAccountExists$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
-    <h5 class="p-3">
-      An account for <strong>{{ accountEmail$ | async }}</strong> already exists. Please log in.
-    </h5>
-    <button class="btn btn-default m-3" routerLink="/login">
-      Login
-    </button>
+<div class="position-relative">
+  <div *ngIf="validatingToken$ | async" class="p-3">
+    <h5 class="p-3">Loading, please wait...</h5>
   </div>
 
-  <div *ngIf="validatingTokenExistingCompany$ | async" class="p-3 registration-box">
-    <h5 class="p-3">
-      <strong>{{ (validatingTokenExistingCompany$ | async).name }}</strong> already owns a Payfactors
-      <ng-container *ngIf="(validatingTokenExistingCompany$ | async).type === 'SmallBusiness'"> for Small Business </ng-container>
-      account. Please contact your system administrator.
-    </h5>
-  </div>
-  
-  <div *ngIf="validatingTokenSuccess$ | async" class="p-3 registration-box">
-    <h5 class="p-3">
-      Welcome to PayFactors! Please create your new password to continue.
-    </h5>
-    <pf-confirm-password
-      [minLength]="8"
-      [allowSpaces]="false"
-      [numberOfRequiredUppercaseCharacters]="1"
-      [numberOfRequiredLowercaseCharacters]="1"
-      [numberOfRequiredSpecialCharacters]="1"
-      (onIsValid)="passwordValid($event)"
-      (onInvalidPassword)="passwordInvalid()"
-      (onInvalidConfirmation)="passwordInvalid()"
-      >
-    </pf-confirm-password>
+  <div *ngIf="!(validatingToken$ | async)" class="opacity-transition" [class.faded]="isSubmitting$ | async">
 
-    <div class="text-center">
-      <button [disabled]="!submitEnabled" (click)="updatePassword()" class="btn btn-default m-3">
-        Continue
+    <div *ngIf="validatingTokenError$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
+      <h5 class="p-3">
+        Your link is invalid. Please make sure that your link is correct, otherwise return to the login page and retry requesting access. Or some other
+        such words.
+      </h5>
+      <button class="btn btn-default m-3" routerLink="/login">
+        Return to Login
       </button>
     </div>
+    
+    <div *ngIf="validatingTokenExpired$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
+      <h5 class="p-3">
+        Your link is expired. Please click below to return to the login page and retry. Or we could let you resend the email right here at some point.
+      </h5>
+      <button class="btn btn-default m-3" routerLink="/login">
+        Return to Login
+      </button>
+    </div>
+    
+    <div *ngIf="validatingTokenAccountExists$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
+      <h5 class="p-3">
+        An account for <strong>{{ accountEmail$ | async }}</strong> already exists. Please log in.
+      </h5>
+      <button class="btn btn-default m-3" routerLink="/login">
+        Login
+      </button>
+    </div>
+
+    <div *ngIf="validatingTokenExistingCompany$ | async" class="p-3 registration-box">
+      <h5 class="p-3">
+        <strong>{{ (validatingTokenExistingCompany$ | async).name }}</strong> already owns a Payfactors
+        <ng-container *ngIf="(validatingTokenExistingCompany$ | async).type === 'SmallBusiness'"> for Small Business </ng-container>
+        account. Please contact your system administrator.
+      </h5>
+    </div>
+    
+    <div *ngIf="validatingTokenSuccess$ | async" class="p-3 registration-box">
+      <h5 class="p-3">
+        Welcome to PayFactors! Please create your new password to continue.
+      </h5>
+      <pf-confirm-password
+        [minLength]="8"
+        [allowSpaces]="false"
+        [numberOfRequiredUppercaseCharacters]="1"
+        [numberOfRequiredLowercaseCharacters]="1"
+        [numberOfRequiredSpecialCharacters]="1"
+        (onIsValid)="passwordValid($event)"
+        (onInvalidPassword)="passwordInvalid()"
+        (onInvalidConfirmation)="passwordInvalid()"
+        >
+      </pf-confirm-password>
+
+      <div class="text-center">
+        <button [disabled]="!submitEnabled" (click)="updatePassword()" class="btn btn-default m-3">
+          Continue
+        </button>
+        <p id="au-lbl-submit-error" [ngClass]="(submitError$ | async) ? 'visible' : 'invisible'">
+          An unexpected error has occurred
+        </p>
+      </div>
+
+    </div>
   </div>
-</ng-container>
+  
+  <div class="opacity-transition" [ngClass]="(isSubmitting$ | async) ? 'full-opacity' : 'no-opacity'">
+    <i class="fa fa-spinner fa-spin fa-3x"></i>
+  </div>
+
+</div>

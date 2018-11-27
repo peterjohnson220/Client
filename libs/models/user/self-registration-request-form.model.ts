@@ -1,4 +1,4 @@
-export interface SelfRegistrationForm {
+export interface SelfRegistrationRequestForm {
   FirstName: string;
   LastName: string;
   Email: string;

@@ -1,36 +1,45 @@
 import { Action } from '@ngrx/store';
-import { SelfRegistrationForm } from 'libs/models/user/self-registration-form.model';
+import { SelfRegistrationRequestForm } from 'libs/models/user/self-registration-request-form.model';
+import { SelfRegistrationCompletionForm } from 'libs/models/user/self-registration-completion-form.model';
 import { SelfRegistrationExistingCompany } from '../models/self-registration-existing-company.model';
 
+// Initial Request Form
+export const REQUEST_SUBMIT = '[Self Registration/Request] Submit';
+export const REQUEST_SUBMIT_SUCCESS = '[Self Registration/Request] Submit Success';
+export const REQUEST_SUBMIT_ERROR = '[Self Registration/Request] Submit Error';
+export const FIELD_CHANGE = '[Self Registration/Request] Field Change';
+
+// Token/Validation
 export const VALIDATE_TOKEN = '[Self Registration/Validate] Validate Token';
 export const VALIDATE_TOKEN_SUCCESS = '[Self Registration/Validate] Validate Token Success';
 export const VALIDATE_TOKEN_ERROR = '[Self Registration/Validate] Validate Token Error';
 export const VALIDATE_TOKEN_EXPIRED = '[Self Registration/Validate] Validate Token Expired';
 export const VALIDATE_TOKEN_ACCOUNT_EXISTS = '[Self Registration/Validate] Validate Token Account Exists';
 export const VALIDATE_TOKEN_COMPANY_EXISTS = '[Self Registration/Validate] Validate Token Company Exists';
-export const FIELD_CHANGE = '[Self Registration/Request] Field Change';
-export const SUBMIT = '[Self Registration/Request] Submit';
-export const SUBMIT_SUCCESS = '[Self Registration/Request] Submit Success';
-export const SUBMIT_ERROR = '[Self Registration/Request] Submit Error';
+
+// Password/Completion Form
+export const COMPLETION_SUBMIT = '[Self Registration/Completion] Submit';
+export const COMPLETION_SUBMIT_SUCCESS = '[Self Registration/Completion] Submit Success';
+export const COMPLETION_SUBMIT_ERROR = '[Self Registration/Completion] Submit Error';
+
+export class RequestSubmit implements Action {
+  readonly type = REQUEST_SUBMIT;
+  constructor() {}
+}
+
+export class RequestSubmitSuccess implements Action {
+  readonly type = REQUEST_SUBMIT_SUCCESS;
+  constructor() {}
+}
+
+export class RequestSubmitError implements Action {
+  readonly type = REQUEST_SUBMIT_ERROR;
+  constructor(public payload: any) {}
+}
 
 export class FieldChange implements Action {
   readonly type = FIELD_CHANGE;
-  constructor(public payload: SelfRegistrationForm) {}
-}
-
-export class Submit implements Action {
-  readonly type = SUBMIT;
-  constructor() {}
-}
-
-export class SubmitSuccess implements Action {
-  readonly type = SUBMIT_SUCCESS;
-  constructor() {}
-}
-
-export class SubmitError implements Action {
-  readonly type = SUBMIT_ERROR;
-  constructor(public payload: any) {}
+  constructor(public payload: SelfRegistrationRequestForm) {}
 }
 
 export class ValidateToken implements Action {
@@ -63,6 +72,21 @@ export class ValidateTokenCompanyExists implements Action {
   constructor(public payload: SelfRegistrationExistingCompany) {}
 }
 
+export class CompletionSubmit implements Action {
+  readonly type = COMPLETION_SUBMIT;
+  constructor(public payload: SelfRegistrationCompletionForm) {}
+}
+
+export class CompletionSubmitSuccess implements Action {
+  readonly type = COMPLETION_SUBMIT_SUCCESS;
+  constructor() {}
+}
+
+export class CompletionSubmitError implements Action {
+  readonly type = COMPLETION_SUBMIT_ERROR;
+  constructor(public payload: any) {}
+}
+
 export type Actions
   = ValidateToken
   | ValidateTokenSuccess
@@ -71,6 +95,9 @@ export type Actions
   | ValidateTokenAccountExists
   | ValidateTokenCompanyExists
   | FieldChange
-  | Submit
-  | SubmitSuccess
-  | SubmitError;
+  | RequestSubmit
+  | RequestSubmitSuccess
+  | RequestSubmitError
+  | CompletionSubmit
+  | CompletionSubmitSuccess
+  | CompletionSubmitError;

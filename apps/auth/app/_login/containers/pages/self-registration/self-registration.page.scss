@@ -1,7 +1,38 @@
 h5 {
-  color: black;
+  color: #333;
 }
 
 .registration-box {
   max-width: 500px;
+}
+
+.opacity-transition {
+  transition: opacity .5s ease-in-out;
+}
+
+.full-opacity {
+  opacity: 1;
+}
+
+.faded {
+  opacity: .5;
+}
+
+.no-opacity {
+  opacity: 0;
+}
+
+#au-lbl-submit-error {
+  font-style: italic;
+  color: tomato;
+  margin-bottom: 0;
+}
+
+svg.fa-spin {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
 }
