@@ -82,7 +82,8 @@ export class FiltersHelper {
       }],
       RefreshOptionsFromServer: false,
       Locked: true,
-      DefaultSelections: []
+      DefaultSelections: [],
+      SaveDisabled: true
     };
   }
 

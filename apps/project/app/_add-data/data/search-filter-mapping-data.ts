@@ -6,7 +6,8 @@ export const SearchFilterMappingData = {
     BackingField: 'combined_scopes_weighted',
     DisplayName: 'Default Survey Scopes',
     Order: 11,
-    OptionCountDisabled: true
+    OptionCountDisabled: true,
+    SaveDisabled: true
   },
   'job_family': {
     Type: FilterType.Multi,
@@ -62,6 +63,7 @@ export const SearchFilterMappingData = {
     BackingField: 'base_50th',
     DisplayName: 'Base 50th',
     Order: 12,
-    OptionCountDisabled: false
+    OptionCountDisabled: false,
+    SaveDisabled: true
   },
 };
