@@ -16,6 +16,6 @@ export function generateMockExchangeCompanyJob(): ExchangeCompanyJob {
     CompanyJobCode: 'MockCompanyJobCode',
     CompanyJobTitle: 'MockCompanyJobTitle',
     CompanyJobFamily: 'MockCompanyJobFamily',
-    IsInMapScope: false
+    IsInMapScope: true
   };
 }
