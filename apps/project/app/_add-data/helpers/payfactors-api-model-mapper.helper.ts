@@ -189,7 +189,8 @@ export class PayfactorsApiModelMapper {
       Order: mappingData.Order,
       OptionCountDisabled: mappingData.OptionCountDisabled,
       CssClassName: mappingData.DisplayName.toLowerCase().replace(/[\s]/g, '-'),
-      DefaultSelections: []
+      DefaultSelections: [],
+      SaveDisabled: mappingData.SaveDisabled
     };
   }
 
@@ -208,7 +209,8 @@ export class PayfactorsApiModelMapper {
       Precision: precision,
       SelectedMinValue: null,
       SelectedMaxValue: null,
-      CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-')
+      CssClassName: SearchFilterMappingData[searchFilter.Name].DisplayName.toLowerCase().replace(/[\s]/g, '-'),
+      SaveDisabled: SearchFilterMappingData[searchFilter.Name].SaveDisabled
     };
   }
 

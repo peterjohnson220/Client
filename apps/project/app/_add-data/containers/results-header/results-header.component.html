@@ -14,7 +14,7 @@
     (savedFilterSelected)="handleApplySaveFilter($event)"
     [loadingSavedFilters]="loadingSavedFilters$ | async"
     [savedFilters]="savedFilters"
-    [canSaveFilters]="hasNonLockedFilters && !hasSelectedSavedFilter"
+    [canSaveFilters]="hasFiltersToSave && !hasSelectedSavedFilter"
     [filterIdToDelete]="filterIdToDelete$ | async"
     [deletingSavedFilter]="deletingSavedFilter$ | async">
   </pf-filter-actions>

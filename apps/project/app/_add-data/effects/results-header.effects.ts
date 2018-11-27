@@ -74,7 +74,7 @@ export class ResultsHeaderEffects {
           Type: SavedFilterType.SurveySearch,
           SavedFilter: {
             Name: data.action.payload.Name,
-            Filters: PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked)),
+            Filters: PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked && f.SaveDisabled !== true)),
             MetaInfo: {
               DefaultPayMarkets: []
             }
