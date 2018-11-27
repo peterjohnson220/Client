@@ -23,7 +23,7 @@ export class ResultsHeaderComponent implements OnInit, OnDestroy {
 
   filters: Filter[];
   savedFilters: SavedFilter[];
-  hasNonLockedFilters: boolean;
+  hasFiltersToSave: boolean;
   hasSelectedSavedFilter: boolean;
 
   constructor(
@@ -53,8 +53,8 @@ export class ResultsHeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.filtersSub = this.filters$.subscribe(fs => {
       this.filters = fs;
-      this.hasNonLockedFilters = FiltersHelper.getFiltersWithValues(fs)
-        .filter(f => isMultiFilter(f) || isRangeFilter(f)).some(f => !f.Locked);
+      this.hasFiltersToSave = FiltersHelper.getFiltersWithValues(fs)
+        .filter(f => isMultiFilter(f) || isRangeFilter(f)).some(f => !f.Locked && f.SaveDisabled !== true);
     });
 
     this.savedFiltersSub = this.savedFilters$.subscribe(sf => {

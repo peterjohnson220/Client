@@ -103,12 +103,21 @@ describe('Project - Add Data - Results Header', () => {
   });
 
   it('should know when we have a set of filters that contains more than just locked filters', () => {
-    instance.hasNonLockedFilters = false;
+    instance.hasFiltersToSave = false;
     const lockedFilter = <Filter>{...generateMockMultiSelectFilter(), Locked: false };
 
     store.dispatch(new fromSearchFiltersActions.AddFilters([lockedFilter]));
 
-    expect(instance.hasNonLockedFilters).toBe(true);
+    expect(instance.hasFiltersToSave).toBe(true);
+  });
+
+  it('should not allow saving when the filter is exempt from saving', () => {
+    instance.hasFiltersToSave = false;
+    const disabledFilter = <Filter>{...generateMockMultiSelectFilter(), SaveDisabled: true };
+
+    store.dispatch(new fromSearchFiltersActions.AddFilters([disabledFilter]));
+
+    expect(instance.hasFiltersToSave).toBe(false);
   });
 
   it('should know when we have a selected saved filter', () => {

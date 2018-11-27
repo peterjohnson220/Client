@@ -80,7 +80,7 @@ export class SavedFiltersEffects {
         const isEditMode = !!savedFilterId;
         const searchFilters = isEditMode
           ? null
-          : PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked));
+          : PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked && f.SaveDisabled !== true));
 
         const upsertRequest = SavedFilterHelper.getUpsertRequest(savedFilterId, modalData.Name, searchFilters);
         const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
