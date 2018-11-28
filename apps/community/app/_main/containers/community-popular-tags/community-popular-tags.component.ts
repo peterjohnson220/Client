@@ -17,10 +17,13 @@ import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 })
 export class CommunityPopularTagsComponent implements OnInit {
   popularTags$: Observable<CommunityTag[]>;
+  filteredByPost$: Observable<boolean>;
+
 
   constructor(public store: Store<fromCommunityTagReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
     this.popularTags$ = this.store.select(fromCommunityTagReducer.getLoadingCommunityPopularTagsSuccess);
+    this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
   }
 
   ngOnInit() {

@@ -35,6 +35,25 @@ export class CommunityPostFilterOptionsEffects {
     .pipe(
       map(() => new fromCommunityPostActions.GettingCommunityPosts())
     );
+
+  @Effect()
+  addingPostFilter$ = this.actions$
+    .ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_POST_TO_FILTER_OPTIONS)
+    .pipe(
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  addingReplyFilter$ = this.actions$
+    .ofType(fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_POST_REPLY_TO_FILTER_OPTIONS)
+    .pipe(
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
+  @Effect()
+  deletingAllFilters$ = this.actions$
+    .ofType(fromCommunityPostFilterOptionsActions.DELETING_ALL_FILTER_OPTIONS)
+    .pipe(
+      map(() => new fromCommunityPostActions.GettingCommunityPosts())
+    );
   constructor(
     private actions$: Actions
   ) {

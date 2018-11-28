@@ -10,12 +10,14 @@ export interface State {
   filterOptions: FilterOptions;
   addingCommunityTag: boolean;
   addingCommunityCategory: boolean;
+  filterByPost: boolean;
 }
 
 export const initialState: State = {
   filterOptions: initializeFilterOptions(),
   addingCommunityTag: false,
-  addingCommunityCategory: false
+  addingCommunityCategory: false,
+  filterByPost: false
 };
 
 export function reducer(state = initialState, action: fromCommunityPostFilterOptionsActions.Actions): State {
@@ -97,6 +99,34 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
         filterOptions: currentEntities
       };
     }
+    case fromCommunityPostFilterOptionsActions.DELETING_ALL_FILTER_OPTIONS: {
+      const filter = initializeFilterOptions();
+      return {
+        ...state,
+        filterOptions: filter,
+        filterByPost: false
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_POST_TO_FILTER_OPTIONS: {
+      const postId = action.payload;
+      const filter = cloneDeep(state.filterOptions);
+      filter.PostIds.push(postId);
+      return {
+        ...state,
+        filterOptions: filter,
+        filterByPost: true
+      };
+    }
+    case fromCommunityPostFilterOptionsActions.ADDING_COMMUNITY_POST_REPLY_TO_FILTER_OPTIONS: {
+      const replyId = action.payload;
+      const filter = cloneDeep(state.filterOptions);
+      filter.ReplyIds.push(replyId);
+      return {
+        ...state,
+        filterOptions: filter,
+        filterByPost: true
+      };
+    }
     default: {
       return state;
     }
@@ -104,3 +134,4 @@ export function reducer(state = initialState, action: fromCommunityPostFilterOpt
 }
 
 export const getCommunityPostFilterOptions = (state: State ) => state.filterOptions;
+export const getFilteredByPost = (state: State ) => state.filterByPost;

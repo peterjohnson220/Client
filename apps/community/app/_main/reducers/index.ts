@@ -444,3 +444,8 @@ export const getCommunityPostFilterOptions = createSelector(
   selectFromCommunityPostFilterOptionsState,
   fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions
 );
+
+export const getFilteredByPost = createSelector(
+  selectFromCommunityPostFilterOptionsState,
+  fromCommunityPostFilterOptionsReducer.getFilteredByPost
+);

@@ -127,7 +127,7 @@ export class TimelineActivityMapper {
         const replyUserProfileUrl = dto.Links.filter(x => x.Type === 'CommunityPostProfile')[0].Url;
         const replyUserName = dto.Links.filter(x => x.Type === 'CommunityPostProfile')[0].DisplayName;
         const replyUserProfileHtmlLink = this.generateHtmlLink(replyUserProfileUrl, replyUserName, 'Link to replier profile');
-        const replyPostHtmlLink = this.generateHtmlLink(communityPostFullUrl, 'post', 'Link to community post');
+        const replyPostHtmlLink = this.generateHtmlLink(replyUserProfileUrl, 'post', 'Link to community post');
         subject = 'Replied to ' + replyUserProfileHtmlLink + '\'s ' + replyPostHtmlLink + ' in the ' + communityHtmlLink ;
         break;
 

@@ -4,6 +4,8 @@ exports[`CommunityCategoriesComponent should show community categories 1`] = `
 <pf-community-categories
   categories$={[Function Store]}
   filterOptionsStore={[Function Store]}
+  filteredByPost="false"
+  filteredByPost$={[Function Store]}
   router={[Function Object]}
   store={[Function Store]}
 >

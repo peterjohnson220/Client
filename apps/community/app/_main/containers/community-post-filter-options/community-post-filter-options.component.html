@@ -1,4 +1,9 @@
 <div *ngIf="filters$ | async as filter" class="filter-wrapper pt-1">
+  <span *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0">
+     <button (click)="buttonViewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
+        <i class="far fa-eye pr-2"></i>View All Posts
+      </button>
+  </span>
   <span *ngIf="filter.TagFilter.Tags.length > 0 || filter.CategoryFilter.Category.length > 0" class="filter-text font-weight-bold">Showing content with:</span>
   <ng-container *ngFor="let category of filter.CategoryFilter.Category;">
 
@@ -20,5 +25,6 @@
     </span>
 
   </ng-container>
-  <hr *ngIf="filter.TagFilter.Tags.length > 0 || filter.CategoryFilter.Category.length > 0" >
+  <hr *ngIf="filter.TagFilter.Tags.length > 0 || filter.CategoryFilter.Category.length > 0 ||
+    filter.PostIds.length > 0 || filter.ReplyIds.length > 0" >
 </div>
