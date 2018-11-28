@@ -67,6 +67,17 @@ export class SelfRegistrationEffects {
       }),
     );
 
+  @Effect()
+  resendToken$: Observable<Action> = this.actions$
+    .ofType(fromSelfRegistrationActions.RESEND_TOKEN).pipe(
+      switchMap((action: fromSelfRegistrationActions.ResendToken) => {
+        return this.accountApiService.resendSelfRegistrationToken(action.payload.token).pipe(
+          map((response) => new fromSelfRegistrationActions.ResendTokenSuccess({ email: response.email })),
+          catchError(() => of(new fromSelfRegistrationActions.ResendTokenError()))
+        );
+      }),
+    );
+
   constructor(
     private actions$: Actions,
     private accountApiService: AccountApiService,

@@ -3,32 +3,49 @@
     <h5 class="p-3">Loading, please wait...</h5>
   </div>
 
-  <div *ngIf="!(validatingToken$ | async)" class="opacity-transition" [class.faded]="isSubmitting$ | async">
+  <div *ngIf="!(validatingToken$ | async)" class="opacity-transition" [class.faded]="(isSubmitting$ | async) || (resendingToken$ | async)">
 
     <div *ngIf="validatingTokenError$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
-      <h5 class="p-3">
-        Your link is invalid. Please make sure that your link is correct, otherwise return to the login page and retry requesting access. Or some other
-        such words.
-      </h5>
-      <button class="btn btn-default m-3" routerLink="/login">
+      <h4 class="p-3">
+        This token is invalid.
+      </h4>
+      <p>
+        Please confirm that you are using the correct link, or click the button below to return to the login page and register again.
+      </p>
+      <button id="au-btn-invalid-token-login" class="btn btn-default m-3" routerLink="/login">
         Return to Login
       </button>
     </div>
     
     <div *ngIf="validatingTokenExpired$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
-      <h5 class="p-3">
-        Your link is expired. Please click below to return to the login page and retry. Or we could let you resend the email right here at some point.
-      </h5>
-      <button class="btn btn-default m-3" routerLink="/login">
-        Return to Login
-      </button>
+      <ng-container *ngIf="!(resendingTokenSuccess$ | async)">
+        <h4 class="p-3">
+          This token has expired.
+        </h4>
+        <p>
+          To request a new token, please click the Resend button below.
+        </p>
+        <div class="text-center">
+          <button id="au-btn-resend-token" (click)="resendToken()" class="btn btn-default m-3">
+            Resend
+          </button>
+          <p id="au-lbl-resend-error" class="error" [ngClass]="(resendingTokenError$ | async) ? 'visible' : 'invisible'">
+            An unexpected error has occurred
+          </p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="resendingTokenSuccess$ | async">
+        <h5 class="p-3">
+          A new token has been sent to <strong>{{ accountEmail$ | async }}</strong>.
+        </h5>
+      </ng-container>
     </div>
     
     <div *ngIf="validatingTokenAccountExists$ | async" class="p-3 d-flex flex-column align-items-center registration-box">
       <h5 class="p-3">
         An account for <strong>{{ accountEmail$ | async }}</strong> already exists. Please log in.
       </h5>
-      <button class="btn btn-default m-3" routerLink="/login">
+      <button id="au-btn-account-exists-login" class="btn btn-default m-3" routerLink="/login">
         Login
       </button>
     </div>
@@ -58,10 +75,10 @@
       </pf-confirm-password>
 
       <div class="text-center">
-        <button [disabled]="!submitEnabled" (click)="updatePassword()" class="btn btn-default m-3">
+        <button id="au-btn-continue" [disabled]="!submitEnabled" (click)="updatePassword()" class="btn btn-default m-3">
           Continue
         </button>
-        <p id="au-lbl-submit-error" [ngClass]="(submitError$ | async) ? 'visible' : 'invisible'">
+        <p id="au-lbl-submit-error" class="error" [ngClass]="(submitError$ | async) ? 'visible' : 'invisible'">
           An unexpected error has occurred
         </p>
       </div>
@@ -69,7 +86,7 @@
     </div>
   </div>
   
-  <div class="opacity-transition" [ngClass]="(isSubmitting$ | async) ? 'full-opacity' : 'no-opacity'">
+  <div class="opacity-transition" [ngClass]="(isSubmitting$ | async) || (resendingToken$ | async) ? 'full-opacity' : 'no-opacity'">
     <i class="fa fa-spinner fa-spin fa-3x"></i>
   </div>
 

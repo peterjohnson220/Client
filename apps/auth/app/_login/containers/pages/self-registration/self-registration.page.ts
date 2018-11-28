@@ -19,6 +19,9 @@ export class SelfRegistrationPageComponent implements OnInit {
   validatingTokenSuccess$: Observable<boolean>;
   validatingTokenAccountExists$: Observable<boolean>;
   validatingTokenExistingCompany$: Observable<SelfRegistrationExistingCompany>;
+  resendingToken$: Observable<boolean>;
+  resendingTokenSuccess$: Observable<boolean>;
+  resendingTokenError$: Observable<boolean>;
   accountEmail$: Observable<string>;
   submitError$: Observable<boolean>;
   isSubmitting$: Observable<boolean>;
@@ -39,6 +42,9 @@ export class SelfRegistrationPageComponent implements OnInit {
     this.validatingTokenExistingCompany$ = store.select(fromSelfRegistrationReducer.getValidatingTokenExistingCompany);
     this.isSubmitting$ = store.select(fromSelfRegistrationReducer.getSelfRegistrationCompletionIsSubmitting);
     this.submitError$ = store.select(fromSelfRegistrationReducer.getSelfRegistrationCompletionSubmitError);
+    this.resendingToken$ = store.select(fromSelfRegistrationReducer.getResendingToken);
+    this.resendingTokenSuccess$ = store.select(fromSelfRegistrationReducer.getResendingTokenSuccess);
+    this.resendingTokenError$ = store.select(fromSelfRegistrationReducer.getResendingTokenError);
     this.submitEnabled = false;
   }
 
@@ -64,6 +70,10 @@ export class SelfRegistrationPageComponent implements OnInit {
       const formPayload = { Token: this.token, Password: this.password };
       this.store.dispatch(new fromSelfRegistrationActions.CompletionSubmit(formPayload));
     }
+  }
+
+  resendToken() {
+    this.store.dispatch(new fromSelfRegistrationActions.ResendToken({ token: this.token }));
   }
 
 }

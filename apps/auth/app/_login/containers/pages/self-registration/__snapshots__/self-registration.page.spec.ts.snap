@@ -4,6 +4,9 @@ exports[`SelfRegistrationPage should disable Submit password button when passwor
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -48,8 +51,9 @@ exports[`SelfRegistrationPage should disable Submit password button when passwor
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -75,6 +79,9 @@ exports[`SelfRegistrationPage should disable the submit button when updatePasswo
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -119,8 +126,9 @@ exports[`SelfRegistrationPage should disable the submit button when updatePasswo
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -146,6 +154,9 @@ exports[`SelfRegistrationPage should enable Submit password button when password
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled={[Function Boolean]}
@@ -189,8 +200,9 @@ exports[`SelfRegistrationPage should enable Submit password button when password
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -215,6 +227,9 @@ exports[`SelfRegistrationPage should fade the form when the form is submitting 1
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Observable]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -259,8 +274,9 @@ exports[`SelfRegistrationPage should fade the form when the form is submitting 1
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -286,6 +302,9 @@ exports[`SelfRegistrationPage should hide the error message when there is no sub
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -330,8 +349,9 @@ exports[`SelfRegistrationPage should hide the error message when there is no sub
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -356,6 +376,9 @@ exports[`SelfRegistrationPage should not show the submit spinner when the form i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Observable]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -400,8 +423,9 @@ exports[`SelfRegistrationPage should not show the submit spinner when the form i
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -426,6 +450,9 @@ exports[`SelfRegistrationPage should should allow choosing password when page is
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -470,8 +497,157 @@ exports[`SelfRegistrationPage should should allow choosing password when page is
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
+            ng-reflect-ng-class="invisible"
+          >
+             An unexpected error has occurred 
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="opacity-transition no-opacity"
+      ng-reflect-klass="opacity-transition"
+      ng-reflect-ng-class="no-opacity"
+    >
+      <i
+        class="fa fa-spinner fa-spin fa-3x"
+      />
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show a message after resending successfully 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  isSubmitting$={[Function Store]}
+  resendingToken$={[Function Observable]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Observable]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  submitError$={[Function Store]}
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="position-relative"
+  >
+    
+    
+    <div
+      class="opacity-transition"
+    >
+      
+      
+      
+      
+      
+      <div
+        class="p-3 registration-box"
+      >
+        <h5
+          class="p-3"
+        >
+           Welcome to PayFactors! Please create your new password to continue. 
+        </h5>
+        <pf-confirm-password />
+        <div
+          class="text-center"
+        >
+          <button
+            class="btn btn-default m-3"
+            disabled=""
+          >
+             Continue 
+          </button>
+          <p
+            class="error invisible"
+            id="au-lbl-submit-error"
+            ng-reflect-klass="error"
+            ng-reflect-ng-class="invisible"
+          >
+             An unexpected error has occurred 
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="opacity-transition no-opacity"
+      ng-reflect-klass="opacity-transition"
+      ng-reflect-ng-class="no-opacity"
+    >
+      <i
+        class="fa fa-spinner fa-spin fa-3x"
+      />
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show an error message after resending error 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  isSubmitting$={[Function Store]}
+  resendingToken$={[Function Observable]}
+  resendingTokenError$={[Function Observable]}
+  resendingTokenSuccess$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  submitError$={[Function Store]}
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="position-relative"
+  >
+    
+    
+    <div
+      class="opacity-transition"
+    >
+      
+      
+      
+      
+      
+      <div
+        class="p-3 registration-box"
+      >
+        <h5
+          class="p-3"
+        >
+           Welcome to PayFactors! Please create your new password to continue. 
+        </h5>
+        <pf-confirm-password />
+        <div
+          class="text-center"
+        >
+          <button
+            class="btn btn-default m-3"
+            disabled=""
+          >
+             Continue 
+          </button>
+          <p
+            class="error invisible"
+            id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 
@@ -496,6 +672,9 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -558,6 +737,9 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -615,6 +797,9 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -674,6 +859,9 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -699,17 +887,34 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
       <div
         class="p-3 d-flex flex-column align-items-center registration-box"
       >
-        <h5
+        
+        
+        <h4
           class="p-3"
         >
-           Your link is expired. Please click below to return to the login page and retry. Or we could let you resend the email right here at some point. 
-        </h5>
-        <button
-          class="btn btn-default m-3"
-          routerlink="/login"
+           This token has expired. 
+        </h4>
+        <p>
+           To request a new token, please click the Resend button below. 
+        </p>
+        <div
+          class="text-center"
         >
-           Return to Login 
-        </button>
+          <button
+            class="btn btn-default m-3"
+          >
+             Resend 
+          </button>
+          <p
+            class="error invisible"
+            id="au-lbl-resend-error"
+            ng-reflect-klass="error"
+            ng-reflect-ng-class="invisible"
+          >
+             An unexpected error has occurred 
+          </p>
+        </div>
+        
       </div>
       
       
@@ -732,6 +937,9 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -756,11 +964,14 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
       <div
         class="p-3 d-flex flex-column align-items-center registration-box"
       >
-        <h5
+        <h4
           class="p-3"
         >
-           Your link is invalid. Please make sure that your link is correct, otherwise return to the login page and retry requesting access. Or some other such words. 
-        </h5>
+           This token is invalid. 
+        </h4>
+        <p>
+           Please confirm that you are using the correct link, or click the button below to return to the login page and register again. 
+        </p>
         <button
           class="btn btn-default m-3"
           routerlink="/login"
@@ -791,6 +1002,9 @@ exports[`SelfRegistrationPage should show the error message when there is a subm
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
   password={[Function String]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -835,8 +1049,9 @@ exports[`SelfRegistrationPage should show the error message when there is a subm
              Continue 
           </button>
           <p
-            class="visible"
+            class="error visible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="visible"
           >
              An unexpected error has occurred 
@@ -861,6 +1076,9 @@ exports[`SelfRegistrationPage should show the loading message when the page is l
 <pf-self-registration-page
   accountEmail$={[Function Store]}
   isSubmitting$={[Function Store]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -900,10 +1118,13 @@ exports[`SelfRegistrationPage should show the loading message when the page is l
 </pf-self-registration-page>
 `;
 
-exports[`SelfRegistrationPage should show the submit spinner when the form is submitting 1`] = `
+exports[`SelfRegistrationPage should show the spinner when resending token 1`] = `
 <pf-self-registration-page
   accountEmail$={[Function Store]}
-  isSubmitting$={[Function Observable]}
+  isSubmitting$={[Function Store]}
+  resendingToken$={[Function Observable]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
   route={[Function Object]}
   store={[Function Store]}
   submitEnabled="false"
@@ -948,8 +1169,83 @@ exports[`SelfRegistrationPage should show the submit spinner when the form is su
              Continue 
           </button>
           <p
-            class="invisible"
+            class="error invisible"
             id="au-lbl-submit-error"
+            ng-reflect-klass="error"
+            ng-reflect-ng-class="invisible"
+          >
+             An unexpected error has occurred 
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="opacity-transition full-opacity"
+      ng-reflect-klass="opacity-transition"
+      ng-reflect-ng-class="full-opacity"
+    >
+      <i
+        class="fa fa-spinner fa-spin fa-3x"
+      />
+    </div>
+  </div>
+</pf-self-registration-page>
+`;
+
+exports[`SelfRegistrationPage should show the submit spinner when the form is submitting 1`] = `
+<pf-self-registration-page
+  accountEmail$={[Function Store]}
+  isSubmitting$={[Function Observable]}
+  resendingToken$={[Function Store]}
+  resendingTokenError$={[Function Store]}
+  resendingTokenSuccess$={[Function Store]}
+  route={[Function Object]}
+  store={[Function Store]}
+  submitEnabled="false"
+  submitError$={[Function Store]}
+  token={[Function String]}
+  validatingToken$={[Function Observable]}
+  validatingTokenAccountExists$={[Function Store]}
+  validatingTokenError$={[Function Store]}
+  validatingTokenExistingCompany$={[Function Store]}
+  validatingTokenExpired$={[Function Store]}
+  validatingTokenSuccess$={[Function Observable]}
+>
+  <div
+    class="position-relative"
+  >
+    
+    
+    <div
+      class="opacity-transition faded"
+    >
+      
+      
+      
+      
+      
+      <div
+        class="p-3 registration-box"
+      >
+        <h5
+          class="p-3"
+        >
+           Welcome to PayFactors! Please create your new password to continue. 
+        </h5>
+        <pf-confirm-password />
+        <div
+          class="text-center"
+        >
+          <button
+            class="btn btn-default m-3"
+            disabled=""
+          >
+             Continue 
+          </button>
+          <p
+            class="error invisible"
+            id="au-lbl-submit-error"
+            ng-reflect-klass="error"
             ng-reflect-ng-class="invisible"
           >
              An unexpected error has occurred 

@@ -127,6 +127,52 @@ describe('SelfRegistrationPage', () => {
     expect(store.dispatch).toHaveBeenCalledWith(validateAction);
   });
 
+  it('should show the spinner when resending token', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.resendingToken$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    const spinnerContainerClasses = fixture.nativeElement.querySelector('.fa-spin').parentElement.classList;
+    expect(spinnerContainerClasses.contains('full-opacity')).toBeTruthy();
+  });
+
+  it('should show a message after resending successfully', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.resendingToken$ = of(false);
+    instance.resendingTokenSuccess$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show an error message after resending error', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.resendingToken$ = of(false);
+    instance.resendingTokenError$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch the right action when the resend button is clicked', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.token = 'token';
+    instance.resendToken();
+
+    fixture.detectChanges();
+
+    const action = new fromSelfRegistrationActions.ResendToken({ token: 'token' });
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
   it('should disable Submit password button when password is not valid', () => {
 
     instance.validatingToken$ = of(false);
