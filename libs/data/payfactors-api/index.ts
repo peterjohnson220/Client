@@ -13,3 +13,4 @@ export * from './terms-conditions';
 export * from './org-data-loader';
 export * from './app-environment';
 export * from './service';
+export * from './company-job-pricing-match';

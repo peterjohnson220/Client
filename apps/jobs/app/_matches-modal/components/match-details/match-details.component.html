@@ -1,0 +1,41 @@
+<div *ngIf="match">
+  <div>
+    <strong>{{match.JobTitle}} ({{match.JobCode}})</strong>
+  </div>
+  <div *ngIf="!match.IsPayfactorsJob">
+    Source: {{ match.SurveyName}} {{match.SurveyPublisher}}, effective {{match.EffectiveDate |  date:'mediumDate'}}
+  </div>
+  <div *ngIf="match.IsPayfactorsJob">
+    Source: {{ match.SurveyName}} effective {{match.EffectiveDate |  date:'mediumDate'}}
+  </div>
+
+  <div *ngIf="showMore">
+    <div>
+      <span>Family: {{match.JobFamily}}</span> <span class="job-level">Level: {{match.JobLevel}}</span>
+    </div>
+    <div *ngIf="match.IsPayfactorsJob">
+      <span>FLSA: {{match.FlsaStatus}}</span> <span class="category">Category: {{match.JobCategory}}</span>
+    </div>
+
+    <div class="scope-mapping-section">
+      Scope Mapping: <br/>
+      <div *ngFor="let scope of match.ScopeMapping">
+        <span class="scope-mapping-item">{{scope}}</span>
+      </div>
+    </div>
+
+    <div>
+      {{match.JobDescription}}
+    </div>
+  </div>
+
+  <div class="show-more" (click)="toggleShowMore()">
+    <div *ngIf="showMore">
+      <strong>Show less</strong>
+    </div>
+    <div *ngIf="!showMore">
+      <strong>Show More</strong>
+    </div>
+  </div>
+
+</div>
