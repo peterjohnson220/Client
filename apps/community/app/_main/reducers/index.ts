@@ -14,6 +14,7 @@ import * as fromCommunityJobReducer from './community-job.reducer';
 import * as CommunityPost from 'libs/models/community';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
+import { CommunityConstants } from '../models';
 
 // Feature area state
 export interface CommunityState {
@@ -218,16 +219,28 @@ export const getTotalDiscussionResultsOnServer = createSelector(
   fromCommunityPostReducer.getTotalResultsOnServer
 );
 
-export const getLoadingMorePosts = createSelector(
+export const getLoadingNextBatchPosts = createSelector(
   selectFromCommunityPostState,
-  fromCommunityPostReducer.getLoadingMorePosts
+  fromCommunityPostReducer.getLoadingNextBatchPosts
 );
 
-export const getHasMoreDiscussionResultsOnServer = createSelector(
-  getCommunityPosts,
+export const getLoadingPreviousBatchPosts = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingPreviousBatchPosts
+);
+
+export const getHasNextBatchPostsOnServer = createSelector(
   getTotalDiscussionResultsOnServer,
-  (posts, totalOnServer) => {
-    return totalOnServer > posts.length;
+  getDiscussionPagingOptions,
+  (totalOnServer, pagingOptions) => {
+    return totalOnServer > CommunityConstants.POSTS_PER_BATCH * pagingOptions.PageIndex;
+  }
+);
+
+export const getHasPreviousBatchPostsOnServer = createSelector(
+  getDiscussionPagingOptions,
+  (pagingOptions) => {
+    return pagingOptions.PageIndex > CommunityConstants.POST_PAGING_FACTOR;
   }
 );
 

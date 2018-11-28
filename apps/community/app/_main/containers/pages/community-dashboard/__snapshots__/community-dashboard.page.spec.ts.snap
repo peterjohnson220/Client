@@ -2,7 +2,27 @@
 
 exports[`CommunityDashboardPageComponent should show community dashboard page 1`] = `
 <pf-community-dashboard-page
+  COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
+  POST_ITEM_CLASS={[Function String]}
+  changeDetector={[Function ViewRef_]}
+  getHasNextBatchPostsOnServer$={[Function Store]}
+  getHasPreviousBatchPostsOnServer$={[Function Store]}
+  hasNextBatchOnServer="false"
+  hasNextBatchResultsOnServerSubscription={[Function Subscriber]}
+  hasPreviousBatchOnServer="false"
+  hasPreviousBatchResultsOnServerSubscription={[Function Subscriber]}
+  hideTopComponents="false"
+  isLoadingNextBatch="false"
+  isLoadingPreviousBatch="false"
+  loadingNextBatchCommunityPosts$={[Function Store]}
+  loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
+  loadingPreviousBatchCommunityPosts$={[Function Store]}
+  loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
+  postBatchSize={[Function Number]}
   postsComponent={[Function ElementRef]}
+  scroll={[Function ScrollDispatcher]}
+  scrollingSubscription={[Function Subscriber]}
+  store={[Function Store]}
 >
   <div
     class="flex-column-container"
@@ -24,8 +44,8 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
       </div>
     </div>
     <div
+      cdk-scrollable=""
       class="page-content"
-      infinite-scroll=""
     >
       <div
         class="container-fluid community-container"
@@ -36,8 +56,11 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           <div
             class="col-3"
           >
-            <pf-community-categories />
-            <pf-community-popular-tags />
+            
+            <div>
+              <pf-community-categories />
+              <pf-community-popular-tags />
+            </div>
             <div
               class="sticky-top"
             >
@@ -54,13 +77,18 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           <div
             class="col-6"
           >
-            <pf-community-start-discussion />
-            <p
-              class="sub-header"
+            
+            <div
+              id="discussion-wrapper"
             >
-              See what people are talking about...
-            </p>
-            <hr />
+              <pf-community-start-discussion />
+              <p
+                class="sub-header"
+              >
+                See what people are talking about...
+              </p>
+              <hr />
+            </div>
             <pf-community-posts />
           </div>
           <div

@@ -8,12 +8,16 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
-  hasMoreResultsOnServer$={[Function Store]}
-  hasMoreResultsOnServerSubscription={[Function Subscriber]}
+  getHasNextBatchPostsOnServer$={[Function Store]}
+  getHasPreviousBatchPostsOnServer$={[Function Store]}
+  hasNextBatchResultsOnServerSubscription={[Function Subscriber]}
+  hasPreviousBatchResultsOnServerSubscription={[Function Subscriber]}
   loadingCommunityPosts$={[Function Store]}
-  loadingMoreCommunityPosts$={[Function Store]}
-  loadingMoreCommunityPostsSubscription={[Function Subscriber]}
+  loadingNextBatchCommunityPosts$={[Function Store]}
+  loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
   loadingPostsSubscription={[Function Subscriber]}
+  loadingPreviousBatchCommunityPosts$={[Function Store]}
+  loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
   pollsType={[Function Number]}
   replyStore={[Function Store]}
   showAddReply={[Function Object]}
@@ -22,8 +26,14 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
 >
   <pf-community-post-filter-options /><div
     class="posts-container p-2 scroll"
+    id="posts-container"
   >
     
+    <div
+      id="community-posts"
+    >
+      
+    </div>
     
   </div>
 </pf-community-posts>

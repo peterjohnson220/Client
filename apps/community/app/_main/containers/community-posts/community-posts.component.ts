@@ -33,8 +33,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   communityPosts$: Observable<CommunityPost[]>;
   communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
   loadingCommunityPosts$: Observable<boolean>;
-  loadingMoreCommunityPosts$: Observable<boolean>;
-  hasMoreResultsOnServer$: Observable<boolean>;
+  loadingNextBatchCommunityPosts$: Observable<boolean>;
+  loadingPreviousBatchCommunityPosts$: Observable<boolean>;
+  getHasNextBatchPostsOnServer$: Observable<boolean>;
+  getHasPreviousBatchPostsOnServer$: Observable<boolean>;
 
   showAddReply = {};
   showReplies = [];
@@ -44,11 +46,15 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   loadingPostsSubscription: Subscription;
   communityPostsSubscription: Subscription;
-  loadingMoreCommunityPostsSubscription: Subscription;
-  hasMoreResultsOnServerSubscription: Subscription;
+  loadingNextBatchCommunityPostsSubscription: Subscription;
+  loadingPreviousBatchCommunityPostsSubscription: Subscription;
+  hasNextBatchResultsOnServerSubscription: Subscription;
+  hasPreviousBatchResultsOnServerSubscription: Subscription;
 
-  loadingMoreCommunityPosts: boolean;
-  hasMoreResultsOnServer: boolean;
+  loadingNextBatchCommunityPosts: boolean;
+  loadingPreviousBatchCommunityPosts: boolean;
+  hasNextBatchOnServer: boolean;
+  hasPreviousBatchOnServer: boolean;
 
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
@@ -60,14 +66,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
 
-    this.loadingMoreCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingMorePosts);
-    this.hasMoreResultsOnServer$ = this.store.select(fromCommunityPostReducer.getHasMoreDiscussionResultsOnServer);
-  }
-
-  onScroll() {
-    if (!this.loadingMoreCommunityPosts && this.hasMoreResultsOnServer) {
-      this.store.dispatch(new fromCommunityPostActions.GettingMoreCommunityPosts());
-    }
+    this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
+    this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
+    this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
+    this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
   }
 
   ngOnInit() {
@@ -85,15 +87,27 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.loadingMoreCommunityPostsSubscription = this.loadingMoreCommunityPosts$.subscribe(value => {
+    this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
-        this.loadingMoreCommunityPosts = value;
+        this.loadingNextBatchCommunityPosts = value;
       }
     });
 
-    this.hasMoreResultsOnServerSubscription = this.hasMoreResultsOnServer$.subscribe(value => {
+    this.loadingPreviousBatchCommunityPostsSubscription = this.loadingPreviousBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
-        this.hasMoreResultsOnServer = value;
+        this.loadingPreviousBatchCommunityPosts = value;
+      }
+    });
+
+    this.hasNextBatchResultsOnServerSubscription = this.getHasNextBatchPostsOnServer$.subscribe(value => {
+      if (value != null) {
+        this.hasNextBatchOnServer = value;
+      }
+    });
+
+    this.hasPreviousBatchResultsOnServerSubscription = this.getHasPreviousBatchPostsOnServer$.subscribe(value => {
+      if (value != null) {
+        this.hasPreviousBatchOnServer = value;
       }
     });
   }
@@ -107,12 +121,32 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       this.loadingPostsSubscription.unsubscribe();
     }
 
-    if (this.loadingMoreCommunityPostsSubscription) {
-      this.loadingMoreCommunityPostsSubscription.unsubscribe();
+    if (this.loadingNextBatchCommunityPostsSubscription) {
+      this.loadingNextBatchCommunityPostsSubscription.unsubscribe();
     }
 
-    if (this.hasMoreResultsOnServerSubscription) {
-      this.hasMoreResultsOnServerSubscription.unsubscribe();
+    if (this.loadingPreviousBatchCommunityPostsSubscription) {
+      this.loadingPreviousBatchCommunityPostsSubscription.unsubscribe();
+    }
+
+    if (this.hasNextBatchResultsOnServerSubscription) {
+      this.hasNextBatchResultsOnServerSubscription.unsubscribe();
+    }
+
+    if (this.hasPreviousBatchResultsOnServerSubscription) {
+      this.hasPreviousBatchResultsOnServerSubscription.unsubscribe();
+    }
+  }
+
+  onScrollUp() {
+    if (!this.loadingPreviousBatchCommunityPosts && this.hasPreviousBatchOnServer) {
+      this.store.dispatch(new fromCommunityPostActions.GettingPreviousBatchCommunityPosts());
+    }
+  }
+
+  onScrollDown() {
+    if (!this.loadingNextBatchCommunityPosts && this.hasNextBatchOnServer) {
+      this.store.dispatch(new fromCommunityPostActions.GettingNextBatchCommunityPosts());
     }
   }
 

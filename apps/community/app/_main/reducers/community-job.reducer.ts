@@ -32,7 +32,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingMoreResults: false,
   pagingOptions: {
-    StartIndex: 1,
+    PageIndex: 1,
     NumberOfPosts: 20
   },
   loadingError: false,
@@ -71,7 +71,7 @@ export function reducer(
         ...state,
         loading: true,
         loadingError: false,
-        pagingOptions: {...state.pagingOptions, StartIndex: 1}
+        pagingOptions: {...state.pagingOptions, PageIndex: 1}
       };
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_SUCCESS: {
@@ -93,7 +93,7 @@ export function reducer(
         ...state,
         loadingError: false,
         loadingMoreResults: true,
-        pagingOptions: {...state.pagingOptions, StartIndex: state.pagingOptions.StartIndex + 1}
+        pagingOptions: {...state.pagingOptions, PageIndex: state.pagingOptions.PageIndex + 1}
       };
     }
     case communityJobActions.GETTING_MORE_COMMUNITY_JOBS_SUCCESS: {
@@ -119,7 +119,7 @@ export function reducer(
         ...state,
         loading: true,
         loadingError: false,
-        pagingOptions: {...state.pagingOptions, StartIndex: 1}
+        pagingOptions: {...state.pagingOptions, PageIndex: 1}
       };
     }
     case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS_SUCCESS: {

@@ -3,14 +3,20 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommunityDashboardPageComponent } from './community-dashboard.page';
+import { Store, StoreModule } from '@ngrx/store';
+import * as fromRootState from 'libs/state/state';
 
 describe('CommunityDashboardPageComponent', () => {
   let fixture: ComponentFixture<CommunityDashboardPageComponent>;
   let instance: CommunityDashboardPageComponent;
+  let store: Store<fromRootState.State>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers
+        }),
         FormsModule,
         ReactiveFormsModule
       ],
@@ -21,6 +27,9 @@ describe('CommunityDashboardPageComponent', () => {
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
+    setupMutationObserverMock(global);
+
+    store = TestBed.get(Store);
     fixture = TestBed.createComponent(CommunityDashboardPageComponent);
     instance = fixture.componentInstance;
   }));
@@ -30,4 +39,12 @@ describe('CommunityDashboardPageComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  function setupMutationObserverMock(data) {
+    data.MutationObserver = class {
+      constructor(callback) {}
+      disconnect() {}
+      observe(element, initObject) {}
+    };
+  }
 });
