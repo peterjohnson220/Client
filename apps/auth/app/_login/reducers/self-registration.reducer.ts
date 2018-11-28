@@ -1,12 +1,15 @@
 import * as fromSelfRegistrationActions from '../actions/self-registration.actions';
-import { SelfRegistrationForm } from 'libs/models/user/self-registration-form.model';
+import { SelfRegistrationRequestForm } from 'libs/models/user/self-registration-request-form.model';
 import { SelfRegistrationExistingCompany } from '../models/self-registration-existing-company.model';
 
 export interface State {
-  selfRegistrationForm: SelfRegistrationForm;
-  isSubmitting: boolean;
-  submitSuccess: boolean;
-  submitError: boolean;
+  selfRegistrationForm: SelfRegistrationRequestForm;
+  requestIsSubmitting: boolean;
+  requestSubmitSuccess: boolean;
+  requestSubmitError: boolean;
+  completionIsSubmitting: boolean;
+  completionSubmitSuccess: boolean;
+  completionSubmitError: boolean;
   validatingToken: boolean;
   validatingTokenSuccess: boolean;
   validatingTokenError: boolean;
@@ -19,9 +22,12 @@ export interface State {
 
 export const initialState: State = {
   selfRegistrationForm: null,
-  isSubmitting: false,
-  submitSuccess: false,
-  submitError: false,
+  requestIsSubmitting: false,
+  requestSubmitSuccess: false,
+  requestSubmitError: false,
+  completionIsSubmitting: false,
+  completionSubmitSuccess: false,
+  completionSubmitError: false,
   validatingToken: false,
   validatingTokenSuccess: false,
   validatingTokenError: false,
@@ -34,32 +40,34 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: fromSelfRegistrationActions.Actions): State {
   switch (action.type) {
+    // Initial Request Form
+    case fromSelfRegistrationActions.REQUEST_SUBMIT: {
+      return {
+        ...state,
+        requestIsSubmitting: true
+      };
+    }
+    case fromSelfRegistrationActions.REQUEST_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        requestIsSubmitting: false,
+        requestSubmitSuccess: true
+      };
+    }
+    case fromSelfRegistrationActions.REQUEST_SUBMIT_ERROR: {
+      return {
+        ...state,
+        requestIsSubmitting: false,
+        requestSubmitError: true
+      };
+    }
     case fromSelfRegistrationActions.FIELD_CHANGE: {
       return {
         ...state,
         selfRegistrationForm: action.payload
       };
     }
-    case fromSelfRegistrationActions.SUBMIT: {
-      return {
-        ...state,
-        isSubmitting: true
-      };
-    }
-    case fromSelfRegistrationActions.SUBMIT_SUCCESS: {
-      return {
-        ...state,
-        isSubmitting: false,
-        submitSuccess: true
-      };
-    }
-    case fromSelfRegistrationActions.SUBMIT_ERROR: {
-      return {
-        ...state,
-        isSubmitting: false,
-        submitError: true
-      };
-    }
+    // Token/Validation
     case fromSelfRegistrationActions.VALIDATE_TOKEN: {
       return {
         ...state,
@@ -103,6 +111,27 @@ export function reducer(state = initialState, action: fromSelfRegistrationAction
         validatingTokenExistingCompany: action.payload,
       };
     }
+    // Password/Completion Form
+    case fromSelfRegistrationActions.COMPLETION_SUBMIT: {
+      return {
+        ...state,
+        completionIsSubmitting: true
+      };
+    }
+    case fromSelfRegistrationActions.COMPLETION_SUBMIT_SUCCESS: {
+      return {
+        ...state,
+        completionIsSubmitting: false,
+        completionSubmitSuccess: true
+      };
+    }
+    case fromSelfRegistrationActions.COMPLETION_SUBMIT_ERROR: {
+      return {
+        ...state,
+        completionIsSubmitting: false,
+        completionSubmitError: true
+      };
+    }
     default: {
       return state;
     }
@@ -111,14 +140,20 @@ export function reducer(state = initialState, action: fromSelfRegistrationAction
 
 // Selector Functions
 export const getSelfRegistrationForm = (state: State) => state.selfRegistrationForm;
-export const getIsSubmitting = (state: State) => state.isSubmitting;
-export const getSubmitSuccess = (state: State) => state.submitSuccess;
-export const getSubmitError = (state: State) => state.submitError;
+// Initial form on login page
+export const getRequestIsSubmitting = (state: State) => state.requestIsSubmitting;
+export const getRequestSubmitSuccess = (state: State) => state.requestSubmitSuccess;
+export const getRequestSubmitError = (state: State) => state.requestSubmitError;
+// Completion form with password
+export const getCompletionIsSubmitting = (state: State) => state.completionIsSubmitting;
+export const getCompletionSubmitSuccess = (state: State) => state.completionSubmitSuccess;
+export const getCompletionSubmitError = (state: State) => state.completionSubmitError;
+// Token/misc
 export const getValidatingToken = (state: State) => state.validatingToken;
 export const getValidatingTokenSuccess = (state: State) => state.validatingTokenSuccess;
 export const getValidatingTokenError = (state: State) => state.validatingTokenError;
 export const getValidatingTokenExpired = (state: State) => state.validatingTokenExpired;
 export const getValidatingTokenAccountExists = (state: State) => state.validatingTokenAccountExists;
 export const getValidatedToken = (state: State) => state.validatedToken;
-export const getAccountEmail = (state: State) => state.accountEmail;
 export const getValidatingTokenExistingCompany = (state: State) => state.validatingTokenExistingCompany;
+export const getAccountEmail = (state: State) => state.accountEmail;

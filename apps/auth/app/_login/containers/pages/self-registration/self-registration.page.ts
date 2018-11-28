@@ -20,6 +20,8 @@ export class SelfRegistrationPageComponent implements OnInit {
   validatingTokenAccountExists$: Observable<boolean>;
   validatingTokenExistingCompany$: Observable<SelfRegistrationExistingCompany>;
   accountEmail$: Observable<string>;
+  submitError$: Observable<boolean>;
+  isSubmitting$: Observable<boolean>;
   password: string;
   submitEnabled: boolean;
   token: string;
@@ -35,6 +37,8 @@ export class SelfRegistrationPageComponent implements OnInit {
     this.validatingTokenAccountExists$ = store.select(fromSelfRegistrationReducer.getValidatingTokenAccountExists);
     this.accountEmail$ = store.select(fromSelfRegistrationReducer.getAccountEmail);
     this.validatingTokenExistingCompany$ = store.select(fromSelfRegistrationReducer.getValidatingTokenExistingCompany);
+    this.isSubmitting$ = store.select(fromSelfRegistrationReducer.getSelfRegistrationCompletionIsSubmitting);
+    this.submitError$ = store.select(fromSelfRegistrationReducer.getSelfRegistrationCompletionSubmitError);
     this.submitEnabled = false;
   }
 
@@ -56,7 +60,9 @@ export class SelfRegistrationPageComponent implements OnInit {
   updatePassword() {
     if (this.password != null && typeof(this.password) !== 'undefined') {
       this.submitEnabled = false;
-      alert('Create the company and user now');
+
+      const formPayload = { Token: this.token, Password: this.password };
+      this.store.dispatch(new fromSelfRegistrationActions.CompletionSubmit(formPayload));
     }
   }
 

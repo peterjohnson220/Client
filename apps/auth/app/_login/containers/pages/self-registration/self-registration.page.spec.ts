@@ -12,6 +12,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromReducers from '../../../reducers';
 import * as fromSelfRegistrationActions from '../../../actions/self-registration.actions';
 import { SelfRegistrationPageComponent } from './self-registration.page';
+import { SelfRegistrationCompletionForm } from 'libs/models/user/self-registration-completion-form.model';
 
 const TEST_TOKEN = 'test_token';
 
@@ -148,6 +149,92 @@ describe('SelfRegistrationPage', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should disable the submit button when updatePassword is clicked', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.password = 'password';
+    instance.updatePassword();
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement.querySelector('button.btn-default').disabled).toBeTruthy();
+  });
+
+  it('should not show the submit spinner when the form is not submitting', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.isSubmitting$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    const spinnerContainerClasses = fixture.nativeElement.querySelector('.fa-spin').parentElement.classList;
+    expect(spinnerContainerClasses.contains('no-opacity')).toBeTruthy();
+  });
+
+  it('should show the submit spinner when the form is submitting', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.isSubmitting$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    const spinnerContainerClasses = fixture.nativeElement.querySelector('.fa-spin').parentElement.classList;
+    expect(spinnerContainerClasses.contains('full-opacity')).toBeTruthy();
+  });
+
+  it('should fade the form when the form is submitting', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.isSubmitting$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement.querySelector('.faded')).toBeTruthy();
+  });
+
+  it('should hide the error message when there is no submit error', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.password = 'password';
+    instance.updatePassword();
+    instance.submitError$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement.querySelector('#au-lbl-submit-error.invisible')).toBeTruthy();
+  });
+
+  it('should show the error message when there is a submit error', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.password = 'password';
+    instance.updatePassword();
+    instance.submitError$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+    expect(fixture.nativeElement.querySelector('#au-lbl-submit-error.visible')).toBeTruthy();
+  });
+
+  it('should dispatch the right action when the submit button is clicked', () => {
+    instance.validatingToken$ = of(false);
+    instance.validatingTokenSuccess$ = of(true);
+    instance.password = 'password';
+    instance.token = 'token';
+    instance.updatePassword();
+
+    fixture.detectChanges();
+
+    const action = new fromSelfRegistrationActions.CompletionSubmit({ Token: 'token', Password: 'password' });
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
 });

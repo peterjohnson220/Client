@@ -61,7 +61,7 @@ describe('SelfRegistrationModalComponent', () => {
   it('should dispatch the right action when the modal is submitted', () => {
     component.onSelfRegistrationSubmit();
 
-    const submitAction = new fromSelfRegistrationActions.Submit();
+    const submitAction = new fromSelfRegistrationActions.RequestSubmit();
     expect(store.dispatch).toHaveBeenCalledWith(submitAction);
   });
 
@@ -80,7 +80,7 @@ describe('SelfRegistrationModalComponent', () => {
 
     component.onKeyDown(enterKeyEvent);
 
-    const submitAction = new fromSelfRegistrationActions.Submit();
+    const submitAction = new fromSelfRegistrationActions.RequestSubmit();
     expect(store.dispatch).toHaveBeenCalledWith(submitAction);
   });
 
