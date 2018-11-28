@@ -163,6 +163,12 @@ export class SelfRegistrationModalComponent implements OnInit, OnDestroy {
           validator.validateNumberEmployees
         ]
       ],
+      TermsAndConditions: [
+        false,
+        [
+          Validators.requiredTrue
+        ]
+      ]
     });
   }
 

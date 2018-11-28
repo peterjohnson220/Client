@@ -11,11 +11,6 @@ label.error {
   margin-bottom: 0.5rem;
 }
 
-p.error {
-  position: absolute;
-  margin-top: -4px;
-}
-
 input, select {
   transition: border-color, background-color .3s ease-in-out;
   &.ng-invalid.ng-dirty.ng-touched {

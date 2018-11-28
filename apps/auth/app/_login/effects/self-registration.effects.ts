@@ -47,7 +47,9 @@ export class SelfRegistrationEffects {
         this.store.select(fromLoginReducer.getSelfRegistrationForm),
         (action: fromSelfRegistrationActions.RequestSubmit, form) => ({ action, form })),
       switchMap((selfRegistration) => {
-        return this.accountApiService.submitSelfRegistrationRequest(selfRegistration.form).pipe(
+        const form: any = Object.assign({}, selfRegistration.form);
+        delete form.TermsAndConditions;
+        return this.accountApiService.submitSelfRegistrationRequest(form).pipe(
           map(() => new fromSelfRegistrationActions.RequestSubmitSuccess()),
           catchError(error => of(new fromSelfRegistrationActions.RequestSubmitError(error)))
         );
