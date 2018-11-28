@@ -1,7 +1,9 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import 'rxjs/add/observable/combineLatest';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
@@ -37,6 +39,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
   getHasNextBatchPostsOnServer$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
+  filteredByPost$: Observable<boolean>;
 
   showAddReply = {};
   showReplies = [];
@@ -57,7 +60,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   hasPreviousBatchOnServer: boolean;
 
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(private route: ActivatedRoute,
+              public store: Store<fromCommunityPostReducer.State>,
               public replyStore: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
@@ -70,10 +74,28 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
+    this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
   }
 
   ngOnInit() {
-    this.getPosts();
+
+    const urlParams = Observable.combineLatest(
+      this.route.params,
+      this.route.url,
+      (params, url) => ({ ...params, url: url.join('')})
+    );
+    urlParams.subscribe(routeParams => {
+      if (routeParams.url.indexOf('post') > -1) {
+        const postId = routeParams['id'];
+        this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostToFilterOptions(postId));
+      } else if (routeParams.url.indexOf('reply') > -1) {
+        const replyId = routeParams['id'];
+        this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostReplyToFilterOptions(replyId));
+      } else {
+        this.getPosts();
+      }
+    });
+
 
     this.loadingPostsSubscription = this.loadingCommunityPosts$.subscribe(model => {
       if (model) {

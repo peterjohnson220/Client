@@ -93,7 +93,7 @@
         </div>
       </div>
       <hr *ngIf="!last">
-      <div *ngIf="last && !hasNextBatchOnServer && !loadingNextBatchCommunityPosts" class="row">
+      <div *ngIf="last && !hasNextBatchOnServer && !loadingNextBatchCommunityPosts && !(loadingCommunityPosts$ | async) && !(filteredByPost$ | async)" class="row">
         <div class="col-8">
           All results are displayed.
         </div>
