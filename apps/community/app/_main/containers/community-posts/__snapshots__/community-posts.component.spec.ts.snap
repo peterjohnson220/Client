@@ -26,17 +26,23 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   showReplies={[Function Array]}
   store={[Function Store]}
 >
-  <pf-community-post-filter-options /><div
-    class="posts-container p-2 scroll"
-    id="posts-container"
-  >
-    
+  <pf-async-container>
+    <pf-community-post-filter-options />
     <div
-      id="community-posts"
+      class="posts-container p-2 scroll"
+      id="posts-container"
     >
       
+      <div
+        id="community-posts"
+      >
+        
+      </div>
+      
+      <hr />
+      
+      
     </div>
-    
-  </div>
+  </pf-async-container>
 </pf-community-posts>
 `;

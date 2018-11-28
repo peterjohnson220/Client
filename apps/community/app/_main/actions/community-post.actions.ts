@@ -17,6 +17,9 @@ export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS = '[Community/Post] Get Prev
 export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Previous Batch Community Posts Success';
 export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Previous Batch Community Posts Error';
 
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS = '[Community/Post] Get Back To Top Community Posts';
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Back To Top Community Posts Success';
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Back To Top Community Posts Error';
 
 export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community Post Like';
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
@@ -86,6 +89,19 @@ export class GettingPreviousBatchCommunityPostsError implements Action {
   readonly type = GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_ERROR;
 }
 
+export class GettingBackToTopCommunityPosts implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS;
+}
+
+export class GettingBackToTopCommunityPostsSuccess implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingBackToTopCommunityPostsError implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS_ERROR;
+}
+
 export class UpdatingCommunityPostLike implements Action {
   readonly type = UPDATING_COMMUNITY_POST_LIKE;
   constructor(public payload: any) {}
@@ -153,6 +169,9 @@ export type Actions
   | GettingPreviousBatchCommunityPosts
   | GettingPreviousBatchCommunityPostsSuccess
   | GettingPreviousBatchCommunityPostsError
+  | GettingBackToTopCommunityPosts
+  | GettingBackToTopCommunityPostsSuccess
+  | GettingBackToTopCommunityPostsError
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError

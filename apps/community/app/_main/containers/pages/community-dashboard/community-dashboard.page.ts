@@ -5,6 +5,8 @@ import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import * as fromCommunityPostReducer from '../../../reducers';
+import * as  fromCommunityPostActions from '../../../actions/community-post.actions';
+
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
 
@@ -16,6 +18,7 @@ import { CommunityConstants } from '../../../models';
 })
 export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   @ViewChild('posts') postsComponent: CommunityPostsComponent;
+
   readonly POST_ITEM_CLASS = 'post-item';
   readonly COMMUNITY_POSTS_CONTAINER_ID = 'community-posts';
 
@@ -34,6 +37,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   hideTopComponents = false;
   isLoadingNextBatch = false;
   isLoadingPreviousBatch = false;
+  showBackToTopButton = false;
 
   scrollElement: any;
   scrollTop: any;
@@ -45,6 +49,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   previousTopPostOffset: any;
   previousBottomPostOffset: any;
   postBatchSize = CommunityConstants.POSTS_PER_BATCH;
+
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               public scroll: ScrollDispatcher, private changeDetector: ChangeDetectorRef) {
@@ -59,7 +64,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       .subscribe((data: CdkScrollable) => {
         this.onWindowScroll(data);
       });
-
   }
 
   onWindowScroll(data: CdkScrollable) {
@@ -84,7 +88,6 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       if (!this.isLoadingNextBatch) {
         this.postsComponent.onScrollDown();
       }
-
     }
 
     this.previousScrollTop = this.scrollTop;
@@ -104,19 +107,17 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   setPreviousBottomPostOffset() {
     const postItems = document.getElementsByClassName(this.POST_ITEM_CLASS);
-
-    if (postItems.length > this.postBatchSize) {
-      this.previousBottomPostOffset = (<HTMLElement>postItems[ postItems.length - 1 ]).offsetTop - this.scrollTop;
-    } else {
-      this.previousBottomPostOffset = (<HTMLElement>postItems[ this.postBatchSize - 1 ]).offsetTop - this.scrollTop;
-    }
+    this.previousBottomPostOffset = (<HTMLElement>postItems[ postItems.length - 1 ]).offsetTop - this.scrollTop;
   }
 
   loadedNextBatchScrollToNewPosition() {
+    this.showBackToTopButton = true;
+
     // TODO: Current scroll logic needs to be updated here to handle variations in CommunityConstants batch size and paging factor.
     if (document.getElementsByClassName(this.POST_ITEM_CLASS).length > this.postBatchSize) {
       const currentLastPostOffset = (<HTMLElement>document.getElementsByClassName(this.POST_ITEM_CLASS)
         [ this.postBatchSize - 1 ]).offsetTop;
+
       const newCalculatedScrollPosition = currentLastPostOffset - this.previousBottomPostOffset;
 
       this.scroll.getAncestorScrollContainers(this.scrollElement)[ 0 ].getElementRef().nativeElement
@@ -135,6 +136,18 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       .scrollTop = newCalculatedScrollPosition;
 
     this.previousScrollTop = newCalculatedScrollPosition;
+  }
+
+  backToTop() {
+    this.showBackToTopButton = false;
+    this.hideTopComponents = false;
+    this.store.dispatch(new fromCommunityPostActions.GettingBackToTopCommunityPosts());
+
+    if (this.scrollElement) {
+      this.scroll.getAncestorScrollContainers(this.scrollElement)[ 0 ].getElementRef().nativeElement
+        .scrollTop = 0;
+      this.previousScrollTop = 0;
+    }
   }
 
   // Lifecycle events

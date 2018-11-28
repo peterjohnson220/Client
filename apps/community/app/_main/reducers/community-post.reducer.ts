@@ -101,7 +101,6 @@ export function reducer(
       };
     }
     case communityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS: {
-
       let newStartIndexDisplayed = state.startIndexDisplayed;
       let newEndIndexDisplayed = state.endIndexDisplayed;
       const hasNextBatchOnServer = state.totalResultsOnServer > CommunityConstants.POSTS_PER_BATCH * (state.endIndexDisplayed + 1);
@@ -196,6 +195,32 @@ export function reducer(
       return {
         ...state,
         loadingPreviousBatchPosts: false,
+        loadingError: true
+      };
+    }
+
+    case communityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS: {
+      return {
+        ...state,
+        loading: true,
+        startIndexDisplayed: 1,
+        endIndexDisplayed: 1,
+        pagingOptions: { ...state.pagingOptions, PageIndex: 1 }
+      };
+    }
+
+    case communityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS: {
+      return {
+        ...adapter.addAll(action.payload.Posts,
+          state),
+        loading: false
+      };
+    }
+
+    case communityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS_ERROR: {
+      return {
+        ...state,
+        loading: false,
         loadingError: true
       };
     }
