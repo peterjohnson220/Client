@@ -120,8 +120,8 @@ export function reducer(
       };
     }
     case communityPostActions.GETTING_NEXT_BATCH_COMMUNITY_POSTS_SUCCESS: {
-      const existingPostsInStore = Object.keys(state.entities).map(function(key) {
-        return state.entities[key];
+      const existingPostsInStore = Object.keys(state.entities).map(function (key) {
+        return state.entities[ key ];
       });
 
       existingPostsInStore.sort(sortByTime);
@@ -129,7 +129,7 @@ export function reducer(
       const payloadPostCount = action.payload.Posts.length;
       let addModifiedState = adapter.addMany(action.payload.Posts, state);
 
-      const hasNextBatchOnServer = state.totalResultsOnServer > CommunityConstants.POSTS_PER_BATCH  * state.pagingOptions.PageIndex;
+      const hasNextBatchOnServer = state.totalResultsOnServer > CommunityConstants.POSTS_PER_BATCH * state.pagingOptions.PageIndex;
 
       if (existingPostsInStore.length >= (CommunityConstants.POST_PAGING_FACTOR * CommunityConstants.POSTS_PER_BATCH)
         && hasNextBatchOnServer) {
@@ -166,12 +166,12 @@ export function reducer(
         loadingPreviousBatchPosts: true,
         startIndexDisplayed: newStartIndexDisplayed,
         endIndexDisplayed: newEndIndexDisplayed,
-        pagingOptions: { ...state.pagingOptions, PageIndex: newStartIndexDisplayed, NumberOfPosts: CommunityConstants.POSTS_PER_BATCH  }
+        pagingOptions: { ...state.pagingOptions, PageIndex: newStartIndexDisplayed, NumberOfPosts: CommunityConstants.POSTS_PER_BATCH }
       };
     }
     case communityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_SUCCESS: {
-      const existingPostsInStore = Object.keys(state.entities).map(function(key) {
-        return state.entities[key];
+      const existingPostsInStore = Object.keys(state.entities).map(function (key) {
+        return state.entities[ key ];
       });
 
       existingPostsInStore.sort(sortByTime);
@@ -183,7 +183,7 @@ export function reducer(
       let addModifiedState = adapter.addMany(action.payload.Posts, state);
 
       if (postIds.length >= CommunityConstants.POST_PAGING_FACTOR * CommunityConstants.POSTS_PER_BATCH) {
-        addModifiedState = adapter.removeMany(postIds.slice(CommunityConstants.POSTS_PER_BATCH , postIds.length), addModifiedState);
+        addModifiedState = adapter.removeMany(postIds.slice(CommunityConstants.POSTS_PER_BATCH, postIds.length), addModifiedState);
       }
 
       return {
