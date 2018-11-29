@@ -79,7 +79,7 @@ export class PageChange implements GridAction {
 export class SortChange implements GridAction {
   readonly type: string;
 
-  constructor(public gridType: GridTypeEnum, public payload: SortDescriptor[], public entityIds: number[]) {
+  constructor(public gridType: GridTypeEnum, public payload: SortDescriptor[]) {
     this.type = `${gridType}_${SORT_CHANGE}`;
   }
 }
