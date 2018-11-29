@@ -110,12 +110,13 @@ export class TimelineActivityMapper {
     const communityUrl = dto.Links.filter( x => x.Type === 'Community')[0].Url;
     const communityFullUrl =  this.BASE_URL + communityUrl;
     const communityHtmlLink = this.generateHtmlLink(communityFullUrl, 'Community', 'Link to community');
-    const communityPostUrl = dto.Links.filter(x => x.Type === 'CommunityPost')[0].Url;
-    const communityPostFullUrl = this.BASE_URL + communityPostUrl;
+
     let subject = '';
 
     switch (dto.SubType) {
       case ('Post'):
+        const communityPostUrl = dto.Links.filter(x => x.Type === 'CommunityPost')[0].Url;
+        const communityPostFullUrl = this.BASE_URL + communityPostUrl;
         const postHtmlLink = this.generateHtmlLink(communityPostFullUrl, 'Posted', 'Link to community post');
         subject = postHtmlLink + ' to the ' + communityHtmlLink;
         if (dto.Internal) {
@@ -129,6 +130,15 @@ export class TimelineActivityMapper {
         const replyUserProfileHtmlLink = this.generateHtmlLink(replyUserProfileUrl, replyUserName, 'Link to replier profile');
         const replyPostHtmlLink = this.generateHtmlLink(replyUserProfileUrl, 'post', 'Link to community post');
         subject = 'Replied to ' + replyUserProfileHtmlLink + '\'s ' + replyPostHtmlLink + ' in the ' + communityHtmlLink ;
+        break;
+
+      case ('Job') :
+        const jobTitle = dto.Links.filter(x => x.Type === 'Job')[0].DisplayName;
+        const jobUrl = dto.Links.filter(x => x.Type === 'Job')[0].Url;
+        const jobPostHtmlLink =  this.generateHtmlLink(jobUrl, jobTitle, 'Link To Job Posting');
+        const jobBoardUrl = dto.Links.filter(x => x.Type === 'JobBoard')[0].Url;
+        const jobBoardHtmlLink =  this.generateHtmlLink(jobBoardUrl, 'job board', 'Link To Job Board');
+        subject = 'Posted a job to the ' +  jobBoardHtmlLink + ' for ' + jobPostHtmlLink;
         break;
 
       default:
@@ -226,14 +236,18 @@ export class TimelineActivityMapper {
     let postedByProfileUrl = '';
     switch (dto.SubType) {
       case ('Post'):
-        postedByProfileUrl = dto.Links.filter(x => x.Type === 'CommunityPostProfile')[0].Url;
+        postedByProfileUrl = baseUrl + dto.Links.filter(x => x.Type === 'CommunityPostProfile')[0].Url;
         break;
 
       case ('Reply'):
-        postedByProfileUrl = dto.Links.filter(x => x.Type === 'CommunityReplyProfile')[0].Url;
+        postedByProfileUrl = baseUrl + dto.Links.filter(x => x.Type === 'CommunityReplyProfile')[0].Url;
+        break;
+
+      case ('Job'):
+        postedByProfileUrl = dto.Links.filter(x => x.Type === 'JobPostProfile')[0].Url;
         break;
     }
-    return baseUrl + postedByProfileUrl;
+    return  postedByProfileUrl;
   }
 
   static generateAvatarUrl(url: string, isPayfactorsEmployee: boolean) {

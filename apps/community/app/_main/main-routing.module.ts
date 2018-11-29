@@ -14,7 +14,8 @@ const routes: Routes = [
   },
   { path: 'dashboard',
     component: CommunityDashboardPageComponent
-  },{
+  },
+  {
     path: 'dashboard/post/:id',
     component: CommunityDashboardPageComponent
   },
