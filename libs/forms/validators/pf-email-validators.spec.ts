@@ -45,6 +45,11 @@ describe('PfEmailValidators', () => {
       expect(PfEmailValidators.workEmail(testControl)).toEqual({ 'workEmail': { valid: false, domain: 'gmail.com' } });
     });
 
+    it('should reject email with invalid domain case insensitive and return domain', () => {
+      testControl.setValue('test@GMAIL.com');
+      expect(PfEmailValidators.workEmail(testControl)).toEqual({ 'workEmail': { valid: false, domain: 'GMAIL.com' } });
+    });
+
     it('should accept email with valid domain', () => {
       testControl.setValue('test@test.com');
       expect(PfEmailValidators.workEmail(testControl)).toEqual(null);
