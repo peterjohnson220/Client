@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs';
 import 'rxjs/add/observable/of';
 import {CdkScrollable} from '@angular/cdk/scrolling';
 
@@ -210,6 +211,29 @@ describe('CommunityPostsComponent', () => {
 
     expect(store.dispatch).not.toHaveBeenCalledWith(action);
   });
-
-
+  it('should set show replies to empty when loadingCommunityPosts is true ', () => {
+    instance.loadingCommunityPosts$ = of(true);
+    fixture.detectChanges();
+    expect(instance.showReplies).toEqual([]);
+  });
+  it('should set show replies to empty when loadingNextBatchCommunityPosts$ is true', () => {
+    instance.loadingNextBatchCommunityPosts$ = of(true);
+    fixture.detectChanges();
+    expect(instance.loadingNextBatchCommunityPosts).toBeTruthy();
+  });
+  it('should set show replies to empty when loadingPreviousBatchCommunityPosts is true', () => {
+    instance.loadingPreviousBatchCommunityPosts$ = of(true);
+    fixture.detectChanges();
+    expect(instance.loadingPreviousBatchCommunityPosts).toBeTruthy();
+  });
+  it('should set show replies to empty when getHasNextBatchPostsOnServer is true', () => {
+    instance.getHasNextBatchPostsOnServer$ = of(true);
+    fixture.detectChanges();
+    expect(instance.hasNextBatchOnServer).toBeTruthy();
+  });
+  it('should set show replies to empty when getHasPreviousBatchPostsOnServer is true', () => {
+    instance.getHasPreviousBatchPostsOnServer$ = of(true);
+    fixture.detectChanges();
+    expect(instance.hasPreviousBatchOnServer).toBeTruthy();
+  });
 });
