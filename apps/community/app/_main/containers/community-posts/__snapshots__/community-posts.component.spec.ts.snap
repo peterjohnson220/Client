@@ -39,9 +39,6 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
         
       </div>
       
-      <hr />
-      
-      
     </div>
   </pf-async-container>
 </pf-community-posts>
