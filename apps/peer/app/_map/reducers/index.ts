@@ -114,6 +114,11 @@ export const getExchangeCompanyJobsGridSelections = createSelector(
   fromGridReducer.getGridSelections
 );
 
+export const getExchangeCompanyJobsGridSelectAllState = createSelector(
+  selectExchangeCompanyJobsGridState,
+  fromGridReducer.getGridSelectAllState
+);
+
 export const getExchangeCompanyJobsGridState = createSelector(
   selectExchangeCompanyJobsGridState,
   fromGridReducer.getGridState

@@ -27,6 +27,9 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
   let activatedRoute: ActivatedRoute;
   let routeIdParam: number;
 
+  const mockExchangeCompanyJob = generateMockExchangeCompanyJob();
+  const mockDataView = {data: [mockExchangeCompanyJob], total: 1};
+
   // Configure Testing Module for before each test
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -186,7 +189,6 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
   it(`should not dispatch fromGridActions.ToggleRowSelection action when the cellClick event is triggered
    if the job is not in the map scope`, () => {
-    const mockExchangeCompanyJob: ExchangeCompanyJob = generateMockExchangeCompanyJob();
     const expectedAction = new fromGridActions.ToggleRowSelection(
       GridTypeEnum.ExchangeCompanyJob,
       mockExchangeCompanyJob.ExchangeJobToCompanyJobId
@@ -204,15 +206,16 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
   it(`should dispatch a fromGridActions.ToggleRowSelection action when the cellClick event is triggered and
    the job is in the map scope`, () => {
-    const mockExchangeCompanyJob: ExchangeCompanyJob = {...generateMockExchangeCompanyJob(), IsInMapScope: true};
+    const mockJob: ExchangeCompanyJob = {...mockExchangeCompanyJob, IsInMapScope: true};
     const expectedAction = new fromGridActions.ToggleRowSelection(
       GridTypeEnum.ExchangeCompanyJob,
-      mockExchangeCompanyJob.ExchangeJobToCompanyJobId
+      mockJob.ExchangeJobToCompanyJobId,
+      []
     );
 
     fixture.detectChanges();
 
-    instance.handleCellClick({dataItem: mockExchangeCompanyJob});
+    instance.handleCellClick({dataItem: mockJob});
 
     fixture.detectChanges();
 
@@ -232,5 +235,18 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     fixture.detectChanges();
 
     expect(instance.primaryButtonText).toEqual(expectedPrimaryButtonTextAfter);
+  });
+
+  it(`should dispatch ToggleSelectAll action when onSelectAllChange is triggered`, () => {
+    const expectedAction = new fromGridActions.ToggleSelectAll(GridTypeEnum.ExchangeCompanyJob, instance.pageEntityIds);
+    instance.view$ = of(mockDataView);
+
+    fixture.detectChanges();
+
+    instance.onSelectAllChange(null);
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

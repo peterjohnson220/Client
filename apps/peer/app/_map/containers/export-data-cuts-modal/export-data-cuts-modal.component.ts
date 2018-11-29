@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import {DataStateChangeEvent, GridDataResult, RowArgs, RowClassArgs} from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridDataResult, RowArgs, RowClassArgs, SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -30,17 +30,20 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   view$: Observable<GridDataResult>;
   gridState$: Observable<State>;
   selections$: Observable<number[]>;
-
-  exportDataCutsForm: FormGroup;
-  gridState: State;
-  selections: number[];
-  attemptedSubmit = false;
-  exchangeId: number;
+  selectAllState$: Observable<SelectAllCheckboxState>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   exportingJobsErrorSubscription: Subscription;
+  gridDataResultSubscription: Subscription;
   gridStateSubscription: Subscription;
   selectionsSubscription: Subscription;
+
+  gridDataResult: GridDataResult;
+  gridState: State;
+  selections: number[] = [];
+  exportDataCutsForm: FormGroup;
+  attemptedSubmit = false;
+  exchangeId: number;
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -55,6 +58,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.exportingDataCutsError$ = this.store.pipe(select(fromPeerMapReducer.getDataCutsExportingError));
     this.gridState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState));
     this.selections$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections));
+    this.selectAllState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelectAllState));
 
     this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
@@ -69,6 +73,11 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return `Exporting (${numOfSelections})...`;
   }
   get selectionsControl() { return this.exportDataCutsForm.get('selections'); }
+  get pageEntityIds(): number[] {
+    const gridDataResult = this.gridDataResult;
+    return !!gridDataResult ? this.gridDataResult.data.filter(item => item.IsInMapScope)
+      .map(item => item.ExchangeJobToCompanyJobId) : [];
+  }
 
   createForm(): void {
     this.exportDataCutsForm = this.fb.group({
@@ -95,7 +104,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   }
 
   selectionKey(context: RowArgs): number {
-    return context.dataItem.ExchangeJobToCompanyJobId;
+    return !!context.dataItem ? context.dataItem.ExchangeJobToCompanyJobId : 0;
   }
 
   handleDataStateChange(state: DataStateChangeEvent): void {
@@ -107,13 +116,22 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     if (!event.dataItem.IsInMapScope) {
       return;
     }
-    const selectedExchangeJobToCompanyJobIds = event.dataItem.ExchangeJobToCompanyJobId;
-    this.store.dispatch(new fromGridActions.ToggleRowSelection(GridTypeEnum.ExchangeCompanyJob, selectedExchangeJobToCompanyJobIds));
+
+    const selectedExchangeJobToCompanyJobId = event.dataItem.ExchangeJobToCompanyJobId;
+    this.store.dispatch(new fromGridActions.ToggleRowSelection(
+      GridTypeEnum.ExchangeCompanyJob,
+      selectedExchangeJobToCompanyJobId,
+      this.pageEntityIds)
+    );
     this.selectionsControl.markAsTouched();
   }
 
   rowClass(context: RowClassArgs): string {
     return !context.dataItem.IsInMapScope ? 'row-disabled' : '';
+  }
+
+  onSelectAllChange(checkedState: SelectAllCheckboxState) {
+    this.store.dispatch(new fromGridActions.ToggleSelectAll(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
   }
 
   // Lifecycle
@@ -132,7 +150,13 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       this.gridState = cloneDeep(gridState);
     });
     this.selectionsSubscription = this.selections$.subscribe(selections => {
-      this.selections = selections;
+      this.selections = cloneDeep(selections);
+    });
+    this.gridDataResultSubscription = this.view$.subscribe(gridDataResult => {
+      this.gridDataResult = gridDataResult;
+      if (this.pageEntityIds.length > 0) {
+        this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
+      }
     });
   }
 
@@ -141,6 +165,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.exportingJobsErrorSubscription.unsubscribe();
     this.selectionsSubscription.unsubscribe();
     this.gridStateSubscription.unsubscribe();
+    this.gridDataResultSubscription.unsubscribe();
   }
 
   // Helper methods
