@@ -68,7 +68,7 @@ export class PfEmailValidators {
     if (matches == null) {
       return { 'workEmail': { valid: false } };
     }
-    const emailDomain = matches[EmailValidatorGroup.Domain];
-    return BLACKLISTED_DOMAINS.has(emailDomain) ? { 'workEmail': { valid: false, domain: emailDomain } } : null;
+    const emailDomain: string = matches[EmailValidatorGroup.Domain];
+    return BLACKLISTED_DOMAINS.has(emailDomain.toLowerCase()) ? { 'workEmail': { valid: false, domain: emailDomain } } : null;
   }
 }
