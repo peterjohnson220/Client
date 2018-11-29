@@ -31,11 +31,14 @@
               <pf-community-polls></pf-community-polls>
             </div>
           </div>
-          <div class="row">
-            <div class="col"></div>
+          <div class="row back-to-top-container" *ngIf="showBackToTopButton">
+            <div class="col">
+              <pf-community-back-to-top-navigation (backToTopClicked)="backToTop()"></pf-community-back-to-top-navigation>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+

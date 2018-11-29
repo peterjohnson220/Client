@@ -70,6 +70,11 @@ export class CommunityPostEffects {
   );
 
   @Effect()
+  gettingBackToTopCommunityPosts = this.communityPostEffectsService.searchCommunityPosts(
+    this.actions$.ofType(fromCommunityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS)
+  );
+
+  @Effect()
   updatingCommunityPostLike$: Observable<Action> = this.actions$
     .ofType(fromCommunityPostActions.UPDATING_COMMUNITY_POST_LIKE).pipe(
       switchMap((action: fromCommunityPostActions.UpdatingCommunityPostLike) =>

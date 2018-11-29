@@ -45,6 +45,8 @@ export class CommunityPostEffectsService {
               actions.push(new fromCommunityPostActions.GettingNextBatchCommunityPostsSuccess(communitySearchResult));
             } else if (search.action.type.toString() === fromCommunityPostActions.GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS) {
               actions.push(new fromCommunityPostActions.GettingPreviousBatchCommunityPostsSuccess(communitySearchResult));
+            } else if (search.action.type.toString() === fromCommunityPostActions.GETTING_BACK_TO_TOP_COMMUNITY_POSTS) {
+              actions.push(new fromCommunityPostActions.GettingBackToTopCommunityPostsSuccess(communitySearchResult));
             } else {
               actions.push(new fromCommunityPostActions.GettingCommunityPostsSuccess(communitySearchResult));
             }
