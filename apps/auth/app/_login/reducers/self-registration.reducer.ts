@@ -17,6 +17,9 @@ export interface State {
   validatingTokenAccountExists: boolean;
   validatingTokenExistingCompany: SelfRegistrationExistingCompany;
   validatedToken: string;
+  resendingToken: boolean;
+  resendingTokenSuccess: boolean;
+  resendingTokenError: boolean;
   accountEmail: string;
 }
 
@@ -35,6 +38,9 @@ export const initialState: State = {
   validatingTokenAccountExists: false,
   validatingTokenExistingCompany: null,
   validatedToken: null,
+  resendingToken: false,
+  resendingTokenSuccess: false,
+  resendingTokenError: false,
   accountEmail: null
 };
 
@@ -132,6 +138,28 @@ export function reducer(state = initialState, action: fromSelfRegistrationAction
         completionSubmitError: true
       };
     }
+    // Resending Token
+    case fromSelfRegistrationActions.RESEND_TOKEN: {
+      return {
+        ...state,
+        resendingToken: true
+      };
+    }
+    case fromSelfRegistrationActions.RESEND_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        resendingToken: false,
+        resendingTokenSuccess: true,
+        accountEmail: action.payload.email
+      };
+    }
+    case fromSelfRegistrationActions.RESEND_TOKEN_ERROR: {
+      return {
+        ...state,
+        resendingToken: false,
+        resendingTokenError: true
+      };
+    }
     default: {
       return state;
     }
@@ -157,3 +185,7 @@ export const getValidatingTokenAccountExists = (state: State) => state.validatin
 export const getValidatedToken = (state: State) => state.validatedToken;
 export const getValidatingTokenExistingCompany = (state: State) => state.validatingTokenExistingCompany;
 export const getAccountEmail = (state: State) => state.accountEmail;
+// Resending Token
+export const getResendingToken = (state: State) => state.resendingToken;
+export const getResendingTokenSuccess = (state: State) => state.resendingTokenSuccess;
+export const getResendingTokenError = (state: State) => state.resendingTokenError;

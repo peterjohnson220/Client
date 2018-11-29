@@ -22,6 +22,11 @@ export const COMPLETION_SUBMIT = '[Self Registration/Completion] Submit';
 export const COMPLETION_SUBMIT_SUCCESS = '[Self Registration/Completion] Submit Success';
 export const COMPLETION_SUBMIT_ERROR = '[Self Registration/Completion] Submit Error';
 
+// Resend Token
+export const RESEND_TOKEN = '[Self Registration/Resend Token] Resend';
+export const RESEND_TOKEN_SUCCESS = '[Self Registration/Resend Token] Resend Success';
+export const RESEND_TOKEN_ERROR = '[Self Registration/Resend Token] Resend Error';
+
 export class RequestSubmit implements Action {
   readonly type = REQUEST_SUBMIT;
   constructor() {}
@@ -87,6 +92,21 @@ export class CompletionSubmitError implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResendToken implements Action {
+  readonly type = RESEND_TOKEN;
+  constructor(public payload: { token: string }) {}
+}
+
+export class ResendTokenSuccess implements Action {
+  readonly type = RESEND_TOKEN_SUCCESS;
+  constructor(public payload: { email: string }) {}
+}
+
+export class ResendTokenError implements Action {
+  readonly type = RESEND_TOKEN_ERROR;
+  constructor() {}
+}
+
 export type Actions
   = ValidateToken
   | ValidateTokenSuccess
@@ -100,4 +120,7 @@ export type Actions
   | RequestSubmitError
   | CompletionSubmit
   | CompletionSubmitSuccess
-  | CompletionSubmitError;
+  | CompletionSubmitError
+  | ResendToken
+  | ResendTokenSuccess
+  | ResendTokenError;

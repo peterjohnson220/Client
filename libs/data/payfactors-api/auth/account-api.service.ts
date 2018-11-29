@@ -46,4 +46,8 @@ export class AccountApiService {
   submitSelfRegistrationCompletion(token: string, password: string): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.CompleteSelfRegistration`, { token, password });
   }
+
+  resendSelfRegistrationToken(token: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}.ResendSelfRegistrationRequest`, { token });
+  }
 }
