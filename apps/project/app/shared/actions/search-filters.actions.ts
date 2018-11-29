@@ -18,6 +18,7 @@ export const SET_DEFAULT_VALUE = '[Project Add Data/Search Filters] Set Default 
 export const REPLACE_FILTERS = '[Project Add Data/Search Filters] Replace Filter';
 export const REMOVE_FILTER_VALUE = '[Project Add Data/Search Filters] Remove Value';
 export const APPLY_SAVED_FILTERS = '[Project Add Data/Search Filters] Apply Saved Filters';
+export const CLEAR_SAVED_FILTERS = '[Project Add Data/Search Filters] Clear Saved Filters';
 
 export class RemoveFilters implements Action {
   readonly type = REMOVE_FILTERS;
@@ -102,9 +103,16 @@ export class ReplaceFilters implements Action {
   constructor(public payload: Filter[]) {}
 }
 
+export class ClearSavedFilters implements Action {
+  readonly type = CLEAR_SAVED_FILTERS;
+
+  constructor(public payload: Filter[]) {}
+}
+
 export type Actions
   = RemoveFilters
   | ApplySavedFilters
+  | ClearSavedFilters
   | UpdateFilterValue
   | UpdateRangeFilter
   | GetDefaultScopesFilter

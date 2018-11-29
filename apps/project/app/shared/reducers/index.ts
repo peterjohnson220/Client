@@ -193,6 +193,11 @@ export const getFilterIdToSelect = createSelector(
   fromSavedFiltersReducer.getFilterIdToSelect
 );
 
+export const getSelectedSavedFilter = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSelectedSavedFilter
+);
+
 // Search Filters Selectors
 export const getFilters = createSelector(
   selectSearchFiltersState,

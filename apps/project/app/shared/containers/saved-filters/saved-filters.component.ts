@@ -83,9 +83,10 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleFilterClicked(savedFilter: SavedFilter) {
-    if (!this.filterIdToDelete && !savedFilter.Selected && !this.filterDataToEdit) {
-      this.store.dispatch(new fromSavedFiltersActions.SelectSavedFilter(savedFilter));
+    if (this.filterIdToDelete || this.filterDataToEdit) {
+      return;
     }
+    this.store.dispatch(new fromSavedFiltersActions.ToggleSavedFilterSelection(savedFilter));
   }
 
   handleDeleteFilterConfirmClicked() {

@@ -243,6 +243,20 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
         filters: newFilters
       };
     }
+    case fromSearchFiltersActions.CLEAR_SAVED_FILTERS: {
+      const filtersCopy = cloneDeep(state.filters);
+      const savedFilters = cloneDeep(action.payload);
+      filtersCopy.map(f => {
+        const matchedFilter = savedFilters.find(sf => sf.Id === f.Id);
+        if (matchedFilter) {
+          f = FiltersHelper.clearFilter(f);
+        }
+      });
+      return {
+        ...state,
+        filters: filtersCopy
+      };
+    }
     default: {
       return state;
     }

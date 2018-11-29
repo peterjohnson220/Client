@@ -13,6 +13,7 @@ import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSearchReducer from '../reducers';
+import * as fromSharedSearchReducer from '../../shared/reducers';
 import { PayfactorsApiHelper, PayfactorsApiModelMapper, createPricingMatchesRequest } from '../helpers';
 
 @Injectable()
@@ -25,8 +26,9 @@ export class SurveySearchEffectsService {
         this.store.select(fromSearchReducer.getFilters),
         this.store.select(fromSearchReducer.getResultsPagingOptions),
         this.store.select(fromSearchReducer.getProjectSearchContext),
-        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext) =>
-          ({ action, filters, pagingOptions, projectSearchContext })
+        this.store.select(fromSharedSearchReducer.getSearchingFilter),
+        (action: fromSearchResultsActions.GetResults, filters, pagingOptions, projectSearchContext, searchingFilter) =>
+          ({ action, filters, pagingOptions, projectSearchContext, searchingFilter })
       ),
 
       switchMap(l => {
@@ -49,6 +51,9 @@ export class SurveySearchEffectsService {
                   searchFilters: PayfactorsApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters),
                   keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
                 }));
+                if (l.searchingFilter) {
+                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                }
               }
 
               return actions;

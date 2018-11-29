@@ -181,12 +181,6 @@ export function reducer(state = initialState, action: fromSavedFiltersActions.Ac
         defaultFilterId: action.payload
       };
     }
-    case fromSavedFiltersActions.UNMARK_FILTER_TO_SELECT: {
-      return {
-        ...state,
-        filterIdToSelect: ''
-      };
-    }
     default: {
       return state;
     }
@@ -206,3 +200,4 @@ export const getFilterDataToEdit = (state: State) => state.filterDataToEdit;
 export const getSavedFiltersPopoverOpen = (state: State) => state.savedFiltersPopoverOpen;
 export const getDefaultFilterId = (state: State) => state.defaultFilterId;
 export const getFilterIdToSelect = (state: State) => state.filterIdToSelect;
+export const getSelectedSavedFilter = (state: State) => state.savedFilters.find(sf => sf.Selected === true);

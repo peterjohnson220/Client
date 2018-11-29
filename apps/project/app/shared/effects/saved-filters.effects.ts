@@ -125,9 +125,9 @@ export class SavedFiltersEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromSharedSearchReducer.getFilterIdToDelete),
-        this.store.select(fromSharedSearchReducer.getFilterIdToSelect),
-        (action: fromSavedFiltersActions.DeleteSavedFilter, filterIdToDelete, filterIdToSelect) =>
-          ({action, filterIdToDelete, filterIdToSelect})),
+        this.store.select(fromSharedSearchReducer.getSelectedSavedFilter),
+        (action: fromSavedFiltersActions.DeleteSavedFilter, filterIdToDelete, currentSelectedSavedFilter) =>
+          ({action, filterIdToDelete, currentSelectedSavedFilter})),
       switchMap((data) => {
         return this.userFilterApiService.remove({
           SavedFilter: {
@@ -138,8 +138,8 @@ export class SavedFiltersEffects {
         .pipe(
           mergeMap(() => {
             const actions = [];
-            if (data.filterIdToDelete === data.filterIdToSelect) {
-              actions.push(new fromSavedFiltersActions.UnmarkFilterToSelect());
+            if (!!data.currentSelectedSavedFilter && data.filterIdToDelete === data.currentSelectedSavedFilter.Id) {
+              actions.push(new fromSavedFiltersActions.ToggleSavedFilterSelection(data.currentSelectedSavedFilter));
             }
             actions.push(new fromSavedFiltersActions.DeleteSavedFilterSuccess());
             actions.push(new fromSavedFiltersActions.GetSavedFilters());
@@ -171,6 +171,30 @@ export class SavedFiltersEffects {
 
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(savedFilters));
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
+
+        return actions;
+      })
+    );
+
+  @Effect()
+  toggleSavedFilterSelection$ = this.actions$
+    .ofType(fromSavedFiltersActions.TOGGLE_SAVED_FILTER_SELECTION)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromSharedSearchReducer.getSelectedSavedFilter),
+        (action: fromSavedFiltersActions.ToggleSavedFilterSelection, selectedSavedFilter) =>
+          ({ action, selectedSavedFilter })
+      ),
+      mergeMap(data => {
+        const actions = [];
+        const currentSavedFilter = data.action.payload;
+        if (!!data.selectedSavedFilter && data.selectedSavedFilter.Id === currentSavedFilter.Id) {
+          actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
+          actions.push(new fromSearchFiltersActions.ClearSavedFilters(data.selectedSavedFilter.Filters));
+          actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
+        } else {
+          actions.push(new fromSavedFiltersActions.SelectSavedFilter(currentSavedFilter));
+        }
 
         return actions;
       })

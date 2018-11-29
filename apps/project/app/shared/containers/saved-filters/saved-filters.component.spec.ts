@@ -108,10 +108,10 @@ describe('Project - Add Data - Saved Filters', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a SelectSavedFilter action if its not to be deleted or selected, when handling a filter clicked', () => {
+  it('should dispatch a ToggleSavedFilterSelection action if its not to be deleted or edited, when handling a filter clicked', () => {
     spyOn(store, 'dispatch');
     const savedFilter = generateMockSavedFilter();
-    const expectedAction = new fromSavedFiltersActions.SelectSavedFilter(savedFilter);
+    const expectedAction = new fromSavedFiltersActions.ToggleSavedFilterSelection(savedFilter);
     instance.filterIdToDelete = '';
     savedFilter.Selected = false;
 
@@ -139,17 +139,6 @@ describe('Project - Add Data - Saved Filters', () => {
     instance.handleFilterClicked(savedFilter);
 
     expect(store.dispatch).not.toHaveBeenCalledWith(nonExpectedAction);
-  });
-
-  it('should do nothing if the filter is selected, when handling a filter clicked', () => {
-    spyOn(store, 'dispatch');
-    const savedFilter = generateMockSavedFilter();
-    instance.filterIdToDelete = '';
-    savedFilter.Selected = true;
-
-    instance.handleFilterClicked(savedFilter);
-
-    expect(store.dispatch).not.toHaveBeenCalled();
   });
 
   it(`should set the filteredSavedFilters to be the savedFilters containing the lowerCased searchSavedFiltersValue,
