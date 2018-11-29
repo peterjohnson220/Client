@@ -47,6 +47,7 @@ exports[`SelfRegistrationPage should disable Submit password button when passwor
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -122,6 +123,7 @@ exports[`SelfRegistrationPage should disable the submit button when updatePasswo
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -196,6 +198,7 @@ exports[`SelfRegistrationPage should enable Submit password button when password
         >
           <button
             class="btn btn-default m-3"
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -270,6 +273,7 @@ exports[`SelfRegistrationPage should fade the form when the form is submitting 1
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -345,6 +349,7 @@ exports[`SelfRegistrationPage should hide the error message when there is no sub
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -419,6 +424,7 @@ exports[`SelfRegistrationPage should not show the submit spinner when the form i
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -493,6 +499,7 @@ exports[`SelfRegistrationPage should should allow choosing password when page is
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -567,6 +574,7 @@ exports[`SelfRegistrationPage should show a message after resending successfully
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -641,6 +649,7 @@ exports[`SelfRegistrationPage should show an error message after resending error
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -712,6 +721,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
         </h5>
         <button
           class="btn btn-default m-3"
+          id="au-btn-account-exists-login"
           routerlink="/login"
         >
            Login 
@@ -902,6 +912,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
         >
           <button
             class="btn btn-default m-3"
+            id="au-btn-resend-token"
           >
              Resend 
           </button>
@@ -974,6 +985,7 @@ exports[`SelfRegistrationPage should show an error message when page is loaded i
         </p>
         <button
           class="btn btn-default m-3"
+          id="au-btn-invalid-token-login"
           routerlink="/login"
         >
            Return to Login 
@@ -1045,6 +1057,7 @@ exports[`SelfRegistrationPage should show the error message when there is a subm
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -1165,6 +1178,7 @@ exports[`SelfRegistrationPage should show the spinner when resending token 1`] =
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
@@ -1239,6 +1253,7 @@ exports[`SelfRegistrationPage should show the submit spinner when the form is su
           <button
             class="btn btn-default m-3"
             disabled=""
+            id="au-btn-continue"
           >
              Continue 
           </button>
