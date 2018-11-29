@@ -61,7 +61,7 @@ export class SelfRegistrationEffects {
     .ofType(fromSelfRegistrationActions.COMPLETION_SUBMIT).pipe(
       switchMap((action: fromSelfRegistrationActions.CompletionSubmit) => {
         return this.accountApiService.submitSelfRegistrationCompletion(action.payload.Token, action.payload.Password).pipe(
-          map(() => new fromSelfRegistrationActions.CompletionSubmitSuccess()),
+          map((homePagePath) => new fromSelfRegistrationActions.CompletionSubmitSuccess(homePagePath)),
           catchError(error => of(new fromSelfRegistrationActions.CompletionSubmitError(error)))
         );
       }),
@@ -76,6 +76,14 @@ export class SelfRegistrationEffects {
           catchError(() => of(new fromSelfRegistrationActions.ResendTokenError()))
         );
       }),
+    );
+
+  @Effect({ dispatch: false })
+  completionSubmitSuccess$ = this.actions$
+    .ofType(fromSelfRegistrationActions.COMPLETION_SUBMIT_SUCCESS).pipe(
+      map((action: fromSelfRegistrationActions.CompletionSubmitSuccess) => {
+        document.location.href = document.location.origin + action.payload.homePagePath;
+      })
     );
 
   constructor(

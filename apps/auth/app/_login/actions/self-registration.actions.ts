@@ -84,7 +84,7 @@ export class CompletionSubmit implements Action {
 
 export class CompletionSubmitSuccess implements Action {
   readonly type = COMPLETION_SUBMIT_SUCCESS;
-  constructor() {}
+  constructor(public payload: { homePagePath: string }) {}
 }
 
 export class CompletionSubmitError implements Action {
