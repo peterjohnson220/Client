@@ -81,7 +81,6 @@ export class SavedFiltersEffects {
         const searchFilters = isEditMode
           ? null
           : PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked && f.SaveDisabled !== true));
-
         const upsertRequest = SavedFilterHelper.getUpsertRequest(savedFilterId, modalData.Name, searchFilters);
         const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
         const isPayMarketDefault = isEditMode
@@ -90,13 +89,11 @@ export class SavedFiltersEffects {
         let defaultPayMarkets = isEditMode
           ? cloneDeep(modalData.SavedFilter.MetaInfo.DefaultPayMarkets)
           : [];
+        let currentDefault = null;
 
         if (modalData.SetAsPayMarketDefault && !isPayMarketDefault) {
-          const currentDefault = SavedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
+          currentDefault = SavedFilterHelper.getDefaultFilter(payMarketId, data.savedFilters);
           defaultPayMarkets = defaultPayMarkets.concat(payMarketId.toString());
-          if (!!currentDefault) {
-            actions.push(new fromSavedFiltersActions.RemoveSavedFilterAsDefault({ savedFilter: currentDefault, payMarketId }));
-          }
         } else if (!modalData.SetAsPayMarketDefault) {
           defaultPayMarkets = defaultPayMarkets.filter(id => id.toString() !== payMarketId.toString());
         }
@@ -107,7 +104,11 @@ export class SavedFiltersEffects {
           .pipe(
             mergeMap((response) => {
               actions.push(new fromSavedFiltersActions.SaveFilterSuccess({isNew: !isEditMode, savedFilterId: response}));
-              actions.push(new fromSavedFiltersActions.GetSavedFilters());
+              if (!!currentDefault) {
+                actions.push(new fromSavedFiltersActions.RemoveSavedFilterAsDefault({ savedFilter: currentDefault, payMarketId }));
+              } else {
+                actions.push(new fromSavedFiltersActions.GetSavedFilters());
+              }
               return actions;
             }),
             catchError(response => {
@@ -200,7 +201,7 @@ export class SavedFiltersEffects {
       })
     );
 
-  @Effect({dispatch: false})
+  @Effect()
   removeSavedFilterAsDefault = this.actions$
     .ofType(fromSavedFiltersActions.REMOVE_SAVED_FILTER_AS_DEFAULT)
     .pipe(
@@ -217,7 +218,10 @@ export class SavedFiltersEffects {
             MetaInfo: savedFilter.MetaInfo
           },
           Type: SavedFilterType.SurveySearch
-        });
+        })
+        .pipe(
+          map(() => new fromSavedFiltersActions.GetSavedFilters())
+        );
       })
     );
 
