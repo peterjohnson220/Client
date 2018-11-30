@@ -4,7 +4,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
 <pf-community-text-area
   dangerStartNumber={[Function Number]}
   discussionTextArea={[Function ElementRef]}
-  minimumHeight={[Function String]}
+  minimumHeight={[Function Number]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
   store={[Function Store]}
@@ -16,6 +16,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   suggestedCommunityTagsSubscription={[Function Subscriber]}
   suggestedTags={[Function Array]}
   textAreaContainer={[Function ElementRef]}
+  textAreaContainerScrollable={[Function ElementRef]}
   textValueChangesSubscription={[Function Subscriber]}
   warningStartNumber={[Function Number]}
 >
@@ -24,26 +25,32 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
     ng-reflect-form="[object Object]"
   >
     <div
-      class="textAreaContainer"
-      style="min-height: 50px;"
+      class="textAreaContainerScrollable"
+      style="min-height: 75px; max-height: 75px;"
     >
       <div
-        class="overlayTextArea pl-2"
-      />
-      <textarea
-        class="discussionTextArea pl-2 community-border-radius ng-untouched ng-pristine ng-valid"
-        formcontrolname="context"
-        ng-reflect-maxlength=""
-        ng-reflect-name="context"
-        placeholder=""
-        spellcheck="false"
+        class="textAreaContainer"
+        style="min-height: 73px;"
       >
-            
-      </textarea>
-      <pf-radial-text-counter
-        class="radial-counter"
-      />
+        <div
+          class="overlayTextArea"
+        />
+        <textarea
+          class="discussionTextArea ng-untouched ng-pristine ng-valid"
+          formcontrolname="context"
+          id="discussionTextArea"
+          ng-reflect-maxlength=""
+          ng-reflect-name="context"
+          placeholder=""
+          spellcheck="false"
+        >
+                
+        </textarea>
+      </div>
     </div>
+    <pf-radial-text-counter
+      class="radial-counter"
+    />
   </div>
 </pf-community-text-area>
 `;

@@ -1,37 +1,61 @@
 @import 'colors';
 
 $radial-counter-width: 25px;
+$scrollbar-width: 5px;
+$old-style-scollbar-width: 10px;
+
+.textAreaContainerScrollable {
+  position: relative;
+  border: solid 1px $community-categories-border;
+  border-radius: 5px;
+  padding: 0;
+  margin: 0;
+
+  padding-left: 2px;
+  padding-right: $radial-counter-width;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 
 .textAreaContainer {
   position: relative;
+  width: 100%;
   font-size: 14px;
   white-space: pre-wrap;
   word-break: break-word;
+  padding: 0;
+  margin: 0;
+  border: none;
+  outline: none;
+  -ms-overflow-style: none;
 }
 
 .discussionTextArea {
   position: absolute;
   width: 100%;
   height: 100%;
+  resize: none;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
   color: transparent;
   background: transparent;
   caret-color: black;
-  resize: none;
-  overflow: hidden;
-  padding-right: $radial-counter-width;
-  border-color: $community-categories-border;
+  -ms-overflow-style: none;
 }
 
 .overlayTextArea {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 2px;
-  left: 1px;
   resize: none;
-  overflow: hidden;
-  padding-right: $radial-counter-width;
-  border: solid 1px transparent;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  -ms-overflow-style: none;
 }
 
 .suggested-tags {
@@ -52,9 +76,11 @@ button:focus {
 }
 
 .radial-counter {
-  position: absolute;
-  right: 4px;
-  bottom: 4px;
+  position: relative;
+  float: right;
+  bottom: $radial-counter-width;
+  right: $old-style-scollbar-width + 1;
+
 }
 
 :host ::ng-deep .hashtag-highlight {
@@ -66,9 +92,24 @@ button:focus {
   text-decoration: underline;
 }
 
-
-.discussionTextArea:focus {
+.textAreaContainerScrollable:focus-within {
     outline: none !important;
-    border:1px solid $community-tab-active-color;
-    box-shadow: 0 0 2px $community-tab-active-color;
+    border: 1px solid $community-tab-active-color;
+    box-shadow: 0 0 1px $community-tab-active-color;
+}
+
+::-webkit-scrollbar {
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+  width: $scrollbar-width;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  $community-tab-active-color; 
+  border-radius: 5px;
+  width: $scrollbar-width;
 }
