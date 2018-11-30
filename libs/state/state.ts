@@ -8,19 +8,22 @@ import * as fromUserContextReducer from './app-context/reducers/user-context.red
 import * as fromCompanySettingsReducer from './app-context/reducers/company-settings.reducer';
 import * as fromUiPersistenceSettingsReducer from './app-context/reducers/ui-persistence-settings.reducer';
 import * as fromUserAssignedRoleReducer from './app-context/reducers/user-assigned-roles.reducer';
+import * as fromCompanyContextReducer from './app-context/reducers/company-context.reducer';
 
 export interface State {
   userContext: fromUserContextReducer.State;
   companySettings: fromCompanySettingsReducer.State;
   uiPersistenceSettings: fromUiPersistenceSettingsReducer.State;
   userAssignedRoles: fromUserAssignedRoleReducer.State;
+  companyContext: fromCompanyContextReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
   userContext: fromUserContextReducer.reducer,
   companySettings: fromCompanySettingsReducer.reducer,
   uiPersistenceSettings: fromUiPersistenceSettingsReducer.reducer,
-  userAssignedRoles: fromUserAssignedRoleReducer.reducer
+  userAssignedRoles: fromUserAssignedRoleReducer.reducer,
+  companyContext: fromCompanyContextReducer.reducer
 };
 
 // If you wish to have all actions and states logged to the console, add this to your metaReducers for development
@@ -92,4 +95,14 @@ export const getUserAssignedRolesLoadingError =
   createSelector(getUserAssignedRoleState, fromUserAssignedRoleReducer.getLoadingError);
 export const getUserAssignedRolesAttempted =
   createSelector(getUserAssignedRoleState, fromUserAssignedRoleReducer.getUserAssignedRolesAttempted);
+
+/**
+ * Company Context Reducers
+ */
+export const getCompanyContextState = createFeatureSelector<fromCompanyContextReducer.State>('companyContext');
+
+export const getCompanyContext = createSelector(getCompanyContextState, fromCompanyContextReducer.getCompanyContext);
+export const getGettingCompanyContext = createSelector(getCompanyContextState, fromCompanyContextReducer.getGettingCompanyContext);
+export const getGettingCompanyContextError =
+  createSelector(getCompanyContextState, fromCompanyContextReducer.getGettingCompanyContextError);
 

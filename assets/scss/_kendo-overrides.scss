@@ -54,3 +54,7 @@ kendo-tabstrip.tabstrip-no-borders > .k-content {
 kendo-tabstrip.bold-tabs .k-tabstrip-items {
   font-weight: bold;
 }
+
+.k-grid.no-grid-data tbody tr:hover {
+  background: white;
+}

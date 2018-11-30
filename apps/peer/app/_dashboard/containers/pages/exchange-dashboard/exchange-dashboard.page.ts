@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { ExchangeRequestTypeEnum, Exchange } from 'libs/models';
+import * as fromCompanyContextActions from 'libs/state/app-context/actions/company-context.actions';
 
 import * as fromExchangeDashboardActions from '../../../actions/exchange-dashboard.actions';
+import * as fromUploadOrgDataAction from '../../../actions/upload-org-data.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
 import * as fromPeerDashboardReducer from '../../../reducers';
 import * as fromSharedPeerReducer from '../../../../shared/reducers';
@@ -20,6 +22,7 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
   sidebarVisible$: Observable<boolean>;
   mapHasData$: Observable<boolean>;
   mapHasDataError$: Observable<boolean>;
+  uploadOrgDataModalOpen$: Observable<boolean>;
   exchange$: Observable<Exchange>;
   exchangeSubscription: Subscription;
 
@@ -28,10 +31,11 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<fromPeerDashboardReducer.State>
   ) {
-    this.sidebarVisible$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardSidebarVisible);
-    this.mapHasData$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardMapHasData);
-    this.mapHasDataError$ = this.store.select(fromPeerDashboardReducer.getExchangeDashboardMapHasDataError);
-    this.exchange$ = this.store.select(fromSharedPeerReducer.getExchange);
+    this.sidebarVisible$ = this.store.pipe(select(fromPeerDashboardReducer.getExchangeDashboardSidebarVisible));
+    this.mapHasData$ = this.store.pipe(select(fromPeerDashboardReducer.getExchangeDashboardMapHasData));
+    this.mapHasDataError$ = this.store.pipe(select(fromPeerDashboardReducer.getExchangeDashboardMapHasDataError));
+    this.exchange$ = this.store.pipe(select(fromSharedPeerReducer.getExchange));
+    this.uploadOrgDataModalOpen$ = this.store.pipe(select(fromPeerDashboardReducer.getUploadOrgDataModalOpen));
   }
 
   manageJobsClick(): void {
@@ -52,8 +56,22 @@ export class ExchangeDashboardPageComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  openUploadOrgDataModal() {
+    this.store.dispatch(new fromUploadOrgDataAction.OpenUploadOrgDataModal());
+  }
+
+  closeUploadOrgDataModal() {
+    this.store.dispatch(new fromUploadOrgDataAction.CloseUploadOrgDataModal());
+  }
+
+  handleUploadOrgData(uploadData: any) {
+    this.store.dispatch(new fromUploadOrgDataAction.UploadFile(uploadData));
+  }
+
   // Lifecycle
   ngOnInit() {
+    this.store.dispatch(new fromCompanyContextActions.GetCompanyContext());
+
     this.store.dispatch(new fromExchangeDashboardActions.CloseSidebar());
 
     this.exchangeSubscription = this.exchange$.subscribe(ex =>

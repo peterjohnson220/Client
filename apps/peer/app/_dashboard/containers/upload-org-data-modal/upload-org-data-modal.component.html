@@ -1,0 +1,51 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Upload Organizational Data'"
+  [primaryButtonText]="'Upload'"
+  [primaryButtonTextSubmitting]="'Uploading...'"
+  [secondaryButtonText]="secondaryButtonText"
+  [isOpen$]="isOpen$"
+  [formGroup]="uploadOrgDataForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container form-content>
+      <div class="form-group">
+        <label class="col-form-label mb-3">Please upload your Company Job and Employee files.</label>
+        <kendo-upload [saveUrl]="uploadSaveUrl"
+                      [removeUrl]="uploadRemoveUrl"
+                      [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="uploadFiles"
+                      [restrictions]="uploadRestrictions"
+                      [multiple]="true"
+                      (select)="onFileSelect($event)"
+                      (upload)="uploadEventHandler($event)"
+                      (remove)="onFileRemove($event)"
+                      (success)="successEventHandler($event)"
+                      class="mb-2">
+        </kendo-upload>
+        <ng-container *ngIf="uploadError">
+          <div *ngIf="uploadError" class="custom-control invalid-feedback">
+            {{ errorMessage }}
+          </div>
+        </ng-container>
+        <span *ngIf="!uploadError" class="pf-placeholder"></span>
+        <textarea
+          maxlength="1000"
+          id="upload-org-data-description"
+          class="form-control text-area-no-resize mt-1"
+          rows="5"
+          name="fileUploadDescription"
+          formControlName="fileUploadDescription"
+          [placeholder]="descriptionPlaceholder"
+          [pfValidatable]="false"
+        ></textarea>
+        <ng-container *ngIf="(successfulSubmit$ | async) && submitted">
+          <div class="alert alert-success mt-4" *ngIf="(successfulSubmit$ | async) && submitted" role="alert">
+            Thank you for uploading your organizational data. We have received the files and will begin processing them shortly.
+          </div>
+        </ng-container>
+        <span *ngIf="!(successfulSubmit$ | async)" class="pf-placeholder"></span>
+      </div>
+  </ng-container>
+</pf-modal-form>
