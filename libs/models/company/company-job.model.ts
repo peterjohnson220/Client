@@ -7,4 +7,13 @@ export interface CompanyJob {
     JobDescription: string;
 }
 
-
+export function generateMockCompanyJob(): CompanyJob {
+  return {
+    CompanyJobId: 1,
+    JobTitle: 'MockCompanyJobTitle',
+    JobCode: 'MockCompanyJobCode',
+    JobLevel: 'MockJobLevel',
+    JobFamily: 'MockJobFamily',
+    JobDescription: 'MockJobDescription'
+  };
+}

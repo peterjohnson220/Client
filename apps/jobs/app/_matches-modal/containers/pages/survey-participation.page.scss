@@ -1,0 +1,21 @@
+.matches-modal-content {
+  padding: .5rem 0.85rem;
+}
+
+.matches-modal-title {
+  font-size: 20pt;
+  color: #333333;
+}
+
+.matches-list-item {
+  border: solid thin;
+  padding: 5px;
+}
+
+div.matches-list-container > div:nth-of-type(odd) {
+  background-color: #DDDDDD;
+}
+
+.matches-modal-content.matches-header{
+  padding-top: 20px;
+}
