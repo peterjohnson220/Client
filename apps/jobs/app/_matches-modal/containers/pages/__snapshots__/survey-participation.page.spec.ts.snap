@@ -1,161 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SurveyParticipationPageComponent should load data about the company job when page is open 1`] = `
-<pf-survey-participation-page
-  companyJob$={[Function Store]}
-  companyJobStore={[Function Store]}
-  dragEnd$={[Function AnonymousSubject]}
-  dragMatches={[Function Subscription]}
-  dragStart$={[Function AnonymousSubject]}
-  dragulaService={[Function DragulaService]}
-  isDragging="false"
-  isDragging$={[Function Observable]}
-  matches$={[Function Store]}
-  matchesStore={[Function Store]}
-  route={[Function Object]}
->
-  <div
-    class="matches-modal-content matches-modal-title"
-  >
-      - 
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Included in Participation - These matches will be included in your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="includeInParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div><div
-    class="matches-modal-content"
-  >
-     Excluded from Participation - These matches will be excluded from your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="excludeFromParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div>
-</pf-survey-participation-page>
-`;
-
-exports[`SurveyParticipationPageComponent should load matches and company job object when page is open 1`] = `
-<pf-survey-participation-page
-  companyJob$={[Function Store]}
-  companyJobStore={[Function Store]}
-  dragEnd$={[Function AnonymousSubject]}
-  dragMatches={[Function Subscription]}
-  dragStart$={[Function AnonymousSubject]}
-  dragulaService={[Function DragulaService]}
-  isDragging="false"
-  isDragging$={[Function Observable]}
-  matches$={[Function Store]}
-  matchesStore={[Function Store]}
-  route={[Function Object]}
->
-  <div
-    class="matches-modal-content matches-modal-title"
-  >
-      - 
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Included in Participation - These matches will be included in your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="includeInParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div><div
-    class="matches-modal-content"
-  >
-     Excluded from Participation - These matches will be excluded from your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="excludeFromParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div>
-</pf-survey-participation-page>
-`;
-
-exports[`SurveyParticipationPageComponent should load matches when page is open 1`] = `
-<pf-survey-participation-page
-  companyJob$={[Function Store]}
-  companyJobStore={[Function Store]}
-  dragEnd$={[Function AnonymousSubject]}
-  dragMatches={[Function Subscription]}
-  dragStart$={[Function AnonymousSubject]}
-  dragulaService={[Function DragulaService]}
-  isDragging="false"
-  isDragging$={[Function Observable]}
-  matches$={[Function Store]}
-  matchesStore={[Function Store]}
-  route={[Function Object]}
->
-  <div
-    class="matches-modal-content matches-modal-title"
-  >
-      - 
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
-  
-  </div><div
-    class="matches-modal-content"
-  >
-     Included in Participation - These matches will be included in your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="includeInParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div><div
-    class="matches-modal-content"
-  >
-     Excluded from Participation - These matches will be excluded from your survey participation report
-  
-  </div><div
-    class="matches-modal-content matches-list-container dropzone"
-    dragula="matches-bag"
-    id="excludeFromParticipation"
-    ng-reflect-dragula="matches-bag"
-  >
-    
-  </div>
-</pf-survey-participation-page>
-`;
-
 exports[`SurveyParticipationPageComponent should show survey participation modal page 1`] = `
 <pf-survey-participation-page
   companyJob$={[Function Store]}
@@ -181,7 +25,7 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
      Use the survey participation function to determine which of your matches you would like to include in Survey Participation reports. Drag and drop your matches to the corresponding category to include or exclude them from participation.
   
   </div><div
-    class="matches-modal-content"
+    class="matches-modal-content font-weight-bold"
   >
      Included in Participation - These matches will be included in your survey participation report
   
@@ -193,7 +37,7 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
   >
     
   </div><div
-    class="matches-modal-content"
+    class="matches-modal-content font-weight-bold"
   >
      Excluded from Participation - These matches will be excluded from your survey participation report
   
