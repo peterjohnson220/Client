@@ -18,12 +18,15 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
   loadingPreviousBatchCommunityPosts$={[Function Store]}
   loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
+  observerOptions={[Function Object]}
   postBatchSize={[Function Number]}
+  postsChangedObserver={[Function MutationObserver]}
   postsComponent={[Function ElementRef]}
   scroll={[Function ScrollDispatcher]}
   scrollingSubscription={[Function Subscriber]}
   showBackToTopButton="false"
   store={[Function Store]}
+  targetNode="null"
 >
   <div
     class="flex-column-container"

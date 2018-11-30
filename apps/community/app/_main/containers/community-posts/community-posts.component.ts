@@ -112,12 +112,14 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
         this.loadingNextBatchCommunityPosts = value;
+        this.showReplies = [];
       }
     });
 
     this.loadingPreviousBatchCommunityPostsSubscription = this.loadingPreviousBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
         this.loadingPreviousBatchCommunityPosts = value;
+        this.showReplies = [];
       }
     });
 

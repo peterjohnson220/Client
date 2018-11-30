@@ -50,6 +50,9 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   previousBottomPostOffset: any;
   postBatchSize = CommunityConstants.POSTS_PER_BATCH;
 
+  postsChangedObserver: any;
+  targetNode: any;
+  observerOptions: any;
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               public scroll: ScrollDispatcher, private changeDetector: ChangeDetectorRef) {
@@ -152,14 +155,14 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle events
   ngOnInit() {
-    const targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
-    const observerOptions = {
+    this.targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
+    this.observerOptions = {
       childList: true,
       attributes: true,
       subtree: true
     };
 
-    const postsChangedObserver = new MutationObserver(() => {
+    this.postsChangedObserver = new MutationObserver(() => {
       if (this.isLoadingNextBatch) {
         this.loadedNextBatchScrollToNewPosition();
         this.isLoadingNextBatch = false;
@@ -168,8 +171,8 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
         this.loadedPreviousBatchScrollToNewPosition();
         this.isLoadingPreviousBatch = false;
       }
+      this.postsChangedObserver.disconnect();
     });
-    postsChangedObserver.observe(targetNode, observerOptions);
 
     this.hasNextBatchResultsOnServerSubscription = this.getHasNextBatchPostsOnServer$.subscribe(value => {
       if (value != null) {
@@ -186,6 +189,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
       if (value && this.hasNextBatchOnServer) {
         this.isLoadingNextBatch = true;
+        this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
       }
 
       if (value === false && this.scrollElement != null) {
@@ -201,6 +205,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.loadingPreviousBatchCommunityPostsSubscription = this.loadingPreviousBatchCommunityPosts$.subscribe(value => {
       if (value) {
         this.isLoadingPreviousBatch = true;
+        this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
       }
 
       if (value === false && this.scrollElement != null) {

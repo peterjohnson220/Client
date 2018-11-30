@@ -231,16 +231,16 @@ export const getLoadingPreviousBatchPosts = createSelector(
 
 export const getHasNextBatchPostsOnServer = createSelector(
   getTotalDiscussionResultsOnServer,
-  getDiscussionPagingOptions,
+  selectFromCommunityPostState,
   (totalOnServer, pagingOptions) => {
-    return totalOnServer > CommunityConstants.POSTS_PER_BATCH * pagingOptions.PageIndex;
+    return totalOnServer > CommunityConstants.POSTS_PER_BATCH * pagingOptions.endIndexDisplayed;
   }
 );
 
 export const getHasPreviousBatchPostsOnServer = createSelector(
-  getDiscussionPagingOptions,
+  selectFromCommunityPostState,
   (pagingOptions) => {
-    return pagingOptions.PageIndex > CommunityConstants.POST_PAGING_FACTOR;
+    return pagingOptions.startIndexDisplayed > 1;
   }
 );
 
