@@ -11,7 +11,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
     
     <div>
       <input
-        class="form-control input-body"
+        class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
@@ -33,7 +33,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
     
     <div>
       <input
-        class="form-control input-body"
+        class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
@@ -55,7 +55,7 @@ exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
     
     <div>
       <input
-        class="form-control input-body"
+        class="form-control input-body community-border-radius"
         formcontrolname="response"
         type="text"
       />
