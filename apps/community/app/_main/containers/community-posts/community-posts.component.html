@@ -2,12 +2,6 @@
   [loading]="loadingCommunityPosts$ | async">
   <pf-community-post-filter-options></pf-community-post-filter-options>
   <div id="posts-container" class="posts-container p-2 scroll">
-    <div class="row loading-indicator-container-top p-1" *ngIf="loadingPreviousBatchCommunityPosts$ | async">
-      <div class="pb-3">
-        <pf-loading-indicator></pf-loading-indicator>
-        Loading More Results...
-      </div>
-    </div>
     <div id="community-posts">
       <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
         <div class="post-item row mb-3 ml-0 mr-0">
@@ -104,12 +98,6 @@
           </div>
         </div>
       </ng-container>
-    </div>
-    <div class="row loading-indicator-container-bottom p-1" *ngIf="loadingNextBatchCommunityPosts$ | async">
-      <div class="mt-3 pb-3">
-        <pf-loading-indicator></pf-loading-indicator>
-        Loading More Results...
-      </div>
     </div>
   </div>
 </pf-async-container>

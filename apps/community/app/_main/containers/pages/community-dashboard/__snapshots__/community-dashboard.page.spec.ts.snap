@@ -4,7 +4,6 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
 <pf-community-dashboard-page
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
-  changeDetector={[Function ViewRef_]}
   getHasNextBatchPostsOnServer$={[Function Store]}
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchOnServer="false"
@@ -93,7 +92,29 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
               </p>
               <hr />
             </div>
+            <div
+              class="row loading-indicator-container-top p-1 k-display-none"
+              id="loading-previous-results-indicator"
+            >
+              <div
+                class="pb-3"
+              >
+                <pf-loading-indicator />
+                 Loading More Results... 
+              </div>
+            </div>
             <pf-community-posts />
+            <div
+              class="row loading-indicator-container-bottom p-1 k-display-none"
+              id="loading-next-results-indicator"
+            >
+              <div
+                class="mt-3 pb-3"
+              >
+                <pf-loading-indicator />
+                 Loading More Results... 
+              </div>
+            </div>
           </div>
           <div
             class="col-3"
