@@ -11,3 +11,4 @@ export * from './exchange-job-comparison-grid';
 export * from './exchange-selector';
 export * from './invite-company';
 export * from './exchange-dashboard-tc-modal';
+export * from './upload-org-data-modal';

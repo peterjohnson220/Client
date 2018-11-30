@@ -17,6 +17,7 @@ import { JobDescriptionApiService, JobDescriptionManagementApiService } from './
 import { TermsConditionsApiService } from './terms-conditions';
 import { OrgDataFieldMappingsApiService } from './org-data-loader';
 import { AppEnvironmentApiService } from './app-environment';
+import { UserTicketApiService } from './service';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -43,7 +44,8 @@ import { AppEnvironmentApiService } from './app-environment';
     CompanySettingsApiService,
     OrgDataFieldMappingsApiService,
     ExchangeDataCutsApiService,
-    AppEnvironmentApiService
+    AppEnvironmentApiService,
+    UserTicketApiService
   ]
 })
 export class PfApiModule { }

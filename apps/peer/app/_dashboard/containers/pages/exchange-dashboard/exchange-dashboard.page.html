@@ -69,3 +69,8 @@
 <pf-invite-company-modal></pf-invite-company-modal>
 <pf-access-exchange-request-modal></pf-access-exchange-request-modal>
 <pf-exchange-dashboard-tc-modal></pf-exchange-dashboard-tc-modal>
+<pf-upload-org-data-modal
+  [isOpen$]="uploadOrgDataModalOpen$"
+  (uploadOrgDataEvent)="handleUploadOrgData($event)"
+  (modalDismissedEvent)="closeUploadOrgDataModal()">
+</pf-upload-org-data-modal>

@@ -17,6 +17,7 @@ import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison
 import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 import * as fromCompanyIndustriesReducer from './company-industries.reducer';
 import * as fromExchangeDashboardTCModalReducer from './exchange-dashboard-tc-modal.reducer';
+import * as fromUploadOrgDataReducer from './upload-org-data.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -28,6 +29,7 @@ export interface DashboardState {
   exchangeSelector: fromExchangeSelectorReducer.State;
   companyIndustries: fromCompanyIndustriesReducer.State;
   exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.State;
+  uploadOrgData: fromUploadOrgDataReducer.State;
 }
 
 // Extend root state with feature area state
@@ -44,7 +46,8 @@ export const reducers = {
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
   exchangeSelector: fromExchangeSelectorReducer.reducer,
   companyIndustries: fromCompanyIndustriesReducer.reducer,
-  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer
+  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer,
+  uploadOrgData: fromUploadOrgDataReducer.reducer
 };
 
 // Select Feature Area
@@ -89,6 +92,11 @@ export const selectCompanyIndustriesState = createSelector(
 export const selectExchangeDashboardTCModalState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.exchangeDashboardTCModal
+);
+
+export const selectUploadOrgDataState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.uploadOrgData
 );
 
 // Exchange Dashboard Selectors
@@ -370,4 +378,25 @@ export const getTCData = createSelector(
 export const hasTCData = createSelector(
   selectExchangeDashboardTCModalState,
   fromExchangeDashboardTCModalReducer.hasTCData
+);
+
+// Upload Org Data
+export const getUploadOrgDataUploadingFile = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFile
+);
+
+export const getUploadOrgDataUploadingFileSuccess = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFileSuccess
+);
+
+export const getUploadOrgDataUploadingFileError = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFileError
+);
+
+export const getUploadOrgDataModalOpen = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadOrgDataModalOpen
 );

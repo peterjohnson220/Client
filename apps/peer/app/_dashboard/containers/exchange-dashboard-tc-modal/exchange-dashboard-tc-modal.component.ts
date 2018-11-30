@@ -7,6 +7,7 @@ import { TermsConditionsModel, TermsConditionsSubmissionModel } from 'libs/model
 
 import * as fromExchangeDashboardTCReducer from '../../reducers';
 import * as fromExchangeDashboardTCActions from '../../actions/exchange-dashboard-tc-modal.actions';
+import * as fromUploadOrgDataActions from '../../actions/upload-org-data.actions';
 
 @Component({
   selector: 'pf-exchange-dashboard-tc-modal',
@@ -59,5 +60,6 @@ export class ExchangeDashboardTCModalComponent implements OnInit {
     } as TermsConditionsSubmissionModel;
 
     this.store.dispatch(new fromExchangeDashboardTCActions.SubmitTermsAndConditionsResponse(termsConditionsSubmission));
+    this.store.dispatch(new fromUploadOrgDataActions.OpenUploadOrgDataModal());
   }
 }

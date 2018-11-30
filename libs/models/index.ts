@@ -6,6 +6,7 @@ export * from './paymarket';
 export * from './peer';
 export * from './survey-search';
 export * from './security';
+export * from './service';
 export * from './user';
 export * from './jdm';
 export * from './terms-conditions';

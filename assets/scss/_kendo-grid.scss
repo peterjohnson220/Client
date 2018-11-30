@@ -16,7 +16,7 @@
   }
 }
 
-:host ::ng-deep .k-grid tbody tr {
+:host ::ng-deep .k-grid:not(.no-grid-data) tbody tr {
   &:not(.row-disabled) {
     &:hover.k-state-selected {
       background-color: rgba( $selected-bg, .25 );
