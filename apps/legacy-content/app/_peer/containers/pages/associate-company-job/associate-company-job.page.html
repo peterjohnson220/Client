@@ -1,0 +1,103 @@
+<div class="mapping-info-container ">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <h5> Associate a Company Job to an Exchange Job</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"
+                     style="padding-top:10px">
+                    <pf-job-info-container *ngIf="companyJobInfo"
+                                           [job]="companyJobInfo">
+                    </pf-job-info-container>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <pf-exchange-selector [data]="exchanges"
+                                          (onExchangeSelected)="setSelectedKey($event)">
+                    </pf-exchange-selector>
+                </div>
+            </div>
+            <ng-container *ngIf="exchangeId">
+                <div class="row">
+                    <div class="col">
+                        <pf-input-debounce [placeholderText]="'Search for a Job Title...'"
+                                           [(ngModel)]="exchangeJobQuery"
+                                           (valueChanged)="handleSearchTitleValueChanged($event)"
+                                           class="search-box"
+                                           [disabled]="isAddingAssociation$ | async">
+
+                        </pf-input-debounce>
+                    </div>
+                    <div class="col">
+                        <pf-input-debounce [placeholderText]="'Search in the Job Description...'"
+                                           [(ngModel)]="exchangeDescriptionQuery"
+                                           (valueChanged)="handleSearchDescValueChanged($event)"
+                                           class="search-box"
+                                           [disabled]="isAddingAssociation$ | async">
+                        </pf-input-debounce>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mapping-results-container">
+                            <pf-async-container [loading]="(isAddingAssociation$ | async) || (isLoading$ | async)"
+                                                [loadingError]="(hasAddingAssociationError$ | async)|| (hasLoadingError$ | async)"
+                                                [hideReloadButton]="true">
+                                <ng-container *ngIf="!(hasLoadingError$ | async) && !(hasAddingAssociationError$ | async) && (searchResults$ | async) && (searchResults$ | async).length">
+                                    <div *ngFor="let res of searchResults$ | async"
+                                         class="company-job-to-map-to-result d-flex flex-column">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-column">
+
+                                                <strong>
+                                                    <span [innerHtml]="res.JobTitle | highlightText: exchangeJobQuery">
+                                                    </span> - {{res.JobFamily}}</strong>
+                                                <div class="mt-2">
+
+                                                    <ng-container *ngIf="res.JobDescription && res.JobDescription.length; else noJobDescription">
+                                                        <pf-ellipsis-view-more [highlightFilter]="exchangeDescriptionQuery"
+                                                                               [content]="res.JobDescription"
+                                                                               [maxLength]="175"></pf-ellipsis-view-more>
+                                                    </ng-container>
+
+                                                    <ng-template #noJobDescription>
+                                                        <em>No Job Description</em>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+
+                                            <div class="apply-mapping-container">
+                                                <pf-apply-mapping-button [mapped]="false"
+                                                                         [applyingMapping]="isAddingAssociation$ | async"
+                                                                         [applyingMappingError]="hasAddingAssociationError$ | async"
+                                                                         [selectedMapping]="false"
+                                                                         (applyMapping)="handleApplyMapping(res.ExchangeJobId)">
+                                                </pf-apply-mapping-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!(searchResults$ | async) || (searchResults$ | async).length === 0">
+                                    <div class="d-flex flex-column mt-5 align-items-center">
+                                        <h6 class="mb-1"
+                                            innerHTML="{{buildNoResultsString()}}"></h6>
+                                        <h5><small class="text-muted">Please change your filter criteria to
+                                                search
+                                                again.</small></h5>
+                                    </div>
+
+                                </ng-container>
+                            </pf-async-container>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
