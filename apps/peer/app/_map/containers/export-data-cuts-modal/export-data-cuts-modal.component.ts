@@ -123,7 +123,6 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
       selectedExchangeJobToCompanyJobId,
       this.pageEntityIds)
     );
-    this.selectionsControl.markAsTouched();
   }
 
   rowClass(context: RowClassArgs): string {
@@ -132,6 +131,18 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
 
   onSelectAllChange(checkedState: SelectAllCheckboxState) {
     this.store.dispatch(new fromGridActions.ToggleSelectAll(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
+  }
+
+  isChecked(exchangeJobToCompanyJobId: number): boolean {
+    return this.selections.indexOf(exchangeJobToCompanyJobId) > -1;
+  }
+
+  onCbClick(exchangeJobToCompanyJobId: number) {
+    this.store.dispatch(new fromGridActions.ToggleRowSelection(
+      GridTypeEnum.ExchangeCompanyJob,
+      exchangeJobToCompanyJobId,
+      this.pageEntityIds)
+    );
   }
 
   // Lifecycle
@@ -151,6 +162,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
     this.selectionsSubscription = this.selections$.subscribe(selections => {
       this.selections = cloneDeep(selections);
+      this.selectionsControl.markAsTouched();
     });
     this.gridDataResultSubscription = this.view$.subscribe(gridDataResult => {
       this.gridDataResult = gridDataResult;
