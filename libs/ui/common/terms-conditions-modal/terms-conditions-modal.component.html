@@ -5,7 +5,8 @@
         {{title}}
       </h3>
     </div>
-    <button type="button" class="close" aria-label="Close" (click)="dismissModal()">
+
+    <button *ngIf="showCloseButton" type="button" class="close" aria-label="Close" (click)="dismissModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
