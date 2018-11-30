@@ -29,9 +29,7 @@
                     info: true
                   }"
                   [sortable]="true"
-                  [selectable]="{
-                    checkboxOnly: true
-                  }"
+                  [selectable]="false"
                   [rowClass]="rowClass"
                   [kendoGridSelectBy]="selectionKey"
                   filterable="menu"
@@ -41,16 +39,15 @@
 
         <kendo-grid-checkbox-column width="5" showSelectAll="true">
           <ng-template kendoGridHeaderTemplate>
-            <input id="selectAllCheckboxId" kendoGridSelectAllCheckbox
+            <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
                    [state]="selectAllState$ | async"
                    (selectAllChange)="onSelectAllChange($event)">
-            <label for="selectAllCheckboxId"></label>
           </ng-template>
           <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
-            <span class="k-grid-ignore-click">
-              <input [disabled]="!dataItem.IsInMapScope" [id]="'cb_' + idx" [kendoGridSelectionCheckbox]="idx">
-              <label [for]="'cb_' + idx"></label>
-            </span>
+            <input type="checkbox"
+                   [disabled]="!dataItem.IsInMapScope"
+                   [checked]="isChecked(dataItem.ExchangeJobToCompanyJobId)"
+                   (click)="onCbClick(dataItem.ExchangeJobToCompanyJobId)">
           </ng-template>
         </kendo-grid-checkbox-column>
 
