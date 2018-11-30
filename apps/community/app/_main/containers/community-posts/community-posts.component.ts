@@ -82,14 +82,14 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     const urlParams = Observable.combineLatest(
       this.route.params,
       this.route.url,
-      (params, url) => ({ ...params, url: url.join('')})
+      (params, url) => ({ ...params, url: url.join('') })
     );
     urlParams.subscribe(routeParams => {
       if (routeParams.url.indexOf('post') > -1) {
-        const postId = routeParams['id'];
+        const postId = routeParams[ 'id' ];
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostToFilterOptions(postId));
       } else if (routeParams.url.indexOf('reply') > -1) {
-        const replyId = routeParams['id'];
+        const replyId = routeParams[ 'id' ];
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostReplyToFilterOptions(replyId));
       } else {
         this.getPosts();

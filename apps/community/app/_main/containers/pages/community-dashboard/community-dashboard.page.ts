@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/overlay';
 
 import { Subscription, Observable } from 'rxjs';
@@ -55,7 +55,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   observerOptions: any;
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
-              public scroll: ScrollDispatcher, private changeDetector: ChangeDetectorRef) {
+              public scroll: ScrollDispatcher) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
@@ -115,9 +115,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   loadedNextBatchScrollToNewPosition() {
     this.showBackToTopButton = true;
-
     // TODO: Current scroll logic needs to be updated here to handle variations in CommunityConstants batch size and paging factor.
     if (document.getElementsByClassName(this.POST_ITEM_CLASS).length > this.postBatchSize) {
+      this.hideLoadingNextBatchIndicator();
+
       const currentLastPostOffset = (<HTMLElement>document.getElementsByClassName(this.POST_ITEM_CLASS)
         [ this.postBatchSize - 1 ]).offsetTop;
 
@@ -130,8 +131,20 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  showLoadingNextBatchIndicator() {
+    const loadingNextResultsIndicator = document.getElementById('loading-next-results-indicator');
+    loadingNextResultsIndicator.classList.remove('k-display-none');
+  }
+
+  hideLoadingNextBatchIndicator() {
+    const loadingNextResultsIndicator = document.getElementById('loading-next-results-indicator');
+    loadingNextResultsIndicator.classList.add('k-display-none');
+  }
+
   loadedPreviousBatchScrollToNewPosition() {
     // TODO: Current scroll logic needs to be updated here to handle variations in CommunityConstants batch size and paging factor.
+    this.hideLoadingPreviousBatchIndicator();
+
     const currentFirstPostOffset = (<HTMLElement>document.getElementsByClassName(this.POST_ITEM_CLASS)[ this.postBatchSize ]).offsetTop;
     const newCalculatedScrollPosition = currentFirstPostOffset - this.previousTopPostOffset;
 
@@ -139,6 +152,16 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       .scrollTop = newCalculatedScrollPosition;
 
     this.previousScrollTop = newCalculatedScrollPosition;
+  }
+
+  showLoadingPreviousBatchIndicator() {
+    const loadingPreviousResultsIndicator = document.getElementById('loading-previous-results-indicator');
+    loadingPreviousResultsIndicator.classList.remove('k-display-none');
+  }
+
+  hideLoadingPreviousBatchIndicator() {
+    const loadingPreviousResultsIndicator = document.getElementById('loading-previous-results-indicator');
+    loadingPreviousResultsIndicator.classList.add('k-display-none');
   }
 
   backToTop() {
@@ -187,18 +210,18 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     });
 
     this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
+
+
       if (value && this.hasNextBatchOnServer) {
         this.isLoadingNextBatch = true;
         this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
+        this.showLoadingNextBatchIndicator();
       }
 
       if (value === false && this.scrollElement != null) {
         if (this.hasPreviousBatchOnServer) {
           this.hideTopComponents = true;
         }
-        window.setTimeout(() => {
-          this.changeDetector.detectChanges(); // IE requires change detection
-        }, 0);
       }
     });
 
@@ -206,15 +229,13 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       if (value) {
         this.isLoadingPreviousBatch = true;
         this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
+        this.showLoadingPreviousBatchIndicator();
       }
 
       if (value === false && this.scrollElement != null) {
         if (!this.hasPreviousBatchOnServer) {
           this.hideTopComponents = false;
         }
-        window.setTimeout(() => {
-          this.changeDetector.detectChanges(); // IE requires change detection
-        }, 0);
       }
     });
   }

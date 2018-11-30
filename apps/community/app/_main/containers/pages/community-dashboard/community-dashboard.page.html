@@ -23,7 +23,19 @@
             <p class="sub-header">See what people are talking about...</p>
             <hr>
           </div>
+          <div id="loading-previous-results-indicator" class="row loading-indicator-container-top p-1 k-display-none">
+            <div class="pb-3">
+              <pf-loading-indicator></pf-loading-indicator>
+              Loading More Results...
+            </div>
+          </div>
           <pf-community-posts #posts></pf-community-posts>
+          <div id="loading-next-results-indicator" class="row loading-indicator-container-bottom p-1 k-display-none">
+            <div class="mt-3 pb-3">
+              <pf-loading-indicator></pf-loading-indicator>
+              Loading More Results...
+            </div>
+          </div>
         </div>
         <div class="col-3">
           <div class="row sticky-top">

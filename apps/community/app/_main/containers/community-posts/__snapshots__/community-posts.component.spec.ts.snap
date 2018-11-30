@@ -32,13 +32,11 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
       class="posts-container p-2 scroll"
       id="posts-container"
     >
-      
       <div
         id="community-posts"
       >
         
       </div>
-      
     </div>
   </pf-async-container>
 </pf-community-posts>
