@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import { mapTo, startWith } from 'rxjs/operators';
 import { DragulaService } from 'ng2-dragula';
+import * as autoScroll from 'dom-autoscroller';
 
 import { Match, CompanyJob } from 'libs/models/company';
 
@@ -74,6 +75,18 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
         this.matchesExcludedFromParticipation = matchesArray.filter(m => m.ExcludeFromParticipation === true);
       }
     });
+
+    const that = this;
+    this.scroll = autoScroll(
+      document.querySelector('.matches-modal-container'),
+      {
+        margin: 30,
+        maxSpeed: 25,
+        scrollWhenOutside: true,
+        autoScroll: function() {
+          return this.down && that.isDragging;
+        }
+      });
   }
 
   private configureDragEvents(): void {

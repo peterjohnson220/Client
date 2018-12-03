@@ -4,14 +4,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { SurveyParticipationPageComponent } from './survey-participation.page';
-import { Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromReducers from '../../reducers';
-import * as fromMatchesActions from '../../actions/matches.actions';
-import * as fromCompanyJobActions from '../../actions/company-job.actions';
 
 import { DragulaModule } from 'ng2-dragula';
-import {generateMockCompanyJob, generateMockMatch} from 'libs/models/company';
 
 describe( 'SurveyParticipationPageComponent', () => {
   let fixture: ComponentFixture<SurveyParticipationPageComponent>;
