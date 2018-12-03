@@ -4,6 +4,7 @@ exports[`Pf Modal Form should not have modal html when isOpen$ is false 1`] = `
 <pf-modal-form
   attemptedSubmit="false"
   backdrop={[Function String]}
+  centered="false"
   formGroup={[Function FormGroup]}
   isOpen$={[Function Observable]}
   modalId={[Function String]}
@@ -33,6 +34,7 @@ exports[`Pf Modal Form should show subTitle in modal header if a subTitle is pro
 <pf-modal-form
   attemptedSubmit="false"
   backdrop={[Function String]}
+  centered="false"
   formGroup={[Function FormGroup]}
   isOpen$={[Function Observable]}
   modalId={[Function String]}

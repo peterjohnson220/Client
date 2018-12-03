@@ -22,6 +22,7 @@ export class TermsConditionsModalComponent implements OnInit {
   @Input() declineButtonText = 'Decline';
   @Input() showDeclineButton: false;
   @Input() showCloseButton: boolean;
+  @Input() tcType: string;
 
   @Output() onAccept = new EventEmitter();
   @Output() onDecline = new EventEmitter();
