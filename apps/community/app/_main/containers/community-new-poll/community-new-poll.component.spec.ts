@@ -78,4 +78,10 @@ describe('CommunityStartPollComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should show community poll duration choices', () => {
+    instance.onDurationDaysChange();
+    fixture.detectChanges();
+    expect(fixture).toBeTruthy();
+  });
+
 });
