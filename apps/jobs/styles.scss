@@ -1,7 +1,6 @@
 @import '~dragula/dist/dragula.min.css';
 
 html, body {
-  height: 533px;
   background-color: initial !important;
 }
 
@@ -25,4 +24,9 @@ div.matches-list-container > div:nth-of-type(odd) {
 
 .highlight {
   background: rgba(255, 250, 203, 0.65);
+}
+
+.matches-modal-container {
+  height: 100%;
+  overflow-y: auto;
 }
