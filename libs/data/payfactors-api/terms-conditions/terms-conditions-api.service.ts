@@ -17,7 +17,7 @@ export class TermsConditionsApiService {
 
   getAwaitingTC(tcType: string): Observable<TermsConditionsModel> {
     return this.payfactorsApiService.get<TermsConditionsModel>
-    (`${this.endpoint}.GetAwaitingTC`, { params: { tcType: tcType } }, (response) => JSON.parse(response));
+    (`${this.endpoint}.GetAwaitingTC`, { params: { tcType: tcType } }, (response) => JSON.parse(response.value));
   }
 
   postTermsConditionsResponse(userResponse: TermsConditionsSubmissionModel): Observable<any> {
@@ -28,5 +28,4 @@ export class TermsConditionsApiService {
       }
     );
   }
-
 }
