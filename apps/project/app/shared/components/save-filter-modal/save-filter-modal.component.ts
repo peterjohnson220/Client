@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 import { PfValidators } from 'libs/forms/validators';
-import { SaveFilterModalData } from '../../models';
+import { SaveFilterModalData, MultiSelectFilter } from '../../models';
 
 @Component({
   selector: 'pf-save-filter-modal',
@@ -24,6 +24,7 @@ export class SaveFilterModalComponent implements OnInit, OnChanges {
   nameFilterForm: FormGroup;
   showErrorMessages: boolean;
   isEditMode: boolean;
+  filtersToSave: MultiSelectFilter[];
 
   constructor(
     private fb: FormBuilder
@@ -51,7 +52,8 @@ export class SaveFilterModalComponent implements OnInit, OnChanges {
     this.showErrorMessages = true;
     let modalData = {
       Name: this.nameFilterForm.value.name,
-      SetAsPayMarketDefault: this.nameFilterForm.value.setAsPayMarketDefault
+      SetAsPayMarketDefault: this.nameFilterForm.value.setAsPayMarketDefault,
+      SearchFiltersToSave: this.filtersToSave
     };
     if (this.isEditMode) {
       modalData = Object.assign({ SavedFilter: this.modalData.SavedFilter }, modalData);
@@ -68,6 +70,9 @@ export class SaveFilterModalComponent implements OnInit, OnChanges {
     if (this.isEditMode) {
       this.nameFilterForm.get('name').setValue(this.modalData.Name);
       this.nameFilterForm.get('setAsPayMarketDefault').setValue(this.modalData.SetAsPayMarketDefault);
+    }
+    if (!!this.modalData && !!this.modalData.SearchFiltersToSave) {
+      this.filtersToSave = this.modalData.SearchFiltersToSave;
     }
   }
 }

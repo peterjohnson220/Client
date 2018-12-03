@@ -45,9 +45,9 @@ describe('Project - Add Data - Saved Filters', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch an OpenSaveFilterModal action if we can save filters, when handling a save click', () => {
+  it('should dispatch an CreateSavedFilter action if we can save filters, when handling a save click', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromSavedFiltersActions.OpenSaveFilterModal();
+    const expectedAction = new fromSavedFiltersActions.CreateSavedFilter();
     instance.canSaveFilters = true;
 
     instance.handleSaveClicked();

@@ -18,6 +18,10 @@ export class PayfactorsApiModelMapper {
     return searchFilters.map(sf => this.mapSearchFilterToFilter(sf));
   }
 
+  static mapSearchFiltersToMultiSelectFilters(searchFilters: SearchFilter[]): MultiSelectFilter[] {
+    return searchFilters.map(sf => this.mapSearchFilterToMultiFilter(sf));
+  }
+
   static mapSearchFilterToFilter(searchFilter: SearchFilter): Filter {
     switch (this.getMappingData(searchFilter.Name).Type) {
       case FilterType.Multi:
@@ -101,7 +105,7 @@ export class PayfactorsApiModelMapper {
         Id: ssfr.Id,
         Name: ssfr.Name,
         MetaInfo: ssfr.MetaInfo,
-        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToFilters(ssfr.Filters)),
+        Filters: FiltersHelper.selectAll(this.mapSearchFiltersToMultiSelectFilters(ssfr.Filters)),
         Selected: false
       };
     });
