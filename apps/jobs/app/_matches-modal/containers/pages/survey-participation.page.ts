@@ -71,8 +71,10 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
     this.matches$.subscribe(matchesArray => {
       if (matchesArray) {
         this.matches = matchesArray;
-        this.matchesIncludedInParticipation = matchesArray.filter(m => m.ExcludeFromParticipation === false);
-        this.matchesExcludedFromParticipation = matchesArray.filter(m => m.ExcludeFromParticipation === true);
+        this.matchesIncludedInParticipation = matchesArray.filter(m => m.ExcludeFromParticipation === false
+          && (m.Type.toUpperCase() !== 'PEER' && m.Type.toUpperCase() !== 'SLOTTED'));
+        this.matchesExcludedFromParticipation = matchesArray.filter(m => m.ExcludeFromParticipation === true
+          || (m.Type.toUpperCase() === 'PEER' || m.Type.toUpperCase() === 'SLOTTED'));
       }
     });
 

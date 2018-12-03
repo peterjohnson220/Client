@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MatchesDetailsComponent should create snapshot 1`] = `
-<pf-match-details>
-  
-</pf-match-details>
-`;
-
 exports[`MatchesDetailsComponent should match snapshot 1`] = `
 <pf-match-details>
   
@@ -22,42 +16,9 @@ exports[`MatchesDetailsComponent should show collapsed matches 1`] = `
         MockJobTitle (MockJobCode)
       </strong>
     </div>
-    
     <div>
-       Source: MockSurveyName MockSurveyPublisher, effective Jan 1, 2018 
+       Source: MockSource 
     </div>
-    
-    
-    <div
-      class="show-more"
-    >
-      
-      
-      <div>
-        <strong>
-          Show More
-        </strong>
-      </div>
-    </div>
-  </div>
-</pf-match-details>
-`;
-
-exports[`MatchesDetailsComponent should show matches 1`] = `
-<pf-match-details
-  match={[Function Object]}
->
-  <div>
-    <div>
-      <strong>
-        MockJobTitle (MockJobCode)
-      </strong>
-    </div>
-    
-    <div>
-       Source: MockSurveyName MockSurveyPublisher, effective Jan 1, 2018 
-    </div>
-    
     
     <div
       class="show-more"

@@ -2,13 +2,9 @@
   <div>
     <strong>{{match.JobTitle}} ({{match.JobCode}})</strong>
   </div>
-  <div *ngIf="!match.IsPayfactorsJob">
-    Source: {{ match.SurveyName}} {{match.SurveyPublisher}}, effective {{match.EffectiveDate |  date:'mediumDate'}}
+  <div>
+    Source: {{ match.Source}}
   </div>
-  <div *ngIf="match.IsPayfactorsJob">
-    Source: {{ match.SurveyName}} effective {{match.EffectiveDate |  date:'mediumDate'}}
-  </div>
-
   <div *ngIf="showMore">
     <div>
       <span>Family: {{match.JobFamily}}</span> <span class="job-level">Level: {{match.JobLevel}}</span>
@@ -17,11 +13,15 @@
       <span>FLSA: {{match.FlsaStatus}}</span> <span class="category">Category: {{match.JobCategory}}</span>
     </div>
 
-    <div class="scope-mapping-section">
+    <div class="scope-mapping-section" *ngIf="match.Type.toUpperCase() !== 'PEER' && match.Type.toUpperCase() !== 'SLOTTED'">
       Scope Mapping: <br/>
       <div *ngFor="let scope of match.ScopeMapping">
         <span class="scope-mapping-item">{{scope}}</span>
       </div>
+    </div>
+
+    <div class="scope-mapping-section" *ngIf="match.Type.toUpperCase() === 'PEER' || match.Type.toUpperCase() === 'SLOTTED'">
+      *{{ match.Type }} Jobs are not included in participation reports
     </div>
 
     <div>
