@@ -1,5 +1,5 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -9,10 +9,9 @@ import * as autoScroll from 'dom-autoscroller';
 
 import { Match, CompanyJob } from 'libs/models/company';
 
-import * as fromCompanyJobReducer from '../../../_matches-modal/reducers';
-import * as fromMatchesReducer from '../../../_matches-modal/reducers';
-import * as fromCompanyJobActions from '../../../_matches-modal/actions/company-job.actions';
-import * as fromMatchesActions from '../../../_matches-modal/actions/matches.actions';
+import * as fromCompanyJobActions from '../../actions/company-job.actions';
+import * as fromMatchesActions from '../../actions/matches.actions';
+import * as fromMatchesModalAreaReducer from '../../reducers';
 
 @Component({
   selector: 'pf-survey-participation-page',
@@ -21,27 +20,31 @@ import * as fromMatchesActions from '../../../_matches-modal/actions/matches.act
 })
 
 export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
-
+  companyJobLoading$: Observable<boolean>;
+  matchesLoading$: Observable<boolean>;
   matches$: Observable<Match[]>;
   companyJob$: Observable<CompanyJob>;
   isDragging$: Observable<boolean>;
   dragStart$: Observable<boolean>;
   dragEnd$: Observable<boolean>;
 
-  scroll: any;
-  isDragging: boolean;
   dragMatches: Subscription;
 
+  scroll: any;
+  isDragging: boolean;
   companyJob: CompanyJob;
   matches: Match[];
   matchesIncludedInParticipation: Match[];
   matchesExcludedFromParticipation: Match[];
 
-  constructor(private companyJobStore: Store<fromCompanyJobReducer.State>, private matchesStore: Store<fromMatchesReducer.State>,
-              private route: ActivatedRoute, private dragulaService: DragulaService) {
+  constructor(private matchesModalAreaStore: Store<fromMatchesModalAreaReducer.State>,
+              private route: ActivatedRoute,
+              private dragulaService: DragulaService) {
 
-    this.matches$ = this.matchesStore.select(fromMatchesReducer.getMatches);
-    this.companyJob$ = this.companyJobStore.select(fromCompanyJobReducer.getCompanyJob);
+    this.companyJobLoading$ = this.matchesModalAreaStore.select(fromMatchesModalAreaReducer.getCompanyJobLoading);
+    this.matchesLoading$ = this.matchesModalAreaStore.select(fromMatchesModalAreaReducer.getMatchesLoading);
+    this.matches$ = this.matchesModalAreaStore.select(fromMatchesModalAreaReducer.getMatches);
+    this.companyJob$ = this.matchesModalAreaStore.select(fromMatchesModalAreaReducer.getCompanyJob);
 
     this.dragMatches = new Subscription();
     this.configureDragEvents();
@@ -60,14 +63,14 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const companyJobId = parseInt(this.route.snapshot.queryParams.companyJobId, 10);
 
-    this.companyJobStore.dispatch(new fromCompanyJobActions.Loading(companyJobId));
+    this.matchesModalAreaStore.dispatch(new fromCompanyJobActions.Loading(companyJobId));
     this.companyJob$.subscribe(companyJob => {
       if (companyJob) {
         this.companyJob = companyJob;
       }
     });
 
-    this.matchesStore.dispatch(new fromMatchesActions.Loading(companyJobId));
+    this.matchesModalAreaStore.dispatch(new fromMatchesActions.Loading(companyJobId));
     this.matches$.subscribe(matchesArray => {
       if (matchesArray) {
         this.matches = matchesArray;
@@ -122,7 +125,7 @@ export class SurveyParticipationPageComponent implements OnInit, OnDestroy {
           const dataMatchJobId = Number(dataMatchJobIdAttribute.value);
           const excludeFromParticipation = target.id === 'excludeFromParticipation' ? true : false;
 
-          this.companyJobStore.dispatch(new fromMatchesActions.UpdateExcludeFromParticipation({
+          this.matchesModalAreaStore.dispatch(new fromMatchesActions.UpdateExcludeFromParticipation({
             CompanyJobPricingMatchIds: this.matches.find(m => m.JobId === dataMatchJobId).CompanyJobPricingMatchIds,
             ExcludeFromParticipation: excludeFromParticipation
           }));

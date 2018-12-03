@@ -1,7 +1,10 @@
 // Import all exports from our feature's actions
-import * as fromMatchesActions from '../actions/matches.actions';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+
 import { Match } from 'libs/models/company';
+
+import * as fromMatchesActions from '../actions/matches.actions';
+
 
 // Define our feature state
 export interface State extends EntityState<Match> {

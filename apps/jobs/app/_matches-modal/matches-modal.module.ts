@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { DragulaModule } from 'ng2-dragula';
 
-import { PfCommonUIModule } from 'libs/ui/common';
-
-import { SurveyParticipationPageComponent } from './containers';
-import { MatchesModalRoutingModule } from './matches-modal-routing.module';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
-import { MatchDetailsComponent } from './components/match-details';
+import { PfCommonUIModule } from 'libs/ui/common';
+
+import { MatchDetailsComponent } from './components';
+import { SurveyParticipationPageComponent } from './containers';
 import { CompanyJobEffects, MatchesEffects } from './effects';
+import { MatchesModalRoutingModule } from './matches-modal-routing.module';
 import { reducers } from './reducers';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
+
 
 @NgModule({
   imports: [

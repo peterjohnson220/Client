@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { CompanyJob } from 'libs/models/company/company-job.model';
+
+import { CompanyJob } from 'libs/models/company';
 
 export const LOADING  = '[Jobs/Matches Modal] Loading Company Job';
 export const LOADING_SUCCESS  = '[Jobs/Matches Modal] Loading Company Job Success';
