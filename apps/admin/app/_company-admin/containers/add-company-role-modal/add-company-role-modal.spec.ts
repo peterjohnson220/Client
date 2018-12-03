@@ -20,7 +20,7 @@ describe('AddCompanyRoleModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot( {
+        StoreModule.forRoot({
           ...fromRootState.reducers,
           userRoleViewAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
@@ -66,8 +66,8 @@ describe('AddCompanyRoleModalComponent', () => {
   });
 
   it('should not dispatch the submit action when enter is clicked and the form is invalid', () => {
-    const enterKeyEvent = { keyCode: ENTER_KEYCODE };
-    component.addCompanyRoleForm = { valid: false } as FormGroup;
+    const enterKeyEvent = {keyCode: ENTER_KEYCODE};
+    component.addCompanyRoleForm = {valid: false} as FormGroup;
 
     component.onKeyDown(enterKeyEvent);
 
@@ -75,15 +75,19 @@ describe('AddCompanyRoleModalComponent', () => {
   });
 
   it('should dispatch the submit action when enter is clicked and the form is valid', () => {
+    const mockCompanyRoleName = 'TEST_ROLE';
     const mockCompanyRole = {
       DerivedId: 0,
-      RoleName: this.currentCompanyRoleName,
+      RoleName: mockCompanyRoleName,
       RoleType: 'C',
-      Assigned: false
+      Assigned: false,
+      Permissions: null
     };
 
-    const enterKeyEvent = { keyCode: ENTER_KEYCODE };
-    component.addCompanyRoleForm = { valid: true } as FormGroup;
+    component.currentCompanyRoleName = mockCompanyRoleName;
+
+    const enterKeyEvent = {keyCode: ENTER_KEYCODE};
+    component.addCompanyRoleForm = {valid: true} as FormGroup;
 
     component.onKeyDown(enterKeyEvent);
 
