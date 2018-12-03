@@ -28,6 +28,7 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
   @Input() showFooter = true;
   @Input() submitting: boolean;
   @Input() backdropClass: string;
+  @Input() centered = false;
   @Input() formGroup: FormGroup;
   @Input() isOpen$: Observable<boolean>;
   @Input() backdrop: boolean | 'static' = 'static';
@@ -85,7 +86,8 @@ export class PfModalFormComponent implements OnInit, OnDestroy {
           backdrop: this.backdrop,
           backdropClass: this.backdropClass,
           container: `#${this.modalId}.modal-container`,
-          size: this.size
+          size: this.size,
+          centered: this.centered
         });
         this.activeModal.result.then(() => {
           if (this.attemptedSubmit) {
