@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { LayoutModule } from '@progress/kendo-angular-layout';
@@ -20,6 +20,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     // Angular
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     NoopAnimationsModule,
     CompanyAdminModule,
 
