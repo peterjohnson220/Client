@@ -15,7 +15,7 @@ import { UserApiService, UserFilterApiService, UserProfileApiService } from './u
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
-import { OrgDataFieldMappingsApiService } from './org-data-loader';
+import { LoaderFieldMappingsApiService } from './data-loads/index';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
@@ -46,7 +46,7 @@ import { CompanyAdminApiService } from './company-admin';
     SurveySearchApiService,
     ExchangeScopeApiService,
     CompanySettingsApiService,
-    OrgDataFieldMappingsApiService,
+    LoaderFieldMappingsApiService,
     ExchangeDataCutsApiService,
     AppEnvironmentApiService,
     UserTicketApiService,

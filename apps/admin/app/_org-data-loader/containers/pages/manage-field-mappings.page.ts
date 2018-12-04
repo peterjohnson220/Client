@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Company } from 'libs/models/company/company.model';
-import { OrgDataFieldMappingsApiService } from 'libs/data/payfactors-api/org-data-loader';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
@@ -42,7 +42,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveMessage: string;
   saveClass: string;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: OrgDataFieldMappingsApiService) {
+  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;

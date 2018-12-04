@@ -1,5 +1,5 @@
-export const ORG_DATA_UPLOAD_URL = '/odata/OrgDataFieldMappings.UploadAndGetColumnNames';
-export const ORG_DATA_REMOVE_URL = '/odata/OrgDataFieldMappings.RemoveDataFile';
+export const ORG_DATA_UPLOAD_URL = '/odata/LoaderFieldMappings.UploadAndGetColumnNames';
+export const ORG_DATA_REMOVE_URL = '/odata/LoaderFieldMappings.RemoveDataFile';
 export const ORG_DATA_CLIENTFIELDS_INDEX_RESET = -1;
 export const ORG_DATA_PF_PAYMARKET_FIELDS = [
   'PayMarket',
@@ -23,7 +23,10 @@ export const ORG_DATA_PF_STRUCTURE_FIELDS = [
   'Structure_Name',
   'Grade_Code',
   'Currency',
-  'Rate'
+  'Rate',
+  'Min',
+  'Mid',
+  'Max'
 ];
 
 export const ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS = [
