@@ -55,6 +55,7 @@ export class UploadOrgDataModalComponent implements OnInit {
   handleModalDismissed(): void {
     this.uploadFiles = [];
     this.uploadedFilesData = [];
+    this.secondaryButtonText = 'Cancel';
     this.uploadOrgDataForm.get('fileUploadDescription').disable();
     this.uploadOrgDataForm.reset();
     this.resetError();
@@ -89,7 +90,6 @@ export class UploadOrgDataModalComponent implements OnInit {
   uploadEventHandler(e: UploadEvent) {
     this.resetError();
     this.uploadOrgDataForm.markAsTouched();
-    this.submitted = false;
   }
 
   successEventHandler(e: SuccessEvent) {
@@ -127,6 +127,7 @@ export class UploadOrgDataModalComponent implements OnInit {
   }
 
   onFileSelect(e: SelectEvent) {
+    this.submitted = false;
     if (e.files.length > this.fileUploadMax - this.uploadedFilesData.length) {
       this.uploadError = true;
       this.errorMessage = 'The maximum number of files is ' + this.fileUploadMax + '.';
