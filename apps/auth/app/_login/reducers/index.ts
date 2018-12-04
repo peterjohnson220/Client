@@ -9,7 +9,6 @@ import * as fromFirstLoginReducer from './first-login-reducer';
 import * as fromResetPasswordReducer from './reset-password.reducer';
 import * as fromMarketingReducer from './marketing-image.reducer';
 import * as fromLoginReducer from './login.reducer';
-import * as fromSelfRegistrationReducer from './self-registration.reducer';
 
 // Feature area state
 export interface AuthMainState {
@@ -18,7 +17,6 @@ export interface AuthMainState {
   firstLogin: fromFirstLoginReducer.State;
   marketingImage: fromMarketingReducer.State;
   login: fromLoginReducer.State;
-  selfRegistration: fromSelfRegistrationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -32,8 +30,7 @@ export const reducers = {
   resetPassword: fromResetPasswordReducer.reducer,
   firstLogin: fromFirstLoginReducer.reducer,
   marketingImage: fromMarketingReducer.reducer,
-  login: fromLoginReducer.reducer,
-  selfRegistration: fromSelfRegistrationReducer.reducer
+  login: fromLoginReducer.reducer
 };
 
 // Select Feature Area
@@ -110,48 +107,3 @@ export const getLoginSuccess =
   createSelector(loginState, fromLoginReducer.getLoginSuccess);
 export const getLoginError =
   createSelector(loginState, fromLoginReducer.getLoginError);
-export const getShowSelfRegistrationForm =
-  createSelector(loginState, fromLoginReducer.getShowSelfRegistrationForm);
-
-// Self Registration
-export const selfRegistrationState =
-  createSelector(selectAuthMainState, (state: AuthMainState) => state.selfRegistration);
-export const getSelfRegistrationForm =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getSelfRegistrationForm);
-// Self Registration request submission
-export const getSelfRegistrationRequestIsSubmitting =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestIsSubmitting);
-export const getSelfRegistrationRequestSubmitSuccess =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestSubmitSuccess);
-export const getSelfRegistrationRequestSubmitError =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getRequestSubmitError);
-// Self Registration request submission
-export const getSelfRegistrationCompletionIsSubmitting =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionIsSubmitting);
-export const getSelfRegistrationCompletionSubmitSuccess =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionSubmitSuccess);
-export const getSelfRegistrationCompletionSubmitError =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getCompletionSubmitError);
-// Token/misc
-export const getValidatingToken =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingToken);
-export const getValidatingTokenSuccess =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenSuccess);
-export const getValidatingTokenError =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenError);
-export const getValidatingTokenExpired =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenExpired);
-export const getValidatingTokenAccountExists =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenAccountExists);
-export const getValidatedToken =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatedToken);
-export const getValidatingTokenExistingCompany =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getValidatingTokenExistingCompany);
-export const getResendingToken =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getResendingToken);
-export const getResendingTokenSuccess =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getResendingTokenSuccess);
-export const getResendingTokenError =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getResendingTokenError);
-export const getAccountEmail =
-  createSelector(selfRegistrationState, fromSelfRegistrationReducer.getAccountEmail);
