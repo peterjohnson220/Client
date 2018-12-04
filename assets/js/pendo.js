@@ -14,17 +14,18 @@ function initializePendo(userContext)
     var account = {};
 
     if (userContext){
+      var subDomain = window.location.host.split('.')[0];
       var visitor = {
-        id: userContext.UserId,             // Required if user is logged in
-        email: userContext.Email        // Optional
+        id: subDomain + "_" + userContext.UserId, // Required if user is logged in
+        email: userContext.EmailAddress // Optional
         // role:         // Optional
 
         // You can add any additional visitor level key-values here,
         // as long as it's not one of the above reserved names.
       };
       var account = {
-        id: userContext.CompanyId,            // Highly recommended
-        name: userContext.CompanyName         // Optional
+        id: subDomain + "_" + userContext.CompanyId, // Highly recommended
+        name: userContext.CompanyName // Optional
         // planLevel:    // Optional
         // planPrice:    // Optional
         // creationDate: // Optional
