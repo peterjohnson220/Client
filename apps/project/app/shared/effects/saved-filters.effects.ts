@@ -14,7 +14,7 @@ import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSharedSearchReducer from '../../shared/reducers';
-import { PayfactorsApiHelper, PayfactorsApiModelMapper, SavedFilterHelper } from '../helpers';
+import { PayfactorsApiModelMapper, SavedFilterHelper, FiltersHelper } from '../helpers';
 import { MultiSelectFilter } from '../models';
 
 @Injectable()
@@ -67,12 +67,11 @@ export class SavedFiltersEffects {
     .ofType(fromSavedFiltersActions.SAVE_FILTER)
     .pipe(
       withLatestFrom(
-        this.store.select(fromSharedSearchReducer.getFilters),
         this.store.select(fromSharedSearchReducer.getJobContext),
         this.store.select(fromSharedSearchReducer.getProjectSearchContext),
         this.store.select(fromSharedSearchReducer.getSavedFilters),
-        (action: fromSavedFiltersActions.SaveFilter, filters, jobContext, projectSearchContext, savedFilters) =>
-          ({action, filters, jobContext, projectSearchContext, savedFilters})),
+        (action: fromSavedFiltersActions.SaveFilter, jobContext, projectSearchContext, savedFilters) =>
+          ({action, jobContext, projectSearchContext, savedFilters})),
       switchMap((data) => {
         const actions = [];
         const modalData = data.action.payload;
@@ -80,7 +79,7 @@ export class SavedFiltersEffects {
         const isEditMode = !!savedFilterId;
         const searchFilters = isEditMode
           ? null
-          : PayfactorsApiHelper.getSelectedFiltersAsSearchFilters(data.filters.filter(f => !f.Locked && f.SaveDisabled !== true));
+          : PayfactorsApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
         const upsertRequest = SavedFilterHelper.getUpsertRequest(savedFilterId, modalData.Name, searchFilters);
         const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
         const isPayMarketDefault = isEditMode
@@ -268,7 +267,29 @@ export class SavedFiltersEffects {
         actions.push(new fromSavedFiltersActions.SetFilterDataToEdit({
           Name: data.action.payload.Name,
           SetAsPayMarketDefault: isPayMarketDefault,
+          SearchFiltersToSave: data.action.payload.Filters,
           SavedFilter: data.action.payload
+        }));
+        actions.push(new fromSavedFiltersActions.OpenSaveFilterModal());
+
+        return actions;
+      })
+    );
+
+  @Effect()
+  createSavedFilter$ = this.actions$
+    .ofType(fromSavedFiltersActions.CREATE_SAVED_FILTER)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromSharedSearchReducer.getFilters),
+        (action: fromSavedFiltersActions.CreateSavedFilter, filters) => ({ action, filters })),
+      mergeMap(data => {
+        const actions = [];
+        const selectedFilters = FiltersHelper.getMultiSelectFiltersWithSelections(data.filters);
+        actions.push(new fromSavedFiltersActions.SetFilterDataToEdit({
+          Name: '',
+          SetAsPayMarketDefault: false,
+          SearchFiltersToSave: selectedFilters.filter(f => !f.Locked && !f.SaveDisabled)
         }));
         actions.push(new fromSavedFiltersActions.OpenSaveFilterModal());
 

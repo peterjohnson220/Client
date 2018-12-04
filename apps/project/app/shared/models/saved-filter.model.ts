@@ -1,10 +1,10 @@
-import { Filter, generateMockMultiSelectFilter } from './filter.model';
+import { MultiSelectFilter, generateMockMultiSelectFilter } from './filter.model';
 
 export interface SavedFilter {
   Id: string;
   Name: string;
   MetaInfo: any;
-  Filters: Filter[];
+  Filters: MultiSelectFilter[];
   Selected: boolean;
 }
 

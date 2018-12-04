@@ -27,6 +27,7 @@ export const OPEN_SAVED_FILTERS_POPOVER = '[Project Add Data/Saved Filters] Open
 export const CLOSE_SAVED_FILTERS_POPOVER = '[Project Add Data/Saved Filters] Close Saved Filters Popover';
 export const SET_DEFAULT_FILTER = '[Project Add Data/Saved Filters] Set Default Filter';
 export const TOGGLE_SAVED_FILTER_SELECTION = '[Project Add Data/Saved Filters] Toggle Saved Filter Selection';
+export const CREATE_SAVED_FILTER = '[Project Add Data/Saved Filters] Create New Saved Filter';
 
 export class InitSavedFilters implements Action {
   readonly type = INIT_SAVED_FILTERS;
@@ -145,6 +146,10 @@ export class ToggleSavedFilterSelection implements Action {
   constructor(public payload: SavedFilter) {}
 }
 
+export class CreateSavedFilter implements Action {
+  readonly type = CREATE_SAVED_FILTER;
+}
+
 export type Actions
   = InitSavedFilters
   | GetSavedFilters
@@ -169,4 +174,5 @@ export type Actions
   | OpenSavedFiltersPopover
   | CloseSavedFiltersPopover
   | SetDefaultFilter
-  | ToggleSavedFilterSelection;
+  | ToggleSavedFilterSelection
+  | CreateSavedFilter;

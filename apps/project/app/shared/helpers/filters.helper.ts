@@ -128,17 +128,9 @@ export class FiltersHelper {
       (f.SelectedMinValue != null && f.SelectedMaxValue != null));
   }
 
-  static selectAll(filters: Filter[]): Filter[] {
-    filters.map((filter: Filters) => {
-      switch (filter.Type) {
-        case FilterType.Multi: {
-          filter.Options.map(o => o.Selected = true);
-          break;
-        }
-        case FilterType.Range: {
-          break;
-        }
-      }
+  static selectAll(filters: MultiSelectFilter[]): MultiSelectFilter[] {
+    filters.map((filter: MultiSelectFilter) => {
+      filter.Options.map(o => o.Selected = true);
     });
 
     return filters;

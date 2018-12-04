@@ -108,7 +108,7 @@ export class SavedFiltersComponent implements OnInit, OnDestroy {
 
   handleSaveClicked() {
     if (this.canSaveFilters) {
-      this.store.dispatch(new fromSavedFiltersActions.OpenSaveFilterModal());
+      this.store.dispatch(new fromSavedFiltersActions.CreateSavedFilter());
     }
   }
 
