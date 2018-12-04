@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
 import * as fromUserAssignedRoleActions from 'libs/state/app-context/actions/user-assigned-roles.actions';
@@ -32,9 +32,12 @@ export class LoadingUserContextComponent implements OnInit {
     this.store.dispatch(new fromUserAssignedRoleActions.GetUserAssignedRoles());
 
     // TODO: this initialize pendo code should be moved to the app-wrapper component when the app wrappers are consolidated
-    this.userContext$.pipe(take(1)).subscribe(l => {
+    this.userContext$.pipe(
+      filter(uc => !!uc),
+      take(1)
+    ).subscribe(uc => {
       if (typeof initializePendo !== 'undefined') {
-        initializePendo(1);
+        initializePendo(uc);
       }
     });
   }
