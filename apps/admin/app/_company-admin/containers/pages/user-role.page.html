@@ -21,7 +21,7 @@
             <div>
               <ul class="list-group nav au-user-assigned-role-nav">
                 <li class="nav-item" *ngFor="let userAssignedRole of userAssignedRoles">
-                  <a [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName | titlecase}}</a>
+                  <a [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
                 </li>
               </ul>
             </div>
