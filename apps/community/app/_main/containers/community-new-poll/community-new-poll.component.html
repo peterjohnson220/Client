@@ -26,21 +26,22 @@
       </pf-community-poll-choices>
     </div>
 
-    <div class="pl-5">
-      <label class="col-form-label" for="duration" class="text-muted mr-1 pt-1">Poll Length:</label>
-      <button #duration type="button" class="btn btn-link pt-1" (click)="configurePollLength()">{{pollLengthText}}</button>   
+    <div class="pl-4 row">
+      <label class="col-form-label" for="duration">Poll Length:</label>
+      <button #duration type="button" class="btn btn-link" (click)="configurePollLength()">{{pollLengthText}}</button>   
       
-      <!--TODO: Abiltity to configure poll duration will be implemented as part of the future story.
-      <label class="col-form-label" for="days">Days </label>
-      <select #days  class="poll-length-dropdown ml-2 mr-4"
-        formControlName="days"
-        (change)="onDurationDaysChange()">
-        <option *ngFor="let day of pollLengthDays" [ngValue]="day">{{day}}</option>
-      </select>
-      <label class="col-form-label" for="hours">Hours </label>
-      <select #hours class="poll-length-dropdown ml-2"
-        formControlName="hours">
-        <option *ngFor="let hour of pollLengthHours" [ngValue]="hour" [disabled]="hour===0 && isPollDurationDaysZero()">{{hour}}</option>
-      </select>-->
+      <div *ngIf="displayPollLengthChoices">
+        <label class="col-form-label" for="days">Days </label>
+        <select #days  class="poll-length-dropdown ml-2 mr-4"
+          formControlName="days"
+          (change)="onDurationDaysChange()">
+          <option *ngFor="let day of pollLengthDays" [ngValue]="day">{{day}}</option>
+        </select>
+        <label class="col-form-label" for="hours">Hours </label>
+        <select #hours class="poll-length-dropdown ml-2"
+          formControlName="hours">
+          <option *ngFor="let hour of pollLengthHours" [ngValue]="hour" [disabled]="hour===0 && isPollDurationDaysZero()">{{hour}}</option>
+        </select>
+      </div> 
     </div>
   </div>

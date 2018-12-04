@@ -5,6 +5,7 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   addingCommunityDiscussionPollSuccess$={[Function Store]}
   attemptedSubmit="false"
   communityPollForm={[Function FormGroup]}
+  displayPollLengthChoices="false"
   formBuilder={[Function FormBuilder]}
   maxChoices={[Function Number]}
   maxTextLength={[Function Number]}
@@ -25,20 +26,21 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
       
     </div>
     <div
-      class="pl-5"
+      class="pl-4 row"
     >
       <label
-        class="text-muted mr-1 pt-1"
+        class="col-form-label"
         for="duration"
       >
         Poll Length:
       </label>
       <button
-        class="btn btn-link pt-1"
+        class="btn btn-link"
         type="button"
       >
         
       </button>
+      
     </div>
   </div>
 </pf-community-new-poll>

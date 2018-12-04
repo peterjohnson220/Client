@@ -23,8 +23,9 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   maxTextLength = 250;
   maxChoices = 5;
   attemptedSubmit = false;
-  pollLengthDays = Array.from({length: 15}, (v, k) => k);
-  pollLengthHours = Array.from({length: 25}, (v, k) => k);
+  pollLengthDays = Array.from({length: 31}, (v, k) => k);
+  pollLengthHours = Array.from({length: 24}, (v, k) => k);
+  displayPollLengthChoices = false;
 
   communityPollForm: FormGroup;
   get context() { return this.communityPollForm.get('context'); }
@@ -84,7 +85,7 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
       'context': ['', [Validators.required, Validators.minLength(1), Validators.maxLength(this.maxTextLength)]],
       'status': [0],
       'choices': this.formBuilder.array([]),
-      'days':  [1],
+      'days':  [14],
       'hours': [0]
     });
 
@@ -123,7 +124,7 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   }
 
   configurePollLength () {
-    // TODO: abiltity to configure poll duration will be implemented as part of the future story.
+    this.displayPollLengthChoices = true;
   }
 
   onDurationDaysChange() {
