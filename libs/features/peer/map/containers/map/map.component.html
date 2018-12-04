@@ -17,6 +17,21 @@
   <mgl-control mglGeocoder></mgl-control>
   <mgl-control mglNavigation></mgl-control>
 
+  <mgl-control>
+
+    <div class="mapboxgl-ctrl-group">
+      <button
+        class="btn btn-secondary"
+        (click)="toggleSatelliteStyle($event)"
+        [title]="satelliteStyleEnabledText"
+      >
+        <span *ngIf="!satelliteStyleEnabled" ><i class="fas fa-globe"></i></span>
+        <span *ngIf="satelliteStyleEnabled" ><i class="far fa-map"></i></span>
+      </button>
+    </div>
+
+  </mgl-control>
+
   <!--Data Source-->
   <mgl-geojson-source
     [id]="'incumbents'"
