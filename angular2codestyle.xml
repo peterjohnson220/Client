@@ -1,0 +1,18 @@
+<!--
+These are code style settings, based off the Style Guide for Angular 2:
+https://angular.io/docs/ts/latest/guide/style-guide.html
+WebStorm does not currently reformat code based off of tslint.json settings.
+This is an attempt to set TypeScript settings for Code Style to follow the Style Guide.
+I will update this as I find differences.
+To Import: Settings > Editor > Code Style > Import 
+-->
+<code_scheme name="Angular 2">
+  <TypeScriptCodeStyleSettings>
+    <option name="USE_DOUBLE_QUOTES" value="false" />
+    <option name="SPACES_WITHIN_OBJECT_LITERAL_BRACES" value="true" />
+    <option name="SPACES_WITHIN_IMPORTS" value="true" />
+  </TypeScriptCodeStyleSettings>
+  <codeStyleSettings language="TypeScript">
+    <option name="SPACE_WITHIN_BRACKETS" value="true" />
+  </codeStyleSettings>
+</code_scheme>

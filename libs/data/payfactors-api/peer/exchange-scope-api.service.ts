@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { UpsertExchangeScopeRequest, PeerMapScopeDetails, PeerMapScopeSystemDetails,
-         ExchangeScopeItem, ExchangeDataSearchFilter } from 'libs/models/peer';
+import {
+  UpsertExchangeScopeRequest, PeerMapScopeDetails, PeerMapScopeSystemDetails,
+  ExchangeScopeItem, ExchangeDataSearchFilter, ExchangeScopes
+} from 'libs/models/peer';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -46,4 +48,9 @@ export class ExchangeScopeApiService {
       { ExchangeScopeGuid: exchangeScopeGuid, FilterModel: filterModel }
     );
   }
+
+  getCompanyExchangeScopes(): Observable<any> {
+    return this.payfactorsApiService.get<ExchangeScopes[]>(`${this.endpoint}/GetCompanyExchangeScopes`);
+  }
+
 }

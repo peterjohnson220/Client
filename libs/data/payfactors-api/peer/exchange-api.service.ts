@@ -5,7 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
-  ExchangeJobSearch,
+  ExchangeJobSearch, ExchangeScopes,
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
