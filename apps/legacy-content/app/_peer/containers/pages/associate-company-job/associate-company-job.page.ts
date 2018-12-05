@@ -57,7 +57,7 @@ export class AssociateCompanyJobComponent implements OnInit {
         const queryParamMap = this.route.snapshot.queryParamMap;
         this.companyJobId = +queryParamMap.get('companyJobId') || 0;
 
-        this.companyJobApi.getCompanyJob(this.companyJobId).subscribe(ejm => {
+        this.companyJobApi.getCompanyJobWithJDMDescription(this.companyJobId).subscribe(ejm => {
             this.companyJobInfo = {
                 JobType: 'Company',
                 JobId: ejm.CompanyJobId,
@@ -65,7 +65,7 @@ export class AssociateCompanyJobComponent implements OnInit {
                 JobCode: ejm.JobCode,
                 JobFamily: ejm.JobFamily,
                 JobLevel: ejm.JobLevel,
-                JobDescription: ejm.JobDescription
+                JobDescription: ejm.JobSummary
             };
         });
 
