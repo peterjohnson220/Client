@@ -22,7 +22,7 @@ export class MapComponent implements OnInit {
 
   selectedPoint: any = null;
   cursorStyle: string;
-  mapStyle = 'mapbox://styles/mapbox/streets-v9';
+  satelliteStyleEnabled = false;
   map: mapboxgl.Map;
 
   peerMapCollection$: Observable<FeatureCollection<Point>>;
@@ -53,6 +53,16 @@ export class MapComponent implements OnInit {
     this.peerMapInitialZoomLevel$ = this.store.select(fromPeerMapReducer.getPeerMapInitialZoomLevel);
     this.peerMapCentroid$ = this.store.select(fromPeerMapReducer.getPeerMapCentroid);
     this.peerMapApplyingScope$ = this.store.select(fromPeerMapReducer.getPeerMapApplyingScope);
+  }
+
+  get satelliteStyleEnabledText(): string {
+    const styleText = this.satelliteStyleEnabled ? 'Map' : 'Satellite';
+    return `Toggle ${styleText} View`;
+  }
+
+  get mapStyle(): string {
+    const style = this.satelliteStyleEnabled ? 'satellite' : 'streets';
+    return `mapbox://styles/mapbox/${style}-v9`;
   }
 
   get center(): any {
@@ -118,6 +128,10 @@ export class MapComponent implements OnInit {
       center: e.features[0].geometry.coordinates,
       zoom: e.target.getZoom() + 1
     });
+  }
+
+  toggleSatelliteStyle() {
+    this.satelliteStyleEnabled = !this.satelliteStyleEnabled;
   }
 
   // Helper functions
