@@ -136,6 +136,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       DataCutGuid: queryStringParams.dataCutGuid,
       CompanyJobId: queryStringParams.companyJobId,
       CompanyPayMarketId: queryStringParams.companyPayMarketId,
+      IsPayMarketOverride: false,
       UserSessionId: queryStringParams.userSessionId,
       ZoomLevel: 0
     });
@@ -152,6 +153,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
       DataCutGuid: queryStringParams.dataCutGuid,
       CompanyJobId: queryStringParams.companyJobId,
       CompanyPayMarketId: queryStringParams.companyPayMarketId,
+      IsPayMarketOverride: false,
       UserSessionId: queryStringParams.userSessionId,
       ZoomLevel: 0
     });
