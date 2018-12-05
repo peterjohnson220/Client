@@ -1,5 +1,3 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
-
 import { ExchangeJobSearch, CompanyJobSummary } from 'libs/models';
 
 import * as fromAssociateCompanyJobActions from '../actions/associate-company-jobs.actions';
@@ -30,7 +28,6 @@ export function reducer(
     featureAction: fromAssociateCompanyJobActions.Actions
 ): State {
     switch (featureAction.type) {
-
         case fromAssociateCompanyJobActions.LOAD_COMPANY_JOB: {
             return {
                 ...featureState,
