@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
-export class OrgDataFieldMappingsApiService {
-  private endpoint = 'OrgDataFieldMappings';
+export class LoaderFieldMappingsApiService {
+  private endpoint = 'LoaderFieldMappings';
 
   constructor(
     private payfactorsApiService: PayfactorsApiService

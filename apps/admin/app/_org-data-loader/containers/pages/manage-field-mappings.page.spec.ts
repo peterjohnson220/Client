@@ -6,7 +6,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 import { PfCommonUIModule } from 'libs/ui/common';
-import { OrgDataFieldMappingsApiService } from 'libs/data/payfactors-api/org-data-loader';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
 import { MappingModel } from '../../models';
 import * as fromOrgDataLoaderReducer from '../../reducers';
@@ -30,7 +30,7 @@ describe('ManageFieldMapperPageComponent', () => {
       declarations: [ ManageFieldMappingsPageComponent ],
       providers: [
         {
-          provide: OrgDataFieldMappingsApiService
+          provide: LoaderFieldMappingsApiService
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
