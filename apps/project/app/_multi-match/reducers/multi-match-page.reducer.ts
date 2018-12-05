@@ -1,5 +1,5 @@
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
-import { ProjectContext } from '../../shared/models';
+import { ProjectContext } from '../../survey-search/models';
 
 export interface State {
   projectContext: ProjectContext;

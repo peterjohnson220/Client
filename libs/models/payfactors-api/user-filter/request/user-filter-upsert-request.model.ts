@@ -1,4 +1,4 @@
-import { SearchFilter } from '../../../survey-search';
+import { SearchFilter } from '../../survey-search/response';
 import { SurveySavedFilterMetaInfo } from '../survey-saved-filter-meta-info';
 import { SavedFilterType } from '../saved-filter-type';
 

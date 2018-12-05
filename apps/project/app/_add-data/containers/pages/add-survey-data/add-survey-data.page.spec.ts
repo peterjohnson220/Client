@@ -6,10 +6,8 @@ import spyOn = jest.spyOn;
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
-import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
-import * as fromSurveyResultsActions from '../../../../shared/actions/search-results.actions';
-import * as fromSearchActions from '../../../../shared/actions/search.actions';
 import * as fromAddDataReducer from '../../../reducers';
 import { AddSurveyDataPageComponent } from './add-survey-data.page';
 
@@ -43,7 +41,7 @@ describe('Project - Add Data - Surveys Page', () => {
   });
 
   it('should dispatch a close survey search action, when handling cancel clicked', () => {
-    const expectedAction = new fromSearchActions.CloseSearchPage();
+    const expectedAction = new fromSearchPageActions.CloseSearchPage();
     spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();

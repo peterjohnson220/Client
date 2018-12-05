@@ -6,16 +6,18 @@ import { switchMap, map, tap, mergeMap, withLatestFrom, catchError } from 'rxjs/
 import { of } from 'rxjs/index';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
-import { SurveyJobMatchUpdate } from 'libs/models/survey-search';
+import { SurveyJobMatchUpdate } from 'libs/models/payfactors-api';
 import { WindowCommunicationService } from 'libs/core/services';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
+import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
-import * as fromSearchFiltersActions from '../../shared/actions/search-filters.actions';
-import * as fromSearchActions from '../../shared/actions/search.actions';
-import * as fromMultiMatchReducer from '../reducers';
-
-import { FiltersHelper } from '../../shared/helpers';
+import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
+import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
 import { JobToPrice } from '../models';
+import * as fromMultiMatchReducer from '../reducers';
 
 @Injectable()
 export class MultiMatchPageEffects {
@@ -38,11 +40,12 @@ export class MultiMatchPageEffects {
                   Rate: response.Rate,
                   RestrictToCountryCode: projectContext.RestrictToCountryCode
                 };
-                actions.push(new fromSearchActions.SetProjectSearchContext(searchContext));
-                actions.push(new fromSearchFiltersActions.GetDefaultScopesFilter());
+                actions.push(new fromContextActions.SetProjectSearchContext(searchContext));
+                actions.push(new fromSurveySearchFiltersActions.GetDefaultScopesFilter());
                 if (projectContext.RestrictToCountryCode) {
                   actions.push(new fromSearchFiltersActions.AddFilters([
-                    FiltersHelper.buildLockedCountryCodeFilter(searchContext.CountryCode)
+                    SurveySearchFiltersHelper.buildLockedCountryCodeFilter(searchContext.CountryCode,
+                      this.searchFilterMappingDataObj)
                   ]));
                 }
                 return actions;
@@ -72,7 +75,7 @@ export class MultiMatchPageEffects {
             .pipe(
               mergeMap(() => [
                   new fromMultiMatchPageActions.SaveJobMatchUpdatesSuccess(),
-                  new fromSearchActions.CloseSearchPage()
+                  new fromSearchPageActions.CloseSearchPage()
                 ]
               ),
               catchError(() => of(new fromMultiMatchPageActions.SaveJobMatchUpdatesError()))
@@ -104,6 +107,7 @@ export class MultiMatchPageEffects {
       private actions$: Actions,
       private surveySearchApiService: SurveySearchApiService,
       private store: Store<fromMultiMatchReducer.State>,
-      private windowCommunicationService: WindowCommunicationService
+      private windowCommunicationService: WindowCommunicationService,
+      private searchFilterMappingDataObj: SearchFilterMappingDataObj
   ) {}
 }

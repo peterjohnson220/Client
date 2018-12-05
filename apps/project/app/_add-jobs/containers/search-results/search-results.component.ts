@@ -8,7 +8,7 @@ import * as fromSearchResultsActions from '../../actions/search-results.actions'
 import { JobResult } from '../../models';
 
 @Component({
-  selector: 'pf-search-results',
+  selector: 'pf-job-search-results',
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss']
 })

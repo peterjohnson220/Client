@@ -1,24 +1,20 @@
 import {  Component, OnDestroy, OnInit, ViewChildren, QueryList } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs/index';
-import { merge } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 import { mapTo, startWith } from 'rxjs/operators';
-
 import { DragulaService } from 'ng2-dragula';
 import * as autoScroll from 'dom-autoscroller';
 
-import { DataCut, JobMatchCut } from 'libs/models/survey-search';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 
+import { JobToPriceComponent } from '../../components';
 import * as fromMultiMatchReducer from '../../reducers';
-import * as fromSharedSearchReducer from '../../../shared/reducers';
 import * as fromJobsToPriceActions from '../../actions/jobs-to-price.actions';
-import * as fromSurveyResultsActions from '../../../shared/actions/search-results.actions';
-import { ProjectSearchContext } from '../../../shared/models';
+import { DataCutDetails, ProjectSearchContext } from '../../../survey-search/models';
 import { JobToPrice } from '../../models';
-import { JobToPriceComponent } from '../../components/job-to-price/job-to-price.component';
-
-
+import * as fromSurveySearchReducer from '../../../survey-search/reducers';
+import * as fromSurveySearchResultsActions from '../../../survey-search/actions/survey-search-results.actions';
 
 @Component({
   selector: 'pf-jobs-to-price-container',
@@ -29,7 +25,7 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
   @ViewChildren(JobToPriceComponent) jobsToPriceComponents !: QueryList<JobToPriceComponent>;
   // Observables
   jobsToPrice$: Observable<JobToPrice[]>;
-  selectedCuts$: Observable<DataCut[]>;
+  selectedCuts$: Observable<DataCutDetails[]>;
   searchContext$: Observable<ProjectSearchContext>;
   loadingJobs$: Observable<boolean>;
   error$: Observable<boolean>;
@@ -41,7 +37,7 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
   dragSubs: Subscription;
   selectedDataCutsSubscription: Subscription;
 
-  selectedCuts: DataCut[];
+  selectedCuts: DataCutDetails[];
   scroll: any;
   isDragging: boolean;
 
@@ -54,11 +50,11 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
     this.selectedCuts = [];
     this.dragSubs = new Subscription();
     this.selectedDataCutsSubscription = new Subscription();
-    this.selectedCuts$ = this.store.select(fromSharedSearchReducer.getSelectedDataCuts);
+    this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.loadingJobs$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPrice);
     this.error$ = this.store.select(fromMultiMatchReducer.getLoadingJobsToPriceError);
-    this.searchContext$ = this.store.select(fromSharedSearchReducer.getProjectSearchContext);
+    this.searchContext$ = this.store.select(fromSurveySearchReducer.getProjectSearchContext);
     this.selectedDataCutsSubscription = this.selectedCuts$.subscribe(dataCuts => {
      this.selectedCuts = dataCuts;
     });
@@ -123,7 +119,7 @@ export class JobsToPriceContainerComponent implements OnInit, OnDestroy {
           if (jobIdAttribute && jobIdAttribute.value) {
             const jobId = Number(jobIdAttribute.value);
             this.store.dispatch(new fromJobsToPriceActions.AddNewDataCuts({JobId: jobId, DataCuts: this.selectedCuts}));
-            this.store.dispatch(new fromSurveyResultsActions.ClearDataCutSelections());
+            this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
             this.showDataCutsOnJob(jobId);
           }
         el.innerHTML = '';

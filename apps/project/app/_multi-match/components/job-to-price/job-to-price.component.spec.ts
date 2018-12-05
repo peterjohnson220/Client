@@ -1,13 +1,10 @@
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { generateMockJobMatchCut } from 'libs/models/survey-search';
+import { generateMockJobMatchCut } from 'libs/models/payfactors-api';
 
 import { JobToPriceComponent } from './job-to-price.component';
-import { JobToPrice, generateMockJobToPrice } from '../../models';
-
-
-
+import { generateMockJobToPrice } from '../../models';
 
 describe('Project - MultiMatch - JobToPrice Component', () => {
   let instance: JobToPriceComponent;
