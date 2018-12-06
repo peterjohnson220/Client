@@ -5,7 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map, concatMap } from 'rxjs/operators';
 
-import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { ExchangeCompanyApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
 import { CompanyJobToMapTo } from 'libs/models/peer';
 
 import * as fromExchangeJobMappingInfoActions from '../actions/exchange-job-mapping-info.actions';
@@ -20,7 +20,7 @@ export class ExchangeJobMappingInfoEffects {
     ofType(fromExchangeJobMappingInfoActions.LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY),
     map((action: fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery) => action.payload),
     switchMap(payload =>
-      this.exchangeCompanyApiService.getTopCompanyJobsToMapTo(payload.exchangeId,
+      this.companyJobApiService.getTopCompanyJobsToMapTo(payload.exchangeId,
         payload.jobTitleAndCodeQuery, payload.jobDescriptionQuery).pipe(
           map((companyJobsToMapTo: CompanyJobToMapTo[]) => {
             return new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuerySuccess(companyJobsToMapTo);
@@ -69,6 +69,7 @@ export class ExchangeJobMappingInfoEffects {
 
   constructor(private actions$: Actions,
     private store: Store<fromPeerManagementReducer.State>,
-    private exchangeCompanyApiService: ExchangeCompanyApiService) {
+    private exchangeCompanyApiService: ExchangeCompanyApiService,
+    private companyJobApiService: CompanyJobApiService) {
   }
 }
