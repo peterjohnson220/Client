@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select, } from '@ngrx/store';
 
@@ -80,6 +80,7 @@ export class AssociateCompanyJobComponent implements OnInit {
 
     setSelectedKey(exchangeId: number) {
         this.exchangeId = exchangeId;
+        this.searchChanged();
     }
 
     handleSearchDescValueChanged(event: string) {
