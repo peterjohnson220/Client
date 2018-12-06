@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { CdkScrollable, ScrollDispatcher } from '@angular/cdk/overlay';
 
 import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -54,24 +53,16 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   targetNode: any;
   observerOptions: any;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
-              public scroll: ScrollDispatcher) {
+  constructor(public store: Store<fromCommunityPostReducer.State>) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
-
-    this.scrollingSubscription = this.scroll
-      .scrolled()
-      .subscribe((data: CdkScrollable) => {
-        this.onWindowScroll(data);
-      });
   }
 
-  onWindowScroll(data: CdkScrollable) {
-
-    this.setScrollVariables(data);
+  onScroll(scrollEventData: any) {
+    this.setScrollVariables(scrollEventData);
 
     const percentLocationUp = ((this.scrollTop) / this.scrollHeight) * 100;
     const percentLocationDown = ((this.scrollTop + this.offsetHeight) / this.scrollHeight) * 100;
@@ -97,11 +88,11 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.previousHeight = this.scrollHeight;
   }
 
-  setScrollVariables(cdkScrollableData) {
-    this.scrollElement = cdkScrollableData.getElementRef();
-    this.scrollTop = cdkScrollableData.getElementRef().nativeElement.scrollTop || 0;
-    this.scrollHeight = cdkScrollableData.getElementRef().nativeElement.scrollHeight || 0;
-    this.offsetHeight = cdkScrollableData.getElementRef().nativeElement.offsetHeight || 0;
+  setScrollVariables(scrollEventData) {
+    this.scrollElement = scrollEventData.srcElement;
+    this.scrollTop = scrollEventData.srcElement.scrollTop || 0;
+    this.scrollHeight = scrollEventData.srcElement.scrollHeight || 0;
+    this.offsetHeight = scrollEventData.srcElement.offsetHeight || 0;
   }
 
   setPreviousTopPostOffset() {
@@ -124,9 +115,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
       const newCalculatedScrollPosition = currentLastPostOffset - this.previousBottomPostOffset;
 
-      this.scroll.getAncestorScrollContainers(this.scrollElement)[ 0 ].getElementRef().nativeElement
-        .scrollTop = newCalculatedScrollPosition;
-
+      this.scrollElement.scrollTop = newCalculatedScrollPosition;
       this.previousScrollTop = newCalculatedScrollPosition;
     }
   }
@@ -148,9 +137,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     const currentFirstPostOffset = (<HTMLElement>document.getElementsByClassName(this.POST_ITEM_CLASS)[ this.postBatchSize ]).offsetTop;
     const newCalculatedScrollPosition = currentFirstPostOffset - this.previousTopPostOffset;
 
-    this.scroll.getAncestorScrollContainers(this.scrollElement)[ 0 ].getElementRef().nativeElement
-      .scrollTop = newCalculatedScrollPosition;
-
+    this.scrollElement.scrollTop = newCalculatedScrollPosition;
     this.previousScrollTop = newCalculatedScrollPosition;
   }
 
@@ -170,8 +157,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCommunityPostActions.GettingBackToTopCommunityPosts());
 
     if (this.scrollElement) {
-      this.scroll.getAncestorScrollContainers(this.scrollElement)[ 0 ].getElementRef().nativeElement
-        .scrollTop = 0;
+      this.scrollElement.scrollTop = 0;
       this.previousScrollTop = 0;
     }
   }
