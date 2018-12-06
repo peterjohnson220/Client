@@ -50,6 +50,9 @@ export class SurveySearchEffectsService {
                   keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
                 }));
               }
+              if (l.action.payload.searchAggregation) {
+                actions.push(new fromSingledFilterActions.SearchAggregation());
+              }
 
               return actions;
             }),

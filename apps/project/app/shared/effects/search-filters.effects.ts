@@ -10,7 +10,6 @@ import * as fromSearchActions from '../actions/search.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
-import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSharedSearchReducer from '../reducers';
 import { SurveySearchEffectsService } from '../services';
 
@@ -96,19 +95,6 @@ export class SearchFiltersEffects {
     .ofType(fromSearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS)
     .pipe(
       map(() => new fromSavedFiltersActions.InitSavedFilters())
-    );
-
-  @Effect()
-  applyAndClearSavedFilters$ = this.actions$
-    .ofType(fromSearchFiltersActions.APPLY_SAVED_FILTERS, fromSearchFiltersActions.CLEAR_SAVED_FILTERS)
-    .pipe(
-      withLatestFrom(
-        this.store.select(fromSharedSearchReducer.getSearchingFilter),
-        (action, searchingFilter) => ({ action, searchingFilter })
-      ),
-      map((data) => {
-        return data.searchingFilter ? new fromSingledFilterActions.SearchAggregation() : { type: 'NO_ACTION' };
-      })
     );
 
   constructor(
