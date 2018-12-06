@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
-import { SelfRegistrationRequestForm } from '../../../models/user/self-registration-request-form.model';
+import { RegistrationForm } from '../../../models/user/registration-form.model';
 
 @Injectable()
 export class AccountApiService {
@@ -34,7 +34,7 @@ export class AccountApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}.Login`, loginParms );
   }
 
-  submitSelfRegistrationRequest(selfRegistrationForm: SelfRegistrationRequestForm): Observable<any> {
+  submitSelfRegistrationRequest(selfRegistrationForm: RegistrationForm): Observable<any> {
     const payload = { Request: { ...selfRegistrationForm } };
     return this.payfactorsApiService.post<any>(`${this.endpoint}.SelfRegistrationRequest`, payload);
   }

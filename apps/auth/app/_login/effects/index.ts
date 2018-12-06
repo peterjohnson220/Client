@@ -3,4 +3,3 @@ export * from './forgot-password.effects';
 export * from './reset-password.effect';
 export * from './marketing-image.effects';
 export * from './login.effects';
-export * from './self-registration.effects';
