@@ -7,6 +7,7 @@ export class TimelineActivityMapper {
   public static get AVATAR_BASE_URL(): string { return environment.avatarSource; }
   public static get ACTIVITY_TYPE(): string { return 'ProjectActivity'; }
   public static get COMMUNITY_TYPE(): string { return 'Community'; }
+  public static get NEW_COMMUNITY_TYPE(): string { return 'NewCommunity'; }
   public static get RESOURCES_TYPE(): string { return 'Resources'; }
   public static get JOB_DESCRIPTIONS_TYPE(): string { return 'JobDescriptions'; }
 
@@ -54,6 +55,9 @@ export class TimelineActivityMapper {
       }
       case FeatureTypes.Community: {
         return TimelineActivityMapper.COMMUNITY_TYPE;
+      }
+      case FeatureTypes.NewCommunity: {
+        return TimelineActivityMapper.NEW_COMMUNITY_TYPE;
       }
       case FeatureTypes.Resources: {
         return TimelineActivityMapper.RESOURCES_TYPE;

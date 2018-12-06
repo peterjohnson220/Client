@@ -33,6 +33,7 @@ import { DashboardTCModalComponent} from './containers';
 import { TileComponent } from './components';
 import { TilePreviewChartComponent } from './components';
 import { TilePreviewChartWithCalendarComponent } from './components';
+import { TilePreviewChartWithListComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
@@ -67,6 +68,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     TileGridComponent,
     TilePreviewChartComponent,
     TilePreviewChartWithCalendarComponent,
+    TilePreviewChartWithListComponent,
     TilePreviewIconComponent,
     TilePreviewListComponent,
     TilePreviewPlaceHolderComponent,

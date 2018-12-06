@@ -16,6 +16,7 @@ export class TileType {
   Surveys = TileTypes.Surveys;
   DataDiagnostics = TileTypes.DataDiagnostics;
   Community = TileTypes.Community;
+  NewCommunity = TileTypes.NewCommunity;
   Ideas = TileTypes.Ideas;
 
   constructor() {
@@ -33,6 +34,7 @@ export class TileType {
       TileTypes.Surveys,
       TileTypes.DataDiagnostics,
       TileTypes.Community,
+      TileTypes.NewCommunity,
       TileTypes.Ideas
     ];
   }
