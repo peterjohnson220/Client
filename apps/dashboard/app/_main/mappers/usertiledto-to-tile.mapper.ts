@@ -1,6 +1,6 @@
 import { UserTileDto } from 'libs/models';
 
-import { Tile, TileTypes, TilePreviewTypes, TilePreviewChartTypes } from '../models';
+import { Tile, TilePreviewChartTypes, TilePreviewTypes, TileTypes } from '../models';
 
 export class UserTileToTileMapper {
 
@@ -50,6 +50,8 @@ export class UserTileToTileMapper {
         return TileTypes.DataDiagnostics;
       case 'Community':
         return TileTypes.Community;
+      case 'New Community':
+        return TileTypes.NewCommunity;
       case 'Ideas':
         return TileTypes.Ideas;
       default:
@@ -67,7 +69,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.List;
       case TileTypes.MyJobs:
         return TilePreviewTypes.ChartWithCalendar;
-
+      case TileTypes.NewCommunity:
+        return TilePreviewTypes.ChartWithList;
       default:
         return TilePreviewTypes.Icon;
     }
@@ -179,6 +182,11 @@ export class UserTileToTileMapper {
       case TileTypes.Community:
           tile.CssClass = 'tile-lightblue';
           break;
+
+      case TileTypes.NewCommunity:
+        tile.CssClass = 'tile-lightblue';
+        tile.Label = 'Community';
+        break;
 
       case TileTypes.Ideas:
           tile.CssClass = 'tile-lightblue';
