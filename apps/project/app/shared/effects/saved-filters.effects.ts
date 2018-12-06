@@ -170,7 +170,7 @@ export class SavedFiltersEffects {
         }
 
         actions.push(new fromSearchFiltersActions.ApplySavedFilters(savedFilters));
-        actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
+        actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false, searchAggregation: data.searchingFilter }));
 
         return actions;
       })
@@ -182,8 +182,9 @@ export class SavedFiltersEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromSharedSearchReducer.getSelectedSavedFilter),
-        (action: fromSavedFiltersActions.ToggleSavedFilterSelection, selectedSavedFilter) =>
-          ({ action, selectedSavedFilter })
+        this.store.select(fromSharedSearchReducer.getSearchingFilter),
+        (action: fromSavedFiltersActions.ToggleSavedFilterSelection, selectedSavedFilter, searchingFilter) =>
+          ({ action, selectedSavedFilter, searchingFilter })
       ),
       mergeMap(data => {
         const actions = [];
@@ -191,7 +192,7 @@ export class SavedFiltersEffects {
         if (!!data.selectedSavedFilter && data.selectedSavedFilter.Id === currentSavedFilter.Id) {
           actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
           actions.push(new fromSearchFiltersActions.ClearSavedFilters(data.selectedSavedFilter.Filters));
-          actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
+          actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false, searchAggregation: data.searchingFilter }));
         } else {
           actions.push(new fromSavedFiltersActions.SelectSavedFilter(currentSavedFilter));
         }
