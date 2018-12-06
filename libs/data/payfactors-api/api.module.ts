@@ -16,6 +16,10 @@ import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
 import { OrgDataFieldMappingsApiService } from './org-data-loader';
+import { AppEnvironmentApiService } from './app-environment';
+import { UserTicketApiService } from './service';
+import { CompanyJobApiService } from './company';
+import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -41,7 +45,11 @@ import { OrgDataFieldMappingsApiService } from './org-data-loader';
     ExchangeScopeApiService,
     CompanySettingsApiService,
     OrgDataFieldMappingsApiService,
-    ExchangeDataCutsApiService
+    ExchangeDataCutsApiService,
+    AppEnvironmentApiService,
+    UserTicketApiService,
+    CompanyJobApiService,
+    CompanyJobPricingMatchApiService
   ]
 })
 export class PfApiModule { }

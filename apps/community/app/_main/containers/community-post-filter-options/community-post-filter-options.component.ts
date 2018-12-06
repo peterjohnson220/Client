@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
@@ -16,7 +17,8 @@ import { FilterOptions } from '../../models/filter-options.model';
 export class CommunityPostFilterOptionsComponent {
   filters$: Observable<FilterOptions>;
 
-  constructor(public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
+  constructor(public router: Router,
+              public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
               public store: Store<fromCommunityPostReducer.State>) {
     this.filters$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
   }
@@ -30,5 +32,10 @@ export class CommunityPostFilterOptionsComponent {
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCategoryFromFilterOptions(item));
         break;
     }
+  }
+
+  buttonViewAllClicked() {
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingAllFilterOptions());
+    this.router.navigateByUrl('/dashboard');
   }
 }

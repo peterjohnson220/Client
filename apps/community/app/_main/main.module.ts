@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import {ScrollDispatchModule, ScrollingModule} from '@angular/cdk/scrolling';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -41,7 +42,7 @@ import { CommunityJobComponent } from './components/community-job/community-job.
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
 import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
 import { CommunityTabComponent } from './components/community-tab/community-tab.component';
-
+import { CommunityBackToTopNavigationComponent } from './components/community-back-to-top-navigation';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
@@ -73,6 +74,7 @@ const components = [
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
+  CommunityBackToTopNavigationComponent,
   CommunityPopularTagsComponent,
   CommunityLikeComponent,
   CommunityAvatarComponent,
@@ -101,6 +103,8 @@ const components = [
     NgbDropdownModule,
     DropDownsModule,
     InfiniteScrollModule,
+    ScrollingModule,
+    ScrollDispatchModule,
 
     StoreModule.forFeature('community', reducers),
     EffectsModule.forFeature([

@@ -8,7 +8,7 @@ import { PagingOptions } from '../models/paging-options.model';
 
 export function mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: PagingOptions): PagingOptions {
   return {
-    StartIndex: resultsPagingOptions.StartIndex,
+    PageIndex: resultsPagingOptions.PageIndex,
     NumberOfPosts: resultsPagingOptions.NumberOfPosts
   };
 }
@@ -24,7 +24,9 @@ export function initializeFilterOptions(): FilterOptions {
   const tags: Tag[] = [];
   return {
     TagFilter: initializeTagFilter(tags),
-    CategoryFilter: initializeCategoryFilter()
+    CategoryFilter: initializeCategoryFilter(),
+    PostIds: [],
+    ReplyIds: []
   };
 }
 export function initializeTagFilter(tags: Tag[]): TagFilter {

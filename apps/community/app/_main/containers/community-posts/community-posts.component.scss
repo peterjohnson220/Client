@@ -28,7 +28,7 @@ $post-avatar-width: 50px;
 }
 
 .community-link {
-  color: #99A0A4;
+  color: #808080;
   vertical-align: middle;
 }
 
@@ -51,7 +51,6 @@ a {
 :host ::ng-deep .url-preview-card
 {
   border: 1px solid $border-grey;
-  border-radius: 3px;
   overflow: hidden;
 }
 

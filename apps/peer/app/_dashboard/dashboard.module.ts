@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { UploadModule } from '@progress/kendo-angular-upload';
 import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import 'hammerjs';
 
@@ -19,11 +20,11 @@ import {
   ExchangeDashboardPageComponent, NoExchangesPageComponent, ExchangeSelectorComponent,
   AccessModalComponent, ExchangeIndustryChartComponent, ExchangeJobFamilyChartComponent,
   ExchangeRevenueChartComponent, ExchangeCompanyCountComponent, ExchangeJobCountComponent,
-  ChartDetailComponent, ExchangeJobComparisonGridComponent
+  ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent
 } from './containers';
 import {
   ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-  InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+  InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
 } from './effects';
 import { ExchangeExistsGuard } from '../shared/guards';
 import { reducers } from './reducers';
@@ -45,10 +46,11 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     DropDownsModule,
     ChartModule,
     GridModule,
+    UploadModule,
     StoreModule.forFeature('peer_dashboard', reducers),
     EffectsModule.forFeature([
       ExchangeDashboardEffects, AccessExchangeRequestEffects, ExchangeSelectorEffects,
-      InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects
+      InviteCompanyEffects, ExchangeJobComparisonGridEffects, ExchangeEffects, ExchangeDashboardTCModalEffects, UploadOrgDataEffects
     ]),
     NgbPopoverModule,
 
@@ -69,6 +71,7 @@ import { ExistingCompanySelectionFormComponent } from './containers/invite-compa
     ExchangeCompanyCountComponent, ExchangeJobCountComponent, ExchangeDashboardPageComponent,
     AccessModalComponent, ChartDetailComponent, ExchangeJobComparisonGridComponent, ExchangeSelectorComponent,
     InviteCompanyModalComponent, NewCompanyFormComponent, ExistingCompanySelectionFormComponent,
+    ExchangeDashboardTCModalComponent, UploadOrgDataModalComponent,
 
     // Pages
     NoExchangesPageComponent

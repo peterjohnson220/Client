@@ -9,9 +9,17 @@ export const GETTING_COMMUNITY_POSTS = '[Community/Post] Get Community Posts';
 export const GETTING_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Community Posts Success';
 export const GETTING_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Community Posts Error';
 
-export const GETTING_MORE_COMMUNITY_POSTS = '[Community/Post] Get More Community Posts';
-export const GETTING_MORE_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get More Community Posts Success';
-export const GETTING_MORE_COMMUNITY_POSTS_ERROR = '[Community/Post] Get More Community Posts Error';
+export const GETTING_NEXT_BATCH_COMMUNITY_POSTS = '[Community/Post] Get Next Batch Community Posts';
+export const GETTING_NEXT_BATCH_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Next Batch Community Posts Success';
+export const GETTING_NEXT_BATCH_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Next Batch Community Posts Error';
+
+export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS = '[Community/Post] Get Previous Batch Community Posts';
+export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Previous Batch Community Posts Success';
+export const GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Previous Batch Community Posts Error';
+
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS = '[Community/Post] Get Back To Top Community Posts';
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS = '[Community/Post] Get Back To Top Community Posts Success';
+export const GETTING_BACK_TO_TOP_COMMUNITY_POSTS_ERROR = '[Community/Post] Get Back To Top Community Posts Error';
 
 export const UPDATING_COMMUNITY_POST_LIKE = '[Community/Post] Updating Community Post Like';
 export const UPDATING_COMMUNITY_POST_LIKE_SUCCESS = '[Community/Post] Updating Community Post Like Success';
@@ -55,17 +63,43 @@ export class GettingCommunityPostsError implements Action {
   readonly type = GETTING_COMMUNITY_POSTS_ERROR;
 }
 
-export class GettingMoreCommunityPosts implements Action {
-  readonly type = GETTING_MORE_COMMUNITY_POSTS;
+export class GettingNextBatchCommunityPosts implements Action {
+  readonly type = GETTING_NEXT_BATCH_COMMUNITY_POSTS;
 }
 
-export class GettingMoreCommunityPostsSuccess implements Action {
-  readonly type = GETTING_MORE_COMMUNITY_POSTS_SUCCESS;
+export class GettingNextBatchCommunityPostsSuccess implements Action {
+  readonly type = GETTING_NEXT_BATCH_COMMUNITY_POSTS_SUCCESS;
   constructor(public payload: any) {}
 }
 
-export class GettingMoreCommunityPostsError implements Action {
-  readonly type = GETTING_MORE_COMMUNITY_POSTS_ERROR;
+export class GettingNextBatchCommunityPostsError implements Action {
+  readonly type = GETTING_NEXT_BATCH_COMMUNITY_POSTS_ERROR;
+}
+
+export class GettingPreviousBatchCommunityPosts implements Action {
+  readonly type = GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS;
+}
+
+export class GettingPreviousBatchCommunityPostsSuccess implements Action {
+  readonly type = GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingPreviousBatchCommunityPostsError implements Action {
+  readonly type = GETTING_PREVIOUS_BATCH_COMMUNITY_POSTS_ERROR;
+}
+
+export class GettingBackToTopCommunityPosts implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS;
+}
+
+export class GettingBackToTopCommunityPostsSuccess implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingBackToTopCommunityPostsError implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_POSTS_ERROR;
 }
 
 export class UpdatingCommunityPostLike implements Action {
@@ -129,9 +163,15 @@ export type Actions
   | GettingCommunityPosts
   | GettingCommunityPostsSuccess
   | GettingCommunityPostsError
-  | GettingMoreCommunityPosts
-  | GettingMoreCommunityPostsSuccess
-  | GettingMoreCommunityPostsError
+  | GettingNextBatchCommunityPosts
+  | GettingNextBatchCommunityPostsSuccess
+  | GettingNextBatchCommunityPostsError
+  | GettingPreviousBatchCommunityPosts
+  | GettingPreviousBatchCommunityPostsSuccess
+  | GettingPreviousBatchCommunityPostsError
+  | GettingBackToTopCommunityPosts
+  | GettingBackToTopCommunityPostsSuccess
+  | GettingBackToTopCommunityPostsError
   | UpdatingCommunityPostLike
   | UpdatingCommunityPostLikeSuccess
   | UpdatingCommunityPostLikeError

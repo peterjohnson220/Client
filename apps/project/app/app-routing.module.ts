@@ -12,7 +12,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'add-data', pathMatch: 'full' },
       { path: 'add-data', loadChildren: 'apps/project/app/_add-data/add-data.module#AddDataModule' },
-      { path: 'add-jobs', loadChildren: 'apps/project/app/_add-jobs/add-jobs.module#AddJobsModule' }
+      { path: 'add-jobs', loadChildren: 'apps/project/app/_add-jobs/add-jobs.module#AddJobsModule' },
+      { path: 'multi-match', loadChildren: 'apps/project/app/_multi-match/multi-match.module#MultiMatchModule' }
     ]
   }
 ];

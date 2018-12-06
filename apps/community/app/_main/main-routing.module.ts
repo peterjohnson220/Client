@@ -15,6 +15,14 @@ const routes: Routes = [
   { path: 'dashboard',
     component: CommunityDashboardPageComponent
   },
+  {
+    path: 'dashboard/post/:id',
+    component: CommunityDashboardPageComponent
+  },
+  {
+    path: 'dashboard/reply/:id',
+    component: CommunityDashboardPageComponent
+  },
   { path: 'job-postings',
     component: CommunityJobPostingsPageComponent
   }

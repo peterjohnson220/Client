@@ -40,8 +40,9 @@
           <li *ngFor="let activity of timelineActivitiesFiltered">
             <div class="timeline-icon">
               <ng-container *ngIf="activity.Type === COMMUNITY_TYPE">
-                <i *ngIf="activity.SubType !== 'Reply'" class="far fa-comment-alt"></i>
+                <i *ngIf="activity.SubType !== 'Reply' && activity.SubType !== 'Job'" class="far fa-comment-alt"></i>
                 <i *ngIf="activity.SubType === 'Reply'" class="fas fa-comments"></i>
+                <i *ngIf="activity.SubType === 'Job'" class="fas fa-building"></i>
               </ng-container>
               <i *ngIf="activity.Type === ACTIVITY_TYPE || activity.Type === JOB_DESCRIPTION_TYPE" class="fas fa-share"></i>
               <i *ngIf="activity.Type === RESOURCES_TYPE" class="fas fa-info"></i>

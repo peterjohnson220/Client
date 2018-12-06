@@ -31,7 +31,7 @@ describe('CommunityCategoriesComponent', () => {
       providers: [
         {
           provide: Router,
-          useValue: { navigate: jest.fn() },
+          useValue: { navigateByUrl: jest.fn() },
         }
       ],
       // Shallow Testing
@@ -64,6 +64,11 @@ describe('CommunityCategoriesComponent', () => {
     const type = 'category';
     instance.buttonClicked(type, item);
 
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+  it('should dispatch if button view all clicked', () => {
+    const expectedAction = new fromCommunityPostFilterOptionsActions.DeletingAllFilterOptions();
+    instance.buttonViewAllClicked();
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });

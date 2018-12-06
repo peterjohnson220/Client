@@ -13,6 +13,13 @@ export const GETTING_MORE_COMMUNITY_JOBS = '[Community/Job] Get More Community J
 export const GETTING_MORE_COMMUNITY_JOBS_SUCCESS = '[Community/Job] Get More Community Jobs Success';
 export const GETTING_MORE_COMMUNITY_JOBS_ERROR = '[Community/Job] Get More Community Jobs Errpr';
 
+export const GETTING_BACK_TO_TOP_COMMUNITY_JOBS = '[Community/Job] Get Back To Top Community Jobs';
+export const GETTING_BACK_TO_TOP_COMMUNITY_JOBS_SUCCESS = '[Community/Job] Get Back To Top Community Jobs Success';
+export const GETTING_BACK_TO_TOP_COMMUNITY_JOBS_ERROR = '[Community/Job] Get Back To Top Community Jobs Error';
+
+export const DELETING_COMMUNITY_JOB = '[Community/Job] Deleting Community Job';
+export const DELETING_COMMUNITY_JOB_SUCCESS = '[Community/Job] Deleting Community Job Success';
+export const DELETING_COMMUNITY_JOB_ERROR = '[Community/Job] Deleting Community Job Error';
 
 export class SubmittingCommunityJob implements Action {
   readonly type = SUBMITTING_COMMUNITY_JOB;
@@ -58,6 +65,33 @@ export class GettingMoreCommunityJobsError implements Action {
   readonly type = GETTING_MORE_COMMUNITY_JOBS_ERROR;
 }
 
+export class GettingBackToTopCommunityJobs implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_JOBS;
+}
+
+export class GettingBackToTopCommunityJobsSuccess implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_JOBS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingBackToTopCommunityJobsError implements Action {
+  readonly type = GETTING_BACK_TO_TOP_COMMUNITY_JOBS_ERROR;
+}
+
+export class DeletingCommunityJob implements Action {
+  readonly type = DELETING_COMMUNITY_JOB;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityJobSuccess implements Action {
+  readonly type = DELETING_COMMUNITY_JOB_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeletingCommunityJobError implements Action {
+  readonly type = DELETING_COMMUNITY_JOB_ERROR;
+}
+
 export type Actions
   =  SubmittingCommunityJob
   | SubmittingCommunityJobSuccess
@@ -68,4 +102,10 @@ export type Actions
   | GettingCommunityJobsError
   | GettingMoreCommunityJobs
   | GettingMoreCommunityJobsSuccess
-  | GettingMoreCommunityJobsError;
+  | GettingMoreCommunityJobsError
+  | GettingBackToTopCommunityJobs
+  | GettingBackToTopCommunityJobsSuccess
+  | GettingBackToTopCommunityJobsError
+  | DeletingCommunityJob
+  | DeletingCommunityJobSuccess
+  | DeletingCommunityJobError;

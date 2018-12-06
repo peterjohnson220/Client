@@ -1,0 +1,17 @@
+<div class="results-header">
+  <pf-filter-pills
+    [filters]="filters"
+    (clearPill)="handleClearPill($event)"
+    (clearPillGroup)="handleClearPillGroup($event)">
+  </pf-filter-pills>
+
+  <div class="actions">
+    <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
+      Reset
+    </div>
+    <pf-saved-filters
+      [canSaveFilters]="hasFiltersToSave && !hasSelectedSavedFilter">
+    </pf-saved-filters>
+  </div>
+
+</div>

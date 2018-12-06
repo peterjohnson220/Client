@@ -1,10 +1,11 @@
 import { State } from '@progress/kendo-data-query/';
+import { SelectAllCheckboxState } from '@progress/kendo-angular-grid';
 import { combineReducers } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import { GridActions } from '../actions/grid.actions';
+import {GridActions, ToggleRowSelection} from '../actions/grid.actions';
 import { KendoGridFilterHelper } from '../helpers';
 import { GridTypeEnum } from '../../models/common';
 
@@ -16,6 +17,7 @@ export interface IFeatureGridState<T> {
 export interface IGridState {
   grid: State;
   selections: any [];
+  selectAllState: SelectAllCheckboxState;
 }
 
 export const initialGridState: IGridState = {
@@ -28,11 +30,14 @@ export const initialGridState: IGridState = {
     },
     sort: []
   },
-  selections: []
+  selections: [],
+  selectAllState: 'unchecked'
 };
 
 const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initialGridState) => {
   return (state = initialState, action: GridActions): IGridState => {
+
+
     switch (action.type) {
       case `${gridType}_${fromGridActions.UPDATE_GRID}`: {
         const gridState: State = cloneDeep(action.payload);
@@ -52,16 +57,56 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
       }
       case `${gridType}_${fromGridActions.TOGGLE_ROW_SELECTION}`: {
         let newSelections = cloneDeep(state.selections);
-        const selectedRow = action.payload;
+
+        const toggleRowSelectionAction = action as ToggleRowSelection;
+        const selectedRow = toggleRowSelectionAction.payload;
+        const entityIdsOnPage = toggleRowSelectionAction.pageEntityIds;
         const rowIsSelected = newSelections.indexOf(selectedRow) >= 0;
+
         if (rowIsSelected) {
           newSelections = newSelections.filter(selection => selection !== selectedRow);
         } else {
           newSelections.push(selectedRow);
         }
+
+        let newSelectAllState: SelectAllCheckboxState = state.selectAllState;
+        if (!!entityIdsOnPage) {
+          newSelectAllState = getSelectAllState(newSelections, entityIdsOnPage);
+        }
         return {
           ...state,
-          selections: newSelections
+          selections: newSelections,
+          selectAllState: newSelectAllState
+        };
+      }
+      case `${gridType}_${fromGridActions.TOGGLE_SELECT_ALL}`: {
+        let selectionsCopy: number[] = cloneDeep(state.selections);
+
+        const entityIdsOnPage = action.payload;
+        const newState = {...state};
+        const existingPageSelections = selectionsCopy.filter(s => entityIdsOnPage.includes(s));
+        const shouldSelectAll = state.selectAllState !== 'checked' && entityIdsOnPage.length > existingPageSelections.length;
+
+        if (shouldSelectAll) {
+          const selectionsToAdd = entityIdsOnPage.filter(e => selectionsCopy.indexOf(e) < 0);
+          selectionsCopy = selectionsCopy.concat(selectionsToAdd);
+          newState.selections = selectionsCopy;
+          newState.selectAllState = 'checked';
+        } else {
+          newState.selections = selectionsCopy.filter(ns => entityIdsOnPage.indexOf(ns) < 0);
+          newState.selectAllState = 'unchecked';
+        }
+
+        return newState;
+      }
+      case `${gridType}_${fromGridActions.SET_SELECT_ALL_STATE}`: {
+        const entityIdsOnPage = action.payload;
+        const selectionsCopy = cloneDeep(state.selections);
+
+        return {
+          ...state,
+          selections: selectionsCopy,
+          selectAllState: getSelectAllState(selectionsCopy, entityIdsOnPage)
         };
       }
       case `${gridType}_${fromGridActions.UPDATE_FILTER}`: {
@@ -117,3 +162,17 @@ export const createGridReducer = (gridType: GridTypeEnum, featureReducer: any, g
 // Selector Functions
 export const getGridState = (state: IGridState) => state.grid;
 export const getGridSelections = (state: IGridState) => state.selections;
+export const getGridSelectAllState = (state: IGridState) => state.selectAllState;
+
+// Helper Functions
+function getSelectAllState(newSelections, entityIdsOnPage): SelectAllCheckboxState {
+  const existingPageSelections = newSelections.filter(s => entityIdsOnPage.includes(s));
+  const allSelected = existingPageSelections.length === entityIdsOnPage.length;
+  const hasNoSelections = existingPageSelections.length === 0;
+
+  if (allSelected) {
+    return 'checked';
+  }
+
+  return hasNoSelections ? 'unchecked' : 'indeterminate';
+}

@@ -32,7 +32,7 @@ export const initialState: State = adapter.getInitialState({
   loading: false,
   loadingMoreResults: false,
   pagingOptions: {
-    StartIndex: 1,
+    PageIndex: 1,
     NumberOfPosts: 20
   },
   loadingError: false,
@@ -70,7 +70,8 @@ export function reducer(
       return {
         ...state,
         loading: true,
-        loadingError: false
+        loadingError: false,
+        pagingOptions: {...state.pagingOptions, PageIndex: 1}
       };
     }
     case communityJobActions.GETTING_COMMUNITY_JOBS_SUCCESS: {
@@ -92,7 +93,7 @@ export function reducer(
         ...state,
         loadingError: false,
         loadingMoreResults: true,
-        pagingOptions: {...state.pagingOptions, StartIndex: state.pagingOptions.StartIndex + 1}
+        pagingOptions: {...state.pagingOptions, PageIndex: state.pagingOptions.PageIndex + 1}
       };
     }
     case communityJobActions.GETTING_MORE_COMMUNITY_JOBS_SUCCESS: {
@@ -111,6 +112,41 @@ export function reducer(
       return {
         ...state,
         submittedJob: null
+      };
+    }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        pagingOptions: {...state.pagingOptions, PageIndex: 1}
+      };
+    }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS_SUCCESS: {
+      return {
+        ...adapter.addMany(action.payload.CommunityJobResults, state),
+        loading: false,
+        totalResultsOnServer: action.payload.Paging.TotalRecordCount
+      };
+    }
+    case communityJobActions.GETTING_BACK_TO_TOP_COMMUNITY_JOBS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case communityJobActions.DELETING_COMMUNITY_JOB_SUCCESS: {
+      const jobId = action.payload;
+      return {
+        ...adapter.removeOne(jobId,
+          state)
+      };
+    }
+    case communityJobActions.DELETING_COMMUNITY_JOB_ERROR: {
+      return {
+        ...state,
+        submittingError: true
       };
     }
     default: {

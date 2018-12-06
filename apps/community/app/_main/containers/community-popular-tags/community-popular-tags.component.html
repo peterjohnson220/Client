@@ -1,8 +1,9 @@
 <div id="tag-container" class="mb-3">
-  <div id="tag-section-header">TAGS</div>
+  <div id="tag-section-header">TRENDING TAGS</div>
   <hr class="my-3" >
     <ng-container *ngFor="let popularTag of popularTags$ | async">
-      <button type="button" class="btn m-1 tag py-2 px-3" (click)="buttonClicked(popularTag)">{{popularTag.Tag}}
+      <button [disabled]="(filteredByPost$ | async)"
+              type="button" class="btn m-1 tag py-2 px-3 community-border-radius" (click)="buttonClicked(popularTag)">{{popularTag.Tag}}
       </button>
     </ng-container>
 </div>

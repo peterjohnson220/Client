@@ -1,0 +1,33 @@
+:host ::ng-deep .info-container{
+    padding-left:0;
+}
+
+.mapping-info-container{
+    padding: 3px;
+    padding-right:5px;
+}
+
+.company-job-to-map-to-result{
+    padding-top:10px;
+}
+
+.company-job-mapping-add {
+    padding: 0 1rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+
+   
+}
+.mapping-results-container {
+    margin-top: 0.5rem;
+    position: relative;
+    height: 600px;
+    overflow-y: auto;
+}
+
+.apply-mapping-container{
+    min-width: 145px;
+    margin: 0 .75rem;
+    display: flex;
+    flex-direction: column;
+  }

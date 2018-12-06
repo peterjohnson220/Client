@@ -35,9 +35,23 @@
                   [rowClass]="rowClass"
                   [kendoGridSelectBy]="selectionKey"
                   filterable="menu"
-                  [selectedKeys]="selections$ | async"
+                  [selectedKeys]="selections"
                   (cellClick)="handleCellClick($event)"
                   (dataStateChange)="handleDataStateChange($event)">
+
+        <kendo-grid-checkbox-column width="5" showSelectAll="true">
+          <ng-template kendoGridHeaderTemplate>
+            <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
+                   [state]="selectAllState$ | async"
+                   (selectAllChange)="onSelectAllChange($event)">
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-idx="rowIndex">
+            <input type="checkbox"
+                   [disabled]="!dataItem.IsInMapScope"
+                   [checked]="isChecked(dataItem.ExchangeJobToCompanyJobId)"
+                   (click)="onCbClick(dataItem.ExchangeJobToCompanyJobId)">
+          </ng-template>
+        </kendo-grid-checkbox-column>
 
         <kendo-grid-column field="CompanyJobTitle" title="Company Job Title" width="40">
           <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">

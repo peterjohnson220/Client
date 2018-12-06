@@ -12,3 +12,16 @@ export interface JobMatchCut {
   DataCutId?: number;
   SurveyJobCode?: string;
 }
+
+export function generateMockJobMatchCut(): JobMatchCut {
+  return {
+    UserJobMatchId: 1,
+    Source: 'Payfactors',
+    Base50: 25.66,
+    TCC50: 100.11,
+    JobCode: 'JB122',
+    JobTitle: 'Janitor/Custodian',
+    SurveyJobCode: 'KKNN',
+    DataCutId: 12345
+  };
+}

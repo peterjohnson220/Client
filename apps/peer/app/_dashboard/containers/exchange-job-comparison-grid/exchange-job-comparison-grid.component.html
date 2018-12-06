@@ -1,8 +1,9 @@
 <pf-async-container [loading]="loadingExchangeJobComparisons$ | async" [loadingError]="loadingExchangeJobComparisonsError$ | async"
   [hideReloadButton]="true">
 
-  <kendo-grid class="row-click-selects no-wrap-ellipsis-values"
+  <kendo-grid class="no-wrap-ellipsis-values"
               height="100%"
+              [ngClass]="(exchangeJobComparisonsGridData$ | async)?.total == 0 ? 'no-grid-data' : 'row-click-selects'"
               [data]="exchangeJobComparisonsGridData$ | async"
               [pageSize]="exchangeJobComparisonGridState?.take"
               [skip]="exchangeJobComparisonGridState?.skip"
@@ -137,5 +138,13 @@
         </ng-container>
       </ng-template>
     </kendo-grid-column>
+    <ng-template kendoGridNoRecordsTemplate *ngIf="(companyContext$ | async)?.GroupName == 'Peer Only'">
+      <div class="text-center">
+        To see a comparison of your company jobs to exchange jobs, you will need to upload a file containing your Company Job and Employee records.
+        <br> Click <span class="pf-link-underline" (click)="openUploadOrgDataModal()">here</span> to load and transmit that data to Payfactors.
+        <br> <br> If you have uploaded your data already, Payfactors is currently processing the organizational data files you had previously uploaded.
+        <br> Check this grid at a later time.
+      </div>
+    </ng-template>
   </kendo-grid>
 </pf-async-container>

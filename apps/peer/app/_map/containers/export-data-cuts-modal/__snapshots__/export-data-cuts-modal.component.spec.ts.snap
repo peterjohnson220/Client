@@ -13,10 +13,12 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
   exportingDataCutsError$={[Function Store]}
   exportingJobsErrorSubscription={[Function Subscriber]}
   fb={[Function FormBuilder]}
+  gridDataResultSubscription={[Function Subscriber]}
   gridState={[Function Object]}
   gridState$={[Function Observable]}
   gridStateSubscription={[Function Subscriber]}
   route={[Function Object]}
+  selectAllState$={[Function Store]}
   selections={[Function Array]}
   selections$={[Function Observable]}
   selectionsSubscription={[Function Subscriber]}
@@ -24,7 +26,7 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
   view$={[Function Store]}
 >
   <pf-modal-form
-    class="ng-untouched ng-pristine ng-invalid"
+    class="ng-touched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
     title="Export Data Cuts"
   >
@@ -35,6 +37,13 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
         filterable="menu"
         height="500"
       >
+        <kendo-grid-checkbox-column
+          showselectall="true"
+          width="5"
+        >
+          
+          
+        </kendo-grid-checkbox-column>
         <kendo-grid-column
           field="CompanyJobTitle"
           title="Company Job Title"
@@ -65,7 +74,7 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
       class="form-group hidden-form-control"
     >
       <input
-        class="form-control ng-untouched ng-pristine ng-invalid"
+        class="form-control ng-touched ng-pristine ng-invalid"
         formcontrolname="selections"
         name="hasSelections"
         ng-reflect-model=""

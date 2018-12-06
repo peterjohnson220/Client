@@ -1,0 +1,15 @@
+@import 'colors';
+
+.back-to-top-container{
+  opacity: 0.5;
+  background-color: transparent;
+}
+
+.back-to-top-container:hover {
+  opacity: 1.0;
+  transform: scale(1.1);
+}
+
+.arrow-color{
+  color:  #ffb300;
+}

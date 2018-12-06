@@ -1,0 +1,14 @@
+@import 'search/filters-variables';
+
+.search-action{
+  @extend %text-filter-action;
+}
+
+.search-action.disabled{
+  color: #c5c5c5;
+  cursor: not-allowed;
+
+  &:hover{
+    background-color: inherit;
+  }
+}

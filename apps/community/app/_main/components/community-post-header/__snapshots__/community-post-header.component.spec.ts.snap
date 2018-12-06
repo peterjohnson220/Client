@@ -36,7 +36,7 @@ exports[`CommunityPostsComponent should show internal community post header 1`] 
   user={[Function Object]}
 >
   <div
-    class="internal float-right pl-2 pr-2"
+    class="internal float-right pl-2 pr-2 community-border-radius"
   >
     Internal
   </div><p

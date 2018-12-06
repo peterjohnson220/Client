@@ -1,7 +1,7 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { PeerMapScopeMapInfo, ExchangeMapSummary, GeoCoordinates } from '../../../../models/peer';
+import { PeerMapScopeMapInfo, ExchangeMapSummary, GeoCoordinates, GenericKeyValue } from 'libs/models/';
 
 export class MapHelper {
 
@@ -13,7 +13,7 @@ export class MapHelper {
       ...currentState.mapFilter,
       TopLeft: swappedBounds.TopLeft,
       BottomRight: swappedBounds.BottomRight,
-      ClusterPrecision: this.getClusterPrecision(mapProps.zoom)
+      ClusterPrecision: this.getClusterPrecision(mapProps.zoom, currentState.zoomPrecisionDictionary)
     };
   }
 
@@ -66,7 +66,25 @@ export class MapHelper {
     return coordinate > 180 ? 180 : coordinate < -180 ? -180 : coordinate;
   }
 
-  private static getClusterPrecision(zoomLevel: number) {
+  private static getClusterPrecision(zoomLevel: number, zoomPrecisionDictionary: GenericKeyValue<number, number>[] | null) {
+    if (zoomPrecisionDictionary === null) {
+      return this.getDefaultClusterPrecision(zoomLevel);
+    }
+
+    const minPrecision = 1;
+    const maxPrecision = 12;
+
+    const nextIndex = zoomPrecisionDictionary.findIndex(zp => zp.Key > zoomLevel);
+    if (nextIndex <= 0) {
+      return nextIndex < 0 ? maxPrecision : minPrecision;
+    }
+
+    const prevValFromDictionary = zoomPrecisionDictionary[nextIndex - 1].Value;
+    const val = prevValFromDictionary > maxPrecision ? maxPrecision : prevValFromDictionary;
+    return val < minPrecision ? minPrecision : val;
+  }
+
+  private static getDefaultClusterPrecision(zoomLevel: number): 1|2|3|4|5|6|7 {
     const zoomToGeoHashPrecision = {
       0: 0,
       1: 1,

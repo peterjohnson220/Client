@@ -4,8 +4,8 @@
    [scrollWindow]="false"
    [infiniteScrollDistance]="2"
    [infiniteScrollThrottle]="50"
-   (scrolled)="onScroll()">
-
+   (scroll)="onScroll($event)"
+   (scrolled)="onScrollDown()">
   <pf-async-container
     [loading]="loadingCommunityJobs$ | async"
     [loadingError]="loadingCommunityJobsError$ | async"
@@ -17,12 +17,17 @@
           <pf-community-job
             *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId;let i = index; let last = last;"
             [job]="job"
-            [endOfList]="last && !hasMoreResultsOnServer">
+            [endOfList]="last && !hasMoreResultsOnServer"
+            [isCurrentUserJob]="job.IsCurrentUserJob">
           </pf-community-job>
         </div>
       </div>
     </ng-container>
-
+    <div class="back-to-top-container">
+      <pf-community-back-to-top-navigation *ngIf="isNavigationVisible"
+        (backToTopClicked)="backToTop()">
+      </pf-community-back-to-top-navigation>
+    </div>
   </pf-async-container>
   <div class="row m-3" *ngIf="loadingMoreCommunityJobs$ | async">
     <div class="col-8 offset-2">

@@ -16,6 +16,8 @@ import * as fromSharedPeerReducer from '../../shared/reducers';
 import * as fromExchangeJobComparisonGridReducer from './exchange-job-comparison-grid.reducer';
 import * as fromExchangeSelectorReducer from './exchange-selector.reducer';
 import * as fromCompanyIndustriesReducer from './company-industries.reducer';
+import * as fromExchangeDashboardTCModalReducer from './exchange-dashboard-tc-modal.reducer';
+import * as fromUploadOrgDataReducer from './upload-org-data.reducer';
 
 // Feature area state
 export interface DashboardState {
@@ -26,6 +28,8 @@ export interface DashboardState {
   exchangeJobComparison: IFeatureGridState<fromExchangeJobComparisonGridReducer.State>;
   exchangeSelector: fromExchangeSelectorReducer.State;
   companyIndustries: fromCompanyIndustriesReducer.State;
+  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.State;
+  uploadOrgData: fromUploadOrgDataReducer.State;
 }
 
 // Extend root state with feature area state
@@ -41,7 +45,9 @@ export const reducers = {
   pfCompaniesExchangeRequest: fromPfCompaniesExchangeRequestReducer.reducer,
   exchangeJobComparison: fromExchangeJobComparisonGridReducer.reducer,
   exchangeSelector: fromExchangeSelectorReducer.reducer,
-  companyIndustries: fromCompanyIndustriesReducer.reducer
+  companyIndustries: fromCompanyIndustriesReducer.reducer,
+  exchangeDashboardTCModal: fromExchangeDashboardTCModalReducer.reducer,
+  uploadOrgData: fromUploadOrgDataReducer.reducer
 };
 
 // Select Feature Area
@@ -81,6 +87,16 @@ export const selectExchangeSelectorState = createSelector(
 export const selectCompanyIndustriesState = createSelector(
   selectFeatureAreaState,
   (state: DashboardState) => state.companyIndustries
+);
+
+export const selectExchangeDashboardTCModalState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.exchangeDashboardTCModal
+);
+
+export const selectUploadOrgDataState = createSelector(
+  selectFeatureAreaState,
+  (state: DashboardState) => state.uploadOrgData
 );
 
 // Exchange Dashboard Selectors
@@ -326,4 +342,61 @@ export const getCompanyIndustriesLoading = createSelector(
 export const getCompanyIndustriesLoadingError = createSelector(
   selectCompanyIndustriesState,
   fromCompanyIndustriesReducer.getLoadingError
+);
+
+// Exchange Dashboard Tc Modal
+export const getTCLoading = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCLoading
+);
+
+export const getTCLoadingError = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCLoadingError
+);
+
+export const getTCSubmitting = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmitting
+);
+
+export const getTCSubmittingError = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmittingError
+);
+
+export const getTCSubmittingSuccess = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCSubmittingSuccess
+);
+
+export const getTCData = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.getTCData
+);
+
+export const hasTCData = createSelector(
+  selectExchangeDashboardTCModalState,
+  fromExchangeDashboardTCModalReducer.hasTCData
+);
+
+// Upload Org Data
+export const getUploadOrgDataUploadingFile = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFile
+);
+
+export const getUploadOrgDataUploadingFileSuccess = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFileSuccess
+);
+
+export const getUploadOrgDataUploadingFileError = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadingFileError
+);
+
+export const getUploadOrgDataModalOpen = createSelector(
+  selectUploadOrgDataState,
+  fromUploadOrgDataReducer.getUploadOrgDataModalOpen
 );

@@ -18,15 +18,15 @@ export class ExchangeJobAssociationUtilityEffects {
 
   @Effect()
   loadCompanyOptions$: Observable<Action> = this.actions$.pipe(
-      ofType(fromCompanyOptionsActions.LOAD_COMPANY_OPTIONS),
-      switchMap(() =>
-        this.exchangeApiService.getPeerParticipantsDictionary().pipe(
-          map((companyOptions: GenericKeyValue<number, string>[]) => new fromCompanyOptionsActions
-            .LoadCompanyOptionsSuccess(companyOptions)),
-          catchError(() => of(new fromCompanyOptionsActions.LoadCompanyOptionsError()))
-        )
+    ofType(fromCompanyOptionsActions.LOAD_COMPANY_OPTIONS),
+    switchMap(() =>
+      this.exchangeApiService.getPeerParticipantsDictionary().pipe(
+        map((companyOptions: GenericKeyValue<number, string>[]) => new fromCompanyOptionsActions
+          .LoadCompanyOptionsSuccess(companyOptions)),
+        catchError(() => of(new fromCompanyOptionsActions.LoadCompanyOptionsError()))
       )
-    );
+    )
+  );
 
   @Effect()
   loadExchangeOptions$: Observable<Action> = this.actions$.pipe(
@@ -47,7 +47,7 @@ export class ExchangeJobAssociationUtilityEffects {
     map((action: fromAssociateJobsActions.AssociateJobs) => action.payload),
     switchMap((associateJobsRequest: AutoAssociateExchangeJobsRequest) =>
       this.exchangeApiService.autoAssociateExchangeJobs(associateJobsRequest).pipe(
-        map(() => new fromAssociateJobsActions.AssociateJobsSuccess()),
+        map((associationsAdded: number) => new fromAssociateJobsActions.AssociateJobsSuccess(associationsAdded)),
         catchError(() => of(new fromAssociateJobsActions.AssociateJobsError()))
       )
     )
@@ -56,5 +56,5 @@ export class ExchangeJobAssociationUtilityEffects {
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService
-  ) {}
+  ) { }
 }

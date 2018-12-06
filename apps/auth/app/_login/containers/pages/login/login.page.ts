@@ -109,7 +109,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     return control.value.toString();
   }
 
-  onRequestAccessClick() {
-    this.loginStore.dispatch(new fromLoginActions.LoginOpenRequestAccess());
+  onSelfRegistrationClick() {
+    this.loginStore.dispatch(new fromLoginActions.LoginOpenSelfRegistration());
   }
 }

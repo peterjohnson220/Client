@@ -5,3 +5,13 @@ export interface CommunityTag {
   ReplyIds: string[];
   IsSuggested: boolean;
 }
+
+export function generateMockCommunityTag(): CommunityTag {
+  return {
+    Id: '1234',
+    Tag: '12345',
+    PostIds: [],
+    ReplyIds: [],
+    IsSuggested: false
+  };
+}

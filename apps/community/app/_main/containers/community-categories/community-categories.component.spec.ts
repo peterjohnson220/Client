@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -77,5 +78,10 @@ describe('CommunityCategoriesComponent', () => {
     instance.onClick(CommunityCategoryEnum.MyPosts);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+  it('should set filtered by post to true when observable returns true', () => {
+    instance.filteredByPost$ = of(true);
+    fixture.detectChanges();
+    expect(instance.filteredByPost).toBeTruthy();
   });
 });

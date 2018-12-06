@@ -130,7 +130,7 @@ exports[`Auth - Login should disable and show correct login button text when log
       >
         <button
           class="btn align-self-center"
-          id="au-btn-request-access"
+          id="au-btn-self-registration"
         >
            Request Access 
           <i
@@ -139,7 +139,7 @@ exports[`Auth - Login should disable and show correct login button text when log
         </button>
       </div>
     </div>
-  </div><pf-request-access-modal />
+  </div><pf-self-registration-modal />
 </pf-login-page>
 `;
 
@@ -272,7 +272,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
       >
         <button
           class="btn align-self-center"
-          id="au-btn-request-access"
+          id="au-btn-self-registration"
         >
            Request Access 
           <i
@@ -281,7 +281,7 @@ exports[`Auth - Login should show error notification on submitError 1`] = `
         </button>
       </div>
     </div>
-  </div><pf-request-access-modal />
+  </div><pf-self-registration-modal />
 </pf-login-page>
 `;
 
@@ -414,7 +414,7 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
       >
         <button
           class="btn align-self-center"
-          id="au-btn-request-access"
+          id="au-btn-self-registration"
         >
            Request Access 
           <i
@@ -423,6 +423,6 @@ exports[`Auth - Login should show login when page is loaded 1`] = `
         </button>
       </div>
     </div>
-  </div><pf-request-access-modal />
+  </div><pf-self-registration-modal />
 </pf-login-page>
 `;

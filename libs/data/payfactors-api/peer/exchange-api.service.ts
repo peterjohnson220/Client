@@ -5,6 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
+  ExchangeJobSearch,
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
@@ -28,8 +29,8 @@ export class ExchangeApiService {
 
   getAvailableCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
-        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
-      },
+      params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
@@ -42,31 +43,32 @@ export class ExchangeApiService {
     return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(`${this.endpoint}/GetExchangeDictionaryForCompany`,
       {
         params: { companyId: companyId }
-    });
+      });
   }
 
-  autoAssociateExchangeJobs(autoAssociateExchangeJobsRequest: AutoAssociateExchangeJobsRequest): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/AutoAssociateExchangeJobs`, autoAssociateExchangeJobsRequest);
+  autoAssociateExchangeJobs(autoAssociateExchangeJobsRequest: AutoAssociateExchangeJobsRequest): Observable<number> {
+    return this.payfactorsApiService
+      .post(`${this.endpoint}/AutoAssociateExchangeJobs`, autoAssociateExchangeJobsRequest, (successCount: number) => successCount);
   }
 
   getCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetCompanies`, {
-        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
-      },
+      params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
   getTopPeerParticipants(searchTerm: string): Observable<CompanyOption[]> {
     return this.payfactorsApiService.get<CompanyOption[]>(`${this.endpoint}/GetTopPeerParticipants`, {
-      params: {query: searchTerm}
+      params: { query: searchTerm }
     });
   }
 
   getAvailableJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableJobs`, {
-        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
-      },
+      params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
@@ -81,38 +83,38 @@ export class ExchangeApiService {
 
   getPendingExchangeAccessRequests(exchangeId: number): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingExchangeAccessRequests`, {
-        params: { exchangeId: exchangeId }
-      },
+      params: { exchangeId: exchangeId }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
   getPendingPayfactorsCompanyExchangeInvitations(exchangeId: number): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingPayfactorsCompanyExchangeInvitations`, {
-        params: { exchangeId: exchangeId }
-      },
+      params: { exchangeId: exchangeId }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
   getPendingNewCompanyExchangeInvitations(exchangeId: number): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingNewCompanyExchangeInvitations`, {
-        params: { exchangeId: exchangeId }
-      },
+      params: { exchangeId: exchangeId }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
   getPendingExchangeJobRequests(exchangeId: number): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetPendingExchangeJobRequests`, {
-        params: { exchangeId: exchangeId }
-      },
+      params: { exchangeId: exchangeId }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
 
   exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string, action: ExchangeRequestActionEnum): Observable<any> {
-    const requestAction: ExchangeJobRequestAction = {JobRequest: jobRequest, Reason: reason, Action: action.toString()};
+    const requestAction: ExchangeJobRequestAction = { JobRequest: jobRequest, Reason: reason, Action: action.toString() };
     return this.payfactorsApiService.post(`${this.endpoint}/ExchangeJobRequestAction`, requestAction);
   }
 
@@ -126,8 +128,8 @@ export class ExchangeApiService {
 
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetExchangeJobs`, {
-        params: {exchangeId: exchangeId, listState: JSON.stringify(listState)}
-      },
+      params: { exchangeId: exchangeId, listState: JSON.stringify(listState) }
+    },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
@@ -153,5 +155,10 @@ export class ExchangeApiService {
 
   deleteExchange(exchangeId: number): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/DeleteExchange`, exchangeId);
+  }
+
+  getExchangeJobSearch(exchangeId: number, jobTitleSearch: string, jobDescriptionSearch: string) {
+    return this.payfactorsApiService.get<ExchangeJobSearch[]>(`${this.endpoint}/GetExchangeJobSearch`,
+      { params: { exchangeId: exchangeId, jobTitleSearch: jobTitleSearch, jobDescriptionSearch: jobDescriptionSearch } });
   }
 }

@@ -1,0 +1,75 @@
+<div class="data-cuts-container">
+  <ng-container *ngIf="!job.IsPayfactors">
+    <ng-container *ngIf="dataCuts.length;else noDataCuts">
+      <ng-container *ngTemplateOutlet="dataCutsTable;context:{isPayfactors: false, dataCuts: dataCuts}"></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="job.IsPayfactors">
+    <ng-container *ngTemplateOutlet="dataCutsTable;context:{isPayfactors: true}"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #dataCutsTable let-isPayfactors="isPayfactors" let-dataCuts="dataCuts">
+  <table class="data-cuts-table">
+    <thead>
+    <tr>
+      <th></th>
+      <th>Scope</th>
+      <th class="text-center">Country</th>
+      <th *ngIf="!isPayfactors" class="text-center">Weight</th>
+      <th class="text-center">Base 50th</th>
+      <th class="text-center">TCC 50th</th>
+      <th *ngIf="!isPayfactors" class="text-center">Matches</th>
+    </tr>
+  </thead>
+  <tbody dragula="data-cuts-bag" class="data-cuts-source">
+  <ng-container *ngIf="isPayfactors">
+    <tr (click)="togglePayfactorsSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
+      <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
+      <td class="scope-cell">National</td>
+      <td class="text-center">{{job.CountryCode}}</td>
+      <td class="text-center">{{job.Base50th}}</td>
+      <td class="text-center">{{job.TCC50th}}</td>
+      <!-- Hidden Cell for Drag/Drop Re-Order -->
+      <td class="gu-mirror-show">
+        <div class="card">
+          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
+        </div>
+      </td>
+    </tr>
+  </ng-container>
+  <ng-container *ngIf="!isPayfactors">
+    <tr *ngFor="let dataCut of dataCuts; trackBy: trackByDataCutId" (click)="toggleDataCutSelection(dataCut)" [class.selected]="dataCut.IsSelected" [class.draggable]="dataCut.IsSelected && cutsDraggable">
+      <td><input type="checkbox" [ngModel]="dataCut.IsSelected" /> </td>
+      <td class="scope-cell">
+        {{dataCut.Title}}
+      </td>
+      <td class="text-center">{{dataCut.Country}}</td>
+      <td class="text-center">{{dataCut.Weight}}</td>
+      <td class="text-center">{{dataCut.Base50th ? dataCut.Base50th : "-"}}</td>
+      <td class="text-center">{{dataCut.TCC50th ? dataCut.TCC50th : "-"}}</td>
+      <td class="text-center">
+          <span *ngIf="dataCut.Matches" class="matches"
+                (mouseenter)="handleMatchesMouseEnter($event, dataCut)"
+                (mouseleave)="handleMatchesMouseLeave($event)">
+            {{dataCut.Matches}}
+          </span>
+      </td>
+      <!-- Hidden Cell for Drag/Drop Re-Order -->
+      <td class="gu-mirror-show">
+        <div class="card">
+          <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
+        </div>
+      </td>
+    </tr>
+  </ng-container>
+  </tbody>
+  </table>
+</ng-template>
+
+<ng-template #noDataCuts>
+  <div class="no-data-cuts-message">
+    No data cuts available. Please adjust your filters.
+  </div>
+</ng-template>

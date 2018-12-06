@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import * as fromAddJobsPageActions from '../actions/add-jobs.page.actions';
-import * as fromAddDataReducer from '../reducers';
+import * as fromAddJobsReducer from '../reducers';
 
 
 @Injectable()
@@ -24,7 +24,7 @@ export class AddJobsPageEffects {
 
     constructor(
       private actions$: Actions,
-      private store: Store<fromAddDataReducer.State>,
+      private store: Store<fromAddJobsReducer.State>,
       private windowCommunicationService: WindowCommunicationService
   ) {}
 }

@@ -1,0 +1,38 @@
+<div class="pills-container" perfectScrollbar>
+  <div *ngFor="let pillGroup of pillGroups; trackBy: pillGroupTrackByFn;"
+       class="pill"
+       [class.locked]="pillGroup.Locked"
+       [ngbPopover]="pillDetail"
+       [popoverTitle]="pillGroup.GroupName"
+       [popoverClass]="'pill-detail-popover'"
+       [disablePopover]="pillGroup.Locked"
+       [autoClose]="'outside'"
+       container="body"
+       #popover="ngbPopover"
+       placement="bottom">
+
+      <ng-template #pillDetail>
+        <div *ngIf="pillGroup.Pills.length > 1" class="clear-all-filter-link text-filter-action" (click)="handleClearAllClicked(pillGroup)">
+          Clear All
+        </div>
+        <div class="pill-detail" *ngFor="let pill of pillGroup.Pills" (click)="handlePillClicked(pill)">
+          <div>{{pill.ValueName}}</div>
+          <div class="clear-filter-link text-filter-action">Clear</div>
+        </div>
+      </ng-template>
+
+      <div class="pill-value">
+        {{pillGroup.PreviewString}}
+      </div>
+      <div class="icon" [class.locked]="pillGroup.Locked">
+        <span *ngIf="!pillGroup.Locked"><i class="far fa-angle-down"></i></span>
+        <span *ngIf="pillGroup.Locked"><i class="fas fa-lock"></i></span>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import {DataStateChangeEvent, GridDataResult, SelectionEvent} from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
@@ -8,9 +8,11 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import { GridTypeEnum, ExchangeJobComparison } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromExchangeJobComparisonGridActions from '../../actions/exchange-job-comparison-grid.actions';
 import * as fromExchangeDashboardActions from '../../actions/exchange-dashboard.actions';
+import * as fromUploadOrgDataActions from '../../actions/upload-org-data.actions';
 import * as fromDashboardReducer from '../../reducers';
 
 @Component({
@@ -25,8 +27,11 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   exchangeJobComparisonsGridState$: Observable<State>;
   exchangeJobOrgsDetailVisible$: Observable<boolean>;
 
+  companyContext$: Observable<any>;
+
   exchangeJobOrgsDetailVisibleSubscription: Subscription;
   exchangeJobComparisonGridStateSubscription: Subscription;
+
   exchangeJobComparisonGridState: State;
 
   selectedKeys: number[] = [];
@@ -34,11 +39,12 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromDashboardReducer.State>
   ) {
-    this.loadingExchangeJobComparisons$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsLoading);
-    this.loadingExchangeJobComparisonsError$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsLoadingError);
-    this.exchangeJobComparisonsGridData$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridData);
-    this.exchangeJobComparisonsGridState$ = this.store.select(fromDashboardReducer.getExchangeJobComparisonsGridState);
-    this.exchangeJobOrgsDetailVisible$ = this.store.select(fromDashboardReducer.getExchangeDashboardExchangeJobOrgsDetailVisible);
+    this.loadingExchangeJobComparisons$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoading));
+    this.loadingExchangeJobComparisonsError$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsLoadingError));
+    this.exchangeJobComparisonsGridData$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsGridData));
+    this.exchangeJobComparisonsGridState$ = this.store.pipe(select(fromDashboardReducer.getExchangeJobComparisonsGridState));
+    this.exchangeJobOrgsDetailVisible$ = this.store.pipe(select(fromDashboardReducer.getExchangeDashboardExchangeJobOrgsDetailVisible));
+    this.companyContext$ = this.store.pipe(select(fromRootState.getCompanyContext));
   }
 
   // Grid
@@ -68,6 +74,10 @@ export class ExchangeJobComparisonGridComponent implements OnInit, OnDestroy {
 
     const selectedExchangeJobComparison: ExchangeJobComparison = selection.dataItem;
     this.store.dispatch(new fromExchangeDashboardActions.LoadExchangeJobOrgs(selectedExchangeJobComparison));
+  }
+
+  openUploadOrgDataModal() {
+    this.store.dispatch(new fromUploadOrgDataActions.OpenUploadOrgDataModal());
   }
 
   // Lifecycle

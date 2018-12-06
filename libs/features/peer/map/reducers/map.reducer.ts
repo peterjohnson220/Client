@@ -1,6 +1,6 @@
 import { FeatureCollection, Point } from 'geojson';
 
-import { ExchangeMapSummary } from 'libs/models/peer';
+import { ExchangeMapSummary, GenericKeyValue } from 'libs/models';
 
 import * as fromPeerMapActions from '../actions/map.actions';
 import { MapHelper } from '../helpers';
@@ -19,6 +19,9 @@ export interface State {
   initialZoom: number;
   initialMapCentroid: number[];
   applyingScope: boolean;
+  zoomPrecisionDictionary: GenericKeyValue<number, number>[];
+  zoomPrecisionDictionaryLoading: boolean;
+  zoomPrecisionDictionaryLoadingError: boolean;
 }
 
 // Initial State
@@ -40,7 +43,10 @@ export const initialState: State = {
   maxZoom: 7,
   initialZoom: 3,
   initialMapCentroid: [-98, 38.88],
-  applyingScope: false
+  applyingScope: false,
+  zoomPrecisionDictionary: null,
+  zoomPrecisionDictionaryLoading: false,
+  zoomPrecisionDictionaryLoadingError: false
 };
 
 // Reducer
@@ -108,7 +114,8 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     }
     case fromPeerMapActions.RESET_STATE: {
       return {
-        ...initialState
+        ...initialState,
+        zoomPrecisionDictionary: state.zoomPrecisionDictionary
       };
     }
     case fromPeerMapActions.APPLY_CUT_CRITERIA: {
@@ -153,6 +160,26 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
           ...initialState.mapFilter
         },
         isInitialLoad: true
+      };
+    }
+    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY: {
+      return {
+        ...state,
+        zoomPrecisionDictionaryLoading: true
+      };
+    }
+    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS: {
+      return {
+        ...state,
+        zoomPrecisionDictionary: action.payload,
+        zoomPrecisionDictionaryLoading: false
+      };
+    }
+    case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY_ERROR: {
+      return {
+        ...state,
+        zoomPrecisionDictionaryLoadingError: true,
+        zoomPrecisionDictionaryLoading: false
       };
     }
     default: {

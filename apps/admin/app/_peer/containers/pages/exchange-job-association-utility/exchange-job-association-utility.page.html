@@ -5,10 +5,14 @@
   </ng-container>
 
   <ng-container page-content>
-    <form [formGroup]="autoAssociationForm" (ngSubmit)="handleRunButtonClick()" class="w-25">
+    <form [formGroup]="autoAssociationForm"
+          (ngSubmit)="handleRunButtonClick()"
+          class="w-25">
       <div class="form-group">
-        <label class="col-form-label" for="company-selector">Choose a Company:</label>
-        <kendo-combobox #companyList class="form-control"
+        <label class="col-form-label"
+               for="company-selector">Choose a Company:</label>
+        <kendo-combobox #companyList
+                        class="form-control"
                         id="company-selector"
                         formControlName="companySelection"
                         textField="Value"
@@ -21,8 +25,10 @@
       </div>
 
       <div class="form-group">
-        <label class="col-form-label" for="exchange-selector">Choose an Exchange:</label>
-        <kendo-combobox #exchangeList class="form-control"
+        <label class="col-form-label"
+               for="exchange-selector">Choose an Exchange:</label>
+        <kendo-combobox #exchangeList
+                        class="form-control"
                         id="exchange-selector"
                         formControlName="exchangeSelection"
                         textField="Value"
@@ -34,18 +40,23 @@
         </kendo-combobox>
       </div>
 
-      <button type="button" class="btn btn-primary mb-lg-2"
+      <button type="button"
+              class="btn btn-primary mb-lg-2"
               [disabled]="!autoAssociationForm.valid || (autoAssociating$ | async)"
               (click)="handleRunButtonClick()">
-        <span *ngIf="autoAssociating$ | async"><pf-loading-indicator></pf-loading-indicator> Running...</span>
+        <span *ngIf="autoAssociating$ | async">
+          <pf-loading-indicator></pf-loading-indicator> Running...
+        </span>
         <span *ngIf="!(autoAssociating$ | async)">Run</span>
       </button>
 
       <ng-container *ngIf="!(autoAssociating$ | async) && hasAttemptedRun">
-        <div class="alert alert-success" *ngIf="!(autoAssociatingError$ | async)">
-          Jobs have been associated successfully!
+        <div class="alert alert-success"
+             *ngIf="!(autoAssociatingError$ | async)">
+          {{(autoAssociatingCount$ | async )}} job(s) have been associated successfully!
         </div>
-        <div class="alert alert-danger" *ngIf="(autoAssociatingError$ | async)">
+        <div class="alert alert-danger"
+             *ngIf="(autoAssociatingError$ | async)">
           There was an error associating jobs for this company and exchange.
         </div>
       </ng-container>

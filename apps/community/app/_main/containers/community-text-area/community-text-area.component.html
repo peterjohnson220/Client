@@ -4,7 +4,7 @@
         class="overlayTextArea pl-2"
         [innerHtml]="discussionTextArea.value | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
     <textarea  #discussionTextArea
-      class="discussionTextArea pl-2"
+      class="discussionTextArea pl-2 community-border-radius"
       formControlName="context" 
       maxlength="{{maxTextLength}}"
       placeholder="{{textPlaceholder}}"

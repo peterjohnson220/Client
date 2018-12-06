@@ -9,7 +9,7 @@ import { SuccessEvent } from '@progress/kendo-angular-upload';
   styleUrls: ['./marketing-image.component.scss'],
 })
 export class MarketingImageComponent implements OnInit {
-  previewFileUri = '';
+  previewFileUri: any;
   errorMessage = '';
   uploadSaveUrl = '/odata/Marketing.UploadMarketingImage';
   url: string;

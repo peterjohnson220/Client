@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 import { TermsConditionsModel } from '../../../models/terms-conditions';
-import { TermsConditionsSubmissionModel } from '../../../models/terms-conditions/terms-conditions-submission.model';
+import { TermsConditionsSubmissionModel } from '../../../models/terms-conditions';
 
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TermsConditionsApiService {
 
   getAwaitingTC(tcType: string): Observable<TermsConditionsModel> {
     return this.payfactorsApiService.get<TermsConditionsModel>
-    (`${this.endpoint}.GetAwaitingTC`, { params: { tcType: tcType } });
+    (`${this.endpoint}.GetAwaitingTC`, { params: { tcType: tcType } }, (response) => JSON.parse(response.value));
   }
 
   postTermsConditionsResponse(userResponse: TermsConditionsSubmissionModel): Observable<any> {
@@ -28,5 +28,4 @@ export class TermsConditionsApiService {
       }
     );
   }
-
 }
