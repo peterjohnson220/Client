@@ -8,6 +8,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
@@ -79,6 +80,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
@@ -149,6 +151,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
@@ -219,6 +222,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Observable]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
@@ -302,6 +306,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
@@ -372,6 +377,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   guidelinesService={[Function DojGuidelinesStub]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
