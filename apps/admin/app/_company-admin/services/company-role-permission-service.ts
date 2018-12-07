@@ -49,7 +49,7 @@ export class CompanyRolePermissionService {
   setChildPermissions(role: UserAssignedRole, currPermission: CompanyRolePermission) {
     const newRole = JSON.parse(JSON.stringify(role));
     if (currPermission.IsParent ) {
-      newRole.Permissions.filter(value => value.FeatureAreaId === currPermission.FeatureAreaId)
+      newRole.Permissions.filter(value => value.TileId === currPermission.TileId)
         .forEach(value => value.IsChecked = !currPermission.IsChecked);
     } else {
       newRole.Permissions.filter(value => value.Id === currPermission.Id)
