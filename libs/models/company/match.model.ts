@@ -6,15 +6,14 @@ export interface Match {
   JobFamily: string;
   JobLevel: string;
   JobCategory: string;
-  SurveyName: string;
-  SurveyPublisher: string;
-  EffectiveDate: string;
   PayMarket: string;
   ScopeMapping: string[];
   CompanyJobPricingMatchIds: number[];
   FlsaStatus: string;
   ExcludeFromParticipation: boolean;
   IsPayfactorsJob: boolean;
+  Source: string;
+  Type: string,
 }
 
 export function generateMockMatch(): Match {
@@ -26,14 +25,13 @@ export function generateMockMatch(): Match {
     JobFamily: 'MockJobFamily',
     JobLevel: 'MockJobLevel',
     JobCategory: 'MockJobCategory',
-    SurveyName: 'MockSurveyName',
-    SurveyPublisher: 'MockSurveyPublisher',
-    EffectiveDate: '2018-01-01',
     PayMarket: 'MockPayMarket',
     ScopeMapping: ['MockScopeMapping1', 'MockScopeMapping2'],
     CompanyJobPricingMatchIds: [1, 2, 3],
     FlsaStatus: 'MockFlsaStatus',
     ExcludeFromParticipation: false,
-    IsPayfactorsJob: false
+    IsPayfactorsJob: false,
+    Source: 'MockSource',
+    Type: 'MockType'
   };
 }
