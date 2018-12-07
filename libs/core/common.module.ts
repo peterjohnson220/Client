@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
 import { HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
-  HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from './pipes';
+  HighlightHashTagPipe, FormatLinkUrlPipe } from './pipes';
 
 
 const declarations = [
   // Pipes
-  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe, HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe
+  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe, HighlightHashTagPipe, FormatLinkUrlPipe
 ];
 
 @NgModule({

@@ -4,7 +4,7 @@
       (window:resize)="onResize($event)">
       <div #overlayTextArea 
           class="overlayTextArea" 
-          [innerHtml]="discussionTextArea.value | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
+          [innerHtml]="escapeHtml(discussionTextArea.value) | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
       <textarea  #discussionTextArea
         id="discussionTextArea"
         class="discussionTextArea"

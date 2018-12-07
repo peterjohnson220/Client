@@ -9,6 +9,7 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
 import { CommunityTag } from 'libs/models';
+import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-text-area',
@@ -186,5 +187,9 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       });
     });
   }
+
+  escapeHtml(unsafe) {
+    return escapeSpecialHtmlCharacters(unsafe);
+ }
 
 }

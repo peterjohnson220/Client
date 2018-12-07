@@ -24,6 +24,7 @@ import { CommunityPollTypeEnum } from 'libs/models/community/community-constants
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
+import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-posts',
@@ -231,4 +232,5 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
     }
   }
+
 }
