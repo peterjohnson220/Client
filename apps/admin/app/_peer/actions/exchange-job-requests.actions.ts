@@ -27,6 +27,10 @@ export const OPEN_JOB_REQUEST_DENY_MODAL =
   '[Peer Admin/Exchange Job Requests] Open Job Request Deny Modal';
 export const CLOSE_JOB_REQUEST_DENY_MODAL =
   '[Peer Admin/Exchange Job Requests] Close Job Request Deny Modal';
+export const OPEN_JOB_REQUEST_APPROVE_MODAL =
+  '[Peer Admin/Exchange Job Requests] Open Job Request Approve Modal';
+export const CLOSE_JOB_REQUEST_APPROVE_MODAL =
+  '[Peer Admin/Exchange Job Requests] Close Job Request Approve Modal';
 
 export class LoadExchangeJobRequests implements Action {
   readonly  type = LOAD_EXCHANGE_JOB_REQUESTS;
@@ -90,6 +94,14 @@ export class CloseJobRequestDenyModal implements Action {
   readonly type = CLOSE_JOB_REQUEST_DENY_MODAL;
 }
 
+export class OpenJobRequestApproveModal implements Action {
+  readonly type = OPEN_JOB_REQUEST_APPROVE_MODAL;
+}
+
+export class CloseJobRequestApproveModal implements Action {
+  readonly type = CLOSE_JOB_REQUEST_APPROVE_MODAL;
+}
+
 export type Actions
   = LoadExchangeJobRequests
   | LoadExchangeJobRequestsSuccess
@@ -103,4 +115,6 @@ export type Actions
   | OpenJobRequestInfo
   | CloseJobRequestInfo
   | OpenJobRequestDenyModal
-  | CloseJobRequestDenyModal;
+  | CloseJobRequestDenyModal
+  | OpenJobRequestApproveModal
+  | CloseJobRequestApproveModal;

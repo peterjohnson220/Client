@@ -35,11 +35,17 @@ export class ExchangeJobRequestsEffects {
   approveExchangeJobRequest$: Observable<Action> = this.actions$.pipe(
     ofType(fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST),
       map((action: fromExchangeJobRequestsActions.ApproveExchangeJobRequest) => action.payload),
+        withLatestFrom(this.store.pipe(select(fromPeerAdminReducer.getSelectedExchangeJobRequest)),
+          (actionPayload, storePayload) => {
+            return { actionPayload, storePayload };
+          }
+        ),
       switchMap(payload => {
-        return this.exchangeApiService.exchangeJobRequestAction(payload, '', ExchangeRequestActionEnum.Approve).pipe(
+        return this.exchangeApiService.exchangeJobRequestAction(payload.storePayload, payload.actionPayload.reason,
+          payload.actionPayload.peopleToNotify, ExchangeRequestActionEnum.Approve).pipe(
           map(() => {
-            this.gridHelperService.loadExchangeJobRequests(payload.ExchangeId);
-            this.gridHelperService.loadExchangeJobs(payload.ExchangeId);
+            this.gridHelperService.loadExchangeJobRequests(payload.storePayload.ExchangeId);
+            this.gridHelperService.loadExchangeJobs(payload.storePayload.ExchangeId);
             return new fromExchangeJobRequestsActions.ApproveExchangeJobRequestSuccess();
           }),
           catchError( error => of(new fromExchangeJobRequestsActions.ApproveExchangeJobRequestError()))
@@ -57,7 +63,8 @@ export class ExchangeJobRequestsEffects {
           }
         ),
       switchMap(payload => {
-        return this.exchangeApiService.exchangeJobRequestAction(payload.storePayload, payload.actionPayload, ExchangeRequestActionEnum.Deny)
+        return this.exchangeApiService.exchangeJobRequestAction(payload.storePayload, payload.actionPayload,
+          '', ExchangeRequestActionEnum.Deny)
           .pipe(map(() => {
             this.gridHelperService.loadExchangeJobRequests(payload.storePayload.ExchangeId);
             return new fromExchangeJobRequestsActions.DenyExchangeJobRequestSuccess();

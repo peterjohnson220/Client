@@ -68,8 +68,7 @@
   <div *ngIf="jobRequestInfoOpen$ | async" class=" d-flex mt-2 flex-grow-1 job-request-info-container">
     <pf-exchange-job-request-info
       [selectedJobRequest]="selectedJobRequest"
-      (closeClicked)="handleCloseRequestInfo()"
-      (approveClicked)="handleApproveJobRequest($event)">
+      (closeClicked)="handleCloseRequestInfo()">
     </pf-exchange-job-request-info>
   </div>
 
@@ -81,4 +80,13 @@
     (denyClicked)="handleDenyJobRequest($event)"
     (closeClicked)="handleCloseDenyModal()"
   ></pf-deny-request-modal>
+
+  <pf-approve-request-modal
+    [modalTitle]="approveRequestModalTitle"
+    [modalText]="approveModalText"
+    [submittingApproval$]="approvingJobRequest$"
+    [approveRequestModalOpen$]="approveRequestModalOpen$"
+    (approveClicked)="handleApproveJobRequest($event)"
+    (closeClicked)="handleCloseApproveModal()"
+  ></pf-approve-request-modal>
 </div>

@@ -14,3 +14,4 @@ export * from './exchange-access-request-info';
 export * from './company-exchange-invitation-info';
 export * from './exchange-job-request-info';
 export * from './deny-request-modal';
+export * from './approve-request-modal';

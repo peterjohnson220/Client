@@ -464,6 +464,10 @@ export const getExchangeJobRequestDenyModalOpen = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getJobRequestDenyModalOpen
 );
 
+export const getExchangeJobRequestApproveModalOpen = createSelector(
+  selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getJobRequestApproveModalOpen
+);
+
 export const getTotalExchangeJobRequests = createSelector(
   selectExchangeJobRequestsFeatureState, fromExchangeJobRequestsReducer.getTotal
 );

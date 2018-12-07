@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Approve Request Modal modal and text area should match the snapshot 1`] = `
+<pf-approve-request-modal
+  approveClicked={[Function EventEmitter]}
+  approveForm={[Function FormGroup]}
+  closeClicked={[Function EventEmitter]}
+  fb={[Function FormBuilder]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="undefined"
+  >
+    
+    
+    <p />
+    <div
+      class="flex-grow-1 d-flex flex-column form-group mb-0"
+    >
+      <div
+        class="d-flex flex-row"
+      >
+        <div>
+          <input
+            class="ng-untouched ng-pristine ng-invalid"
+            formcontrolname="peopleToNotify"
+            id="NoOne"
+            ng-reflect-form-control-name="peopleToNotify"
+            ng-reflect-name="peopleToNotify"
+            ng-reflect-value="NoOne"
+            type="radio"
+            value="NoOne"
+          />
+          <label
+            class="radio-label"
+            for="NoOne"
+          >
+            No One
+          </label>
+        </div>
+        <div>
+          <input
+            class="ng-untouched ng-pristine ng-invalid"
+            formcontrolname="peopleToNotify"
+            id="RequestorOnly"
+            ng-reflect-form-control-name="peopleToNotify"
+            ng-reflect-name="peopleToNotify"
+            ng-reflect-value="RequestorOnly"
+            type="radio"
+            value="RequestorOnly"
+          />
+          <label
+            class="radio-label"
+            for="RequestorOnly"
+          >
+            Requestor Only
+          </label>
+        </div>
+        <div>
+          <input
+            class="ng-untouched ng-pristine ng-invalid"
+            formcontrolname="peopleToNotify"
+            id="AllExchangeParticipants"
+            ng-reflect-form-control-name="peopleToNotify"
+            ng-reflect-name="peopleToNotify"
+            ng-reflect-value="AllExchangeParticipants"
+            type="radio"
+            value="AllExchangeParticipants"
+          />
+          <label
+            class="radio-label"
+            for="AllExchangeParticipants"
+          >
+            All Exchange Participants
+          </label>
+        </div>
+      </div>
+      <textarea
+        class="form-control text-area-no-resize ng-untouched ng-pristine ng-valid"
+        formcontrolname="reason"
+        id="approve-reason"
+        maxlength="1000"
+        name="reason"
+        ng-reflect-maxlength="1000"
+        ng-reflect-name="reason"
+        placeholder="Please provide a reason for approval... (optional)"
+        rows="5"
+      />
+    </div>
+  </pf-modal-form>
+</pf-approve-request-modal>
+`;

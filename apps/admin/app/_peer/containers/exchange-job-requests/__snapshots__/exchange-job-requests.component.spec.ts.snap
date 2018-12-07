@@ -2,6 +2,9 @@
 
 exports[`Exchange Job Requests should match snapshot 1`] = `
 <pf-exchange-job-requests
+  approveRequestModalOpen$={[Function Store]}
+  approveRequestModalTitle={[Function String]}
+  approvingJobRequest$={[Function Store]}
   denyRequestModalOpen$={[Function Store]}
   denyRequestModalTitle={[Function String]}
   denyingJobRequest$={[Function Store]}
@@ -82,6 +85,7 @@ exports[`Exchange Job Requests should match snapshot 1`] = `
     </div>
     
     <pf-deny-request-modal />
+    <pf-approve-request-modal />
   </div>
 </pf-exchange-job-requests>
 `;

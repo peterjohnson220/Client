@@ -2,9 +2,7 @@
 
 exports[`Exchange Job Request Info should match snapshot 1`] = `
 <pf-exchange-job-request-info
-  approveClicked={[Function EventEmitter]}
   approvingError$={[Function Store]}
-  approvingJobRequest$={[Function Store]}
   closeClicked={[Function EventEmitter]}
   denyingError$={[Function Store]}
   selectedJobRequest={[Function Object]}
@@ -27,11 +25,9 @@ exports[`Exchange Job Request Info should match snapshot 1`] = `
         class="btn btn-sm btn-success action-buttons"
         type="button"
       >
-        
         <span>
            Approve 
         </span>
-        
       </button>
       <button
         class="btn btn-sm btn-danger action-buttons"
