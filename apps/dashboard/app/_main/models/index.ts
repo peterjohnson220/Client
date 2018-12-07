@@ -7,6 +7,7 @@ export * from './tile-preview-chart.model';
 export * from './tile-preview-chart-with-calendar.model';
 export * from './tile-preview-chart-data.model';
 export * from './tile-preview-chart-with-calendar-data.model';
+export * from './tile-preview-chart-with-list-model';
 export * from './tile-preview-chart-type';
 export * from './tile-preview-chart-types';
 export * from './tile-preview-icon.model';

@@ -1,15 +1,15 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { TilePreviewCharWithList } from '../../../models';
 
 @Component({
   selector: 'pf-tile-preview-chart-with-list',
   templateUrl: './tile-preview-chart-with-list.component.html',
   styleUrls: [ './tile-preview-chart-with-list.component.scss' ]
 })
-export class TilePreviewChartWithListComponent implements OnInit {
-  constructor() {
-  }
+export class TilePreviewChartWithListComponent {
 
-  ngOnInit(): void {
-  }
+  @Input() model: TilePreviewCharWithList;
+
 }
 

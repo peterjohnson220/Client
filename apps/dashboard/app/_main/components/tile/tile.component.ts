@@ -8,7 +8,7 @@ import {
   Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType, TileTypes,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
-  generateTilePreviewChartWithCalendarFromTile
+  generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile
 } from '../../models';
 
 
@@ -37,6 +37,8 @@ export class TileComponent implements OnInit {
         return generateTilePreviewListFromTile(tile);
       case TilePreviewTypes.PlaceHolder:
         return generateTilePreviewPlaceHolderFromTile(tile);
+      case TilePreviewTypes.ChartWithList:
+        return generateTilePreviewChartWithListFromTile(tile);
       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,

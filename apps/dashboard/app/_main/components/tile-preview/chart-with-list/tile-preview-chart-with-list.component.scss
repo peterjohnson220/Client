@@ -1,0 +1,26 @@
+@import '_colors';
+
+.column-count-container {
+  color: #264478;
+}
+
+div > a:hover{
+  color:black;
+}
+
+
+div > a {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
+  color: white;
+}
+
+.column-container {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
+  z-index: 2;
+}

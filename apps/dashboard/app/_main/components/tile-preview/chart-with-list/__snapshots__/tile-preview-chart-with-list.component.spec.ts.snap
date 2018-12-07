@@ -1,9 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tile Preview Chart With List should show component 1`] = `
-<pf-tile-preview-chart-with-list>
-  <h2>
-    tile-preview-chart-with-list works!
-  </h2>
+<pf-tile-preview-chart-with-list
+  model={[Function Object]}
+>
+  <div
+    class="row m-1"
+  >
+    <div
+      class="col-6 p-0"
+    >
+      <div
+        class="row m-1"
+      >
+        <div
+          class="col-12"
+        >
+          <strong>
+            
+          </strong>
+        </div>
+      </div>
+      
+    </div>
+    <div
+      class="col-6 p-0"
+    >
+      CHART Here!
+    </div>
+  </div>
 </pf-tile-preview-chart-with-list>
 `;

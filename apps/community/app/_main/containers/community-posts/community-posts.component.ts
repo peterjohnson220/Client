@@ -22,6 +22,7 @@ import { CommunityPost, CommunityPollResponse } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
+import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 
 @Component({
@@ -91,6 +92,12 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       } else if (routeParams.url.indexOf('reply') > -1) {
         const replyId = routeParams[ 'id' ];
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostReplyToFilterOptions(replyId));
+      } else if (routeParams.url.indexOf('tag') > -1) {
+        const tag: Tag = {
+          Id: null,
+          TagName: '#' + routeParams['id']
+        };
+        this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
       } else {
         this.getPosts();
       }

@@ -7,6 +7,7 @@ import spyOn = jest.spyOn;
 import { TilePreviewChartWithListComponent } from './tile-preview-chart-with-list.component';
 import * as fromRootState from 'libs/state/state';
 import * as fromTileGridReducer from '../../../reducers';
+import { generateMockListTile, generateTilePreviewChartWithListFromTile } from '../../../models';
 
 
 describe('Tile Preview Chart With List', () => {
@@ -38,6 +39,8 @@ describe('Tile Preview Chart With List', () => {
   });
 
   it('should show component', () => {
+    const tile = generateMockListTile(true);
+    instance.model = generateTilePreviewChartWithListFromTile(tile);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

@@ -1,1 +1,26 @@
-<h2>tile-preview-chart-with-list works!</h2>
+
+<div class="row m-1">
+  <div class="col-6 p-0">
+    <div class="row m-1">
+     <div class="col-12">
+       <strong>{{ model.TileListTitle }}</strong>
+     </div>
+   </div>
+
+    <ng-container *ngFor="let dataItem of model.TileListData">
+    <div class="row m-1">
+      <div class="col-2 p-0">
+          <span class="fa-layers fa-fw">
+            <i class="fas fa-circle column-count-container"></i>
+            <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-6" style="font-weight:900">{{ dataItem.Count}}</span>
+          </span>
+      </div>
+      <div class="col-10 p-0 column-container" [ngbTooltip]="dataItem.TooltipText">
+        <a href="{{ dataItem.Url }}">{{ dataItem.ColumnName }}</a>
+      </div>
+    </div>
+    </ng-container>
+  </div>
+
+  <div class="col-6 p-0">CHART Here!</div>
+</div>
