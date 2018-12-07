@@ -11,6 +11,7 @@
   [maxBounds]="[[-180, -85], [180, 85]]"
   (moveEnd)="handleMoveEndEvent($event)"
   (load)="handleLoadEvent($event)"
+  (zoomEnd)="handleZoomEnd($event)"
   [ngClass]="{'map-no-data': (peerMapShowNoData$ | async)}"
 >
 

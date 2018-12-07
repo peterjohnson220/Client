@@ -16,6 +16,7 @@ export const CLEAR_MAP_FILTER_BOUNDS = '[Features/Peer/Map] Clear Map Filter Bou
 export const LOAD_ZOOM_PRECISION_DICTIONARY = '[Features/Peer/Map] Load Zoom Precision Dictionary';
 export const LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS = '[Features/Peer/Map] Load Zoom Precision Dictionary Success';
 export const LOAD_ZOOM_PRECISION_DICTIONARY_ERROR = '[Features/Peer/Map] Load Zoom Precision Dictionary Error';
+export const AUTO_ZOOM_COMPLETE = '[Features/Peer/Map] Auto Zoom Complete';
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -87,6 +88,10 @@ export class LoadZoomPrecisionDictionaryError implements Action {
   readonly type = LOAD_ZOOM_PRECISION_DICTIONARY_ERROR;
 }
 
+export class AutoZoomComplete implements Action {
+  readonly type = AUTO_ZOOM_COMPLETE;
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -101,4 +106,5 @@ export type Actions
   | ClearMapFilterBounds
   | LoadZoomPrecisionDictionary
   | LoadZoomPrecisionDictionarySuccess
-  | LoadZoomPrecisionDictionaryError;
+  | LoadZoomPrecisionDictionaryError
+  | AutoZoomComplete;
