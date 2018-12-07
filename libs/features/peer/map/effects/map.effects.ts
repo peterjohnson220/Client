@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
@@ -18,7 +18,7 @@ export class MapEffects {
   loadPeerMap$: Observable<Action> = this.actions$.pipe(
       ofType(fromPeerMapActions.LOAD_PEER_MAP_DATA),
       withLatestFrom(
-          this.peerMapStore.select(fromPeerMapReducers.getExchangeDataCutRequestData),
+          this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
           (action, exchangeDataCutRequestData) => exchangeDataCutRequestData),
       switchMap((payload: ExchangeDataSearchFilter) =>
         this.exchangeDataSearchApiService.getMapData(payload).pipe(

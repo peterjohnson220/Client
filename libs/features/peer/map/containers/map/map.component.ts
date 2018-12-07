@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
@@ -38,21 +38,23 @@ export class MapComponent implements OnInit {
   peerMapInitialMapMoveComplete$: Observable<boolean>;
   peerMapInitialZoomLevel$: Observable<number>;
   peerMapApplyingScope$: Observable<boolean>;
+  peerMapAutoZooming$: Observable<boolean>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
-    this.peerMapSummary$ = this.store.select(fromPeerMapReducer.getPeerMapSummary);
-    this.peerMapFilter$ = this.store.select(fromPeerMapReducer.getPeerMapFilter);
-    this.peerMapLoading$ = this.store.select(fromPeerMapReducer.getPeerMapLoading);
-    this.peerMapLoadingError$ = this.store.select(fromPeerMapReducer.getPeerMapLoadingError);
-    this.peerMapCollection$ = this.store.select(fromPeerMapReducer.getPeerMapCollection);
-    this.peerMapBounds$ = this.store.select(fromPeerMapReducer.getPeerMapBounds);
-    this.canLoadPeerMap$ = this.store.select(fromPeerMapReducer.canLoadPeerMap);
-    this.peerMapShowNoData$ = this.store.select(fromPeerMapReducer.peerMapShowNoData);
-    this.peerMapMaxZoom$ = this.store.select(fromPeerMapReducer.getPeerMapMaxZoom);
-    this.peerMapInitialMapMoveComplete$ = this.store.select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete);
-    this.peerMapInitialZoomLevel$ = this.store.select(fromPeerMapReducer.getPeerMapInitialZoomLevel);
-    this.peerMapCentroid$ = this.store.select(fromPeerMapReducer.getPeerMapCentroid);
-    this.peerMapApplyingScope$ = this.store.select(fromPeerMapReducer.getPeerMapApplyingScope);
+    this.peerMapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
+    this.peerMapFilter$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapFilter));
+    this.peerMapLoading$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapLoading));
+    this.peerMapLoadingError$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapLoadingError));
+    this.peerMapCollection$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapCollection));
+    this.peerMapBounds$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapBounds));
+    this.canLoadPeerMap$ = this.store.pipe(select(fromPeerMapReducer.canLoadPeerMap));
+    this.peerMapShowNoData$ = this.store.pipe(select(fromPeerMapReducer.peerMapShowNoData));
+    this.peerMapMaxZoom$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapMaxZoom));
+    this.peerMapInitialMapMoveComplete$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapInitialMapMoveComplete));
+    this.peerMapInitialZoomLevel$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapInitialZoomLevel));
+    this.peerMapCentroid$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapCentroid));
+    this.peerMapApplyingScope$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapApplyingScope));
+    this.peerMapAutoZooming$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapAutoZooming));
   }
 
   get satelliteStyleEnabledText(): string {
@@ -81,6 +83,14 @@ export class MapComponent implements OnInit {
   }
 
   // Map events
+  handleZoomEnd(e: any) {
+    this.peerMapAutoZooming$.pipe(take(1)).subscribe(az => {
+      if (!!az) {
+        this.store.dispatch(new fromMapActions.AutoZoomComplete);
+      }
+    });
+  }
+
   handleLoadEvent(e: mapboxgl.Map) {
     this.map = e;
     this.store.dispatch(new fromMapActions.MapLoaded());

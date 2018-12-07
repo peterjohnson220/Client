@@ -16,6 +16,7 @@ export interface State {
   isInitialLoad: boolean;
   initialMapMoveComplete: boolean;
   maxZoom: number;
+  autoZooming: boolean;
   initialZoom: number;
   initialMapCentroid: number[];
   applyingScope: boolean;
@@ -41,6 +42,7 @@ export const initialState: State = {
   isInitialLoad: true,
   initialMapMoveComplete: false,
   maxZoom: 7,
+  autoZooming: false,
   initialZoom: 3,
   initialMapCentroid: [-98, 38.88],
   applyingScope: false,
@@ -89,6 +91,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         newState.mapFilter.TopLeft = newTL;
         newState.mapFilter.BottomRight = newBR;
       }
+
       return newState;
     }
     case fromPeerMapActions.LOAD_PEER_MAP_DATA_ERROR: {
@@ -103,7 +106,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         ...state,
         mapFilter: MapHelper.buildMapFilter(state, action.payload),
         initialMapMoveComplete: true,
-        maxZoom: 17
+        autoZooming: true
       };
     }
     case fromPeerMapActions.UPDATE_PEER_MAP_FILTER_BOUNDS: {
@@ -150,7 +153,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
     case fromPeerMapActions.APPLY_SCOPE_CRITERIA_SUCCESS: {
       return {
         ...state,
-        applyingScope: false
+        applyingScope: false,
+        maxZoom: initialState.maxZoom,
+        autoZooming: true
       };
     }
     case fromPeerMapActions.CLEAR_MAP_FILTER_BOUNDS: {
@@ -159,7 +164,9 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         mapFilter: {
           ...initialState.mapFilter
         },
-        isInitialLoad: true
+        isInitialLoad: true,
+        maxZoom: initialState.maxZoom,
+        autoZooming: true
       };
     }
     case fromPeerMapActions.LOAD_ZOOM_PRECISION_DICTIONARY: {
@@ -182,6 +189,14 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         zoomPrecisionDictionaryLoading: false
       };
     }
+    case fromPeerMapActions.AUTO_ZOOM_COMPLETE: {
+      const newState = {...state};
+      if (newState.autoZooming) {
+        newState.maxZoom = 17;
+        newState.autoZooming = false;
+      }
+      return newState;
+    }
     default: {
       return state;
     }
@@ -203,3 +218,4 @@ export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loadi
 export const showNoData = (state: State) => !state.loading && !state.isInitialLoad &&
   (!state.mapCollection || state.mapCollection.features.length === 0);
 export const getApplyingScope = (state: State) => state.applyingScope;
+export const getAutoZooming = (state: State) => state.autoZooming;

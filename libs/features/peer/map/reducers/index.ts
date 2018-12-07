@@ -62,6 +62,7 @@ export const getPeerMapCentroid = createSelector(selectMapState, fromMapReducer.
 export const canLoadPeerMap = createSelector(selectMapState, fromMapReducer.canLoadMap);
 export const peerMapShowNoData = createSelector(selectMapState, fromMapReducer.showNoData);
 export const getPeerMapApplyingScope = createSelector(selectMapState, fromMapReducer.getApplyingScope);
+export const getPeerMapAutoZooming = createSelector(selectMapState, fromMapReducer.getAutoZooming);
 
 // Filter Sidebar Selectors
 export const getFilterAggregateGroupsLoading = createSelector(selectPeerFiltersState, fromFilterSidebarReducer.getLoading);
