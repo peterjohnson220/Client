@@ -6,6 +6,7 @@ export interface UpsertDataCutRequest {
   CompanyJobId: number | null;
   UserSessionId: number | null;
   CompanyPayMarketId: number;
+  IsPayMarketOverride: boolean;
   Filter: ExchangeDataSearchFilter;
   ZoomLevel: number;
   PayMarketName: string;
@@ -18,6 +19,7 @@ export function generateMockUpsertDataCutRequest(): UpsertDataCutRequest {
     CompanyJobId: null,
     UserSessionId: null,
     CompanyPayMarketId: 1,
+    IsPayMarketOverride: false,
     Filter: generateMockExchangeDataSearchFilter(),
     ZoomLevel: 1,
     PayMarketName: 'MockPayMarket',

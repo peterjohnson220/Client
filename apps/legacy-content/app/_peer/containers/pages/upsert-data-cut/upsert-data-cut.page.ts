@@ -37,6 +37,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   companyJobId: number;
   companyPayMarketId: number;
   userSessionId: number;
+  isPayMarketOverride: boolean;
   cutGuid: string;
 
   constructor(
@@ -72,6 +73,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
       DataCutGuid: this.cutGuid,
       CompanyJobId: this.companyJobId,
       CompanyPayMarketId: this.companyPayMarketId,
+      IsPayMarketOverride: this.isPayMarketOverride,
       UserSessionId: this.userSessionId,
       ZoomLevel: this.map ? this.map.getZoomLevel() : 0
     }));
@@ -87,6 +89,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.companyJobId = +queryParamMap.get('companyJobId') || 0;
     this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
     this.userSessionId = +queryParamMap.get('userSessionId') || 0;
+    this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
     this.cutGuid = queryParamMap.get('dataCutGuid') || null;
 
     if (this.cutGuid == null) {
