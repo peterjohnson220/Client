@@ -31,6 +31,9 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
   denyRequestModalTitle = 'Deny Job Request';
   denyRequestModalOpen$: Observable<boolean>;
   denyingJobRequest$: Observable<boolean>;
+  approveRequestModalTitle = 'Approve Job Request';
+  approveRequestModalOpen$: Observable<boolean>;
+  approvingJobRequest$: Observable<boolean>;
 
   selectedJobRequestSubscription: Subscription;
   pageRowIndexSubscription: Subscription;
@@ -48,6 +51,8 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
     this.pageRowIndex$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestPageRowIndex));
     this.denyRequestModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenyModalOpen));
     this.denyingJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenying));
+    this.approveRequestModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApproveModalOpen));
+    this.approvingJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApproving));
     this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
@@ -56,6 +61,14 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
   get denyModalText(): string {
     return 'This action will deny the <strong>' + (this.selectedJobRequest ? this.selectedJobRequest.JobTitle : 'job')
       + '</strong> from being added to the <strong>' + (this.exchange ? this.exchange.ExchangeName : '')
+      + '</strong> exchange.';
+  }
+
+  get approveModalText(): string {
+    return 'Please select who you would like to notify that the <strong>'
+      + (this.selectedJobRequest ? this.selectedJobRequest.JobTitle : '')
+      + '</strong> job has been approved and added to the <strong>'
+      + (this.exchange ? this.exchange.ExchangeName : '')
       + '</strong> exchange.';
   }
 
@@ -75,8 +88,8 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestInfo());
   }
 
-  handleApproveJobRequest(jobRequest: ExchangeJobRequest) {
-    this.store.dispatch(new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(jobRequest));
+  handleApproveJobRequest(approveObj: any) {
+    this.store.dispatch(new fromExchangeJobRequestsActions.ApproveExchangeJobRequest(approveObj));
   }
 
   handleDenyJobRequest(reason: string) {
@@ -85,6 +98,10 @@ export class ExchangeJobRequestsComponent implements OnInit, OnDestroy {
 
   handleCloseDenyModal() {
     this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestDenyModal());
+  }
+
+  handleCloseApproveModal() {
+    this.store.dispatch(new fromExchangeJobRequestsActions.CloseJobRequestApproveModal());
   }
 
   ngOnInit() {

@@ -18,6 +18,7 @@ export interface State extends EntityState<ExchangeJobRequest> {
   selectedJobRequest: ExchangeJobRequest;
   pageRowIndex: number;
   jobRequestDenyModalOpen: boolean;
+  jobRequestApproveModalOpen: boolean;
   total: number;
 }
 
@@ -38,6 +39,7 @@ export const initialState: State = adapter.getInitialState({
   selectedJobRequest: null,
   pageRowIndex: null,
   jobRequestDenyModalOpen: false,
+  jobRequestApproveModalOpen: false,
   total: 0
 });
 
@@ -86,14 +88,16 @@ export function reducer(state, action) {
             approvingError: false,
             jobRequestInfoOpen: false,
             selectedJobRequest: null,
-            pageRowIndex: null
+            pageRowIndex: null,
+            jobRequestApproveModalOpen: false
           };
         }
         case fromExchangeJobRequestsActions.APPROVE_EXCHANGE_JOB_REQUEST_ERROR: {
           return {
             ...featureState,
             approving: false,
-            approvingError: true
+            approvingError: true,
+            jobRequestApproveModalOpen: false
           };
         }
         case fromExchangeJobRequestsActions.DENY_EXCHANGE_JOB_REQUEST: {
@@ -156,6 +160,18 @@ export function reducer(state, action) {
             jobRequestDenyModalOpen: false
           };
         }
+        case fromExchangeJobRequestsActions.OPEN_JOB_REQUEST_APPROVE_MODAL: {
+          return {
+            ...featureState,
+            jobRequestApproveModalOpen: true
+          };
+        }
+        case fromExchangeJobRequestsActions.CLOSE_JOB_REQUEST_APPROVE_MODAL: {
+          return {
+            ...featureState,
+            jobRequestApproveModalOpen: false
+          };
+        }
         default: {
           return featureState;
         }
@@ -175,3 +191,4 @@ export const getJobRequestInfoOpen = (state: State) => state.jobRequestInfoOpen;
 export const getSelectedJobRequest = (state: State) => state.selectedJobRequest;
 export const getPageRowIndex = (state: State) => state.pageRowIndex;
 export const getJobRequestDenyModalOpen = (state: State) => state.jobRequestDenyModalOpen;
+export const getJobRequestApproveModalOpen = (state: State) => state.jobRequestApproveModalOpen;
