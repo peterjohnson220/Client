@@ -14,7 +14,7 @@
     <div class="col right-col text-right">
       <a class="btn btn-primary btn-sm mr-2 " href={{job.Url}} role="button" target="_blank">
         <i class="fas fa-external-link icon pr-1"></i>View</a>
-      <button id="save" type="button" class="btn btn-outline-primary btn-sm ">
+      <button id="save" type="button" class="btn btn-outline-primary btn-sm " *ngIf="showSaveJobButton">
         <i class="far fa-heart icon"></i>
         Save
       </button>

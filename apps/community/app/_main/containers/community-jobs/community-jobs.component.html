@@ -12,7 +12,7 @@
     [hideReloadButton]="true">
 
     <ng-container *ngIf="(communityJobs$ | async)?.length; else noResultsMessage">
-      <div class="row mx-0">
+      <div class="row mx-0" [ngClass]="{ 'pt-3': addPaddingTopToJobsList}">
         <div class="col-8 offset-2">
           <pf-community-job
             *ngFor="let job of communityJobs$ | async; trackBy: trackByJobId;let i = index; let last = last;"

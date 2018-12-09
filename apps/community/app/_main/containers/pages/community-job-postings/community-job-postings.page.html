@@ -6,7 +6,7 @@
 
   <ng-container page-content>
 
-    <div class="search-container">
+    <div class="search-container" *ngIf="showSearchContainer">
       <div class="h-100">
         <div class="row h-100 p-4 vertical-align">
           <div class="col-4 offset-2 input-container h-100">
@@ -20,8 +20,8 @@
         </div>
       </div>
     </div>
-    <div class="search-results-container">
-      <pf-community-jobs></pf-community-jobs>
+    <div [ngClass]="{ 'search-results-container-full-height': !showSearchContainer, 'search-results-container': showSearchContainer }">
+      <pf-community-jobs [addPaddingTopToJobsList]="!showSearchContainer"></pf-community-jobs>
     </div>
   </ng-container>
 
