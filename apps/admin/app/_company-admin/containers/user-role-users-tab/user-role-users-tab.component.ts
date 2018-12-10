@@ -6,7 +6,10 @@ import {Subscription} from 'rxjs';
 import {UserAndRoleModel, UserAssignedRole} from 'libs/models/security';
 
 import {UserRoleTabState} from '../../constants/user-role.constants';
+import {UserRoleService} from '../../services';
 import * as fromUserRoleViewReducer from '../../reducers';
+import * as fromUserRoleUserTabActions from '../../actions/user-role-users-tab.action';
+
 
 @Component({
   selector: 'pf-user-role-users-tab',
@@ -14,44 +17,66 @@ import * as fromUserRoleViewReducer from '../../reducers';
   styleUrls: ['user-role-users-tab.component.scss']
 })
 export class UserRoleUsersTabComponent implements OnDestroy {
-  usersAndRolesSubscription: Subscription;
   usersAndRoles: UserAndRoleModel[];
   usersInSelectedRole: UserAndRoleModel[];
-  usersNotInRole: UserAndRoleModel[];
-  currentRoleSubscription: Subscription;
+  usersNotInCurrentRole: UserAndRoleModel[];
   currentRole: UserAssignedRole;
-  currentUserRoleTabState: UserRoleTabState;
-  currentTabStateSubscription: Subscription;
-  _UserRoleTabState: typeof UserRoleTabState = UserRoleTabState;
+  searchTerm = '';
+  saveButtonText = 'Save';
+  usersInActiveRoleSubscription: Subscription;
+  usersNotInActiveRoleSubscription: Subscription;
+  currentRoleSubscription: Subscription;
+  saveButtonTextSubscription: Subscription;
 
-  constructor(private store: Store<fromUserRoleViewReducer.State>) {
-    this.currentRoleSubscription = this.store.select(fromUserRoleViewReducer.getCurrentUserRole).subscribe(userRole => {
-      this.currentRole = userRole;
-      if (this.usersAndRoles) {
-        this.usersInSelectedRole = this.usersAndRoles.filter(u => {
-          return u.BelongsToRole === true && u.RoleId === this.currentRole.DerivedId && u.RoleType === this.currentRole.RoleType;
-        });
-        this.usersNotInRole = this.usersAndRoles.filter(u => {
-          // TODO: Come up with more explicit logic for Standard User.
-          // RoleType = S, RoleId = 2 is the current identifier, but it doesn't read cleanly
-          return u.BelongsToRole === false || (u.BelongsToRole === true && u.RoleId === 2 && u.RoleType === 'S');
-        });
-      }
+  constructor(private store: Store<fromUserRoleViewReducer.State>, private userRoleService: UserRoleService) {
+    this.usersInActiveRoleSubscription = this.store.select(fromUserRoleViewReducer.getUsersInActiveRole).subscribe(u => {
+      this.usersInSelectedRole = u;
     });
 
-    this.usersAndRolesSubscription = this.store.select(fromUserRoleViewReducer.getUsersAndRoles).subscribe(uar => {
-        this.usersAndRoles = uar;
-      }
-    );
+    this.usersNotInActiveRoleSubscription = this.store.select(fromUserRoleViewReducer.getUsersNotInActiveRole).subscribe(u => {
+      this.usersNotInCurrentRole = u;
+    });
 
-    this.currentTabStateSubscription = this.store.select(fromUserRoleViewReducer.getUserRoleCurrentTabState).subscribe(tabState => {
-      this.currentUserRoleTabState = tabState;
+    this.currentRoleSubscription = this.store.select(fromUserRoleViewReducer.getCurrentUserRole).subscribe(ur => {
+      this.currentRole = ur;
+    });
+
+    this.saveButtonTextSubscription = this.store.select(fromUserRoleViewReducer.getUsersTabSaveButtonText).subscribe(s => {
+      this.saveButtonText = s;
     });
   }
 
   ngOnDestroy() {
-    this.usersAndRolesSubscription.unsubscribe();
+    this.usersInActiveRoleSubscription.unsubscribe();
+    this.usersNotInActiveRoleSubscription.unsubscribe();
     this.currentRoleSubscription.unsubscribe();
-    this.currentTabStateSubscription.unsubscribe();
+    this.saveButtonTextSubscription.unsubscribe();
+  }
+
+  updateSearchFilter(term: string): void {
+    this.searchTerm = term.toLowerCase();
+    this.store.dispatch(new fromUserRoleUserTabActions.FilterUsersCollection(this.searchTerm));
+  }
+
+  addUserToRole(userToBeAdded: UserAndRoleModel): void {
+    this.store.dispatch(new fromUserRoleUserTabActions.AddUserToRole(userToBeAdded));
+  }
+
+  cancelChanges(): void {
+    this.store.dispatch(new fromUserRoleUserTabActions.CancelChanges());
+  }
+
+  saveChanges(): void {
+    const userIdsToSave = this.usersInSelectedRole.filter(u => {
+      return u.Dirty;
+    }).map(u => u.UserId);
+
+    const payload: any = {
+      userIds: userIdsToSave,
+      roleId: this.currentRole.DerivedId,
+      roleType: this.currentRole.RoleType
+    };
+
+    this.store.dispatch(new fromUserRoleUserTabActions.SaveChanges(payload));
   }
 }

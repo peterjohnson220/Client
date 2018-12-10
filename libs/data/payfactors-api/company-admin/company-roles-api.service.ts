@@ -7,7 +7,7 @@ import { UserRoleDto } from '../../../models/admin';
 import {CompanyRolePermission, UserAndRoleModel} from '../../../models/security';
 
 @Injectable()
-export class CompanyAdminApiService {
+export class CompanyRolesApiService {
   private endpoint = 'CompanyRoles';
 
   constructor(
@@ -33,5 +33,10 @@ export class CompanyAdminApiService {
 
   getUsersAndRoles() {
     return this.payfactorsApiService.get<UserAndRoleModel[]>(`${this.endpoint}.GetUsersAndRoles`);
+  }
+
+  assignUsersToRole(userIds: number[], roleId: number, roleType: string) {
+    return this.payfactorsApiService.post<UserAndRoleModel[]>(`${this.endpoint}(${roleId})/Default.AssignUsersToRole`,
+      {userIds: userIds, roleType: roleType});
   }
 }

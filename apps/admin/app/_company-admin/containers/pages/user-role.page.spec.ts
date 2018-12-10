@@ -5,8 +5,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { generateMockUserAssignedRole } from 'libs/models/security';
-import { CompanyAdminApiService } from 'libs/data/payfactors-api/company-admin';
-import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 
@@ -33,7 +31,7 @@ describe('UserRolePageComponent', () => {
         // PF
         PfCommonModule
       ],
-      providers: [UserRoleService, CompanyAdminApiService, PayfactorsApiService],
+      providers: [UserRoleService],
       declarations: [UserRolePageComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -77,7 +75,7 @@ describe('UserRolePageComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(openAddCompanyRoleModal);
   });
 
-  it('should call UpdateCurrentUserRole and dispatch UpdateCurrentUserRole when click role', () => {
+  it('should call UpdateUserTabCurrentUserRole and dispatch UpdateUserTabCurrentUserRole when click role', () => {
     spyOn(userRoleService, 'updateCurrentUserRole');
     const mockUserAssignedRole = generateMockUserAssignedRole();
 

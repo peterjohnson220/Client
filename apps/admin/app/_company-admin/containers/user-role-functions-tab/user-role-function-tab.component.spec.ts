@@ -5,7 +5,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 
 import {getMockUserAssignedRoleWithPermissions} from 'libs/models/security';
-import {CompanyAdminApiService} from 'libs/data/payfactors-api/company-admin';
+import {CompanyRolesApiService} from 'libs/data/payfactors-api/company-admin';
 import {PayfactorsApiService} from 'libs/data/payfactors-api/payfactors-api.service';
 import * as fromRootState from 'libs/state/state';
 
@@ -24,7 +24,7 @@ describe('UserRoleFunctionTabComponent', () => {
           userRoleViewAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
-      providers: [ CompanyRolePermissionService, CompanyAdminApiService, PayfactorsApiService, HttpClient, HttpHandler ],
+      providers: [ CompanyRolePermissionService, CompanyRolesApiService, PayfactorsApiService, HttpClient, HttpHandler ],
       declarations: [UserRoleFunctionTabComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
