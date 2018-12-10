@@ -23,6 +23,10 @@ const routes: Routes = [
     path: 'dashboard/reply/:id',
     component: CommunityDashboardPageComponent
   },
+  {
+    path: 'dashboard/tag/:id',
+    component: CommunityDashboardPageComponent
+  },
   { path: 'job-postings',
     component: CommunityJobPostingsPageComponent
   }
