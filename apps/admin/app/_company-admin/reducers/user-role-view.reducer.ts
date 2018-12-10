@@ -1,4 +1,4 @@
-import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
+import { UserAssignedRole } from 'libs/models/security';
 import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import {SaveButtonText, UserRoleTabState} from '../constants/user-role.constants';
@@ -13,8 +13,6 @@ export interface IUserRoleState {
   AddCompanyRoleModalIsOpen: boolean;
   AddCompanyRoleForm: AddCompanyRoleForm;
   FunctionSaveButtonText: string;
-  UsersAndRoles: UserAndRoleModel[];
-  UsersAndRolesError: string;
 }
 
 export const initialState: IUserRoleState = {
@@ -25,9 +23,7 @@ export const initialState: IUserRoleState = {
   AddCompanyRoleError: undefined,
   AddCompanyRoleModalIsOpen: false,
   AddCompanyRoleForm: null,
-  FunctionSaveButtonText: SaveButtonText.Save,
-  UsersAndRoles: undefined,
-  UsersAndRolesError: undefined
+  FunctionSaveButtonText: SaveButtonText.Save
 };
 
 export function reducer(state = initialState, action: fromUserRoleViewActions.Actions): IUserRoleState {
@@ -100,18 +96,6 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
         FunctionSaveButtonText:  action.payload as string
       };
     }
-    case fromUserRoleViewActions.GET_USERS_AND_ROLES: {
-      return {
-        ...state,
-        UsersAndRolesError: undefined
-      };
-    }
-    case fromUserRoleViewActions.GET_USERS_AND_ROLES_SUCCESS: {
-      return {
-        ...state,
-        UsersAndRoles: action.payload
-      };
-    }
     default: {
       return state;
     }
@@ -126,5 +110,3 @@ export const getAddCompanyRoleModalIsOpen = (state: IUserRoleState) => state.Add
 export const getAddCompanyRoleForm = (state: IUserRoleState) => state.AddCompanyRoleForm;
 export const getAddCompanyRoleError = (state: IUserRoleState) => state.AddCompanyRoleError;
 export const getFunctionSaveButtonText = (state: IUserRoleState) => state.FunctionSaveButtonText;
-export const getUsersAndRoles = (state: IUserRoleState) => state.UsersAndRoles;
-export const getUsersAndRolesError = (state: IUserRoleState) => state.UsersAndRolesError;

@@ -3,16 +3,16 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import {CompanyRolePermission, UserAssignedRole} from 'libs/models/security';
-import {CompanyAdminApiService} from 'libs/data/payfactors-api/company-admin';
+import {CompanyRolesApiService} from 'libs/data/payfactors-api/company-admin';
 
 import * as fromUserRoleViewReducer from '../reducers';
-import * as fromUserRoleViewActions from '../actions';
+import * as fromUserRoleViewActions from '../actions/user-role-view.action';
 import {SaveButtonText} from '../constants/user-role.constants';
 
 @Injectable()
 export class CompanyRolePermissionService {
   constructor(private store: Store<fromUserRoleViewReducer.State>,
-              private companyAdminApi: CompanyAdminApiService) {
+              private companyAdminApi: CompanyRolesApiService) {
   }
 
   getCompanyRolePermissions(role: UserAssignedRole) {
