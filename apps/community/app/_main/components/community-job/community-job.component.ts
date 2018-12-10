@@ -17,6 +17,7 @@ export class CommunityJobComponent {
   @Input() endOfList: boolean;
   @Input() isCurrentUserJob: boolean;
 
+  showSaveJobButton = false;
   get companyLogo() { return environment.companyLogoSource + this.job.CompanyLogo; }
 
   constructor(public store: Store<fromCommunityJobReducer.State>) { }
