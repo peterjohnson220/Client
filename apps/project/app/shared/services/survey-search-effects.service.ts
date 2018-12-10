@@ -49,9 +49,9 @@ export class SurveySearchEffectsService {
                   searchFilters: PayfactorsApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters),
                   keepFilteredOutOptions: l.action.payload.keepFilteredOutOptions
                 }));
-              }
-              if (l.action.payload.searchAggregation) {
-                actions.push(new fromSingledFilterActions.SearchAggregation());
+                if (l.action.payload && l.action.payload.searchAggregation) {
+                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                }
               }
 
               return actions;
