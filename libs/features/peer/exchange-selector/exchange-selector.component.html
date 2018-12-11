@@ -9,7 +9,9 @@
                             textField="Value"
                             valueField="Key"
                             [data]="exchangeOptionsFiltered"
+                            [valuePrimitive]="true"
                             [disabled]="isDisabled"
+                            [allowCustom]="false"
                             [filterable]="true"
                             (filterChange)="onFilterChanged($event)"
                             (selectionChange)="onSelectionChanged($event)">

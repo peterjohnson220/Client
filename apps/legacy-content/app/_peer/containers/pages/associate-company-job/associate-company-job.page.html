@@ -23,7 +23,7 @@
                     </pf-exchange-selector>
                 </div>
             </div>
-            <ng-container *ngIf="exchangeId">
+            <ng-container *ngIf="!nullCheck(exchangeId)">
                 <div class="row">
                     <div class="col">
                         <pf-input-debounce [placeholderText]="'Search for a Job Title...'"
