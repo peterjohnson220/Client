@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Match } from 'libs/models/company';
 
 export const LOADING  = '[Jobs/Matches Modal] Loading Matches';

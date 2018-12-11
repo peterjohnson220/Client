@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
 
 import { Effect, Actions } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
@@ -14,6 +14,7 @@ import { CompanyJobApiService, CompanyJobPricingMatchApiService } from 'libs/dat
 import { Match } from 'libs/models/company';
 
 import * as fromMatchesActions from '../actions/matches.actions';
+
 
 @Injectable()
 export class MatchesEffects {
