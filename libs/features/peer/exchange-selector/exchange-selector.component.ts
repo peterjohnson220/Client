@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
-import { FormBuilder, FormsModule, FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
 
 import { GenericKeyValue } from 'libs/models/common';
+import { isNullOrUndefined } from 'libs/core/functions/';
 
 @Component({
     selector: 'pf-exchange-selector',
@@ -14,8 +15,6 @@ export class ExchangeSelectorComponent implements OnInit {
         this.exchangeOptionsFiltered = data;
         this.allData = data;
     }
-    get data() { return this.allData; }
-
     @Input() isDisabled: boolean;
     @Output() onExchangeSelected = new EventEmitter<number>();
 
@@ -28,18 +27,20 @@ export class ExchangeSelectorComponent implements OnInit {
     constructor() { }
 
     onFilterChanged(value: string) {
-        this.exchangeOptionsFiltered = this.data.filter(co =>
+        this.exchangeOptionsFiltered = this.allData.filter(co =>
             co.Value.toLowerCase().indexOf(value.toLowerCase()) !== -1
         );
-
-        const shouldToggle = (this.exchangeOptionsFiltered.length < 1);
-        this.exchangeList.toggle(shouldToggle);
     }
 
     onSelectionChanged(value: GenericKeyValue<number, string>) {
-        let emitValue = null;
-        if (value) { emitValue = value.Key; }
-        this.onExchangeSelected.emit(emitValue);
+
+        if (!isNullOrUndefined(value)) {
+            this.onExchangeSelected.emit(value.Key);
+        } else {
+            // if we don't actually select anything reset our options
+            this.onExchangeSelected.emit(null);
+            this.exchangeOptionsFiltered = this.allData;
+        }
     }
 
     ngOnInit(): void {

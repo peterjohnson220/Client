@@ -68,9 +68,10 @@ export const getDataCutValidationInfoLoadingError
   = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
 
 // Associate Company Job Selectors
-export const {
-  selectAll: getSearchResultData
-} = fromAssociateCompanyJobReducer.adapter.getSelectors(selectAssociateCompanyJobState);
+export const getExchangeSearchResult = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getExchangeJobs
+);
 
 export const getIsLoading = createSelector(
   selectAssociateCompanyJobState,
@@ -90,5 +91,10 @@ export const getIsAdding = createSelector(
 export const getHasAddingError = createSelector(
   selectAssociateCompanyJobState,
   fromAssociateCompanyJobReducer.getHasAddingError
+);
+
+export const getCompanyJob = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getCompanyJob
 );
 

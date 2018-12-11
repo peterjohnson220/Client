@@ -6,15 +6,13 @@ import { Observable } from 'rxjs';
 import * as lodash from 'lodash';
 
 import * as fromRootState from 'libs/state/state';
-import { GenericKeyValue } from 'libs/models/common';
-import { Job, UserContext, ExchangeJobSearch } from 'libs/models';
-import { CompanyJobApiService, ExchangeApiService } from 'libs/data/payfactors-api/';
+import { Job, UserContext, ExchangeJobSearch, CompanyJobSummary, GenericKeyValue } from 'libs/models';
+import { ExchangeApiService } from 'libs/data/payfactors-api/';
 import { WindowCommunicationService } from 'libs/core/services';
+import { isNullOrUndefined } from 'libs/core/functions';
 
 import * as fromAssociateAction from '../../../actions/associate-company-jobs.actions';
 import * as fromAssociateReducer from '../../../reducers';
-
-
 
 @Component({
     selector: 'pf-associate-exchange-job',
@@ -22,11 +20,13 @@ import * as fromAssociateReducer from '../../../reducers';
     styleUrls: ['./associate-company-job.page.scss']
 })
 export class AssociateCompanyJobComponent implements OnInit {
+
+    nullCheck = isNullOrUndefined;
     companyJobInfo: Job;
     companyJobId: number;
     exchanges: GenericKeyValue<number, string>[];
 
-    exchangeId: number;
+    exchangeId: number = null;
     exchangeJobQuery = '';
     exchangeDescriptionQuery = '';
 
@@ -37,50 +37,56 @@ export class AssociateCompanyJobComponent implements OnInit {
     isAddingAssociation$: Observable<boolean>;
     hasAddingAssociationError$: Observable<boolean>;
     userContext$: Observable<UserContext>;
+    companyJob$: Observable<CompanyJobSummary>;
 
     constructor(
         private route: ActivatedRoute,
-        private companyJobApi: CompanyJobApiService,
         private exchangeApiService: ExchangeApiService,
         private store: Store<fromAssociateReducer.State>,
         private windowCommunicationService: WindowCommunicationService
     ) {
-        this.searchResults$ = this.store.pipe(select(fromAssociateReducer.getSearchResultData));
+        this.searchResults$ = this.store.pipe(select(fromAssociateReducer.getExchangeSearchResult));
         this.isLoading$ = this.store.pipe(select(fromAssociateReducer.getIsLoading));
         this.hasLoadingError$ = this.store.pipe(select(fromAssociateReducer.getHasLoadingError));
         this.isAddingAssociation$ = this.store.pipe(select(fromAssociateReducer.getIsAdding));
         this.hasAddingAssociationError$ = this.store.pipe(select(fromAssociateReducer.getHasAddingError));
         this.userContext$ = store.select(fromRootState.getUserContext);
+        this.companyJob$ = store.select(fromAssociateReducer.getCompanyJob);
     }
 
     ngOnInit(): void {
         const queryParamMap = this.route.snapshot.queryParamMap;
         this.companyJobId = +queryParamMap.get('companyJobId') || 0;
 
-        this.companyJobApi.getCompanyJobWithJDMDescription(this.companyJobId).subscribe(ejm => {
-            this.companyJobInfo = {
-                JobType: 'Company',
-                JobId: ejm.CompanyJobId,
-                JobTitle: ejm.JobTitle,
-                JobCode: ejm.JobCode,
-                JobFamily: ejm.JobFamily,
-                JobLevel: ejm.JobLevel,
-                JobDescription: ejm.JobSummary
-            };
+        this.userContext$.subscribe(userContext => {
+            this.store.dispatch(new fromAssociateAction.LoadCompanyJob(this.companyJobId)),
+                this.exchangeApiService.getExchangeDictionaryForCompany(userContext.CompanyId)
+                    .subscribe(f => {
+                        this.exchanges = f;
+                        this.windowCommunicationService.postMessage(fromAssociateAction.INITIAL_LOAD_SUCCESS);
+                    });
         });
 
-        this.userContext$.subscribe(userContext => {
-            this.exchangeApiService.getExchangeDictionaryForCompany(userContext.CompanyId)
-                .subscribe(f => {
-                    this.exchanges = f;
-                    this.windowCommunicationService.postMessage(fromAssociateAction.INITIAL_LOAD_SUCCESS);
-                });
+        this.companyJob$.subscribe(ejm => {
+            if (ejm != null) {
+                this.companyJobInfo = {
+                    JobType: 'Company',
+                    JobId: ejm.CompanyJobId,
+                    JobTitle: ejm.JobTitle,
+                    JobCode: ejm.JobCode,
+                    JobFamily: ejm.JobFamily,
+                    JobLevel: ejm.JobLevel,
+                    JobDescription: ejm.JobSummary
+                };
+            }
         });
     }
 
     setSelectedKey(exchangeId: number) {
         this.exchangeId = exchangeId;
-        this.searchChanged();
+        if (!isNullOrUndefined(exchangeId)) {
+            this.searchChanged();
+        }
     }
 
     handleSearchDescValueChanged(event: string) {
