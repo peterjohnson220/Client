@@ -1,13 +1,19 @@
+@import '../../libs/features/search/styles/shared-variables';
+
 .page {
   height: 100%;
 }
 
-.actions-container{
-  width: 100%;
-  bottom: 0;
-  height: 30px;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:host ::ng-deep .results {
+  width: 67.5% !important;
+}
+
+:host ::ng-deep .actions-container {
+  width: 67.5% !important;
+}
+
+:host ::ng-deep .paymarkets-container {
+  @extend %position-below-results-header;
+  width: 32.5% !important;
+  right: 0;
 }
