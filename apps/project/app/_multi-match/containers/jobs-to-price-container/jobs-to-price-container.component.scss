@@ -1,5 +1,5 @@
 @import 'legacy-variables';
-@import '../../../shared/styles/shared-variables';
+@import '../../libs/features/search/styles/shared-variables';
 
 :host {
   @extend %position-below-results-header;

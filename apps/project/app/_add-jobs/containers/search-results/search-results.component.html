@@ -9,11 +9,11 @@
     [hideReloadButton]="true"
     [spinnerType]="spinnerType">
     <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
-      <pf-job-result
+      <pf-add-job-result
         *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
         [job]="jobResult"
         (jobClicked)="handleJobSelectionToggle(jobResult)">
-      </pf-job-result>
+      </pf-add-job-result>
     </ng-container>
   </pf-async-container>
 

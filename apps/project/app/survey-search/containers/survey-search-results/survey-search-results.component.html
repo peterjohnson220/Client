@@ -1,0 +1,27 @@
+<pf-search-results [numberOfCurrentResults]="(jobResults$ | async)?.length">
+
+  <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+    <pf-job-result
+      *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
+      [job]="jobResult"
+      [cutsDraggable]="cutsDraggable"
+      [currencyCode]="(projectSearchContext$ | async)?.CurrencyCode"
+      (loadDataCuts)="handleLoadDataCuts($event)"
+      (cutSelected)="handleCutSelectionToggle($event)"
+      (matchesMouseEnter)="handleMatchesMouseEnter($event)"
+      (matchesMouseLeave)="handleMatchesMouseLeave()"
+      [ngClass]="jobResult.IsPayfactors ? 'payfactors-job' : 'non-payfactors-job'">
+    </pf-job-result>
+  </ng-container>
+
+  <ng-template #noResultsMessage>
+    <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">
+      No results. Please change your filter criteria and search again.
+    </div>
+  </ng-template>
+
+
+
+</pf-search-results>
+
+<pf-tooltip-container #tooltipContainer></pf-tooltip-container>

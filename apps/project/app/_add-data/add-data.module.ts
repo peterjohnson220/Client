@@ -7,12 +7,13 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfSearchModule } from 'libs/features/search';
 
 import { AddSurveyDataPageComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataRoutingModule } from './add-data-routing.module';
-import { SharedSurveySearchModule } from '../shared/shared.module';
+import { SharedSurveySearchModule } from '../survey-search/shared.module';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { SharedSurveySearchModule } from '../shared/shared.module';
     // Payfactors
     SharedSurveySearchModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfSearchModule
   ],
   declarations: [
     // Pages

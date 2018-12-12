@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import { DragulaModule } from 'ng2-dragula';
 
-import { generateMockJobMatchCut } from 'libs/models/survey-search';
+import { generateMockJobMatchCut } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 
 import { JobsToPriceContainerComponent } from './jobs-to-price-container.component';

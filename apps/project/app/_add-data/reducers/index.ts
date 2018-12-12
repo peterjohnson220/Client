@@ -5,7 +5,7 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromAddSurveyDataPageReducer from './add-survey-data-page.reducer';
-import { SharedProjectState } from '../../shared/reducers';
+import { SharedProjectState } from '../../survey-search/reducers';
 
 // Feature area state
 export interface AddDataState extends SharedProjectState {

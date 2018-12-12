@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { JobMatchCut } from 'libs/models/survey-search';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 
 import { JobToPrice } from '../../models';
-
 
 @Component({
   selector: 'pf-job-to-price',
@@ -25,8 +24,8 @@ export class JobToPriceComponent implements OnInit {
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
 
-  constructor(
-  ) {  }
+  constructor() {  }
+
   get toggleJobDetailLabel() {
     return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }

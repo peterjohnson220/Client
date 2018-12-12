@@ -8,6 +8,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfSearchModule } from 'libs/features/search';
 
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
@@ -31,6 +32,7 @@ import { JobResultComponent } from './components';
     AddJobsRoutingModule,
 
     // Payfactors
+    PfSearchModule,
     PfCommonUIModule,
     PfFormsModule
   ],

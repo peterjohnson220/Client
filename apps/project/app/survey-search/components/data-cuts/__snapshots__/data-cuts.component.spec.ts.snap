@@ -1,0 +1,1128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Survey Search - Data Cuts should display Scope, Country and Weight 1`] = `
+<pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should display singular drag cuts message if single cut selected 1`] = `
+<pf-data-cuts
+  cutsDraggable="false"
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  numberCutsSelected={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr
+          class="selected"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  1
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should handle empty currency fields 1`] = `
+<pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should have a draggable class if cuts draggable and cut is selected 1`] = `
+<pf-data-cuts
+  cutsDraggable={[Function Boolean]}
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr
+          class="selected draggable"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts draggable and cut is not selected 1`] = `
+<pf-data-cuts
+  cutsDraggable={[Function Boolean]}
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr>
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should not have a draggable class if cuts not draggable and cut is selected 1`] = `
+<pf-data-cuts
+  cutsDraggable="false"
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr
+          class="selected"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message if multiple data cuts selected 1`] = `
+<pf-data-cuts
+  cutsDraggable="false"
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  numberCutsSelected={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr
+          class="selected"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            50.5
+          </td>
+          <td
+            class="text-center"
+          >
+            85.5
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  2
+                </strong>
+                 selected data cut
+                
+                
+                s
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should show a message when there is no data cuts 1`] = `
+<pf-data-cuts
+  currencyCode=""
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    <div
+      class="no-data-cuts-message"
+    >
+       No data cuts available. Please adjust your filters. 
+    </div>
+    
+    
+  </div>
+</pf-data-cuts>
+`;
+
+exports[`Project - Survey Search - Data Cuts should show selected if the data cut has been selected 1`] = `
+<pf-data-cuts
+  dataCutSelected={[Function EventEmitter]}
+  dataCuts={[Function Array]}
+  job={[Function Object]}
+  matchesMouseEnter={[Function EventEmitter]}
+  matchesMouseLeave={[Function EventEmitter]}
+  matchesMouseLeaveTimeout={[Function Number]}
+  payFactorsCutSelected={[Function EventEmitter]}
+>
+  <div
+    class="data-cuts-container"
+  >
+    
+    
+    
+    
+    
+    <table
+      class="data-cuts-table"
+    >
+      <thead>
+        <tr>
+          <th />
+          <th>
+            Scope
+          </th>
+          <th
+            class="text-center"
+          >
+            Country
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Weight
+          </th>
+          <th
+            class="text-center"
+          >
+            Base 50th
+          </th>
+          <th
+            class="text-center"
+          >
+            TCC 50th
+          </th>
+          
+          <th
+            class="text-center"
+          >
+            Matches
+          </th>
+        </tr>
+      </thead>
+      <tbody
+        class="data-cuts-source"
+        dragula="data-cuts-bag"
+      >
+        
+        
+        
+        
+        <tr
+          class="selected"
+        >
+          <td>
+            <input
+              type="checkbox"
+            />
+          </td>
+          <td
+            class="scope-cell"
+          >
+             Metropolitan/Big/Large 
+          </td>
+          <td
+            class="text-center"
+          >
+            USA
+          </td>
+          <td
+            class="text-center"
+          >
+            Incs (8)
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            -
+          </td>
+          <td
+            class="text-center"
+          >
+            
+            <span
+              class="matches"
+            >
+               4 
+            </span>
+          </td>
+          <td
+            class="gu-mirror-show"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="card-block"
+              >
+                Add 
+                <strong>
+                  
+                </strong>
+                 selected data cut
+                
+                 to job...
+              </div>
+            </div>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+    
+  </div>
+</pf-data-cuts>
+`;

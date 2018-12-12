@@ -5,7 +5,6 @@ export * from './dashboard';
 export * from './navigation';
 export * from './paymarket';
 export * from './peer';
-export * from './survey-search';
 export * from './security';
 export * from './service';
 export * from './user';

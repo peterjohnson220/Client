@@ -1,0 +1,204 @@
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+
+import { MultiSelectFilter } from '../models';
+
+// Import root app reducer
+import * as fromRoot from 'libs/state/state';
+
+// Import feature reducers
+import * as fromSearchFiltersReducer from './search-filters.reducer';
+import * as fromSingledFilterReducer from './singled-filter.reducer';
+import * as fromSavedFiltersReducer from './saved-filters.reducer';
+import * as fromSearchResultsReducer from './search-results.reducer';
+import * as fromSearchPageReducer from './search-page.reducer';
+
+// Feature area state
+export interface SearchFeatureState {
+  searchFilters: fromSearchFiltersReducer.State;
+  singledFilter: fromSingledFilterReducer.State;
+  savedFilters: fromSavedFiltersReducer.State;
+  searchResults: fromSearchResultsReducer.State;
+  searchPage: fromSearchPageReducer.State;
+}
+
+// Extend root state with feature area state
+export interface State extends fromRoot.State {
+  feature_search: SearchFeatureState;
+}
+
+// Feature area reducers
+export const reducers = {
+  searchFilters: fromSearchFiltersReducer.reducer,
+  singledFilter: fromSingledFilterReducer.reducer,
+  savedFilters: fromSavedFiltersReducer.reducer,
+  searchResults: fromSearchResultsReducer.reducer,
+  searchPage: fromSearchPageReducer.reducer
+};
+
+// Select Feature Area
+export const selectFeatureAreaState = createFeatureSelector<SearchFeatureState>('feature_search');
+
+// Feature Selectors
+export const selectSearchFiltersState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.searchFilters
+);
+
+export const selectSingledFilterState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.singledFilter
+);
+
+export const selectSavedFiltersState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.savedFilters
+);
+
+export const selectSearchResultsState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.searchResults
+);
+
+export const selectSearchPageState = createSelector(
+  selectFeatureAreaState,
+  (state: SearchFeatureState) => state.searchPage
+);
+
+// Search Filters Selectors
+export const getFilters = createSelector(
+  selectSearchFiltersState,
+  fromSearchFiltersReducer.getFilters
+);
+
+// Singled Filter Selectors
+export const getSingledFilter = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getFilter
+);
+
+export const getLoadingOptions = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getLoadingOptions
+);
+
+export const getLoadingOptionsError = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getLoadingOptionsError
+);
+
+export const getSingledFilterSearchValue = createSelector(
+  selectSingledFilterState,
+  fromSingledFilterReducer.getSearchValue
+);
+
+// Saved Filters Selectors
+export const getLoadingSavedFilters = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getLoadingSavedFilters
+);
+
+export const getSavedFilters = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavedFilters
+);
+
+export const getSavingFilter = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavingFilter
+);
+
+export const getDeletingSavedFilter = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getDeletingSavedFilter
+);
+
+export const getFilterIdToDelete = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getFilterIdToDelete
+);
+
+export const getSavingFilterConflict = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavingFilterConflict
+);
+
+export const getSavingFilterError = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavingFilterError
+);
+
+export const getSaveFilterModalOpen = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSaveFilterModalOpen
+);
+
+export const getFilterDataToEdit = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getFilterDataToEdit
+);
+
+export const getSavedFiltersPopoverOpen = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSavedFiltersPopoverOpen
+);
+
+export const getDefaultFilterId = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getDefaultFilterId
+);
+
+export const getFilterIdToSelect = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getFilterIdToSelect
+);
+
+export const getSelectedSavedFilter = createSelector(
+  selectSavedFiltersState,
+  fromSavedFiltersReducer.getSelectedSavedFilter
+);
+
+export const getSingledFilterSelectionCount = createSelector(
+  getSingledFilter,
+  getFilters,
+  (singledFilter, filters) => {
+    const backingFilter = <MultiSelectFilter>filters.find(f => f.Id === singledFilter.Id);
+    return !! backingFilter ? backingFilter.Options.filter(o => o.Selected).length : 0;
+  }
+);
+
+// Search Results
+export const getLoadingResults = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getLoadingResults
+);
+
+export const getLoadingMoreResults = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getLoadingMoreResults
+);
+
+export const getResultsPagingOptions = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getPagingOptions
+);
+
+export const getNumberOfResultsOnServer = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getNumberOfResultsOnServer
+);
+
+export const getSearchResultsError = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getError
+);
+
+// Search Page
+export const getSearchingFilter = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getSearchingFilter
+);
+
+export const getPageShown = createSelector(
+  selectSearchPageState,
+  fromSearchPageReducer.getPageShown
+);

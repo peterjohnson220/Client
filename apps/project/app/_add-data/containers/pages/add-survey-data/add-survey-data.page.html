@@ -1,8 +1,9 @@
-<pf-survey-search-layout [resultsCount]="numberOfResults$ | async">
+<pf-search-layout [resultsCount]="numberOfResults$ | async">
 
   <ng-container sidebar>
 
     <pf-search-filters
+      [defaultFocusedFilterId]="'jobTitleCode'"
       [visible]="!(searchingFilter$ | async)">
     </pf-search-filters>
 
@@ -15,7 +16,7 @@
   <ng-container content>
 
     <pf-results-header *ngIf="pageShown$ | async"></pf-results-header>
-    <pf-search-results [cutsDraggable]="false"></pf-search-results>
+    <pf-survey-search-results [cutsDraggable]="false"></pf-survey-search-results>
 
   </ng-container>
 
@@ -40,7 +41,7 @@
 
   </ng-container>
 
-</pf-survey-search-layout>
+</pf-search-layout>
 
 <ng-template #addingData>
   Adding...

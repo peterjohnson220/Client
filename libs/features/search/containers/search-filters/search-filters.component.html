@@ -1,0 +1,49 @@
+<div [style.display]="visible ? 'block' : 'none'">
+  <div class="filters">
+    <pf-filter-section
+      *ngFor="let filter of (filters$ | async); trackBy: trackByFilterId"
+      [filter]="filter"
+      [ngSwitch]="filter.Type"
+      (clear)="handleClearSection($event)"
+      (search)="handleSearchSection($event)"
+      (showMore)="handleSectionShowMore($event)">
+
+      <!--Text Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Text">
+        <div class="px-2">
+          <pf-input-debounce
+            [id]="filter.Id"
+            [hideClearBtn]="true"
+            [placeholderText]="''"
+            [maxLength]="255"
+            [ngModel]="filter.Value"
+            (valueChanged)="handleValueChanged(filter.Id, $event)"
+            [focus]="shouldFocus(filter)"
+            [showing]="pageShown$ | async"
+            [automationClassName]="'au-txt-'+filter.CssClassName">
+          </pf-input-debounce>
+        </div>
+      </ng-container>
+
+      <!--Multi Select Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Multi">
+        <pf-multi-select-filter
+          [filter]="filter"
+          (optionSelected)="handleMultiSelectOptionSelected($event)">
+        </pf-multi-select-filter>
+      </ng-container>
+
+      <!--Range Filters-->
+      <ng-container *ngSwitchCase="filterTypes.Range">
+        <pf-range-filter
+          [filter]="filter"
+          [manualRefreshOnChange]="!(filterSearchVisible$ | async)"
+          (rangeChange)="handleRangeChange($event)">
+        </pf-range-filter>
+      </ng-container>
+
+    </pf-filter-section>
+  </div>
+</div>
+
+
