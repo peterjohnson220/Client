@@ -8,7 +8,6 @@ div > a:hover{
   color:black;
 }
 
-
 div > a {
   overflow:hidden;
   text-overflow: ellipsis;
@@ -23,4 +22,42 @@ div > a {
   white-space: nowrap;
   display: inline;
   z-index: 2;
+}
+
+kendo-chart {
+  height: 50%;
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
+
+.tile-container
+{
+  height: 100%;
+  width: 100%;
+}
+
+.tile-text {
+  display: inline-block;
+  color: #FFFFFF;
+  font-size: 11px;
+  line-height: 12px;
+  max-height: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-respond 
+{
+  background-color: $community-preview-tile-chart-color;
+  border-color:  $community-preview-tile-chart-color;
+  display: block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  z-index: 2;
+  font-size: .9rem;
 }
