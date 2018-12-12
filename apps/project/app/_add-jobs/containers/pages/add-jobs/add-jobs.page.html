@@ -16,6 +16,7 @@
 
     <pf-results-header [savedFiltersEnabled]="false"></pf-results-header>
     <pf-job-search-results></pf-job-search-results>
+    <pf-paymarkets></pf-paymarkets>
 
   </ng-container>
 
@@ -23,7 +24,7 @@
 
     <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
             [attr.data-qa-id]="'btn-addJobs'"
-            [disabled]="!(selectedJobIds$ | async)?.length">
+            [disabled]="!(selectedJobIds$ | async)?.length || !(selectedPaymarkets$ | async)?.length">
       Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
     </button>
 

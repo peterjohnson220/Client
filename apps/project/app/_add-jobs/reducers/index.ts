@@ -6,11 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromAddJobsPageReducer from './add-jobs-page.reducer';
 import * as fromSearchResultsReducer from './search-results.reducer';
+import * as fromPaymarketsReducer from './paymarkets.reducer';
 
 // Feature area state
 export interface AddJobsState {
   addJobsPage: fromAddJobsPageReducer.State;
   searchResults: fromSearchResultsReducer.State;
+  paymarkets: fromPaymarketsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -21,7 +23,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   addJobsPage: fromAddJobsPageReducer.reducer,
-  searchResults: fromSearchResultsReducer.reducer
+  searchResults: fromSearchResultsReducer.reducer,
+  paymarkets: fromPaymarketsReducer.reducer
 };
 
 // Select Feature Area
@@ -36,6 +39,11 @@ export const selectAddJobsPageState = createSelector(
 export const selectSearchResultsState = createSelector(
   selectFeatureAreaState,
   (state: AddJobsState) => state.searchResults
+);
+
+export const selectPaymarketsState = createSelector(
+  selectFeatureAreaState,
+  (state: AddJobsState) => state.paymarkets
 );
 
 // Add Jobs Page
@@ -53,4 +61,41 @@ export const getJobs = createSelector(
 export const getSelectedJobIds = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedJobIds
+);
+
+// Paymarkets Selectors
+export const getPaymarkets = createSelector(
+  selectPaymarketsState,
+  fromPaymarketsReducer.getPaymarkets
+);
+
+export const getSelectedPaymarkets = createSelector(
+  getPaymarkets, paymarkets => {
+    return paymarkets.filter(x => x.IsSelected).map(p => p.CompanyPayMarketId);
+  }
+);
+
+export const getVisiblePaymarkets = createSelector(
+  getPaymarkets, paymarkets => {
+    return paymarkets.filter(x => !x.IsHidden);
+  }
+);
+
+export const getDefaultPaymarket = createSelector(
+  selectPaymarketsState,
+  fromPaymarketsReducer.getDefaultPaymarket
+);
+
+export const getLoadingPaymarkets = createSelector(
+  selectPaymarketsState,
+  fromPaymarketsReducer.getLoadingPaymarkets
+);
+
+export const getLoadingPaymarketsError = createSelector(
+  selectPaymarketsState,
+  fromPaymarketsReducer.getLoadingPaymarketsError
+);
+export const getSearchTerm = createSelector(
+  selectPaymarketsState,
+  fromPaymarketsReducer.getSearchTerm
 );
