@@ -1,12 +1,12 @@
 <div class="mapping-info-container ">
-    <div class="row">
-        <div class="col-6">
+    <div class="row h-100">
+        <div class="col-6 div-border-right ">
             <div class="row">
                 <div class="col">
                     <h5> Associate a Company Job to an Exchange Job</h5>
                 </div>
             </div>
-            <div class="row">
+            <div class="row company-job-info-row">
                 <div class="col"
                      style="padding-top:10px">
                     <pf-job-info-container *ngIf="companyJobInfo"
@@ -43,7 +43,7 @@
                         </pf-input-debounce>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mapping-results-row">
                     <div class="col">
                         <div class="mapping-results-container">
                             <pf-async-container [loading]="(isAddingAssociation$ | async) || (isLoading$ | async)"
