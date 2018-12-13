@@ -46,47 +46,15 @@ export function reducer(state = initialState, action: fromSearchFiltersActions.A
     }
     case fromSearchFiltersActions.APPLY_SAVED_FILTERS: {
       const filtersCopy = cloneDeep(state.filters);
-      let savedFilters = cloneDeep(action.payload);
-
-      // TODO [BC]: Move this logic out into a helper
-      // Start with just text filters
-      const newFilters = filtersCopy.filter(f => f.Type === FilterType.Text);
-
-      // Keep any locked filters
-      filtersCopy.filter(f => f.Locked).map(f => newFilters.push(f));
-
-      // When we have non text filters that have system applied defaults override them only when they are present in the saved
-      // filter. Otherwise re-apply all the defaults.
-      const nonTextFiltersWithDefaults = filtersCopy.filter(f => f.Type !== FilterType.Text && FiltersHelper.hasDefault(f));
-      nonTextFiltersWithDefaults.map(df => {
-        const hasSavedFilter = savedFilters.some(sf => sf.Id === df.Id);
-
-        if (hasSavedFilter) {
-          const matchedSavedFilter = savedFilters.find(sf => sf.Id === df.Id);
-          df.Options.map(o => o.Selected = matchedSavedFilter.Options.some(msf => isEqual(msf.Value, o.Value)));
-          savedFilters = savedFilters.filter(sf => sf.Id !== df.Id);
-        } else {
-          FiltersHelper.applyDefault(df);
-        }
-
-        newFilters.push(df);
-      });
+      const savedFilters = cloneDeep(action.payload);
+      const newFilters = FiltersHelper.getNonSavedFilters(filtersCopy);
 
       // Add saved filters
       savedFilters.map(sf => {
-        // Handle range filters. Need to set the selections from the save min and max values.
-        if (isRangeFilter(sf)) {
-          sf.SelectedMinValue = sf.MinimumValue;
-          sf.SelectedMaxValue = sf.MaximumValue;
-          sf.MinimumValue = null;
-          sf.MaximumValue = null;
-        }
-
         const matchedFilter = filtersCopy.find(f => sf.Id === f.Id);
         if (!(matchedFilter && matchedFilter.Locked)) {
           newFilters.push(sf);
         }
-
       });
 
       return {

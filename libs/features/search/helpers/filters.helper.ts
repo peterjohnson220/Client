@@ -115,5 +115,12 @@ export class FiltersHelper {
 
     return filters;
   }
+
+  static getNonSavedFilters(filters: Filter[]): Filter[] {
+    return filters.filter(f =>
+      isTextFilter(f) ||
+      f.Locked ||
+      (!isRangeFilter(f) && f.SaveDisabled));
+  }
 }
 
