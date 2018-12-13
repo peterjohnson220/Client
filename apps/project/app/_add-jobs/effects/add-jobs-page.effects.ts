@@ -2,29 +2,29 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { tap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
-import { WindowCommunicationService } from 'libs/core/services';
+import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
 import * as fromAddJobsPageActions from '../actions/add-jobs.page.actions';
-import * as fromAddJobsReducer from '../reducers';
 
+import * as fromAddJobsReducer from '../reducers';
 
 @Injectable()
 export class AddJobsPageEffects {
 
-  @Effect({dispatch: false})
-  closeSurveySearch$ = this.actions$
-    .ofType(fromAddJobsPageActions.CLOSE_JOBS_SEARCH)
+  @Effect()
+  setContext = this.actions$
+    .ofType(fromAddJobsPageActions.SET_CONTEXT)
     .pipe(
-      tap((action: fromAddJobsPageActions.CloseJobsSearch) => {
-        this.windowCommunicationService.postMessage(action.type);
-      })
-    );
+      mergeMap(() =>
+        [ new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }), new fromSearchPageActions.ShowPage() ]
+      ));
 
-    constructor(
-      private actions$: Actions,
-      private store: Store<fromAddJobsReducer.State>,
-      private windowCommunicationService: WindowCommunicationService
-  ) {}
+  constructor(
+    private actions$: Actions,
+    private store: Store<fromAddJobsReducer.State>
+  ) {
+  }
 }

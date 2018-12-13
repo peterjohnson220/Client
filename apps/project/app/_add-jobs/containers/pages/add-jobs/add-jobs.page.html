@@ -1,14 +1,18 @@
-<pf-search-layout [resultsCount]="0">
+<pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="numberOfResults$ | async">
 
   <ng-container sidebar>
 
-   Hi I am a sidebar
+    <pf-search-filters
+      [defaultFocusedFilterId]="'jobTitleCode'"
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
 
   </ng-container>
 
   <ng-container content>
 
-   Hi I am content
+    <pf-results-header [savedFiltersEnabled]="false"></pf-results-header>
+    <pf-job-search-results></pf-job-search-results>
 
   </ng-container>
 

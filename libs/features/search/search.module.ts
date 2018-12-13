@@ -18,7 +18,7 @@ import { SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent, 
 SearchResultsComponent } from './containers';
 import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
-import { SearchFiltersEffects } from './effects';
+import { SearchFiltersEffects, SearchPageEffects } from './effects';
 import { SearchEffectsService } from './services';
 
 const declarations = [
@@ -42,7 +42,7 @@ const declarations = [
 
     // 3rd Party
     StoreModule.forFeature('feature_search', reducers),
-    EffectsModule.forFeature([SearchFiltersEffects]),
+    EffectsModule.forFeature([SearchFiltersEffects, SearchPageEffects]),
     PerfectScrollbarModule,
     Ng5SliderModule,
     InfiniteScrollModule,

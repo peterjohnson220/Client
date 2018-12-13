@@ -16,7 +16,7 @@ import { JobResultComponent, DataCutsComponent, MatchesDetailsTooltipComponent }
 import { TooltipContainerComponent, SurveySearchResultsComponent } from './containers';
 import { SurveySearchFilterMappingDataObj } from './data';
 import { SurveySearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
-TooltipContainerEffects, SavedFiltersEffects, SearchPageEffects, ContextEffects } from './effects';
+TooltipContainerEffects, SavedFiltersEffects, ContextEffects } from './effects';
 import { reducers } from './reducers';
 import { SurveySearchEffectsService } from './services';
 import { PayfactorsSurveySearchApiHelper } from './helpers';
@@ -36,7 +36,7 @@ const components = [
     // 3rd Party
     StoreModule.forFeature('project_surveySearch', reducers),
     EffectsModule.forFeature([SurveySearchFiltersEffects, SearchResultsEffects,
-      TooltipContainerEffects, SingledFilterEffects, SavedFiltersEffects, SearchPageEffects, ContextEffects
+      TooltipContainerEffects, SingledFilterEffects, SavedFiltersEffects, ContextEffects
     ]),
     NgbTooltipModule,
     DragulaModule.forRoot(),
@@ -54,4 +54,4 @@ const components = [
     { provide: SearchFilterMappingDataObj, useValue: SurveySearchFilterMappingDataObj }
   ]
 })
-export class SharedSurveySearchModule { }
+export class SurveySearchModule { }

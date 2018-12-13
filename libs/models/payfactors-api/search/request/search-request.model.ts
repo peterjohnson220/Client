@@ -10,7 +10,7 @@ export interface PagingOptions {
   Count: number;
 }
 
-interface FilterOptions {
+export interface FilterOptions {
   ReturnFilters: boolean;
   AggregateCount: number;
 }
@@ -18,12 +18,9 @@ interface FilterOptions {
 export interface BaseSearchRequest {
   SearchFields: SearchField[];
   Filters: SearchFilter[];
-  CountryCode: string;
-  CurrencyCode: string;
-  ProjectId: number;
 }
 
-export interface SearchRequest extends BaseSearchRequest {
-  PagingOptions: PagingOptions;
-  FilterOptions: FilterOptions;
+export interface BaseProjectSearchRequest extends BaseSearchRequest {
+  CountryCode: string;
+  ProjectId: number;
 }

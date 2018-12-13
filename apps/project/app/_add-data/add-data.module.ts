@@ -13,7 +13,7 @@ import { AddSurveyDataPageComponent } from './containers';
 import { AddSurveyDataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { AddDataRoutingModule } from './add-data-routing.module';
-import { SharedSurveySearchModule } from '../survey-search/shared.module';
+import { SurveySearchModule } from '../survey-search/survey-search.module';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { SharedSurveySearchModule } from '../survey-search/shared.module';
     AddDataRoutingModule,
 
     // Payfactors
-    SharedSurveySearchModule,
+    SurveySearchModule,
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule

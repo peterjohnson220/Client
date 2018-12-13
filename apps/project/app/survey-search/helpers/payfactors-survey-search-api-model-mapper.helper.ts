@@ -1,4 +1,4 @@
-import { DataCut, PagingOptions, SurveyDataCutResponse, SurveyJob } from 'libs/models/payfactors-api/survey-search';
+import { DataCut, PagingOptions, SurveyDataCutResponse, SurveyJob } from 'libs/models/payfactors-api';
 import { ResultsPagingOptions } from 'libs/features/search/models';
 
 import { JobResult, SurveyDataCut } from '../models';
@@ -52,16 +52,6 @@ export class PayfactorsSurveySearchApiModelMapper {
         IsSelected: this.isCutSelected(dc, selectedDataCuts)
       };
     });
-  }
-
-  ///
-  /// OUT
-  ///
-  static mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: ResultsPagingOptions): PagingOptions {
-    return {
-      From: resultsPagingOptions.pageSize * (resultsPagingOptions.page - 1),
-      Count: resultsPagingOptions.pageSize
-    };
   }
 
   ///

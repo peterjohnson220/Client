@@ -5,8 +5,8 @@ import { Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, switchMap, withLatestFrom, map } from 'rxjs/operators';
 
-import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SearchResponse, PricingMatchesRequest, PricingMatchesResponse } from 'libs/models/payfactors-api';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import {
   SearchFilter,
-  SearchRequest,
   SurveyDataFilterRequest,
   SurveyDataResponse,
   AddSurveyDataCutRequest,
@@ -18,10 +17,11 @@ import {
   MatchedSurveyJob,
   JobMatchCutsRequest,
   JobMatchCutsResponse,
-  UpdateUserJobMatchesRequest
+  UpdateUserJobMatchesRequest,
+  SurveySearchRequest
 } from 'libs/models/payfactors-api';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
+import { PayfactorsApiService } from '../../payfactors-api.service';
 
 @Injectable()
 export class SurveySearchApiService {
@@ -37,7 +37,7 @@ export class SurveySearchApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/GetProjectSearchContext`, { params: { projectId } });
   }
 
-  searchSurveyJobs(searchRequest: SearchRequest): Observable<any> {
+  searchSurveyJobs(searchRequest: SurveySearchRequest): Observable<any> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchSurveyJobs`, searchRequest);
   }
 

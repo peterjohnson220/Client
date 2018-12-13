@@ -5,7 +5,7 @@ export function toggleJobSelection(jobs: JobResult[], selectedJob: JobResult): v
   matchingJob.IsSelected = !matchingJob.IsSelected;
 }
 
-export function updateSelectedJobIds(selectedJobIds: number[], selectedJob: JobResult): number[] {
+export function updateSelectedJobIds(selectedJobIds: string[], selectedJob: JobResult): string[] {
   const matchingJobId = selectedJobIds.find(id => id === selectedJob.Id);
   if (!!matchingJobId) {
     return selectedJobIds.filter(id => id !== matchingJobId);

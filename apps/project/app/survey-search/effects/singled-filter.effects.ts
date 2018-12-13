@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
-import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/payfactors-api/survey-search';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
+import { SearchFilter, SearchSurveyAggregationsRequest } from 'libs/models/payfactors-api';
 import { PayfactorsSearchApiModelMapper, PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
 import { MultiSelectFilter } from 'libs/features/search/models';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
