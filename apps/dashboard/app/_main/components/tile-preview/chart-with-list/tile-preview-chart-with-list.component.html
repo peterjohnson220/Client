@@ -46,12 +46,12 @@
           </kendo-chart-series-item-tooltip>      
       </kendo-chart-series-item>
     </kendo-chart-series>
-
     </kendo-chart>
-  
-    <span class="tile-text text-center my-2 p-1">{{model.TileChartTitle}}</span>
+    
+    <span class="col-12 tile-text text-center m-0 p-0">
+        <a class='pollLink' href="{{model.PostUrl}}"> {{model.TileChartTitle}}</a>
+    </span>
     <button  *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1">Answer Poll</button>
   </div>
-
 </div>
 
