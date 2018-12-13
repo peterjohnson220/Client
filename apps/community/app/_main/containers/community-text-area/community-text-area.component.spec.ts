@@ -11,6 +11,7 @@ import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
 
 import { CommunityTextAreaComponent } from './community-text-area.component';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
+import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 describe('CommunityTextAreaComponent', () => {
   let fixture: ComponentFixture<CommunityTextAreaComponent>;
