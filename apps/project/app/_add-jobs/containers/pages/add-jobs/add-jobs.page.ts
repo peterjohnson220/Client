@@ -1,30 +1,45 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import { SearchBase } from 'libs/features/search/containers/search-base';
+import * as fromSearchReducer from 'libs/features/search/reducers';
+
+import * as fromAddJobsPageActions from '../../../actions/add-jobs.page.actions';
+import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromAddJobsReducer from '../../../reducers';
-import * as fromJobsPageActionsfrom from '../../../actions/add-jobs.page.actions';
+
+import { staticFilters } from '../../../data';
 
 @Component({
   selector: 'pf-add-jobs-page',
   templateUrl: './add-jobs.page.html',
   styleUrls: ['./add-jobs.page.scss']
 })
-export class AddJobsPageComponent  {
-
-  selectedJobIds$: Observable<number[]>;
+export class AddJobsPageComponent extends SearchBase {
+  selectedJobIds$: Observable<string[]>;
+  searchingFilter$: Observable<boolean>;
+  numberOfResults$: Observable<number>;
+  pageShown$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromAddJobsReducer.State>,
+    store: Store<fromSearchReducer.State>,
   ) {
+    super(store);
     this.selectedJobIds$ = this.store.select(fromAddJobsReducer.getSelectedJobIds);
+    this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
+    this.numberOfResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
+    this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
   }
 
-  // Event Handling
-  handleCancelClicked() {
-    this.store.dispatch(new fromJobsPageActionsfrom.CloseJobsSearch());
+  onSetContext(payload: any): void {
+    this.store.dispatch(new fromAddJobsPageActions.SetContext(payload));
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
   }
 
-
+  onResetApp(): void {
+    this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+  }
 }

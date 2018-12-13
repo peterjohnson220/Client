@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,8 @@ import * as fromSearchReducer from '../../reducers';
   styleUrls: ['./results-header.component.scss']
 })
 export class ResultsHeaderComponent implements OnInit, OnDestroy {
+  @Input() savedFiltersEnabled = true;
+
   filters$: Observable<Filter[]>;
   savedFilters$: Observable<SavedFilter[]>;
   filtersSub: Subscription;

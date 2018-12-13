@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 
-export const CLOSE_JOBS_SEARCH = '[Project Add Jobs/Add Jobs Page] Close Add Jobs';
+export const SET_CONTEXT = '[Project Add Jobs/Add Jobs Page] Set Context';
 
-export class CloseJobsSearch implements Action {
-  readonly type = CLOSE_JOBS_SEARCH;
+export class SetContext implements Action {
+  readonly type = SET_CONTEXT;
 
-  constructor() {}
+  constructor(public payload: { PayMarketId: number, ProjectId: number}) {}
 }
 
 export type Actions
-  = CloseJobsSearch;
+  = SetContext;

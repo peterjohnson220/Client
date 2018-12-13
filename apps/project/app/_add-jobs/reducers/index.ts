@@ -20,7 +20,7 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  addSurveyDataPage: fromAddJobsPageReducer.reducer,
+  addJobsPage: fromAddJobsPageReducer.reducer,
   searchResults: fromSearchResultsReducer.reducer
 };
 
@@ -38,6 +38,12 @@ export const selectSearchResultsState = createSelector(
   (state: AddJobsState) => state.searchResults
 );
 
+// Add Jobs Page
+export const getContext = createSelector(
+  selectAddJobsPageState,
+  fromAddJobsPageReducer.getContext
+);
+
 // Search Results Selectors
 export const getJobs = createSelector(
   selectSearchResultsState,
@@ -47,14 +53,4 @@ export const getJobs = createSelector(
 export const getSelectedJobIds = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedJobIds
-);
-
-export const getHasMoreResultsOnServer = createSelector(
-  selectSearchResultsState,
-  fromSearchResultsReducer.hasMoreResultsOnServer
-);
-
-export const getLoadingMoreResults = createSelector(
-  selectSearchResultsState,
-  fromSearchResultsReducer.getLoadingMoreResults
 );

@@ -1,4 +1,4 @@
-import { SearchFilter } from '../../survey-search/response';
+import { SearchFilter } from '../../search';
 import { SurveySavedFilterMetaInfo } from '../survey-saved-filter-meta-info';
 
 export interface SurveySavedFilterResponse {

@@ -9,12 +9,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
+import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
-import { AddJobsPageEffects, SearchResultsEffects } from './effects';
+import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent } from './containers';
 import { JobResultComponent } from './components';
+import { SearchFilterMappingData } from './data';
 
 @NgModule({
   imports: [
@@ -25,7 +27,8 @@ import { JobResultComponent } from './components';
     StoreModule.forFeature('project_addJobs', reducers),
     EffectsModule.forFeature([
       AddJobsPageEffects,
-      SearchResultsEffects
+      SearchResultsEffects,
+      SearchFiltersEffects
     ]),
     InfiniteScrollModule,
     // Routing
@@ -44,6 +47,8 @@ import { JobResultComponent } from './components';
     // Pages
     AddJobsPageComponent
   ],
-  providers: []
+  providers: [
+    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData }
+  ]
 })
 export class AddJobsModule { }

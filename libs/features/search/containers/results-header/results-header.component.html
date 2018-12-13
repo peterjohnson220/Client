@@ -9,7 +9,7 @@
     <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
       Reset
     </div>
-    <pf-saved-filters
+    <pf-saved-filters *ngIf="savedFiltersEnabled"
       [canSaveFilters]="hasFiltersToSave && !hasSelectedSavedFilter">
     </pf-saved-filters>
   </div>

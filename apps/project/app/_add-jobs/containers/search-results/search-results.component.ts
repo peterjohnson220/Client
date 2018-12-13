@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromAddJobsReducer from '../../reducers';
 import * as fromSearchResultsActions from '../../actions/search-results.actions';
@@ -12,35 +14,18 @@ import { JobResult } from '../../models';
   templateUrl: './search-results.component.html',
   styleUrls: ['./search-results.component.scss']
 })
-export class SearchResultsComponent implements OnInit, OnDestroy {
-
+export class SearchResultsComponent {
   jobResults$: Observable<JobResult[]>;
-  hasMoreResultsOnServer$: Observable<boolean>;
-  loadingMoreResults$: Observable<boolean>;
-
-  hasMoreResultsOnServerSub: Subscription;
-
-  hasMoreResultsOnServer: boolean;
+  loadingResults$: Observable<boolean>;
   spinnerType = 'GIF';
 
   constructor(private store: Store<fromAddJobsReducer.State>) {
     this.jobResults$ = this.store.select(fromAddJobsReducer.getJobs);
-    this.hasMoreResultsOnServer$ = this.store.select(fromAddJobsReducer.getHasMoreResultsOnServer);
-    this.loadingMoreResults$ = this.store.select(fromAddJobsReducer.getLoadingMoreResults);
+    this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
   }
 
-  ngOnInit(): void {
-    this.hasMoreResultsOnServerSub = this.hasMoreResultsOnServer$.subscribe(hmr => this.hasMoreResultsOnServer = hmr);
-  }
-
-  ngOnDestroy(): void {
-    this.hasMoreResultsOnServerSub.unsubscribe();
-  }
-
-  onScroll(): void {
-    if (this.hasMoreResultsOnServer) {
-      this.store.dispatch(new fromSearchResultsActions.GetMoreResults());
-    }
+  trackByJobId(index, item: JobResult) {
+    return item.Id;
   }
 
   handleJobSelectionToggle(job: JobResult): void {

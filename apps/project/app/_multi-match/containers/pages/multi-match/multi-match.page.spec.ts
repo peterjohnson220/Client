@@ -88,15 +88,6 @@ describe('Project - Add Data - Multi Match Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a hide page action, when reset', () => {
-    const expectedAction = new fromSearchPageActions.HidePage();
-    spyOn(store, 'dispatch');
-
-    instance.onResetApp();
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should dispatch a set context action, when context set', () => {
     const payload = generateProjectContext();
     const expectedAction = new fromMultimatchPageActions.SetProjectContext(payload);

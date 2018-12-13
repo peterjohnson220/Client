@@ -6,7 +6,7 @@ import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSavedFiltersActions from 'libs/features/search/actions/saved-filters.actions';
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { MultiSelectFilter } from 'libs/features/search/models';
 
