@@ -88,7 +88,10 @@ export class TimelineActivityMapper {
         return this.generateSubjectForActivity(dto);
       }
       case (this.COMMUNITY_TYPE): {
-        return this.generateSubjectForCommunity(dto);
+      return this.generateSubjectForCommunity(dto, this.COMMUNITY_TYPE);
+    }
+      case (this.NEW_COMMUNITY_TYPE): {
+        return this.generateSubjectForCommunity(dto, this.NEW_COMMUNITY_TYPE);
       }
       case (this.JOB_DESCRIPTIONS_TYPE): {
         return this.generateSubjectForJobDescription(dto);
@@ -110,8 +113,8 @@ export class TimelineActivityMapper {
     return 'Shared ' + projectHtmlLink + ' with you.';
   }
 
-  static generateSubjectForCommunity(dto: TimelineActivityDto): string {
-    const communityUrl = dto.Links.filter( x => x.Type === 'Community')[0].Url;
+  static generateSubjectForCommunity(dto: TimelineActivityDto, typeName: string): string {
+    const communityUrl = dto.Links.filter( x => x.Type === typeName)[0].Url;
     const communityFullUrl =  this.BASE_URL + communityUrl;
     const communityHtmlLink = this.generateHtmlLink(communityFullUrl, 'Community', 'Link to community');
 
@@ -227,6 +230,9 @@ export class TimelineActivityMapper {
   static generatePostedByUrl(dto: TimelineActivityDto): string {
     switch (dto.Type) {
       case (this.COMMUNITY_TYPE): {
+        return this.generatePostedByUrlForCommunity(dto);
+      }
+      case (this.NEW_COMMUNITY_TYPE): {
         return this.generatePostedByUrlForCommunity(dto);
       }
       default: {

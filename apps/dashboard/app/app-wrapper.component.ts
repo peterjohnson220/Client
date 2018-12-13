@@ -50,6 +50,7 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
     const featuresInRightSideBar = [
       FeatureTypes.Activity,
       FeatureTypes.Community,
+      FeatureTypes.NewCommunity,
       FeatureTypes.JobDescriptions
     ];
     const minimumFeaturesThreshold = 1;
