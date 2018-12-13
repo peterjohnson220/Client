@@ -14,17 +14,26 @@ function initializePendo(userContext)
     var account = {};
 
     if (userContext){
+      // This is under the assumption this file is being served from the application server and
+      // that our production subdomain is pf. Excluding production url from prepending subdomain to retain
+      // pendo history.
       var subDomain = window.location.host.split('.')[0];
-      var visitor = {
-        id: subDomain + "_" + userContext.UserId, // Required if user is logged in
+      var idPrefix = '';
+
+      if(subDomain !== 'pf') {
+        idPrefix = subDomain + "_";
+      }
+
+      visitor = {
+        id: idPrefix + userContext.UserId, // Required if user is logged in
         email: userContext.EmailAddress // Optional
         // role:         // Optional
 
         // You can add any additional visitor level key-values here,
         // as long as it's not one of the above reserved names.
       };
-      var account = {
-        id: subDomain + "_" + userContext.CompanyId, // Highly recommended
+      account = {
+        id: idPrefix + userContext.CompanyId, // Highly recommended
         name: userContext.CompanyName // Optional
         // planLevel:    // Optional
         // planPrice:    // Optional
