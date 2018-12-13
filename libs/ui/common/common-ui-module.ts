@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImgFallbackModule } from 'ngx-img-fallback';
 
 import { EllipsisViewMoreComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
@@ -15,12 +17,14 @@ import { PfCommonModule } from '../../core';
 import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { ClickElsewhereDirective } from './directives';
+import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
 
 const components = [
   // Content
   EllipsisViewMoreComponent,
   CardComponent,
   CardSelectorComponent,
+  UserOrEmailPickerComponent,
 
   // Directives
   ClickElsewhereDirective,
@@ -46,7 +50,10 @@ const components = [
     CommonModule,
     RouterModule,
     PfCommonModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    FormsModule,
+    NgbModule,
+    ImgFallbackModule
   ],
   declarations: components,
   exports: components

@@ -21,6 +21,7 @@ import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { CompanyAdminApiService } from './company-admin';
+import { DataLoadEmailRecipientsApiService } from './data-loads';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -51,7 +52,8 @@ import { CompanyAdminApiService } from './company-admin';
     AppEnvironmentApiService,
     UserTicketApiService,
     CompanyJobApiService,
-    CompanyJobPricingMatchApiService
+    CompanyJobPricingMatchApiService,
+    DataLoadEmailRecipientsApiService
   ]
 })
 export class PfApiModule { }

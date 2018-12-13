@@ -1,16 +1,18 @@
 .mapping-container {
   margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .company-selector-container {
   margin-top: 25px;
 }
 
-.save {
+.buttons-container {
   float: right;
-  margin: 10px;
-  display: table-cell;
-  vertical-align: center;
+}
+
+.buttons-container button {
+  margin: 5px;
 }
 
 .success {
@@ -27,4 +29,8 @@
 
 .clear {
   clear: both;
+}
+
+.email-recipients-btn{
+  float: right;
 }
