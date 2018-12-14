@@ -35,12 +35,11 @@ exports[`UserRoleUserTabComponent Page load 1`] = `
           id="users-search-results"
         >
           <table
-            class="table au-table-users-search-results-table table-fixed"
+            class="table table-fixed"
+            data-qa-id="tbl-users-search-results"
           >
             <thead>
-              <tr
-                class="au-table-header-row-users-search-results-table"
-              >
+              <tr>
                 <th
                   class="col-2"
                 >
@@ -83,20 +82,19 @@ exports[`UserRoleUserTabComponent Page load 1`] = `
         class="users-in-role-container"
       >
         <div>
-          <h3>
+          <h4>
             Users Assigned to This Role
-          </h3>
+          </h4>
         </div>
         <div
           id="users-in-role"
         >
           <table
-            class="table au-table-users-in-role-table table-fixed"
+            class="table table-fixed"
+            data-qa-id="tbl-users-in-role"
           >
             <thead>
-              <tr
-                class="au-table-header-row-users-in-role-table"
-              >
+              <tr>
                 <th
                   class="col-2"
                 >
@@ -141,11 +139,13 @@ exports[`UserRoleUserTabComponent Page load 1`] = `
     >
       <button
         class="btn btn-primary"
+        data-qa-id="btn-user-tab-save-changes-btn"
       >
         Save
       </button>
       <button
         class="btn btn-secondary"
+        data-qa-id="btn-user-tab-cancel-btn"
       >
         Cancel
       </button>

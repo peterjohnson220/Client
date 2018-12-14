@@ -2,11 +2,6 @@
   height: 280px;
 }
 
-.scrollable{
-  height:70vh;
-  overflow: auto;
-}
-
 .add-user-search{
   padding: 15px;
 }
@@ -27,7 +22,7 @@
 }
 
 .users-container{
-  height:70vh;
+  min-height:70vh;
 }
 
 .users-in-role-container {
