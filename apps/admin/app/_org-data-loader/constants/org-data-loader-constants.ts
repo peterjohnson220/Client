@@ -22,6 +22,7 @@ export const ORG_DATA_PF_STRUCTURE_FIELDS = [
   'Structure_Code',
   'Structure_Name',
   'Grade_Code',
+  'PayMarket',
   'Currency',
   'Rate',
   'Min',
