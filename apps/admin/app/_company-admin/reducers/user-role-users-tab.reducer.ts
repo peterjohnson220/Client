@@ -4,6 +4,7 @@ import { arraySortByString, SortDirection } from 'libs/core/functions';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
 
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
+import {SaveButtonText} from '../constants/user-role.constants';
 
 export interface State {
   usersAndRoles: UserAndRoleModel[];
@@ -22,7 +23,7 @@ export const initialState: State = {
   usersInActiveRole: [],
   usersNotInActiveRole: [],
   filterTerm: '',
-  saveButtonText: 'Save'
+  saveButtonText: SaveButtonText.Save
 };
 
 export function reducer(state = initialState, action: fromUserRoleUserTabActions.UserTabActions): State {
