@@ -19,6 +19,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   loadingPostsSubscription={[Function Subscriber]}
   loadingPreviousBatchCommunityPosts$={[Function Store]}
   loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
+  maximumReplies$={[Function Store]}
   pollsType={[Function Number]}
   replyStore={[Function Store]}
   route={[Function Object]}

@@ -20,6 +20,7 @@ export interface State extends EntityState<CommunityPost> {
   endIndexDisplayed: number;
   pagingOptions: PagingOptions;
   totalResultsOnServer: number;
+  maximumReplies: number;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -49,7 +50,8 @@ export const initialState: State = adapter.getInitialState({
     PageIndex: 1,
     NumberOfPosts: CommunityConstants.POSTS_PER_BATCH
   },
-  totalResultsOnServer: 0
+  totalResultsOnServer: 0,
+  maximumReplies: null
 });
 
 export function reducer(
@@ -90,7 +92,8 @@ export function reducer(
       return {
         ...adapter.addAll(action.payload.Posts, state),
         loading: false,
-        totalResultsOnServer: action.payload.Paging.TotalRecordCount
+        totalResultsOnServer: action.payload.Paging.TotalRecordCount,
+        maximumReplies: action.payload.Paging.MaximumReplies
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POSTS_ERROR: {
@@ -311,4 +314,4 @@ export const getTotalResultsOnServer = (state: State) => state.totalResultsOnSer
 export const getDiscussionPagingOptions = (state: State) => state.pagingOptions;
 export const getLoadingNextBatchPosts = (state: State) => state.loadingNextBatchPosts;
 export const getLoadingPreviousBatchPosts = (state: State) => state.loadingPreviousBatchPosts;
-
+export const getMaximumReplies = (state: State) => state.maximumReplies;

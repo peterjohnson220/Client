@@ -1,10 +1,14 @@
 <form [formGroup]="communityPostReplyForm">
-  <pf-community-text-area class="reply-text-area"
-    [parentForm]="communityPostReplyForm"
-    [maxTextLength]="replyMaxLength"
-    textPlaceholder="Add Reply..."
-    [postId]="postId">
-  </pf-community-text-area>    
+  <div *ngIf="(replyCount + addedRepliesCount) >= maximumReplies; else replyArea">
+    <p class="alert alert-danger" role="alert">This post has reached the maximum number of replies. Please create another post to continue the discussion</p>
+  </div>
+  <ng-template #replyArea>
+    <pf-community-text-area class="reply-text-area"
+      [parentForm]="communityPostReplyForm"
+      [maxTextLength]="replyMaxLength"
+      textPlaceholder="Add Reply..."
+      [postId]="postId">
+    </pf-community-text-area>
     <div class="text-right">
       <button id="reply" type="button" class="btn-sm community-btn mr-2"
               [disabled]="addingCommunityPostReply$ | async"
@@ -13,4 +17,5 @@
         Reply
       </button>
     </div>
+  </ng-template>
 </form>

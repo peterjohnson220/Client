@@ -6,7 +6,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
+import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 import { CommunityAddReply } from 'libs/models/community';
+import { CommunityReply } from 'libs/models/community';
 
 @Component({
   selector: 'pf-community-post-add-reply',
@@ -15,25 +17,33 @@ import { CommunityAddReply } from 'libs/models/community';
 })
 export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
   @Input() postId: string;
+  @Input() maximumReplies: number;
+  @Input() replyCount: number;
   @Output() replySubmitted = new EventEmitter<boolean>();
   communityPostReplyForm: FormGroup;
   replyMaxLength = 2000;
   addingCommunityPostReply$: Observable<boolean>;
+  addedReplyView$: Observable<CommunityReply[]>;
   addingCommunityPostReplySuccess$: Observable<boolean>;
   addingCommunityPostReplySuccessSubscription: Subscription;
+  addedRepliesSubscription: Subscription;
+  addedRepliesCount = 0;
 
   constructor(public store: Store<fromCommunityPostReplyReducer.State>,
+              public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
               private formBuilder: FormBuilder) {
     this.buildForm();
 
     this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReply);
     this.addingCommunityPostReplySuccess$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReplySuccess);
+    this.addedReplyView$ = this.addReplyViewStore.select(fromCommunityPostAddReplyViewReducer.getFilteredCommunityPostAddReplyView);
   }
 
   buildForm() {
     this.communityPostReplyForm = this.formBuilder.group({
       context:   ['', [ Validators.required, Validators.minLength(1), Validators.maxLength(this.replyMaxLength)]]
     });
+
   }
   ngOnInit()  {
     this.addingCommunityPostReplySuccessSubscription = this.addingCommunityPostReplySuccess$.subscribe((response) => {
@@ -41,10 +51,19 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
           this.communityPostReplyForm.reset();
         }
     });
+    this.addedRepliesSubscription = this.addedReplyView$.subscribe(results => {
+      this.addedRepliesCount = results.filter(x => x.PostId === this.postId).length;
+    });
   }
 
   ngOnDestroy() {
-    this.addingCommunityPostReplySuccessSubscription.unsubscribe();
+    if (this.addingCommunityPostReplySuccessSubscription) {
+      this.addingCommunityPostReplySuccessSubscription.unsubscribe();
+    }
+
+    if (this.addedRepliesSubscription) {
+      this.addedRepliesSubscription.unsubscribe();
+    }
   }
 
   submitReply() {
