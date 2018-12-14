@@ -10,12 +10,12 @@
     <div class="row m-1">
       <div class="col-2 p-0">
           <span class="fa-layers fa-fw">
-            <i class="fas fa-circle column-count-container"></i>
-            <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-6" style="font-weight:900">{{ dataItem.Count}}</span>
+            <i class="fas fa-circle column-count-container" data-fa-transform="grow-4"></i>
+            <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-6" style="font-weight:900">  {{ dataItem.Count}}</span>
           </span>
       </div>
       <div class="col-10 p-0 column-container" [ngbTooltip]="dataItem.TooltipText">
-        <a href="{{ dataItem.Url }}">{{ dataItem.ColumnName }}</a>
+        <a href="{{ dataItem.Url }}" class="pl-1"><small>{{ dataItem.ColumnName }}</small></a>
       </div>
     </div>
     </ng-container>
@@ -25,7 +25,7 @@
     <kendo-chart *ngIf="hasValidResponses()" (seriesClick)="navigateToPost()">
     <kendo-chart-area background="none"  [margin]="0" ></kendo-chart-area>
     <kendo-chart-plot-area [margin]="0" [padding]="0"></kendo-chart-plot-area>
-     
+
     <kendo-chart-axis-defaults [majorGridLines]="{ visible : false}" [line]="{ visible : false}">
     </kendo-chart-axis-defaults>
     <kendo-chart-value-axis>
@@ -36,18 +36,18 @@
         <kendo-chart-category-axis-item labels="false">
         </kendo-chart-category-axis-item>
     </kendo-chart-category-axis>
-  
-    <kendo-chart-series>  
-      <kendo-chart-series-item  type="column" [gap]="0.8" [data]="chartData" color="#F5B312"categoryField="PollQuestion" field="Percentage">  
+
+    <kendo-chart-series>
+      <kendo-chart-series-item  type="column" [gap]="0.8" [data]="chartData" color="#F5B312"categoryField="PollQuestion" field="Percentage">
           <kendo-chart-series-item-tooltip background="#121B25">
             <ng-template let-category="category" let-value="value">
               {{category}} : {{getPercentage(value)}}%
             </ng-template>
-          </kendo-chart-series-item-tooltip>      
+          </kendo-chart-series-item-tooltip>
       </kendo-chart-series-item>
     </kendo-chart-series>
     </kendo-chart>
-    
+
     <span class="col-12 tile-text text-center m-0 p-0">
         <a class='pollLink' href="{{model.PostUrl}}"> {{model.TileChartTitle}}</a>
     </span>
