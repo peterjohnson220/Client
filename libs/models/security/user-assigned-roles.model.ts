@@ -26,17 +26,22 @@ export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
         Name: 'Parent Permission',
         TileId: 1,
         IsParent: true,
-        IsChecked: false},
+        IsChecked: false,
+        ChildPermission: null
+      },
       {Id: 2,
         Name: 'Sub1 Permission',
         TileId: 1,
         IsParent: true,
-        IsChecked: false},
+        IsChecked: false,
+        ChildPermission: null},
       {Id: 3,
         Name: 'Sub2 Permission',
         TileId: 1,
         IsParent: true,
-        IsChecked: false}
+        IsChecked: false,
+        ChildPermission: null
+      }
         ]
   };
 }

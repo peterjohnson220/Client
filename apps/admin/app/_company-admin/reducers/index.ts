@@ -15,7 +15,7 @@ export interface UserRoleViewStateMain {
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  userRoleViewAdminMain: UserRoleViewStateMain;
+  userRoleAdminMain: UserRoleViewStateMain;
 }
 
 // Feature area reducers
@@ -25,15 +25,15 @@ export const reducers = {
 };
 
 // Select Feature Area
-export const selectUserRoleViewAdminMainState =
-  createFeatureSelector<UserRoleViewStateMain>('userRoleViewAdminMain');
+export const selectuserRoleAdminMainState =
+  createFeatureSelector<UserRoleViewStateMain>('userRoleAdminMain');
 
 // User Role View Selectors
 export const selectUserRoleState =
-  createSelector(selectUserRoleViewAdminMainState, (state: UserRoleViewStateMain) => state.userRoleView);
+  createSelector(selectuserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleView);
 
 export const userRoleUserTabState =
-  createSelector(selectUserRoleViewAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
+  createSelector(selectuserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
 
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState

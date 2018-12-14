@@ -4,4 +4,5 @@ export class CompanyRolePermission {
   TileId: number;
   IsParent: boolean;
   IsChecked: boolean;
+  ChildPermission: CompanyRolePermission[];
 }

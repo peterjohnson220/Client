@@ -2,7 +2,6 @@
 
 exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
 <pf-user-role-function-tab
-  companyRolePermissionService={[Function CompanyRolePermissionService]}
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
@@ -16,39 +15,8 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
         class="list-group nav"
       >
         
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Parent Permission 
-        </li>
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Sub1 Permission 
-        </li>
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Sub2 Permission 
-        </li>
       </ul>
     </div>
-    
     <button
       class="btn btn-primary"
       type="button"
@@ -61,7 +29,6 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
 
 exports[`UserRoleFunctionTabComponent Page load 1`] = `
 <pf-user-role-function-tab
-  companyRolePermissionService={[Function CompanyRolePermissionService]}
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
@@ -75,39 +42,8 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
         class="list-group nav"
       >
         
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Parent Permission 
-        </li>
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Sub1 Permission 
-        </li>
-        <li
-          class="nav-item parentPermission"
-          ng-reflect-klass="nav-item"
-          ng-reflect-ng-class="parentPermission"
-        >
-          <input
-            type="checkbox"
-          />
-           Sub2 Permission 
-        </li>
       </ul>
     </div>
-    
     <button
       class="btn btn-primary"
       type="button"
@@ -120,12 +56,27 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
 
 exports[`UserRoleFunctionTabComponent Save Changes 1`] = `
 <pf-user-role-function-tab
-  companyRolePermissionService={[Function CompanyRolePermissionService]}
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
   store={[Function Store]}
 >
-  
+  <div>
+    <div
+      class="scrollable"
+    >
+      <ul
+        class="list-group nav"
+      >
+        
+      </ul>
+    </div>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      
+    </button>
+  </div>
 </pf-user-role-function-tab>
 `;

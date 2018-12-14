@@ -18,7 +18,7 @@ import { reducers } from './reducers';
 import { UserRoleFunctionTabComponent } from './containers/user-role-functions-tab';
 import { UserRoleUsersTabComponent } from './containers/user-role-users-tab';
 import { UserRolePageComponent } from './containers/pages';
-import {CompanyRolePermissionService, UserRoleService, UserRoleValidationService} from './services';
+import { UserRoleService, UserRoleValidationService} from './services';
 import { UserRoleEffects } from './effects/user-role.effects';
 import { UserRoleDataAccessTabComponent } from './containers/user-role-data-access-tab';
 
@@ -33,7 +33,7 @@ import { UserRoleDataAccessTabComponent } from './containers/user-role-data-acce
     GridModule,
     DropDownsModule,
     LayoutModule,
-    StoreModule.forFeature('userRoleViewAdminMain', reducers),
+    StoreModule.forFeature('userRoleAdminMain', reducers),
     EffectsModule.forFeature([
       UserRoleEffects
     ]),
@@ -57,8 +57,7 @@ import { UserRoleDataAccessTabComponent } from './containers/user-role-data-acce
   providers: [
     // Services
     UserRoleService,
-    UserRoleValidationService,
-    CompanyRolePermissionService
+    UserRoleValidationService
   ]
 })
 export class CompanyAdminModule { }

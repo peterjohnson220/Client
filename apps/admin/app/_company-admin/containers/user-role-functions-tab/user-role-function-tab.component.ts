@@ -4,8 +4,8 @@ import {Subscription} from 'rxjs';
 
 import {UserAssignedRole, CompanyRolePermission} from 'libs/models/security';
 
-import {CompanyRolePermissionService} from '../../services';
-import * as fromUserRoleViewReducer from '../../reducers';
+import * as userRoleReducer from '../../reducers';
+import * as fromUserRoleViewActions from '../../actions/user-role-view.action';
 
 @Component({
   selector: 'pf-user-role-function-tab',
@@ -14,29 +14,32 @@ import * as fromUserRoleViewReducer from '../../reducers';
 })
 export class UserRoleFunctionTabComponent implements OnDestroy {
   saveButtonText: string;
+  rolePermissions: CompanyRolePermission[];
   currentRoleSubscription: Subscription;
+  saveButtonTextSubscription: Subscription;
   currentRole: UserAssignedRole;
-  constructor(public store: Store<fromUserRoleViewReducer.State>,
-              public companyRolePermissionService: CompanyRolePermissionService) {
-    this.store.select(fromUserRoleViewReducer.getFunctionSaveButtonText).subscribe(text => {
+  constructor(public store: Store<userRoleReducer.State>) {
+     this.saveButtonTextSubscription = this.store.select(userRoleReducer.getFunctionSaveButtonText).subscribe(text => {
       this.saveButtonText = text;
     });
-    this.currentRoleSubscription = this.store.select(fromUserRoleViewReducer.getCurrentUserRole).subscribe(userRole => {
-      if (!this.currentRole || this.currentRole.DerivedId !== userRole.DerivedId) {
-        this.companyRolePermissionService.getCompanyRolePermissions(userRole);
-      }
+    this.currentRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(userRole => {
       this.currentRole = userRole;
+      if (userRole && userRole.DerivedId && !userRole.Permissions) {
+        this.store.dispatch(new fromUserRoleViewActions.LoadCompanyRolePermissions(userRole.DerivedId));
+      } else if (userRole && userRole.DerivedId && userRole.Permissions) {
+        this.rolePermissions = userRole.Permissions;
+      }
     });
   }
 
   handleSaveClicked() {
-    this.companyRolePermissionService.updateCompanyRolePermissions(this.currentRole);
+    this.store.dispatch(new fromUserRoleViewActions.SaveCompanyRolePermissions( this.currentRole ));
   }
   handleCheckBoxCheck(currentPermission: any) {
-    this.companyRolePermissionService.setChildPermissions(this.currentRole, currentPermission);
+    this.store.dispatch(new fromUserRoleViewActions.GrantDenyPermissions( currentPermission ));
   }
   ngOnDestroy() {
     this.currentRoleSubscription.unsubscribe();
-
+    this.saveButtonTextSubscription.unsubscribe();
   }
 }
