@@ -35,6 +35,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
+  maximumReplies$: Observable<number>;
   communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
   loadingCommunityPosts$: Observable<boolean>;
   loadingNextBatchCommunityPosts$: Observable<boolean>;
@@ -69,6 +70,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
+    this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
+
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
 

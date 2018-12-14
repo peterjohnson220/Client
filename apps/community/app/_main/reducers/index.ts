@@ -229,6 +229,11 @@ export const getLoadingPreviousBatchPosts = createSelector(
   fromCommunityPostReducer.getLoadingPreviousBatchPosts
 );
 
+export const getMaximumReplies = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getMaximumReplies
+);
+
 export const getHasNextBatchPostsOnServer = createSelector(
   getTotalDiscussionResultsOnServer,
   selectFromCommunityPostState,

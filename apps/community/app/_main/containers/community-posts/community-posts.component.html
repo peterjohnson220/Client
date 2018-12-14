@@ -45,6 +45,8 @@
                 <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
                   <pf-community-post-add-reply
                     [postId]="post.Id"
+                    [maximumReplies]="maximumReplies$ | async"
+                    [replyCount]="post.ReplyCount"
                     (replySubmitted)="onReplySubmitted(i)">
                   </pf-community-post-add-reply>
                 </div>
