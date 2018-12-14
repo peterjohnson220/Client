@@ -11,7 +11,6 @@ import * as fromRootState from 'libs/state/state';
 
 import {UserRoleFunctionTabComponent} from './user-role-function-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
-import {CompanyRolePermissionService} from '../../services';
 
 describe('UserRoleFunctionTabComponent', () => {
   let fixture, component;
@@ -21,10 +20,10 @@ describe('UserRoleFunctionTabComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleViewAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
-      providers: [ CompanyRolePermissionService, CompanyRolesApiService, PayfactorsApiService, HttpClient, HttpHandler ],
+      providers: [ CompanyRolesApiService ],
       declarations: [UserRoleFunctionTabComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });

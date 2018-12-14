@@ -19,7 +19,7 @@ describe('UserRoleUserTabComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleViewAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
       providers: [ UserRoleService ],

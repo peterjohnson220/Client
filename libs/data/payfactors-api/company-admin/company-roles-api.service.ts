@@ -27,7 +27,7 @@ export class CompanyRolesApiService {
       { params: { roleId: roleId }});
   }
   updateCompanyRolePermissions(roleId: number, systemPermissionIds: number[]) {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}.UpdateCompanyRolePermissions`,
+    return this.payfactorsApiService.post<boolean>(`${this.endpoint}.UpdateCompanyRolePermissions`,
       {roleId: roleId, permissionIds: systemPermissionIds});
   }
 
