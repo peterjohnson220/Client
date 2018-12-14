@@ -5,6 +5,7 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
+  saveButtonTextSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div>
@@ -19,6 +20,7 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
     </div>
     <button
       class="btn btn-primary"
+      data-qa-id="btn-save"
       type="button"
     >
       Save
@@ -32,6 +34,7 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
+  saveButtonTextSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div>
@@ -46,6 +49,7 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
     </div>
     <button
       class="btn btn-primary"
+      data-qa-id="btn-save"
       type="button"
     >
       Save
@@ -59,6 +63,7 @@ exports[`UserRoleFunctionTabComponent Save Changes 1`] = `
   currentRole={[Function Object]}
   currentRoleSubscription={[Function Subscriber]}
   saveButtonText={[Function String]}
+  saveButtonTextSubscription={[Function Subscriber]}
   store={[Function Store]}
 >
   <div>
@@ -73,6 +78,7 @@ exports[`UserRoleFunctionTabComponent Save Changes 1`] = `
     </div>
     <button
       class="btn btn-primary"
+      data-qa-id="btn-save"
       type="button"
     >
       
