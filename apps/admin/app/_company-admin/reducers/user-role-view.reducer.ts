@@ -1,3 +1,4 @@
+import * as cloneDeep from 'lodash.clonedeep';
 import { UserAssignedRole } from 'libs/models/security';
 import { AddCompanyRoleForm } from 'libs/models/admin';
 
@@ -112,15 +113,28 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
       };
     }
     case fromUserRoleViewActions.GRANT_DENY_PERMISSIONS: {
-      const index = state.CurrentUserRole.Permissions.map(p => p.Id).indexOf(action.payload.Id);
       const currPermission = action.payload;
-      const newRolePermissions = Object.assign([], state.CurrentUserRole.Permissions);
-      const newRolePermission = JSON.parse(JSON.stringify(currPermission));
-      newRolePermission.IsChecked = !currPermission.IsChecked;
-      if ( currPermission.IsParent && currPermission.ChildPermission) {
-        newRolePermission.ChildPermission.forEach((p) => p.IsChecked = !currPermission.IsChecked);
+      const newRolePermissions =  cloneDeep(state.CurrentUserRole.Permissions);
+      if (currPermission.IsParent) {
+        newRolePermissions.forEach( p => {
+          if (p.Id === currPermission.Id) {
+            p.IsChecked = !currPermission.IsChecked;
+            if (p.ChildPermission) {
+              p.ChildPermission.forEach( cp => cp.IsChecked = !currPermission.IsChecked);
+            }
+            return;
+          }
+        });
+      } else {
+        newRolePermissions.forEach( p => {
+          if (p.ChildPermission) {
+            const index = p.ChildPermission.findIndex(f => f.Id === currPermission.Id);
+            if (index > -1) {
+              p.ChildPermission[index].IsChecked = !currPermission.IsChecked;
+            }
+          }
+        });
       }
-      newRolePermissions[index] = newRolePermission;
       return {
         ...state,
         CurrentUserRole: {
