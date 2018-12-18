@@ -6,31 +6,16 @@ import { toggleJobSelection, updateSelectedJobIds } from '../helpers';
 
 export interface State {
   jobs: JobResult[];
-  selectedJobIds: number[];
-  totalResultsOnServer: number;
-  loadingMoreResults: boolean;
+  selectedJobIds: string[];
 }
 
 const initialState: State = {
   jobs: [],
-  selectedJobIds: [],
-  totalResultsOnServer: 0,
-  loadingMoreResults: false
+  selectedJobIds: []
 };
 
 export function reducer(state = initialState, action: fromSearchResultsActions.Actions): State {
   switch (action.type) {
-    case fromSearchResultsActions.GET_MORE_RESULTS:
-      return {
-        ...state,
-        loadingMoreResults: true
-      };
-    case fromSearchResultsActions.GET_MORE_RESULTS_SUCCESS:
-      return {
-        ...state,
-        jobs: state.jobs.concat(action.payload),
-        loadingMoreResults: false
-      };
     case fromSearchResultsActions.TOGGLE_JOB_SELECTION:
       const jobsCopy = cloneDeep(state.jobs);
       const selectedJobIdsCopy = cloneDeep(state.selectedJobIds);
@@ -40,6 +25,24 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         jobs: jobsCopy,
         selectedJobIds: updateSelectedJobIds(selectedJobIdsCopy, action.payload)
       };
+    case fromSearchResultsActions.REPLACE_JOB_RESULTS: {
+      return {
+        ...state,
+        jobs: action.payload
+      };
+    }
+    case fromSearchResultsActions.ADD_JOB_RESULTS: {
+      return {
+        ...state,
+        jobs: state.jobs.concat(action.payload)
+      };
+    }
+    case fromSearchResultsActions.CLEAR_SELECTED_JOBS: {
+      return {
+        ...state,
+        selectedJobIds: []
+      };
+    }
     default:
       return state;
   }
@@ -47,5 +50,3 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
 
 export const getJobs = (state: State) => state.jobs;
 export const getSelectedJobIds = (state: State) => state.selectedJobIds;
-export const getLoadingMoreResults = (state: State) => state.loadingMoreResults;
-export const hasMoreResultsOnServer = (state: State) => state.totalResultsOnServer > state.jobs.length;

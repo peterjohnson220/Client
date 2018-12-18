@@ -1,21 +1,21 @@
 import * as fromAddJobsPageActions from '../actions/add-jobs.page.actions';
 
 export interface State {
-  pageShown: boolean;
+  context: { PayMarketId: number, ProjectId: number};
 }
 
 const initialState: State = {
-  pageShown: false
+  context: null
 };
 
 // Reducer function
 export function reducer(state = initialState, action: fromAddJobsPageActions.Actions): State {
   switch (action.type) {
 
-    case fromAddJobsPageActions.CLOSE_JOBS_SEARCH: {
+    case fromAddJobsPageActions.SET_CONTEXT: {
       return {
         ...state,
-        pageShown: false
+        context: action.payload
       };
     }
     default: {
@@ -25,4 +25,4 @@ export function reducer(state = initialState, action: fromAddJobsPageActions.Act
 }
 
 // Selector functions
-export const getPageShown = (state: State) => state.pageShown;
+export const getContext = (state: State) => state.context;

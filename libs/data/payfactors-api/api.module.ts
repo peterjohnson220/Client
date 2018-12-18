@@ -9,7 +9,7 @@ import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
          ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
-import { SurveySearchApiService } from './surveys';
+import { SurveySearchApiService, JobSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
 import { UserApiService, UserFilterApiService, UserProfileApiService } from './user';
 import { CompanyApiService } from './company';
@@ -53,7 +53,8 @@ import { DataLoadEmailRecipientsApiService } from './data-loads';
     UserTicketApiService,
     CompanyJobApiService,
     CompanyJobPricingMatchApiService,
-    DataLoadEmailRecipientsApiService
+    DataLoadEmailRecipientsApiService,
+    JobSearchApiService
   ]
 })
 export class PfApiModule { }

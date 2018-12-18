@@ -1,5 +1,5 @@
 export interface JobResult {
-  Id: number;
+  Id: string;
   Title: string;
   Code: string;
   Source: string;
@@ -11,7 +11,7 @@ export interface JobResult {
 
 export function generateMockPayFactorsJobResult(): JobResult {
   return {
-    Id: 100,
+    Id: '100',
     Title: 'Accountant',
     Code: '2345',
     Source: 'PayFactors',
@@ -24,7 +24,7 @@ export function generateMockPayFactorsJobResult(): JobResult {
 
 export function generateMockCompanyJobResultWithPeerExchange(): JobResult {
   return {
-    Id: 101,
+    Id: '101',
     Title: 'Accountant I',
     Code: '123456',
     Source: 'Company 13',

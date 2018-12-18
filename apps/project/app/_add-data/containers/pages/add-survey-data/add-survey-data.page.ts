@@ -4,8 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
-import * as fromSearchSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SearchBase } from 'libs/features/search/containers/search-base';
+import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromAddSurveyDataPageActions from '../../../actions/add-survey-data-page.actions';
 import * as fromAddDataReducer from '../../../reducers';
@@ -13,22 +15,23 @@ import * as fromAddDataReducer from '../../../reducers';
 import { DataCutDetails } from '../../../../survey-search/models';
 import * as fromSurveySearchReducer from '../../../../survey-search/reducers';
 import * as fromContextActions from '../../../../survey-search/actions/context.actions';
-import { SurveySearchBase } from '../../../../survey-search/containers/pages/survey-search-base';
 import { disableDatacutsDragging } from '../../../../survey-search/helpers';
+import * as fromSurveySearchResultsActions from '../../../../survey-search/actions/survey-search-results.actions';
+import { staticFilters } from '../../../../survey-search/data';
 
 @Component({
   selector: 'pf-add-survey-data-page',
   templateUrl: './add-survey-data.page.html',
   styleUrls: ['./add-survey-data.page.scss']
 })
-export class AddSurveyDataPageComponent extends SurveySearchBase {
+export class AddSurveyDataPageComponent extends SearchBase {
   selectedCuts$: Observable<DataCutDetails[]>;
   addingData$: Observable<boolean>;
   pageShown$: Observable<boolean>;
   excludeFromParticipation: boolean;
 
   constructor(
-    store: Store<fromSurveySearchReducer.State>,
+    store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService
   ) {
     super(store);
@@ -40,21 +43,19 @@ export class AddSurveyDataPageComponent extends SurveySearchBase {
   }
 
   onResetApp() {
-    this.store.dispatch(new fromSearchSearchPageActions.HidePage());
+    this.store.dispatch(new fromSearchResultsActions.ClearResults());
+    this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.excludeFromParticipation = false;
   }
 
   onSetContext(payload: any) {
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
     this.store.dispatch(new fromContextActions.SetProjectSearchContext(payload.SearchContext));
     this.store.dispatch(new fromContextActions.SetJobContext(payload.JobContext));
     this.store.dispatch(new fromAddSurveyDataPageActions.ResetAddData());
   }
 
   // Event Handling
-  handleCancelClicked() {
-    this.store.dispatch(new fromSearchSearchPageActions.CloseSearchPage());
-  }
-
   handleAddClicked() {
     this.store.dispatch(new fromAddSurveyDataPageActions.AddData(this.excludeFromParticipation));
   }

@@ -1,10 +1,10 @@
-import { SearchRequest } from 'libs/models/payfactors-api/survey-search';
-import { PayfactorsSearchApiHelper } from 'libs/features/search/helpers';
+import { Injectable } from '@angular/core';
+
+import { SurveySearchRequest } from 'libs/models/payfactors-api';
+import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { Filter, ResultsPagingOptions } from 'libs/features/search/models';
 
 import { ProjectSearchContext } from '../models';
-import { PayfactorsSurveySearchApiModelMapper } from './payfactors-survey-search-api-model-mapper.helper';
-import { Injectable } from '@angular/core';
 
 interface LatestDataFromStoreForSearchRequest {
   Filters: Filter[];
@@ -15,10 +15,13 @@ interface LatestDataFromStoreForSearchRequest {
 @Injectable()
 export class PayfactorsSurveySearchApiHelper {
 
-  constructor(private payfactorsSearchApiHelper: PayfactorsSearchApiHelper) {}
+  constructor(
+    private payfactorsSearchApiHelper: PayfactorsSearchApiHelper,
+    private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper
+  ) {}
 
-  buildSurveySearchRequest(data: LatestDataFromStoreForSearchRequest): SearchRequest {
-    const pagingOptions = PayfactorsSurveySearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.PagingOptions);
+  buildSurveySearchRequest(data: LatestDataFromStoreForSearchRequest): SurveySearchRequest {
+    const pagingOptions = this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.PagingOptions);
 
     return {
       SearchFields: this.payfactorsSearchApiHelper.getTextFiltersWithValuesAsSearchFields(data.Filters),

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 
 import * as fromTooltipContainerActions from '../actions/tooltip-container.actions';

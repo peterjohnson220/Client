@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SurveyDataResponse, PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
+import { PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
 
 import { JobResult, DataCutDetails } from '../models';
 
