@@ -40,7 +40,6 @@ export class SearchResultsEffects {
           Filters: this.payfactorsSearchApiHelper.getSelectedFiltersAsSearchFilters(data.filters),
           FilterOptions: { ReturnFilters: true, AggregateCount: 5 },
           PagingOptions: this.payfactorsSearchApiModelMapper.mapResultsPagingOptionsToPagingOptions(data.pagingOptions),
-          CountryCode: null,
           ProjectId: data.context.ProjectId,
           PayMarketId: data.context.PayMarketId
         };
