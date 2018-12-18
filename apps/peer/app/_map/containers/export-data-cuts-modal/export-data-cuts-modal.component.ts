@@ -78,6 +78,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return !!gridDataResult ? this.gridDataResult.data.filter(item => item.IsInMapScope)
       .map(item => item.ExchangeJobToCompanyJobId) : [];
   }
+  get selectAllDisabled(): boolean { return this.pageEntityIds.length === 0; }
 
   createForm(): void {
     this.exportDataCutsForm = this.fb.group({
