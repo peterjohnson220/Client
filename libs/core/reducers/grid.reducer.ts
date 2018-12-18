@@ -170,7 +170,7 @@ function getSelectAllState(newSelections, entityIdsOnPage): SelectAllCheckboxSta
   const allSelected = existingPageSelections.length === entityIdsOnPage.length;
   const hasNoSelections = existingPageSelections.length === 0;
 
-  if (allSelected) {
+  if (allSelected && !hasNoSelections) {
     return 'checked';
   }
 
