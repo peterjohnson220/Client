@@ -8,7 +8,8 @@
        [pfFocus]="focus"
        [pfFocusElementShowing]="showing"
        [maxlength]="maxLength"
-       [ngClass]="automationClassName">
+       [ngClass]="automationClassName"
+       [attr.data-qa-id]="'txt-'+id">
 <div *ngIf="!hideClearBtn" class="input-group">
   <input type="text" class="form-control" [placeholder]="placeholderText"
          [id]="id"
@@ -19,7 +20,8 @@
          [pfFocus]="focus"
          [pfFocusElementShowing]="showing"
          [maxlength]="maxLength"
-         [ngClass]="automationClassName">
+         [ngClass]="automationClassName"
+         [attr.data-qa-id]="'txt-'+id">
   <div (click)="clearValue()" class="input-group-append" [ngClass]="automationClassName + '-clear'">
       <span class="input-group-text">
         <i class="fas fa-times" aria-hidden="true"></i>

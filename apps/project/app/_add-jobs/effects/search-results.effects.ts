@@ -6,6 +6,7 @@ import { switchMap, withLatestFrom, mergeMap, catchError } from 'rxjs/operators'
 import { Observable, of } from 'rxjs';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -48,6 +49,7 @@ export class SearchResultsEffects {
           .pipe(
             mergeMap((searchResponse: JobSearchResponse) => {
               const actions = [];
+              const filters = this.payfactorsSearchApiModelMapper.mapSearchFiltersToFilters(searchResponse.SearchFilters);
 
               if (searchRequest.PagingOptions.From > 0) {
                 actions.push(new fromSearchResultsActions.GetMoreResultsSuccess());
@@ -61,6 +63,10 @@ export class SearchResultsEffects {
                 actions.push(new fromAddJobsSearchResultsActions.ReplaceJobResults(
                   PayfactorsAddJobsApiModelMapper.mapJobSearchResultsToJobResults(searchResponse.JobResults)
                 ));
+                actions.push(new fromSearchFiltersActions.RefreshFilters({
+                  filters: filters,
+                  keepFilteredOutOptions: data.action.payload.keepFilteredOutOptions
+                }));
               }
 
               return actions;
