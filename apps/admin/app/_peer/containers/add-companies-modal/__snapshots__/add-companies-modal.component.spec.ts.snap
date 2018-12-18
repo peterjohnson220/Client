@@ -47,6 +47,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
           >
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
+              data-qa-id="txt-search-box"
               id="search-box"
               maxlength="524288"
               ng-reflect-is-disabled="false"

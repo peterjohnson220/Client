@@ -19,11 +19,13 @@
   <ng-container action-buttons>
 
     <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+            [attr.data-qa-id]="'btn-addJobs'"
             [disabled]="!(selectedJobIds$ | async)?.length">
       Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
     </button>
 
-    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
+    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+            [attr.data-qa-id]="'btn-cancelAddJobs'">
       Cancel
     </button>
 
