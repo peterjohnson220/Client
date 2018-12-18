@@ -18,6 +18,7 @@ exports[`Search Feature - Filter Pills should apply a locked class to the pill, 
     <div
       class="pill locked"
       container="body"
+      data-qa-id="btn-pill"
       ng-reflect-auto-close="outside"
       ng-reflect-container="body"
       ng-reflect-disable-popover="true"
@@ -88,6 +89,7 @@ exports[`Search Feature - Filter Pills should not add a locked class to the pill
     <div
       class="pill"
       container="body"
+      data-qa-id="btn-pill"
       ng-reflect-auto-close="outside"
       ng-reflect-container="body"
       ng-reflect-disable-popover="false"
@@ -158,6 +160,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
     <div
       class="pill"
       container="body"
+      data-qa-id="btn-pill"
       ng-reflect-auto-close="outside"
       ng-reflect-container="body"
       ng-reflect-disable-popover="false"
@@ -228,6 +231,7 @@ exports[`Search Feature - Filter Pills should show a comma separated list of mul
     <div
       class="pill"
       container="body"
+      data-qa-id="btn-pill"
       ng-reflect-auto-close="outside"
       ng-reflect-container="body"
       ng-reflect-disable-popover="false"
@@ -298,6 +302,7 @@ exports[`Search Feature - Filter Pills should show range filters selected min an
     <div
       class="pill"
       container="body"
+      data-qa-id="btn-pill"
       ng-reflect-auto-close="outside"
       ng-reflect-container="body"
       ng-reflect-disable-popover="false"
