@@ -7,6 +7,9 @@
       [visible]="!(searchingFilter$ | async)">
     </pf-search-filters>
 
+    <pf-single-filter
+      *ngIf="searchingFilter$ | async">
+    </pf-single-filter>
   </ng-container>
 
   <ng-container content>
