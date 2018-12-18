@@ -9,6 +9,7 @@ import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
+import { NewCommninityEnabledGuard } from 'libs/security/guards/new-community-enabled.guard';
 
 @NgModule({
   imports: [
@@ -28,6 +29,9 @@ import { AppRoutingModule } from './app-routing.module';
     // Routing
     AppRoutingModule
 
+  ],
+  providers: [
+    NewCommninityEnabledGuard
   ],
   bootstrap: [AppComponent]
 })
