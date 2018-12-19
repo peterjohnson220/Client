@@ -1,44 +1,45 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import { arraySortByString, SortDirection } from 'libs/core/functions';
-import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
+import { UserAndRoleModel } from 'libs/models/security/roles';
 
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
-import {SaveButtonText} from '../constants/user-role.constants';
 
 export interface State {
   usersAndRoles: UserAndRoleModel[];
   usersAndRolesError: string;
-  activeRole: UserAssignedRole;
+  activeRoleId: number;
+  activeRoleIsSystemRole: boolean;
   usersInActiveRole: UserAndRoleModel[];
   usersNotInActiveRole: UserAndRoleModel[];
   filterTerm: string;
-  saveButtonText: string;
 }
 
 export const initialState: State = {
   usersAndRoles: [],
   usersAndRolesError: '',
-  activeRole: null,
+  activeRoleId: null,
+  activeRoleIsSystemRole: false,
   usersInActiveRole: [],
   usersNotInActiveRole: [],
-  filterTerm: '',
-  saveButtonText: SaveButtonText.Save
+  filterTerm: ''
 };
 
 export function reducer(state = initialState, action: fromUserRoleUserTabActions.UserTabActions): State {
   switch (action.type) {
-    case fromUserRoleUserTabActions.UPDATE_USER_TAB_CURRENT_USER_ROLE: {
-      const newRole: UserAssignedRole = action.payload;
+    case fromUserRoleUserTabActions.UPDATE_CURRENT_USER_ROLE_USER_TAB: {
+      const newRoleId = action.payload.NewRoleId;
+      const newRoleIsSystemRole = action.payload.NewRoleIsSystemRole;
       const usersInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersCollectionByRole(uar, newRole))
+        .filter(uar => filterUsersCollectionByRole(uar, newRoleId, newRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       const usersNotInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, newRole))
+        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, newRoleId, newRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       return {
         ...state,
-        activeRole: newRole,
+        activeRoleId: newRoleId,
+        activeRoleIsSystemRole: newRoleIsSystemRole,
         usersInActiveRole: usersInNewRole,
         usersNotInActiveRole: usersNotInNewRole
       };
@@ -63,18 +64,18 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
 
       const newUser: UserAndRoleModel = cloneDeep(existingUser);
       newUser.PreviousRoleId = existingUser.CurrentRoleId;
-      newUser.CurrentRoleId = state.activeRole.RoleId;
-      newUser.IsSystemRole = state.activeRole.IsSystemRole;
+      newUser.CurrentRoleId = state.activeRoleId;
+      newUser.IsSystemRole = state.activeRoleIsSystemRole;
       newUser.Dirty = true;
 
       const newUsersInRoleCollection = Object.assign([], state.usersInActiveRole);
       newUsersInRoleCollection.push(newUser);
 
       const usersInNewRole = newUsersInRoleCollection
-        .filter(uar => filterUsersCollectionByRole(uar, state.activeRole))
+        .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId, state.activeRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       const usersNotInNewRole = newUsersNotInRoleCollection
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRole))
+        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId, state.activeRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       return {
         ...state,
@@ -88,11 +89,12 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
       return {
         ...state,
         filterTerm: term,
-        usersNotInActiveRole: currentSearchableUsers.filter(csu => filterUsersBySearchTerm(csu, term, state.activeRole))
+        usersNotInActiveRole: currentSearchableUsers.filter(csu =>
+          filterUsersBySearchTerm(csu, term, state.activeRoleId, state.activeRoleIsSystemRole))
       };
     }
     case fromUserRoleUserTabActions.CANCEL_CHANGES: {
-      if (!state.activeRole) {
+      if (!state.activeRoleId) {
         return state;
       }
 
@@ -102,17 +104,11 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
         ...state,
         usersAndRoles: originalUserCollection,
         usersInActiveRole: originalUserCollection
-          .filter(uar => filterUsersCollectionByRole(uar, state.activeRole))
+          .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId, state.activeRoleIsSystemRole))
           .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending)),
         usersNotInActiveRole: originalUserCollection
-          .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRole))
+          .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId, state.activeRoleIsSystemRole))
           .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending))
-      };
-    }
-    case fromUserRoleUserTabActions.SET_USERS_TAB_SAVE_BUTTON_TEXT: {
-      return {
-        ...state,
-        saveButtonText: action.payload
       };
     }
     default: {
@@ -126,16 +122,16 @@ export const getUsersAndRoles = (state: State) => state.usersAndRoles;
 export const getUsersAndRolesError = (state: State) => state.usersAndRolesError;
 export const getUsersInActiveRole = (state: State) => state.usersInActiveRole;
 export const getUsersNotInActiveRole = (state: State) => state.usersNotInActiveRole;
-export const getUsersTabSaveButtonText = (state: State) => state.saveButtonText;
+export const getUsersTabHasPendingChanges = (state: State) => state.usersInActiveRole.some(u => u.Dirty);
+export const getUserIdsToSave = (state: State) => state.usersInActiveRole.filter(u => u.Dirty).map(u => u.UserId);
 
-function filterUsersCollectionByRole(user: UserAndRoleModel, role: UserAssignedRole) {
-  return user.CurrentRoleId === role.RoleId && user.IsSystemRole === role.IsSystemRole;
+function filterUsersCollectionByRole(user: UserAndRoleModel, roleId: number, isSystemRole: boolean) {
+  return user.CurrentRoleId === roleId && user.IsSystemRole === isSystemRole;
 }
 
-function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, role: UserAssignedRole) {
+function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, roleId: number, isSystemRole: boolean) {
   return (user.FirstName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.LastName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.UserId.toString().toLowerCase().indexOf(searchTerm) > -1) &&
-          !(user.CurrentRoleId === role.RoleId && user.IsSystemRole === role.IsSystemRole);
+          !(user.CurrentRoleId === roleId && user.IsSystemRole === isSystemRole);
 }
-

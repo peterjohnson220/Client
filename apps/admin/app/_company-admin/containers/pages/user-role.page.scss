@@ -67,6 +67,7 @@
   padding-right: 1rem;
   height: 100%;
   width: 100%;
+  min-height: 70vh;
 }
 
 .outer-nav-link {
@@ -141,8 +142,7 @@
 }
 
 
-.scrollbar
-{
+.scrollbar {
   max-height:89%;
   margin-right: 4px;
   margin-bottom: 20px;
@@ -151,8 +151,35 @@
 
 }
 
-#wrapper
-{
+#wrapper {
   height: 100%;
   margin: 0;
+}
+
+.action-container {
+  float: right;
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+:host ::ng-deep .action-button-container .btn {
+  margin-left: 10px;
+}
+
+.api-save-success {
+  color: #006400;
+}
+
+.api-save-error {
+  color: #FF0000;
+}
+
+#api-response-container {
+  font-size: larger;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
+.active-role {
+  background-color: $selection-hover-background;
 }

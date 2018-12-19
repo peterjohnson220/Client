@@ -1,16 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UserRolePageComponent should display user roles in au-user-assigned-role-nav 1`] = `
+exports[`UserRolePageComponent should display user roles in role-list 1`] = `
 <pf-user-role-page
+  _RoleApiResponse={[Function Object]}
   _UserRoleTabState={[Function Object]}
   companyRolesSubscription={[Function Subscriber]}
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
   currentUserRoleTabState="0"
+  functionTabPendingChanges="false"
+  functionTabPendingChangesSubscription={[Function Subscriber]}
+  permissionIdsToSave={[Function Array]}
+  permissionIdsToSaveSubscription={[Function Subscriber]}
+  roleApiResponse="undefined"
+  roleApiResponseSubscription={[Function Subscriber]}
+  saveButtonDisabled="false"
+  saveButtonDisabledSubscription={[Function Subscriber]}
   store={[Function Store]}
   userAssignedRoles={[Function Array]}
+  userIdsToAssignSubscription={[Function Subscriber]}
+  userIdsToAssignToRole={[Function Array]}
   userRoleService={[Function UserRoleService]}
+  usersTabPendingChanges="false"
+  usersTabPendingChangesSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
     
@@ -51,11 +64,13 @@ exports[`UserRolePageComponent should display user roles in au-user-assigned-rol
                 class="scrollbar"
               >
                 <ul
-                  class="list-group nav au-user-assigned-role-nav"
+                  class="list-group nav role-list"
                 >
                   
                   <li
                     class="nav-item"
+                    ng-reflect-klass="nav-item"
+                    ng-reflect-ng-class="[object Object]"
                   >
                     <a>
                       
@@ -94,17 +109,6 @@ exports[`UserRolePageComponent should display user roles in au-user-assigned-rol
                     ng-reflect-klass="nav-link"
                     ng-reflect-ng-class="[object Object]"
                   >
-                    Data Access 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
                     Function 
                   </button>
                 </li>
@@ -125,12 +129,19 @@ exports[`UserRolePageComponent should display user roles in au-user-assigned-rol
               class="card-block"
             >
               <div
-                class="tab-containe mx-2 py-2"
+                class="tab-container mx-2 py-2"
               >
                 
-                <pf-user-role-data-access-tab />
+                <pf-user-role-function-tab />
                 
+              </div>
+              <div
+                class="action-container row"
+              >
                 
+                <div>
+                  <pf-action-button />
+                </div>
               </div>
             </div>
           </div>
@@ -143,15 +154,28 @@ exports[`UserRolePageComponent should display user roles in au-user-assigned-rol
 
 exports[`UserRolePageComponent should match snapshot 1`] = `
 <pf-user-role-page
+  _RoleApiResponse={[Function Object]}
   _UserRoleTabState={[Function Object]}
   companyRolesSubscription={[Function Subscriber]}
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
   currentUserRoleTabState="0"
+  functionTabPendingChanges="false"
+  functionTabPendingChangesSubscription={[Function Subscriber]}
+  permissionIdsToSave={[Function Array]}
+  permissionIdsToSaveSubscription={[Function Subscriber]}
+  roleApiResponse="undefined"
+  roleApiResponseSubscription={[Function Subscriber]}
+  saveButtonDisabled="false"
+  saveButtonDisabledSubscription={[Function Subscriber]}
   store={[Function Store]}
   userAssignedRoles="undefined"
+  userIdsToAssignSubscription={[Function Subscriber]}
+  userIdsToAssignToRole={[Function Array]}
   userRoleService={[Function UserRoleService]}
+  usersTabPendingChanges="false"
+  usersTabPendingChangesSubscription={[Function Subscriber]}
 >
   <pf-page-with-title-bar>
     
@@ -192,7 +216,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
                 class="scrollbar"
               >
                 <ul
-                  class="list-group nav au-user-assigned-role-nav"
+                  class="list-group nav role-list"
                 >
                   
                 </ul>
@@ -228,17 +252,6 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
                     ng-reflect-klass="nav-link"
                     ng-reflect-ng-class="[object Object]"
                   >
-                    Data Access 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
                     Function 
                   </button>
                 </li>
@@ -259,12 +272,19 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
               class="card-block"
             >
               <div
-                class="tab-containe mx-2 py-2"
+                class="tab-container mx-2 py-2"
               >
                 
-                <pf-user-role-data-access-tab />
+                <pf-user-role-function-tab />
                 
+              </div>
+              <div
+                class="action-container row"
+              >
                 
+                <div>
+                  <pf-action-button />
+                </div>
               </div>
             </div>
           </div>
