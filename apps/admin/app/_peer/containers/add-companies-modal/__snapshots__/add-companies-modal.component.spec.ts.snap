@@ -46,6 +46,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
             class="input-group"
           >
             <input
+              autocomplete="off"
               class="form-control ng-untouched ng-pristine ng-valid"
               data-qa-id="txt-search-box"
               id="search-box"

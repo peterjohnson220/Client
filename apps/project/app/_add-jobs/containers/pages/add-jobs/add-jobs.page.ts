@@ -56,4 +56,8 @@ export class AddJobsPageComponent extends SearchBase {
   handleAddClicked(): void {
     this.store.dispatch(new fromAddJobsPageActions.AddSelectedJobs());
   }
+
+  handleClearSelectionsClicked(): void {
+    this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+  }
 }

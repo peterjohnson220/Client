@@ -22,12 +22,23 @@
 
   <ng-container action-buttons>
 
+    <div class="clear-selections search-action" *ngIf="(selectedJobIds$ | async)?.length"
+         (click)="handleClearSelectionsClicked()">
+      Clear Selections
+    </div>
+
     <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
             [attr.data-qa-id]="'btn-addJobs'"
-            [disabled]="(addingData$ | async) || (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) || !(selectedPaymarkets$ | async)?.length)"
+            [disabled]="(addingData$ | async) ||
+                        (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) ||
+                        !(selectedPaymarkets$ | async)?.length)"
             (click)="handleAddClicked()">
+
       <ng-container *ngIf="!(addingData$ | async); else addingData">
-        Add <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})</span>
+        Add
+        <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">
+          ({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})
+        </span>
       </ng-container>
     </button>
 

@@ -1,4 +1,4 @@
-<input *ngIf="hideClearBtn" type="text" class="form-control"
+<input *ngIf="hideClearBtn" type="text" class="form-control" autocomplete="off"
        [id]="id"
        (keyup)="onKey()"
        (paste)="onPaste()"
@@ -11,7 +11,7 @@
        [ngClass]="automationClassName"
        [attr.data-qa-id]="'txt-'+id">
 <div *ngIf="!hideClearBtn" class="input-group">
-  <input type="text" class="form-control" [placeholder]="placeholderText"
+  <input type="text" class="form-control" autocomplete="off" [placeholder]="placeholderText"
          [id]="id"
          (keyup)="onKey()"
          (paste)="onPaste()"
