@@ -19,7 +19,8 @@ export class PayfactorsAddJobsApiModelMapper {
         BaseMRP: jsr.Base50Mrp,
         TCCMRP: jsr.TccMrp,
         IsMappedToPeerExchange: jsr.IsMappedInPeerExchange,
-        IsSelected: false
+        IsSelected: false,
+        IsPayfactorsJob: jsr.IsPayfactorsJob
       };
     });
   }

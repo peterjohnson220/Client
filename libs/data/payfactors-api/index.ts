@@ -14,3 +14,4 @@ export * from './data-loads';
 export * from './app-environment';
 export * from './service';
 export * from './company-job-pricing-match';
+export * from './project';

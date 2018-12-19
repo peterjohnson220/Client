@@ -7,6 +7,7 @@ export interface JobResult {
   TCCMRP: number;
   IsMappedToPeerExchange: boolean;
   IsSelected: boolean;
+  IsPayfactorsJob: boolean;
 }
 
 export function generateMockPayFactorsJobResult(): JobResult {
@@ -18,7 +19,8 @@ export function generateMockPayFactorsJobResult(): JobResult {
     BaseMRP: 56.3,
     TCCMRP: 58.1,
     IsMappedToPeerExchange: false,
-    IsSelected: false
+    IsSelected: false,
+    IsPayfactorsJob: true
   };
 }
 
@@ -31,6 +33,7 @@ export function generateMockCompanyJobResultWithPeerExchange(): JobResult {
     BaseMRP: 56.3,
     TCCMRP: 58.1,
     IsMappedToPeerExchange: true,
-    IsSelected: false
+    IsSelected: false,
+    IsPayfactorsJob: false
   };
 }

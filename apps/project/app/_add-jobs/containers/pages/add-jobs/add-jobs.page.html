@@ -24,8 +24,11 @@
 
     <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
             [attr.data-qa-id]="'btn-addJobs'"
-            [disabled]="!(selectedJobIds$ | async)?.length || !(selectedPaymarkets$ | async)?.length">
-      Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
+            [disabled]="(addingData$ | async) || (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) || !(selectedPaymarkets$ | async)?.length)"
+            (click)="handleAddClicked()">
+      <ng-container *ngIf="!(addingData$ | async); else addingData">
+        Add <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})</span>
+      </ng-container>
     </button>
 
     <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
@@ -36,3 +39,7 @@
   </ng-container>
 
 </pf-search-layout>
+
+<ng-template #addingData>
+  Adding...
+</ng-template>
