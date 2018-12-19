@@ -10,25 +10,24 @@
 <div *ngIf="content.length > maxLength || copy" class="d-flex">
   <div *ngIf="content.length > maxLength"
        class="toggle-view-link link"
-       (click)="showFull = !showFull; $event.stopPropagation();">
+       (click)="toggleView($event)">
 
     View {{showFull ? 'Less' : 'More'}}
 
   </div>
 
-  <div *ngIf="copy">
-    <div class="link"
-         [class.ml-2]="content.length > maxLength"
-         container="body"
-         data-toggle="tooltip"
-         title="Copy Job Description"
-         ngbTooltip="Copied"
-         triggers="manual"
-         #copiedSuccessToolTip="ngbTooltip"
-         (click)="copyMessage(content)">
-      Copy
-    </div>
+  <div class="link" *ngIf="copy"
+       [class.ml-2]="content.length > maxLength"
+       container="body"
+       data-toggle="tooltip"
+       title="Copy Job Description"
+       ngbTooltip="Copied"
+       triggers="manual"
+       #copiedSuccessToolTip="ngbTooltip"
+       (click)="copyMessage($event, content)">
+    Copy
   </div>
+
 </div>
 
 

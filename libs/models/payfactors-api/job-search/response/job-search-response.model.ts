@@ -1,4 +1,5 @@
 import { PagingResponse, SearchFilter } from '../../search/response';
+import { GenericKeyValue } from '../../../common';
 
 interface BaseJobSearchResult {
   Title: string;
@@ -20,7 +21,7 @@ export interface JobSearchResult extends BaseJobSearchResult {
   CompanyName: string;
   IsPayfactorsJob: boolean;
   CountryCodes: string[];
-  UdfFields: {[key: string]: string}[];
+  UdfFields: GenericKeyValue<string, string>[];
 }
 
 export interface JobSearchResponse {

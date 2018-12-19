@@ -1,6 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -58,14 +57,14 @@ describe('UI/Common/Content - Ellipsis View More', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should set showFull to true, when clicking the View More link', () => {
+  it('should toggle showFull, when toggling the view', () => {
     instance.maxLength = 15;
     instance.content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit';
+    instance.showFull = false;
 
     fixture.detectChanges();
 
-    const viewMoreLink = fixture.debugElement.query(By.css('.toggle-view-link'));
-    viewMoreLink.triggerEventHandler('click', null);
+    instance.toggleView(new MouseEvent('click'));
 
     expect(instance.showFull).toBe(true);
   });

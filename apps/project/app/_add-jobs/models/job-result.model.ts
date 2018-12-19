@@ -1,3 +1,5 @@
+import { GenericKeyValue } from 'libs/models/common';
+
 export interface JobResult {
   Id: string;
   Title: string;
@@ -6,6 +8,12 @@ export interface JobResult {
   BaseMRP: number;
   TCCMRP: number;
   IsMappedToPeerExchange: boolean;
+  Family: string;
+  Description: string;
+  FLSAStatus: string;
+  Category: string;
+  Level: string;
+  UdfFields: GenericKeyValue<string, string>[];
   IsSelected: boolean;
   IsPayfactorsJob: boolean;
 }
@@ -19,6 +27,15 @@ export function generateMockPayFactorsJobResult(): JobResult {
     BaseMRP: 56.3,
     TCCMRP: 58.1,
     IsMappedToPeerExchange: false,
+    Family: 'Finance',
+    Description: 'I am a description',
+    FLSAStatus: 'Exempt',
+    Category: 'Finance',
+    Level: 'II',
+    UdfFields: [{
+      Key: 'UdfField1',
+      Value: 'UdfValue'
+    }],
     IsSelected: false,
     IsPayfactorsJob: true
   };
@@ -26,14 +43,8 @@ export function generateMockPayFactorsJobResult(): JobResult {
 
 export function generateMockCompanyJobResultWithPeerExchange(): JobResult {
   return {
-    Id: '101',
-    Title: 'Accountant I',
-    Code: '123456',
-    Source: 'Company 13',
-    BaseMRP: 56.3,
-    TCCMRP: 58.1,
-    IsMappedToPeerExchange: true,
-    IsSelected: false,
-    IsPayfactorsJob: false
+    ...generateMockPayFactorsJobResult(),
+    IsPayfactorsJob: false,
+    IsMappedToPeerExchange: true
   };
 }

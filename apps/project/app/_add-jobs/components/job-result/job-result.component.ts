@@ -12,7 +12,18 @@ export class JobResultComponent {
   @Input() job: JobResult;
   @Output() jobClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
+  showJobDetail: boolean;
+
+  get toggleJobDetailLabel() {
+    return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
+  }
+
   handleJobClicked(): void {
     this.jobClicked.emit(this.job);
+  }
+
+  toggleJobDetailDisplay(e: MouseEvent): void {
+    e.stopPropagation();
+    this.showJobDetail = !this.showJobDetail;
   }
 }

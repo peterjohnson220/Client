@@ -47,6 +47,7 @@ exports[`Add Jobs Modal should show a modal with a search bar and a companies gr
             class="input-group"
           >
             <input
+              autocomplete="off"
               class="form-control ng-untouched ng-pristine ng-valid"
               data-qa-id="txt-search-jobs"
               id="search-jobs"
