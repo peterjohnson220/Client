@@ -21,20 +21,24 @@ import { staticFilters } from '../../../data';
 })
 export class AddJobsPageComponent extends SearchBase {
   selectedJobIds$: Observable<string[]>;
+  selectedPayfactorsJobCodes$: Observable<string[]>;
   searchingFilter$: Observable<boolean>;
   numberOfResults$: Observable<number>;
   selectedPaymarkets$: Observable<number[]>;
   pageShown$: Observable<boolean>;
+  addingData$: Observable<boolean>;
 
   constructor(
     store: Store<fromSearchReducer.State>,
   ) {
     super(store);
     this.selectedJobIds$ = this.store.select(fromAddJobsReducer.getSelectedJobIds);
+    this.selectedPayfactorsJobCodes$ = this.store.select(fromAddJobsReducer.getSelectedPayfactorsJobCodes);
     this.searchingFilter$ = this.store.select(fromSearchReducer.getSearchingFilter);
     this.numberOfResults$ = this.store.select(fromSearchReducer.getNumberOfResultsOnServer);
     this.selectedPaymarkets$ = this.store.select(fromAddJobsReducer.getSelectedPaymarkets);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
+    this.addingData$ = this.store.select(fromAddJobsReducer.getAddingData);
   }
 
   onSetContext(payload: any): void {
@@ -47,5 +51,9 @@ export class AddJobsPageComponent extends SearchBase {
   onResetApp(): void {
     this.store.dispatch(new fromPaymarketActions.ResetPaymarkets());
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+  }
+
+  handleAddClicked(): void {
+    this.store.dispatch(new fromAddJobsPageActions.AddSelectedJobs());
   }
 }

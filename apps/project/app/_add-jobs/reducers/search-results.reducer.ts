@@ -2,28 +2,37 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromSearchResultsActions from '../actions/search-results.actions';
 import { JobResult } from '../models';
-import { toggleJobSelection, updateSelectedJobIds } from '../helpers';
+import { toggleJobSelection, updateSelectedJobIds, updateSelectedJobCodes } from '../helpers';
 
 export interface State {
   jobs: JobResult[];
   selectedJobIds: string[];
+  selectedPayfactorsJobCodes: string[];
 }
 
 const initialState: State = {
   jobs: [],
-  selectedJobIds: []
+  selectedJobIds: [],
+  selectedPayfactorsJobCodes: []
 };
 
 export function reducer(state = initialState, action: fromSearchResultsActions.Actions): State {
   switch (action.type) {
     case fromSearchResultsActions.TOGGLE_JOB_SELECTION:
       const jobsCopy = cloneDeep(state.jobs);
-      const selectedJobIdsCopy = cloneDeep(state.selectedJobIds);
+      let selectedJobIdsCopy = cloneDeep(state.selectedJobIds);
+      let selectedJobCodesCopy = cloneDeep(state.selectedPayfactorsJobCodes);
       toggleJobSelection(jobsCopy, action.payload);
+      if (action.payload.IsPayfactorsJob) {
+        selectedJobCodesCopy = updateSelectedJobCodes(selectedJobCodesCopy, action.payload);
+      } else {
+        selectedJobIdsCopy = updateSelectedJobIds(selectedJobIdsCopy, action.payload);
+      }
       return {
         ...state,
         jobs: jobsCopy,
-        selectedJobIds: updateSelectedJobIds(selectedJobIdsCopy, action.payload)
+        selectedJobIds: selectedJobIdsCopy,
+        selectedPayfactorsJobCodes: selectedJobCodesCopy
       };
     case fromSearchResultsActions.REPLACE_JOB_RESULTS: {
       return {
@@ -40,7 +49,8 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.CLEAR_SELECTED_JOBS: {
       return {
         ...state,
-        selectedJobIds: []
+        selectedJobIds: [],
+        selectedPayfactorsJobCodes: []
       };
     }
     default:
@@ -50,3 +60,4 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
 
 export const getJobs = (state: State) => state.jobs;
 export const getSelectedJobIds = (state: State) => state.selectedJobIds;
+export const getSelectedPayfactorsJobCodes = (state: State) => state.selectedPayfactorsJobCodes;
