@@ -13,8 +13,8 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
-import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects } from './effects';
-import { AddJobsPageComponent, SearchResultsComponent } from './containers';
+import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects } from './effects';
+import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent } from './containers';
 import { JobResultComponent } from './components';
 import { SearchFilterMappingData } from './data';
 
@@ -29,7 +29,8 @@ import { SearchFilterMappingData } from './data';
       AddJobsPageEffects,
       SearchResultsEffects,
       SearchFiltersEffects,
-      SingledFilterEffects
+      SingledFilterEffects,
+      PaymarketEffects
     ]),
     InfiniteScrollModule,
     // Routing
@@ -44,6 +45,9 @@ import { SearchFilterMappingData } from './data';
     // Components
     SearchResultsComponent,
     JobResultComponent,
+
+    // Containers
+    PaymarketsComponent,
 
     // Pages
     AddJobsPageComponent

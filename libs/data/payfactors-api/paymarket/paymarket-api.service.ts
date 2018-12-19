@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
+import { PayMarket } from '../../../models/paymarket';
 
 @Injectable()
 export class PayMarketApiService {
@@ -15,4 +18,8 @@ export class PayMarketApiService {
       .get<any>(`${this.endpoint}(${companyPayMarketId})`);
   }
 
+  getAll(): Observable<PayMarket[]> {
+    return this.payfactorsApiService
+      .get<PayMarket[]>(`${this.endpoint}`);
+  }
 }

@@ -1,0 +1,50 @@
+@import 'colors';
+@import 'search/filters';
+@import '../../libs/features/search/styles/shared-styles.scss';
+
+.paymarkets-container {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.paymarket-results {
+  position: absolute;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  width: 100%;
+  bottom: 30px;
+  top: 40px;
+  right: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+.paymarket-result {
+  display: flex;
+  justify-content: space-between;
+  padding: .3846rem .5rem;
+  height: 28px;
+  cursor: pointer;
+  &:hover {
+    background: lighten($selection-hover-background, 40%);
+  }
+  .badge {
+    margin-top: 3px;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 12px;
+  }
+  &.hidden {
+    display: none;
+  }
+}
+.paymarket-check {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: .4rem;
+  width: 100%;
+  input{
+    margin-right: 5px;
+  }
+}

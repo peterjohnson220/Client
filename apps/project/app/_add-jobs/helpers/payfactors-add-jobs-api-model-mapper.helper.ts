@@ -1,6 +1,9 @@
 import { JobSearchResult } from 'libs/models/payfactors-api';
 
-import { JobResult } from '../models';
+import { PayMarket } from 'libs/models/paymarket';
+
+import { JobResult, JobPayMarket } from '../models';
+
 
 export class PayfactorsAddJobsApiModelMapper {
   ///
@@ -16,6 +19,17 @@ export class PayfactorsAddJobsApiModelMapper {
         BaseMRP: jsr.Base50Mrp,
         TCCMRP: jsr.TccMrp,
         IsMappedToPeerExchange: jsr.IsMappedInPeerExchange,
+        IsSelected: false
+      };
+    });
+  }
+
+  static mapPaymarketsToJobPayMarkets(paymarkets: PayMarket[]): JobPayMarket[] {
+    return paymarkets.map(pm => {
+      return {
+        CompanyPayMarketId: pm.CompanyPayMarketId,
+        PayMarket: pm.PayMarket,
+        IsHidden: false,
         IsSelected: false
       };
     });

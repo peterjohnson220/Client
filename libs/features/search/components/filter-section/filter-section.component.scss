@@ -1,5 +1,6 @@
 @import 'legacy-variables';
 @import 'search/filters-variables';
+@import '../../styles/shared-styles.scss';
 
 .filter{
   padding-bottom: .75rem;
@@ -35,13 +36,6 @@
     overflow-y: scroll;
     bottom: 0;
   }
-}
-
-.search-filter{
-  position: absolute;
-  height: 40px;
-  width: 100%;
-  padding: .5rem .2rem;
 }
 
 .fa-angle-down, .fa-angle-up{
