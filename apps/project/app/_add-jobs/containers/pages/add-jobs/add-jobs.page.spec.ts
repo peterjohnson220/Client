@@ -102,4 +102,14 @@ describe('Project - Add Jobs - Jobs Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should dispatch a clear job search results action when handling clear selections clicked', () => {
+    const expectedAction = new fromAddJobsSearchResultsActions.ClearSelectedJobs();
+
+    spyOn(store, 'dispatch');
+
+    instance.handleClearSelectionsClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
 });

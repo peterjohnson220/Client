@@ -19,6 +19,12 @@ export class PayfactorsAddJobsApiModelMapper {
         BaseMRP: jsr.Base50Mrp,
         TCCMRP: jsr.TccMrp,
         IsMappedToPeerExchange: jsr.IsMappedInPeerExchange,
+        Family: jsr.Family,
+        Description: jsr.Description,
+        FLSAStatus: jsr.FLSAStatus,
+        Category: jsr.Category,
+        Level: jsr.Level,
+        UdfFields: jsr.UdfFields,
         IsSelected: false,
         IsPayfactorsJob: jsr.IsPayfactorsJob
       };

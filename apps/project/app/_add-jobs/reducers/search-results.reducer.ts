@@ -37,18 +37,24 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     case fromSearchResultsActions.REPLACE_JOB_RESULTS: {
       return {
         ...state,
-        jobs: action.payload
+        jobs: setIsSelected(cloneDeep(action.payload), state.selectedJobIds, state.selectedPayfactorsJobCodes)
       };
     }
     case fromSearchResultsActions.ADD_JOB_RESULTS: {
       return {
         ...state,
-        jobs: state.jobs.concat(action.payload)
+        jobs: state.jobs.concat(setIsSelected(cloneDeep(action.payload), state.selectedJobIds, state.selectedPayfactorsJobCodes))
       };
     }
     case fromSearchResultsActions.CLEAR_SELECTED_JOBS: {
+      const jobs = cloneDeep(state.jobs).map(j => {
+        j.IsSelected = false;
+        return j;
+      });
+
       return {
         ...state,
+        jobs: jobs,
         selectedJobIds: [],
         selectedPayfactorsJobCodes: []
       };
@@ -56,6 +62,20 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
     default:
       return state;
   }
+}
+
+function setIsSelected(jobResults: JobResult[], selectedJobIds: string[], selectedPayfactorsJobCodes: string[]): JobResult[] {
+  jobResults.filter(jr => jr.IsPayfactorsJob).map(jr => {
+    jr.IsSelected = selectedPayfactorsJobCodes.some(pfjc => pfjc === jr.Code);
+    return jr;
+  });
+
+  jobResults.filter(jr => !jr.IsPayfactorsJob).map(jr => {
+    jr.IsSelected = selectedJobIds.some(sji => sji === jr.Id);
+    return jr;
+  });
+
+  return jobResults;
 }
 
 export const getJobs = (state: State) => state.jobs;

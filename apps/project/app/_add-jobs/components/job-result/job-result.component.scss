@@ -1,4 +1,5 @@
 @import 'job-result';
+@import 'colors';
 
 .job-result-row {
   cursor: pointer;
@@ -7,4 +8,8 @@
 .peer-icon {
   margin-left: .5rem;
   margin-top: .25rem;
+}
+
+.result.selected{
+  background: $selected-item-background-color;
 }
