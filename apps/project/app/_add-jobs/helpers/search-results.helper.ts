@@ -6,10 +6,18 @@ export function toggleJobSelection(jobs: JobResult[], selectedJob: JobResult): v
 }
 
 export function updateSelectedJobIds(selectedJobIds: string[], selectedJob: JobResult): string[] {
-  const matchingJobId = selectedJobIds.find(id => id === selectedJob.Id);
-  if (!!matchingJobId) {
-    return selectedJobIds.filter(id => id !== matchingJobId);
+  return toggleValueInList(selectedJobIds, selectedJob.Id);
+}
+
+export function updateSelectedJobCodes(selectedJobCodes: string[], selectedJob: JobResult): string[] {
+  return toggleValueInList(selectedJobCodes, selectedJob.Code);
+}
+
+function toggleValueInList(valuesList: string[], value: string) {
+  const matchingValue = valuesList.find(id => id === value);
+  if (!!matchingValue) {
+    return valuesList.filter(id => id !== matchingValue);
   } else {
-    return selectedJobIds.concat(selectedJob.Id);
+    return valuesList.concat(value);
   }
 }

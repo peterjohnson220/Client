@@ -52,6 +52,16 @@ export const getContext = createSelector(
   fromAddJobsPageReducer.getContext
 );
 
+export const getAddingData = createSelector(
+  selectAddJobsPageState,
+  fromAddJobsPageReducer.getAddingData
+);
+
+export const getAddingDataError = createSelector(
+  selectAddJobsPageState,
+  fromAddJobsPageReducer.getAddingDataError
+);
+
 // Search Results Selectors
 export const getJobs = createSelector(
   selectSearchResultsState,
@@ -61,6 +71,11 @@ export const getJobs = createSelector(
 export const getSelectedJobIds = createSelector(
   selectSearchResultsState,
   fromSearchResultsReducer.getSelectedJobIds
+);
+
+export const getSelectedPayfactorsJobCodes = createSelector(
+  selectSearchResultsState,
+  fromSearchResultsReducer.getSelectedPayfactorsJobCodes
 );
 
 // Paymarkets Selectors

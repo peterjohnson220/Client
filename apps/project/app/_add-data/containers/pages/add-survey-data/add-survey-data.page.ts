@@ -38,6 +38,7 @@ export class AddSurveyDataPageComponent extends SearchBase {
     this.selectedCuts$ = this.store.select(fromSurveySearchReducer.getSelectedDataCuts);
     this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
+    this.addingData$ = this.store.select(fromAddDataReducer.getAddingData);
     this.excludeFromParticipation = false;
     disableDatacutsDragging(dragulaService);
   }
