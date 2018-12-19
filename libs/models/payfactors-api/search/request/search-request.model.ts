@@ -21,6 +21,6 @@ export interface BaseSearchRequest {
 }
 
 export interface BaseProjectSearchRequest extends BaseSearchRequest {
-  CountryCode: string;
+  CountryCode?: string;
   ProjectId: number;
 }

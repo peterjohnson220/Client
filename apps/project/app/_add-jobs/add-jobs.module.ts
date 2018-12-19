@@ -13,7 +13,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
-import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects } from './effects';
+import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent } from './containers';
 import { JobResultComponent } from './components';
 import { SearchFilterMappingData } from './data';
@@ -28,7 +28,8 @@ import { SearchFilterMappingData } from './data';
     EffectsModule.forFeature([
       AddJobsPageEffects,
       SearchResultsEffects,
-      SearchFiltersEffects
+      SearchFiltersEffects,
+      SingledFilterEffects
     ]),
     InfiniteScrollModule,
     // Routing
