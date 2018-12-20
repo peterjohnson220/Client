@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { AddProjectJobsRequest, AddProjectJobsResponse } from '../../../models/payfactors-api';
+import {
+  AddProjectJobsRequest,
+  AddProjectJobsResponse,
+  CreateNewProjectJobRequest
+} from '../../../models/payfactors-api';
 
 @Injectable()
 export class ProjectApiService {
@@ -13,7 +17,11 @@ export class ProjectApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  addJobs(projectId: number, addJobsRequest: AddProjectJobsRequest): Observable<AddProjectJobsResponse> {
-    return this.payfactorsApiService.post(`${this.endpoint}(${projectId})/Default.AddJobs`, addJobsRequest);
+  addJobs(projectId: number, request: AddProjectJobsRequest): Observable<AddProjectJobsResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${projectId})/Default.AddJobs`, request);
+  }
+
+  createNewJob(projectId: number, request: CreateNewProjectJobRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}(${projectId})/Default.CreateNewJob`, request);
   }
 }

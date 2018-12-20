@@ -3,9 +3,9 @@
 @import '../../libs/features/search/styles/shared-styles.scss';
 
 .paymarkets-container {
-  position: absolute;
   width: 100%;
-  bottom: 0;
+  height: 100%;
+  position: relative;
 }
 
 .paymarket-results {
@@ -25,6 +25,7 @@
   padding: .3846rem .5rem;
   height: 28px;
   cursor: pointer;
+
   &:hover {
     background: lighten($selection-hover-background, 40%);
   }

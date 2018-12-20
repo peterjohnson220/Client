@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AddJobsPageComponent } from './containers';
+import { AddJobsPageComponent, CreateNewJobPageComponent } from './containers';
 
 const routes: Routes = [
   { path: '', redirectTo: 'add-jobs', pathMatch: 'full' },
-  { path: 'add-jobs', component: AddJobsPageComponent }
+  { path: 'add-jobs', component: AddJobsPageComponent, data: { key: 'add-jobs'} },
+  { path: 'create-new-job', component: CreateNewJobPageComponent }
 ];
 
 @NgModule({
@@ -13,3 +14,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AddJobsRoutingModule { }
+
+
+

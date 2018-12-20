@@ -10,7 +10,7 @@ import * as fromSearchResultsActions from 'libs/features/search/actions/search-r
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import { WindowCommunicationService } from 'libs/core/services';
 
-import * as fromAddJobsPageActions from '../actions/add-jobs.page.actions';
+import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
 
 import * as fromAddJobsReducer from '../reducers';
 
@@ -39,7 +39,7 @@ export class AddJobsPageEffects {
       ),
       switchMap((contextData) => {
         const companyJobIds = contextData.selectedJobIds.map(j => Number(j));
-          return this.addJobsApiService.addJobs(contextData.context.ProjectId, {
+          return this.projectApiService.addJobs(contextData.context.ProjectId, {
             CompanyPayMarketIds: contextData.payMarkets,
             CompanyJobIds: companyJobIds,
             PayfactorsJobCodes: contextData.selectedJobCodes
@@ -68,7 +68,7 @@ export class AddJobsPageEffects {
   constructor(
     private actions$: Actions,
     private windowCommunicationService: WindowCommunicationService,
-    private addJobsApiService: ProjectApiService,
+    private projectApiService: ProjectApiService,
     private store: Store<fromAddJobsReducer.State>
   ) {
   }
