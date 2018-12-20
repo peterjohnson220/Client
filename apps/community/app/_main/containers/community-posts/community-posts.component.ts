@@ -236,4 +236,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     }
   }
 
+  escapeHtml(unsafe) {
+    return escapeSpecialHtmlCharacters(unsafe);
+ }
+
 }

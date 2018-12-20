@@ -6,7 +6,7 @@
 </pf-community-avatar>
 <div class="reply-offset">
   <pf-community-post-header [user]="reply.UserInfo" [time]="reply.ElapsedTime" [isReply]="true" [isCurrentUserPost]="reply.IsCurrentUserReply" [postId]="reply.PostId" [replyId]="reply.Id"></pf-community-post-header>
-  <div class="mt-2 mb-2 reply-body" [innerHtml]="reply.ReplyText | formatLinkUrl | highlightHashTag:'styleAndAction'"></div>
+  <div class="mt-2 mb-2 reply-body" [innerHtml]="escapeHtml(reply.ReplyText) | newLine | formatLinkUrl | highlightHashTag:'styleAndAction'"></div>
   <pf-community-like
     [LikedByCurrentUser]="reply.LikedByCurrentUser"
     [PostId]="reply.PostId"
