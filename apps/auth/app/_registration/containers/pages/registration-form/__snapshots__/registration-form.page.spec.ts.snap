@@ -1,0 +1,239 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RegistrationFormPageComponent should match snapshot 1`] = `
+<pf-registration-form-page
+  email=""
+  formBuilder={[Function FormBuilder]}
+  formSubmittingSubscription={[Function Subscriber]}
+  formValueChangesSubscription={[Function Subscriber]}
+  isSubmitError$={[Function Store]}
+  isSubmitting$={[Function Store]}
+  registrationForm={[Function FormGroup]}
+  registrationStore={[Function Store]}
+  showSuccessMessage$={[Function Store]}
+  validationService={[Function RegistrationFormValidationService]}
+>
+  <div
+    class="p-4 registration-form"
+  >
+    
+    
+    <div
+      class="position-relative"
+    >
+      <div
+        class="opacity-transition no-opacity"
+      >
+        <i
+          class="fa fa-spinner fa-spin fa-3x"
+        />
+      </div>
+      <div
+        class="opacity-transition"
+      >
+        
+        <form
+          id="au-form-registration"
+        >
+          <h5
+            class="mb-3"
+          >
+            Register for an account
+          </h5>
+          
+          <div
+            class="form-group"
+          >
+            <label>
+              First Name*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="FirstName"
+              id="au-tb-self-registration-first-name"
+              maxlength="50"
+              ng-reflect-focus="true"
+              type="text"
+            />
+            <label
+              class="error invisible"
+            >
+               Enter at least two letters and no special characters or numbers 
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Last Name*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="LastName"
+              id="au-tb-self-registration-last-name"
+              maxlength="50"
+              type="text"
+            />
+            <label
+              class="error invisible"
+            >
+               Enter at least two letters and no special characters or numbers 
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Work Email*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="Email"
+              id="au-tb-self-registration-work-email"
+              type="email"
+            />
+            <label
+              class="error invisible"
+            >
+              
+               Please enter a valid business email address. 
+              
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Title*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="Title"
+              id="au-tb-self-registration-title"
+              maxlength="255"
+              type="text"
+            />
+            <label
+              class="error invisible"
+            >
+               Enter at least five letters and no special characters or numbers 
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Company Name*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="CompanyName"
+              id="au-tb-self-registration-company-name"
+              maxlength="255"
+              type="text"
+            />
+            <label
+              class="error invisible"
+            >
+               Enter at least two characters 
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Website*
+            </label>
+            <input
+              class="form-control"
+              formcontrolname="Website"
+              id="au-tb-self-registration-website"
+              maxlength="255"
+              type="text"
+            />
+            <label
+              class="error invisible"
+            >
+               Enter a valid website 
+            </label>
+          </div>
+          <div
+            class="form-group"
+          >
+            <label>
+              Number of Employees*
+            </label>
+            <select
+              class="form-control"
+              formcontrolname="NumberEmployees"
+              id="au-ddm-self-registration-number-of-employees"
+            >
+              <option />
+              <option>
+                1-19
+              </option>
+              <option>
+                20-49
+              </option>
+              <option>
+                50-99
+              </option>
+              <option>
+                100-249
+              </option>
+              <option>
+                250-499
+              </option>
+              <option>
+                500-749
+              </option>
+              <option>
+                750+
+              </option>
+            </select>
+            <label
+              class="error invisible"
+            >
+               Select a non blank value 
+            </label>
+          </div>
+          <div
+            class="form-check"
+          >
+            <input
+              class="form-check-input"
+              formcontrolname="TermsAndConditions"
+              id="au-chk-self-registration-terms"
+              type="checkbox"
+            />
+            <label
+              class="form-check-label"
+              for="au-chk-self-registration-terms"
+            >
+               I agree to the Payfactors for Small Business terms and conditions.* 
+            </label>
+          </div>
+          <div
+            class="d-flex justify-content-end mt-3"
+          >
+            <button
+              class="btn btn-secondary mr-2"
+              id="au-btn-cancel"
+              routerlink="/login"
+            >
+               Return to Login 
+            </button>
+            <button
+              class="btn btn-primary"
+              disabled=""
+              id="au-btn-submit"
+            >
+               Submit 
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</pf-registration-form-page>
+`;

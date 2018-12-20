@@ -5,23 +5,36 @@
 .mapping-info-container{
     padding: 3px;
     padding-right:5px;
+    height:100%;
+}
+
+.div-border-right{
+    border-right-style: solid;
+    border-right-color: #cccccc;
+}
+
+.company-job-info-row{
+    height:97%;
 }
 
 .company-job-to-map-to-result{
     padding-top:10px;
 }
 
+.mapping-results-row{
+    height:90%;
+}
+
 .company-job-mapping-add {
     padding: 0 1rem 0 1rem;
     display: flex;
     flex-direction: column;
-
-   
 }
+
 .mapping-results-container {
     margin-top: 0.5rem;
     position: relative;
-    height: 600px;
+    height: 95%;
     overflow-y: auto;
 }
 

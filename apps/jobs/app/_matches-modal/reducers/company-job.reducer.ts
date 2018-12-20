@@ -1,6 +1,8 @@
 // Import all exports from our feature's actions
+import { CompanyJob } from 'libs/models/company';
+
 import * as fromCompanyJobActions from '../actions/company-job.actions';
-import { CompanyJob } from 'libs/models/company/company-job.model';
+
 
 // Define our feature state
 export interface State {

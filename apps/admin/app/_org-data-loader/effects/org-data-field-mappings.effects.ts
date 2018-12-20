@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { of } from 'rxjs/observable/of';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
-import { OrgDataFieldMappingsApiService } from 'libs/data/payfactors-api/org-data-loader';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
 
 import * as fromOrgDataFieldMappingsActions from '../actions/org-data-field-mappings.actions';
 
@@ -18,7 +18,7 @@ export class OrgDataFieldMappingsEffects {
     .ofType(fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS).pipe(
       map((action: fromOrgDataFieldMappingsActions.SavingFieldMappings) => action.payload),
       switchMap((mappings: any) => {
-        return this.orgDataAutoloaderApi.saveFieldMappings(mappings).pipe(
+        return this.loaderFieldMappingsApiService.saveFieldMappings(mappings).pipe(
           map(() => new fromOrgDataFieldMappingsActions.SavingFieldMappingsSuccess()),
           catchError(error => of(new fromOrgDataFieldMappingsActions.SavingFieldMappingsError()))
         );
@@ -27,6 +27,6 @@ export class OrgDataFieldMappingsEffects {
 
   constructor(
     private actions$: Actions,
-    private orgDataAutoloaderApi: OrgDataFieldMappingsApiService
+    private loaderFieldMappingsApiService: LoaderFieldMappingsApiService
   ) {}
 }

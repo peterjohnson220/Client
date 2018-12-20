@@ -56,7 +56,8 @@ export class TermsConditionsModalComponent implements OnInit {
       backdrop: 'static',
       container: `.modal-container`,
       size: this.size,
-      centered: true
+      centered: true,
+      keyboard: this.showCloseButton
     });
   }
 

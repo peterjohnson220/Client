@@ -7,6 +7,7 @@ export class TimelineActivityMapper {
   public static get AVATAR_BASE_URL(): string { return environment.avatarSource; }
   public static get ACTIVITY_TYPE(): string { return 'ProjectActivity'; }
   public static get COMMUNITY_TYPE(): string { return 'Community'; }
+  public static get NEW_COMMUNITY_TYPE(): string { return 'NewCommunity'; }
   public static get RESOURCES_TYPE(): string { return 'Resources'; }
   public static get JOB_DESCRIPTIONS_TYPE(): string { return 'JobDescriptions'; }
 
@@ -55,6 +56,9 @@ export class TimelineActivityMapper {
       case FeatureTypes.Community: {
         return TimelineActivityMapper.COMMUNITY_TYPE;
       }
+      case FeatureTypes.NewCommunity: {
+        return TimelineActivityMapper.NEW_COMMUNITY_TYPE;
+      }
       case FeatureTypes.Resources: {
         return TimelineActivityMapper.RESOURCES_TYPE;
       }
@@ -84,7 +88,10 @@ export class TimelineActivityMapper {
         return this.generateSubjectForActivity(dto);
       }
       case (this.COMMUNITY_TYPE): {
-        return this.generateSubjectForCommunity(dto);
+      return this.generateSubjectForCommunity(dto, this.COMMUNITY_TYPE);
+    }
+      case (this.NEW_COMMUNITY_TYPE): {
+        return this.generateSubjectForCommunity(dto, this.NEW_COMMUNITY_TYPE);
       }
       case (this.JOB_DESCRIPTIONS_TYPE): {
         return this.generateSubjectForJobDescription(dto);
@@ -106,8 +113,8 @@ export class TimelineActivityMapper {
     return 'Shared ' + projectHtmlLink + ' with you.';
   }
 
-  static generateSubjectForCommunity(dto: TimelineActivityDto): string {
-    const communityUrl = dto.Links.filter( x => x.Type === 'Community')[0].Url;
+  static generateSubjectForCommunity(dto: TimelineActivityDto, typeName: string): string {
+    const communityUrl = dto.Links.filter( x => x.Type === typeName)[0].Url;
     const communityFullUrl =  this.BASE_URL + communityUrl;
     const communityHtmlLink = this.generateHtmlLink(communityFullUrl, 'Community', 'Link to community');
 
@@ -223,6 +230,9 @@ export class TimelineActivityMapper {
   static generatePostedByUrl(dto: TimelineActivityDto): string {
     switch (dto.Type) {
       case (this.COMMUNITY_TYPE): {
+        return this.generatePostedByUrlForCommunity(dto);
+      }
+      case (this.NEW_COMMUNITY_TYPE): {
         return this.generatePostedByUrlForCommunity(dto);
       }
       default: {

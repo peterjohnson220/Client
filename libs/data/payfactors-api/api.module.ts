@@ -15,16 +15,19 @@ import { UserApiService, UserFilterApiService, UserProfileApiService } from './u
 import { CompanyApiService } from './company';
 import { JobDescriptionApiService, JobDescriptionManagementApiService } from './jdm';
 import { TermsConditionsApiService } from './terms-conditions';
-import { OrgDataFieldMappingsApiService } from './org-data-loader';
+import { LoaderFieldMappingsApiService } from './data-loads/index';
 import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
+import { CompanyAdminApiService } from './company-admin';
+import { DataLoadEmailRecipientsApiService } from './data-loads';
 
 @NgModule({
   imports:      [ HttpClientModule ],
   providers:    [
     CompanyApiService,
+    CompanyAdminApiService,
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,
@@ -44,12 +47,13 @@ import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
     SurveySearchApiService,
     ExchangeScopeApiService,
     CompanySettingsApiService,
-    OrgDataFieldMappingsApiService,
+    LoaderFieldMappingsApiService,
     ExchangeDataCutsApiService,
     AppEnvironmentApiService,
     UserTicketApiService,
     CompanyJobApiService,
-    CompanyJobPricingMatchApiService
+    CompanyJobPricingMatchApiService,
+    DataLoadEmailRecipientsApiService
   ]
 })
 export class PfApiModule { }

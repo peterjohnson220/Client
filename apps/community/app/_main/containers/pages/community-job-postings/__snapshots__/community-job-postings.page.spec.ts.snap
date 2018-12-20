@@ -1,51 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CommunityJobPostingsPageComponent should show community job postings page 1`] = `
-<pf-community-job-postings-page>
+<pf-community-job-postings-page
+  showSearchContainer="false"
+>
   <pf-page-with-title-bar>
     
      Job Postings 
     
+    
     <div
-      class="search-container"
-    >
-      <div
-        class="h-100"
-      >
-        <div
-          class="row h-100 p-4 vertical-align"
-        >
-          <div
-            class="col-4 offset-2 input-container h-100"
-          >
-            <input
-              class="community-border-radius"
-              id="search"
-              placeholder="Search Jobs"
-            />
-            <label
-              class="fal fa-search input-icon"
-              for="search"
-            />
-          </div>
-          <div
-            class="col-4 input-container h-100"
-          >
-            <input
-              class="community-border-radius"
-              id="location"
-              placeholder="City, state, or country"
-            />
-            <label
-              class="fal fa-map-marker-alt input-icon"
-              for="location"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="search-results-container"
+      class="search-results-container-full-height"
+      ng-reflect-ng-class="[object Object]"
     >
       <pf-community-jobs />
     </div>

@@ -5,6 +5,7 @@ export class TilePreviewType {
 
   Chart = TilePreviewTypes.Chart;
   ChartWithCalendar = TilePreviewTypes.ChartWithCalendar;
+  ChartWithList = TilePreviewTypes.ChartWithList;
   Icon = TilePreviewTypes.Icon;
   List = TilePreviewTypes.List;
   PlaceHolder = TilePreviewTypes.PlaceHolder;
@@ -13,6 +14,7 @@ export class TilePreviewType {
     this.AllTypes = [
       TilePreviewTypes.Chart,
       TilePreviewTypes.ChartWithCalendar,
+      TilePreviewTypes.ChartWithList,
       TilePreviewTypes.Icon,
       TilePreviewTypes.List,
       TilePreviewTypes.PlaceHolder

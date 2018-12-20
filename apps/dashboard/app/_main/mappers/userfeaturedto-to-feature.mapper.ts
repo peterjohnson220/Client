@@ -18,6 +18,8 @@ export class UserFeatureDtoToFeatureMapper {
         return FeatureTypes.Activity;
       case 'Community':
         return FeatureTypes.Community;
+      case 'New Community':
+          return FeatureTypes.NewCommunity;
       case 'Employees':
         return FeatureTypes.Employees;
       case 'Data Insights':

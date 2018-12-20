@@ -1,29 +1,28 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { ExchangeJobSearch } from 'libs/models';
+import { ExchangeJobSearch, CompanyJobSummary } from 'libs/models';
 
 import * as fromAssociateCompanyJobActions from '../actions/associate-company-jobs.actions';
 
 // Extended entity state
-export interface State extends EntityState<ExchangeJobSearch> {
+export interface State {
     isLoading: boolean;
     hasLoadingError: boolean;
     isAddingAssociation: boolean;
     hasAddingAssociationError: boolean;
+    companyJob: CompanyJobSummary;
+    exchangeJobSearch: ExchangeJobSearch[];
 }
 
-// Create entity adapter
-export const adapter: EntityAdapter<ExchangeJobSearch> = createEntityAdapter<ExchangeJobSearch>({
-    selectId: (exchangeJob: ExchangeJobSearch) => exchangeJob.ExchangeJobId
-});
-
 // Initial State
-export const initialState: State = adapter.getInitialState({
+export const initialState: State = {
     isLoading: false,
     hasLoadingError: false,
     isAddingAssociation: false,
-    hasAddingAssociationError: false
-});
+    hasAddingAssociationError: false,
+    companyJob: null,
+    exchangeJobSearch: null
+};
 
 
 export function reducer(
@@ -31,9 +30,39 @@ export function reducer(
     featureAction: fromAssociateCompanyJobActions.Actions
 ): State {
     switch (featureAction.type) {
+
+        case fromAssociateCompanyJobActions.LOAD_COMPANY_JOB: {
+            return {
+                ...featureState,
+                isLoading: true,
+                hasLoadingError: false,
+                hasAddingAssociationError: false,
+                isAddingAssociation: false,
+            };
+        }
+        case fromAssociateCompanyJobActions.LOAD_COMPANY_JOB_SUCCESS: {
+            return {
+                ...featureState,
+                isLoading: false,
+                hasLoadingError: false,
+                isAddingAssociation: false,
+                hasAddingAssociationError: false,
+                companyJob: featureAction.payload
+            };
+        }
+        case fromAssociateCompanyJobActions.LOAD_COMPANY_JOB_ERROR: {
+            return {
+                ...featureState,
+                isLoading: false,
+                hasLoadingError: true,
+                isAddingAssociation: false,
+                hasAddingAssociationError: false,
+            };
+        }
         case fromAssociateCompanyJobActions.LOAD_EXCHANGE_JOBS: {
             return {
-                ...adapter.removeAll(featureState),
+                ...featureState,
+                exchangeJobSearch: null,
                 isLoading: true,
                 hasLoadingError: false,
                 hasAddingAssociationError: false,
@@ -41,36 +70,49 @@ export function reducer(
             };
         }
         case fromAssociateCompanyJobActions.LOAD_EXCHANGE_JOBS_SUCCESS: {
-            const jobs: ExchangeJobSearch[] = featureAction.payload;
             return {
-                ...adapter.addAll(jobs, featureState),
+                ...featureState,
+                exchangeJobSearch: featureAction.payload,
                 isLoading: false,
+                hasLoadingError: false,
+                isAddingAssociation: false,
+                hasAddingAssociationError: false
             };
         }
         case fromAssociateCompanyJobActions.LOAD_EXCHANGE_JOBS_ERROR: {
             return {
                 ...featureState,
                 isLoading: false,
-                hasLoadingError: true
+                hasLoadingError: true,
+                isAddingAssociation: false,
+                hasAddingAssociationError: false
             };
         }
         case fromAssociateCompanyJobActions.MAP_EXCHANGE_JOB: {
             return {
                 ...featureState,
-                isAddingAssociation: true
+                isLoading: false,
+                hasLoadingError: false,
+                isAddingAssociation: true,
+                hasAddingAssociationError: false,
             };
         }
         case fromAssociateCompanyJobActions.MAP_EXCHANGE_JOB_SUCCESS: {
             return {
                 ...featureState,
-                isAddingAssociation: false
+                isLoading: false,
+                hasLoadingError: false,
+                isAddingAssociation: false,
+                hasAddingAssociationError: false,
             };
         }
         case fromAssociateCompanyJobActions.MAP_EXCHANGE_JOB_ERROR: {
             return {
                 ...featureState,
+                isLoading: false,
+                hasLoadingError: false,
                 isAddingAssociation: false,
-                hasAddingAssociationError: true
+                hasAddingAssociationError: true,
             };
         }
         default: {
@@ -83,3 +125,5 @@ export const getIsLoading = (state: State) => state.isLoading;
 export const getHasLoadingError = (state: State) => state.hasLoadingError;
 export const getIsAdding = (state: State) => state.isAddingAssociation;
 export const getHasAddingError = (state: State) => state.hasAddingAssociationError;
+export const getExchangeJobs = (state: State) => state.exchangeJobSearch;
+export const getCompanyJob = (state: State) => state.companyJob;

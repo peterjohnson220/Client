@@ -6,10 +6,10 @@ import { Subscription, Observable } from 'rxjs';
 
 import * as constants from 'libs/models/community/community-constants.model';
 import * as fromCommunityPostReducer from '../../reducers';
-import * as fromCommunityPostAddReplyReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
-import { CommunityTag, CommunityPost } from 'libs/models';
+import { CommunityTag } from 'libs/models';
+import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-text-area',
@@ -36,11 +36,13 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   @Input() public dangerStartNumber = 1950;
   @Input() public textPlaceholder: string;
   @Input() public postId: string;
-  @Input() public minimumHeight = '50';
+  @Input() public minimumHeight = 75;
 
   @ViewChild('discussionTextArea') discussionTextArea: ElementRef;
   @ViewChild('overlayTextArea') overlayTextArea: ElementRef;
   @ViewChild('textAreaContainer') textAreaContainer: ElementRef;
+  @ViewChild('textAreaContainerScrollable') textAreaContainerScrollable: ElementRef;
+
   @ViewChild('suggestTagsContainer') suggestTagsContainer: ElementRef;
 
   get context() { return this.parentForm.get('context'); }
@@ -60,7 +62,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // minimum height is configurable
-    this.textAreaContainer.nativeElement.style.minHeight = this.minimumHeight + 'px';
+    this.textAreaContainerScrollable.nativeElement.style.minHeight = this.minimumHeight + 'px';
+    this.textAreaContainerScrollable.nativeElement.style.maxHeight = this.minimumHeight + 'px';
+
+    this.textAreaContainer.nativeElement.style.minHeight = this.minimumHeight - 2 + 'px';
 
     this.suggestedCommunityTagsSubscription = this.suggestedCommunityTags$.subscribe((data) => {
       this.mapToCommunityTags(data);
@@ -72,7 +77,8 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
 
     this.textValueChangesSubscription = this.context.valueChanges.subscribe(values => {
       this.autogrow();
-    });
+   });
+
   }
 
   ngOnDestroy() {
@@ -132,6 +138,12 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
   }
 
+  onResize(event) {
+    if ( this.textAreaContainer.nativeElement.offsetWidth > 0 ) {
+      this.autogrow();
+    }
+  }
+
   private autogrow() {
     this.textAreaContainer.nativeElement.style.height = 0;
     this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
@@ -176,5 +188,8 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     });
   }
 
+  escapeHtml(unsafe) {
+    return escapeSpecialHtmlCharacters(unsafe);
+ }
 
 }

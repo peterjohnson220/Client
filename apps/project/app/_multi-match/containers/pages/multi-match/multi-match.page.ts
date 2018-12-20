@@ -1,21 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { Subscription } from 'rxjs/index';
-
+import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
+
+import * as fromSearchPageActionsShared from 'libs/features/search/actions/search-page.actions';
+import * as fromSearchReducer from 'libs/features/search/reducers';
 
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import * as fromMultiMatchReducer from '../../../reducers';
-import * as fromSharedReducer from '../../../../shared/reducers';
-import { SurveySearchBase } from '../../../../shared/containers/pages/survey-search-base';
-import { enableDatacutsDragging } from '../../../../shared/helpers';
+import * as fromSurveySearchReducer from '../../../../survey-search/reducers';
+import { SurveySearchBase } from '../../../../survey-search/containers/pages/survey-search-base';
+import { enableDatacutsDragging } from '../../../../survey-search/helpers';
 import { JobToPrice } from '../../../models';
-import * as fromSearchActions from '../../../../shared/actions/search.actions';
-
-
 
 @Component({
   selector: 'pf-multi-match-page',
@@ -28,16 +26,17 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   savingChanges$: Observable<boolean>;
   pageShown$: Observable<boolean>;
   changesToSave: boolean;
+
   // Subscription
   private jobsToPriceSubscription: Subscription;
 
   constructor(
-    store: Store<fromSharedReducer.State>,
+    store: Store<fromSurveySearchReducer.State>,
     private dragulaService: DragulaService
   ) {
     super(store);
     enableDatacutsDragging(dragulaService);
-    this.pageShown$ = this.store.select(fromSharedReducer.getPageShown);
+    this.pageShown$ = this.store.select(fromSearchReducer.getPageShown);
     this.jobsToPrice$ = this.store.select(fromMultiMatchReducer.getJobsToPrice);
     this.savingChanges$ = this.store.select(fromMultiMatchReducer.getSavingJobMatchUpdates);
   }
@@ -49,7 +48,7 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   }
 
   onResetApp() {
-    this.store.dispatch(new fromSearchActions.HidePage());
+    this.store.dispatch(new fromSearchPageActionsShared.HidePage());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
   }
 
@@ -60,7 +59,7 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   }
 
   handleCancelClicked() {
-    this.store.dispatch(new fromSearchActions.CloseSearchPage());
+    this.store.dispatch(new fromSearchPageActionsShared.CloseSearchPage());
   }
 
   handleSaveClicked() {

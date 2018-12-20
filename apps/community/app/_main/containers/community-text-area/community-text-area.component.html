@@ -1,27 +1,31 @@
 <div class="form-group" [formGroup]="parentForm">
-  <div class="textAreaContainer" #textAreaContainer>     
-    <div #overlayTextArea 
-        class="overlayTextArea pl-2"
-        [innerHtml]="discussionTextArea.value | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
-    <textarea  #discussionTextArea
-      class="discussionTextArea pl-2 community-border-radius"
-      formControlName="context" 
-      maxlength="{{maxTextLength}}"
-      placeholder="{{textPlaceholder}}"
-      (keydown)="onKeyDown($event)"  
-      (keyup)="onKeyUp($event)"
-      spellcheck="false"
-      [pfFocus]="true">
-    </textarea> 
-
-    <pf-radial-text-counter class="radial-counter"
-      [textToCount]="context.value"
-      [textMaxLength]="maxTextLength"
-      [WarningStartNumber]="warningStartNumber"
-      [DangerStartNumber]="dangerStartNumber">
-    </pf-radial-text-counter> 
-
+  <div class="textAreaContainerScrollable" #textAreaContainerScrollable>   
+     <div #textAreaContainer class="textAreaContainer"
+      (window:resize)="onResize($event)">
+      <div #overlayTextArea 
+          class="overlayTextArea" 
+          [innerHtml]="escapeHtml(discussionTextArea.value) | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
+      <textarea  #discussionTextArea
+        id="discussionTextArea"
+        class="discussionTextArea"
+        formControlName="context" 
+        maxlength="{{maxTextLength}}"
+        placeholder="{{textPlaceholder}}"
+        (keydown)="onKeyDown($event)"  
+        (keyup)="onKeyUp($event)"
+        spellcheck="false"
+        [pfFocus]="true">
+      </textarea> 
+    </div>
   </div>
+
+  <pf-radial-text-counter class="radial-counter"
+    [textToCount]="context.value"
+    [textMaxLength]="maxTextLength"
+    [WarningStartNumber]="warningStartNumber"
+    [DangerStartNumber]="dangerStartNumber">
+  </pf-radial-text-counter> 
+
 </div>
 <div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" 
   class="list-group suggested-tags"

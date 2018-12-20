@@ -1,11 +1,11 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { DataCut, JobMatchCut } from 'libs/models/survey-search';
+import { DataCut, JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
-import { DataCutDetails } from '../../shared/models';
+import { DataCutDetails } from '../../survey-search/models';
 
 export interface State {
   loadingJobs: boolean;

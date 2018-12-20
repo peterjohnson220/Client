@@ -1,5 +1,10 @@
 @import 'colors';
 
+.pf-inner-page-content {
+  overflow: hidden;
+  padding: 10px 0;
+}
+
 .card-group {
   height: inherit;
   width: inherit;
@@ -9,14 +14,46 @@
   cursor: pointer;
 }
 
-.list-group-item:hover {
+.inner-nav {
+  height: 100%;
+  width: 250px;
+  border-right: 1px solid #CCC;
+  padding: 0.5rem 0.5rem 0 0;
+}
+
+.inner-nav ul li {
+  list-style: none;
+}
+
+.inner-nav-heading {
+  padding: 0 0 0.5rem 1rem;
+  text-transform: uppercase;
+  color: #707070;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.nav {
+  display: flex;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-item:hover {
   background-color: $selection-hover-background;
   cursor: pointer;
+  padding-bottom: 0;
+}
+
+.inner-content {
+  padding: 1rem 0.5rem 0 1.5rem;
+  flex-grow: 1;
 }
 
 .roles-list-column {
   font-weight: bold;
-  min-width: 150px;
+  min-width: 250px;
 }
 
 .card-header{
@@ -31,3 +68,75 @@
   height: 100%;
   width: 100%;
 }
+
+.outer-nav-link {
+  text-align: center;
+}
+
+.inner-nav {
+  border-right: 1px solid #CCC;
+  padding: 0.9rem 0 0 0.1rem;
+
+  ul {
+    padding: 0;
+    width: 250px;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    &:hover {
+      background-color: #e6e6e6;
+      cursor: pointer;
+    }
+    &:active {
+      color: #fff;
+      background-color: #1872ae;
+    }
+    &.selected {
+      color:#333;
+      font-weight: bold;
+      background-color: #e6e6e6;
+    }
+  }
+}
+
+.counts {
+  float: right;
+}
+
+.font-a-icon {
+  margin-right: .75rem;
+}
+
+.font-a-icon-close {
+  margin-right: .55rem;
+}
+
+.inner-nav-heading {
+  padding: 0 0 0.5rem 1rem;
+  text-transform: uppercase;
+  color: #707070;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.inner-content {
+  padding: 0.5rem 0 0 1rem;
+  margin-top:-.75rem;
+  flex-grow: 1;
+}
+
+:host ::ng-deep .content-container {
+  height: 100%;
+  width: 100%;
+  & > *:not(router-outlet) {
+    flex-grow: 1;
+  }
+}
+

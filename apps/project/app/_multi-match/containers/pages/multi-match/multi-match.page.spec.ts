@@ -6,15 +6,14 @@ import spyOn = jest.spyOn;
 import { DragulaModule } from 'ng2-dragula';
 
 import * as fromRootState from 'libs/state/state';
+import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 
 import * as fromMultimatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
-import * as fromSearchActions from '../../../../shared/actions/search.actions';
 import * as fromMultiMatchReducer from '../../../reducers';
-import * as fromSharedReducer from '../../../../shared/reducers';
+import * as fromSurveySearchReducer from '../../../../survey-search/reducers';
 import { MultiMatchPageComponent } from './multi-match.page';
-import { generateProjectContext } from '../../../../shared/models';
-
+import { generateProjectContext } from '../../../../survey-search/models';
 
 describe('Project - Add Data - Multi Match Page', () => {
   let fixture: ComponentFixture<MultiMatchPageComponent>;
@@ -28,7 +27,7 @@ describe('Project - Add Data - Multi Match Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           project_multiMatch: combineReducers(fromMultiMatchReducer.reducers),
-          project_shared: combineReducers(fromSharedReducer.reducers),
+          project_surveySearch: combineReducers(fromSurveySearchReducer.reducers),
         }),
         DragulaModule.forRoot()
       ],
@@ -47,7 +46,7 @@ describe('Project - Add Data - Multi Match Page', () => {
   });
 
   it('should dispatch a close search page action, when handling cancel clicked', () => {
-    const expectedAction = new fromSearchActions.CloseSearchPage();
+    const expectedAction = new fromSearchPageActions.CloseSearchPage();
     spyOn(store, 'dispatch');
 
     instance.handleCancelClicked();
@@ -90,7 +89,7 @@ describe('Project - Add Data - Multi Match Page', () => {
   });
 
   it('should dispatch a hide page action, when reset', () => {
-    const expectedAction = new fromSearchActions.HidePage();
+    const expectedAction = new fromSearchPageActions.HidePage();
     spyOn(store, 'dispatch');
 
     instance.onResetApp();

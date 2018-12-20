@@ -19,7 +19,7 @@ import {
   JobMatchCutsRequest,
   JobMatchCutsResponse,
   UpdateUserJobMatchesRequest
-} from 'libs/models/survey-search';
+} from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 

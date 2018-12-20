@@ -1,13 +1,15 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
-import { SurveyParticipationPageComponent } from './survey-participation.page';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { DragulaModule } from 'ng2-dragula';
+
 import * as fromRootState from 'libs/state/state';
+
+import { SurveyParticipationPageComponent } from '.';
 import * as fromReducers from '../../reducers';
 
-import { DragulaModule } from 'ng2-dragula';
 
 describe( 'SurveyParticipationPageComponent', () => {
   let fixture: ComponentFixture<SurveyParticipationPageComponent>;

@@ -5,9 +5,9 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
-  ExchangeListItem, ExchangeCompany, UpsertExchangeJobMapRequest,
-  CompanyJobToMapTo, GetChartRequest, GetDetailChartRequest, ChartItem,
-  RequestExchangeRequest, UpsertDataCutRequest, ExchangeRequestCandidatesRequest
+  ExchangeListItem, UpsertExchangeJobMapRequest,
+  GetChartRequest, GetDetailChartRequest, ChartItem,
+  RequestExchangeRequest, ExchangeRequestCandidatesRequest
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -43,11 +43,7 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getTopCompanyJobsToMapTo(exchangeId: number, jobTitleAndCodeQuery: string, jobDescriptionQuery: string): Observable<CompanyJobToMapTo[]> {
-    return this.payfactorsApiService.get<CompanyJobToMapTo[]>(`${this.endpoint}/GetTopCompanyJobsToMapTo`,
-      { params: { exchangeId, jobTitleAndCodeQuery, jobDescriptionQuery } }
-    );
-  }
+
 
   getExchangeCompanyJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(

@@ -9,14 +9,14 @@ import { DragulaModule } from 'ng2-dragula';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
+import { PfSearchModule } from 'libs/features/search';
 
 import { JobToPriceComponent } from './components';
 import {  MultiMatchPageComponent, JobsToPriceContainerComponent } from './containers';
 import { MultiMatchPageEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
 import { MultiMatchRoutingModule } from './multi-match-routing.module';
-import { SharedSurveySearchModule } from '../shared/shared.module';
-
+import { SharedSurveySearchModule } from '../survey-search/shared.module';
 
 @NgModule({
   imports: [
@@ -35,7 +35,8 @@ import { SharedSurveySearchModule } from '../shared/shared.module';
     // Payfactors
     SharedSurveySearchModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfSearchModule
   ],
   declarations: [
     // Components

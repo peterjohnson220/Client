@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { JobResult } from '../../models/job-result.model';
 
 @Component({
-  selector: 'pf-job-result',
+  selector: 'pf-add-job-result',
   templateUrl: './job-result.component.html',
-  styleUrls: ['./job-result.component.scss']
+  styleUrls: ['./job-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JobResultComponent {
   @Input() job: JobResult;

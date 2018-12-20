@@ -1,0 +1,78 @@
+import { Action } from '@ngrx/store';
+
+import { SurveyDataResponse, PricingMatchesResponse } from 'libs/models/payfactors-api/survey-search';
+
+import { JobResult, DataCutDetails } from '../models';
+
+export const REPLACE_JOB_RESULTS = '[Project/Survey Search] Replace Job Results';
+export const ADD_JOB_RESULTS = '[Project/Survey Search] Add Job Results';
+export const CLEAR_RESULTS = '[Project/Survey Search] Clear Results';
+export const TOGGLE_SURVEY_DATA_CUT_SELECTION = '[Project/Survey Search] Toggle Survey Data Cut Selection';
+export const CLEAR_DATA_CUT_SELECTIONS = '[Project/Survey Search] Clear Data Cut Selections';
+export const GET_SURVEY_DATA_RESULTS = '[Project/Survey Search] Get Survey Data Results';
+export const GET_SURVEY_DATA_RESULTS_SUCCESS = '[Project/Survey Search] Get Survey Data Results Success';
+export const GET_SURVEY_DATA_RESULTS_ERROR = '[Project/Survey Search] Get Survey Data Results Error';
+export const UPDATE_RESULTS_MATCHES_COUNT = '[Project/Survey Search] Update Results Matches Count';
+
+export class ReplaceJobResults implements Action {
+  readonly type = REPLACE_JOB_RESULTS;
+
+  constructor(public payload: JobResult[]) {}
+}
+
+export class AddJobResults implements Action {
+  readonly type = ADD_JOB_RESULTS;
+
+  constructor(public payload: JobResult[]) {}
+}
+
+export class ClearResults implements Action {
+  readonly type = CLEAR_RESULTS;
+}
+
+export class ToggleSurveyDataCutSelection implements Action {
+  readonly type = TOGGLE_SURVEY_DATA_CUT_SELECTION;
+
+  constructor(public payload: DataCutDetails) {}
+}
+
+export class ClearDataCutSelections implements Action {
+  readonly type = CLEAR_DATA_CUT_SELECTIONS;
+
+  constructor() {}
+}
+
+export class GetSurveyDataResults implements Action {
+  readonly type = GET_SURVEY_DATA_RESULTS;
+
+  constructor(public payload: JobResult) {}
+}
+
+export class GetSurveyDataResultsSuccess implements Action {
+  readonly type = GET_SURVEY_DATA_RESULTS_SUCCESS;
+
+  constructor(public payload: any) {}
+}
+
+export class GetSurveyDataResultsError implements Action {
+  readonly type = GET_SURVEY_DATA_RESULTS_ERROR;
+
+  constructor(public payload: number) {}
+}
+
+export class UpdateResultsMatchesCount implements Action {
+  readonly type = UPDATE_RESULTS_MATCHES_COUNT;
+
+  constructor(public payload: PricingMatchesResponse) {}
+}
+
+export type Actions
+  = AddJobResults
+  | ReplaceJobResults
+  | ClearResults
+  | ToggleSurveyDataCutSelection
+  | ClearDataCutSelections
+  | GetSurveyDataResults
+  | GetSurveyDataResultsSuccess
+  | GetSurveyDataResultsError
+  | UpdateResultsMatchesCount;

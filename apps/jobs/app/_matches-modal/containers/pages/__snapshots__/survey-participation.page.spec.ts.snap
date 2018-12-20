@@ -3,7 +3,7 @@
 exports[`SurveyParticipationPageComponent should show survey participation modal page 1`] = `
 <pf-survey-participation-page
   companyJob$={[Function Store]}
-  companyJobStore={[Function Store]}
+  companyJobLoading$={[Function Store]}
   dragEnd$={[Function AnonymousSubject]}
   dragMatches={[Function Subscription]}
   dragStart$={[Function AnonymousSubject]}
@@ -11,7 +11,8 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
   isDragging="false"
   isDragging$={[Function Observable]}
   matches$={[Function Store]}
-  matchesStore={[Function Store]}
+  matchesLoading$={[Function Store]}
+  matchesModalAreaStore={[Function Store]}
   route={[Function Object]}
   scroll={[Function AutoScroller]}
 >
@@ -21,7 +22,8 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
     <div
       class="matches-modal-content matches-modal-title"
     >
-        -  
+      
+      
     </div>
     <div
       class="matches-modal-content"
@@ -40,6 +42,7 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
       ng-reflect-dragula="matches-bag"
     >
       
+      
     </div>
     <div
       class="matches-modal-content font-weight-bold"
@@ -52,6 +55,7 @@ exports[`SurveyParticipationPageComponent should show survey participation modal
       id="excludeFromParticipation"
       ng-reflect-dragula="matches-bag"
     >
+      
       
     </div>
   </div>

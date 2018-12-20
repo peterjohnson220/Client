@@ -22,7 +22,9 @@ import { CommunityPost, CommunityPollResponse } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
+import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
+import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-posts',
@@ -33,6 +35,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
+  maximumReplies$: Observable<number>;
   communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
   loadingCommunityPosts$: Observable<boolean>;
   loadingNextBatchCommunityPosts$: Observable<boolean>;
@@ -67,6 +70,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
 
     this.communityPosts$ = this.store.select(fromCommunityPostReducer.getCommunityPostsCombinedWithReplies);
+    this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
+
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
     this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
 
@@ -91,6 +96,12 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       } else if (routeParams.url.indexOf('reply') > -1) {
         const replyId = routeParams[ 'id' ];
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityPostReplyToFilterOptions(replyId));
+      } else if (routeParams.url.indexOf('tag') > -1) {
+        const tag: Tag = {
+          Id: null,
+          TagName: '#' + routeParams['id']
+        };
+        this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
       } else {
         this.getPosts();
       }
@@ -224,4 +235,5 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
     }
   }
+
 }

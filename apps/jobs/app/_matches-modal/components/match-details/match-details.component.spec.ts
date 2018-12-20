@@ -1,16 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromRootState from 'libs/state/state';
-import * as fromMatchesReducers from '../../reducers';
-import * as fromMatchesActions from '../../actions/matches.actions';
-
 import { generateMockMatch} from 'libs/models/company';
+import * as fromRootState from 'libs/state/state';
 
-import { MatchDetailsComponent } from './match-details.component';
+import { MatchDetailsComponent } from '.';
+import * as fromMatchesReducers from '../../reducers';
 
 describe( 'MatchesDetailsComponent', () => {
   let component: MatchDetailsComponent;

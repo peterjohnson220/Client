@@ -1,0 +1,38 @@
+<div class="form-group" [class.has-danger]="searchFailed">
+  <input  type="text"
+          class="form-control"
+          placeholder="Name or Email"
+          [(ngModel)]="model"
+          [ngbTypeahead]="userOrEmailTypeaheadFn"
+          [resultTemplate]="rt"
+          (selectItem)="handleItemSelected($event)" />
+
+  <span *ngIf="searching">
+        <i class="fas fa-spin fa-circle-notch picker-searching-icon" aria-hidden="true"></i>
+    </span>
+  <div class="form-control-feedback" *ngIf="searchFailed">
+    Sorry, suggestions could not be loaded.
+  </div>
+</div>
+
+<ng-template #rt let-r="result" let-t="term">
+
+  <img [src]="avatarUrl + r.UserPicture" src-fallback="{{ avatarUrl + 'default_user.png' }}" width="20">
+
+  <!--User/Employee-->
+  <ng-container *ngIf="r.FirstName && r.LastName && r.EmailAddress">
+    {{ r.FirstName }} {{ r.LastName }} - {{ r.EmailAddress }}
+    <span *ngIf="!r.UserId"> <i>(Employee)</i></span>
+  </ng-container>
+
+  <!--Non User/Non Employee-->
+  <ng-container *ngIf="r.EmailAddress && !r.LastName && !r.FirstName">
+    {{ r.EmailAddress }} <i>(Email address)</i>
+  </ng-container>
+
+  <!--No Match-->
+  <ng-container *ngIf="!r.EmailAddress && !r.LastName && !r.FirstName">
+    No Matches
+  </ng-container>
+
+</ng-template>

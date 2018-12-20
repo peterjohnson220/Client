@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 import { switchMap, map, catchError, withLatestFrom } from 'rxjs/operators';
-import { of } from 'rxjs/index';
 
 import { SurveySearchApiService } from 'libs/data/payfactors-api';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
-import { PayfactorsApiModelMapper } from '../../shared/helpers';
+import { PayfactorsApiModelMapper } from '../helpers';
 import * as fromMultiMatchReducer from '../reducers';
-import * as fromSharedReducer from '../../shared/reducers';
-import { ProjectSearchContext } from '../../shared/models';
+import * as fromSurveySearchReducer from '../../survey-search/reducers';
+import { ProjectSearchContext } from '../../survey-search/models';
 
 @Injectable()
 export class JobsToPriceEffects {
@@ -39,7 +39,7 @@ export class JobsToPriceEffects {
   getJobMatchCuts$ = this.actions$
     .ofType(fromJobsToPriceActions.GET_MATCH_JOB_CUTS)
     .pipe(
-      withLatestFrom(this.store.select(fromSharedReducer.getProjectSearchContext),
+      withLatestFrom(this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         (action: fromJobsToPriceActions.GetMatchJobCuts,
          projectSearchContext: ProjectSearchContext) => ({action, projectSearchContext})),
       switchMap((projectAndPayload) => {

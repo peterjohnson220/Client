@@ -53,10 +53,9 @@
         </div>
     </form>
     <div *ngIf="allowSelfRegistration" class="mt-5 mb-2 d-flex flex-column justify-content-center">
-      <button id="au-btn-self-registration" class="btn align-self-center" (click)="onSelfRegistrationClick()">
-        Request Access <i class="fas fa-arrow-right"></i>
+      <button id="au-btn-registration" class="btn align-self-center" routerLink="/registration">
+        Register <i class="fas fa-arrow-right"></i>
       </button>
     </div>
   </div>
 </div>
-<pf-self-registration-modal *ngIf="allowSelfRegistration"></pf-self-registration-modal>

@@ -113,4 +113,13 @@ describe('Exchange Job Requests', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
+
+  it('should dispatch a CloseJobRequestApproveModal action ' +
+    'when handleCloseApproveModal is called', () => {
+    const action = new fromExchangeJobRequestsActions.CloseJobRequestApproveModal();
+
+    instance.handleCloseApproveModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });

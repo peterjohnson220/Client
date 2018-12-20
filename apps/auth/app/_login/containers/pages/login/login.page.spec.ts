@@ -90,39 +90,21 @@ describe('Auth - Login', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it ('should show the Request Access button when the feature is on', () => {
+  it ('should show the Register button when the feature is on', () => {
     instance.allowSelfRegistration = true;
 
     fixture.detectChanges();
 
-    const selfRegistrationButtonHtml = fixture.nativeElement.querySelector('button#au-btn-self-registration').innerHTML;
-    expect(selfRegistrationButtonHtml).toContain('Request Access');
+    const selfRegistrationButtonHtml = fixture.nativeElement.querySelector('button#au-btn-registration').innerHTML;
+    expect(selfRegistrationButtonHtml).toContain('Register');
   });
 
-  it ('should hide the Request Access button when the feature is off', () => {
+  it ('should hide the Register button when the feature is off', () => {
     instance.allowSelfRegistration = false;
 
     fixture.detectChanges();
 
-    const selfRegistrationButton = fixture.nativeElement.querySelector('button#au-btn-self-registration');
-    expect(selfRegistrationButton).toBeNull();
-  });
-
-  it ('should show the Request Access modal wrapper when the feature is on', () => {
-    instance.allowSelfRegistration = true;
-
-    fixture.detectChanges();
-
-    const selfRegistrationButtonHtml = fixture.nativeElement.querySelector('pf-self-registration-modal');
-    expect(selfRegistrationButtonHtml).toBeTruthy();
-  });
-
-  it ('should hide the Request Access modal wrapper when the feature is off', () => {
-    instance.allowSelfRegistration = false;
-
-    fixture.detectChanges();
-
-    const selfRegistrationButton = fixture.nativeElement.querySelector('pf-self-registration-modal');
+    const selfRegistrationButton = fixture.nativeElement.querySelector('button#au-btn-registration');
     expect(selfRegistrationButton).toBeNull();
   });
 

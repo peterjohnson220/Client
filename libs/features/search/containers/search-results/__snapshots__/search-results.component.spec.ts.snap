@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Feature - Search Results should show a message, when loading more results 1`] = `
+<pf-search-results
+  error$={[Function Store]}
+  loadingMoreResults={[Function Boolean]}
+  loadingMoreResults$={[Function Store]}
+  loadingMoreResultsSub={[Function Subscriber]}
+  loadingResults$={[Function Store]}
+  loadingResultsSub={[Function Subscriber]}
+  numberOfResultsOnServer={[Function Number]}
+  numberOfResultsOnServer$={[Function Store]}
+  numberOfResultsOnServerSub={[Function Subscriber]}
+  resultsContainer={[Function ElementRef]}
+  spinnerType={[Function String]}
+  store={[Function Store]}
+>
+  <div
+    class="results"
+    infinite-scroll=""
+  >
+    <pf-async-container />
+    
+    <div
+      class="m-3"
+    >
+      <pf-loading-indicator />
+       Loading More Results... 
+    </div>
+  </div>
+</pf-search-results>
+`;

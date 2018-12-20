@@ -162,6 +162,14 @@ export class TimelineActivityComponent implements OnInit {
           });
           break;
         }
+        case TimelineActivityMapper.NEW_COMMUNITY_TYPE: {
+          timelineActivityFilters.push({
+            Label: 'Community',
+            Value: timelineActivityType,
+            IsEnabled: true
+          });
+          break;
+        }
         case TimelineActivityMapper.RESOURCES_TYPE: {
           timelineActivityFilters.push({
             Label: 'Resources',

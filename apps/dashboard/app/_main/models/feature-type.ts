@@ -5,6 +5,7 @@ export class FeatureType {
 
   Activity: FeatureTypes.Activity;
   Community: FeatureTypes.Community;
+  NewCommunity: FeatureTypes.NewCommunity;
   DataInsights: FeatureTypes.DataInsights;
   Employees: FeatureTypes.Employees;
   JobDescriptions: FeatureTypes.JobDescriptions;
@@ -20,6 +21,7 @@ export class FeatureType {
     this.AllTypes = [
       FeatureTypes.Activity,
       FeatureTypes.Community,
+      FeatureTypes.NewCommunity,
       FeatureTypes.DataInsights,
       FeatureTypes.Employees,
       FeatureTypes.JobDescriptions,

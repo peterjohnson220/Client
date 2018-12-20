@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Company } from 'libs/models/company/company.model';
-import { OrgDataFieldMappingsApiService } from 'libs/data/payfactors-api/org-data-loader';
+import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
+import { LoaderTypes } from 'libs/constants/loader-types';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
+import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import { MappingModel } from '../../models';
 import {
@@ -15,6 +17,7 @@ import {
   ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
+import { EmailRecipientModel } from '../../models/email-recipient.model';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -41,8 +44,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveMappingsError$: Observable<boolean>;
   saveMessage: string;
   saveClass: string;
+  emailRecipients$: Observable<EmailRecipientModel[]>;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: OrgDataFieldMappingsApiService) {
+  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -75,6 +79,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveMessage = 'Saving Mappings Failed';
       }
     });
+
+    this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
   }
 
   ngOnInit() {
@@ -134,6 +140,11 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.payfactorsEmployeeDataFields.push(udf.Value);
       });
     });
+
+    this.store.dispatch(new fromEmailRecipientsActions.LoadEmailRecipients({
+      companyId: this.selectedCompany,
+      loaderType: LoaderTypes.OrgData
+    }));
   }
 
   SaveMappings() {

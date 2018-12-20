@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Feature - Search Layout should show an english formatted results count 1`] = `
+<pf-search-layout
+  resultsCount={[Function Number]}
+>
+  <div
+    class="survey-search"
+  >
+    <div
+      class="filters-sidebar"
+    />
+    <div
+      class="content"
+    >
+      <div
+        class="actions-container"
+      >
+        <div
+          class="buttons"
+        />
+        <div
+          class="results-count"
+        >
+          <strong>
+            6,000
+          </strong>
+           Jobs 
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-search-layout>
+`;

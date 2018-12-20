@@ -17,16 +17,13 @@ import * as fromExchangeJobRequestsActions from '../../actions/exchange-job-requ
 export class ExchangeJobRequestInfoComponent {
   @Input() selectedJobRequest: ExchangeJobRequest;
   @Output() closeClicked = new EventEmitter();
-  @Output() approveClicked = new EventEmitter();
 
-  approvingJobRequest$: Observable<boolean>;
   approvingError$: Observable<boolean>;
   denyingError$: Observable<boolean>;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>
   ) {
-    this.approvingJobRequest$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApproving));
     this.approvingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestApprovingError));
     this.denyingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobRequestDenyingError));
   }
@@ -36,7 +33,7 @@ export class ExchangeJobRequestInfoComponent {
   }
 
   approve() {
-    this.approveClicked.emit(this.selectedJobRequest);
+    this.store.dispatch(new fromExchangeJobRequestsActions.OpenJobRequestApproveModal());
   }
 
   deny() {

@@ -113,8 +113,10 @@ export class ExchangeApiService {
     );
   }
 
-  exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string, action: ExchangeRequestActionEnum): Observable<any> {
-    const requestAction: ExchangeJobRequestAction = { JobRequest: jobRequest, Reason: reason, Action: action.toString() };
+  exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string,
+                           peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
+    const requestAction: ExchangeJobRequestAction = { JobRequest: jobRequest, Reason: reason,
+      PeopleToNotify: peopleToNotify, Action: action.toString() };
     return this.payfactorsApiService.post(`${this.endpoint}/ExchangeJobRequestAction`, requestAction);
   }
 

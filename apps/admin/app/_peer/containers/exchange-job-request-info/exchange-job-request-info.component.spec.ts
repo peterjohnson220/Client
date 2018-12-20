@@ -61,17 +61,12 @@ describe('Exchange Job Request Info', () => {
     expect(instance.closeClicked.emit).toHaveBeenCalled();
   });
 
-  it('should emit a approveClicked event, when the approve button is clicked', () => {
-    // Spy on the emit method for the approveClicked EventEmitter
-    spyOn(instance.approveClicked, 'emit');
+  it('should dispatch an OpenJobRequestApproveModal action, when the approve button is clicked', () => {
+    const action = new fromExchangeJobRequestsActions.OpenJobRequestApproveModal();
 
-    fixture.detectChanges();
+    instance.approve();
 
-    // Find the approve button in the template and trigger a click
-    const approveButton = fixture.debugElement.query(By.css('.btn-success'));
-    approveButton.triggerEventHandler('click', null);
-
-    expect(instance.approveClicked.emit).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch a OpenJobRequestDenyModal action, when the deny button is clicked', () => {

@@ -1,17 +1,28 @@
-<div class="page">
-  <div>
-    <pf-search-results></pf-search-results>
-  </div>
-  <div class="actions-container">
-    <div class="buttons">
-      <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
-        [disabled]="!(selectedJobIds$ | async)?.length">
-        Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
-      </button>
+<pf-search-layout [resultsCount]="0">
 
-      <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
-        Cancel
-      </button>
-    </div>
-  </div>
-</div>
+  <ng-container sidebar>
+
+   Hi I am a sidebar
+
+  </ng-container>
+
+  <ng-container content>
+
+   Hi I am content
+
+  </ng-container>
+
+  <ng-container action-buttons>
+
+    <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+            [disabled]="!(selectedJobIds$ | async)?.length">
+      Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
+    </button>
+
+    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
+      Cancel
+    </button>
+
+  </ng-container>
+
+</pf-search-layout>

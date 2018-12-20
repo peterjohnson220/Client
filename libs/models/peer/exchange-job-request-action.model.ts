@@ -3,6 +3,7 @@ import { ExchangeJobRequest, generateMockExchangeJobRequest } from './exchange-j
 export interface ExchangeJobRequestAction {
   JobRequest: ExchangeJobRequest;
   Reason: string;
+  PeopleToNotify: string;
   Action: string;
 }
 
@@ -10,6 +11,7 @@ export function generateMockExchangeJobRequestAction(): ExchangeJobRequestAction
   return {
     JobRequest: generateMockExchangeJobRequest(),
     Reason: 'Because',
+    PeopleToNotify: 'NoOne',
     Action: 'Deny'
   };
 }

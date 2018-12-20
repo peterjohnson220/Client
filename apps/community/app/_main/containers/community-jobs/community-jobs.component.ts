@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -19,6 +19,7 @@ import { CommunityJob } from 'libs/models';
 export class CommunityJobsComponent implements OnInit, OnDestroy {
   @ViewChild('jobSearchResults') public jobSearchResultsScrollContainer: ElementRef;
   @ViewChild(InfiniteScrollDirective) infiniteScroll: InfiniteScrollDirective;
+  @Input() addPaddingTopToJobsList: boolean;
 
   communityJobs$: Observable<CommunityJob[]>;
   loadingCommunityJobs$: Observable<boolean>;
