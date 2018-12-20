@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Project - Add Jobs - Job Result should not show the job category, when the job is a payfactors job 1`] = `
+exports[`Project - Add Jobs - Job Result should not show the job category or eeo, when the job is a company job 1`] = `
 <pf-add-job-result
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
@@ -271,12 +271,21 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
             </td>
           </tr>
           
+          
           <tr>
             <th>
               Job Category:
             </th>
             <td>
               Finance
+            </td>
+          </tr>
+          <tr>
+            <th>
+              EEO:
+            </th>
+            <td>
+              -
             </td>
           </tr>
           

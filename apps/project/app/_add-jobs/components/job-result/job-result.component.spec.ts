@@ -52,7 +52,7 @@ describe('Project - Add Jobs - Job Result', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should not show the job category, when the job is a payfactors job', () => {
+  it('should not show the job category or eeo, when the job is a company job', () => {
     instance.job = generateMockCompanyJobResultWithPeerExchange();
     instance.showJobDetail = true;
 
