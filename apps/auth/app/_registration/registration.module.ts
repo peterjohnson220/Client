@@ -21,7 +21,6 @@ import { PfFormsModule } from 'libs/forms';
 
 // Routing
 import { RegistrationRoutingModule } from './registration-routing.module';
-import { RegistrationEnabledGuard } from './services/registration-enabled.guard';
 
 @NgModule({
   imports: [
@@ -49,7 +48,6 @@ import { RegistrationEnabledGuard } from './services/registration-enabled.guard'
     // Pages
     RegistrationFormPageComponent,
     ValidateRegistrationPageComponent
-  ],
-  providers: [RegistrationEnabledGuard]
+  ]
 })
 export class RegistrationModule { }
