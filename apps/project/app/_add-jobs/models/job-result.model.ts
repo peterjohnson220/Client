@@ -13,6 +13,7 @@ export interface JobResult {
   FLSAStatus: string;
   Category: string;
   Level: string;
+  EEO: string;
   UdfFields: GenericKeyValue<string, string>[];
   IsSelected: boolean;
   IsPayfactorsJob: boolean;
@@ -32,6 +33,7 @@ export function generateMockPayFactorsJobResult(): JobResult {
     FLSAStatus: 'Exempt',
     Category: 'Finance',
     Level: 'II',
+    EEO: 'Typically Professionals',
     UdfFields: [{
       Key: 'UdfField1',
       Value: 'UdfValue'

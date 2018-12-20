@@ -46,10 +46,16 @@
           <th>FLSA:</th>
           <td>{{job.FLSAStatus || '-'}}</td>
         </tr>
-        <tr *ngIf="job.IsPayfactorsJob">
-          <th>Job Category:</th>
-          <td>{{job.Category || '-'}}</td>
-        </tr>
+        <ng-container *ngIf="job.IsPayfactorsJob">
+          <tr>
+            <th>Job Category:</th>
+            <td>{{job.Category || '-'}}</td>
+          </tr>
+          <tr>
+            <th>EEO:</th>
+            <td>{{job.EEO || '-'}}</td>
+          </tr>
+        </ng-container>
         <ng-container *ngIf="job.UdfFields.length">
           <tr *ngFor="let udf of job.UdfFields">
             <th>{{udf.Key}}</th>
