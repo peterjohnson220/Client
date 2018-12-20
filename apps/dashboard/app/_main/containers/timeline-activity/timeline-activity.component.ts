@@ -32,6 +32,7 @@ export class TimelineActivityComponent implements OnInit {
   timelineActivitiesHasMoreData: boolean;
   ACTIVITY_TYPE: string = TimelineActivityMapper.ACTIVITY_TYPE;
   COMMUNITY_TYPE: string = TimelineActivityMapper.COMMUNITY_TYPE;
+  NEW_COMMUNITY_TYPE: string = TimelineActivityMapper.NEW_COMMUNITY_TYPE;
   RESOURCES_TYPE: string = TimelineActivityMapper.RESOURCES_TYPE;
   JOB_DESCRIPTION_TYPE: string = TimelineActivityMapper.JOB_DESCRIPTIONS_TYPE;
 
