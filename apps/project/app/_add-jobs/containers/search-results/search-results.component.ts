@@ -24,10 +24,6 @@ export class SearchResultsComponent {
     this.loadingResults$ = this.store.select(fromSearchReducer.getLoadingResults);
   }
 
-  trackByJobId(index, item: JobResult) {
-    return item.Id;
-  }
-
   handleJobSelectionToggle(job: JobResult): void {
     this.store.dispatch(new fromSearchResultsActions.ToggleJobSelection(job));
   }

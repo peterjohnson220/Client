@@ -1,4 +1,4 @@
-import * as fromAddJobsPageActions from '../actions/add-jobs.page.actions';
+import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
 
 export interface State {
   context: { PayMarketId: number, ProjectId: number};

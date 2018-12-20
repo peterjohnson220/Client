@@ -1,4 +1,4 @@
-import { JobSearchResult } from 'libs/models/payfactors-api';
+import { JobSearchResult, CreateNewProjectJobRequest } from 'libs/models/payfactors-api';
 
 import { PayMarket } from 'libs/models/paymarket';
 
@@ -6,6 +6,7 @@ import { JobResult, JobPayMarket } from '../models';
 
 
 export class PayfactorsAddJobsApiModelMapper {
+
   ///
   /// IN
   ///
@@ -46,5 +47,14 @@ export class PayfactorsAddJobsApiModelMapper {
   ///
   /// OUT
   ///
-
+  static buildCreateNewProjectJobRequest(createNewJobForm: any, companyPayMarketIds: number[]): CreateNewProjectJobRequest {
+    return {
+      JobCode: createNewJobForm.jobCode,
+      JobTitle: createNewJobForm.jobTitle,
+      JobLevel: createNewJobForm.jobLevel,
+      JobFamily: createNewJobForm.jobFamily,
+      JobDescription: createNewJobForm.jobDescription,
+      CompanyPayMarketIds: companyPayMarketIds
+    };
+  }
 }

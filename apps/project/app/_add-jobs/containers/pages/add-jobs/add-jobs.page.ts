@@ -7,12 +7,13 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import { SearchBase } from 'libs/features/search/containers/search-base';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 
-import * as fromAddJobsPageActions from '../../../actions/add-jobs.page.actions';
+import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsReducer from '../../../reducers';
 
 import { staticFilters } from '../../../data';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'pf-add-jobs-page',
@@ -30,6 +31,8 @@ export class AddJobsPageComponent extends SearchBase {
 
   constructor(
     store: Store<fromSearchReducer.State>,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     super(store);
     this.selectedJobIds$ = this.store.select(fromAddJobsReducer.getSelectedJobIds);
@@ -59,5 +62,9 @@ export class AddJobsPageComponent extends SearchBase {
 
   handleClearSelectionsClicked(): void {
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
+  }
+
+  handleCreateNewJobClicked(): void {
+    this.router.navigate(['../create-new-job'], { relativeTo: this.route });
   }
 }
