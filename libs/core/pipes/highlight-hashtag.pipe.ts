@@ -27,12 +27,7 @@ export class HighlightHashTagPipe implements PipeTransform {
   }
 
   FormatHashTagActionAndStyle(text) {
-    let sanitizedText = escapeSpecialHtmlCharacters(text);
-
-    const sanitizedMultiLines = sanitizedText.replace(constants.NewMultiLineRegEx, '<br /><br />');
-    sanitizedText = sanitizedMultiLines.replace(constants.NewLineRegEx, '<br />');
-
-    return this.sanitizer.bypassSecurityTrustHtml(sanitizedText.replace(
+    return this.sanitizer.bypassSecurityTrustHtml(text.replace(
       constants.HashTagRegEx,
       match => `<a class="hashtag-highlight"
                         href="javascript:window.postMessage({'action':'getCommunityPostsByTag', 'tag': '${match}' }, '*');">${match}</a>`
