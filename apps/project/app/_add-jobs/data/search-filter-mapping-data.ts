@@ -19,15 +19,6 @@ export const SearchFilterMappingData: SearchFilterMappingDataObj = {
     SaveDisabled: false,
     RefreshOptionsFromServer: true
   },
-  'job_status': {
-    Type: FilterType.Multi,
-    BackingField: 'job_status',
-    DisplayName: 'Job Status',
-    Order: 5,
-    OptionCountDisabled: false,
-    SaveDisabled: false,
-    RefreshOptionsFromServer: true
-  },
   'job_level': {
     Type: FilterType.Multi,
     BackingField: 'job_level',
