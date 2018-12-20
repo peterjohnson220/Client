@@ -16,7 +16,7 @@ import * as fromCommunityPostReplyActions from '../../actions/community-post-rep
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { CommunityPostsComponent } from './community-posts.component';
-import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
+import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
@@ -49,7 +49,8 @@ describe('CommunityPostsComponent', () => {
       declarations: [
         CommunityPostsComponent,
         HighlightHashTagPipe,
-        FormatLinkUrlPipe
+        FormatLinkUrlPipe,
+        NewLinePipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

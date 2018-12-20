@@ -21,7 +21,7 @@
               </pf-community-post-header>
               <div *ngIf="!post.UserPollRequest; else user_poll">
                 <div class="post-body mt-2 mb-2"
-                     [innerHtml]="post.Content | formatLinkUrl | highlightHashTag:'styleAndAction'">
+                     [innerHtml]="escapeHtml(post.Content) | newLine | formatLinkUrl | highlightHashTag:'styleAndAction'">
                 </div>
                 <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
                   <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
