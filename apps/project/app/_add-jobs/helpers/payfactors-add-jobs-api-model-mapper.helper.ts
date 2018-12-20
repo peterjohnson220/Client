@@ -24,6 +24,7 @@ export class PayfactorsAddJobsApiModelMapper {
         FLSAStatus: jsr.FLSAStatus,
         Category: jsr.Category,
         Level: jsr.Level,
+        EEO: jsr.EEO,
         UdfFields: jsr.UdfFields,
         IsSelected: false,
         IsPayfactorsJob: jsr.IsPayfactorsJob
