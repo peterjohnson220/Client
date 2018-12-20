@@ -6,12 +6,10 @@ import {
   ValidateRegistrationPageComponent
 } from './containers/pages';
 
-import { RegistrationEnabledGuard } from './services/registration-enabled.guard';
-
 const routes: Routes = [
   { path: '', redirectTo: 'form', pathMatch: 'full' },
-  { path: 'form', component: RegistrationFormPageComponent, canActivate: [RegistrationEnabledGuard] },
-  { path: 'validate', component: ValidateRegistrationPageComponent, canActivate: [RegistrationEnabledGuard] }
+  { path: 'form', component: RegistrationFormPageComponent },
+  { path: 'validate', component: ValidateRegistrationPageComponent }
 ];
 
 @NgModule({
