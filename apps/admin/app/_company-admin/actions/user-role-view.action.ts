@@ -88,7 +88,7 @@ export class GetCompanyRolePermissions implements Action {
 
 export class SaveCompanyRolePermissionsSuccess implements Action {
   readonly type = SAVE_COMPANY_ROLE_PERMISSIONS_SUCCESS;
-  constructor() {}
+  constructor(public payload: UserAssignedRole) {}
 }
 
 export class GrantDenyPermissions implements Action {

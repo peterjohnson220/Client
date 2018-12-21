@@ -67,7 +67,7 @@ export class UserRoleEffects {
     .ofType(fromUserRoleUserTabActions.SAVE_CHANGES).pipe(
       switchMap((action: fromUserRoleUserTabActions.SaveChanges) => {
         this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Saving));
-        const result = this.companyAdminApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.roleType).pipe(
+        const result = this.companyAdminApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
             actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response));
@@ -111,7 +111,8 @@ export class UserRoleEffects {
             p.ChildPermission.filter( cp => cp.IsChecked).map(cp => permissionIds.push(cp.Id)); } );
         return this.companyAdminApi.updateCompanyRolePermissions(action.payload.DerivedId, permissionIds).pipe(
           delay(2000),
-          map(() => new fromUserRoleActions.SetFunctionTabSaveButtonText(SaveButtonText.Save))
+          map((role: UserRoleDto ) => new fromUserRoleActions.SaveCompanyRolePermissionsSuccess(
+            UserRoleDtoToUserAssignedRoleMapper.mapUserRoleDtoToUserAssignedRole( role)))
         );
       })
     );

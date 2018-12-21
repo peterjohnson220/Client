@@ -28,7 +28,7 @@ export class UserRolePageComponent implements OnDestroy {
     this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
     this.store.dispatch(new fromUserRoleUserTabActions.GetUsersAndRoles());
     this.companyRolesSubscription = this.store.select(fromUserRoleViewReducer.getCompanyRoles).subscribe(userRoles => {
-      this.userAssignedRoles = userRoles ? userRoles.filter(uar => uar.RoleType === 'C') : null;
+      this.userAssignedRoles = userRoles ? userRoles.filter(uar => !uar.IsSystemRole) : null;
     });
 
     this.currentTabStateSubscription = this.store.select(fromUserRoleViewReducer.getUserRoleCurrentTabState).subscribe(tabState => {

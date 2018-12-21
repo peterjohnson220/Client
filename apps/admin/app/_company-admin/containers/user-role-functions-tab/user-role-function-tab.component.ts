@@ -24,9 +24,7 @@ export class UserRoleFunctionTabComponent implements OnDestroy {
     });
     this.currentRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(userRole => {
       this.currentRole = userRole;
-      if (userRole && userRole.DerivedId && !userRole.Permissions) {
-        this.store.dispatch(new fromUserRoleViewActions.LoadCompanyRolePermissions(userRole.DerivedId));
-      } else if (userRole && userRole.DerivedId && userRole.Permissions) {
+      if (userRole && userRole.Permissions) {
         this.rolePermissions = userRole.Permissions;
       }
     });

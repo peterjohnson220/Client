@@ -80,7 +80,7 @@ describe('UserRoleUserTabComponent', () => {
     const expectedPayload = {
       userIds: expectedUserIds,
       roleId: component.currentRole.DerivedId,
-      roleType: component.currentRole.RoleType
+      isSystemRole: component.currentRole.IsSystemRole
     };
 
     const expectedAction = (new fromUserRoleUserTabActions.SaveChanges(expectedPayload));

@@ -1,5 +1,9 @@
+import {CompanyRolePermission} from '../security';
+
 export interface UserRoleDto {
-  CompanyRoleId: number;
+  RoleId: number;
   CompanyId: number;
   RoleName: string;
+  IsSystemRole: boolean;
+  Permissions: CompanyRolePermission[];
 }

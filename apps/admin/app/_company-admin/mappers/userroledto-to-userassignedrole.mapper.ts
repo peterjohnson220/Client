@@ -5,19 +5,21 @@ export class UserRoleDtoToUserAssignedRoleMapper {
 
   static mapUserRoleDtoToUserAssignedRole(userRole: UserRoleDto): UserAssignedRole {
     return {
-      DerivedId: userRole.CompanyRoleId,
+      DerivedId: userRole.RoleId,
       RoleName: userRole.RoleName,
-      RoleType: 'C',
+      IsSystemRole: userRole.IsSystemRole,
       Assigned: false,
-      Permissions: null
+      Permissions: userRole.Permissions
     };
   }
 
   static mapUserAssignedRoleToUserRoleDto(userAssignedRole: UserAssignedRole): UserRoleDto {
     return {
-      CompanyRoleId: userAssignedRole.DerivedId,
+      RoleId: userAssignedRole.DerivedId,
       RoleName: userAssignedRole.RoleName,
-      CompanyId: 0
+      IsSystemRole: userAssignedRole.IsSystemRole,
+      CompanyId: 0,
+      Permissions: userAssignedRole.Permissions
     };
   }
 }

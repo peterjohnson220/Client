@@ -27,7 +27,7 @@ export class CompanyRolesApiService {
       { params: { roleId: roleId }});
   }
   updateCompanyRolePermissions(roleId: number, systemPermissionIds: number[]) {
-    return this.payfactorsApiService.post<boolean>(`${this.endpoint}.UpdateCompanyRolePermissions`,
+    return this.payfactorsApiService.post<UserRoleDto>(`${this.endpoint}.UpdateCompanyRolePermissions`,
       {roleId: roleId, permissionIds: systemPermissionIds});
   }
 
@@ -35,8 +35,8 @@ export class CompanyRolesApiService {
     return this.payfactorsApiService.get<UserAndRoleModel[]>(`${this.endpoint}.GetUsersAndRoles`);
   }
 
-  assignUsersToRole(userIds: number[], roleId: number, roleType: string) {
+  assignUsersToRole(userIds: number[], roleId: number, isSystemRole: boolean) {
     return this.payfactorsApiService.post<UserAndRoleModel[]>(`${this.endpoint}(${roleId})/Default.AssignUsersToRole`,
-      {userIds: userIds, roleType: roleType});
+      {userIds: userIds, isSystemRole: isSystemRole});
   }
 }

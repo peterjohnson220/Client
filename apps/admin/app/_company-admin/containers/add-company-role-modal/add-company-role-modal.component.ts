@@ -104,7 +104,7 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
     return {
       DerivedId: 0,
       RoleName: this.currentCompanyRoleName,
-      RoleType: 'C',
+      IsSystemRole: false,
       Assigned: false,
       Permissions: null
     };

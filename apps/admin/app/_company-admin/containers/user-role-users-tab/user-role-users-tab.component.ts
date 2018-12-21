@@ -74,7 +74,7 @@ export class UserRoleUsersTabComponent implements OnDestroy {
     const payload: any = {
       userIds: userIdsToSave,
       roleId: this.currentRole.DerivedId,
-      roleType: this.currentRole.RoleType
+      isSystemRole: this.currentRole.IsSystemRole
     };
 
     this.store.dispatch(new fromUserRoleUserTabActions.SaveChanges(payload));

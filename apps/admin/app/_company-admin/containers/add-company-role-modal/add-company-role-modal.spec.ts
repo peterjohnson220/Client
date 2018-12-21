@@ -79,7 +79,7 @@ describe('AddCompanyRoleModalComponent', () => {
     const mockCompanyRole = {
       DerivedId: 0,
       RoleName: mockCompanyRoleName,
-      RoleType: 'C',
+      IsSystemRole: false,
       Assigned: false,
       Permissions: null
     };
