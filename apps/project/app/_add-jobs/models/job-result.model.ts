@@ -5,8 +5,8 @@ export interface JobResult {
   Title: string;
   Code: string;
   Source: string;
-  BaseMRP: number;
-  TCCMRP: number;
+  BaseMRP: string;
+  TCCMRP: string;
   IsMappedToPeerExchange: boolean;
   Family: string;
   Description: string;
@@ -25,8 +25,8 @@ export function generateMockPayFactorsJobResult(): JobResult {
     Title: 'Accountant',
     Code: '2345',
     Source: 'PayFactors',
-    BaseMRP: 56.3,
-    TCCMRP: 58.1,
+    BaseMRP: '56.3',
+    TCCMRP: '58.1',
     IsMappedToPeerExchange: false,
     Family: 'Finance',
     Description: 'I am a description',
