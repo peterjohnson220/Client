@@ -22,7 +22,8 @@
 
   <ng-container action-buttons>
 
-    <div class="clear-selections search-action" *ngIf="(selectedJobIds$ | async)?.length"
+    <div class="clear-selections search-action"
+         *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length"
          (click)="handleClearSelectionsClicked()">
       Clear Selections
     </div>
