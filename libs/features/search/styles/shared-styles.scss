@@ -1,4 +1,6 @@
+@import 'common/common-variables';
 @import 'search/filters-variables';
+@import './shared-variables';
 
 .search-action{
   @extend %text-filter-action;
@@ -18,4 +20,19 @@
   height: 40px;
   width: 100%;
   padding: .5rem .2rem;
+}
+
+.results-header{
+  height: $results-header-height;
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  @extend %bottom-box-shadow;
+
+  .actions{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 1rem;
+    width: 190px;
+  }
 }

@@ -1,0 +1,38 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { PfFormsModule } from 'libs/forms';
+import { PfCommonUIModule } from 'libs/ui/common';
+
+import { reducers } from './reducers';
+import { UserFilterEffects, SearchUserFilterEffects } from './effects';
+import { UserFilterPopoverComponent } from './containers';
+import { SaveFilterModalComponent } from './components';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+    // Payfactors
+    PfFormsModule,
+    PfCommonUIModule,
+
+    // 3rd Party
+    StoreModule.forFeature('feature_userfilter', reducers),
+    EffectsModule.forFeature([
+      UserFilterEffects,
+      SearchUserFilterEffects
+    ]),
+    NgbPopoverModule.forRoot()
+  ],
+  declarations: [ UserFilterPopoverComponent, SaveFilterModalComponent ],
+  exports: [ UserFilterPopoverComponent, SaveFilterModalComponent ]
+})
+export class PfUserFilterModule { }

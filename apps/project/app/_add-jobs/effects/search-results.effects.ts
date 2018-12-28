@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
+import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import { JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -66,6 +67,9 @@ export class SearchResultsEffects {
                   filters: filters,
                   keepFilteredOutOptions: data.action.payload.keepFilteredOutOptions
                 }));
+                if (data.action.payload && data.action.payload.searchAggregation) {
+                  actions.push(new fromSingledFilterActions.SearchAggregation());
+                }
               }
 
               return actions;

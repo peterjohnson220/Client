@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { SurveySavedFilterResponse, UserFilterGetAllRequest, UserFilterRemoveRequest,
+import { SearchSavedFilterResponse, UserFilterGetAllRequest, UserFilterRemoveRequest,
          UserFilterUpsertRequest } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
@@ -14,8 +14,8 @@ export class UserFilterApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  getAll(request: UserFilterGetAllRequest): Observable<SurveySavedFilterResponse[]> {
-    return this.payfactorsApiService.post<SurveySavedFilterResponse[]>(`${this.endpoint}/GetAll`, request);
+  getAll(request: UserFilterGetAllRequest): Observable<SearchSavedFilterResponse[]> {
+    return this.payfactorsApiService.post<SearchSavedFilterResponse[]>(`${this.endpoint}/GetAll`, request);
   }
 
   remove(request: UserFilterRemoveRequest): Observable<string> {
