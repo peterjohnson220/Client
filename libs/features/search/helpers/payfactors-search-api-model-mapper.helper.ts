@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PagingOptions, SearchField, SearchFilter, SearchFilterOption } from 'libs/models/payfactors-api';
-import { SurveySavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
+import { SearchSavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
 
 import {
   Filter,
@@ -45,7 +45,7 @@ export class PayfactorsSearchApiModelMapper {
     }
   }
 
-   mapSurveySavedFilterResponseToSavedFilter(surveySavedFilterResponse: SurveySavedFilterResponse[]): SavedFilter[] {
+   mapSearchSavedFilterResponseToSavedFilter(surveySavedFilterResponse: SearchSavedFilterResponse[]): SavedFilter[] {
     return surveySavedFilterResponse.map(ssfr => {
       return {
         Id: ssfr.Id,

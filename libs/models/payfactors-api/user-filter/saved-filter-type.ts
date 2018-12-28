@@ -1,3 +1,4 @@
 export enum SavedFilterType {
-  SurveySearch = 'SurveySearch'
+  SurveySearch = 'SurveySearch',
+  JobSearch = 'JobSearch'
 }

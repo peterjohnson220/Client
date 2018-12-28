@@ -6,8 +6,8 @@ import { mergeMap, withLatestFrom, map, tap, catchError, switchMap } from 'rxjs/
 import { of } from 'rxjs';
 
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
-import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
@@ -22,7 +22,7 @@ export class AddJobsPageEffects {
     .ofType(fromAddJobsPageActions.SET_CONTEXT)
     .pipe(
       mergeMap(() =>
-        [ new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }), new fromSearchPageActions.ShowPage() ]
+        [ new fromUserFilterActions.Init() ]
       ));
 
   @Effect()
