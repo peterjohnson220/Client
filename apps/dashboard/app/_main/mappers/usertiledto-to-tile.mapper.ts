@@ -7,7 +7,7 @@ export class UserTileToTileMapper {
   static mapUserTileDtoToTile(dashboardTile: UserTileDto): Tile {
     return this.setTileStylesProperties({
       Id: dashboardTile.UserTileId,
-      Label: dashboardTile.TileName,
+      Label: dashboardTile.TileDisplayName,
       IconClass: dashboardTile.IconClass,
       Url: dashboardTile.Url,
       Order: dashboardTile.UserOrder,
@@ -185,7 +185,6 @@ export class UserTileToTileMapper {
 
       case TileTypes.NewCommunity:
         tile.CssClass = 'tile-lightblue';
-        tile.Label = 'Community';
         break;
 
       case TileTypes.Ideas:
