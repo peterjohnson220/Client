@@ -36,13 +36,14 @@ export class NewCommninityEnabledGuard implements CanActivate, OnDestroy {
     return this.waitForLeftSidebarLinks().pipe(switchMap(() => {
       return this.layoutStore.select(fromLayoutReducer.getLeftSidebarNavigationLinks).pipe(
         map(sl => {
-          const communityLink = sl.filter(f => f.Url === '/client/community/dashboard');
+          const communityLink = sl.filter(f => f.Name === 'New Community');
           if (communityLink.length === 1) {
             return true;
           } else {
             this.router.navigate(['/access-denied']);
             return false;
           }
+
         })
       );
     }));
