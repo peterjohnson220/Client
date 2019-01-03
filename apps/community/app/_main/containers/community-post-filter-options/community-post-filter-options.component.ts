@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ import { FilterOptions } from '../../models/filter-options.model';
   styleUrls: ['./community-post-filter-options.component.scss'],
 })
 export class CommunityPostFilterOptionsComponent {
+  @Output() removeFilterEvent = new EventEmitter();
   filters$: Observable<FilterOptions>;
 
   constructor(public router: Router,
@@ -32,6 +33,7 @@ export class CommunityPostFilterOptionsComponent {
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.DeletingCommunityCategoryFromFilterOptions(item));
         break;
     }
+    this.removeFilterEvent.emit();
   }
 
   buttonViewAllClicked() {
