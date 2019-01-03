@@ -9,6 +9,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   communityPostsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
   filteredByPost$={[Function Store]}
+  filtersModifiedEvent={[Function EventEmitter]}
   getHasNextBatchPostsOnServer$={[Function Store]}
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchResultsOnServerSubscription={[Function Subscriber]}

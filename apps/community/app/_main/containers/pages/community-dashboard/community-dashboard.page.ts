@@ -152,9 +152,13 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   }
 
   backToTop() {
+    this.store.dispatch(new fromCommunityPostActions.GettingBackToTopCommunityPosts());
+    this.scrollToTop();
+  }
+
+  scrollToTop() {
     this.showBackToTopButton = false;
     this.hideTopComponents = false;
-    this.store.dispatch(new fromCommunityPostActions.GettingBackToTopCommunityPosts());
 
     if (this.scrollElement) {
       this.scrollElement.scrollTop = 0;
