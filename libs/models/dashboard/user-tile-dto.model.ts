@@ -9,6 +9,7 @@ export interface UserTileDto {
   CreateDate?: string;
   CreateUser?: number;
   TileName: string;
+  TileDisplayName: string;
   IconClass: string;
   Url: string;
   Sidebar: boolean;
