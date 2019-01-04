@@ -32,17 +32,19 @@
           class="exchange-scope-selection"
           [class.selected-scope]="itemSelected(exchangeScopeItem)">
 
-        <div class="d-flex justify-content-between">
-
+        <div class="d-flex justify-content-between pl-2">
           <div class="ellipsis-overflowing-text">
-            {{exchangeScopeItem.Name}}
+            <div [title]="exchangeScopeItem.Name" class="ellipsis-overflowing-text">
+              {{exchangeScopeItem.Name}}
+            </div>
+
+            <div [title]="exchangeScopeItem.Description" class="scope-description small">
+              {{exchangeScopeItem.Description == "" ? "No Description Provided" : exchangeScopeItem.Description}}
+            </div>
           </div>
-
-        </div>
-
+       </div>
       </div>
     </div>
-
   </div>
 
 </ng-template>

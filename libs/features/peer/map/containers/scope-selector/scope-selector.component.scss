@@ -6,7 +6,7 @@
 
   .selector {
     width: 100%;
-    min-width: 250px;
+    min-width: 275px;
     text-align: left;
     @extend %ellipsis-overflowing-text;
 
@@ -29,7 +29,7 @@
 
 .popover-content {
   max-height: 300px;
-  min-width: 250px;
+  min-width: 275px;
   overflow-y: auto;
   padding: .5rem 0;
 }
@@ -72,7 +72,7 @@
 
 .custom-map-popover ::ng-deep .popover {
   top: 90px !important;
-  width: 252px;
+  width: 277px;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {
@@ -89,4 +89,12 @@
 
 :host ::ng-deep .popover-body {
   padding: 0;
+}
+
+.scope-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
+  color: #888e92;
 }
