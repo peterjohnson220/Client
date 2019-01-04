@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { PayMarket } from '../../../models/paymarket';
+import { GenericKeyValue } from '../../../models/common';
 
 @Injectable()
 export class PayMarketApiService {
@@ -21,5 +22,12 @@ export class PayMarketApiService {
   getAll(): Observable<PayMarket[]> {
     return this.payfactorsApiService
       .get<PayMarket[]>(`${this.endpoint}`);
+  }
+
+  getExchangeScopeSelections(companyPayMarketId: number): Observable<any> {
+    return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(
+      `${this.endpoint}/GetExchangeScopeSelections`,
+      { params: { companyPayMarketId: companyPayMarketId } }
+    );
   }
 }

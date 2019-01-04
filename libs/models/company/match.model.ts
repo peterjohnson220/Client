@@ -13,7 +13,7 @@ export interface Match {
   ExcludeFromParticipation: boolean;
   IsPayfactorsJob: boolean;
   Source: string;
-  Type: string,
+  Type: string;
 }
 
 export function generateMockMatch(): Match {
