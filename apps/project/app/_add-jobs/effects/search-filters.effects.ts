@@ -7,6 +7,7 @@ import * as fromSearchFiltersActions from 'libs/features/search/actions/search-f
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 
 import * as fromJobSearchResultsActions from '../actions/search-results.actions';
+import * as fromPayMarketActions from '../actions/paymarkets.actions';
 
 @Injectable()
 export class SearchFiltersEffects {
@@ -18,7 +19,9 @@ export class SearchFiltersEffects {
       mergeMap(() =>
         [
           new fromSearchResultsActions.GetResults({keepFilteredOutOptions: false}),
-          new fromJobSearchResultsActions.ClearSelectedJobs()
+          new fromJobSearchResultsActions.ClearSelectedJobs(),
+          new fromPayMarketActions.ResetPayMarketSelections(),
+          new fromPayMarketActions.SetSearchTerm('')
         ]
     ));
 

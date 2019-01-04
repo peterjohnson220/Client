@@ -70,7 +70,7 @@ export function reducer(state = initialState, action: fromPaymarketsActions.Acti
         defaultPaymarketId: action.payload
       };
     }
-    case fromPaymarketsActions.RESET_PAYMARKETS: {
+    case fromPaymarketsActions.CLEAR_PAYMARKETS: {
       return {
         ...state,
         searchTerm: null,
@@ -84,6 +84,17 @@ export function reducer(state = initialState, action: fromPaymarketsActions.Acti
         ...state,
         searchTerm: action.payload,
         paymarkets: paymarketsCopy
+      };
+    }
+    case fromPaymarketsActions.RESET_PAYMARKET_SELECTIONS: {
+      const resetPayMarkets = cloneDeep(state.paymarkets).map(pm => {
+        pm.IsSelected = pm.CompanyPayMarketId === state.defaultPaymarketId;
+        return pm;
+      });
+
+      return {
+        ...state,
+        paymarkets: resetPayMarkets
       };
     }
     default: {
