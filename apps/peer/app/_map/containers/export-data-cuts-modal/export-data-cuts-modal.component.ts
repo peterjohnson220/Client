@@ -167,9 +167,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
     this.gridDataResultSubscription = this.view$.subscribe(gridDataResult => {
       this.gridDataResult = gridDataResult;
-      if (this.pageEntityIds.length > 0) {
-        this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
-      }
+      this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
     });
   }
 
