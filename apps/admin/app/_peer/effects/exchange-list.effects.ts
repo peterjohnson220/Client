@@ -18,8 +18,8 @@ export class ExchangeListEffects {
   @Effect()
   loadExchanges$: Observable<Action> = this.actions$
     .ofType(fromExchangeListActions.LOAD_EXCHANGES).pipe(
-      switchMap(() =>
-        this.exchangeApiService.getAllExchanges().pipe(
+      switchMap((action: fromExchangeListActions.LoadExchanges) =>
+        this.exchangeApiService.getAllExchanges(action.payload).pipe(
           map((exchangeListItems: ExchangeListItem[]) => {
             return new fromExchangeListActions.LoadExchangesSuccess(exchangeListItems);
           }),
@@ -49,12 +49,12 @@ export class ExchangeListEffects {
         this.exchangeApiService.deleteExchange(payload).pipe(
           concatMap(() => {
             return [
-              new fromExchangeListActions.LoadExchanges(),
+              new fromExchangeListActions.LoadExchanges(''),
               new fromExchangeListActions.DeleteExchangeSuccess()
             ];
           }),
           catchError(error => of(new fromExchangeListActions.DeleteExchangeError,
-                                        new fromExchangeListActions.LoadExchanges))
+            new fromExchangeListActions.LoadExchanges('')))
         )
       )
     );
@@ -65,13 +65,13 @@ export class ExchangeListEffects {
       tap((action: fromExchangeListActions.UpsertExchangeSuccess) => {
         this.router.navigate(['/peer/exchange', action.payload.ExchangeId]);
       })
-  );
+    );
 
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,
     private router: Router
-  ) {}
+  ) { }
 }
 
 

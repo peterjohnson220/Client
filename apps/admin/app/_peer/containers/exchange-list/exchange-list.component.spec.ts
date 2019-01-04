@@ -4,11 +4,13 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 
 import { ExchangeListItem, generateMockExchangeListItem } from 'libs/models/peer/index';
+import {HighlightTextPipe} from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromExchangeListActions from '../../actions/exchange-list.actions';
 import * as fromPeerAdminReducer from '../../reducers';
 import { ExchangeListComponent } from './exchange-list.component';
+
 
 describe('Peer Features - Exchange List Component', () => {
   let fixture: ComponentFixture<ExchangeListComponent>;
@@ -27,7 +29,8 @@ describe('Peer Features - Exchange List Component', () => {
         })
       ],
       declarations: [
-        ExchangeListComponent
+        ExchangeListComponent,
+        HighlightTextPipe
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -42,7 +45,7 @@ describe('Peer Features - Exchange List Component', () => {
   });
 
   it('should dispatch a LoadingExchanges action upon Init', () => {
-    const action = new fromExchangeListActions.LoadExchanges();
+    const action = new fromExchangeListActions.LoadExchanges('');
 
     fixture.detectChanges();
 
@@ -50,7 +53,7 @@ describe('Peer Features - Exchange List Component', () => {
   });
 
   it('should dispatch a LoadingExchanges action when handleExchangeGridReload is called', () => {
-    const action = new fromExchangeListActions.LoadExchanges();
+    const action = new fromExchangeListActions.LoadExchanges('');
 
     instance.handleExchangeGridReload();
 

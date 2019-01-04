@@ -35,7 +35,7 @@ export class AccessExchangeRequestEffects {
   @Effect()
   createExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.createExchangeRequest(
     this.type,
-    [new fromExchangeListActions.LoadExchanges]
+    [new fromExchangeListActions.LoadExchanges('')]
   );
 
   @Effect()
@@ -51,11 +51,11 @@ export class AccessExchangeRequestEffects {
       )
     );
 
-    @Effect()
-    resetExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.reset(this.type);
+  @Effect()
+  resetExchangeRequest$: Observable<Action> = this.exchangeRequestEffectsService.reset(this.type);
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,
     private exchangeRequestEffectsService: ExchangeRequestEffectsService
-  ) {}
+  ) { }
 }
