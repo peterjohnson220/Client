@@ -6,17 +6,20 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromAddJobsPageActions from '../../../actions/add-jobs.page.actions';
+import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
 import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromAddJobsReducer from '../../../reducers';
 
 import { AddJobsPageComponent } from './add-jobs.page';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('Project - Add Jobs - Jobs Page', () => {
   let fixture: ComponentFixture<AddJobsPageComponent>;
   let instance: AddJobsPageComponent;
   let store: Store<fromAddJobsReducer.State>;
+  let router: Router;
+  let route: ActivatedRoute;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -30,11 +33,23 @@ describe('Project - Add Jobs - Jobs Page', () => {
       declarations: [
         AddJobsPageComponent
       ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { url: 'fake-path/' }
+        },
+        {
+          provide: Router,
+          useValue: { navigate: jest.fn() },
+        }
+      ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
+    router = TestBed.get(Router);
+    route = TestBed.get(ActivatedRoute);
 
     fixture = TestBed.createComponent(AddJobsPageComponent);
     instance = fixture.componentInstance;
@@ -110,6 +125,14 @@ describe('Project - Add Jobs - Jobs Page', () => {
     instance.handleClearSelectionsClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should navigate to the create-new-job route relative to this one, when handling create new job clicked', () => {
+    spyOn(router, 'navigate');
+
+    instance.handleCreateNewJobClicked();
+
+    expect(router.navigate).toHaveBeenCalledWith(['../create-new-job'], { relativeTo: route });
   });
 
 });

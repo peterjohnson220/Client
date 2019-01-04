@@ -36,4 +36,8 @@ export class CompanyJobApiService {
     getCompanyJobTitleAndCode(companyJobId: number): Observable<CompanyJob> {
         return this.payfactorsApiService.get<CompanyJob>(`${this.endpoint}?$filter=CompanyJobId%20eq%20${companyJobId}`);
     }
+
+    getJobFamilies(): Observable<string[]> {
+      return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetJobFamilies`);
+    }
 }

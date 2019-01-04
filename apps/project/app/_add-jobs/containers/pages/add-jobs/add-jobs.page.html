@@ -1,6 +1,13 @@
+
 <pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="numberOfResults$ | async">
 
   <ng-container sidebar>
+
+    <div *ngIf="!(searchingFilter$ | async)" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
+      <div class="search-action" (click)="handleCreateNewJobClicked()">
+        <i class="far fa-plus"></i> Create New Job
+      </div>
+    </div>
 
     <pf-search-filters
       [defaultFocusedFilterId]="'jobTitleCode'"
@@ -23,6 +30,7 @@
   <ng-container action-buttons>
 
     <div class="clear-selections search-action"
+         [attr.data-qa-id]="'btn-clearSelections'"
          *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length"
          (click)="handleClearSelectionsClicked()">
       Clear Selections

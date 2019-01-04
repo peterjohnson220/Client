@@ -15,10 +15,10 @@ import { JobPayMarket } from '../../models';
   styleUrls: ['./paymarkets.component.scss']
 })
 export class PaymarketsComponent implements OnInit, OnDestroy {
-  // subscriptions
+  // Subscriptions
   searchTermSubscription: Subscription;
 
-  // observables
+  // Observables
   paymarkets$: Observable<JobPayMarket[]>;
   visiblePaymarkets$: Observable<JobPayMarket[]>;
   defaultPaymarket$: Observable<number>;

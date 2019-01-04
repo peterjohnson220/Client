@@ -46,4 +46,8 @@ export class DashboardApiService {
         typesToRetrieve: request.TypesToRetrieve
       });
   }
+
+  getIsJdmEnabled(): Observable<boolean> {
+    return this.payfactorsApiService.get<boolean>(`${this.endpoint}.IsJdmEnabled`);
+  }
 }
