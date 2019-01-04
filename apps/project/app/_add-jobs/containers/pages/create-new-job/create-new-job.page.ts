@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -52,6 +52,21 @@ export class CreateNewJobPageComponent implements OnInit, OnDestroy {
     this.creatingJobError$ = this.store.select(fromAddJobsReducer.getCreatingJobError);
     this.createForm();
   }
+
+  // Listen for messages to the window
+  @HostListener('window:message', ['$event'])
+  onMessage(event: MessageEvent) {
+    if (!event.data || !event.data.payfactorsMessage) {
+      return;
+    }
+
+    switch (event.data.payfactorsMessage.type) {
+      case 'App Closed':
+        this.location.back();
+        break;
+    }
+  }
+
 
   get createDisabled(): boolean {
     return !this.createNewJobForm.valid ||
