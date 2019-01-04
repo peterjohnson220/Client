@@ -20,7 +20,7 @@ export class PaymarketEffects {
   loadPaymarkets$ = this.actions$
     .ofType(fromPaymarketActions.LOAD_PAYMARKETS)
     .pipe(
-        switchMap((action: fromPaymarketActions.LoadPaymarkets) => {
+        switchMap(() => {
           return this.paymarketApiService.getAll()
             .pipe(
               map((paymarketsResponse: PayMarket[]) =>

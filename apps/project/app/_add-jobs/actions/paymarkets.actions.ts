@@ -7,8 +7,9 @@ export const LOAD_PAYMARKETS_SUCCESS = '[Project Add Jobs/Paymarkets Container] 
 export const LOAD_PAYMARKETS_ERROR = '[Project Add Jobs/Paymarkets Container] Load all paymarkets error';
 export const TOGGLE_PAYMARKET_SELECTION = '[Project Add Jobs/Paymarkets Container] Toggle paymarket selection';
 export const SET_DEFAULT_PAYMARKET = '[Project Add Jobs/Paymarkets Container] Set Default Paymarket';
-export const RESET_PAYMARKETS = '[Project Add Jobs/Paymarkets Container] Reset Paymarkets';
+export const CLEAR_PAYMARKETS = '[Project Add Jobs/Paymarkets Container] Clear Paymarkets';
 export const SET_SEARCH_TERM = '[Project Add Jobs/Paymarkets Container] Set Search Term';
+export const RESET_PAYMARKET_SELECTIONS = '[Project Add Jobs/Paymarkets Container] Reset Paymarket Selections';
 
 export class LoadPaymarkets implements Action {
   readonly type = LOAD_PAYMARKETS;
@@ -37,8 +38,8 @@ export class SetDefaultPaymarket implements Action {
 
   constructor(public payload: number) {}
 }
-export class ResetPaymarkets implements Action {
-  readonly type = RESET_PAYMARKETS;
+export class ClearPayMarkets implements Action {
+  readonly type = CLEAR_PAYMARKETS;
 
   constructor() {}
 }
@@ -47,11 +48,19 @@ export class SetSearchTerm implements Action {
 
   constructor(public payload: string) {}
 }
+
+export class ResetPayMarketSelections implements Action {
+  readonly type = RESET_PAYMARKET_SELECTIONS;
+
+  constructor() {}
+}
+
 export type Actions
   = LoadPaymarkets
   | LoadPaymarketsSuccess
   | LoadPaymarketsError
   | TogglePaymarketSelection
   | SetDefaultPaymarket
-  | ResetPaymarkets
-  | SetSearchTerm;
+  | ClearPayMarkets
+  | SetSearchTerm
+  | ResetPayMarketSelections;
