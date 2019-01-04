@@ -1,5 +1,4 @@
-
-<pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="numberOfResults$ | async">
+<pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="isSmallBiz ? null : (numberOfSearchResults$ | async)">
 
   <ng-container sidebar>
 
@@ -15,46 +14,69 @@
     </pf-search-filters>
 
     <pf-single-filter
-      *ngIf="searchingFilter$ | async">
+      *ngIf="!!(searchingFilter$ | async)">
     </pf-single-filter>
   </ng-container>
 
   <ng-container content>
 
     <pf-results-header></pf-results-header>
-    <pf-job-search-results></pf-job-search-results>
-    <pf-paymarkets></pf-paymarkets>
+
+    <pf-job-search-results [canSelectJobs]="canSelectJobs"
+                           [useSmallBizStyles]="isSmallBiz">
+    </pf-job-search-results>
+
+    <pf-paymarkets [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>
+
+    <pf-job-counter *ngIf="!!isSmallBiz"
+                    [jobUsageCount]="jobUsageCount"
+                    [numberOfSearchResults]="(numberOfSearchResults$ | async)"
+                    [currentJobCountSetting]="currentJobCountSetting"
+                    [maxAllowedJobsSetting]="maxAllowedJobsSetting">
+    </pf-job-counter>
 
   </ng-container>
 
   <ng-container action-buttons>
 
-    <div class="clear-selections search-action"
-         [attr.data-qa-id]="'btn-clearSelections'"
-         *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length"
-         (click)="handleClearSelectionsClicked()">
-      Clear Selections
-    </div>
+    <span *ngIf="!(addingDataError$ | async)">
+      <button class="btn btn-sm btn-secondary mr-3 clear-selections"
+              [attr.data-qa-id]="'btn-clearSelections'"
+              [disabled]="!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length)"
+              (click)="handleClearSelectionsClicked()">
+        Clear Selections
+      </button>
 
-    <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
-            [attr.data-qa-id]="'btn-addJobs'"
-            [disabled]="(addingData$ | async) ||
-                        (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) ||
-                        !(selectedPaymarkets$ | async)?.length)"
-            (click)="handleAddClicked()">
+      <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
+              [attr.data-qa-id]="'btn-addJobs'"
+              [disabled]="(addingData$ | async) ||
+                          (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) ||
+                          !(selectedPaymarkets$ | async)?.length)"
+              (click)="handleAddClicked()">
 
-      <ng-container *ngIf="!(addingData$ | async); else addingData">
-        Add
-        <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">
-          ({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})
-        </span>
-      </ng-container>
-    </button>
+        <ng-container *ngIf="!(addingData$ | async); else addingData">
+          Add
+          <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">
+            ({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})
+          </span>
+        </ng-container>
+      </button>
 
-    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
-            [attr.data-qa-id]="'btn-cancelAddJobs'">
-      Cancel
-    </button>
+      <button (click)="handleCancelClicked()"
+              class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+              [attr.data-qa-id]="'btn-cancelAddJobs'">
+        Cancel
+      </button>
+    </span>
+
+
+    <span class="error-adding-jobs text-danger" *ngIf="!!(addingDataError$ | async)">
+      {{
+      (addingDataErrorMessage$ | async)
+        ? (addingDataErrorMessage$ | async).error.error.message
+        : 'Error adding selected job(s).'
+      }}
+    </span>
 
   </ng-container>
 

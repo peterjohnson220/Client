@@ -4,3 +4,4 @@ export * from './survey-search';
 export * from './search';
 export * from './job-search';
 export * from './project';
+export * from './settings';
