@@ -11,15 +11,17 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
-
+import { PfUserFilterModule } from 'libs/features/user-filter';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
+import { UserFilterTypeData } from 'libs/features/user-filter/models';
+
 import { AddJobsRoutingModule } from './add-jobs-routing.module';
 import { reducers } from './reducers';
 import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects,
-         CreateNewJobPageEffects } from './effects';
+         CreateNewJobPageEffects, JobSearchUserFilterEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent, CreateNewJobPageComponent } from './containers';
-import { JobResultComponent } from './components';
-import { SearchFilterMappingData } from './data';
+import { JobResultComponent, ResultsHeaderComponent } from './components';
+import { SearchFilterMappingData, JobSearchUserFilterType } from './data';
 import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
 
 @NgModule({
@@ -35,7 +37,8 @@ import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
       SearchResultsEffects,
       SearchFiltersEffects,
       SingledFilterEffects,
-      PaymarketEffects
+      PaymarketEffects,
+      JobSearchUserFilterEffects
     ]),
     InfiniteScrollModule,
     DropDownsModule,
@@ -46,12 +49,14 @@ import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
     // Payfactors
     PfSearchModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    PfUserFilterModule
   ],
   declarations: [
     // Components
     SearchResultsComponent,
     JobResultComponent,
+    ResultsHeaderComponent,
 
     // Containers
     PaymarketsComponent,
@@ -60,7 +65,8 @@ import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
     AddJobsPageComponent, CreateNewJobPageComponent
   ],
   providers: [
-    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData }
+    { provide: SearchFilterMappingDataObj, useValue: SearchFilterMappingData },
+    { provide: UserFilterTypeData, useValue: JobSearchUserFilterType }
   ]
 })
 export class AddJobsModule { }

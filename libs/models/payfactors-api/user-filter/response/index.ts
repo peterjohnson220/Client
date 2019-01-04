@@ -1,1 +1,1 @@
-export * from './survey-saved-filter-response.model';
+export * from './search-saved-filter-response.model';
