@@ -1,15 +1,24 @@
-<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'" (returning)="handleBackButtonClick()">
+<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'"
+                        (returning)="handleBackButtonClick()">
 
   <ng-container page-title>
     Peer Exchanges
   </ng-container>
 
   <ng-container page-actions>
-    <button type="button" class="btn btn-primary" (click)="openCreateExchangeModal()">Create</button>
+
+    <pf-input-debounce [placeholderText]="'Search by exchange or creator\'s name'"
+                       [minWidth]="250"
+                       (valueChanged)="handleSearchChanged($event)">
+    </pf-input-debounce>
+    <button type="button"
+            class="btn btn-primary"
+            (click)="openCreateExchangeModal()">Create</button>
   </ng-container>
 
   <ng-container page-content>
-    <pf-exchange-list (onCellClick)="handleCellClick($event)"></pf-exchange-list>
+    <pf-exchange-list [searchHighlight]="searchQuery"
+                      (onCellClick)="handleCellClick($event)"></pf-exchange-list>
   </ng-container>
 
 </pf-page-with-title-bar>

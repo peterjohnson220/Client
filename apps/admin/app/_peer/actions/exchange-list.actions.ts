@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { ExchangeListItem, UpsertExchangeRequest } from 'libs/models/index';
 
-export const LOAD_EXCHANGES  = '[Peer Admin/Exchange List] Load Exchanges';
-export const LOAD_EXCHANGES_SUCCESS  = '[Peer Admin/Exchange List] Load Exchanges Success';
-export const LOAD_EXCHANGES_ERROR  = '[Peer Admin/Exchange List] Load Exchanges Error';
+export const LOAD_EXCHANGES = '[Peer Admin/Exchange List] Load Exchanges';
+export const LOAD_EXCHANGES_SUCCESS = '[Peer Admin/Exchange List] Load Exchanges Success';
+export const LOAD_EXCHANGES_ERROR = '[Peer Admin/Exchange List] Load Exchanges Error';
 export const UPSERT_EXCHANGE = '[Peer Admin/Exchange List] Upsert Exchange';
 export const UPSERT_EXCHANGE_SUCCESS = '[Peer Admin/Exchange List] Upsert Exchange Success';
 export const UPSERT_EXCHANGE_ERROR = '[Peer Admin/Exchange List] Upsert Exchange Error';
@@ -18,12 +18,13 @@ export const CLOSE_DELETE_EXCHANGE_MODAL = '[Peer Admin/Exchange List] Close Del
 
 export class LoadExchanges implements Action {
   readonly type = LOAD_EXCHANGES;
+  constructor(public payload: string) { }
 }
 
 export class LoadExchangesSuccess implements Action {
   readonly type = LOAD_EXCHANGES_SUCCESS;
 
-  constructor(public payload: ExchangeListItem[]) {}
+  constructor(public payload: ExchangeListItem[]) { }
 }
 
 export class LoadExchangesError implements Action {
@@ -41,19 +42,19 @@ export class CloseCreateExchangeModal implements Action {
 export class UpsertExchange implements Action {
   readonly type = UPSERT_EXCHANGE;
 
-  constructor(public payload: UpsertExchangeRequest) {}
+  constructor(public payload: UpsertExchangeRequest) { }
 }
 
 export class UpsertExchangeSuccess implements Action {
   readonly type = UPSERT_EXCHANGE_SUCCESS;
 
-  constructor(public payload: ExchangeListItem) {}
+  constructor(public payload: ExchangeListItem) { }
 }
 
 export class UpsertExchangeError implements Action {
   readonly type = UPSERT_EXCHANGE_ERROR;
 
-  constructor(public payload: string) {}
+  constructor(public payload: string) { }
 }
 
 // Delete Exchange
@@ -68,7 +69,7 @@ export class CloseDeleteExchangeModal implements Action {
 export class DeleteExchange implements Action {
   readonly type = DELETE_EXCHANGE;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class DeleteExchangeSuccess implements Action {

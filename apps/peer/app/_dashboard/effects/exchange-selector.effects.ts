@@ -5,7 +5,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { ExchangeApiService, ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
 import { ExchangeListItem } from 'libs/models';
 
 import * as fromExchangeSelectorActions from '../actions/exchange-selector.actions';
@@ -28,9 +28,8 @@ export class ExchangeSelectorEffects {
 
   constructor(
     private actions$: Actions,
-    private exchangeApiService: ExchangeApiService,
     private exchangeCompanyApiService: ExchangeCompanyApiService
-  ) {}
+  ) { }
 }
 
 
