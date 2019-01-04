@@ -52,7 +52,7 @@ export class AddJobsPageComponent extends SearchBase {
   }
 
   onResetApp(): void {
-    this.store.dispatch(new fromPaymarketActions.ResetPaymarkets());
+    this.store.dispatch(new fromPaymarketActions.ClearPayMarkets());
     this.store.dispatch(new fromAddJobsSearchResultsActions.ClearSelectedJobs());
   }
 

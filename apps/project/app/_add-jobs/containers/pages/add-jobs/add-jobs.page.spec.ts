@@ -97,8 +97,8 @@ describe('Project - Add Jobs - Jobs Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a reset paymarkets action onResetApp', () => {
-    const expectedAction = new fromPaymarketActions.ResetPaymarkets();
+  it('should dispatch a clear paymarkets action onResetApp', () => {
+    const expectedAction = new fromPaymarketActions.ClearPayMarkets();
 
     spyOn(store, 'dispatch');
 
