@@ -85,6 +85,8 @@ export function reducer(
         ...state,
         loading: true,
         loadingError: false,
+        startIndexDisplayed: 1,
+        endIndexDisplayed: 1,
         pagingOptions: { ...state.pagingOptions, PageIndex: 1 }
       };
     }

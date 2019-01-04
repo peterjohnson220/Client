@@ -29,7 +29,7 @@
               Loading More Results...
             </div>
           </div>
-          <pf-community-posts #posts></pf-community-posts>
+          <pf-community-posts #posts (filtersModifiedEvent)="scrollToTop()"></pf-community-posts>
           <div id="loading-next-results-indicator" class="row loading-indicator-container-bottom p-1 k-display-none">
             <div class="mt-3 pb-3">
               <pf-loading-indicator></pf-loading-indicator>

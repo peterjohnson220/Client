@@ -1,6 +1,6 @@
 <pf-async-container
   [loading]="loadingCommunityPosts$ | async">
-  <pf-community-post-filter-options></pf-community-post-filter-options>
+  <pf-community-post-filter-options (removeFilterEvent)="filtersModified()"></pf-community-post-filter-options>
   <div id="posts-container" class="posts-container p-2 scroll">
     <div id="community-posts">
       <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
