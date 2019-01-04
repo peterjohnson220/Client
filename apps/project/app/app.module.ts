@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
@@ -18,7 +18,8 @@ import { CustomRouteReuseStrategy } from './route-reuse-strategy';
     BrowserAnimationsModule,
 
     // Third Party
-    NgbModalModule,
+    NgbProgressbarModule.forRoot(),
+    NgbTooltipModule.forRoot(),
 
     // PF Modules
     PfStateModule,

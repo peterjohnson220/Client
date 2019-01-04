@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -15,6 +15,8 @@ import { JobPayMarket } from '../../models';
   styleUrls: ['./paymarkets.component.scss']
 })
 export class PaymarketsComponent implements OnInit, OnDestroy {
+  @Input() useSmallBizStyles: boolean;
+
   // Subscriptions
   searchTermSubscription: Subscription;
 
