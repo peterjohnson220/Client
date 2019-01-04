@@ -55,6 +55,7 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
               ng-reflect-klass="form-control"
               ng-reflect-maxlength="524288"
               placeholder="Search for a Company Name..."
+              style="min-width: undefinedpx;"
               type="text"
             />
             <div

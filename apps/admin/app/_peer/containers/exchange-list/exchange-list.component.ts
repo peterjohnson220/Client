@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -20,6 +20,7 @@ export class ExchangeListComponent implements OnInit {
   exchangeListItems$: Observable<ExchangeListItem[]>;
   selectedExchange: ExchangeListItem;
 
+  @Input() searchHighlight = '';
   @Output() onCellClick = new EventEmitter();
 
   constructor(private store: Store<fromPeerAdminReducer.State>) {
@@ -30,7 +31,7 @@ export class ExchangeListComponent implements OnInit {
 
   // Events
   handleExchangeGridReload() {
-    this.store.dispatch(new fromExchangeListActions.LoadExchanges());
+    this.store.dispatch(new fromExchangeListActions.LoadExchanges(''));
   }
 
   handleCellClick(cellClickEvent: any): void {
@@ -54,6 +55,6 @@ export class ExchangeListComponent implements OnInit {
 
   // Lifecycle events
   ngOnInit(): void {
-    this.store.dispatch(new fromExchangeListActions.LoadExchanges());
+    this.store.dispatch(new fromExchangeListActions.LoadExchanges(''));
   }
 }
