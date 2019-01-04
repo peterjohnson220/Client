@@ -14,7 +14,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 // Effects
-import { DashboardEffects, TileGridEffects, UserVoiceEffects, TimelineActivityEffects, DashboardTcModalEffects } from './effects';
+import { DashboardEffects,
+  TileGridEffects,
+  UserVoiceEffects,
+  TimelineActivityEffects,
+  DashboardTcModalEffects,
+  CompositeSummaryDownloadEffects } from './effects';
 
 // Reducers
 import { reducers } from './reducers';
@@ -37,6 +42,7 @@ import { TilePreviewChartWithListComponent } from './components';
 import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
+import { CompositeSummaryDownloadComponent } from './components';
 
 @NgModule({
   imports: [
@@ -46,7 +52,14 @@ import { TilePreviewPlaceHolderComponent } from './components';
     // 3rd Party
     DragulaModule.forRoot(),
     StoreModule.forFeature('dashboardMain', reducers),
-    EffectsModule.forFeature([TileGridEffects, UserVoiceEffects, DashboardEffects, TimelineActivityEffects, DashboardTcModalEffects]),
+    EffectsModule.forFeature([
+      TileGridEffects,
+      UserVoiceEffects,
+      DashboardEffects,
+      TimelineActivityEffects,
+      DashboardTcModalEffects,
+      CompositeSummaryDownloadEffects
+    ]),
     ChartsModule,
     DateInputsModule,
     NgbModule.forRoot(),
@@ -76,6 +89,7 @@ import { TilePreviewPlaceHolderComponent } from './components';
     TileComponent,
     UserVoiceIndicatorComponent,
     DashboardTCModalComponent,
+    CompositeSummaryDownloadComponent,
   ]
 })
 export class MainModule {
