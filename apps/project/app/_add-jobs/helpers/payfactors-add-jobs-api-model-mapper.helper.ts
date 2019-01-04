@@ -49,11 +49,11 @@ export class PayfactorsAddJobsApiModelMapper {
   ///
   static buildCreateNewProjectJobRequest(createNewJobForm: any, companyPayMarketIds: number[]): CreateNewProjectJobRequest {
     return {
-      JobCode: createNewJobForm.jobCode,
-      JobTitle: createNewJobForm.jobTitle,
-      JobLevel: createNewJobForm.jobLevel,
-      JobFamily: createNewJobForm.jobFamily,
-      JobDescription: createNewJobForm.jobDescription,
+      JobCode: createNewJobForm.jobCode || '',
+      JobTitle: createNewJobForm.jobTitle || '',
+      JobLevel: createNewJobForm.jobLevel || '',
+      JobFamily: createNewJobForm.jobFamily || '',
+      JobDescription: createNewJobForm.jobDescription || '',
       CompanyPayMarketIds: companyPayMarketIds
     };
   }
