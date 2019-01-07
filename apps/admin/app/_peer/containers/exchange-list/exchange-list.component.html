@@ -7,7 +7,7 @@
               [data]="exchangeListItems$ | async"
               [resizable]="true"
               [pageable]="true"
-              [pageSize]="(exchangeListItems$ | async).length"
+              [pageSize]="20"
               [rowClass]="rowClass"
               (cellClick)="handleCellClick($event)">
 
