@@ -63,14 +63,6 @@ describe('Project - Add Jobs - Create New Job Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should go back to the previous location, when handling cancel being clicked', () => {
-    spyOn(location, 'back');
-
-    instance.handleCancelClicked();
-
-    expect(location.back).toHaveBeenCalled();
-  });
-
   it('should go back to the previous location, when handling back to search clicked', () => {
     spyOn(location, 'back');
 
