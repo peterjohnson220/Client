@@ -4,7 +4,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSavedFiltersActions from 'libs/features/search/actions/saved-filters.actions';
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+import * as fromSaveFilterModalActions from 'libs/features/user-filter/actions/save-filter-modal.actions';
+import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions/user-filter-popover.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
@@ -43,11 +45,11 @@ export abstract class SearchBase {
 
   private resetApp() {
     this.store.dispatch(new fromSearchPageActions.HidePage());
-    this.store.dispatch(new fromSavedFiltersActions.CloseSaveFilterModal());
+    this.store.dispatch(new fromSaveFilterModalActions.CloseSaveModal());
     this.store.dispatch(new fromSearchFiltersActions.RemoveFilters());
     this.store.dispatch(new fromSearchPageActions.HideFilterSearch());
-    this.store.dispatch(new fromSavedFiltersActions.ClearSavedFilters());
-    this.store.dispatch(new fromSavedFiltersActions.CloseSavedFiltersPopover());
+    this.store.dispatch(new fromUserFilterActions.Reset());
+    this.store.dispatch(new fromUserFilterPopoverActions.ClosePopover());
     this.store.dispatch(new fromSearchResultsActions.ClearResults());
     this.onResetApp();
   }

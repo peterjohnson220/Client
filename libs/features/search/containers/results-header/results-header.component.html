@@ -10,9 +10,10 @@
          [attr.data-qa-id]="'btn-resetAllFilters'">
       Reset
     </div>
-    <pf-saved-filters *ngIf="savedFiltersEnabled"
-      [canSaveFilters]="hasFiltersToSave && !hasSelectedSavedFilter">
-    </pf-saved-filters>
+    <pf-user-filter-popover *ngIf="savedFiltersEnabled"
+      [hasFiltersToSave]="hasFiltersToSave"
+      [setAsDefaultLabel]="userFilterDefaultLabel">
+    </pf-user-filter-popover>
   </div>
 
 </div>

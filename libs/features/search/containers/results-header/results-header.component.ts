@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
-import { Filter, isMultiFilter, isRangeFilter, Pill, PillGroup, SavedFilter } from '../../models';
+import { Filter, isMultiFilter, isRangeFilter, Pill, PillGroup } from '../../models';
 import { FiltersHelper } from '../../helpers';
 import * as fromSearchReducer from '../../reducers';
 
@@ -16,22 +16,18 @@ import * as fromSearchReducer from '../../reducers';
 })
 export class ResultsHeaderComponent implements OnInit, OnDestroy {
   @Input() savedFiltersEnabled = true;
+  @Input() userFilterDefaultLabel = 'Default';
 
   filters$: Observable<Filter[]>;
-  savedFilters$: Observable<SavedFilter[]>;
   filtersSub: Subscription;
-  savedFiltersSub: Subscription;
 
   filters: Filter[];
-  savedFilters: SavedFilter[];
   hasFiltersToSave: boolean;
-  hasSelectedSavedFilter: boolean;
 
   constructor(
     private store: Store<fromSearchReducer.State>
   ) {
     this.filters$ = this.store.select(fromSearchReducer.getFilters);
-    this.savedFilters$ = this.store.select(fromSearchReducer.getSavedFilters);
   }
 
   // Event Handling
@@ -56,15 +52,9 @@ export class ResultsHeaderComponent implements OnInit, OnDestroy {
       this.hasFiltersToSave = FiltersHelper.getFiltersWithValues(fs)
         .filter(f => isMultiFilter(f) || isRangeFilter(f)).some(f => !f.Locked && f.SaveDisabled !== true);
     });
-
-    this.savedFiltersSub = this.savedFilters$.subscribe(sf => {
-      this.savedFilters = sf;
-      this.hasSelectedSavedFilter = sf.some(s => s.Selected);
-    });
   }
 
   ngOnDestroy() {
     this.filtersSub.unsubscribe();
-    this.savedFiltersSub.unsubscribe();
   }
 }

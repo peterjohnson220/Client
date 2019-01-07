@@ -5,8 +5,9 @@ import { Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs';
 import { mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import * as fromSingledFilterActions from '../actions/singled-filter.actions';
 import * as fromSearchReducer from '../reducers';
 
@@ -28,7 +29,7 @@ export class SearchEffectsService {
         }
 
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }));
-        actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
+        actions.push(new fromUserFilterActions.SetSelected({ selected: false }));
 
         return actions;
       })
