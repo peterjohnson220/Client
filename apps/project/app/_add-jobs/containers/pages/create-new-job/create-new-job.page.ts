@@ -113,7 +113,6 @@ export class CreateNewJobPageComponent implements OnInit, OnDestroy {
 
   handleCancelClicked() {
     this.store.dispatch(new fromSearchPageActions.CloseSearchPage());
-    this.location.back();
   }
 
   private createForm(): void {
