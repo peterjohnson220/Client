@@ -87,6 +87,23 @@
                   "with": "apps/appName/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/appName/../../environments/environment.ts",
+                  "with": "apps/appName/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -101,6 +118,9 @@
             },
             "production": {
               "browserTarget": "appName:build:production"
+            },
+            "sales": {
+              "browserTarget": "appName:build:sales"
             }
           }
         },
