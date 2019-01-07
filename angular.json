@@ -91,6 +91,23 @@
                   "with": "apps/admin/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/admin/../../environments/environment.ts",
+                  "with": "apps/admin/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -105,6 +122,9 @@
             },
             "production": {
               "browserTarget": "admin:build:production"
+            },
+            "sales": {
+              "browserTarget": "admin:build:sales"
             }
           }
         },
@@ -261,6 +281,23 @@
                   "with": "apps/dashboard/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/dashboard/../../environments/environment.ts",
+                  "with": "apps/dashboard/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -275,6 +312,9 @@
             },
             "production": {
               "browserTarget": "dashboard:build:production"
+            },
+            "sales": {
+              "browserTarget": "dashboard:build:sales"
             }
           }
         },
@@ -434,6 +474,23 @@
                   "with": "apps/peer/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/peer/../../environments/environment.ts",
+                  "with": "apps/peer/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -448,6 +505,9 @@
             },
             "production": {
               "browserTarget": "peer:build:production"
+            },
+            "sales": {
+              "browserTarget": "peer:build:sales"
             }
           }
         },
@@ -608,6 +668,23 @@
                   "with": "apps/legacy-content/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/legacy-content/../../environments/environment.ts",
+                  "with": "apps/legacy-content/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -622,6 +699,9 @@
             },
             "production": {
               "browserTarget": "legacy-content:build:production"
+            },
+            "sales": {
+              "browserTarget": "legacy-content:build:sales"
             }
           }
         },
@@ -780,6 +860,23 @@
                   "with": "apps/auth/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/auth/../../environments/environment.ts",
+                  "with": "apps/auth/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -794,6 +891,9 @@
             },
             "production": {
               "browserTarget": "auth:build:production"
+            },
+            "sales": {
+              "browserTarget": "auth:build:sales"
             }
           }
         },
@@ -951,36 +1051,56 @@
                   "with": "apps/project/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/project/../../environments/environment.ts",
+                  "with": "apps/project/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "auth:build"
+            "browserTarget": "project:build"
           },
           "configurations": {
             "staging": {
-              "browserTarget": "auth:build:staging"
+              "browserTarget": "project:build:staging"
             },
             "production": {
-              "browserTarget": "auth:build:production"
+              "browserTarget": "project:build:production"
+            },
+            "sales": {
+              "browserTarget": "project:build:sales"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "auth:build"
+            "browserTarget": "project:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "apps/auth/../../test.ts",
+            "main": "apps/project/../../test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "apps/auth/polyfills.ts",
-            "tsConfig": "apps/auth/../../tsconfig.spec.json",
+            "polyfills": "apps/project/polyfills.ts",
+            "tsConfig": "apps/project/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js"
             ],
@@ -1001,17 +1121,17 @@
               },
               {
                 "glob": "**/*",
-                "input": "apps/auth/assets",
+                "input": "apps/project/assets",
                 "output": "/assets"
               },
               {
                 "glob": "favicon.ico",
-                "input": "apps/auth",
+                "input": "apps/project",
                 "output": "/"
               },
               {
                 "glob": "web.config",
-                "input": "apps/auth",
+                "input": "apps/project",
                 "output": "/"
               }
             ]
@@ -1119,6 +1239,23 @@
                   "with": "apps/community/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/community/../../environments/environment.ts",
+                  "with": "apps/community/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -1133,6 +1270,9 @@
             },
             "production": {
               "browserTarget": "community:build:production"
+            },
+            "sales": {
+              "browserTarget": "community:build:sales"
             }
           }
         },
@@ -1300,6 +1440,24 @@
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "baseHref": "/app/",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/smallbiz/../../environments/environment.ts",
+                  "with": "apps/smallbiz/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -1340,6 +1498,9 @@
             },
             "production": {
               "browserTarget": "smallbiz:build:production"
+            },
+            "sales": {
+              "browserTarget": "smallbiz:build:sales"
             }
           }
         },
@@ -1495,6 +1656,23 @@
                   "with": "apps/jobs/../../environments/environment.prod.ts"
                 }
               ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/jobs/../../environments/environment.ts",
+                  "with": "apps/jobs/../../environments/environment.sales.ts"
+                }
+              ]
             }
           }
         },
@@ -1509,6 +1687,9 @@
             },
             "production": {
               "browserTarget": "jobs:build:production"
+            },
+            "sales": {
+              "browserTarget": "jobs:build:sales"
             }
           }
         },
