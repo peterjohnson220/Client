@@ -1756,6 +1756,196 @@
           }
         }
       }
+    },
+    "comphub": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/comphub",
+            "index": "apps/comphub/index.html",
+            "main": "apps/comphub/main.ts",
+            "tsConfig": "apps/comphub/tsconfig.app.json",
+            "polyfills": "apps/comphub/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/comphub/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/comphub/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/comphub",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/comphub",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/comphub/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/comphub/../../environments/environment.ts",
+                  "with": "apps/comphub/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/comphub/../../environments/environment.ts",
+                  "with": "apps/comphub/../../environments/environment.prod.ts"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/comphub/../../environments/environment.ts",
+                  "with": "apps/comphub/../../environments/environment.sales.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "comphub:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "comphub:build:staging"
+            },
+            "production": {
+              "browserTarget": "comphub:build:production"
+            },
+            "sales": {
+              "browserTarget": "comphub:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "comphub:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/comphub/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/comphub/polyfills.ts",
+            "tsConfig": "apps/comphub/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/comphub/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/comphub/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/comphub",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/comphub",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "admin",
