@@ -13,12 +13,8 @@ export class UiPersistenceSettingsApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  getUiPersistenceSettings(featureArea: string): Observable<any> {
-    return this.payfactorsApiService.get<any>(`${this.endpoint}.GetSettings`, {
-      params: {
-        featureArea: featureArea
-      }
-    });
+  getAllUiPersistenceSettings(): Observable<any> {
+    return this.payfactorsApiService.get<any>(`${this.endpoint}.GetAllSettings`);
   }
 
   getUiPersistenceSetting(featureArea: string, settingName: string): Observable<any> {

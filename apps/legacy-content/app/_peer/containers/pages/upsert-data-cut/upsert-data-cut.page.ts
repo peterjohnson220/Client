@@ -1,16 +1,18 @@
-import { Component, OnInit, HostListener, ViewChild, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromPeerMapReducers from 'libs/features/peer/map/reducers';
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
-import { SystemFilter } from 'libs/models/peer';
+import { SystemFilter, CompanySettingsEnum, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models';
+import { SettingsService } from 'libs/state/app-context/services';
 import { MapComponent } from 'libs/features/peer/map/containers/map';
 
 import * as fromUpsertDataCutPageActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
+import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 import * as fromUpsertPeerDataReducers from '../../../reducers';
 import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 
@@ -30,6 +32,9 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   includeUntaggedIncumbents$: Observable<boolean>;
   untaggedIncumbentCount$: Observable<number>;
   systemFilter$: Observable<SystemFilter>;
+  requestingPeerAccess$: Observable<boolean>;
+  hasAcceptedPeerTerms$: Observable<boolean>;
+  hasRequestedPeerAccess$: Observable<boolean>;
 
   // Subscriptions
   peerMapCompaniesSubscription: Subscription;
@@ -39,12 +44,18 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
   userSessionId: number;
   isPayMarketOverride: boolean;
   cutGuid: string;
+  requestPeerAccessMessage = `Thank you for your interest in Peer. Peer allows you to market price with unmatched
+  granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
+  will reach out to get you started with Peer.`;
+  accessRequestedMessage = `Thank you for requesting access to Peer. A Payfactors representative will be in
+  touch shortly to discuss the details of Peer and how you can become an active member of Peer.`;
 
   constructor(
     private store: Store<fromUpsertPeerDataReducers.State>,
     private mapStore: Store<fromPeerMapReducers.State>,
     private route: ActivatedRoute,
-    private guidelinesService: DojGuidelinesService
+    private guidelinesService: DojGuidelinesService,
+    private settingsService: SettingsService
   ) {
     this.upsertingDataCut$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCut));
     this.upsertingDataCutError$ = this.store.pipe(select(fromUpsertPeerDataReducers.getUpsertDataCutAddingDataCutError));
@@ -54,6 +65,14 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.peerMapCompanies$ = this.store.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterCountUnGeoTaggedIncumbents));
+    this.requestingPeerAccess$ = this.store.pipe(select(fromUpsertPeerDataReducers.getRequestingPeerAccess));
+
+    this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
+      FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
+    );
+    this.hasAcceptedPeerTerms$ = this.settingsService.selectCompanySetting<boolean>(
+      CompanySettingsEnum.PeerTermsAndConditionsAccepted
+    );
   }
 
   get primaryButtonText(): string {
@@ -79,19 +98,18 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     }));
   }
 
+  requestPeerAccess(): void {
+    this.store.dispatch(new fromRequestPeerAccessActions.RequestPeerAccess);
+  }
+
   cancel() {
     this.store.dispatch(new fromUpsertDataCutPageActions.CancelUpsertDataCut);
   }
 
   // Lifecycle events
   ngOnInit(): void {
-    const queryParamMap = this.route.snapshot.queryParamMap;
-    this.companyJobId = +queryParamMap.get('companyJobId') || 0;
-    this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
-    this.userSessionId = +queryParamMap.get('userSessionId') || 0;
-    this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
-    this.cutGuid = queryParamMap.get('dataCutGuid') || null;
-
+    this.setQueryParamMembers();
+    this.setSubscriptions();
     if (this.cutGuid == null) {
       this.store.dispatch(new fromFilterSidebarActions.LoadSystemFilter({
         CompanyJobId: this.companyJobId,
@@ -107,12 +125,6 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
         UserSessionId: this.userSessionId
       }
     ));
-
-    this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      // If the cutGuid is null, we can assume that we are NOT editing a data cut and we therefor need to check similarity.
-      const shouldCheckSimilarity = this.cutGuid === null;
-      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity);
-    });
   }
 
   ngOnDestroy() {
@@ -139,5 +151,22 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     } catch (e) {
       return true;
     }
+  }
+
+  setQueryParamMembers(): void {
+    const queryParamMap = this.route.snapshot.queryParamMap;
+    this.companyJobId = +queryParamMap.get('companyJobId') || 0;
+    this.companyPayMarketId = +queryParamMap.get('companyPayMarketId') || 0;
+    this.userSessionId = +queryParamMap.get('userSessionId') || 0;
+    this.isPayMarketOverride = queryParamMap.get('isPayMarketOverride') === 'true';
+    this.cutGuid = queryParamMap.get('dataCutGuid') || null;
+  }
+
+  setSubscriptions(): void {
+    this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
+      // If the cutGuid is null, we can assume that we are NOT editing a data cut and we therefor need to check similarity.
+      const shouldCheckSimilarity = this.cutGuid === null;
+      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity);
+    });
   }
 }

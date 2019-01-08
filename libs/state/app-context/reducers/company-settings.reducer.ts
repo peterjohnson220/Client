@@ -1,45 +1,45 @@
 import * as companySettingsActions from '../actions/company-settings.actions';
 
-import { CompanySettingDto } from '../../../models/company';
+import { CompanySetting } from 'libs/models/company';
 
 export interface State {
-  gettingCompanySettings: boolean;
-  gettingCompanySettingsError: boolean;
-  gettingCompanySettingsAttempted: boolean;
-  companySettings: CompanySettingDto[];
+  loading: boolean;
+  loadingError: boolean;
+  loadAttempted: boolean;
+  companySettings: CompanySetting[];
 }
 
 export const initialState: State = {
-  gettingCompanySettings: false,
-  gettingCompanySettingsError: false,
-  gettingCompanySettingsAttempted: false,
+  loading: false,
+  loadingError: false,
+  loadAttempted: false,
   companySettings: null
 };
 
 export function reducer(state = initialState, action: companySettingsActions.Actions): State {
   switch (action.type) {
-    case companySettingsActions.GET_COMPANY_SETTINGS: {
+    case companySettingsActions.LOAD_COMPANY_SETTINGS: {
       return {
         ...state,
-        gettingCompanySettings: true,
-        gettingCompanySettingsError: false,
+        loading: true,
+        loadingError: false,
         companySettings: null
       };
     }
-    case companySettingsActions.GET_COMPANY_SETTINGS_SUCCESS: {
+    case companySettingsActions.LOAD_COMPANY_SETTINGS_SUCCESS: {
       return {
         ...state,
-        gettingCompanySettings: false,
-        gettingCompanySettingsAttempted: true,
+        loading: false,
+        loadAttempted: true,
         companySettings: action.payload
       };
     }
-    case companySettingsActions.GET_COMPANY_SETTINGS_ERROR: {
+    case companySettingsActions.LOAD_COMPANY_SETTINGS_ERROR: {
       return {
         ...state,
-        gettingCompanySettings: false,
-        gettingCompanySettingsAttempted: true,
-        gettingCompanySettingsError: true
+        loading: false,
+        loadAttempted: true,
+        loadingError: true
       };
     }
     default: {
@@ -48,7 +48,7 @@ export function reducer(state = initialState, action: companySettingsActions.Act
   }
 }
 
-export const getGettingCompanySettings = (state: State) => state.gettingCompanySettings;
-export const getGettingCompanySettingsError = (state: State) => state.gettingCompanySettingsError;
-export const getGettingCompanySettingsAttempted = (state: State) => state.gettingCompanySettingsAttempted;
+export const getCompanySettingsLoading = (state: State) => state.loading;
+export const getCompanySettingsLoadingError = (state: State) => state.loadingError;
+export const getCompanySettingsLoadAttempted = (state: State) => state.loadAttempted;
 export const getCompanySettings = (state: State) => state.companySettings;
