@@ -43,8 +43,9 @@ export class UserContextEffects {
   getUserContext401Error$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
       tap((action: userContextActions.GetUserContext401Error) => {
+          const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
           if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/`;
+            window.location.href = `/?` + encodeURIComponent(redirectToAfterSuccessfulLogin);
           }
           return null;
         }
