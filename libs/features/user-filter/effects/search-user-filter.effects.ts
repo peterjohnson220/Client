@@ -110,11 +110,25 @@ export class SearchUserFilterEffects {
   );
 
   @Effect()
-  toggleMultiSelectOption$ = this.actions$
-  .ofType(fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION)
+  unselectSavedFilter$ = this.actions$
+  .ofType(
+    fromSearchFiltersActions.TOGGLE_MULTI_SELECT_OPTION,
+    fromSearchFiltersActions.CLEAR_FILTER,
+    fromSearchFiltersActions.REMOVE_FILTER_VALUE
+  )
   .pipe(
     mergeMap(() => [
       new fromUserFilterActions.UnselectSavedFilter()
+    ])
+  );
+
+  @Effect()
+  resetAllFilter$ = this.actions$
+  .ofType(fromSearchFiltersActions.RESET_ALL_FILTERS)
+  .pipe(
+    mergeMap(() => [
+      new fromUserFilterActions.UnselectSavedFilter(),
+      new fromUserFilterActions.ApplyDefault()
     ])
   );
 
