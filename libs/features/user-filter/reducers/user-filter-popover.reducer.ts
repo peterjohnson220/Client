@@ -1,4 +1,4 @@
-import * as fromSavedFiltersPopoverActions from '../actions/saved-filters-popover.actions';
+import * as fromSavedFiltersPopoverActions from '../actions/user-filter-popover.actions';
 
 export interface State {
   popoverOpen: boolean;

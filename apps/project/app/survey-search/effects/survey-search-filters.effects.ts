@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
-import * as fromSavedFiltersActions from 'libs/features/search/actions/saved-filters.actions';
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { MultiSelectFilter } from 'libs/features/search/models';
@@ -40,7 +40,7 @@ export class SurveySearchFiltersEffects {
   getDefaultSurveyScopesFilterSuccess$ = this.actions$
     .ofType(fromSurveySearchFiltersActions.GET_DEFAULT_SURVEY_SCOPES_FILTER_SUCCESS)
     .pipe(
-      map(() => new fromSavedFiltersActions.InitSavedFilters())
+      map(() => new fromUserFilterActions.Init())
     );
 
   @Effect()

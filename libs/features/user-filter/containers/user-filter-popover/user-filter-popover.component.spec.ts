@@ -5,14 +5,15 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
+import { generateMockMultiSelectFilter, generateMockMultiSelectOption,
+  MultiSelectFilter } from 'libs/features/search/models';
 
 import * as fromSaveFilterModalActions from '../../actions/save-filter-modal.actions';
-import * as fromSavedFiltersPopoverActions from '../../actions/saved-filters-popover.actions';
+import * as fromUserFilterPopoverActions from '../../actions/user-filter-popover.actions';
 import * as fromUserFilterActions from '../../actions/user-filter.actions';
 import * as fromUserFilterReducer from '../../reducers';
 import { UserFilterPopoverComponent } from './user-filter-popover.component';
-import { generateMockMultiSelectFilter, generateMockMultiSelectOption, generateMockSavedFilter,
-  MultiSelectFilter } from 'libs/features/search/models';
+import { generateMockSavedFilter } from '../../models';
 
 describe('User Filter Feature - Saved Filters Popover', () => {
   let fixture: ComponentFixture<UserFilterPopoverComponent>;
@@ -112,7 +113,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
   it('should dispatch a ToggleSavedFilterSelection action if its not to be deleted or edited, when handling a filter clicked', () => {
     spyOn(store, 'dispatch');
     const savedFilter = generateMockSavedFilter();
-    const expectedAction = new fromSavedFiltersPopoverActions.ToggleSavedFilterSelection(savedFilter);
+    const expectedAction = new fromUserFilterPopoverActions.ToggleSavedFilterSelection(savedFilter);
     instance.filterIdToDelete = '';
     savedFilter.Selected = false;
 
@@ -135,7 +136,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
   it('should do nothing if the filter is to be deleted, when handling a filter clicked', () => {
     spyOn(store, 'dispatch');
     const savedFilter = generateMockSavedFilter();
-    const nonExpectedAction = new fromUserFilterActions.SelectSavedFilter(savedFilter);
+    const nonExpectedAction = new fromUserFilterPopoverActions.Select(savedFilter);
     instance.filterIdToDelete = savedFilter.Id;
     savedFilter.Selected = false;
 
@@ -147,7 +148,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
   it(`should set the filteredSavedFilters to be the savedFilters containing the lowerCased searchSavedFiltersValue,
       when handling the search value changed`, () => {
     const expectedFilteredValue = {...generateMockSavedFilter(), Name: 'Saved Filter Three'};
-    store.dispatch(new fromUserFilterActions.GetSavedFiltersSuccess([
+    store.dispatch(new fromUserFilterActions.GetSuccess([
       {...generateMockSavedFilter(), Name: 'Saved Filter One'},
       {...generateMockSavedFilter(), Name: 'Saved Filter Two'},
       expectedFilteredValue
@@ -174,7 +175,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
   it('should dispatch EditSavedFilter action when Edit button clicked', () => {
     spyOn(store, 'dispatch');
     const savedFilter = generateMockSavedFilter();
-    const editSavedFilterAction = new fromSavedFiltersPopoverActions.Edit(savedFilter);
+    const editSavedFilterAction = new fromUserFilterPopoverActions.Edit(savedFilter);
 
     instance.handleEditBtnClicked(savedFilter);
 
@@ -183,7 +184,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
 
   it('should dispatch OpenSavedFiltersPopover action when popover is shown', () => {
     spyOn(store, 'dispatch');
-    const openSavedFiltersPopoverAction = new fromSavedFiltersPopoverActions.OpenPopover();
+    const openSavedFiltersPopoverAction = new fromUserFilterPopoverActions.OpenPopover();
 
     instance.handlePopoverShown();
 
@@ -193,7 +194,7 @@ describe('User Filter Feature - Saved Filters Popover', () => {
   it('should know when we have a selected saved filter', () => {
     instance.hasSelectedSavedFilter = false;
 
-    store.dispatch(new fromUserFilterActions.GetSavedFiltersSuccess([generateMockSavedFilter()]));
+    store.dispatch(new fromUserFilterActions.GetSuccess([generateMockSavedFilter()]));
 
     expect(instance.hasSelectedSavedFilter).toBe(true);
   });

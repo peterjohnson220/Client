@@ -30,10 +30,17 @@ const initialState: State = {
 // Reducer function
 export function reducer(state = initialState, action: fromUserFilterActions.Actions): State {
   switch (action.type) {
-    case fromUserFilterActions.INIT_USER_FILTER: {
+    case fromUserFilterActions.INIT: {
       return {
         ...state,
         filterIdToSelect: ''
+      };
+    }
+    case fromUserFilterActions.RESET: {
+      return {
+        ...state,
+        loadingSavedFilters: false,
+        savedFilters: []
       };
     }
     case fromUserFilterActions.GET_ALL: {
@@ -50,7 +57,7 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
         loadingError: false
       };
     }
-    case fromUserFilterActions.GET_SAVED_FILTERS_SUCCESS: {
+    case fromUserFilterActions.GET_SUCCESS: {
       const savedFiltersCopy = cloneDeep(action.payload);
       if (!!state.filterIdToSelect) {
         savedFiltersCopy.find(sf => sf.Id === state.filterIdToSelect).Selected = true;
@@ -61,7 +68,7 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
         savedFilters: savedFiltersCopy
       };
     }
-    case fromUserFilterActions.GET_SAVED_FILTERS_ERROR: {
+    case fromUserFilterActions.GET_ERROR: {
       return {
         ...state,
         loadingError: true
@@ -97,6 +104,13 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
         savingFilterConflict: true
       };
     }
+    case fromUserFilterActions.CLEAR_UPSERT_ERROR: {
+      return {
+        ...state,
+        savingFilterConflict: false,
+        savingFilterError: false
+      };
+    }
     case fromUserFilterActions.DELETE: {
       return {
         ...state,
@@ -109,27 +123,21 @@ export function reducer(state = initialState, action: fromUserFilterActions.Acti
         deletingSavedFilter: false
       };
     }
-    case fromUserFilterActions.SELECT_SAVED_FILTER: {
+    case fromUserFilterActions.SET_SELECTED: {
       const savedFiltersCopy = cloneDeep(state.savedFilters);
+      let filterIdToSelect = '';
       savedFiltersCopy.map(sf => sf.Selected = false);
-      savedFiltersCopy.find(sf => sf.Id === action.payload.Id).Selected = true;
+      if (!!action.payload.id && action.payload.selected === true) {
+        savedFiltersCopy.find(sf => sf.Id === action.payload.id).Selected = true;
+        filterIdToSelect = action.payload.id;
+      }
       return {
         ...state,
         savedFilters: savedFiltersCopy,
-        filterIdToSelect: action.payload.Id
+        filterIdToSelect: filterIdToSelect
       };
     }
-    case fromUserFilterActions.UNSELECT_SAVED_FILTER: {
-      const savedFiltersCopy = cloneDeep(state.savedFilters);
-      savedFiltersCopy.map(sf => sf.Selected = false);
-
-      return {
-        ...state,
-        savedFilters: savedFiltersCopy,
-        filterIdToSelect: ''
-      };
-    }
-    case fromUserFilterActions.SET_DEFAULT_FILTER: {
+    case fromUserFilterActions.SET_DEFAULT: {
       return {
         ...state,
         defaultFilterId: action.payload

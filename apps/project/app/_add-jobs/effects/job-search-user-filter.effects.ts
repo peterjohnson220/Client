@@ -2,39 +2,38 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromSaveFilterModalActions from 'libs/features/user-filter/actions/save-filter-modal.actions';
-import * as fromSavedFiltersPopover from 'libs/features/user-filter/actions/saved-filters-popover.actions';
+import * as fromUserFilterPopoverActions from 'libs/features/user-filter/actions/user-filter-popover.actions';
 import * as fromUserFilterReducer from 'libs/features/user-filter/reducers';
 import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 import { UserFilterApiService } from 'libs/data/payfactors-api';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
-import { buildUpsertRequest, getDefaultFilter } from '../helpers';
+import { SavedFiltersHelper } from '../helpers';
 
 @Injectable()
 export class JobSearchUserFilterEffects {
 
   @Effect()
   initJobSearchUserFilter$ = this.actions$
-  .ofType(fromUserFilterActions.INIT_USER_FILTER)
+  .ofType(fromUserFilterActions.INIT)
   .pipe(
     switchMap(() => {
       return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
-              new fromUserFilterActions.GetSavedFiltersSuccess(
+              new fromUserFilterActions.GetSuccess(
                 this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response)),
               new fromSearchPageActions.ShowPage(),
               new fromUserFilterActions.ApplyDefault()
           ]),
           catchError(response => [
-            new fromUserFilterActions.GetSavedFiltersError(),
+            new fromUserFilterActions.GetError(),
             new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }),
             new fromSearchPageActions.ShowPage()
           ])
@@ -44,18 +43,18 @@ export class JobSearchUserFilterEffects {
 
   @Effect()
   getSavedFiltersSuccess$ = this.actions$
-  .ofType(fromUserFilterActions.GET_SAVED_FILTERS_SUCCESS)
+  .ofType(fromUserFilterActions.GET_SUCCESS)
   .pipe(
-    mergeMap((action: fromUserFilterActions.GetSavedFiltersSuccess) => {
-      const defaultFilter = getDefaultFilter(action.payload);
+    mergeMap((action: fromUserFilterActions.GetSuccess) => {
+      const defaultFilter = this.savedFiltersHelper.getDefaultFilter(action.payload);
       const defaultFilterId = defaultFilter ? defaultFilter.Id : '';
-      return [ new fromUserFilterActions.SetDefaultFilter(defaultFilterId) ];
+      return [ new fromUserFilterActions.SetDefault(defaultFilterId) ];
     })
   );
 
   @Effect()
   applyDefaultSavedFilter$ = this.actions$
-  .ofType(fromUserFilterActions.APPLY_DEFAULT_SAVED_FILTER)
+  .ofType(fromUserFilterActions.APPLY_DEFAULT)
   .pipe(
     withLatestFrom(
       this.store.select(fromUserFilterReducer.getSavedFilters),
@@ -63,12 +62,12 @@ export class JobSearchUserFilterEffects {
         ({ action, savedFilters })),
     mergeMap(data => {
       const actions = [];
-      const defaultFilter = getDefaultFilter(data.savedFilters);
+      const defaultFilter = this.savedFiltersHelper.getDefaultFilter(data.savedFilters);
       const defaultFilterId = defaultFilter ? defaultFilter.Id : '';
-      actions.push(new fromUserFilterActions.SetDefaultFilter(defaultFilterId));
+      actions.push(new fromUserFilterActions.SetDefault(defaultFilterId));
 
       if (defaultFilter) {
-        actions.push(new fromUserFilterActions.SelectSavedFilter(defaultFilter));
+        actions.push(new fromUserFilterPopoverActions.Select(defaultFilter));
       } else {
         actions.push(new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: false }));
       }
@@ -87,56 +86,42 @@ export class JobSearchUserFilterEffects {
     mergeMap((data) => {
       const actions = [];
       const modalData = data.action.payload;
-      const savedFilterId = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
-      const isEditMode = !!savedFilterId;
-      const searchFilters = isEditMode
-        ? null
-        : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
-      const upsertRequest = buildUpsertRequest(savedFilterId, modalData, searchFilters);
-      const isDefaultFilter = isEditMode
-        ? modalData.SavedFilter.MetaInfo.Default
-        : false;
+      const upsertRequest = this.savedFiltersHelper.buildUpsertRequest(modalData);
+      const isDefaultFilter = this.savedFiltersHelper.isDefaultFilter(modalData.SavedFilter);
       let currentDefault = null;
       if (modalData.SetAsDefault && !isDefaultFilter) {
-        currentDefault = getDefaultFilter(data.savedFilters);
+        currentDefault = this.savedFiltersHelper.getDefaultFilter(data.savedFilters);
       }
       if (!!currentDefault) {
         const metaInfo = { Default: false };
+        actions.push(new fromSaveFilterModalActions.SetUpsertRequest(upsertRequest));
         actions.push(new fromSaveFilterModalActions.UpdateMetaInfo(
           { savedFilter: currentDefault, metaInfo: metaInfo }));
+      } else {
+        actions.push(new fromUserFilterActions.Upsert(upsertRequest));
       }
-      actions.push(new fromUserFilterActions.Upsert(upsertRequest));
       return actions;
     })
   );
 
   @Effect()
-  updateSavedFilterMetaInfo$ = this.actions$
-  .ofType(fromSaveFilterModalActions.UPDATE_META_INFO)
+  updateMetaInfoSuccess$ = this.actions$
+  .ofType(fromSaveFilterModalActions.UPDATE_META_INFO_SUCCESS)
   .pipe(
-    switchMap((action: fromSaveFilterModalActions.UpdateMetaInfo) => {
-      const savedFilter = action.payload.savedFilter;
-      return this.userFilterApiService.upsert({
-        SavedFilter: {
-          Name: savedFilter.Name,
-          Id: savedFilter.Id,
-          MetaInfo: action.payload.metaInfo
-        },
-        Type: this.userFilterTypeData.Type
-      })
-      .pipe(
-        map(() => {
-          return new fromSaveFilterModalActions.UpdateMetaInfoSuccess();
-        })
-      );
+    withLatestFrom(
+      this.store.select(fromUserFilterReducer.getUpsertRequest),
+      (action: fromSaveFilterModalActions.UpdateMetaInfoSuccess, upsertRequest) =>
+        ({ action, upsertRequest })),
+    mergeMap(data => {
+      return [ new fromUserFilterActions.Upsert(data.upsertRequest) ];
     })
   );
 
   @Effect()
   editSavedFilter$ = this.actions$
-  .ofType(fromSavedFiltersPopover.EDIT_SAVED_FILTER)
+  .ofType(fromUserFilterPopoverActions.EDIT)
   .pipe(
-    mergeMap((action: fromSavedFiltersPopover.Edit) => {
+    mergeMap((action: fromUserFilterPopoverActions.Edit) => {
       const actions = [];
       actions.push(new fromSaveFilterModalActions.SetModalData({
         Name: action.payload.Name,
@@ -155,6 +140,7 @@ export class JobSearchUserFilterEffects {
     private store: Store<fromUserFilterReducer.State>,
     private userFilterApiService: UserFilterApiService,
     private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper,
-    private userFilterTypeData: UserFilterTypeData
+    private userFilterTypeData: UserFilterTypeData,
+    private savedFiltersHelper: SavedFiltersHelper
   ) { }
 }
