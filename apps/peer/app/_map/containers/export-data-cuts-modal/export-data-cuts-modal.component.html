@@ -42,6 +42,7 @@
         <kendo-grid-checkbox-column width="5" showSelectAll="true">
           <ng-template kendoGridHeaderTemplate>
             <input kendoGridSelectAllCheckbox id="selectAllCheckboxId"
+                   [disabled]="selectAllDisabled"
                    [state]="selectAllState$ | async"
                    (selectAllChange)="onSelectAllChange($event)">
           </ng-template>

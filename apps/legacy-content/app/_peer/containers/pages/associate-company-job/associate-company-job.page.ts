@@ -50,8 +50,8 @@ export class AssociateCompanyJobComponent implements OnInit {
         this.hasLoadingError$ = this.store.pipe(select(fromAssociateReducer.getHasLoadingError));
         this.isAddingAssociation$ = this.store.pipe(select(fromAssociateReducer.getIsAdding));
         this.hasAddingAssociationError$ = this.store.pipe(select(fromAssociateReducer.getHasAddingError));
-        this.userContext$ = store.select(fromRootState.getUserContext);
-        this.companyJob$ = store.select(fromAssociateReducer.getCompanyJob);
+        this.userContext$ = this.store.pipe(select(fromRootState.getUserContext));
+        this.companyJob$ = this.store.pipe(select(fromAssociateReducer.getCompanyJob));
     }
 
     ngOnInit(): void {

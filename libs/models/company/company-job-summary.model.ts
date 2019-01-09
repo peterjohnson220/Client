@@ -1,6 +1,7 @@
 // DKG  this is the same as companyJob with
 // JobSummary instead of description.
-// This is one of many possible solutions 
+// This is one of many possible solutions
+
 export interface CompanyJobSummary {
     CompanyJobId: number;
     JobCode: string;

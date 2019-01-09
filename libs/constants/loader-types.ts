@@ -1,3 +1,3 @@
 export class LoaderTypes {
-  public static OrgData = 'OrgData';
+  public static OrgData = 'Organizational Data';
 }

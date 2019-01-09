@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -9,11 +9,13 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 import { WindowCommunicationService } from 'libs/core/services';
 
 import { AppRoutingModule } from './app-routing.module';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './route-reuse-strategy';
 
 @NgModule({
   imports: [
     // Angular
-    BrowserModule,
+    BrowserAnimationsModule,
 
     // Third Party
     NgbModalModule,
@@ -27,7 +29,8 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule
   ],
   providers: [
-    WindowCommunicationService
+    WindowCommunicationService,
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy }
   ],
   bootstrap: [AppComponent]
 })

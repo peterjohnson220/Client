@@ -5,7 +5,7 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
-  ExchangeJobSearch,
+  ExchangeJobSearch, ExchangeScopes,
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
@@ -23,9 +23,13 @@ export class ExchangeApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/AddCompanies`, addExchangeCompaniesRequest);
   }
 
-  getAllExchanges(): Observable<ExchangeListItem[]> {
-    return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`);
+  getAllExchanges(searchQuery: string): Observable<ExchangeListItem[]> {
+    return this.payfactorsApiService.get<ExchangeListItem[]>(`${this.endpoint}/GetAllExchanges`,
+      {
+        params: { searchQuery }
+      });
   }
+
 
   getAvailableCompanies(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetAvailableCompanies`, {
@@ -114,9 +118,11 @@ export class ExchangeApiService {
   }
 
   exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string,
-                           peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
-    const requestAction: ExchangeJobRequestAction = { JobRequest: jobRequest, Reason: reason,
-      PeopleToNotify: peopleToNotify, Action: action.toString() };
+    peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
+    const requestAction: ExchangeJobRequestAction = {
+      JobRequest: jobRequest, Reason: reason,
+      PeopleToNotify: peopleToNotify, Action: action.toString()
+    };
     return this.payfactorsApiService.post(`${this.endpoint}/ExchangeJobRequestAction`, requestAction);
   }
 

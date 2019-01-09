@@ -5,7 +5,7 @@ exports[`Search Feature - Search Layout should show an english formatted results
   resultsCount={[Function Number]}
 >
   <div
-    class="survey-search"
+    class="search"
   >
     <div
       class="filters-sidebar"

@@ -1,6 +1,11 @@
 @import 'legacy-variables';
 
-
+:host{
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  width: 100%;
+}
 
 .no-results-message-container{
   display: flex;

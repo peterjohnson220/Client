@@ -1,29 +1,19 @@
-<div #results
-  class="results"
-  infinite-scroll
-  [scrollWindow]="false"
-  [infiniteScrollDistance]="2"
-  (scrolled)="onScroll()">
+<pf-search-results [numberOfCurrentResults]="(jobResults$ | async)?.length">
 
-  <pf-async-container
-    [hideReloadButton]="true"
-    [spinnerType]="spinnerType">
-    <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
-      <pf-add-job-result
-        *ngFor="let jobResult of jobResults$ | async; trackBy: trackByJobId"
-        [job]="jobResult"
-        (jobClicked)="handleJobSelectionToggle(jobResult)">
-      </pf-add-job-result>
-    </ng-container>
-  </pf-async-container>
+  <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
+    <!--Not tracking by ID here since we are only loading 25 and it does not make much of a performance difference
+    By leaving off the tracking we allow for the components to "reset" on each search [BC]-->
+    <pf-add-job-result
+      *ngFor="let jobResult of jobResults$ | async;"
+      [job]="jobResult"
+      (jobClicked)="handleJobSelectionToggle(jobResult)">
+    </pf-add-job-result>
+  </ng-container>
 
-  <div class="m-3" *ngIf="loadingMoreResults$ | async">
-    <pf-loading-indicator [spinnerType]="spinnerType"></pf-loading-indicator> Loading More Results...
-  </div>
-</div>
+  <ng-template #noResultsMessage>
+    <div *ngIf="!(loadingResults$ | async)" class="no-results-message-container">
+      No results. Please change your filter criteria and search again.
+    </div>
+  </ng-template>
 
-<ng-template #noResultsMessage>
-  <div class="no-results-message-container">
-    No results. Please change your filter criteria and search again.
-  </div>
-</ng-template>
+</pf-search-results>

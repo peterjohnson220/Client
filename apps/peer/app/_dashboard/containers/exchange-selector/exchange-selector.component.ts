@@ -16,7 +16,7 @@ import * as fromExchangeRequestActions from '../../../shared/actions/exchange-re
 import * as fromSharedPeerReducer from '../../../shared/reducers';
 
 @Component({
-  selector: 'pf-exchange-selector',
+  selector: 'pf-peer-dashboard-exchange-selector',
   templateUrl: './exchange-selector.component.html',
   styleUrls: ['./exchange-selector.component.scss'],
   preserveWhitespaces: true

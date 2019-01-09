@@ -1,5 +1,4 @@
-import { SearchFilter } from '../../survey-search/response';
-import { SurveySavedFilterMetaInfo } from '../survey-saved-filter-meta-info';
+import { SearchFilter } from '../../search';
 import { SavedFilterType } from '../saved-filter-type';
 
 export interface UserFilterUpsertRequest {
@@ -10,6 +9,6 @@ export interface UserFilterUpsertRequest {
 interface SavedFilter {
   Id?: string;
   Name?: string;
-  MetaInfo?: SurveySavedFilterMetaInfo;
+  MetaInfo?: any;
   Filters?: SearchFilter[];
 }

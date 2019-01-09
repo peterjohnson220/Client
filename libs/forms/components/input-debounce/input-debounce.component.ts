@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { merge as observableMerge, fromEvent as observableFromEvent , Subject } from 'rxjs';
+import { merge as observableMerge, fromEvent as observableFromEvent, Subject } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
 import { PfConstants } from '../../../models/common';
@@ -34,6 +34,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() maxLength = 524288;
   @Input() id: string;
   @Input() automationClassName: '';
+  @Input() minWidth: '100';
   @Output() valueChanged = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
@@ -79,5 +80,5 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
     this.propogateChange = fn;
   }
 
-  registerOnTouched() {}
+  registerOnTouched() { }
 }

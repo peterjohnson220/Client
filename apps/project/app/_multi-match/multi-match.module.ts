@@ -16,7 +16,7 @@ import {  MultiMatchPageComponent, JobsToPriceContainerComponent } from './conta
 import { MultiMatchPageEffects, JobsToPriceEffects } from './effects';
 import { reducers } from './reducers';
 import { MultiMatchRoutingModule } from './multi-match-routing.module';
-import { SharedSurveySearchModule } from '../survey-search/shared.module';
+import { SurveySearchModule } from '../survey-search/survey-search.module';
 
 @NgModule({
   imports: [
@@ -33,7 +33,7 @@ import { SharedSurveySearchModule } from '../survey-search/shared.module';
     MultiMatchRoutingModule,
 
     // Payfactors
-    SharedSurveySearchModule,
+    SurveySearchModule,
     PfCommonUIModule,
     PfFormsModule,
     PfSearchModule

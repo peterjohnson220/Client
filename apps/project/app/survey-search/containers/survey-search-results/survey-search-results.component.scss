@@ -1,8 +1,8 @@
 @import 'search-results';
 
-:host{
-  position: absolute;
-  top: 36px;
-  bottom: 0;
-  width: 100%;
+:host ::ng-deep .loading-blanket {
+  position: fixed !important;
+  left: 244px !important;
+  bottom: 30px !important;
+  top: 36px !important;
 }

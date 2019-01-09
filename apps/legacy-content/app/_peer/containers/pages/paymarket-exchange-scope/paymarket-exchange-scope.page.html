@@ -1,0 +1,65 @@
+<pf-async-container
+  [loading]="loading$ | async"
+  [loadingError]="loadingError$ | async"
+  [loadingErrorMessage]="'Error loading exchange scopes'"
+  (reload)="loadExchangeScopes()">
+
+  <div class="container-fluid">
+    <div class="row">
+    <span>
+      Select an Exchange Scope to associate to this Pay Market.&nbsp;&nbsp;
+      This will generate a Peer data cut for Company Jobs you are pricing in the selected Pay Market.
+    </span>
+    </div>
+    <div class="row mt-4">
+      <div class="col-5 font-weight-bold">Exchange</div>
+      <div class="col-5 font-weight-bold">Scope</div>
+      <div class="col-2 font-weight-bold text-center">
+        <button class="btn btn-sm btn-light" (click)="addRow()">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+    <hr class="row my-2" />
+    <div class="form-group">
+      <div *ngFor="let selectionSource of exchangeScopeSelections; index as i">
+        <div class="row py-1">
+          <div class="col-5">
+            <kendo-combobox textField='Value'
+                            valueField='Key'
+                            class="form-control"
+                            placeholder="Choose an Exchange"
+                            [data]='exchanges'
+                            [allowCustom]='false'
+                            [filterable]='false'
+                            [(ngModel)] = 'selectionSource'
+                            (selectionChange)="selectExchange(i, $event)"
+            >
+            </kendo-combobox>
+          </div>
+          <div class="col-5">
+            <kendo-combobox textField='Name'
+                            valueField='Id'
+                            class="form-control"
+                            placeholder="Choose a Scope"
+                            [disabled]="disableScopeSelect(selectionSource)"
+                            [data]='getScopesForRow(i)'
+                            [allowCustom]='false'
+                            [filterable]='false'
+                            [ngModel]="getScopeSelectionForRow(i)"
+                            (selectionChange)="selectScope(i, $event)"
+            >
+            </kendo-combobox>
+          </div>
+          <div class="col-2 text-center">
+            <button class="btn btn-sm btn-light" (click)="deleteRow(i)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</pf-async-container>
+

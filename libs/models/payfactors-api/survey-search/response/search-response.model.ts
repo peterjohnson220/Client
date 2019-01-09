@@ -1,4 +1,4 @@
-import { generateMockSearchFilter, SearchFilter } from './search-filter.model';
+import { generateMockSearchFilter, SearchFilter, PagingResponse } from '../../search';
 
 export interface SurveyJob {
   Id: string;
@@ -32,11 +32,6 @@ interface Job {
   TCC50th: number;
   CountryCode?: string;
   EEO: string;
-}
-
-interface PagingResponse {
-  TotalRecordCount: number;
-  RecordsReturned: number;
 }
 
 export interface SearchResponse {

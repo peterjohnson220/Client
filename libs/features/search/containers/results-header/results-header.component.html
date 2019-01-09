@@ -6,10 +6,11 @@
   </pf-filter-pills>
 
   <div class="actions">
-    <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()">
+    <div class="search-action au-btn-reset-filters" (click)="handleResetClicked()"
+         [attr.data-qa-id]="'btn-resetAllFilters'">
       Reset
     </div>
-    <pf-saved-filters
+    <pf-saved-filters *ngIf="savedFiltersEnabled"
       [canSaveFilters]="hasFiltersToSave && !hasSelectedSavedFilter">
     </pf-saved-filters>
   </div>

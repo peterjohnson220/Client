@@ -1,6 +1,6 @@
-import { BaseSearchRequest } from './search-request.model';
+import { BaseSurveySearchRequest } from './survey-search-request.model';
 
-export interface SearchSurveyAggregationsRequest extends BaseSearchRequest {
+export interface SearchSurveyAggregationsRequest extends BaseSurveySearchRequest {
   SearchField: string;
   TextQuery: string;
   AggregateCount?: number;

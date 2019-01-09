@@ -46,13 +46,16 @@ exports[`Add Companies Modal should show a modal with a search bar and a compani
             class="input-group"
           >
             <input
+              autocomplete="off"
               class="form-control ng-untouched ng-pristine ng-valid"
+              data-qa-id="txt-search-box"
               id="search-box"
               maxlength="524288"
               ng-reflect-is-disabled="false"
               ng-reflect-klass="form-control"
               ng-reflect-maxlength="524288"
               placeholder="Search for a Company Name..."
+              style="min-width: undefinedpx;"
               type="text"
             />
             <div

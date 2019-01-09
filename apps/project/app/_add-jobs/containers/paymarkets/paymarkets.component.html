@@ -1,0 +1,39 @@
+<div class="paymarkets-container">
+  <div class="search-filter">
+    <pf-input-debounce
+      [placeholderText]="'Search Pay Markets...'"
+      [delay]="100"
+      [ngModel]="filterString"
+      [id]="'txt-search-paymarkets'"
+      [automationClassName]="'search-paymarkets'"
+      (valueChanged)="handleSearchChanged($event)">
+    </pf-input-debounce>
+  </div>
+  <div class="paymarket-results">
+    <pf-async-container
+      [loading]="loadingPaymarkets$ | async"
+      [spinnerType]="'GIF'"
+      [loadingError]="loadingPaymarketsError$ | async"
+      [loadingErrorMessage]="'Error.'"
+      [hideReloadButton]="true">
+      <ng-container *ngIf="(paymarkets$ | async).length">
+        <div *ngFor="let paymarket of paymarkets$ | async; trackBy: trackById">
+          <div class="paymarket-result"
+            [title]="paymarket.PayMarket"
+            [class.hidden]="paymarket.IsHidden"
+            (click)="togglePaymarket(paymarket)">
+            <div class="paymarket-check">
+              <input type="checkbox" [attr.data-qa-id]="'chk-select-paymarket-'+ paymarket.CompanyPayMarketId" [ngModel]="paymarket.IsSelected" />{{paymarket.PayMarket}}
+            </div>
+            <div *ngIf="paymarket.CompanyPayMarketId === (defaultPaymarket$ | async)" class="badge badge-info default-badge">
+              Default
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </pf-async-container>
+    <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
+      <div class="no-data">No Data</div>
+    </div>
+  </div>
+</div>

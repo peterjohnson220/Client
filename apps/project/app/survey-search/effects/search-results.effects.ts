@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs/index';
 
-import { SurveySearchApiService } from 'libs/data/payfactors-api/surveys';
+import { SurveySearchApiService } from 'libs/data/payfactors-api/search';
 import { PagingOptions } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
