@@ -65,7 +65,6 @@ export class CreateNewJobPageEffects {
                 if (response.JobExists) {
                   actions.push(new fromCreateNewJobPageActions.JobCodeExistsError());
                 } else {
-                  this.location.back();
                   actions.push(new fromCreateNewJobPageActions.CreateJobSuccess());
                   actions.push(new fromSearchPageActions.CloseSearchPage());
                 }
