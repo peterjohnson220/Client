@@ -58,6 +58,14 @@ export class PaymarketExchangeScopeEffects {
     })
   );
 
+  @Effect({dispatch: false})
+  loadExchangeScopeSelectionsSuccess$ = this.actions$.pipe(
+    ofType(fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS),
+    tap((action: fromPaymarketExchangeScopeActions.LoadExchangeScopeSelectionsSuccess) => {
+      this.windowCommunicationService.postMessage(action.type);
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private exchangeScopeApiService: ExchangeScopeApiService,
