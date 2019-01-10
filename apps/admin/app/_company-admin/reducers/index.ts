@@ -35,9 +35,6 @@ export const selectUserRoleState =
 export const userRoleUserTabState =
   createSelector(selectuserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
 
-export const userRoleUserTabState =
-  createSelector(selectUserRoleViewAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
-
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState
 );
