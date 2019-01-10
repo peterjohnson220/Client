@@ -18,7 +18,7 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   ngOnInit() {
     this.chartData = cloneDeep(this.model.TileChartData);
 
-    if ( this.hasValidResponses() ) { this.chartData.forEach(x => {
+    if ( this.chartData && this.hasValidResponses() ) { this.chartData.forEach(x => {
         if (x.Percentage === 0) { x.Percentage = this.MIN_CHART_DISPLAY_VALUE; }}); // to render in the chart
     }
   }
