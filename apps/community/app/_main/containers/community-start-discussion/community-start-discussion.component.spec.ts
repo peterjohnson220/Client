@@ -1,16 +1,15 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+
 import * as fromCommunityPostReducer from '../../reducers';
 import { CommunityStartDiscussionComponent } from './community-start-discussion.component';
 import { HighlightHashTagPipe } from 'libs/core';
-import * as fromCommunityPollRequestActions from '../../actions/community-poll-request.actions';
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
-import { CommunityAddPost } from '../../../../../../libs/models/community';
 
 describe('CommunityStartDiscussionComponent', () => {
   let fixture: ComponentFixture<CommunityStartDiscussionComponent>;
@@ -26,6 +25,11 @@ describe('CommunityStartDiscussionComponent', () => {
           communityPollRequest: combineReducers(fromCommunityPostReducer.reducers)
         }),
         ReactiveFormsModule
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute
+        }
       ],
       declarations: [
         CommunityStartDiscussionComponent,

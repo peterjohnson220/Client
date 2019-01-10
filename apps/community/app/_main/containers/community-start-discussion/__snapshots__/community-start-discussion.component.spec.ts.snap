@@ -3,6 +3,7 @@
 exports[`CommunityStartDiscussionComponent should show community start discussion 1`] = `
 <pf-community-start-discussion
   postType="0"
+  route="undefined"
   showPostJobButton={[Function Boolean]}
   store={[Function Store]}
   submittingCommunityJobSuccess$={[Function Store]}
@@ -41,6 +42,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
 exports[`CommunityStartDiscussionComponent should show community start poll 1`] = `
 <pf-community-start-discussion
   postType={[Function Number]}
+  route="undefined"
   showPostJobButton={[Function Boolean]}
   store={[Function Store]}
   submittingCommunityJobSuccess$={[Function Store]}
