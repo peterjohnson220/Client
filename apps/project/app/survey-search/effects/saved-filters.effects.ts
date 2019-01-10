@@ -31,7 +31,7 @@ export class SavedFiltersEffects {
           .pipe(
             mergeMap(response => [
                new fromSavedFilterActions.GetSavedFiltersSuccess(
-                 this.payfactorsSearchApiModelMapper.mapSurveySavedFilterResponseToSavedFilter(response)),
+                 this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response)),
                new fromSavedFilterActions.ApplyDefaultSavedFilter()
             ])
           );
@@ -52,7 +52,7 @@ export class SavedFiltersEffects {
             .pipe(
               mergeMap(response => {
                 const actions = [];
-                const savedFilters = this.payfactorsSearchApiModelMapper.mapSurveySavedFilterResponseToSavedFilter(response);
+                const savedFilters = this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response);
                 const payMarketId = SavedFilterHelper.getPayMarketId(data.jobContext, data.projectSearchContext);
                 const defaultFilterForThisPayMarket = SavedFilterHelper.getDefaultFilter(payMarketId, savedFilters);
                 const defaultFilterId = defaultFilterForThisPayMarket ? defaultFilterForThisPayMarket.Id : '';

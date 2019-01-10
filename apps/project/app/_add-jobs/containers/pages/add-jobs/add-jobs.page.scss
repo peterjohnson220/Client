@@ -1,13 +1,41 @@
+@import '../../libs/features/search/styles/shared-variables';
+@import '../../libs/features/search/styles/shared-styles';
+
 .page {
   height: 100%;
 }
 
-.actions-container{
-  width: 100%;
-  bottom: 0;
-  height: 30px;
-  position: absolute;
+.create-new-job{
   display: flex;
-  justify-content: center;
   align-items: center;
+  margin-left: .5rem;
+  height: $results-header-height;
+
+  .fa-plus {
+    margin-right: .15rem;
+  }
+}
+
+:host ::ng-deep div .filters{
+  @extend %position-below-results-header
+}
+
+:host ::ng-deep .results {
+  width: 67.5% !important;
+}
+
+:host ::ng-deep .actions-container {
+  width: 67.5% !important;
+}
+
+pf-paymarkets {
+  @extend %position-below-results-header;
+  width: 32.5% !important;
+  right: 0;
+}
+
+.clear-selections{
+  position: absolute;
+  left: 0;
+  margin-left: 1rem;
 }

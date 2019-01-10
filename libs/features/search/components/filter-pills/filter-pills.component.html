@@ -7,15 +7,17 @@
        [popoverClass]="'pill-detail-popover'"
        [disablePopover]="pillGroup.Locked"
        [autoClose]="'outside'"
+       [attr.data-qa-id]="'btn-pill'"
        container="body"
        #popover="ngbPopover"
        placement="bottom">
 
       <ng-template #pillDetail>
-        <div *ngIf="pillGroup.Pills.length > 1" class="clear-all-filter-link text-filter-action" (click)="handleClearAllClicked(pillGroup)">
+        <div *ngIf="pillGroup.Pills.length > 1" class="clear-all-filter-link text-filter-action" (click)="handleClearAllClicked(pillGroup)"
+             [attr.data-qa-id]="'btn-clearPillGroup'">
           Clear All
         </div>
-        <div class="pill-detail" *ngFor="let pill of pillGroup.Pills" (click)="handlePillClicked(pill)">
+        <div class="pill-detail" *ngFor="let pill of pillGroup.Pills" (click)="handlePillClicked(pill)" [attr.data-qa-id]="'btn-clearPill'">
           <div>{{pill.ValueName}}</div>
           <div class="clear-filter-link text-filter-action">Clear</div>
         </div>

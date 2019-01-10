@@ -2,9 +2,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { JobResultComponent } from './job-result.component';
-import { generateMockPayFactorsJobResult } from '../../models';
+import { generateMockCompanyJobResultWithPeerExchange, generateMockPayFactorsJobResult } from '../../models';
 
-describe('JobResultComponent', () => {
+describe('Project - Add Jobs - Job Result', () => {
   let instance: JobResultComponent;
   let fixture: ComponentFixture<JobResultComponent>;
 
@@ -25,5 +25,39 @@ describe('JobResultComponent', () => {
     instance.handleJobClicked();
 
     expect(instance.jobClicked.emit).toHaveBeenCalledWith(instance.job);
+  });
+
+  it('should show the job detail when toggling the detail display', () => {
+    instance.showJobDetail = false;
+
+    instance.toggleJobDetailDisplay(new MouseEvent('Click'));
+
+    expect(instance.showJobDetail).toBe(true);
+  });
+
+  it('should show a peer icon, when the jobs is mapped to an exchange', () => {
+    instance.job = generateMockCompanyJobResultWithPeerExchange();
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show the job detail', () => {
+    instance.job = generateMockPayFactorsJobResult();
+    instance.showJobDetail = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not show the job category or eeo, when the job is a company job', () => {
+    instance.job = generateMockCompanyJobResultWithPeerExchange();
+    instance.showJobDetail = true;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

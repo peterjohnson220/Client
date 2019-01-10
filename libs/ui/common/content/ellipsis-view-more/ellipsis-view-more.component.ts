@@ -24,9 +24,15 @@ export class EllipsisViewMoreComponent {
 
   constructor() {}
 
-  copyMessage(val: string) {
+  copyMessage(e: MouseEvent, val: string) {
+    e.stopPropagation();
     copyTextToClipboard(val);
     this.showCopySuccessToolTip();
+  }
+
+  toggleView(e: MouseEvent) {
+    e.stopPropagation();
+    this.showFull = !this.showFull;
   }
 
   private showCopySuccessToolTip() {

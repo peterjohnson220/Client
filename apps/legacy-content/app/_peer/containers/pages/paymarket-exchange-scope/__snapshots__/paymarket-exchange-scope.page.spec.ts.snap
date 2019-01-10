@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Legacy Content - Peer - PayMarket Exchange Scope should display the PayMarket exchange Scope page 1`] = `
+<pf-paymarket-exchange-scope
+  companyPayMarketId={[Function Number]}
+  exchangeScopes$={[Function Store]}
+  exchangeScopesSub={[Function Subscriber]}
+  loading$={[Function Store]}
+  loadingError$={[Function Store]}
+  route={[Function Object]}
+  selectedExchangeScopes$={[Function Store]}
+  selectedExchangeScopesSub={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-async-container>
+    <div
+      class="container-fluid"
+    >
+      <div
+        class="row"
+      >
+        <span>
+           Select an Exchange Scope to associate to this Pay Market.   This will generate a Peer data cut for Company Jobs you are pricing in the selected Pay Market. 
+        </span>
+      </div>
+      <div
+        class="row mt-4"
+      >
+        <div
+          class="col-5 font-weight-bold"
+        >
+          Exchange
+        </div>
+        <div
+          class="col-5 font-weight-bold"
+        >
+          Scope
+        </div>
+        <div
+          class="col-2 font-weight-bold text-center"
+        >
+          <button
+            class="btn btn-sm btn-light"
+          >
+            <i
+              class="fas fa-plus"
+            />
+          </button>
+        </div>
+      </div>
+      <hr
+        class="row my-2"
+      />
+      <div
+        class="form-group"
+      >
+        
+      </div>
+    </div>
+  </pf-async-container>
+</pf-paymarket-exchange-scope>
+`;

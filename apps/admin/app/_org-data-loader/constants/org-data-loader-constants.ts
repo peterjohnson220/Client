@@ -81,5 +81,7 @@ export const ORG_DATA_PF_EMPLOYEE_FIELDS = [
   'PerformanceRating_PF',
   'DataEffectiveDate_PF',
   'Ethnicity_PF',
-  'DateOfEntry_PF'
+  'DateOfEntry_PF',
+  'STIElig',
+  'LTIElig'
 ];

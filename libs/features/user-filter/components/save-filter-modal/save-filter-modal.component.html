@@ -1,0 +1,48 @@
+<pf-modal-form
+  [backdropClass]="'light-backdrop'"
+  [submitting]="savingFilters"
+  [primaryButtonTextSubmitting]="'Saving...'"
+  [title]="'Save Filters'"
+  [primaryButtonClass]="'legacy-primary-btn'"
+  [primaryButtonText]="isEditMode ? 'Update' : 'Save'"
+  [isOpen$]="isOpen$"
+  [formGroup]="nameFilterForm"
+  (onDismiss)="handleModalDismiss()"
+  (onSubmit)="handleModalSubmit()">
+
+  <ng-container form-content>
+    <input type="text" class="form-control" formControlName="name"
+           [placeholder]="'Filter Name...'"
+           [pfFocus]="true"
+           [pfFocusElementShowing]="isOpen$ | async"
+           (input)="showErrorMessages = false" />
+
+    <ng-container *ngIf="showErrorMessages">
+      <div class="text-danger mt-2" *ngIf="savingFilterConflict">Name in use. Please choose a unique filter name.</div>
+      <div class="text-danger mt-2" *ngIf="savingFilterError">Error Saving Filter.</div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container form-content>
+    <div class="save-filter-modal-filters">
+      <div *ngFor="let filter of filtersToSave">
+        <span class="filter-name">{{filter.DisplayName}}</span>
+        <ng-container *ngFor="let filterOption of filter.Options">
+          <div *ngIf="filterOption.Selected" class="filter-option">{{filterOption.Name}}</div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container footer-left>
+
+    <div class="form-check">
+      <input class="form-check-input" id="default-saved-filter" formControlName="setAsDefault" type="checkbox">
+      <label class="form-check-label" for="default-saved-filter">
+        {{setAsDefaultLabel}}
+      </label>
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>

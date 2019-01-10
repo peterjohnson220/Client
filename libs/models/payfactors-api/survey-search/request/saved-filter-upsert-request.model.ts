@@ -1,5 +1,5 @@
 import { SavedFilterType } from '../../user-filter';
-import { SearchFilter } from '../response';
+import { SearchFilter } from '../../search';
 
 export interface SavedFilterUpsertRequest {
   Type: SavedFilterType.SurveySearch;

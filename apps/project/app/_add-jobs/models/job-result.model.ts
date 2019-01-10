@@ -1,36 +1,52 @@
+import { GenericKeyValue } from 'libs/models/common';
+
 export interface JobResult {
-  Id: number;
+  Id: string;
   Title: string;
   Code: string;
   Source: string;
-  BaseMRP: number;
-  TCCMRP: number;
+  BaseMRP: string;
+  TCCMRP: string;
   IsMappedToPeerExchange: boolean;
+  Family: string;
+  Description: string;
+  FLSAStatus: string;
+  Category: string;
+  Level: string;
+  EEO: string;
+  UdfFields: GenericKeyValue<string, string>[];
   IsSelected: boolean;
+  IsPayfactorsJob: boolean;
 }
 
 export function generateMockPayFactorsJobResult(): JobResult {
   return {
-    Id: 100,
+    Id: '100',
     Title: 'Accountant',
     Code: '2345',
     Source: 'PayFactors',
-    BaseMRP: 56.3,
-    TCCMRP: 58.1,
+    BaseMRP: '56.3',
+    TCCMRP: '58.1',
     IsMappedToPeerExchange: false,
-    IsSelected: false
+    Family: 'Finance',
+    Description: 'I am a description',
+    FLSAStatus: 'Exempt',
+    Category: 'Finance',
+    Level: 'II',
+    EEO: 'Typically Professionals',
+    UdfFields: [{
+      Key: 'UdfField1',
+      Value: 'UdfValue'
+    }],
+    IsSelected: false,
+    IsPayfactorsJob: true
   };
 }
 
 export function generateMockCompanyJobResultWithPeerExchange(): JobResult {
   return {
-    Id: 101,
-    Title: 'Accountant I',
-    Code: '123456',
-    Source: 'Company 13',
-    BaseMRP: 56.3,
-    TCCMRP: 58.1,
-    IsMappedToPeerExchange: true,
-    IsSelected: false
+    ...generateMockPayFactorsJobResult(),
+    IsPayfactorsJob: false,
+    IsMappedToPeerExchange: true
   };
 }

@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
 
-import { SearchField, SearchFilter, SearchFilterOption } from 'libs/models/payfactors-api';
-import { SurveySavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
+import { PagingOptions, SearchField, SearchFilter, SearchFilterOption } from 'libs/models/payfactors-api';
+import { SearchSavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
 
-import { Filter, FilterType, MultiSelectFilter, MultiSelectOption, RangeFilter, SavedFilter, TextFilter } from '../models';
+import {
+  Filter,
+  FilterType,
+  MultiSelectFilter,
+  MultiSelectOption,
+  RangeFilter,
+  ResultsPagingOptions,
+  SavedFilter,
+  TextFilter
+} from '../models';
 
 import { FiltersHelper } from './filters.helper';
 import { SearchFilterMappingDataObj } from '../models';
@@ -36,7 +45,7 @@ export class PayfactorsSearchApiModelMapper {
     }
   }
 
-   mapSurveySavedFilterResponseToSavedFilter(surveySavedFilterResponse: SurveySavedFilterResponse[]): SavedFilter[] {
+   mapSearchSavedFilterResponseToSavedFilter(surveySavedFilterResponse: SearchSavedFilterResponse[]): SavedFilter[] {
     return surveySavedFilterResponse.map(ssfr => {
       return {
         Id: ssfr.Id,
@@ -77,6 +86,13 @@ export class PayfactorsSearchApiModelMapper {
 
    mapMultiSelectFiltersToSearchFilters(multiSelectFilters: MultiSelectFilter[]): SearchFilter[] {
     return multiSelectFilters.map(msf => this.mapMultiSelectFilterToSearchFilter(msf));
+  }
+
+  mapResultsPagingOptionsToPagingOptions(resultsPagingOptions: ResultsPagingOptions): PagingOptions {
+    return {
+      From: resultsPagingOptions.pageSize * (resultsPagingOptions.page - 1),
+      Count: resultsPagingOptions.pageSize
+    };
   }
 
   ///

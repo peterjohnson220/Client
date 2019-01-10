@@ -18,9 +18,13 @@ import {
   JobInfoContainerComponent, CompanyJobMapResultComponent,
   ApplyMappingButtonComponent
 } from './../../../peer/app/_manage/components';
-import { UpsertDataCutPageComponent, AssociateCompanyJobComponent } from './containers';
+import {
+  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent
+} from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
-import { UpsertDataCutPageEffects, DataCutValidationEffects, AssociateCompanyJobEffects } from './effects';
+import {
+  AssociateCompanyJobEffects, DataCutValidationEffects, PaymarketExchangeScopeEffects, UpsertDataCutPageEffects
+} from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
 import { DojGuidelinesService } from './services/doj-guidelines.service';
@@ -37,9 +41,10 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     // 3rd party
     StoreModule.forFeature('legacy_upsertPeerData', reducers),
     EffectsModule.forFeature([
-      UpsertDataCutPageEffects,
+      AssociateCompanyJobEffects,
       DataCutValidationEffects,
-      AssociateCompanyJobEffects
+      PaymarketExchangeScopeEffects,
+      UpsertDataCutPageEffects,
     ]),
     NgbPopoverModule,
     DropDownsModule,
@@ -62,8 +67,9 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     ApplyMappingButtonComponent,
 
     // Pages
-    UpsertDataCutPageComponent,
     AssociateCompanyJobComponent,
+    PaymarketExchangeScopeComponent,
+    UpsertDataCutPageComponent
 
     // pipe
   ],

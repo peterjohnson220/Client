@@ -1,5 +1,4 @@
-import { SearchField, PagingOptions } from './search-request.model';
-import { SearchFilter } from '../response';
+import { SearchField, PagingOptions, SearchFilter } from '../../search';
 
 export interface SurveyDataFilterRequest {
     SurveyJobId: number;

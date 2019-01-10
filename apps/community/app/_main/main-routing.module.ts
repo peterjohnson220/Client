@@ -5,6 +5,7 @@ import {
   CommunityDashboardPageComponent
 } from './containers/pages';
 import { CommunityJobPostingsPageComponent } from './containers/pages';
+import { NewCommninityEnabledGuard } from 'libs/security';
 
 const routes: Routes = [
   {
@@ -13,22 +14,27 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'dashboard',
-    component: CommunityDashboardPageComponent
+    component: CommunityDashboardPageComponent,
+    canActivate: [NewCommninityEnabledGuard]
   },
   {
     path: 'dashboard/post/:id',
-    component: CommunityDashboardPageComponent
+    component: CommunityDashboardPageComponent,
+    canActivate: [NewCommninityEnabledGuard]
   },
   {
     path: 'dashboard/reply/:id',
-    component: CommunityDashboardPageComponent
+    component: CommunityDashboardPageComponent,
+    canActivate: [NewCommninityEnabledGuard]
   },
   {
     path: 'dashboard/tag/:id',
-    component: CommunityDashboardPageComponent
+    component: CommunityDashboardPageComponent,
+    canActivate: [NewCommninityEnabledGuard]
   },
   { path: 'job-postings',
-    component: CommunityJobPostingsPageComponent
+    component: CommunityJobPostingsPageComponent,
+    canActivate: [NewCommninityEnabledGuard]
   }
 ];
 

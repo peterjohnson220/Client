@@ -4,23 +4,26 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { DragulaService } from 'ng2-dragula';
 
-import * as fromSearchPageActionsShared from 'libs/features/search/actions/search-page.actions';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
+import { SearchBase } from 'libs/features/search/containers/search-base';
+import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 
 import * as fromMultiMatchPageActions from '../../../actions/multi-match-page.actions';
 import * as fromJobsToPriceActions from '../../../actions/jobs-to-price.actions';
 import * as fromMultiMatchReducer from '../../../reducers';
-import * as fromSurveySearchReducer from '../../../../survey-search/reducers';
-import { SurveySearchBase } from '../../../../survey-search/containers/pages/survey-search-base';
-import { enableDatacutsDragging } from '../../../../survey-search/helpers';
 import { JobToPrice } from '../../../models';
+
+import { enableDatacutsDragging } from '../../../../survey-search/helpers';
+import * as fromSurveySearchResultsActions from '../../../../survey-search/actions/survey-search-results.actions';
+import { staticFilters } from '../../../../survey-search/data';
 
 @Component({
   selector: 'pf-multi-match-page',
   templateUrl: './multi-match.page.html',
   styleUrls: ['./multi-match.page.scss']
 })
-export class MultiMatchPageComponent extends SurveySearchBase implements OnInit, OnDestroy {
+export class MultiMatchPageComponent extends SearchBase implements OnInit, OnDestroy {
 
   jobsToPrice$: Observable<JobToPrice[]>;
   savingChanges$: Observable<boolean>;
@@ -31,7 +34,7 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   private jobsToPriceSubscription: Subscription;
 
   constructor(
-    store: Store<fromSurveySearchReducer.State>,
+    store: Store<fromSearchReducer.State>,
     private dragulaService: DragulaService
   ) {
     super(store);
@@ -48,18 +51,15 @@ export class MultiMatchPageComponent extends SurveySearchBase implements OnInit,
   }
 
   onResetApp() {
-    this.store.dispatch(new fromSearchPageActionsShared.HidePage());
+    this.store.dispatch(new fromSurveySearchResultsActions.ClearDataCutSelections());
     this.store.dispatch(new fromJobsToPriceActions.ClearAllJobs());
   }
 
   onSetContext(payload: any) {
+    this.store.dispatch(new fromSearchFiltersActions.AddFilters(staticFilters));
     this.store.dispatch(new fromMultiMatchPageActions.SetProjectContext(payload));
     this.store.dispatch(new fromMultiMatchPageActions.GetProjectSearchContext(payload));
     this.store.dispatch(new fromJobsToPriceActions.GetJobsToPrice(payload));
-  }
-
-  handleCancelClicked() {
-    this.store.dispatch(new fromSearchPageActionsShared.CloseSearchPage());
   }
 
   handleSaveClicked() {

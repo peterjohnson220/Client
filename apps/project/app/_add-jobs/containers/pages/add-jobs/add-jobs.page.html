@@ -1,28 +1,65 @@
-<pf-search-layout [resultsCount]="0">
+
+<pf-search-layout *ngIf="pageShown$ | async" [resultsCount]="numberOfResults$ | async">
 
   <ng-container sidebar>
 
-   Hi I am a sidebar
+    <div *ngIf="!(searchingFilter$ | async)" class="create-new-job" [attr.data-qa-id]="'btn-createNewJobNav'">
+      <div class="search-action" (click)="handleCreateNewJobClicked()">
+        <i class="far fa-plus"></i> Create New Job
+      </div>
+    </div>
 
+    <pf-search-filters
+      [defaultFocusedFilterId]="'jobTitleCode'"
+      [visible]="!(searchingFilter$ | async)">
+    </pf-search-filters>
+
+    <pf-single-filter
+      *ngIf="searchingFilter$ | async">
+    </pf-single-filter>
   </ng-container>
 
   <ng-container content>
 
-   Hi I am content
+    <pf-add-job-results-header></pf-add-job-results-header>
+    <pf-job-search-results></pf-job-search-results>
+    <pf-paymarkets></pf-paymarkets>
 
   </ng-container>
 
   <ng-container action-buttons>
 
+    <div class="clear-selections search-action"
+         [attr.data-qa-id]="'btn-clearSelections'"
+         *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length"
+         (click)="handleClearSelectionsClicked()">
+      Clear Selections
+    </div>
+
     <button class="btn btn-sm legacy-primary-btn mr-3 au-btn-add"
-            [disabled]="!(selectedJobIds$ | async)?.length">
-      Add <span *ngIf="(selectedJobIds$ | async)?.length">({{(selectedJobIds$ | async).length}})</span>
+            [attr.data-qa-id]="'btn-addJobs'"
+            [disabled]="(addingData$ | async) ||
+                        (!((selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length) ||
+                        !(selectedPaymarkets$ | async)?.length)"
+            (click)="handleAddClicked()">
+
+      <ng-container *ngIf="!(addingData$ | async); else addingData">
+        Add
+        <span *ngIf="(selectedJobIds$ | async)?.length || (selectedPayfactorsJobCodes$ | async)?.length">
+          ({{(selectedJobIds$ | async).length + (selectedPayfactorsJobCodes$ | async).length}})
+        </span>
+      </ng-container>
     </button>
 
-    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel">
+    <button (click)="handleCancelClicked()" class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+            [attr.data-qa-id]="'btn-cancelAddJobs'">
       Cancel
     </button>
 
   </ng-container>
 
 </pf-search-layout>
+
+<ng-template #addingData>
+  Adding...
+</ng-template>

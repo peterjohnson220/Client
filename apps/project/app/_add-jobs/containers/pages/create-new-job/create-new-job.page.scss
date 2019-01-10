@@ -1,0 +1,83 @@
+@import 'common/common-variables';
+@import '../../libs/features/search/styles/shared-styles';
+@import '../../libs/features/search/styles/shared-variables';
+
+pf-paymarkets {
+  width: 245px;
+}
+
+:host ::ng-deep .paymarket-results{
+  bottom: .75rem;
+}
+
+.header {
+  height: $results-header-height;
+  display: flex;
+  align-items: center;
+  @extend %bottom-box-shadow;
+}
+
+.content{
+  @extend %position-below-results-header;
+  display: flex;
+  bottom: 30px;
+
+  .add-job-form {
+    flex-grow: 1;
+    padding: .75rem;
+    display: flex;
+    flex-direction: column;
+
+    .job-code-exits {
+      position: absolute;
+      font-size: 90%;
+      text-align: right;
+      top: 0;
+      right: 5px;
+    }
+
+    .jd-row {
+      flex-grow: 2;
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+
+        textarea{
+          flex-grow: 1;
+          resize: none;
+        }
+
+        .jdm-enabled-alert {
+          position: absolute;
+          margin: auto;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 36px;
+          width: 213px;
+        }
+      }
+    }
+  }
+}
+
+.actions-container{
+  width: 100%;
+  bottom: 0;
+  height: 30px;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .error-creating-job {
+    position: absolute;
+    left: 10px;
+  }
+}
+
+.buttons{
+  display: flex;
+}

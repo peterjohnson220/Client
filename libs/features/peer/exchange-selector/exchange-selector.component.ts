@@ -24,7 +24,9 @@ export class ExchangeSelectorComponent implements OnInit {
     exchangeForm: FormGroup;
     allData: GenericKeyValue<number, string>[];
 
-    constructor() { }
+    constructor() {
+      this.isDisabled = false;
+    }
 
     onFilterChanged(value: string) {
         this.exchangeOptionsFiltered = this.allData.filter(co =>
@@ -33,7 +35,6 @@ export class ExchangeSelectorComponent implements OnInit {
     }
 
     onSelectionChanged(value: GenericKeyValue<number, string>) {
-
         if (!isNullOrUndefined(value)) {
             this.onExchangeSelected.emit(value.Key);
         } else {

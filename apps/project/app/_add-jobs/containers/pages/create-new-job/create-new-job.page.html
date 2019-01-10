@@ -1,0 +1,103 @@
+<div class="header">
+  <div class="search-action ml-2" (click)="handleBackToSearchClicked()">
+    < Back To Search
+  </div>
+</div>
+
+<div class="content">
+  <form autocomplete="off" class="add-job-form" [formGroup]="createNewJobForm">
+    <div class="form-row">
+        <div class="form-group col">
+          <label for="jobCode">Job Code</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="jobCode"
+                 id="jobCode"
+                 placeholder="Job Code"
+                 maxlength="50"
+                 [class.is-invalid]="jobCodeExists"
+                 [attr.data-qa-id]="'txt-jobCode'"
+                 (keyup)="handleJobCodeChanged()"
+                 (paste)="handleJobCodeChanged()">
+          <div *ngIf="jobCodeExists" class="job-code-exits invalid-feedback">
+            Job Code Exists
+          </div>
+        </div>
+        <div class="form-group col">
+          <label for="jobTitle">Job Title <span class="text-danger">*</span> </label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="jobTitle"
+                 id="jobTitle"
+                 placeholder="Job Title"
+                 maxlength="255"
+                 [attr.data-qa-id]="'txt-jobTitle'">
+        </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col">
+        <label for="jobLevel">Job Level</label>
+        <input type="text"
+               class="form-control"
+               formControlName="jobLevel"
+               id="jobLevel"
+               placeholder="Job Level"
+               maxlength="255"
+               [attr.data-qa-id]="'txt-jobLevel'">
+      </div>
+      <div class="form-group col">
+        <label>Job Family</label>
+        <kendo-combobox
+          class="form-control"
+          formControlName="jobFamily"
+          [attr.data-qa-id]="'ddm-jobFamily'"
+          [placeholder]="'Job Family'"
+          [data]="jobFamilies$ | async"
+          [loading]="jobFamiliesLoading$ | async">
+        </kendo-combobox>
+      </div>
+    </div>
+    <div class="form-row jd-row">
+      <div class="form-group col">
+        <label for="jobDescription">Job Description</label>
+        <textarea
+          class="form-control"
+          formControlName="jobDescription"
+          id="jobDescription"
+          [attr.data-qa-id]="'txt-jobDescription'">
+        </textarea>
+
+        <div *ngIf="jdmEnabled" class="alert alert-light jdm-enabled-alert" role="alert">
+          Job Description Manager Enabled
+        </div>
+
+      </div>
+    </div>
+    <div class="alert alert-info mb-0" role="alert">
+      This job will only be visible within this project and will become available
+      in other areas of the product after it has been published.
+    </div>
+  </form>
+
+  <pf-paymarkets></pf-paymarkets>
+</div>
+
+<div class="actions-container">
+  <span *ngIf="creatingJobError$ | async" class="error-creating-job text-danger">Error creating job.</span>
+
+  <div class="buttons">
+    <button class="btn btn-sm legacy-primary-btn mr-3"
+            [attr.data-qa-id]="'btn-createNewJob'"
+            [disabled]="createDisabled"
+            (click)="handleCreateClicked()">
+      <span *ngIf="!creatingJob">Create</span>
+      <span *ngIf="creatingJob">Creating...</span>
+    </button>
+    <button  class="btn btn-sm btn-secondary mr-3 au-btn-cancel"
+             [attr.data-qa-id]="'btn-cancelCreateNewJob'"
+             (click)="handleCancelClicked()">
+      Cancel
+    </button>
+  </div>
+</div>
+

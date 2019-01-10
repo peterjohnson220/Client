@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
 import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 import * as fromAssociateCompanyJobReducer from './associate-company-job.reducer';
+import * as fromPaymarketExchangeScopeReducer from './paymarket-exchange-scope.reducer';
 
 // Feature area state
 export interface UpsertPeerDataState {
   upsertDataCutPage: fromUpsertDataCutPageReducer.State;
   dataCutValidation: fromDataCutValidationReducer.State;
   associateCompanyJob: fromAssociateCompanyJobReducer.State;
+  paymarketExchangeScope: fromPaymarketExchangeScopeReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,18 +26,23 @@ export interface State extends fromRoot.State {
 export const reducers = {
   upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
   dataCutValidation: fromDataCutValidationReducer.reducer,
-  associateCompanyJob: fromAssociateCompanyJobReducer.reducer
+  associateCompanyJob: fromAssociateCompanyJobReducer.reducer,
+  paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer
 };
 
 // Select Feature Area
-export const selectUpsertPeerDataState = createFeatureSelector<UpsertPeerDataState>('legacy_upsertPeerData');
+export const selectUpsertPeerDataState =
+  createFeatureSelector<UpsertPeerDataState>('legacy_upsertPeerData');
 
 // Feature Selectors
-export const selectUpsertDataCutState = createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
+export const selectUpsertDataCutState =
+  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.upsertDataCutPage);
 export const selectDataCutValidationState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 export const selectAssociateCompanyJobState =
-  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.associateCompanyJob);
+  createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.associateCompanyJob);
+export const selectPaymarketExchangeState =
+  createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.paymarketExchangeScope);
 
 // Add Data Cut Selectors
 export const getUpsertDataCutAddingDataCut = createSelector(
@@ -63,7 +70,8 @@ export const getUpsertDataCutLoadingDataCutError = createSelector(
 export const {
   selectAll: getDataCutValidationInfo
 } = fromDataCutValidationReducer.adapter.getSelectors(selectDataCutValidationState);
-export const getDataCutValidationInfoLoading = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
+export const getDataCutValidationInfoLoading =
+  createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
 export const getDataCutValidationInfoLoadingError
   = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
 
@@ -96,5 +104,26 @@ export const getHasAddingError = createSelector(
 export const getCompanyJob = createSelector(
   selectAssociateCompanyJobState,
   fromAssociateCompanyJobReducer.getCompanyJob
+);
+
+// Paymarket Exchange Scope Selectors
+export const getExchangeScopesIsLoading = createSelector(
+  selectPaymarketExchangeState,
+  fromPaymarketExchangeScopeReducer.getExchangeScopesIsLoading
+);
+
+export const getExchangeScopeLoadingError = createSelector(
+  selectPaymarketExchangeState,
+  fromPaymarketExchangeScopeReducer.getExchangeScopeLoadingError
+);
+
+export const getExchangeScopes = createSelector(
+  selectPaymarketExchangeState,
+  fromPaymarketExchangeScopeReducer.getExchangeScopes
+);
+
+export const getSelectedExchangeScopes = createSelector(
+  selectPaymarketExchangeState,
+  fromPaymarketExchangeScopeReducer.getSelectedExchangeScopes
 );
 

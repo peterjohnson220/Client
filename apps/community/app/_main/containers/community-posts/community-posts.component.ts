@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -32,6 +32,7 @@ import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper'
   styleUrls: [ './community-posts.component.scss' ]
 })
 export class CommunityPostsComponent implements OnInit, OnDestroy {
+  @Output() filtersModifiedEvent = new EventEmitter();
 
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
@@ -99,7 +100,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       } else if (routeParams.url.indexOf('tag') > -1) {
         const tag: Tag = {
           Id: null,
-          TagName: '#' + routeParams['id']
+          TagName: '#' + routeParams[ 'id' ]
         };
         this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
       } else {
@@ -233,11 +234,16 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
       const tag = mapCommunityTagToTag(communityTag);
       this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
+      this.filtersModified();
     }
+  }
+
+  filtersModified() {
+    this.filtersModifiedEvent.emit();
   }
 
   escapeHtml(unsafe) {
     return escapeSpecialHtmlCharacters(unsafe);
- }
+  }
 
 }

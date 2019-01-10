@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UserContextGuard } from 'libs/security';
-import { NotFoundErrorPageComponent } from 'libs/ui/common/error/pages';
+import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
 import { AppWrapperComponent } from 'libs/features/app-root';
 
 export const routes: Routes = [
@@ -12,6 +12,7 @@ export const routes: Routes = [
     canActivate: [UserContextGuard],
     children: [
       { path: '', loadChildren: 'apps/community/app/_main/main.module#MainModule' },
+      { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
   }
