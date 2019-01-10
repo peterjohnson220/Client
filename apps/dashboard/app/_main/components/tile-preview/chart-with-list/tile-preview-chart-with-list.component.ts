@@ -27,6 +27,10 @@ export class TilePreviewChartWithListComponent  implements OnInit {
     window.location.href  = this.model.PostUrl;
   }
 
+  createPoll() {
+    window.location.href  = this.model.BaseUrl + '?type=poll';
+  }
+
   hasValidResponses(): boolean {
     return this.model.TileChartData ? this.model.TileChartData.find(x => x.Percentage > 0) : false;
   }

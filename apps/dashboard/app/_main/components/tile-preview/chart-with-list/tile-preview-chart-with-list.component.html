@@ -51,7 +51,12 @@
     <span class="col-12 tile-text text-center m-0 p-0">
         <a class='pollLink' href="{{model.PostUrl}}"> {{model.TileChartTitle}}</a>
     </span>
-    <button  *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1">Answer Poll</button>
+    <button *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1">Answer Poll</button>
+    
+    <div *ngIf="!model.TileChartData">
+      <span class="col-12 tile-text text-center m-0 p-0">There are no active polls</span>
+      <button (click)="createPoll()" class="col-12 btn btn-primary btn-respond px-2 py-1">Create Poll</button>
+    </div>
   </div>
 </div>
 
