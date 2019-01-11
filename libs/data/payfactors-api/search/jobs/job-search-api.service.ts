@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { JobSearchAggregationRequest, JobSearchRequest, JobSearchResponse, SearchFilter } from 'libs/models/payfactors-api';
+import {
+  JobSearchAggregationRequest,
+  JobSearchPricingDataRequest,
+  JobSearchPricingDataResponse,
+  JobSearchRequest,
+  JobSearchResponse,
+  SearchFilter
+} from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../../payfactors-api.service';
 
@@ -18,5 +25,9 @@ export class JobSearchApiService {
 
   searchJobAggregations(searchRequest: JobSearchAggregationRequest): Observable<SearchFilter> {
     return this.payfactorsApiService.post(`${this.endpoint}/SearchJobAggregations`, searchRequest);
+  }
+
+  getJobPricingData(jobPriceRequest: JobSearchPricingDataRequest): Observable<JobSearchPricingDataResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetJobPriceData`, jobPriceRequest);
   }
 }

@@ -59,6 +59,56 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
         selectedPayfactorsJobCodes: []
       };
     }
+
+    case fromSearchResultsActions.LOAD_JOB_PRICING_DATA: {
+      const jobsCopy = cloneDeep(state.jobs);
+      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.Id);
+      if (jobToUpdate) {
+        jobToUpdate.PricingDataLoading = true;
+      }
+
+      return {
+        ...state,
+        jobs: jobsCopy
+      };
+    }
+    case fromSearchResultsActions.LOAD_JOB_PRICING_DATA_SUCCESS: {
+      const jobsCopy = cloneDeep(state.jobs);
+      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.jobId);
+      if (jobToUpdate) {
+        jobToUpdate.PricingDataLoading = false;
+        jobToUpdate.PricingDataLoaded = true;
+        jobToUpdate.TCCMRP = action.payload.data.TccMrp;
+        jobToUpdate.BaseMRP = action.payload.data.Base50Mrp;
+      }
+      return {
+        ...state,
+        jobs: jobsCopy
+      };
+    }
+    case fromSearchResultsActions.LOAD_JOB_PRICING_DATA_ERROR: {
+      const jobsCopy = cloneDeep(state.jobs);
+      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload);
+      if (jobToUpdate) {
+        jobToUpdate.PricingDataLoading = false;
+        jobToUpdate.PricingDataLoaded = false;
+      }
+      return {
+        ...state,
+        jobs: jobsCopy
+      };
+    }
+    case fromSearchResultsActions.TOGGLE_JOB_DETAIL: {
+      const jobsCopy = cloneDeep(state.jobs);
+      const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.Id);
+      if (jobToUpdate) {
+        jobToUpdate.ShowJobDetail = !jobToUpdate.ShowJobDetail;
+      }
+      return {
+        ...state,
+        jobs: jobsCopy
+      };
+    }
     default:
       return state;
   }

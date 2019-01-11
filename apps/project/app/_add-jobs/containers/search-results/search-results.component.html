@@ -4,9 +4,10 @@
     <!--Not tracking by ID here since we are only loading 25 and it does not make much of a performance difference
     By leaving off the tracking we allow for the components to "reset" on each search [BC]-->
     <pf-add-job-result
-      *ngFor="let jobResult of jobResults$ | async;"
+      *ngFor="let jobResult of jobResults$ | async;trackBy: trackByJobId"
       [job]="jobResult"
-      (jobClicked)="handleJobSelectionToggle(jobResult)">
+      (jobClicked)="handleJobSelectionToggle(jobResult)"
+      (jobDetailClicked)="handleJobDetailClicked(jobResult)">
     </pf-add-job-result>
   </ng-container>
 

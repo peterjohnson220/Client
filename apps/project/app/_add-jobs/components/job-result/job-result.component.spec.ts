@@ -28,11 +28,12 @@ describe('Project - Add Jobs - Job Result', () => {
   });
 
   it('should show the job detail when toggling the detail display', () => {
-    instance.showJobDetail = false;
+    instance.job = generateMockPayFactorsJobResult();
+    spyOn(instance.jobDetailClicked, 'emit');
 
     instance.toggleJobDetailDisplay(new MouseEvent('Click'));
 
-    expect(instance.showJobDetail).toBe(true);
+    expect(instance.jobDetailClicked.emit).toHaveBeenCalledWith(instance.job);
   });
 
   it('should show a peer icon, when the jobs is mapped to an exchange', () => {
@@ -45,7 +46,7 @@ describe('Project - Add Jobs - Job Result', () => {
 
   it('should show the job detail', () => {
     instance.job = generateMockPayFactorsJobResult();
-    instance.showJobDetail = true;
+    instance.job.ShowJobDetail = true;
 
     fixture.detectChanges();
 
@@ -54,7 +55,7 @@ describe('Project - Add Jobs - Job Result', () => {
 
   it('should not show the job category or eeo, when the job is a company job', () => {
     instance.job = generateMockCompanyJobResultWithPeerExchange();
-    instance.showJobDetail = true;
+    instance.job.ShowJobDetail = true;
 
     fixture.detectChanges();
 

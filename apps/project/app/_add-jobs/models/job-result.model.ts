@@ -17,6 +17,9 @@ export interface JobResult {
   UdfFields: GenericKeyValue<string, string>[];
   IsSelected: boolean;
   IsPayfactorsJob: boolean;
+  PricingDataLoading: boolean;
+  PricingDataLoaded: boolean;
+  ShowJobDetail: boolean;
 }
 
 export function generateMockPayFactorsJobResult(): JobResult {
@@ -39,7 +42,10 @@ export function generateMockPayFactorsJobResult(): JobResult {
       Value: 'UdfValue'
     }],
     IsSelected: false,
-    IsPayfactorsJob: true
+    IsPayfactorsJob: true,
+    PricingDataLoaded: false,
+    PricingDataLoading: false,
+    ShowJobDetail: false
   };
 }
 
