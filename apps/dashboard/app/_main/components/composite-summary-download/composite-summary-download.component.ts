@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-
-import * as fromDashboardReducer from '../../reducers';
-import * as fromCompositeSummaryDownloadActions from '../../actions/composite-summary-download.actions';
-
 @Component({
   selector: 'pf-composite-summary-download',
   templateUrl: './composite-summary-download.component.html',
@@ -13,8 +8,7 @@ import * as fromCompositeSummaryDownloadActions from '../../actions/composite-su
 })
 export class CompositeSummaryDownloadComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
-              private store: Store<fromDashboardReducer.State>) {
+  constructor(private route: ActivatedRoute) {
 
   }
 
@@ -22,7 +16,10 @@ export class CompositeSummaryDownloadComponent implements OnInit {
     const params = this.route.snapshot.queryParams;
 
     if (params.compositeDataLoadExternalId && params.action) {
-      this.store.dispatch(new fromCompositeSummaryDownloadActions.AuthRedirectAttempted(params));
+      const id = params.compositeDataLoadExternalId;
+      const action = params.action;
+      const redirectUrl = `/odata/Integration/AuthRedirect?compositeDataLoadExternalId=${id}&action=${action}`;
+      window.open(redirectUrl);
     }
   }
 

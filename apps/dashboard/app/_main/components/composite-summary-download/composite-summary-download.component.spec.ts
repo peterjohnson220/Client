@@ -7,7 +7,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { CompositeSummaryDownloadComponent } from './composite-summary-download.component';
-import * as fromCompositeSummaryDownloadActions from '../../actions/composite-summary-download.actions';
 
 describe('Dashboard - Main - Composite Summary Download', () => {
   let fixture: ComponentFixture<CompositeSummaryDownloadComponent>;
@@ -44,10 +43,12 @@ describe('Dashboard - Main - Composite Summary Download', () => {
     instance = fixture.componentInstance;
   });
 
-  it('should dispatch an AuthRedirectAttempted action on Init', () => {
-    const expectedAction = new fromCompositeSummaryDownloadActions.AuthRedirectAttempted(route.snapshot.queryParams);
+  it('should open URL in new tab on Init', () => {
+    const expectedUri = '/odata/Integration/AuthRedirect?compositeDataLoadExternalId=123&action=test';
+    spyOn(window, 'open');
     fixture.detectChanges();
 
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+
+    expect(window.open).toHaveBeenCalledWith(expectedUri);
   });
 });
