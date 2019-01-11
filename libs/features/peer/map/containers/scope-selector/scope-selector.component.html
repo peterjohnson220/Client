@@ -28,9 +28,12 @@
     <div class="popover-content">
 
       <div *ngFor="let exchangeScopeItem of exchangeScopeItems$ | async"
-          (click)="handleExchangeScopeClicked(exchangeScopeItem)"
+          (click)="handleExchangeScopeClicked($event, exchangeScopeItem)"
           class="exchange-scope-selection"
-          [class.selected-scope]="itemSelected(exchangeScopeItem)">
+          [class.selected-scope]="itemSelected(exchangeScopeItem) && !deleteMode"
+          [class.disabled-scope]="deleteMode"
+          [class.highlight-scope]="highlightScope(exchangeScopeItem)"
+          >
 
         <div class="d-flex justify-content-between pl-2">
           <div class="ellipsis-overflowing-text">
@@ -38,12 +41,30 @@
               {{exchangeScopeItem.Name}}
             </div>
 
-            <div [title]="exchangeScopeItem.Description" class="scope-description small">
+            <div [title]="exchangeScopeItem.Description == null ? '' : exchangeScopeItem.Description"  class="scope-description small">
               {{(exchangeScopeItem.Description == "" || exchangeScopeItem.Description == null) ? "No Description Provided" : exchangeScopeItem.Description}}
             </div>
           </div>
+
+          <button *ngIf="!addDataModal"
+                  [title]="exchangeScopeItem.AssociatedToPaymarket ? 'Unable to delete scope associated to a paymarket.' : 'Delete'"
+                  class="btn btn-sm btn-secondary delete-btn mt-2"
+                  [disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)"
+                  (click)="enterDeleteScopeMode($event, exchangeScopeItem)"
+                  [class.disabled]="deleteMode || (exchangeScopeItem.AssociatedToPaymarket == true)">
+            <i class="fas fa-trash-alt" aria-hidden="true"></i>
+          </button>
        </div>
       </div>
+    </div>
+    <div *ngIf="deleteMode" class="popover-footer">
+      <button type="button" class="btn btn-sm btn-secondary mr-2" [disabled]="(deletingExchangeScope$ | async)" (click)="cancelDeleteScope($event)">Cancel</button>
+      <button type="button" class="btn btn-sm btn-danger" [disabled]="(deletingExchangeScope$ | async)" (click)="deleteScope($event)">
+        <span *ngIf="!(deletingExchangeScope$ | async)">Delete</span>
+        <span *ngIf="(deletingExchangeScope$ | async)">
+          <pf-loading-indicator></pf-loading-indicator> Deleting...
+        </span>
+      </button>
     </div>
   </div>
 

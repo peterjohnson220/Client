@@ -26,9 +26,16 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
 
   systemFilterLoaded$: Observable<boolean>;
   exchangeScopeItemsLoading$: Observable<boolean>;
+  deletingExchangeScope$: Observable<boolean>;
   exchangeScopeItems$: Observable<ExchangeScopeItem[]>;
   selectedExchangeScopeItem$: Observable<ExchangeScopeItem>;
   systemFilterLoadedSubscription: Subscription;
+  inDeleteScopeMode$: Observable<boolean>;
+  inDeleteModeSubscription: Subscription;
+  deleteMode = false;
+  scopeToDelete$: Observable<ExchangeScopeItem>;
+  scopeToDeleteSubscription: Subscription;
+  scopeToDelete: ExchangeScopeItem = null;
 
   constructor(
     private store: Store<fromLibsPeerMapReducer.State>
@@ -37,12 +44,19 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
     this.exchangeScopeItemsLoading$ = this.store.pipe(select(fromLibsPeerMapReducer.getExchangeScopesLoadingByJobs));
     this.systemFilterLoaded$ = this.store.pipe(select(fromLibsPeerMapReducer.getSystemFilterLoaded));
     this.selectedExchangeScopeItem$ = this.store.pipe(select(fromLibsPeerMapReducer.getPeerFilterScopeSelection));
+    this.deletingExchangeScope$ = this.store.pipe(select(fromLibsPeerMapReducer.getDeletingExchangeScope));
+    this.inDeleteScopeMode$ = this.store.pipe(select(fromLibsPeerMapReducer.getInDeleteExchangeScopeMode));
+    this.scopeToDelete$ = this.store.pipe(select(fromLibsPeerMapReducer.getExchangeScopeToDelete));
   }
 
-  handleExchangeScopeClicked(exchangeScopeItem: ExchangeScopeItem) {
+  handleExchangeScopeClicked(buttonClickEvent: any, exchangeScopeItem: ExchangeScopeItem) {
+    if (!this.deleteMode) {
       this.popover.close();
       this.store.dispatch(new fromLibsFilterSidebarActions.SetExchangeScopeSelection(exchangeScopeItem));
       this.store.dispatch(new fromLibsExchangeScopeActions.LoadExchangeScopeDetails);
+    } else {
+      buttonClickEvent.stopPropagation();
+    }
   }
 
   itemSelected(exchangeScopeItem: ExchangeScopeItem) {
@@ -53,6 +67,31 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
       }
     });
     return isSelected;
+  }
+
+  highlightScope(exchangeScopeItem: ExchangeScopeItem) {
+    let highlight = false;
+    if (!!this.scopeToDelete) {
+      highlight = this.scopeToDelete.Id === exchangeScopeItem.Id;
+    }
+    return highlight;
+  }
+
+  enterDeleteScopeMode(buttonClickEvent: any, exchangeScopeItem: ExchangeScopeItem): void {
+    buttonClickEvent.stopPropagation();
+    this.store.dispatch(new fromLibsExchangeScopeActions.SetExchangeScopeToDelete(exchangeScopeItem));
+    this.store.dispatch(new fromLibsExchangeScopeActions.EnterDeleteExchangeScopeMode);
+  }
+
+  cancelDeleteScope(buttonClickEvent: any): void {
+    buttonClickEvent.stopPropagation();
+    this.store.dispatch(new fromLibsExchangeScopeActions.ExitDeleteExchangeScopeMode);
+    this.store.dispatch(new fromLibsExchangeScopeActions.SetExchangeScopeToDelete(null));
+  }
+
+  deleteScope(buttonClickEvent: any): void {
+    buttonClickEvent.stopPropagation();
+    this.store.dispatch(new fromLibsExchangeScopeActions.DeleteExchangeScope(this.scopeToDelete.Id));
   }
 
   // Lifecycle
@@ -66,9 +105,17 @@ export class ScopeSelectorComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.inDeleteModeSubscription = this.inDeleteScopeMode$.subscribe(dsm => {
+      this.deleteMode = dsm;
+    });
+    this.scopeToDeleteSubscription = this.scopeToDelete$.subscribe(std => {
+      this.scopeToDelete = std;
+    });
   }
 
   ngOnDestroy() {
     this.systemFilterLoadedSubscription.unsubscribe();
+    this.inDeleteModeSubscription.unsubscribe();
+    this.scopeToDeleteSubscription.unsubscribe();
   }
 }

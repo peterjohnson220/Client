@@ -68,6 +68,34 @@ export class ExchangeScopeEffects {
       })
     );
 
+  @Effect()
+  deleteExchangeScope$: Observable<Action> = this.actions$.pipe(
+    ofType(fromLibsExchangeScopeActions.DELETE_EXCHANGE_SCOPE)).pipe(
+      map((action: fromLibsExchangeScopeActions.DeleteExchangeScope) => action.payload),
+      withLatestFrom(this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducers.getPeerFilterScopeSelection)),
+        (action, selectedScope) => {
+          return { action, selectedScope };
+        }
+      ),
+      switchMap(payload =>
+        this.exchangeScopeApiService.deleteExchangeScope(payload.action).pipe(
+          concatMap(() => {
+            if (payload.selectedScope.Id === payload.action) {
+              return [
+                new fromLibsExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action),
+                new fromLibsFilterSidebarActions.ClearAllSelections()
+              ];
+            } else {
+              return [
+                new fromLibsExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action)
+              ];
+            }
+          }),
+          catchError(() => of(new fromLibsExchangeScopeActions.DeleteExchangeScopeError))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private libsPeerMapStore: Store<fromLibsPeerMapReducers.State>,
