@@ -20,7 +20,7 @@ import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
-import { CompanyAdminApiService } from './company-admin';
+import { CompanyRolesApiService } from './company-admin';
 import { DataLoadEmailRecipientsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -29,7 +29,7 @@ import { IntegrationApiService } from './integration';
   imports:      [ HttpClientModule ],
   providers:    [
     CompanyApiService,
-    CompanyAdminApiService,
+    CompanyRolesApiService,
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,

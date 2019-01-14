@@ -5,29 +5,35 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromUserRoleViewReducer from './user-role-view.reducer';
+import * as fromUserRoleUserTabReducer from './user-role-users-tab.reducer';
 
 // Feature area state
 export interface UserRoleViewStateMain {
   userRoleView: fromUserRoleViewReducer.IUserRoleState;
+  userRoleUserTab: fromUserRoleUserTabReducer.State;
 }
 
 // Extend root state with feature area state
 export interface State extends fromRoot.State {
-  userRoleViewAdminMain: UserRoleViewStateMain;
+  userRoleAdminMain: UserRoleViewStateMain;
 }
 
 // Feature area reducers
 export const reducers = {
-  userRoleView: fromUserRoleViewReducer.reducer
+  userRoleView: fromUserRoleViewReducer.reducer,
+  userRoleUserTab: fromUserRoleUserTabReducer.reducer
 };
 
 // Select Feature Area
-export const selectUserRoleViewAdminMainState =
-  createFeatureSelector<UserRoleViewStateMain>('userRoleViewAdminMain');
+export const selectuserRoleAdminMainState =
+  createFeatureSelector<UserRoleViewStateMain>('userRoleAdminMain');
 
 // User Role View Selectors
 export const selectUserRoleState =
-  createSelector(selectUserRoleViewAdminMainState, (state: UserRoleViewStateMain) => state.userRoleView);
+  createSelector(selectuserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleView);
+
+export const userRoleUserTabState =
+  createSelector(selectuserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
 
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState
@@ -63,10 +69,21 @@ export const getFunctionSaveButtonText = createSelector(
 
 // Users tab
 export const getUsersAndRoles = createSelector(
-  selectUserRoleState, fromUserRoleViewReducer.getUsersAndRoles
+  userRoleUserTabState, fromUserRoleUserTabReducer.getUsersAndRoles
 );
 
 export const getUsersAndRolesError = createSelector(
-  selectUserRoleState, fromUserRoleViewReducer.getUsersAndRolesError
+  userRoleUserTabState, fromUserRoleUserTabReducer.getUsersAndRolesError
 );
 
+export const getUsersInActiveRole = createSelector(
+  userRoleUserTabState, fromUserRoleUserTabReducer.getUsersInActiveRole
+);
+
+export const getUsersNotInActiveRole = createSelector(
+  userRoleUserTabState, fromUserRoleUserTabReducer.getUsersNotInActiveRole
+);
+
+export const getUsersTabSaveButtonText = createSelector(
+  userRoleUserTabState, fromUserRoleUserTabReducer.getUsersTabSaveButtonText
+);
