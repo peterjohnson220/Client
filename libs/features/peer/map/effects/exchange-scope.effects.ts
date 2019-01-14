@@ -80,7 +80,7 @@ export class ExchangeScopeEffects {
       switchMap(payload =>
         this.exchangeScopeApiService.deleteExchangeScope(payload.action).pipe(
           concatMap(() => {
-            if (payload.selectedScope.Id === payload.action) {
+            if (!!payload.selectedScope && payload.selectedScope.Id === payload.action) {
               return [
                 new fromLibsExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action),
                 new fromLibsFilterSidebarActions.ClearAllSelections()
