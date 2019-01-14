@@ -14,7 +14,7 @@ export class SavedFilterHelper {
   constructor(private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
 
   isPayMarketDefaultFilter(savedFilter: SavedFilter, payMarketId: number): boolean {
-    return savedFilter.Id
+    return (!!savedFilter && !!savedFilter.Id)
       ? savedFilter.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString())
       : false;
   }
