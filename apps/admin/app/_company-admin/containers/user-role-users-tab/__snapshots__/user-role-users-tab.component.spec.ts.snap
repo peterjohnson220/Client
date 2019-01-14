@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserRoleUserTabComponent Page load 1`] = `
+<pf-user-role-users-tab
+  currentRole={[Function Object]}
+  currentRoleSubscription={[Function Subscriber]}
+  saveButtonText={[Function String]}
+  saveButtonTextSubscription={[Function Subscriber]}
+  searchTerm=""
+  store={[Function Store]}
+  userRoleService={[Function UserRoleService]}
+  usersInActiveRoleSubscription={[Function Subscriber]}
+  usersInSelectedRole={[Function Array]}
+  usersNotInActiveRoleSubscription={[Function Subscriber]}
+  usersNotInCurrentRole={[Function Array]}
+>
+  <div>
+    <div
+      class="users-container"
+    >
+      <div
+        class="users-not-in-role-container"
+      >
+        <div
+          class="row add-user-search"
+        >
+          <h4>
+            Add a User:
+          </h4>
+          <pf-input-debounce
+            id="add-users-to-role"
+          />
+        </div>
+        <div
+          id="users-search-results"
+        >
+          <table
+            class="table table-fixed"
+            data-qa-id="tbl-users-search-results"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="col-2"
+                >
+                  First Name
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Last Name
+                </th>
+                <th
+                  class="col-2"
+                >
+                  User ID
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Email Address
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Current Role
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Add
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div
+        class="users-in-role-container"
+      >
+        <div>
+          <h4>
+            Users Assigned to This Role
+          </h4>
+        </div>
+        <div
+          id="users-in-role"
+        >
+          <table
+            class="table table-fixed"
+            data-qa-id="tbl-users-in-role"
+          >
+            <thead>
+              <tr>
+                <th
+                  class="col-2"
+                >
+                  First Name
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Last Name
+                </th>
+                <th
+                  class="col-2"
+                >
+                  User ID
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Email Address
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Title
+                </th>
+                <th
+                  class="col-2"
+                >
+                  Last Login
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div
+      class="btn-container"
+    >
+      <button
+        class="btn btn-primary"
+        data-qa-id="btn-user-tab-save-changes-btn"
+      >
+        Save
+      </button>
+      <button
+        class="btn btn-secondary"
+        data-qa-id="btn-user-tab-cancel-btn"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</pf-user-role-users-tab>
+`;

@@ -1,43 +1,83 @@
-<div *ngIf="currentUserRoleTabState === _UserRoleTabState.USERS">
-  <div id="users-not-in-role" class="scrollable">
-    <table class="table au-table-users-not-in-role-table">
-      <tr class="au-table-header-row-users-not-in-role-table">
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>User ID</th>
-        <th>Email Address</th>
-        <th>Last Login</th>
-        <th>Add</th>
-      </tr>
-      <tr *ngFor="let user of usersNotInRole" class="au-tr-users-not-in-role-table">
-        <td class="au-td-users-not-in-role-first-name">{{user.FirstName}}</td>
-        <td class="au-td-users-not-in-role-last-name">{{user.LastName}}</td>
-        <td class="au-td-users-not-in-role-user-id">{{user.UserId}}</td>
-        <td class="au-td-users-not-in-role-email">{{user.EmailAddress}}</td>
-        <td class="au-td-users-not-in-role-last-login">{{user.LastLogin | date:'short'}}</td>
-        <td class="au-td-users-not-in-role-add">X</td>
-      </tr>
-    </table>
+<div *ngIf="currentRole;else no_role">
+  <div class="users-container">
+    <div class="users-not-in-role-container">
+      <div class="row add-user-search">
+        <h4>Add a User:</h4>
+        <pf-input-debounce id="add-users-to-role"
+                           (valueChanged)="updateSearchFilter($event)"
+                           [delay]="400"
+                           [(ngModel)]="searchTerm"
+                           [ngModelOptions]="{standalone: true}"
+                           [placeholderText]="'Search through First Name, Last Name and User ID'"
+                           [automationClassName]="'au-tb-search-for-users'"
+                           [focus]="false">
+        </pf-input-debounce>
+      </div>
+      <div id="users-search-results">
+        <table class="table table-fixed" [attr.data-qa-id]="'tbl-users-search-results'">
+          <thead>
+          <tr>
+            <th class="col-2">First Name</th>
+            <th class="col-2">Last Name</th>
+            <th class="col-2">User ID</th>
+            <th class="col-2">Email Address</th>
+            <th class="col-2">Current Role</th>
+            <th class="col-2">Add</th>
+          </tr>
+          </thead>
+          <tr *ngFor="let user of usersNotInCurrentRole; let idx = index;" [attr.data-qa-id]="idx">
+            <td class="col-2">{{user.FirstName}}</td>
+            <td class="col-2">{{user.LastName}}</td>
+            <td class="col-2">{{user.UserId}}</td>
+            <td class="col-2">{{user.EmailAddress}}</td>
+            <td class="col-2">{{user.RoleName}}</td>
+            <td class="col-2">
+              <button type="button" class="btn btn-secondary add-btn ml-4" (click)="addUserToRole(user)">
+                <i class="fal fa-plus"></i>
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="users-in-role-container">
+      <div>
+        <h4>Users Assigned to This Role</h4>
+      </div>
+      <div id="users-in-role">
+        <table class="table table-fixed" [attr.data-qa-id]="'tbl-users-in-role'">
+          <thead>
+          <tr>
+            <th class="col-2">First Name</th>
+            <th class="col-2">Last Name</th>
+            <th class="col-2">User ID</th>
+            <th class="col-2">Email Address</th>
+            <th class="col-2">Title</th>
+            <th class="col-2">Last Login</th>
+          </tr>
+          </thead>
+          <tr *ngFor="let user of usersInSelectedRole; let idx = index;" [attr.data-qa-id]="idx">
+            <td class="col-2">{{user.FirstName}}</td>
+            <td class="col-2">{{user.LastName}}</td>
+            <td class="col-2">{{user.UserId}}</td>
+            <td class="col-2">{{user.EmailAddress}}</td>
+            <td class="col-2">{{user.Title}}</td>
+            <td class="col-2">{{user.LastLogin | date:'short'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
-  <div id="users-in-role" class="scrollable">
-    <h3>Users Assigned to This Role</h3>
-    <table class="table au-table-users-in-role-table">
-      <tr class="au-table-header-row-users-in-role-table">
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>User ID</th>
-        <th>Email Address</th>
-        <th>Last Login</th>
-        <th>Remove</th>
-      </tr>
-      <tr *ngFor="let user of usersInSelectedRole" class="au-tr-users-in-role-table">
-        <td class="au-td-users-in-role-first-name">{{user.FirstName}}</td>
-        <td class="au-td-users-in-role-last-name">{{user.LastName}}</td>
-        <td class="au-td-users-in-role-user-id">{{user.UserId}}</td>
-        <td class="au-td-users-in-role-email">{{user.EmailAddress}}</td>
-        <td class="au-td-users-in-role-last-login">{{user.LastLogin | date:'short'}}</td>
-        <td class="au-td-users-in-role-remove">X</td>
-      </tr>
-    </table>
+
+  <div class="btn-container">
+    <button class="btn btn-primary" (click)="saveChanges()" [attr.data-qa-id]="'btn-user-tab-save-changes-btn'">{{saveButtonText}}</button>
+    <button class="btn btn-secondary" (click)="cancelChanges()" [attr.data-qa-id]="'btn-user-tab-cancel-btn'">Cancel</button>
   </div>
 </div>
+
+<ng-template #no_role>
+  <div>
+    <h4>Please select a role from the role list.</h4>
+  </div>
+</ng-template>

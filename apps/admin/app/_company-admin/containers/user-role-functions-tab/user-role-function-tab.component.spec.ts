@@ -5,13 +5,12 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 
 import {getMockUserAssignedRoleWithPermissions} from 'libs/models/security';
-import {CompanyAdminApiService} from 'libs/data/payfactors-api/company-admin';
+import {CompanyRolesApiService} from 'libs/data/payfactors-api/company-admin';
 import {PayfactorsApiService} from 'libs/data/payfactors-api/payfactors-api.service';
 import * as fromRootState from 'libs/state/state';
 
 import {UserRoleFunctionTabComponent} from './user-role-function-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
-import {CompanyRolePermissionService} from '../../services';
 
 describe('UserRoleFunctionTabComponent', () => {
   let fixture, component;
@@ -21,10 +20,10 @@ describe('UserRoleFunctionTabComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRootState.reducers,
-          userRoleViewAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
+          userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
-      providers: [ CompanyRolePermissionService, CompanyAdminApiService, PayfactorsApiService, HttpClient, HttpHandler ],
+      providers: [ CompanyRolesApiService ],
       declarations: [UserRoleFunctionTabComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });

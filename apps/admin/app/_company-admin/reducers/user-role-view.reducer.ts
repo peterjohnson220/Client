@@ -1,4 +1,5 @@
-import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
+import * as cloneDeep from 'lodash.clonedeep';
+import { UserAssignedRole } from 'libs/models/security';
 import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import {SaveButtonText, UserRoleTabState} from '../constants/user-role.constants';
@@ -13,8 +14,6 @@ export interface IUserRoleState {
   AddCompanyRoleModalIsOpen: boolean;
   AddCompanyRoleForm: AddCompanyRoleForm;
   FunctionSaveButtonText: string;
-  UsersAndRoles: UserAndRoleModel[];
-  UsersAndRolesError: string;
 }
 
 export const initialState: IUserRoleState = {
@@ -25,9 +24,7 @@ export const initialState: IUserRoleState = {
   AddCompanyRoleError: undefined,
   AddCompanyRoleModalIsOpen: false,
   AddCompanyRoleForm: null,
-  FunctionSaveButtonText: SaveButtonText.Save,
-  UsersAndRoles: undefined,
-  UsersAndRolesError: undefined
+  FunctionSaveButtonText: SaveButtonText.Save
 };
 
 export function reducer(state = initialState, action: fromUserRoleViewActions.Actions): IUserRoleState {
@@ -100,16 +97,50 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
         FunctionSaveButtonText:  action.payload as string
       };
     }
-    case fromUserRoleViewActions.GET_USERS_AND_ROLES: {
+    case fromUserRoleViewActions.LOAD_COMPANY_ROLE_PERMISSIONS_SUCCESS: {
       return {
         ...state,
-        UsersAndRolesError: undefined
+        CurrentUserRole: {
+          ...state.CurrentUserRole,
+          Permissions: action.payload
+        }
       };
     }
-    case fromUserRoleViewActions.GET_USERS_AND_ROLES_SUCCESS: {
+    case fromUserRoleViewActions.SAVE_COMPANY_ROLE_PERMISSIONS: {
       return {
         ...state,
-        UsersAndRoles: action.payload
+        FunctionSaveButtonText: SaveButtonText.Saving
+      };
+    }
+    case fromUserRoleViewActions.GRANT_DENY_PERMISSIONS: {
+      const currPermission = action.payload;
+      const newRolePermissions =  cloneDeep(state.CurrentUserRole.Permissions);
+      if (currPermission.IsParent) {
+        newRolePermissions.forEach( p => {
+          if (p.Id === currPermission.Id) {
+            p.IsChecked = !currPermission.IsChecked;
+            if (p.ChildPermission) {
+              p.ChildPermission.forEach( cp => cp.IsChecked = !currPermission.IsChecked);
+            }
+            return;
+          }
+        });
+      } else {
+        newRolePermissions.forEach( p => {
+          if (p.ChildPermission) {
+            const index = p.ChildPermission.findIndex(f => f.Id === currPermission.Id);
+            if (index > -1) {
+              p.ChildPermission[index].IsChecked = !currPermission.IsChecked;
+            }
+          }
+        });
+      }
+      return {
+        ...state,
+        CurrentUserRole: {
+          ...state.CurrentUserRole,
+          Permissions: newRolePermissions
+        }
       };
     }
     default: {
@@ -126,5 +157,3 @@ export const getAddCompanyRoleModalIsOpen = (state: IUserRoleState) => state.Add
 export const getAddCompanyRoleForm = (state: IUserRoleState) => state.AddCompanyRoleForm;
 export const getAddCompanyRoleError = (state: IUserRoleState) => state.AddCompanyRoleError;
 export const getFunctionSaveButtonText = (state: IUserRoleState) => state.FunctionSaveButtonText;
-export const getUsersAndRoles = (state: IUserRoleState) => state.UsersAndRoles;
-export const getUsersAndRolesError = (state: IUserRoleState) => state.UsersAndRolesError;

@@ -8,6 +8,7 @@ import { UserRoleTabState } from '../../constants/user-role.constants';
 import { UserRoleService } from '../../services';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleActions from '../../actions/user-role-view.action';
+import * as fromUserRoleUserTabActions from '../../actions/user-role-users-tab.action';
 
 @Component({
   selector: 'pf-user-role-page',
@@ -25,7 +26,7 @@ export class UserRolePageComponent implements OnDestroy {
 
   constructor(private userRoleService: UserRoleService, private store: Store<fromUserRoleViewReducer.State>) {
     this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
-    this.store.dispatch(new fromUserRoleActions.GetUsersAndRoles());
+    this.store.dispatch(new fromUserRoleUserTabActions.GetUsersAndRoles());
     this.companyRolesSubscription = this.store.select(fromUserRoleViewReducer.getCompanyRoles).subscribe(userRoles => {
       this.userAssignedRoles = userRoles ? userRoles.filter(uar => uar.RoleType === 'C') : null;
     });

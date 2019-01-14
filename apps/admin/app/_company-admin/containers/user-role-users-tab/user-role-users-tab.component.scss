@@ -1,8 +1,60 @@
-#users-not-in-role, #users-in-role {
-  height: 300px;
+#users-search-results, #users-in-role {
+  height: 280px;
 }
 
-.scrollable{
-  height:70vh;
-  overflow: auto;
+.add-user-search{
+  padding: 15px;
 }
+
+#add-users-to-role{
+  width: 25%;
+  padding-left: 15px;
+}
+
+.btn-container{
+  float: right;
+  margin-right: 30px;
+  margin-bottom: 10px;
+}
+
+.btn-container .btn{
+  margin-left: 10px;
+}
+
+.users-container{
+  min-height:70vh;
+}
+
+.users-in-role-container {
+  margin-top: 25px;
+}
+/*
+  Freeze header row https://w3lessons.info/2017/09/27/bootstrap-fixed-table-header-using-css/
+ */
+.table-fixed tbody {
+  overflow-y: auto;
+  height: 235px;
+  width: 100%;
+}
+
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th {
+  display: block;
+}
+
+.table-fixed tr:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+.table-fixed tbody td,
+.table-fixed thead > tr > th {
+  float: left;
+}
+/*
+  End Freeze header row
+ */
