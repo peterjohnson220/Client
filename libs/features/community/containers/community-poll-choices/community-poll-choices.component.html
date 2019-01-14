@@ -9,6 +9,6 @@
             </div>
       </div>
       <div *ngIf="isLastChoice">
-            <button type="button" class="btn btn-secondary add-btn ml-4" (click)="added.emit(index)"><i class="fal fa-plus-circle fa-2x"></i></button>
+            <button type="button" *ngIf="index < maxChoices - 1" class="btn btn-secondary add-btn ml-4" (click)="added.emit(index)"><i class="fal fa-plus-circle fa-2x"></i></button>
       </div>
 </div>

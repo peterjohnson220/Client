@@ -21,7 +21,6 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   addingCommunityDiscussionPollSuccessSubscription: Subscription;
 
   maxTextLength = 250;
-  maxChoices = 5;
   attemptedSubmit = false;
   pollLengthDays = Array.from({length: 31}, (v, k) => k);
   pollLengthHours = Array.from({length: 24}, (v, k) => k);

@@ -7,7 +7,6 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   communityPollForm={[Function FormGroup]}
   displayPollLengthChoices="false"
   formBuilder={[Function FormBuilder]}
-  maxChoices={[Function Number]}
   maxTextLength={[Function Number]}
   pollLengthDays={[Function Array]}
   pollLengthHours={[Function Array]}
