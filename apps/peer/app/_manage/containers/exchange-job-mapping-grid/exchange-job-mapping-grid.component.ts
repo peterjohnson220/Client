@@ -9,6 +9,7 @@ import { GridTypeEnum, ExchangeJobMapping } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
+import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
 import { ExchangeJobMappingService } from '../../services';
 import { associationPending, associationStatus } from './exchange-job-mapping-grid-data-map';
@@ -36,8 +37,7 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
   pendingStatusData: any;
 
   constructor(
-    private store: Store<fromPeerManagementReducer.State>,
-    private exchangeJobMappingService: ExchangeJobMappingService
+    private store: Store<fromPeerManagementReducer.State>
   ) {
     this.loadingExchangeJobMappings$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoading);
     this.loadingExchangeJobMappingsError$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingsLoadingError);
@@ -72,13 +72,13 @@ export class ExchangeJobMappingGridComponent implements OnInit, OnDestroy {
       return;
     }
     const pageRowIndex = event.rowIndex - this.exchangeJobMappingGridState.skip;
-    this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem));
+    this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(event.dataItem));
     this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(pageRowIndex));
   }
 
   // Lifecycle
   ngOnInit() {
-    this.exchangeJobMappingService.loadExchangeJobMappings();
+    this.store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappings());
 
     this.associationData = associationStatus;
     this.pendingStatusData = associationPending;

@@ -26,3 +26,4 @@ export * from './data-cut-validation-info.model';
 export * from './exchange-job-request-action.model';
 export * from './exchange-request-action.enum';
 export * from './exchange-job-search.model';
+export * from './exchange-job-assocation.model';

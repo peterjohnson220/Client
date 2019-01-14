@@ -54,12 +54,10 @@ describe('Peer - Exchange Job Mapping Grid', () => {
   });
 
   it('should call loadExchangeJobMappings with the exchangeId when the component is initialized', () => {
-    spyOn(exchangeJobMappingService, 'loadExchangeJobMappings');
-
-    instance.exchangeId = 1;
     fixture.detectChanges();
 
-    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalled();
+    const action = new fromExchangeJobMappingGridActions.LoadExchangeJobMappings();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch a page change grid action when handlePageChanged is called', () => {
@@ -81,14 +79,13 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
 
-    spyOn(exchangeJobMappingService, 'loadExchangeJobMappings');
 
     instance.onDataStateChange(pageChangeEvent);
 
     fixture.detectChanges();
-
-    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalled();
-  });
+    const action = new fromExchangeJobMappingGridActions.LoadExchangeJobMappings();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+      });
 
   it('should dispatch a sort change grid action when handleSortChanged is called', () => {
     // Trigger ngOnInit so that ngOnDestory doesn't fail
@@ -114,21 +111,20 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     instance.exchangeId = 1;
     fixture.detectChanges();
 
-    spyOn(exchangeJobMappingService, 'loadExchangeJobMappings');
-
     instance.onDataStateChange(sortDescriptor);
 
     fixture.detectChanges();
 
-    expect(exchangeJobMappingService.loadExchangeJobMappings).toHaveBeenCalled();
+    const action = new fromExchangeJobMappingGridActions.LoadExchangeJobMappings();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a SelectExchangeJobMapping action with the dataItem received, when handling a cell click', () => {
+  it('should dispatch a SetActiveExchangeJob action with the dataItem received, when handling a cell click', () => {
     // Trigger ngOnInit so that ngOnDestory doesn't fail
     fixture.detectChanges();
 
     const event = { dataItem: generateMockExchangeJobMapping(), rowIndex: 1 };
-    const action = new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(event.dataItem);
+    const action = new fromExchangeJobMappingGridActions.SetActiveExchangeJob(event.dataItem);
 
     instance.exchangeJobMappingGridState = { skip: 0 };
     instance.onCellClick(event);
@@ -136,7 +132,7 @@ describe('Peer - Exchange Job Mapping Grid', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it(`should not dispatch a SelectExchangeJobMapping action when the dataItem received is a PendingRequest,
+  it(`should not dispatch a SetActiveExchangeJob action when the dataItem received is a PendingRequest,
   when handling a cell click`, () => {
       // Trigger ngOnInit so that ngOnDestory doesn't fail
       fixture.detectChanges();
@@ -146,7 +142,9 @@ describe('Peer - Exchange Job Mapping Grid', () => {
       instance.exchangeJobMappingGridState = { skip: 0 };
       instance.onCellClick(event);
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      const action = new fromExchangeJobMappingGridActions.SetActiveExchangeJob(event.dataItem);
+
+      expect(store.dispatch).not.toHaveBeenCalledWith(action);
     });
 
   it('should dispatch a UpdatePageRowIndexToScrollTo action with the pageRowIndex (rowIndex - skip), when handling a cell click', () => {

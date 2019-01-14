@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import * as lodash from 'lodash';
 
 import * as fromRootState from 'libs/state/state';
-import { Job, UserContext, ExchangeJobSearch, CompanyJobSummary, GenericKeyValue } from 'libs/models';
+import { Job, UserContext, ExchangeJobSearch, LatestCompanyJob, GenericKeyValue } from 'libs/models';
 import { ExchangeApiService } from 'libs/data/payfactors-api/';
 import { WindowCommunicationService } from 'libs/core/services';
 import { isNullOrUndefined } from 'libs/core/functions';
@@ -37,7 +37,7 @@ export class AssociateCompanyJobComponent implements OnInit {
     isAddingAssociation$: Observable<boolean>;
     hasAddingAssociationError$: Observable<boolean>;
     userContext$: Observable<UserContext>;
-    companyJob$: Observable<CompanyJobSummary>;
+    companyJob$: Observable<LatestCompanyJob>;
 
     constructor(
         private route: ActivatedRoute,
@@ -76,7 +76,7 @@ export class AssociateCompanyJobComponent implements OnInit {
                     JobCode: ejm.JobCode,
                     JobFamily: ejm.JobFamily,
                     JobLevel: ejm.JobLevel,
-                    JobDescription: ejm.JobSummary
+                    JobDescription: ejm.JobDescription
                 };
             }
         });
