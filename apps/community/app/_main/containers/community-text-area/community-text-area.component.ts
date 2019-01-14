@@ -3,13 +3,13 @@ import { FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
+import { NgxLinkifyOptions } from 'ngx-linkifyjs';
 
 import * as constants from 'libs/models/community/community-constants.model';
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
 import { CommunityTag } from 'libs/models';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-text-area',
@@ -29,6 +29,13 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   suggestedCommunityTagsSubscription: Subscription;
   suggestedCommunityTagsPostIdSubscription: Subscription;
   textValueChangesSubscription: Subscription;
+
+  options: NgxLinkifyOptions =
+    {
+      formatHref: function (href, type) {
+          return 'javascript:void(0)';
+      }
+    };
 
   @Input() public parentForm: FormGroup;
   @Input() public maxTextLength: 2000;
@@ -187,9 +194,5 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-  escapeHtml(unsafe) {
-    return escapeSpecialHtmlCharacters(unsafe);
- }
 
 }

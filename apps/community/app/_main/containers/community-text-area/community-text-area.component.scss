@@ -66,12 +66,12 @@ $old-style-scollbar-width: 10px;
 }
 
 button:hover {
-  outline: solid 1px $community-hashtag-color;
+  outline: solid 1px $community-link-color;
   outline-offset: -2px;
 }
 
 button:focus {
-  outline: solid 2px $community-hashtag-color;
+  outline: solid 2px $community-link-color;
   outline-offset: -2px;
 }
 
@@ -84,7 +84,7 @@ button:focus {
 }
 
 :host ::ng-deep .hashtag-highlight {
-  color: $community-hashtag-color;
+  color: $community-link-color;
 }
 
 :host ::ng-deep .link-url {
@@ -103,13 +103,17 @@ button:focus {
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey; 
+  box-shadow: inset 0 0 5px grey;
   border-radius: 5px;
   width: $scrollbar-width;
 }
 
 ::-webkit-scrollbar-thumb {
-  background:  $community-tab-active-color; 
+  background:  $community-tab-active-color;
   border-radius: 5px;
   width: $scrollbar-width;
+}
+
+:host ::ng-deep .linkified {
+  color: $community-link-color;
 }

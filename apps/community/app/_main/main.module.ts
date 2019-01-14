@@ -10,6 +10,7 @@ import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CommunityDashboardPageComponent } from './containers';
@@ -36,6 +37,7 @@ import { CommunityNewPollComponent } from './containers/community-new-poll/commu
 import { CommunityNewJobComponent } from './containers/community-new-job/community-new-job.component';
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
 import { CommunityTextAreaComponent } from './containers/community-text-area/community-text-area.component';
+import { CommunityPostContentComponent } from './components/community-post-content/community-post-content.component';
 import { RadialTextCounterComponent } from './components/radial-text-counter/radial-text-counter.component';
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 import { CommunityJobComponent } from './components/community-job/community-job.component';
@@ -59,8 +61,10 @@ import { CommunityTagApiService } from 'libs/data/payfactors-api/community/commu
 import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
+import { ClickInContentDirective } from './directives/click-in-content-directive';
 
 const components = [
+  ClickInContentDirective,
   CommunityDashboardPageComponent,
   CommunityJobPostingsPageComponent,
   CommunityPostsComponent,
@@ -70,6 +74,7 @@ const components = [
   CommunityPostFilteredReplyViewComponent,
   CommunityPostHeaderComponent,
   CommunityTextAreaComponent,
+  CommunityPostContentComponent,
   CommunityStartDiscussionComponent,
   CommunityPollsComponent,
   CommunityPostAddReplyComponent,
@@ -99,6 +104,7 @@ const components = [
     ReactiveFormsModule,
     // 3rd party
     NgbCarouselModule,
+    NgxLinkifyjsModule,
     NgbTooltipModule,
     NgbDropdownModule,
     DropDownsModule,

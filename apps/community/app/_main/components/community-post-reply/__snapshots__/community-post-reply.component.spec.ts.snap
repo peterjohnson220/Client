@@ -9,11 +9,9 @@ exports[`CommunityPostReplyComponent should show community post reply component 
     class="reply-offset"
   >
     <pf-community-post-header />
-    <div
-      class="mt-2 mb-2 reply-body"
-    >
-      Reply Text
-    </div>
+    <pf-community-post-content
+      class="mt-2 mb-2"
+    />
     <pf-community-like />
   </div>
 </pf-community-post-reply>
