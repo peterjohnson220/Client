@@ -59,9 +59,9 @@ export class PaymarketExchangeScopeEffects {
   );
 
   @Effect({dispatch: false})
-  loadExchangeScopeSelectionsSuccess$ = this.actions$.pipe(
-    ofType(fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPE_SELECTIONS_SUCCESS),
-    tap((action: fromPaymarketExchangeScopeActions.LoadExchangeScopeSelectionsSuccess) => {
+  loadExchangeScopesSuccess$ = this.actions$.pipe(
+    ofType(fromPaymarketExchangeScopeActions.LOAD_EXCHANGE_SCOPES_SUCCESS),
+    tap((action: fromPaymarketExchangeScopeActions.LoadExchangeScopesSuccess) => {
       this.windowCommunicationService.postMessage(action.type);
     })
   );
