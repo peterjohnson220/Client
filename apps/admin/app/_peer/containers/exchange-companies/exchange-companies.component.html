@@ -2,10 +2,10 @@
   <pf-manage-exchange-section-header [sectionTitle]="'Exchange Companies'" [sectionDescription]="'Listed in the grid below are the companies included in this exchange.'">
     <ng-container header-actions>
       <div class="omni-box">
-        <pf-input-debounce [placeholderText]="'Search Exchange Companies...'" (valueChanged)="handleSearchChanged($event)">
+        <pf-input-debounce [placeholderText]="'Search for Companies in this Exchange...'" (valueChanged)="handleSearchChanged($event)">
         </pf-input-debounce>
       </div>
-      <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeCompaniesModal()">Add</button>
+      <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeCompaniesModal()">Add Company</button>
     </ng-container>
   </pf-manage-exchange-section-header>
   <div class="d-flex h-100">
