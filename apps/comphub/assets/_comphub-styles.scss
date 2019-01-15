@@ -15,3 +15,19 @@
     border-color: rgba($comphub-primary-blue, .65);
   }
 }
+
+.comphub-secondary-btn {
+  background-color: $comphub-secondary-background;
+  border: 1px solid $comphub-secondary-border;
+  color: $comphub-secondary-text;
+
+  &:hover, &:not(:disabled):not(.disabled):active{
+    background-color: $comphub-secondary-background-hover;
+  }
+
+  &:disabled {
+    background-color: $comphub-secondary-background;
+    border-color: $comphub-secondary-border-disabled;
+    color: $comphub-secondary-text-disabled;
+  }
+}
