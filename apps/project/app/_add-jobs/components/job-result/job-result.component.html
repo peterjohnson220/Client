@@ -23,16 +23,18 @@
     </div>
   </div>
 
-  <div *ngIf="showJobDetail" class="job-detail" (click)="$event.stopPropagation()">
+  <div *ngIf="job.ShowJobDetail" class="job-detail" (click)="$event.stopPropagation()">
     <table>
       <tbody>
         <tr>
           <th>Base MRP:</th>
-          <td>{{job.BaseMRP || '-'}}</td>
+          <td *ngIf="!job.PricingDataLoading">{{job.BaseMRP || '-'}}</td>
+          <td *ngIf="job.PricingDataLoading">...</td>
         </tr>
         <tr>
           <th>TCC MRP:</th>
-          <td>{{job.TCCMRP || '-'}}</td>
+          <td *ngIf="!job.PricingDataLoading">{{job.TCCMRP || '-'}}</td>
+          <td *ngIf="job.PricingDataLoading">...</td>
         </tr>
         <tr>
           <th>Job Level:</th>

@@ -11,11 +11,10 @@ import { JobResult } from '../../models/job-result.model';
 export class JobResultComponent {
   @Input() job: JobResult;
   @Output() jobClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
-
-  showJobDetail: boolean;
+  @Output() jobDetailClicked: EventEmitter<JobResult> = new EventEmitter<JobResult>();
 
   get toggleJobDetailLabel() {
-    return (this.showJobDetail ? 'Hide' : 'Show') + ' Job Detail';
+    return (this.job.ShowJobDetail ? 'Hide' : 'Show') + ' Job Detail';
   }
 
   handleJobClicked(): void {
@@ -24,6 +23,6 @@ export class JobResultComponent {
 
   toggleJobDetailDisplay(e: MouseEvent): void {
     e.stopPropagation();
-    this.showJobDetail = !this.showJobDetail;
+    this.jobDetailClicked.emit(this.job);
   }
 }
