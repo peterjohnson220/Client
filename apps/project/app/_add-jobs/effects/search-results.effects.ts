@@ -2,20 +2,21 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { switchMap, withLatestFrom, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, withLatestFrom, mergeMap, catchError, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import * as fromSearchResultsActions from 'libs/features/search/actions/search-results.actions';
 import * as fromSearchFiltersActions from 'libs/features/search/actions/search-filters.actions';
 import * as fromSingledFilterActions from 'libs/features/search/actions/singled-filter.actions';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import { JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
+import { JobSearchPricingDataResponse, JobSearchRequest, JobSearchResponse } from 'libs/models/payfactors-api/job-search';
 import * as fromSearchReducer from 'libs/features/search/reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
 import * as fromAddJobsReducer from '../reducers';
 import * as fromAddJobsSearchResultsActions from '../actions/search-results.actions';
 import { PayfactorsAddJobsApiModelMapper } from '../helpers';
+
 
 @Injectable()
 export class SearchResultsEffects {
@@ -25,6 +26,44 @@ export class SearchResultsEffects {
 
   @Effect()
   getMoreResults$ = this.searchJobs(this.actions$.ofType(fromSearchResultsActions.GET_MORE_RESULTS));
+
+  @Effect()
+  loadPricingData$ = this.actions$
+    .ofType(fromAddJobsSearchResultsActions.LOAD_JOB_PRICING_DATA)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromAddJobsReducer.getContext),
+        (action: fromAddJobsSearchResultsActions.GetJobPricingData, context) => (
+          { action, context }
+        )),
+      mergeMap((data) => {
+        let jobCode = null;
+        let companyJobId = null;
+        const jobResult = data.action.payload;
+
+        if (jobResult.IsPayfactorsJob) {
+          jobCode = jobResult.Code;
+        } else {
+          companyJobId = jobResult.Id;
+        }
+        return this.jobSearchApiService.getJobPricingData({
+          ProjectId: data.context.ProjectId,
+          CompanyJobId: companyJobId,
+          PayfactorsJobCode: jobCode
+        })
+          .pipe(
+            map((pricingDataResponse: JobSearchPricingDataResponse) =>
+              new fromAddJobsSearchResultsActions.GetJobPricingDataSuccess(
+                {
+                  jobId: jobResult.Id,
+                  data: pricingDataResponse
+                }
+              )
+            ),
+            catchError(() => of(new fromAddJobsSearchResultsActions.GetJobPricingDataError(jobResult.Id)))
+          );
+      }
+      ));
 
   searchJobs(action$: Actions<Action>): Observable<Action> {
     return action$.pipe(
@@ -79,6 +118,8 @@ export class SearchResultsEffects {
       })
     );
   }
+
+
 
   constructor(
     private store: Store<fromAddJobsReducer.State>,

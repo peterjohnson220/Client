@@ -28,7 +28,10 @@ export class PayfactorsAddJobsApiModelMapper {
         EEO: jsr.EEO,
         UdfFields: jsr.UdfFields,
         IsSelected: false,
-        IsPayfactorsJob: jsr.IsPayfactorsJob
+        IsPayfactorsJob: jsr.IsPayfactorsJob,
+        PricingDataLoading: false,
+        PricingDataLoaded: false,
+        ShowJobDetail: false
       };
     });
   }

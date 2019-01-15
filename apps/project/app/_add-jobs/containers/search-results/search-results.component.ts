@@ -27,4 +27,15 @@ export class SearchResultsComponent {
   handleJobSelectionToggle(job: JobResult): void {
     this.store.dispatch(new fromSearchResultsActions.ToggleJobSelection(job));
   }
+
+  handleJobDetailClicked(job: JobResult): void {
+    this.store.dispatch(new fromSearchResultsActions.ToggleJobDetail(job));
+    if (!job.PricingDataLoaded) {
+      this.store.dispatch(new fromSearchResultsActions.GetJobPricingData(job));
+    }
+  }
+
+  trackByJobId(index, item: JobResult) {
+    return item.Id;
+  }
 }

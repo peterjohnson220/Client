@@ -4,7 +4,7 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
 <pf-add-job-result
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
-  showJobDetail={[Function Boolean]}
+  jobDetailClicked={[Function EventEmitter]}
 >
   <div
     class="result job-result-row"
@@ -60,17 +60,21 @@ exports[`Project - Add Jobs - Job Result should not show the job category or eeo
             <th>
               Base MRP:
             </th>
+            
             <td>
               56.3
             </td>
+            
           </tr>
           <tr>
             <th>
               TCC MRP:
             </th>
+            
             <td>
               58.1
             </td>
+            
           </tr>
           <tr>
             <th>
@@ -130,6 +134,7 @@ exports[`Project - Add Jobs - Job Result should show a peer icon, when the jobs 
 <pf-add-job-result
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
+  jobDetailClicked={[Function EventEmitter]}
 >
   <div
     class="result job-result-row"
@@ -184,7 +189,7 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
 <pf-add-job-result
   job={[Function Object]}
   jobClicked={[Function EventEmitter]}
-  showJobDetail={[Function Boolean]}
+  jobDetailClicked={[Function EventEmitter]}
 >
   <div
     class="result job-result-row"
@@ -234,17 +239,21 @@ exports[`Project - Add Jobs - Job Result should show the job detail 1`] = `
             <th>
               Base MRP:
             </th>
+            
             <td>
               56.3
             </td>
+            
           </tr>
           <tr>
             <th>
               TCC MRP:
             </th>
+            
             <td>
               58.1
             </td>
+            
           </tr>
           <tr>
             <th>
