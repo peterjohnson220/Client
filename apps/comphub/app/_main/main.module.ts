@@ -5,7 +5,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ComphubPageComponent } from './containers';
+import { ComphubPageComponent, JobsPageComponent } from './containers';
 import { MainRoutingModule } from './main-routing.module';
 
 
@@ -24,7 +24,8 @@ import { MainRoutingModule } from './main-routing.module';
   ],
   declarations: [
     // Pages
-    ComphubPageComponent
+    ComphubPageComponent,
+    JobsPageComponent
   ]
 })
 export class MainModule { }
