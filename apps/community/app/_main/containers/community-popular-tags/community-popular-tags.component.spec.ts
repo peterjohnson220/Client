@@ -35,6 +35,7 @@ describe('CommunityPopularTagsComponent', () => {
     spyOn(store, 'dispatch');
 
     instance = fixture.componentInstance;
+    instance.filteredTags = [];
   });
 
   it('should show popular tags', () => {
