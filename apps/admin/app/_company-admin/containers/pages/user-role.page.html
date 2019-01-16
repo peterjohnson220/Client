@@ -18,15 +18,17 @@
                 <h4>Roles</h4>
               </div>
             </div>
-            <div>
+            <div id="wrapper">
+              <div class="scrollbar" >
               <ul class="list-group nav au-user-assigned-role-nav">
                 <li class="nav-item" *ngFor="let userAssignedRole of userAssignedRoles">
                   <a [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
                 </li>
               </ul>
-            </div>
-            <div>
-              <a class="outer-nav-link" [routerLink]="" (click)="createUserRole()">Create New Role</a>
+                </div>
+              <div>
+                <a class="outer-nav-link" [routerLink]="" (click)="createUserRole()">Create New Role</a>
+              </div>
             </div>
           </div>
         </div>
