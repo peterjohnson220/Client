@@ -7,8 +7,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
-
-import { HighlightHashTagPipe } from 'libs/core';
 import { CommunityNewPollComponent } from './community-new-poll.component';
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPollChoicesComponent } from 'libs/features/community/containers/community-poll-choices/community-poll-choices.component';
@@ -29,8 +27,7 @@ describe('CommunityStartPollComponent', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        CommunityNewPollComponent,
-        HighlightHashTagPipe
+        CommunityNewPollComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

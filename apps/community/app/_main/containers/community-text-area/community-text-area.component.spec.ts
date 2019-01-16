@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -7,11 +7,9 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 
-import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
-
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { CommunityTextAreaComponent } from './community-text-area.component';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 describe('CommunityTextAreaComponent', () => {
   let fixture: ComponentFixture<CommunityTextAreaComponent>;
@@ -25,6 +23,7 @@ describe('CommunityTextAreaComponent', () => {
           ...fromRootState.reducers,
           communityPostRequest: combineReducers(fromCommunityPostReducer.reducers)
         }),
+        NgxLinkifyjsModule.forRoot(),
         FormsModule,
         ReactiveFormsModule
       ],
@@ -35,9 +34,7 @@ describe('CommunityTextAreaComponent', () => {
         }
       ],
       declarations: [
-        CommunityTextAreaComponent,
-        HighlightHashTagPipe,
-        FormatLinkUrlPipe
+        CommunityTextAreaComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]

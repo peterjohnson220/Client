@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostContentComponent should show community post content 1`] = `
+<pf-community-post-content
+  content={[Function String]}
+  hashTagClicked={[Function EventEmitter]}
+  options={[Function Object]}
+>
+  <div
+    class="m-0 content-body"
+    pfclickincontent=""
+  >
+    test
+  </div>
+</pf-community-post-content>
+`;
