@@ -1,0 +1,28 @@
+@import 'comphub-variables';
+
+.trending-job-group{
+
+  .group-name {
+    color: $comphub-header-blue;
+    margin-bottom: 1rem;
+  }
+
+  .trending-job{
+    display: flex;
+    align-items: center;
+    margin-bottom: .75rem;
+
+    .count{
+      background: $comphub-primary-blue;
+      color: white;
+      border-radius: 0.35rem;
+      width: 47px;
+      height: 34px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+    }
+  }
+}

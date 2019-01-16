@@ -24,6 +24,7 @@ import { CompanyRolesApiService } from './company-admin';
 import { DataLoadEmailRecipientsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
+import { ComphubApiService } from './comphub';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -58,7 +59,8 @@ import { IntegrationApiService } from './integration';
     DataLoadEmailRecipientsApiService,
     JobSearchApiService,
     ProjectApiService,
-    IntegrationApiService
+    IntegrationApiService,
+    ComphubApiService
   ]
 })
 export class PfApiModule { }
