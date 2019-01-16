@@ -9,14 +9,13 @@ import {catchError, map, switchMap, mergeMap, delay} from 'rxjs/operators';
 import { CompanyRolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserRoleDto } from 'libs/models/admin';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
+import {CompanyRolePermission} from 'libs/models/security';
 
 import { UserRoleDtoToUserAssignedRoleMapper } from '../mappers';
 import * as fromUserRoleActions from '../actions/user-role-view.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
-import {tap} from 'rxjs/internal/operators';
 import {SaveButtonText} from '../constants/user-role.constants';
 import * as fromUserRoleViewReducer from '../reducers';
-import {CompanyRolePermission} from '../../../../../libs/models/security';
 
 @Injectable()
 export class UserRoleEffects {
@@ -67,7 +66,8 @@ export class UserRoleEffects {
     .ofType(fromUserRoleUserTabActions.SAVE_CHANGES).pipe(
       switchMap((action: fromUserRoleUserTabActions.SaveChanges) => {
         this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Saving));
-        const result = this.companyAdminApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
+        const result = this.companyAdminApi
+          .assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
             actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response));
