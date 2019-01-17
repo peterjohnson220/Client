@@ -1,1 +1,1 @@
-export * from './company-roles-api.service';
+export * from './roles-api.service';

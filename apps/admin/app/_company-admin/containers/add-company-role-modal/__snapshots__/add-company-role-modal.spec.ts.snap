@@ -10,7 +10,9 @@ exports[`AddCompanyRoleModalComponent should match snapshot 1`] = `
   companyRoleName={[Function ElementRef]}
   formBuilder={[Function FormBuilder]}
   formValueChangesSubscription={[Function Subscriber]}
+  rootStore={[Function Store]}
   store={[Function Store]}
+  userContext$={[Function Store]}
   validationService={[Function UserRoleValidationService]}
 >
   <pf-modal-form

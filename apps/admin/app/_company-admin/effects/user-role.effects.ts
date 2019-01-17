@@ -6,16 +6,15 @@ import {Action, Store} from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {catchError, map, switchMap, mergeMap, delay} from 'rxjs/operators';
 
-import { CompanyRolesApiService } from 'libs/data/payfactors-api/company-admin';
-import { UserRoleDto } from 'libs/models/admin';
+import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
-import {CompanyRolePermission} from 'libs/models/security';
+import {RolePermission} from 'libs/models/security';
 
-import { UserRoleDtoToUserAssignedRoleMapper } from '../mappers';
 import * as fromUserRoleActions from '../actions/user-role-view.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
 import {SaveButtonText} from '../constants/user-role.constants';
 import * as fromUserRoleViewReducer from '../reducers';
+
 
 @Injectable()
 export class UserRoleEffects {
@@ -23,10 +22,7 @@ export class UserRoleEffects {
   loadCompanyRoles$: Observable<Action> = this.actions$
     .ofType(fromUserRoleActions.LOAD_COMPANY_ROLES).pipe(
       switchMap(() =>
-        this.companyAdminApi.getCompanyRoles().pipe(
-          map((companyRoles: UserRoleDto[]) => {
-            return companyRoles.map(UserRoleDtoToUserAssignedRoleMapper.mapUserRoleDtoToUserAssignedRole);
-          }),
+        this.adminRolesApi.getRoles().pipe(
           map((userRoles: UserAssignedRole[]) => new fromUserRoleActions.UpdateCompanyRoles(userRoles)),
           catchError(error => of(new fromUserRoleActions.LoadCompanyRolesError(error)))
         ))
@@ -36,7 +32,7 @@ export class UserRoleEffects {
   addCompanyRole$ = this.actions$
     .ofType(fromUserRoleActions.ADD_COMPANY_ROLE).pipe(
       switchMap((action: fromUserRoleActions.AddCompanyRole) =>
-        this.companyAdminApi.addCompanyRole(UserRoleDtoToUserAssignedRoleMapper.mapUserAssignedRoleToUserRoleDto(action.payload)).pipe(
+        this.adminRolesApi.addRole(action.payload).pipe(
           mergeMap(() => [new fromUserRoleActions.CloseAddCompanyRoleModal(),
                                   new fromUserRoleActions.LoadCompanyRoles()]),
           catchError(error => of(new fromUserRoleActions.AddCompanyRoleError(error)))
@@ -48,7 +44,7 @@ export class UserRoleEffects {
   getUsersAndRoles$: Observable<Action> = this.actions$
     .ofType(fromUserRoleUserTabActions.GET_USERS_AND_ROLES).pipe(
       mergeMap(() =>
-        this.companyAdminApi.getUsersAndRoles().pipe(
+        this.adminRolesApi.getUsersAndRoles().pipe(
           map((usersAndRoles: UserAndRoleModel[]) => new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(usersAndRoles))
         )
       )
@@ -66,8 +62,7 @@ export class UserRoleEffects {
     .ofType(fromUserRoleUserTabActions.SAVE_CHANGES).pipe(
       switchMap((action: fromUserRoleUserTabActions.SaveChanges) => {
         this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Saving));
-        const result = this.companyAdminApi
-          .assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
+        const result = this.adminRolesApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
             actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response));
@@ -87,13 +82,13 @@ export class UserRoleEffects {
   loadCompanyRolePermissions$: Observable<Action> = this.actions$
     .ofType(fromUserRoleActions.LOAD_COMPANY_ROLE_PERMISSIONS).pipe(
       switchMap((action: fromUserRoleActions.LoadCompanyRolePermissions) => {
-        return this.companyAdminApi.getCompanyRolePermissions(action.payload).pipe(
-          map((permissions: CompanyRolePermission[]) => {
-            const newPermissions: CompanyRolePermission[] = permissions.filter((f) => f.IsParent);
+        return this.adminRolesApi.getRolePermissions(action.payload).pipe(
+          map((permissions: RolePermission[]) => {
+            const newPermissions: RolePermission[] = permissions.filter((f) => f.IsParent);
             newPermissions.forEach(p => p.ChildPermission = permissions.filter((f) => !f.IsParent && f.TileId === p.TileId));
             return newPermissions;
           }),
-          map((permissions: CompanyRolePermission[]) => {
+          map((permissions: RolePermission[]) => {
             return new fromUserRoleActions.LoadCompanyRolePermissionsSuccess(permissions);
           }),
         );
@@ -109,16 +104,15 @@ export class UserRoleEffects {
           .map(p => {
             permissionIds.push(p.Id);
             p.ChildPermission.filter( cp => cp.IsChecked).map(cp => permissionIds.push(cp.Id)); } );
-        return this.companyAdminApi.updateCompanyRolePermissions(action.payload.DerivedId, permissionIds).pipe(
+        return this.adminRolesApi.updateRolePermissions(action.payload.RoleId, permissionIds).pipe(
           delay(2000),
-          map((role: UserRoleDto ) => new fromUserRoleActions.SaveCompanyRolePermissionsSuccess(
-            UserRoleDtoToUserAssignedRoleMapper.mapUserRoleDtoToUserAssignedRole( role)))
+          map((role: UserAssignedRole ) => new fromUserRoleActions.SaveCompanyRolePermissionsSuccess(role))
         );
       })
     );
 
   constructor(private actions$: Actions,
-              private companyAdminApi: CompanyRolesApiService,
+              private adminRolesApi: RolesApiService,
               private store: Store<fromUserRoleViewReducer.State>) {
   }
 }

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import {CompanyRolePermission, UserAssignedRole} from 'libs/models/security';
+import { RolePermission, UserAssignedRole} from 'libs/models/security';
 import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import { UserRoleTabState } from '../constants/user-role.constants';
@@ -83,7 +83,7 @@ export class CloseAddCompanyRoleModal implements Action {
 }
 export class GetCompanyRolePermissions implements Action {
   readonly type = GET_COMPANY_ROLE_PERMISSIONS;
-  constructor(public payload:  CompanyRolePermission[]) {}
+  constructor(public payload:  RolePermission[]) {}
 }
 
 export class SaveCompanyRolePermissionsSuccess implements Action {
@@ -93,12 +93,12 @@ export class SaveCompanyRolePermissionsSuccess implements Action {
 
 export class GrantDenyPermissions implements Action {
   readonly type = GRANT_DENY_PERMISSIONS;
-  constructor(public payload:  CompanyRolePermission) {}
+  constructor(public payload:  RolePermission) {}
 }
 
 export class GrantDenyPermissionsSuccess implements Action {
   readonly type = GRANT_DENY_PERMISSIONS_SUCCESS;
-  constructor(public payload:  CompanyRolePermission) {}
+  constructor(public payload:  RolePermission) {}
 }
 
 export class LoadCompanyRolePermissions implements Action {
