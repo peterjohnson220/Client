@@ -26,7 +26,7 @@
   
           <div *ngIf="submitVisible" class="ml-3 p-0">
             <button id="start-discussion-post-button" [disabled]="!submitEnabled"
-                    (click)="submitContent()" class="btn btn-primary float-right">Post
+                    (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post
               <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
               </pf-loading-indicator></button>
           </div>

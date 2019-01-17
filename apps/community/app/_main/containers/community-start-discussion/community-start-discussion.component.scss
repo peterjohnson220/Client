@@ -20,9 +20,18 @@ $post-avatar-height: 50px;
 }
 
 .start-discussion-body button {
-  background-color: #0883BE;
-  border-radius: 15px;
+  background-color: $community-post-button;
+  border: 2px solid $community-post-button;
+  border-radius: 4px;
   width: 80px;
-  border: none;
 }
 
+.start-discussion-body button:hover:enabled {
+  background-color: $community-post-button-hover;
+  border-color: $community-post-button-hover;
+}
+
+.start-discussion-body button:focus:enabled {
+  background-color: $community-post-button-focus;
+  border-color: $community-post-button;
+}
