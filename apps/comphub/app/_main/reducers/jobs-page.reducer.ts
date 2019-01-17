@@ -5,12 +5,18 @@ export interface State {
   trendingJobs: TrendingJob[];
   loadingTrendingJobs: boolean;
   loadingTrendingJobsError: boolean;
+  loadingJobSearchOptions: boolean;
+  jobSearchOptions: string[];
+  loadingJobSearchOptionsError: boolean;
 }
 
 const initialState: State = {
   trendingJobs: [],
   loadingTrendingJobs: false,
-  loadingTrendingJobsError: false
+  loadingTrendingJobsError: false,
+  jobSearchOptions: [],
+  loadingJobSearchOptions: false,
+  loadingJobSearchOptionsError: false
 };
 
 // Reducer function
@@ -37,6 +43,28 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
         loadingTrendingJobsError: false
       };
     }
+    case fromJobsPageActions.GET_JOB_SEARCH_OPTIONS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: true,
+        loadingJobSearchOptionsError: false
+      };
+    }
+    case fromJobsPageActions.GET_JOB_SEARCH_OPTIONS_SUCCESS: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: false,
+        jobSearchOptions: action.payload
+      };
+    }
+    case fromJobsPageActions.GET_JOB_SEARCH_OPTIONS_ERROR: {
+      return {
+        ...state,
+        loadingJobSearchOptions: false,
+        loadingJobSearchOptionsError: true
+      };
+    }
     default: {
       return state;
     }
@@ -47,3 +75,6 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
 export const getTrendingJobs = (state: State) => state.trendingJobs;
 export const getLoadingTrendingJobs = (state: State) => state.loadingTrendingJobs;
 export const getLoadingTrendingJobsError = (state: State) => state.loadingTrendingJobsError;
+export const getJobSearchOptions = (state: State) => state.jobSearchOptions;
+export const getLoadingJobSearchOptions = (state: State) => state.loadingJobSearchOptions;
+export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJobSearchOptionsError;

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
@@ -10,10 +11,12 @@ import { PfLayoutWrapperModule } from 'libs/ui/layout-wrapper';
 
 import { AppRoutingModule } from './app-routing.module';
 
+
 @NgModule({
   imports: [
     // Angular
     BrowserModule,
+    BrowserAnimationsModule,
 
     // PF Modules
     PfApiModule,

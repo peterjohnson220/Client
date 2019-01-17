@@ -1805,7 +1805,8 @@
             ],
             "styles": [
               "assets/scss/client.scss",
-              "apps/comphub/styles.scss"
+              "apps/comphub/styles.scss",
+              "apps/comphub/outside-view-encapsulation.scss"
             ],
             "scripts": [
               "assets/js/pendo.js",

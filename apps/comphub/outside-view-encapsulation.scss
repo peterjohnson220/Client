@@ -1,0 +1,17 @@
+@import 'comphub-variables';
+// Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
+// If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
+// add those styles to this file.
+
+
+.k-list .k-state-selected {
+  background-color: $comphub-header-blue !important;
+}
+
+::selection {
+  background-color: $comphub-header-blue !important;
+}
+
+::-moz-selection {
+  background-color: $comphub-header-blue !important;
+}

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -13,6 +14,7 @@ import { JobsPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { TrendingJobGroupComponent } from './components';
+
 
 @NgModule({
   imports: [
@@ -27,6 +29,9 @@ import { TrendingJobGroupComponent } from './components';
 
     // Routing
     MainRoutingModule,
+
+    // 3rd Party
+    DropDownsModule,
 
     // Payfactors
     PfCommonModule,
