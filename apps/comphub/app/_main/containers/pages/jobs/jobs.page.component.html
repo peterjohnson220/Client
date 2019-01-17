@@ -10,6 +10,13 @@
         [placeholderText]="'Search for a Job Title, Description or Code...'">
       </pf-input-debounce>
     </div>
+
+    <div class="trending-jobs-section">
+      <div class="header">Trending Jobs</div>
+      <p class="mb-5">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
+
+      <pf-trending-job-group [groupName]="'Hot Jobs - Overall'" [trendingJobs]="trendingJobs$ | async"></pf-trending-job-group>
+    </div>
   </ng-container>
 
   <ng-container actions-section>

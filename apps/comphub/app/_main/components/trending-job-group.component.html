@@ -1,0 +1,13 @@
+<div class="trending-job-group">
+  <div class="group-name">
+    {{groupName}}
+  </div>
+  <div *ngFor="let trendingJob of trendingJobs" class="trending-job">
+    <div class="count">
+      {{trendingJob.Count}}
+    </div>
+    <div class="name">
+      {{trendingJob.Name}}
+    </div>
+  </div>
+</div>
