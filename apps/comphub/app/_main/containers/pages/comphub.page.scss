@@ -1,13 +1,17 @@
-.comphub-page{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+@import 'comphub-page';
+@import 'comphub-variables';
+
+.accordion {
+  background-color: #ffffff;
   height: 100%;
   width: 100%;
-  background-color: white;
+  overflow: hidden;
+}
 
-  small {
-    font-size: 60%;
-  }
+.accordion .card-container {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
 }

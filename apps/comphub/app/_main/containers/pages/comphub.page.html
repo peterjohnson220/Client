@@ -1,10 +1,22 @@
-<div class="comphub-page">
-  <h1>Comphub!</h1>
-  <small>Omg, we are not inside an ASP modal!</small>
-  <nav>
-    <a routerLink="/jobs" routerLinkActive="active">Jobs</a>
-    <a routerLink="/markets" routerLinkActive="active">Markets</a>
-  </nav>
-</div>
-<router-outlet></router-outlet>
+<div class="accordion">
+  <div class="card-container">
+    
+    <pf-comphub-card-layout
+      *ngFor="let card of accordionCards"
+      [cardId]="card.Id"
+      [cardTitle]="card.Title"
+      [cardIconClass]="card.IconClass"
+      [selected]="(selectedPageId$ | async) === card.Id"
+      (cardHeaderClick)="handleCardChange(card.Id)">
 
+      <ng-container card-content [ngSwitch]="card.Id">
+        <pf-jobs-page *ngSwitchCase="comphubPages.Jobs"></pf-jobs-page>
+        <pf-markets-page *ngSwitchCase="comphubPages.Markets"></pf-markets-page>
+        <pf-data-page *ngSwitchCase="comphubPages.Data"></pf-data-page>
+        <pf-summary-page *ngSwitchCase="comphubPages.Summary"></pf-summary-page>
+      </ng-container>
+
+    </pf-comphub-card-layout>
+
+  </div>
+</div>

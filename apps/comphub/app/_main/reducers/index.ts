@@ -5,10 +5,12 @@ import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
 import * as fromJobsPageReducer from './jobs-page.reducer';
+import * as fromComphubPageReducer from './comphub-page.reducer';
 
 // Feature area state
 export interface ComphubMainState {
   jobsPage: fromJobsPageReducer.State;
+  comphubPage: fromComphubPageReducer.State;
 }
 
 // Extend root state with feature area state
@@ -19,6 +21,7 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   jobsPage: fromJobsPageReducer.reducer,
+  comphubPage: fromComphubPageReducer.reducer,
 };
 
 // Select Feature Area
@@ -28,6 +31,11 @@ export const selectFeatureAreaState = createFeatureSelector<ComphubMainState>('c
 export const selectJobsPageState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.jobsPage
+);
+
+export const selectComphubPageState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.comphubPage
 );
 
 // Jobs Page
@@ -64,4 +72,10 @@ export const getLoadingJobSearchOptionsError = createSelector(
 export const getSelectedJob = createSelector(
   selectJobsPageState,
   fromJobsPageReducer.getSelectedJob
+);
+
+// Comphub Page
+export const getSelectedPageId = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSelectedPageId
 );
