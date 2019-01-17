@@ -4,6 +4,8 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
 <pf-community-dashboard-page
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
+  executePageScrollDown="false"
+  executePageScrollUp="false"
   getHasNextBatchPostsOnServer$={[Function Store]}
   getHasPreviousBatchPostsOnServer$={[Function Store]}
   hasNextBatchOnServer="false"
