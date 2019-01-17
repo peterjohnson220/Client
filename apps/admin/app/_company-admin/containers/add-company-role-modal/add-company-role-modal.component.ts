@@ -3,12 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
-import { UserAssignedRole } from 'libs/models/security';
+import { UserAssignedRole, UserContext } from 'libs/models/security';
 import { PfValidators } from 'libs/forms/validators';
+import * as fromRootState from 'libs/state/state';
 
 import { UserRoleValidationService } from '../../services';
-import { ENTER_KEYCODE } from '../../constants/add-company-role-modal.constants';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleActions from '../../actions/user-role-view.action';
 
@@ -20,6 +21,8 @@ import * as fromUserRoleActions from '../../actions/user-role-view.action';
 })
 export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
   addCompanyRoleModalIsOpen$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
+  userContext: UserContext;
   addCompanyRoleForm: FormGroup;
   AddCompanyRoleError: string;
   currentCompanyRoleName: string;
@@ -30,8 +33,10 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
   @ViewChild('companyRoleName') companyRoleName: ElementRef;
 
   constructor(private store: Store<fromUserRoleViewReducer.State>,
+              private rootStore: Store<fromRootState.State>,
               private formBuilder: FormBuilder,
               public validationService: UserRoleValidationService) {
+    this.userContext$ = store.select(fromRootState.getUserContext);
     this.addCompanyRoleModalIsOpen$ = this.store.select(fromUserRoleViewReducer.getAddCompanyRoleModalIsOpen);
 
     this.addCompanyRoleFormSubscription = this.store.select(fromUserRoleViewReducer.getAddCompanyRoleForm).subscribe(addCompanyRoleForm => {
@@ -53,17 +58,18 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
     this.formValueChangesSubscription = this.addCompanyRoleForm.valueChanges.subscribe(() => {
       this.store.dispatch(new fromUserRoleActions.FieldChange(this.addCompanyRoleForm.value));
     });
+
+    this.userContext$.pipe(
+      filter(uc => !!uc),
+      take(1)
+    ).subscribe(uc => {
+      this.userContext = uc;
+    });
   }
 
   onAddCompanyRoleSubmit() {
     const newCompanyRole: UserAssignedRole = this.buildUserAssignedrole();
     this.store.dispatch(new fromUserRoleActions.AddCompanyRole(newCompanyRole));
-  }
-
-  onKeyDown(event) {
-    if (event.keyCode === ENTER_KEYCODE && this.addCompanyRoleForm.valid) {
-      this.onAddCompanyRoleSubmit();
-    }
   }
 
   onAddCompanyRoleDismiss() {
@@ -102,11 +108,12 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
 
   private buildUserAssignedrole(): UserAssignedRole {
     return {
-      DerivedId: 0,
+      RoleId: 0,
+      CompanyId: this.userContext ? this.userContext.CompanyId : 0,
       RoleName: this.currentCompanyRoleName,
       IsSystemRole: false,
       Assigned: false,
-      Permissions: null
+      Permissions: [],
     };
   }
 }

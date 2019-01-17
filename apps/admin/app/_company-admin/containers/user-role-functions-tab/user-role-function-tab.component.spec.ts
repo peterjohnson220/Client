@@ -5,7 +5,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 
 import {getMockUserAssignedRoleWithPermissions} from 'libs/models/security';
-import {CompanyRolesApiService} from 'libs/data/payfactors-api/company-admin';
+import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import {PayfactorsApiService} from 'libs/data/payfactors-api/payfactors-api.service';
 import * as fromRootState from 'libs/state/state';
 
@@ -23,7 +23,7 @@ describe('UserRoleFunctionTabComponent', () => {
           userRoleAdminMain: combineReducers(fromUserRoleViewReducer.reducers)
         }),
       ],
-      providers: [ CompanyRolesApiService ],
+      providers: [ RolesApiService ],
       declarations: [UserRoleFunctionTabComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -49,7 +49,7 @@ describe('UserRoleFunctionTabComponent', () => {
     const newRole = getMockUserAssignedRoleWithPermissions();
     // any number beside 1
     const newRoleDerivedId = 2;
-    newRole.DerivedId = newRoleDerivedId;
+    newRole.RoleId = newRoleDerivedId;
     component.currentRole = newRole;
     fixture.detectChanges();
     expect(fixture).toBeTruthy();

@@ -79,7 +79,7 @@ describe('UserRoleUserTabComponent', () => {
 
     const expectedPayload = {
       userIds: expectedUserIds,
-      roleId: component.currentRole.DerivedId,
+      roleId: component.currentRole.RoleId,
       isSystemRole: component.currentRole.IsSystemRole
     };
 

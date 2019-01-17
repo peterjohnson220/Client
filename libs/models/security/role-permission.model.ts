@@ -1,8 +1,8 @@
-export class CompanyRolePermission {
+export class RolePermission {
   Id: number;
   Name: string;
   TileId: number;
   IsParent: boolean;
   IsChecked: boolean;
-  ChildPermission: CompanyRolePermission[];
+  ChildPermission: RolePermission[];
 }
