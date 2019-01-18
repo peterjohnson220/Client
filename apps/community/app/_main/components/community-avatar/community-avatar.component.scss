@@ -17,7 +17,7 @@ $reply-avatar-line-height: 35px;
 {
     width: $post-avatar-width;
     height: $post-avatar-height;
-    background-color: #0883BE;
+    background-color: $community-avatar-background;
     color: white;
     line-height: $post-avatar-line-height;
     text-align: center;
@@ -33,7 +33,7 @@ $reply-avatar-line-height: 35px;
 {
     width: $reply-avatar-width;
     height: $reply-avatar-width;
-    background-color: #0883BE;
+    background-color: $community-avatar-background;
     color: white;
     line-height: $reply-avatar-line-height;
     text-align: center;
