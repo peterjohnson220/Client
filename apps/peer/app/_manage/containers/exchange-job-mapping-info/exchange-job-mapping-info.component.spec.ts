@@ -9,11 +9,13 @@ import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
 import { generateMockCompanyJobMapping, generateMockExchangeJobMapping, UpsertExchangeJobMapRequest } from 'libs/models/peer';
+import { generateMockLatestCompanyJob } from 'libs/models/common';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromExchangeJobMappingGridActions from '../../actions/exchange-job-mapping-grid.actions';
 import * as fromPeerManagementReducer from '../../reducers';
 import { ExchangeJobMappingInfoComponent } from './exchange-job-mapping-info.component';
+import {GridDataResult} from '@progress/kendo-angular-grid';
 
 describe('Peer - Exchange Job Mapping Info', () => {
   let fixture: ComponentFixture<ExchangeJobMappingInfoComponent>;
@@ -48,7 +50,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     instance.carousel = mockCarousel;
     // Set up the store to already have a selected exchange job mapping
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingMock));
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingMock));
   });
 
   it('should emit a closeClicked event, when the close button is clicked', () => {
@@ -78,7 +80,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
 
     const newExchangeJobMappingSelection = { ...exchangeJobMappingMock, ExchangeJobId: 3983457 };
 
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(newExchangeJobMappingSelection));
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(newExchangeJobMappingSelection));
 
     expect(instance.companyJobQuery).toBe('');
   });
@@ -91,8 +93,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
     fixture.detectChanges();
 
     // Update store to have a selected mapping that is not mapped
-    const newExchangeJobMappingSelection = { ...exchangeJobMappingMock, Mapped: false };
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(newExchangeJobMappingSelection));
+    const newExchangeJobMappingSelection = { ...exchangeJobMappingMock, CompanyJobMappings: null };
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(newExchangeJobMappingSelection));
 
     const expectedAction = new fromExchangeJobMappingInfoActions.LoadCompanyJobsToMapToByQuery({
       exchangeId: instance.exchangeId,
@@ -103,31 +105,14 @@ describe('Peer - Exchange Job Mapping Info', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should build job models, when receiving a selected exchange job mapping', () => {
+  it('should build job models, when receiving a mapped company job', () => {
     fixture.detectChanges();
 
-    const expectedExchangeJobInfo = {
-      JobType: 'Exchange',
-      JobTitle: exchangeJobMappingMock.ExchangeJobTitle,
-      JobCode: exchangeJobMappingMock.ExchangeJobCode,
-      JobFamily: exchangeJobMappingMock.ExchangeJobFamily,
-      JobLevel: exchangeJobMappingMock.ExchangeJobLevel,
-      JobDescription: exchangeJobMappingMock.ExchangeJobDescription
-    };
+    const mappedCompanyJobs = generateMockLatestCompanyJob();
 
-    const companyJobMappingMock = exchangeJobMappingMock.CompanyJobMappings[0];
-    const expectedCompanyJobInfo = [{
-      JobId: companyJobMappingMock.ExchangeJobToCompanyJobId,
-      JobType: 'Company',
-      JobTitle: companyJobMappingMock.CompanyJobTitle,
-      JobCode: companyJobMappingMock.CompanyJobCode,
-      JobFamily: companyJobMappingMock.CompanyJobFamily,
-      JobLevel: companyJobMappingMock.CompanyJobLevel,
-      JobDescription: companyJobMappingMock.CompanyJobDescription
-    }];
+    store.dispatch(new fromExchangeJobMappingInfoActions.LoadMappedCompanyJobsSuccess(mappedCompanyJobs));
 
-    expect(instance.exchangeJobInfo).toEqual(expectedExchangeJobInfo);
-    expect(instance.selectedCompanyJobInfoModels).toEqual(expectedCompanyJobInfo);
+    expect(instance.selectedJobs).toEqual(mappedCompanyJobs);
   });
 
   it('should dispatch a LoadCompanyJobsToMapToByQuery action, when handling the search value changing', () => {
@@ -216,7 +201,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
   it('should NOT display an add mapping button, when the selected exchange job mapping is not mapped', () => {
     const unmappedExchangeJobMock = { ...exchangeJobMappingMock, Mapped: false };
 
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(unmappedExchangeJobMock));
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(unmappedExchangeJobMock));
 
     fixture.detectChanges();
 
@@ -224,11 +209,19 @@ describe('Peer - Exchange Job Mapping Info', () => {
   });
 
   it('should display a carousel when more than one company job is mapped', () => {
-    const mockCompanyJobMapping = generateMockCompanyJobMapping();
-    const companyJobMappings = [mockCompanyJobMapping, { ...mockCompanyJobMapping, ExchangeJobToCompanyJobId: 2 }];
-    const exchangeJobMappingWithMultipleMappingsMock = { ...exchangeJobMappingMock, CompanyJobMappings: companyJobMappings };
 
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
+    const exchangeJobMapping = generateMockExchangeJobMapping();
+    const exchangeJobMappings = [{exchangeJobMapping}, {...exchangeJobMapping}];
+    const grid: GridDataResult = {data: exchangeJobMappings, total: exchangeJobMappings.length};
+    store.dispatch(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsSuccess(grid));
+    fixture.detectChanges();
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMapping));
+    fixture.detectChanges();
+    const latestJob = generateMockLatestCompanyJob();
+    const latestJobs = [latestJob, { ...latestJob, CompanyJobId: 234234 }];
+
+    instance.selectedExchangeJobMapping = {...generateMockExchangeJobMapping(), Mapped: true};
+    store.dispatch(new fromExchangeJobMappingInfoActions.LoadMappedCompanyJobsSuccess(latestJobs));
 
     fixture.detectChanges();
 
@@ -241,7 +234,7 @@ describe('Peer - Exchange Job Mapping Info', () => {
       const exchangeJobMappingWithMultipleMappingsMock = { ...exchangeJobMappingMock, CompanyJobMappings: [] };
       const expectedAction = new fromExchangeJobMappingInfoActions.SetActiveMapping(mockCompanyJobMapping.ExchangeJobToCompanyJobId);
 
-      store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
+      store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingWithMultipleMappingsMock));
 
       spyOn(store, 'dispatch');
 
@@ -257,8 +250,8 @@ describe('Peer - Exchange Job Mapping Info', () => {
       const exchangeJobMappingWithMultipleMappingsMock = { ...exchangeJobMappingMock, CompanyJobMappings: companyJobMappings };
       const expectedAction = new fromExchangeJobMappingInfoActions.SetActiveMapping(mockCompanyJobMapping.ExchangeJobToCompanyJobId);
 
-      instance.selectedCompanyJobMapping = mockCompanyJobMapping;
-      store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
+      instance.selectedCompanyJob = mockCompanyJobMapping;
+      store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(exchangeJobMappingWithMultipleMappingsMock));
 
       spyOn(store, 'dispatch');
 
@@ -267,21 +260,22 @@ describe('Peer - Exchange Job Mapping Info', () => {
       expect(store.dispatch).not.toBeCalledWith(expectedAction);
     });
 
-  it(`should update selectedCompanyJobMapping when the activeExchangeJobToCompanyJobId$ is changed`, () => {
-    const mockCompanyJobMapping = generateMockCompanyJobMapping();
-    const companyJobMappings = [mockCompanyJobMapping, { ...mockCompanyJobMapping, ExchangeJobToCompanyJobId: 2 }];
-    const exchangeJobMappingWithMultipleMappingsMock = { ...exchangeJobMappingMock, CompanyJobMappings: companyJobMappings };
-    const expectedCompanyJobMapping = companyJobMappings[1];
+  it(`should update selectedCompanyJob when the activeExchangeJobToCompanyJobId$ is changed`, () => {
+    const mockCompanyJob = generateMockLatestCompanyJob();
+    const companyJobMappings = [mockCompanyJob, { ...mockCompanyJob, CompanyJobId: 345 }];
+    const expectedCompanyJobMapping = companyJobMappings[0];
 
-    store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(exchangeJobMappingWithMultipleMappingsMock));
+    const mockExchangeJobMapping = generateMockExchangeJobMapping();
 
-    fixture.detectChanges();
-
-    store.dispatch(new fromExchangeJobMappingInfoActions.SetActiveMapping(expectedCompanyJobMapping.ExchangeJobToCompanyJobId));
+    store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(mockExchangeJobMapping));
 
     fixture.detectChanges();
 
-    expect(instance.selectedCompanyJobMapping).toEqual(expectedCompanyJobMapping);
+    store.dispatch((new fromExchangeJobMappingInfoActions.LoadMappedCompanyJobsSuccess(companyJobMappings)));
+
+    fixture.detectChanges();
+
+    expect(instance.selectedCompanyJob).toEqual(expectedCompanyJobMapping);
   });
 
   it(`should dispatch an OpenDeleteConfirmationModal action when handleDeleteClick is triggered`, () => {

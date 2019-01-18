@@ -54,7 +54,7 @@ export class ExchangeJobMappingGridEffects {
           concatMap((gridDataResult: GridDataResult) => {
             return [
               new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsSuccess(gridDataResult),
-              new fromExchangeJobMappingGridActions.ReSelectExchangeJobMapping()
+              new fromExchangeJobMappingGridActions.ReSetActiveExchangeJob()
             ];
           }),
           catchError(() => of(new fromExchangeJobMappingGridActions.LoadExchangeJobMappingsError())))
@@ -63,12 +63,13 @@ export class ExchangeJobMappingGridEffects {
 
   @Effect()
   reselectExchangeJobMapping$: Observable<Action> = this.actions$
-    .ofType(fromExchangeJobMappingGridActions.RESELECT_EXCHANGE_JOB_MAPPING, fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING)
+    .ofType(fromExchangeJobInfoActions.LOAD_MAPPED_COMPANY_JOBS_SUCCESS)
     .pipe(
       withLatestFrom(
         this.store.select(fromPeerManageReducer.getFirstCompanyJobMappingFromSelectedExchangeJob),
         (action, payload) => payload
       ),
+
       switchMap(payload => of(new fromExchangeJobInfoActions.SetActiveMapping(payload)))
     );
 
@@ -79,5 +80,3 @@ export class ExchangeJobMappingGridEffects {
     private sharedPeerStore: Store<fromSharedPeerReducer.State>
   ) { }
 }
-
-
