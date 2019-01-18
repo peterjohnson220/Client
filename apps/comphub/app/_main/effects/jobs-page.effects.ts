@@ -18,11 +18,11 @@ export class JobsPageEffects {
     .ofType(fromJobsPageActions.GET_TRENDING_JOBS)
     .pipe(
       switchMap(() => {
-          return this.comphubApiService.getTrendingJobs('')
+          return this.comphubApiService.getTrendingJobs()
             .pipe(
               map(response => {
-                const trendingJobs = PayfactorsApiModelMapper.mapTrendingJobsResponseToTrendingJobs(response);
-                return new fromJobsPageActions.GetTrendingJobsSuccess(trendingJobs);
+                const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);
+                return new fromJobsPageActions.GetTrendingJobsSuccess(trendingJobGroups);
               }),
               catchError(() => of(new fromJobsPageActions.GetTrendingJobsError()))
             );

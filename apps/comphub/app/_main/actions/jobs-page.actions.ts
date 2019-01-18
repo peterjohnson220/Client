@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { TrendingJob } from '../models/trending-job.model';
+import { TrendingJobGroup } from '../models/trending-job.model';
 
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Page] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Page] Get Trending Jobs Success';
@@ -18,7 +18,7 @@ export class GetTrendingJobs implements Action {
 export class GetTrendingJobsSuccess implements Action {
   readonly type = GET_TRENDING_JOBS_SUCCESS;
 
-  constructor(public payload: TrendingJob[]) {}
+  constructor(public payload: TrendingJobGroup[]) {}
 }
 
 export class GetTrendingJobsError implements Action {

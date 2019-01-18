@@ -1,8 +1,8 @@
 import * as fromJobsPageActions from '../actions/jobs-page.actions';
-import { TrendingJob } from '../models/trending-job.model';
+import { TrendingJobGroup } from '../models/trending-job.model';
 
 export interface State {
-  trendingJobs: TrendingJob[];
+  trendingJobGroups: TrendingJobGroup[];
   loadingTrendingJobs: boolean;
   loadingTrendingJobsError: boolean;
   loadingJobSearchOptions: boolean;
@@ -11,7 +11,7 @@ export interface State {
 }
 
 const initialState: State = {
-  trendingJobs: [],
+  trendingJobGroups: [],
   loadingTrendingJobs: false,
   loadingTrendingJobsError: false,
   jobSearchOptions: [],
@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
       return {
         ...state,
         loadingTrendingJobs: false,
-        trendingJobs: action.payload
+        trendingJobGroups: action.payload
       };
     }
     case fromJobsPageActions.GET_TRENDING_JOBS_ERROR: {
@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
 }
 
 // Selector functions
-export const getTrendingJobs = (state: State) => state.trendingJobs;
+export const getTrendingJobGroups = (state: State) => state.trendingJobGroups;
 export const getLoadingTrendingJobs = (state: State) => state.loadingTrendingJobs;
 export const getLoadingTrendingJobsError = (state: State) => state.loadingTrendingJobsError;
 export const getJobSearchOptions = (state: State) => state.jobSearchOptions;

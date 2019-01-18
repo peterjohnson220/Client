@@ -1,1 +1,1 @@
-export * from './trending-job-response.model';
+export * from './trending-job-group-response.model';

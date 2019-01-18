@@ -50,7 +50,7 @@ export class LayoutWrapperComponent implements OnInit {
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
 
-    this.leftSidebarToggleChangedSubject.pipe(debounceTime(100), distinctUntilChanged()).subscribe(value => this.leftSidebarToggle = value);
+    this.leftSidebarToggleChangedSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => this.leftSidebarToggle = value);
   }
 
   ngOnInit() {
