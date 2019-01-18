@@ -5,10 +5,20 @@
 
   <ng-container page-content>
     <div class="job-search-section">
-      <pf-input-debounce
-        [delay]="200"
-        [placeholderText]="'Search for a Job Title, Description or Code...'">
-      </pf-input-debounce>
+    <div class="d-flex">
+      <kendo-autocomplete
+        #list
+        class="flex-grow-1"
+        placeholder="Search for a Job Title..."
+        [data]="jobSearchOptions$ | async"
+        [filterable]="true"
+        [popupSettings]="popupSettings"
+        [loading]="loadingJobSearchOptions$ | async">
+        <ng-template kendoAutoCompleteNoDataTemplate>
+          No matching job titles
+        </ng-template>
+      </kendo-autocomplete>
+    </div>
     </div>
 
     <div class="trending-jobs-section">

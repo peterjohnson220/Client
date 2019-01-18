@@ -45,3 +45,18 @@ export const getLoadingTrendingJobsError = createSelector(
   selectJobsPageState,
   fromJobsPageReducer.getLoadingTrendingJobsError
 );
+
+export const getJobSearchOptions = createSelector(
+  selectJobsPageState,
+  fromJobsPageReducer.getJobSearchOptions
+);
+
+export const getLoadingJobSearchOptions = createSelector(
+  selectJobsPageState,
+  fromJobsPageReducer.getLoadingJobSearchOptions
+);
+
+export const getLoadingJobSearchOptionsError = createSelector(
+  selectJobsPageState,
+  fromJobsPageReducer.getLoadingJobSearchOptionsError
+);
