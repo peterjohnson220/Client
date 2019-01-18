@@ -14,13 +14,9 @@
           formControlName="positionTitle"
           [maxLength]="textMaxLength">  
     </div>
-    <label for="location" class="control-label col-3 px-0">Location</label>
-    <div class="input col-9 pb-4 pr-0">
-      <input #location
-          type="text" 
-          class="form-control input-body community-border-radius"
-          formControlName="location" 
-          [maxLength]="textMaxLength">  
+    <label for="location" class="control-label col-3 px-0">Locations</label>
+    <div class="input col-9 pt-2 pb-4 pr-0">
+      <pf-location-search [parentForm]="communityJobForm" [textMaxLength]="textMaxLength" (suggestedLocationChanged)="onSuggestedLocationChange($event)"></pf-location-search>
     </div>
     <label for="postingUrl" class="control-label col-3 px-0">Posting URL</label>
     <div class="input col-9 pb-4 pr-0">

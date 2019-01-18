@@ -14,8 +14,8 @@ describe('CommunityNewJobComponent', () => {
   let instance: CommunityNewJobComponent;
   let store: Store<fromRootState.State>;
 
-   // Configure Testing Module for before each test
-   beforeEach(() => {
+  // Configure Testing Module for before each test
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -42,15 +42,27 @@ describe('CommunityNewJobComponent', () => {
     instance.positionTitle.setValue('Title1');
     instance.location.setValue('location1');
     instance.postingUrl.setValue('www.postingUrl1.com');
+
+    const mockLocation = {
+      text: 'test',
+      place_name: 'Burlington',
+      latitude: 71.1956,
+      longitude: 42.5047,
+      IsSuggested: true
+    };
+
+    instance.currentSelectedLocation = mockLocation;
     instance.submit();
 
     const newJob = {
       PositionTitle: instance.positionTitle.value,
       Location: instance.location.value,
-      Url: instance.postingUrl.value
+      Url: instance.postingUrl.value,
+      Latitude: mockLocation.latitude,
+      Longitude: mockLocation.longitude
     };
-     const expectedAction = new fromCommunityJobActions.SubmittingCommunityJob(newJob);
-     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    const expectedAction = new fromCommunityJobActions.SubmittingCommunityJob(newJob);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
 });

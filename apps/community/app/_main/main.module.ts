@@ -59,6 +59,7 @@ import { CommunityPollApiService } from 'libs/data/payfactors-api/community/comm
 import { CommunityPostApiService } from 'libs/data/payfactors-api/community/community-post-api.service';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
+import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
@@ -140,7 +141,8 @@ const components = [
     CommunityJobApiService,
     CommunityCategoriesApiService,
     CommunityJobEffectsService,
-    CommunityPostEffectsService
+    CommunityPostEffectsService,
+    MapboxApiService,
   ]
 })
 export class MainModule {
