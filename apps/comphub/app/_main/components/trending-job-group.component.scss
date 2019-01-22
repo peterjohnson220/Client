@@ -12,12 +12,18 @@
     align-items: center;
     margin-bottom: .75rem;
 
+    .name{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .count{
       background: $comphub-primary-blue;
       color: white;
       border-radius: 0.35rem;
-      width: 47px;
-      height: 34px;
+      min-width: 47px;
+      min-height: 34px;
       font-weight: bold;
       display: flex;
       justify-content: center;

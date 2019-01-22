@@ -1,14 +1,19 @@
-import { TrendingJobResponse } from 'libs/models/payfactors-api/comphub';
+import { TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
 
-import { TrendingJob } from '../models/trending-job.model';
+import { TrendingJobGroup } from '../models/trending-job.model';
 
 export class PayfactorsApiModelMapper {
 
-  static mapTrendingJobsResponseToTrendingJobs(response: TrendingJobResponse[]): TrendingJob[] {
-    return response.map(tjr => {
+  static mapTrendingJobGroupsResponseToTrendingJobGroups(response: TrendingJobGroupResponse[]): TrendingJobGroup[] {
+    return response.map(tjg => {
       return {
-        Name: tjr.Name,
-        Count: tjr.Count
+        Name: `Hot Jobs - ${tjg.GroupName === 'Industry' ? 'Your' : ''} ${tjg.GroupName}`,
+        Jobs: tjg.TrendingJobs.map(j => {
+          return {
+            Name: j.Name,
+            Count: j.Count
+          };
+        })
       };
     });
   }

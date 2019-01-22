@@ -8,7 +8,7 @@ import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dr
 
 import * as fromJobsPageActions from '../../../actions/jobs-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { TrendingJob } from '../../../models/trending-job.model';
+import { TrendingJobGroup } from '../../../models/trending-job.model';
 
 @Component({
   selector: 'pf-jobs-page',
@@ -20,7 +20,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit {
 
   popupSettings: PopupSettings;
   // observables
-  trendingJobs$: Observable<TrendingJob[]>;
+  trendingJobGroups$: Observable<TrendingJobGroup[]>;
   jobSearchOptions$: Observable<string[]>;
   loadingJobSearchOptions$: Observable<boolean>;
 
@@ -30,7 +30,7 @@ export class JobsPageComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<fromComphubMainReducer.State>
   ) {
-    this.trendingJobs$ = this.store.select(fromComphubMainReducer.getTrendingJobs);
+    this.trendingJobGroups$ = this.store.select(fromComphubMainReducer.getTrendingJobGroups);
     this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
     this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
     this.popupSettings = {

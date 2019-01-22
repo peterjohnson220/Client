@@ -31,9 +31,9 @@ export const selectJobsPageState = createSelector(
 );
 
 // Jobs Page
-export const getTrendingJobs = createSelector(
+export const getTrendingJobGroups = createSelector(
   selectJobsPageState,
-  fromJobsPageReducer.getTrendingJobs
+  fromJobsPageReducer.getTrendingJobGroups
 );
 
 export const getLoadingTrendingJobs = createSelector(

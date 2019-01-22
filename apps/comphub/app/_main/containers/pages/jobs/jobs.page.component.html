@@ -25,7 +25,14 @@
       <div class="header">Trending Jobs</div>
       <p class="mb-5">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
 
-      <pf-trending-job-group [groupName]="'Hot Jobs - Overall'" [trendingJobs]="trendingJobs$ | async"></pf-trending-job-group>
+      <div class="row">
+        <div class="col-md-6 col-lg-4" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
+          <pf-trending-job-group
+            [trendingJobGroup]="trendingJobGroup">
+          </pf-trending-job-group>
+        </div>
+      </div>
+
     </div>
   </ng-container>
 
