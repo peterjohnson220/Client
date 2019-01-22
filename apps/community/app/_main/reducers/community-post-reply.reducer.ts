@@ -1,6 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-
 import { CommunityReply } from 'libs/models/community';
 import * as communityPostReplyActions from '../actions/community-post-reply.actions';
 
@@ -59,13 +58,11 @@ export function reducer(
       };
     }
     case communityPostReplyActions.UPDATING_COMMUNITY_POST_REPLY_LIKE_SUCCESS: {
-
-      const postId = action.payload['postId'];
-      const replyId = action.payload['replyId'];
-      const like = action.payload['like'];
+      const replyId = action.payload[ 'replyId' ];
+      const like = action.payload[ 'like' ];
       const entity = state.entities[replyId];
       const updatedLikeCount = like ? entity.LikeCount + 1 : entity.LikeCount - 1;
-​
+
       return {
         ...adapter.updateOne(
           { id: replyId, changes: { LikedByCurrentUser: like, LikeCount: updatedLikeCount } },

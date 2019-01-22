@@ -50,7 +50,7 @@ import { CommunityPollResponseEffects } from './effects/community-poll-response.
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 
-import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
+import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
 import { PfLinkifyService } from './services/pf-linkify-service';
@@ -123,7 +123,8 @@ const components = [
       CommunityTagEffects,
       CommunityJobEffects,
       CommunityCategoriesEffects,
-      CommunityPostFilterOptionsEffects
+      CommunityPostFilterOptionsEffects,
+      CommunityLikeEffects
     ]),
 
     // Routing

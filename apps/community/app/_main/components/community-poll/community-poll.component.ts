@@ -41,6 +41,10 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
       if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
         this.response = response;
       }
+    }); this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(response => {
+      if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
+        this.response = response;
+      }
     });
   }
 
