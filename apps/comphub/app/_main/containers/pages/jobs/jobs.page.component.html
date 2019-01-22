@@ -7,13 +7,13 @@
     <div class="job-search-section">
     <div class="d-flex">
       <kendo-autocomplete
-        #list
         class="flex-grow-1"
         placeholder="Search for a Job Title..."
         [data]="jobSearchOptions$ | async"
         [filterable]="true"
+        [loading]="loadingJobSearchOptions$ | async"
         [popupSettings]="popupSettings"
-        [loading]="loadingJobSearchOptions$ | async">
+        (filterChange)="handleJobSearchFilterChange($event)">
         <ng-template kendoAutoCompleteNoDataTemplate>
           No matching job titles
         </ng-template>

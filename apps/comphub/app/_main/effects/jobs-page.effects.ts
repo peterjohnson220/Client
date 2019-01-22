@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, debounceTime } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
@@ -33,6 +33,7 @@ export class JobsPageEffects {
   getJobSearchOptions$ = this.actions$
     .ofType(fromJobsPageActions.GET_JOB_SEARCH_OPTIONS)
     .pipe(
+      debounceTime(100),
       switchMap((action: fromJobsPageActions.GetJobSearchOptions) => {
           return this.jobSearchApiService.getJobSearchAutocompleteResults({Prefix: action.payload})
             .pipe(
