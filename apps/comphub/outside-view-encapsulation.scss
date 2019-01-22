@@ -8,11 +8,3 @@
   background-color: white !important;
   color: black !important;
 }
-
-::selection {
-  background-color: $comphub-header-blue !important;
-}
-
-::-moz-selection {
-  background-color: $comphub-header-blue !important;
-}
