@@ -177,5 +177,7 @@ export function stateAbbrevToFullName(stateCode: string): string {
 
     case 'WY':
       return 'Wyoming';
+    default:
+      return stateCode;
   }
 }
