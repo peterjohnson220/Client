@@ -104,4 +104,8 @@ export class ExchangeCompanyApiService {
       { params: { exchangeJobId } }
     );
   }
+
+  requestPeerAccess(): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/RequestPeerAccess`);
+  }
 }

@@ -2,10 +2,13 @@
 
 exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated button when passesGuidelines is false 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -13,7 +16,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -35,8 +41,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -50,8 +57,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 disabled=""
                 type="button"
               >
@@ -74,10 +83,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
 
 exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data cut page with an Add button 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -85,7 +97,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -107,8 +122,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -122,8 +138,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
                 Add
@@ -145,10 +163,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
 
 exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data cut page with an Update button 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -156,7 +177,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -178,8 +202,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -193,8 +218,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
                 Update
@@ -216,10 +243,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
 
 exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbents filter when untaggedIncumbentCount$ > 0 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Observable]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -227,7 +257,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -249,8 +282,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -277,8 +311,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
                 Add
@@ -300,10 +336,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
 
 exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button when passesGuidelines is true 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -311,7 +350,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -333,8 +375,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -348,8 +391,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
                 Add
@@ -371,10 +416,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
 
 exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button when passesGuidelines is true 1`] = `
 <pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
   guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
   isPayMarketOverride="false"
@@ -382,7 +430,10 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   mapStore={[Function Store]}
   peerMapCompanies$={[Function Store]}
   peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
   route={[Function Object]}
+  settingsService={[Function SettingsService]}
   store={[Function Store]}
   systemFilter$={[Function Store]}
   untaggedIncumbentCount$={[Function Observable]}
@@ -404,8 +455,9 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
         class="flex-grow-1 d-flex flex-column"
       >
         <div
-          class="map-container flex-grow-1"
+          class="map-container flex-grow-1 d-flex flex-column"
         >
+          
           
         </div>
         <div
@@ -419,12 +471,474 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
             <div
               class="buttons"
             >
+              
+              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
                 Update
               </button>
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' button and message when peer terms haven't been accepted 1`] = `
+<pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
+  includeUntaggedIncumbents$={[Function Store]}
+  initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
+  route={[Function Object]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1 d-flex flex-column"
+        >
+          
+          
+          <div
+            class="alert alert-info mb-0"
+          >
+             Thank you for your interest in Peer. Peer allows you to market price with unmatched
+    granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
+    will reach out to get you started with Peer. 
+          </div>
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                
+                
+                <span>
+                   Request Access 
+                </span>
+              </button>
+              
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' button when peer terms haven't been accepted 1`] = `
+<pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
+  includeUntaggedIncumbents$={[Function Store]}
+  initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
+  route={[Function Object]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1 d-flex flex-column"
+        >
+          
+          
+          <div
+            class="alert alert-info mb-0"
+          >
+             Thank you for your interest in Peer. Peer allows you to market price with unmatched
+    granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
+    will reach out to get you started with Peer. 
+          </div>
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                type="button"
+              >
+                
+                
+                <span>
+                   Request Access 
+                </span>
+              </button>
+              
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Requested' button and 'Access Requested' message when
+  peer terms haven't been accepted and access has been requested 1`] = `
+<pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
+  includeUntaggedIncumbents$={[Function Store]}
+  initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
+  route={[Function Object]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1 d-flex flex-column"
+        >
+          
+          
+          <div
+            class="alert alert-info mb-0"
+          >
+             Thank you for requesting access to Peer. A Payfactors representative will be in
+    touch shortly to discuss the details of Peer and how you can become an active member of Peer. 
+          </div>
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                
+                
+                <span>
+                   Access Requested 
+                </span>
+              </button>
+              
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Request Access' button and 'Access Requested' message when
+  peer terms haven't been accepted and access has been requested 1`] = `
+<pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
+  includeUntaggedIncumbents$={[Function Store]}
+  initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Store]}
+  route={[Function Object]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1 d-flex flex-column"
+        >
+          
+          
+          <div
+            class="alert alert-info mb-0"
+          >
+             Thank you for requesting access to Peer. A Payfactors representative will be in
+    touch shortly to discuss the details of Peer and how you can become an active member of Peer. 
+          </div>
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                
+                
+                <span>
+                   Access Requested 
+                </span>
+              </button>
+              
+              <button
+                class="btn btn-secondary"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-async-container>
+</pf-upsert-data-cut-page>
+`;
+
+exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
+  is being requested 1`] = `
+<pf-upsert-data-cut-page
+  accessRequestedMessage={[Function String]}
+  companyJobId={[Function Number]}
+  companyPayMarketId={[Function Number]}
+  cutGuid="null"
+  guidelinesService={[Function DojGuidelinesStub]}
+  hasAcceptedPeerTerms$={[Function Observable]}
+  hasRequestedPeerAccess$={[Function Observable]}
+  includeUntaggedIncumbents$={[Function Store]}
+  initialMapMoveComplete$={[Function Store]}
+  isPayMarketOverride="false"
+  map="undefined"
+  mapStore={[Function Store]}
+  peerMapCompanies$={[Function Store]}
+  peerMapCompaniesSubscription={[Function Subscriber]}
+  requestPeerAccessMessage={[Function String]}
+  requestingPeerAccess$={[Function Observable]}
+  route={[Function Object]}
+  settingsService={[Function SettingsService]}
+  store={[Function Store]}
+  systemFilter$={[Function Store]}
+  untaggedIncumbentCount$={[Function Observable]}
+  upsertDataCutPageInViewInIframe$={[Function Store]}
+  upsertingDataCut$={[Function Store]}
+  upsertingDataCutError$={[Function Store]}
+  userSessionId={[Function Number]}
+>
+  <pf-async-container>
+    <div
+      class="d-flex h-100 w-100"
+    >
+      <div
+        class="h-100 filters-container"
+      >
+        <pf-peer-data-cut-filter-sidebar />
+      </div>
+      <div
+        class="flex-grow-1 d-flex flex-column"
+      >
+        <div
+          class="map-container flex-grow-1 d-flex flex-column"
+        >
+          
+          
+          <div
+            class="alert alert-info mb-0"
+          >
+             Thank you for your interest in Peer. Peer allows you to market price with unmatched
+    granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
+    will reach out to get you started with Peer. 
+          </div>
+        </div>
+        <div
+          class="button-container d-flex flex-row justify-content-between align-items-center"
+        >
+          
+          <div
+            class="flex-grow-1 d-flex justify-content-end"
+          >
+            
+            <div
+              class="buttons"
+            >
+              
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                
+                <span>
+                  <pf-loading-indicator />
+                   Requesting Access... 
+                </span>
+                
+              </button>
+              
               <button
                 class="btn btn-secondary"
                 type="button"

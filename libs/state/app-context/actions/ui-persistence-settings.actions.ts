@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { SaveUiPersistenceSettingRequest, GenericNameValueDto } from '../../../models/common';
+
+import { SaveUiPersistenceSettingRequest, UiPersistenceFeatureSettingsModel } from '../../../models/common';
 
 export const GET_UI_PERSISTENCE_SETTINGS = '[UiPersistenceSettings] Get UI Persistence Settings';
 export const GET_UI_PERSISTENCE_SETTINGS_SUCCESS = '[UiPersistenceSettings] Get UI Persistence Setting Success';
@@ -10,13 +11,11 @@ export const SAVE_UI_PERSISTENCE_SETTING_ERROR = '[UiPersistenceSettings] Saving
 
 export class GetUiPersistenceSettings implements Action {
   readonly type = GET_UI_PERSISTENCE_SETTINGS;
-  constructor(public payload: any) {
-  }
 }
 
 export class GetUiPersistenceSettingsSuccess implements Action {
   readonly type = GET_UI_PERSISTENCE_SETTINGS_SUCCESS;
-  constructor(public payload: GenericNameValueDto[]) {}
+  constructor(public payload: UiPersistenceFeatureSettingsModel[]) {}
 }
 
 export class GetUiPersistenceSettingsError implements  Action {
@@ -32,11 +31,11 @@ export class SaveUiPersistenceSetting implements Action {
 export class SaveUiPersistenceSettingSuccess implements Action {
   readonly type = SAVE_UI_PERSISTENCE_SETTING_SUCCESS;
 
-  constructor(public payload: GenericNameValueDto[]) {}
+  constructor(public payload: UiPersistenceFeatureSettingsModel[]) {}
 }
 
 export class SaveUiPersistenceSettingError implements Action {
-  type = SAVE_UI_PERSISTENCE_SETTING_ERROR;
+  readonly type = SAVE_UI_PERSISTENCE_SETTING_ERROR;
   constructor(public payload: any) {}
 }
 

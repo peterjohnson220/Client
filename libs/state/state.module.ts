@@ -4,11 +4,13 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { CompanySettingsEffects, UserContextEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
-  CompanyContextEffects } from './app-context/effects';
+import {
+  LegacyCompanySettingsEffects, UserContextEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
+  CompanyContextEffects, CompanySettingsEffects
+} from './app-context/effects';
 import { reducers, metaReducers } from './state';
 import { environment } from '../../environments/environment';
-
+import { SettingsService } from './app-context/services';
 
 @NgModule({
   imports: [
@@ -16,11 +18,14 @@ import { environment } from '../../environments/environment';
     StoreModule.forRoot(reducers, { metaReducers }),
 
     // Effects
-    EffectsModule.forRoot([UserContextEffects, CompanySettingsEffects, UiPersistenceSettingsEffects, UserAssignedRoleEffects,
-      CompanyContextEffects]),
+    EffectsModule.forRoot([
+      UserContextEffects, LegacyCompanySettingsEffects, UiPersistenceSettingsEffects,
+      UserAssignedRoleEffects, CompanyContextEffects, CompanySettingsEffects
+    ]),
 
     // Dev Tools
     !environment.production ? StoreDevtoolsModule.instrument() : []
-  ]
+  ],
+  providers: [SettingsService]
 })
 export class PfStateModule {}

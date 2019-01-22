@@ -5,25 +5,28 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../environments/environment';
 
 import * as fromUserContextReducer from './app-context/reducers/user-context.reducer';
-import * as fromCompanySettingsReducer from './app-context/reducers/company-settings.reducer';
+import * as fromLegacyCompanySettingsReducer from './app-context/reducers/legacy-company-settings.reducer';
 import * as fromUiPersistenceSettingsReducer from './app-context/reducers/ui-persistence-settings.reducer';
 import * as fromUserAssignedRoleReducer from './app-context/reducers/user-assigned-roles.reducer';
 import * as fromCompanyContextReducer from './app-context/reducers/company-context.reducer';
+import * as fromCompanySettingsReducer from './app-context/reducers/company-settings.reducer';
 
 export interface State {
   userContext: fromUserContextReducer.State;
-  companySettings: fromCompanySettingsReducer.State;
+  legacyCompanySettings: fromLegacyCompanySettingsReducer.State;
   uiPersistenceSettings: fromUiPersistenceSettingsReducer.State;
   userAssignedRoles: fromUserAssignedRoleReducer.State;
   companyContext: fromCompanyContextReducer.State;
+  companySettings: fromCompanySettingsReducer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
   userContext: fromUserContextReducer.reducer,
-  companySettings: fromCompanySettingsReducer.reducer,
+  legacyCompanySettings: fromLegacyCompanySettingsReducer.reducer,
   uiPersistenceSettings: fromUiPersistenceSettingsReducer.reducer,
   userAssignedRoles: fromUserAssignedRoleReducer.reducer,
-  companyContext: fromCompanyContextReducer.reducer
+  companyContext: fromCompanyContextReducer.reducer,
+  companySettings: fromCompanySettingsReducer.reducer
 };
 
 // If you wish to have all actions and states logged to the console, add this to your metaReducers for development
@@ -55,18 +58,34 @@ export const getGettingUserContextAttempted =
 export const getIsAdmin = createSelector(getUserContext, (f) => f.AccessLevel === 'Admin');
 
 /**
- * Company Settings Reducers
+ * Legacy Company Settings Reducers
  */
-export const getCompanySettingsState =
-  createFeatureSelector<fromCompanySettingsReducer.State>('companySettings');
-export const getCompanySettings =
-  createSelector(getCompanySettingsState, fromCompanySettingsReducer.getCompanySettings);
-export const getGettingCompanySettings =
-  createSelector(getCompanySettingsState, fromCompanySettingsReducer.getGettingCompanySettings);
-export const getGettingCompanySettingsError =
-  createSelector(getCompanySettingsState, fromCompanySettingsReducer.getGettingCompanySettingsError);
-export const getGettingCompanySettingsAttempted =
-  createSelector(getCompanySettingsState, fromCompanySettingsReducer.getGettingCompanySettingsAttempted);
+export const getLegacyCompanySettingsState =
+  createFeatureSelector<fromLegacyCompanySettingsReducer.State>('legacyCompanySettings');
+export const getLegacyCompanySettings =
+  createSelector(getLegacyCompanySettingsState, fromLegacyCompanySettingsReducer.getCompanySettings);
+export const getGettingLegacyCompanySettings =
+  createSelector(getLegacyCompanySettingsState, fromLegacyCompanySettingsReducer.getGettingCompanySettings);
+export const getGettingLegacyCompanySettingsError =
+  createSelector(getLegacyCompanySettingsState, fromLegacyCompanySettingsReducer.getGettingCompanySettingsError);
+export const getGettingLegacyCompanySettingsAttempted =
+  createSelector(getLegacyCompanySettingsState, fromLegacyCompanySettingsReducer.getGettingCompanySettingsAttempted);
+
+/**
+ * Company Settings Reducer Selectors
+ */
+
+export const getCompanySettingsState = createFeatureSelector<fromCompanySettingsReducer.State>('companySettings');
+export const getCompanySettings = createSelector(getCompanySettingsState, fromCompanySettingsReducer.getCompanySettings);
+export const getCompanySettingsLoading = createSelector(getCompanySettingsState, fromCompanySettingsReducer.getCompanySettingsLoading);
+export const getCompanySettingsLoadAttempted = createSelector(
+  getCompanySettingsState,
+  fromCompanySettingsReducer.getCompanySettingsLoadAttempted
+);
+export const getCompanySettingsError = createSelector(
+  getCompanySettingsState,
+  fromCompanySettingsReducer.getCompanySettingsLoadingError
+);
 
 /**
  * UI Persistence Settings Reducers

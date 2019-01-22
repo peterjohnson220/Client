@@ -1,5 +1,5 @@
 import * as uiPersistenceSettingsActions from '../actions/ui-persistence-settings.actions';
-import { GenericNameValueDto } from '../../../models/common';
+import { UiPersistenceFeatureSettingsModel } from '../../../models/common/ui-persistence-feature-settings.model';
 
 export interface State {
   loading: boolean;
@@ -8,7 +8,7 @@ export interface State {
   savingSuccess: boolean;
   savingError: boolean;
   lastAttemptedSavedSettingName: string;
-  uiPersistenceSettings: GenericNameValueDto[];
+  uiPersistenceSettings: UiPersistenceFeatureSettingsModel[];
 }
 
 export const initialState: State = {
