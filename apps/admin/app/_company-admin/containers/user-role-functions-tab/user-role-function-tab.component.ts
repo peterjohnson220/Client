@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
-import {UserAssignedRole, CompanyRolePermission} from 'libs/models/security';
+import {UserAssignedRole, RolePermission} from 'libs/models/security';
 
 import * as userRoleReducer from '../../reducers';
 import * as fromUserRoleViewActions from '../../actions/user-role-view.action';
@@ -14,7 +14,7 @@ import * as fromUserRoleViewActions from '../../actions/user-role-view.action';
 })
 export class UserRoleFunctionTabComponent implements OnDestroy {
   saveButtonText: string;
-  rolePermissions: CompanyRolePermission[];
+  rolePermissions: RolePermission[];
   currentRoleSubscription: Subscription;
   saveButtonTextSubscription: Subscription;
   currentRole: UserAssignedRole;
@@ -24,9 +24,7 @@ export class UserRoleFunctionTabComponent implements OnDestroy {
     });
     this.currentRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(userRole => {
       this.currentRole = userRole;
-      if (userRole && userRole.DerivedId && !userRole.Permissions) {
-        this.store.dispatch(new fromUserRoleViewActions.LoadCompanyRolePermissions(userRole.DerivedId));
-      } else if (userRole && userRole.DerivedId && userRole.Permissions) {
+      if (userRole && userRole.Permissions) {
         this.rolePermissions = userRole.Permissions;
       }
     });

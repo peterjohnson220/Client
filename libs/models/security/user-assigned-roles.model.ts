@@ -1,25 +1,29 @@
-import {CompanyRolePermission} from './company-role-permission.model';
+import { RolePermission } from 'libs/models/security';
+
 export class UserAssignedRole {
-  DerivedId: number;
+  RoleId: number;
+  CompanyId: number;
   RoleName: string;
-  RoleType: string;
+  IsSystemRole: boolean;
   Assigned: boolean;
-  Permissions: CompanyRolePermission[];
+  Permissions: RolePermission[];
 }
 export function generateMockUserAssignedRole(): UserAssignedRole {
   return {
-    DerivedId: 0,
+    RoleId: 0,
+    CompanyId: 0,
     RoleName: 'Test Role',
-    RoleType: 'C',
+    IsSystemRole: false,
     Assigned: false,
-    Permissions: null
+    Permissions: []
   };
 }
 export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
   return {
-    DerivedId: 1,
-    RoleName: 'TestName',
-    RoleType: 'C',
+    RoleId: 0,
+    CompanyId: 0,
+    RoleName: 'Test Role',
+    IsSystemRole: false,
     Assigned: false,
     Permissions: [
       {Id: 1,

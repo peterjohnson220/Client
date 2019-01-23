@@ -44,26 +44,32 @@ exports[`UserRolePageComponent should display user roles in au-user-assigned-rol
                 </h4>
               </div>
             </div>
-            <div>
-              <ul
-                class="list-group nav au-user-assigned-role-nav"
+            <div
+              id="wrapper"
+            >
+              <div
+                class="scrollbar"
               >
-                
-                <li
-                  class="nav-item"
+                <ul
+                  class="list-group nav au-user-assigned-role-nav"
                 >
-                  <a>
-                    
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <a
-                class="outer-nav-link"
-              >
-                Create New Role
-              </a>
+                  
+                  <li
+                    class="nav-item"
+                  >
+                    <a>
+                      
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <a
+                  class="outer-nav-link"
+                >
+                  Create New Role
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -179,19 +185,25 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
                 </h4>
               </div>
             </div>
-            <div>
-              <ul
-                class="list-group nav au-user-assigned-role-nav"
+            <div
+              id="wrapper"
+            >
+              <div
+                class="scrollbar"
               >
-                
-              </ul>
-            </div>
-            <div>
-              <a
-                class="outer-nav-link"
-              >
-                Create New Role
-              </a>
+                <ul
+                  class="list-group nav au-user-assigned-role-nav"
+                >
+                  
+                </ul>
+              </div>
+              <div>
+                <a
+                  class="outer-nav-link"
+                >
+                  Create New Role
+                </a>
+              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ export class UserAndRoleModel {
   UserId: number;
   RoleName: string;
   CurrentRoleId: number;
-  RoleType: string;
+  IsSystemRole: boolean;
   FirstName: string;
   LastName: string;
   EmailAddress: string;
@@ -18,7 +18,7 @@ export function getMockUsersAndRoles(): UserAndRoleModel[] {
     UserId: 1,
     RoleName: 'Test Role 1',
     CurrentRoleId: 1,
-    RoleType: 'C',
+    IsSystemRole: false,
     FirstName: 'Test',
     LastName: 'User1',
     EmailAddress: 'testuser1@payfactors.com',
@@ -32,7 +32,7 @@ export function getMockUsersAndRoles(): UserAndRoleModel[] {
     UserId: 2,
     RoleName: 'Test Role 2',
     CurrentRoleId: 2,
-    RoleType: 'C',
+    IsSystemRole: false,
     FirstName: 'Test',
     LastName: 'User2',
     EmailAddress: 'testuser2@payfactors.com',

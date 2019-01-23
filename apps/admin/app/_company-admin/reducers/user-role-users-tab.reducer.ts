@@ -63,8 +63,8 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
 
       const newUser: UserAndRoleModel = cloneDeep(existingUser);
       newUser.PreviousRoleId = existingUser.CurrentRoleId;
-      newUser.CurrentRoleId = state.activeRole.DerivedId;
-      newUser.RoleType = state.activeRole.RoleType;
+      newUser.CurrentRoleId = state.activeRole.RoleId;
+      newUser.IsSystemRole = state.activeRole.IsSystemRole;
       newUser.Dirty = true;
 
       const newUsersInRoleCollection = Object.assign([], state.usersInActiveRole);
@@ -129,13 +129,13 @@ export const getUsersNotInActiveRole = (state: State) => state.usersNotInActiveR
 export const getUsersTabSaveButtonText = (state: State) => state.saveButtonText;
 
 function filterUsersCollectionByRole(user: UserAndRoleModel, role: UserAssignedRole) {
-  return user.CurrentRoleId === role.DerivedId && user.RoleType === role.RoleType;
+  return user.CurrentRoleId === role.RoleId && user.IsSystemRole === role.IsSystemRole;
 }
 
 function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, role: UserAssignedRole) {
   return (user.FirstName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.LastName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.UserId.toString().toLowerCase().indexOf(searchTerm) > -1) &&
-          !(user.CurrentRoleId === role.DerivedId && user.RoleType === role.RoleType);
+          !(user.CurrentRoleId === role.RoleId && user.IsSystemRole === role.IsSystemRole);
 }
 
