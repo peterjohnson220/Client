@@ -150,7 +150,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   currentTabStateSubscription={[Function Subscriber]}
   currentUserRoleTabState="0"
   store={[Function Store]}
-  userAssignedRoles="null"
+  userAssignedRoles="undefined"
   userRoleService={[Function UserRoleService]}
 >
   <pf-page-with-title-bar>

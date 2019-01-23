@@ -26,7 +26,6 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
   addCompanyRoleForm: FormGroup;
   AddCompanyRoleError: string;
   currentCompanyRoleName: string;
-  addCompanyRoleModalIsOpenSubscription: Subscription;
   formValueChangesSubscription: Subscription;
   addCompanyRoleFormSubscription: Subscription;
   addCompanyRoleErrorSubscription: Subscription;
@@ -100,7 +99,6 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addCompanyRoleModalIsOpenSubscription.unsubscribe();
     this.formValueChangesSubscription.unsubscribe();
     this.addCompanyRoleFormSubscription.unsubscribe();
     this.addCompanyRoleErrorSubscription.unsubscribe();
