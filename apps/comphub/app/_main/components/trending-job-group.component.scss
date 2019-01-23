@@ -18,17 +18,16 @@
       text-overflow: ellipsis;
     }
 
-    .count{
-      background: $comphub-primary-blue;
-      color: white;
-      border-radius: 0.35rem;
+    .icon{
+      color: #009900;
       min-width: 47px;
       min-height: 34px;
+      font-size: 2rem;
       font-weight: bold;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-right: 1rem;
+      margin-right: .5rem;
     }
   }
 }

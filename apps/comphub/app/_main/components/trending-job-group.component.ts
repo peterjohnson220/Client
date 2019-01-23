@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { TrendingJobGroup } from '../models/trending-job.model';
+import { TrendingJobGroup } from '../models';
 
 @Component({
   selector: 'pf-trending-job-group',

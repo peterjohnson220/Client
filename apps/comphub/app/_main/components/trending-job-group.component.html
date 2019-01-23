@@ -3,11 +3,11 @@
     {{trendingJobGroup.Name}}
   </div>
   <div *ngFor="let trendingJob of trendingJobGroup.Jobs" class="trending-job">
-    <div class="count">
-      {{trendingJob.Count}}
+    <div class="icon">
+      <i class="far fa-arrow-circle-up"></i>
     </div>
-    <div class="name" [title]="trendingJob.Name">
-      {{trendingJob.Name}}
+    <div class="name" [title]="trendingJob">
+      {{trendingJob}}
     </div>
   </div>
 </div>
