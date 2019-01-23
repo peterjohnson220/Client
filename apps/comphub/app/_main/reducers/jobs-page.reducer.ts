@@ -1,5 +1,5 @@
 import * as fromJobsPageActions from '../actions/jobs-page.actions';
-import { TrendingJobGroup } from '../models/trending-job.model';
+import { TrendingJobGroup } from '../models';
 
 export interface State {
   trendingJobGroups: TrendingJobGroup[];

@@ -7,7 +7,7 @@ import { PopupSettings } from '@progress/kendo-angular-dropdowns';
 
 import * as fromJobsPageActions from '../../../actions/jobs-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { TrendingJobGroup } from '../../../models/trending-job.model';
+import { TrendingJobGroup } from '../../../models';
 
 @Component({
   selector: 'pf-jobs-page',
