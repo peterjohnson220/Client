@@ -20,7 +20,7 @@ import { AppEnvironmentApiService } from './app-environment';
 import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
-import { CompanyRolesApiService } from './company-admin';
+import { RolesApiService } from './company-admin';
 import { DataLoadEmailRecipientsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
@@ -30,7 +30,6 @@ import { ComphubApiService } from './comphub';
   imports:      [ HttpClientModule ],
   providers:    [
     CompanyApiService,
-    CompanyRolesApiService,
     CompanySecurityApiService,
     DashboardApiService,
     UserApiService,
@@ -55,6 +54,7 @@ import { ComphubApiService } from './comphub';
     AppEnvironmentApiService,
     UserTicketApiService,
     CompanyJobApiService,
+    RolesApiService,
     CompanyJobPricingMatchApiService,
     DataLoadEmailRecipientsApiService,
     JobSearchApiService,

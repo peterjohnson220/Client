@@ -8,7 +8,7 @@ import * as fromUserRoleViewActions from '../actions/user-role-view.action';
 export interface IUserRoleState {
   CurrentTab: UserRoleTabState;
   CurrentUserRole: UserAssignedRole;
-  CompanyRoles: UserAssignedRole[];
+  Roles: UserAssignedRole[];
   CompanyRolesError: string;
   AddCompanyRoleError: string;
   AddCompanyRoleModalIsOpen: boolean;
@@ -19,7 +19,7 @@ export interface IUserRoleState {
 export const initialState: IUserRoleState = {
   CurrentTab: UserRoleTabState.DATA_ACCESS,
   CurrentUserRole: undefined,
-  CompanyRoles: undefined,
+  Roles: undefined,
   CompanyRolesError: undefined,
   AddCompanyRoleError: undefined,
   AddCompanyRoleModalIsOpen: false,
@@ -50,7 +50,7 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
     case fromUserRoleViewActions.UPDATE_COMPANY_ROLES: {
       return {
         ...state,
-        CompanyRoles: action.payload as UserAssignedRole[]
+        Roles: action.payload as UserAssignedRole[]
       };
     }
     case fromUserRoleViewActions.LOAD_COMPANY_ROLES_ERROR: {
@@ -152,7 +152,7 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
 export const getUserRoleViewState = (state: IUserRoleState) => state;
 export const getUserRoleCurrentTab = (state: IUserRoleState) => state.CurrentTab;
 export const getCurrentUserRole = (state: IUserRoleState) => state.CurrentUserRole;
-export const getCompanyRoles = (state: IUserRoleState) => state.CompanyRoles;
+export const getCompanyRoles = (state: IUserRoleState) => state.Roles;
 export const getAddCompanyRoleModalIsOpen = (state: IUserRoleState) => state.AddCompanyRoleModalIsOpen;
 export const getAddCompanyRoleForm = (state: IUserRoleState) => state.AddCompanyRoleForm;
 export const getAddCompanyRoleError = (state: IUserRoleState) => state.AddCompanyRoleError;

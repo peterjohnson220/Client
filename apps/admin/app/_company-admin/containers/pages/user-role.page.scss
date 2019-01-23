@@ -140,3 +140,19 @@
   }
 }
 
+
+.scrollbar
+{
+  max-height:89%;
+  margin-right: 4px;
+  margin-bottom: 20px;
+  overflow-y: auto;
+  overflow-x: auto;
+
+}
+
+#wrapper
+{
+  height: 100%;
+  margin: 0;
+}

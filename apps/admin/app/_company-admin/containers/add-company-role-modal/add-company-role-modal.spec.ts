@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
@@ -8,7 +7,6 @@ import { generateMockUserAssignedRole } from 'libs/models/security';
 import * as fromRootState from 'libs/state/state';
 
 import { AddCompanyRoleModalComponent } from './add-company-role-modal.component';
-import { ENTER_KEYCODE } from '../../constants/add-company-role-modal.constants';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleActions from '../../actions/user-role-view.action';
 
@@ -61,36 +59,6 @@ describe('AddCompanyRoleModalComponent', () => {
 
     component.currentCompanyRoleName = mockCompanyRole.RoleName;
     component.onAddCompanyRoleSubmit();
-    const submitAction = new fromUserRoleActions.AddCompanyRole(mockCompanyRole);
-    expect(store.dispatch).toHaveBeenCalledWith(submitAction);
-  });
-
-  it('should not dispatch the submit action when enter is clicked and the form is invalid', () => {
-    const enterKeyEvent = {keyCode: ENTER_KEYCODE};
-    component.addCompanyRoleForm = {valid: false} as FormGroup;
-
-    component.onKeyDown(enterKeyEvent);
-
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
-  it('should dispatch the submit action when enter is clicked and the form is valid', () => {
-    const mockCompanyRoleName = 'TEST_ROLE';
-    const mockCompanyRole = {
-      DerivedId: 0,
-      RoleName: mockCompanyRoleName,
-      RoleType: 'C',
-      Assigned: false,
-      Permissions: null
-    };
-
-    component.currentCompanyRoleName = mockCompanyRoleName;
-
-    const enterKeyEvent = {keyCode: ENTER_KEYCODE};
-    component.addCompanyRoleForm = {valid: true} as FormGroup;
-
-    component.onKeyDown(enterKeyEvent);
-
     const submitAction = new fromUserRoleActions.AddCompanyRole(mockCompanyRole);
     expect(store.dispatch).toHaveBeenCalledWith(submitAction);
   });
