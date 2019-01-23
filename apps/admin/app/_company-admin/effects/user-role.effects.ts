@@ -106,7 +106,7 @@ export class UserRoleEffects {
             p.ChildPermission.filter( cp => cp.IsChecked).map(cp => permissionIds.push(cp.Id)); } );
         return this.adminRolesApi.updateRolePermissions(action.payload.RoleId, permissionIds).pipe(
           delay(2000),
-          map((role: UserAssignedRole ) => new fromUserRoleActions.SaveCompanyRolePermissionsSuccess(role))
+          map(( ) => new fromUserRoleActions.SetFunctionTabSaveButtonText(SaveButtonText.Save))
         );
       })
     );
