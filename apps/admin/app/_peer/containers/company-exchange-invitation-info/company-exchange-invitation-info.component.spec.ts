@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 
 import { CompanyExchangeInvitationInfoComponent } from './company-exchange-invitation-info.component';
 import * as fromPeerAdminReducer from '../../reducers';
+import * as fromCompanyExchangeInvitationInfoActions from '../../actions/company-exchange-invitation-info.actions';
 
 describe('Company Exchange Invitation Info', () => {
   let fixture: ComponentFixture<CompanyExchangeInvitationInfoComponent>;
@@ -32,13 +33,14 @@ describe('Company Exchange Invitation Info', () => {
     });
 
     store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(CompanyExchangeInvitationInfoComponent);
     instance = fixture.componentInstance;
 
     instance.selectedCompanyInvitation = generateMockExchangeInvitation();
   });
 
-  it('should match snapshot', () => {
+  it('info area should match snapshot', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -57,29 +59,19 @@ describe('Company Exchange Invitation Info', () => {
     expect(instance.closeClicked.emit).toHaveBeenCalled();
   });
 
-  it('should emit an approveClicked event, when the approve button is clicked', () => {
-    // Spy on the emit method for the approveClicked EventEmitter
-    spyOn(instance.approveClicked, 'emit');
+  it('should dispatch an OpenCompanyInvitationApproveModal action, when the approve button is clicked', () => {
+    const action = new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationApproveModal();
 
-    fixture.detectChanges();
+    instance.approve();
 
-    // Find the approve button in the template and trigger a click
-    const approveButton = fixture.debugElement.query(By.css('.btn-success'));
-    approveButton.triggerEventHandler('click', null);
-
-    expect(instance.approveClicked.emit).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should emit a denyClicked event, when the deny button is clicked', () => {
-    // Spy on the emit method for the denyClicked EventEmitter
-    spyOn(instance.denyClicked, 'emit');
+  it('should dispatch an OpenCompanyInvitationDenyModal action, when the deny button is clicked', () => {
+    const action = new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationDenyModal();
 
-    fixture.detectChanges();
+    instance.deny();
 
-    // Find the deny button in the template and trigger a click
-    const denyButton = fixture.debugElement.query(By.css('.btn-danger'));
-    denyButton.triggerEventHandler('click', null);
-
-    expect(instance.denyClicked.emit).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

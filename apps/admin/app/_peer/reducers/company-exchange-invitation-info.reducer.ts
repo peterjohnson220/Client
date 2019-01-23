@@ -10,6 +10,8 @@ export interface State {
   companyInvitationInfoOpen: boolean;
   selectedCompanyInvitation: ExchangeInvitation;
   pageRowIndex: number;
+  companyInvitationApproveModalOpen: boolean;
+  companyInvitationDenyModalOpen: boolean;
 }
 
 const initialState: State = {
@@ -19,7 +21,9 @@ const initialState: State = {
   denyingError: false,
   companyInvitationInfoOpen: false,
   selectedCompanyInvitation: null,
-  pageRowIndex: null
+  pageRowIndex: null,
+  companyInvitationApproveModalOpen: false,
+  companyInvitationDenyModalOpen: false
 };
 
 export function reducer(
@@ -43,14 +47,16 @@ export function reducer(
         approvingError: false,
         companyInvitationInfoOpen: false,
         selectedCompanyInvitation: null,
-        pageRowIndex: null
+        pageRowIndex: null,
+        companyInvitationApproveModalOpen: false
       };
     }
     case fromCompanyExchangeInvitationInfoActions.APPROVE_COMPANY_EXCHANGE_INVITATION_ERROR: {
       return {
         ...state,
         approving: false,
-        approvingError: true
+        approvingError: true,
+        companyInvitationApproveModalOpen: false
       };
     }
     case fromCompanyExchangeInvitationInfoActions.DENY_COMPANY_EXCHANGE_INVITATION: {
@@ -69,14 +75,16 @@ export function reducer(
         denyingError: false,
         companyInvitationInfoOpen: false,
         selectedCompanyInvitation: null,
-        pageRowIndex: null
+        pageRowIndex: null,
+        companyInvitationDenyModalOpen: false
       };
     }
     case fromCompanyExchangeInvitationInfoActions.DENY_COMPANY_EXCHANGE_INVITATION_ERROR: {
       return {
         ...state,
         denying: false,
-        denyingError: true
+        denyingError: true,
+        companyInvitationDenyModalOpen: false
       };
     }
     case fromCompanyExchangeInvitationInfoActions.OPEN_COMPANY_INVITATION_INFO: {
@@ -99,6 +107,30 @@ export function reducer(
         pageRowIndex: null
       };
     }
+    case fromCompanyExchangeInvitationInfoActions.OPEN_COMPANY_INVITATION_APPROVE_MODAL: {
+      return {
+        ...state,
+        companyInvitationApproveModalOpen: true
+      };
+    }
+    case fromCompanyExchangeInvitationInfoActions.CLOSE_COMPANY_INVITATION_APPROVE_MODAL: {
+      return {
+        ...state,
+        companyInvitationApproveModalOpen: false
+      };
+    }
+    case fromCompanyExchangeInvitationInfoActions.OPEN_COMPANY_INVITATION_DENY_MODAL: {
+      return {
+        ...state,
+        companyInvitationDenyModalOpen: true
+      };
+    }
+    case fromCompanyExchangeInvitationInfoActions.CLOSE_COMPANY_INVITATION_DENY_MODAL: {
+      return {
+        ...state,
+        companyInvitationDenyModalOpen: false
+      };
+    }
     default: {
       return state;
     }
@@ -113,3 +145,5 @@ export const getDenyingError = (state: State) => state.denyingError;
 export const getJobRequestInfoOpen = (state: State) => state.companyInvitationInfoOpen;
 export const getSelectedJobRequest = (state: State) => state.selectedCompanyInvitation;
 export const getPageRowIndex = (state: State) => state.pageRowIndex;
+export const getCompanyInvitationApproveModalOpen = (state: State) => state.companyInvitationApproveModalOpen;
+export const getCompanyInvitationDenyModalOpen = (state: State) => state.companyInvitationDenyModalOpen;

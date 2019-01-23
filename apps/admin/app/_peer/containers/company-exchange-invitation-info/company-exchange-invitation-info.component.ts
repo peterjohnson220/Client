@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ExchangeInvitation } from 'libs/models/peer';
 
 import * as fromPeerAdminReducer from '../../reducers';
+import * as fromCompanyExchangeInvitationInfoActions from '../../actions/company-exchange-invitation-info.actions';
 
 @Component({
   selector: 'pf-company-exchange-invitation-info',
@@ -16,19 +17,13 @@ import * as fromPeerAdminReducer from '../../reducers';
 export class CompanyExchangeInvitationInfoComponent {
   @Input() selectedCompanyInvitation: ExchangeInvitation;
   @Output() closeClicked = new EventEmitter();
-  @Output() approveClicked = new EventEmitter();
-  @Output() denyClicked = new EventEmitter();
 
-  approvingCompanyInvitation$: Observable<boolean>;
-  denyingCompanyInvitation$: Observable<boolean>;
   approvingError$: Observable<boolean>;
   denyingError$: Observable<boolean>;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>
   ) {
-    this.approvingCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationApproving));
-    this.denyingCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationDenying));
     this.approvingError$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationApprovingError));
     this.denyingError$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationDenyingError));
   }
@@ -38,10 +33,10 @@ export class CompanyExchangeInvitationInfoComponent {
   }
 
   approve() {
-    this.approveClicked.emit(this.selectedCompanyInvitation);
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationApproveModal());
   }
 
   deny() {
-    this.denyClicked.emit(this.selectedCompanyInvitation);
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.OpenCompanyInvitationDenyModal());
   }
 }
