@@ -1,18 +1,2 @@
 @import 'comphub-page';
 @import 'comphub-styles';
-
-.job-search-section {
-  padding: 1rem 0rem;
-  width: 40%;
-}
-
-.trending-jobs-section {
-  margin-top: 2rem;
-
-  .header {
-    text-transform: uppercase;
-    color: $comphub-header-blue;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-}

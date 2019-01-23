@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { TrendingJobGroup } from '../models';;
+import { TrendingJobGroup } from '../models';
 
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Page] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Page] Get Trending Jobs Success';
