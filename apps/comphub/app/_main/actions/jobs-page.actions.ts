@@ -8,6 +8,7 @@ export const GET_TRENDING_JOBS_ERROR = '[Comphub/Jobs Page] Get Trending Jobs Er
 export const GET_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Page] Get Job Search Autocomplete options';
 export const GET_JOB_SEARCH_OPTIONS_SUCCESS = '[Comphub/Jobs Page] Get Job Search Autocomplete options success';
 export const GET_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Page] Get Job Search Autocomplete options error';
+export const SET_SELECTED_JOB = '[Comphub/Jobs Page] Set Selected Job';
 
 export class GetTrendingJobs implements Action {
   readonly type = GET_TRENDING_JOBS;
@@ -45,10 +46,17 @@ export class GetJobSearchOptionsError implements Action {
   constructor() {}
 }
 
+export class SetSelectedJob implements Action {
+  readonly type = SET_SELECTED_JOB;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = GetTrendingJobs
   | GetTrendingJobsSuccess
   | GetTrendingJobsError
   | GetJobSearchOptions
   | GetJobSearchOptionsSuccess
-  | GetJobSearchOptionsError;
+  | GetJobSearchOptionsError
+  | SetSelectedJob;

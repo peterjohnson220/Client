@@ -8,6 +8,7 @@ export interface State {
   loadingJobSearchOptions: boolean;
   jobSearchOptions: string[];
   loadingJobSearchOptionsError: boolean;
+  selectedJob: string;
 }
 
 const initialState: State = {
@@ -16,7 +17,8 @@ const initialState: State = {
   loadingTrendingJobsError: false,
   jobSearchOptions: [],
   loadingJobSearchOptions: false,
-  loadingJobSearchOptionsError: false
+  loadingJobSearchOptionsError: false,
+  selectedJob: null
 };
 
 // Reducer function
@@ -65,6 +67,12 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
         loadingJobSearchOptionsError: true
       };
     }
+    case fromJobsPageActions.SET_SELECTED_JOB: {
+      return {
+        ...state,
+        selectedJob: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -78,3 +86,4 @@ export const getLoadingTrendingJobsError = (state: State) => state.loadingTrendi
 export const getJobSearchOptions = (state: State) => state.jobSearchOptions;
 export const getLoadingJobSearchOptions = (state: State) => state.loadingJobSearchOptions;
 export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJobSearchOptionsError;
+export const getSelectedJob = (state: State) => state.selectedJob;
