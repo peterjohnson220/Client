@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { PopupSettings } from '@progress/kendo-angular-dropdowns';
 
@@ -14,7 +14,9 @@ import { TrendingJobGroup } from '../../../models/trending-job.model';
   templateUrl: './jobs.page.component.html',
   styleUrls: ['./jobs.page.component.scss']
 })
-export class JobsPageComponent implements OnInit {
+export class JobsPageComponent implements OnInit, OnDestroy {
+  @Output() navigateToNext: EventEmitter<void> = new EventEmitter<void>();
+
   popupSettings: PopupSettings;
 
   // Observables
@@ -22,9 +24,16 @@ export class JobsPageComponent implements OnInit {
   jobSearchOptions$: Observable<string[]>;
   loadingJobSearchOptions$: Observable<boolean>;
 
+  jobSearchOptionsSub: Subscription;
+
+  potentialOptions: string[];
+  selectedJob: string;
+
   constructor(
     private store: Store<fromComphubMainReducer.State>
   ) {
+    this.selectedJob = '';
+    this.potentialOptions = [];
     this.trendingJobGroups$ = this.store.select(fromComphubMainReducer.getTrendingJobGroups);
     this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
     this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
@@ -35,9 +44,25 @@ export class JobsPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromJobsPageActions.GetTrendingJobs());
+    this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
   }
 
   handleJobSearchFilterChange(searchTerm: string): void {
     this.store.dispatch(new fromJobsPageActions.GetJobSearchOptions(searchTerm));
+  }
+
+  handleJobSearchValueChanged(selectedTerm: string): void {
+    if (!selectedTerm || this.potentialOptions.some(x => x === selectedTerm)) {
+      this.selectedJob = selectedTerm;
+      this.store.dispatch(new fromJobsPageActions.SetSelectedJob(selectedTerm));
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.jobSearchOptionsSub.unsubscribe();
+  }
+
+  nextButtonClicked(): void {
+    this.navigateToNext.emit();
   }
 }

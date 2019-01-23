@@ -60,3 +60,8 @@ export const getLoadingJobSearchOptionsError = createSelector(
   selectJobsPageState,
   fromJobsPageReducer.getLoadingJobSearchOptionsError
 );
+
+export const getSelectedJob = createSelector(
+  selectJobsPageState,
+  fromJobsPageReducer.getSelectedJob
+);
