@@ -40,6 +40,7 @@
   <ng-container actions-section>
     <div class="actions-section">
       <button class="btn comphub-primary-btn"
+              [attr.data-qa-id]="'btn-next'"
               (onClick)="nextButtonClicked()"
               [disabled]="!(selectedJob.length)">Next</button>
     </div>

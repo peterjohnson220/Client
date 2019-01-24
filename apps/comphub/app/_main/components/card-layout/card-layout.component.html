@@ -1,0 +1,16 @@
+<div class="card" id="{{cardId}}">
+
+  <div class="card-content-container" [ngClass]="selected ? 'selected' : ''">
+    <div class="card-content">
+      <ng-content select="[card-content]"></ng-content>
+    </div>
+  </div>
+
+  <div class="card-header" [ngClass]="selected ? 'selected' : ''"
+    [attr.data-qa-id]="'cnt-cardHeader'"
+    (click)="handleCardHeaderClick()">
+    <i class="fa {{cardIconClass}} card-icon" aria-hidden="true"></i>
+    <span class="card-title">{{cardTitle}}</span>
+  </div>
+
+</div>

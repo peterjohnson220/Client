@@ -1,0 +1,58 @@
+@import 'comphub-variables';
+
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 100%;
+  border: none;
+}
+
+.card-header {
+  padding: 2.5rem 1.25rem;
+  height: 100%;
+  width: 60px;
+  position: relative;
+  margin-bottom: 1px;
+  margin-right: 8px;
+  width: 60px;
+  background-color: $comphub-header-background-grey;
+  display: block;
+  &:hover {
+    cursor: pointer;
+  }
+  &.selected {
+    display: none;
+  }
+}
+
+.card-title,
+.card-icon {
+  color: $comphub-header-blue;
+  font-size: 2rem;
+}
+
+.card-title {
+  writing-mode: vertical-lr;
+  margin-left: 0px;
+  margin-top: .5rem;
+  line-height: 25px;
+} 
+
+.card-content-container {
+  height: 100%;
+  position: relative;
+  overflow: auto;
+  transition: width 0.35s ease 0.2s;
+  margin-bottom: 0px;
+  width: 0px;
+  .card-content {
+    display: none;
+  }
+  &.selected {
+    width: calc(100vw - 248px);
+    .card-content {
+      display: block;
+    }
+  }
+}
