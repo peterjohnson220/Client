@@ -1,2 +1,18 @@
 @import 'comphub-page';
 @import 'comphub-styles';
+
+.no-data {
+  font-style: italic;
+}
+
+.search-filter{
+  padding: .5rem .2rem;
+}
+
+.k-textbox {
+  width: 100%;
+
+  .k-i-close {
+    cursor: pointer;
+  }
+}
