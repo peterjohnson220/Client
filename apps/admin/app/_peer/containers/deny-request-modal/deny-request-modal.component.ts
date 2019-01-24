@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -28,15 +28,19 @@ export class DenyRequestModalComponent {
   }
 
   get denialPlaceholder(): string {
-    return `Please provide a reason for denial...`;
+    return `Please provide the reason for denial... (should be at least 30 characters)`;
   }
 
   get reason() { return this.denyReasonForm.get('reason'); }
 
   createForm(): void {
     this.denyReasonForm = this.fb.group({
-      'reason': ['', [PfValidators.required]]
+      'reason': ['', [PfValidators.required, Validators.minLength(30)]]
     });
+  }
+
+  setPlaceholderOnBlur(event: any) {
+    event.target.placeholder = this.denialPlaceholder;
   }
 
   handleFormSubmit() {

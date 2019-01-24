@@ -1,6 +1,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+import { ExchangeRequestPeopleToNotifyEnum } from 'libs/models/peer';
 
 import { ApproveRequestModalComponent } from './approve-request-modal.component';
 
@@ -51,5 +54,26 @@ describe ('Approve Request Modal', () => {
     fixture.detectChanges();
 
     expect(instance.approveClicked.emit).toHaveBeenCalledWith({ reason: 'test', peopleToNotify: 'NoOne' });
+  });
+
+  it('should set peopleToNotify to NoOne, when the handleModalDismissed method is called', () => {
+    instance.approveForm.get('peopleToNotify').setValue(ExchangeRequestPeopleToNotifyEnum.AllExchangeParticipants);
+    instance.handleModalDismissed();
+
+    fixture.detectChanges();
+
+    expect(instance.approveForm.get('peopleToNotify').value).toEqual(ExchangeRequestPeopleToNotifyEnum.NoOne);
+  });
+
+  it('should call setPlaceholderOnBlur method, when the textarea focus is changed', () => {
+    spyOn(instance, 'setPlaceholderOnBlur');
+
+    fixture.detectChanges();
+
+    // Find the textarea in the template and trigger a blur event
+    const textArea = fixture.debugElement.query(By.css('.text-area-no-resize'));
+    textArea.triggerEventHandler('blur', {target: {placeholder: ''}});
+
+    expect(instance.setPlaceholderOnBlur).toHaveBeenCalled();
   });
 });

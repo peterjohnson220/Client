@@ -27,3 +27,6 @@ export * from './exchange-job-request-action.model';
 export * from './exchange-request-action.enum';
 export * from './exchange-job-search.model';
 export * from './exchange-job-assocation.model';
+export * from './exchange-request-action.model';
+export * from './company-exchange-invitation-action.model';
+export * from './exchange-request-people-to-notify.enum';
