@@ -49,10 +49,13 @@ export class JobsPageComponent implements OnInit, OnDestroy {
 
   handleJobSearchFilterChange(searchTerm: string): void {
     this.store.dispatch(new fromJobsPageActions.GetJobSearchOptions(searchTerm));
+    if (!searchTerm) {
+      this.handleJobSearchValueChanged(searchTerm);
+    }
   }
 
   handleJobSearchValueChanged(selectedTerm: string): void {
-    if (!selectedTerm || this.potentialOptions.some(x => x === selectedTerm)) {
+    if (!selectedTerm || this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
       this.selectedJob = selectedTerm;
       this.store.dispatch(new fromJobsPageActions.SetSelectedJob(selectedTerm));
     }

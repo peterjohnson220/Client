@@ -49,9 +49,9 @@ describe('Comphub - Jobs Page', () => {
     spyOn(store, 'dispatch');
 
     instance.potentialOptions = ['Job A'];
-    const expectedAction = new fromJobsPageActions.SetSelectedJob('Job A');
+    const expectedAction = new fromJobsPageActions.SetSelectedJob('job a');
 
-    instance.handleJobSearchValueChanged('Job A');
+    instance.handleJobSearchValueChanged('job a');
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
@@ -85,6 +85,28 @@ describe('Comphub - Jobs Page', () => {
     instance.nextButtonClicked();
 
     expect(instance.navigateToNext.emit).toHaveBeenCalledWith();
+  });
+
+  it('should dispatch a set selected job action when the search is changed to empty filter', () => {
+
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromJobsPageActions.SetSelectedJob('');
+
+    instance.handleJobSearchFilterChange('');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should not dispatch a set selected job action when the search is changed to a non empty filter', () => {
+
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromJobsPageActions.SetSelectedJob('Something else');
+
+    instance.handleJobSearchFilterChange('Something else');
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 
 
