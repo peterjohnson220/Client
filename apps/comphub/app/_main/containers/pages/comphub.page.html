@@ -6,6 +6,7 @@
       [cardId]="card.Id"
       [cardTitle]="card.Title"
       [cardIconClass]="card.IconClass"
+      [containerWidth]="cardContentContainerWidth"
       [selected]="(selectedPageId$ | async) === card.Id"
       (cardHeaderClick)="handleCardChange(card.Id)">
 

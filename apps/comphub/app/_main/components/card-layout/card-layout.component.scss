@@ -45,12 +45,10 @@
   overflow: auto;
   transition: width 0.35s ease 0.2s;
   margin-bottom: 0px;
-  width: 0px;
   .card-content {
     display: none;
   }
   &.selected {
-    width: calc(100vw - 248px);
     .card-content {
       display: block;
     }

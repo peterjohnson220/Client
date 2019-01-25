@@ -10,6 +10,8 @@ export class CardLayoutComponent {
   @Input() cardTitle: string;
   @Input() cardIconClass: string;
   @Input() selected: boolean;
+  @Input() containerWidth: number;
+
   @Output() cardHeaderClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
