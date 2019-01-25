@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { RolePermission, UserAssignedRole} from 'libs/models/security';
+import { UserAssignedRole } from 'libs/models/security/roles';
 import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import { UserRoleTabState } from '../constants/user-role.constants';
@@ -15,14 +15,11 @@ export const ADD_COMPANY_ROLE_ERROR = '[Company Admin/User Role] Add Company Rol
 export const OPEN_ADD_COMPANY_ROLE_MODAL = '[Company Admin/User Role] Open Add Company Role Modal IUserRoleUsersTabState';
 export const CLOSE_ADD_COMPANY_ROLE_MODAL = '[Company Admin/User Role] Close Add Company Role Modal IUserRoleUsersTabState';
 export const FIELD_CHANGE = '[Company Admin/User Role] Field Change IUserRoleUsersTabState';
-export const GET_COMPANY_ROLE_PERMISSIONS = '[Company Admin/Company Role Permissions] Get Company Role Permissions';
-export const LOAD_COMPANY_ROLE_PERMISSIONS = '[Company Admin/Company Role Permissions] Load Company Role Permissions';
-export const LOAD_COMPANY_ROLE_PERMISSIONS_SUCCESS = '[Company Admin/Company Role Permissions] Load Company Role Permissions Success';
-export const SAVE_COMPANY_ROLE_PERMISSIONS = '[Company Admin/Company Role Permissions] Update Company Role Permissions';
-export const SAVE_COMPANY_ROLE_PERMISSIONS_SUCCESS = '[Company Admin/Company Role Permissions] Update Company Role Permissions';
-export const GRANT_DENY_PERMISSIONS = '[Company Admin/Company Role Permissions] Checkbox Clicked';
-export const GRANT_DENY_PERMISSIONS_SUCCESS = '[Company Admin/Company Role Permissions] Checkbox Clicked Success';
-export const SET_FUNCTION_TAB_SAVE_BUTTON_TEXT = '[Company Admin/Company Role Permissions] Set Company Role Permissions from API';
+export const CANCEL_ALL_CHANGES = '[Company Admin/User Role] Cancel All Changes';
+export const SAVE_ALL_CHANGES = '[Company Admin/User Role] Save All Changes';
+export const SAVE_ROLE_SUCCESS = '[Company Admin/User Role] Save Role Success';
+export const SAVE_ROLE_ERROR = '[Company Admin/User Role] Save Role Error';
+export const DISABLE_SAVE_BUTTON = '[Company Admin/User Role] Disable Save Button';
 
 export class FieldChange implements Action {
   readonly type = FIELD_CHANGE;
@@ -72,52 +69,38 @@ export class OpenAddCompanyRoleModal implements Action {
   constructor() {}
 }
 
-export class SetFunctionTabSaveButtonText implements Action {
-  readonly type = SET_FUNCTION_TAB_SAVE_BUTTON_TEXT;
-  constructor(public payload: string) {}
-}
-
 export class CloseAddCompanyRoleModal implements Action {
   readonly type = CLOSE_ADD_COMPANY_ROLE_MODAL;
   constructor() {}
 }
-export class GetCompanyRolePermissions implements Action {
-  readonly type = GET_COMPANY_ROLE_PERMISSIONS;
-  constructor(public payload:  RolePermission[]) {}
+
+export class SaveAllChanges implements Action {
+  readonly type = SAVE_ALL_CHANGES;
+  constructor(public payload: any) {}
 }
 
-export class SaveCompanyRolePermissionsSuccess implements Action {
-  readonly type = SAVE_COMPANY_ROLE_PERMISSIONS_SUCCESS;
-  constructor(public payload: UserAssignedRole) {}
+export class CancelAllChanges implements Action {
+  readonly type = CANCEL_ALL_CHANGES;
+  constructor() {}
 }
 
-export class GrantDenyPermissions implements Action {
-  readonly type = GRANT_DENY_PERMISSIONS;
-  constructor(public payload:  RolePermission) {}
+export class SaveRoleSuccess implements Action {
+  readonly type = SAVE_ROLE_SUCCESS;
+  constructor(public payload: string) {}
 }
 
-export class GrantDenyPermissionsSuccess implements Action {
-  readonly type = GRANT_DENY_PERMISSIONS_SUCCESS;
-  constructor(public payload:  RolePermission) {}
+export class SaveRoleError implements Action {
+  readonly type = SAVE_ROLE_ERROR;
+  constructor(public payload: string) {}
 }
 
-export class LoadCompanyRolePermissions implements Action {
-  readonly type = LOAD_COMPANY_ROLE_PERMISSIONS;
-  constructor(public payload:  number) {}
+export class DisableSaveButton implements Action {
+  readonly type = DISABLE_SAVE_BUTTON;
+  constructor() {}
 }
 
-export class LoadCompanyRolePermissionsSuccess implements Action {
-  readonly type = LOAD_COMPANY_ROLE_PERMISSIONS_SUCCESS;
-  constructor(public payload:  any) { }
-}
-
-
-export class SaveCompanyRolePermissions implements Action {
-  readonly type = SAVE_COMPANY_ROLE_PERMISSIONS;
-  constructor(public payload: UserAssignedRole) {}
-}
-
-export type Actions = UpdateUserRoleTabState
+export type Actions = FieldChange
+  | UpdateUserRoleTabState
   | UpdateCurrentUserRole
   | UpdateCompanyRoles
   | LoadCompanyRoles
@@ -126,11 +109,8 @@ export type Actions = UpdateUserRoleTabState
   | AddCompanyRoleError
   | OpenAddCompanyRoleModal
   | CloseAddCompanyRoleModal
-  | FieldChange
-  | LoadCompanyRolePermissions
-  | GrantDenyPermissions
-  | GrantDenyPermissionsSuccess
-  | SaveCompanyRolePermissionsSuccess
-  | SaveCompanyRolePermissions
-  | LoadCompanyRolePermissionsSuccess
-  | SetFunctionTabSaveButtonText;
+  | SaveAllChanges
+  | CancelAllChanges
+  | SaveRoleSuccess
+  | SaveRoleError
+  | DisableSaveButton;

@@ -55,37 +55,4 @@ describe('UserRoleUserTabComponent', () => {
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
-
-  it('Cancel changes', () => {
-    const expectedAction = (new fromUserRoleUserTabActions.CancelChanges());
-    component.cancelChanges();
-    fixture.detectChanges();
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('Save Changes', () => {
-    const mockUsers = getMockUsersAndRoles();
-    const usersInRole = [];
-    usersInRole.push(mockUsers[0]);
-    const mockDirtyUser = mockUsers[1];
-    mockDirtyUser.Dirty = true;
-    mockDirtyUser.CurrentRoleId = 1;
-    usersInRole.push(mockDirtyUser);
-
-    component.usersInSelectedRole = usersInRole;
-
-    const expectedUserIds = [];
-    expectedUserIds.push(mockDirtyUser.UserId);
-
-    const expectedPayload = {
-      userIds: expectedUserIds,
-      roleId: component.currentRole.RoleId,
-      isSystemRole: component.currentRole.IsSystemRole
-    };
-
-    const expectedAction = (new fromUserRoleUserTabActions.SaveChanges(expectedPayload));
-    fixture.detectChanges();
-    component.saveChanges();
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
 });

@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import {Action, Store} from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import {catchError, map, switchMap, mergeMap, delay} from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 
 import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
-import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
-import {RolePermission} from 'libs/models/security';
+import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security/roles';
+import { RoleApiResponse } from '../constants/user-role.constants';
 
 import * as fromUserRoleActions from '../actions/user-role-view.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
-import {SaveButtonText} from '../constants/user-role.constants';
+import * as fromUserRoleFunctionTabActions from '../actions/user-role-functions-tab.action';
 import * as fromUserRoleViewReducer from '../reducers';
+
 
 
 @Injectable()
@@ -54,61 +55,39 @@ export class UserRoleEffects {
   changeActiveRole$: Observable<Action> = this.actions$
     .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
-        [new fromUserRoleUserTabActions.CancelChanges(), new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload)])
+        [new fromUserRoleUserTabActions.CancelChanges(),
+          new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole({
+            NewRoleId: action.payload.RoleId,
+            NewRoleIsSystemRole: action.payload.IsSystemRole
+          }),
+        new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );
 
   @Effect()
-  saveChanges$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleUserTabActions.SAVE_CHANGES).pipe(
-      switchMap((action: fromUserRoleUserTabActions.SaveChanges) => {
-        this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Saving));
-        const result = this.adminRolesApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
+  saveAllChanges$: Observable<Action> = this.actions$
+    .ofType(fromUserRoleActions.SAVE_ALL_CHANGES).pipe(
+      switchMap((action: fromUserRoleActions.SaveAllChanges) => {
+        return this.adminRolesApi.saveRole(action.payload.PermissionIdsToSave, action.payload.UserIdsToAssign,
+          action.payload.CurrentRole.RoleId, action.payload.CurrentRole.IsSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
-            actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response));
-            actions.push(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Success));
+            actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response.UpdatedUsers));
+            actions.push(new fromUserRoleActions.UpdateCurrentUserRole(response.UpdatedRole));
+            actions.push(new fromUserRoleActions.UpdateCompanyRoles(response.UpdatedRoleList));
+            actions.push(new fromUserRoleActions.SaveRoleSuccess(RoleApiResponse.Success));
             return actions;
-          })
-        );
-        setTimeout(() => {
-          this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Save));
-          }, 2000);
-
-        return result;
-      })
-    );
-
-  @Effect()
-  loadCompanyRolePermissions$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.LOAD_COMPANY_ROLE_PERMISSIONS).pipe(
-      switchMap((action: fromUserRoleActions.LoadCompanyRolePermissions) => {
-        return this.adminRolesApi.getRolePermissions(action.payload).pipe(
-          map((permissions: RolePermission[]) => {
-            const newPermissions: RolePermission[] = permissions.filter((f) => f.IsParent);
-            newPermissions.forEach(p => p.ChildPermission = permissions.filter((f) => !f.IsParent && f.TileId === p.TileId));
-            return newPermissions;
           }),
-          map((permissions: RolePermission[]) => {
-            return new fromUserRoleActions.LoadCompanyRolePermissionsSuccess(permissions);
-          }),
+          catchError(error => of(new fromUserRoleActions
+            .SaveRoleError(RoleApiResponse.Error)))
         );
       })
     );
 
   @Effect()
-  saveCompanyRolePermissions$: Observable<Action> = this.actions$
-    .ofType(fromUserRoleActions.SAVE_COMPANY_ROLE_PERMISSIONS).pipe(
-      switchMap((action: fromUserRoleActions.SaveCompanyRolePermissions) => {
-        const permissionIds = [];
-        action.payload.Permissions.filter( p => p.IsChecked)
-          .map(p => {
-            permissionIds.push(p.Id);
-            p.ChildPermission.filter( cp => cp.IsChecked).map(cp => permissionIds.push(cp.Id)); } );
-        return this.adminRolesApi.updateRolePermissions(action.payload.RoleId, permissionIds).pipe(
-          delay(2000),
-          map(( ) => new fromUserRoleActions.SetFunctionTabSaveButtonText(SaveButtonText.Save))
-        );
-      })
+  cancelAllChanges$: Observable<Action> = this.actions$
+    .ofType(fromUserRoleActions.CANCEL_ALL_CHANGES).pipe(
+      mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
+        [new fromUserRoleUserTabActions.CancelChanges(), new fromUserRoleFunctionTabActions.CancelPermissionChanges()])
     );
 
   constructor(private actions$: Actions,

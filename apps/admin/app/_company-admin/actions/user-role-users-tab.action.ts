@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security';
 
-export const UPDATE_USER_TAB_CURRENT_USER_ROLE  = '[Company Admin/User Role User Tab] Update Current User Role IUserRoleUsersTabState';
+export const UPDATE_CURRENT_USER_ROLE_USER_TAB  = '[Company Admin/User Role User Tab] Update Current User Role IUserRoleUsersTabState';
 export const GET_USERS_AND_ROLES = '[Company Admin/User Role User Tab] Get Users And Roles';
 export const GET_USERS_AND_ROLES_SUCCESS = '[Company Admin/User Role User Tab] Get Users And Roles Success';
 export const ADD_USER_TO_ROLE = '[Company Admin/User Role User Tab] Add User To Role';
@@ -12,8 +12,8 @@ export const SET_USERS_TAB_SAVE_BUTTON_TEXT = '[Company Admin/User Role User Tab
 export const SAVE_CHANGES = '[Company Admin/User Role User Tab] Save Changes';
 
 export class UpdateUserTabCurrentUserRole implements Action {
-  readonly type = UPDATE_USER_TAB_CURRENT_USER_ROLE;
-  constructor(public payload: UserAssignedRole) { }
+  readonly type = UPDATE_CURRENT_USER_ROLE_USER_TAB;
+  constructor(public payload: any) { }
 }
 
 export class GetUsersAndRoles implements Action {

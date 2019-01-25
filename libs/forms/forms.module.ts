@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FocusDirective, PfValidatableDirective } from './directives';
-import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent } from './components';
+import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent, ActionButtonComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
 
 const declarations = [
@@ -13,7 +13,8 @@ const declarations = [
   // declarations
   ConfirmPasswordComponent,
   PfModalFormComponent,
-  InputDebounceComponent
+  InputDebounceComponent,
+  ActionButtonComponent
 ];
 
 @NgModule({

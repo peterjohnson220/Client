@@ -1,4 +1,4 @@
-<div *ngIf="currentRole;else no_role">
+<div *ngIf="currentRoleId;else no_role">
   <div class="users-container">
     <div class="users-not-in-role-container">
       <div class="row add-user-search">
@@ -68,11 +68,6 @@
         </table>
       </div>
     </div>
-  </div>
-
-  <div class="btn-container">
-    <button class="btn btn-primary" (click)="saveChanges()" [attr.data-qa-id]="'btn-user-tab-save-changes-btn'">{{saveButtonText}}</button>
-    <button class="btn btn-secondary" (click)="cancelChanges()" [attr.data-qa-id]="'btn-user-tab-cancel-btn'">Cancel</button>
   </div>
 </div>
 
