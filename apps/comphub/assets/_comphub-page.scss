@@ -39,3 +39,9 @@
     margin-right: .5rem;
   }
 }
+
+.uppercase-header {
+  text-transform: uppercase;
+  color: $comphub-header-blue;
+  font-weight: bold;
+}

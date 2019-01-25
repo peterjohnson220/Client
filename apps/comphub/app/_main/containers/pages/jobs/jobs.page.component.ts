@@ -61,6 +61,11 @@ export class JobsPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleTrendingJobClicked(trendingJob: string) {
+    this.store.dispatch(new fromJobsPageActions.SetSelectedJob(trendingJob));
+    this.navigateToNext.emit();
+  }
+
   ngOnDestroy(): void {
     this.jobSearchOptionsSub.unsubscribe();
   }

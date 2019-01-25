@@ -15,7 +15,7 @@ import { JobsPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { TrendingJobGroupComponent, CardLayoutComponent } from './components';
-
+import { WindowRef } from './services';
 
 @NgModule({
   imports: [
@@ -51,6 +51,9 @@ import { TrendingJobGroupComponent, CardLayoutComponent } from './components';
     PageLayoutComponent,
     DataPageComponent,
     SummaryPageComponent
+  ],
+  providers: [
+    WindowRef
   ]
 })
 export class MainModule { }

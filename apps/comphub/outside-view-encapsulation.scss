@@ -4,7 +4,26 @@
 // add those styles to this file.
 
 
-.k-list .k-state-selected {
-  background-color: white !important;
-  color: black !important;
+// Kendo Overrides
+.k-list {
+
+  .k-state-selected {
+    background-color: white !important;
+    color: black !important;
+  }
+
 }
+
+ .k-autocomplete {
+
+  .k-input, .k-item {
+    font-size: $comphub-font-size;
+
+    &::selection {
+      background: highlight !important;
+      color: black !important;
+    }
+  }
+
+}
+

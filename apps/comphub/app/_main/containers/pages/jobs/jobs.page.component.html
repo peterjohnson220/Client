@@ -4,37 +4,43 @@
   pageIconClass="fa-user-circle">
 
   <ng-container page-content>
-    <div class="job-search-section">
-    <div class="d-flex">
-      <kendo-autocomplete
-        class="flex-grow-1"
-        placeholder="Search for a Job Title..."
-        [data]="jobSearchOptions$ | async"
-        [filterable]="true"
-        [loading]="loadingJobSearchOptions$ | async"
-        [popupSettings]="popupSettings"
-        (valueChange)="handleJobSearchValueChanged($event)"
-        (filterChange)="handleJobSearchFilterChange($event)">
-        <ng-template kendoAutoCompleteNoDataTemplate>
-          No matching job titles
-        </ng-template>
-      </kendo-autocomplete>
-    </div>
-    </div>
 
-    <div class="trending-jobs-section">
-      <div class="header">Trending Jobs</div>
-      <p class="mb-5">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
+    <div class="row">
+      <div class="col-12 col-lg-12 col-xl-9">
+        <kendo-autocomplete
+          class="w-100 mt-4"
+          placeholder="Search for a Job Title..."
+          [data]="jobSearchOptions$ | async"
+          [filterable]="true"
+          [loading]="loadingJobSearchOptions$ | async"
+          [popupSettings]="popupSettings"
+          (valueChange)="handleJobSearchValueChanged($event)"
+          (filterChange)="handleJobSearchFilterChange($event)">
+          <ng-template kendoAutoCompleteNoDataTemplate>
+            No matching job titles
+          </ng-template>
+        </kendo-autocomplete>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-xl-9">
+        <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>
+        <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
 
-      <div class="row">
-        <div class="col-md-6 col-lg-4" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
-          <pf-trending-job-group
-            [trendingJobGroup]="trendingJobGroup">
-          </pf-trending-job-group>
+        <div class="row">
+          <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
+            <pf-trending-job-group
+              [trendingJobGroup]="trendingJobGroup"
+              (trendingJobClicked)="handleTrendingJobClicked($event)">
+            </pf-trending-job-group>
+          </div>
         </div>
       </div>
-
     </div>
+
+
+
+
   </ng-container>
 
   <ng-container actions-section>
