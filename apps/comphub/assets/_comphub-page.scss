@@ -4,11 +4,13 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
   width: 100%;
   background-color: white;
   font-size: $comphub-font-size;
   padding: 28px;
+  max-height: calc(100vh - 150px);
+  overflow-x: hidden;
+  overflow-y: auto;
 
   .page-header {
     font-size: 2.5rem;

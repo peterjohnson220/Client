@@ -1,6 +1,8 @@
 import { TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
 
-import { TrendingJobGroup } from '../models';
+import { PayMarket } from 'libs/models/paymarket';
+
+import { TrendingJobGroup, PricingPaymarket } from '../models';
 
 export class PayfactorsApiModelMapper {
 
@@ -9,6 +11,18 @@ export class PayfactorsApiModelMapper {
       return {
         Name: `Hot Jobs - ${tjg.GroupName === 'Industry' ? 'Your' : ''} ${tjg.GroupName}`,
         Jobs: tjg.TrendingJobs
+      };
+    });
+  }
+
+  static mapPaymarketsToPricingPayMarkets(paymarkets: PayMarket[]): PricingPaymarket[] {
+    return paymarkets.map(pm => {
+      return {
+        CompanyPayMarketId: pm.CompanyPayMarketId,
+        PayMarketName: pm.PayMarket,
+        Industry: pm.IndustryValue,
+        Location: pm.GeoValue,
+        Size: pm.SizeValue
       };
     });
   }
