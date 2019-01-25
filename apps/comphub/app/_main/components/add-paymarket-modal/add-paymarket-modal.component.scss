@@ -1,0 +1,40 @@
+@import 'comphub-styles';
+@import 'comphub-page';
+
+.modal-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: solid 1px #eaeaea;
+  box-shadow: 0 5px 3px #eaeaea;
+  margin-left: 0;
+}
+
+.form-content {
+  padding: 1rem 0;
+
+  div.col {
+    display: flex;
+    flex-direction: row;
+    padding: .5rem;
+  }
+
+  label {
+    line-height: 160%;
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+  }
+
+  .form-control {
+    height: 33px;
+  }
+}
+
+.modal-actions-section {
+  margin-top: 5rem;
+  button {
+    width: 105px;
+  }
+  .button-container {
+    min-width: 223px;
+  }
+}

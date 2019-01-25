@@ -1,7 +1,8 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromMarketsPageActions from '../actions/markets-page.actions';
-import { PricingPaymarket } from '../models';
+import { PricingPaymarket, MarketDataScope } from '../models';
+import { PayfactorsApiModelMapper, MarketsPageHelper } from '../helpers';
 
 export interface State {
   paymarkets: PricingPaymarket[];
@@ -9,6 +10,7 @@ export interface State {
   loadingPaymarketsError: boolean;
   paymarketsFilter: string;
   selectedPaymarket?: number;
+  marketDataScope: MarketDataScope;
 }
 
 const initialState: State = {
@@ -16,7 +18,8 @@ const initialState: State = {
   loadingPaymarkets: false,
   loadingPaymarketsError: false,
   paymarketsFilter: null,
-  selectedPaymarket: null
+  selectedPaymarket: null,
+  marketDataScope: null
 };
 
 // Reducer function
@@ -59,6 +62,18 @@ export function reducer(state = initialState, action: fromMarketsPageActions.Act
         selectedPaymarket: selectedId
       };
     }
+
+    case fromMarketsPageActions.GET_MD_SCOPE_SUCCESS:
+      return {
+        ...state,
+        marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(action.payload)
+      };
+
+    case fromMarketsPageActions.GET_MD_SCOPE_ERROR:
+      return {
+        ...state,
+        marketDataScope: MarketsPageHelper.buildDefaultMarketDataScope()
+      };
     default: {
       return state;
     }
@@ -86,3 +101,4 @@ export const getLoadingPaymarkets = (state: State) => state.loadingPaymarkets;
 export const getLoadingPaymarketsError = (state: State) => state.loadingPaymarketsError;
 export const getPaymarketsFilter = (state: State) => state.paymarketsFilter;
 export const getSelectedPaymarket = (state: State) => state.selectedPaymarket;
+export const getMarketDataScope = (state: State) => state.marketDataScope;
