@@ -23,20 +23,21 @@ export class JobsPageComponent implements OnInit, OnDestroy {
   trendingJobGroups$: Observable<TrendingJobGroup[]>;
   jobSearchOptions$: Observable<string[]>;
   loadingJobSearchOptions$: Observable<boolean>;
+  selectedJob$: Observable<string>;
 
   jobSearchOptionsSub: Subscription;
 
   potentialOptions: string[];
-  selectedJob: string;
+  currentSearchValue: string;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
   ) {
-    this.selectedJob = '';
     this.potentialOptions = [];
     this.trendingJobGroups$ = this.store.select(fromComphubMainReducer.getTrendingJobGroups);
     this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
     this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
+    this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.popupSettings = {
       appendTo: 'component'
     };
@@ -56,12 +57,12 @@ export class JobsPageComponent implements OnInit, OnDestroy {
 
   handleJobSearchValueChanged(selectedTerm: string): void {
     if (!selectedTerm || this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
-      this.selectedJob = selectedTerm;
       this.store.dispatch(new fromJobsPageActions.SetSelectedJob(selectedTerm));
     }
   }
 
   handleTrendingJobClicked(trendingJob: string) {
+    this.currentSearchValue = trendingJob;
     this.store.dispatch(new fromJobsPageActions.SetSelectedJob(trendingJob));
     this.navigateToNext.emit();
   }

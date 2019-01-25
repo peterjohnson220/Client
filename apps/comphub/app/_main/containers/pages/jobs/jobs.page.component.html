@@ -11,6 +11,7 @@
           class="w-100 mt-4"
           placeholder="Search for a Job Title..."
           [data]="jobSearchOptions$ | async"
+          [(value)]="currentSearchValue"
           [filterable]="true"
           [loading]="loadingJobSearchOptions$ | async"
           [popupSettings]="popupSettings"
@@ -48,7 +49,7 @@
       <button class="btn comphub-primary-btn"
               [attr.data-qa-id]="'btn-next'"
               (click)="nextButtonClicked()"
-              [disabled]="!(selectedJob.length)">Next</button>
+              [disabled]="!((selectedJob$ | async)?.length)">Next</button>
     </div>
   </ng-container>
 
