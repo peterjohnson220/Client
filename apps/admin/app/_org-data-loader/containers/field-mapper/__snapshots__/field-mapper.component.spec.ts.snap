@@ -3,7 +3,8 @@
 exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  delimiter={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -19,16 +20,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   <div
     class="upload-container"
   >
-    <label
-      for="delimiter"
-    >
-      Delimiter: 
-    </label>
-    <input
-      class="form-control"
-      id="delimiter"
-      type="text"
-    />
+    
     <kendo-upload>
       <kendo-upload-messages
         select="Select file..."
@@ -112,7 +104,8 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
 exports[`FieldMapperComponent should disable the Remove Mapping button when a mapping has NOT been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  delimiter={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -127,16 +120,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   <div
     class="upload-container"
   >
-    <label
-      for="delimiter"
-    >
-      Delimiter: 
-    </label>
-    <input
-      class="form-control"
-      id="delimiter"
-      type="text"
-    />
+    
     <kendo-upload>
       <kendo-upload-messages
         select="Select file..."
@@ -220,7 +204,8 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
 exports[`FieldMapperComponent should enable the Map button when a payfactors field AND client field have been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  delimiter={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -236,16 +221,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   <div
     class="upload-container"
   >
-    <label
-      for="delimiter"
-    >
-      Delimiter: 
-    </label>
-    <input
-      class="form-control"
-      id="delimiter"
-      type="text"
-    />
+    
     <kendo-upload>
       <kendo-upload-messages
         select="Select file..."
@@ -328,7 +304,8 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
 exports[`FieldMapperComponent should enable the Remove Mapping button when a mapping has been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
-  delimiter={[Function String]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -343,16 +320,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   <div
     class="upload-container"
   >
-    <label
-      for="delimiter"
-    >
-      Delimiter: 
-    </label>
-    <input
-      class="form-control"
-      id="delimiter"
-      type="text"
-    />
+    
     <kendo-upload>
       <kendo-upload-messages
         select="Select file..."
@@ -410,6 +378,126 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
               </button>
               <button
                 class="btn btn-primary"
+                type="button"
+              >
+                &lt; Remove Mapping
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should show a date format selector when the loader type is Employees 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="upload-container"
+  >
+    
+    <div
+      class="dateFormat-container"
+    >
+      <label
+        for="dateFormat"
+      >
+        Date Format: 
+      </label>
+      <kendo-combobox
+        class="form-control dateFormat"
+        id="dateFormat"
+        textfield="text"
+        valuefield="value"
+      />
+      <span
+        class="text-danger ml-2"
+      >
+        *
+      </span>
+    </div>
+    <kendo-upload>
+      <kendo-upload-messages
+        select="Select file..."
+      />
+    </kendo-upload>
+  </div><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
                 type="button"
               >
                 &lt; Remove Mapping

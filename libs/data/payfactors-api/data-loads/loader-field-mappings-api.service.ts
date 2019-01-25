@@ -25,7 +25,9 @@ export class LoaderFieldMappingsApiService {
   saveFieldMappings(mappings: any, ) {
     return this.payfactorsApiService.post(`${this.endpoint}.SaveFieldMappings`, {
       mappings: mappings.mappings,
-      companyId: mappings.companyId
+      companyId: mappings.companyId,
+      delimiter: mappings.delimiter,
+      dateFormat: mappings.dateFormat
   });
   }
 }

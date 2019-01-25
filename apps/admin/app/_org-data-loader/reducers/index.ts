@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromCompanySelectorReducer from './company-selector.reducer';
 import * as fromOrgDataFieldMappingsReducer from './org-data-field-mappings.reducer';
 import * as fromOrgDataEmailRecipientsReducer from './email-recipients.reducer';
+import * as fromLoaderSettingsReducer from './loader-settings.reducer';
 
 // Feature area state
 export interface OrgDataLoaderState {
   companySelector: fromCompanySelectorReducer.State;
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.State;
   emailRecipients: fromOrgDataEmailRecipientsReducer.State;
+  loaderSettings: fromLoaderSettingsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   companySelector: fromCompanySelectorReducer.reducer,
   orgDataFieldMappings: fromOrgDataFieldMappingsReducer.reducer,
-  emailRecipients: fromOrgDataEmailRecipientsReducer.reducer
+  emailRecipients: fromOrgDataEmailRecipientsReducer.reducer,
+  loaderSettings: fromLoaderSettingsReducer.reducer
 };
 
 
@@ -38,6 +41,8 @@ export const selectOrgDataFieldMappingsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.orgDataFieldMappings);
 export const selectEmailRecipientsState =
   createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.emailRecipients);
+export const selectLoaderSettingsState =
+  createSelector(selectorgDataAutoloaderState, (state: OrgDataLoaderState) => state.loaderSettings);
 
 export const {
   selectAll: getCompanies
@@ -91,4 +96,33 @@ export const getRemovingRecipientError = createSelector(
 export const getEmailRecipientsModalOpen = createSelector(
   selectEmailRecipientsState,
   fromOrgDataEmailRecipientsReducer.getEmailRecipientsModalOpen
+);
+
+export const {
+  selectAll: getLoaderSettings
+} = fromLoaderSettingsReducer.adapter.getSelectors(selectLoaderSettingsState);
+
+export const getLoadingLoaderSettings = createSelector(
+  selectLoaderSettingsState,
+  fromLoaderSettingsReducer.getLoadingLoaderSettings
+);
+
+export const getLoadingLoaderSettingsError = createSelector(
+  selectLoaderSettingsState,
+  fromLoaderSettingsReducer.getLoadingLoaderSettingsError
+);
+
+export const getLoaderSettingsSaving = createSelector(
+  selectLoaderSettingsState,
+  fromLoaderSettingsReducer.getSavingLoaderSettings
+);
+
+export const getLoaderSettingsSavingSuccess = createSelector(
+  selectLoaderSettingsState,
+  fromLoaderSettingsReducer.getSavingLoaderSettingsSuccess
+);
+
+export const getLoaderSettingsSavingError = createSelector(
+  selectLoaderSettingsState,
+  fromLoaderSettingsReducer.getSavingLoaderSettingsError
 );
