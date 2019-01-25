@@ -36,5 +36,15 @@ describe('CommunityPostRepliesComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+  it('should emit a replyHashTagClicked event, when hashtag is clicked', () => {
+    spyOn(instance.replyHashTagClicked, 'emit');
 
+    const hashtag = '#hashtag';
+
+    fixture.detectChanges();
+
+    instance.handleReplyHashTagClicked(hashtag);
+
+    expect(instance.replyHashTagClicked.emit).toHaveBeenCalledWith(hashtag);
+  });
 });

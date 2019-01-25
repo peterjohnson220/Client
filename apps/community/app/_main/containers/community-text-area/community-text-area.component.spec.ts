@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 
@@ -15,6 +16,7 @@ describe('CommunityTextAreaComponent', () => {
   let fixture: ComponentFixture<CommunityTextAreaComponent>;
   let instance: CommunityTextAreaComponent;
   let store: Store<fromCommunityPostReducer.State>;
+  let pfLinkifyService: PfLinkifyService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,6 +33,10 @@ describe('CommunityTextAreaComponent', () => {
         {
           provide: CommunityTagApiService,
           useValue: { validateNewCompanyName: jest.fn() }
+        },
+        {
+          provide: PfLinkifyService,
+          useValue: { getLinks: jest.fn() }
         }
       ],
       declarations: [
@@ -43,6 +49,8 @@ describe('CommunityTextAreaComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch');
+
+    pfLinkifyService = TestBed.get(PfLinkifyService);
 
     fixture = TestBed.createComponent(CommunityTextAreaComponent);
     instance = fixture.componentInstance;

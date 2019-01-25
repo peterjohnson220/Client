@@ -20,7 +20,10 @@
                                         [isExpiredPoll]="post.UserPollRequest ? post.UserPollRequest.IsExpired : false">
               </pf-community-post-header>
               <div *ngIf="!post.UserPollRequest; else user_poll">
-                <pf-community-post-content (hashTagClicked)="hashtagClicked($event)" class="mt-2 mb-2" [content]="post.Content"></pf-community-post-content>
+                <pf-community-post-content class="mt-2 mb-2"
+                                           (hashTagClicked)="hashtagClicked($event)"
+                                           [content]="post.Content">
+                </pf-community-post-content>
                 <div class="url-preview-card p-1" *ngIf="post?.UrlPreviewData.PreviewTitle">
                   <a [href]="post.UrlPreviewData.PreviewUrl" target="_blank">
                     <div class="url-preview-card-image-container mr-2">
@@ -66,7 +69,8 @@
                 <div *ngIf="showReplies[i]">
                   <pf-community-post-replies
                     [replies]="post.Replies"
-                    [loading]="loadingCommunityPostReplies$ | async">
+                    [loading]="loadingCommunityPostReplies$ | async"
+                    (replyHashTagClicked)="hashtagClicked($event)">
                   </pf-community-post-replies>
                 </div>
               </div>
@@ -75,7 +79,8 @@
                   <pf-community-poll
                     [request]="post.UserPollRequest"
                     [response]="post.UserPollResponse"
-                    [type]="pollsType">
+                    [type]="pollsType"
+                    (pollHashTagClicked)="hashtagClicked($event)">
                   </pf-community-poll>
                 </div>
               </ng-template>

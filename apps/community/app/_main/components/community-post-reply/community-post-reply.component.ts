@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommunityReply } from 'libs/models/community';
 import { environment } from 'environments/environment';
@@ -10,7 +10,11 @@ import { environment } from 'environments/environment';
 })
 export class CommunityPostReplyComponent {
   @Input() reply: CommunityReply;
+  @Output() replyHashTagClicked = new EventEmitter();
   avatarUrl = environment.avatarSource;
   constructor() {}
 
+  handleHashTagClicked(event: any) {
+    this.replyHashTagClicked.emit(event);
+  }
 }

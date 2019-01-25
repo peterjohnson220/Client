@@ -4,6 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
@@ -16,6 +18,7 @@ describe('CommunityStartPollComponent', () => {
   let instance: CommunityNewPollComponent;
   let store: Store<fromRootState.State>;
   let formBuilder: FormBuilder;
+  let pfLinkifyService: PfLinkifyService;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -25,6 +28,12 @@ describe('CommunityStartPollComponent', () => {
           ...fromRootState.reducers
         }),
         ReactiveFormsModule
+      ],
+      providers: [
+        {
+          provide: PfLinkifyService,
+          useValue: { getLinks: jest.fn() }
+        }
       ],
       declarations: [
         CommunityNewPollComponent
@@ -38,6 +47,7 @@ describe('CommunityStartPollComponent', () => {
 
     spyOn(store, 'dispatch');
 
+    pfLinkifyService = TestBed.get(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityNewPollComponent);
     instance = fixture.componentInstance;
   });

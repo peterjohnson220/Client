@@ -8,6 +8,7 @@ exports[`CommunityStartPollComponent should show community start poll 1`] = `
   displayPollLengthChoices="false"
   formBuilder={[Function FormBuilder]}
   maxTextLength={[Function Number]}
+  pfLinkifyService={[Function Object]}
   pollLengthDays={[Function Array]}
   pollLengthHours={[Function Array]}
   store={[Function Store]}
