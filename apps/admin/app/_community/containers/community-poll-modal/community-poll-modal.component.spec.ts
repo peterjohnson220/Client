@@ -74,7 +74,8 @@ describe('CommunityPollModalComponent', () => {
       CommunityPollId: '1',
       Question: 'test',
       ResponseOptions: [],
-      Status: 0
+      Status: 0,
+      Links: []
     };
 
     const action = new fromCommunityPollActions.EditingCommunityPoll(communityPollEditRequest);
@@ -94,7 +95,8 @@ describe('CommunityPollModalComponent', () => {
       CommunityPollId: '1',
       Question: 'test',
       ResponseOptions: [],
-      Status: 0
+      Status: 0,
+      Links: []
     };
 
     const action = new fromCommunityPollActions.AddingCommunityPoll(communityPollEditRequest);

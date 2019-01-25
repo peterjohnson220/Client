@@ -90,7 +90,8 @@ export class CommunityPollModalComponent implements OnInit {
       CommunityPollId: this.communityPollId.value,
       Question: this.context.value,
       ResponseOptions: responseOptions,
-      Status: this.status.value
+      Status: this.status.value,
+      Links: []
     };
 
     if (this.isEditMode) {
