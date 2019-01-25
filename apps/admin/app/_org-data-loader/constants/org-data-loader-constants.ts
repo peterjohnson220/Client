@@ -33,7 +33,6 @@ export const ORG_DATA_PF_STRUCTURE_FIELDS = [
 export const ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS = [
   'Job_Code',
   'Structure_Code',
-  'Structure_Name',
   'Grade_Code',
   'PayMarket'
 ];
