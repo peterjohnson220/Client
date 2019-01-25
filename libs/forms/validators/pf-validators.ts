@@ -20,4 +20,10 @@ export class PfValidators {
     const hasSelection = control.value && control.value.length > 0;
     return !hasSelection ? {'selectionRequired': true} : null;
   }
+
+  static minLengthTrimWhitespace(length: number): ValidatorFn {
+    return (control: FormControl) => {
+      return !(control.value && control.value.trim().length >= length) ? {'lengthValid': true} : null;
+    };
+  }
 }
