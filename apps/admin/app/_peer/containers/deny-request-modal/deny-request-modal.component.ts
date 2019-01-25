@@ -35,7 +35,7 @@ export class DenyRequestModalComponent {
 
   createForm(): void {
     this.denyReasonForm = this.fb.group({
-      'reason': ['', [PfValidators.required, Validators.minLength(30)]]
+      'reason': ['', [PfValidators.required, PfValidators.minLengthTrimWhitespace(30)]]
     });
   }
 

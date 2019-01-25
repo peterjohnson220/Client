@@ -39,7 +39,7 @@ export class ApproveRequestModalComponent {
   createForm(): void {
     this.approveForm = this.fb.group({
       'peopleToNotify': [ExchangeRequestPeopleToNotifyEnum.NoOne, [PfValidators.required]],
-      'reason': ['', [PfValidators.required, Validators.minLength(30)]]
+      'reason': ['', [PfValidators.required, PfValidators.minLengthTrimWhitespace(30)]]
     });
   }
 
