@@ -11,6 +11,7 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
   addingCommunityPostReplySuccessSubscription={[Function Subscriber]}
   communityPostReplyForm={[Function FormGroup]}
   formBuilder={[Function FormBuilder]}
+  pfLinkifyService={[Function Object]}
   replyMaxLength={[Function Number]}
   replySubmitted={[Function EventEmitter]}
   store={[Function Store]}

@@ -8,6 +8,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   options={[Function Object]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
+  pfLinkifyService={[Function Object]}
   store={[Function Store]}
   suggestTagsContainer="undefined"
   suggestTagsContainerVisible={[Function Boolean]}

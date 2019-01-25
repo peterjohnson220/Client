@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { CommunityPollRequest, CommunityPollResponse } from 'libs/models';
 
 import { Store } from '@ngrx/store';
@@ -20,6 +20,7 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   @Input() public request: CommunityPollRequest;
   @Input() public response: CommunityPollResponse;
   @Input() public type = CommunityPollTypeEnum.CommunityPoll;
+  @Output() public pollHashTagClicked  = new EventEmitter();
 
   communityPollResponses$: Observable<CommunityPollResponse[]>;
   communityPolResponseSubmitted$: Observable<CommunityPollResponse>;
@@ -72,5 +73,7 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCommunityPollResponseActions.DismissingCommunityPollResponse(
       { communityPollId: communityPollId } ));
   }
-
+  handleHashTagClicked(event: any) {
+    this.pollHashTagClicked.emit(event);
+  }
 }

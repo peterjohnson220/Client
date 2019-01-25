@@ -53,6 +53,7 @@ import { CommunityPostFilterOptionsEffects } from './effects/community-post-filt
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
+import { PfLinkifyService } from './services/pf-linkify-service';
 
 import { reducers } from './reducers';
 import { CommunityPollApiService } from 'libs/data/payfactors-api/community/community-poll-api.service';
@@ -143,6 +144,7 @@ const components = [
     CommunityJobEffectsService,
     CommunityPostEffectsService,
     MapboxApiService,
+    PfLinkifyService
   ]
 })
 export class MainModule {
