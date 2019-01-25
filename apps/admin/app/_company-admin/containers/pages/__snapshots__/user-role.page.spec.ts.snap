@@ -29,6 +29,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
     
      User Roles 
     
+    
     <button
       class="btn btn-primary"
       type="button"
@@ -180,6 +181,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   <pf-page-with-title-bar>
     
      User Roles 
+    
     
     <button
       class="btn btn-primary"
