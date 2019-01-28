@@ -1,12 +1,14 @@
 <pf-comphub-page-layout
   pageTitle="Jobs"
   pageSubTitle="First, let's find a job to price"
-  pageIconClass="fa-user-circle">
+  pageIconClass="fa-user-circle"
+  [hideBackButton]="true"
+  [nextButtonEnabled]="((selectedJob$ | async)?.length)">
 
   <ng-container page-content>
 
     <div class="row">
-      <div class="col-12 col-lg-12 col-xl-9">
+      <div class="col-lg-12 col-xl-9">
         <kendo-autocomplete
           class="w-100 mt-4"
           placeholder="Search for a Job Title..."
@@ -23,6 +25,7 @@
         </kendo-autocomplete>
       </div>
     </div>
+
     <div class="row">
       <div class="col-lg-12 col-xl-9">
         <div class="uppercase-header mt-5 mb-2">Trending Jobs</div>
@@ -39,18 +42,6 @@
       </div>
     </div>
 
-
-
-
-  </ng-container>
-
-  <ng-container actions-section>
-    <div class="actions-section">
-      <button class="btn comphub-primary-btn"
-              [attr.data-qa-id]="'btn-next'"
-              (click)="nextButtonClicked()"
-              [disabled]="!((selectedJob$ | async)?.length)">Next</button>
-    </div>
   </ng-container>
 
 </pf-comphub-page-layout>

@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'pf-data-page',
   templateUrl: './data.page.component.html',
   styleUrls: ['./data.page.component.scss']
 })
-export class DataPageComponent implements OnInit {
+export class DataPageComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

@@ -13,7 +13,6 @@ import { PricingPaymarket } from '../../../models';
   styleUrls: ['./markets.page.component.scss']
 })
 export class MarketsPageComponent implements OnInit {
-
   visiblePaymarkets$: Observable<PricingPaymarket[]>;
   loadingPaymarkets$: Observable<boolean>;
   loadingPaymarketsError$: Observable<boolean>;
@@ -48,5 +47,4 @@ export class MarketsPageComponent implements OnInit {
     this.searchTerm = '';
     this.handleSearchChanged(this.searchTerm);
   }
-
 }

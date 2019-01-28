@@ -7,6 +7,20 @@
 
   <ng-content select="[page-content]"></ng-content>
 
-  <ng-content select="[actions-section]"></ng-content>
+  <div class="actions-section">
+    <button *ngIf="!hideBackButton"
+            class="btn comphub-secondary-btn"
+            [attr.data-qa-id]="'btn-back'"
+            (click)="handleBackButtonClicked()">
+      Back
+    </button>
+    <button *ngIf="!hideNextButton"
+            class="btn comphub-primary-btn"
+            [disabled]="!nextButtonEnabled"
+            [attr.data-qa-id]="'btn-next'"
+            (click)="handleNextButtonClicked()">
+      Next
+    </button>
+  </div>
 
 </div>

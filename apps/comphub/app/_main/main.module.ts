@@ -10,8 +10,8 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, PageLayoutComponent,
-  DataPageComponent, SummaryPageComponent } from './containers';
+import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, DataPageComponent, PageLayoutComponent,
+  SummaryPageComponent } from './containers';
 import { JobsPageEffects, PaymarketPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
