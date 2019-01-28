@@ -1,4 +1,6 @@
-import { TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
+import { GridDataResult } from '@progress/kendo-angular-grid';
+
+import { QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
 
@@ -25,5 +27,12 @@ export class PayfactorsApiModelMapper {
         Size: pm.SizeValue
       };
     });
+  }
+
+  static mapPriceDataToGridDataResult(response: QuickPriceResponse): GridDataResult {
+    return {
+      total: response.Count,
+      data: response.Data
+    };
   }
 }
