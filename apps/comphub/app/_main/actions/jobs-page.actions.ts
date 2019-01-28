@@ -5,9 +5,9 @@ import { TrendingJobGroup } from '../models';
 export const GET_TRENDING_JOBS = '[Comphub/Jobs Page] Get Trending Jobs';
 export const GET_TRENDING_JOBS_SUCCESS = '[Comphub/Jobs Page] Get Trending Jobs Success';
 export const GET_TRENDING_JOBS_ERROR = '[Comphub/Jobs Page] Get Trending Jobs Error';
-export const GET_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Page] Get Job Search Autocomplete options';
-export const GET_JOB_SEARCH_OPTIONS_SUCCESS = '[Comphub/Jobs Page] Get Job Search Autocomplete options success';
-export const GET_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Page] Get Job Search Autocomplete options error';
+export const GET_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Page] Get Job Search Autocomplete Options';
+export const GET_JOB_SEARCH_OPTIONS_SUCCESS = '[Comphub/Jobs Page] Get Job Search Autocomplete Options Success';
+export const GET_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Page] Get Job Search Autocomplete Options Error';
 export const SET_SELECTED_JOB = '[Comphub/Jobs Page] Set Selected Job';
 
 export class GetTrendingJobs implements Action {

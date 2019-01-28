@@ -83,9 +83,9 @@ export const getSelectedJob = createSelector(
 );
 
 // Comphub Page
-export const getSelectedPageId = createSelector(
+export const getSelectedPageIndex = createSelector(
   selectComphubPageState,
-  fromComphubPageReducer.getSelectedPageId
+  fromComphubPageReducer.getSelectedPageIndex
 );
 
 // Markets Page

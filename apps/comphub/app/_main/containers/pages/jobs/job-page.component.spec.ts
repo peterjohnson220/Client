@@ -79,14 +79,6 @@ describe('Comphub - Jobs Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should emit an event when next clicked', () => {
-    spyOn(instance.navigateToNext, 'emit');
-
-    instance.nextButtonClicked();
-
-    expect(instance.navigateToNext.emit).toHaveBeenCalledWith();
-  });
-
   it('should dispatch a set selected job action when the search is changed to empty filter', () => {
 
     spyOn(store, 'dispatch');

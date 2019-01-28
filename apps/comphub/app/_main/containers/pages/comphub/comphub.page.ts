@@ -3,9 +3,9 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import * as fromComphubMainReducer from '../../reducers';
-import { AccordionCards, AccordionCard, ComphubPages } from '../../data';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
+import * as fromComphubMainReducer from '../../../reducers';
+import { AccordionCards, AccordionCard, ComphubPages } from '../../../data';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -17,29 +17,29 @@ export class ComphubPageComponent implements OnInit {
   comphubPages = ComphubPages;
   cardContentContainerWidth: number;
 
-  selectedPageId$: Observable<string>;
+  selectedPageIndex$: Observable<number>;
 
   private readonly cardHeaderWidth = 60;
   private readonly cardHeaderMargin = 8;
   private readonly numberOfCards = 4;
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
+    this.selectedPageIndex$ = this.store.select(fromComphubMainReducer.getSelectedPageIndex);
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize() {
     window.setTimeout(() => {
       this.updateCardContentContainerWidth();
     }, 100);
   }
 
   ngOnInit() {
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.updateCardContentContainerWidth();
   }
 
   handleCardChange(cardId: string) {
-    this.store.dispatch(new fromComphubPageActions.AccordionCardChange({ cardId: cardId }));
+    this.store.dispatch(new fromComphubPageActions.NavigateToCard({ cardId: cardId }));
   }
 
   private updateCardContentContainerWidth() {

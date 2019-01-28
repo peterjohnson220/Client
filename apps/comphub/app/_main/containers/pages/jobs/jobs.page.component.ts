@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { PopupSettings } from '@progress/kendo-angular-dropdowns';
 
+import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
 import * as fromJobsPageActions from '../../../actions/jobs-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { TrendingJobGroup } from '../../../models';
@@ -15,8 +16,6 @@ import { TrendingJobGroup } from '../../../models';
   styleUrls: ['./jobs.page.component.scss']
 })
 export class JobsPageComponent implements OnInit, OnDestroy {
-  @Output() navigateToNext: EventEmitter<void> = new EventEmitter<void>();
-
   popupSettings: PopupSettings;
 
   // Observables
@@ -64,14 +63,10 @@ export class JobsPageComponent implements OnInit, OnDestroy {
   handleTrendingJobClicked(trendingJob: string) {
     this.currentSearchValue = trendingJob;
     this.store.dispatch(new fromJobsPageActions.SetSelectedJob(trendingJob));
-    this.navigateToNext.emit();
+    this.store.dispatch(new fromCompHubPageActions.NavigateToNextCard());
   }
 
   ngOnDestroy(): void {
     this.jobSearchOptionsSub.unsubscribe();
-  }
-
-  nextButtonClicked(): void {
-    this.navigateToNext.emit();
   }
 }
