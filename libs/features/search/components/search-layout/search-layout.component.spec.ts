@@ -23,12 +23,4 @@ describe('Search Feature - Search Layout', () => {
 
     expect(fixture).toMatchSnapshot();
   });
-
-  it('should not show results count div when results count input = null', () => {
-    instance.resultsCount = null;
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
 });

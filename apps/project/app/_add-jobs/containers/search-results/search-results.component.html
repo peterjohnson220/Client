@@ -1,6 +1,4 @@
-<pf-search-results
-  [useSmallBizStyles]="useSmallBizStyles"
-  [numberOfCurrentResults]="(jobResults$ | async)?.length">
+<pf-search-results [numberOfCurrentResults]="(jobResults$ | async)?.length">
 
   <ng-container *ngIf="(jobResults$ | async)?.length; else noResultsMessage">
     <!--Not tracking by ID here since we are only loading 25 and it does not make much of a performance difference

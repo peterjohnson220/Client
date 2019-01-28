@@ -1,14 +1,13 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule, combineReducers } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
 
-import * as fromSearchResultsActions from '../../actions/search-results.actions';
-import { JobResult, generateMockPayFactorsJobResult } from '../../models';
-import { SearchResultsComponent } from './search-results.component';
 import * as fromAddJobsReducer from '../../reducers';
+import * as fromSearchResultsActions from '../../actions/search-results.actions';
+import { SearchResultsComponent } from './search-results.component';
+import { JobResult, generateMockPayFactorsJobResult } from '../../models';
 
 describe('Project - Add Jobs - Search Results', () => {
   let fixture: ComponentFixture<SearchResultsComponent>;
@@ -39,41 +38,8 @@ describe('Project - Add Jobs - Search Results', () => {
     const selectedJob: JobResult = generateMockPayFactorsJobResult();
     const expectedAction = new fromSearchResultsActions.ToggleJobSelection(selectedJob);
 
-    instance.canSelectJobs = true;
-
     spyOn(store, 'dispatch');
 
-    instance.handleJobSelectionToggle(selectedJob);
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should not select a job when canSelectJobs = false', () => {
-    const selectedJob: JobResult = generateMockPayFactorsJobResult();
-
-    instance.canSelectJobs = false;
-
-    spyOn(store, 'dispatch');
-
-    instance.handleJobSelectionToggle(selectedJob);
-
-    expect(store.dispatch).not.toHaveBeenCalled();
-  });
-
-  it('should unselect a selected job when canSelectJobs = false', () => {
-    const selectedJob: JobResult = generateMockPayFactorsJobResult();
-    const expectedAction = new fromSearchResultsActions.ToggleJobSelection(selectedJob);
-
-    instance.canSelectJobs = true;
-
-    spyOn(store, 'dispatch');
-
-    // select the job
-    instance.handleJobSelectionToggle(selectedJob);
-
-    instance.canSelectJobs = false;
-
-    // unselect the job
     instance.handleJobSelectionToggle(selectedJob);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

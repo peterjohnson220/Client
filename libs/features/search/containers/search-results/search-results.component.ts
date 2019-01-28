@@ -14,7 +14,6 @@ import * as fromSearchReducer from '../../reducers';
 export class SearchResultsComponent implements OnInit, OnDestroy {
   @ViewChild('results') resultsContainer: ElementRef;
   @Input() numberOfCurrentResults: number;
-  @Input() useSmallBizStyles: boolean;
 
   // Observables
   loadingMoreResults$: Observable<boolean>;

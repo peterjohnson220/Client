@@ -1,31 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Search Feature - Search Layout should not show results count div when results count input = null 1`] = `
-<pf-search-layout
-  resultsCount="null"
->
-  <div
-    class="search"
-  >
-    <div
-      class="filters-sidebar"
-    />
-    <div
-      class="content"
-    >
-      <div
-        class="actions-container"
-      >
-        <div
-          class="buttons"
-        />
-        
-      </div>
-    </div>
-  </div>
-</pf-search-layout>
-`;
-
 exports[`Search Feature - Search Layout should show an english formatted results count 1`] = `
 <pf-search-layout
   resultsCount={[Function Number]}
@@ -45,14 +19,13 @@ exports[`Search Feature - Search Layout should show an english formatted results
         <div
           class="buttons"
         />
-        
         <div
           class="results-count"
         >
           <strong>
             6,000
           </strong>
-           Jobs 
+           Jobs 
         </div>
       </div>
     </div>
