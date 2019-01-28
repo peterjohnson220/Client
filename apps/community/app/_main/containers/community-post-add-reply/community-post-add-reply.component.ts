@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { PfLinkifyService } from '../../services/pf-linkify-service'
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';

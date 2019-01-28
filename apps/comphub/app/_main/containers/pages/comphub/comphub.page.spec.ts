@@ -6,9 +6,9 @@ import {combineReducers, Store, StoreModule} from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 
 import { ComphubPageComponent } from './comphub.page';
-import * as fromComphubMainReducer from '../../reducers';
-import * as fromComphubPageActions from '../../actions/comphub-page.actions';
-import { ComphubPages } from '../../data';
+import * as fromComphubMainReducer from '../../../reducers';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
+import { ComphubPages } from '../../../data';
 
 describe('Comphub - Comphub Main Page', () => {
   let instance: ComphubPageComponent;
@@ -34,10 +34,10 @@ describe('Comphub - Comphub Main Page', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch AccordionCardChange action when next page is selected', () => {
+  it('should dispatch a NavigateToCard action when handling a card change', () => {
     spyOn(store, 'dispatch');
 
-    const expectedAction = new fromComphubPageActions.AccordionCardChange({ cardId: ComphubPages.Markets});
+    const expectedAction = new fromComphubPageActions.NavigateToCard({ cardId: ComphubPages.Markets});
 
     instance.handleCardChange(ComphubPages.Markets);
 

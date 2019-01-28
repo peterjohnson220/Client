@@ -71,7 +71,7 @@ describe('CommunityNewPostComponent', () => {
   });
   it('it should return true when form is valid', () => {
     // Set required fields
-    instance.communityDiscussionForm.controls['context'].setValue("this is the context");
+    instance.communityDiscussionForm.controls['context'].setValue('this is the context');
     instance.communityDiscussionForm.controls['isInternalOnly'].setValue(false);
 
     const value = instance.isFormValid;

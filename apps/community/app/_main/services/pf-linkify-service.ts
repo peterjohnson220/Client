@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgxLinkifyjsService, } from 'ngx-linkifyjs';
+import { Link, NgxLinkifyjsService, } from 'ngx-linkifyjs';
+
+import { CommunityLink } from 'libs/models/community';
 
 @Injectable()
 export class PfLinkifyService {
@@ -8,7 +10,15 @@ export class PfLinkifyService {
 
   getLinks(content: string) {
     const links = this.linkifyService.find(content);
-    return links.map(link => ({ Type: link.type, Value: link.value, Href: link.href }));
+    return links.map(link => this.mapToCommunityLink(link));
 
+  }
+
+  mapToCommunityLink(link: Link): CommunityLink {
+    return {
+      Type: link.type,
+      Value: link.value,
+      Href: link.href
+    };
   }
 }
