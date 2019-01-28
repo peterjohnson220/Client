@@ -9,7 +9,7 @@
       (valueChanged)="handleSearchChanged($event)">
     </pf-input-debounce>
   </div>
-  <div class="paymarket-results" [class.smallBiz]="useSmallBizStyles">
+  <div class="paymarket-results">
     <pf-async-container
       [loading]="loadingPaymarkets$ | async"
       [spinnerType]="'GIF'"

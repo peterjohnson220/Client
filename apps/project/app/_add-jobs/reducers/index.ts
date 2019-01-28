@@ -70,11 +70,6 @@ export const getAddingDataError = createSelector(
   fromAddJobsPageReducer.getAddingDataError
 );
 
-export const getAddingDataErrorMessage = createSelector(
-  selectAddJobsPageState,
-  fromAddJobsPageReducer.getAddingDataErrorMessage
-);
-
 // Create New Job Page
 export const getJdmEnabled = createSelector(
   selectCreateNewJobPageState,
