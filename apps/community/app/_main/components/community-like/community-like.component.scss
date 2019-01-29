@@ -13,3 +13,8 @@
 .community-btn-clicked .icon {
   color: #FA4646;
 }
+
+:host ::ng-deep .tooltip-inner {
+  width: 150px;
+  white-space: pre;
+ }

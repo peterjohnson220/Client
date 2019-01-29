@@ -26,6 +26,7 @@ export interface CommunityPost {
   UserPollRequest?: CommunityPollRequest;
   UserPollResponse?: CommunityPollResponse;
   FilterTag: string;
+  UserLikes: CommunityUserInfo[];
 }
 
 export function generateMockCommunityPost(likeCount: number = 0, replyCount: number = 0, postText: string = '',
@@ -57,6 +58,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     UserPollRequest : { CommunityPollId: '123', Question: 'Question',
       DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false },
     UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] },
-    FilterTag: '#TestTag'
+    FilterTag: '#TestTag',
+    UserLikes: []
   };
 }
