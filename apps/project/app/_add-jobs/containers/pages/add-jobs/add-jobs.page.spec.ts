@@ -1,21 +1,18 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import spyOn = jest.spyOn;
-import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs/index';
+import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockUserContext } from 'libs/models/security';
-import { SettingsService } from 'libs/state/app-context/services';
 
-import { AddJobsPageComponent } from './add-jobs.page';
 import * as fromAddJobsPageActions from '../../../actions/add-jobs-page.actions';
 import * as fromPaymarketActions from '../../../actions/paymarkets.actions';
 import * as fromAddJobsSearchResultsActions from '../../../actions/search-results.actions';
 import * as fromAddJobsReducer from '../../../reducers';
+
+import { AddJobsPageComponent } from './add-jobs.page';
+import { ActivatedRoute, Router } from '@angular/router';
 
 describe('Project - Add Jobs - Jobs Page', () => {
   let fixture: ComponentFixture<AddJobsPageComponent>;
@@ -31,8 +28,7 @@ describe('Project - Add Jobs - Jobs Page', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           project_addJobs: combineReducers(fromAddJobsReducer.reducers),
-        }),
-        NgbProgressbarModule
+        })
       ],
       declarations: [
         AddJobsPageComponent
@@ -45,10 +41,6 @@ describe('Project - Add Jobs - Jobs Page', () => {
         {
           provide: Router,
           useValue: { navigate: jest.fn() },
-        },
-        {
-          provide: SettingsService,
-          useClass: SettingsService
         }
       ],
       // Shallow Testing
@@ -143,14 +135,4 @@ describe('Project - Add Jobs - Jobs Page', () => {
     expect(router.navigate).toHaveBeenCalledWith(['../create-new-job'], { relativeTo: route });
   });
 
-  it('should not display GUI features related to job count in non small biz companies, and should display the "normal"' +
-    ' result count ', () => {
-    instance.pageShown$ = of(true);
-    instance.numberOfResults$ = of(100);
-    instance.userContext = of(generateMockUserContext());
-
-    fixture.detectChanges();
-
-    expect(fixture).toMatchSnapshot();
-  });
 });
