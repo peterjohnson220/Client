@@ -17,6 +17,7 @@ export class TileType {
   DataDiagnostics = TileTypes.DataDiagnostics;
   Community = TileTypes.Community;
   NewCommunity = TileTypes.NewCommunity;
+  QuickPrice = TileTypes.QuickPrice;
   Ideas = TileTypes.Ideas;
 
   constructor() {
@@ -35,6 +36,7 @@ export class TileType {
       TileTypes.DataDiagnostics,
       TileTypes.Community,
       TileTypes.NewCommunity,
+      TileTypes.QuickPrice,
       TileTypes.Ideas
     ];
   }

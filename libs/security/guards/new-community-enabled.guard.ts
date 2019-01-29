@@ -1,3 +1,4 @@
+// TODO: Replace with generalized TileEnabledGuard
 import { Injectable, OnDestroy } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
