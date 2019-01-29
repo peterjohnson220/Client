@@ -54,6 +54,8 @@ export class UserTileToTileMapper {
         return TileTypes.NewCommunity;
       case 'Ideas':
         return TileTypes.Ideas;
+      case 'Quick Price':
+        return TileTypes.QuickPrice;
       default:
         return TileTypes.Unknown;
     }
