@@ -1,3 +1,5 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromJobsPageActions from '../actions/jobs-page.actions';
 import { TrendingJobGroup } from '../models';
 
@@ -35,7 +37,7 @@ export function reducer(state = initialState, action: fromJobsPageActions.Action
       return {
         ...state,
         loadingTrendingJobs: false,
-        trendingJobGroups: action.payload
+        trendingJobGroups: cloneDeep(action.payload).sort((a, b) => a.Order - b.Order)
       };
     }
     case fromJobsPageActions.GET_TRENDING_JOBS_ERROR: {
