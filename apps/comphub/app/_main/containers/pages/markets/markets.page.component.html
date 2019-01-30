@@ -5,6 +5,17 @@
   [nextButtonEnabled]="true">
 
   <ng-container page-content>
+    <pf-add-paymarket-modal *ngIf="addPayMarketModalOpen$ | async"
+      [marketDataScope]="marketDataScope$ | async"
+      [saving]="savingPayMarket$ | async"
+      [savingConflict]="savingPayMarketConflict$ | async"
+      [savingError]="savingPayMarketError$ | async"
+      (saveClick)="handleSavePayMarket($event)"
+      (skipClick)="handleSkipPayMarket()">
+    </pf-add-paymarket-modal>
+  </ng-container>
+
+  <ng-container page-content>
 
     <pf-async-container
       [loading]="loadingPaymarkets$ | async"
@@ -43,7 +54,6 @@
 
 
     </pf-async-container>
-
   </ng-container>
 
 </pf-comphub-page-layout>

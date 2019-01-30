@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -13,10 +13,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, DataPageComponent, PageLayoutComponent,
   SummaryPageComponent } from './containers';
-import { JobsPageEffects, PaymarketPageEffects, DataPageEffects } from './effects';
+import { JobsPageEffects, MarketsPageEffects, AddPayMarketModalEffects, DataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { TrendingJobGroupComponent, CardLayoutComponent, SelectPaymarketsComponent } from './components';
+import { TrendingJobGroupComponent, CardLayoutComponent, SelectPaymarketsComponent,
+  AddPayMarketModalComponent } from './components';
 import { WindowRef } from './services';
 
 @NgModule({
@@ -24,13 +25,15 @@ import { WindowRef } from './services';
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     // 3rd Party
     StoreModule.forFeature('comphub_main', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
-      PaymarketPageEffects,
-      DataPageEffects
+      DataPageEffects,
+      MarketsPageEffects,
+      AddPayMarketModalEffects
     ]),
 
     // Routing
@@ -49,6 +52,7 @@ import { WindowRef } from './services';
     // Components
     TrendingJobGroupComponent,
     CardLayoutComponent,
+    AddPayMarketModalComponent,
 
     // Pages
     ComphubPageComponent,

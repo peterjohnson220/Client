@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { AddPayMarketRequest } from 'libs/models/payfactors-api';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { PayMarket } from '../../../models/paymarket';
 import { GenericKeyValue } from '../../../models/common';
@@ -29,5 +31,9 @@ export class PayMarketApiService {
       `${this.endpoint}/GetExchangeScopeSelections`,
       { params: { companyPayMarketId: companyPayMarketId } }
     );
+  }
+
+  insert(request: AddPayMarketRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/Default.Insert`, request);
   }
 }

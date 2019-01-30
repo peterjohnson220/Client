@@ -4,7 +4,9 @@ import { QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfac
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket } from '../models';
+import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope } from '../models';
+import { MDScopeResponse } from 'libs/models/payfactors-api';
+import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
 
 export class PayfactorsApiModelMapper {
 
@@ -35,5 +37,22 @@ export class PayfactorsApiModelMapper {
       total: response.Count,
       data: response.Data
     };
+  }
+
+  static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse): MarketDataScope {
+    return {
+      Locations: this.mapScopeValuesToKendoDropDownItems(response.Locations[MDScopeGeoGroup.CityState]),
+      Sizes: this.mapScopeValuesToKendoDropDownItems(response.Sizes[MDScopeSizeCategory.Employees]),
+      Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries)
+    };
+  }
+
+  static mapScopeValuesToKendoDropDownItems(scopeValues: string[]): KendoDropDownItem[] {
+    return scopeValues.map(s => {
+      return {
+        Name: s,
+        Value: s
+      };
+    });
   }
 }
