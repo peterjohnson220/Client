@@ -1,6 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { FileRestrictions } from '@progress/kendo-angular-upload';
-import { ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL, ORG_DATA_UPLOAD_URL } from '../../constants';
+
+import {
+  DATE_FORMATS, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+  ORG_DATA_UPLOAD_URL
+} from '../../constants';
+import { DateFormatItem } from '../../models';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -17,10 +23,13 @@ export class FieldMapperComponent implements OnInit {
   mappedFields: string[];
   selectedMapping: string;
   payfactorsDataFieldsForReset: string[];
-  delimiter: string;
+  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
+  dateFormatsFilteredData: Array<{ text: string, value: string}>;
 
   @Input() payfactorsDataFields: string[];
   @Input() loaderType: string;
+  @Input() dateFormat: string;
+  @Input() delimiter: string;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
@@ -31,7 +40,7 @@ export class FieldMapperComponent implements OnInit {
     };
     this.mappedFields = [];
     this.clientFields = [];
-    this.delimiter = ',';
+    this.dateFormatsFilteredData = this.dateFormats.slice();
   }
 
   ngOnInit() {
@@ -77,6 +86,20 @@ export class FieldMapperComponent implements OnInit {
     this.fireCompleteEvent();
   }
 
+  selectionChange(dateFormat: DateFormatItem) {
+    if (dateFormat) {
+      this.dateFormat = dateFormat.value;
+      this.fireCompleteEvent();
+    } else {
+      this.dateFormat = null;
+      this.fireCompleteEvent();
+    }
+  }
+
+  filterChange(filter: string) {
+    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(filter) !== -1);
+  }
+
   // Private Methods
 
   private addMapping(pfField, clientField) {
@@ -112,14 +135,15 @@ export class FieldMapperComponent implements OnInit {
   }
 
   private fireCompleteEvent() {
-    if (this.clientFields.length > 0) {
+    if (this.clientFields.length > 0 || (this.loaderType === 'Employees' && (!this.dateFormat || this.dateFormat === ''))) {
       this.mappingComplete.emit({
         complete: false
       });
     } else {
       this.mappingComplete.emit({
         complete: true,
-        mappings: this.mappedFields
+        mappings: this.mappedFields,
+        dateFormat: this.dateFormat
       });
     }
   }
@@ -128,5 +152,6 @@ export class FieldMapperComponent implements OnInit {
     this.clientFields = [];
     this.mappedFields = [];
     this.payfactorsDataFields = this.payfactorsDataFieldsForReset;
+    this.fireCompleteEvent();
   }
 }

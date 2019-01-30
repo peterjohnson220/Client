@@ -54,6 +54,13 @@ describe('FieldMapperComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should show a date format selector when the loader type is Employees', () => {
+    component.loaderType = 'Employees';
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should add a mapping to the list of mappings, ' +
     'and remove the fields from the Payfactors/CLient collections when ApplyMapping is called', () => {
     component.selectedPfField = 'Job_Code';

@@ -21,7 +21,7 @@ import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService } from './company-admin';
-import { DataLoadEmailRecipientsApiService } from './data-loads';
+import {DataLoadEmailRecipientsApiService, LoaderSettingsApiService} from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
@@ -60,7 +60,8 @@ import { ComphubApiService } from './comphub';
     JobSearchApiService,
     ProjectApiService,
     IntegrationApiService,
-    ComphubApiService
+    ComphubApiService,
+    LoaderSettingsApiService
   ]
 })
 export class PfApiModule { }

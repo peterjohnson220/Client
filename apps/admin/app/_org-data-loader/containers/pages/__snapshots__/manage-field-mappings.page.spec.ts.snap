@@ -1,12 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
+exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter=""
   emailRecipients$={[Function Store]}
-  employeeMappingComplete="false"
+  employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -15,6 +19,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   store={[Function Store]}
@@ -73,6 +79,26 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=""
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"
@@ -125,13 +151,17 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 </pf-autoloader-field-mapping-page>
 `;
 
-exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete 1`] = `
+exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
   emailRecipients$={[Function Store]}
-  employeeMappingComplete={[Function Boolean]}
+  employeeMappingComplete="false"
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -140,6 +170,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   store={[Function Store]}
@@ -198,6 +230,177 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
+          <kendo-tabstrip>
+            <kendo-tabstrip-tab
+              title="Pay Markets"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Jobs"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structures"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Structure Mappings"
+            >
+              
+            </kendo-tabstrip-tab>
+            <kendo-tabstrip-tab
+              title="Employees"
+            >
+              
+            </kendo-tabstrip-tab>
+          </kendo-tabstrip>
+          <div
+            class="buttons-container"
+          >
+            <span
+              class="save-message "
+              hidden=""
+            >
+              
+            </span>
+            <button
+              class="btn btn-primary"
+              disabled=""
+              type="button"
+            >
+              Update Mapping
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </pf-page-with-title-bar>
+</pf-autoloader-field-mapping-page>
+`;
+
+exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
+<pf-autoloader-field-mapping-page
+  companies$={[Function Store]}
+  companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
+  emailRecipients$={[Function Store]}
+  employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
+  jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
+  mappings={[Function Array]}
+  orgDataAutoloaderApi="undefined"
+  payfactorsEmployeeDataFields={[Function Array]}
+  payfactorsJobDataFields={[Function Array]}
+  payfactorsPaymarketDataFields={[Function Array]}
+  payfactorsStructureDataFields={[Function Array]}
+  payfactorsStructureMappingDataFields={[Function Array]}
+  paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
+  saveMappingsError$={[Function Store]}
+  saveMappingsSuccess$={[Function Store]}
+  store={[Function Store]}
+  structureMappingComplete={[Function Boolean]}
+  structureMappingMappingComplete={[Function Boolean]}
+>
+  <pf-page-with-title-bar
+    ng-reflect-absolute-url="/ng/site-admin/navigation"
+  >
+    <div
+      class="flex-column-container"
+    >
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <div
+          class="d-flex"
+        >
+          
+          
+          <a
+            href="/ng/site-admin/navigation"
+          >
+            <button
+              class="btn btn-secondary back-btn"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-long-arrow-alt-left"
+              />
+            </button>
+          </a>
+          <h3>
+            
+             Org Data Autoloader Field Mappings 
+          </h3>
+        </div>
+        <div
+          class="d-flex space-out-children"
+        />
+      </div>
+      <div
+        class="page-content"
+      >
+        
+        <pf-company-selector />
+        <div
+          class="mapping-container"
+          hidden=""
+        >
+          <h3
+            class="pull-left"
+          >
+            Field Mapper
+          </h3>
+          <hr
+            class="clear"
+          />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"
@@ -253,9 +456,13 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -264,6 +471,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany="undefined"
@@ -323,6 +532,26 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"
@@ -378,9 +607,13 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -389,6 +622,8 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   saveMessage=""
@@ -448,6 +683,26 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"
@@ -503,9 +758,13 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -514,6 +773,8 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   saveMessage={[Function String]}
@@ -573,6 +834,26 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"
@@ -627,9 +908,13 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
+  existingCompanyLoaderSettings={[Function Array]}
   jobMappingComplete={[Function Boolean]}
+  loaderSettings$={[Function Store]}
+  loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
@@ -638,6 +923,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   payfactorsStructureDataFields={[Function Array]}
   payfactorsStructureMappingDataFields={[Function Array]}
   paymarketMappingComplete={[Function Boolean]}
+  saveLoaderSettingsError$={[Function Store]}
+  saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
@@ -696,6 +983,26 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
           <hr
             class="clear"
           />
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-1 col-form-label"
+              for="delimiter"
+            >
+              Delimiter: 
+            </label>
+            <div
+              class="col-sm-1"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="delimiter"
+                ng-reflect-model=","
+                type="text"
+              />
+            </div>
+          </div>
           <kendo-tabstrip>
             <kendo-tabstrip-tab
               title="Pay Markets"

@@ -1,12 +1,25 @@
 <div class="upload-container">
-  <label for="delimiter">Delimiter: </label>
-  <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
-  <kendo-upload [disabled]="!delimiter"
+  <div *ngIf="loaderType === 'Employees'" class="dateFormat-container">
+    <label for="dateFormat">Date Format: </label>
+    <kendo-combobox class="form-control dateFormat" id="dateFormat" [(ngModel)]="dateFormat"
+                    [data]="dateFormatsFilteredData"
+                    textField="text"
+                    valueField="value"
+                    [valuePrimitive]="true"
+                    [filterable]="true"
+                    (filterChange)="filterChange($event)"
+                    (selectionChange)="selectionChange($event)">
+
+    </kendo-combobox>
+    <span class="text-danger ml-2">*</span>
+  </div>
+  <kendo-upload
     [saveUrl]="uploadSaveUrl"
     [removeUrl]="removeUrl"
     [autoUpload]="true"
     [restrictions]="fileRestrictions"
     [multiple]="false"
+    [disabled]="(!delimiter || delimiter == '') || (loaderType === 'Employees' && (!dateFormat || dateFormat === ''))"
     (success)="successEventHandler($event)"
     (upload)="uploadEventHandler($event)"
     (remove)="removeEventHandler()">
