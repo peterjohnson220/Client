@@ -6,6 +6,7 @@
 
   <ng-container page-content>
     <pf-add-paymarket-modal *ngIf="addPayMarketModalOpen$ | async"
+      [isOpen]="addPayMarketModalOpen$ | async"
       [marketDataScope]="marketDataScope$ | async"
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"

@@ -15,6 +15,7 @@ import { MarketDataScope } from '../../models';
   styleUrls: ['./add-paymarket-modal.component.scss']
 })
 export class AddPayMarketModalComponent implements OnInit, OnChanges {
+  @Input() isOpen: boolean;
   @Input() saving: boolean;
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
