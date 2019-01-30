@@ -9,8 +9,9 @@ export class PayfactorsApiModelMapper {
   static mapTrendingJobGroupsResponseToTrendingJobGroups(response: TrendingJobGroupResponse[]): TrendingJobGroup[] {
     return response.map(tjg => {
       return {
-        Name: `Hot Jobs - ${tjg.GroupName === 'Industry' ? 'Your' : ''} ${tjg.GroupName}`,
-        Jobs: tjg.TrendingJobs
+        Name: tjg.GroupName,
+        Jobs: tjg.TrendingJobs,
+        Order: tjg.GroupName === 'Overall' ? 1 : 2
       };
     });
   }
