@@ -2,4 +2,44 @@
   pageTitle="Data"
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
   pageIconClass="fa-database">
+  <ng-container page-content>
+    <div class="row">
+      <div class="col-12">
+        <pf-async-container [loading]="jobResultsLoading$ | async"
+                            [loadingError]="jobResultsLoadingError$ | async"
+                            [loadingErrorMessage]="'Error loading job data'"
+                            class="flex-grow-1">
+          <kendo-grid [data]="jobResults$ | async"
+                      [pageSize]="state.take"
+                      [skip]="state.skip"
+                      [pageable]="true"
+                      [loading]="jobResultsLoading$ | async"
+                      [scrollable]="true"
+                      (pageChange)="handlePageChange($event)" >
+
+            <kendo-grid-column field="JobTitle" title="Job" [width]="300"></kendo-grid-column>
+            <kendo-grid-column field="Education" title="Education"></kendo-grid-column>
+            <kendo-grid-column field="YearsOfExperience" title="Years Experience"></kendo-grid-column>
+            <kendo-grid-column field="ManagesEmployees" title="Manages" [width]="75" class="text-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <i *ngIf="dataItem.ManagesEmployees" class="fa fa-check" aria-hidden="true"></i>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Skills" title="Skills"></kendo-grid-column>
+            <kendo-grid-column field="Base50" title="Base 50th" [width]="100" class="text-right"></kendo-grid-column>
+            <kendo-grid-column field="Tcc50" title="TCC 50th" [width]="100" class="text-right"></kendo-grid-column>
+            <kendo-grid-column-group title="Weight" class="text-center" headerClass="text-center">
+              <kendo-grid-column field="Incs" title="Inc" [width]="100"></kendo-grid-column>
+              <kendo-grid-column field="Orgs" title="Org" [width]="100"></kendo-grid-column>
+            </kendo-grid-column-group>
+            <kendo-grid-column title="Select" [width]="75" class="text-center">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <input name="select-job" type="radio"/>
+              </ng-template>
+            </kendo-grid-column>
+          </kendo-grid>
+        </pf-async-container>
+      </div>
+    </div>
+  </ng-container>
 </pf-comphub-page-layout>

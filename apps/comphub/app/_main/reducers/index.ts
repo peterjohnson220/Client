@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromJobsPageReducer from './jobs-page.reducer';
 import * as fromComphubPageReducer from './comphub-page.reducer';
 import * as fromMarketsPageReducer from './markets-page.reducer';
+import * as fromDataPageReducer from './data-page.reducer';
 
 // Feature area state
 export interface ComphubMainState {
   jobsPage: fromJobsPageReducer.State;
   comphubPage: fromComphubPageReducer.State;
   marketsPage: fromMarketsPageReducer.State;
+  dataPage: fromDataPageReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   jobsPage: fromJobsPageReducer.reducer,
   comphubPage: fromComphubPageReducer.reducer,
-  marketsPage: fromMarketsPageReducer.reducer
+  marketsPage: fromMarketsPageReducer.reducer,
+  dataPage: fromDataPageReducer.reducer
 };
 
 // Select Feature Area
@@ -44,6 +47,11 @@ export const selectComphubPageState = createSelector(
 export const selectMarketsPageState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.marketsPage
+);
+
+export const selectDataPageState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.dataPage
 );
 
 // Jobs Page
@@ -119,4 +127,20 @@ export const getVisiblePaymarkets = createSelector(
   getPaymarkets, getPaymarketsFilter, (paymarkets, filter) => {
     return paymarkets.filter(x => !filter || x.PayMarketName.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
   }
+);
+
+// Data Page
+export const getJobGridResults = createSelector(
+  selectDataPageState,
+  fromDataPageReducer.getJobGridResults
+);
+
+export const getLoadingJobGridResults = createSelector(
+  selectDataPageState,
+  fromDataPageReducer.getLoadingJobGridResults
+);
+
+export const getLoadingJobGridResultsError = createSelector(
+  selectDataPageState,
+  fromDataPageReducer.getLoadingJobGridResultsError
 );

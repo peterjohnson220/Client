@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonModule } from 'libs/core';
@@ -12,7 +13,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, DataPageComponent, PageLayoutComponent,
   SummaryPageComponent } from './containers';
-import { JobsPageEffects, PaymarketPageEffects } from './effects';
+import { JobsPageEffects, PaymarketPageEffects, DataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { TrendingJobGroupComponent, CardLayoutComponent, SelectPaymarketsComponent } from './components';
@@ -28,7 +29,8 @@ import { WindowRef } from './services';
     StoreModule.forFeature('comphub_main', reducers),
     EffectsModule.forFeature([
       JobsPageEffects,
-      PaymarketPageEffects
+      PaymarketPageEffects,
+      DataPageEffects
     ]),
 
     // Routing
@@ -36,6 +38,7 @@ import { WindowRef } from './services';
 
     // 3rd Party
     DropDownsModule,
+    GridModule,
 
     // Payfactors
     PfCommonModule,
