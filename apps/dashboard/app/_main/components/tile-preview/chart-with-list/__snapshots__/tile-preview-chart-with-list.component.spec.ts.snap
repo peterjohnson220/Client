@@ -2,6 +2,7 @@
 
 exports[`Tile Preview Chart With List should show component 1`] = `
 <pf-tile-preview-chart-with-list
+  MAX_POLL_TEXT_LENGTH={[Function Number]}
   MIN_CHART_DISPLAY_VALUE={[Function Number]}
   chartData="undefined"
   model={[Function Object]}
@@ -26,7 +27,7 @@ exports[`Tile Preview Chart With List should show component 1`] = `
       
     </div>
     <div
-      class="col-7 p-0 pr-2"
+      class="col-7 p-0 pr-2 pb-2"
     >
       
       
@@ -34,12 +35,12 @@ exports[`Tile Preview Chart With List should show component 1`] = `
       
       <div>
         <span
-          class="col-12 tile-text text-center m-0 p-0"
+          class="col-12 tile-text-no-link text-center"
         >
           There are no active polls
         </span>
         <button
-          class="col-12 btn btn-primary btn-respond px-2 py-1"
+          class="col-12 btn btn-primary btn-respond mt-2"
         >
           Create Poll
         </button>

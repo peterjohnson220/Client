@@ -14,6 +14,17 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   @Input() model: TilePreviewCharWithList;
   chartData: any;
   MIN_CHART_DISPLAY_VALUE = 2.0001;
+  MAX_POLL_TEXT_LENGTH = 100;
+
+  get pollQuestion(): string {
+    return this.model.TileChartTitle.length > this.MAX_POLL_TEXT_LENGTH ?
+     this.model.TileChartTitle.substr(0, this.MAX_POLL_TEXT_LENGTH) + '...' : this.model.TileChartTitle;
+  }
+
+  get pollQuestionToolTip(): string {
+    return this.model.TileChartTitle.length > this.MAX_POLL_TEXT_LENGTH ?
+    this.model.TileChartTitle : '';
+  }
 
   ngOnInit() {
     this.chartData = cloneDeep(this.model.TileChartData);
@@ -38,6 +49,5 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   getPercentage(value): number {
     return value === this.MIN_CHART_DISPLAY_VALUE ? 0 : value;
   }
-
 }
 

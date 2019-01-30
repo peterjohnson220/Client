@@ -21,7 +21,7 @@
     </ng-container>
   </div>
 
-  <div class="col-7 p-0 pr-2">
+  <div class="col-7 p-0 pr-2 pb-2">
     <kendo-chart *ngIf="hasValidResponses()" (seriesClick)="navigateToPost()">
     <kendo-chart-area background="none"  [margin]="0" ></kendo-chart-area>
     <kendo-chart-plot-area [margin]="0" [padding]="0"></kendo-chart-plot-area>
@@ -48,14 +48,16 @@
     </kendo-chart-series>
     </kendo-chart>
 
-    <span *ngIf="model.TileChartData" class="col-12 tile-text text-center m-0 p-0">
-        <a class='pollLink' href="{{model.PostUrl}}"> {{model.TileChartTitle}}</a>
+    <span *ngIf="model.TileChartData">
+        <a class='col-12 tile-text text-center m-0 p-0'
+        ngbTooltip="{{pollQuestionToolTip}}"
+        href="{{model.PostUrl}}"> {{pollQuestion}}</a>
     </span>
-    <button *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1">Answer Poll</button>
+    <button *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1 mt-2">Answer Poll</button>
     
     <div *ngIf="!model.TileChartData">
-      <span class="col-12 tile-text text-center m-0 p-0">There are no active polls</span>
-      <button (click)="createPoll()" class="col-12 btn btn-primary btn-respond px-2 py-1">Create Poll</button>
+      <span class="col-12 tile-text-no-link text-center">There are no active polls</span>
+      <button (click)="createPoll()" class="col-12 btn btn-primary btn-respond mt-2">Create Poll</button>
     </div>
   </div>
 </div>

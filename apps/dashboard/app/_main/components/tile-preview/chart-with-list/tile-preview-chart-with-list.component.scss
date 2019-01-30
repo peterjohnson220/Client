@@ -39,24 +39,16 @@ kendo-chart {
   width: 100%;
 }
 
-.pollLink
-{
+.tile-text, .tile-text-no-link {
+  font-size: 0.9rem;
+  line-height: 1.1rem;
   color: #ffffff;
-}
-
-.pollLink:hover{
-  color:black;
-}
-
-.tile-text {
-  display: inline-block;
-  color: #FFFFFF;
-  font-size: 11px;
-  line-height: 12px;
-  max-height: 40%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: block;
   z-index: 2;
+}
+
+.tile-text:hover{
+  color:black;
 }
 
 .btn-respond 
