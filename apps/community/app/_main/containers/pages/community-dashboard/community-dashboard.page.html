@@ -7,21 +7,17 @@
   <div class="page-content" (scroll)="onScroll($event)">
     <div class="container-fluid community-container">
       <div class="row">
-        <div class="col-3">
-          <div *ngIf="!hideTopComponents">
-            <pf-community-categories></pf-community-categories>
-            <pf-community-popular-tags></pf-community-popular-tags>
-          </div>
-          <div class="sticky-top">
-            <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay"
-                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
-          </div>
-        </div>
-        <div class="col-6">
+        <div class="col-9">
           <div id="discussion-wrapper" *ngIf="!hideTopComponents">
-            <pf-community-start-discussion></pf-community-start-discussion>
-            <p class="sub-header">See what people are talking about...</p>
-            <hr>
+            <div class="row">
+              <div class="col-9">
+                <pf-community-start-discussion></pf-community-start-discussion>
+              </div>
+              <div class="col-3 pl-0">
+                <pf-community-categories></pf-community-categories>
+              </div>
+            </div>
+            <div class="tags-margin-left"><pf-community-popular-tags></pf-community-popular-tags></div>
           </div>
           <div id="loading-previous-results-indicator" class="row loading-indicator-container-top p-1 k-display-none">
             <div class="pb-3">
@@ -38,14 +34,17 @@
           </div>
         </div>
         <div class="col-3">
-          <div class="row sticky-top">
-            <div class="col">
-              <pf-community-polls></pf-community-polls>
-            </div>
+          <div class="mb-3" *ngIf="!hideTopComponents">
+            <pf-community-polls></pf-community-polls>
+          </div>
+          <div class="sticky-top">
+            <iframe id="podcast-frame" width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay"
+                    src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
           </div>
           <div class="row back-to-top-container" *ngIf="showBackToTopButton">
             <div class="col">
-              <pf-community-back-to-top-navigation (backToTopClicked)="backToTop()"></pf-community-back-to-top-navigation>
+              <pf-community-back-to-top-navigation
+                (backToTopClicked)="backToTop()"></pf-community-back-to-top-navigation>
             </div>
           </div>
         </div>

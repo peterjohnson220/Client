@@ -5,19 +5,11 @@
   font-size: 1.25rem;
 }
 
-.card-header {
-  color:  $community-categories-header;
-  font-weight: 500;
-  background-color:  white;
-  border-bottom-color: $community-categories-border;
+.category-container {
+  min-width: 220px;
 }
 
-.card-header:first-child
-{
-  border-radius: calc(#{$community-border-radius} - 1px) calc(#{$community-border-radius} - 1px) 0 0;
-}
-
-.category-count { 
+.category-count {
   color: #ffffff;
   background-color: $community-categories-body;
   border-style: solid;
@@ -26,13 +18,17 @@
 }
 
 .category-element {
-  font-weight: 400;
+  font-size: 1.3rem;
   text-decoration: none;
   cursor: pointer;
 }
 
 .category-element:hover {
   text-decoration: underline;
+}
+
+.category-count {
+  font-weight: 500;
 }
 
 .category-count:hover {

@@ -24,7 +24,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       </div>
     </div>
     <div
-      class="col-8 start-discussion-body pt-2 pb-2 pr-5"
+      class="col-8 start-discussion-body pt-2 pb-2"
     >
       <div
         class="w-100 pl-3"
@@ -35,7 +35,7 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
         
       </div>
     </div>
-  </div><hr />
+  </div>
 </pf-community-start-discussion>
 `;
 
@@ -63,7 +63,7 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
       </div>
     </div>
     <div
-      class="col-8 start-discussion-body pt-2 pb-2 pr-5"
+      class="col-8 start-discussion-body pt-2 pb-2"
     >
       <div
         class="w-100 pl-3"
@@ -74,6 +74,6 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
         
       </div>
     </div>
-  </div><hr />
+  </div>
 </pf-community-start-discussion>
 `;
