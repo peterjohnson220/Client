@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import { UserFilterUpsertRequest } from 'libs/models/payfactors-api';
+
 import { SaveFilterModalData, SavedFilter } from '../models';
 
 export const OPEN_SAVE_MODAL = '[User Filter/Save Filter Modal] Open Save Filter Modal';
@@ -9,6 +11,8 @@ export const SET_MODAL_DATA = '[User Filter/Save Filter Modal] Set Modal Data';
 export const SAVE = '[User Filter/Save Filter Modal] Save';
 export const UPDATE_META_INFO = '[User Filter/Save Filter Modal] Update Saved Filter MetaInfo';
 export const UPDATE_META_INFO_SUCCESS = '[User Filter/Save Filter Modal] Update MetaInfo Success';
+export const UPDATE_META_INFO_ERROR = '[User Filter/Save Filter Modal] Update MetaInfo Error';
+export const SET_UPSERT_REQUEST = '[User Filter/Save Filter Modal] Set Upsert Request';
 
 export class OpenSaveModal {
   readonly type = OPEN_SAVE_MODAL;
@@ -44,6 +48,16 @@ export class UpdateMetaInfoSuccess implements Action {
   readonly type = UPDATE_META_INFO_SUCCESS;
 }
 
+export class UpdateMetaInfoError implements Action {
+  readonly type = UPDATE_META_INFO_ERROR;
+}
+
+export class SetUpsertRequest implements Action {
+  readonly type = SET_UPSERT_REQUEST;
+
+  constructor(public payload: UserFilterUpsertRequest) {}
+}
+
 export type Actions
   = OpenSaveModal
   | CloseSaveModal
@@ -51,4 +65,6 @@ export type Actions
   | SetModalData
   | Save
   | UpdateMetaInfo
-  | UpdateMetaInfoSuccess;
+  | UpdateMetaInfoSuccess
+  | UpdateMetaInfoError
+  | SetUpsertRequest;

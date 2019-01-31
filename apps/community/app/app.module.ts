@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NgbModalModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 import { PfApiModule } from 'libs/data/payfactors-api';
 import { PfStateModule } from 'libs/state/state.module';
@@ -18,6 +19,7 @@ import { NewCommninityEnabledGuard } from 'libs/security/guards/new-community-en
     // 3rd Party
     NgbModalModule.forRoot(),
     NgbCarouselModule.forRoot(),
+    NgxLinkifyjsModule.forRoot(),
 
     // PF Modules
     PfCommonUIModule,

@@ -2,13 +2,13 @@
 
 exports[`Auth - First Time Login should disable Submit password button when password is not valid 1`] = `
 <pf-first-login-page
-  companySettingAttempted$={[Function Store]}
-  companySettings$={[Function Store]}
-  companySettingsLoading$={[Function Observable]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
-  loadingCompanySettings="false"
+  legacyCompanySettingAttempted$={[Function Store]}
+  legacyCompanySettings$={[Function Store]}
+  legacyCompanySettingsLoading$={[Function Observable]}
+  loadingLegacyCompanySettings="false"
   loadingUserContext="false"
   store={[Function Store]}
   submitEnabled="false"
@@ -46,13 +46,13 @@ exports[`Auth - First Time Login should disable Submit password button when pass
 
 exports[`Auth - First Time Login should show error notification on updatingPasswordError 1`] = `
 <pf-first-login-page
-  companySettingAttempted$={[Function Store]}
-  companySettings$={[Function Store]}
-  companySettingsLoading$={[Function Observable]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
-  loadingCompanySettings="false"
+  legacyCompanySettingAttempted$={[Function Store]}
+  legacyCompanySettings$={[Function Store]}
+  legacyCompanySettingsLoading$={[Function Observable]}
+  loadingLegacyCompanySettings="false"
   loadingUserContext="false"
   store={[Function Store]}
   submitEnabled="false"
@@ -95,13 +95,13 @@ exports[`Auth - First Time Login should show error notification on updatingPassw
 
 exports[`Auth - First Time Login should show reset password section when page is loaded 1`] = `
 <pf-first-login-page
-  companySettingAttempted$={[Function Store]}
-  companySettings$={[Function Store]}
-  companySettingsLoading$={[Function Observable]}
   formIsValid="false"
   isFirstLogin={[Function Boolean]}
   isValidating="false"
-  loadingCompanySettings="false"
+  legacyCompanySettingAttempted$={[Function Store]}
+  legacyCompanySettings$={[Function Store]}
+  legacyCompanySettingsLoading$={[Function Observable]}
+  loadingLegacyCompanySettings="false"
   loadingUserContext="false"
   store={[Function Store]}
   submitEnabled="false"
@@ -138,13 +138,13 @@ exports[`Auth - First Time Login should show reset password section when page is
 
 exports[`Auth - First Time Login should show the loading message when the page is loading 1`] = `
 <pf-first-login-page
-  companySettingAttempted$={[Function Store]}
-  companySettings$={[Function Store]}
-  companySettingsLoading$={[Function Observable]}
   formIsValid="false"
   isFirstLogin="false"
   isValidating={[Function Boolean]}
-  loadingCompanySettings={[Function Boolean]}
+  legacyCompanySettingAttempted$={[Function Store]}
+  legacyCompanySettings$={[Function Store]}
+  legacyCompanySettingsLoading$={[Function Observable]}
+  loadingLegacyCompanySettings={[Function Boolean]}
   loadingUserContext={[Function Boolean]}
   store={[Function Store]}
   submitEnabled="false"

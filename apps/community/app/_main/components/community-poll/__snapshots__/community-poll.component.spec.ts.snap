@@ -6,17 +6,16 @@ exports[`CommunityPollComponent should show poll 1`] = `
   communityPollResponseSubmittedSubscription={[Function Subscriber]}
   communityPollResponses$={[Function Store]}
   dismissedPollIds={[Function Array]}
+  pollHashTagClicked={[Function EventEmitter]}
   pollTypes={[Function Object]}
   request={[Function Object]}
   response={[Function Object]}
   store={[Function Store]}
   type="0"
 >
-  <p
-    class="text-center lead"
-  >
-    Who is here?
-  </p><div>
+  <pf-community-post-content
+    class="text-center lead mt-2 mb-2"
+  /><div>
     
     <div>
       <div

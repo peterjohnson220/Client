@@ -5,20 +5,14 @@
     </div>
     <div *ngIf="(approvingError$ | async)" class="align-self-center mr-auto error-label"><label>Error approving company invitation request.</label></div>
     <div *ngIf="(denyingError$ | async)" class="align-self-center mr-auto error-label"><label>Error denying company invitation request.</label></div>
-    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" [disabled]="(approvingCompanyInvitation$ | async) || (denyingCompanyInvitation$ | async)" class="btn btn-sm btn-success action-buttons" (click)="approve()">
-      <span *ngIf="!(approvingCompanyInvitation$ | async)">
+    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" class="btn btn-sm btn-success action-buttons" (click)="approve()">
+      <span>
         Approve
       </span>
-      <span *ngIf="(approvingCompanyInvitation$ | async)">
-          <pf-loading-indicator></pf-loading-indicator> Approving...
-      </span>
     </button>
-    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" [disabled]="(approvingCompanyInvitation$ | async) || (denyingCompanyInvitation$ | async)" class="btn btn-sm btn-danger action-buttons" (click)="deny()">
-      <span *ngIf="!(denyingCompanyInvitation$ | async)">
+    <button type="button" *ngIf="selectedCompanyInvitation?.PayfactorsCompany" class="btn btn-sm btn-danger action-buttons" (click)="deny()">
+      <span>
         Deny
-      </span>
-      <span *ngIf="(denyingCompanyInvitation$ | async)">
-          <pf-loading-indicator></pf-loading-indicator> Denying...
       </span>
     </button>
     <div (click)="close()" class="close-btn">

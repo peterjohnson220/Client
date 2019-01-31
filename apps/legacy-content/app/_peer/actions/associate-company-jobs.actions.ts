@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { UpsertExchangeJobMapRequest, ExchangeJobSearch, CompanyJobSummary } from 'libs/models';
+import { UpsertExchangeJobMapRequest, ExchangeJobSearch, LatestCompanyJob } from 'libs/models';
 
 export const INITIAL_LOAD_SUCCESS = '[Legacy Content/Exchange Jobs] Initial Load Complete';
 export const LOAD_EXCHANGE_JOBS = '[Legacy Content/Exchange Jobs] Load Exchange Jobs';
@@ -38,7 +38,7 @@ export class LoadCompanyJob implements Action {
 export class LoadCompanyJobSuccess implements Action {
     readonly type = LOAD_COMPANY_JOB_SUCCESS;
 
-    constructor(public payload: CompanyJobSummary) { }
+    constructor(public payload: LatestCompanyJob) { }
 }
 
 export class LoadCompanyJobError implements Action {

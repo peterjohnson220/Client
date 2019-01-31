@@ -1,17 +1,13 @@
+import { ExchangeRequestAction, generateMockExchangeRequestAction } from './exchange-request-action.model';
 import { ExchangeJobRequest, generateMockExchangeJobRequest } from './exchange-job-request.model';
 
-export interface ExchangeJobRequestAction {
+export interface ExchangeJobRequestAction extends ExchangeRequestAction {
   JobRequest: ExchangeJobRequest;
-  Reason: string;
-  PeopleToNotify: string;
-  Action: string;
 }
 
 export function generateMockExchangeJobRequestAction(): ExchangeJobRequestAction {
   return {
-    JobRequest: generateMockExchangeJobRequest(),
-    Reason: 'Because',
-    PeopleToNotify: 'NoOne',
-    Action: 'Deny'
+    ...generateMockExchangeRequestAction(),
+    JobRequest: generateMockExchangeJobRequest()
   };
 }

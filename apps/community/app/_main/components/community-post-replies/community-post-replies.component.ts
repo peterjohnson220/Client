@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommunityReply } from 'libs/models/community';
 
@@ -10,6 +10,11 @@ import { CommunityReply } from 'libs/models/community';
 export class CommunityPostRepliesComponent {
   @Input() replies: CommunityReply[];
   @Input() loading: boolean;
+  @Output() replyHashTagClicked = new EventEmitter();
 
   constructor() {}
+
+  handleReplyHashTagClicked(event: any) {
+    this.replyHashTagClicked.emit(event);
+  }
 }

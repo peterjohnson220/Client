@@ -1,8 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { CommunityReply } from 'libs/models/community';
 import { environment } from 'environments/environment';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-post-reply',
@@ -11,10 +10,11 @@ import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper'
 })
 export class CommunityPostReplyComponent {
   @Input() reply: CommunityReply;
+  @Output() replyHashTagClicked = new EventEmitter();
   avatarUrl = environment.avatarSource;
   constructor() {}
 
-  escapeHtml(unsafe) {
-    return escapeSpecialHtmlCharacters(unsafe);
- }
+  handleHashTagClicked(event: any) {
+    this.replyHashTagClicked.emit(event);
+  }
 }

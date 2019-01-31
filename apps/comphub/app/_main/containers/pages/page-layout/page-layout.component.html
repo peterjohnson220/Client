@@ -1,0 +1,12 @@
+<div class="comphub-page">
+  <div class="page-header">
+    <i class="fa {{pageIconClass}} page-icon" aria-hidden="true"></i>
+    <span class="page-title">{{pageTitle}}</span>
+  </div>
+  <div>{{pageSubTitle}}</div>
+
+  <ng-content select="[page-content]"></ng-content>
+
+  <ng-content select="[actions-section]"></ng-content>
+
+</div>

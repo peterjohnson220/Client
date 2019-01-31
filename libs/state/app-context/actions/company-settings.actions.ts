@@ -1,33 +1,28 @@
 import { Action } from '@ngrx/store';
 
-import { CompanySettingDto } from '../../../models';
+import { CompanySetting } from '../../../models';
 
-export const GET_COMPANY_SETTINGS = '[AppContext/Company Settings] Get Company Settings';
-export const GET_COMPANY_SETTINGS_SUCCESS = '[AppContext/Company Settings] Get Company Settings Success';
-export const GET_COMPANY_SETTINGS_ERROR = '[AppContext/Company Settings] Get Company Settings Error';
+export const LOAD_COMPANY_SETTINGS = '[AppContext/Company Settings] Load Company Settings';
+export const LOAD_COMPANY_SETTINGS_SUCCESS = '[AppContext/Company Settings] Load Company Settings Success';
+export const LOAD_COMPANY_SETTINGS_ERROR = '[AppContext/Company Settings] Load Company Settings Error';
 
-export class GetCompanySettings implements Action {
-  readonly type = GET_COMPANY_SETTINGS;
-
-  constructor() {
-  }
+export class LoadCompanySettings implements Action {
+  readonly type = LOAD_COMPANY_SETTINGS;
 }
 
-export class GetCompanySettingsSuccess implements Action {
-  readonly type = GET_COMPANY_SETTINGS_SUCCESS;
+export class LoadCompanySettingsSuccess implements Action {
+  readonly type = LOAD_COMPANY_SETTINGS_SUCCESS;
 
-  constructor(public payload: CompanySettingDto[]) {
-  }
+  constructor(public payload: CompanySetting[]) {}
 }
 
-export class GetCompanySettingsError implements Action {
-  readonly type = GET_COMPANY_SETTINGS_ERROR;
+export class LoadCompanySettingsError implements Action {
+  readonly type = LOAD_COMPANY_SETTINGS_ERROR;
 
-  constructor(public error: any) {
-  }
+  constructor(public error: any) {}
 }
 
 export type Actions =
-  | GetCompanySettings
-  | GetCompanySettingsSuccess
-  | GetCompanySettingsError;
+  | LoadCompanySettings
+  | LoadCompanySettingsSuccess
+  | LoadCompanySettingsError;

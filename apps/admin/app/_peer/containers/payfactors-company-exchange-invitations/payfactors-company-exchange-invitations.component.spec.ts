@@ -90,18 +90,41 @@ describe('Payfactors Company Exchange Invitations', () => {
 
   it('should dispatch an ApproveCompanyExchangeInvitation action ' +
     'when handleApproveCompanyInvitation is called', () => {
-    const action = new fromCompanyExchangeInvitationInfoActions.ApproveCompanyExchangeInvitation(mockInvitation);
+    const expectedActionInfo = {
+      reason: 'reason',
+      peopleToNotify: 'peopleToNotify'
+    };
+    const action = new fromCompanyExchangeInvitationInfoActions.ApproveCompanyExchangeInvitation(expectedActionInfo);
 
-    instance.handleApproveCompanyInvitation(mockInvitation);
+    instance.handleApproveCompanyInvitation(expectedActionInfo);
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch a DenyCompanyExchangeInvitation action ' +
     'when handleDenyCompanyInvitation is called', () => {
-    const action = new fromCompanyExchangeInvitationInfoActions.DenyCompanyExchangeInvitation(mockInvitation);
+    const reason = 'reason';
+    const action = new fromCompanyExchangeInvitationInfoActions.DenyCompanyExchangeInvitation(reason);
 
-    instance.handleDenyCompanyInvitation(mockInvitation);
+    instance.handleDenyCompanyInvitation(reason);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a CloseCompanyInvitationApproveModal action ' +
+    'when handleCloseApproveModal is called', () => {
+    const action = new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationApproveModal();
+
+    instance.handleCloseApproveModal();
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a CloseCompanyInvitationDenyModal action ' +
+    'when handleCloseDenyModal is called', () => {
+    const action = new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationDenyModal();
+
+    instance.handleCloseDenyModal();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

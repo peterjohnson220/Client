@@ -1,45 +1,70 @@
-import { SavedFilterType, SearchFilter, SavedFilterUpsertRequest } from 'libs/models/payfactors-api/';
-import { SavedFilter } from 'libs/features/search/models';
+import { Injectable } from '@angular/core';
+
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors-api/';
+import { SavedFilter, SaveFilterModalData } from 'libs/features/user-filter/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
 import { ProjectSearchContext, JobContext } from '../models';
 
+@Injectable()
 export class SavedFilterHelper {
-  static isPayMarketDefaultFilter(savedFilter: SavedFilter, payMarketId: number): boolean {
-    return savedFilter.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString());
+
+  constructor(private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
+
+  isPayMarketDefaultFilter(savedFilter: SavedFilter, payMarketId: number): boolean {
+    return (!!savedFilter && !!savedFilter.Id)
+      ? savedFilter.MetaInfo.DefaultPayMarkets.some(dpmid => dpmid.toString() === payMarketId.toString())
+      : false;
   }
 
-  static getUpsertRequest(id: string, name: string, filters?: SearchFilter[]): SavedFilterUpsertRequest {
-    if (!!id) {
-      return {
-        Type: SavedFilterType.SurveySearch,
-        SavedFilter: {
-          Id: id,
-          Name: name,
-          MetaInfo: {
-            DefaultPayMarkets: []
-          }
-        }
-      };
-    } else {
-      return {
-        Type: SavedFilterType.SurveySearch,
-        SavedFilter: {
-          Name: name,
-          Filters: filters,
-          MetaInfo: {
-            DefaultPayMarkets: []
-          }
-        }
-      };
+  buildUpsertRequest(payMarketId: number, modalData: SaveFilterModalData)
+    : UserFilterUpsertRequest {
+    const id = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
+    const isEditMode = !!id;
+    const searchFilters = isEditMode
+      ? null
+      : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
+    const isPayMarketDefault = this.isPayMarketDefaultFilter(modalData.SavedFilter, payMarketId);
+    let defaultPayMarkets = isEditMode
+      ? cloneDeep(modalData.SavedFilter.MetaInfo.DefaultPayMarkets)
+      : [];
+    if (modalData.SetAsDefault && !isPayMarketDefault) {
+      defaultPayMarkets = defaultPayMarkets.concat(payMarketId.toString());
+    } else if (!modalData.SetAsDefault) {
+      defaultPayMarkets = defaultPayMarkets.filter(pid => pid.toString() !== payMarketId.toString());
     }
+    const request = {
+      Type: SavedFilterType.SurveySearch,
+      SavedFilter: {
+        Name: modalData.Name,
+        MetaInfo: {
+          DefaultPayMarkets: defaultPayMarkets
+        }
+      }
+    };
+    let savedFilter = request.SavedFilter;
+    if (isEditMode) {
+      savedFilter = Object.assign({ Id: id }, savedFilter);
+    } else {
+      savedFilter = Object.assign({ Filters: searchFilters }, savedFilter);
+    }
+    request.SavedFilter = savedFilter;
+    return request;
   }
 
-  static getPayMarketId(jobContext: JobContext, projectSearchContext: ProjectSearchContext): number {
+  removePaymarketFromDefaultPayMarkets(payMarketId: number, savedFilter: SavedFilter): any {
+    return { DefaultPayMarkets: savedFilter.MetaInfo.DefaultPayMarkets
+      .filter(dpmid => dpmid.toString() !== payMarketId.toString()) };
+  }
+
+  getPayMarketId(jobContext: JobContext, projectSearchContext: ProjectSearchContext): number {
     return (!!jobContext && jobContext.JobPayMarketId) ||
       (!!projectSearchContext && projectSearchContext.PayMarketId);
   }
 
-  static getDefaultFilter(payMarketId: number, savedFilters: SavedFilter[]): SavedFilter {
+  getDefaultFilter(payMarketId: number, savedFilters: SavedFilter[]): SavedFilter {
     return savedFilters.find(sf => sf.MetaInfo.DefaultPayMarkets
       .some(dpmid => dpmid.toString() === payMarketId.toString()));
   }

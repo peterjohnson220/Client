@@ -10,7 +10,7 @@ import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { reducers } from './reducers';
-import { UserFilterEffects, SearchUserFilterEffects } from './effects';
+import { UserFilterEffects, UserFilterPopoverEffects, SaveFilterModalEffects } from './effects';
 import { UserFilterPopoverComponent } from './containers';
 import { SaveFilterModalComponent } from './components';
 
@@ -28,7 +28,8 @@ import { SaveFilterModalComponent } from './components';
     StoreModule.forFeature('feature_userfilter', reducers),
     EffectsModule.forFeature([
       UserFilterEffects,
-      SearchUserFilterEffects
+      UserFilterPopoverEffects,
+      SaveFilterModalEffects
     ]),
     NgbPopoverModule.forRoot()
   ],

@@ -26,7 +26,8 @@ exports[`Deny Request Modal modal and text area should match the snapshot 1`] = 
         name="reason"
         ng-reflect-maxlength="1000"
         ng-reflect-name="reason"
-        placeholder="Please provide a reason for denial..."
+        onfocus="this.placeholder = ''"
+        placeholder="Please provide the reason for denial... (should be at least 30 characters)"
         rows="5"
       />
     </div>

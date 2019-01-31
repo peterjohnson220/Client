@@ -6,13 +6,13 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromUserFilterReducer from './user-filter.reducer';
 import * as fromSaveFilterModalReducer from './save-filter-modal.reducer';
-import * as fromSavedFiltersPopoverReducer from './saved-filters-popover.reducer';
+import * as fromUserFilterPopoverReducer from './user-filter-popover.reducer';
 
 // Feature area state
 export interface UserFilterFeatureState {
   userFilter: fromUserFilterReducer.State;
   saveFilterModal: fromSaveFilterModalReducer.State;
-  savedFiltersPopover: fromSavedFiltersPopoverReducer.State;
+  savedFiltersPopover: fromUserFilterPopoverReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +24,7 @@ export interface State extends fromRoot.State {
 export const reducers = {
   userFilter: fromUserFilterReducer.reducer,
   saveFilterModal: fromSaveFilterModalReducer.reducer,
-  savedFiltersPopover: fromSavedFiltersPopoverReducer.reducer
+  savedFiltersPopover: fromUserFilterPopoverReducer.reducer
 };
 
 // Select Feature Area
@@ -108,8 +108,13 @@ export const getModalData = createSelector(
   fromSaveFilterModalReducer.getModalData
 );
 
+export const getUpsertRequest = createSelector(
+  selectSaveFilterModalState,
+  fromSaveFilterModalReducer.getUpsertRequest
+);
+
 // Saved Filters Popover Selectors
 export const getPopoverOpen = createSelector(
   selectSavedFiltersPopoverState,
-  fromSavedFiltersPopoverReducer.getPopoverOpen
+  fromUserFilterPopoverReducer.getPopoverOpen
 );

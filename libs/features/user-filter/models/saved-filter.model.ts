@@ -19,3 +19,15 @@ export function generateMockJobSearchSavedFilter(): SavedFilter {
       Selected: true
     };
 }
+
+export function generateMockSavedFilter(): SavedFilter {
+  return {
+    Id: 'IamafilterId',
+    Name: 'Mercer 2018 Surveys',
+    MetaInfo: {
+      DefaultPayMarkets: [ 1234 ]
+    },
+    Filters: [generateMockMultiSelectFilter()],
+    Selected: true
+  };
+}

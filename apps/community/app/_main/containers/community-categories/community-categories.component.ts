@@ -12,6 +12,7 @@ import * as fromCommunityCategoriesReducer from '../../reducers';
 import * as fromCommunityCategoriesActions from '../../actions/community-categories.actions';
 import { CommunityCategory } from 'libs/models/community/community-categories.model';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
+import { FilterOptions } from 'apps/community/app/_main/models/filter-options.model';
 
 @Component({
   selector: 'pf-community-categories',
@@ -20,9 +21,11 @@ import { CommunityCategoryEnum } from 'libs/models/community/community-category.
 })
 export class CommunityCategoriesComponent implements OnInit, OnDestroy {
   categories$: Observable<CommunityCategory[]>;
-  categories: CommunityCategory[];
+  selectedCategories: string[];
   filteredByPost$: Observable<boolean>;
   filteredByPostSubscription: Subscription;
+  filters$: Observable<FilterOptions>;
+  filterOptionsSubscription: Subscription;
   filteredByPost = false;
 
   constructor( private router: Router,
@@ -30,6 +33,7 @@ export class CommunityCategoriesComponent implements OnInit, OnDestroy {
                public filterOptionsStore: Store<fromCommunityPostFilterOptionsReducer.State>) {
     this.categories$ = this.store.select(fromCommunityCategoriesReducer.getCommunityCategories);
     this.filteredByPost$ = this.filterOptionsStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
+    this.filters$ = this.store.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
   }
 
   ngOnInit() {
@@ -39,11 +43,19 @@ export class CommunityCategoriesComponent implements OnInit, OnDestroy {
         this.filteredByPost = filter;
       }
     });
+
+    this.filterOptionsSubscription = this.filters$.subscribe((data) => {
+      this.selectedCategories = data.CategoryFilter.Category;
+  });
   }
 
   ngOnDestroy() {
     if (this.filteredByPostSubscription) {
       this.filteredByPostSubscription.unsubscribe();
+    }
+
+    if (this.filterOptionsSubscription) {
+      this.filterOptionsSubscription.unsubscribe();
     }
   }
 
@@ -54,5 +66,9 @@ export class CommunityCategoriesComponent implements OnInit, OnDestroy {
       const categoryEnumValue = mapToCategoryEnum(categoryName);
       this.filterOptionsStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityCategoryToFilterOptions(categoryEnumValue));
     }
+  }
+
+  private IsCategorySelected(category: string): boolean {
+    return this.selectedCategories.some (x => x === category);
   }
 }

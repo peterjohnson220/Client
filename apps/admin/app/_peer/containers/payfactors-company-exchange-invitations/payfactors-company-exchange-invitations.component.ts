@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeInvitation } from 'libs/models/peer';
+import { Exchange, ExchangeInvitation } from 'libs/models/peer';
 
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromPayfactorsCompanyExchangeInvitationsActions from '../../actions/payfactors-company-exchange-invitations.actions';
@@ -18,6 +18,8 @@ import * as fromCompanyExchangeInvitationInfoActions from '../../actions/company
 })
 
 export class PayfactorsCompanyExchangeInvitationsComponent implements OnInit, OnDestroy {
+  exchange$: Observable<Exchange>;
+  exchange: Exchange;
   payfactorsCompanyExchangeInvitationsLoading$: Observable<boolean>;
   payfactorsCompanyExchangeInvitationsLoadingError$: Observable<boolean>;
   payfactorsCompanyExchangeInvitationsGrid$: Observable<GridDataResult>;
@@ -27,9 +29,16 @@ export class PayfactorsCompanyExchangeInvitationsComponent implements OnInit, On
   pageRowIndex$: Observable<number>;
   pageRowIndex: number;
   exchangeId: number;
+  approveInvitationModalTitle = 'Approve Company Invitation';
+  approveInvitationModalOpen$: Observable<boolean>;
+  approvingCompanyInvitation$: Observable<boolean>;
+  denyInvitationModalTitle = 'Deny Company Invitation';
+  denyInvitationModalOpen$: Observable<boolean>;
+  denyingCompanyInvitation$: Observable<boolean>;
 
   selectedCompanyInvitationSubscription: Subscription;
   pageRowIndexSubscription: Subscription;
+  exchangeSubscription: Subscription;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -44,8 +53,27 @@ export class PayfactorsCompanyExchangeInvitationsComponent implements OnInit, On
     this.companyInvitationInfoOpen$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationInfoOpen));
     this.selectedCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getSelectedCompanyExchangeInvitation));
     this.pageRowIndex$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationPageRowIndex));
+    this.approveInvitationModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationApproveModalOpen));
+    this.approvingCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationApproving));
+    this.denyInvitationModalOpen$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationDenyModalOpen));
+    this.denyingCompanyInvitation$ = this.store.pipe(select(fromPeerAdminReducer.getCompanyExchangeInvitationDenying));
+    this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
+  }
+
+  get approveModalText(): string {
+    return 'Please select who you would like to notify that the company <strong>'
+      + (this.selectedCompanyInvitation ? this.selectedCompanyInvitation.CompanyName : '')
+      + '</strong> has been approved and added to the <strong>'
+      + (this.exchange ? this.exchange.ExchangeName : '')
+      + '</strong> exchange.';
+  }
+
+  get denyModalText(): string {
+    return 'This action will deny the company <strong>' + (this.selectedCompanyInvitation ? this.selectedCompanyInvitation.CompanyName : '')
+      + '</strong> access to the <strong>' + (this.exchange ? this.exchange.ExchangeName : '')
+      + '</strong> exchange. The requestor will be notified about the denial of the invitation.';
   }
 
   // Events
@@ -64,12 +92,20 @@ export class PayfactorsCompanyExchangeInvitationsComponent implements OnInit, On
     this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationInfo());
   }
 
-  handleApproveCompanyInvitation(companyInvitation: ExchangeInvitation) {
-    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.ApproveCompanyExchangeInvitation(companyInvitation));
+  handleApproveCompanyInvitation(approveObj: any) {
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.ApproveCompanyExchangeInvitation(approveObj));
   }
 
-  handleDenyCompanyInvitation(companyInvitation: ExchangeInvitation) {
-    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.DenyCompanyExchangeInvitation(companyInvitation));
+  handleDenyCompanyInvitation(reason: string) {
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.DenyCompanyExchangeInvitation(reason));
+  }
+
+  handleCloseApproveModal() {
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationApproveModal());
+  }
+
+  handleCloseDenyModal() {
+    this.store.dispatch(new fromCompanyExchangeInvitationInfoActions.CloseCompanyInvitationDenyModal());
   }
 
   ngOnInit() {
@@ -79,11 +115,15 @@ export class PayfactorsCompanyExchangeInvitationsComponent implements OnInit, On
     this.pageRowIndexSubscription = this.pageRowIndex$.subscribe(pri => {
       this.pageRowIndex = pri;
     });
+    this.exchangeSubscription = this.exchange$.subscribe(e => {
+      this.exchange = e;
+    });
   }
 
   ngOnDestroy() {
     this.handleCloseInvitationInfo();
     this.selectedCompanyInvitationSubscription.unsubscribe();
     this.pageRowIndexSubscription.unsubscribe();
+    this.exchangeSubscription.unsubscribe();
   }
 }

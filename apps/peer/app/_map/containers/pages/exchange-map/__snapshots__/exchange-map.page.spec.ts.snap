@@ -22,16 +22,16 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     <pf-scope-selector />
     <button
       class="btn btn-secondary"
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    <button
-      class="btn btn-primary"
       disabled=""
       type="button"
     >
        Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Export Data Cuts 
     </button>
     
     <pf-async-container>
@@ -76,16 +76,16 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Create Scope b
     <pf-scope-selector />
     <button
       class="btn btn-secondary"
-      type="button"
-    >
-       Export Data Cuts 
-    </button>
-    <button
-      class="btn btn-primary"
       disabled=""
       type="button"
     >
        Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+       Export Data Cuts 
     </button>
     
     <pf-async-container>
@@ -130,16 +130,16 @@ exports[`Peer - Map - Exchange Map Page should display a disabled Export Data Cu
     <pf-scope-selector />
     <button
       class="btn btn-secondary"
+      type="button"
+    >
+       Create Scope 
+    </button>
+    <button
+      class="btn btn-primary"
       disabled=""
       type="button"
     >
        Export Data Cuts 
-    </button>
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-       Create Scope 
     </button>
     
     <pf-async-container>
@@ -186,13 +186,13 @@ exports[`Peer - Map - Exchange Map Page should show the exchange name as the pag
       class="btn btn-secondary"
       type="button"
     >
-       Export Data Cuts 
+       Create Scope 
     </button>
     <button
       class="btn btn-primary"
       type="button"
     >
-       Create Scope 
+       Export Data Cuts 
     </button>
     
     <pf-async-container>

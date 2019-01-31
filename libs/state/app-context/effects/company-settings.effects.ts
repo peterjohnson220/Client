@@ -1,27 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { CompanyApiService } from 'libs/data/payfactors-api';
+import { CompanySettingsApiService } from 'libs/data/payfactors-api';
+import { CompanySetting } from 'libs/models/company';
+
 import * as companySettingsActions from '../actions/company-settings.actions';
 
 @Injectable()
 export class CompanySettingsEffects {
   @Effect()
-  getCompanySettings$ = this.actions$
-    .ofType(companySettingsActions.GET_COMPANY_SETTINGS).pipe(
+  getCompanySettings$ = this.actions$.pipe(
+      ofType(companySettingsActions.LOAD_COMPANY_SETTINGS),
       switchMap(() =>
-        this.companyApiService.getCompanySettings().pipe(
-          map((companySettings: any) => new companySettingsActions.GetCompanySettingsSuccess(companySettings)),
+        this.companySettingsApiService.getSettings().pipe(
+          map((companySettings: CompanySetting[]) => new companySettingsActions.LoadCompanySettingsSuccess(companySettings)),
           catchError(error => {
-            return of (new companySettingsActions.GetCompanySettingsError(error));
+            return of (new companySettingsActions.LoadCompanySettingsError(error));
           })
         )
       )
     );
 
   constructor(private actions$: Actions,
-              private companyApiService: CompanyApiService) {
+              private companySettingsApiService: CompanySettingsApiService) {
   }
 }

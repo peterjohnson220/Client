@@ -25,6 +25,8 @@
         formControlName="reason"
         [placeholder]="denialPlaceholder"
         [pfValidatable]="true"
+        onfocus="this.placeholder = ''"
+        (blur)="setPlaceholderOnBlur($event)"
       ></textarea>
       </div>
 

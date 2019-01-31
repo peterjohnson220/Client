@@ -7,7 +7,7 @@
               [data]="exchangeListItems$ | async"
               [resizable]="true"
               [pageable]="true"
-              [pageSize]="(exchangeListItems$ | async).length"
+              [pageSize]="20"
               [rowClass]="rowClass"
               (cellClick)="handleCellClick($event)">
 
@@ -77,7 +77,7 @@
       <kendo-pager-info></kendo-pager-info>
     </ng-template>
     <ng-template kendoGridNoRecordsTemplate>
-      No result found based on your search...
+      No result found based on your search.
     </ng-template>
   </kendo-grid>
 

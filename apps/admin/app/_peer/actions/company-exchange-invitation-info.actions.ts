@@ -16,6 +16,14 @@ export const OPEN_COMPANY_INVITATION_INFO =
   '[Peer Admin/Company Exchange Invitation Info] Open Company Invitation Info';
 export const CLOSE_COMPANY_INVITATION_INFO =
   '[Peer Admin/Company Exchange Invitation Info] Close Company Invitation Info';
+export const OPEN_COMPANY_INVITATION_APPROVE_MODAL =
+  '[Peer Admin/Company Exchange Invitation Info] Open Company Invitation Approve Modal';
+export const CLOSE_COMPANY_INVITATION_APPROVE_MODAL =
+  '[Peer Admin/Company Exchange Invitation Info] Close Company Invitation Approve Modal';
+export const OPEN_COMPANY_INVITATION_DENY_MODAL =
+  '[Peer Admin/Company Exchange Invitation Info] Open Company Invitation Deny Modal';
+export const CLOSE_COMPANY_INVITATION_DENY_MODAL =
+  '[Peer Admin/Company Exchange Invitation Info] Close Company Invitation Deny Modal';
 
 export class ApproveCompanyExchangeInvitation implements Action {
   readonly type = APPROVE_COMPANY_EXCHANGE_INVITATION;
@@ -55,6 +63,22 @@ export class CloseCompanyInvitationInfo implements Action {
   readonly type = CLOSE_COMPANY_INVITATION_INFO;
 }
 
+export class OpenCompanyInvitationApproveModal implements Action {
+  readonly type = OPEN_COMPANY_INVITATION_APPROVE_MODAL;
+}
+
+export class CloseCompanyInvitationApproveModal implements Action {
+  readonly type = CLOSE_COMPANY_INVITATION_APPROVE_MODAL;
+}
+
+export class OpenCompanyInvitationDenyModal implements Action {
+  readonly type = OPEN_COMPANY_INVITATION_DENY_MODAL;
+}
+
+export class CloseCompanyInvitationDenyModal implements Action {
+  readonly type = CLOSE_COMPANY_INVITATION_DENY_MODAL;
+}
+
 export type Actions
   = ApproveCompanyExchangeInvitation
   | ApproveCompanyExchangeInvitationSuccess
@@ -63,4 +87,8 @@ export type Actions
   | DenyCompanyExchangeInvitationSuccess
   | DenyCompanyExchangeInvitationError
   | OpenCompanyInvitationInfo
-  | CloseCompanyInvitationInfo;
+  | CloseCompanyInvitationInfo
+  | OpenCompanyInvitationApproveModal
+  | CloseCompanyInvitationApproveModal
+  | OpenCompanyInvitationDenyModal
+  | CloseCompanyInvitationDenyModal;

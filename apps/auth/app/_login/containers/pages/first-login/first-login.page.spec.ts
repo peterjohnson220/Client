@@ -43,7 +43,7 @@ describe('Auth - First Time Login', () => {
 
   it('should show reset password section when page is loaded', () => {
 
-    instance.companySettingsLoading$ = of(false);
+    instance.legacyCompanySettingsLoading$ = of(false);
     instance.userContextLoading$ = of(false);
     instance.validatingFirstLogin$ = of(false);
     instance.validatingFirstLoginSuccess$ = of(true);
@@ -55,7 +55,7 @@ describe('Auth - First Time Login', () => {
 
   it('should show the loading message when the page is loading', () => {
 
-    instance.companySettingsLoading$ = of(true);
+    instance.legacyCompanySettingsLoading$ = of(true);
     instance.userContextLoading$ = of(true);
     instance.validatingFirstLogin$ = of(true);
 
@@ -66,7 +66,7 @@ describe('Auth - First Time Login', () => {
 
   it('should disable Submit password button when password is not valid', () => {
 
-    instance.companySettingsLoading$ = of(false);
+    instance.legacyCompanySettingsLoading$ = of(false);
     instance.userContextLoading$ = of(false);
     instance.validatingFirstLogin$ = of(false);
     instance.validatingFirstLoginSuccess$ = of(true);
@@ -80,7 +80,7 @@ describe('Auth - First Time Login', () => {
 
 
   it('should show error notification on updatingPasswordError', () => {
-    instance.companySettingsLoading$ = of(false);
+    instance.legacyCompanySettingsLoading$ = of(false);
     instance.userContextLoading$ = of(false);
     instance.validatingFirstLogin$ = of(false);
     instance.validatingFirstLoginSuccess$ = of(true);

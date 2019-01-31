@@ -3,7 +3,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CommunityPostReplyComponent } from './community-post-reply.component';
 import { generateMockCommunityReply } from 'libs/models/community/community-reply.model';
-import {HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe} from 'libs/core';
 
 describe('CommunityPostReplyComponent', () => {
   let fixture: ComponentFixture<CommunityPostReplyComponent>;
@@ -14,10 +13,7 @@ describe('CommunityPostReplyComponent', () => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [
-        CommunityPostReplyComponent,
-        HighlightHashTagPipe,
-        FormatLinkUrlPipe,
-        NewLinePipe
+        CommunityPostReplyComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -31,5 +27,17 @@ describe('CommunityPostReplyComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+  it('should emit a replyHashTagClicked event, when hashtag is clicked', () => {
+    spyOn(instance.replyHashTagClicked, 'emit');
+
+    instance.reply = generateMockCommunityReply();
+    const hashtag = '#hashtag';
+
+    fixture.detectChanges();
+
+    instance.handleHashTagClicked(hashtag);
+
+    expect(instance.replyHashTagClicked.emit).toHaveBeenCalledWith(hashtag);
   });
 });

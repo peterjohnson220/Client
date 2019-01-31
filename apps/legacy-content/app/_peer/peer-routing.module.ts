@@ -10,9 +10,9 @@ import { UpsertDataCutPageComponent } from './containers/pages/upsert-data-cut';
 
 const routes: Routes = [
   { path: '', redirectTo: 'upsert-data-cut', pathMatch: 'full' },
-  { path: 'associate-exchange-job', component: AssociateCompanyJobComponent, canActivate: [PeerTileEnabledGuard] },
+  { path: 'associate-exchange-job', component: AssociateCompanyJobComponent },
   { path: 'exchange-paymarket-scope', component: PaymarketExchangeScopeComponent, canActivate: [PeerTileEnabledGuard] },
-  { path: 'upsert-data-cut', component: UpsertDataCutPageComponent, canActivate: [PeerTileEnabledGuard] },
+  { path: 'upsert-data-cut', component: UpsertDataCutPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];
 

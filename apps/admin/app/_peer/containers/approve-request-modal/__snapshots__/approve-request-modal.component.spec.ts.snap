@@ -5,6 +5,7 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
   approveClicked={[Function EventEmitter]}
   approveForm={[Function FormGroup]}
   closeClicked={[Function EventEmitter]}
+  exchangeRequestPeopleToNotifyEnum={[Function Object]}
   fb={[Function FormBuilder]}
 >
   <pf-modal-form
@@ -23,14 +24,13 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
       >
         <div>
           <input
-            class="ng-untouched ng-pristine ng-invalid"
+            class="ng-untouched ng-pristine ng-valid"
             formcontrolname="peopleToNotify"
             id="NoOne"
             ng-reflect-form-control-name="peopleToNotify"
             ng-reflect-name="peopleToNotify"
             ng-reflect-value="NoOne"
             type="radio"
-            value="NoOne"
           />
           <label
             class="radio-label"
@@ -41,14 +41,13 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
         </div>
         <div>
           <input
-            class="ng-untouched ng-pristine ng-invalid"
+            class="ng-untouched ng-pristine ng-valid"
             formcontrolname="peopleToNotify"
             id="RequestorOnly"
             ng-reflect-form-control-name="peopleToNotify"
             ng-reflect-name="peopleToNotify"
             ng-reflect-value="RequestorOnly"
             type="radio"
-            value="RequestorOnly"
           />
           <label
             class="radio-label"
@@ -59,14 +58,13 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
         </div>
         <div>
           <input
-            class="ng-untouched ng-pristine ng-invalid"
+            class="ng-untouched ng-pristine ng-valid"
             formcontrolname="peopleToNotify"
             id="AllExchangeParticipants"
             ng-reflect-form-control-name="peopleToNotify"
             ng-reflect-name="peopleToNotify"
             ng-reflect-value="AllExchangeParticipants"
             type="radio"
-            value="AllExchangeParticipants"
           />
           <label
             class="radio-label"
@@ -77,14 +75,15 @@ exports[`Approve Request Modal modal and text area should match the snapshot 1`]
         </div>
       </div>
       <textarea
-        class="form-control text-area-no-resize ng-untouched ng-pristine ng-valid"
+        class="form-control text-area-no-resize ng-untouched ng-pristine ng-invalid"
         formcontrolname="reason"
         id="approve-reason"
         maxlength="1000"
         name="reason"
         ng-reflect-maxlength="1000"
         ng-reflect-name="reason"
-        placeholder="Please provide a reason for approval... (optional)"
+        onfocus="this.placeholder = ''"
+        placeholder="Please provide the reason for approval... (should be at least 30 characters)"
         rows="5"
       />
     </div>

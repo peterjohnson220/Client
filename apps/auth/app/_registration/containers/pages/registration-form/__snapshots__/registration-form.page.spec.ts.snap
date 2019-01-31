@@ -210,7 +210,13 @@ exports[`RegistrationFormPageComponent should match snapshot 1`] = `
               class="form-check-label"
               for="au-chk-self-registration-terms"
             >
-               I agree to the Payfactors for Small Business terms and conditions.* 
+               I agree to the 
+              <a
+                href="https://payfactors.com/freemium-services-terms-use/"
+              >
+                Payfactors for Small Business terms and conditions
+              </a>
+              .* 
             </label>
           </div>
           <div

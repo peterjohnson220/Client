@@ -69,7 +69,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     handleExchangeJobMappingInfoClosed() {
         // Need to clear out the index so clicking on the same row will cause a change to the scrollTo Directive
         this.store.dispatch(new fromExchangeJobMappingGridActions.UpdatePageRowIndexToScrollTo(null));
-        this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
+        this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
         this.collapse = false;
         this.disableGridScollTo = false;
     }
@@ -93,6 +93,6 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.selectedExchangeJobMappingSubscription.unsubscribe();
         this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobMapping));
-        this.store.dispatch(new fromExchangeJobMappingGridActions.SelectExchangeJobMapping(null));
+        this.store.dispatch(new fromExchangeJobMappingGridActions.SetActiveExchangeJob(null));
     }
 }

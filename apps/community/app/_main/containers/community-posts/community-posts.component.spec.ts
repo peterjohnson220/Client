@@ -16,7 +16,6 @@ import * as fromCommunityPostReplyActions from '../../actions/community-post-rep
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 import { CommunityPostsComponent } from './community-posts.component';
-import { HighlightHashTagPipe, FormatLinkUrlPipe, NewLinePipe } from 'libs/core';
 import { CommunityPost } from 'libs/models/community/community-post.model';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
@@ -47,10 +46,7 @@ describe('CommunityPostsComponent', () => {
         }
         ],
       declarations: [
-        CommunityPostsComponent,
-        HighlightHashTagPipe,
-        FormatLinkUrlPipe,
-        NewLinePipe
+        CommunityPostsComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -126,23 +122,6 @@ describe('CommunityPostsComponent', () => {
     };
     const action = new fromCommunityPostReplyActions.GettingCommunityPostReplies(parameter);
     instance.getCommunityPostReplies(postId);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch AddingCommunityTagToFilterOptions when calling onMessage', () => {
-    const tag = 'testTag';
-
-    const messageParam = {
-      data: {action: 'getCommunityPostsByTag', tag: tag},
-    };
-    const newTag: Tag  = {
-      Id: null,
-      TagName: tag
-    };
-    const action = new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(newTag);
-
-    instance.onMessage(messageParam);
-
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 

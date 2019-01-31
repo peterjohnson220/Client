@@ -6,6 +6,7 @@ export interface TilePreviewCharWithList extends TilePreviewBase {
   TileListTitle: string;
   TileChartTitle: string;
   PostUrl: string;
+  BaseUrl: string;
   TileListData: any;
   TileChartData: any;
 }
@@ -18,6 +19,7 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
   const tileListTitle = previewData.TileListTitle;
   const tileChartTitle = previewData.TileChartTitle;
   const postUrl = previewData.PostUrl;
+  const baseUrl = previewData.BaseUrl;
 
   const tileListData = previewData.TileListData !== undefined && previewData.TileListData.length > 0 ? previewData.TileListData : undefined;
   const tileChartData = previewData.TileChartData !== undefined
@@ -27,6 +29,7 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
     TileListTitle: tileListTitle,
     TileChartTitle: tileChartTitle,
     PostUrl: postUrl,
+    BaseUrl: baseUrl,
     TileListData: tileListData,
     TileChartData: tileChartData,
     PreviewType: TilePreviewTypes.ChartWithList
