@@ -3,6 +3,7 @@ export * from './feature-type';
 export * from './feature-types';
 export * from './tile.model';
 export * from './tile-preview-base.model';
+export * from './tile-preview-basic-list-tile';
 export * from './tile-preview-chart.model';
 export * from './tile-preview-chart-with-calendar.model';
 export * from './tile-preview-chart-data.model';

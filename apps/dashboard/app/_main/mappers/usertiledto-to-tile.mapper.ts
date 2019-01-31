@@ -73,6 +73,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.ChartWithCalendar;
       case TileTypes.NewCommunity:
         return TilePreviewTypes.ChartWithList;
+      case TileTypes.QuickPrice:
+        return TilePreviewTypes.BasicList;
       default:
         return TilePreviewTypes.Icon;
     }
