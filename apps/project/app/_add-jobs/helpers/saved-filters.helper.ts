@@ -1,28 +1,45 @@
-import { SearchFilter, SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors-api';
+import { Injectable } from '@angular/core';
+
+import { SavedFilterType, UserFilterUpsertRequest } from 'libs/models/payfactors-api';
 import { SaveFilterModalData } from 'libs/features/user-filter/models';
-import { SavedFilter } from 'libs/features/search/models';
+import { SavedFilter } from 'libs/features/user-filter/models';
+import { PayfactorsSearchApiModelMapper } from 'libs/features/search/helpers';
 
-export function buildUpsertRequest(id: string, modalData: SaveFilterModalData, filters?: SearchFilter[])
-  : UserFilterUpsertRequest {
-  const request = {
-    Type: SavedFilterType.JobSearch,
-    SavedFilter: {
-      Name: modalData.Name,
-      MetaInfo: {
-        Default: modalData.SetAsDefault
+@Injectable()
+export class SavedFiltersHelper {
+
+  constructor(private payfactorsSearchApiModelMapper: PayfactorsSearchApiModelMapper) { }
+
+  buildUpsertRequest(modalData: SaveFilterModalData): UserFilterUpsertRequest {
+    const id = modalData.SavedFilter ? modalData.SavedFilter.Id : null;
+    const isEditMode = !!id;
+    const searchFilters = isEditMode
+      ? null
+      : this.payfactorsSearchApiModelMapper.mapMultiSelectFiltersToSearchFilters(modalData.SearchFiltersToSave);
+    const request = {
+      Type: SavedFilterType.JobSearch,
+      SavedFilter: {
+        Name: modalData.Name,
+        MetaInfo: {
+          Default: modalData.SetAsDefault
+        }
       }
+    };
+    let savedFilter = request.SavedFilter;
+    if (isEditMode) {
+      savedFilter = Object.assign({ Id: id }, savedFilter);
+    } else {
+      savedFilter = Object.assign({ Filters: searchFilters }, savedFilter);
     }
-  };
-  let savedFilter = request.SavedFilter;
-  if (!!id) {
-    savedFilter = Object.assign({ Id: id }, savedFilter);
-  } else {
-    savedFilter = Object.assign({ Filters: filters }, savedFilter);
+    request.SavedFilter = savedFilter;
+    return request;
   }
-  request.SavedFilter = savedFilter;
-  return request;
-}
 
-export function getDefaultFilter(savedFilters: SavedFilter[]): SavedFilter {
-  return savedFilters.find(f => f.MetaInfo.Default === true);
+  getDefaultFilter(savedFilters: SavedFilter[]): SavedFilter {
+    return savedFilters.find(f => f.MetaInfo.Default === true);
+  }
+
+  isDefaultFilter(savedFilter: SavedFilter): boolean {
+    return !!savedFilter && savedFilter.Id ? savedFilter.MetaInfo.Default : false;
+  }
 }

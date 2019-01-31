@@ -6,5 +6,4 @@ export * from './search-survey-aggregations-request.model';
 export * from './jobs-to-price-request.model';
 export * from './job-match-cuts-request.model';
 export * from './update-user-job-matches.request.model';
-export * from './saved-filter-upsert-request.model';
 export * from './survey-search-request.model';

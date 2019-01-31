@@ -24,6 +24,8 @@
                       (remove)="onFileRemove($event)"
                       (success)="successEventHandler($event)"
                       class="mb-2">
+          <kendo-upload-messages invalidFileExtension={{uploadErrorMessage}}>
+          </kendo-upload-messages>
         </kendo-upload>
         <ng-container *ngIf="uploadError">
           <div *ngIf="uploadError" class="custom-control invalid-feedback">

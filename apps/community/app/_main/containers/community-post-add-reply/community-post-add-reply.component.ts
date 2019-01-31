@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service'
+
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
@@ -31,7 +33,8 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityPostReplyReducer.State>,
               public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              public pfLinkifyService: PfLinkifyService) {
     this.buildForm();
 
     this.addingCommunityPostReply$ = this.store.select(fromCommunityPostReplyReducer.getAddingCommunityPostReply);
@@ -68,9 +71,13 @@ export class CommunityPostAddReplyComponent implements OnInit, OnDestroy {
 
   submitReply() {
     if (this.communityPostReplyForm.valid) {
+
+      const replyText = this.communityPostReplyForm.controls['context'].value;
+
       const newReply: CommunityAddReply = {
         PostId: this.postId,
-        ReplyText: this.communityPostReplyForm.controls['context'].value
+        ReplyText: replyText,
+        Links: this.pfLinkifyService.getLinks(replyText)
       };
       this.store.dispatch(new fromCommunityPostReplyActions.AddingCommunityPostReply(newReply));
       this.replySubmitted.emit();

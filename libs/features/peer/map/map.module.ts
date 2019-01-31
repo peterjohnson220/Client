@@ -10,6 +10,8 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { environment } from 'environments/environment';
 
+import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
+
 import {
   FilterAggregateComponent,
   FilterAggregateGroupComponent,
@@ -32,6 +34,9 @@ const declarations = [
   imports: [
     CommonModule,
     FormsModule,
+
+    // PF Modules
+    PfCommonUIModule,
 
     // 3rd Party
     SwitchModule,

@@ -2,8 +2,17 @@
 
 exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
 <pf-company-exchange-invitations
+  approveInvitationModalOpen$={[Function Store]}
+  approveInvitationModalTitle={[Function String]}
+  approvingCompanyInvitation$={[Function Store]}
   companyInvitationInfoOpen$={[Function Store]}
+  denyInvitationModalOpen$={[Function Store]}
+  denyInvitationModalTitle={[Function String]}
+  denyingCompanyInvitation$={[Function Store]}
+  exchange="null"
+  exchange$={[Function Store]}
   exchangeId={[Function Number]}
+  exchangeSubscription={[Function Subscriber]}
   pageRowIndex="null"
   pageRowIndex$={[Function Store]}
   pageRowIndexSubscription={[Function Subscriber]}
@@ -71,6 +80,8 @@ exports[`Payfactors Company Exchange Invitations should match snapshot 1`] = `
       </pf-async-container>
     </div>
     
+    <pf-approve-request-modal />
+    <pf-deny-request-modal />
   </div>
 </pf-company-exchange-invitations>
 `;

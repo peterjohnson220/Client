@@ -1,0 +1,13 @@
+<div id="location-wrapper" pfClickElsewhere [whitelist]="[]" (clickElsewhere)="clickOutOfSuggestedLocations($event)" [formGroup]="parentForm">
+  <pf-input-debounce #location [formControlName]="'location'" (keydown)="onKeyDown($event)" [maxLength]="textMaxLength" [placeholderText]="''" [hideClearBtn]="true" (valueChanged)="getSuggestedLocations($event)">
+  </pf-input-debounce>
+  <div id="suggested-locations" #suggestLocationContainer *ngIf="showSuggestLocationContainer && suggestedLocations.length > 0"
+       class="list-group" (keydown)="onKeyDown($event)">
+    <button *ngFor="let item of suggestedLocations"
+            class="list-group-item justify-content-between pb-1"
+            [pfFocus]="item.IsSuggested"
+            (click)="location.value = onSuggestedLocationChange(item)">
+      <h6>{{item.place_name}}</h6>
+    </button>
+  </div>
+</div>

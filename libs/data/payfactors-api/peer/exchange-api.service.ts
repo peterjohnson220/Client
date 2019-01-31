@@ -9,7 +9,7 @@ import {
   ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
   ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
   ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
-  GenericKeyValue, AutoAssociateExchangeJobsRequest, ExchangeJobRequestAction, ExchangeRequestActionEnum
+  GenericKeyValue, AutoAssociateExchangeJobsRequest, ExchangeJobRequestAction, ExchangeRequestActionEnum, CompanyExchangeInvitationAction
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -118,7 +118,7 @@ export class ExchangeApiService {
   }
 
   exchangeJobRequestAction(jobRequest: ExchangeJobRequest, reason: string,
-    peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
+                           peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
     const requestAction: ExchangeJobRequestAction = {
       JobRequest: jobRequest, Reason: reason,
       PeopleToNotify: peopleToNotify, Action: action.toString()
@@ -126,12 +126,13 @@ export class ExchangeApiService {
     return this.payfactorsApiService.post(`${this.endpoint}/ExchangeJobRequestAction`, requestAction);
   }
 
-  approveCompanyExchangeInvitaiton(companyInvitation: ExchangeInvitation): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/ApproveCompanyExchangeInvitation`, companyInvitation);
-  }
-
-  denyCompanyExchangeInvitation(companyInvitation: ExchangeInvitation): Observable<any> {
-    return this.payfactorsApiService.post(`${this.endpoint}/DenyCompanyExchangeInvitation`, companyInvitation);
+  companyExchangeInvitationAction(companyInvitation: ExchangeInvitation, reason: string,
+                                  peopleToNotify: string, action: ExchangeRequestActionEnum): Observable<any> {
+    const requestAction: CompanyExchangeInvitationAction = {
+      CompanyInvitation: companyInvitation, Reason: reason,
+      PeopleToNotify: peopleToNotify, Action: action.toString()
+    };
+    return this.payfactorsApiService.post(`${this.endpoint}/CompanyExchangeInvitationAction`, requestAction);
   }
 
   getExchangeJobs(exchangeId: number, listState: any): Observable<GridDataResult> {

@@ -58,18 +58,34 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
   });
 
   it('should close the popover when clicking on an a scope', () => {
+    const event = new MouseEvent('click');
     spyOn(store, 'dispatch');
 
     fixture.detectChanges();
 
     spyOn(instance.popover, 'close');
 
-    instance.handleExchangeScopeClicked(generateMockExchangeScopeItem());
+    instance.handleExchangeScopeClicked(event, generateMockExchangeScopeItem());
 
     expect(instance.popover.close).toHaveBeenCalled();
   });
 
+  it('should not close the popover when clicking on an a scope and in delete mode', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+    instance.deleteMode = true;
+
+    fixture.detectChanges();
+
+    spyOn(instance.popover, 'close');
+
+    instance.handleExchangeScopeClicked(event, generateMockExchangeScopeItem());
+
+    expect(instance.popover.close).not.toHaveBeenCalled();
+  });
+
   it('should dispatch a SetExchangeScopeSelection action when clicking on a scope', () => {
+    const event = new MouseEvent('click');
     spyOn(store, 'dispatch');
 
     fixture.detectChanges();
@@ -77,12 +93,28 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     const exchangeScopeItem = generateMockExchangeScopeItem();
     const expectAction = new fromLibsFilterSidebarActions.SetExchangeScopeSelection(exchangeScopeItem);
 
-    instance.handleExchangeScopeClicked(exchangeScopeItem);
+    instance.handleExchangeScopeClicked(event, exchangeScopeItem);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectAction);
   });
 
+  it('should not dispatch a SetExchangeScopeSelection action when clicking on a scope if in delete mode', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+    instance.deleteMode = true;
+
+    fixture.detectChanges();
+
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    const expectAction = new fromLibsFilterSidebarActions.SetExchangeScopeSelection(exchangeScopeItem);
+
+    instance.handleExchangeScopeClicked(event, exchangeScopeItem);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectAction);
+  });
+
   it('should dispatch a LoadExchangeScopeDetails action when clicking on a scope', () => {
+    const event = new MouseEvent('click');
     spyOn(store, 'dispatch');
 
     fixture.detectChanges();
@@ -90,9 +122,24 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     const exchangeScopeItem = generateMockExchangeScopeItem();
     const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopeDetails();
 
-    instance.handleExchangeScopeClicked(exchangeScopeItem);
+    instance.handleExchangeScopeClicked(event, exchangeScopeItem);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should not dispatch a LoadExchangeScopeDetails action when clicking on a scope and in delete mode', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+    instance.deleteMode = true;
+
+    fixture.detectChanges();
+
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    const expectAction = new fromLibsExchangeScopeActions.LoadExchangeScopeDetails();
+
+    instance.handleExchangeScopeClicked(event, exchangeScopeItem);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(expectAction);
   });
 
   it('should dispatch a LoadExchangeScopesByJobs action on init if the systemFilter has been loaded and we are in the ' +
@@ -163,5 +210,95 @@ describe('Features - Peer - Exchange Scope Selector Component', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch a SetExchangeScopeToDelete action when clicking on a delete icon', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    const expectAction = new fromLibsExchangeScopeActions.SetExchangeScopeToDelete(exchangeScopeItem);
+
+    instance.enterDeleteScopeMode(event, exchangeScopeItem);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should dispatch a EnterDeleteExchangeScopeMode action when clicking on a delete icon', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    const expectAction = new fromLibsExchangeScopeActions.EnterDeleteExchangeScopeMode();
+
+    instance.enterDeleteScopeMode(event, exchangeScopeItem);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should dispatch an ExitDeleteExchangeScopeMode action when clicking on the cancel delete button', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    const expectAction = new fromLibsExchangeScopeActions.ExitDeleteExchangeScopeMode();
+
+    instance.cancelDeleteScope(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should dispatch a SetExchangeScopeToDelete action when clicking on the cancel delete button', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+
+    fixture.detectChanges();
+
+    const expectAction = new fromLibsExchangeScopeActions.SetExchangeScopeToDelete(null);
+
+    instance.cancelDeleteScope(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('should dispatch a DeleteExchangeScope action when clicking on the delete scope button', () => {
+    const event = new MouseEvent('click');
+    spyOn(store, 'dispatch');
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    instance.scopeToDelete = exchangeScopeItem;
+
+    fixture.detectChanges();
+
+    const expectAction = new fromLibsExchangeScopeActions.DeleteExchangeScope(exchangeScopeItem.Id);
+
+    instance.deleteScope(event);
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectAction);
+  });
+
+  it('highlight should be true when the scope ids match', () => {
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    instance.scopeToDelete = exchangeScopeItem;
+    fixture.detectChanges();
+
+    const highlight = instance.highlightScope(exchangeScopeItem);
+
+    expect(highlight).toBe(true);
+  });
+
+  it('highlight should be false when the scope ids do not match', () => {
+    const exchangeScopeItem = generateMockExchangeScopeItem();
+    instance.scopeToDelete = exchangeScopeItem;
+    fixture.detectChanges();
+
+    exchangeScopeItem.Id = '2';
+    const highlight = instance.highlightScope(exchangeScopeItem);
+
+    expect(highlight).toBe(true);
   });
 });

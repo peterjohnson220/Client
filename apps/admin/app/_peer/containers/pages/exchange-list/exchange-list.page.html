@@ -9,6 +9,7 @@
 
     <pf-input-debounce [placeholderText]="'Search for an Exchange by Name or Creator…'"
                        [minWidth]="300"
+                       [maxLength]="1000"
                        (valueChanged)="handleSearchChanged($event)">
     </pf-input-debounce>
     <button type="button"

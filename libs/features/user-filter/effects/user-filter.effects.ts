@@ -21,7 +21,7 @@ export class UserFilterEffects {
       return this.userFilterApiService.getAll({ Type: this.userFilterTypeData.Type })
         .pipe(
           mergeMap(response => [
-            new fromUserFilterActions.GetSavedFiltersSuccess(
+            new fromUserFilterActions.GetSuccess(
               this.payfactorsSearchApiModelMapper.mapSearchSavedFilterResponseToSavedFilter(response))
           ])
         );

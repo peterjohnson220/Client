@@ -6,6 +6,7 @@ exports[`CommunityCategoriesComponent should show community categories 1`] = `
   filterOptionsStore={[Function Store]}
   filteredByPost="false"
   filteredByPost$={[Function Store]}
+  filters$={[Function Store]}
   router={[Function Object]}
   store={[Function Store]}
 >

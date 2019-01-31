@@ -37,6 +37,8 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   isLoadingNextBatch = false;
   isLoadingPreviousBatch = false;
   showBackToTopButton = false;
+  executePageScrollUp = false;
+  executePageScrollDown = false;
 
   scrollElement: any;
   scrollTop: any;
@@ -71,16 +73,24 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
       this.setPreviousTopPostOffset();
 
-      if (!this.isLoadingPreviousBatch) {
-        this.postsComponent.onScrollUp();
+      if (!this.executePageScrollDown) {
+         this.postsComponent.onScrollUp();
+
+        if (this.isLoadingPreviousBatch && this.hasPreviousBatchOnServer && this.scrollTop === 0) {
+         this.scrollElement.scrollTop = 1;
+        }
       }
 
     } else if (percentLocationDown >= 90) {
 
       this.setPreviousBottomPostOffset();
 
-      if (!this.isLoadingNextBatch) {
+      if (!this.executePageScrollUp) {
         this.postsComponent.onScrollDown();
+
+        if (this.isLoadingNextBatch && this.hasNextBatchOnServer && (this.scrollTop + this.offsetHeight) === this.scrollHeight) {
+          this.scrollElement.scrollTop  -= 1;
+        }
       }
     }
 
@@ -104,7 +114,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     this.previousBottomPostOffset = (<HTMLElement>postItems[ postItems.length - 1 ]).offsetTop - this.scrollTop;
   }
 
-  loadedNextBatchScrollToNewPosition() {
+  loadedNextBatchScrollUpToNewPosition() {
     this.showBackToTopButton = true;
     // TODO: Current scroll logic needs to be updated here to handle variations in CommunityConstants batch size and paging factor.
     if (document.getElementsByClassName(this.POST_ITEM_CLASS).length > this.postBatchSize) {
@@ -130,7 +140,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     loadingNextResultsIndicator.classList.add('k-display-none');
   }
 
-  loadedPreviousBatchScrollToNewPosition() {
+  loadedPreviousBatchScrollDownToNewPosition() {
     // TODO: Current scroll logic needs to be updated here to handle variations in CommunityConstants batch size and paging factor.
     this.hideLoadingPreviousBatchIndicator();
 
@@ -176,13 +186,13 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     };
 
     this.postsChangedObserver = new MutationObserver(() => {
-      if (this.isLoadingNextBatch) {
-        this.loadedNextBatchScrollToNewPosition();
-        this.isLoadingNextBatch = false;
+      if (this.executePageScrollUp) {
+        this.loadedNextBatchScrollUpToNewPosition();
+        this.executePageScrollUp = false;
 
-      } else if (this.isLoadingPreviousBatch) {
-        this.loadedPreviousBatchScrollToNewPosition();
-        this.isLoadingPreviousBatch = false;
+      } else if (this.executePageScrollDown) {
+        this.loadedPreviousBatchScrollDownToNewPosition();
+        this.executePageScrollDown = false;
       }
       this.postsChangedObserver.disconnect();
     });
@@ -201,9 +211,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
     this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
 
+      this.isLoadingNextBatch = value;
 
       if (value && this.hasNextBatchOnServer) {
-        this.isLoadingNextBatch = true;
+        this.executePageScrollUp = true;
         this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
         this.showLoadingNextBatchIndicator();
       }
@@ -216,8 +227,11 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     });
 
     this.loadingPreviousBatchCommunityPostsSubscription = this.loadingPreviousBatchCommunityPosts$.subscribe(value => {
+
+      this.isLoadingPreviousBatch = value;
+
       if (value) {
-        this.isLoadingPreviousBatch = true;
+        this.executePageScrollDown = true;
         this.postsChangedObserver.observe(this.targetNode, this.observerOptions);
         this.showLoadingPreviousBatchIndicator();
       }

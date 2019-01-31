@@ -17,14 +17,15 @@
   border-radius: calc(#{$community-border-radius} - 1px) calc(#{$community-border-radius} - 1px) 0 0;
 }
 
-.category-count {
+.category-count { 
+  color: #ffffff;
+  background-color: $community-categories-body;
   border-style: solid;
-  border-color: $community-categories-border;
+  border-color:  $community-categories-body;
   border-width: 1px;
 }
 
 .category-element {
-  color: $community-categories-body;
   font-weight: 400;
   text-decoration: none;
   cursor: pointer;
@@ -34,6 +35,18 @@
   text-decoration: underline;
 }
 
+.category-count:hover {
+  color: $community-category-hover-color;
+  background-color: #ffffff;
+  border-color: $community-category-hover-color;
+}
+
 .category-disabled {
   opacity: 0.65;
+}
+
+.category-selected {
+  color: #ffffff;
+  background-color: $community-category-hover-color;
+  border-color: $community-category-hover-color;
 }

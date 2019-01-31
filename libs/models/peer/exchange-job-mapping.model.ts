@@ -8,6 +8,7 @@ export interface ExchangeJobMapping {
   ExchangeJobFamily: string;
   ExchangeJobLevel: string;
   ExchangeJobDescription: string;
+  ExchangeJobCreateDate: Date;
   Mapped: boolean;
   PendingRequest: boolean;
   MappingCount: number;
@@ -16,22 +17,16 @@ export interface ExchangeJobMapping {
 
 export interface CompanyJobMapping {
   ExchangeJobToCompanyJobId: number;
-  CompanyJobCode: string;
-  CompanyJobTitle: string;
-  CompanyJobLevel: string;
-  CompanyJobFamily: string;
-  CompanyJobDescription: string;
+  CompanyJobId: number;
 }
+
 export function generateMockCompanyJobMapping(): CompanyJobMapping {
   return {
     ExchangeJobToCompanyJobId: 345,
-    CompanyJobCode: 'A100',
-    CompanyJobTitle: 'Company Job Title',
-    CompanyJobLevel: 'I',
-    CompanyJobFamily: 'Company Job Family',
-    CompanyJobDescription: 'Lorem Ipsum'
+    CompanyJobId: 567
   };
 }
+
 export function generateMockExchangeJobMapping(): ExchangeJobMapping {
   const exchangeJobId = 28947;
   const companyId = 13;
@@ -45,6 +40,7 @@ export function generateMockExchangeJobMapping(): ExchangeJobMapping {
     ExchangeJobFamily: 'Exchange Test Family',
     ExchangeJobLevel: 'II',
     ExchangeJobDescription: 'Lorem Ipsum',
+    ExchangeJobCreateDate: new Date(2019, 1, 1),
     Mapped: true,
     PendingRequest: false,
     MappingCount: 1,

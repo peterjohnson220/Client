@@ -1,0 +1,41 @@
+@import 'comphub-variables';
+
+.trending-job-group{
+
+  background: lighten($comphub-header-background-grey, 5%);
+  padding: 1rem;
+
+  .group-name {
+    color: $comphub-header-blue;
+    margin-bottom: 1rem;
+  }
+
+  .trending-job{
+    display: flex;
+    align-items: center;
+    margin-bottom: .75rem;
+
+    .name{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &:hover{
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+
+    .icon{
+      color: #009900;
+      min-width: 47px;
+      min-height: 34px;
+      font-size: 2rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: .5rem;
+    }
+  }
+}

@@ -11,7 +11,7 @@
   </ng-container>
 
   <ng-container content>
-    <pf-results-header *ngIf="pageShown$ | async"></pf-results-header>
+    <pf-results-header *ngIf="pageShown$ | async" [userFilterDefaultLabel]="'PayMarket Default'"></pf-results-header>
     <pf-survey-search-results [cutsDraggable]="true"></pf-survey-search-results>
     <pf-jobs-to-price-container></pf-jobs-to-price-container>
   </ng-container>

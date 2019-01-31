@@ -10,7 +10,8 @@
               id="communityCategory{{ category.Name }}"
               class="category-element">{{ category.Name | communityCategoryDisplayName }}</span>
       </div>
-      <div class="col-2 px-0 py-1 category-count text-center community-border-radius">
+      <div class="col-2 px-0 py-1 category-count text-center community-border-radius"
+        [ngClass]="{'category-selected': IsCategorySelected(category.Name) }">
          <span (click)="!filteredByPost && onClick(category.Name)"
               id="communityCount{{ category.Name }}"
               [ngClass]="{'category-disabled': filteredByPost, 'category-element': true }">{{ category.Count }}</span>

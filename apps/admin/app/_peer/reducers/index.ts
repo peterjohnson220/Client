@@ -550,6 +550,13 @@ export const getCompanyExchangeInvitationPageRowIndex = createSelector(
   selectCompanyExchangeInvitationInfoState, fromCompanyExchangeInvitationInfoReducer.getPageRowIndex
 );
 
+export const getCompanyExchangeInvitationApproveModalOpen = createSelector(
+  selectCompanyExchangeInvitationInfoState, fromCompanyExchangeInvitationInfoReducer.getCompanyInvitationApproveModalOpen
+);
+
+export const getCompanyExchangeInvitationDenyModalOpen = createSelector(
+  selectCompanyExchangeInvitationInfoState, fromCompanyExchangeInvitationInfoReducer.getCompanyInvitationDenyModalOpen
+);
 
 // ExchangeJobAssociationUtility Selectors
 export const selectCompanyOptionsState = createSelector(

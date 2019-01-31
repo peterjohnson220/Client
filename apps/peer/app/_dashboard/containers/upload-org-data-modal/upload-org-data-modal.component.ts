@@ -25,6 +25,7 @@ export class UploadOrgDataModalComponent implements OnInit {
   uploadFiles: Array<FileInfo>;
   uploadedFilesData: Array<UploadedFile> = [];
   secondaryButtonText = 'Cancel';
+  uploadErrorMessage = 'Failed to upload file. The file must be .xls, .xlsx or .csv.';
   uploadError = false;
   errorMessage = '';
   fileUploadMax = 5;

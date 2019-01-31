@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CompanyJobToMapTo, UpsertExchangeJobMapRequest } from 'libs/models/peer';
+import { CompanyJobToMapTo, UpsertExchangeJobMapRequest, LatestCompanyJob } from 'libs/models';
 
 export const LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY =
   '[Peer Main/Exchange Job Mapping Info] Load Company Jobs To Map To By Query';
@@ -20,17 +20,32 @@ export const DELETE_MAPPING = '[Peer Main/Exchange Job Mapping Info] Delete Mapp
 export const DELETE_MAPPING_SUCCESS = '[Peer Main/Exchange Job Mapping Info] Delete Mapping Success';
 export const DELETE_MAPPING_ERROR = '[Peer Main/Exchange Job Mapping Info] Delete Mapping Error';
 export const SET_ACTIVE_MAPPING = '[Peer Main/Exchange Job Mapping Info] Set Active Mapping';
+export const LOAD_MAPPED_COMPANY_JOBS = '[Peer Main/Exchange Job Mapping Info] Load Mapped Company Jobs';
+export const LOAD_MAPPED_COMPANY_JOBS_SUCCESS = '[Peer Main/Exchange Job Mapping Info] Load Mapped Company Jobs Success';
+export const LOAD_MAPPED_COMPANY_JOBS_ERROR = '[Peer Main/Exchange Job Mapping Info] Load Mapped Company Jobs Error';
+
+export class LoadMappedCompanyJobs implements Action {
+  readonly type = LOAD_MAPPED_COMPANY_JOBS;
+  constructor(public payload: number[]) { }
+}
+
+export class LoadMappedCompanyJobsSuccess implements Action {
+  readonly type = LOAD_MAPPED_COMPANY_JOBS_SUCCESS;
+  constructor(public payload: LatestCompanyJob[] | null) { }
+}
+
+export class LoadMappedCompanyJobsError implements Action {
+  readonly type = LOAD_MAPPED_COMPANY_JOBS_ERROR;
+}
 
 export class LoadCompanyJobsToMapToByQuery implements Action {
   readonly type = LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY;
-
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class LoadCompanyJobsToMapToByQuerySuccess implements Action {
   readonly type = LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY_SUCCESS;
-
-  constructor(public payload: CompanyJobToMapTo[]) {}
+  constructor(public payload: CompanyJobToMapTo[]) { }
 }
 
 export class LoadCompanyJobsToMapToByQueryError implements Action {
@@ -40,13 +55,12 @@ export class LoadCompanyJobsToMapToByQueryError implements Action {
 export class SelectCompanyJob implements Action {
   readonly type = SELECT_COMPANY_JOB;
 
-  constructor(public payload: number) {}
+  constructor(public payload: number) { }
 }
 
 export class ApplyMapping implements Action {
   readonly type = APPLY_MAPPING;
-
-  constructor(public payload: UpsertExchangeJobMapRequest) {}
+  constructor(public payload: UpsertExchangeJobMapRequest) { }
 }
 
 export class ApplyMappingSuccess implements Action {
@@ -75,8 +89,7 @@ export class CloseDeleteConfirmationModal implements Action {
 
 export class DeleteMapping implements Action {
   readonly type = DELETE_MAPPING;
-
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class DeleteMappingSuccess implements Action {
@@ -89,8 +102,7 @@ export class DeleteMappingError implements Action {
 
 export class SetActiveMapping implements Action {
   readonly type = SET_ACTIVE_MAPPING;
-
-  constructor(public payload: number | null) {}
+  constructor(public payload: number | null) { }
 }
 
 export type Actions
@@ -108,4 +120,7 @@ export type Actions
   | DeleteMapping
   | DeleteMappingSuccess
   | DeleteMappingError
-  | SetActiveMapping;
+  | SetActiveMapping
+  | LoadMappedCompanyJobs
+  | LoadMappedCompanyJobsSuccess
+  | LoadMappedCompanyJobsError;

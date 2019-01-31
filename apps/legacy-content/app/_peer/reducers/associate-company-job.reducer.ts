@@ -1,4 +1,4 @@
-import { ExchangeJobSearch, CompanyJobSummary } from 'libs/models';
+import { ExchangeJobSearch, LatestCompanyJob } from 'libs/models';
 
 import * as fromAssociateCompanyJobActions from '../actions/associate-company-jobs.actions';
 
@@ -8,7 +8,7 @@ export interface State {
     hasLoadingError: boolean;
     isAddingAssociation: boolean;
     hasAddingAssociationError: boolean;
-    companyJob: CompanyJobSummary;
+    companyJob: LatestCompanyJob;
     exchangeJobSearch: ExchangeJobSearch[];
 }
 

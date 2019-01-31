@@ -11,15 +11,16 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { PfSearchModule } from 'libs/features/search';
+import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
 import { JobResultComponent, DataCutsComponent, MatchesDetailsTooltipComponent } from './components';
 import { TooltipContainerComponent, SurveySearchResultsComponent } from './containers';
-import { SurveySearchFilterMappingDataObj } from './data';
+import { SurveySearchFilterMappingDataObj, SurveySearchUserFilterType } from './data';
 import { SurveySearchFiltersEffects, SearchResultsEffects, SingledFilterEffects,
 TooltipContainerEffects, SavedFiltersEffects, ContextEffects } from './effects';
 import { reducers } from './reducers';
 import { SurveySearchEffectsService } from './services';
-import { PayfactorsSurveySearchApiHelper } from './helpers';
+import { PayfactorsSurveySearchApiHelper, SavedFilterHelper } from './helpers';
 
 const components = [
     // Components
@@ -51,7 +52,9 @@ const components = [
   providers: [
     SurveySearchEffectsService,
     PayfactorsSurveySearchApiHelper,
-    { provide: SearchFilterMappingDataObj, useValue: SurveySearchFilterMappingDataObj }
+    SavedFilterHelper,
+    { provide: SearchFilterMappingDataObj, useValue: SurveySearchFilterMappingDataObj },
+    { provide: UserFilterTypeData, useValue: SurveySearchUserFilterType }
   ]
 })
 export class SurveySearchModule { }

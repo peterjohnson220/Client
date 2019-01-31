@@ -61,10 +61,25 @@
   <div *ngIf="companyInvitationInfoOpen$ | async" class=" d-flex mt-3 flex-grow-1 company-invitation-info-container">
     <pf-company-exchange-invitation-info
       [selectedCompanyInvitation]="selectedCompanyInvitation"
-      (closeClicked)="handleCloseInvitationInfo()"
-      (approveClicked)="handleApproveCompanyInvitation($event)"
-      (denyClicked)="handleDenyCompanyInvitation($event)">
+      (closeClicked)="handleCloseInvitationInfo()">
     </pf-company-exchange-invitation-info>
   </div>
 
+  <pf-approve-request-modal
+    [modalTitle]="approveInvitationModalTitle"
+    [modalText]="approveModalText"
+    [submittingApproval$]="approvingCompanyInvitation$"
+    [approveRequestModalOpen$]="approveInvitationModalOpen$"
+    (approveClicked)="handleApproveCompanyInvitation($event)"
+    (closeClicked)="handleCloseApproveModal()"
+  ></pf-approve-request-modal>
+
+  <pf-deny-request-modal
+    [modalTitle]="denyInvitationModalTitle"
+    [modalText]="denyModalText"
+    [submittingDenial$]="denyingCompanyInvitation$"
+    [denyRequestModalOpen$]="denyInvitationModalOpen$"
+    (denyClicked)="handleDenyCompanyInvitation($event)"
+    (closeClicked)="handleCloseDenyModal()"
+  ></pf-deny-request-modal>
 </div>

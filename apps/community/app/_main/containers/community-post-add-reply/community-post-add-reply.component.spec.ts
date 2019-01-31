@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service';
+
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReplyReducer from '../../reducers';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
@@ -15,6 +17,7 @@ describe('CommunityPostAddReplyComponent', () => {
   let fixture: ComponentFixture<CommunityPostAddReplyComponent>;
   let instance: CommunityPostAddReplyComponent;
   let store: Store<fromRootState.State>;
+  let pfLinkifyService: PfLinkifyService;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -25,6 +28,12 @@ describe('CommunityPostAddReplyComponent', () => {
           communityPollRequest: combineReducers(fromCommunityPostReplyReducer.reducers)
         }),
         ReactiveFormsModule
+      ],
+      providers: [
+        {
+          provide: PfLinkifyService,
+          useValue: { getLinks: jest.fn() }
+        }
       ],
       declarations: [
         CommunityPostAddReplyComponent
@@ -37,6 +46,7 @@ describe('CommunityPostAddReplyComponent', () => {
 
     spyOn(store, 'dispatch');
 
+    pfLinkifyService = TestBed.get(PfLinkifyService);
     fixture = TestBed.createComponent(CommunityPostAddReplyComponent);
     instance = fixture.componentInstance;
   });

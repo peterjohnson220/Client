@@ -11,6 +11,12 @@ export const LOAD_EXCHANGE_SCOPES_BY_EXCHANGE_ERROR  = '[Features/Peer/Exchange 
 export const LOAD_EXCHANGE_SCOPE_DETAILS  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details';
 export const LOAD_EXCHANGE_SCOPE_DETAILS_SUCCESS  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details Success';
 export const LOAD_EXCHANGE_SCOPE_DETAILS_ERROR  = '[Features/Peer/Exchange Scopes] Load Exchange Scope Details Error';
+export const DELETE_EXCHANGE_SCOPE = '[Features/Peer/Exchange Scopes] Delete Exchange Scope';
+export const DELETE_EXCHANGE_SCOPE_SUCCESS = '[Features/Peer/Exchange Scopes] Delete Exchange Scope Success';
+export const DELETE_EXCHANGE_SCOPE_ERROR = '[Features/Peer/Exchange Scopes] Delete Exchange Scope Error';
+export const ENTER_DELETE_EXCHANGE_SCOPE_MODE = '[Features/Peer/Exchange Scopes] Enter Delete Exchange Scope Mode';
+export const EXIT_DELETE_EXCHANGE_SCOPE_MODE = '[Features/Peer/Exchange Scopes] Exit Delete Exchange Scope Mode';
+export const SET_EXCHANGE_SCOPE_TO_DELETE = '[Features/Peer/Exchange Scopes] Set Exchange Scope To Delete';
 
 export class LoadExchangeScopesByJobs implements Action {
   readonly type = LOAD_EXCHANGE_SCOPES_BY_JOBS;
@@ -56,6 +62,36 @@ export class LoadExchangeScopeDetailsError implements Action {
   readonly type = LOAD_EXCHANGE_SCOPE_DETAILS_ERROR;
 }
 
+export class DeleteExchangeScope implements Action {
+  readonly type = DELETE_EXCHANGE_SCOPE;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteExchangeScopeSuccess implements Action {
+  readonly type = DELETE_EXCHANGE_SCOPE_SUCCESS;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteExchangeScopeError implements Action {
+  readonly type = DELETE_EXCHANGE_SCOPE_ERROR;
+}
+
+export class EnterDeleteExchangeScopeMode implements Action {
+  readonly type = ENTER_DELETE_EXCHANGE_SCOPE_MODE;
+}
+
+export class ExitDeleteExchangeScopeMode implements Action {
+  readonly type = EXIT_DELETE_EXCHANGE_SCOPE_MODE;
+}
+
+export class SetExchangeScopeToDelete implements Action {
+  readonly type = SET_EXCHANGE_SCOPE_TO_DELETE;
+
+  constructor(public payload: ExchangeScopeItem) {}
+}
+
 export type Actions
   = LoadExchangeScopesByJobs
   | LoadExchangeScopesByJobsSuccess
@@ -65,4 +101,10 @@ export type Actions
   | LoadExchangeScopesByExchangeError
   | LoadExchangeScopeDetails
   | LoadExchangeScopeDetailsSuccess
-  | LoadExchangeScopeDetailsError;
+  | LoadExchangeScopeDetailsError
+  | DeleteExchangeScope
+  | DeleteExchangeScopeSuccess
+  | DeleteExchangeScopeError
+  | EnterDeleteExchangeScopeMode
+  | ExitDeleteExchangeScopeMode
+  | SetExchangeScopeToDelete;

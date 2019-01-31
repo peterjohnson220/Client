@@ -3,6 +3,7 @@ import { FormGroup, FormArray, ValidatorFn, Validators, FormBuilder } from '@ang
 
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import { CommunityPollUpsertRequest } from 'libs/models/community/community-poll-upsert-request.model';
 import { CommunityPollStatusEnum } from 'libs/models/community/community-constants.model';
@@ -21,7 +22,6 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   addingCommunityDiscussionPollSuccessSubscription: Subscription;
 
   maxTextLength = 250;
-  maxChoices = 5;
   attemptedSubmit = false;
   pollLengthDays = Array.from({length: 31}, (v, k) => k);
   pollLengthHours = Array.from({length: 24}, (v, k) => k);
@@ -55,7 +55,8 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
   }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    public pfLinkifyService: PfLinkifyService) {
       this.addingCommunityDiscussionPollSuccess$ = this.store.select(fromCommunityPostReducer.getAddingCommunityDiscussionPollSuccess);
       this.buildForm();
   }
@@ -114,7 +115,8 @@ export class CommunityNewPollComponent implements OnInit, OnDestroy {
       Question: this.context.value,
       ResponseOptions: responseOptions,
       Status: CommunityPollStatusEnum.Live,
-      DurationInHours: this.days.value * 24 + this.hours.value
+      DurationInHours: this.days.value * 24 + this.hours.value,
+      Links: this.pfLinkifyService.getLinks(this.context.value)
     };
     this.store.dispatch(new fromCommunityPostActions.AddingCommunityDiscussionPoll(communityPollRequest));
   }

@@ -19,3 +19,16 @@ export function generateMockJob(): Job {
     JobDescription: 'Lorem Ipsum'
   };
 }
+
+export interface LatestCompanyJob extends Job {
+  CompanyJobId: number;
+  MappedExchangeIds: number[];
+}
+
+export function generateMockLatestCompanyJob(): LatestCompanyJob {
+  return {
+    ...generateMockJob(),
+    CompanyJobId: 2,
+    MappedExchangeIds: [2, 3]
+  };
+}

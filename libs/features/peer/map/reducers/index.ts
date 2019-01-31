@@ -98,6 +98,10 @@ export const getExchangeScopeDetailsLoadingError = createSelector(
   selectExchangeScopeState,
   fromExchangeScopeReducer.getLoadingDetailsError
 );
+export const getDeletingExchangeScope = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getDeletingScope);
+export const getDeletingExchangeScopeError = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getDeletingScopeError);
+export const getInDeleteExchangeScopeMode = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getInDeleteScopeMode);
+export const getExchangeScopeToDelete = createSelector(selectExchangeScopeState, fromExchangeScopeReducer.getExchangeScopeToDelete);
 
 // Combined State Selectors
 export const getExchangeDataCutRequestData = createSelector(

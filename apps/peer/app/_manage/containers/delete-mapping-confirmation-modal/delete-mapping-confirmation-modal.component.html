@@ -1,19 +1,18 @@
-<pf-modal-form
-  [title]="'Delete Association'"
-  size=""
-  secondaryButtonText="No"
-  primaryButtonClass="btn-danger"
-  primaryButtonText="Yes"
-  primaryButtonTextSubmitting="Deleting..."
-  [submitting]="deletingMapping$ | async"
-  [isOpen$]="deleteMappingConfirmationModalOpen$"
-  (onSubmit)="handleDeleteConfirmed()"
-  (onDismiss)="handleDeleteDenied()">
+<pf-modal-form [title]="'Delete Association'"
+               size=""
+               secondaryButtonText="No"
+               primaryButtonClass="btn-danger"
+               primaryButtonText="Yes"
+               primaryButtonTextSubmitting="Deleting..."
+               [submitting]="deletingMapping$ | async"
+               [isOpen$]="deleteMappingConfirmationModalOpen$"
+               (onSubmit)="handleDeleteConfirmed()"
+               (onDismiss)="handleDeleteDenied()">
 
   <ng-container basic-content>
     You are about to delete the association between
     <strong>{{selectedExchangeJobTitle}}</strong> and
-    <strong>{{currentCompanyJob?.CompanyJobTitle}}</strong>.
+    <strong>{{jobTitle}}</strong>.
     This cannot be undone.
     <br /><br />
     Would you like to continue?

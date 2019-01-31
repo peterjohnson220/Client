@@ -2,11 +2,11 @@
   <pf-manage-exchange-section-header [sectionTitle]="'Exchange Jobs'" [sectionDescription]="'Listed in the grid below are the jobs included in this exchange.'">
     <ng-container header-actions>
       <div class="omni-box">
-        <pf-input-debounce [placeholderText]="'Search Exchange Jobs...'" (valueChanged)="handleSearchChanged($event)">
+        <pf-input-debounce [placeholderText]="'Search for Jobs in this Exchange...'" (valueChanged)="handleSearchChanged($event)">
         </pf-input-debounce>
       </div>
-      <button type="button" class="btn btn-md btn-secondary" (click)="openImportExchangeJobsModal()">Import</button>
-      <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeJobsModal()">Add</button>
+      <button type="button" class="btn btn-md btn-secondary" (click)="openImportExchangeJobsModal()">Import Jobs</button>
+      <button type="button" class="btn btn-md btn-primary" (click)="openAddExchangeJobsModal()">Add Jobs</button>
     </ng-container>
   </pf-manage-exchange-section-header>
   <div class="d-flex h-100">

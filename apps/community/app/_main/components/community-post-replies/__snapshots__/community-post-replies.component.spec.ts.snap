@@ -4,6 +4,7 @@ exports[`CommunityPostRepliesComponent should show community post replies 1`] = 
 <pf-community-post-replies
   loading="false"
   replies={[Function Array]}
+  replyHashTagClicked={[Function EventEmitter]}
 >
   <div
     class="mt-2"
@@ -18,6 +19,7 @@ exports[`CommunityPostRepliesComponent should show community post replies loadin
 <pf-community-post-replies
   loading={[Function Boolean]}
   replies={[Function Array]}
+  replyHashTagClicked={[Function EventEmitter]}
 >
   <div
     class="mt-2"

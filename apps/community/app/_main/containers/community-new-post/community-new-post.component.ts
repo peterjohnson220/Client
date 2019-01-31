@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 
 import { CommunityAddPost, CommunityPost } from 'libs/models';
 
@@ -21,14 +22,14 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
   submittingCommunityPostSuccessSubscription: Subscription;
 
   communityDiscussionForm: FormGroup;
-
   textMaxLength = 2000;
 
   get context() { return this.communityDiscussionForm.get('context'); }
   get isFormValid() { return this.communityDiscussionForm.valid; }
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    public pfLinkifyService: PfLinkifyService) {
       this.submittingCommunityPostSuccess$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPostsSuccess);
       this.buildForm();
     }
@@ -56,10 +57,13 @@ export class CommunityNewPostComponent implements OnInit, OnDestroy {
     if (!this.communityDiscussionForm.valid) {
       return;
     }
+
     const newPost: CommunityAddPost = {
       PostText: this.context.value,
-      IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value
+      IsInternalOnly: this.communityDiscussionForm.controls['isInternalOnly'].value,
+      Links: this.pfLinkifyService.getLinks(this.context.value)
     };
+
     this.store.dispatch(new fromCommunityPostActions.SubmittingCommunityPost(newPost));
   }
 

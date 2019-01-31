@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { FocusDirective, PfValidatableDirective } from './directives';
-import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent, ActionButtonComponent } from './components';
+import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent, LocationSearchComponent, ActionButtonComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
 
 const declarations = [
@@ -14,6 +14,7 @@ const declarations = [
   ConfirmPasswordComponent,
   PfModalFormComponent,
   InputDebounceComponent,
+  LocationSearchComponent,
   ActionButtonComponent
 ];
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CompanyJob, CompanyJobSummary, Match, CompanyJobToMapTo } from 'libs/models';
+import { CompanyJob, Match, CompanyJobToMapTo, LatestCompanyJob } from 'libs/models';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { Observable } from 'rxjs';
@@ -13,14 +13,6 @@ export class CompanyJobApiService {
     constructor(
         private payfactorsApiService: PayfactorsApiService
     ) { }
-
-    getCompanyJobWithJDMDescription(companyJobId: number) {
-        return this.payfactorsApiService.get<CompanyJobSummary>(`${this.endpoint}/GetJobWithJDMDescription`, {
-            params: {
-                CompanyJobId: companyJobId
-            }
-        });
-    }
 
     getTopCompanyJobsToMapTo(exchangeId: number, jobTitleAndCodeQuery: string,
         jobDescriptionQuery: string): Observable<CompanyJobToMapTo[]> {
@@ -38,6 +30,12 @@ export class CompanyJobApiService {
     }
 
     getJobFamilies(): Observable<string[]> {
-      return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetJobFamilies`);
+        return this.payfactorsApiService.get<string[]>(`${this.endpoint}/Default.GetJobFamilies`);
+    }
+
+    getCompanyJobs(companyJobIds: number[]): Observable<LatestCompanyJob[]> {
+        return (this.payfactorsApiService.get<LatestCompanyJob[]>(`${this.endpoint}/GetCompanyJobsByIds`,
+            { params: { companyJobIds: (companyJobIds) } })
+        );
     }
 }

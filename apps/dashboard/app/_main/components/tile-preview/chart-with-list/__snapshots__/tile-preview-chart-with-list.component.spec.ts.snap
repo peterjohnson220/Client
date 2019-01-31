@@ -29,17 +29,21 @@ exports[`Tile Preview Chart With List should show component 1`] = `
       class="col-7 p-0 pr-2"
     >
       
-      <span
-        class="col-12 tile-text text-center m-0 p-0"
-      >
-        <a
-          class="pollLink"
-          href=""
-        >
-           
-        </a>
-      </span>
       
+      
+      
+      <div>
+        <span
+          class="col-12 tile-text text-center m-0 p-0"
+        >
+          There are no active polls
+        </span>
+        <button
+          class="col-12 btn btn-primary btn-respond px-2 py-1"
+        >
+          Create Poll
+        </button>
+      </div>
     </div>
   </div>
 </pf-tile-preview-chart-with-list>
