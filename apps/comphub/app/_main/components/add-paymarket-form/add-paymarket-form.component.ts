@@ -1,30 +1,23 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-import { AutoCompleteComponent } from '@progress/kendo-angular-dropdowns';
-
 import { PfValidators } from 'libs/forms/validators';
 
-import { AddPayMarketModalData } from '../../models/add-paymarket-modal-data';
-import { KendoDropDownItem } from '../../models/kendo-dropdown-item.model';
-import { MarketDataScope } from '../../models';
+import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem } from '../../models';
 
 @Component({
-  selector: 'pf-add-paymarket-modal',
-  templateUrl: './add-paymarket-modal.component.html',
-  styleUrls: ['./add-paymarket-modal.component.scss']
+  selector: 'pf-add-paymarket-form',
+  templateUrl: './add-paymarket-form.component.html',
+  styleUrls: ['./add-paymarket-form.component.scss']
 })
-export class AddPayMarketModalComponent implements OnInit, OnChanges {
+export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() isOpen: boolean;
   @Input() saving: boolean;
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
-  @Output() saveClick = new EventEmitter<AddPayMarketModalData>();
+  @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
   @Output() skipClick = new EventEmitter();
-
-  @ViewChild('locationAutoComplete')
-  private locationAutoComplete: AutoCompleteComponent;
 
   showErrorMessages = false;
 
@@ -75,9 +68,9 @@ export class AddPayMarketModalComponent implements OnInit, OnChanges {
   }
 
   submit() {
-    const modalData: AddPayMarketModalData = this.buildModalData();
+    const data: AddPayMarketFormData = this.buildFormData();
     this.showErrorMessages = true;
-    this.saveClick.emit(modalData);
+    this.saveClick.emit(data);
   }
 
   dismiss() {
@@ -94,7 +87,7 @@ export class AddPayMarketModalComponent implements OnInit, OnChanges {
       .slice(0, 5);
   }
 
-  private buildModalData(): AddPayMarketModalData {
+  private buildFormData(): AddPayMarketFormData {
     return {
       Name: this.addPayMarketForm.value.name,
       Country: this.defaultCountry.Value,

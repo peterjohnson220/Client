@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 
-import { PricingPaymarket, AddPayMarketModalData } from '../models';
+import { PricingPaymarket, AddPayMarketFormData } from '../models';
 
 export const GET_PAYMARKETS = '[Comphub/Markets Page] Get Pay Markets';
 export const GET_PAYMARKETS_SUCCESS = '[Comphub/Markets Page] Get Pay Markets Success';
@@ -48,7 +48,7 @@ export class SetSelectedPaymarket implements Action {
 export class SavePayMarket implements Action {
   readonly type = SAVE_PAYMARKET;
 
-  constructor(public payload: AddPayMarketModalData) {}
+  constructor(public payload: AddPayMarketFormData) {}
 }
 
 export class SkipPayMarket implements Action {

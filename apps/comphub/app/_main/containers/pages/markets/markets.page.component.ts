@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsPageActions from '../../../actions/markets-page.actions';
-import { PricingPaymarket, AddPayMarketModalData, MarketDataScope} from '../../../models';
+import { PricingPaymarket, AddPayMarketFormData, MarketDataScope} from '../../../models';
 
 @Component({
   selector: 'pf-markets-page',
@@ -19,7 +19,7 @@ export class MarketsPageComponent implements OnInit {
   selectedPaymarketId$: Observable<number>;
   paymarkets$: Observable<PricingPaymarket[]>;
 
-  addPayMarketModalOpen$: Observable<boolean>;
+  addPayMarketFormOpen$: Observable<boolean>;
   savingPayMarket$: Observable<boolean>;
   savingPayMarketConflict$: Observable<boolean>;
   savingPayMarketError$: Observable<boolean>;
@@ -44,15 +44,15 @@ export class MarketsPageComponent implements OnInit {
     this.store.dispatch(new fromMarketsPageActions.GetMarketDataScope(
       { countryCode: this.defaultCountryCode }
     ));
-    this.addPayMarketModalOpen$ = this.store.select(fromComphubMainReducer.getAddPayMarketModalOpen);
+    this.addPayMarketFormOpen$ = this.store.select(fromComphubMainReducer.getAddPayMarketFormOpen);
     this.savingPayMarket$ = this.store.select(fromComphubMainReducer.getSavingPayMarket);
     this.savingPayMarketConflict$ = this.store.select(fromComphubMainReducer.getSavingPayMarketConflict);
     this.savingPayMarketError$ = this.store.select(fromComphubMainReducer.getSavingPayMarketError);
     this.marketDataScope$ = this.store.select(fromComphubMainReducer.getMarketDataScope);
   }
 
-  handleSavePayMarket(modalData: AddPayMarketModalData) {
-    this.store.dispatch(new fromMarketsPageActions.SavePayMarket(modalData));
+  handleSavePayMarket(formData: AddPayMarketFormData) {
+    this.store.dispatch(new fromMarketsPageActions.SavePayMarket(formData));
   }
 
   handleSkipPayMarket() {

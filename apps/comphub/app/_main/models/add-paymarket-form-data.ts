@@ -1,4 +1,4 @@
-export interface AddPayMarketModalData {
+export interface AddPayMarketFormData {
   Name: string;
   Country: string;
   Currency: string;
@@ -7,7 +7,7 @@ export interface AddPayMarketModalData {
   Size: string;
 }
 
-export function generateMockAddPayMarketModalData(): AddPayMarketModalData {
+export function generateMockAddPayMarketFormData(): AddPayMarketFormData {
   return {
     Name: 'Pay Market Name',
     Country: 'USA',

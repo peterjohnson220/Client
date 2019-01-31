@@ -1,4 +1,4 @@
-<div class="modal-container container">
+<div class="form-container container">
 
   <h4 class="uppercase-header">ADD NEW PAY MARKET</h4>
   <form [formGroup]="addPayMarketForm">
@@ -8,6 +8,7 @@
       <div class="col-12 col-lg-5">
         <label for="name">Name</label>
         <input type="text" class="form-control"
+          [attr.data-qa-id]="'txt-payMarketName'"
           [class.is-invalid]="showErrorMessages && (savingConflict || savingError)"
           formControlName="name"
           [placeholder]="'Pay Market Name...'"
@@ -19,6 +20,7 @@
       <div class="col-12 col-lg-4">
         <label for="country">Country</label>
         <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-country'"
           formControlName="country"
           [data]="countryList"
           [textField]="'Name'"
@@ -30,6 +32,7 @@
       <div class="col-12 col-lg-3">
         <label for="currency">Currency</label>
         <kendo-dropdownlist class="border form-control"
+          [attr.data-qa-id]="'ddm-currency'"
           formControlName="currency"
           [data]="currencyList"
           [textField]="'Name'"
@@ -44,7 +47,7 @@
       <div class="col-12 col-lg-5">
         <label for="location">Location</label>
         <kendo-autocomplete
-          #locationAutoComplete
+          [attr.data-qa-id]="'txt-location'"
           class="form-control"
           formControlName="location"
           [data]="locations"
@@ -58,6 +61,7 @@
       <div class="col-12 col-lg-4">
         <label for="industry">Industry</label>
         <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-industry'"
           formControlName="industry"
           [listHeight]="100"
           [filterable]="true"
@@ -71,6 +75,7 @@
       <div class="col-12 col-lg-3">
         <label for="size">Size</label>
         <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-size'"
           formControlName="size"
           [data]="sizes"
           [textField]="'Name'"
@@ -80,7 +85,7 @@
 
     </div>
 
-    <div class="form-content row modal-actions-section">
+    <div class="form-content row form-actions-section">
       <div class="col-12 d-flex justify-content-end">
         <ng-container *ngIf="showErrorMessages">
           <span class="text-danger" *ngIf="savingConflict">Name in use. Please choose a unique pay market name.</span>
@@ -88,6 +93,7 @@
         </ng-container>
         <div class="button-container space-out-children">
           <button type="button" class="btn comphub-primary-btn"
+            [attr.data-qa-id]="'btn-save'"
             [disabled]="submitDisabled"
             (click)="submit()">
             <span *ngIf="saving">
@@ -95,7 +101,9 @@
             </span>
             <span *ngIf="!saving">Save</span>
           </button>
-          <button type="button" class="btn btn-secondary" (click)="dismiss()">Skip</button>
+          <button type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-skip'"
+            (click)="dismiss()">Skip</button>
         </div>
       </div>
     </div>

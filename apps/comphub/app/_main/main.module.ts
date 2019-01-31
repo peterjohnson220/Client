@@ -13,11 +13,11 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, DataPageComponent, PageLayoutComponent,
   SummaryPageComponent } from './containers';
-import { JobsPageEffects, MarketsPageEffects, AddPayMarketModalEffects, DataPageEffects } from './effects';
+import { JobsPageEffects, MarketsPageEffects, AddPayMarketFormEffects, DataPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { TrendingJobGroupComponent, CardLayoutComponent, SelectPaymarketsComponent,
-  AddPayMarketModalComponent } from './components';
+  AddPayMarketFormComponent } from './components';
 import { WindowRef } from './services';
 
 @NgModule({
@@ -33,7 +33,7 @@ import { WindowRef } from './services';
       JobsPageEffects,
       DataPageEffects,
       MarketsPageEffects,
-      AddPayMarketModalEffects
+      AddPayMarketFormEffects
     ]),
 
     // Routing
@@ -52,7 +52,7 @@ import { WindowRef } from './services';
     // Components
     TrendingJobGroupComponent,
     CardLayoutComponent,
-    AddPayMarketModalComponent,
+    AddPayMarketFormComponent,
 
     // Pages
     ComphubPageComponent,

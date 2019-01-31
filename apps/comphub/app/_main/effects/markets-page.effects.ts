@@ -14,7 +14,7 @@ import { MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import * as fromMarketsPageActions from '../actions/markets-page.actions';
 import * as fromComphubMainReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
-import * as fromAddPayMarketModalActions from '../actions/add-paymarket-modal.actions';
+import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { MarketsPageHelper } from '../helpers';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class MarketsPageEffects {
                   PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse)
                 ));
                 if (paymarketsResponse.length === 0) {
-                  actions.push(new fromAddPayMarketModalActions.Open());
+                  actions.push(new fromAddPayMarketFormActions.Open());
                 }
                 return actions;
               }),
@@ -71,17 +71,17 @@ export class MarketsPageEffects {
     map((data) => {
       const request: AddPayMarketRequest = MarketsPageHelper.buildAddPayMarketRequest(
         data.userContext.CompanyId, data.action.payload);
-      return new fromAddPayMarketModalActions.Save(request);
+      return new fromAddPayMarketFormActions.Save(request);
     })
   );
 
   @Effect()
   savePayMarketSuccess$ = this.actions$
-  .ofType(fromAddPayMarketModalActions.SAVE_PAYMARKET_SUCCESS)
+  .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS)
   .pipe(
     mergeMap((data) => {
       return [
-        new fromAddPayMarketModalActions.Close(),
+        new fromAddPayMarketFormActions.Close(),
         new fromMarketsPageActions.GetPaymarkets()
       ];
     })

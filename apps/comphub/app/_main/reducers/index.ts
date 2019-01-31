@@ -6,7 +6,7 @@ import * as fromRoot from 'libs/state/state';
 // Import feature reducers
 import * as fromJobsPageReducer from './jobs-page.reducer';
 import * as fromComphubPageReducer from './comphub-page.reducer';
-import * as fromAddPayMarketModalReducer from './add-paymarket-modal.reducer';
+import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromMarketsPageReducer from './markets-page.reducer';
 import * as fromDataPageReducer from './data-page.reducer';
 
@@ -14,7 +14,7 @@ import * as fromDataPageReducer from './data-page.reducer';
 export interface ComphubMainState {
   jobsPage: fromJobsPageReducer.State;
   comphubPage: fromComphubPageReducer.State;
-  addPayMarketModal: fromAddPayMarketModalReducer.State;
+  addPayMarketForm: fromAddPayMarketFormReducer.State;
   marketsPage: fromMarketsPageReducer.State;
   dataPage: fromDataPageReducer.State;
 }
@@ -30,7 +30,7 @@ export const reducers = {
   comphubPage: fromComphubPageReducer.reducer,
   marketsPage: fromMarketsPageReducer.reducer,
   dataPage: fromDataPageReducer.reducer,
-  addPayMarketModal: fromAddPayMarketModalReducer.reducer
+  addPayMarketForm: fromAddPayMarketFormReducer.reducer
 };
 
 // Select Feature Area
@@ -47,9 +47,9 @@ export const selectComphubPageState = createSelector(
   (state: ComphubMainState) => state.comphubPage
 );
 
-export const selectAddPayMarketModalState = createSelector(
+export const selectAddPayMarketFormState = createSelector(
   selectFeatureAreaState,
-  (state: ComphubMainState) => state.addPayMarketModal
+  (state: ComphubMainState) => state.addPayMarketForm
 );
 
 export const selectMarketsPageState = createSelector(
@@ -158,23 +158,23 @@ export const getLoadingJobGridResultsError = createSelector(
   fromDataPageReducer.getLoadingJobGridResultsError
 );
 
-// Add Pay Market Modal
-export const getAddPayMarketModalOpen = createSelector(
-  selectAddPayMarketModalState,
-  fromAddPayMarketModalReducer.getModalOpen
+// Add Pay Market Form
+export const getAddPayMarketFormOpen = createSelector(
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getFormOpen
 );
 
 export const getSavingPayMarket = createSelector(
-  selectAddPayMarketModalState,
-  fromAddPayMarketModalReducer.getSaving
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getSaving
 );
 
 export const getSavingPayMarketConflict = createSelector(
-  selectAddPayMarketModalState,
-  fromAddPayMarketModalReducer.getSavingConflict
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getSavingConflict
 );
 
 export const getSavingPayMarketError = createSelector(
-  selectAddPayMarketModalState,
-  fromAddPayMarketModalReducer.getSavingError
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getSavingError
 );

@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { MarketsPageComponent } from './markets.page.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsPageActions from '../../../actions/markets-page.actions';
+import { AddPayMarketFormData, generateMockAddPayMarketFormData } from '../../../models';
 
 
 describe('Comphub - Main - Markets Page Component', () => {
@@ -71,6 +72,25 @@ describe('Comphub - Main - Markets Page Component', () => {
 
     instance.searchTerm = 'some garbage';
     instance.clearSearchValue();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch SavePayMarket action when handling save pay market', () => {
+    spyOn(store, 'dispatch');
+    const data: AddPayMarketFormData = generateMockAddPayMarketFormData();
+    const expectedAction = new fromMarketsPageActions.SavePayMarket(data);
+
+    instance.handleSavePayMarket(data);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch SkipPayMarket action when handling skip pay market', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromMarketsPageActions.SkipPayMarket();
+
+    instance.handleSkipPayMarket();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
