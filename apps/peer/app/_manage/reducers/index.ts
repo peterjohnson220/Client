@@ -115,7 +115,7 @@ export const getFirstCompanyJobMappingFromSelectedExchangeJob = createSelector(
     }
 
     const firstCompanyJobMapping = exchangeJobMapping.CompanyJobMappings[0];
-    return firstCompanyJobMapping ? firstCompanyJobMapping.ExchangeJobToCompanyJobId : null;
+    return firstCompanyJobMapping ? firstCompanyJobMapping.CompanyJobId : null;
   }
 );
 
@@ -141,12 +141,17 @@ export const getLoadExchangeJobMappingGridRequest = createSelector(
 );
 
 // Exchange Job Mapping Info Selectors
-export const getCompanyJobsToMapToLoading = createSelector(
+export const getAssociatedCompanyJobs = createSelector(
+  selectExchangeJobMappingInfoState,
+  fromExchangeJobMappingInfoReducer.getAssociatedCompanyJobs
+);
+
+export const getCompanyJobsInfoLoading = createSelector(
   selectExchangeJobMappingInfoState,
   fromExchangeJobMappingInfoReducer.getLoading
 );
 
-export const getCompanyJobsToMapToLoadingError = createSelector(
+export const getCompanyJobsInfoLoadingError = createSelector(
   selectExchangeJobMappingInfoState,
   fromExchangeJobMappingInfoReducer.getLoadingError
 );
@@ -186,9 +191,9 @@ export const getExchangeJobsInfoDeletingMappingError = createSelector(
   fromExchangeJobMappingInfoReducer.getDeletingError
 );
 
-export const getExchangeJobsInfoActiveMapping = createSelector(
+export const getExchangeJobsInfoActiveCompanyJobId = createSelector(
   selectExchangeJobMappingInfoState,
-  fromExchangeJobMappingInfoReducer.getActiveExchangeJobToCompanyJobId
+  fromExchangeJobMappingInfoReducer.getActiveCompanyJobId
 );
 
 export const {

@@ -1,16 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromFeatureReducer from './_main/reducers';
 import * as fromRootState from 'libs/state/state';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 
 import { FeatureTypes, Feature } from './_main/models';
 import { UserContext } from 'libs/models/security';
-import { CompanySettingDto } from 'libs/models/company';
-import { GenericNameValueDto, SaveUiPersistenceSettingRequest } from 'libs/models/common';
+import { LegacyCompanySettingDto } from 'libs/models/company';
+import {
+  FeatureAreaConstants,
+  GenericNameValueDto,
+  SaveUiPersistenceSettingRequest,
+  UiPersistenceSettingConstants
+} from 'libs/models/common';
+import { SettingsService } from 'libs/state/app-context/services';
 
 declare var loadDrift: any;
 
@@ -20,7 +25,7 @@ declare var loadDrift: any;
 })
 export class AppWrapperComponent implements OnInit, OnDestroy {
   userContext$: Observable<UserContext>;
-  companySettings$: Observable<CompanySettingDto[]>;
+  legacyCompanySettings$: Observable<LegacyCompanySettingDto[]>;
   uiPersistenceSettings$: Observable<GenericNameValueDto[]>;
   features$: Observable<Feature[]>;
   displayRightSideBar: boolean;
@@ -31,17 +36,15 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   userContextSubscription: any;
   uiPersistenceSubscription: any;
 
-  constructor(private store: Store<fromFeatureReducer.State>) {
-    this.userContext$ = store.select(fromRootState.getUserContext);
-    this.companySettings$ = store.select(fromRootState.getCompanySettings);
-    this.uiPersistenceSettings$ = store.select(fromRootState.getUiPersistenceSettings);
-    this.features$ = this.store.select(fromFeatureReducer.getFeatures);
-
-    this.store.dispatch(new fromCompanySettingsActions.GetCompanySettings());
-    this.store.dispatch(new fromUiPersistenceSettingsActions.GetUiPersistenceSettings('Dashboard'));
+  constructor(private store: Store<fromFeatureReducer.State>,
+              private settingsService: SettingsService) {
+    this.userContext$ = store.pipe(select(fromRootState.getUserContext));
+    this.legacyCompanySettings$ = store.pipe(select(fromRootState.getLegacyCompanySettings));
+    this.uiPersistenceSettings$ = settingsService.selectUiPersistenceFeatureSettings(FeatureAreaConstants.Dashboard);
+    this.features$ = this.store.pipe(select(fromFeatureReducer.getFeatures));
   }
 
-  static ShouldDisplayDrift(companySettings: CompanySettingDto[]): boolean {
+  static ShouldDisplayDrift(companySettings: LegacyCompanySettingDto[]): boolean {
     return companySettings
       .filter(s => s.Name === 'EnableLiveChat' && s.Value === 'True').length === 1;
   }
@@ -64,7 +67,7 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.userContextSubscription = this.userContext$.subscribe(userContext => {
-      this.companySettings$.subscribe(companySettings => {
+      this.legacyCompanySettings$.subscribe(companySettings => {
         if (companySettings != null && AppWrapperComponent.ShouldDisplayDrift(companySettings)) {
           loadDrift(userContext.UserId, userContext.EmailAddress, userContext.Name, userContext.CompanyName);
         }
@@ -78,7 +81,8 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
     this.uiPersistenceSubscription = this.uiPersistenceSettings$.subscribe(uiPersistenceSettings => {
       if (uiPersistenceSettings != null) {
         this.isRightSidebarOpen = uiPersistenceSettings
-          .filter(s => s.Name === 'RightSideBarIsOpen' && s.Value === 'true').length === 1;
+          .filter(s => s.Name === UiPersistenceSettingConstants.RightSideBarIsOpen &&
+            s.Value === 'true').length === 1;
       }
     });
   }
@@ -96,8 +100,8 @@ export class AppWrapperComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
-      FeatureArea: 'Dashboard',
-      SettingName: 'RightSideBarIsOpen',
+      FeatureArea: FeatureAreaConstants.Dashboard,
+      SettingName: UiPersistenceSettingConstants.RightSideBarIsOpen,
       SettingValue: isOpenString
     } as SaveUiPersistenceSettingRequest));
   }

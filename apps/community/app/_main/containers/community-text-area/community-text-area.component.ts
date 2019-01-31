@@ -3,13 +3,14 @@ import { FormGroup } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
+import { NgxLinkifyOptions } from 'ngx-linkifyjs';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 import * as constants from 'libs/models/community/community-constants.model';
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
 import { CommunityTag } from 'libs/models';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-text-area',
@@ -29,6 +30,13 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   suggestedCommunityTagsSubscription: Subscription;
   suggestedCommunityTagsPostIdSubscription: Subscription;
   textValueChangesSubscription: Subscription;
+
+  options: NgxLinkifyOptions =
+    {
+      formatHref: function (href, type) {
+          return 'javascript:void(0)';
+      }
+    };
 
   @Input() public parentForm: FormGroup;
   @Input() public maxTextLength: 2000;
@@ -55,7 +63,8 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public store: Store<fromCommunityPostReducer.State>) {
+  constructor(public store: Store<fromCommunityPostReducer.State>,
+              public pfLinkifyService: PfLinkifyService) {
     this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityPostReducer.getSuggestingCommunityTagsPostId);
     this.suggestedCommunityTags$ = this.store.select(fromCommunityPostReducer.getCommunityTags);
    }
@@ -114,9 +123,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   private updateTagSuggestions(currentPos: any) {
     const origText = this.context.value;
     const slicedTextBeforeSelection = origText.slice(0, currentPos);
-    let matches = slicedTextBeforeSelection.match(constants.HashTagRegEx);
 
-    if (!matches) {
+    let matches = this.getMatches(slicedTextBeforeSelection);
+
+    if (matches.length <= 0) {
       this.suggestedTags = [];
       return;
     }
@@ -130,12 +140,17 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
 
     const sliceAfterLastMatch = origText.slice(lastMatchIndex);
-    matches = sliceAfterLastMatch.match(constants.HashTagRegEx);
+    matches = this.getMatches(sliceAfterLastMatch);
 
     if (matches && matches.length > 0) {
       this.activeTag = matches[0];
       this.store.dispatch(new fromCommunityTagActions.SuggestingCommunityTags({query: this.activeTag, postId: this.postId}));
     }
+  }
+
+  getMatches(sliceOfText: string) {
+    const hashtags = this.pfLinkifyService.getLinks(sliceOfText);
+    return hashtags.map(link => link.Value);
   }
 
   onResize(event) {
@@ -187,9 +202,5 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
       });
     });
   }
-
-  escapeHtml(unsafe) {
-    return escapeSpecialHtmlCharacters(unsafe);
- }
 
 }

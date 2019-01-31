@@ -21,8 +21,14 @@
 }
 
 .tag:hover{
+  color: $community-tags-hover-color;
+  border-color: $community-tags-hover-color;
+  background-color: #fff;
+}
+
+.tag-selected{
   background-color: $community-tags-hover-color;
-  color:#fff;
+  color: #fff;
 }
 
 .hr {

@@ -24,7 +24,6 @@ import { CommunityPollTypeEnum } from 'libs/models/community/community-constants
 import { CommunityTag } from 'libs/models/community/community-tag.model';
 import { Tag } from '../../models/tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 @Component({
   selector: 'pf-community-posts',
@@ -221,29 +220,23 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.showReply(item);
   }
 
-  @HostListener('window:message', [ '$event' ])
-  onMessage(e) {
-    if (e && e.data && e.data.action === 'getCommunityPostsByTag' && e.data.tag) {
-      const communityTag: CommunityTag = {
-        Id: null,
-        Tag: e.data.tag,
-        PostIds: null,
-        ReplyIds: null,
-        IsSuggested: null
-      };
-
-      const tag = mapCommunityTagToTag(communityTag);
-      this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
-      this.filtersModified();
-    }
-  }
-
   filtersModified() {
     this.filtersModifiedEvent.emit();
   }
 
-  escapeHtml(unsafe) {
-    return escapeSpecialHtmlCharacters(unsafe);
+  hashtagClicked(tagName: string) {
+    const communityTag: CommunityTag = {
+      Id: null,
+      Tag: tagName,
+      PostIds: null,
+      ReplyIds: null,
+      IsSuggested: null
+    };
+
+    const tag = mapCommunityTagToTag(communityTag);
+    this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
+    this.filtersModified();
+
   }
 
 }

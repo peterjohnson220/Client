@@ -1,0 +1,29 @@
+@import 'comphub-variables';
+// Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
+// If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
+// add those styles to this file.
+
+
+// Kendo Overrides
+.k-list {
+
+  .k-state-selected {
+    background-color: white !important;
+    color: black !important;
+  }
+
+}
+
+ .k-autocomplete {
+
+  .k-input, .k-item {
+    font-size: $comphub-font-size;
+
+    &::selection {
+      background: highlight !important;
+      color: black !important;
+    }
+  }
+
+}
+

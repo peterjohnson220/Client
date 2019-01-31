@@ -4,16 +4,15 @@ exports[`CommunityPostReplyComponent should show community post reply component 
 <pf-community-post-reply
   avatarUrl={[Function String]}
   reply={[Function Object]}
+  replyHashTagClicked={[Function EventEmitter]}
 >
   <pf-community-avatar /><div
     class="reply-offset"
   >
     <pf-community-post-header />
-    <div
-      class="mt-2 mb-2 reply-body"
-    >
-      Reply Text
-    </div>
+    <pf-community-post-content
+      class="mt-2 mb-2"
+    />
     <pf-community-like />
   </div>
 </pf-community-post-reply>

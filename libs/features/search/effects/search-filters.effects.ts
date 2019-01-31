@@ -4,9 +4,10 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
+
 import * as fromSearchPageActions from '../actions/search-page.actions';
 import * as fromSearchResultsActions from '../actions/search-results.actions';
-import * as fromSavedFiltersActions from '../actions/saved-filters.actions';
 import * as fromSearchFiltersActions from '../actions/search-filters.actions';
 import * as fromSharedSearchReducer from '../reducers';
 import { SearchEffectsService } from '../services';
@@ -27,7 +28,7 @@ export class SearchFiltersEffects {
     .pipe(
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
-        new fromSavedFiltersActions.UnselectSavedFilter()
+        new fromUserFilterActions.SetSelected({ selected: false })
       ])
     );
 
@@ -46,7 +47,7 @@ export class SearchFiltersEffects {
     .pipe(
       mergeMap(() => [
         new fromSearchResultsActions.GetResults({ keepFilteredOutOptions: true }),
-        new fromSavedFiltersActions.UnselectSavedFilter()
+        new fromUserFilterActions.SetSelected({ selected: false })
       ])
     );
 
@@ -65,8 +66,8 @@ export class SearchFiltersEffects {
             actions.push(new fromSearchPageActions.HideFilterSearch());
           }
 
-          actions.push(new fromSavedFiltersActions.UnselectSavedFilter());
-          actions.push(new fromSavedFiltersActions.ApplyDefaultSavedFilter());
+          actions.push(new fromUserFilterActions.SetSelected({ selected: false }));
+          actions.push(new fromUserFilterActions.ApplyDefault());
 
           return actions;
         }

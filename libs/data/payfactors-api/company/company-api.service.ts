@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CompanyDto, CompanySettingDto } from '../../../models/company';
+import { CompanyDto, LegacyCompanySettingDto } from '../../../models/company';
 import { Company } from '../../../models/company/company.model';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class CompanyApiService {
   ) {}
 
   getCompanySettings() {
-    return this.payfactorsApiService.get<CompanySettingDto[]>(`${this.endpoint}.GetCompanySettings`);
+    return this.payfactorsApiService.get<LegacyCompanySettingDto[]>(`${this.endpoint}.GetCompanySettings`);
   }
 
   getCompanies() {

@@ -3,6 +3,7 @@
 exports[`CommunityPollChoicesComponent should not allow to update poll choices if !enableEditingResponseOptions 1`] = `
 <pf-community-poll-choices
   added={[Function EventEmitter]}
+  maxChoices={[Function Number]}
   removed={[Function EventEmitter]}
 >
   <div
@@ -25,6 +26,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
 exports[`CommunityPollChoicesComponent should not allow to update poll choices if enableEditingResponseOptions === true 1`] = `
 <pf-community-poll-choices
   added={[Function EventEmitter]}
+  maxChoices={[Function Number]}
   removed={[Function EventEmitter]}
 >
   <div
@@ -47,6 +49,7 @@ exports[`CommunityPollChoicesComponent should not allow to update poll choices i
 exports[`CommunityPollChoicesComponent should show community start poll 1`] = `
 <pf-community-poll-choices
   added={[Function EventEmitter]}
+  maxChoices={[Function Number]}
   removed={[Function EventEmitter]}
 >
   <div

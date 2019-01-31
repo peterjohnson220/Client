@@ -13,6 +13,8 @@ export class CommunityPollChoicesComponent {
   get enableEditingResponseOptions() { return CommunityPollChoicesComponent.enableEditingResponseOptionsStatic; }
   get getPlaceholder() { return this.index <= 1 ? `Choice ${this.index + 1}` : `Choice ${this.index + 1} (Optional)`; }
 
+  maxChoices = 5;
+
   @Input() public index: number;
   @Input() public isLastChoice: boolean;
   @Input() public item: FormGroup;

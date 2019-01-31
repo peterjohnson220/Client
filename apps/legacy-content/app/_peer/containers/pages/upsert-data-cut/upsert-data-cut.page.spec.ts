@@ -12,12 +12,14 @@ import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions'
 import * as fromFilterSidebarActions from 'libs/features/peer/map/actions/filter-sidebar.actions';
 import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockExchangeMapResponse, generateMockExchangeStatCompanyMakeup } from 'libs/models/peer';
+import { SettingsService } from 'libs/state/app-context/services';
 
 import * as fromUpsertDataCutActions from '../../../actions/upsert-data-cut-page.actions';
 import * as fromDataCutValidationActions from '../../../actions/data-cut-validation.actions';
 import * as fromLegacyAddPeerDataReducer from '../../../reducers';
 import { DojGuidelinesService } from '../../../services/doj-guidelines.service';
 import { UpsertDataCutPageComponent } from './upsert-data-cut.page';
+import * as fromRequestPeerAccessActions from '../../../actions/request-peer-access.actions';
 
 class DojGuidelinesStub {
   passing = true;
@@ -61,7 +63,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
             snapshot: { queryParamMap: { get: (key) => queryStringParams[key] } }
           }
         },
-        { provide: DojGuidelinesService, useClass: DojGuidelinesStub}
+        { provide: DojGuidelinesService, useClass: DojGuidelinesStub},
+        { provide: SettingsService, useClass: SettingsService }
       ],
       declarations: [
         UpsertDataCutPageComponent
@@ -80,6 +83,8 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     instance = fixture.componentInstance;
 
     instance.untaggedIncumbentCount$ = of(0);
+    instance.hasRequestedPeerAccess$ = of(false);
+    instance.hasAcceptedPeerTerms$ = of(true);
   });
 
   it('should display the upsert data cut page with an Add button', () => {
@@ -236,5 +241,43 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     instance.handleUntaggedIncumbentsChecked();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it(`should dispatch a RequestAccess action when requestAccess is called`, () => {
+    const expectedAction = new fromRequestPeerAccessActions.RequestPeerAccess();
+
+    fixture.detectChanges();
+
+    instance.requestPeerAccess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should show 'Request Access' button and message when peer terms haven't been accepted`, () => {
+    instance.hasAcceptedPeerTerms$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
+  is being requested`, () => {
+    instance.hasAcceptedPeerTerms$ = of(false);
+    instance.requestingPeerAccess$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should show disabled 'Access Requested' button and 'Access Requested' message when
+  peer terms haven't been accepted and access has been requested`, () => {
+    instance.hasAcceptedPeerTerms$ = of(false);
+    instance.hasRequestedPeerAccess$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

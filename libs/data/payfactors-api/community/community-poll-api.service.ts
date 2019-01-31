@@ -31,12 +31,7 @@ export class CommunityPollApiService {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/DismissCommunityPollResponse`, payload);
   }
 
-  addCommunityUserPoll(payload: CommunityPollUpsertRequest): Observable<CommunityPost> {
-    return this.payfactorsApiService.post<any>(`${this.endpoint}/AddUserPoll`,
-      {
-        Question: payload.Question,
-        ResponseOptions: payload.ResponseOptions,
-        DurationInHours: payload.DurationInHours
-      });
+  addCommunityUserPoll(payload: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/AddUserPoll`, payload);
   }
 }

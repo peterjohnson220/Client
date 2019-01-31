@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 
 import { ExchangeApiService, ExchangeCompanyApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
-import { ExchangeJobSearch, CompanyJobSummary } from 'libs/models';
+import { ExchangeJobSearch, LatestCompanyJob } from 'libs/models';
 
 import * as fromAssociateAction from '../actions/associate-company-jobs.actions';
 import { WindowCommunicationService } from 'libs/core/services';
@@ -19,9 +19,9 @@ export class AssociateCompanyJobEffects {
         ofType(fromAssociateAction.LOAD_COMPANY_JOB),
         map((action: fromAssociateAction.LoadCompanyJob) => action.payload),
         switchMap(payload =>
-            this.companyJobApiService.getCompanyJobWithJDMDescription(payload).pipe(
-                map((companyjob: CompanyJobSummary) => {
-                    return new fromAssociateAction.LoadCompanyJobSuccess(companyjob);
+            this.companyJobApiService.getCompanyJobs([payload]).pipe(
+                map((companyjob: LatestCompanyJob[]) => {
+                    return new fromAssociateAction.LoadCompanyJobSuccess(companyjob[0]);
                 })
                 , catchError(() => of(new fromAssociateAction.LoadCompanyJobError())))
         )

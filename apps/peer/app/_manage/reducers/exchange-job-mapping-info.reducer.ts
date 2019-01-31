@@ -1,6 +1,6 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-import { CompanyJobToMapTo } from 'libs/models/peer';
+import { LatestCompanyJob, CompanyJobToMapTo } from 'libs/models';
 
 import * as fromExchangeJobMappingInfoActions from '../../_manage/actions/exchange-job-mapping-info.actions';
 
@@ -10,11 +10,12 @@ export interface State extends EntityState<CompanyJobToMapTo> {
   applyingMapping: boolean;
   applyingMappingError: boolean;
   selectedMappingCompanyJobId: number;
-  activeExchangeJobToCompanyJobId: number;
+  activeCompanyJobId: number;
   addingMapping: boolean;
   deleteConfirmationModalOpen: boolean;
   deletingMapping: boolean;
   deletingError: boolean;
+  associatedCompanyJobs: LatestCompanyJob[];
 }
 
 export const adapter: EntityAdapter<CompanyJobToMapTo> = createEntityAdapter<CompanyJobToMapTo>({
@@ -27,11 +28,12 @@ const initialState: State = adapter.getInitialState({
   applyingMapping: false,
   applyingMappingError: false,
   selectedMappingCompanyJobId: null,
-  activeExchangeJobToCompanyJobId: null,
+  activeCompanyJobId: null,
   addingMapping: false,
   deleteConfirmationModalOpen: false,
   deletingMapping: false,
-  deletingError: false
+  deletingError: false,
+  associatedCompanyJobs: []
 });
 
 // Reducer
@@ -40,6 +42,37 @@ export function reducer(
   action: fromExchangeJobMappingInfoActions.Actions
 ): State {
   switch (action.type) {
+
+    case fromExchangeJobMappingInfoActions.LOAD_MAPPED_COMPANY_JOBS: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false,
+        associatedCompanyJobs: []
+      };
+    }
+
+    case fromExchangeJobMappingInfoActions.LOAD_MAPPED_COMPANY_JOBS_SUCCESS: {
+
+      const map: LatestCompanyJob[] = action.payload == null ? [] : action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        loadingError: false,
+        associatedCompanyJobs: map,
+        activeCompanyJobId: map.length > 0 ? map[0].CompanyJobId : null
+      };
+    }
+
+    case fromExchangeJobMappingInfoActions.LOAD_MAPPED_COMPANY_JOBS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+
     case fromExchangeJobMappingInfoActions.LOAD_COMPANY_JOBS_TO_MAP_TO_BY_QUERY: {
       return {
         ...adapter.removeAll(state),
@@ -131,7 +164,7 @@ export function reducer(
     case fromExchangeJobMappingInfoActions.SET_ACTIVE_MAPPING: {
       return {
         ...state,
-        activeExchangeJobToCompanyJobId: action.payload
+        activeCompanyJobId: action.payload
       };
     }
     default: {
@@ -150,4 +183,5 @@ export const getAddingMapping = (state: State) => state.addingMapping;
 export const getDeleteConfirmationModalOpen = (state: State) => state.deleteConfirmationModalOpen;
 export const getDeletingMapping = (state: State) => state.deletingMapping;
 export const getDeletingError = (state: State) => state.deletingError;
-export const getActiveExchangeJobToCompanyJobId = (state: State) => state.activeExchangeJobToCompanyJobId;
+export const getActiveCompanyJobId = (state: State) => state.activeCompanyJobId;
+export const getAssociatedCompanyJobs = (state: State) => state.associatedCompanyJobs;

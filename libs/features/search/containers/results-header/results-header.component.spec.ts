@@ -8,11 +8,9 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromSearchFiltersActions from '../../actions/search-filters.actions';
 import * as fromSingledFilterActions from '../../actions/singled-filter.actions';
-import * as fromSavedFiltersActions from '../../actions/saved-filters.actions';
 import * as fromSearchReducer from '../../reducers';
 import { ResultsHeaderComponent } from './results-header.component';
-import { Filter, generateMockMultiSelectFilter, generateMockPill, generateMockPillGroup,
-        generateMockSavedFilter } from '../../models';
+import { Filter, generateMockMultiSelectFilter, generateMockPill, generateMockPillGroup } from '../../models';
 
 describe('Search Feature - Results Header', () => {
   let fixture: ComponentFixture<ResultsHeaderComponent>;
@@ -108,13 +106,5 @@ describe('Search Feature - Results Header', () => {
     store.dispatch(new fromSearchFiltersActions.AddFilters([disabledFilter]));
 
     expect(instance.hasFiltersToSave).toBe(false);
-  });
-
-  it('should know when we have a selected saved filter', () => {
-    instance.hasSelectedSavedFilter = false;
-
-    store.dispatch(new fromSavedFiltersActions.GetSavedFiltersSuccess([generateMockSavedFilter()]));
-
-    expect(instance.hasSelectedSavedFilter).toBe(true);
   });
 });

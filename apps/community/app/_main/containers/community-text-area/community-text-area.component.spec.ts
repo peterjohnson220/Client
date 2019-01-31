@@ -1,22 +1,22 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { PfLinkifyService } from '../../services/pf-linkify-service';
 import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 
-import { HighlightHashTagPipe, FormatLinkUrlPipe } from 'libs/core';
-
+import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 import { CommunityTextAreaComponent } from './community-text-area.component';
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
-import { escapeSpecialHtmlCharacters } from 'libs/core/helpers/community.helper';
 
 describe('CommunityTextAreaComponent', () => {
   let fixture: ComponentFixture<CommunityTextAreaComponent>;
   let instance: CommunityTextAreaComponent;
   let store: Store<fromCommunityPostReducer.State>;
+  let pfLinkifyService: PfLinkifyService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +25,7 @@ describe('CommunityTextAreaComponent', () => {
           ...fromRootState.reducers,
           communityPostRequest: combineReducers(fromCommunityPostReducer.reducers)
         }),
+        NgxLinkifyjsModule.forRoot(),
         FormsModule,
         ReactiveFormsModule
       ],
@@ -32,12 +33,14 @@ describe('CommunityTextAreaComponent', () => {
         {
           provide: CommunityTagApiService,
           useValue: { validateNewCompanyName: jest.fn() }
+        },
+        {
+          provide: PfLinkifyService,
+          useValue: { getLinks: jest.fn() }
         }
       ],
       declarations: [
-        CommunityTextAreaComponent,
-        HighlightHashTagPipe,
-        FormatLinkUrlPipe
+        CommunityTextAreaComponent
       ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -46,6 +49,8 @@ describe('CommunityTextAreaComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch');
+
+    pfLinkifyService = TestBed.get(PfLinkifyService);
 
     fixture = TestBed.createComponent(CommunityTextAreaComponent);
     instance = fixture.componentInstance;

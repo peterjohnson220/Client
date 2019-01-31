@@ -23,7 +23,8 @@ import {
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
-  AssociateCompanyJobEffects, DataCutValidationEffects, PaymarketExchangeScopeEffects, UpsertDataCutPageEffects
+  AssociateCompanyJobEffects, DataCutValidationEffects, PaymarketExchangeScopeEffects,
+  RequestPeerAccessEffects, UpsertDataCutPageEffects
 } from './effects';
 import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
@@ -45,6 +46,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
       DataCutValidationEffects,
       PaymarketExchangeScopeEffects,
       UpsertDataCutPageEffects,
+      RequestPeerAccessEffects
     ]),
     NgbPopoverModule,
     DropDownsModule,
@@ -70,8 +72,6 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     AssociateCompanyJobComponent,
     PaymarketExchangeScopeComponent,
     UpsertDataCutPageComponent
-
-    // pipe
   ],
   providers: [
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService

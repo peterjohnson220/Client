@@ -10,7 +10,7 @@ import { MultiSelectFilter } from 'libs/features/search/models';
 
 import * as fromUserFilterActions from '../../actions/user-filter.actions';
 import * as fromSaveFilterModalActions from '../../actions/save-filter-modal.actions';
-import * as fromSavedFiltersPopover from '../../actions/saved-filters-popover.actions';
+import * as fromUserFilterPopoverActions from '../../actions/user-filter-popover.actions';
 import * as fromUserFilterReducer from '../../reducers';
 
 import {
@@ -25,6 +25,7 @@ import {
 })
 export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   @Input() hasFiltersToSave: boolean;
+  @Input() setAsDefaultLabel = 'Default';
   @ViewChild(NgbPopover) popover: NgbPopover;
 
   loading$: Observable<boolean>;
@@ -78,7 +79,7 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
 
   handleEditBtnClicked(savedFilter: SavedFilter) {
     this.closePopover();
-    this.store.dispatch(new fromSavedFiltersPopover.Edit(savedFilter));
+    this.store.dispatch(new fromUserFilterPopoverActions.Edit(savedFilter));
   }
 
   handleDeleteBtnClicked(filterId: string) {
@@ -93,7 +94,7 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
     if (this.filterIdToDelete || this.filterDataToEdit) {
       return;
     }
-    this.store.dispatch(new fromSavedFiltersPopover.ToggleSavedFilterSelection(savedFilter));
+    this.store.dispatch(new fromUserFilterPopoverActions.ToggleSavedFilterSelection(savedFilter));
   }
 
   handleDeleteFilterConfirmClicked() {
@@ -121,7 +122,7 @@ export class UserFilterPopoverComponent implements OnInit, OnDestroy {
   }
 
   handlePopoverShown() {
-    this.store.dispatch(new fromSavedFiltersPopover.OpenPopover());
+    this.store.dispatch(new fromUserFilterPopoverActions.OpenPopover());
   }
 
   trackByFilterId(index: number, item: SavedFilter) {

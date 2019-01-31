@@ -6,7 +6,7 @@ import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap/carousel/carousel';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import * as lodash from 'lodash';
 
-import { CompanyJobToMapTo, ExchangeJobMapping, Job, CompanyJobMapping } from 'libs/models';
+import { CompanyJobToMapTo, ExchangeJobMapping, Job, LatestCompanyJob } from 'libs/models';
 
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
@@ -30,20 +30,23 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   applyingMapping$: Observable<boolean>;
   applyingMappingError$: Observable<boolean>;
   selectedMappingCompanyJobId$: Observable<number>;
-  activeExchangeJobToCompanyJobId$: Observable<number>;
+  getActiveCompanyJobId$: Observable<number>;
   addingMapping$: Observable<boolean>;
   deletingMapping$: Observable<boolean>;
   deletingMappingError$: Observable<boolean>;
-  loadingExchangeJobMappings$: Observable<boolean>;
+  loadingExchangeMappingInfo$: Observable<boolean>;
+  selectedCompanyJobInfoModels$: Observable<LatestCompanyJob[]>;
+  selectedJobs: LatestCompanyJob[];
 
   // Subscriptions
   selectedExchangeJobMappingSubscription: Subscription;
   addingMappingSubscription: Subscription;
   activeExchangeJobToCompanyJobIdSubscription: Subscription;
+  selectedCompanyJobsSubscription: Subscription;
 
   selectedExchangeJobMapping: ExchangeJobMapping;
-  selectedCompanyJobMapping: CompanyJobMapping;
-  selectedCompanyJobInfoModels: Job[];
+  selectedCompanyJob: LatestCompanyJob;
+  selectedExchangeJobToCompanyJobId: number;
   exchangeJobInfo: Job;
   companyJobQuery: string;
   companyDescriptionQuery: string;
@@ -51,18 +54,19 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   addingMapping: boolean;
 
   constructor(private store: Store<fromPeerManagementReducer.State>) {
-    this.loadingExchangeJobMappings$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobMappingsLoading));
+    this.loadingExchangeMappingInfo$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsInfoLoading));
     this.selectedExchangeJobMapping$ = this.store.pipe(select(fromPeerManagementReducer.getSelectedExchangeJobMapping));
     this.companyJobsToMapTo$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapTo));
-    this.companyJobsToMapToLoading$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapToLoading));
-    this.companyJobsToMapToLoadingError$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsToMapToLoadingError));
+    this.companyJobsToMapToLoading$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsInfoLoading));
+    this.companyJobsToMapToLoadingError$ = this.store.pipe(select(fromPeerManagementReducer.getCompanyJobsInfoLoadingError));
     this.applyingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMapping));
     this.applyingMappingError$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoApplyingMappingError));
     this.selectedMappingCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoSelectedMappingCompanyJobId));
     this.addingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoAddingMapping));
     this.deletingMapping$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMapping));
     this.deletingMappingError$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoDeletingMappingError));
-    this.activeExchangeJobToCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoActiveMapping));
+    this.getActiveCompanyJobId$ = this.store.pipe(select(fromPeerManagementReducer.getExchangeJobsInfoActiveCompanyJobId));
+    this.selectedCompanyJobInfoModels$ = this.store.pipe(select(fromPeerManagementReducer.getAssociatedCompanyJobs));
   }
 
   searchChanged() {
@@ -101,7 +105,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.OpenDeleteConfirmationModal());
   }
 
-  resetValues() {
+  resetSearchValues() {
     this.companyJobQuery = '';
     this.companyDescriptionQuery = '';
     this.debouncedQueryValue = '';
@@ -111,7 +115,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     if (this.addingMapping) {
       this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
     } else {
-      this.resetValues();
+      this.resetSearchValues();
       this.dispatchLoadCompanyJobsToMapToByQuery();
       this.store.dispatch(new fromExchangeJobMappingInfoActions.AddMapping());
     }
@@ -122,8 +126,8 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.closeClicked.emit();
   }
 
-  trackById(index: number, mappedCompanyJob: CompanyJobMapping): number {
-    return mappedCompanyJob.ExchangeJobToCompanyJobId;
+  trackById(index: number, mappedCompanyJob: LatestCompanyJob): number {
+    return mappedCompanyJob.CompanyJobId;
   }
 
   // Carousel handlers
@@ -144,26 +148,40 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
   }
   // Lifecycle
   ngOnInit() {
+
+    this.selectedCompanyJobsSubscription = this.selectedCompanyJobInfoModels$.subscribe(jobs => {
+      this.selectedJobs = jobs;
+    });
+
     this.selectedExchangeJobMappingSubscription = this.selectedExchangeJobMapping$.subscribe(sm => {
       if (sm) {
         this.selectedExchangeJobMapping = sm;
-        this.resetValues();
+        this.resetSearchValues();
+
+        if (sm.CompanyJobMappings && sm.CompanyJobMappings.length > 0) {
+          const companies = sm.CompanyJobMappings.map(f => f.CompanyJobId);
+          this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadMappedCompanyJobs(companies));
+        } else {
+          this.store.dispatch(new fromExchangeJobMappingInfoActions.LoadMappedCompanyJobsSuccess(null));
+          this.dispatchLoadCompanyJobsToMapToByQuery();
+        }
 
         this.store.dispatch(new fromExchangeJobMappingInfoActions.CancelAddMapping());
         this.buildJobModels(sm);
-
-        if (!sm.Mapped) {
-          this.dispatchLoadCompanyJobsToMapToByQuery();
-        }
       }
     });
 
-    this.activeExchangeJobToCompanyJobIdSubscription = this.activeExchangeJobToCompanyJobId$.subscribe(id => {
+    this.activeExchangeJobToCompanyJobIdSubscription = this.getActiveCompanyJobId$.subscribe(id => {
       if (id) {
-        this.selectedCompanyJobMapping = this.selectedExchangeJobMapping.CompanyJobMappings.find(
-          cjm => cjm.ExchangeJobToCompanyJobId === id
-        );
+        this.selectedCompanyJob = this.selectedJobs.find(
+          cjm => cjm.CompanyJobId === id);
+
+        if (this.selectedCompanyJob) {
+          this.selectedExchangeJobToCompanyJobId = this.selectedExchangeJobMapping.CompanyJobMappings.find(f =>
+            f.CompanyJobId === this.selectedCompanyJob.CompanyJobId).ExchangeJobToCompanyJobId;
+        }
       }
+
     });
 
     this.addingMappingSubscription = this.addingMapping$.subscribe(em => this.addingMapping = em);
@@ -196,6 +214,7 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobMappingSubscription.unsubscribe();
     this.addingMappingSubscription.unsubscribe();
     this.activeExchangeJobToCompanyJobIdSubscription.unsubscribe();
+    this.selectedCompanyJobsSubscription.unsubscribe();
   }
 
   private dispatchLoadCompanyJobsToMapToByQuery(): void {
@@ -214,19 +233,6 @@ export class ExchangeJobMappingInfoComponent implements OnInit, OnDestroy {
       JobFamily: ejm.ExchangeJobFamily,
       JobLevel: ejm.ExchangeJobLevel,
       JobDescription: ejm.ExchangeJobDescription
-    };
-    this.selectedCompanyJobInfoModels = ejm.CompanyJobMappings.map(this.buildCompanyJobInfoModel);
-  }
-
-  private buildCompanyJobInfoModel(cji: CompanyJobMapping): Job {
-    return {
-      JobId: cji.ExchangeJobToCompanyJobId,
-      JobType: 'Company',
-      JobTitle: cji.CompanyJobTitle,
-      JobCode: cji.CompanyJobCode,
-      JobFamily: cji.CompanyJobFamily,
-      JobLevel: cji.CompanyJobLevel,
-      JobDescription: cji.CompanyJobDescription
     };
   }
 }

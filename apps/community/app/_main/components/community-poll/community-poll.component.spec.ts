@@ -110,5 +110,15 @@ describe('CommunityPollComponent', () => {
       instance.request.IsExpired = true;
       expect(instance.request.IsExpired).toBe(true);
     });
+    it('should emit a pollHashTagClicked event, when hashtag is clicked', () => {
+      spyOn(instance.pollHashTagClicked, 'emit');
 
+      const hashtag = '#hashtag';
+
+      fixture.detectChanges();
+
+      instance.handleHashTagClicked(hashtag);
+
+      expect(instance.pollHashTagClicked.emit).toHaveBeenCalledWith(hashtag);
+    });
 });

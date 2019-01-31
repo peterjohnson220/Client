@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { SaveUiPersistenceSettingRequest } from 'libs/models/common/save-ui-persistence-setting-request.model';
+import { SaveUiPersistenceSettingRequest, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import * as fromRootState from 'libs/state/state';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
@@ -60,7 +60,7 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
 
   datePickerValueChanged() {
     const saveUiPersistenceSettingRequest = {
-      FeatureArea: 'Dashboard', SettingName: 'JobsTileEffectiveDate',
+      FeatureArea: FeatureAreaConstants.Dashboard, SettingName: UiPersistenceSettingConstants.JobsTileEffectiveDate,
       SettingValue: this.selectedDate
     } as SaveUiPersistenceSettingRequest;
 
@@ -79,7 +79,8 @@ export class TilePreviewChartWithCalendarComponent implements OnInit {
     this.shouldGetPricingsBeforeEffectiveDate = settingValue;
 
     const saveUiPersistenceSettingRequest = {
-      FeatureArea: 'Dashboard', SettingName: 'JobsTileShouldGetPricingsBeforeEffectiveDate',
+      FeatureArea: FeatureAreaConstants.Dashboard,
+      SettingName: UiPersistenceSettingConstants.JobsTileShouldGetPricingsBeforeEffectiveDate,
       SettingValue: this.shouldGetPricingsBeforeEffectiveDate.toString()
     } as SaveUiPersistenceSettingRequest;
 

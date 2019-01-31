@@ -3,19 +3,18 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { CompanyJobMapping } from 'libs/models';
-
 import * as fromExchangeJobMappingInfoActions from '../../actions/exchange-job-mapping-info.actions';
 import * as fromPeerManagementReducer from '../../reducers';
 
 @Component({
   selector: 'pf-delete-mapping-confirmation-modal',
   templateUrl: './delete-mapping-confirmation-modal.component.html',
-  styleUrls: [ './delete-mapping-confirmation-modal.component.scss' ]
+  styleUrls: ['./delete-mapping-confirmation-modal.component.scss']
 })
 export class DeleteMappingConfirmationModalComponent {
   @Input() selectedExchangeJobTitle: string;
-  @Input() currentCompanyJob: CompanyJobMapping;
+  @Input() jobTitle: string;
+  @Input() exchangeJobToCompanyJobId: number;
 
   deleteMappingConfirmationModalOpen$: Observable<boolean>;
   deletingMapping$: Observable<boolean>;
@@ -30,8 +29,8 @@ export class DeleteMappingConfirmationModalComponent {
   // Modal events
   handleDeleteConfirmed() {
     this.store.dispatch(new fromExchangeJobMappingInfoActions.DeleteMapping({
-        exchangeJobToCompanyJobId: this.currentCompanyJob.ExchangeJobToCompanyJobId
-      }
+      exchangeJobToCompanyJobId: this.exchangeJobToCompanyJobId
+    }
     ));
   }
 

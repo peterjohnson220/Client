@@ -6,7 +6,7 @@
 
   .selector {
     width: 100%;
-    min-width: 275px;
+    min-width: 273px;
     text-align: left;
     @extend %ellipsis-overflowing-text;
 
@@ -29,7 +29,7 @@
 
 .popover-content {
   max-height: 300px;
-  min-width: 275px;
+  min-width: 270px;
   overflow-y: auto;
   padding: .5rem 0;
 }
@@ -38,31 +38,56 @@
   padding-right: 0;
 }
 
-// We may end up wanting a footer here [JP]
-//.popover-footer {
-//  background-color: #f7f7f7;
-//  height: 40px;
-//  padding: 0.5rem 0.75rem;
-//  display: flex;
-//  justify-content: flex-end;
-//}
-
 .exchange-scope-selection {
   cursor: pointer;
-  border-bottom: 1px solid rgba($border-grey, .35);
+  border-bottom: 1px solid rgba(169, 169, 169, 0.35);
   padding: .5rem .75rem;
+  &.selected-scope {
+    background-color: $selected-item-background-color !important;
+  }
+  &:hover {
+    background: $selection-hover-background;
+  }
 }
 
-.exchange-scope-selection:hover {
-  background: $selection-hover-background;
-}
-
-.exchange-scope-selection.selected-scope {
-  background-color: $selected-item-background-color;
+.popover-footer{
+  background-color: #f7f7f7;
+  height: 40px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.scope-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-style: italic;
+  color: #888e92;
+}
+
+.highlight-scope {
+  background-color: #f2dede !important;
+  color: #a94442;
+}
+
+.disabled-scope {
+  cursor: default;
+  &:hover {
+    background-color: inherit;
+  }
+}
+
+.delete-btn {
+  max-height: 26px;
+}
+
+.btn.btn-secondary[disabled] {
+  background-color: inherit;
 }
 
 // Popover overrides
@@ -72,7 +97,7 @@
 
 .custom-map-popover ::ng-deep .popover {
   top: 90px !important;
-  width: 277px;
+  width: 273px;
 }
 
 .custom-modal-arrow ::ng-deep .arrow {
@@ -89,12 +114,4 @@
 
 :host ::ng-deep .popover-body {
   padding: 0;
-}
-
-.scope-description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-style: italic;
-  color: #888e92;
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { PagingOptions, SearchField, SearchFilter, SearchFilterOption } from 'libs/models/payfactors-api';
 import { SearchSavedFilterResponse } from 'libs/models/payfactors-api/user-filter/response';
+import { SavedFilter } from 'libs/features/user-filter/models';
 
 import {
   Filter,
@@ -10,7 +11,6 @@ import {
   MultiSelectOption,
   RangeFilter,
   ResultsPagingOptions,
-  SavedFilter,
   TextFilter
 } from '../models';
 

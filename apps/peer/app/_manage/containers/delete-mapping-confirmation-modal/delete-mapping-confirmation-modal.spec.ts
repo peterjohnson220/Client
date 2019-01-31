@@ -57,6 +57,7 @@ describe('Peer - Manage - Delete Confirmation Modal', () => {
     const mockPayload = {exchangeJobToCompanyJobId: mockExchangeJobMapping.CompanyJobMappings[0].ExchangeJobToCompanyJobId};
     const expectedAction = new fromExchangeJobMappingInfoActions.DeleteMapping(mockPayload);
 
+    instance.exchangeJobToCompanyJobId = mockExchangeJobMapping.CompanyJobMappings[0].ExchangeJobToCompanyJobId;
     instance.handleDeleteConfirmed();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);

@@ -1,0 +1,53 @@
+<pf-comphub-page-layout
+  pageTitle="Markets"
+  pageSubTitle="Now, let's define the market"
+  pageIconClass="fa-map-marker-alt">
+  <ng-container page-content>
+
+    <pf-async-container
+      [loading]="loadingPaymarkets$ | async"
+      [loadingError]="loadingPaymarketsError$ | async"
+      [loadingErrorMessage]="'Error.'"
+      [hideReloadButton]="true">
+
+      <div class="row" *ngIf="(paymarkets$ |async).length">
+        <div class="col-lg-12 col-xl-9" >
+          <div class="search-filter">
+            <span class="k-textbox k-space-right">
+                    <input type="text"
+                           [(ngModel)]="searchTerm"
+                           (keyup)="handleSearchChanged($event.target.value)"
+                           [attr.data-qa-id]="'txt-search-paymarkets'"
+                           [placeholder]="'Search Pay Markets...'"
+                           class="k-widget k-input search-paymarkets"/>
+                    <span (click)="clearSearchValue()"
+                          [class.k-i-close]="searchTerm"
+                          class="k-icon k-clear-value"></span>
+                </span>
+          </div>
+
+          <pf-select-paymarkets
+            *ngIf="(visiblePaymarkets$ |async).length"
+            [selectedPaymarketId]="selectedPaymarketId$ | async"
+            [paymarkets]="visiblePaymarkets$ | async"
+            (paymarketChecked)="handlePaymarketChecked($event)">
+          </pf-select-paymarkets>
+
+          <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
+            <div class="no-data">No Data</div>
+          </div>
+        </div>
+      </div>
+
+
+    </pf-async-container>
+
+  </ng-container>
+  <ng-container actions-section>
+    <div class="actions-section">
+      <button class="btn comphub-secondary-btn" [attr.data-qa-id]="'btn-back'">Back</button>
+      <button class="btn comphub-primary-btn" [attr.data-qa-id]="'btn-next'">Next</button>
+    </div>
+  </ng-container>
+
+</pf-comphub-page-layout>

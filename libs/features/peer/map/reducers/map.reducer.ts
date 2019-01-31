@@ -132,7 +132,6 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         initialMapCentroid: mapDetails.Centroid,
         mapFilter: mapDetails.MapFilter,
         applyingScope: true,
-        maxZoom: 17,
         initialMapMoveComplete: true,
         isInitialLoad: false
       };

@@ -1,0 +1,13 @@
+<div class="trending-job-group">
+  <div class="group-name">
+    {{trendingJobGroup.Name}}
+  </div>
+  <div *ngFor="let trendingJob of trendingJobGroup.Jobs" class="trending-job">
+    <div class="icon">
+      <i class="far fa-arrow-circle-up"></i>
+    </div>
+    <div class="name" [title]="trendingJob" (click)="handleTrendingJobClicked(trendingJob)">
+      {{trendingJob}}
+    </div>
+  </div>
+</div>

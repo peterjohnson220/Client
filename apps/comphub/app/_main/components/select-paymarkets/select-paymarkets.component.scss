@@ -1,0 +1,25 @@
+@import 'comphub-variables';
+
+.paymarket-result {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: .3846rem .5rem;
+  height: 28px;
+
+  &:hover{
+    background: lighten($comphub-selection-hover-background, 40%);
+  }
+}
+
+.paymarket-check {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: .4rem;
+  width: 100%;
+
+  input{
+    margin-right: 5px;
+  }
+}

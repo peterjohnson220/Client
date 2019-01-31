@@ -1,0 +1,9 @@
+@import 'colors';
+
+.content-body {
+  word-wrap: break-word;
+}
+
+:host ::ng-deep .linkified {
+  color: $community-link-color;
+}

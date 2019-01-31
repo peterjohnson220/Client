@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { UserContext } from 'libs/models/security';
-import { CompanySettingDto } from 'libs/models/company';
+import { LegacyCompanySettingDto } from 'libs/models/company';
 import * as fromRootState from 'libs/state/state';
 import * as fromUserContextActions from 'libs/state/app-context/actions/user-context.actions';
-import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
+import * as fromLegacyCompanySettingsActions from 'libs/state/app-context/actions/legacy-company-settings.actions';
 
 import * as fromFirstLoginReducer from '../../../reducers';
 import * as fromFirstLoginActions from '../../../actions/first-login.action';
@@ -24,11 +24,11 @@ export class FirstLoginPageComponent implements OnInit {
   validatingFirstLogin$: Observable<boolean>;
   validatingFirstLoginSuccess$: Observable<boolean>;
   updatingPasswordError$: Observable<boolean>;
-  companySettings$: Observable<CompanySettingDto[]>;
-  companySettingsLoading$: Observable<boolean>;
-  companySettingAttempted$: Observable<boolean>;
+  legacyCompanySettings$: Observable<LegacyCompanySettingDto[]>;
+  legacyCompanySettingsLoading$: Observable<boolean>;
+  legacyCompanySettingAttempted$: Observable<boolean>;
   loadingUserContext: boolean;
-  loadingCompanySettings: boolean;
+  loadingLegacyCompanySettings: boolean;
   isValidating: boolean;
   isFirstLogin: boolean;
   submitEnabled: boolean;
@@ -44,11 +44,11 @@ export class FirstLoginPageComponent implements OnInit {
     this.validatingFirstLogin$ = store.select(fromFirstLoginReducer.getValidatingFirstLogin);
     this.validatingFirstLoginSuccess$ = store.select(fromFirstLoginReducer.getValidatingFirstLoginSuccess);
     this.updatingPasswordError$ = store.select(fromFirstLoginReducer.getFirstLoginUpdatingPasswordError);
-    this.companySettings$ = store.select(fromRootState.getCompanySettings);
-    this.companySettingsLoading$ = store.select(fromRootState.getGettingCompanySettings);
-    this.companySettingAttempted$ = store.select(fromRootState.getGettingCompanySettingsAttempted);
+    this.legacyCompanySettings$ = store.select(fromRootState.getLegacyCompanySettings);
+    this.legacyCompanySettingsLoading$ = store.select(fromRootState.getGettingLegacyCompanySettings);
+    this.legacyCompanySettingAttempted$ = store.select(fromRootState.getGettingLegacyCompanySettingsAttempted);
     this.loadingUserContext = false;
-    this.loadingCompanySettings = false;
+    this.loadingLegacyCompanySettings = false;
     this.isValidating = false;
     this.isFirstLogin = false;
     this.submitEnabled = false;
@@ -70,15 +70,15 @@ export class FirstLoginPageComponent implements OnInit {
     });
 
     // Company Settings subscriptions
-    this.store.dispatch(new fromCompanySettingsActions.GetCompanySettings());
+    this.store.dispatch(new fromLegacyCompanySettingsActions.GetCompanySettings());
 
-    this.companySettingsLoading$.subscribe(loading => {
-      this.loadingCompanySettings = loading;
+    this.legacyCompanySettingsLoading$.subscribe(loading => {
+      this.loadingLegacyCompanySettings = loading;
     });
 
-    this.companySettingAttempted$.subscribe(attempted => {
+    this.legacyCompanySettingAttempted$.subscribe(attempted => {
       if (attempted !== undefined && attempted) {
-        this.companySettings$.subscribe(payload => {
+        this.legacyCompanySettings$.subscribe(payload => {
           this.passwordLengthReq = payload.find(function (el) {
             return el.Name === 'PasswordLengthRequirement';
           }).Value;

@@ -11,10 +11,11 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfUserFilterModule } from 'libs/features/user-filter';
 
-import { FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, SaveFilterModalComponent,
+import { FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent,
 SearchLayoutComponent } from './components';
-import { SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent, SavedFiltersComponent,
+import { SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent,
 SearchResultsComponent } from './containers';
 import { reducers } from './reducers';
 import { PayfactorsSearchApiHelper, PayfactorsSearchApiModelMapper } from './helpers';
@@ -23,11 +24,11 @@ import { SearchEffectsService } from './services';
 
 const declarations = [
   // Components
-  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent, SaveFilterModalComponent,
+  FilterPillsComponent, FilterSectionComponent, MultiSelectFilterComponent, RangeFilterComponent,
   SearchLayoutComponent,
 
   // Containers
-  SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent, SavedFiltersComponent, SearchResultsComponent
+  SearchFiltersComponent, SingleFilterComponent, ResultsHeaderComponent, SearchResultsComponent
 ];
 
 @NgModule({
@@ -39,6 +40,7 @@ const declarations = [
     // Payfactors
     PfFormsModule,
     PfCommonUIModule,
+    PfUserFilterModule,
 
     // 3rd Party
     StoreModule.forFeature('feature_search', reducers),

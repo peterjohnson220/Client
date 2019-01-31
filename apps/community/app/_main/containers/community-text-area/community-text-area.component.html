@@ -1,21 +1,21 @@
 <div class="form-group" [formGroup]="parentForm">
-  <div class="textAreaContainerScrollable" #textAreaContainerScrollable>   
+  <div class="textAreaContainerScrollable" #textAreaContainerScrollable>
      <div #textAreaContainer class="textAreaContainer"
       (window:resize)="onResize($event)">
-      <div #overlayTextArea 
-          class="overlayTextArea" 
-          [innerHtml]="escapeHtml(discussionTextArea.value) | formatLinkUrl | highlightHashTag:'styleOnly'"></div>
+      <div #overlayTextArea
+          class="overlayTextArea"
+          [innerHtml]="discussionTextArea.value | linkify: options"></div>
       <textarea  #discussionTextArea
         id="discussionTextArea"
         class="discussionTextArea"
-        formControlName="context" 
+        formControlName="context"
         maxlength="{{maxTextLength}}"
         placeholder="{{textPlaceholder}}"
-        (keydown)="onKeyDown($event)"  
+        (keydown)="onKeyDown($event)"
         (keyup)="onKeyUp($event)"
         spellcheck="false"
         [pfFocus]="true">
-      </textarea> 
+      </textarea>
     </div>
   </div>
 
@@ -24,13 +24,13 @@
     [textMaxLength]="maxTextLength"
     [WarningStartNumber]="warningStartNumber"
     [DangerStartNumber]="dangerStartNumber">
-  </pf-radial-text-counter> 
+  </pf-radial-text-counter>
 
 </div>
-<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible" 
+<div #suggestTagsContainer *ngIf="suggestedTags.length > 0 && suggestTagsContainerVisible"
   class="list-group suggested-tags"
-  (keydown)="onKeyDown($event)">    
-  <button *ngFor="let item of suggestedTags" 
+  (keydown)="onKeyDown($event)">
+  <button *ngFor="let item of suggestedTags"
       class="list-group-item justify-content-between pb-1"
       [pfFocus]="item.IsSuggested"
       (click)="onSuggestedTagChange(item.Tag)">

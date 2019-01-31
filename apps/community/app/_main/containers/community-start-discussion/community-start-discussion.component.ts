@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -24,7 +25,10 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   submittingCommunityJobSuccess$: Observable<CommunityJob>;
 
   submittingCommunityJobSuccessSubscription: Subscription;
+  creatingUserPollFromPreviewTileSubscription: Subscription;
   showPostJobButton = true;
+
+  creatingUserPoll$: Observable<boolean>;
 
   get CommunityPostTypes() { return CommunityPostTypeStatusEnum; }
 
@@ -32,7 +36,9 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
   @ViewChild('newPollComponent') newPollComponent: CommunityNewPollComponent;
   @ViewChild('newJobComponent') newJobComponent: CommunityNewJobComponent;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>) {
+  constructor(private store: Store<fromCommunityPostReducer.State>,
+    private route: ActivatedRoute) {
+
     this.submittingCommunityPost$ = this.store.select(fromCommunityPostReducer.getSubmittingCommunityPosts);
     this.submittingCommunityJobSuccess$ = this.store.select(fromCommunityJobReducer.getSubmittingCommunityJobsSuccess);
   }
@@ -41,6 +47,10 @@ export class CommunityStartDiscussionComponent implements OnInit, OnDestroy {
     this.submittingCommunityJobSuccessSubscription = this.submittingCommunityJobSuccess$.subscribe((response) => {
       this.showPostJobButton = response ? false : true;
     });
+
+    this.route.queryParams.subscribe(params => {
+      if ( params['type'] === 'poll') {this.postType = CommunityPostTypeStatusEnum.Question; }
+  });
   }
 
   ngOnDestroy() {

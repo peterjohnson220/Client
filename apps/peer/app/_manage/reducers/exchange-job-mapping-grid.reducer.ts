@@ -31,7 +31,7 @@ const initialState: State = adapter.getInitialState({
 export function reducer(state, action) {
   return createGridReducer(
     GridTypeEnum.ExchangeJobMapping,
-    (featureState = initialState,  featureAction: fromExchangeJobMappingGridActions.Actions): State => {
+    (featureState = initialState, featureAction: fromExchangeJobMappingGridActions.Actions): State => {
       switch (featureAction.type) {
         case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS: {
           return {
@@ -52,7 +52,8 @@ export function reducer(state, action) {
           return {
             ...adapter.addAll(exchangeJobMappings, featureState),
             total: featureAction.payload.total,
-            loading: false
+            loading: false,
+            loadingError: false
           };
         }
         case fromExchangeJobMappingGridActions.LOAD_EXCHANGE_JOB_MAPPINGS_ERROR: {
@@ -62,13 +63,13 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
-        case fromExchangeJobMappingGridActions.SELECT_EXCHANGE_JOB_MAPPING: {
+        case fromExchangeJobMappingGridActions.SET_ACTIVE_EXCHANGE_JOB: {
           return {
             ...featureState,
-            selectedMapping: featureAction.payload
+            selectedMapping: featureAction.payload,
           };
         }
-        case fromExchangeJobMappingGridActions.RESELECT_EXCHANGE_JOB_MAPPING: {
+        case fromExchangeJobMappingGridActions.RESET_ACTIVE_EXCHANGE_JOB: {
           return {
             ...featureState,
             selectedMapping: findSelectedJobMapping(Object.values(featureState.entities), featureState.selectedMapping)

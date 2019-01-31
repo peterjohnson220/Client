@@ -2,8 +2,11 @@
 
 exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
 <pf-community-popular-tags
+  filterOptionsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
   filteredByPost$={[Function Store]}
+  filteredTags={[Function Array]}
+  filters$={[Function Store]}
   popularTags$={[Function Store]}
   store={[Function Store]}
 >

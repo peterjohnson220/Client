@@ -1,5 +1,8 @@
 <!--Poll question-->
-<p class="text-center lead">{{request.Question}}</p>
+<pf-community-post-content class="text-center lead mt-2 mb-2"
+                           (hashTagClicked)="handleHashTagClicked($event)"
+                           [content]="request.Question">
+</pf-community-post-content>
 
 <div *ngIf="isResponseDismissed(request.CommunityPollId); else poll_not_dismissed" class="py-5">
     <div class="outer-element">

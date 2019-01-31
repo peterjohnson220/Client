@@ -8,6 +8,7 @@ import * as fromUpsertDataCutPageReducer from './upsert-data-cut-page.reducer';
 import * as fromDataCutValidationReducer from './data-cut-validation.reducer';
 import * as fromAssociateCompanyJobReducer from './associate-company-job.reducer';
 import * as fromPaymarketExchangeScopeReducer from './paymarket-exchange-scope.reducer';
+import * as fromRequestPeerAccessReducer from './request-peer-access.reducer';
 
 // Feature area state
 export interface UpsertPeerDataState {
@@ -15,6 +16,7 @@ export interface UpsertPeerDataState {
   dataCutValidation: fromDataCutValidationReducer.State;
   associateCompanyJob: fromAssociateCompanyJobReducer.State;
   paymarketExchangeScope: fromPaymarketExchangeScopeReducer.State;
+  requestPeerAccess: fromRequestPeerAccessReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   upsertDataCutPage: fromUpsertDataCutPageReducer.reducer,
   dataCutValidation: fromDataCutValidationReducer.reducer,
   associateCompanyJob: fromAssociateCompanyJobReducer.reducer,
-  paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer
+  paymarketExchangeScope: fromPaymarketExchangeScopeReducer.reducer,
+  requestPeerAccess: fromRequestPeerAccessReducer.reducer
 };
 
 // Select Feature Area
@@ -43,6 +46,8 @@ export const selectAssociateCompanyJobState =
   createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.associateCompanyJob);
 export const selectPaymarketExchangeState =
   createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.paymarketExchangeScope);
+export const selectRequestPeerAccessState =
+  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.requestPeerAccess);
 
 // Add Data Cut Selectors
 export const getUpsertDataCutAddingDataCut = createSelector(
@@ -125,5 +130,16 @@ export const getExchangeScopes = createSelector(
 export const getSelectedExchangeScopes = createSelector(
   selectPaymarketExchangeState,
   fromPaymarketExchangeScopeReducer.getSelectedExchangeScopes
+);
+
+// Request Peer Access Selectors
+export const getRequestingPeerAccess = createSelector(
+  selectRequestPeerAccessState,
+  fromRequestPeerAccessReducer.getRequestingPeerAccess
+);
+
+export const getRequestingPeerAccessError = createSelector(
+  selectRequestPeerAccessState,
+  fromRequestPeerAccessReducer.getRequestingPeerAccessError
 );
 

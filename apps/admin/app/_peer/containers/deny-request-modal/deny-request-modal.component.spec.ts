@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { DenyRequestModalComponent } from './deny-request-modal.component';
 
@@ -50,5 +51,17 @@ describe ('Deny Request Modal', () => {
     fixture.detectChanges();
 
     expect(instance.denyClicked.emit).toHaveBeenCalledWith('test');
+  });
+
+  it('should call setPlaceholderOnBlur method, when the textarea focus is changed', () => {
+    spyOn(instance, 'setPlaceholderOnBlur');
+
+    fixture.detectChanges();
+
+    // Find the textarea in the template and trigger a blur event
+    const textArea = fixture.debugElement.query(By.css('.text-area-no-resize'));
+    textArea.triggerEventHandler('blur', {target: {placeholder: ''}});
+
+    expect(instance.setPlaceholderOnBlur).toHaveBeenCalled();
   });
 });

@@ -6,7 +6,14 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { GridTypeEnum, Exchange, ExchangeListItem, ExchangeRequestTypeEnum } from 'libs/models';
+import {
+  GridTypeEnum,
+  Exchange,
+  ExchangeListItem,
+  ExchangeRequestTypeEnum,
+  FeatureAreaConstants,
+  UiPersistenceSettingConstants
+} from 'libs/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
@@ -47,8 +54,8 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting(
       {
-        FeatureArea: 'PeerDashboard',
-        SettingName: 'SelectedExchangeId',
+        FeatureArea: FeatureAreaConstants.PeerDashboard,
+        SettingName: UiPersistenceSettingConstants.SelectedExchangeId,
         SettingValue: exchangeListItem.ExchangeId.toString()
       }
     ));
