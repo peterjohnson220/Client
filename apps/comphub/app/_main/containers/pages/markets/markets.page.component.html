@@ -7,12 +7,14 @@
   <ng-container page-content>
     <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
       [isOpen]="addPayMarketFormOpen$ | async"
+      [isInfoBannerOpen]="infoBannerOpen$ | async"
       [marketDataScope]="marketDataScope$ | async"
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"
       (saveClick)="handleSavePayMarket($event)"
-      (skipClick)="handleSkipPayMarket()">
+      (skipClick)="handleSkipPayMarket()"
+      (dismissInfoBannerClick)="handleDismissInfoBanner()">
     </pf-add-paymarket-form>
   </ng-container>
 

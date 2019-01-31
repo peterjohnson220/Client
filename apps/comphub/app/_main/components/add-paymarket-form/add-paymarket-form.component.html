@@ -1,6 +1,18 @@
 <div class="form-container container">
 
   <h4 class="uppercase-header">ADD NEW PAY MARKET</h4>
+  <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children">
+    <div class="d-flex flex-row">
+      <i class="fa fa-info-circle fa-w-16 info-icon"></i>
+      <div class="info-message">Your job's location, company size and industry are factors that can impact compensation.</div>
+    </div>
+    <div class="form-check ml-auto">
+      <input type="checkbox" class="form-check-input" id="dismissInfoBanner"
+        [attr.data-qa-id]="'chk-dismissInfoBanner'"
+        (click)="handleDismissInfoBanner()">
+      <label class="form-check-label" for="dismissInfoBanner">Don't show again</label>
+    </div>
+  </div>
   <form [formGroup]="addPayMarketForm">
 
     <div class="form-content row">

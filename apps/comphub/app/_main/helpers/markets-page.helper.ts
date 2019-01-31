@@ -1,4 +1,5 @@
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
+import { UiPersistenceFeatureSettingsModel, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
 import { MarketDataScope, AddPayMarketFormData } from '../models';
 
@@ -30,5 +31,18 @@ export class MarketsPageHelper {
       Sizes: [{ Name: 'All', Value: 'All' }],
       Industries: [{ Name: 'All', Value: 'All'}]
     };
+  }
+
+  static getDismissInfoBannerSetting(userSettings: UiPersistenceFeatureSettingsModel[]): boolean {
+    let result = false;
+    if (!!userSettings) {
+      const comphubSettings = userSettings.find(s => s.FeatureName === FeatureAreaConstants.CompHub);
+      if (!!comphubSettings && !!comphubSettings.Settings) {
+        const infoBannerDismissSetting = comphubSettings.Settings
+          .find(s => s.Key === UiPersistenceSettingConstants.CompHubAddPayMarketFormDismissInfoBanner);
+        result = !!infoBannerDismissSetting ? (infoBannerDismissSetting.Value === 'true') : false;
+      }
+    }
+    return result;
   }
 }
