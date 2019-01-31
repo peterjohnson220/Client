@@ -5,9 +5,11 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
+import { SortOption } from 'libs/models/payfactors-api/comphub/request';
 
 import * as fromDataPageActions from '../actions/data-page.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { QuickPriceGridContext } from '../models';
 
 @Injectable()
 export class DataPageEffects {
@@ -23,7 +25,8 @@ export class DataPageEffects {
             PagingOptions: {
               Count: action.payload.Take,
               From: action.payload.Skip
-            }
+            },
+            Sort: this.getSortOption(action.payload)
           })
             .pipe(
               map(response => {
@@ -35,7 +38,16 @@ export class DataPageEffects {
         }
       ));
 
-
+  getSortOption(gridContext: QuickPriceGridContext): SortOption {
+    if (gridContext.Sort && gridContext.Sort.length) {
+      // only allowing single sort
+      return {
+        Dir: gridContext.Sort[0].dir,
+        Field: gridContext.Sort[0].field
+      };
+    }
+    return null;
+  }
   constructor(
     private actions$: Actions,
     private comphubApiService: ComphubApiService

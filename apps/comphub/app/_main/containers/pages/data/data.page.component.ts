@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { State } from '@progress/kendo-data-query';
+import { State, SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AccordionCards, ComphubPages } from '../../../data';
@@ -58,7 +58,17 @@ export class DataPageComponent implements OnInit, OnDestroy {
   handlePageChange({ skip, take }: PageChangeEvent): void {
     this.state = {
       skip: skip,
-      take: take
+      take: take,
+      sort: this.state.sort
+    };
+    this.loadJobResults();
+  }
+
+  handleSortChange(sort: SortDescriptor[]): void {
+    this.state = {
+      skip: this.state.skip,
+      take: this.state.take,
+      sort: sort
     };
     this.loadJobResults();
   }
@@ -68,7 +78,8 @@ export class DataPageComponent implements OnInit, OnDestroy {
       JobTitleShort: this.jobTitle,
       CompanyPayMarketId: this.paymarketId,
       Take: this.state.take,
-      Skip: this.state.skip
+      Skip: this.state.skip,
+      Sort: this.state.sort
     })
     );
   }
