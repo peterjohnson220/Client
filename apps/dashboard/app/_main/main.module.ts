@@ -43,6 +43,7 @@ import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
 import { CompositeSummaryDownloadComponent } from './components';
+import { BasicListComponent } from './components';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { CompositeSummaryDownloadComponent } from './components';
     UserVoiceIndicatorComponent,
     DashboardTCModalComponent,
     CompositeSummaryDownloadComponent,
+    BasicListComponent
   ]
 })
 export class MainModule {

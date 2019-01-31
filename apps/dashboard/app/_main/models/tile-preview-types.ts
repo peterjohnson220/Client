@@ -5,5 +5,6 @@ export enum TilePreviewTypes {
   ChartWithList = 'ChartWithList',
   Icon = 'Icon',
   List = 'List',
-  PlaceHolder = 'PlaceHolder'
+  PlaceHolder = 'PlaceHolder',
+  BasicList = 'BasicList'
 }
