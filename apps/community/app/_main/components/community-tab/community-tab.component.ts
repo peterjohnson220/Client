@@ -25,15 +25,15 @@ export class CommunityTabComponent implements OnInit {
     if (this.type === CommunityPostTypeStatusEnum.Discussion) {
       this.icon = 'fa-comments';
       this.primaryText = 'DISCUSS';
-      this.secondaryText = 'Start a discussion.';
+      this.secondaryText = 'Start a discussion';
     }  else if (this.type === CommunityPostTypeStatusEnum.Question) {
       this.icon = 'fa-chart-bar';
       this.primaryText = 'POLL';
-      this.secondaryText = 'Ask a question.';
+      this.secondaryText = 'Ask a question';
     } else if (this.type === CommunityPostTypeStatusEnum.Job) {
       this.icon = 'fa-building';
       this.primaryText = 'JOB';
-      this.secondaryText = 'Post an opportunity.';
+      this.secondaryText = 'Post an opportunity';
     }
   }
 

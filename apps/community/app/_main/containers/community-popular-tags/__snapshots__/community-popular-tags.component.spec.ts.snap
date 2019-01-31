@@ -14,14 +14,11 @@ exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
     class="mb-3"
     id="tag-container"
   >
-    <div
+    <h5
       id="tag-section-header"
     >
       TRENDING TAGS
-    </div>
-    <hr
-      class="my-3"
-    />
+    </h5>
     
   </div>
 </pf-community-popular-tags>
