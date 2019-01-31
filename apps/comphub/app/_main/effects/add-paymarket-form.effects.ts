@@ -6,25 +6,25 @@ import { of } from 'rxjs';
 
 import { PayMarketApiService } from 'libs/data/payfactors-api';
 
-import * as fromAddPayMarketModalActions from '../actions/add-paymarket-modal.actions';
+import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 
 @Injectable()
-export class AddPayMarketModalEffects {
+export class AddPayMarketFormEffects {
 
   @Effect()
   save$ = this.actions$
-  .ofType(fromAddPayMarketModalActions.SAVE_PAYMARKET)
+  .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET)
   .pipe(
-    switchMap((action: fromAddPayMarketModalActions.Save) => {
+    switchMap((action: fromAddPayMarketFormActions.Save) => {
       return this.payMarketApiService.insert(action.payload)
         .pipe(
           map(response =>
-            new fromAddPayMarketModalActions.SaveSuccess({ companyPayMarketId: response.CompanyPayMarketId })
+            new fromAddPayMarketFormActions.SaveSuccess({ companyPayMarketId: response.CompanyPayMarketId })
           ),
           catchError(response => {
             return of(response.status === 400
-              ? new fromAddPayMarketModalActions.SaveConflict()
-              : new fromAddPayMarketModalActions.SaveError());
+              ? new fromAddPayMarketFormActions.SaveConflict()
+              : new fromAddPayMarketFormActions.SaveError());
           })
         );
     })

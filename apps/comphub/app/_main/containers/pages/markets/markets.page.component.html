@@ -5,15 +5,15 @@
   [nextButtonEnabled]="true">
 
   <ng-container page-content>
-    <pf-add-paymarket-modal *ngIf="addPayMarketModalOpen$ | async"
-      [isOpen]="addPayMarketModalOpen$ | async"
+    <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
+      [isOpen]="addPayMarketFormOpen$ | async"
       [marketDataScope]="marketDataScope$ | async"
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"
       (saveClick)="handleSavePayMarket($event)"
       (skipClick)="handleSkipPayMarket()">
-    </pf-add-paymarket-modal>
+    </pf-add-paymarket-form>
   </ng-container>
 
   <ng-container page-content>

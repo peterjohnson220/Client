@@ -1,40 +1,40 @@
-import * as fromAddPayMarketModalActions from '../actions/add-paymarket-modal.actions';
+import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 
 export interface State {
-  modalOpen: boolean;
+  formOpen: boolean;
   saving: boolean;
   savingConflict: boolean;
   savingError: boolean;
 }
 
 const initialState: State = {
-  modalOpen: false,
+  formOpen: false,
   saving: false,
   savingConflict: false,
   savingError: false
 };
 
-export function reducer(state = initialState, action: fromAddPayMarketModalActions.Actions): State {
+export function reducer(state = initialState, action: fromAddPayMarketFormActions.Actions): State {
   switch (action.type) {
-    case fromAddPayMarketModalActions.OPEN_MODAL: {
+    case fromAddPayMarketFormActions.OPEN_FORM: {
       return {
         ...state,
-        modalOpen: true
+        formOpen: true
       };
     }
-    case fromAddPayMarketModalActions.CLOSE_MODAL: {
+    case fromAddPayMarketFormActions.CLOSE_FORM: {
       return {
         ...state,
-        modalOpen: false
+        formOpen: false
       };
     }
-    case fromAddPayMarketModalActions.SAVE_PAYMARKET: {
+    case fromAddPayMarketFormActions.SAVE_PAYMARKET: {
       return {
         ...state,
         saving: true
       };
     }
-    case fromAddPayMarketModalActions.SAVE_PAYMARKET_SUCCESS: {
+    case fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS: {
       return {
         ...state,
         saving: false,
@@ -42,21 +42,21 @@ export function reducer(state = initialState, action: fromAddPayMarketModalActio
         savingError: false
       };
     }
-    case fromAddPayMarketModalActions.SAVE_PAYMARKET_CONFLICT: {
+    case fromAddPayMarketFormActions.SAVE_PAYMARKET_CONFLICT: {
       return {
         ...state,
         saving: false,
         savingConflict: true
       };
     }
-    case fromAddPayMarketModalActions.SAVE_PAYMARKET_ERROR: {
+    case fromAddPayMarketFormActions.SAVE_PAYMARKET_ERROR: {
       return {
         ...state,
         saving: false,
         savingError: true
       };
     }
-    case fromAddPayMarketModalActions.CLEAR_SAVE_ERROR: {
+    case fromAddPayMarketFormActions.CLEAR_SAVE_ERROR: {
       return {
         ...state,
         savingConflict: false,
@@ -69,7 +69,7 @@ export function reducer(state = initialState, action: fromAddPayMarketModalActio
   }
 }
 
-export const getModalOpen = (state: State) => state.modalOpen;
+export const getFormOpen = (state: State) => state.formOpen;
 export const getSaving = (state: State) => state.saving;
 export const getSavingConflict = (state: State) => state.savingConflict;
 export const getSavingError = (state: State) => state.savingError;
