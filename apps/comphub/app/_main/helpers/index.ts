@@ -1,2 +1,2 @@
 export * from './payfactors-api-model-mapper';
-export * from './markets-page.helper';
+export * from './markets-card.helper';

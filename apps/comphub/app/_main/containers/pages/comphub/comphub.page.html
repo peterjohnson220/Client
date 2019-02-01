@@ -1,7 +1,7 @@
 <div class="accordion">
   <div class="card-container">
     
-    <pf-comphub-card-layout
+    <pf-comphub-card
       *ngFor="let card of accordionCards; let i = index"
       [cardId]="card.Id"
       [cardTitle]="card.Title"
@@ -12,17 +12,17 @@
 
       <ng-container card-content [ngSwitch]="card.Id">
 
-        <pf-jobs-page *ngSwitchCase="comphubPages.Jobs"></pf-jobs-page>
+        <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
 
-        <pf-markets-page *ngSwitchCase="comphubPages.Markets"></pf-markets-page>
+        <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
 
-        <pf-data-page *ngSwitchCase="comphubPages.Data"></pf-data-page>
+        <pf-data-card *ngSwitchCase="comphubPages.Data"></pf-data-card>
 
-        <pf-summary-page *ngSwitchCase="comphubPages.Summary"></pf-summary-page>
+        <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
 
       </ng-container>
 
-    </pf-comphub-card-layout>
+    </pf-comphub-card>
 
   </div>
 </div>

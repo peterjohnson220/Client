@@ -1,4 +1,4 @@
-export * from './jobs-page.effects';
-export * from './markets-page.effects';
-export * from './data-page.effects';
+export * from './jobs-card.effects';
+export * from './markets-card.effects';
+export * from './data-card.effects';
 export * from './add-paymarket-form.effects';

@@ -1,10 +1,10 @@
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
+import { QuickPriceMarketData, QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope } from '../models';
+import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope, JobData } from '../models';
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
 
@@ -35,7 +35,7 @@ export class PayfactorsApiModelMapper {
   static mapPriceDataToGridDataResult(response: QuickPriceResponse): GridDataResult {
     return {
       total: response.Count,
-      data: response.Data
+      data: this.mapQuickPriceMarketDataToJobData(response.Data)
     };
   }
 
@@ -52,6 +52,24 @@ export class PayfactorsApiModelMapper {
       return {
         Name: s,
         Value: s
+      };
+    });
+  }
+
+  static mapQuickPriceMarketDataToJobData(qpmd: QuickPriceMarketData[]): JobData[] {
+    return qpmd.map(q => {
+      return {
+        JobId: q.JobId,
+        JobTitle: q.JobTitle,
+        JobDescription: q.JobDescription,
+        Education: q.Education,
+        YearsOfExperience: q.YearsOfExperience,
+        ManagesEmployees: q.ManagesEmployees,
+        Skills: q.Skills,
+        Base50: q.Base50,
+        Tcc50: q.Tcc50,
+        Incs: q.Incs,
+        Orgs: q.Orgs
       };
     });
   }

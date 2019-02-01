@@ -11,12 +11,12 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { ComphubPageComponent, JobsPageComponent, MarketsPageComponent, DataPageComponent, PageLayoutComponent,
-  SummaryPageComponent } from './containers';
-import { JobsPageEffects, MarketsPageEffects, AddPayMarketFormEffects, DataPageEffects } from './effects';
+import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
+  SummaryCardComponent } from './containers';
+import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { TrendingJobGroupComponent, CardLayoutComponent, SelectPaymarketsComponent,
+import { TrendingJobGroupComponent, CardComponent, SelectPaymarketsComponent,
   AddPayMarketFormComponent } from './components';
 import { WindowRef } from './services';
 
@@ -30,9 +30,9 @@ import { WindowRef } from './services';
     // 3rd Party
     StoreModule.forFeature('comphub_main', reducers),
     EffectsModule.forFeature([
-      JobsPageEffects,
-      DataPageEffects,
-      MarketsPageEffects,
+      JobsCardEffects,
+      DataCardEffects,
+      MarketsCardEffects,
       AddPayMarketFormEffects
     ]),
 
@@ -51,16 +51,16 @@ import { WindowRef } from './services';
   declarations: [
     // Components
     TrendingJobGroupComponent,
-    CardLayoutComponent,
+    CardComponent,
     AddPayMarketFormComponent,
 
     // Pages
     ComphubPageComponent,
-    JobsPageComponent,
-    MarketsPageComponent,
-    PageLayoutComponent,
-    DataPageComponent,
-    SummaryPageComponent,
+    JobsCardComponent,
+    MarketsCardComponent,
+    CardLayoutComponent,
+    DataCardComponent,
+    SummaryCardComponent,
     SelectPaymarketsComponent
   ],
   providers: [

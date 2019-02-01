@@ -1,5 +1,5 @@
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { AccordionCards, ComphubPages } from '../data';
+import { AccordionCards } from '../data';
 
 export interface State {
   selectedPageIndex: number;
