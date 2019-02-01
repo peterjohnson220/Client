@@ -81,7 +81,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
               <div
                 class="tags-margin-left"
               >
-                <pf-community-popular-tags />
+                <pf-community-trending-and-filtered-tags />
               </div>
             </div>
             <div

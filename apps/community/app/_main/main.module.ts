@@ -31,7 +31,6 @@ import { CommunityPostFilteredReplyViewComponent } from './containers/community-
 import { CommunityPostHeaderComponent } from './components/community-post-header';
 import { CommunityLikeComponent } from './components/community-like/community-like.component';
 import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
-import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityNewPostComponent } from './containers/community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from './containers/community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from './containers/community-new-job/community-new-job.component';
@@ -42,13 +41,13 @@ import { RadialTextCounterComponent } from './components/radial-text-counter/rad
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 import { CommunityJobComponent } from './components/community-job/community-job.component';
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
-import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
 import { CommunityTabComponent } from './components/community-tab/community-tab.component';
 import { CommunityBackToTopNavigationComponent } from './components/community-back-to-top-navigation';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
+import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
@@ -83,20 +82,19 @@ const components = [
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
   CommunityBackToTopNavigationComponent,
-  CommunityPopularTagsComponent,
   CommunityLikeComponent,
   CommunityAvatarComponent,
   CommunityNewPollComponent,
   CommunityNewPostComponent,
   CommunityPollChoicesComponent,
   CommunityPollComponent,
-  CommunityPostFilterOptionsComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityJobComponent,
   CommunityJobsComponent,
-  CommunityTabComponent
+  CommunityTabComponent,
+  CommunityTrendingAndFilteredTagsComponent
 ];
 
 @NgModule({

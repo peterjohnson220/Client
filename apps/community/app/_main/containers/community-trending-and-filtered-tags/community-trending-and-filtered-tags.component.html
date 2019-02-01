@@ -1,0 +1,33 @@
+<div id="tag-container" class="mb-3">
+  <h5 id="tag-section-header">{{ showFilterView() ? 'FILTERS' : 'TRENDING TAGS' }}</h5>
+  <ng-container *ngFor="let trendingTag of trendingTags$ | async">
+    <button *ngIf="IsTagSelected(trendingTag) || (!IsTagSelected(trendingTag) && !showFilterView())" [disabled]="(filteredByPost$ | async)"
+            type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="trendingTagClicked(trendingTag)"
+            [ngClass]="{'btn-selected': IsTagSelected(trendingTag) }">{{trendingTag.Tag}}
+      <span *ngIf="IsTagSelected(trendingTag)"><i class="fas fa-times-circle icon"></i></span>
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="filters$ | async as filter">
+    <ng-container *ngFor="let filteredTag of filteredTags">
+      <button *ngIf="!isTrendingTag(filteredTag)"
+              type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="nonTrendingTagClicked(filteredTag)"
+              [ngClass]="{'btn-selected': true }">{{ filteredTag.TagName }}
+        <span><i class="fas fa-times-circle icon"></i></span>
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let filter of filteredCategories">
+      <button type="button" class="btn m-1 tag py-2 px-3 shadow-none"  (click)="categoryFilterClicked(filter)"
+              [ngClass]="{'btn-selected': IsCategorySelected(filter) }">{{ filter }}
+        <span *ngIf="IsCategorySelected(filter)"><i class="fas fa-times-circle icon"></i></span>
+      </button>
+    </ng-container>
+
+    <div *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0" class="mt-1">
+       <button (click)="viewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
+          <i class="far fa-eye pr-2"></i>View All Posts
+        </button>
+    </div>
+  </ng-container>
+</div>
+

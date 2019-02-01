@@ -43,6 +43,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   getHasNextBatchPostsOnServer$: Observable<boolean>;
   getHasPreviousBatchPostsOnServer$: Observable<boolean>;
   filteredByPost$: Observable<boolean>;
+  totalDiscussionResultsOnServer$: Observable<number>;
 
   showAddReply = {};
   showReplies = [];
@@ -77,6 +78,7 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
+    this.totalDiscussionResultsOnServer$ = this.store.select(fromCommunityPostReducer.getTotalDiscussionResultsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);

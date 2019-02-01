@@ -1,14 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
-<pf-community-popular-tags
+exports[`CommunityPopularTagsComponent should show trending tags 1`] = `
+<pf-community-trending-and-filtered-tags
   filterOptionsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
   filteredByPost$={[Function Store]}
+  filteredCategories={[Function Array]}
   filteredTags={[Function Array]}
   filters$={[Function Store]}
-  popularTags$={[Function Store]}
+  router={[Function Object]}
   store={[Function Store]}
+  trendingTagSubscription={[Function Subscriber]}
+  trendingTags={[Function Array]}
+  trendingTags$={[Function Store]}
 >
   <div
     class="mb-3"
@@ -20,6 +24,7 @@ exports[`CommunityPopularTagsComponent should show popular tags 1`] = `
       TRENDING TAGS
     </h5>
     
+    
   </div>
-</pf-community-popular-tags>
+</pf-community-trending-and-filtered-tags>
 `;
