@@ -4,19 +4,19 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import * as fromRoot from 'libs/state/state';
 
 // Import feature reducers
-import * as fromJobsPageReducer from './jobs-page.reducer';
+import * as fromJobsCardReducer from './jobs-card.reducer';
 import * as fromComphubPageReducer from './comphub-page.reducer';
 import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
-import * as fromMarketsPageReducer from './markets-page.reducer';
-import * as fromDataPageReducer from './data-page.reducer';
+import * as fromMarketsCardReducer from './markets-card.reducer';
+import * as fromDataCardReducer from './data-card.reducer';
 
 // Feature area state
 export interface ComphubMainState {
-  jobsPage: fromJobsPageReducer.State;
+  jobsCard: fromJobsCardReducer.State;
   comphubPage: fromComphubPageReducer.State;
   addPayMarketForm: fromAddPayMarketFormReducer.State;
-  marketsPage: fromMarketsPageReducer.State;
-  dataPage: fromDataPageReducer.State;
+  marketsCard: fromMarketsCardReducer.State;
+  dataCard: fromDataCardReducer.State;
 }
 
 // Extend root state with feature area state
@@ -26,10 +26,10 @@ export interface State extends fromRoot.State {
 
 // Feature area reducers
 export const reducers = {
-  jobsPage: fromJobsPageReducer.reducer,
+  jobsCard: fromJobsCardReducer.reducer,
   comphubPage: fromComphubPageReducer.reducer,
-  marketsPage: fromMarketsPageReducer.reducer,
-  dataPage: fromDataPageReducer.reducer,
+  marketsCard: fromMarketsCardReducer.reducer,
+  dataCard: fromDataCardReducer.reducer,
   addPayMarketForm: fromAddPayMarketFormReducer.reducer
 };
 
@@ -37,9 +37,9 @@ export const reducers = {
 export const selectFeatureAreaState = createFeatureSelector<ComphubMainState>('comphub_main');
 
 // Feature Selectors
-export const selectJobsPageState = createSelector(
+export const selectJobsCardState = createSelector(
   selectFeatureAreaState,
-  (state: ComphubMainState) => state.jobsPage
+  (state: ComphubMainState) => state.jobsCard
 );
 
 export const selectComphubPageState = createSelector(
@@ -52,50 +52,50 @@ export const selectAddPayMarketFormState = createSelector(
   (state: ComphubMainState) => state.addPayMarketForm
 );
 
-export const selectMarketsPageState = createSelector(
+export const selectMarketsCardState = createSelector(
   selectFeatureAreaState,
-  (state: ComphubMainState) => state.marketsPage
+  (state: ComphubMainState) => state.marketsCard
 );
 
-export const selectDataPageState = createSelector(
+export const selectDataCardState = createSelector(
   selectFeatureAreaState,
-  (state: ComphubMainState) => state.dataPage
+  (state: ComphubMainState) => state.dataCard
 );
 
-// Jobs Page
+// Jobs Card
 export const getTrendingJobGroups = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getTrendingJobGroups
+  selectJobsCardState,
+  fromJobsCardReducer.getTrendingJobGroups
 );
 
 export const getLoadingTrendingJobs = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getLoadingTrendingJobs
+  selectJobsCardState,
+  fromJobsCardReducer.getLoadingTrendingJobs
 );
 
 export const getLoadingTrendingJobsError = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getLoadingTrendingJobsError
+  selectJobsCardState,
+  fromJobsCardReducer.getLoadingTrendingJobsError
 );
 
 export const getJobSearchOptions = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getJobSearchOptions
+  selectJobsCardState,
+  fromJobsCardReducer.getJobSearchOptions
 );
 
 export const getLoadingJobSearchOptions = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getLoadingJobSearchOptions
+  selectJobsCardState,
+  fromJobsCardReducer.getLoadingJobSearchOptions
 );
 
 export const getLoadingJobSearchOptionsError = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getLoadingJobSearchOptionsError
+  selectJobsCardState,
+  fromJobsCardReducer.getLoadingJobSearchOptionsError
 );
 
 export const getSelectedJob = createSelector(
-  selectJobsPageState,
-  fromJobsPageReducer.getSelectedJob
+  selectJobsCardState,
+  fromJobsCardReducer.getSelectedJob
 );
 
 // Comphub Page
@@ -104,31 +104,30 @@ export const getSelectedPageIndex = createSelector(
   fromComphubPageReducer.getSelectedPageIndex
 );
 
-// Markets Page
-
+// Markets Card
 export const getSelectedPaymarket = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getSelectedPaymarket
+  selectMarketsCardState,
+  fromMarketsCardReducer.getSelectedPaymarket
 );
 
 export const getLoadingPaymarkets = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getLoadingPaymarkets
+  selectMarketsCardState,
+  fromMarketsCardReducer.getLoadingPaymarkets
 );
 
 export const getLoadingPaymarketsError = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getLoadingPaymarketsError
+  selectMarketsCardState,
+  fromMarketsCardReducer.getLoadingPaymarketsError
 );
 
 export const getPaymarkets = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getPaymarkets
+  selectMarketsCardState,
+  fromMarketsCardReducer.getPaymarkets
 );
 
 export const getPaymarketsFilter = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getPaymarketsFilter
+  selectMarketsCardState,
+  fromMarketsCardReducer.getPaymarketsFilter
 );
 
 export const getVisiblePaymarkets = createSelector(
@@ -138,24 +137,29 @@ export const getVisiblePaymarkets = createSelector(
 );
 
 export const getMarketDataScope = createSelector(
-  selectMarketsPageState,
-  fromMarketsPageReducer.getMarketDataScope
+  selectMarketsCardState,
+  fromMarketsCardReducer.getMarketDataScope
 );
 
-// Data Page
+// Data Card
 export const getJobGridResults = createSelector(
-  selectDataPageState,
-  fromDataPageReducer.getJobGridResults
+  selectDataCardState,
+  fromDataCardReducer.getJobGridResults
 );
 
 export const getLoadingJobGridResults = createSelector(
-  selectDataPageState,
-  fromDataPageReducer.getLoadingJobGridResults
+  selectDataCardState,
+  fromDataCardReducer.getLoadingJobGridResults
 );
 
 export const getLoadingJobGridResultsError = createSelector(
-  selectDataPageState,
-  fromDataPageReducer.getLoadingJobGridResultsError
+  selectDataCardState,
+  fromDataCardReducer.getLoadingJobGridResultsError
+);
+
+export const getSelectedJobData = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getSelectedJobData
 );
 
 // Add Pay Market Form

@@ -1,0 +1,62 @@
+<pf-card-layout
+  pageTitle="Markets"
+  pageSubTitle="Now, let's define the market"
+  pageIconClass="fa-map-marker-alt"
+  [nextButtonEnabled]="true">
+
+  <ng-container page-content>
+    <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
+      [isOpen]="addPayMarketFormOpen$ | async"
+      [isInfoBannerOpen]="infoBannerOpen$ | async"
+      [marketDataScope]="marketDataScope$ | async"
+      [saving]="savingPayMarket$ | async"
+      [savingConflict]="savingPayMarketConflict$ | async"
+      [savingError]="savingPayMarketError$ | async"
+      (saveClick)="handleSavePayMarket($event)"
+      (skipClick)="handleSkipPayMarket()"
+      (dismissInfoBannerClick)="handleDismissInfoBanner()">
+    </pf-add-paymarket-form>
+  </ng-container>
+
+  <ng-container page-content>
+
+    <pf-async-container
+      [loading]="loadingPaymarkets$ | async"
+      [loadingError]="loadingPaymarketsError$ | async"
+      [loadingErrorMessage]="'Error.'"
+      [hideReloadButton]="true">
+
+      <div class="row" *ngIf="(paymarkets$ |async).length">
+        <div class="col-lg-12 col-xl-9" >
+          <div class="search-filter">
+            <span class="k-textbox k-space-right">
+                    <input type="text"
+                           [(ngModel)]="searchTerm"
+                           (keyup)="handleSearchChanged($event.target.value)"
+                           [attr.data-qa-id]="'txt-search-paymarkets'"
+                           [placeholder]="'Search Pay Markets...'"
+                           class="k-widget k-input search-paymarkets"/>
+                    <span (click)="clearSearchValue()"
+                          [class.k-i-close]="searchTerm"
+                          class="k-icon k-clear-value"></span>
+                </span>
+          </div>
+
+          <pf-select-paymarkets
+            *ngIf="(visiblePaymarkets$ |async).length"
+            [selectedPaymarketId]="selectedPaymarketId$ | async"
+            [paymarkets]="visiblePaymarkets$ | async"
+            (paymarketChecked)="handlePaymarketChecked($event)">
+          </pf-select-paymarkets>
+
+          <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
+            <div class="no-data">No Data</div>
+          </div>
+        </div>
+      </div>
+
+
+    </pf-async-container>
+  </ng-container>
+
+</pf-card-layout>
