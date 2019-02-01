@@ -207,7 +207,8 @@
             "polyfills": "apps/dashboard/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "assets/scss"
+                "assets/scss",
+                "apps/dashboard"
               ]
             },
             "assets": [
@@ -787,7 +788,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "assets/scss",
-                "apps/auth/assets"
+                "apps/auth/assets",
+                "apps/auth"
               ]
             },
             "assets": [
@@ -1167,7 +1169,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "assets/scss",
-                "apps/community/assets"
+                "apps/community/assets",
+                "apps/community"
               ]
             },
             "assets": [
