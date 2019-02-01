@@ -7,9 +7,11 @@ import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/opera
 
 import { PayMarketApiService } from 'libs/data/payfactors-api';
 import { PayMarket } from 'libs/models/paymarket';
+import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 import { MarketDataScopeApiService } from 'libs/data/payfactors-api';
+import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
 import * as fromMarketsPageActions from '../actions/markets-page.actions';
 import * as fromComphubMainReducer from '../reducers';
@@ -84,6 +86,44 @@ export class MarketsPageEffects {
         new fromAddPayMarketFormActions.Close(),
         new fromMarketsPageActions.GetPaymarkets()
       ];
+    })
+  );
+
+  @Effect()
+  closeInfoBanner$ = this.actions$
+  .ofType(fromAddPayMarketFormActions.CLOSE_INFO_BANNER)
+  .pipe(
+    map((action: fromAddPayMarketFormActions.CloseInfoBanner) =>
+      new fromUiPersistenceSettingsActions.SaveUiPersistenceSetting({
+        FeatureArea: FeatureAreaConstants.CompHub,
+        SettingName: UiPersistenceSettingConstants.CompHubAddPayMarketFormDismissInfoBanner,
+        SettingValue: 'true'
+      })
+    )
+  );
+
+  @Effect()
+  openAddPayMarketForm$ = this.actions$
+  .ofType(fromAddPayMarketFormActions.OPEN_FORM)
+  .pipe(
+    map((action: fromAddPayMarketFormActions.Open) =>
+      new fromAddPayMarketFormActions.GetDismissInfoBannerSetting()
+    )
+  );
+
+  @Effect()
+  getDismissInfoBannerSetting$ = this.actions$
+  .ofType(fromAddPayMarketFormActions.GET_DISMISS_INFO_BANNER_SETTING)
+  .pipe(
+    withLatestFrom(
+      this.store.select(fromRootState.getUiPersistenceSettings),
+      (action, userSettings) => ({ action, userSettings })),
+    map((data) => {
+      const dismiss = MarketsPageHelper.getDismissInfoBannerSetting(data.userSettings);
+      if (dismiss) {
+        return new fromAddPayMarketFormActions.CloseInfoBanner();
+      }
+      return new fromAddPayMarketFormActions.OpenInfoBanner();
     })
   );
 

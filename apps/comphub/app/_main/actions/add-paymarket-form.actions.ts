@@ -9,6 +9,9 @@ export const SAVE_PAYMARKET_SUCCESS = '[Comphub/Add PayMarket Form] Save Pay Mar
 export const SAVE_PAYMARKET_ERROR = '[Comphub/Add PayMarket Form] Save Pay Market Error';
 export const SAVE_PAYMARKET_CONFLICT = '[Comphub/Add PayMarket Form] Save Pay Market Conflict';
 export const CLEAR_SAVE_ERROR = '[Comphub/Add PayMarket Form] Clear Save Error';
+export const GET_DISMISS_INFO_BANNER_SETTING = '[Comphub/Add PayMarket Form] Get Dismiss Info Banner Setting';
+export const OPEN_INFO_BANNER = '[Comphub/Add PayMarket Form] Open Info Banner';
+export const CLOSE_INFO_BANNER = '[Comphub/Add PayMarket Form] Close Info Banner';
 
 export class Open implements Action {
   readonly type = OPEN_FORM;
@@ -42,6 +45,18 @@ export class ClearSaveError implements Action {
   readonly type = CLEAR_SAVE_ERROR;
 }
 
+export class GetDismissInfoBannerSetting implements Action {
+  readonly type = GET_DISMISS_INFO_BANNER_SETTING;
+}
+
+export class OpenInfoBanner implements Action {
+  readonly type = OPEN_INFO_BANNER;
+}
+
+export class CloseInfoBanner implements Action {
+  readonly type = CLOSE_INFO_BANNER;
+}
+
 export type Actions
   = Open
   | Close
@@ -49,4 +64,7 @@ export type Actions
   | SaveSuccess
   | SaveError
   | SaveConflict
-  | ClearSaveError;
+  | ClearSaveError
+  | GetDismissInfoBannerSetting
+  | OpenInfoBanner
+  | CloseInfoBanner;

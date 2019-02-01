@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsPageActions from '../../../actions/markets-page.actions';
+import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
 import { PricingPaymarket, AddPayMarketFormData, MarketDataScope} from '../../../models';
 
 @Component({
@@ -24,6 +25,7 @@ export class MarketsPageComponent implements OnInit {
   savingPayMarketConflict$: Observable<boolean>;
   savingPayMarketError$: Observable<boolean>;
   marketDataScope$: Observable<MarketDataScope>;
+  infoBannerOpen$: Observable<boolean>;
 
   searchTerm: string;
 
@@ -49,6 +51,7 @@ export class MarketsPageComponent implements OnInit {
     this.savingPayMarketConflict$ = this.store.select(fromComphubMainReducer.getSavingPayMarketConflict);
     this.savingPayMarketError$ = this.store.select(fromComphubMainReducer.getSavingPayMarketError);
     this.marketDataScope$ = this.store.select(fromComphubMainReducer.getMarketDataScope);
+    this.infoBannerOpen$ = this.store.select(fromComphubMainReducer.getInfoBannerOpen);
   }
 
   handleSavePayMarket(formData: AddPayMarketFormData) {
@@ -65,6 +68,10 @@ export class MarketsPageComponent implements OnInit {
 
   handlePaymarketChecked(checkedPaymarketId: number) {
     this.store.dispatch(new fromMarketsPageActions.SetSelectedPaymarket(checkedPaymarketId));
+  }
+
+  handleDismissInfoBanner() {
+    this.store.dispatch(new fromAddPayMarketFormActions.CloseInfoBanner());
   }
 
   clearSearchValue() {

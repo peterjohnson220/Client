@@ -178,3 +178,8 @@ export const getSavingPayMarketError = createSelector(
   selectAddPayMarketFormState,
   fromAddPayMarketFormReducer.getSavingError
 );
+
+export const getInfoBannerOpen = createSelector(
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getInfoBannerOpen
+);

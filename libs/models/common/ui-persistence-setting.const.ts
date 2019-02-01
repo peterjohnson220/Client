@@ -4,4 +4,5 @@ export class UiPersistenceSettingConstants {
   static readonly SelectedExchangeId = 'SelectedExchangeId';
   static readonly JobsTileEffectiveDate = 'JobsTileEffectiveDate';
   static readonly JobsTileShouldGetPricingsBeforeEffectiveDate = 'JobsTileShouldGetPricingsBeforeEffectiveDate';
+  static readonly CompHubAddPayMarketFormDismissInfoBanner = 'CompHubAddPayMarketFormDismissInfoBanner';
 }

@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { MarketsPageComponent } from './markets.page.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsPageActions from '../../../actions/markets-page.actions';
+import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
 import { AddPayMarketFormData, generateMockAddPayMarketFormData } from '../../../models';
 
 
@@ -91,6 +92,15 @@ describe('Comphub - Main - Markets Page Component', () => {
     const expectedAction = new fromMarketsPageActions.SkipPayMarket();
 
     instance.handleSkipPayMarket();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch CloseInfoBanner when handling dismiss info banner', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromAddPayMarketFormActions.CloseInfoBanner();
+
+    instance.handleDismissInfoBanner();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });

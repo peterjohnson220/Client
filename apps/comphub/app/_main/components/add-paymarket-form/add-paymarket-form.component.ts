@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import { PfValidators } from 'libs/forms/validators';
@@ -16,8 +16,10 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
+  @Input() isInfoBannerOpen = false;
   @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
   @Output() skipClick = new EventEmitter();
+  @Output() dismissInfoBannerClick = new EventEmitter();
 
   showErrorMessages = false;
 
@@ -75,6 +77,10 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
 
   dismiss() {
     this.skipClick.emit();
+  }
+
+  handleDismissInfoBanner() {
+    this.dismissInfoBannerClick.emit();
   }
 
   handleIndustryFilter(value: string) {
