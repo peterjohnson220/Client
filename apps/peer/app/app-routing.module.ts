@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
-import { PeerPermissionsGuard } from './shared/guards/permissions.guard';
 import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
+import { UserContextGuard } from 'libs/security';
+
+import { PeerPermissionsGuard } from './shared/guards';
 import { AppWrapperComponent } from './shared/appwrapper/app-wrapper.component';
 
 export const routes: Routes = [
@@ -16,18 +17,9 @@ export const routes: Routes = [
         path: 'exchange/:id',
         canActivate: [PeerPermissionsGuard],
         children: [
-          {
-            path: 'manage',
-            loadChildren: 'apps/peer/app/_manage/manage.module#ManageModule'
-          },
-          {
-            path: 'map',
-            loadChildren: 'apps/peer/app/_map/map.module#MapModule'
-          },
-          {
-            path: '',
-            loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule'
-          }
+          { path: 'manage', loadChildren: 'apps/peer/app/_manage/manage.module#ManageModule' },
+          { path: 'map', loadChildren: 'apps/peer/app/_map/map.module#MapModule' },
+          { path: '', loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule' }
         ]
       },
       { path: 'exchanges', loadChildren: 'apps/peer/app/_dashboard/dashboard.module#DashboardModule' },
