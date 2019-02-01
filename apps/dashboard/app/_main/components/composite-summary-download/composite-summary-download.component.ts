@@ -1,25 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+
+import { RegexStrings } from 'libs/constants/regex-strings';
+import * as fromFileReducer from 'libs/features/file-download/reducers/file-download.reducer';
+import { FileModel } from 'libs/models/file';
+import { CompositeSummaryDownload } from '../../actions/composite-summary-download.actions';
 
 @Component({
   selector: 'pf-composite-summary-download',
   templateUrl: './composite-summary-download.component.html',
   styleUrls: ['./composite-summary-download.component.scss']
 })
-export class CompositeSummaryDownloadComponent implements OnInit {
+export class CompositeSummaryDownloadComponent implements OnDestroy, OnInit {
 
-  constructor(private route: ActivatedRoute) {
+  errorText: string;
+  file$: Observable<FileModel>;
+  id: string;
+  paramsSubscription: Subscription;
+
+  constructor(private route: ActivatedRoute, private store: Store<fromFileReducer.State>) {
 
   }
 
-  ngOnInit() {
-    const params = this.route.snapshot.queryParams;
+  ngOnDestroy() {
+    if (this.paramsSubscription && !this.paramsSubscription.closed) {
+      this.paramsSubscription.unsubscribe();
+    }
+  }
 
-    if (params.compositeDataLoadExternalId && params.action) {
-      const id = params.compositeDataLoadExternalId;
-      const action = params.action;
-      const redirectUrl = `/odata/Integration/AuthRedirect?compositeDataLoadExternalId=${id}&action=${action}`;
-      window.open(redirectUrl);
+  ngOnInit() {
+    this.paramsSubscription = this.route.queryParamMap.subscribe({
+      next: this.startDownload,
+    });
+  }
+
+  startDownload = (params: ParamMap) => {
+    this.id = params.get('compositeDataLoadExternalId');
+
+    if (!RegexStrings.GUID.test(this.id)) {
+      this.errorText = `Invalid composite data load external ID: ${this.id}`;
+    } else {
+      this.store.dispatch(new CompositeSummaryDownload({
+        Id: this.id,
+      }));
+
+      this.file$ = this.store.pipe(
+        select(fromFileReducer.selectFileById, this.id),
+      );
     }
   }
 

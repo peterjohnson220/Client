@@ -17,5 +17,6 @@ export const environment = {
   allowSelfRegistration: false,
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
-  hostPath: 'client'
+  hostPath: 'client',
+  utilitiesApiUrl: 'https://utilities.payfactors.com/',
 };
