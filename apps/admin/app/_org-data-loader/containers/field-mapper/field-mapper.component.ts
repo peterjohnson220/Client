@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
+import {Observable} from 'rxjs';
 
 import {
   DATE_FORMATS, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from '../../constants';
-import { DateFormatItem } from '../../models';
+import {DateFormatItem, LoaderFieldSet} from '../../models';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -26,6 +27,8 @@ export class FieldMapperComponent implements OnInit {
   dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
   dateFormatsFilteredData: Array<{ text: string, value: string}>;
 
+  @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
+  @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
   @Input() loaderType: string;
   @Input() dateFormat: string;
@@ -45,6 +48,16 @@ export class FieldMapperComponent implements OnInit {
 
   ngOnInit() {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
+    this.fieldMappings$.subscribe(mappings => {
+      if (mappings.length > 0) {
+        const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+        if (entityMapping) {
+          for (const mapping of entityMapping.LoaderFieldMappings) {
+            this.addMapping(mapping.InternalField, mapping.ClientField);
+          }
+        }
+      }
+    });
   }
 
   successEventHandler = function($event) {

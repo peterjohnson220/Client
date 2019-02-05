@@ -45,6 +45,7 @@ describe('ManageFieldMapperPageComponent', () => {
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
+    component.selectedCompany = 13;
     fixture.detectChanges();
   });
 

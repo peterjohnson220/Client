@@ -53,6 +53,13 @@ export const getCompaniesLoading =
 export const getCompaniesLoadingError =
   createSelector(selectCompanySelectorState, fromCompanySelectorReducer.getLoadingCompaniesError);
 
+export const {
+  selectAll: getFieldMappings
+} = fromOrgDataFieldMappingsReducer.adapter.getSelectors(selectOrgDataFieldMappingsState);
+export const getLoadingFieldMappings =
+  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappings);
+export const getLoadingFieldMappingsError =
+  createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getLoadingFieldMappingsError);
 export const getSavingFieldMappings =
   createSelector(selectOrgDataFieldMappingsState, fromOrgDataFieldMappingsReducer.getSavingFieldMappings);
 export const getSavingFieldMappingsError =

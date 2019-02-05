@@ -5,6 +5,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   clientFields={[Function Array]}
   dateFormats={[Function Array]}
   dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -81,7 +82,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
                 disabled=""
                 type="button"
               >
-                &lt; Remove Mapping
+                &lt; Remove Mapping 
               </button>
             </div>
           </td>
@@ -106,6 +107,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   clientFields={[Function Array]}
   dateFormats={[Function Array]}
   dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -181,7 +183,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
                 disabled=""
                 type="button"
               >
-                &lt; Remove Mapping
+                &lt; Remove Mapping 
               </button>
             </div>
           </td>
@@ -206,6 +208,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   clientFields={[Function Array]}
   dateFormats={[Function Array]}
   dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -281,7 +284,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
                 disabled=""
                 type="button"
               >
-                &lt; Remove Mapping
+                &lt; Remove Mapping 
               </button>
             </div>
           </td>
@@ -306,6 +309,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   clientFields={[Function Array]}
   dateFormats={[Function Array]}
   dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
@@ -380,7 +384,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
                 class="btn btn-primary"
                 type="button"
               >
-                &lt; Remove Mapping
+                &lt; Remove Mapping 
               </button>
             </div>
           </td>
@@ -405,6 +409,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
   clientFields={[Function Array]}
   dateFormats={[Function Array]}
   dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
   loaderType={[Function String]}
   mappedFields={[Function Array]}
@@ -500,7 +505,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
                 disabled=""
                 type="button"
               >
-                &lt; Remove Mapping
+                &lt; Remove Mapping 
               </button>
             </div>
           </td>
@@ -517,5 +522,30 @@ exports[`FieldMapperComponent should show a date format selector when the loader
       </tbody>
     </table>
   </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent should show a spinner when the company's mappings are being retrieved 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fieldMappingsLoading={[Function Boolean]}
+  fileRestrictions={[Function Object]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <span>
+    <pf-loading-indicator />
+     Loading...
+  
+  </span>
 </pf-field-mapper>
 `;

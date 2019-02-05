@@ -11,7 +11,7 @@
 
     </pf-company-selector>
 
-    <div [hidden]="!selectedCompany" class="mapping-container">
+    <div *ngIf="selectedCompany" class="mapping-container">
       <h3 class="pull-left">Field Mapper</h3>
       <hr class="clear" />
       <div class="form-group row">
@@ -27,6 +27,8 @@
               [payfactorsDataFields]="payfactorsPaymarketDataFields"
               [loaderType]="'PayMarkets'"
               [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -36,6 +38,8 @@
               [payfactorsDataFields]="payfactorsJobDataFields"
               [loaderType]="'Jobs'"
               [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -45,6 +49,8 @@
               [payfactorsDataFields]="payfactorsStructureDataFields"
               [loaderType]="'Structures'"
               [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -54,6 +60,8 @@
               [payfactorsDataFields]="payfactorsStructureMappingDataFields"
               [loaderType]="'StructureMapping'"
               [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -64,6 +72,8 @@
               [loaderType]="'Employees'"
               [delimiter]="delimiter"
               [dateFormat]="dateFormat"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
