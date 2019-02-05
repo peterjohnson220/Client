@@ -1,0 +1,28 @@
+<h2>Exchange Jobs</h2>
+<div class="d-flex">
+  <i class="fas fa-search"></i>
+  <input type="text" placeholder="Accountant" />
+  <label>
+    <input type="checkbox" />
+    Associated
+  </label>
+  <label>
+    <input type="checkbox" />
+    Not Associated
+  </label>
+  <label>Job Family:</label>
+  <select>
+    <option value="1">Airline</option>
+    <option value="2">Accounting</option>
+    <option value="3">Restaurant</option>
+  </select>
+</div>
+<label>
+  peer exchange jobs: {{ totalExchangeJobs }} total
+</label>
+<kendo-grid [data]="exchangeJobs">
+  <kendo-grid-column field="Id" title="Id"></kendo-grid-column>
+  <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
+  <kendo-grid-column field="JobFamily" title="Job Family"></kendo-grid-column>
+  <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
+</kendo-grid>

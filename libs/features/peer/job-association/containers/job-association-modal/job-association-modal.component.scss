@@ -1,0 +1,24 @@
+html, body {
+  margin:0;
+  padding:0;
+  height:100%
+}
+
+.job-association-modal-container {
+  height: 100%;
+  display: flex;
+}
+
+.item {
+  flex-grow: 0;
+  height: 100%;
+  padding: 30px;
+  border: solid 1px grey;
+}
+
+:host ::ng-deep .grid-container {
+  height: 75%;
+}
+::ng-deep .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
+   display: none;
+}

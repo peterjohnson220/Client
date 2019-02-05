@@ -7,7 +7,7 @@ import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './se
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
-         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
+         ExchangeScopeApiService, ExchangeDataCutsApiService, JobAssociationApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
@@ -39,6 +39,7 @@ import {PermissionService} from '../../core/services';
     ExchangeApiService,
     ExchangeCompanyApiService,
     ExchangeDataSearchApiService,
+    JobAssociationApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
     AccountApiService,
