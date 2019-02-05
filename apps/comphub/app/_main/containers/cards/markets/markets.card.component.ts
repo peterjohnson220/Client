@@ -17,7 +17,7 @@ export class MarketsCardComponent implements OnInit {
   visiblePaymarkets$: Observable<PricingPaymarket[]>;
   loadingPaymarkets$: Observable<boolean>;
   loadingPaymarketsError$: Observable<boolean>;
-  selectedPaymarketId$: Observable<number>;
+  selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
 
   addPayMarketFormOpen$: Observable<boolean>;
@@ -38,7 +38,7 @@ export class MarketsCardComponent implements OnInit {
     this.paymarkets$ = this.store.select(fromComphubMainReducer.getPaymarkets);
     this.loadingPaymarkets$ = this.store.select(fromComphubMainReducer.getLoadingPaymarkets);
     this.loadingPaymarketsError$ = this.store.select(fromComphubMainReducer.getLoadingPaymarketsError);
-    this.selectedPaymarketId$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
+    this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
   }
 
   ngOnInit() {

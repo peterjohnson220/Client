@@ -9,7 +9,7 @@ export interface State {
   loadingPaymarkets: boolean;
   loadingPaymarketsError: boolean;
   paymarketsFilter: string;
-  selectedPaymarket?: number;
+  selectedPaymarket: PricingPaymarket;
   marketDataScope: MarketDataScope;
 }
 
@@ -18,7 +18,7 @@ const initialState: State = {
   loadingPaymarkets: false,
   loadingPaymarketsError: false,
   paymarketsFilter: null,
-  selectedPaymarket: null,
+  selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket(),
   marketDataScope: null
 };
 
@@ -56,10 +56,13 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       };
     }
     case fromMarketsCardActions.SET_SELECTED_PAYMARKET: {
-      const selectedId = state.selectedPaymarket === action.payload ? null : action.payload;
+      let selectedPaymarket = state.paymarkets.find(m => m.CompanyPayMarketId === action.payload);
+      if (selectedPaymarket === state.selectedPaymarket) {
+        selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
+      }
       return {
         ...state,
-        selectedPaymarket: selectedId
+        selectedPaymarket: selectedPaymarket
       };
     }
 

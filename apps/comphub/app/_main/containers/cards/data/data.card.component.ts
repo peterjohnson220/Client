@@ -7,7 +7,7 @@ import { State, SortDescriptor } from '@progress/kendo-data-query';
 import { PageChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 
 import { AccordionCards, ComphubPages } from '../../../data';
-import { JobData } from '../../../models';
+import { JobData, PricingPaymarket } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 
@@ -30,7 +30,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   jobResultsLoading$: Observable<boolean>;
   jobResultsLoadingError$: Observable<boolean>;
   selectedJobTitle$: Observable<string>;
-  selectedPaymarket$: Observable<number>;
+  selectedPaymarket$: Observable<PricingPaymarket>;
   selectedPageIndex$: Observable<number>;
   selectedJobData$: Observable<JobData>;
 
@@ -51,7 +51,11 @@ export class DataCardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.jobTitleSubscription = this.selectedJobTitle$.subscribe(t => this.jobTitle = t);
-    this.paymarketSubscription = this.selectedPaymarket$.subscribe(p => this.paymarketId = p);
+    this.paymarketSubscription = this.selectedPaymarket$.subscribe(p => {
+      if (!!p) {
+        this.paymarketId = p.CompanyPayMarketId;
+      }
+    });
     this.selectedIndexSubscription = this.selectedPageIndex$.subscribe(pageIndex => {
         if (pageIndex === AccordionCards.findIndex(ac => ac.Id === ComphubPages.Data)) {
           this.loadJobResults();
