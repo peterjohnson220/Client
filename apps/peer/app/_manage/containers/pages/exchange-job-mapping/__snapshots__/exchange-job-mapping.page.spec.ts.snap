@@ -2,6 +2,7 @@
 
 exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to the exchange-job-mapping-grid-container, when collapse is true 1`] = `
 <pf-exchange-job-mapping-page
+  _Permissions={[Function Function]}
   collapse={[Function Boolean]}
   companySecurityApi={[Function Object]}
   disableGridScollTo="false"
@@ -45,7 +46,6 @@ exports[`Peer - Exchange Job Mapping Page should apply a collapse-grid class to 
         />
       </button>
     </a>
-    
     <button
       class="btn btn-secondary"
       id="import-popover-btn"
