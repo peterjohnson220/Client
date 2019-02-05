@@ -5,6 +5,7 @@
       *ngFor="let card of accordionCards; let i = index"
       [cardId]="card.Id"
       [cardTitle]="card.Title"
+      [cardSubtitle]="card.Subtitle"
       [cardIconClass]="card.IconClass"
       [containerWidth]="cardContentContainerWidth"
       [selected]="(selectedPageIndex$ | async) === i"

@@ -1,7 +1,7 @@
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 import { UiPersistenceFeatureSettingsModel, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
-import { MarketDataScope, AddPayMarketFormData } from '../models';
+import { MarketDataScope, AddPayMarketFormData, PricingPaymarket } from '../models';
 
 export class MarketsCardHelper {
   static buildAddPayMarketRequest(companyId: number, data: AddPayMarketFormData): AddPayMarketRequest {
@@ -44,5 +44,15 @@ export class MarketsCardHelper {
       }
     }
     return result;
+  }
+
+  static buildDefaultPricingPayMarket(): PricingPaymarket {
+    return {
+      CompanyPayMarketId: null,
+      PayMarketName: 'National',
+      Industry: 'All',
+      Location: 'National',
+      Size: 'All'
+    };
   }
 }

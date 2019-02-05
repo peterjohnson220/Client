@@ -44,7 +44,7 @@
 
           <pf-select-paymarkets
             *ngIf="(visiblePaymarkets$ |async).length"
-            [selectedPaymarketId]="selectedPaymarketId$ | async"
+            [selectedPaymarketId]="(selectedPaymarket$ | async)?.CompanyPayMarketId"
             [paymarkets]="visiblePaymarkets$ | async"
             (paymarketChecked)="handlePaymarketChecked($event)">
           </pf-select-paymarkets>

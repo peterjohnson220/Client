@@ -8,6 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class CardComponent {
   @Input() cardId: string;
   @Input() cardTitle: string;
+  @Input() cardSubtitle: string;
   @Input() cardIconClass: string;
   @Input() selected: boolean;
   @Input() containerWidth: number;
