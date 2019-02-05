@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { JobData, QuickPriceGridContext } from '../models';
+import { JobData, JobGridData, QuickPriceGridContext } from '../models';
 
 export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Data Card] Get quick Price Data';
 export const GET_QUICK_PRICE_MARKET_DATA_SUCCESS  = '[Comphub/Data Card] Get quick Price Data Success';
@@ -17,7 +16,7 @@ export class GetQuickPriceMarketData implements Action {
 export class GetQuickPriceMarketDataSuccess implements Action {
   readonly type = GET_QUICK_PRICE_MARKET_DATA_SUCCESS;
 
-  constructor(public payload: GridDataResult) {}
+  constructor(public payload: JobGridData) {}
 }
 
 export class GetQuickPriceMarketDataError implements Action {

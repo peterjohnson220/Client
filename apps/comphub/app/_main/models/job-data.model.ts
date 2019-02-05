@@ -11,3 +11,25 @@ export interface JobData {
   Incs?: number;
   Orgs?: number;
 }
+
+export interface JobGridData {
+  Total: number;
+  Data: JobData[];
+}
+
+export function generateFakeJobData(): JobData {
+  return{
+    JobId: 1,
+    Tcc50: 100,
+    Base50: 100,
+    YearsOfExperience: '6+',
+    Education: 'College',
+    Incs: 1,
+    JobDescription: 'Spme job description',
+    JobTitle: 'Job A',
+    ManagesEmployees: false,
+    Orgs: 2,
+    Skills: 'None'
+  };
+
+}

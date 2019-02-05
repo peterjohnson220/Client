@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -42,6 +43,7 @@ import { WindowRef } from './services';
     // 3rd Party
     DropDownsModule,
     GridModule,
+    NgbPaginationModule,
 
     // Payfactors
     PfCommonModule,
