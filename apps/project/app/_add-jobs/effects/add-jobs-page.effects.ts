@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { mergeMap, withLatestFrom, map, tap, catchError, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { mergeMap, withLatestFrom, map, tap, catchError, switchMap } from 'rxjs/operators';
 
+import { WindowCommunicationService } from 'libs/core/services';
 import { ProjectApiService } from 'libs/data/payfactors-api/project';
 import * as fromSearchPageActions from 'libs/features/search/actions/search-page.actions';
 import * as fromUserFilterActions from 'libs/features/user-filter/actions/user-filter.actions';
-import { WindowCommunicationService } from 'libs/core/services';
+import * as fromCompanySettingsActions from 'libs/state/app-context/actions/company-settings.actions';
 
 import * as fromAddJobsPageActions from '../actions/add-jobs-page.actions';
-
 import * as fromAddJobsReducer from '../reducers';
 
 @Injectable()
@@ -50,7 +50,7 @@ export class AddJobsPageEffects {
                   new fromSearchPageActions.CloseSearchPage()
                 ]
               ),
-              catchError(() => of(new fromAddJobsPageActions.AddSelectedJobsError()))
+              catchError(error => of(new fromAddJobsPageActions.AddSelectedJobsError(error)))
             );
         }
       )
@@ -62,7 +62,8 @@ export class AddJobsPageEffects {
     .pipe(
       tap((action: fromAddJobsPageActions.AddSelectedJobsSuccess) => {
         this.windowCommunicationService.postMessage(action.type);
-      })
+      }),
+      map(() => new fromCompanySettingsActions.LoadCompanySettings())
     );
 
   constructor(

@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when job count is at the max limit 1`] = `
+<pf-job-counter
+  currentJobCountSetting={[Function Number]}
+  jobCountTooltipText=""
+  jobUsageCount={[Function Number]}
+  maxAllowedJobsSetting={[Function Number]}
+  maxJobsReachedTooltipText=""
+  numberOfSearchResults={[Function Number]}
+  progressBarJobLimitReachedText={[Function String]}
+  smallBusinessEmail={[Function String]}
+  warningPercentage={[Function Number]}
+>
+  <div
+    class="gradient-bar"
+  /><div
+    class="top-container"
+  >
+    <div>
+      
+      <span
+        class="job-usage-message"
+      >
+         Using 5 out of 100 available jobs 
+        
+      </span>
+      
+    </div>
+    <div
+      class="search-results-count"
+    >
+      <strong>
+        100
+      </strong>
+       Total Jobs 
+    </div>
+  </div><div
+    class="middle-container"
+  >
+    
+    <div
+      class="job-count-bar"
+    >
+      <div
+        class="used-job-count"
+        style="color: rgb(40, 167, 69);"
+      >
+         5 
+      </div>
+      <ngb-progressbar
+        data-qa-id="pgb-jobsUsed"
+      >
+          
+      </ngb-progressbar>
+      <div
+        class="max-job-count"
+      >
+         100 jobs 
+      </div>
+    </div>
+    
+  </div>
+</pf-job-counter>
+`;
+
+exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job count is at or over the warning threshold but under the max limit 1`] = `
+<pf-job-counter
+  currentJobCountSetting={[Function Number]}
+  jobCountTooltipText=""
+  jobUsageCount={[Function Number]}
+  maxAllowedJobsSetting={[Function Number]}
+  maxJobsReachedTooltipText=""
+  numberOfSearchResults={[Function Number]}
+  progressBarJobLimitReachedText={[Function String]}
+  smallBusinessEmail={[Function String]}
+  warningPercentage={[Function Number]}
+>
+  <div
+    class="gradient-bar"
+  /><div
+    class="top-container"
+  >
+    <div>
+      
+      <span
+        class="job-usage-message"
+      >
+         Using 91 out of 100 available jobs 
+        
+      </span>
+      
+    </div>
+    <div
+      class="search-results-count"
+    >
+      <strong>
+        100
+      </strong>
+       Total Jobs 
+    </div>
+  </div><div
+    class="middle-container"
+  >
+    
+    <div
+      class="job-count-bar"
+    >
+      <div
+        class="used-job-count"
+        style="color: rgb(255, 193, 7);"
+      >
+         91 
+      </div>
+      <ngb-progressbar
+        data-qa-id="pgb-jobsUsed"
+      >
+          
+      </ngb-progressbar>
+      <div
+        class="max-job-count"
+      >
+         100 jobs 
+      </div>
+    </div>
+    
+  </div>
+</pf-job-counter>
+`;
+
+exports[`Project - Add Jobs - Job Counter should hide the job count and progress bar, and show "hit max allowed jobs, contact your service rep" message for small biz companies when job limit is reached 1`] = `
+<pf-job-counter
+  currentJobCountSetting={[Function Number]}
+  jobCountTooltipText=""
+  maxAllowedJobsSetting={[Function Number]}
+  maxJobsReachedTooltipText=""
+  numberOfSearchResults={[Function Number]}
+  progressBarJobLimitReachedText={[Function String]}
+  smallBusinessEmail={[Function String]}
+  warningPercentage={[Function Number]}
+>
+  <div
+    class="gradient-bar"
+  /><div
+    class="top-container"
+  >
+    <div>
+      
+      
+      <span
+        class="job-limit-reached-message"
+      >
+         Sorry, it looks like you've reached your job limit. 
+        
+      </span>
+    </div>
+    <div
+      class="search-results-count"
+    >
+      <strong>
+        100
+      </strong>
+       Total Jobs 
+    </div>
+  </div><div
+    class="middle-container"
+  >
+    
+    
+    <div
+      class="max-job-count-reached-message"
+    >
+       Please reach out to 
+      <a
+        href="mailto:smb@payfactors.com"
+      >
+        smb@payfactors.com
+      </a>
+    </div>
+  </div>
+</pf-job-counter>
+`;
+
+exports[`Project - Add Jobs - Job Counter should show the job count and progress bar should be green when job count is under the warning threshold 1`] = `
+<pf-job-counter
+  currentJobCountSetting="0"
+  jobCountTooltipText=""
+  jobUsageCount={[Function Number]}
+  maxAllowedJobsSetting={[Function Number]}
+  maxJobsReachedTooltipText=""
+  numberOfSearchResults={[Function Number]}
+  progressBarJobLimitReachedText={[Function String]}
+  smallBusinessEmail={[Function String]}
+  warningPercentage={[Function Number]}
+>
+  <div
+    class="gradient-bar"
+  /><div
+    class="top-container"
+  >
+    <div>
+      
+      <span
+        class="job-usage-message"
+      >
+         Using 1 out of 100 available jobs 
+        
+      </span>
+      
+    </div>
+    <div
+      class="search-results-count"
+    >
+      <strong>
+        100
+      </strong>
+       Total Jobs 
+    </div>
+  </div><div
+    class="middle-container"
+  >
+    
+    <div
+      class="job-count-bar"
+    >
+      <div
+        class="used-job-count"
+        style="color: rgb(40, 167, 69);"
+      >
+         1 
+      </div>
+      <ngb-progressbar
+        data-qa-id="pgb-jobsUsed"
+      >
+          
+      </ngb-progressbar>
+      <div
+        class="max-job-count"
+      >
+         100 jobs 
+      </div>
+    </div>
+    
+  </div>
+</pf-job-counter>
+`;
