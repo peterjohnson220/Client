@@ -1,7 +1,8 @@
 @import '_colors';
 
 .column-count-container {
-  color: #264478;
+  font-size: 0.8rem;
+  width: 25px;
 }
 
 div > a:hover{
@@ -16,20 +17,9 @@ div > a {
   color: white;
 }
 
-.column-container {
-  overflow:hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline;
-  z-index: 2;
-}
-
 kendo-chart {
-  height: 50%;
-  width: 70%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  width: 100%;
   z-index: 1;
 }
 
@@ -39,22 +29,55 @@ kendo-chart {
   width: 100%;
 }
 
-.tile-text, .tile-text-no-link {
-  font-size: 0.9rem;
-  line-height: 1.1rem;
-  color: #ffffff;
-  display: block;
+.column-container {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
   z-index: 2;
 }
 
-.tile-text:hover{
-  color:black;
+.chart-container
+{
+  height: 35%;
+  width: 100%;
+}
+
+.details-body-containter
+{
+  background-color: $community-poll-option-color;
+}
+
+.tile-text
+{
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+}
+
+.title-header
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+}
+
+.title-body, .title-body-no-link {
+  display: block;
+  color: black;
+  z-index: 2;
+}
+
+.title-body:hover{
+  color: #ffffff;
 }
 
 .btn-respond 
 {
-  background-color: $community-preview-tile-chart-color;
-  border-color:  $community-preview-tile-chart-color;
+  background-color: #ffffff;
+  border-color:  #ffffff;
+  color: $community-post-button;
   display: block;
   text-align: center;
   margin-left: auto;
@@ -63,3 +86,4 @@ kendo-chart {
   z-index: 2;
   font-size: .9rem;
 }
+
