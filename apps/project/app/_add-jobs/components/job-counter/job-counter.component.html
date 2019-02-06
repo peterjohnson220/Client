@@ -1,0 +1,46 @@
+<div class="gradient-bar"></div>
+
+<div class="top-container">
+  <div>
+        <span class="job-usage-message"*ngIf="currentJobCountSetting < maxAllowedJobsSetting">
+          Using {{ jobUsageCount }}
+          out of {{ maxAllowedJobsSetting }}
+          available jobs
+          <span *ngIf="jobCountTooltipText.length > 0" [ngbTooltip]="jobCountTooltipText">
+            <i class="fa fa-info-circle text-info"></i>
+          </span>
+        </span>
+    <span class="job-limit-reached-message" *ngIf="currentJobCountSetting === maxAllowedJobsSetting">
+          Sorry, it looks like you've reached your job limit.
+          <span *ngIf="maxJobsReachedTooltipText.length > 0" [ngbTooltip]="maxJobsReachedTooltipText">
+            <i class="fa fa-info-circle text-info"></i>
+          </span>
+        </span>
+  </div>
+
+  <div class="search-results-count">
+    <strong>{{numberOfSearchResults.toLocaleString('en')}}</strong> Total Jobs
+  </div>
+</div>
+
+<div class="middle-container">
+  <div class="job-count-bar" *ngIf="currentJobCountSetting < maxAllowedJobsSetting">
+    <div class="used-job-count" [style.color]="usedJobCountLabelColor">
+      {{ jobUsageCount }}
+    </div>
+    <ngb-progressbar
+      [attr.data-qa-id]="'pgb-jobsUsed'"
+      [type]="progressBarType"
+      [value]="jobUsageCount"
+      [max]="maxAllowedJobsSetting">
+      {{ progressBarText }}
+    </ngb-progressbar>
+    <div class="max-job-count">
+      {{ maxAllowedJobsSetting }} jobs
+    </div>
+  </div>
+
+  <div class="max-job-count-reached-message" *ngIf="currentJobCountSetting >= maxAllowedJobsSetting">
+    Please reach out to <a href="mailto:{{smallBusinessEmail}}">{{smallBusinessEmail}}</a>
+  </div>
+</div>
