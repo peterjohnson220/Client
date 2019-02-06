@@ -1,4 +1,6 @@
 <div class="list-heading px-1 py-1">
+  <img *ngIf="!!model.HeadingIconImage" class="heading-icon-image"
+    src="assets/images/{{model.HeadingIconImage}}">
   <strong>{{model.Heading}}</strong>
 </div>
 
