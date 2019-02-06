@@ -16,16 +16,12 @@
   }
 }
 
-:host ::ng-deep div .filters{
+:host ::ng-deep pf-search-filters .filters{
   @extend %position-below-results-header
 }
 
-:host ::ng-deep .results {
-  width: 67.5% !important;
-}
-
-:host ::ng-deep .actions-container {
-  width: 67.5% !important;
+:host ::ng-deep pf-search-results .results {
+  width: 67.5%;
 }
 
 pf-paymarkets {
@@ -34,8 +30,16 @@ pf-paymarkets {
   right: 0;
 }
 
+:host ::ng-deep .content .actions-container {
+  width: 67.5%;
+}
+
 .clear-selections{
   position: absolute;
   left: 0;
   margin-left: 1rem;
+}
+
+.error-adding-jobs {
+  font-weight: bold;
 }

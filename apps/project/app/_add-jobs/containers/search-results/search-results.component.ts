@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,6 +15,9 @@ import { JobResult } from '../../models';
   styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent {
+  @Input() canSelectJobs: boolean;
+  @Input() useSmallBizStyles: boolean;
+
   jobResults$: Observable<JobResult[]>;
   loadingResults$: Observable<boolean>;
   spinnerType = 'GIF';
@@ -25,7 +28,11 @@ export class SearchResultsComponent {
   }
 
   handleJobSelectionToggle(job: JobResult): void {
-    this.store.dispatch(new fromSearchResultsActions.ToggleJobSelection(job));
+    if (!this.canSelectJobs && !job.IsSelected) {
+      // do nothing
+    } else {
+      this.store.dispatch(new fromSearchResultsActions.ToggleJobSelection(job));
+    }
   }
 
   handleJobDetailClicked(job: JobResult): void {

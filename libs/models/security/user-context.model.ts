@@ -14,6 +14,8 @@ export interface UserContext {
   Name: string;
   Permissions: string[];
   SystemUserGroupsId: number;
+  CompanySystemUserGroupsId: number;
+  CompanySystemUserGroupsGroupName: string;
   UserId: number;
   UserIdentifier: string;
   UserPicture: string;
@@ -56,6 +58,8 @@ export function generateMockUserContext(): UserContext {
     Name: 'John Doe',
     Permissions: [],
     SystemUserGroupsId: 1,
+    CompanySystemUserGroupsId: 1,
+    CompanySystemUserGroupsGroupName: 'Payfactors Support',
     UserId: 1,
     UserIdentifier: '',
     UserPicture: 'FakePicture.Jpg',

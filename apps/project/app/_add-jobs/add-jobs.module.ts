@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouteReuseStrategy } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
+import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
@@ -19,7 +19,7 @@ import { reducers } from './reducers';
 import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects,
          CreateNewJobPageEffects, JobSearchUserFilterEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent, CreateNewJobPageComponent } from './containers';
-import { JobResultComponent } from './components';
+import { JobCounterComponent, JobResultComponent } from './components';
 import { SearchFilterMappingData, JobSearchUserFilterType } from './data';
 import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
 import { SavedFiltersHelper } from './helpers';
@@ -42,6 +42,8 @@ import { SavedFiltersHelper } from './helpers';
     ]),
     InfiniteScrollModule,
     DropDownsModule,
+    NgbProgressbarModule,
+    NgbTooltipModule,
 
     // Routing
     AddJobsRoutingModule,
@@ -54,6 +56,7 @@ import { SavedFiltersHelper } from './helpers';
   declarations: [
     // Components
     SearchResultsComponent,
+    JobCounterComponent,
     JobResultComponent,
 
     // Containers
