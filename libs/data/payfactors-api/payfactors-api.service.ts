@@ -82,7 +82,12 @@ export class PayfactorsApiService {
   private getHeaderTokenValue(headers: Headers, tokenName: string, headerName: string): string {
     const header: string = headers.get(headerName);
     const headerTokens = header.split(';');
-    const token = headerTokens.find(ht => ht.split('=')[0].trim() === tokenName);
-    return token.split('=')[1].slice(1, -1);
+    const token = headerTokens.find(ht => ht.split('=')[0].trim() === tokenName).split('=')[1];
+
+    if (token.charAt(0) === '"' && token.charAt(token.length - 1) === '"') {
+      return token.slice(1, -1);
+    }
+
+    return token;
   }
 }

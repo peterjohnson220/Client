@@ -2,6 +2,7 @@
   <button class="btn m-0 p-1" ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
     <button class="dropdown-item" (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
+    <button *ngIf="isUserPoll" class="dropdown-item" (click)="exportPollResults()"><i class="fas fa-file-excel"></i> Export Poll Results</button>
   </div>
 </div>
 <div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2 community-border-radius">Internal</div>

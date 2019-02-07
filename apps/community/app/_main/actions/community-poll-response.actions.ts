@@ -9,6 +9,10 @@ export const DISMISSING_COMMUNITY_POLL_RESPONSE = '[Community/Poll Response] Dis
 export const DISMISSING_COMMUNITY_POLL_RESPONSE_SUCCESS = '[Community/Poll Response] Dismissing Community Poll Response Success';
 export const DISMISSING_COMMUNITY_POLL_RESPONSE_ERROR = '[Community/Poll Response] Dismissing Community Poll Response Error';
 
+export const EXPORTING_COMMUNITY_USER_POLL_RESPONSES = '[Community/Poll Response] Exporting Community User Poll Responses';
+export const EXPORTING_COMMUNITY_USER_POLL_RESPONSES_SUCCESS = '[Community/Poll Response] Exporting Community User Poll Responses Success';
+export const EXPORTING_COMMUNITY_USER_POLL_RESPONSES_ERROR = '[Community/Poll Response] Exporting Community User Poll Responses Error';
+
 export class LoadingCommunityPollResponses implements Action {
   readonly type = LOADING_COMMUNITY_POLL_RESPONSES;
 }
@@ -35,10 +39,26 @@ export class DismissingCommunityPollResponseError implements Action {
   readonly type = DISMISSING_COMMUNITY_POLL_RESPONSE_ERROR;
 }
 
+export class ExportingCommunityUserPollResponses implements Action {
+  readonly type = EXPORTING_COMMUNITY_USER_POLL_RESPONSES;
+  constructor(public payload: any) {}
+}
+
+export class ExportingCommunityUserPollResponsesSuccess implements Action {
+  readonly type = EXPORTING_COMMUNITY_USER_POLL_RESPONSES_SUCCESS;
+}
+
+export class ExportingCommunityUserPollResponsesError implements Action {
+  readonly type = EXPORTING_COMMUNITY_USER_POLL_RESPONSES_ERROR;
+}
+
 export type Actions
   = LoadingCommunityPollResponses
   | LoadingCommunityPollResponsesSuccess
   | LoadingCommunityPollResponsesError
   | DismissingCommunityPollResponse
   | DismissingCommunityPollResponseSuccess
-  | DismissingCommunityPollResponseError;
+  | DismissingCommunityPollResponseError
+  | ExportingCommunityUserPollResponses
+  | ExportingCommunityUserPollResponsesSuccess
+  | ExportingCommunityUserPollResponsesError;
