@@ -11,7 +11,8 @@ export const QuickPriceGridColumnConfiguration: QuickPriceGridColumn[] = [
     HeaderText: 'Job Title',
     HideInSmallViewports: false,
     IsSortable: true,
-    SortField: 'JobTitle'
+    SortField: 'JobTitle',
+    CssClasses: 'job-title-column'
   },
   {
     HeaderText: 'Education',
@@ -37,7 +38,7 @@ export const QuickPriceGridColumnConfiguration: QuickPriceGridColumn[] = [
     IsSortable: false
   },
   {
-    HeaderText: 'TCC 50th',
+    HeaderText: 'Base 50th',
     HideInSmallViewports: false,
     IsSortable: true,
     SortField: 'Base50'

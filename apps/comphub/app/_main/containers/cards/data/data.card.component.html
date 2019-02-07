@@ -25,20 +25,22 @@
                   [class.hide-when-small]="column.HideInSmallViewports"
                   (click)="handleSortChange(column.SortField)">
                 {{column.HeaderText}}
-                <ng-container *ngIf="gridContext.sortBy?.field === column.SortField">
+                <ng-container *ngIf="column.IsSortable">
+                  <ng-container *ngIf="gridContext.sortBy?.field === column.SortField; else notSorted">
                   <span *ngIf="gridContext.sortBy?.dir === 'asc'">
                     <i class="fa fa-fw fa-sort-up"></i>
                   </span>
                   <span *ngIf="gridContext.sortBy?.dir === 'desc'">
                     <i class="fa fa-fw fa-sort-down"></i>
                   </span>
+                  </ng-container>
                 </ng-container>
               </th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let job of (jobResults$ | async)?.Data" (click)="handleSelectionChanged(job)" class="job-row">
-              <td class="text-column">{{job.JobTitle}}</td>
+              <td class="text-column job-title-column" title="{{job.JobTitle}}">{{job.JobTitle}}</td>
               <td class="text-column hide-when-small">{{job.Education}}</td>
               <td class="text-column hide-when-small">{{job.YearsOfExperience}}</td>
               <td class="text-column hide-when-small">
@@ -75,5 +77,8 @@
       </div>
     </div>
   </ng-container>
-
 </pf-card-layout>
+
+<ng-template #notSorted>
+  <span class="unsorted-spacer"></span>
+</ng-template>
