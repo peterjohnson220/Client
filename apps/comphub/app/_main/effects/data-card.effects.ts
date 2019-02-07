@@ -39,11 +39,11 @@ export class DataCardEffects {
       ));
 
   getSortOption(gridContext: QuickPriceGridContext): SortOption {
-    if (gridContext.Sort && gridContext.Sort.length) {
+    if (gridContext.Sort) {
       // only allowing single sort
       return {
-        Dir: gridContext.Sort[0].dir,
-        Field: gridContext.Sort[0].field
+        Dir: gridContext.Sort.dir,
+        Field: gridContext.Sort.field
       };
     }
     return null;

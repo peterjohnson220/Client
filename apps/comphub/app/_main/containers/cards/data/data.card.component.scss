@@ -1,2 +1,59 @@
 @import 'comphub-page';
 @import 'comphub-styles';
+
+.table th {
+  border-top: none;
+}
+
+.top-column-header th {
+  border-bottom: none;
+  padding: 0;
+}
+
+.main-column-header th {
+  padding-top: 0;
+}
+
+.text-column {
+  color: $comphub-header-blue;
+  font-weight: $comphub-bold-font-weight;
+}
+
+.number-column {
+  font-weight: $comphub-bold-font-weight;
+  font-size: 18px;
+}
+
+.hidden {
+  display: none;
+}
+
+.sortable-header, .job-row {
+  cursor: pointer;
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::before {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23009900'/%3E%3C/svg%3E");
+}
+
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23009900'/%3E%3C/svg%3E");
+}
+
+.custom-radio .custom-control-input ~ .custom-control-label::before {
+  transform: scale(2);
+  cursor: pointer;
+  border: $comphub-radio-green solid 1px;
+  background-color: white;
+}
+
+::ng-deep .page-item.active .page-link {
+  background-color: $comphub-header-blue;
+  border-color: $comphub-header-blue;
+}
+
+@media all and (max-width: 1200px) {
+  .hide-when-small {
+    display: none;
+  }
+}

@@ -5,5 +5,5 @@ export interface QuickPriceGridContext {
   CompanyPayMarketId?: number;
   Skip: number;
   Take: number;
-  Sort?: SortDescriptor[];
+  Sort?: SortDescriptor;
 }

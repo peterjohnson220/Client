@@ -1,19 +1,20 @@
-import { GridDataResult } from '@progress/kendo-angular-grid';
-
 import * as fromDataCardActions from '../actions/data-card.actions';
-import { JobData } from '../models';
+import { JobData, JobGridData } from '../models';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  jobResults: GridDataResult;
+  jobResults: JobGridData;
   selectedJobData: JobData;
 }
 
 const initialState: State = {
   loading: false,
   loadingError: false,
-  jobResults: null,
+  jobResults: {
+    Data: [],
+    Total: 0
+  },
   selectedJobData: null
 };
 

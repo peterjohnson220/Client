@@ -3,11 +3,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { State, SortDescriptor } from '@progress/kendo-data-query';
-import { PageChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { AccordionCards, ComphubPages } from '../../../data';
-import { JobData, PricingPaymarket } from '../../../models';
+import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 
@@ -17,16 +16,20 @@ import * as fromComphubMainReducer from '../../../reducers';
   styleUrls: ['./data.card.component.scss']
 })
 export class DataCardComponent implements OnInit, OnDestroy {
-  state: State = {
+  gridContext = {
     skip: 0,
-    take: 10
+    take: 10,
+    sortBy: null
   };
   jobTitle: string;
   paymarketId?: number;
   jobDataSelection: JobData;
+  currentPageNumber = 1;
+  pageSize = 10;
+  gridColumnsConfiguration: QuickPriceGridColumn[] = QuickPriceGridColumnConfiguration;
 
   // observables
-  jobResults$: Observable<GridDataResult>;
+  jobResults$: Observable<JobGridData>;
   jobResultsLoading$: Observable<boolean>;
   jobResultsLoadingError$: Observable<boolean>;
   selectedJobTitle$: Observable<string>;
@@ -38,6 +41,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   jobTitleSubscription: Subscription;
   paymarketSubscription: Subscription;
   selectedIndexSubscription: Subscription;
+  selectedJobSubscription: Subscription;
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
     this.jobResults$ = this.store.select(fromComphubMainReducer.getJobGridResults);
@@ -61,44 +65,72 @@ export class DataCardComponent implements OnInit, OnDestroy {
           this.loadJobResults();
         }
       });
+    this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
 
-  handlePageChange({ skip, take }: PageChangeEvent): void {
-    this.state = {
-      skip: skip,
-      take: take,
-      sort: this.state.sort
+  handlePageChange(newPageNumber: number): void {
+    this.gridContext = {
+      skip: (newPageNumber - 1) * this.pageSize,
+      take: this.pageSize,
+      sortBy: this.gridContext.sortBy
     };
     this.loadJobResults();
   }
 
-  handleSortChange(sort: SortDescriptor[]): void {
-    this.state = {
-      skip: this.state.skip,
-      take: this.state.take,
-      sort: sort
-    };
-    this.loadJobResults();
+  handleSortChange(field: string): void {
+    if (this.isSortSupported(field)) {
+      this.gridContext = {
+        skip: this.gridContext.skip,
+        take: this.gridContext.take,
+        sortBy: this.updateSortFieldAndDirection(field)
+      };
+      this.loadJobResults();
+    }
   }
 
-  handleSelectionChanged() {
-    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(this.jobDataSelection));
+  updateSortFieldAndDirection(field: string): SortDescriptor {
+    if (!this.gridContext.sortBy || this.gridContext.sortBy.field !== field) {
+      return {
+        field: field,
+        dir: 'asc'
+      };
+    }
+    if (this.gridContext.sortBy.dir === 'asc') {
+      return {
+        field: field,
+        dir: 'desc'
+      };
+    }
+    return null;
+}
+
+  handleSelectionChanged(job: JobData) {
+    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
+  }
+
+  isChecked(job: JobData): boolean {
+    return this.jobDataSelection && this.jobDataSelection.JobId === job.JobId;
   }
 
   loadJobResults(): void {
     this.store.dispatch(new fromDataCardActions.GetQuickPriceMarketData({
       JobTitleShort: this.jobTitle,
       CompanyPayMarketId: this.paymarketId,
-      Take: this.state.take,
-      Skip: this.state.skip,
-      Sort: this.state.sort
+      Take: this.gridContext.take,
+      Skip: this.gridContext.skip,
+      Sort: this.gridContext.sortBy
     })
     );
+  }
+
+  private isSortSupported(sortField: string): boolean {
+    return this.gridColumnsConfiguration.some(c => c.IsSortable && c.SortField === sortField);
   }
 
   ngOnDestroy(): void {
     this.jobTitleSubscription.unsubscribe();
     this.paymarketSubscription.unsubscribe();
     this.selectedIndexSubscription.unsubscribe();
+    this.selectedJobSubscription.unsubscribe();
   }
 }

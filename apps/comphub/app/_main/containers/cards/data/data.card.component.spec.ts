@@ -9,6 +9,7 @@ import * as fromRootState from 'libs/state/state';
 import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
+import { generateFakeJobData } from '../../../models';
 
 
 describe('Comphub - Main - Data Card Component', () => {
@@ -42,7 +43,8 @@ describe('Comphub - Main - Data Card Component', () => {
       Skip: 0,
       Take: 10,
       CompanyPayMarketId: null,
-      JobTitleShort: 'Test job'
+      JobTitleShort: 'Test job',
+      Sort: null
     });
     instance.paymarketId = null;
     instance.jobTitle = 'Test job';
@@ -59,11 +61,13 @@ describe('Comphub - Main - Data Card Component', () => {
       Skip: 100,
       Take: 20,
       CompanyPayMarketId: null,
-      JobTitleShort: 'Test job'
+      JobTitleShort: 'Test job',
+      Sort: null
     });
     instance.jobTitle = 'Test job';
+    instance.pageSize = 20;
 
-    instance.handlePageChange({skip: 100, take: 20});
+    instance.handlePageChange(6);
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -75,7 +79,8 @@ describe('Comphub - Main - Data Card Component', () => {
       Skip: 0,
       Take: 10,
       CompanyPayMarketId: null,
-      JobTitleShort: 'Test job'
+      JobTitleShort: 'Test job',
+      Sort: null
     });
 
     instance.selectedPageIndex$ = of(2);
@@ -92,7 +97,8 @@ describe('Comphub - Main - Data Card Component', () => {
       Skip: 0,
       Take: 10,
       CompanyPayMarketId: null,
-      JobTitleShort: 'Test job'
+      JobTitleShort: 'Test job',
+      Sort: null
     });
 
     instance.selectedPageIndex$ = of(1);
@@ -101,4 +107,98 @@ describe('Comphub - Main - Data Card Component', () => {
 
     expect(store.dispatch).not.toBeCalledWith(expectedAction);
   });
+
+  it('should dispatch an action when job selected', () => {
+    spyOn(store, 'dispatch');
+
+    const job = generateFakeJobData();
+    const expectedAction = new fromDataCardActions.SetSelectedJobData(job);
+
+    instance.handleSelectionChanged(job);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should update the sort to descending when sorting a sorted field is clicked', () => {
+    spyOn(store, 'dispatch');
+
+    instance.gridContext.sortBy = {
+      dir: 'asc',
+      field: 'JobTitle'
+    };
+
+    instance.handleSortChange('JobTitle');
+
+    expect(instance.gridContext.sortBy).toEqual({
+      dir: 'desc',
+      field: 'JobTitle'
+    });
+  });
+
+  it('should sort by new field when sorting changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.gridContext.sortBy = {
+      dir: 'asc',
+      field: 'JobTitle'
+    };
+
+    instance.handleSortChange('YearsOfExperience');
+
+    expect(instance.gridContext.sortBy).toEqual({
+      dir: 'asc',
+      field: 'YearsOfExperience'
+    });
+  });
+
+  it('should not sort by fields which are not supported', () => {
+    spyOn(store, 'dispatch');
+
+    instance.gridContext.sortBy = {
+      dir: 'asc',
+      field: 'JobTitle'
+    };
+
+    instance.handleSortChange('Select');
+
+    expect(instance.gridContext.sortBy).toEqual({
+      dir: 'asc',
+      field: 'JobTitle'
+    });
+  });
+
+  it('should remove sorting when the field is sorted desc', () => {
+    spyOn(store, 'dispatch');
+
+    instance.gridContext.sortBy = {
+      dir: 'desc',
+      field: 'JobTitle'
+    };
+
+    instance.handleSortChange('JobTitle');
+
+    expect(instance.gridContext.sortBy).toBeNull();
+  });
+
+  it('should dispatch GetQuickPriceMarketData action when loading job results', () => {
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
+      Skip: 0,
+      Take: 10,
+      CompanyPayMarketId: null,
+      JobTitleShort: 'Test job',
+      Sort: {
+        dir: 'asc',
+        field: 'JobTitle'
+      }
+    });
+    instance.paymarketId = null;
+    instance.jobTitle = 'Test job';
+
+    instance.handleSortChange('JobTitle');
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
 });

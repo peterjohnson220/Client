@@ -1,10 +1,8 @@
-import { GridDataResult } from '@progress/kendo-angular-grid';
-
 import { QuickPriceMarketData, QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope, JobData } from '../models';
+import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope, JobData, JobGridData } from '../models';
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
 
@@ -32,10 +30,10 @@ export class PayfactorsApiModelMapper {
     });
   }
 
-  static mapPriceDataToGridDataResult(response: QuickPriceResponse): GridDataResult {
+  static mapPriceDataToGridDataResult(response: QuickPriceResponse): JobGridData {
     return {
-      total: response.Count,
-      data: this.mapQuickPriceMarketDataToJobData(response.Data)
+      Total: response.Count,
+      Data: this.mapQuickPriceMarketDataToJobData(response.Data)
     };
   }
 
