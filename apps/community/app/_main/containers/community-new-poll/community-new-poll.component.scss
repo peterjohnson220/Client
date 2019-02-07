@@ -1,13 +1,14 @@
 @import 'colors';
+@import 'styles';
 
 .poll-length-dropdown 
 {
     width: 38px;
     height: 25px;
-    border: solid 1px $tile-light-blue-color;
+    border: solid 1px rgba(110, 170, 200, .85);
 }
 
 .btn-link
 {
-    color:  #0883be;
+    color:  $community-category-hover-color
 }
