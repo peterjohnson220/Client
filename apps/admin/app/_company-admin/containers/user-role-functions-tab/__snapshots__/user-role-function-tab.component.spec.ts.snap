@@ -2,10 +2,10 @@
 
 exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
 <pf-user-role-function-tab
-  currentRole={[Function Object]}
-  currentRoleSubscription={[Function Subscriber]}
-  saveButtonText={[Function String]}
-  saveButtonTextSubscription={[Function Subscriber]}
+  disableCheckboxes="false"
+  disableCheckboxesSubscription={[Function Subscriber]}
+  rolePermissionSubscription={[Function Subscriber]}
+  rolePermissions={[Function Array]}
   store={[Function Store]}
 >
   <div>
@@ -16,25 +16,60 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
         class="list-group nav"
       >
         
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-1"
+            type="checkbox"
+          />
+           Parent Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-2"
+            type="checkbox"
+          />
+           Sub1 Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-3"
+            type="checkbox"
+          />
+           Sub2 Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
       </ul>
     </div>
-    <button
-      class="btn btn-primary"
-      data-qa-id="btn-save"
-      type="button"
-    >
-      Save
-    </button>
   </div>
 </pf-user-role-function-tab>
 `;
 
 exports[`UserRoleFunctionTabComponent Page load 1`] = `
 <pf-user-role-function-tab
-  currentRole={[Function Object]}
-  currentRoleSubscription={[Function Subscriber]}
-  saveButtonText={[Function String]}
-  saveButtonTextSubscription={[Function Subscriber]}
+  disableCheckboxes="false"
+  disableCheckboxesSubscription={[Function Subscriber]}
+  rolePermissionSubscription={[Function Subscriber]}
+  rolePermissions={[Function Array]}
   store={[Function Store]}
 >
   <div>
@@ -45,44 +80,50 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
         class="list-group nav"
       >
         
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-1"
+            type="checkbox"
+          />
+           Parent Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-2"
+            type="checkbox"
+          />
+           Sub1 Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
+        <li
+          class="nav-item parentPermission"
+        >
+          <input
+            data-qa-id="chk-3"
+            type="checkbox"
+          />
+           Sub2 Permission 
+          <ul
+            class="list-group nav"
+          >
+            
+          </ul>
+        </li>
       </ul>
     </div>
-    <button
-      class="btn btn-primary"
-      data-qa-id="btn-save"
-      type="button"
-    >
-      Save
-    </button>
-  </div>
-</pf-user-role-function-tab>
-`;
-
-exports[`UserRoleFunctionTabComponent Save Changes 1`] = `
-<pf-user-role-function-tab
-  currentRole={[Function Object]}
-  currentRoleSubscription={[Function Subscriber]}
-  saveButtonText={[Function String]}
-  saveButtonTextSubscription={[Function Subscriber]}
-  store={[Function Store]}
->
-  <div>
-    <div
-      class="scrollable"
-    >
-      <ul
-        class="list-group nav"
-      >
-        
-      </ul>
-    </div>
-    <button
-      class="btn btn-primary"
-      data-qa-id="btn-save"
-      type="button"
-    >
-      
-    </button>
   </div>
 </pf-user-role-function-tab>
 `;

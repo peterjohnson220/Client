@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {Observable} from 'rxjs';
 
-import { RolePermission, UserAndRoleModel, UserAssignedRole } from 'libs/models/security';
+import { UserAndRoleModel, UserAssignedRole, SaveRoleResponseModel } from 'libs/models/security/roles';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -22,21 +22,12 @@ export class RolesApiService {
     return this.payfactorsApiService.post<UserAssignedRole>(`${this.endpoint}`, role);
   }
 
-  getRolePermissions(roleId: number) {
-    return this.payfactorsApiService.get<RolePermission[]>(`${this.endpoint}/GetCompanyRolePermissions`,
-      { params: { roleId: roleId }});
-  }
-  updateRolePermissions(roleId: number, systemPermissionIds: number[]) {
-    return this.payfactorsApiService.post<UserAssignedRole>(`${this.endpoint}.UpdateCompanyRolePermissions`,
-      {roleId: roleId, permissionIds: systemPermissionIds});
-  }
-
   getUsersAndRoles() {
     return this.payfactorsApiService.get<UserAndRoleModel[]>(`${this.endpoint}.GetUsersAndRoles`);
   }
 
-  assignUsersToRole(userIds: number[], roleId: number, isSystemRole: boolean) {
-    return this.payfactorsApiService.post<UserAndRoleModel[]>(`${this.endpoint}(${roleId})/Default.AssignUsersToRole`,
-      {userIds: userIds, isSystemRole: isSystemRole});
+  saveRole(permissionIds: number[], userIds: number[], roleId: number, isSystemRole: boolean) {
+    return this.payfactorsApiService.post<SaveRoleResponseModel>(`${this.endpoint}(${roleId})/Default.SaveRole`,
+      {permissionIds: permissionIds, userIdsToAssign: userIds, isSystemRole: isSystemRole});
   }
 }
