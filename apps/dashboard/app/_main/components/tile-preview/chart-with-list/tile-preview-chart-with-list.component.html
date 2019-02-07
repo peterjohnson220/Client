@@ -1,6 +1,6 @@
 <div class="tile-container row m-1">
   <div class="col-5 p-0">
-    <div class="row m-1">
+    <div class="row">
      <div class="col-12">
        <strong>{{ model.TileListTitle }}</strong>
      </div>
@@ -8,21 +8,38 @@
 
     <ng-container *ngFor="let dataItem of model.TileListData">
     <div class="row m-1">
-      <div class="col-2 p-0">
-          <span class="fa-layers fa-fw">
-            <i class="fas fa-circle column-count-container" data-fa-transform="grow-4"></i>
-            <span class="fa-layers-text fa-inverse" data-fa-transform="shrink-6" style="font-weight:900">  {{ dataItem.Count}}</span>
-          </span>
+      <div class="col-4 p-0">
+          <button class="btn btn-primary column-count-container py-0 px-2">{{ dataItem.Count}}</button>      
       </div>
-      <div class="col-10 p-0 column-container" [ngbTooltip]="dataItem.TooltipText">
-        <a href="{{ dataItem.Url }}" class="pl-1"><small>{{ dataItem.ColumnName }}</small></a>
+      <div class="col-8 p-0 column-container" [ngbTooltip]="dataItem.TooltipText">
+        <a href="{{ dataItem.Url }}" class="tile-text">{{ dataItem.ColumnName }}</a>
       </div>
     </div>
     </ng-container>
   </div>
 
   <div class="col-7 p-0 pr-2 pb-2">
-    <kendo-chart *ngIf="hasValidResponses()" (seriesClick)="navigateToPost()">
+
+    <span *ngIf="model.TileChartData">     
+      <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>        
+        <div class="details-body-containter px-2 pb-1">
+          <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>    
+          <span class="details-body-containter">
+            <a class='col-12 tile-text title-body m-0 p-0' ngbTooltip="{{detailsToolTip}}" href="{{model.PostUrl}}">{{details}}</a>   
+          </span>
+        <button *ngIf="model.TileChartData && !hasData()" (click)="navigate()" class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2">{{model.ActionItemTitle}}</button>
+      </div>
+    </span>
+
+    <div *ngIf="!model.TileChartData">
+      <span class="col-12 tile-text" style="white-space: nowrap;">{{model.TileChartTitle}}</span>
+      <button (click)="action()" class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2">{{model.ActionItemTitle}}</button>
+    </div>   
+
+    <div *ngIf="hasData()" class="chart-container pt-2 pb-0 mb-0">
+      <span  class="tile-text title-header">{{model.TileChartData.Title}}</span> 
+      <kendo-chart (seriesClick)="navigate()">    
+
     <kendo-chart-area background="none"  [margin]="0" ></kendo-chart-area>
     <kendo-chart-plot-area [margin]="0" [padding]="0"></kendo-chart-plot-area>
 
@@ -38,7 +55,7 @@
     </kendo-chart-category-axis>
 
     <kendo-chart-series>
-      <kendo-chart-series-item  type="column" [gap]="0.8" [data]="chartData" color="#F5B312"categoryField="PollQuestion" field="Percentage">
+      <kendo-chart-series-item  type="column" [gap]="0.8" [data]="chartData.TileChartItems" color="#F5B312"categoryField="DataField" field="Percentage">
           <kendo-chart-series-item-tooltip background="#121B25">
             <ng-template let-category="category" let-value="value">
               {{category}} : {{getPercentage(value)}}%
@@ -47,18 +64,8 @@
       </kendo-chart-series-item>
     </kendo-chart-series>
     </kendo-chart>
-
-    <span *ngIf="model.TileChartData">
-        <a class='col-12 tile-text text-center m-0 p-0'
-        ngbTooltip="{{pollQuestionToolTip}}"
-        href="{{model.PostUrl}}"> {{pollQuestion}}</a>
-    </span>
-    <button *ngIf="model.TileChartData && !hasValidResponses()" (click)="navigateToPost()" class="col-12 btn btn-primary btn-respond px-2 py-1 mt-2">Answer Poll</button>
-    
-    <div *ngIf="!model.TileChartData">
-      <span class="col-12 tile-text-no-link text-center">There are no active polls</span>
-      <button (click)="createPoll()" class="col-12 btn btn-primary btn-respond mt-2">Create Poll</button>
-    </div>
+  </div>
+     
   </div>
 </div>
 
