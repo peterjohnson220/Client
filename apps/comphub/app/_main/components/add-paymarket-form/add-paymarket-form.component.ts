@@ -27,6 +27,8 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   defaultCountry = { Name: 'United States', Value: 'USA' };
   currencyList: KendoDropDownItem[] = [{ Name: 'USD', Value: 'USD' }];
   defaultCurrency = { Name: 'USD', Value: 'USD' };
+  defaultIndustry = { Name: 'All', Value: 'All' };
+  defaultSize = { Name: 'All', Value: 'All' };
 
   addPayMarketForm: FormGroup;
   scopeIndustryData: KendoDropDownItem[];
