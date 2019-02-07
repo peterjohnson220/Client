@@ -201,4 +201,30 @@ describe('Comphub - Main - Data Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
+  it('should reset sorting and paging options before dispatching action to get grid data', () => {
+    spyOn(store, 'dispatch');
+
+    const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
+      Skip: 0,
+      Take: 10,
+      CompanyPayMarketId: null,
+      JobTitleShort: 'Test job',
+      Sort: null
+    });
+    instance.gridContext = {
+      sortBy: {
+        dir: 'asc',
+        field: 'Education'
+      },
+      skip: 100,
+      take: 10
+    };
+
+    instance.selectedPageIndex$ = of(2);
+    instance.selectedJobTitle$ = of('Test job');
+    instance.ngOnInit();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
 });
