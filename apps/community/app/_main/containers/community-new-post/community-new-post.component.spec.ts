@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -63,7 +63,8 @@ describe('CommunityNewPostComponent', () => {
 
     const newPost: CommunityAddPost = {
       PostText: 'hello world',
-      IsInternalOnly: false
+      IsInternalOnly: false,
+      Links: undefined
     };
 
      const expectedAction = new fromCommunityPostActions.SubmittingCommunityPost(newPost);

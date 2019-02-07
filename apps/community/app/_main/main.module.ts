@@ -61,6 +61,7 @@ import { CommunityPostApiService } from 'libs/data/payfactors-api/community/comm
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
 import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
+import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
@@ -145,7 +146,8 @@ const components = [
     CommunityJobEffectsService,
     CommunityPostEffectsService,
     MapboxApiService,
-    PfLinkifyService
+    PfLinkifyService,
+    BrowserDetectionService
   ]
 })
 export class MainModule {
