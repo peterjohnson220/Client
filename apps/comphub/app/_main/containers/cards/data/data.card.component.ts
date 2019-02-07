@@ -134,6 +134,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
       take: this.pageSize,
       sortBy: null
     };
+    this.currentPageNumber = 1;
   }
 
   ngOnDestroy(): void {
