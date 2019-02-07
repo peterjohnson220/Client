@@ -16,16 +16,16 @@ import * as fromComphubMainReducer from '../../../reducers';
   styleUrls: ['./data.card.component.scss']
 })
 export class DataCardComponent implements OnInit, OnDestroy {
-  gridContext = {
-    skip: 0,
-    take: 10,
-    sortBy: null
-  };
   jobTitle: string;
   paymarketId?: number;
   jobDataSelection: JobData;
   currentPageNumber = 1;
   pageSize = 10;
+  gridContext = {
+    skip: 0,
+    take: this.pageSize,
+    sortBy: null
+  };
   gridColumnsConfiguration: QuickPriceGridColumn[] = QuickPriceGridColumnConfiguration;
 
   // observables
@@ -62,6 +62,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     });
     this.selectedIndexSubscription = this.selectedPageIndex$.subscribe(pageIndex => {
         if (pageIndex === AccordionCards.findIndex(ac => ac.Id === ComphubPages.Data)) {
+          this.resetGridContext();
           this.loadJobResults();
         }
       });
@@ -125,6 +126,14 @@ export class DataCardComponent implements OnInit, OnDestroy {
 
   private isSortSupported(sortField: string): boolean {
     return this.gridColumnsConfiguration.some(c => c.IsSortable && c.SortField === sortField);
+  }
+
+  private resetGridContext(): void {
+    this.gridContext = {
+      skip: 0,
+      take: this.pageSize,
+      sortBy: null
+    };
   }
 
   ngOnDestroy(): void {
