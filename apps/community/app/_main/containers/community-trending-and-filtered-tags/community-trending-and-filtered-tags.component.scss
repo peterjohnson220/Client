@@ -11,7 +11,7 @@
   word-break: break-word;
 }
 
-.tag {
+button {
   color: $community-tags-body-color;
   border-color: $community-tags-border-color;
   border-width: 1px;
@@ -20,17 +20,21 @@
   white-space: normal;
 }
 
-.tag:hover{
+button:hover{
   color: $community-tags-hover-color;
   border-color: $community-tags-hover-color;
   background-color: #fff;
 }
 
-.tag-selected{
+.btn-selected{
   background-color: $community-tags-hover-color;
   color: #fff;
 }
 
 .hr {
   color: $community-tags-line-color;
+}
+
+.submit-button-container{
+  color: cornflowerblue;
 }

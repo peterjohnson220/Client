@@ -27,9 +27,9 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   showAddReply={[Function Object]}
   showReplies={[Function Array]}
   store={[Function Store]}
+  totalDiscussionResultsOnServer$={[Function Store]}
 >
   <pf-async-container>
-    <pf-community-post-filter-options />
     <div
       class="posts-container p-2 scroll"
       id="posts-container"
@@ -40,6 +40,7 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
         
       </div>
     </div>
+    
   </pf-async-container>
 </pf-community-posts>
 `;

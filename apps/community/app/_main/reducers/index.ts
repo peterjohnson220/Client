@@ -348,19 +348,19 @@ export const getCommunityPostsCombinedWithReplies = createSelector(
   }
 );
 // Community Tag Selectors
-export const getLoadingCommunityPopularTags = createSelector(
+export const getLoadingCommunityTrendingTags = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityPopularTags
+  fromCommunityTagReducer.getLoadingCommunityTrendingTags
 );
 
-export const getLoadingCommunityPopularTagsSuccess = createSelector(
+export const getLoadingCommunityTrendingTagsSuccess = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityPopularTags
+  fromCommunityTagReducer.getCommunityTrendingTags
 );
 
-export const getLoadingCommunityPopularTagsError = createSelector(
+export const getLoadingCommunityTrendingTagsError = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityPopularTagsError
+  fromCommunityTagReducer.getLoadingCommunityTrendingTagsError
 );
 
 export const getSuggestingCommunityTags = createSelector(
