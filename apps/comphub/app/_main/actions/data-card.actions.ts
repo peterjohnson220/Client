@@ -1,11 +1,13 @@
 import { Action } from '@ngrx/store';
 
 import { JobData, JobGridData, QuickPriceGridContext } from '../models';
+import { RateType } from '../data';
 
 export const GET_QUICK_PRICE_MARKET_DATA  = '[Comphub/Data Card] Get quick Price Data';
 export const GET_QUICK_PRICE_MARKET_DATA_SUCCESS  = '[Comphub/Data Card] Get quick Price Data Success';
 export const GET_QUICK_PRICE_MARKET_DATA_ERROR  = '[Comphub/Data Card] Get quick Price Data Error';
 export const SET_SELECTED_JOB_DATA  = '[Comphub/Data Card] Set Selected Job Data';
+export const SET_SELECTED_RATE = '[Comphub/Data Card] Set Selected Rate';
 
 export class GetQuickPriceMarketData implements Action {
   readonly type = GET_QUICK_PRICE_MARKET_DATA;
@@ -29,8 +31,15 @@ export class SetSelectedJobData implements Action {
   constructor(public payload: JobData) {}
 }
 
+export class SetSelectedRate implements Action {
+  readonly type = SET_SELECTED_RATE;
+
+  constructor(public payload: RateType) {}
+}
+
 export type Actions
   = GetQuickPriceMarketData
   | GetQuickPriceMarketDataSuccess
   | GetQuickPriceMarketDataError
-  | SetSelectedJobData;
+  | SetSelectedJobData
+  | SetSelectedRate;

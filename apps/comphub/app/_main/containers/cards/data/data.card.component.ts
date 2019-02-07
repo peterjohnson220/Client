@@ -5,10 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { AccordionCards, ComphubPages } from '../../../data';
-import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration } from '../../../models';
+import { AccordionCards, ComphubPages, Rates, RateType } from '../../../data';
+import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
+  KendoDropDownItem } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
+import { firstDayOfMonth } from '../../../helpers';
 
 @Component({
   selector: 'pf-data-card',
@@ -27,6 +29,9 @@ export class DataCardComponent implements OnInit, OnDestroy {
     sortBy: null
   };
   gridColumnsConfiguration: QuickPriceGridColumn[] = QuickPriceGridColumnConfiguration;
+  firstDayOfMonth: Date;
+  rates: KendoDropDownItem[] = Rates;
+  selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
 
   // observables
   jobResults$: Observable<JobGridData>;
@@ -51,6 +56,8 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedPageIndex$ = this.store.select(fromComphubMainReducer.getSelectedPageIndex);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
+
+    this.firstDayOfMonth = firstDayOfMonth();
   }
 
   ngOnInit(): void {
@@ -122,6 +129,18 @@ export class DataCardComponent implements OnInit, OnDestroy {
       Sort: this.gridContext.sortBy
     })
     );
+  }
+
+  handleRateSelectionChange(value: any) {
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(value));
+  }
+
+  get isHourly(): boolean {
+    return (this.selectedRate.Value === RateType.Hourly);
+  }
+
+  calculateDataByRate(value: number): number {
+    return this.isHourly ? ((value * 1000) / 2080) : value;
   }
 
   private isSortSupported(sortField: string): boolean {

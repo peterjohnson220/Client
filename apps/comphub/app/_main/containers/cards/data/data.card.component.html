@@ -5,6 +5,22 @@
   [nextButtonEnabled]="!!(selectedJobData$ | async)">
 
   <ng-container page-content>
+    <div class="d-flex flex-row content-top-bar">
+      <div class="d-flex flex-row ml-auto">
+        <div class="effective-date">Effective Date: <span>{{firstDayOfMonth | date:'MM/dd/yyyy'}}</span></div>
+        <div>
+          Rate:
+          <kendo-dropdownlist class="rates-dropdown"
+            [attr.data-qa-id]="'ddm-rate'"
+            [data]="rates"
+            [textField]="'Name'"
+            [valueField]="'Value'"
+            [(ngModel)]="selectedRate"
+            (selectionChange)="handleRateSelectionChange($event)">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-12">
         <pf-async-container [loading]="jobResultsLoading$ | async"
@@ -48,8 +64,8 @@
                 </span>
               </td>
               <td class="text-column hide-when-small hide-when-medium">{{job.Skills}}</td>
-              <td class="number-column">${{job.Base50 | number : '1.1-1'}}</td>
-              <td class="number-column">${{job.Tcc50 | number : '1.1-1'}}</td>
+              <td class="number-column">${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.1-1'}}</td>
+              <td class="number-column">${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.1-1'}}</td>
               <td class="number-column text-center hide-when-small">{{job.Incs}}</td>
               <td class="number-column text-center hide-when-small">{{job.Orgs}}</td>
               <td class="text-center">
