@@ -18,7 +18,7 @@
     <div class="form-content row">
 
       <div class="col-12 col-lg-5">
-        <label for="name">Name</label>
+        <label for="name">Name <span class="text-danger">*</span></label>
         <input type="text" class="form-control"
           [attr.data-qa-id]="'txt-payMarketName'"
           [class.is-invalid]="showErrorMessages && (savingConflict || savingError)"
@@ -80,6 +80,7 @@
           [data]="scopeIndustryData"
           [textField]="'Name'"
           [valueField]="'Value'"
+          [defaultItem]="defaultIndustry"
           (filterChange)="handleIndustryFilter($event)">
         </kendo-dropdownlist>
       </div>
@@ -91,7 +92,8 @@
           formControlName="size"
           [data]="sizes"
           [textField]="'Name'"
-          [valueField]="'Value'">
+          [valueField]="'Value'"
+          [defaultItem]="defaultSize">
         </kendo-dropdownlist>
       </div>
 

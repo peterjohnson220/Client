@@ -14,6 +14,13 @@
 
 }
 
+.k-list-container {
+  .k-state-focused.k-state-selected {
+    background-color: white !important;
+    color: black !important;
+  }
+}
+
  .k-autocomplete {
 
   .k-input, .k-item {
