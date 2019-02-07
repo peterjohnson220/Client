@@ -62,7 +62,10 @@ export class UserRoleEffects {
     .ofType(fromUserRoleUserTabActions.SAVE_CHANGES).pipe(
       switchMap((action: fromUserRoleUserTabActions.SaveChanges) => {
         this.store.dispatch(new fromUserRoleUserTabActions.SetUsersTabSaveButtonText(SaveButtonText.Saving));
-        const result = this.adminRolesApi.assignUsersToRole(action.payload.userIds, action.payload.roleId, action.payload.isSystemRole).pipe(
+        const result = this.adminRolesApi.assignUsersToRole(
+          action.payload.userIds,
+          action.payload.roleId,
+          action.payload.isSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
             actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response));
