@@ -1,6 +1,6 @@
 export const environment = {
-  avatarSource: 'https://c05ebe4c622d4241f12d-71d340f910ab2abd10be30fe4350c5a2.ssl.cf5.rackcdn.comavatars/',
-  companyLogoSource: 'https://c05ebe4c622d4241f12d-71d340f910ab2abd10be30fe4350c5a2.ssl.cf5.rackcdn.comcompany_logos/',
+  avatarSource: 'https://c05ebe4c622d4241f12d-71d340f910ab2abd10be30fe4350c5a2.ssl.cf5.rackcdn.com/avatars/',
+  companyLogoSource: 'https://c05ebe4c622d4241f12d-71d340f910ab2abd10be30fe4350c5a2.ssl.cf5.rackcdn.com/company_logos/',
   cloudFilesPublicBaseUrl: 'https://c05ebe4c622d4241f12d-71d340f910ab2abd10be30fe4350c5a2.ssl.cf5.rackcdn.com',
   marketingImageSource: 'https://c49e5bcd31eb4648ab13-7621f32ad8fab3cdc08ded8807f92015.ssl.cf5.rackcdn.com/marketing_image/',
   production: true,
