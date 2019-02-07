@@ -5,3 +5,5 @@ export * from './search';
 export * from './job-search';
 export * from './project';
 export * from './paymarket';
+export * from './settings';
+

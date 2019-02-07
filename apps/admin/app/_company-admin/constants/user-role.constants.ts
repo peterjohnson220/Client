@@ -1,5 +1,4 @@
 export enum UserRoleTabState {
-  DATA_ACCESS,
   FUNCTION,
   USERS
 }
@@ -13,8 +12,14 @@ export namespace UserRoleTabState {
   }
 }
 
+// TODO: Remove/Refactor with RoleApiResponse
 export enum SaveButtonText {
   Save = 'Save',
   Saving = 'Saving',
   Success = 'Success'
+}
+
+export enum RoleApiResponse {
+  Success = 'Success',
+  Error = 'An error has occurred while saving this role. Please contact Payfactors support for assistance'
 }

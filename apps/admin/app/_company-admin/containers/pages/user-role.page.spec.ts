@@ -13,6 +13,7 @@ import { UserRoleService } from '../../services';
 import { UserRoleTabState } from '../../constants/user-role.constants';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleViewActions from '../../actions';
+import * as fromUserRoleActions from '../../actions/user-role-view.action';
 
 describe('UserRolePageComponent', () => {
   let fixture, component, de;
@@ -54,11 +55,11 @@ describe('UserRolePageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display user roles in au-user-assigned-role-nav', () => {
+  it('should display user roles in role-list', () => {
     const mockUserAssignedRoles = [generateMockUserAssignedRole()];
     component.userAssignedRoles = [mockUserAssignedRoles];
 
-    bindingElement = de.query(By.css('.au-user-assigned-role-nav')).nativeElement;
+    bindingElement = de.query(By.css('.role-list')).nativeElement;
 
     fixture.detectChanges();
 
@@ -89,10 +90,23 @@ describe('UserRolePageComponent', () => {
   it('should call UpdateCurrentUserRoleViewTabState and dispatch UpdateUserRoleTabState when tab click', () => {
     spyOn(userRoleService, 'updateCurrentUserRoleViewTabState');
     const mockUserRoleTabState = UserRoleTabState.USERS;
+    const expectedAction = new fromUserRoleActions.UpdateUserRoleTabState(mockUserRoleTabState);
 
     fixture.detectChanges();
     component.handleTabClick(mockUserRoleTabState);
 
-    expect(userRoleService.updateCurrentUserRoleViewTabState).toHaveBeenCalledWith(mockUserRoleTabState);
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+  it('should disable Save button when saveChanges is called', () => {
+    const disableAction = new fromUserRoleActions.DisableSaveButton();
+    fixture.detectChanges();
+    component.saveChanges();
+    expect(store.dispatch).toHaveBeenCalledWith(disableAction);
+  });
+  it('should cancel all changes when cancelChanges is called', () => {
+    const cancelAction = new fromUserRoleActions.CancelAllChanges();
+    fixture.detectChanges();
+    component.cancelChanges();
+    expect(store.dispatch).toHaveBeenCalledWith(cancelAction);
   });
 });

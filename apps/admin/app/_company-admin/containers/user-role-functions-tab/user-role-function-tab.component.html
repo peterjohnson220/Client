@@ -1,17 +1,22 @@
-<div>
-  <div  class="scrollable">
-    <ul class="list-group nav" >
+<div *ngIf="rolePermissions;else no_role">
+  <div class="scrollable">
+    <ul class="list-group nav">
       <li class="nav-item parentPermission" *ngFor="let prm of rolePermissions">
-        <input type="checkbox" [attr.data-qa-id]="'chk-' + prm.Id"  (change)="handleCheckBoxCheck(prm)" [checked]="prm.IsChecked"/>
+        <input type="checkbox" [attr.data-qa-id]="'chk-' + prm.Id" [disabled]="disableCheckboxes"  (change)="handleCheckBoxCheck(prm)" [checked]="prm.IsChecked"/>
         {{prm.Name}}
         <ul class="list-group nav">
           <li class="nav-item subPermission" *ngFor="let cprm of prm.ChildPermission">
-            <input type="checkbox" [attr.data-qa-id]="'chk-' + cprm.Id" [disabled]="!prm.IsChecked" (change)="handleCheckBoxCheck(cprm)" [checked]="cprm.IsChecked"/>
+            <input type="checkbox" [attr.data-qa-id]="'chk-' + cprm.Id" [disabled]="disableCheckboxes || !prm.IsChecked" (change)="handleCheckBoxCheck(cprm)" [checked]="cprm.IsChecked"/>
             {{cprm.Name}}
           </li>
         </ul>
       </li>
     </ul>
   </div>
-  <button type="button" data-qa-id='btn-save'  class="btn btn-primary" (click)="handleSaveClicked()">{{saveButtonText}}</button>
 </div>
+
+<ng-template #no_role>
+  <div>
+    <h4>Please select a role from the role list.</h4>
+  </div>
+</ng-template>

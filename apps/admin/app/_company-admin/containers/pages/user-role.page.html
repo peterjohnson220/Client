@@ -1,7 +1,7 @@
 <pf-page-with-title-bar [absoluteUrl]="'/ng/company-admin/navigation'">
 
   <ng-container page-title>
-    User Roles
+    User Roles <span *ngIf="currentRole"> - {{currentRole.RoleName}}</span>
   </ng-container>
 
   <ng-container page-actions>
@@ -20,8 +20,8 @@
             </div>
             <div id="wrapper">
               <div class="scrollbar" >
-              <ul class="list-group nav au-user-assigned-role-nav">
-                <li class="nav-item" *ngFor="let userAssignedRole of userAssignedRoles">
+              <ul class="list-group nav role-list">
+                <li class="nav-item" *ngFor="let userAssignedRole of userAssignedRoles" [ngClass]="{'active-role': currentRole && currentRole.RoleId === userAssignedRole.RoleId && currentRole.IsSystemRole === userAssignedRole.IsSystemRole}">
                   <a [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
                 </li>
               </ul>
@@ -44,13 +44,26 @@
               </ul>
             </div>
             <div class="card-block">
-              <div class="tab-containe mx-2 py-2">
-                <pf-user-role-data-access-tab
-                  *ngIf="currentUserRoleTabState === _UserRoleTabState.DATA_ACCESS"></pf-user-role-data-access-tab>
+              <div class="tab-container mx-2 py-2">
                 <pf-user-role-function-tab
                   *ngIf="currentUserRoleTabState === _UserRoleTabState.FUNCTION"></pf-user-role-function-tab>
                 <pf-user-role-users-tab
                   *ngIf="currentUserRoleTabState === _UserRoleTabState.USERS"></pf-user-role-users-tab>
+              </div>
+              <div class="action-container row">
+                <div id="api-response-container" *ngIf="roleApiResponse" class="api-save-success" [ngClass]="{'api-save-error': roleApiResponse === _RoleApiResponse.Error}">
+                  {{roleApiResponse}}
+                </div>
+                <div>
+                  <pf-action-button
+                    (saveClicked)="saveChanges()"
+                    (cancelClicked)="cancelChanges()"
+                    [saveButtonQaId]="'btn-user-role-save-changes-btn'"
+                    [cancelButtonQaId]="'btn-user-role-cancel-btn'"
+                    [saveButtonDisabled]="saveButtonDisabled || !currentRole"
+                    [cancelButtonDisabled]="!(functionTabPendingChanges || usersTabPendingChanges) || saveButtonDisabled"
+                  ></pf-action-button>
+                </div>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ export class AddSelectedJobsSuccess implements Action {
 export class AddSelectedJobsError implements Action {
   readonly type = ADD_SELECTED_JOBS_ERROR;
 
-  constructor() {}
+  constructor(public error: any) { }
 }
 
 export type Actions
