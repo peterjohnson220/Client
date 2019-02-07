@@ -49,6 +49,19 @@
   border-color: $comphub-header-blue;
 }
 
+.unsorted-spacer{
+  width: 17.5px;
+  display: inline-block;
+}
+
+.job-title-column {
+  width: 260px;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 @media all and (max-width: 1200px) {
   .hide-when-small {
     display: none;
