@@ -75,6 +75,12 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
         selectedJob: action.payload
       };
     }
+    case fromJobsCardActions.CLEAR_SELECTED_JOB: {
+      return {
+        ...state,
+        selectedJob: null
+      };
+    }
     default: {
       return state;
     }

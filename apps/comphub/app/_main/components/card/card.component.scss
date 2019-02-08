@@ -16,14 +16,24 @@
   position: relative;
   margin-bottom: 1px;
   margin-right: 8px;
-  width: 60px;
   background-color: $comphub-header-background-grey;
   display: block;
+
   &:hover {
     cursor: pointer;
   }
+
   &.selected {
     display: none;
+  }
+
+  &.disabled {
+    cursor: initial;
+
+    .card-title, .card-icon {
+      cursor: default;
+      color: $comphub-disabled-grey;
+    }
   }
 }
 

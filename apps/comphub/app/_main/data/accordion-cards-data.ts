@@ -6,7 +6,7 @@ export enum ComphubPages {
 }
 
 export interface AccordionCard {
-  Id: string;
+  Id: ComphubPages;
   Title: string;
   IconClass: string;
   Subtitle: string;
@@ -23,7 +23,7 @@ export const AccordionCards: AccordionCard[] = [
     Id: ComphubPages.Markets,
     Title: 'Markets',
     IconClass: 'fa-map-marker-alt',
-    Subtitle: ''
+    Subtitle: 'National'
   },
   {
     Id: ComphubPages.Data,

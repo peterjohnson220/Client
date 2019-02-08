@@ -7,12 +7,12 @@
     </div>
   </div>
 
-  <div class="card-header" [class.selected]="selected"
+  <div class="card-header" [class.disabled]="disabled" [class.selected]="selected"
     [attr.data-qa-id]="'cnt-cardHeader'"
     (click)="handleCardHeaderClick()">
     <i class="fa {{cardIconClass}} card-icon" aria-hidden="true"></i>
     <span class="card-title">{{cardTitle}}</span>
-    <span class="card-subtitle" data-toggle="tooltip" title="{{cardSubtitle}}">{{cardSubtitle}}</span>
+    <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{cardSubtitle}}">{{cardSubtitle}}</span>
   </div>
 
 </div>

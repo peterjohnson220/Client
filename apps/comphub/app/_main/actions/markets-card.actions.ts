@@ -42,7 +42,7 @@ export class SetPaymarketFilter implements Action {
 export class SetSelectedPaymarket implements Action {
   readonly type = SET_SELECTED_PAYMARKET;
 
-  constructor(public payload: number) {}
+  constructor(public payload: PricingPaymarket) {}
 }
 
 export class SavePayMarket implements Action {

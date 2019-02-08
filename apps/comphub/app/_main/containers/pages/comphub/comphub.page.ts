@@ -1,11 +1,11 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { AccordionCards, AccordionCard, ComphubPages } from '../../../data';
+import { AccordionCard, ComphubPages } from '../../../data';
 import { PricingPaymarket, JobData } from '../../../models';
 
 @Component({
@@ -13,29 +13,33 @@ import { PricingPaymarket, JobData } from '../../../models';
   templateUrl: './comphub.page.html',
   styleUrls: ['./comphub.page.scss']
 })
-export class ComphubPageComponent implements OnInit, OnDestroy {
-  accordionCards: AccordionCard[] = AccordionCards;
+export class ComphubPageComponent implements OnInit {
   comphubPages = ComphubPages;
   cardContentContainerWidth: number;
+  enabledPages: ComphubPages[];
 
-  selectedPageIndex$: Observable<number>;
+  cards$: Observable<AccordionCard[]>;
+  selectedPageId$: Observable<ComphubPages>;
   selectedJob$: Observable<string>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedJobData$: Observable<JobData>;
+  enabledPages$: Observable<ComphubPages[]>;
+  accessedPages$: Observable<ComphubPages[]>;
 
-  private selectedJobSubscription: Subscription;
-  private selectedPaymarketSubscription: Subscription;
-  private selectedJobDataSubscription: Subscription;
+  private enabledPagesSub: Subscription;
 
   private readonly cardHeaderWidth = 60;
   private readonly cardHeaderMargin = 8;
   private readonly numberOfCards = 4;
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
-    this.selectedPageIndex$ = this.store.select(fromComphubMainReducer.getSelectedPageIndex);
+    this.cards$ = this.store.select(fromComphubMainReducer.getCards);
+    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
+    this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
+    this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -47,28 +51,17 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.updateCardContentContainerWidth();
-    this.selectedJobSubscription = this.selectedJob$.subscribe((selectedJob: string) =>
-      this.updateCardSubtitle(ComphubPages.Jobs, selectedJob));
-    this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe((selectedPaymarket: PricingPaymarket) => {
-      if (!!selectedPaymarket) {
-        this.updateCardSubtitle(ComphubPages.Markets, selectedPaymarket.PayMarketName);
-      }
-    });
-    this.selectedJobDataSubscription = this.selectedJobData$.subscribe((jobData: JobData) => {
-      if (!!jobData) {
-        this.updateCardSubtitle(ComphubPages.Data, `Payfactors ${jobData.JobTitle}`);
-      }
-    });
+    this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
   }
 
-  ngOnDestroy() {
-    this.selectedJobSubscription.unsubscribe();
-    this.selectedPaymarketSubscription.unsubscribe();
-    this.selectedJobDataSubscription.unsubscribe();
+  trackById(index: number, card: AccordionCard) {
+    return card.Id;
   }
 
   handleCardChange(cardId: string) {
-    this.store.dispatch(new fromComphubPageActions.NavigateToCard({ cardId: cardId }));
+    if (this.enabledPages.some(ep => ep === cardId)) {
+      this.store.dispatch(new fromComphubPageActions.NavigateToCard({ cardId: cardId }));
+    }
   }
 
   private updateCardContentContainerWidth() {
@@ -78,12 +71,5 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     }
     this.cardContentContainerWidth = wrapperElement[0].clientWidth -
       (this.cardHeaderWidth * this.numberOfCards) - this.cardHeaderMargin;
-  }
-
-  private updateCardSubtitle(cardId: string, subtitle: string) {
-    const card = this.accordionCards.find(c => c.Id === cardId);
-    if (!!card) {
-      card.Subtitle = subtitle;
-    }
   }
 }

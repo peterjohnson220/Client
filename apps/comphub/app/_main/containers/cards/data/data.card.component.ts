@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
-import { AccordionCards, ComphubPages, Rates, RateType } from '../../../data';
+import { ComphubPages, Rates, RateType } from '../../../data';
 import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
   KendoDropDownItem } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
@@ -33,19 +33,19 @@ export class DataCardComponent implements OnInit, OnDestroy {
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
 
-  // observables
+  // Observables
   jobResults$: Observable<JobGridData>;
   jobResultsLoading$: Observable<boolean>;
   jobResultsLoadingError$: Observable<boolean>;
   selectedJobTitle$: Observable<string>;
   selectedPaymarket$: Observable<PricingPaymarket>;
-  selectedPageIndex$: Observable<number>;
+  selectedPageId$: Observable<ComphubPages>;
   selectedJobData$: Observable<JobData>;
 
-  // subscriptions
+  // Subscriptions
   jobTitleSubscription: Subscription;
   paymarketSubscription: Subscription;
-  selectedIndexSubscription: Subscription;
+  selectedPageIdSubscription: Subscription;
   selectedJobSubscription: Subscription;
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
@@ -54,7 +54,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.jobResultsLoadingError$ = this.store.select(fromComphubMainReducer.getLoadingJobGridResultsError);
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedPageIndex$ = this.store.select(fromComphubMainReducer.getSelectedPageIndex);
+    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
 
     this.firstDayOfMonth = firstDayOfMonth();
@@ -67,12 +67,14 @@ export class DataCardComponent implements OnInit, OnDestroy {
         this.paymarketId = p.CompanyPayMarketId;
       }
     });
-    this.selectedIndexSubscription = this.selectedPageIndex$.subscribe(pageIndex => {
-        if (pageIndex === AccordionCards.findIndex(ac => ac.Id === ComphubPages.Data)) {
+
+    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
+      if (pageId === ComphubPages.Data) {
           this.resetGridContext();
           this.loadJobResults();
         }
       });
+
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
 
@@ -116,10 +118,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
   }
 
-  isChecked(job: JobData): boolean {
-    return this.jobDataSelection && this.jobDataSelection.JobId === job.JobId;
-  }
-
   loadJobResults(): void {
     this.store.dispatch(new fromDataCardActions.GetQuickPriceMarketData({
       JobTitleShort: this.jobTitle,
@@ -159,7 +157,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.jobTitleSubscription.unsubscribe();
     this.paymarketSubscription.unsubscribe();
-    this.selectedIndexSubscription.unsubscribe();
+    this.selectedPageIdSubscription.unsubscribe();
     this.selectedJobSubscription.unsubscribe();
   }
 }
