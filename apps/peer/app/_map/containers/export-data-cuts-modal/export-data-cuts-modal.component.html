@@ -24,10 +24,7 @@
                   [skip]="gridState?.skip"
                   [sort]="gridState?.sort"
                   [filter]="gridState?.filter"
-                  [pageable]="{
-                    buttonCount: 5,
-                    info: true
-                  }"
+                  [pageable]="true"
                   [sortable]="true"
                   [selectable]="{
                     checkboxOnly: true
@@ -108,6 +105,21 @@
           </ng-template>
         </kendo-grid-column>
 
+        <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+          <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+          <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+          <kendo-pager-info></kendo-pager-info>
+          <kendo-pager-next-buttons></kendo-pager-next-buttons>
+          <kendo-dropdownlist
+            class = "page-drop-down ml-2"
+            [data]="pageSizes"
+            [textField]="'text'"
+            [valueField]="'value'"
+            [valuePrimitive]="true"
+            [value]="gridState?.take"
+            (valueChange)="handlePageDropDownChanged(gridState, $event)"></kendo-dropdownlist>
+          <span class="ml-2">items per page</span>
+        </ng-template>
       </kendo-grid>
 
     </pf-async-container>

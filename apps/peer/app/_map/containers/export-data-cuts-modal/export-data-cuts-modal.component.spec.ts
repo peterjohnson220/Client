@@ -249,4 +249,23 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+
+  it(`should call handleDataStateChange with appropriate state after handlePageDropDownChanged is called`, () => {
+      const mockGridState = KendoGridFilterHelper.getMockEmptyGridState();
+      const expectedState = mockGridState;
+      const dropDownValue = 25;
+
+      mockGridState.take = 50;
+      mockGridState.skip = 100;
+      expectedState.take = 25;
+      expectedState.skip = 0;
+
+      spyOn(instance, 'handleDataStateChange');
+
+      instance.handlePageDropDownChanged(mockGridState, dropDownValue);
+
+      fixture.detectChanges();
+
+      expect(instance.handleDataStateChange).toHaveBeenCalledWith(expectedState);
+  });
 });
