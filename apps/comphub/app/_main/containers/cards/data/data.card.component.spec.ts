@@ -10,8 +10,7 @@ import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import { generateFakeJobData, JobGridData } from '../../../models';
-import { RateType } from '../../../data';
-
+import { RateType, ComphubPages } from '../../../data';
 
 describe('Comphub - Main - Data Card Component', () => {
   let instance: DataCardComponent;
@@ -84,7 +83,7 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageIndex$ = of(2);
+    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.ngOnInit();
 
@@ -102,7 +101,7 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageIndex$ = of(1);
+    instance.selectedPageId$ = of(ComphubPages.Jobs);
     instance.selectedJobTitle$ = of('Test job');
     instance.ngOnInit();
 
@@ -221,7 +220,7 @@ describe('Comphub - Main - Data Card Component', () => {
       take: 10
     };
 
-    instance.selectedPageIndex$ = of(2);
+    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.ngOnInit();
 

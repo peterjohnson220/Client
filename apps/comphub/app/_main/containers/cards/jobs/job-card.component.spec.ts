@@ -68,28 +68,6 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a set selected job action when search term cleared', () => {
-
-    spyOn(store, 'dispatch');
-
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('');
-
-    instance.handleJobSearchValueChanged('');
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch a set selected job action when the search is changed to empty filter', () => {
-
-    spyOn(store, 'dispatch');
-
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('');
-
-    instance.handleJobSearchFilterChange('');
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
   it('should not dispatch a set selected job action when the search is changed to a non empty filter', () => {
 
     spyOn(store, 'dispatch');

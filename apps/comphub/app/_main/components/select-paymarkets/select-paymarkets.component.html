@@ -1,7 +1,7 @@
 <div *ngFor="let paymarket of paymarkets; trackBy: trackById"
      class="paymarket-result"
      [title]="paymarket.PayMarketName"
-     (click)="togglePaymarket(paymarket.CompanyPayMarketId)">
+     (click)="togglePaymarket(paymarket)">
     <div class="paymarket-check">
       <input type="checkbox"
              [name]="'paymarket-selection'"

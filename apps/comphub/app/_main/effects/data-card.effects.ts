@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect } from '@ngrx/effects';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { SortOption } from 'libs/models/payfactors-api/comphub/request';
 
 import * as fromDataCardActions from '../actions/data-card.actions';
+import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
-import { QuickPriceGridContext } from '../models';
+import { JobData, QuickPriceGridContext } from '../models';
+import { ComphubPages } from '../data';
 
 @Injectable()
 export class DataCardEffects {
@@ -37,6 +39,28 @@ export class DataCardEffects {
             );
         }
       ));
+
+  @Effect()
+  setSelectedJobData$ = this.actions$
+    .ofType(fromDataCardActions.SET_SELECTED_JOB_DATA)
+    .pipe(
+      map((action: fromDataCardActions.SetSelectedJobData) => action.payload),
+      mergeMap((jobData: JobData) => [
+        new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${jobData.JobTitle}`}),
+        new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary])
+      ])
+    );
+
+  @Effect()
+  clearSelectedJobData$ = this.actions$
+    .ofType(fromDataCardActions.CLEAR_SELECTED_JOB_DATA)
+    .pipe(
+      mergeMap(() => {
+        return [
+          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: ''})
+        ];
+      })
+    );
 
   getSortOption(gridContext: QuickPriceGridContext): SortOption {
     if (gridContext.Sort) {

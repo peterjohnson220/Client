@@ -73,7 +73,7 @@
                   <input type="radio" id="customRadio-{{job.JobId}}"
                          [attr.data-qa-id]="'chk-select-job-'+job.JobId"
                          name="select-job-data"
-                         [checked]="isChecked(job)"
+                         [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
                          (change)="handleSelectionChanged(job)"
                          class="custom-control-input">
                   <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>

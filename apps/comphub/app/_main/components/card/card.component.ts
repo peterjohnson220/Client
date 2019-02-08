@@ -12,6 +12,8 @@ export class CardComponent {
   @Input() cardIconClass: string;
   @Input() selected: boolean;
   @Input() containerWidth: number;
+  @Input() disabled: boolean;
+  @Input() accessed: boolean;
 
   @Output() cardHeaderClick: EventEmitter<string> = new EventEmitter<string>();
 
@@ -20,5 +22,4 @@ export class CardComponent {
   handleCardHeaderClick() {
     this.cardHeaderClick.emit(this.cardId);
   }
-
 }

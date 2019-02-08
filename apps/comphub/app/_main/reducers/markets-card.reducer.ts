@@ -56,10 +56,13 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       };
     }
     case fromMarketsCardActions.SET_SELECTED_PAYMARKET: {
-      let selectedPaymarket = state.paymarkets.find(m => m.CompanyPayMarketId === action.payload);
-      if (selectedPaymarket === state.selectedPaymarket) {
+      let selectedPaymarket = action.payload;
+
+      // Replace with default if deselecting
+      if (action.payload.CompanyPayMarketId === state.selectedPaymarket.CompanyPayMarketId) {
         selectedPaymarket = MarketsCardHelper.buildDefaultPricingPayMarket();
       }
+
       return {
         ...state,
         selectedPaymarket: selectedPaymarket

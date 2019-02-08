@@ -20,7 +20,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   selectedJobData$={[Function Store]}
   selectedJobSubscription={[Function Subscriber]}
   selectedJobTitle$={[Function Store]}
-  selectedPageIndex$={[Function Store]}
+  selectedPageId$={[Function Store]}
   selectedPaymarket$={[Function Store]}
   selectedRate={[Function Object]}
   store={[Function Store]}
@@ -297,7 +297,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   selectedJobData$={[Function Store]}
   selectedJobSubscription={[Function Subscriber]}
   selectedJobTitle$={[Function Store]}
-  selectedPageIndex$={[Function Store]}
+  selectedPageId$={[Function Store]}
   selectedPaymarket$={[Function Store]}
   selectedRate={[Function Object]}
   store={[Function Store]}

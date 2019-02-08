@@ -66,8 +66,8 @@ export class MarketsCardComponent implements OnInit {
     this.store.dispatch(new fromMarketsCardActions.SetPaymarketFilter(searchTerm));
   }
 
-  handlePaymarketChecked(checkedPaymarketId: number) {
-    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(checkedPaymarketId));
+  handlePaymarketChecked(checkedPayMarket: PricingPaymarket) {
+    this.store.dispatch(new fromMarketsCardActions.SetSelectedPaymarket(checkedPayMarket));
   }
 
   handleDismissInfoBanner() {

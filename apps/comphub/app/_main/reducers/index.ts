@@ -99,9 +99,24 @@ export const getSelectedJob = createSelector(
 );
 
 // Comphub Page
-export const getSelectedPageIndex = createSelector(
+export const getCards = createSelector(
   selectComphubPageState,
-  fromComphubPageReducer.getSelectedPageIndex
+  fromComphubPageReducer.getCards
+);
+
+export const getSelectedPageId = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getSelectedPageId
+);
+
+export const getEnabledPages = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getEnabledPages
+);
+
+export const getPagesAccessed = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getPagesAccessed
 );
 
 // Markets Card

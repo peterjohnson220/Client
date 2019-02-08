@@ -3,21 +3,23 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { switchMap, map, catchError, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { PayMarketApiService } from 'libs/data/payfactors-api';
+import { MarketDataScopeApiService, PayMarketApiService } from 'libs/data/payfactors-api';
 import { PayMarket } from 'libs/models/paymarket';
 import { FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
-import { MarketDataScopeApiService } from 'libs/data/payfactors-api';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
+import * as fromDataCardActions from '../actions/data-card.actions';
+import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
-import { MarketsCardHelper } from '../helpers';
+import { ComphubPages } from '../data';
+import { PricingPaymarket } from '../models';
 
 @Injectable()
 export class MarketsCardEffects {
@@ -81,7 +83,7 @@ export class MarketsCardEffects {
   savePayMarketSuccess$ = this.actions$
   .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS)
   .pipe(
-    mergeMap((data) => {
+    mergeMap(() => {
       return [
         new fromAddPayMarketFormActions.Close(),
         new fromMarketsCardActions.GetPaymarkets()
@@ -126,6 +128,20 @@ export class MarketsCardEffects {
       return new fromAddPayMarketFormActions.OpenInfoBanner();
     })
   );
+
+  @Effect()
+  setSelectedPaymarket$ = this.actions$
+    .ofType(fromMarketsCardActions.SET_SELECTED_PAYMARKET)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
+      mergeMap((data) => [
+          new fromDataCardActions.ClearSelectedJobData(),
+          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Markets, subTitle: data.selectedPayMarket.PayMarketName})
+        ]
+      )
+    );
 
   constructor(
     private actions$: Actions,

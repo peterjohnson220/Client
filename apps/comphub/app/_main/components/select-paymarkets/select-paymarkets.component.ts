@@ -12,12 +12,12 @@ export class SelectPaymarketsComponent {
   @Input() paymarkets: PricingPaymarket[];
   @Input() selectedPaymarketId: number;
 
-  @Output() paymarketChecked: EventEmitter<number> = new EventEmitter<number>();
+  @Output() paymarketChecked = new EventEmitter<PricingPaymarket>();
 
   constructor() {}
 
-  togglePaymarket(paymarketId: number) {
-    this.paymarketChecked.emit(paymarketId);
+  togglePaymarket(payMarket: PricingPaymarket) {
+    this.paymarketChecked.emit(payMarket);
   }
 
   trackById(index: number, paymarket: PricingPaymarket): number {

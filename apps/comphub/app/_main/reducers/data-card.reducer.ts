@@ -58,6 +58,12 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         selectedRate: action.payload
       };
     }
+    case fromDataCardActions.CLEAR_SELECTED_JOB_DATA: {
+      return {
+        ...state,
+        selectedJobData: null
+      };
+    }
     default: {
       return state;
     }

@@ -25,9 +25,11 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   selectedJob$: Observable<string>;
 
   jobSearchOptionsSub: Subscription;
+  selectedJobSub: Subscription;
 
   potentialOptions: string[];
   currentSearchValue: string;
+  selectedJob: string;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -45,17 +47,21 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.store.dispatch(new fromJobsCardActions.GetTrendingJobs());
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
+    this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
   }
 
   handleJobSearchFilterChange(searchTerm: string): void {
-    this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
-    if (!searchTerm) {
-      this.handleJobSearchValueChanged(searchTerm);
+    if (searchTerm) {
+      this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
+    }
+
+    if (this.selectedJob) {
+      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
   }
 
   handleJobSearchValueChanged(selectedTerm: string): void {
-    if (!selectedTerm || this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
+    if (this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
       this.store.dispatch(new fromJobsCardActions.SetSelectedJob(selectedTerm));
     }
   }
