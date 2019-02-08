@@ -1,11 +1,13 @@
 import * as fromDataCardActions from '../actions/data-card.actions';
 import { JobData, JobGridData } from '../models';
+import { RateType } from '../data';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
   jobResults: JobGridData;
   selectedJobData: JobData;
+  selectedRate: RateType;
 }
 
 const initialState: State = {
@@ -15,7 +17,8 @@ const initialState: State = {
     Data: [],
     Total: 0
   },
-  selectedJobData: null
+  selectedJobData: null,
+  selectedRate: RateType.Annual
 };
 
 // Reducer
@@ -49,6 +52,12 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         selectedJobData: action.payload
       };
     }
+    case fromDataCardActions.SET_SELECTED_RATE: {
+      return {
+        ...state,
+        selectedRate: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -59,3 +68,4 @@ export const getLoadingJobGridResults = (state: State) => state.loading;
 export const getLoadingJobGridResultsError = (state: State) => state.loadingError;
 export const getJobGridResults = (state: State) => state.jobResults;
 export const getSelectedJobData = (state: State) => state.selectedJobData;
+export const getSelectedRate = (state: State) => state.selectedRate;

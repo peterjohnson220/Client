@@ -9,7 +9,8 @@ import * as fromRootState from 'libs/state/state';
 import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
-import { generateFakeJobData } from '../../../models';
+import { generateFakeJobData, JobGridData } from '../../../models';
+import { RateType } from '../../../data';
 
 
 describe('Comphub - Main - Data Card Component', () => {
@@ -225,6 +226,63 @@ describe('Comphub - Main - Data Card Component', () => {
     instance.ngOnInit();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch SetSelectedRate action when handling rate selection change', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
+    const expectedAction = new fromDataCardActions.SetSelectedRate(instance.selectedRate.Value);
+
+    instance.handleRateSelectionChange(RateType.Hourly);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should display base50 and tcc50 with 2 decimal places when rate is hourly', () => {
+    const jobGridData: JobGridData = {
+      Data: [ generateFakeJobData() ],
+      Total: 1
+    };
+    instance.jobResults$ = of(jobGridData);
+    instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display base50 and tcc50 with 1 decimal place when rate is annual', () => {
+    const jobGridData: JobGridData = {
+      Data: [ generateFakeJobData() ],
+      Total: 1
+    };
+    instance.jobResults$ = of(jobGridData);
+    instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should return correct value when selected rate is annual', () => {
+    instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
+    const value = 361.1;
+    const expectedValue = 361.1;
+
+    const actualValue = instance.calculateDataByRate(value);
+
+    expect(actualValue).toEqual(expectedValue);
+  });
+
+  it('should return correct value when selected rate is hourly', () => {
+    instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
+    const value = 360.1;
+    const expectedValue = 173.13;
+
+    const actualValue = Math.round(instance.calculateDataByRate(value) * 100) / 100;
+
+    expect(actualValue).toEqual(expectedValue);
   });
 
 });

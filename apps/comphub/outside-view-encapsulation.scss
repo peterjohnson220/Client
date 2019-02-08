@@ -34,3 +34,29 @@
 
 }
 
+.rates-dropdown {
+  width: 80px;
+  vertical-align: unset;
+
+  .k-dropdown-wrap {
+    background-color: white;
+    border-style: none !important;
+  }
+
+  .k-i-arrow-s {
+    color: $comphub-radio-green;
+  }
+
+  .k-input {
+    color: $comphub-header-blue;
+    font-weight: $comphub-bold-font-weight;
+    padding: 0 0 0 0.375rem;
+    height: unset;
+    font-size: $comphub-font-size;
+  }
+  
+  .k-select {
+    padding: 0;
+  }
+}
+

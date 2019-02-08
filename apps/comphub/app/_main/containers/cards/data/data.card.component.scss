@@ -86,3 +86,16 @@
     max-width: 40vw;
   }
 }
+
+.content-top-bar {
+  padding-bottom: 2rem;
+}
+
+.effective-date {
+  padding: 1px 0;
+  margin-right: 1rem;
+  span {
+    color: $comphub-header-blue;
+    font-weight: $comphub-bold-font-weight;
+  }
+}
