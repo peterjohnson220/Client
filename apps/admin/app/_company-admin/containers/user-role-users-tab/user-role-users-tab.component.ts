@@ -3,10 +3,8 @@ import {Component, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
-import {UserAndRoleModel, UserAssignedRole} from 'libs/models/security';
+import {UserAndRoleModel} from 'libs/models/security';
 
-import {UserRoleTabState} from '../../constants/user-role.constants';
-import {UserRoleService} from '../../services';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromUserRoleUserTabActions from '../../actions/user-role-users-tab.action';
 
@@ -20,15 +18,15 @@ export class UserRoleUsersTabComponent implements OnDestroy {
   usersAndRoles: UserAndRoleModel[];
   usersInSelectedRole: UserAndRoleModel[];
   usersNotInCurrentRole: UserAndRoleModel[];
-  currentRole: UserAssignedRole;
+  currentRoleId: number;
+  currentRoleIsSystemRole: boolean;
   searchTerm = '';
   saveButtonText = 'Save';
   usersInActiveRoleSubscription: Subscription;
   usersNotInActiveRoleSubscription: Subscription;
   currentRoleSubscription: Subscription;
-  saveButtonTextSubscription: Subscription;
 
-  constructor(private store: Store<fromUserRoleViewReducer.State>, private userRoleService: UserRoleService) {
+  constructor(private store: Store<fromUserRoleViewReducer.State>) {
     this.usersInActiveRoleSubscription = this.store.select(fromUserRoleViewReducer.getUsersInActiveRole).subscribe(u => {
       this.usersInSelectedRole = u;
     });
@@ -38,19 +36,18 @@ export class UserRoleUsersTabComponent implements OnDestroy {
     });
 
     this.currentRoleSubscription = this.store.select(fromUserRoleViewReducer.getCurrentUserRole).subscribe(ur => {
-      this.currentRole = ur;
+      if (ur) {
+        this.currentRoleId = ur.RoleId;
+        this.currentRoleIsSystemRole = ur.IsSystemRole;
+      }
     });
 
-    this.saveButtonTextSubscription = this.store.select(fromUserRoleViewReducer.getUsersTabSaveButtonText).subscribe(s => {
-      this.saveButtonText = s;
-    });
   }
 
   ngOnDestroy() {
     this.usersInActiveRoleSubscription.unsubscribe();
     this.usersNotInActiveRoleSubscription.unsubscribe();
     this.currentRoleSubscription.unsubscribe();
-    this.saveButtonTextSubscription.unsubscribe();
   }
 
   updateSearchFilter(term: string): void {
@@ -60,23 +57,5 @@ export class UserRoleUsersTabComponent implements OnDestroy {
 
   addUserToRole(userToBeAdded: UserAndRoleModel): void {
     this.store.dispatch(new fromUserRoleUserTabActions.AddUserToRole(userToBeAdded));
-  }
-
-  cancelChanges(): void {
-    this.store.dispatch(new fromUserRoleUserTabActions.CancelChanges());
-  }
-
-  saveChanges(): void {
-    const userIdsToSave = this.usersInSelectedRole.filter(u => {
-      return u.Dirty;
-    }).map(u => u.UserId);
-
-    const payload: any = {
-      userIds: userIdsToSave,
-      roleId: this.currentRole.RoleId,
-      isSystemRole: this.currentRole.IsSystemRole
-    };
-
-    this.store.dispatch(new fromUserRoleUserTabActions.SaveChanges(payload));
   }
 }

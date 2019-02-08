@@ -6,7 +6,9 @@ export enum CompanySettingsEnum {
   MultiMatchSearchIntegration = 'MultiMatchSearchIntegration',
   AddJobsSearchIntegration = 'AddJobsSearchIntegration',
   UseUserRoleRestrictions = 'UseUserRoleRestrictions',
-  CommunityReplyLimit = 'CommunityReplyLimit'
+  CommunityReplyLimit = 'CommunityReplyLimit',
+  MaxProjectJobCount = 'MaxProjectJobCount',
+  ProjectJobCount = 'ProjectJobCount'
 }
 
 export interface CompanySetting {

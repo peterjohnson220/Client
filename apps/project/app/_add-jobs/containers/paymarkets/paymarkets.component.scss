@@ -19,6 +19,13 @@
   left: 0;
   overflow-y: scroll;
 }
+
+.smallBiz {
+  margin-top: 0;
+  margin-bottom: 0;
+  bottom: 0;
+}
+
 .paymarket-result {
   display: flex;
   justify-content: space-between;
@@ -39,6 +46,7 @@
     display: none;
   }
 }
+
 .paymarket-check {
   white-space: nowrap;
   text-overflow: ellipsis;

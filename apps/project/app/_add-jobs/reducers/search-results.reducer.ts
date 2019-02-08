@@ -48,19 +48,18 @@ export function reducer(state = initialState, action: fromSearchResultsActions.A
       };
     }
     case fromSearchResultsActions.CLEAR_SELECTED_JOBS: {
-      const jobs = cloneDeep(state.jobs).map(j => {
+      const jobsCopy = cloneDeep(state.jobs).map(j => {
         j.IsSelected = false;
         return j;
       });
 
       return {
         ...state,
-        jobs: jobs,
+        jobs: jobsCopy,
         selectedJobIds: [],
         selectedPayfactorsJobCodes: []
       };
     }
-
     case fromSearchResultsActions.LOAD_JOB_PRICING_DATA: {
       const jobsCopy = cloneDeep(state.jobs);
       const jobToUpdate = jobsCopy.find(x => x.Id === action.payload.Id);
