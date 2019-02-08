@@ -44,6 +44,8 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   exportDataCutsForm: FormGroup;
   attemptedSubmit = false;
   exchangeId: number;
+  total = 0;
+  pageSizes = [];
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -108,6 +110,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     return !!context.dataItem ? context.dataItem.ExchangeJobToCompanyJobId : 0;
   }
 
+  handlePageDropDownChanged(state: any, dropDownValue: number) {
+    state.take = dropDownValue;
+    state.skip = 0;
+    this.handleDataStateChange(state);
+  }
+
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.ExchangeCompanyJob, state));
     this.loadExchangeCompanyJobs();
@@ -167,6 +175,16 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     });
     this.gridDataResultSubscription = this.view$.subscribe(gridDataResult => {
       this.gridDataResult = gridDataResult;
+      if (gridDataResult.total > this.total) {
+        this.pageSizes = [
+          {text: '10', value: 10},
+          {text: '25', value: 25},
+          {text: '50', value: 50},
+          {text: '100', value: 100},
+          {text: 'All', value: gridDataResult.total}
+        ];
+        this.total = gridDataResult.total;
+      }
       this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
     });
   }

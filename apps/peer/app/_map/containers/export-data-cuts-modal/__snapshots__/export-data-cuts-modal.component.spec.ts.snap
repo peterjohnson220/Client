@@ -17,12 +17,14 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
   gridState={[Function Object]}
   gridState$={[Function Observable]}
   gridStateSubscription={[Function Subscriber]}
+  pageSizes={[Function Array]}
   route={[Function Object]}
   selectAllState$={[Function Store]}
   selections={[Function Array]}
   selections$={[Function Observable]}
   selectionsSubscription={[Function Subscriber]}
   store={[Function Store]}
+  total="0"
   view$={[Function Store]}
 >
   <pf-modal-form
@@ -68,6 +70,7 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
           
           
         </kendo-grid-column>
+        
       </kendo-grid>
     </pf-async-container>
     <div
