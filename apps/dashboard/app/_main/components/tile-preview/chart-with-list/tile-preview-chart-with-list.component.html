@@ -9,7 +9,7 @@
     <ng-container *ngFor="let dataItem of model.TileListData">
     <div class="row m-1">
       <div class="col-4 p-0">
-          <button class="btn btn-primary column-count-container py-0 px-2">{{ dataItem.Count}}</button>      
+          <button class="btn btn-primary column-count-container py-0 px-0">{{ dataItem.Count}}</button>      
       </div>
       <div class="col-8 p-0 column-container" [ngbTooltip]="dataItem.TooltipText">
         <a href="{{ dataItem.Url }}" class="tile-text">{{ dataItem.ColumnName }}</a>
@@ -18,11 +18,10 @@
     </ng-container>
   </div>
 
-  <div class="col-7 p-0 pr-2 pb-2">
-
+  <div class="col-7 p-0 pb-2">
     <span *ngIf="model.TileChartData">     
       <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>        
-        <div class="details-body-containter px-2 pb-1">
+        <div class="details-body-containter pl-2 pb-1 pr-1">
           <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>    
           <span class="details-body-containter">
             <a class='col-12 tile-text title-body m-0 p-0' ngbTooltip="{{detailsToolTip}}" href="{{model.PostUrl}}">{{details}}</a>   
@@ -55,7 +54,7 @@
     </kendo-chart-category-axis>
 
     <kendo-chart-series>
-      <kendo-chart-series-item  type="column" [gap]="0.8" [data]="chartData.TileChartItems" color="#F5B312"categoryField="DataField" field="Percentage">
+      <kendo-chart-series-item  type="column" [gap]="1.7" [data]="chartData.TileChartItems" color="#F5B312"categoryField="DataField" field="Percentage">
           <kendo-chart-series-item-tooltip background="#121B25">
             <ng-template let-category="category" let-value="value">
               {{category}} : {{getPercentage(value)}}%
