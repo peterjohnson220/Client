@@ -57,7 +57,8 @@ export class DataCardEffects {
     .pipe(
       mergeMap(() => {
         return [
-          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: ''})
+          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: ''}),
+          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary])
         ];
       })
     );
