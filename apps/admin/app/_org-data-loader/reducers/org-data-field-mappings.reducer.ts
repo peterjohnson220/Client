@@ -17,7 +17,9 @@ export function reducer( state = initialState, action: fromOrgDataFieldMappingsA
     case fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS: {
       return {
         ...state,
-        savingFieldMappings: true
+        savingFieldMappings: true,
+        savingFieldMappingsSuccess: false,
+        savingFieldMappingsError: false
       };
     }
     case fromOrgDataFieldMappingsActions.SAVING_FIELD_MAPPINGS_ERROR: {
