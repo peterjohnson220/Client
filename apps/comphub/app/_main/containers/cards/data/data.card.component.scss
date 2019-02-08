@@ -5,6 +5,12 @@
   border-top: none;
 }
 
+.table td,th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .top-column-header th {
   border-bottom: none;
   padding: 0;
@@ -57,9 +63,17 @@
 .job-title-column {
   width: 21vw;
   max-width: 21vw;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+
+.education-column {
+  width: 10vw;
+  max-width: 10vw;
+}
+
+@media all and (max-width: 1300px) {
+  .hide-when-medium {
+    display: none;
+  }
 }
 
 @media all and (max-width: 1200px) {
