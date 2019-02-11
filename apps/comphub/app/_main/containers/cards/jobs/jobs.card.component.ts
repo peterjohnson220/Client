@@ -54,15 +54,13 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     if (searchTerm) {
       this.store.dispatch(new fromJobsCardActions.GetJobSearchOptions(searchTerm));
     }
-
-    if (this.selectedJob) {
-      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
-    }
   }
 
   handleJobSearchValueChanged(selectedTerm: string): void {
     if (this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
       this.store.dispatch(new fromJobsCardActions.SetSelectedJob(selectedTerm));
+    } else if (this.selectedJob) {
+      this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
   }
 
