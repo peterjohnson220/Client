@@ -1,5 +1,10 @@
 @import 'comphub-page';
 @import 'comphub-styles';
+@import 'colors';
+
+$peer-banner-gradient: linear-gradient(to bottom, #ffb420 0%,#ffb420 31%,#ffffff 100%,#207cca 100%,#ffffff 100%);
+$peer-banner-map-bg: url('/client/comphub/assets/images/peer-banner-map.png') right bottom no-repeat;
+$peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') left top no-repeat;
 
 .table th {
   border-top: none;
@@ -13,6 +18,10 @@
 
 .table tr:last-child {
   border-bottom: 2px solid $comphub-header-background-grey;
+}
+
+.table tr.selected {
+  background-color: #f1f9ee;
 }
 
 .top-column-header th {
@@ -51,7 +60,7 @@
 .custom-radio .custom-control-input ~ .custom-control-label::before {
   transform: scale(1.5);
   cursor: pointer;
-  border: $comphub-radio-green solid 1px;
+  border: $pf-additional-colors-green solid 1px;
   background-color: white;
 }
 
@@ -102,5 +111,34 @@
   span {
     color: $comphub-header-blue;
     font-weight: $comphub-bold-font-weight;
+  }
+}
+
+.peer-banner{
+  margin: 1rem 0;
+  min-height: 142px;
+  width: 100%;
+  background: $peer-banner-text-bg, $peer-banner-map-bg, $peer-banner-gradient;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+
+  .learn-more-btn {
+    background-color: $pf-additional-colors-green;
+    margin-right: 2.25rem;
+    color: #ffffff;
+    padding: .75rem 1.85rem;
+    box-shadow: 4px 4px 5px 0 #4e4e4e7a;
+
+    &:hover{
+      background-color: darken($pf-additional-colors-green, 3%);
+    }
+  }
+}
+
+@media all and (max-width: 1275px) {
+  .peer-banner {
+    background: $peer-banner-text-bg, $peer-banner-gradient;
   }
 }

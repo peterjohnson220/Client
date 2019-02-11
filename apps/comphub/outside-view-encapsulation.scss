@@ -1,4 +1,6 @@
 @import 'comphub-variables';
+@import 'colors';
+
 // Some elements from third party libraries that are added dynamically to the body can lose their view encapsulation context.
 // If the the dynamically added content can't be styled using the shadow-piercing descendant combinator :host ::ng-deep
 // add those styles to this file.
@@ -44,7 +46,7 @@
   }
 
   .k-i-arrow-s {
-    color: $comphub-radio-green;
+    color: $pf-additional-colors-green;
   }
 
   .k-input {

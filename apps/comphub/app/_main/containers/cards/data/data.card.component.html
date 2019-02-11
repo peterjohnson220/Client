@@ -5,18 +5,23 @@
   [nextButtonEnabled]="!!(selectedJobData$ | async)">
 
   <ng-container page-content>
+
+    <div class="peer-banner">
+      <button (click)="handleLearnMoreClicked()" class="btn learn-more-btn">Learn More</button>
+    </div>
+
     <div class="d-flex flex-row content-top-bar">
       <div class="d-flex flex-row ml-auto">
         <div class="effective-date">Effective Date: <span>{{firstDayOfMonth | date:'MM/dd/yyyy'}}</span></div>
         <div>
           Rate:
           <kendo-dropdownlist class="rates-dropdown"
-            [attr.data-qa-id]="'ddm-rate'"
-            [data]="rates"
-            [textField]="'Name'"
-            [valueField]="'Value'"
-            [(ngModel)]="selectedRate"
-            (selectionChange)="handleRateSelectionChange($event)">
+                              [attr.data-qa-id]="'ddm-rate'"
+                              [data]="rates"
+                              [textField]="'Name'"
+                              [valueField]="'Value'"
+                              [(ngModel)]="selectedRate"
+                              (selectionChange)="handleRateSelectionChange($event)">
           </kendo-dropdownlist>
         </div>
       </div>
@@ -27,6 +32,7 @@
                             [loadingError]="jobResultsLoadingError$ | async"
                             [loadingErrorMessage]="'Error loading job data'"
                             class="flex-grow-1">
+
           <table class="table table-hover">
             <thead>
             <tr class="top-column-header hide-when-small">
@@ -45,7 +51,7 @@
                   <span *ngIf="gridContext.sortBy?.dir === 'asc'">
                     <i class="fa fa-fw fa-sort-up"></i>
                   </span>
-                  <span *ngIf="gridContext.sortBy?.dir === 'desc'">
+                    <span *ngIf="gridContext.sortBy?.dir === 'desc'">
                     <i class="fa fa-fw fa-sort-down"></i>
                   </span>
                   </ng-container>
@@ -54,40 +60,63 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let job of (jobResults$ | async)?.Data" (click)="handleSelectionChanged(job)" class="job-row">
-              <td class="text-column job-title-column" title="{{job.JobTitle}}">{{job.JobTitle}}</td>
-              <td class="text-column education-column hide-when-small" title="{{job.Education}}">{{job.Education}}</td>
-              <td class="text-column hide-when-small">{{job.YearsOfExperience}}</td>
-              <td class="text-column hide-when-small">
-                <span *ngIf="job.ManagesEmployees">
-                   <i class="fa fa-check" aria-hidden="true"></i>
-                </span>
-              </td>
-              <td class="text-column hide-when-small hide-when-medium">{{job.Skills}}</td>
-              <td class="number-column">${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.1-1'}}</td>
-              <td class="number-column">${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.1-1'}}</td>
-              <td class="number-column text-center hide-when-small">{{job.Incs}}</td>
-              <td class="number-column text-center hide-when-small">{{job.Orgs}}</td>
-              <td class="text-center">
-                <div class="custom-control custom-radio">
-                  <input type="radio" id="customRadio-{{job.JobId}}"
-                         [attr.data-qa-id]="'chk-select-job-'+job.JobId"
-                         name="select-job-data"
-                         [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
-                         (change)="handleSelectionChanged(job)"
-                         class="custom-control-input">
-                  <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>
-                </div>
-              </td>
-            </tr>
+              <tr *ngFor="let job of (jobResults$ | async)?.Data"
+                (click)="handleSelectionChanged(job)"
+                class="job-row"
+                [class.selected]="job.JobId === (selectedJobData$ | async)?.JobId">
+
+                <td class="text-column job-title-column" title="{{job.JobTitle}}">
+                  {{job.JobTitle}}
+                </td>
+                <td class="text-column education-column hide-when-small" title="{{job.Education}}">
+                  {{job.Education}}
+                </td>
+                <td class="text-column hide-when-small">
+                  {{job.YearsOfExperience}}
+                </td>
+                <td class="text-column hide-when-small">
+                  <span *ngIf="job.ManagesEmployees">
+                     <i class="fa fa-check" aria-hidden="true"></i>
+                  </span>
+                </td>
+                <td class="text-column hide-when-small hide-when-medium">
+                  {{job.Skills}}
+                </td>
+                <td class="number-column">
+                  ${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.1-1'}}
+                </td>
+                <td class="number-column">
+                  ${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.1-1'}}
+                </td>
+                <td class="number-column text-center hide-when-small">
+                  {{job.Incs}}
+                </td>
+                <td class="number-column text-center hide-when-small">
+                  {{job.Orgs}}
+                </td>
+                <td class="text-center">
+                  <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio-{{job.JobId}}"
+                           [attr.data-qa-id]="'chk-select-job-'+job.JobId"
+                           name="select-job-data"
+                           [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
+                           (change)="handleSelectionChanged(job)"
+                           class="custom-control-input">
+                    <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
+
           <ngb-pagination
             *ngIf="(jobResults$ | async)?.Total > pageSize"
             [(page)]="currentPageNumber"
             [pageSize]="pageSize"
             (pageChange)="handlePageChange($event)"
-            [collectionSize]="(jobResults$ | async)?.Total"></ngb-pagination>
+            [collectionSize]="(jobResults$ | async)?.Total">
+          </ngb-pagination>
+
         </pf-async-container>
       </div>
     </div>

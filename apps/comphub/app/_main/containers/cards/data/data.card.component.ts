@@ -11,6 +11,7 @@ import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPric
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { firstDayOfMonth } from '../../../helpers';
+import { WindowRef } from '../../../services';
 
 @Component({
   selector: 'pf-data-card',
@@ -22,7 +23,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   paymarketId?: number;
   jobDataSelection: JobData;
   currentPageNumber = 1;
-  pageSize = 10;
+  pageSize = 6;
   gridContext = {
     skip: 0,
     take: this.pageSize,
@@ -48,7 +49,10 @@ export class DataCardComponent implements OnInit, OnDestroy {
   selectedPageIdSubscription: Subscription;
   selectedJobSubscription: Subscription;
 
-  constructor(private store: Store<fromComphubMainReducer.State>) {
+  constructor(
+    private store: Store<fromComphubMainReducer.State>,
+    public winRef: WindowRef
+  ) {
     this.jobResults$ = this.store.select(fromComphubMainReducer.getJobGridResults);
     this.jobResultsLoading$ = this.store.select(fromComphubMainReducer.getLoadingJobGridResults);
     this.jobResultsLoadingError$ = this.store.select(fromComphubMainReducer.getLoadingJobGridResultsError);
@@ -131,6 +135,10 @@ export class DataCardComponent implements OnInit, OnDestroy {
 
   handleRateSelectionChange(value: any) {
     this.store.dispatch(new fromDataCardActions.SetSelectedRate(value));
+  }
+
+  handleLearnMoreClicked() {
+    this.winRef.nativeWindow.open('https://payfactors.com/product-peer/');
   }
 
   get isHourly(): boolean {
