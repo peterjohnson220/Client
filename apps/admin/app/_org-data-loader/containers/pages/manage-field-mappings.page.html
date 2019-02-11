@@ -14,10 +14,12 @@
     <div [hidden]="!selectedCompany" class="mapping-container">
       <h3 class="pull-left">Field Mapper</h3>
       <hr class="clear" />
-      <div class="form-group row">
-        <label for="delimiter" class="col-sm-1 col-form-label">Delimiter: </label>
-        <div class="col-sm-1">
-          <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+      <div class="container-fluid">
+        <div class="form-group row">
+          <label for="delimiter" class="col-sm-1 col-form-label">Delimiter: </label>
+          <div class="col-sm-1">
+            <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+          </div>
         </div>
       </div>
       <kendo-tabstrip [keepTabContent]="true">
