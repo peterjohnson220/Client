@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { JobsCardComponent } from './jobs.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
+import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
 
 describe('Comphub - Main - Jobs Card Component', () => {
   let instance: JobsCardComponent;
@@ -33,21 +34,8 @@ describe('Comphub - Main - Jobs Card Component', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch an action when filter changed', () => {
-
+  it('should dispatch an action to set the selected job, when valid search option selected', () => {
     spyOn(store, 'dispatch');
-
-    const expectedAction = new fromJobsCardActions.GetJobSearchOptions('test');
-
-    instance.handleJobSearchFilterChange('test');
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch an action when valid search option selected', () => {
-
-    spyOn(store, 'dispatch');
-
     instance.potentialOptions = ['Job A'];
     const expectedAction = new fromJobsCardActions.SetSelectedJob('job a');
 
@@ -56,10 +44,8 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should not dispatch a set selected job action when invalid search option selected', () => {
-
+  it('should NOT dispatch a set selected job action when invalid search option selected', () => {
     spyOn(store, 'dispatch');
-
     instance.potentialOptions = ['Job B', 'Job C'];
     const expectedAction = new fromJobsCardActions.SetSelectedJob('Job A');
 
@@ -68,16 +54,61 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should not dispatch a set selected job action when the search is changed to a non empty filter', () => {
-
+  it('should dispatch an action to clear the selected job when invalid search option selected and there is a selected job', () => {
     spyOn(store, 'dispatch');
+    instance.potentialOptions = ['Job B'];
+    instance.selectedJob = 'Job B';
+    const expectedAction = new fromJobsCardActions.ClearSelectedJob();
 
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('Something else');
+    instance.handleJobSearchValueChanged('Job');
 
-    instance.handleJobSearchFilterChange('Something else');
+    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch an action to clear the selected job when invalid search option selected and there is not a selected job', () => {
+    spyOn(store, 'dispatch');
+    instance.potentialOptions = ['Job B'];
+    instance.selectedJob = '';
+    const expectedAction = new fromJobsCardActions.ClearSelectedJob();
+
+    instance.handleJobSearchValueChanged('Job');
 
     expect(store.dispatch).not.toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should dispatch an action to get the job search options with the search term, when there is a non empty search term', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromJobsCardActions.GetJobSearchOptions('Accountant');
+
+    instance.handleJobSearchFilterChange('Accountant');
+
+    expect(store.dispatch).toHaveBeenLastCalledWith(expectedAction);
+  });
+
+  it('should NOT dispatch an action to get the job search options, when there is an empty search term', () => {
+    spyOn(store, 'dispatch');
+
+    instance.handleJobSearchFilterChange('');
+
+    expect(store.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('should dispatch a SetSelectedJob action with the job title, when handling a trending job being clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromJobsCardActions.SetSelectedJob('Accountant');
+
+    instance.handleTrendingJobClicked('Accountant');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch a NavigateToNextCard action, when handling a trending job being clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromCompHubPageActions.NavigateToNextCard();
+
+    instance.handleTrendingJobClicked('Accountant');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 
 });
