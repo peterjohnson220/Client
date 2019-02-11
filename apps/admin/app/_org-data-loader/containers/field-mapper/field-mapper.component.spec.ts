@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import {of} from 'rxjs';
 import { FieldMapperComponent } from './field-mapper.component';
 
 describe('FieldMapperComponent', () => {
@@ -17,12 +18,47 @@ describe('FieldMapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
+    component.fieldMappings$ = of([{
+      CompanyId: 13,
+      LoaderType: 'Jobs',
+      LoaderFieldMappings: [{
+        InternalField: 'Job_Code',
+        ClientField: 'JobCode'
+      },
+      {
+        InternalField: 'Job_Title',
+        ClientField: 'JobTitle'
+      }]
+    },
+    {
+      CompanyId: 13,
+      LoaderType: 'Employees',
+      LoaderFieldMappings: [{
+        InternalField: 'Employee_Id',
+        ClientField: 'EmpId'
+      },
+      {
+        InternalField: 'Job_Code',
+        ClientField: 'JobCode',
+      },
+      {
+        InternalField: 'PayMarket',
+        ClientField: 'PayMarket'
+      }]
+    }]);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should show a spinner when the company\'s mappings are being retrieved', () => {
+    component.fieldMappingsLoading = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  })
 
   it('should enable the Map button when a payfactors field AND client field have been selected', () => {
     component.selectedClientField = 'Job Code';
@@ -134,5 +170,17 @@ describe('FieldMapperComponent', () => {
     expect(component.clientFields).toEqual([]);
     expect(component.payfactorsDataFields).toBe(component.payfactorsDataFieldsForReset);
 
+  });
+
+  it('should populate the mappings box with the company\'s existing mappings on init', () => {
+    component.loaderType = 'Jobs';
+    component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
+
+    const expectedMappings = ['Job_Code__JobCode', 'Job_Title__JobTitle'];
+    component.ngOnInit();
+
+    fixture.detectChanges();
+
+    expect(component.mappedFields).toEqual(expectedMappings);
   });
 });

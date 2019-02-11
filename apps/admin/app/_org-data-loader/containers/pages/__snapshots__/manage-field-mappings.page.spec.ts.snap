@@ -4,6 +4,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter=""
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -23,6 +25,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  selectedCompany={[Function Number]}
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
@@ -67,9 +70,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
-          hidden=""
         >
           <h3
             class="pull-left"
@@ -143,6 +146,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
               Update Mapping
             </button>
             
+            <pf-email-recipients-modal
+              class="email-recipients-btn"
+            />
           </div>
         </div>
       </div>
@@ -155,6 +161,8 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete="false"
@@ -174,6 +182,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  selectedCompany={[Function Number]}
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
@@ -218,9 +227,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
-          hidden=""
         >
           <h3
             class="pull-left"
@@ -294,6 +303,9 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
               Update Mapping
             </button>
             
+            <pf-email-recipients-modal
+              class="email-recipients-btn"
+            />
           </div>
         </div>
       </div>
@@ -306,6 +318,8 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -325,6 +339,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   saveLoaderSettingsSuccess$={[Function Store]}
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
+  selectedCompany={[Function Number]}
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
@@ -369,9 +384,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
-          hidden=""
         >
           <h3
             class="pull-left"
@@ -444,6 +459,9 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
               Update Mapping
             </button>
             
+            <pf-email-recipients-modal
+              class="email-recipients-btn"
+            />
           </div>
         </div>
       </div>
@@ -456,6 +474,8 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -520,83 +540,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
       >
         
         <pf-company-selector />
-        <div
-          class="mapping-container"
-          hidden=""
-        >
-          <h3
-            class="pull-left"
-          >
-            Field Mapper
-          </h3>
-          <hr
-            class="clear"
-          />
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
-            <div
-              class="col-sm-1"
-            >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
-            </div>
-          </div>
-          <kendo-tabstrip>
-            <kendo-tabstrip-tab
-              title="Pay Markets"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Jobs"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structures"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Structure Mappings"
-            >
-              
-            </kendo-tabstrip-tab>
-            <kendo-tabstrip-tab
-              title="Employees"
-            >
-              
-            </kendo-tabstrip-tab>
-          </kendo-tabstrip>
-          <div
-            class="buttons-container"
-          >
-            <span
-              class="save-message "
-              hidden=""
-            >
-              
-            </span>
-            <button
-              class="btn btn-primary"
-              type="button"
-            >
-              Update Mapping
-            </button>
-            
-          </div>
-        </div>
+        
       </div>
     </div>
   </pf-page-with-title-bar>
@@ -607,6 +551,8 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -627,6 +573,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   saveMessage=""
+  selectedCompany={[Function Number]}
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
@@ -671,9 +618,9 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
-          hidden=""
         >
           <h3
             class="pull-left"
@@ -746,6 +693,9 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
               Update Mapping
             </button>
             
+            <pf-email-recipients-modal
+              class="email-recipients-btn"
+            />
           </div>
         </div>
       </div>
@@ -758,6 +708,8 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -778,6 +730,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   saveMappingsError$={[Function Store]}
   saveMappingsSuccess$={[Function Store]}
   saveMessage={[Function String]}
+  selectedCompany={[Function Number]}
   store={[Function Store]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
@@ -822,9 +775,9 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
-          hidden=""
         >
           <h3
             class="pull-left"
@@ -896,6 +849,9 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
               Update Mapping
             </button>
             
+            <pf-email-recipients-modal
+              class="email-recipients-btn"
+            />
           </div>
         </div>
       </div>
@@ -908,6 +864,8 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
 <pf-autoloader-field-mapping-page
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
+  companyMappings$={[Function Store]}
+  companyMappingsLoading$={[Function Store]}
   delimiter={[Function String]}
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
@@ -972,6 +930,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
       >
         
         <pf-company-selector />
+        
         <div
           class="mapping-container"
         >

@@ -14,7 +14,7 @@ import * as fromEmailRecipientsActions from '../../actions/email-recipients.acti
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 
-import { MappingModel } from '../../models';
+import {LoaderFieldSet, MappingModel} from '../../models';
 import {
   DATEFORMAT_LOADER_SETTING_KEY_NAME,
   DELIMITER_LOADER_SETTING_KEY_NAME,
@@ -46,6 +46,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   companiesLoading$: Observable<boolean>;
   selectedCompany: number;
   mappings: MappingModel[];
+  companyMappings$: Observable<LoaderFieldSet[]>;
+  companyMappingsLoading$: Observable<boolean>;
   saveMappingsSuccess$: Observable<boolean>;
   saveMappingsError$: Observable<boolean>;
   saveMessage: string;
@@ -74,13 +76,20 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
     this.companies$ = this.store.select(fromOrgDataAutoloaderReducer.getCompanies);
     this.companiesLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getCompaniesLoading);
+    this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
+    this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
+    this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
+    this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
+    this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
+    this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
+    this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
+    this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
 
     this.mappings = [];
     this.delimiter = ',';
     this.loaderSettingsToSave = [];
     this.existingCompanyLoaderSettings = [];
-    this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
-    this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
+
 
     this.saveMappingsSuccess$.subscribe(success => {
       if (success) {
@@ -96,11 +105,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveMessage = 'Failed.';
       }
     });
-
-    this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
-    this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
-    this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
-    this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
 
     this.loaderSettings$.subscribe(settings => {
       if (settings.length > 0) {
@@ -138,7 +142,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveMessage = '';
     this.paymarketMappingComplete = $event.complete;
     if (this.paymarketMappingComplete) {
-      this.addOrReplaceMappings('Paymarkets', $event.mappings);
+      this.addOrReplaceMappings('PayMarkets', $event.mappings);
     }
   }
 
@@ -197,6 +201,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     }));
 
     this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany));
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany));
   }
 
   SaveMappings() {
