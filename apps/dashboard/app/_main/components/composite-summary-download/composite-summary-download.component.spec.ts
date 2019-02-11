@@ -1,54 +1,145 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
+import { BehaviorSubject } from 'rxjs';
 
+import {
+  FileDownloadError,
+  FileDownloadProgress,
+  FileDownloadSuccess,
+} from 'libs/features/file-download/actions/file-download.actions';
+import * as fromFileReducer from 'libs/features/file-download/reducers/file-download.reducer';
+import { FileModel } from 'libs/models/file';
 import * as fromRootState from 'libs/state/state';
-
+import { CompositeSummaryDownload } from '../../actions/composite-summary-download.actions';
 import { CompositeSummaryDownloadComponent } from './composite-summary-download.component';
 
 describe('Dashboard - Main - Composite Summary Download', () => {
   let fixture: ComponentFixture<CompositeSummaryDownloadComponent>;
   let instance: CompositeSummaryDownloadComponent;
   let store: Store<fromRootState.State>;
-  let route: ActivatedRoute;
+  const goodIdQueryParams = { compositeDataLoadExternalId: 'a9a93799-3825-5804-b6d7-ad87ebee956e' };
+  const badIdQueryParams = { compositeDataLoadExternalId: 'invalidId' };
+
+  let queryParamMap: BehaviorSubject<ParamMap>;
 
   beforeEach(() => {
+    queryParamMap = new BehaviorSubject<ParamMap>(convertToParamMap(goodIdQueryParams));
+
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({
-          ...fromRootState.reducers
-        })
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('feature_fileDownload', fromFileReducer.reducer),
       ],
       declarations: [
-        CompositeSummaryDownloadComponent
+        CompositeSummaryDownloadComponent,
       ],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          snapshot: {
-            queryParams: {compositeDataLoadExternalId: '123', action: 'test'}
-          }
-        }
-      }],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            queryParamMap,
+          },
+        },
+      ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     store = TestBed.get(Store);
-    route = TestBed.get(ActivatedRoute);
-    spyOn(store, 'dispatch');
+    jest.spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(CompositeSummaryDownloadComponent);
     instance = fixture.componentInstance;
   });
 
-  it('should open URL in new tab on Init', () => {
-    const expectedUri = '/odata/Integration/AuthRedirect?compositeDataLoadExternalId=123&action=test';
-    spyOn(window, 'open');
+  it('should dispatch a CompositeSummaryDownload action on init', () => {
+    // arrange
+    const action = new CompositeSummaryDownload({
+      Id: goodIdQueryParams.compositeDataLoadExternalId,
+    });
+
+    // act
     fixture.detectChanges();
 
+    // assert
+    expect(store.dispatch).toHaveBeenLastCalledWith(action);
+  });
 
-    expect(window.open).toHaveBeenCalledWith(expectedUri);
+  it('should show an error with an invalid compositeDataLoadExternalId', () => {
+    // arrange
+    queryParamMap.next(convertToParamMap(badIdQueryParams));
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(instance.errorText).toEqual(`Invalid composite data load external ID: ${badIdQueryParams.compositeDataLoadExternalId}`);
+  });
+
+  it('should match query parameter error snapshot', () => {
+    // arrange
+    queryParamMap.next(convertToParamMap(badIdQueryParams));
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should match file error snapshot', () => {
+    // arrange
+    const fileId = goodIdQueryParams.compositeDataLoadExternalId;
+    const file: FileModel = {
+      error: true,
+      errorText: 'There is an error',
+      fileId,
+      progress: 100,
+    };
+    const action = new FileDownloadError(file);
+    store.dispatch(action);
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should match file download in progress snapshot', () => {
+    // arrange
+    const fileId = goodIdQueryParams.compositeDataLoadExternalId;
+    const file: FileModel = {
+      error: false,
+      fileId,
+      progress: 50,
+    };
+    const action = new FileDownloadProgress(file);
+    store.dispatch(action);
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should match file download success snapshot', () => {
+    // arrange
+    const fileId = goodIdQueryParams.compositeDataLoadExternalId;
+    const file: FileModel = {
+      error: false,
+      fileId,
+      progress: 100,
+    };
+    const action = new FileDownloadSuccess(file);
+    store.dispatch(action);
+
+    // act
+    fixture.detectChanges();
+
+    // assert
+    expect(fixture).toMatchSnapshot();
   });
 });

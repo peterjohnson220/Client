@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // PF
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFileDownloadModule } from 'libs/features/file-download';
 
 // Effects
 import { DashboardEffects,
@@ -71,7 +72,8 @@ import { BasicListComponent } from './components';
 
     // Payfactors
     PfCommonUIModule,
-    PfCommonModule
+    PfCommonModule,
+    PfFileDownloadModule,
   ],
   declarations: [
     // Pages

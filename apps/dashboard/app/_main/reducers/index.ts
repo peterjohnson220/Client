@@ -30,7 +30,7 @@ export const reducers = {
   tileGrid: fromTileGridReducer.reducer,
   userVoice: fromUserVoiceReducer.reducer,
   activityTimeline: fromActivityTimelineReducer.reducer,
-  tcModal: fromDashboardTCModalReducer.reducer
+  tcModal: fromDashboardTCModalReducer.reducer,
 };
 
 // Select Feature Area
