@@ -83,23 +83,27 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=""
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=""
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
@@ -240,23 +244,27 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=","
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
@@ -397,23 +405,27 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=","
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
@@ -631,23 +643,27 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=","
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
@@ -788,23 +804,27 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=","
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
@@ -943,23 +963,27 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
             class="clear"
           />
           <div
-            class="form-group row"
+            class="container-fluid"
           >
-            <label
-              class="col-sm-1 col-form-label"
-              for="delimiter"
-            >
-              Delimiter: 
-            </label>
             <div
-              class="col-sm-1"
+              class="form-group row"
             >
-              <input
-                class="form-control ng-untouched ng-pristine ng-valid"
-                id="delimiter"
-                ng-reflect-model=","
-                type="text"
-              />
+              <label
+                class="col-sm-1 col-form-label"
+                for="delimiter"
+              >
+                Delimiter: 
+              </label>
+              <div
+                class="col-sm-1"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="delimiter"
+                  ng-reflect-model=","
+                  type="text"
+                />
+              </div>
             </div>
           </div>
           <kendo-tabstrip>
