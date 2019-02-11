@@ -11,11 +11,13 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import { generateFakeJobData, JobGridData } from '../../../models';
 import { RateType, ComphubPages } from '../../../data';
+import { WindowRef } from '../../../services';
 
 describe('Comphub - Main - Data Card Component', () => {
   let instance: DataCardComponent;
   let fixture: ComponentFixture<DataCardComponent>;
   let store: Store<fromComphubMainReducer.State>;
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,6 +27,16 @@ describe('Comphub - Main - Data Card Component', () => {
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
         })
       ],
+      providers: [
+        {
+          provide: WindowRef,
+          useValue: {
+            nativeWindow: {
+              open: jest.fn()
+            }
+          }
+        }
+      ],
       declarations: [ DataCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -33,6 +45,7 @@ describe('Comphub - Main - Data Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+    windowRef = TestBed.get(WindowRef);
     fixture.detectChanges();
   });
 
@@ -41,7 +54,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
       Skip: 0,
-      Take: 10,
+      Take: 6,
       CompanyPayMarketId: null,
       JobTitleShort: 'Test job',
       Sort: null
@@ -77,7 +90,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
       Skip: 0,
-      Take: 10,
+      Take: 6,
       CompanyPayMarketId: null,
       JobTitleShort: 'Test job',
       Sort: null
@@ -95,7 +108,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
       Skip: 0,
-      Take: 10,
+      Take: 6,
       CompanyPayMarketId: null,
       JobTitleShort: 'Test job',
       Sort: null
@@ -185,7 +198,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
       Skip: 0,
-      Take: 10,
+      Take: 6,
       CompanyPayMarketId: null,
       JobTitleShort: 'Test job',
       Sort: {
@@ -206,7 +219,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     const expectedAction = new fromDataCardActions.GetQuickPriceMarketData({
       Skip: 0,
-      Take: 10,
+      Take: 6,
       CompanyPayMarketId: null,
       JobTitleShort: 'Test job',
       Sort: null
@@ -217,7 +230,7 @@ describe('Comphub - Main - Data Card Component', () => {
         field: 'Education'
       },
       skip: 100,
-      take: 10
+      take: 6
     };
 
     instance.selectedPageId$ = of(ComphubPages.Data);
@@ -282,6 +295,14 @@ describe('Comphub - Main - Data Card Component', () => {
     const actualValue = Math.round(instance.calculateDataByRate(value) * 100) / 100;
 
     expect(actualValue).toEqual(expectedValue);
+  });
+
+  it('should call window open, when handling the learn more button being clicked', () => {
+    spyOn(windowRef.nativeWindow, 'open');
+
+    instance.handleLearnMoreClicked();
+
+    expect(windowRef.nativeWindow.open).toHaveBeenCalled();
   });
 
 });
