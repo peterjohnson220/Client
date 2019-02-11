@@ -2,7 +2,7 @@ import * as fromOrgDataFieldMappingsActions from '../actions/org-data-field-mapp
 import {LoaderFieldSet} from '../models';
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 
-export interface State extends EntityState<LoaderFieldSet>{
+export interface State extends EntityState<LoaderFieldSet> {
   loading: boolean;
   loadingError: boolean;
   savingFieldMappings: boolean;
