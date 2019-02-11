@@ -86,6 +86,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       if (success) {
         this.saveClass = 'success';
         this.saveMessage = 'Saved.';
+        this.mappings = [];
       }
     });
 
@@ -116,6 +117,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     ).subscribe(success => {
       this.saveClass = 'success';
       this.saveMessage = 'Saved.';
+      this.loaderSettingsToSave = [];
     });
 
     this.saveLoaderSettingsError$.pipe(
@@ -213,8 +215,6 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         companyId: this.selectedCompany,
       }));
     }
-
-    this.loaderSettingsToSave = [];
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
