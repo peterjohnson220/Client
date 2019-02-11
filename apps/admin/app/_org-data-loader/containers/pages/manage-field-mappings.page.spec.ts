@@ -131,7 +131,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'Paymarkets',
+      LoaderType: 'PayMarkets',
       Mappings: ['Paymarket__Paymarket']
     };
 
@@ -141,13 +141,13 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should replace a paymarket mapping in the list of mappings when the paymarket mapping is complete ' +
     'and a paymarket mapping exists', () => {
     const evt = {complete: true, mappings: ['Country__Country Code']};
-    component.mappings = [{LoaderType: 'Paymarkets', Mappings: ['Paymarket__Paymarket']}];
+    component.mappings = [{LoaderType: 'PayMarkets', Mappings: ['Paymarket__Paymarket']}];
     component.onPaymarketMappingComplete(evt);
 
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'Paymarkets',
+      LoaderType: 'PayMarkets',
       Mappings: ['Country__Country Code']
     };
 
