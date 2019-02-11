@@ -58,7 +58,7 @@ describe('FieldMapperComponent', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
-  })
+  });
 
   it('should enable the Map button when a payfactors field AND client field have been selected', () => {
     component.selectedClientField = 'Job Code';
