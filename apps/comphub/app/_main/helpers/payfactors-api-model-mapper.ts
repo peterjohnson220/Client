@@ -26,7 +26,8 @@ export class PayfactorsApiModelMapper {
         PayMarketName: pm.PayMarket,
         Industry: pm.IndustryValue,
         Location: pm.GeoValue,
-        Size: pm.SizeValue
+        Size: pm.SizeValue,
+        SizeLabel: pm.SizeLabel
       };
     });
   }

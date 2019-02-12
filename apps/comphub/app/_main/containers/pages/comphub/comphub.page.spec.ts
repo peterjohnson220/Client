@@ -8,7 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { ComphubPageComponent } from './comphub.page';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
-import { ComphubPages } from '../../../data';
+import { AccordionCards, ComphubPages } from '../../../data';
 
 describe('Comphub - Main - Comphub Page', () => {
   let instance: ComphubPageComponent;
@@ -51,5 +51,10 @@ describe('Comphub - Main - Comphub Page', () => {
     instance.handleCardChange(ComphubPages.Markets);
 
     expect(store.dispatch).not.toHaveBeenLastCalledWith(expectedAction);
+  });
+
+  it('should track by the accordion Id', () => {
+    const card = AccordionCards[0];
+    expect(instance.trackById(1, AccordionCards[0])).toBe(card.Id);
   });
 });

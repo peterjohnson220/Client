@@ -10,7 +10,7 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { AddPayMarketFormData, generateMockAddPayMarketFormData } from '../../../models';
+import { AddPayMarketFormData, generateMockAddPayMarketFormData, generateMockPricingPaymarket } from '../../../models';
 
 
 describe('Comphub - Main - Markets Card Component', () => {
@@ -57,27 +57,6 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should clear the search term when clear called', () => {
-    spyOn(store, 'dispatch');
-
-    instance.searchTerm = 'blah';
-
-    instance.clearSearchValue();
-
-    expect(instance.searchTerm).toBeFalsy();
-  });
-
-  it('should clear the paymarket filter when search value cleared', () => {
-    spyOn(store, 'dispatch');
-
-    const expectedAction = new fromMarketsCardActions.SetPaymarketFilter('');
-
-    instance.searchTerm = 'some garbage';
-    instance.clearSearchValue();
-
-    expect(store.dispatch).toBeCalledWith(expectedAction);
-  });
-
   it('should dispatch SavePayMarket action when handling save pay market', () => {
     spyOn(store, 'dispatch');
     const data: AddPayMarketFormData = generateMockAddPayMarketFormData();
@@ -106,21 +85,39 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should dispatch Open from AddPayMarketForm actions when add new market clicked', () => {
+  it('should dispatch OpenForm from AddPayMarketForm actions when add new market clicked', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromAddPayMarketFormActions.Open();
+    const expectedAction = new fromAddPayMarketFormActions.OpenForm();
 
     instance.handleAddNewMarketClicked();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should dispatch Close from AddPayMarketForm actions when cancel button clicked', () => {
+  it('should dispatch CloseForm from AddPayMarketForm actions when cancel button clicked', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromAddPayMarketFormActions.Close();
+    const expectedAction = new fromAddPayMarketFormActions.CloseForm();
 
     instance.handleCancelAddPayMarket();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch a SetSelectedPayMarket action, when handling a paymarket being checked', () => {
+    spyOn(store, 'dispatch');
+    const selectedPayMarket = generateMockPricingPaymarket();
+    const expectedAction = new fromMarketsCardActions.SetSelectedPaymarket(selectedPayMarket);
+
+    instance.handlePaymarketChecked(selectedPayMarket);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should call handleSearchChanged with an empty string, when clearing the search value', () => {
+    spyOn(instance, 'handleSearchChanged');
+
+    instance.clearSearchValue();
+
+    expect(instance.handleSearchChanged).toBeCalledWith('');
   });
 });

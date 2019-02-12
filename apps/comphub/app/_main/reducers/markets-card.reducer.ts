@@ -68,17 +68,32 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         selectedPaymarket: selectedPaymarket
       };
     }
-
     case fromMarketsCardActions.GET_MD_SCOPE_SUCCESS:
       return {
         ...state,
         marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(action.payload)
       };
-
     case fromMarketsCardActions.GET_MD_SCOPE_ERROR:
       return {
         ...state,
         marketDataScope: MarketsCardHelper.buildDefaultMarketDataScope()
+      };
+    case fromMarketsCardActions.ORDER_PAYMARKETS_WITH_SELECTED_FIRST:
+      let newPayMarkets;
+      const selectedPayMarket = state.selectedPaymarket;
+      const allPayMarketsWithoutSelected = sortPaymarkets(state.paymarkets
+        .filter(pm => pm.CompanyPayMarketId !== selectedPayMarket.CompanyPayMarketId));
+
+      // Don't add Default
+      if (selectedPayMarket.CompanyPayMarketId) {
+        newPayMarkets = [selectedPayMarket, ...allPayMarketsWithoutSelected];
+      } else {
+        newPayMarkets = allPayMarketsWithoutSelected;
+      }
+
+      return {
+        ...state,
+        paymarkets: newPayMarkets
       };
     default: {
       return state;

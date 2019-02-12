@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
@@ -14,11 +15,10 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
   SummaryCardComponent } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects,
-  ComphubPageEffects } from './effects';
+import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
-import { TrendingJobGroupComponent, CardComponent, SelectPaymarketsComponent,
+import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent,
   AddPayMarketFormComponent } from './components';
 import { WindowRef } from './services';
 
@@ -38,6 +38,7 @@ import { WindowRef } from './services';
       AddPayMarketFormEffects,
       ComphubPageEffects
     ]),
+    PerfectScrollbarModule,
 
     // Routing
     MainRoutingModule,
@@ -65,7 +66,7 @@ import { WindowRef } from './services';
     CardLayoutComponent,
     DataCardComponent,
     SummaryCardComponent,
-    SelectPaymarketsComponent
+    PaymarketCardsComponent
   ],
   providers: [
     WindowRef

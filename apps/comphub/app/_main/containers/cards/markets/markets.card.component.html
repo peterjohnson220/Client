@@ -32,41 +32,51 @@
         *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
         <div class="col-lg-12 col-xl-9">
           <div class="search-filter">
-            <span class="k-textbox k-space-right">
-                    <input type="text"
-                           [(ngModel)]="searchTerm"
-                           (keyup)="handleSearchChanged($event.target.value)"
-                           [attr.data-qa-id]="'txt-search-paymarkets'"
-                           [placeholder]="'Search Pay Markets...'"
-                           class="k-widget k-input search-paymarkets"/>
-                    <span (click)="clearSearchValue()"
-                          [class.k-i-close]="searchTerm"
-                          class="k-icon k-clear-value"></span>
-                </span>
-          </div>
+              <pf-input-debounce
+                [ngModel]="payMarketsFilter$ | async"
+                [placeholderText]="'Search Pay Markets...'"
+                [delay]="200" [hideClearBtn]="true"
+                (valueChanged)="handleSearchChanged($event)">
+              </pf-input-debounce>
 
-          <div class="add-new-market-container">
-            <span class="uppercase-header">My Markets</span>
-            <div class="add-new-market-button"
-              [attr.data-qa-id]="'btn-addNewMarket'"
-              (click)="handleAddNewMarketClicked()">
-              <i class="fa fa-plus-circle"></i>
-              Add New Market
-            </div>
-          </div>
-
-          <pf-select-paymarkets
-            *ngIf="(visiblePaymarkets$ |async).length"
-            [selectedPaymarketId]="(selectedPaymarket$ | async)?.CompanyPayMarketId"
-            [paymarkets]="visiblePaymarkets$ | async"
-            (paymarketChecked)="handlePaymarketChecked($event)">
-          </pf-select-paymarkets>
-
-          <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
-            <div class="no-data">No Data</div>
+              <span *ngIf="payMarketsFilter$ | async"
+                    (click)="clearSearchValue()"
+                    class="k-icon k-clear-value k-i-close">
+              </span>
           </div>
         </div>
       </div>
+
+      <ng-container  *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
+        <div class="row">
+          <div class="col-lg-12 col-xl-9">
+            <div class="add-new-market-container">
+              <span class="uppercase-header">My Markets</span>
+              <div class="add-new-market-button"
+                   [attr.data-qa-id]="'btn-addNewMarket'"
+                   (click)="handleAddNewMarketClicked()">
+                <i class="fa fa-plus-circle"></i>
+                Add New Market
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pf-paymarket-cards
+              *ngIf="(visiblePaymarkets$ |async).length"
+              [selectedPaymarketId]="(selectedPaymarket$ | async)?.CompanyPayMarketId"
+              [paymarkets]="visiblePaymarkets$ | async"
+              (paymarketChecked)="handlePaymarketChecked($event)">
+              </pf-paymarket-cards>
+
+            <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
+              <div class="no-data">No Data</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
 
 
     </pf-async-container>

@@ -52,7 +52,8 @@ export class MarketsCardHelper {
       PayMarketName: 'National',
       Industry: 'All',
       Location: 'National',
-      Size: 'All'
+      Size: 'All',
+      SizeLabel: 'Employees'
     };
   }
 }
