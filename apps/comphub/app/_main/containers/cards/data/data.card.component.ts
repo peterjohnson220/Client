@@ -33,6 +33,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   firstDayOfMonth: Date;
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
+  marketDataChange: boolean;
 
   // Observables
   jobResults$: Observable<JobGridData>;
@@ -42,12 +43,14 @@ export class DataCardComponent implements OnInit, OnDestroy {
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedPageId$: Observable<ComphubPages>;
   selectedJobData$: Observable<JobData>;
+  marketDataChange$: Observable<boolean>;
 
   // Subscriptions
   jobTitleSubscription: Subscription;
   paymarketSubscription: Subscription;
   selectedPageIdSubscription: Subscription;
   selectedJobSubscription: Subscription;
+  marketDataChangeSubscription: Subscription;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>,
@@ -60,6 +63,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
+    this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
 
     this.firstDayOfMonth = firstDayOfMonth();
   }
@@ -72,8 +76,10 @@ export class DataCardComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
+
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Data) {
+      if (pageId === ComphubPages.Data && this.marketDataChange) {
           this.resetGridContext();
           this.loadJobResults();
         }
@@ -167,5 +173,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.paymarketSubscription.unsubscribe();
     this.selectedPageIdSubscription.unsubscribe();
     this.selectedJobSubscription.unsubscribe();
+    this.marketDataChangeSubscription.unsubscribe();
   }
 }

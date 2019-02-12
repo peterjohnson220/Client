@@ -177,6 +177,11 @@ export const getSelectedJobData = createSelector(
   fromDataCardReducer.getSelectedJobData
 );
 
+export const getMarketDataChange = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getMarketDataChange
+);
+
 // Add Pay Market Form
 export const getAddPayMarketFormOpen = createSelector(
   selectAddPayMarketFormState,

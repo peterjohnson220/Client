@@ -8,6 +8,7 @@ export interface State {
   jobResults: JobGridData;
   selectedJobData: JobData;
   selectedRate: RateType;
+  marketDataChange: boolean;
 }
 
 const initialState: State = {
@@ -18,7 +19,8 @@ const initialState: State = {
     Total: 0
   },
   selectedJobData: null,
-  selectedRate: RateType.Annual
+  selectedRate: RateType.Annual,
+  marketDataChange: false
 };
 
 // Reducer
@@ -36,7 +38,8 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         ...state,
         jobResults: action.payload,
         loading: false,
-        loadingError: false
+        loadingError: false,
+        marketDataChange: false
       };
     }
     case fromDataCardActions.GET_QUICK_PRICE_MARKET_DATA_ERROR: {
@@ -64,6 +67,12 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         selectedJobData: null
       };
     }
+    case fromDataCardActions.SET_MARKET_DATA_CHANGE: {
+      return {
+        ...state,
+        marketDataChange: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -75,3 +84,4 @@ export const getLoadingJobGridResultsError = (state: State) => state.loadingErro
 export const getJobGridResults = (state: State) => state.jobResults;
 export const getSelectedJobData = (state: State) => state.selectedJobData;
 export const getSelectedRate = (state: State) => state.selectedRate;
+export const getMarketDataChange = (state: State) => state.marketDataChange;

@@ -7,6 +7,8 @@ import { of } from 'rxjs';
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { SortOption } from 'libs/models/payfactors-api/comphub/request';
 
+import * as fromJobsCardActions from '../actions/jobs-card.actions';
+import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
@@ -62,6 +64,15 @@ export class DataCardEffects {
         ];
       })
     );
+
+  @Effect()
+  setMarketDataChange$ = this.actions$
+  .ofType(
+    fromMarketsCardActions.SET_SELECTED_PAYMARKET,
+    fromJobsCardActions.SET_SELECTED_JOB)
+  .pipe(
+    map(() => new fromDataCardActions.SetMarketDataChange(true))
+  );
 
   getSortOption(gridContext: QuickPriceGridContext): SortOption {
     if (gridContext.Sort) {

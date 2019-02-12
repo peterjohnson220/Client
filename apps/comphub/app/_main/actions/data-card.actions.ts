@@ -9,6 +9,7 @@ export const GET_QUICK_PRICE_MARKET_DATA_ERROR  = '[Comphub/Data Card] Get quick
 export const SET_SELECTED_JOB_DATA  = '[Comphub/Data Card] Set Selected Job Data';
 export const SET_SELECTED_RATE = '[Comphub/Data Card] Set Selected Rate';
 export const CLEAR_SELECTED_JOB_DATA  = '[Comphub/Data Card] Clear Selected Job Data';
+export const SET_MARKET_DATA_CHANGE = '[Comphub/Data Card] Set Market Data Change';
 
 export class GetQuickPriceMarketData implements Action {
   readonly type = GET_QUICK_PRICE_MARKET_DATA;
@@ -44,10 +45,17 @@ export class ClearSelectedJobData implements Action {
   constructor() {}
 }
 
+export class SetMarketDataChange implements Action {
+  readonly type = SET_MARKET_DATA_CHANGE;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = GetQuickPriceMarketData
   | GetQuickPriceMarketDataSuccess
   | GetQuickPriceMarketDataError
   | SetSelectedJobData
   | SetSelectedRate
-  | ClearSelectedJobData;
+  | ClearSelectedJobData
+  | SetMarketDataChange;

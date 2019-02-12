@@ -98,6 +98,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
+    instance.marketDataChange$ = of(true);
     instance.ngOnInit();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
@@ -235,6 +236,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
+    instance.marketDataChange$ = of(true);
     instance.ngOnInit();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
@@ -243,8 +245,7 @@ describe('Comphub - Main - Data Card Component', () => {
   it('should dispatch SetSelectedRate action when handling rate selection change', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
-    const expectedAction = new fromDataCardActions.SetSelectedRate(instance.selectedRate.Value);
+    const expectedAction = new fromDataCardActions.SetSelectedRate(RateType.Hourly);
 
     instance.handleRateSelectionChange(RateType.Hourly);
 
