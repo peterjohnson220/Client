@@ -12,6 +12,9 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   jobResultsLoadingError$={[Function Store]}
   jobTitle="null"
   jobTitleSubscription={[Function Subscriber]}
+  marketDataChange="false"
+  marketDataChange$={[Function Store]}
+  marketDataChangeSubscription={[Function Subscriber]}
   pageSize={[Function Number]}
   paymarketId="null"
   paymarketSubscription={[Function Subscriber]}
@@ -299,6 +302,9 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   jobResultsLoadingError$={[Function Store]}
   jobTitle="null"
   jobTitleSubscription={[Function Subscriber]}
+  marketDataChange="false"
+  marketDataChange$={[Function Store]}
+  marketDataChangeSubscription={[Function Subscriber]}
   pageSize={[Function Number]}
   paymarketId="null"
   paymarketSubscription={[Function Subscriber]}
