@@ -37,7 +37,7 @@ export class MarketsCardEffects {
                   PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse)
                 ));
                 if (paymarketsResponse.length === 0) {
-                  actions.push(new fromAddPayMarketFormActions.Open());
+                  actions.push(new fromAddPayMarketFormActions.Open({ showSkipButton: true }));
                 }
                 return actions;
               }),

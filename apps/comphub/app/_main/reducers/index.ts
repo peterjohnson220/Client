@@ -202,3 +202,8 @@ export const getInfoBannerOpen = createSelector(
   selectAddPayMarketFormState,
   fromAddPayMarketFormReducer.getInfoBannerOpen
 );
+
+export const getShowSkipButton = createSelector(
+  selectAddPayMarketFormState,
+  fromAddPayMarketFormReducer.getShowSkipButton
+);

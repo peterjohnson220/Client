@@ -15,6 +15,8 @@ export const CLOSE_INFO_BANNER = '[Comphub/Add PayMarket Form] Close Info Banner
 
 export class Open implements Action {
   readonly type = OPEN_FORM;
+
+  constructor(public payload?: { showSkipButton: boolean }) {}
 }
 
 export class Close implements Action {

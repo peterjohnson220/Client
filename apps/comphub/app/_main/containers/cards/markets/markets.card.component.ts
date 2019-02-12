@@ -27,6 +27,7 @@ export class MarketsCardComponent implements OnInit {
   savingPayMarketError$: Observable<boolean>;
   marketDataScope$: Observable<MarketDataScope>;
   infoBannerOpen$: Observable<boolean>;
+  showSkipButton$: Observable<boolean>;
 
   searchTerm: string;
 
@@ -53,6 +54,7 @@ export class MarketsCardComponent implements OnInit {
     this.savingPayMarketError$ = this.store.select(fromComphubMainReducer.getSavingPayMarketError);
     this.marketDataScope$ = this.store.select(fromComphubMainReducer.getMarketDataScope);
     this.infoBannerOpen$ = this.store.select(fromComphubMainReducer.getInfoBannerOpen);
+    this.showSkipButton$ = this.store.select(fromComphubMainReducer.getShowSkipButton);
   }
 
   handleSavePayMarket(formData: AddPayMarketFormData) {
@@ -78,5 +80,13 @@ export class MarketsCardComponent implements OnInit {
   clearSearchValue() {
     this.searchTerm = '';
     this.handleSearchChanged(this.searchTerm);
+  }
+
+  handleAddNewMarketClicked() {
+    this.store.dispatch(new fromAddPayMarketFormActions.Open());
+  }
+
+  handleCancelAddPayMarket() {
+    this.store.dispatch(new fromAddPayMarketFormActions.Close());
   }
 }
