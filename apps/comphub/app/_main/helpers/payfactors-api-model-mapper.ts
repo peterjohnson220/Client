@@ -12,8 +12,9 @@ export class PayfactorsApiModelMapper {
     return response.map(tjg => {
       return {
         Name: tjg.GroupName,
+        Group: tjg.GroupType,
         Jobs: tjg.TrendingJobs,
-        Order: tjg.GroupName === 'Overall' ? 1 : 2
+        Order: tjg.GroupType === 'Overall' ? 1 : 2
       };
     });
   }

@@ -15,6 +15,14 @@ export class TrendingJobGroupComponent {
 
   constructor(public winRef: WindowRef) {}
 
+  get groupType() {
+    return !!this.trendingJobGroup.Name ? `${this.trendingJobGroup.Group}: ` : '';
+  }
+
+  get groupDisplay() {
+      return this.trendingJobGroup.Name || this.trendingJobGroup.Group;
+  }
+
   handleTrendingJobClicked(trendingJob: string) {
     // Don't emit when highlighting text
     if (this.winRef.nativeWindow.getSelection().toString().length === 0) {
