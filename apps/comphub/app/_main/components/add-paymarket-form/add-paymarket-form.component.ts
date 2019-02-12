@@ -71,13 +71,13 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
     });
   }
 
-  submit() {
+  handleSaveClicked() {
     const data: AddPayMarketFormData = this.buildFormData();
     this.showErrorMessages = true;
     this.saveClick.emit(data);
   }
 
-  dismiss() {
+  handleSkipClicked() {
     this.skipClick.emit();
   }
 

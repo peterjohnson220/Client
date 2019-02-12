@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
 import { PricingPaymarket, AddPayMarketFormData, MarketDataScope} from '../../../models';
 
@@ -58,8 +59,8 @@ export class MarketsCardComponent implements OnInit {
     this.store.dispatch(new fromMarketsCardActions.SavePayMarket(formData));
   }
 
-  handleSkipPayMarket() {
-    this.store.dispatch(new fromMarketsCardActions.SkipPayMarket());
+  handleSkipAddPayMarket() {
+    this.store.dispatch(new fromComphubPageActions.NavigateToNextCard());
   }
 
   handleSearchChanged(searchTerm: string) {

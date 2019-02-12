@@ -1,6 +1,6 @@
 <div class="form-container container">
 
-  <h4 class="uppercase-header">ADD NEW PAY MARKET</h4>
+  <h4 class="uppercase-header">Add New Pay Market</h4>
   <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children">
     <div class="d-flex flex-row">
       <i class="fa fa-info-circle fa-w-16 info-icon"></i>
@@ -18,7 +18,7 @@
     <div class="form-content row">
 
       <div class="col-12 col-lg-5">
-        <label for="name">Name <span class="text-danger">*</span></label>
+        <label>Name <span class="text-danger">*</span></label>
         <input type="text" class="form-control"
           [attr.data-qa-id]="'txt-payMarketName'"
           [class.is-invalid]="showErrorMessages && (savingConflict || savingError)"
@@ -30,7 +30,7 @@
       </div>
 
       <div class="col-12 col-lg-4">
-        <label for="country">Country</label>
+        <label>Country</label>
         <kendo-dropdownlist class="form-control border"
           [attr.data-qa-id]="'ddm-country'"
           formControlName="country"
@@ -42,7 +42,7 @@
       </div>
 
       <div class="col-12 col-lg-3">
-        <label for="currency">Currency</label>
+        <label>Currency</label>
         <kendo-dropdownlist class="border form-control"
           [attr.data-qa-id]="'ddm-currency'"
           formControlName="currency"
@@ -57,7 +57,7 @@
     
     <div class="form-content row">
       <div class="col-12 col-lg-5">
-        <label for="location">Location</label>
+        <label>Location</label>
         <kendo-autocomplete
           [attr.data-qa-id]="'txt-location'"
           class="form-control"
@@ -71,7 +71,7 @@
       </div>
 
       <div class="col-12 col-lg-4">
-        <label for="industry">Industry</label>
+        <label>Industry</label>
         <kendo-dropdownlist class="form-control border"
           [attr.data-qa-id]="'ddm-industry'"
           formControlName="industry"
@@ -86,7 +86,7 @@
       </div>
 
       <div class="col-12 col-lg-3">
-        <label for="size">Size</label>
+        <label>Size</label>
         <kendo-dropdownlist class="form-control border"
           [attr.data-qa-id]="'ddm-size'"
           formControlName="size"
@@ -109,7 +109,7 @@
           <button type="button" class="btn comphub-primary-btn"
             [attr.data-qa-id]="'btn-save'"
             [disabled]="submitDisabled"
-            (click)="submit()">
+            (click)="handleSaveClicked()">
             <span *ngIf="saving">
               <pf-loading-indicator></pf-loading-indicator> Saving
             </span>
@@ -117,7 +117,7 @@
           </button>
           <button type="button" class="btn btn-secondary"
             [attr.data-qa-id]="'btn-skip'"
-            (click)="dismiss()">Skip</button>
+            (click)="handleSkipClicked()">Skip</button>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { MarketsCardComponent } from './markets.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
 import { AddPayMarketFormData, generateMockAddPayMarketFormData } from '../../../models';
 
@@ -87,11 +88,11 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should dispatch SkipPayMarket action when handling skip pay market', () => {
+  it('should dispatch NavigateToNextCard action when handling skip add pay market', () => {
     spyOn(store, 'dispatch');
-    const expectedAction = new fromMarketsCardActions.SkipPayMarket();
+    const expectedAction = new fromComphubPageActions.NavigateToNextCard();
 
-    instance.handleSkipPayMarket();
+    instance.handleSkipAddPayMarket();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
