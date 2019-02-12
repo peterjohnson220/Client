@@ -114,4 +114,12 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
 
     expect(instance.dismissInfoBannerClick.emit).toHaveBeenCalled();
   });
+
+  it('should emit cancelClick event when cancel button clicked', () => {
+    spyOn(instance.cancelClick, 'emit');
+
+    instance.handleCancelClicked();
+
+    expect(instance.cancelClick.emit).toHaveBeenCalled();
+  });
 });

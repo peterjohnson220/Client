@@ -1,5 +1,6 @@
 @import 'comphub-page';
 @import 'comphub-styles';
+@import 'colors';
 
 .no-data {
   font-style: italic;
@@ -14,5 +15,20 @@
 
   .k-i-close {
     cursor: pointer;
+  }
+}
+
+.add-new-market-container {
+  display: flex;
+  padding: 1rem 0;
+  span {
+    margin-right: 1.5rem;
+  }
+
+  .add-new-market-button {
+    cursor: pointer;
+    .fa-plus-circle {
+      color: $pf-additional-colors-green;
+    }
   }
 }

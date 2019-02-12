@@ -105,4 +105,22 @@ describe('Comphub - Main - Markets Card Component', () => {
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
+
+  it('should dispatch Open from AddPayMarketForm actions when add new market clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromAddPayMarketFormActions.Open();
+
+    instance.handleAddNewMarketClicked();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch Close from AddPayMarketForm actions when cancel button clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromAddPayMarketFormActions.Close();
+
+    instance.handleCancelAddPayMarket();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
 });

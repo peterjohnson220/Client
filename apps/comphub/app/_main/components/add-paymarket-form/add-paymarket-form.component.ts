@@ -17,8 +17,10 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
   @Input() isInfoBannerOpen = false;
+  @Input() showSkipButton = false;
   @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
   @Output() skipClick = new EventEmitter();
+  @Output() cancelClick = new EventEmitter();
   @Output() dismissInfoBannerClick = new EventEmitter();
 
   showErrorMessages = false;
@@ -93,6 +95,10 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
     this.locations = this.marketDataScope.Locations
       .filter((s) => s.Name.toLowerCase().indexOf(value.toLowerCase()) !== -1)
       .slice(0, 5);
+  }
+
+  handleCancelClicked() {
+    this.cancelClick.emit();
   }
 
   private buildFormData(): AddPayMarketFormData {

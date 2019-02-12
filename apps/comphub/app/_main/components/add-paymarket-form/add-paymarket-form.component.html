@@ -106,6 +106,12 @@
           <span class="text-danger" *ngIf="savingError">Error Saving Pay Market.</span>
         </ng-container>
         <div class="button-container space-out-children">
+          <button *ngIf="showSkipButton" type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-skip'"
+            (click)="handleSkipClicked()">Skip</button>
+          <button *ngIf="!showSkipButton" type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-cancel'"
+            (click)="handleCancelClicked()">Cancel</button>
           <button type="button" class="btn comphub-primary-btn"
             [attr.data-qa-id]="'btn-save'"
             [disabled]="submitDisabled"
@@ -115,9 +121,6 @@
             </span>
             <span *ngIf="!saving">Save</span>
           </button>
-          <button type="button" class="btn btn-secondary"
-            [attr.data-qa-id]="'btn-skip'"
-            (click)="handleSkipClicked()">Skip</button>
         </div>
       </div>
     </div>

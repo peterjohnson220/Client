@@ -12,8 +12,10 @@
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"
+      [showSkipButton]="showSkipButton$ | async"
       (saveClick)="handleSavePayMarket($event)"
       (skipClick)="handleSkipAddPayMarket()"
+      (cancelClick)="handleCancelAddPayMarket()"
       (dismissInfoBannerClick)="handleDismissInfoBanner()">
     </pf-add-paymarket-form>
   </ng-container>
@@ -26,8 +28,9 @@
       [loadingErrorMessage]="'Error.'"
       [hideReloadButton]="true">
 
-      <div class="row" *ngIf="(paymarkets$ |async).length">
-        <div class="col-lg-12 col-xl-9" >
+      <div class="row"
+        *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
+        <div class="col-lg-12 col-xl-9">
           <div class="search-filter">
             <span class="k-textbox k-space-right">
                     <input type="text"
@@ -40,6 +43,16 @@
                           [class.k-i-close]="searchTerm"
                           class="k-icon k-clear-value"></span>
                 </span>
+          </div>
+
+          <div class="add-new-market-container">
+            <span class="uppercase-header">My Markets</span>
+            <div class="add-new-market-button"
+              [attr.data-qa-id]="'btn-addNewMarket'"
+              (click)="handleAddNewMarketClicked()">
+              <i class="fa fa-plus-circle"></i>
+              Add New Market
+            </div>
           </div>
 
           <pf-select-paymarkets

@@ -6,6 +6,7 @@ export interface State {
   saving: boolean;
   savingConflict: boolean;
   savingError: boolean;
+  showSkipButton: boolean;
 }
 
 const initialState: State = {
@@ -13,15 +14,18 @@ const initialState: State = {
   infoBannerOpen: false,
   saving: false,
   savingConflict: false,
-  savingError: false
+  savingError: false,
+  showSkipButton: false
 };
 
 export function reducer(state = initialState, action: fromAddPayMarketFormActions.Actions): State {
   switch (action.type) {
     case fromAddPayMarketFormActions.OPEN_FORM: {
+      const showSkipButton = (!!action.payload) ? action.payload.showSkipButton : false;
       return {
         ...state,
-        formOpen: true
+        formOpen: true,
+        showSkipButton: showSkipButton
       };
     }
     case fromAddPayMarketFormActions.CLOSE_FORM: {
@@ -88,3 +92,4 @@ export const getSaving = (state: State) => state.saving;
 export const getSavingConflict = (state: State) => state.savingConflict;
 export const getSavingError = (state: State) => state.savingError;
 export const getInfoBannerOpen = (state: State) => state.infoBannerOpen;
+export const getShowSkipButton = (state: State) => state.showSkipButton;
