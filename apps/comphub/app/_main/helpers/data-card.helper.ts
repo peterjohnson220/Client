@@ -4,10 +4,10 @@ export class DataCardHelper {
     return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
   }
 
-  static calculateDataByHourlyRate(value: number): number {
-    if (!value) {
+  static calculateDataByHourlyRate(annualValue: number): number {
+    if (!annualValue) {
       return;
     }
-    return ((value * 1000) / 2080);
+    return annualValue / 2080;
   }
 }
