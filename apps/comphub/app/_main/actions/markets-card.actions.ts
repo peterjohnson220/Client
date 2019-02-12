@@ -10,7 +10,6 @@ export const GET_PAYMARKETS_ERROR = '[Comphub/Markets Card] Get Pay Markets Erro
 export const SET_PAYMARKET_FILTER = '[Comphub/Markets Card] Set Pay Markets Filter';
 export const SET_SELECTED_PAYMARKET = '[Comphub/Markets Card] Set Selected Pay Market';
 export const SAVE_PAYMARKET = '[Comphub/Markets Card] Save Pay Market';
-export const SKIP_PAYMARKET = '[Comphub/Markets Card] Skip Pay Market';
 export const GET_MD_SCOPE = '[Comphub/Markets Card] Get Market Data Scope';
 export const GET_MD_SCOPE_SUCCESS = '[Comphub/Markets Card] Get Market Data Scope Success';
 export const GET_MD_SCOPE_ERROR = '[Comphub/Markets Card] Get Market Data Scope Error';
@@ -51,10 +50,6 @@ export class SavePayMarket implements Action {
   constructor(public payload: AddPayMarketFormData) {}
 }
 
-export class SkipPayMarket implements Action {
-  readonly type = SKIP_PAYMARKET;
-}
-
 export class GetMarketDataScope implements Action {
   readonly type = GET_MD_SCOPE;
 
@@ -78,7 +73,6 @@ export type Actions
   | SetPaymarketFilter
   | SetSelectedPaymarket
   | SavePayMarket
-  | SkipPayMarket
   | GetMarketDataScope
   | GetMarketDataScopeSuccess
   | GetMarketDataScopeError;

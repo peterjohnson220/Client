@@ -24,7 +24,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
     fixture.detectChanges();
   });
 
-  it('should emit saveClick event when handling form submit', () => {
+  it('should emit saveClick event when handling submit clicked', () => {
     spyOn(instance.saveClick, 'emit');
 
     instance.addPayMarketForm.patchValue({
@@ -45,15 +45,15 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Currency: 'USD'
     };
 
-    instance.submit();
+    instance.handleSaveClicked();
 
     expect(instance.saveClick.emit).toHaveBeenCalledWith(expectedData);
   });
 
-  it('should emit skipClick event when handling form dismiss', () => {
+  it('should emit skipClick event when handling skip clicked', () => {
     spyOn(instance.skipClick, 'emit');
 
-    instance.dismiss();
+    instance.handleSkipClicked();
 
     expect(instance.skipClick.emit).toHaveBeenCalled();
   });
