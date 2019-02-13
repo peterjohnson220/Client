@@ -19,7 +19,6 @@ import * as fromComphubMainReducer from '../reducers';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { ComphubPages } from '../data';
-import { PricingPaymarket } from '../models';
 
 @Injectable()
 export class MarketsCardEffects {

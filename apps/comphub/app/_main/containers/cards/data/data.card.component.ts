@@ -44,6 +44,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   selectedPageId$: Observable<ComphubPages>;
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
+  peerBannerOpen$: Observable<boolean>;
 
   // Subscriptions
   jobTitleSubscription: Subscription;
@@ -64,6 +65,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
+    this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
 
     this.firstDayOfMonth = firstDayOfMonth();
   }

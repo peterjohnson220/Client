@@ -9,6 +9,7 @@ export interface State {
   selectedJobData: JobData;
   selectedRate: RateType;
   marketDataChange: boolean;
+  peerBannerOpen: boolean;
 }
 
 const initialState: State = {
@@ -20,7 +21,8 @@ const initialState: State = {
   },
   selectedJobData: null,
   selectedRate: RateType.Annual,
-  marketDataChange: false
+  marketDataChange: false,
+  peerBannerOpen: false
 };
 
 // Reducer
@@ -73,6 +75,12 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         marketDataChange: action.payload
       };
     }
+    case fromDataCardActions.SHOW_PEER_BANNER: {
+      return {
+        ...state,
+        peerBannerOpen: true
+      };
+    }
     default: {
       return state;
     }
@@ -85,3 +93,4 @@ export const getJobGridResults = (state: State) => state.jobResults;
 export const getSelectedJobData = (state: State) => state.selectedJobData;
 export const getSelectedRate = (state: State) => state.selectedRate;
 export const getMarketDataChange = (state: State) => state.marketDataChange;
+export const getPeerBannerOpen = (state: State) => state.peerBannerOpen;

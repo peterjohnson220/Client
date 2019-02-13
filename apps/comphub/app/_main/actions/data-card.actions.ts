@@ -10,6 +10,7 @@ export const SET_SELECTED_JOB_DATA  = '[Comphub/Data Card] Set Selected Job Data
 export const SET_SELECTED_RATE = '[Comphub/Data Card] Set Selected Rate';
 export const CLEAR_SELECTED_JOB_DATA  = '[Comphub/Data Card] Clear Selected Job Data';
 export const SET_MARKET_DATA_CHANGE = '[Comphub/Data Card] Set Market Data Change';
+export const SHOW_PEER_BANNER = '[Comphub/Data Card] Show Peer Banner';
 
 export class GetQuickPriceMarketData implements Action {
   readonly type = GET_QUICK_PRICE_MARKET_DATA;
@@ -51,6 +52,12 @@ export class SetMarketDataChange implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class ShowPeerBanner implements Action {
+  readonly type = SHOW_PEER_BANNER;
+
+  constructor() {}
+}
+
 export type Actions
   = GetQuickPriceMarketData
   | GetQuickPriceMarketDataSuccess
@@ -58,4 +65,5 @@ export type Actions
   | SetSelectedJobData
   | SetSelectedRate
   | ClearSelectedJobData
-  | SetMarketDataChange;
+  | SetMarketDataChange
+  | ShowPeerBanner;

@@ -52,6 +52,7 @@ export class ComphubPageComponent implements OnInit {
   ngOnInit() {
     this.updateCardContentContainerWidth();
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
+    this.store.dispatch(new fromComphubPageActions.Init());
   }
 
   trackById(index: number, card: AccordionCard) {
