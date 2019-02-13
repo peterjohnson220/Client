@@ -1,5 +1,36 @@
+@import 'comphub-page';
 @import 'comphub-styles';
+@import 'comphub-variables';
+@import 'colors';
 
 :host::ng-deep .close-app-btn{
   right: 50px;
+}
+
+.summary-container {
+  padding-right: 10rem;
+}
+
+.header-blue {
+  color: $comphub-header-blue;
+}
+
+.currency-sign {
+  color: $pf-additional-colors-green;
+  line-height: 3.4rem;
+}
+
+.width-100 {
+  width: 100px;
+}
+
+.width-300 {
+  width: 250px;
+}
+
+.job-description {
+  background: lighten($comphub-header-background-grey, 5%);
+  padding: 1rem;
+  font-weight: $comphub-bold-font-weight;
+  font-size: 16px;
 }
