@@ -8,8 +8,10 @@ import { take } from 'rxjs/operators';
 import { GridTypeEnum } from 'libs/models/common';
 import { ExchangeJobMapping, ExchangeRequestTypeEnum } from 'libs/models/peer';
 import { UserContext } from 'libs/models';
+import {Permissions} from 'libs/constants';
 import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
 import { ExchangeJobMappingService } from '../../../services';
+
 
 import * as fromExchangeJobMappingGridActions from '../../../actions/exchange-job-mapping-grid.actions';
 import * as fromExchangeRequestActions from '../../../../shared/actions/exchange-request.actions';
@@ -27,6 +29,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
     exchangeId: number;
     collapse = false;
     disableGridScollTo = false;
+    _Permissions = null;
 
     gridPageRowIndexToScrollTo$: Observable<number>;
     selectedExchangeJobMapping$: Observable<ExchangeJobMapping>;
@@ -43,6 +46,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
         this.userContext$ = store.select(fromRootState.getUserContext);
+      this._Permissions = Permissions;
     }
 
     handleSearchChanged(query: string): void {

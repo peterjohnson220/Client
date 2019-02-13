@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { FocusDirective, PfValidatableDirective } from './directives';
+import { FocusDirective, PfValidatableDirective, PfSecuredResourceDirective } from './directives';
 import { ConfirmPasswordComponent, InputDebounceComponent, PfModalFormComponent,
   LocationSearchComponent, ActionButtonComponent } from './components';
 import { PfCommonUIModule } from '../ui/common';
@@ -11,6 +11,7 @@ const declarations = [
   // Directives
   PfValidatableDirective,
   FocusDirective,
+  PfSecuredResourceDirective,
   // declarations
   ConfirmPasswordComponent,
   PfModalFormComponent,
