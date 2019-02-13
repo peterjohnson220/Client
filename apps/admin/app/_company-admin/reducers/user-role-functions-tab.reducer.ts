@@ -33,7 +33,7 @@ export function reducer(state = initialState, action: fromUserRoleFunctionTabAct
 
       if (currPermission.IsParent) {
         newRolePermissions.forEach( p => {
-          if (p.Id === currPermission.Id) {
+          if (p.SystemPermissionId === currPermission.SystemPermissionId) {
             p.IsChecked = !currPermission.IsChecked;
             if (p.ChildPermission) {
               p.ChildPermission.forEach( cp => cp.IsChecked = !currPermission.IsChecked);
@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: fromUserRoleFunctionTabAct
       } else {
         newRolePermissions.forEach( p => {
           if (p.ChildPermission) {
-            const index = p.ChildPermission.findIndex(f => f.Id === currPermission.Id);
+            const index = p.ChildPermission.findIndex(f => f.SystemPermissionId === currPermission.SystemPermissionId);
             if (index > -1) {
               p.ChildPermission[index].IsChecked = !currPermission.IsChecked;
             }
@@ -83,11 +83,11 @@ function getCheckedPermissionIds(permissionCollection: RolePermission[]): number
   const checkedIds: number[] = [];
   permissionCollection.forEach(p => {
     if (p.IsChecked) {
-      checkedIds.push(p.Id);
+      checkedIds.push(p.SystemPermissionId);
       if (p.IsParent) {
         p.ChildPermission.forEach(cp => {
           if (cp.IsChecked) {
-            checkedIds.push(cp.Id);
+            checkedIds.push(cp.SystemPermissionId);
           }
         });
       }
