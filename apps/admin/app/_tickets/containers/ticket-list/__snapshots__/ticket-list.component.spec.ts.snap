@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TicketListComponent should create 1`] = `
+<pf-ticket-list>
+  <pf-page-with-title-bar>
+    
+     Tickets 
+    
+     Page actions here 
+    
+     Page content here 
+  </pf-page-with-title-bar>
+</pf-ticket-list>
+`;
