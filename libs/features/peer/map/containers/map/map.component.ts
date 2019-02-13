@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
 import * as mapboxgl from 'mapbox-gl';
 
@@ -14,7 +14,7 @@ import * as fromPeerMapReducer from '../../reducers';
 @Component({
   selector: 'pf-peer-data-cut-map',
   templateUrl: './map.component.html',
-  styleUrls: [ './map.component.scss' ]
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
   // Conditionally allow the map to fit to the provided bounds.
@@ -39,6 +39,8 @@ export class MapComponent implements OnInit {
   peerMapInitialZoomLevel$: Observable<number>;
   peerMapApplyingScope$: Observable<boolean>;
   peerMapAutoZooming$: Observable<boolean>;
+
+  refreshSubscription: Subscription;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
@@ -146,10 +148,9 @@ export class MapComponent implements OnInit {
 
   // Helper functions
   refreshMap(filterVars: any) {
-    this.canLoadPeerMap$.pipe(take(1)).subscribe(canLoad => {
-      if (canLoad) {
-        this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
-      }
+    this.refreshSubscription = this.canLoadPeerMap$.pipe(filter(canLoad => !!canLoad), take(1)).subscribe(() => {
+      this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
+      this.refreshSubscription.unsubscribe();
     });
   }
 
