@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs';
 
-import {RolePermission} from 'libs/models/security';
+import {SystemPermission} from 'libs/models/security';
 
 import * as userRoleReducer from '../../reducers';
 import * as fromUserRoleFunctionTabActions from '../../actions/user-role-functions-tab.action';
@@ -13,13 +13,13 @@ import * as fromUserRoleFunctionTabActions from '../../actions/user-role-functio
   styleUrls: ['user-role-function-tab.component.scss']
 })
 export class UserRoleFunctionTabComponent implements OnDestroy {
-  rolePermissions: RolePermission[];
-  rolePermissionSubscription: Subscription;
+  systemPermissions: SystemPermission[];
+  systemPermissionSubscription: Subscription;
   disableCheckboxes: boolean;
   disableCheckboxesSubscription: Subscription;
   constructor(public store: Store<userRoleReducer.State>) {
-    this.rolePermissionSubscription = this.store.select(userRoleReducer.getFunctionTabPermissions).subscribe(p => {
-        this.rolePermissions = p;
+    this.systemPermissionSubscription = this.store.select(userRoleReducer.getFunctionTabPermissions).subscribe(p => {
+        this.systemPermissions = p;
       }
     );
 
@@ -33,7 +33,7 @@ export class UserRoleFunctionTabComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.rolePermissionSubscription.unsubscribe();
+    this.systemPermissionSubscription.unsubscribe();
     this.disableCheckboxesSubscription.unsubscribe();
   }
 }
