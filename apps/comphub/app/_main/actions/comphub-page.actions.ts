@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
 
+export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
 export const NAVIGATE_TO_NEXT_CARD = '[Comphub/Comphub Page] Navigate to Next Card';
 export const NAVIGATE_TO_PREVIOUS_CARD = '[Comphub/Comphub Page] Navigate to Previous Card';
@@ -9,6 +10,12 @@ export const ADD_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Add Accessible Pages
 export const REMOVE_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Remove Accessible Pages';
 export const RESET_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Reset Accessible Pages';
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
+
+export class Init implements Action {
+  readonly type = INIT;
+
+  constructor() {}
+}
 
 export class NavigateToCard implements Action {
   readonly type = NAVIGATE_TO_CARD;
@@ -53,7 +60,8 @@ export class UpdateCardSubtitle implements Action {
 }
 
 export type Actions
-  = NavigateToCard
+  = Init
+  | NavigateToCard
   | NavigateToNextCard
   | NavigateToPreviousCard
   | AddAccessiblePages

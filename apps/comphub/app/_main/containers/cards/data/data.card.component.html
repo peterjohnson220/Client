@@ -6,7 +6,7 @@
 
   <ng-container page-content>
 
-    <div class="peer-banner">
+    <div *ngIf="peerBannerOpen$ | async" class="peer-banner">
       <button (click)="handleLearnMoreClicked()" class="btn learn-more-btn">Learn More</button>
     </div>
 

@@ -14,7 +14,8 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
   SummaryCardComponent } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects } from './effects';
+import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects,
+  ComphubPageEffects } from './effects';
 import { reducers } from './reducers';
 import { MainRoutingModule } from './main-routing.module';
 import { TrendingJobGroupComponent, CardComponent, SelectPaymarketsComponent,
@@ -34,7 +35,8 @@ import { WindowRef } from './services';
       JobsCardEffects,
       DataCardEffects,
       MarketsCardEffects,
-      AddPayMarketFormEffects
+      AddPayMarketFormEffects,
+      ComphubPageEffects
     ]),
 
     // Routing
