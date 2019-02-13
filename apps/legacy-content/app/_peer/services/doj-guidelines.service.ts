@@ -9,6 +9,7 @@ import { DataCutValidationInfo, ExchangeStatCompanyMakeup } from 'libs/models/pe
 import { arraysEqual, checkArraysOneOff } from 'libs/core/functions';
 
 import * as fromUpsertPeerDataReducers from '../reducers';
+import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
 import { GuidelineLimits } from '../models';
 
 @Injectable()
@@ -17,6 +18,7 @@ export class DojGuidelinesService {
   private readonly guidelineLimits: GuidelineLimits = { MinCompanies: 5, DominatingPercentage: .25, DominatingPercentageHard: .5 };
   private previousMapCompanies: number[] = [];
   private dataCutValid = true;
+  public validationPass = true;
 
   dataCutValidationInfo: DataCutValidationInfo[];
   companies: ExchangeStatCompanyMakeup[];
@@ -24,17 +26,25 @@ export class DojGuidelinesService {
   // Observables
   peerMapCompanies$: Observable<ExchangeStatCompanyMakeup[]>;
   dataCutValidationInfo$: Observable<DataCutValidationInfo[]>;
+  areEmployeesValid$: Observable<boolean>;
 
   // Subscriptions
+  employeeValidSubscription: Subscription;
   dataCutValidationSubscription: Subscription;
   peerMapCompaniesSubscription: Subscription;
 
-  constructor(private store: Store<fromUpsertPeerDataReducers.State>, private mapStore: Store<fromPeerMapReducers.State>) {
+  constructor(private store: Store<fromUpsertPeerDataReducers.State>,
+    private mapStore: Store<fromPeerMapReducers.State>) {
     this.peerMapCompanies$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
+    this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
 
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pmc => this.companies = pmc);
     this.dataCutValidationSubscription = this.dataCutValidationInfo$.subscribe(dcvi => this.dataCutValidationInfo = dcvi);
+    this.employeeValidSubscription = this.areEmployeesValid$.subscribe(validEmployees => {
+      this.dataCutValid = this.validationPass && validEmployees;
+    }
+    );
   }
 
   get validDataCut(): boolean {
@@ -63,11 +73,11 @@ export class DojGuidelinesService {
   get dominatingCompanies(): any[] {
     return this.hasCompaniesAndLimits &&
       this.companies.filter(c => c.Percentage > this.guidelineLimits.DominatingPercentage).map(c => {
-          return {
-            Company: c.Company,
-            Percentage: +(c.Percentage * 100).toFixed(2)
-          };
-        }
+        return {
+          Company: c.Company,
+          Percentage: +(c.Percentage * 100).toFixed(2)
+        };
+      }
       );
   }
 
@@ -79,14 +89,17 @@ export class DojGuidelinesService {
     return this.dataCutValid && this.hasMinimumCompanies && this.hasNoHardDominatingData;
   }
 
-  validateDataCut(mapCompanies: any, shouldCheckSimilarity: boolean) {
+  validateDataCut(mapCompanies: any, shouldCheckSimilarity: boolean, companyJobId: number, userSessionId: number) {
     if (!shouldCheckSimilarity) {
       this.dataCutValid = true;
       return;
     }
 
     const validationInfo = this.dataCutValidationInfo;
-    let validationPass = true;
+    // reset
+    this.store.dispatch(new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(true));
+    this.validationPass = true;
+    this.dataCutValid = false;
 
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
     if (currentMapCompanies.length > 4 && validationInfo.length > 0) {
@@ -97,7 +110,7 @@ export class DojGuidelinesService {
         // Check against each existing cut, if it fails we break out and set validation to false.
         for (const value of validationInfo) {
           if (checkArraysOneOff(currentMapCompanies, value.CompanyIds)) {
-            validationPass = false;
+            this.validationPass = false;
             break;
           }
         }
@@ -106,6 +119,10 @@ export class DojGuidelinesService {
       }
     }
 
-    this.dataCutValid = validationPass;
+    // we've passed on company now lets check the employees
+    if (this.validationPass) {
+      this.store.dispatch(new fromDataCutValidationActions.ValidateDataCutEmployees(
+        companyJobId, userSessionId));
+    }
   }
 }

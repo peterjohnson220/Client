@@ -109,9 +109,9 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies, true);
+    service.validateDataCut(companies, true, 13, 13950);
 
-    expect(service.validDataCut).toBe(true);
+    expect(service.validationPass).toBe(true);
   });
 
   it('should expect validDataCut to be false when the lists are too similar', () => {
@@ -125,7 +125,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies, true);
+    service.validateDataCut(companies, true, 13, 1234);
 
     expect(service.validDataCut).toBe(false);
 
