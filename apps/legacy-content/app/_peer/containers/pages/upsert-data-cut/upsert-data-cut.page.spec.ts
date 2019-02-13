@@ -209,7 +209,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     fixture.detectChanges();
 
-    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true);
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true, 2, 3);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {
