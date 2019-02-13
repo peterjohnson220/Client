@@ -1,3 +1,5 @@
+import {SystemPermission} from './roles';
+
 export interface UserContext {
   AccessLevel: string;
   CompanyId: number;
@@ -18,6 +20,7 @@ export interface UserContext {
   UserIdentifier: string;
   UserPicture: string;
   WorkflowStepInfo: WorkflowStepInfo;
+  SystemPermissions: SystemPermission[];
 }
 
 interface ConfigSetting {
@@ -60,6 +63,7 @@ export function generateMockUserContext(): UserContext {
     UserId: 1,
     UserIdentifier: '',
     UserPicture: 'FakePicture.Jpg',
-    WorkflowStepInfo: null
+    WorkflowStepInfo: null,
+    SystemPermissions: []
   };
 }

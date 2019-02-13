@@ -25,6 +25,7 @@ import { DataLoadEmailRecipientsApiService } from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
+import {PermissionService} from '../../core/services';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -60,7 +61,8 @@ import { ComphubApiService } from './comphub';
     JobSearchApiService,
     ProjectApiService,
     IntegrationApiService,
-    ComphubApiService
+    ComphubApiService,
+    PermissionService,
   ]
 })
 export class PfApiModule { }
