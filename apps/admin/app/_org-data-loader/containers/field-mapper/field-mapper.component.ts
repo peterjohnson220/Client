@@ -53,7 +53,7 @@ export class FieldMapperComponent implements OnInit {
         const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
         if (entityMapping) {
           for (const mapping of entityMapping.LoaderFieldMappings) {
-            this.addMapping(mapping.InternalField, mapping.ClientField);
+            this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
           }
         }
       }
@@ -79,7 +79,7 @@ export class FieldMapperComponent implements OnInit {
   };
 
   ApplyMapping() {
-    this.addMapping(this.selectedPfField, this.selectedClientField);
+    this.addMappingWithCompleteEvent(this.selectedPfField, this.selectedClientField);
     this.selectedClientField = '';
     this.selectedPfField = '';
   }
@@ -115,13 +115,21 @@ export class FieldMapperComponent implements OnInit {
 
   // Private Methods
 
+  private addMappingWithCompleteEvent(pfField, clientField) {
+    this.addMapping(pfField, clientField);
+    this.fireCompleteEvent();
+  }
+
+  private addMappingWithoutCompleteEvent(pfField, clientField) {
+    this.addMapping(pfField, clientField);
+  }
+
   private addMapping(pfField, clientField) {
     const value = pfField + '__' + clientField;
     this.mappedFields.push(value);
 
     this.payfactorsDataFields = this.payfactorsDataFields.filter(x => x !== pfField);
     this.clientFields = this.clientFields.filter(x => x !== clientField);
-    this.fireCompleteEvent();
   }
 
   private compareFields(pfField, clientField) {
@@ -139,7 +147,7 @@ export class FieldMapperComponent implements OnInit {
       }
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
         if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
-          this.addMapping(this.payfactorsDataFields[j], this.clientFields[i]);
+          this.addMappingWithCompleteEvent(this.payfactorsDataFields[j], this.clientFields[i]);
           i = ORG_DATA_CLIENTFIELDS_INDEX_RESET;
           break;
         }
