@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
@@ -48,6 +48,7 @@ import { MainRoutingModule } from './main-routing.module';
     DropDownsModule,
     GridModule,
     NgbPaginationModule,
+    NgbModalModule,
 
     // Payfactors
     PfCommonModule,

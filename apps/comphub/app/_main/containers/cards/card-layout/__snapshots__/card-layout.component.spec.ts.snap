@@ -3,11 +3,14 @@
 exports[`Comphub - Main - Card Layout should disable next button, when told to 1`] = `
 <pf-card-layout
   hideNextButton="false"
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
   nextButtonEnabled="false"
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
   store={[Function Store]}
+  window={[Function Object]}
 >
   <div
     class="comphub-page"
@@ -45,6 +48,12 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
         disabled=""
       >
          Next 
+      </button>
+      <button
+        class="btn comphub-secondary-btn close-app-btn"
+        data-qa-id="btn-close"
+      >
+         Close 
       </button>
     </div>
   </div>
@@ -54,10 +63,13 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
 exports[`Comphub - Main - Card Layout should hide the back button, when told to 1`] = `
 <pf-card-layout
   hideBackButton={[Function Boolean]}
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
   store={[Function Store]}
+  window={[Function Object]}
 >
   <div
     class="comphub-page"
@@ -90,6 +102,12 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
       >
          Next 
       </button>
+      <button
+        class="btn comphub-secondary-btn close-app-btn"
+        data-qa-id="btn-close"
+      >
+         Close 
+      </button>
     </div>
   </div>
 </pf-card-layout>
@@ -98,10 +116,13 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
 exports[`Comphub - Main - Card Layout should hide the next button, when told to 1`] = `
 <pf-card-layout
   hideNextButton={[Function Boolean]}
+  modalContent={[Function TemplateRef_]}
+  modalService={[Function Object]}
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
   store={[Function Store]}
+  window={[Function Object]}
 >
   <div
     class="comphub-page"
@@ -133,6 +154,12 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
          Back 
       </button>
       
+      <button
+        class="btn comphub-secondary-btn close-app-btn"
+        data-qa-id="btn-close"
+      >
+         Close 
+      </button>
     </div>
   </div>
 </pf-card-layout>
