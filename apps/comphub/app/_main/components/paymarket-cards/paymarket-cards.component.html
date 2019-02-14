@@ -36,7 +36,7 @@
         </div>
         <div class="card-row">
           <div class="label">
-            Size ({{paymarket.SizeLabel}})
+            Size <ng-container *ngIf="paymarket.SizeLabel">({{paymarket.SizeLabel}})</ng-container>
           </div>
           <div class="data">
             <span [title]="paymarket.Size">{{paymarket.Size || '-'}}</span>

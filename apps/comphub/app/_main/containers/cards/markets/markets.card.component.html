@@ -69,7 +69,7 @@
               [selectedPaymarketId]="(selectedPaymarket$ | async)?.CompanyPayMarketId"
               [paymarkets]="visiblePaymarkets$ | async"
               (paymarketChecked)="handlePaymarketChecked($event)">
-              </pf-paymarket-cards>
+            </pf-paymarket-cards>
 
             <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
               <div class="no-data">No Data</div>
