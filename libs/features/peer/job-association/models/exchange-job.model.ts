@@ -1,6 +1,6 @@
 export interface ExchangeJob {
-  Id: number;
-  JobTitle: string;
-  JobFamily: string;
-  ExchangeName: string;
+  ExchangeJobId: number;
+  ExchangeJobTitle: string;
+  ExchangeJobFamily: string;
+  ExchangeId: number;
 }

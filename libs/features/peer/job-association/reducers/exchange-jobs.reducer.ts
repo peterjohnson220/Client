@@ -15,7 +15,7 @@ export interface State extends EntityState<ExchangeJob> {
 
 // Define our Adapter
 export const adapter: EntityAdapter<ExchangeJob> = createEntityAdapter<ExchangeJob>({
-  selectId: (exchangeJob: ExchangeJob) => exchangeJob.Id
+  selectId: (exchangeJob: ExchangeJob) => exchangeJob.ExchangeJobId
 });
 
 // Define our initial state
@@ -59,7 +59,7 @@ export function reducer(state, action) {
         }
       }
     }, {
-      take: 10
+      take: 50
     })(state, action);
 }
 

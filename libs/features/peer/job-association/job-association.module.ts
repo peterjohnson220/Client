@@ -7,14 +7,12 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { reducers } from './reducers';
-import {ExchangeJobsEffects, CompanyJobsEffects} from './effects';
+import { ExchangeJobsEffects, CompanyJobsEffects } from './effects';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
-
-
 
 @NgModule({
   imports: [

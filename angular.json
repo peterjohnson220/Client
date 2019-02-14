@@ -627,6 +627,7 @@
             "styles": [
               "assets/scss/client.scss",
               "apps/legacy-content/styles.scss",
+              "libs/features/peer/job-association/styles.scss",
               "node_modules/mapbox-gl/dist/mapbox-gl.css",
               "node_modules/@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css"
             ],
