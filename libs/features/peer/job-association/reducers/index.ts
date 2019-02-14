@@ -41,13 +41,27 @@ export const selectCompanyJobsState = createSelector(
   (state: JobAssociationFeatureState) => state.companyJobs);
 
 // Exchange Jobs Selectors
-export const getExchangeJobsGridState = createSelector(
+export const getExchangeJobsGrid = createSelector(
   selectExchangeJobsState,
   (state: IFeatureGridState<fromExchangeJobsReducer.State>) => state.grid);
+
+export const getExchangeJobsGridState = createSelector(
+  getExchangeJobsGrid,
+  fromGridReducer.getGridState);
 
 export const getExchangeJobsFeature = createSelector(
   selectExchangeJobsState,
   (state: IFeatureGridState<fromExchangeJobsReducer.State>) => state.feature);
+
+export const getExchangeJobsLoading = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loading
+);
+
+export const getExchangeJobsLoadingError = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingError
+);
 
 export const {
   selectAll: getExchangeJobsList

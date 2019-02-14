@@ -1,0 +1,19 @@
+@import 'kendo-grid';
+
+pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
+  /* hide No records available when loading */
+  .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
+    display: none;
+  }
+  .k-grid .k-grid-content td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .grid-container {
+    height: 75%;
+  }
+  .k-tooltip-container {
+    height: 100%;
+  }
+} 
