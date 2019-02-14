@@ -1,6 +1,6 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { FilterAggregateGroup, FilterAggregateItem } from 'libs/models/peer';
+import { FilterAggregateGroup, FilterAggregateItem, PeerFilterEnum } from 'libs/models/peer';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
 
 import { AggregateSelectionInfo } from '../models';
@@ -16,7 +16,11 @@ export class FilterSidebarHelper {
     const selectionObj = {};
 
     aggregateGroups.map(ag => {
-      selectionObj[ag.MetaData.FilterProp] = ag.Aggregates.filter(a => a.Selected).map(a => a.Id ? a.Id : a.Item);
+      if (ag.MetaData.PeerFilter === PeerFilterEnum.Tag) {
+        this.mapTagSelections(ag, selectionObj);
+      } else {
+        selectionObj[ag.MetaData.FilterProp] = ag.Aggregates.filter(a => a.Selected).map(a => a.Id ? a.Id : a.Item);
+      }
     });
 
     return selectionObj;
@@ -177,5 +181,29 @@ export class FilterSidebarHelper {
     aggregateItems.sort((a, b) => {
       return b.Count - a.Count || arraySortByString(a.Item, b.Item, SortDirection.Ascending);
     });
+  }
+
+  private static mapTagSelections(ag: FilterAggregateGroup, selectionObj: any) {
+    const selections = ag.Aggregates.filter(a => a.Selected);
+    if (!selections || selections.length === 0) {
+      return;
+    }
+
+    const prop = 'Filters';
+    const name = ag.MetaData.FilterProp;
+    const searchFilter = {
+      Name: name,
+      Options: selections.map(a => ({Name: name, Value: a.Item}))
+    };
+    if (selectionObj.hasOwnProperty(prop)) {
+      const existingFilter = selectionObj[prop].find(f => f.Name === searchFilter.Name);
+      if (!!existingFilter) {
+        existingFilter.Options = searchFilter.Options;
+      } else {
+        selectionObj[prop].push(searchFilter);
+      }
+    } else {
+      selectionObj[prop] = [searchFilter];
+    }
   }
 }
