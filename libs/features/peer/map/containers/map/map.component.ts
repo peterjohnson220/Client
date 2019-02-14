@@ -150,7 +150,9 @@ export class MapComponent implements OnInit {
   refreshMap(filterVars: any) {
     this.refreshSubscription = this.canLoadPeerMap$.pipe(filter(canLoad => !!canLoad), take(1)).subscribe(() => {
       this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
-      this.refreshSubscription.unsubscribe();
+      if (this.refreshSubscription !== undefined) {
+        this.refreshSubscription.unsubscribe();
+      }
     });
   }
 
