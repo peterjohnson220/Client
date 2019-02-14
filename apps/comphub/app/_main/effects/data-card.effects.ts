@@ -11,7 +11,7 @@ import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import { PayfactorsApiModelMapper } from '../helpers';
 import { JobData, QuickPriceGridContext } from '../models';
 import { ComphubPages } from '../data';
 

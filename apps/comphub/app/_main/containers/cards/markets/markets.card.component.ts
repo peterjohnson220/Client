@@ -28,14 +28,14 @@ export class MarketsCardComponent implements OnInit {
   marketDataScope$: Observable<MarketDataScope>;
   infoBannerOpen$: Observable<boolean>;
   showSkipButton$: Observable<boolean>;
-
-  searchTerm: string;
+  payMarketsFilter$: Observable<string>;
 
   private readonly defaultCountryCode = 'USA';
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
   ) {
+    this.payMarketsFilter$ = this.store.select(fromComphubMainReducer.getPaymarketsFilter);
     this.visiblePaymarkets$ = this.store.select(fromComphubMainReducer.getVisiblePaymarkets);
     this.paymarkets$ = this.store.select(fromComphubMainReducer.getPaymarkets);
     this.loadingPaymarkets$ = this.store.select(fromComphubMainReducer.getLoadingPaymarkets);
@@ -78,15 +78,14 @@ export class MarketsCardComponent implements OnInit {
   }
 
   clearSearchValue() {
-    this.searchTerm = '';
-    this.handleSearchChanged(this.searchTerm);
+    this.handleSearchChanged('');
   }
 
   handleAddNewMarketClicked() {
-    this.store.dispatch(new fromAddPayMarketFormActions.Open());
+    this.store.dispatch(new fromAddPayMarketFormActions.OpenForm());
   }
 
   handleCancelAddPayMarket() {
-    this.store.dispatch(new fromAddPayMarketFormActions.Close());
+    this.store.dispatch(new fromAddPayMarketFormActions.CloseForm());
   }
 }

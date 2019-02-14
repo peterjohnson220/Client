@@ -6,16 +6,43 @@
   font-style: italic;
 }
 
-.search-filter{
-  padding: .5rem .2rem;
+.search-filter {
+  padding: .5rem 0;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+
+  &:hover {
+    .k-i-close {
+      display: block;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
-.k-textbox {
-  width: 100%;
+:host::ng-deep{
+  .search-filter {
+    input {
+      height: 32.75px;
 
-  .k-i-close {
-    cursor: pointer;
+      &:focus {
+        border: 1px solid #4a7092;
+        box-shadow: none;
+      }
+    }
   }
+}
+
+.k-i-close {
+  cursor: pointer;
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  color: #495057;
+  opacity: .5;
+  display: none;
 }
 
 .add-new-market-container {
