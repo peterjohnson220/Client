@@ -28,7 +28,6 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   selectedJobSub: Subscription;
 
   potentialOptions: string[];
-  currentSearchValue: string;
   selectedJob: string;
 
   constructor(
@@ -65,7 +64,6 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   }
 
   handleTrendingJobClicked(trendingJob: string) {
-    this.currentSearchValue = trendingJob;
     this.store.dispatch(new fromJobsCardActions.SetSelectedJob(trendingJob));
     this.store.dispatch(new fromCompHubPageActions.NavigateToNextCard());
   }

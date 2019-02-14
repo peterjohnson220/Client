@@ -25,7 +25,7 @@ export class MarketsCardEffects {
   getPaymarkets$ = this.actions$
     .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
-        switchMap(() => {
+      switchMap(() => {
           return this.paymarketApiService.getAll()
             .pipe(
               mergeMap((paymarketsResponse: PayMarket[]) => {
@@ -47,35 +47,35 @@ export class MarketsCardEffects {
 
   @Effect()
   getMarketDataScope$ = this.actions$
-  .ofType(fromMarketsCardActions.GET_MD_SCOPE)
-  .pipe(
-    switchMap((action: fromMarketsCardActions.GetMarketDataScope) => {
-      return this.marketDataScopeApiService.getMDScope(action.payload.countryCode)
-        .pipe(
-          map((response) =>
-            new fromMarketsCardActions.GetMarketDataScopeSuccess(response)
-          ),
-          catchError(() => {
-            return of(new fromMarketsCardActions.GetMarketDataScopeError());
-          })
-        );
-    })
-  );
+    .ofType(fromMarketsCardActions.GET_MD_SCOPE)
+    .pipe(
+      switchMap((action: fromMarketsCardActions.GetMarketDataScope) => {
+        return this.marketDataScopeApiService.getMDScope(action.payload.countryCode)
+          .pipe(
+            map((response) =>
+              new fromMarketsCardActions.GetMarketDataScopeSuccess(response)
+            ),
+            catchError(() => {
+              return of(new fromMarketsCardActions.GetMarketDataScopeError());
+            })
+          );
+      })
+    );
 
   @Effect()
   savePayMarket$ = this.actions$
-  .ofType(fromMarketsCardActions.SAVE_PAYMARKET)
-  .pipe(
-    withLatestFrom(
-      this.store.select(fromRootState.getUserContext),
-      (action: fromMarketsCardActions.SavePayMarket, userContext) => ({ action, userContext })
-    ),
-    map((data) => {
-      const request: AddPayMarketRequest = MarketsCardHelper.buildAddPayMarketRequest(
-        data.userContext.CompanyId, data.action.payload);
-      return new fromAddPayMarketFormActions.SavePaymarket(request);
-    })
-  );
+    .ofType(fromMarketsCardActions.SAVE_PAYMARKET)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromRootState.getUserContext),
+        (action: fromMarketsCardActions.SavePayMarket, userContext) => ({ action, userContext })
+      ),
+      map((data) => {
+        const request: AddPayMarketRequest = MarketsCardHelper.buildAddPayMarketRequest(
+          data.userContext.CompanyId, data.action.payload);
+        return new fromAddPayMarketFormActions.SavePaymarket(request);
+      })
+    );
 
   @Effect()
   setSelectedPaymarket$ = this.actions$
@@ -86,7 +86,10 @@ export class MarketsCardEffects {
         (action: fromMarketsCardActions.SetSelectedPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
       mergeMap((data) => [
           new fromDataCardActions.ClearSelectedJobData(),
-          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Markets, subTitle: data.selectedPayMarket.PayMarketName})
+          new fromComphubPageActions.UpdateCardSubtitle({
+            cardId: ComphubPages.Markets,
+            subTitle: data.selectedPayMarket.PayMarketName
+          })
         ]
       )
     );
@@ -102,10 +105,26 @@ export class MarketsCardEffects {
       )
     );
 
+  @Effect()
+  clearSelectedPayMarket$ = this.actions$
+    .ofType(fromMarketsCardActions.SET_TO_DEFAULT_PAYMARKET)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action: fromMarketsCardActions.SetToDefaultPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
+      map((data) => {
+          return new fromComphubPageActions.UpdateCardSubtitle({
+            cardId: ComphubPages.Markets,
+            subTitle: data.selectedPayMarket.PayMarketName
+          });
+        }
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
     private paymarketApiService: PayMarketApiService,
     private marketDataScopeApiService: MarketDataScopeApiService
-  ) {}
+  ) { }
 }

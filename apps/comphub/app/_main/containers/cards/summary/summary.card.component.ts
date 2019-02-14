@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
+import * as fromComphubMainReducer from '../../../reducers';
+
 @Component({
   selector: 'pf-summary-card',
   templateUrl: './summary.card.component.html',
   styleUrls: ['./summary.card.component.scss']
 })
-export class SummaryCardComponent implements OnInit {
+export class SummaryCardComponent {
 
-  constructor() { }
+  constructor(private store: Store<fromComphubMainReducer.State>) { }
 
-  ngOnInit() {
+  handlePriceNewJobClicked() {
+    this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
   }
-
 }

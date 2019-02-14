@@ -3,4 +3,12 @@
   pageSubTitle="Let's review a summary of your pricing activity"
   pageIconClass="fa-file-alt"
   [hideNextButton]="true">
+
+  <ng-container custom-actions>
+    <button class="btn comphub-primary-btn"
+            [attr.data-qa-id]="'btn-priceNewJob'"
+            (click)="handlePriceNewJobClicked()">
+      Price New Job
+    </button>
+  </ng-container>
 </pf-card-layout>

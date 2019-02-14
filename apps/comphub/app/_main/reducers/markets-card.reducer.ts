@@ -68,6 +68,12 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         selectedPaymarket: selectedPaymarket
       };
     }
+    case fromMarketsCardActions.SET_TO_DEFAULT_PAYMARKET: {
+      return {
+        ...state,
+        selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket()
+      };
+    }
     case fromMarketsCardActions.GET_MD_SCOPE_SUCCESS:
       return {
         ...state,

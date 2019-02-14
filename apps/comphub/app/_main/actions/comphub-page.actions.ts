@@ -9,6 +9,7 @@ export const NAVIGATE_TO_PREVIOUS_CARD = '[Comphub/Comphub Page] Navigate to Pre
 export const ADD_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Add Accessible Pages';
 export const REMOVE_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Remove Accessible Pages';
 export const RESET_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Reset Accessible Pages';
+export const RESET_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Pages Accessed';
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
 
 export class Init implements Action {
@@ -53,6 +54,12 @@ export class ResetAccessiblePages implements Action {
   constructor() {}
 }
 
+export class ResetPagesAccessed implements Action {
+  readonly type = RESET_PAGES_ACCESSED;
+
+  constructor() {}
+}
+
 export class UpdateCardSubtitle implements Action {
   readonly type = UPDATE_CARD_SUBTITLE;
 
@@ -67,4 +74,5 @@ export type Actions
   | AddAccessiblePages
   | RemoveAccessiblePages
   | ResetAccessiblePages
+  | ResetPagesAccessed
   | UpdateCardSubtitle;
