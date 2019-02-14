@@ -27,6 +27,16 @@ export class ExchangeCompanyApiService {
     );
   }
 
+  getActiveNonAssociatedCompanyJobs(listState: any): Observable<GridDataResult> {
+    return this.payfactorsApiService.get<GridDataResult>(
+      `${this.endpoint}/GetActiveNonAssociatedCompanyJobs`,
+      {params: {
+          listState: JSON.stringify(listState)
+        }},
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
   getExchangeJobsWithMappings(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,

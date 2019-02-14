@@ -10,5 +10,6 @@ export enum GridTypeEnum {
   ExchangeAccessRequests = 'EXCHANGE_ACCESS_REQUESTS',
   ExchangeJobRequests = 'EXCHANGE_JOB_REQUESTS',
   ExchangeCompanyJob = 'EXCHANGE_COMPANY_JOB',
-  QuickPriceMarketData = 'QUICK_PRICE_MARKET_DATA'
+  JobAssociationModalPeerExchangeJobs = 'JOB_ASSOCIATION_MODAL_EXCHANGE_JOBS',
+  JobAssociationModalCompanyJobs = 'JOB_ASSOCIATION_MODAL_COMPANY_JOBS'
 }
