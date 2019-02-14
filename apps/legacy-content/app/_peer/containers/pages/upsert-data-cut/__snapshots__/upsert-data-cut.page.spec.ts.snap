@@ -34,12 +34,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -116,12 +116,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -197,12 +197,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -278,12 +278,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -372,12 +372,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -453,12 +453,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -534,12 +534,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -627,12 +627,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -720,12 +720,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"

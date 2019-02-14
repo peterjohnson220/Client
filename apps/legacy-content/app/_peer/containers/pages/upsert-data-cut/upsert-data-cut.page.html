@@ -5,14 +5,14 @@
   [hideReloadButton]="true">
 
   <div class="d-flex h-100 w-100">
-    <div class="h-100 filters-container">
+    <div class="filters-container">
       <pf-peer-data-cut-filter-sidebar
         [companyPayMarketId]="companyPayMarketId"
         [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
         [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
       </pf-peer-data-cut-filter-sidebar>
     </div>
-    <div class="flex-grow-1 d-flex flex-column">
+    <div class="flex-grow-1 d-flex flex-column h-100 w-100">
       <div class="map-container flex-grow-1 d-flex flex-column">
         <pf-peer-data-cut-map
           *ngIf="systemFilter$ | async"
