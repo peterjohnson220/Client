@@ -60,6 +60,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         accessiblePages: initialState.accessiblePages
       };
     }
+    case fromComphubPageActions.RESET_PAGES_ACCESSED: {
+      return {
+        ...state,
+        pagesAccessed: initialState.pagesAccessed
+      };
+    }
     case fromComphubPageActions.UPDATE_CARD_SUBTITLE: {
       const newCards = cloneDeep(state.cards);
       newCards.find(c => c.Id === action.payload.cardId).Subtitle = action.payload.subTitle;

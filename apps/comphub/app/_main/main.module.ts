@@ -15,12 +15,12 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
   SummaryCardComponent } from './containers';
-import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects } from './effects';
+import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
+  SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
-import { MainRoutingModule } from './main-routing.module';
-import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent,
-  AddPayMarketFormComponent } from './components';
+import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
 import { WindowRef } from './services';
+import { MainRoutingModule } from './main-routing.module';
 
 @NgModule({
   imports: [
@@ -36,7 +36,8 @@ import { WindowRef } from './services';
       DataCardEffects,
       MarketsCardEffects,
       AddPayMarketFormEffects,
-      ComphubPageEffects
+      ComphubPageEffects,
+      SummaryCardEffects
     ]),
     PerfectScrollbarModule,
 

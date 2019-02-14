@@ -9,6 +9,7 @@ export const GET_PAYMARKETS_SUCCESS = '[Comphub/Markets Card] Get Pay Markets Su
 export const GET_PAYMARKETS_ERROR = '[Comphub/Markets Card] Get Pay Markets Error';
 export const SET_PAYMARKET_FILTER = '[Comphub/Markets Card] Set Pay Markets Filter';
 export const SET_SELECTED_PAYMARKET = '[Comphub/Markets Card] Set Selected Pay Market';
+export const SET_TO_DEFAULT_PAYMARKET = '[Comphub/Markets Card] Set to Default Paymarket';
 export const SAVE_PAYMARKET = '[Comphub/Markets Card] Save Pay Market';
 export const GET_MD_SCOPE = '[Comphub/Markets Card] Get Market Data Scope';
 export const GET_MD_SCOPE_SUCCESS = '[Comphub/Markets Card] Get Market Data Scope Success';
@@ -45,6 +46,12 @@ export class SetSelectedPaymarket implements Action {
   constructor(public payload: PricingPaymarket) {}
 }
 
+export class SetToDefaultPaymarket implements Action {
+  readonly type = SET_TO_DEFAULT_PAYMARKET;
+
+  constructor() {}
+}
+
 export class SavePayMarket implements Action {
   readonly type = SAVE_PAYMARKET;
 
@@ -77,6 +84,7 @@ export type Actions
   | GetPaymarketsError
   | SetPaymarketFilter
   | SetSelectedPaymarket
+  | SetToDefaultPaymarket
   | SavePayMarket
   | GetMarketDataScope
   | GetMarketDataScopeSuccess
