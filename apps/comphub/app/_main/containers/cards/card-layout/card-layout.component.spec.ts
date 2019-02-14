@@ -4,15 +4,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { environment } from 'environments/environment';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { CardLayoutComponent } from './card-layout.component';
+import { WindowRef } from '../../../services';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('Comphub - Main - Card Layout', () => {
   let instance: CardLayoutComponent;
   let fixture: ComponentFixture<CardLayoutComponent>;
   let store: Store<fromComphubMainReducer.State>;
+  let windowRef: WindowRef;
+  let modalService: NgbModal;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,6 +27,16 @@ describe('Comphub - Main - Card Layout', () => {
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
         })
       ],
+      providers: [
+        {
+          provide: WindowRef,
+          useValue: { nativeWindow: { location: jest.fn() } }
+        },
+        {
+          provide: NgbModal,
+          useValue: { open: jest.fn() }
+        }
+      ],
       declarations: [ CardLayoutComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -30,6 +45,8 @@ describe('Comphub - Main - Card Layout', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+    windowRef = TestBed.get(WindowRef);
+    modalService = TestBed.get(NgbModal);
     fixture.detectChanges();
   });
 
@@ -74,6 +91,19 @@ describe('Comphub - Main - Card Layout', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should open the modal via the modal service when handling a close button click', () => {
+    spyOn(modalService, 'open');
+    instance.handleCloseClicked();
+
+    expect(modalService.open).toHaveBeenCalled();
+  });
+
+  it('should set the window location to the dashboard, when handling the confirm close app click', () => {
+    instance.handleConfirmedCloseApp();
+
+    expect(windowRef.nativeWindow.location).toBe(`/${environment.hostPath}/dashboard`);
   });
 
 });

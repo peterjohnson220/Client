@@ -1,9 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
+import { environment } from 'environments/environment';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
+import { WindowRef } from '../../../services';
 
 @Component({
   selector: 'pf-card-layout',
@@ -17,9 +20,12 @@ export class CardLayoutComponent {
   @Input() hideBackButton: boolean;
   @Input() hideNextButton: boolean;
   @Input() nextButtonEnabled: boolean;
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   constructor(
-    private store: Store<fromComphubMainReducer.State>
+    private store: Store<fromComphubMainReducer.State>,
+    private window: WindowRef,
+    private modalService: NgbModal
   ) { }
 
   handleNextButtonClicked() {
@@ -30,4 +36,13 @@ export class CardLayoutComponent {
     this.store.dispatch(new fromComphubPageActions.NavigateToPreviousCard());
   }
 
+  handleCloseClicked() {
+    this.modalService.open(this.modalContent, <NgbModalOptions> {
+      backdrop: 'static'
+    });
+  }
+
+  handleConfirmedCloseApp() {
+    this.window.nativeWindow.location = `/${environment.hostPath}/dashboard`;
+  }
 }
