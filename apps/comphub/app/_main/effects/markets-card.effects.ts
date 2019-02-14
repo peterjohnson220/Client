@@ -26,7 +26,7 @@ export class MarketsCardEffects {
     .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
       switchMap(() => {
-          return this.paymarketApiService.getAll()
+          return this.paymarketApiService.getAllByCountryCode('USA')
             .pipe(
               mergeMap((paymarketsResponse: PayMarket[]) => {
                 const actions = [];

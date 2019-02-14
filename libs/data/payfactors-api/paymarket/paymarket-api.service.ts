@@ -26,6 +26,11 @@ export class PayMarketApiService {
       .get<PayMarket[]>(`${this.endpoint}`);
   }
 
+  getAllByCountryCode(countryCode: string): Observable<PayMarket[]> {
+    return this.payfactorsApiService
+      .get<PayMarket[]>(`${this.endpoint}`, { params: { $filter: `CountryCode eq '${countryCode}'` } });
+  }
+
   getExchangeScopeSelections(companyPayMarketId: number): Observable<any> {
     return this.payfactorsApiService.get<GenericKeyValue<number, string>[]>(
       `${this.endpoint}/GetExchangeScopeSelections`,
