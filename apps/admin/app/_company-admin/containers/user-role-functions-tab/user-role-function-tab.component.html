@@ -1,7 +1,7 @@
-<div *ngIf="rolePermissions;else no_role">
+<div *ngIf="systemPermissions;else no_role">
   <div class="scrollable">
     <ul class="list-group nav">
-      <li class="nav-item parentPermission" *ngFor="let prm of rolePermissions">
+      <li class="nav-item parentPermission" *ngFor="let prm of systemPermissions">
         <input type="checkbox" [attr.data-qa-id]="'chk-' + prm.SystemPermissionId" [disabled]="disableCheckboxes"  (change)="handleCheckBoxCheck(prm)" [checked]="prm.IsChecked"/>
         {{prm.Name}}
         <ul class="list-group nav">

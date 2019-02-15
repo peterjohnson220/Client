@@ -6,12 +6,12 @@ import {PermissionService} from '../../core/services';
   selector: '[pfSecuredResource]'
 })
 export class PfSecuredResourceDirective implements DoCheck {
-  private permissionToAuthorize: string | string[];
+  private permissionsToAuthorize: string | string[];
   private _PermissionsService: PermissionService;
   @ContentChild(FormControlName) control: FormControlName;
 
   @Input() set pfSecuredResource(permissionToAuthorize: string | string[]) {
-    this.permissionToAuthorize = permissionToAuthorize;
+    this.permissionsToAuthorize = permissionToAuthorize;
   }
 
   constructor(private permissionService: PermissionService, private _el: ElementRef, private _renderer: Renderer2) {
@@ -21,24 +21,24 @@ export class PfSecuredResourceDirective implements DoCheck {
   ngDoCheck(): void {
     let isAuthorized = false;
 
-    if (typeof this.permissionToAuthorize === 'string') {
-      isAuthorized = this.doAuthorize(this.permissionToAuthorize);
+    if (typeof this.permissionsToAuthorize === 'string') {
+      isAuthorized = this.doAuthorize(this.permissionsToAuthorize);
     } else {
-      isAuthorized = this.doAuthorizeAll(this.permissionToAuthorize);
+      isAuthorized = this.doAuthorizeAny(this.permissionsToAuthorize);
     }
 
-    this.addRemoveInvalidClassOnAuth(isAuthorized);
+    this.removeElement(isAuthorized);
   }
 
   doAuthorize(permissionToAuthorize: string): boolean {
     return this._PermissionsService.HasPermission(permissionToAuthorize);
   }
 
-  doAuthorizeAll(permissionsToAuthorize: string[]): boolean {
+  doAuthorizeAny(permissionsToAuthorize: string[]): boolean {
     return this._PermissionsService.HasAnyPermission(permissionsToAuthorize);
   }
 
-  addRemoveInvalidClassOnAuth(isAuthorized: boolean): void {
+  removeElement(isAuthorized: boolean): void {
     if (!isAuthorized) {
       this._renderer.removeChild(this._el.nativeElement.parentNode, this._el.nativeElement);
     }

@@ -9,14 +9,15 @@ export class PermissionService {
         let HasPermission = false;
     this.store.select(fromRootState.getUserContext).subscribe(
       uc => {
-        HasPermission = uc.SystemPermissions.some( s => s.Permission === permission) ; });
+        HasPermission = (uc.Permissions.indexOf( permission) > -1);
+      });
     return HasPermission;
   }
   public  HasAnyPermission(permissions: string[]) {
     let HasPermission = false;
     this.store.select(fromRootState.getUserContext).subscribe(
       uc => {
-        HasPermission = uc.SystemPermissions.some( s =>  permissions.includes(s.Permission)) ; });
+        HasPermission = uc.Permissions.some( s =>  (permissions.indexOf(s) > -1)) ; });
     return HasPermission;
   }
 }

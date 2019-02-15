@@ -1,13 +1,13 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { RolePermission } from 'libs/models/security/roles';
+import { SystemPermission } from 'libs/models/security/roles';
 import { arraysEqual } from 'libs/core/functions';
 
 import * as fromUserRoleFunctionTabActions from '../actions/user-role-functions-tab.action';
 
 export interface State {
-  currentPermissions: RolePermission[];
-  currentPermissionsDefaultStatus: RolePermission[];
+  currentPermissions: SystemPermission[];
+  currentPermissionsDefaultStatus: SystemPermission[];
   disableCheckboxes: boolean;
 }
 
@@ -76,7 +76,7 @@ export const getCheckboxesDisabled = (state: State) => state.disableCheckboxes;
 export const getFunctionTabPendingChanges = (state: State) =>
   !(arraysEqual(getCheckedPermissionIds(state.currentPermissionsDefaultStatus), getCheckedPermissionIds(state.currentPermissions)));
 
-function getCheckedPermissionIds(permissionCollection: RolePermission[]): number[] {
+function getCheckedPermissionIds(permissionCollection: SystemPermission[]): number[] {
   if (!permissionCollection) {
     return [];
   }

@@ -1,4 +1,4 @@
-import { RolePermission } from 'libs/models/security';
+import { SystemPermission } from 'libs/models/security';
 
 export class UserAssignedRole {
   RoleId: number;
@@ -6,7 +6,7 @@ export class UserAssignedRole {
   RoleName: string;
   IsSystemRole: boolean;
   Assigned: boolean;
-  Permissions: RolePermission[];
+  Permissions: SystemPermission[];
 }
 export function generateMockUserAssignedRole(): UserAssignedRole {
   return {

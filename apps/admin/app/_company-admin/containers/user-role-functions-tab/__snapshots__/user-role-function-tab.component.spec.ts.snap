@@ -68,62 +68,15 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
 <pf-user-role-function-tab
   disableCheckboxes="false"
   disableCheckboxesSubscription={[Function Subscriber]}
-  rolePermissionSubscription={[Function Subscriber]}
   rolePermissions={[Function Array]}
   store={[Function Store]}
+  systemPermissionSubscription={[Function Subscriber]}
+  systemPermissions="undefined"
 >
   <div>
-    <div
-      class="scrollable"
-    >
-      <ul
-        class="list-group nav"
-      >
-        
-        <li
-          class="nav-item parentPermission"
-        >
-          <input
-            data-qa-id="chk-1"
-            type="checkbox"
-          />
-           Parent Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentPermission"
-        >
-          <input
-            data-qa-id="chk-2"
-            type="checkbox"
-          />
-           Sub1 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentPermission"
-        >
-          <input
-            data-qa-id="chk-3"
-            type="checkbox"
-          />
-           Sub2 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <h4>
+      Please select a role from the role list.
+    </h4>
   </div>
 </pf-user-role-function-tab>
 `;
