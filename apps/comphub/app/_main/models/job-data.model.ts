@@ -5,7 +5,7 @@ export interface JobData {
   Education: string;
   YearsOfExperience: string;
   ManagesEmployees: boolean;
-  Skills: string;
+  Skills: string[];
   Base50: number;
   Tcc50: number;
   Incs?: number;
@@ -25,11 +25,11 @@ export function generateFakeJobData(): JobData {
     YearsOfExperience: '6+',
     Education: 'College',
     Incs: 1,
-    JobDescription: 'Spme job description',
+    JobDescription: 'Some job description',
     JobTitle: 'Job A',
     ManagesEmployees: false,
     Orgs: 2,
-    Skills: 'None'
+    Skills: ['Leadership', 'Analytical skills', 'Problem-solving', 'Ability to work within a team.']
   };
 
 }

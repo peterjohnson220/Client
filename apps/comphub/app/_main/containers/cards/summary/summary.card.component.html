@@ -44,6 +44,12 @@
             </div>
           </div>
         </div>
+        <div *ngIf="jobData?.Skills.length">
+          <div class="mb-2">Top Skills</div>
+          <div class="d-flex flex-wrap">
+            <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
+          </div>
+        </div>
       </div>
       <div class="col-12 col-lg-7">
         <span>Job Description</span>

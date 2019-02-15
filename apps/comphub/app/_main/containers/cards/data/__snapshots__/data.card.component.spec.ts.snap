@@ -228,9 +228,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 </td>
                 <td
                   class="text-column hide-when-small hide-when-medium"
-                >
-                   None 
-                </td>
+                />
                 <td
                   class="number-column"
                 >
@@ -511,9 +509,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 </td>
                 <td
                   class="text-column hide-when-small hide-when-medium"
-                >
-                   None 
-                </td>
+                />
                 <td
                   class="number-column"
                 >
