@@ -26,7 +26,6 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
 
   upsertDataCutPageInViewInIframe$: Observable<boolean>;
   peerMapCompanies$: Observable<any>;
-  employeesValid$: Observable<boolean>;
   upsertingDataCut$: Observable<boolean>;
   upsertingDataCutError$: Observable<boolean>;
   initialMapMoveComplete$: Observable<boolean>;
@@ -67,7 +66,6 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.includeUntaggedIncumbents$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterIncludeUntaggedIncumbents));
     this.untaggedIncumbentCount$ = this.store.pipe(select(fromPeerMapReducers.getPeerFilterCountUnGeoTaggedIncumbents));
     this.requestingPeerAccess$ = this.store.pipe(select(fromUpsertPeerDataReducers.getRequestingPeerAccess));
-    this.employeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
 
     this.hasRequestedPeerAccess$ = this.settingsService.selectUiPersistenceSetting<boolean>(
       FeatureAreaConstants.Project, UiPersistenceSettingConstants.PeerAccessRequested
@@ -147,7 +145,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  inIframe() {
+  inIframe () {
     try {
       return window.self !== window.top;
     } catch (e) {
@@ -168,7 +166,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
       // If the cutGuid is null, we can assume that we are NOT editing a data cut and we therefor need to check similarity.
       const shouldCheckSimilarity = this.cutGuid === null;
-      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity, this.companyJobId, this.userSessionId);
+      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity);
     });
   }
 }

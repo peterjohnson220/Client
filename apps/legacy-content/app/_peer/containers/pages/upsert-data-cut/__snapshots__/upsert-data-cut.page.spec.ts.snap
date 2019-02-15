@@ -6,7 +6,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -88,7 +87,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -169,7 +167,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -250,7 +247,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -344,7 +340,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -425,7 +420,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -506,7 +500,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -592,7 +585,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
@@ -678,7 +670,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
-  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}

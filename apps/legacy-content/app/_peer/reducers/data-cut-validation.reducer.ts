@@ -8,7 +8,6 @@ import * as fromDataCutValidationActions from '../actions/data-cut-validation.ac
 export interface State extends EntityState<DataCutValidationInfo> {
   loading: boolean;
   loadingError: boolean;
-  employeeCheckPassed: boolean;
 }
 
 // Create Entity Adapter
@@ -19,8 +18,7 @@ export const adapter: EntityAdapter<DataCutValidationInfo> = createEntityAdapter
 // Initial State
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false,
-  employeeCheckPassed: false
+  loadingError: false
 });
 
 // Reducer
@@ -29,16 +27,14 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
     case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION: {
       return {
         ...adapter.removeAll(state),
-        loading: true,
-        loadingError: false
+        loading: true
       };
     }
     case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION_SUCCESS: {
       const info: DataCutValidationInfo[] = action.payload;
       return {
         ...adapter.addAll(info, state),
-        loading: false,
-        loadingError: false
+        loading: false
       };
     }
     case fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION_ERROR: {
@@ -46,30 +42,6 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
         ...state,
         loading: false,
         loadingError: true
-      };
-    }
-    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES: {
-      return {
-        ...state,
-        loading: true,
-        loadingError: false,
-        employeeCheckPassed: false
-      };
-    }
-    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES_SUCCESS: {
-      return {
-        ...state,
-        loading: false,
-        loadingError: false,
-        employeeCheckPassed: action.payload
-      };
-    }
-    case fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES_ERROR: {
-      return {
-        ...state,
-        loading: false,
-        loadingError: true,
-        employeeCheckPassed: false
       };
     }
     default: {
@@ -81,4 +53,3 @@ export function reducer(state = initialState, action: fromDataCutValidationActio
 // Selector Functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
-export const employeeCheckPassed = (state: State) => state.employeeCheckPassed;
