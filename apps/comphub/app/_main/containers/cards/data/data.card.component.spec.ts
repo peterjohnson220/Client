@@ -246,8 +246,9 @@ describe('Comphub - Main - Data Card Component', () => {
     spyOn(store, 'dispatch');
 
     const expectedAction = new fromDataCardActions.SetSelectedRate(RateType.Hourly);
+    const selectedRate = { Name: 'Hourly', Value: 'Hourly' };
 
-    instance.handleRateSelectionChange(RateType.Hourly);
+    instance.handleRateSelectionChange(selectedRate);
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });

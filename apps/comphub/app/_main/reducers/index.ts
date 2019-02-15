@@ -187,6 +187,11 @@ export const getPeerBannerOpen = createSelector(
   fromDataCardReducer.getPeerBannerOpen
 );
 
+export const getSelectedRate = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getSelectedRate
+);
+
 // Add Pay Market Form
 export const getAddPayMarketFormOpen = createSelector(
   selectAddPayMarketFormState,

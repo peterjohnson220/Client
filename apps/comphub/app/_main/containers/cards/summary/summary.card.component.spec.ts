@@ -8,6 +8,7 @@ import * as fromRootState from 'libs/state/state';
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
+import { RateType } from '../../../data';
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
@@ -40,5 +41,25 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.handlePriceNewJobClicked();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should return correct value when selected rate is hourly', () => {
+    const value = 360.1;
+    const expectedValue = 173.13;
+    instance.selectedRate = RateType.Hourly;
+
+    const actualValue = Math.round(instance.calculateDataByRate(value) * 100) / 100;
+
+    expect(actualValue).toEqual(expectedValue);
+  });
+
+  it('should return correct value when selected rate is annual', () => {
+    const value = 360.1;
+    const expectedValue = 360100;
+    instance.selectedRate = RateType.Annual;
+
+    const actualValue = instance.calculateDataByRate(value);
+
+    expect(actualValue).toEqual(expectedValue);
   });
 });
