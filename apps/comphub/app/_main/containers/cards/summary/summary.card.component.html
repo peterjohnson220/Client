@@ -33,14 +33,30 @@
             <span>Base Salary</span>
             <div class="d-flex flex-row">
               <h2 class="currency-sign">$</h2>
-              <h1 class="header-blue">{{calculateDataByRate(jobData?.Base50) | number : isHourly ? '1.2-2' : '1.0'}}</h1>
+              <h1 class="header-blue">{{calculateDataByRate(jobData?.Base50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+            </div>
+            <div class="w-75">
+              <pf-salary-bar-chart
+                [isHourly]="isHourly"
+                [salary25]="jobData?.Base25"
+                [salary50]="jobData?.Base50"
+                [salary75]="jobData?.Base75">
+              </pf-salary-bar-chart>
             </div>
           </div>
           <div class="width-300">
             <span>Total Cash Compensation</span>
             <div class="d-flex flex-row">
               <h2 class="currency-sign">$</h2>
-              <h1 class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | number : isHourly ? '1.2-2' : '1.0'}}</h1>
+              <h1 class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+            </div>
+            <div class="w-75">
+              <pf-salary-bar-chart
+                [isHourly]="isHourly"
+                [salary25]="jobData?.Tcc25"
+                [salary50]="jobData?.Tcc50"
+                [salary75]="jobData?.Tcc75">
+              </pf-salary-bar-chart>
             </div>
           </div>
         </div>
