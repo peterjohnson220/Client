@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Action, select, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, catchError, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { ExchangeDataCutsApiService } from 'libs/data/payfactors-api/peer';
 import { DataCutValidationInfo } from 'libs/models/peer';
-import * as fromPeerMapReducers from 'libs/features/peer/map/reducers/';
 
 import * as fromDataCutValidationActions from '../actions/data-cut-validation.actions';
 
@@ -15,35 +14,18 @@ import * as fromDataCutValidationActions from '../actions/data-cut-validation.ac
 export class DataCutValidationEffects {
   @Effect()
   loadDataCutValidationInfo: Observable<Action> = this.actions$.pipe(
-    ofType(fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION),
-    map((action: fromDataCutValidationActions.LoadDataCutValidation) => action.payload),
-    switchMap(payload => {
-      return this.exchangeDataCutsApiService.getDataCutValidationInfo(payload).pipe(
-        map((response: DataCutValidationInfo[]) => new fromDataCutValidationActions.LoadDataCutValidationSuccess(response)),
-        catchError(() => of(new fromDataCutValidationActions.LoadDataCutValidationError))
-      );
-    })
-  );
-
-  @Effect()
-  validateCutEmployeeSimilarity$ = this.actions$.pipe(
-    ofType(fromDataCutValidationActions.VALIDATE_DATA_CUT_EMPLOYEES),
-    withLatestFrom(
-      this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
-      (action: fromDataCutValidationActions.ValidateDataCutEmployees, filters) =>
-        ({ action, filters })),
-    switchMap((data) => {
-      return this.exchangeDataCutsApiService.validateCutEmployeeSimilarity(data.filters,
-        data.action.companyJobId, data.action.userSessionId).pipe(
-          map((response: boolean) => new fromDataCutValidationActions.ValidateDataCutEmployeesSuccess(response)),
-          catchError(() => of(new fromDataCutValidationActions.ValidateDataCutEmployeesError))
+      ofType(fromDataCutValidationActions.LOAD_DATA_CUT_VALIDATION),
+      map((action: fromDataCutValidationActions.LoadDataCutValidation) => action.payload),
+      switchMap(payload => {
+        return this.exchangeDataCutsApiService.getDataCutValidationInfo(payload).pipe(
+          map((response: DataCutValidationInfo[]) => new fromDataCutValidationActions.LoadDataCutValidationSuccess(response)),
+          catchError(() => of(new fromDataCutValidationActions.LoadDataCutValidationError))
         );
-    })
-  );
+      })
+    );
 
   constructor(
     private actions$: Actions,
-    private exchangeDataCutsApiService: ExchangeDataCutsApiService,
-    private peerMapStore: Store<fromPeerMapReducers.State>
-  ) { }
+    private exchangeDataCutsApiService: ExchangeDataCutsApiService
+  ) {}
 }
