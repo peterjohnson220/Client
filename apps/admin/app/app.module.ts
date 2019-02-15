@@ -11,8 +11,6 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import { PfFormsModule } from 'libs/forms/forms.module';
 import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
-import { CompanyAdminModule } from './_company-admin/company-admin.module';
-import { TicketsModule } from './_tickets/tickets.module';
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,8 +21,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     NoopAnimationsModule,
-    CompanyAdminModule,
-    TicketsModule,
 
     // 3rd Party
     NgbModalModule.forRoot(),

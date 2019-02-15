@@ -1,39 +1,39 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {Injectable, OnDestroy} from '@angular/core';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { Store } from '@ngrx/store';
-import { catchError, map, take } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 
 import * as fromRootState from '../../state/state';
-import { CompanySecurityApiService } from 'libs/data/payfactors-api/security/company-security-api.service';
+
+import { UserContext } from '../../models/security';
+import { PermissionService } from '../../core/services';
 
 @Injectable()
-export class CompanyAdminGuard implements CanActivate {
+export class AuthorizationGuard implements CanActivate, OnDestroy {
+  userContext: UserContext;
+  userContextSubscription: Subscription;
   constructor(
     private store: Store<fromRootState.State>,
-    private router: Router,
-    private companySecurity: CompanySecurityApiService
-  ) { }
-
-  userIsCompanyAdmin(): Observable<boolean> {
-    return this.companySecurity.getIsCompanyAdmin()
-      .pipe(
-        map(ret => {
-          if (!ret) {
-            window.location.href = '/ng/404';
-            return false;
-          } else {
-            return ret;
-          }
-        }),
-        catchError(error => {
-          window.location.href = '/ng/404';
-          return of(false);
-        }));
+    private _PermissionsService: PermissionService
+  ) {
+    this.userContextSubscription = this.store.select(fromRootState.getUserContext).subscribe(uc => {
+      this.userContext = uc;
+    });
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.userIsCompanyAdmin();
+    if (this.userContext.AccessLevel === 'Admin') {
+      return of(true);
+    } else if (this._PermissionsService.CheckPermission(next.data.Permissions, next.data.Check)) {
+      return of(true);
+    } else {
+      window.location.href = '/ng/404';
+      return of(false);
+    }
+  }
+
+  ngOnDestroy() {
+    this.userContextSubscription.unsubscribe();
   }
 }

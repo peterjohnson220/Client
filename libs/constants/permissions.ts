@@ -50,3 +50,9 @@ export class Permissions {
   public static USER_ROLES	=	'User Roles';
   public static PEER_IMPORT_ASSOCIATIONS	=	'Peer_Import_Associations';
 }
+
+export enum PermissionCheckEnum {
+  Any,
+  All,
+  Single
+}
