@@ -90,6 +90,13 @@ export class AddPayMarketFormEffects {
       })
     );
 
+  @Effect()
+  closeForm$ = this.actions$
+    .ofType(fromAddPayMarketFormActions.CLOSE_FORM)
+    .pipe(
+        map(() => new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst())
+    );
+
   constructor(
     private actions$: Actions,
     private payMarketApiService: PayMarketApiService,
