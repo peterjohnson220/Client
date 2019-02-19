@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
-import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
+import { DataStateChangeEvent, GridComponent, GridDataResult } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
 // Payfactors
@@ -23,6 +23,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 export class CompanyJobsComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
   @ViewChild(InputDebounceComponent) public companyJobSearchComponent: InputDebounceComponent;
+  @ViewChild(GridComponent) public grid: GridComponent;
 
   companyJobsGridItemsData$: Observable<GridDataResult>;
   totalCompanyJobsGridItems$: Observable<number>;
@@ -72,6 +73,19 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.SearchTermUpdated(searchTerm));
     if (!searchTerm  || searchTerm.length > 1) {
       this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+    }
+  }
+
+  handleDetailExpand(event: any): void {
+    // determine how many results we have in the grid
+    const gridData = this.grid.data as any;
+    const totalRows = gridData.data.length;
+
+    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
+    for (let i = 0; i < totalRows; i++) {
+      if (i !== event.index) {
+        this.grid.collapseRow(i);
+      }
     }
   }
 

@@ -2,6 +2,7 @@
 
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
+  grid="undefined"
   gridState$={[Function Store]}
   jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
@@ -57,6 +58,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
             field="ExchangeName"
             title="Exchange Name"
           />
+          
           
         </kendo-grid>
       </div>

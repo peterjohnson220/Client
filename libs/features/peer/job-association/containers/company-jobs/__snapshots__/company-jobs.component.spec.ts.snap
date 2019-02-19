@@ -4,6 +4,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
   companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}
+  grid="undefined"
   gridState$={[Function Store]}
   loading$={[Function Store]}
   loadingError$={[Function Store]}
@@ -72,6 +73,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           >
             
           </kendo-grid-column>
+          
           
         </kendo-grid>
       </div>

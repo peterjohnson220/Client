@@ -35,11 +35,13 @@
                 [filter]="(gridState$ | async)?.filter"
                 [sortable]="true"
                 [resizable]="true"
+                [selectable]="true"
                 [pageable]="{
                   buttonCount: 5,
                   info: true
                  }"
-                (dataStateChange)="handleDataStateChange($event)">
+                (dataStateChange)="handleDataStateChange($event)"
+                (detailExpand)="handleDetailExpand($event)">
       <kendo-grid-column field="CompanyJobId" title="Id" hidden="true"></kendo-grid-column>
       <kendo-grid-column field="JobTitle" title="Job Title">
         <ng-template kendoGridCellTemplate let-dataItem>
@@ -65,6 +67,12 @@
           <span *ngIf="!dataItem.IsAssociated">Not Associated</span>
         </ng-template>
       </kendo-grid-column>
+      <ng-template kendoGridDetailTemplate let-dataItem>
+        <p *ngIf="dataItem.JobDescription && dataItem.JobDescription !== '#N/A'" [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
+        <p *ngIf="!dataItem.JobDescription || dataItem.JobDescription === '#N/A'" class="font-italic">
+          No Job Description Available
+        </p>
+      </ng-template>
       <ng-template kendoGridNoRecordsTemplate>
         No results based on your search.
         <a href="javascript:void(0)" (click)="reload(true)">
