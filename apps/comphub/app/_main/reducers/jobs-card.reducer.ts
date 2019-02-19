@@ -11,6 +11,7 @@ export interface State {
   jobSearchOptions: string[];
   loadingJobSearchOptionsError: boolean;
   selectedJob: string;
+  selectedJobHistory: string[];
 }
 
 const initialState: State = {
@@ -20,7 +21,8 @@ const initialState: State = {
   jobSearchOptions: [],
   loadingJobSearchOptions: false,
   loadingJobSearchOptionsError: false,
-  selectedJob: null
+  selectedJob: null,
+  selectedJobHistory: []
 };
 
 // Reducer function
@@ -95,3 +97,4 @@ export const getJobSearchOptions = (state: State) => state.jobSearchOptions;
 export const getLoadingJobSearchOptions = (state: State) => state.loadingJobSearchOptions;
 export const getLoadingJobSearchOptionsError = (state: State) => state.loadingJobSearchOptionsError;
 export const getSelectedJob = (state: State) => state.selectedJob;
+export const getSelectedJobHistory = (state: State) => state.selectedJobHistory;

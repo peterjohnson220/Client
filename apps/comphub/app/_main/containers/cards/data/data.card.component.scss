@@ -142,3 +142,64 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
     background: $peer-banner-text-bg, $peer-banner-gradient;
   }
 }
+
+
+
+// Job Limit Counter Overrides
+:host::ng-deep pf-job-limit-counter {
+  height: 78px;
+  position: absolute;
+  top: 40px;
+  right: 28px;
+
+  .top-container {
+    padding-left: 0;
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+  }
+
+  .middle-container {
+    width: 100%;
+
+    .job-count-bar {
+      .used-job-count {
+        margin-left: 0;
+      }
+
+      .max-job-count {
+        margin-right: 0;
+      }
+
+      ngb-progressbar {
+        width: 100%;
+      }
+    }
+  }
+
+  .gradient-bar {
+    display: none;
+  }
+
+  .search-results-count {
+    display: none;
+  }
+}
+
+@media all and (max-width: 1175px) {
+  pf-job-limit-counter {
+    display: none;
+  }
+}
+
+@media all and (min-width: 1176px) {
+  pf-job-limit-counter {
+    width: 375px !important;
+  }
+}
+
+@media all and (min-width: 1600px) {
+  pf-job-limit-counter {
+    width: 475px !important;
+  }
+}

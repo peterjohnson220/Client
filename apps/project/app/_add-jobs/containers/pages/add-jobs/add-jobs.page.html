@@ -28,12 +28,12 @@
 
     <pf-paymarkets [useSmallBizStyles]="isSmallBiz"></pf-paymarkets>
 
-    <pf-job-counter *ngIf="!!isSmallBiz"
+    <pf-job-limit-counter *ngIf="!!isSmallBiz"
                     [jobUsageCount]="jobUsageCount"
                     [numberOfSearchResults]="(numberOfSearchResults$ | async)"
                     [currentJobCountSetting]="currentJobCountSetting"
                     [maxAllowedJobsSetting]="maxAllowedJobsSetting">
-    </pf-job-counter>
+    </pf-job-limit-counter>
 
   </ng-container>
 

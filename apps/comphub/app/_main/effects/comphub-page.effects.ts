@@ -47,15 +47,17 @@ export class ComphubPageEffects {
     .pipe(
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getPaymarketsFilter),
-        (action, payMarketsFilter) => ({ payMarketsFilter })
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action, payMarketsFilter, selectedPayMarket) => ({ payMarketsFilter, selectedPayMarket })
       ),
-      mergeMap((filter) => {
+      mergeMap((data) => {
         const actions = [];
-        if (filter) {
+        if (data.payMarketsFilter) {
           actions.push(new fromMarketsCardActions.SetPaymarketFilter(''));
         }
-
-        actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+        if (data.selectedPayMarket) {
+          actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+        }
 
         return actions;
       })

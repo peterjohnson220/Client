@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
+import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, debounceTime, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
@@ -10,7 +11,8 @@ import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
-import { PayfactorsApiModelMapper } from '../helpers/payfactors-api-model-mapper';
+import * as fromComphubReducer from '../reducers';
+import { PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
 
 @Injectable()
@@ -53,14 +55,13 @@ export class JobsCardEffects {
     .ofType(fromJobsCardActions.SET_SELECTED_JOB)
     .pipe(
       map((action: fromJobsCardActions.SetSelectedJob) => action.payload),
-      mergeMap((jobTitle: string) => {
-        return [
-          new fromDataCardActions.ClearSelectedJobData(),
-          new fromComphubPageActions.ResetAccessiblePages(),
-          new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: jobTitle}),
-          new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data])
-        ];
-      })
+      mergeMap((jobTitle) => [
+        new fromDataCardActions.ClearSelectedJobData(),
+        new fromComphubPageActions.ResetAccessiblePages(),
+        new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: jobTitle}),
+        new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data])
+
+      ])
     );
 
   @Effect()
@@ -75,6 +76,7 @@ export class JobsCardEffects {
 
   constructor(
     private actions$: Actions,
+    private store: Store<fromComphubReducer.State>,
     private comphubApiService: ComphubApiService,
     private jobSearchApiService: JobSearchApiService
   ) {

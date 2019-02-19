@@ -6,12 +6,18 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModalModule,
+  NgbPaginationModule,
+  NgbProgressbarModule,
+  NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
   SummaryCardComponent } from './containers';
@@ -21,6 +27,7 @@ import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
 import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
+
 
 @NgModule({
   imports: [
@@ -49,6 +56,8 @@ import { MainRoutingModule } from './main-routing.module';
     GridModule,
     NgbPaginationModule,
     NgbModalModule,
+    NgbProgressbarModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfCommonModule,
@@ -60,6 +69,7 @@ import { MainRoutingModule } from './main-routing.module';
     TrendingJobGroupComponent,
     CardComponent,
     AddPayMarketFormComponent,
+    JobLimitCounterComponent,
 
     // Pages
     ComphubPageComponent,
