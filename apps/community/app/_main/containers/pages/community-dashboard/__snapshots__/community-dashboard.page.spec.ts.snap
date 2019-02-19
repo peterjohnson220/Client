@@ -78,6 +78,9 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
                   <pf-community-categories />
                 </div>
               </div>
+              <div>
+                <pf-community-search />
+              </div>
               <div
                 class="tags-margin-left"
               >
