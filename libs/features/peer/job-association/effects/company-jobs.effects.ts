@@ -22,12 +22,17 @@ export class CompanyJobsEffects {
         select(fromReducer.getCompanyJobsGridState)),
       (action, listState) => listState
     ),
+    withLatestFrom(this.store.pipe(
+      select(fromReducer.getCompanyJobsSearchTerm)),
+      (listState, searchTerm) => ({listState, searchTerm})
+    ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined =>
-      this.exchangeCompanyApiService.getActiveNonAssociatedCompanyJobs(combined).pipe(
+      (this.exchangeCompanyApiService.getActiveNonAssociatedCompanyJobs(combined.listState, combined.searchTerm).pipe(
         map((grid) => new fromCompanyJobsActions.LoadCompanyJobsSuccess(grid)),
         catchError(() => of(new fromCompanyJobsActions.LoadCompanyJobsError())
         )
+      )
       )
     )
   );

@@ -1,26 +1,17 @@
 <h2>Company Jobs</h2>
-<div class="d-flex">
+<div class="filters position-relative w-50 d-flex">
   <i class="fas fa-search"></i>
-  <input type="text" placeholder="Accountant" />
-  <label>
-    <input type="checkbox" />
-    Associated
-  </label>
-  <label class="testClass">Job Family:</label>
-  <label>
-    <select>
-      <option value="1">Airline</option>
-      <option value="2">Accounting</option>
-      <option value="3">Restaurant</option>
-    </select>
-  </label>
+  <pf-input-debounce
+    [delay]="400"
+    [(ngModel)]="searchTerm"
+    [ngModelOptions]="{standalone: true}"
+    [placeholderText]="'Search job title or job code'"
+    (valueChanged)="handleSearchChanged($event)">
+  </pf-input-debounce>
 </div>
-<label>
+<label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
   company jobs: {{ totalCompanyJobsGridItems$ | async }} total
 </label>
-<ng-template #template let-anchor>
-  <span>{{ anchor.nativeElement.innerText }}</span>
-</ng-template>
 <div class="grid-container position-relative">
   <pf-async-container
     class="h-100"
@@ -50,8 +41,16 @@
                  }"
                 (dataStateChange)="handleDataStateChange($event)">
       <kendo-grid-column field="CompanyJobId" title="Id" hidden="true"></kendo-grid-column>
-      <kendo-grid-column field="JobTitle" title="Job Title"></kendo-grid-column>
-      <kendo-grid-column field="JobCode" title="Job Code"></kendo-grid-column>
+      <kendo-grid-column field="JobTitle" title="Job Title">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="JobCode" title="Job Code">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm"></div>
+        </ng-template>
+      </kendo-grid-column>
       <kendo-grid-column field="JobFamily" [sortable]="false" title="Job Family">
         <ng-template kendoGridCellTemplate let-dataItem>
           <span *ngIf="dataItem.JobFamily === null; else hasFamily">No Family</span>
@@ -66,8 +65,17 @@
           <span *ngIf="!dataItem.IsAssociated">Not Associated</span>
         </ng-template>
       </kendo-grid-column>
+      <ng-template kendoGridNoRecordsTemplate>
+        No results based on your search.
+        <a href="javascript:void(0)" (click)="reload(true)">
+          <i class="fas fa-redo-alt"></i>
+          Reset now
+        </a>
+      </ng-template>
     </kendo-grid>
   </div>
   </pf-async-container>
 </div>
-
+<ng-template #template let-anchor>
+  <span>{{ anchor.nativeElement.innerText }}</span>
+</ng-template>

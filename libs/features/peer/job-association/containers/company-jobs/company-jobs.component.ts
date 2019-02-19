@@ -1,15 +1,16 @@
 // angular core
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 // 3rd party
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { DataStateChangeEvent, GridDataResult } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
 // Payfactors
 import { GridTypeEnum } from '../../../../../models/common';
+import { InputDebounceComponent } from '../../../../../forms/components/input-debounce';
 import * as fromCompanyJobsReducer from '../../reducers';
 import * as companyJobsActions from '../../actions/company-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -19,14 +20,17 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
   templateUrl: './company-jobs.component.html',
   styleUrls: ['./company-jobs.component.scss']
 })
-export class CompanyJobsComponent implements OnInit {
+export class CompanyJobsComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
+  @ViewChild(InputDebounceComponent) public companyJobSearchComponent: InputDebounceComponent;
+
   companyJobsGridItemsData$: Observable<GridDataResult>;
   totalCompanyJobsGridItems$: Observable<number>;
   gridState$: Observable<State>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
-
+  searchTerm;
+  searchTermSubscription: Subscription;
 
   constructor(private store: Store<fromCompanyJobsReducer.State>) {}
 
@@ -36,7 +40,19 @@ export class CompanyJobsComponent implements OnInit {
     this.gridState$ = this.store.select(fromCompanyJobsReducer.getCompanyJobsGridState);
     this.loading$ = this.store.select(fromCompanyJobsReducer.getCompanyJobsLoading);
     this.loadingError$ = this.store.select(fromCompanyJobsReducer.getCompanyJobsLoadingError);
+    this.searchTermSubscription = this.store.select(fromCompanyJobsReducer.getCompanyJobsSearchTerm).subscribe(
+      (searchTerm) => this.searchTerm = searchTerm
+    );
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+  }
+
+  reload(resetSearchTerm = false): void {
+    // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
+    if (resetSearchTerm) {
+      this.companyJobSearchComponent.clearValue();
+    } else {
+      this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+    }
   }
 
   public showTooltip(e: any): void {
@@ -47,13 +63,20 @@ export class CompanyJobsComponent implements OnInit {
     }
   }
 
-  reload(): void {
-    this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
-  }
-
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.JobAssociationModalCompanyJobs, state));
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+  }
+
+  handleSearchChanged(searchTerm: string) {
+    this.store.dispatch(new companyJobsActions.SearchTermUpdated(searchTerm));
+    if (!searchTerm  || searchTerm.length > 1) {
+      this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+    }
+  }
+
+  ngOnDestroy() {
+    this.searchTermSubscription.unsubscribe();
   }
 }
 

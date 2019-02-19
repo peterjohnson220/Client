@@ -15,14 +15,18 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
       margin-left: -20px;
       padding-left: 32px;
     }
+    pf-input-debounce {
+      width: 100%;
+    }
   }
+
 
   .grid-container {
     height: 75%;
     .k-tooltip-container {
       height: 100%;
       .k-grid {
-        .k-grid-content td {
+        .k-grid-content td > div {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
