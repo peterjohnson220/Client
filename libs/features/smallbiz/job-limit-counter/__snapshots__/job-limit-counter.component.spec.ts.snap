@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when job count is at the max limit 1`] = `
-<pf-job-counter
+<pf-job-limit-counter
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -61,11 +61,11 @@ exports[`Project - Add Jobs - Job Counter progress bar should be red/orange when
     </div>
     
   </div>
-</pf-job-counter>
+</pf-job-limit-counter>
 `;
 
 exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job count is at or over the warning threshold but under the max limit 1`] = `
-<pf-job-counter
+<pf-job-limit-counter
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -125,11 +125,11 @@ exports[`Project - Add Jobs - Job Counter progress bar should be yellow when job
     </div>
     
   </div>
-</pf-job-counter>
+</pf-job-limit-counter>
 `;
 
 exports[`Project - Add Jobs - Job Counter should hide the job count and progress bar, and show "hit max allowed jobs, contact your service rep" message for small biz companies when job limit is reached 1`] = `
-<pf-job-counter
+<pf-job-limit-counter
   currentJobCountSetting={[Function Number]}
   jobCountTooltipText=""
   maxAllowedJobsSetting={[Function Number]}
@@ -178,11 +178,11 @@ exports[`Project - Add Jobs - Job Counter should hide the job count and progress
       </a>
     </div>
   </div>
-</pf-job-counter>
+</pf-job-limit-counter>
 `;
 
 exports[`Project - Add Jobs - Job Counter should show the job count and progress bar should be green when job count is under the warning threshold 1`] = `
-<pf-job-counter
+<pf-job-limit-counter
   currentJobCountSetting="0"
   jobCountTooltipText=""
   jobUsageCount={[Function Number]}
@@ -242,5 +242,5 @@ exports[`Project - Add Jobs - Job Counter should show the job count and progress
     </div>
     
   </div>
-</pf-job-counter>
+</pf-job-limit-counter>
 `;

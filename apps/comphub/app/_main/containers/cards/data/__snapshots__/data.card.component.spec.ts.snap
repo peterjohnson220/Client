@@ -7,6 +7,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   gridColumnsConfiguration={[Function Array]}
   gridContext={[Function Object]}
   jobDataSelection="null"
+  jobPricingLimitInfo$={[Function Store]}
   jobResults$={[Function Observable]}
   jobResultsLoading$={[Function Store]}
   jobResultsLoadingError$={[Function Store]}
@@ -277,6 +278,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         </pf-async-container>
       </div>
     </div>
+    
   </pf-card-layout>
 </pf-data-card>
 `;
@@ -288,6 +290,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   gridColumnsConfiguration={[Function Array]}
   gridContext={[Function Object]}
   jobDataSelection="null"
+  jobPricingLimitInfo$={[Function Store]}
   jobResults$={[Function Observable]}
   jobResultsLoading$={[Function Store]}
   jobResultsLoadingError$={[Function Store]}
@@ -558,6 +561,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         </pf-async-container>
       </div>
     </div>
+    
   </pf-card-layout>
 </pf-data-card>
 `;

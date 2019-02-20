@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse } from '../../../models/payfactors-api/comphub';
+import { QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
+         JobPricingLimitInfoResponse } from '../../../models/payfactors-api/comphub';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -17,5 +18,9 @@ export class ComphubApiService {
 
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
     return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
+  }
+
+  incrementPricedJobCount(): Observable<JobPricingLimitInfoResponse>  {
+    return this.payfactorsApiService.post<JobPricingLimitInfoResponse>(`${this.endpoint}/IncrementPricedJobCount`);
   }
 }

@@ -118,6 +118,15 @@
         </pf-async-container>
       </div>
     </div>
+
+    <pf-job-limit-counter
+      *ngIf="!!(jobPricingLimitInfo$ | async)
+      && (jobPricingLimitInfo$ | async)?.Used <  (jobPricingLimitInfo$ | async)?.Available"
+      [jobUsageCount]="(jobPricingLimitInfo$ | async)?.Used"
+      [maxAllowedJobsSetting]="(jobPricingLimitInfo$ | async)?.Available"
+      [currentJobCountSetting]="(jobPricingLimitInfo$ | async)?.Used">
+    </pf-job-limit-counter>
+
   </ng-container>
 </pf-card-layout>
 

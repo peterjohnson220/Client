@@ -6,8 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ComphubPages, Rates, RateType } from '../../../data';
-import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem } from '../../../models';
+import {
+  JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
+  KendoDropDownItem, JobPricingLimitInfo
+} from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { WindowRef } from '../../../services';
@@ -45,6 +47,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
   peerBannerOpen$: Observable<boolean>;
+  jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
 
   // Subscriptions
   jobTitleSubscription: Subscription;
@@ -66,6 +69,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
+    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
 
     this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }
@@ -81,11 +85,15 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
 
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Data && this.marketDataChange) {
+      if (pageId === ComphubPages.Data) {
+        this.store.dispatch(new fromDataCardActions.CardOpened());
+
+        if (this.marketDataChange) {
           this.resetGridContext();
           this.loadJobResults();
         }
-      });
+      }
+    });
 
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
