@@ -48,6 +48,7 @@ import { CommunityPollResponseEffects } from './effects/community-poll-response.
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
+import { CommunitySearchComponent } from './components/community-search/community-search.component';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
@@ -94,7 +95,8 @@ const components = [
   CommunityJobComponent,
   CommunityJobsComponent,
   CommunityTabComponent,
-  CommunityTrendingAndFilteredTagsComponent
+  CommunityTrendingAndFilteredTagsComponent,
+  CommunitySearchComponent
 ];
 
 @NgModule({
