@@ -60,6 +60,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   calculateDataByRate(value: number): number {
     return this.isHourly
       ? DataCardHelper.calculateDataByHourlyRate(value)
-      : (value * 1000);
+      : value;
   }
 }

@@ -44,7 +44,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should return correct value when selected rate is hourly', () => {
-    const value = 360.1;
+    const value = 360100;
     const expectedValue = 173.13;
     instance.selectedRate = RateType.Hourly;
 
@@ -54,7 +54,7 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should return correct value when selected rate is annual', () => {
-    const value = 360.1;
+    const value = 360100;
     const expectedValue = 360100;
     instance.selectedRate = RateType.Annual;
 

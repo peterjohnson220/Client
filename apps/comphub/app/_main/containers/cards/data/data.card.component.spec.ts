@@ -138,14 +138,14 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.gridContext.sortBy = {
       dir: 'asc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     };
 
-    instance.handleSortChange('JobTitle');
+    instance.handleSortChange('Job_Title');
 
     expect(instance.gridContext.sortBy).toEqual({
       dir: 'desc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     });
   });
 
@@ -154,14 +154,14 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.gridContext.sortBy = {
       dir: 'asc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     };
 
-    instance.handleSortChange('YearsOfExperience');
+    instance.handleSortChange('Experience_From');
 
     expect(instance.gridContext.sortBy).toEqual({
       dir: 'asc',
-      field: 'YearsOfExperience'
+      field: 'Experience_From'
     });
   });
 
@@ -170,14 +170,14 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.gridContext.sortBy = {
       dir: 'asc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     };
 
     instance.handleSortChange('Select');
 
     expect(instance.gridContext.sortBy).toEqual({
       dir: 'asc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     });
   });
 
@@ -186,10 +186,10 @@ describe('Comphub - Main - Data Card Component', () => {
 
     instance.gridContext.sortBy = {
       dir: 'desc',
-      field: 'JobTitle'
+      field: 'Job_Title'
     };
 
-    instance.handleSortChange('JobTitle');
+    instance.handleSortChange('Job_Title');
 
     expect(instance.gridContext.sortBy).toBeNull();
   });
@@ -204,13 +204,13 @@ describe('Comphub - Main - Data Card Component', () => {
       JobTitleShort: 'Test job',
       Sort: {
         dir: 'asc',
-        field: 'JobTitle'
+        field: 'Job_Title'
       }
     });
     instance.paymarketId = null;
     instance.jobTitle = 'Test job';
 
-    instance.handleSortChange('JobTitle');
+    instance.handleSortChange('Job_Title');
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -281,7 +281,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
   it('should return correct value when selected rate is annual', () => {
     instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
-    const value = 361.1;
+    const value = 361100;
     const expectedValue = 361.1;
 
     const actualValue = instance.calculateDataByRate(value);
@@ -291,7 +291,7 @@ describe('Comphub - Main - Data Card Component', () => {
 
   it('should return correct value when selected rate is hourly', () => {
     instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
-    const value = 360.1;
+    const value = 360100;
     const expectedValue = 173.13;
 
     const actualValue = Math.round(instance.calculateDataByRate(value) * 100) / 100;

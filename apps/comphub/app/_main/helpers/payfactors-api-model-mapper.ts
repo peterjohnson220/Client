@@ -66,8 +66,12 @@ export class PayfactorsApiModelMapper {
         YearsOfExperience: q.YearsOfExperience,
         ManagesEmployees: q.ManagesEmployees,
         Skills: q.Skills,
+        Base25: q.Base25,
         Base50: q.Base50,
+        Base75: q.Base75,
+        Tcc25: q.Tcc25,
         Tcc50: q.Tcc50,
+        Tcc75: q.Tcc75,
         Incs: q.Incs,
         Orgs: q.Orgs
       };

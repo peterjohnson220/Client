@@ -165,7 +165,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   calculateDataByRate(value: number): number {
     return this.isHourly
       ? DataCardHelper.calculateDataByHourlyRate(value)
-      : value;
+      : value / 1000;
   }
 
   private isSortSupported(sortField: string): boolean {
