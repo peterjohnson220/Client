@@ -24,7 +24,7 @@ import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCard
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
-import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
+import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent } from './components';
 import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
 
@@ -70,6 +70,7 @@ import { MainRoutingModule } from './main-routing.module';
     CardComponent,
     AddPayMarketFormComponent,
     JobLimitCounterComponent,
+    SalaryBarChartComponent,
 
     // Pages
     ComphubPageComponent,
