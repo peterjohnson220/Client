@@ -1,0 +1,8 @@
+:host ::ng-deep .k-grid .k-grid-content td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.k-tooltip-container {
+  height: 100%;
+}

@@ -1,0 +1,41 @@
+@import 'colors';
+@import 'styles';
+
+#tag-section-header
+{
+  font-weight: 500;
+  color: $community-tags-header-color;
+}
+
+#tag-container
+{
+  word-break: break-word;
+}
+
+button {
+  color: $community-tags-body-color;
+  border-color: $community-tags-border-color;
+  border-width: 1px;
+  background-color: #fff;
+  font-weight: 400;
+  white-space: normal;
+}
+
+button:hover{
+  color: $community-tags-hover-color;
+  border-color: $community-tags-hover-color;
+  background-color: #fff;
+}
+
+.btn-selected{
+  background-color: $community-tags-hover-color;
+  color: #fff;
+}
+
+.hr {
+  color: $community-tags-line-color;
+}
+
+.submit-button-container{
+  color: cornflowerblue;
+}

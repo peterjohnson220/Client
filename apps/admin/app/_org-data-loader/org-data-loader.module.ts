@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { EffectsModule } from '@ngrx/effects';
 import { UploadModule } from '@progress/kendo-angular-upload';
 import { StoreModule } from '@ngrx/store';
+import {DropDownsModule} from '@progress/kendo-angular-dropdowns';
 
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
@@ -19,6 +20,7 @@ import { CompanySelectorComponent } from './containers/company-selector/company-
 import { OrgDataFieldMappingsEffects } from './effects/org-data-field-mappings.effects';
 import { EmailRecipientsComponent } from './containers/email-recipients/email-recipients.component';
 import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effects';
+import {LoaderSettingsEffects} from './effects/loader-settings.effects';
 
 
 @NgModule({
@@ -26,10 +28,16 @@ import { OrgDataEmailRecipientsEffects } from './effects/email-recipients.effect
     // Angular
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    DropDownsModule,
 
     // 3rd Party
     StoreModule.forFeature('orgDataLoader', reducers),
-    EffectsModule.forFeature([CompanySelectorEffects, OrgDataFieldMappingsEffects, OrgDataEmailRecipientsEffects]),
+    EffectsModule.forFeature([
+      CompanySelectorEffects,
+      OrgDataFieldMappingsEffects,
+      OrgDataEmailRecipientsEffects,
+      LoaderSettingsEffects]),
 
     // 3rd Party
     LayoutModule,

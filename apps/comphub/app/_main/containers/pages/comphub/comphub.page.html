@@ -1,0 +1,30 @@
+<div class="accordion">
+  <div class="card-container">
+    
+    <pf-comphub-card
+      *ngFor="let card of (cards$ | async); trackBy: trackById"
+      [cardId]="card.Id"
+      [cardTitle]="card.Title"
+      [cardSubtitle]="card.Subtitle"
+      [cardIconClass]="card.IconClass"
+      [containerWidth]="cardContentContainerWidth"
+      [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+      [selected]="(selectedPageId$ | async) === card.Id"
+      [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
+      (cardHeaderClick)="handleCardChange(card.Id)">
+
+      <ng-container card-content [ngSwitch]="card.Id">
+
+        <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
+
+        <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
+
+        <pf-data-card *ngSwitchCase="comphubPages.Data"></pf-data-card>
+
+        <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
+
+      </ng-container>
+
+    </pf-comphub-card>
+  </div>
+</div>

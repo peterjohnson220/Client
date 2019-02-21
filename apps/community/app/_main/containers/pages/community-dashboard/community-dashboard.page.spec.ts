@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommunityDashboardPageComponent } from './community-dashboard.page';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
+import {BrowserDetectionService} from 'libs/core/services';
 
 import * as fromCommunityPostActions from '../../../actions/community-post.actions';
 
@@ -22,6 +23,7 @@ describe('CommunityDashboardPageComponent', () => {
         FormsModule,
         ReactiveFormsModule
       ],
+      providers: [BrowserDetectionService],
       declarations: [
         CommunityDashboardPageComponent
       ],

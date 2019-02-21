@@ -11,6 +11,7 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import { MappingModel } from '../../models';
 import * as fromOrgDataLoaderReducer from '../../reducers';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
+import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 import { ManageFieldMappingsPageComponent } from './manage-field-mappings.page';
 
 describe('ManageFieldMapperPageComponent', () => {
@@ -44,7 +45,12 @@ describe('ManageFieldMapperPageComponent', () => {
     spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ManageFieldMappingsPageComponent);
     component = fixture.componentInstance;
+    component.selectedCompany = 13;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('should create', () => {
@@ -95,12 +101,21 @@ describe('ManageFieldMapperPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should enable the save button when all mappings are complete', () => {
+  it('should disable the save button when no delimiter is specified', () => {
+    component.delimiter = '';
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should enable the save button when all mappings are complete AND a delimiter is specified', () => {
     component.paymarketMappingComplete = true;
     component.jobMappingComplete = true;
     component.structureMappingComplete = true;
     component.structureMappingMappingComplete = true;
     component.employeeMappingComplete = true;
+    component.delimiter = ',';
 
     fixture.detectChanges();
 
@@ -116,7 +131,7 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'Paymarkets',
+      LoaderType: 'PayMarkets',
       Mappings: ['Paymarket__Paymarket']
     };
 
@@ -126,13 +141,13 @@ describe('ManageFieldMapperPageComponent', () => {
   it('should replace a paymarket mapping in the list of mappings when the paymarket mapping is complete ' +
     'and a paymarket mapping exists', () => {
     const evt = {complete: true, mappings: ['Country__Country Code']};
-    component.mappings = [{LoaderType: 'Paymarkets', Mappings: ['Paymarket__Paymarket']}];
+    component.mappings = [{LoaderType: 'PayMarkets', Mappings: ['Paymarket__Paymarket']}];
     component.onPaymarketMappingComplete(evt);
 
     fixture.detectChanges();
 
     const expectedValue: MappingModel = {
-      LoaderType: 'Paymarkets',
+      LoaderType: 'PayMarkets',
       Mappings: ['Country__Country Code']
     };
 
@@ -282,5 +297,96 @@ describe('ManageFieldMapperPageComponent', () => {
     fixture.detectChanges();
 
     expect(fromOrgDataFieldMappingsActions.SavingFieldMappings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should not call SavingFieldMappings action when there are no mappings', () => {
+    component.mappings = [];
+
+    fixture.detectChanges();
+
+    spyOn(fromOrgDataFieldMappingsActions, 'SavingFieldMappings');
+
+    component.SaveMappings();
+
+    expect(fromOrgDataFieldMappingsActions.SavingFieldMappings).not.toHaveBeenCalled();
+  });
+
+  it('should add the delimiter to loaderSettingsToSave array on Save when company setting does not exist' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [];
+    component.delimiter = '|';
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {settings: [{LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|'}], companyId: 13 };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the delimiter to loaderSettingsToSave array on Save when the delimiter is different from the company setting' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ','}];
+    component.delimiter = '|';
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {settings: [{LoaderSettingId: undefined, KeyName: 'Delimiter', KeyValue: '|'}], companyId: 13 };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the dateFormat to loaderSettingsToSave array on Save when company setting does not exist' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [];
+    component.delimiter = '';
+    component.dateFormat = 'MM/dd/yyyy';
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {settings: [{LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy'}], companyId: 13 };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should add the dateFormat to loaderSettingsToSave array on Save when the dateFormat is different from the company setting' +
+    ' and dispatch SavingLoaderSettings action', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'DateFormat', KeyValue: 'MM-dd-yyyy'}];
+    component.dateFormat = 'MM/dd/yyyy';
+    component.delimiter = '';
+    component.selectedCompany = 13;
+    fixture.detectChanges();
+
+    const expectedPayload = {settings: [{LoaderSettingId: undefined, KeyName: 'DateFormat', KeyValue: 'MM/dd/yyyy'}], companyId: 13 };
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).toHaveBeenCalledWith(expectedPayload);
+  });
+
+  it('should not dispatch SavingLoaderSettings when there are no settings to be saved', () => {
+    component.loaderSettingsToSave = [];
+    component.existingCompanyLoaderSettings = [{LoaderSettingsId: 1, KeyName: 'Delimiter', KeyValue: ','}];
+    component.delimiter = ',';
+    fixture.detectChanges();
+
+    spyOn(fromLoaderSettingsActions, 'SavingLoaderSettings');
+
+    component.SaveMappings();
+
+    expect(fromLoaderSettingsActions.SavingLoaderSettings).not.toHaveBeenCalled();
   });
 });

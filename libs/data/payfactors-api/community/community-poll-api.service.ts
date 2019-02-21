@@ -34,4 +34,8 @@ export class CommunityPollApiService {
   addCommunityUserPoll(payload: any): Observable<CommunityPost> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/AddUserPoll`, payload);
   }
+
+  exportCommunityUserPoll(communityPollId: string): Observable<any> {
+    return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportCommunityUserPoll?communityPollId=${communityPollId}`);
+  }
 }

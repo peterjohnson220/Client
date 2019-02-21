@@ -1,0 +1,108 @@
+@import 'comphub-variables';
+@import 'common/common-variables';
+@import '../../../../../../libs/styles/perfect-scrollbar-overrides';
+
+$unselected-grey: #75929F;
+$light-unselected-grey: #DCE3E6;
+
+// Perfect scrollbar overrides
+:host::ng-deep{
+  .ps__rail-x {
+    height: 12px;
+  }
+
+  .ps__thumb-x,
+  .ps__rail-x:hover > .ps__thumb-x,
+  .ps__rail-x:focus > .ps__thumb-x,
+  .ps__rail-x.ps--clicking .ps__thumb-x {
+    height: 9px;
+  }
+}
+
+.paymarket-card-container {
+  display: flex;
+  margin-left: -1rem;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: .75rem;
+
+  .paymarket-card {
+    min-width: 275px;
+    max-width: 275px;
+    max-height: 275px;
+    min-height: 275px;
+    margin: .75rem;
+    border-radius: 6px;
+    background-color: $unselected-grey;
+    border: 2px solid $unselected-grey;
+    color: #FFFFFF;
+    box-shadow: 5px 4px 10px #ACACAC;
+    font-size: 1.25rem;
+    cursor: pointer;
+
+    &.selected {
+      background-color: $comphub-primary-blue;
+      border-color: darken($comphub-primary-blue, 2%);
+
+      .top {
+        background-color: #CDE7FC;
+
+        .circle {
+          border-color: $comphub-primary-blue;
+        }
+      }
+    }
+
+    .top {
+      border-radius: 5px 5px 0 0;
+      background-color: $light-unselected-grey;
+      padding: .5rem;
+      min-height: 50px;
+      display: flex;
+      justify-content: flex-end;
+
+      .circle {
+        height: 35px;
+        width: 35px;
+        background-color: #FFFFFF;
+        border: 1.5px solid $unselected-grey;
+        border-radius: 50%;
+      }
+
+      .checkmark {
+        svg {
+          color: $comphub-primary-blue;;
+          font-size: 35px;
+        }
+      }
+    }
+
+    .bottom {
+      padding: 1rem;
+      flex-grow: 1;
+
+      .card-row{
+        margin-bottom: .5rem;
+
+        .title{
+          font-size: 120%;
+          margin-bottom: 1rem;
+          @extend %ellipsis-overflowing-text;
+        }
+
+        .label {
+          font-size: 80%;
+          color: $light-unselected-grey;
+        }
+
+        .data {
+          font-size: 95%;
+          @extend %ellipsis-overflowing-text;
+        }
+      }
+    }
+  }
+}
+
+

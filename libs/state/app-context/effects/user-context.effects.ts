@@ -19,7 +19,8 @@ export class UserContextEffects {
         this.companySecurityApiService.getIdentity().pipe(
           map((identity: any) => new userContextActions.GetUserContextSuccess(identity)),
           catchError(error => {
-            return of(new userContextActions.GetUserContextError(error));
+            const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
+            return of(new userContextActions.GetUserContextError({error: error, redirectUrl: redirectToAfterSuccessfulLogin}));
           })
         )
       )
@@ -28,11 +29,11 @@ export class UserContextEffects {
   @Effect()
   getUserContextError$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_ERROR).pipe(
-      map((action: userContextActions.GetUserContextError) => action.error),
-      map(error => {
-          if (error.status === 401) {
-            return new userContextActions.GetUserContext401Error();
-          } else if (error.status === 404) {
+      map((action: userContextActions.GetUserContextError) => action.errorContext),
+      map(errorContext => {
+          if (errorContext.error.status === 401) {
+            return new userContextActions.GetUserContext401Error(errorContext.redirectUrl);
+          } else if (errorContext.error.status === 404) {
             return new userContextActions.GetUserContext404Error();
           }
         }
@@ -43,9 +44,8 @@ export class UserContextEffects {
   getUserContext401Error$ = this.actions$
     .ofType(userContextActions.GET_USER_CONTEXT_401_ERROR).pipe(
       tap((action: userContextActions.GetUserContext401Error) => {
-          const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
           if (isPlatformBrowser(this.platformId)) {
-            window.location.href = `/?` + encodeURIComponent(redirectToAfterSuccessfulLogin);
+            window.location.href = `/?` + encodeURIComponent(action.redirect);
           }
           return null;
         }

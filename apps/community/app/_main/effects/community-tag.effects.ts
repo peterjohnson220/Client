@@ -16,14 +16,14 @@ import { CommunityTag } from 'libs/models';
 export class CommunityTagEffects {
 
   @Effect()
-  gettingCommunityPopularTags$: Observable<Action> = this.actions$
-    .ofType(fromCommunityTagActions.LOADING_COMMUNITY_POPULAR_TAGS).pipe(
-      switchMap((action: fromCommunityTagActions.LoadingCommunityPopularTags) =>
+  gettingCommunityTrendingTags$: Observable<Action> = this.actions$
+    .ofType(fromCommunityTagActions.LOADING_COMMUNITY_TRENDING_TAGS).pipe(
+      switchMap((action: fromCommunityTagActions.LoadingCommunityTrendingTags) =>
         this.communityTagService.getPopularTags().pipe(
           map((response: any) => {
-            return new fromCommunityTagActions.LoadingCommunityPopularTagsSuccess(response);
+            return new fromCommunityTagActions.LoadingCommunityTrendingTagsSuccess(response);
           }),
-          catchError(error => of(new fromCommunityTagActions.LoadingCommunityPopularTagsError()))
+          catchError(error => of(new fromCommunityTagActions.LoadingCommunityTrendingTagsError()))
         )
       )
     );

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+import {LoaderFieldSet} from '../../../../apps/admin/app/_org-data-loader/models';
 
 @Injectable()
 export class LoaderFieldMappingsApiService {
@@ -22,10 +23,18 @@ export class LoaderFieldMappingsApiService {
     });
   }
 
+  getCompanyFieldMappings(companyId: number) {
+    return this.payfactorsApiService.get<LoaderFieldSet[]>(`${this.endpoint}/GetCompanyFieldMappings`, {
+      params: {companyId: companyId}
+    });
+  }
+
   saveFieldMappings(mappings: any, ) {
     return this.payfactorsApiService.post(`${this.endpoint}.SaveFieldMappings`, {
       mappings: mappings.mappings,
-      companyId: mappings.companyId
+      companyId: mappings.companyId,
+      delimiter: mappings.delimiter,
+      dateFormat: mappings.dateFormat
   });
   }
 }

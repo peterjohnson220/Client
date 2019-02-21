@@ -8,6 +8,7 @@ import * as  fromCommunityPostActions from '../../../actions/community-post.acti
 
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
+import { BrowserDetectionService } from 'libs/core/services';
 
 
 @Component({
@@ -39,6 +40,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   showBackToTopButton = false;
   executePageScrollUp = false;
   executePageScrollDown = false;
+  isIE = false;
 
   scrollElement: any;
   scrollTop: any;
@@ -55,12 +57,17 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   targetNode: any;
   observerOptions: any;
 
-  constructor(public store: Store<fromCommunityPostReducer.State>) {
+  constructor(public store: Store<fromCommunityPostReducer.State>,
+              private browserDetectionService: BrowserDetectionService) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
     this.getHasPreviousBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasPreviousBatchPostsOnServer);
     this.getHasNextBatchPostsOnServer$ = this.store.select(fromCommunityPostReducer.getHasNextBatchPostsOnServer);
+
+    /* Using this to prevent sticky-top from being applied in Edge/IE due to a visual glitch
+     https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/17555420/ */
+    this.isIE = this.browserDetectionService.checkBrowserIsIEOrEdge();
   }
 
   onScroll(scrollEventData: any) {
@@ -74,10 +81,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
       this.setPreviousTopPostOffset();
 
       if (!this.executePageScrollDown) {
-         this.postsComponent.onScrollUp();
+        this.postsComponent.onScrollUp();
 
         if (this.isLoadingPreviousBatch && this.hasPreviousBatchOnServer && this.scrollTop === 0) {
-         this.scrollElement.scrollTop = 1;
+          this.scrollElement.scrollTop = 1;
         }
       }
 
@@ -89,7 +96,7 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
         this.postsComponent.onScrollDown();
 
         if (this.isLoadingNextBatch && this.hasNextBatchOnServer && (this.scrollTop + this.offsetHeight) === this.scrollHeight) {
-          this.scrollElement.scrollTop  -= 1;
+          this.scrollElement.scrollTop -= 1;
         }
       }
     }

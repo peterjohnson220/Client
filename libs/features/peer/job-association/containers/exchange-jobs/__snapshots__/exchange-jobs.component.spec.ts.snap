@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
+<pf-peer-job-association-exchange-jobs
+  gridState$={[Function Store]}
+  loading$={[Function Store]}
+  loadingError$={[Function Store]}
+  peerExchangeJobs$={[Function Store]}
+  store={[Function Store]}
+  tooltipDir="undefined"
+  totalPeerExchangeJobs$={[Function Observable]}
+>
+  <h2>
+    Peer Exchange Jobs
+  </h2><label
+    class="text-uppercase"
+  >
+     peer exchange jobs: 123 total
+  
+  </label><div
+    class="grid-container position-relative"
+  >
+    <pf-async-container
+      class="h-100"
+    >
+      <div
+        class="k-tooltip-container"
+        filter=".k-grid td"
+        kendotooltip=""
+        showon="none"
+      >
+        <kendo-grid
+          style="height: 100%;"
+        >
+          <kendo-grid-column
+            field="ExchangeJobTitle"
+            title="Job Title"
+          />
+          <kendo-grid-column
+            field="ExchangeJobFamily"
+            title="Job Family"
+          />
+          <kendo-grid-column
+            field="ExchangeName"
+            title="Exchange Name"
+          />
+        </kendo-grid>
+      </div>
+    </pf-async-container>
+  </div>
+</pf-peer-job-association-exchange-jobs>
+`;

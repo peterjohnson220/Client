@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { CommunityPost, CommunityReply, CommunitySearchResult } from 'libs/models/community';
+import { CommunityPost, CommunityReply, CommunitySearchResult, CommunityUserInfo } from 'libs/models/community';
 
 @Injectable()
 export class CommunityPostApiService {
@@ -47,5 +47,15 @@ export class CommunityPostApiService {
 
   updatePostReplyDeletedFlag(payload: any): Observable<CommunityPost> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/DeleteReply`, payload);
+  }
+
+  getCommunityLikes(payload: any): Observable<CommunityUserInfo[]> {
+    return this.payfactorsApiService.get<CommunityUserInfo[]>
+    (`${this.endpoint}/GetLikes`, {
+      params: {
+        postId: payload.postId === undefined ? '' :  payload.postId,
+        replyId : payload.replyId === undefined ? '' : payload.replyId,
+      }
+    });
   }
 }

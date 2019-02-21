@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { UserContext } from '../../../models';
+import { UserContext, UserContextError } from '../../../models';
 
 export const GET_USER_CONTEXT = '[AppContext/User Context] Get User Context';
 export const GET_USER_CONTEXT_SUCCESS = '[AppContext/User Context] Get User Context Success';
@@ -20,12 +20,12 @@ export class GetUserContextSuccess implements Action {
 
 export class GetUserContextError implements Action {
   readonly type = GET_USER_CONTEXT_ERROR;
-  constructor(public error: any) { }
+  constructor(public errorContext: UserContextError) { }
 }
 
 export class GetUserContext401Error implements Action {
   readonly type = GET_USER_CONTEXT_401_ERROR;
-  constructor() { }
+  constructor(public redirect: string) { }
 }
 
 export class GetUserContext404Error implements Action {

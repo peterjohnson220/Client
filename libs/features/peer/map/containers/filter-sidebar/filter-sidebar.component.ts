@@ -17,6 +17,8 @@ import { AggregateSelectionInfo } from '../../models';
 export class FilterSidebarComponent implements OnInit {
   // When provided a companyPayMarketId the sidebar will include a pay market bounds filter
   @Input() companyPayMarketId: number;
+  @Input() shouldShowPayMarketBoundsFilter = true;
+  @Input() shouldShowExchangeScopeSelector = true;
 
   filterAggregateGroups$: Observable<FilterAggregateGroup[]>;
   filterAggregateGroupsLoading$: Observable<boolean>;

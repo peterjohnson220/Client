@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
 html{
@@ -6,7 +7,7 @@ html{
 }
 
 body {
-  background: url('assets/images/DarkWood.png') repeat fixed center;
+  background: url('/client/dashboard/assets/images/DarkWood.png') repeat fixed center;
 }
 
 .reset-button {
@@ -38,3 +39,21 @@ body {
 .fa-11x{
   font-size: 11em;
 }
+
+$community-preview-tile-chart-color: #F5B312;
+
+$tile-chart-label-color: #FFF;
+$tile-chart-button-color: $inactive-button-color;
+
+$tile-list-header-color: #FFA500;
+$tile-list-button-text-color: #1F2F3D;
+$tile-list-button-background-color: #FFF;
+
+$timeline-panel-button-color: $switch-on-color;
+$timeline-body-background-color: #f5f5f6;
+
+$tile-blue-color: rgba(8, 131, 190, .85);
+$tile-light-blue-color: rgba(110, 170, 200, .85);
+$tile-green-color: rgba(125, 181, 119, .85);
+
+$user-voice-icon-color: #FFB300;

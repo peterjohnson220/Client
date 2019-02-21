@@ -54,6 +54,8 @@ export class UserTileToTileMapper {
         return TileTypes.NewCommunity;
       case 'Ideas':
         return TileTypes.Ideas;
+      case 'Quick Price':
+        return TileTypes.QuickPrice;
       default:
         return TileTypes.Unknown;
     }
@@ -71,6 +73,8 @@ export class UserTileToTileMapper {
         return TilePreviewTypes.ChartWithCalendar;
       case TileTypes.NewCommunity:
         return TilePreviewTypes.ChartWithList;
+      case TileTypes.QuickPrice:
+        return TilePreviewTypes.BasicList;
       default:
         return TilePreviewTypes.Icon;
     }

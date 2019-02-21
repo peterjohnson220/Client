@@ -31,7 +31,6 @@ import { CommunityPostFilteredReplyViewComponent } from './containers/community-
 import { CommunityPostHeaderComponent } from './components/community-post-header';
 import { CommunityLikeComponent } from './components/community-like/community-like.component';
 import { CommunityAvatarComponent } from './components/community-avatar/community-avatar.component';
-import { CommunityPopularTagsComponent } from './containers/community-popular-tags/community-popular-tags.component';
 import { CommunityNewPostComponent } from './containers/community-new-post/community-new-post.component';
 import { CommunityNewPollComponent } from './containers/community-new-poll/community-new-poll.component';
 import { CommunityNewJobComponent } from './containers/community-new-job/community-new-job.component';
@@ -42,15 +41,15 @@ import { RadialTextCounterComponent } from './components/radial-text-counter/rad
 import { CommunityPollComponent } from './components/community-poll/community-poll.component';
 import { CommunityJobComponent } from './components/community-job/community-job.component';
 import { CommunityJobsComponent } from './containers/community-jobs/community-jobs.component';
-import { CommunityPostFilterOptionsComponent } from './containers/community-post-filter-options';
 import { CommunityTabComponent } from './components/community-tab/community-tab.component';
 import { CommunityBackToTopNavigationComponent } from './components/community-back-to-top-navigation';
 import { CommunityPollRequestEffects } from './effects/community-poll-request.effects';
 import { CommunityPollResponseEffects } from './effects/community-poll-response.effects';
 import { CommunityCategoriesEffects } from './effects/community-categories.effects';
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
+import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
 
-import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects } from './effects';
+import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
 import { CommunityPostEffectsService } from './services/community-post-effects-service';
 import { PfLinkifyService } from './services/pf-linkify-service';
@@ -61,6 +60,7 @@ import { CommunityPostApiService } from 'libs/data/payfactors-api/community/comm
 import { CommunityTagApiService } from 'libs/data/payfactors-api/community/community-tag-api.service';
 import { CommunityJobApiService } from 'libs/data/payfactors-api/community/community-job-api.service';
 import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
+import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
@@ -82,20 +82,19 @@ const components = [
   CommunityPostAddReplyComponent,
   RadialTextCounterComponent,
   CommunityBackToTopNavigationComponent,
-  CommunityPopularTagsComponent,
   CommunityLikeComponent,
   CommunityAvatarComponent,
   CommunityNewPollComponent,
   CommunityNewPostComponent,
   CommunityPollChoicesComponent,
   CommunityPollComponent,
-  CommunityPostFilterOptionsComponent,
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityCategoryDisplayNamePipe,
   CommunityJobComponent,
   CommunityJobsComponent,
-  CommunityTabComponent
+  CommunityTabComponent,
+  CommunityTrendingAndFilteredTagsComponent
 ];
 
 @NgModule({
@@ -123,7 +122,8 @@ const components = [
       CommunityTagEffects,
       CommunityJobEffects,
       CommunityCategoriesEffects,
-      CommunityPostFilterOptionsEffects
+      CommunityPostFilterOptionsEffects,
+      CommunityLikeEffects
     ]),
 
     // Routing
@@ -144,7 +144,8 @@ const components = [
     CommunityJobEffectsService,
     CommunityPostEffectsService,
     MapboxApiService,
-    PfLinkifyService
+    PfLinkifyService,
+    BrowserDetectionService
   ]
 })
 export class MainModule {

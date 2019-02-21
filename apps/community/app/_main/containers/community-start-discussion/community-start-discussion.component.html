@@ -18,7 +18,7 @@
         </pf-community-tab>        
       </div>
     </div>
-  <div class="col-8 start-discussion-body pt-2 pb-2 pr-5">
+  <div class="col-8 start-discussion-body pt-2 pb-2">
         <div class="w-100 pl-3">
           <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
           <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
@@ -33,4 +33,3 @@
         </div>
   </div>
 </div>
-<hr >

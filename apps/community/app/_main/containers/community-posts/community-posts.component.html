@@ -1,8 +1,7 @@
 <pf-async-container
   [loading]="loadingCommunityPosts$ | async">
-  <pf-community-post-filter-options (removeFilterEvent)="filtersModified()"></pf-community-post-filter-options>
-  <div id="posts-container" class="posts-container p-2 scroll">
-    <div id="community-posts">
+   <div id="posts-container" class="posts-container p-2 scroll">
+    <div id="community-posts" >
       <ng-container *ngFor="let post of communityPosts; trackBy: trackByPostId; let i = index; let last = last;">
         <div class="post-item row mb-3 ml-0 mr-0">
           <div class="pl-1 col-12">
@@ -17,7 +16,9 @@
                                         [isInternalOnly]="post.IsInternalOnly"
                                         [isCurrentUserPost]="post.IsCurrentUserPost"
                                         [postId]="post.Id"
-                                        [isExpiredPoll]="post.UserPollRequest ? post.UserPollRequest.IsExpired : false">
+                                        [isExpiredPoll]="post.UserPollRequest ? post.UserPollRequest.IsExpired : false"
+                                        [isUserPoll]="post.UserPollRequest != null"
+                                        [userPollId]="post.UserPollRequest ? post.UserPollRequest.CommunityPollId : ''">
               </pf-community-post-header>
               <div *ngIf="!post.UserPollRequest; else user_poll">
                 <pf-community-post-content class="mt-2 mb-2"
@@ -105,4 +106,8 @@
       </ng-container>
     </div>
   </div>
+  <div *ngIf="!(loadingCommunityPosts$ | async) && (totalDiscussionResultsOnServer$ | async) === 0" class="no-results-message-container">
+    <strong>No results. Please change your filter criteria and search again.</strong>
+  </div>
+
 </pf-async-container>

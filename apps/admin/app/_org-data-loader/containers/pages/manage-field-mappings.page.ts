@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import {filter} from 'rxjs/internal/operators';
 
 import { Company } from 'libs/models/company/company.model';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
@@ -11,13 +12,18 @@ import * as fromOrgDataAutoloaderReducer from '../../reducers';
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
 import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
-import { MappingModel } from '../../models';
+import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
+
+import {LoaderFieldSet, MappingModel} from '../../models';
 import {
+  DATEFORMAT_LOADER_SETTING_KEY_NAME,
+  DELIMITER_LOADER_SETTING_KEY_NAME,
   ORG_DATA_PF_EMPLOYEE_FIELDS,
   ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
 import { EmailRecipientModel } from '../../models/email-recipient.model';
+import {LoaderSetting} from '../../models/loader-settings.model';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -40,11 +46,20 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   companiesLoading$: Observable<boolean>;
   selectedCompany: number;
   mappings: MappingModel[];
+  companyMappings$: Observable<LoaderFieldSet[]>;
+  companyMappingsLoading$: Observable<boolean>;
   saveMappingsSuccess$: Observable<boolean>;
   saveMappingsError$: Observable<boolean>;
   saveMessage: string;
   saveClass: string;
   emailRecipients$: Observable<EmailRecipientModel[]>;
+  delimiter: string;
+  dateFormat: string;
+  loaderSettings$: Observable<LoaderSetting[]>;
+  saveLoaderSettingsSuccess$: Observable<boolean>;
+  saveLoaderSettingsError$: Observable<boolean>;
+  existingCompanyLoaderSettings: LoaderSetting[];
+  loaderSettingsToSave: LoaderSetting[];
 
   constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
@@ -61,26 +76,62 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
     this.companies$ = this.store.select(fromOrgDataAutoloaderReducer.getCompanies);
     this.companiesLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getCompaniesLoading);
-
-    this.mappings = [];
+    this.companyMappings$ = this.store.select(fromOrgDataAutoloaderReducer.getFieldMappings);
+    this.companyMappingsLoading$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingFieldMappings);
     this.saveMappingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsSuccess);
     this.saveMappingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getSavingFieldMappingsError);
+    this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
+    this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
+    this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
+    this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
+
+    this.mappings = [];
+    this.delimiter = ',';
+    this.loaderSettingsToSave = [];
+    this.existingCompanyLoaderSettings = [];
+
 
     this.saveMappingsSuccess$.subscribe(success => {
       if (success) {
         this.saveClass = 'success';
-        this.saveMessage = 'Mappings Saved.';
+        this.saveMessage = 'Saved.';
+        this.mappings = [];
       }
     });
 
     this.saveMappingsError$.subscribe(error => {
       if (error) {
         this.saveClass = 'error';
-        this.saveMessage = 'Saving Mappings Failed';
+        this.saveMessage = 'Failed.';
       }
     });
 
-    this.emailRecipients$ = this.store.select(fromOrgDataAutoloaderReducer.getEmailRecipients);
+    this.loaderSettings$.subscribe(settings => {
+      if (settings.length > 0) {
+        this.existingCompanyLoaderSettings = settings;
+        const delimiterSetting = this.existingCompanyLoaderSettings.find(x => x.KeyName === DELIMITER_LOADER_SETTING_KEY_NAME);
+        this.delimiter = delimiterSetting ? delimiterSetting.KeyValue : null;
+        const dateFormatSetting = this.existingCompanyLoaderSettings.find(x => x.KeyName === DATEFORMAT_LOADER_SETTING_KEY_NAME);
+        this.dateFormat = dateFormatSetting ? dateFormatSetting.KeyValue : null;
+      }
+    });
+
+    this.saveLoaderSettingsSuccess$.pipe(
+      filter(success => success)
+    ).subscribe(success => {
+      this.saveClass = 'success';
+      this.saveMessage = 'Saved.';
+      this.loaderSettingsToSave = [];
+    });
+
+    this.saveLoaderSettingsError$.pipe(
+      filter(error => error)
+      ).subscribe(error => {
+      if (error) {
+        this.saveClass = 'error';
+        this.saveMessage = 'Failed.';
+      }
+    });
   }
 
   ngOnInit() {
@@ -91,7 +142,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveMessage = '';
     this.paymarketMappingComplete = $event.complete;
     if (this.paymarketMappingComplete) {
-      this.addOrReplaceMappings('Paymarkets', $event.mappings);
+      this.addOrReplaceMappings('PayMarkets', $event.mappings);
     }
   }
 
@@ -125,6 +176,9 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     if (this.employeeMappingComplete) {
       this.addOrReplaceMappings('Employees', $event.mappings);
     }
+    if ($event.dateFormat) {
+      this.dateFormat = $event.dateFormat;
+    }
   }
 
   onCompanySelected($event: number) {
@@ -145,13 +199,27 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       companyId: this.selectedCompany,
       loaderType: LoaderTypes.OrgData
     }));
+
+    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany));
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany));
   }
 
   SaveMappings() {
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.SavingFieldMappings({
-      mappings: this.mappings,
-      companyId: this.selectedCompany
-    }));
+    this.getLoaderSettingsToSave();
+
+    if (this.loaderSettingsToSave.length > 0) {
+      this.store.dispatch(new fromLoaderSettingsActions.SavingLoaderSettings({
+        settings: this.loaderSettingsToSave,
+        companyId: this.selectedCompany
+      }));
+    }
+
+    if (this.mappings.length > 0) {
+      this.store.dispatch(new fromOrgDataFieldMappingsActions.SavingFieldMappings({
+        mappings: this.mappings,
+        companyId: this.selectedCompany,
+      }));
+    }
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
@@ -172,5 +240,28 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     } else {
       this.mappings.push(mappingsModel);
     }
+  }
+
+  private getLoaderSettingsToSave() {
+    const existingDelimiterSetting = this.existingCompanyLoaderSettings.filter(x => x.KeyName === DELIMITER_LOADER_SETTING_KEY_NAME)[0];
+    const existingDateFormatSetting = this.existingCompanyLoaderSettings.filter(x => x.KeyName === DATEFORMAT_LOADER_SETTING_KEY_NAME)[0];
+
+    if ((!existingDelimiterSetting && this.delimiter)
+      || (existingDelimiterSetting && this.delimiter !== existingDelimiterSetting.KeyValue)) {
+      this.pushToLoaderSettingsToSave(DELIMITER_LOADER_SETTING_KEY_NAME, this.delimiter);
+    }
+
+    if ((!existingDateFormatSetting && this.dateFormat)
+      || (existingDateFormatSetting && this.dateFormat !== existingDateFormatSetting.KeyValue)) {
+      this.pushToLoaderSettingsToSave(DATEFORMAT_LOADER_SETTING_KEY_NAME, this.dateFormat);
+    }
+  }
+
+  private pushToLoaderSettingsToSave(keyName: string, keyValue: string) {
+    this.loaderSettingsToSave.push({
+      LoaderSettingsId: undefined,
+      KeyName: keyName,
+      KeyValue: keyValue
+    });
   }
 }

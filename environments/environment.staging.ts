@@ -16,5 +16,7 @@ export const environment = {
   firstTimeLoginPage: '/client/auth/first-login',
   allowSelfRegistration: true,
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
-  smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/'
+  smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
+  hostPath: 'client',
+  utilitiesApiUrl: 'https://pfstageutilities.payfactors.com/',
 };

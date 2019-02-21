@@ -12,6 +12,7 @@ export interface CommunityReply {
   TimeTicks: number;
   IsCurrentUserReply: boolean;
   IsOnlyPostReply: boolean;
+  UserLikes: CommunityUserInfo[];
 }
 
 export function generateMockCommunityReply(): CommunityReply {
@@ -26,6 +27,7 @@ export function generateMockCommunityReply(): CommunityReply {
     ElapsedTime: '3 hours ago',
     TimeTicks: 300,
     IsCurrentUserReply: false,
-    IsOnlyPostReply: false
+    IsOnlyPostReply: false,
+    UserLikes: []
   };
 }

@@ -1,4 +1,17 @@
-<div>
-  <p>Downloading file...</p>
-  <p>Please stand by.</p>
+<!-- ngIf syntax here is a hack to make the contents of the file$ observable available as a local template variable -->
+<div class="w-75 mx-auto mt-4 text-white text-center" *ngIf="(file$ | async) || {} as file">
+  <h1>Downloading file...</h1>
+  <div *ngIf="file.error || errorText; else downloading">
+    <h2 class="text-danger" *ngIf="file.errorText">Error: {{ file.errorText }}</h2>
+    <h2 class="text-danger" *ngIf="errorText">Error: {{ errorText }}</h2>
+  </div>
+  <ng-template #downloading>
+    <div>
+      <h2 *ngIf="file.fileName; else inProgress">Download Complete.</h2>
+      <ng-template #inProgress>
+        <h2>Please stand by.</h2>
+      </ng-template>
+      <ngb-progressbar class="d-block mt-4" [showValue]="true" type="success" [value]="file.progress || 0"></ngb-progressbar>
+    </div>
+  </ng-template>
 </div>

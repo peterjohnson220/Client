@@ -9,6 +9,8 @@ export interface TilePreviewCharWithList extends TilePreviewBase {
   BaseUrl: string;
   TileListData: any;
   TileChartData: any;
+  ActionItemTitle: string;
+  ActionItemType: string;
 }
 
 export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePreviewCharWithList {
@@ -20,10 +22,12 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
   const tileChartTitle = previewData.TileChartTitle;
   const postUrl = previewData.PostUrl;
   const baseUrl = previewData.BaseUrl;
+  const actionItemTitle = previewData.ActionItemTitle;
+  const actionItemType = previewData.ActionItemType;
 
   const tileListData = previewData.TileListData !== undefined && previewData.TileListData.length > 0 ? previewData.TileListData : undefined;
   const tileChartData = previewData.TileChartData !== undefined
-    && previewData.TileChartData.length > 0 ? previewData.TileChartData : undefined;
+    && previewData.TileChartData.TileChartItems.length > 0 ? previewData.TileChartData : undefined;
 
   return {
     TileListTitle: tileListTitle,
@@ -32,6 +36,8 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
     BaseUrl: baseUrl,
     TileListData: tileListData,
     TileChartData: tileChartData,
-    PreviewType: TilePreviewTypes.ChartWithList
+    PreviewType: TilePreviewTypes.ChartWithList,
+    ActionItemTitle: actionItemTitle,
+    ActionItemType: actionItemType
   };
 }

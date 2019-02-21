@@ -4,3 +4,4 @@ export * from './chart-with-list';
 export * from './icon';
 export * from './list';
 export * from './place-holder';
+export * from './basic-list';

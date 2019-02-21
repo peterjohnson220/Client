@@ -1,0 +1,130 @@
+<div class="form-container container">
+
+  <h4 class="uppercase-header">Add New Pay Market</h4>
+  <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children">
+    <div class="d-flex flex-row">
+      <i class="fa fa-info-circle fa-w-16 info-icon"></i>
+      <div class="info-message">Your job's location, company size and industry are factors that can impact compensation.</div>
+    </div>
+    <div class="form-check ml-auto">
+      <input type="checkbox" class="form-check-input" id="dismissInfoBanner"
+        [attr.data-qa-id]="'chk-dismissInfoBanner'"
+        (click)="handleDismissInfoBanner()">
+      <label class="form-check-label" for="dismissInfoBanner">Don't show again</label>
+    </div>
+  </div>
+  <form [formGroup]="addPayMarketForm">
+
+    <div class="form-content row">
+
+      <div class="col-12 col-lg-5">
+        <label>Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control"
+          [attr.data-qa-id]="'txt-payMarketName'"
+          [class.is-invalid]="showErrorMessages && (savingConflict || savingError)"
+          formControlName="name"
+          [placeholder]="'Pay Market Name...'"
+          [pfFocus]="true"
+          [pfFocusElementShowing]="isOpen"
+          (input)="showErrorMessages = false" />
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <label>Country</label>
+        <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-country'"
+          formControlName="country"
+          [data]="countryList"
+          [textField]="'Name'"
+          [valueField]="'Value'"
+          [defaultItem]="defaultCountry">
+        </kendo-dropdownlist>
+      </div>
+
+      <div class="col-12 col-lg-3">
+        <label>Currency</label>
+        <kendo-dropdownlist class="border form-control"
+          [attr.data-qa-id]="'ddm-currency'"
+          formControlName="currency"
+          [data]="currencyList"
+          [textField]="'Name'"
+          [valueField]="'Value'"
+          [defaultItem]="defaultCurrency">
+        </kendo-dropdownlist>
+      </div>
+
+    </div>
+    
+    <div class="form-content row">
+      <div class="col-12 col-lg-5">
+        <label>Location</label>
+        <kendo-autocomplete
+          [attr.data-qa-id]="'txt-location'"
+          class="form-control"
+          formControlName="location"
+          [data]="locations"
+          [placeholder]="'Search by City...'"
+          [filterable]="true"
+          [valueField]="'Value'"
+          (filterChange)="handleLocationFilter($event)">
+        </kendo-autocomplete>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <label>Industry</label>
+        <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-industry'"
+          formControlName="industry"
+          [listHeight]="100"
+          [filterable]="true"
+          [data]="scopeIndustryData"
+          [textField]="'Name'"
+          [valueField]="'Value'"
+          [defaultItem]="defaultIndustry"
+          (filterChange)="handleIndustryFilter($event)">
+        </kendo-dropdownlist>
+      </div>
+
+      <div class="col-12 col-lg-3">
+        <label>Size</label>
+        <kendo-dropdownlist class="form-control border"
+          [attr.data-qa-id]="'ddm-size'"
+          formControlName="size"
+          [data]="sizes"
+          [textField]="'Name'"
+          [valueField]="'Value'"
+          [defaultItem]="defaultSize">
+        </kendo-dropdownlist>
+      </div>
+
+    </div>
+
+    <div class="form-content row form-actions-section">
+      <div class="col-12 d-flex justify-content-end">
+        <ng-container *ngIf="showErrorMessages">
+          <span class="text-danger" *ngIf="savingConflict">Name in use. Please choose a unique pay market name.</span>
+          <span class="text-danger" *ngIf="savingError">Error Saving Pay Market.</span>
+        </ng-container>
+        <div class="button-container space-out-children">
+          <button *ngIf="showSkipButton" type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-skip'"
+            (click)="handleSkipClicked()">Skip</button>
+          <button *ngIf="!showSkipButton" type="button" class="btn btn-secondary"
+            [attr.data-qa-id]="'btn-cancel'"
+            (click)="handleCancelClicked()">Cancel</button>
+          <button type="button" class="btn comphub-primary-btn"
+            [attr.data-qa-id]="'btn-save'"
+            [disabled]="submitDisabled"
+            (click)="handleSaveClicked()">
+            <span *ngIf="saving">
+              <pf-loading-indicator></pf-loading-indicator> Saving
+            </span>
+            <span *ngIf="!saving">Save</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</div>

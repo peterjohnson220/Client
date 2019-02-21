@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard - Main - Composite Summary Download should match file download in progress snapshot 1`] = `
+<pf-composite-summary-download
+  file$={[Function Store]}
+  id={[Function String]}
+  paramsSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  startDownload={[Function Function]}
+  store={[Function Store]}
+>
+  <div
+    class="w-75 mx-auto mt-4 text-white text-center"
+  >
+    <h1>
+      Downloading file...
+    </h1>
+    
+    <div>
+      
+      <h2>
+        Please stand by.
+      </h2>
+      
+      <ngb-progressbar
+        class="d-block mt-4"
+        type="success"
+      />
+    </div>
+    
+  </div>
+</pf-composite-summary-download>
+`;
+
+exports[`Dashboard - Main - Composite Summary Download should match file download success snapshot 1`] = `
+<pf-composite-summary-download
+  file$={[Function Store]}
+  id={[Function String]}
+  paramsSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  startDownload={[Function Function]}
+  store={[Function Store]}
+>
+  <div
+    class="w-75 mx-auto mt-4 text-white text-center"
+  >
+    <h1>
+      Downloading file...
+    </h1>
+    
+    <div>
+      
+      <h2>
+        Please stand by.
+      </h2>
+      
+      <ngb-progressbar
+        class="d-block mt-4"
+        type="success"
+      />
+    </div>
+    
+  </div>
+</pf-composite-summary-download>
+`;
+
+exports[`Dashboard - Main - Composite Summary Download should match file error snapshot 1`] = `
+<pf-composite-summary-download
+  file$={[Function Store]}
+  id={[Function String]}
+  paramsSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  startDownload={[Function Function]}
+  store={[Function Store]}
+>
+  <div
+    class="w-75 mx-auto mt-4 text-white text-center"
+  >
+    <h1>
+      Downloading file...
+    </h1>
+    
+    <div>
+      
+      <h2
+        class="text-danger"
+      >
+        Error: There is an error
+      </h2>
+      
+    </div>
+    
+  </div>
+</pf-composite-summary-download>
+`;
+
+exports[`Dashboard - Main - Composite Summary Download should match query parameter error snapshot 1`] = `
+<pf-composite-summary-download
+  errorText={[Function String]}
+  id={[Function String]}
+  paramsSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  startDownload={[Function Function]}
+  store={[Function Store]}
+>
+  <div
+    class="w-75 mx-auto mt-4 text-white text-center"
+  >
+    <h1>
+      Downloading file...
+    </h1>
+    
+    <div>
+      
+      
+      <h2
+        class="text-danger"
+      >
+        Error: Invalid composite data load external ID: invalidId
+      </h2>
+    </div>
+    
+  </div>
+</pf-composite-summary-download>
+`;

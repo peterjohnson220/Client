@@ -4,6 +4,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
 <pf-community-dashboard-page
   COMMUNITY_POSTS_CONTAINER_ID={[Function String]}
   POST_ITEM_CLASS={[Function String]}
+  browserDetectionService={[Function BrowserDetectionService]}
   executePageScrollDown="false"
   executePageScrollUp="false"
   getHasNextBatchPostsOnServer$={[Function Store]}
@@ -13,6 +14,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   hasPreviousBatchOnServer="false"
   hasPreviousBatchResultsOnServerSubscription={[Function Subscriber]}
   hideTopComponents="false"
+  isIE="false"
   isLoadingNextBatch="false"
   isLoadingPreviousBatch="false"
   loadingNextBatchCommunityPosts$={[Function Store]}
@@ -56,40 +58,31 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           class="row"
         >
           <div
-            class="col-3"
-          >
-            
-            <div>
-              <pf-community-categories />
-              <pf-community-popular-tags />
-            </div>
-            <div
-              class="sticky-top"
-            >
-              <iframe
-                allow="autoplay"
-                frameborder="no"
-                height="450"
-                scrolling="no"
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                width="100%"
-              />
-            </div>
-          </div>
-          <div
-            class="col-6"
+            class="col-9"
           >
             
             <div
               id="discussion-wrapper"
             >
-              <pf-community-start-discussion />
-              <p
-                class="sub-header"
+              <div
+                class="row"
               >
-                See what people are talking about...
-              </p>
-              <hr />
+                <div
+                  class="col-9"
+                >
+                  <pf-community-start-discussion />
+                </div>
+                <div
+                  class="col-3 pl-0"
+                >
+                  <pf-community-categories />
+                </div>
+              </div>
+              <div
+                class="tags-margin-left"
+              >
+                <pf-community-trending-and-filtered-tags />
+              </div>
             </div>
             <div
               class="row loading-indicator-container-top p-1 k-display-none"
@@ -119,12 +112,32 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
             class="col-3"
           >
             <div
-              class="row sticky-top"
+              class="k-display-inline"
+              ng-reflect-klass="k-display-inline"
+              ng-reflect-ng-class="[object Object]"
             >
+              
               <div
-                class="col"
+                class="mb-3"
               >
                 <pf-community-polls />
+              </div>
+              <div
+                class="sticky-top"
+                ng-reflect-ng-class="[object Object]"
+              >
+                <h5>
+                  COMP & COFFEE
+                </h5>
+                <iframe
+                  allow="autoplay"
+                  frameborder="no"
+                  height="450"
+                  id="podcast-frame"
+                  scrolling="no"
+                  src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/387156743&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+                  width="100%"
+                />
               </div>
             </div>
             

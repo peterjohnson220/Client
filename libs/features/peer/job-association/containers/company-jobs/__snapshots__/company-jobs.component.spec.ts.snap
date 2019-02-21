@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CompanyJobsComponent should show total company jobs 1`] = `
+<pf-peer-job-association-company-jobs
+  companyJobsGridItemsData$={[Function Store]}
+  gridState$={[Function Store]}
+  loading$={[Function Store]}
+  loadingError$={[Function Store]}
+  store={[Function Store]}
+  tooltipDir="undefined"
+  totalCompanyJobsGridItems$={[Function Observable]}
+>
+  <h2>
+    Company Jobs
+  </h2><div
+    class="d-flex"
+  >
+    <i
+      class="fas fa-search"
+    />
+    <input
+      placeholder="Accountant"
+      type="text"
+    />
+    <label>
+      <input
+        type="checkbox"
+      />
+       Associated 
+    </label>
+    <label
+      class="testClass"
+    >
+      Job Family:
+    </label>
+    <label>
+      <select>
+        <option
+          value="1"
+        >
+          Airline
+        </option>
+        <option
+          value="2"
+        >
+          Accounting
+        </option>
+        <option
+          value="3"
+        >
+          Restaurant
+        </option>
+      </select>
+    </label>
+  </div><label>
+     company jobs: 123 total
+  
+  </label><div
+    class="grid-container position-relative"
+  >
+    <pf-async-container
+      class="h-100"
+    >
+      <div
+        class="k-tooltip-container"
+        filter=".k-grid td"
+        kendotooltip=""
+        showon="none"
+      >
+        <kendo-grid
+          style="height: 100%;"
+        >
+          <kendo-grid-column
+            field="CompanyJobId"
+            hidden="true"
+            title="Id"
+          />
+          <kendo-grid-column
+            field="JobTitle"
+            title="Job Title"
+          />
+          <kendo-grid-column
+            field="JobCode"
+            title="Job Code"
+          />
+          <kendo-grid-column
+            field="JobFamily"
+            title="Job Family"
+          >
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            field="AssociationStatus"
+            title="Status"
+          >
+            
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </pf-async-container>
+  </div>
+</pf-peer-job-association-company-jobs>
+`;

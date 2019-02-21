@@ -13,6 +13,7 @@ import * as fromCommunityTagReducer from './community-tag.reducer';
 import * as fromCommunityJobReducer from './community-job.reducer';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
+import * as fromCommunityLikeReducer from './community-like.reducer';
 import { CommunityConstants } from '../models';
 
 // Feature area state
@@ -27,6 +28,7 @@ export interface CommunityState {
   communityJob: fromCommunityJobReducer.State;
   communityCategories: fromCommunityCategoriesReducer.State;
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
+  communityLikes: fromCommunityLikeReducer.State;
 }
 
 // Extend root state with feature area state
@@ -45,7 +47,8 @@ export const reducers = {
   communityTags: fromCommunityTagReducer.reducer,
   communityJob: fromCommunityJobReducer.reducer,
   communityCategories: fromCommunityCategoriesReducer.reducer,
-  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer
+  communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer,
+  communityLikes: fromCommunityLikeReducer.reducer
 };
 
 // select feature area
@@ -100,6 +103,11 @@ export const selectFromCommunityCategoriesState =  createSelector(
 export const selectFromCommunityPostFilterOptionsState =  createSelector(
   selectCommunityState,
   (state: CommunityState) => state.communityPostFilterOptions
+  );
+
+export const selectFromCommunityLikeState = createSelector(
+    selectCommunityState,
+    (state: CommunityState) => state.communityLikes
   );
 
 // Community Poll Selectors
@@ -340,19 +348,19 @@ export const getCommunityPostsCombinedWithReplies = createSelector(
   }
 );
 // Community Tag Selectors
-export const getLoadingCommunityPopularTags = createSelector(
+export const getLoadingCommunityTrendingTags = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityPopularTags
+  fromCommunityTagReducer.getLoadingCommunityTrendingTags
 );
 
-export const getLoadingCommunityPopularTagsSuccess = createSelector(
+export const getLoadingCommunityTrendingTagsSuccess = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getCommunityPopularTags
+  fromCommunityTagReducer.getCommunityTrendingTags
 );
 
-export const getLoadingCommunityPopularTagsError = createSelector(
+export const getLoadingCommunityTrendingTagsError = createSelector(
   selectFromCommunityTagState,
-  fromCommunityTagReducer.getLoadingCommunityPopularTagsError
+  fromCommunityTagReducer.getLoadingCommunityTrendingTagsError
 );
 
 export const getSuggestingCommunityTags = createSelector(
@@ -452,4 +460,20 @@ export const getCommunityPostFilterOptions = createSelector(
 export const getFilteredByPost = createSelector(
   selectFromCommunityPostFilterOptionsState,
   fromCommunityPostFilterOptionsReducer.getFilteredByPost
+);
+
+// Community Like Selectors
+export const getLoadingCommunityLikes = createSelector(
+  selectFromCommunityLikeState,
+  fromCommunityLikeReducer.getLoadingCommunityLikes
+);
+
+export const getLoadingCommunityLikesSuccess = createSelector(
+  selectFromCommunityLikeState,
+  fromCommunityLikeReducer.getLoadingCommunityLikesSuccess
+);
+
+export const getLoadingCommunityLikesError = createSelector(
+  selectFromCommunityLikeState,
+  fromCommunityLikeReducer.getLoadingCommunityLikesError
 );

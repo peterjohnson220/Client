@@ -1,0 +1,71 @@
+@import 'comphub-styles';
+@import 'comphub-page';
+@import 'comphub-variables';
+@import 'colors';
+
+.form-container {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border: solid 1px #eaeaea;
+  box-shadow: 0 5px 3px #eaeaea;
+  margin-left: 0;
+
+  h4 {
+    margin-bottom: 1rem;
+  }
+}
+
+.form-content {
+  padding: 1rem 0;
+
+  div.col {
+    display: flex;
+    flex-direction: row;
+    padding: .5rem;
+  }
+
+  label {
+    line-height: 160%;
+    margin-right: 0.5rem;
+    margin-top: 0.2rem;
+  }
+
+  .form-control {
+    height: 33px;
+  }
+}
+
+.form-actions-section {
+  margin-top: 5rem;
+  button {
+    width: 105px;
+  }
+  .button-container {
+    min-width: 223px;
+  }
+}
+
+.info-banner {
+  padding: 1rem;
+  background-color: $pf-brand-secondary-color;
+  color: #ffffff;
+  border-radius: 0.25rem;
+
+  .info-icon {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+
+  .info-message, label {
+    font-weight: $comphub-bold-font-weight;
+    line-height: 2rem;
+  }
+
+  .form-check {
+    min-width: 150px;
+  }
+
+  .form-check-input {
+    margin-top: 0.5rem;
+  }
+}
