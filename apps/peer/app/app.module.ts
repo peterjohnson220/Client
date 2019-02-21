@@ -16,7 +16,6 @@ import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.se
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './shared/reducers';
 
-
 @NgModule({
   declarations: [
     AppWrapperComponent

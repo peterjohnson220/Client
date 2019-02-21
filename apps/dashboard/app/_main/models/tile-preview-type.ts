@@ -9,6 +9,7 @@ export class TilePreviewType {
   Icon = TilePreviewTypes.Icon;
   List = TilePreviewTypes.List;
   PlaceHolder = TilePreviewTypes.PlaceHolder;
+  BasicList = TilePreviewTypes.BasicList;
 
   constructor() {
     this.AllTypes = [
@@ -17,7 +18,8 @@ export class TilePreviewType {
       TilePreviewTypes.ChartWithList,
       TilePreviewTypes.Icon,
       TilePreviewTypes.List,
-      TilePreviewTypes.PlaceHolder
+      TilePreviewTypes.PlaceHolder,
+      TilePreviewTypes.BasicList
     ];
   }
 }

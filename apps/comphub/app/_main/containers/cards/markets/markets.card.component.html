@@ -1,0 +1,85 @@
+<pf-card-layout
+  pageTitle="Markets"
+  pageSubTitle="Now, let's define the market"
+  pageIconClass="fa-map-marker-alt"
+  [nextButtonEnabled]="true">
+
+  <ng-container page-content>
+    <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
+      [isOpen]="addPayMarketFormOpen$ | async"
+      [isInfoBannerOpen]="infoBannerOpen$ | async"
+      [marketDataScope]="marketDataScope$ | async"
+      [saving]="savingPayMarket$ | async"
+      [savingConflict]="savingPayMarketConflict$ | async"
+      [savingError]="savingPayMarketError$ | async"
+      [showSkipButton]="showSkipButton$ | async"
+      (saveClick)="handleSavePayMarket($event)"
+      (skipClick)="handleSkipAddPayMarket()"
+      (cancelClick)="handleCancelAddPayMarket()"
+      (dismissInfoBannerClick)="handleDismissInfoBanner()">
+    </pf-add-paymarket-form>
+  </ng-container>
+
+  <ng-container page-content>
+
+    <pf-async-container
+      [loading]="loadingPaymarkets$ | async"
+      [loadingError]="loadingPaymarketsError$ | async"
+      [loadingErrorMessage]="'Error.'"
+      [hideReloadButton]="true">
+
+      <div class="row"
+        *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
+        <div class="col-lg-12 col-xl-9">
+          <div class="search-filter">
+              <pf-input-debounce
+                [ngModel]="payMarketsFilter$ | async"
+                [placeholderText]="'Search Pay Markets...'"
+                [delay]="200" [hideClearBtn]="true"
+                (valueChanged)="handleSearchChanged($event)">
+              </pf-input-debounce>
+
+              <span *ngIf="payMarketsFilter$ | async"
+                    (click)="clearSearchValue()"
+                    class="k-icon k-clear-value k-i-close">
+              </span>
+          </div>
+        </div>
+      </div>
+
+      <ng-container  *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
+        <div class="row">
+          <div class="col-lg-12 col-xl-9">
+            <div class="add-new-market-container">
+              <span class="uppercase-header">My Markets</span>
+              <div class="add-new-market-button"
+                   [attr.data-qa-id]="'btn-addNewMarket'"
+                   (click)="handleAddNewMarketClicked()">
+                <i class="fa fa-plus-circle"></i>
+                Add New Market
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <pf-paymarket-cards
+              *ngIf="(visiblePaymarkets$ |async).length"
+              [selectedPaymarketId]="(selectedPaymarket$ | async)?.CompanyPayMarketId"
+              [paymarkets]="visiblePaymarkets$ | async"
+              (paymarketChecked)="handlePaymarketChecked($event)">
+            </pf-paymarket-cards>
+
+            <div *ngIf="!(visiblePaymarkets$ | async).length && !(loadingPaymarkets$ | async)">
+              <div class="no-data">No Data</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+
+    </pf-async-container>
+  </ng-container>
+
+</pf-card-layout>

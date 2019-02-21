@@ -8,6 +8,9 @@ export interface State {
   dismissingResponse: boolean;
   dismissingResponseError: boolean;
   dismissedResponseSuccess: boolean;
+  exportingUserPollResponses: boolean;
+  exportingUserPollResponsesSuccess: boolean;
+  exportingUserPollResponsesError: boolean;
 }
 
 export const initialState: State = {
@@ -16,7 +19,10 @@ export const initialState: State = {
   pollResponses: [],
   dismissingResponse: false,
   dismissingResponseError: false,
-  dismissedResponseSuccess: false
+  dismissedResponseSuccess: false,
+  exportingUserPollResponses: false,
+  exportingUserPollResponsesSuccess: null,
+  exportingUserPollResponsesError: false
 };
 
 export function reducer(state = initialState, action: communityPollResponseActions.Actions): State {
@@ -64,6 +70,30 @@ export function reducer(state = initialState, action: communityPollResponseActio
         dismissingResponse: false,
         dismissingResponseError: true,
         dismissedResponseSuccess: false
+      };
+    }
+    case communityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES: {
+      return {
+        ...state,
+        exportingUserPollResponses: true,
+        exportingUserPollResponsesSuccess: false,
+        exportingUserPollResponsesError: false
+      };
+    }
+    case communityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES_SUCCESS: {
+      return {
+        ...state,
+        exportingUserPollResponses: false,
+        exportingUserPollResponsesSuccess: true,
+        exportingUserPollResponsesError: false
+      };
+    }
+    case communityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES_ERROR: {
+      return {
+        ...state,
+        exportingUserPollResponses: false,
+        exportingUserPollResponsesSuccess: false,
+        exportingUserPollResponsesError: true
       };
     }
     default: {

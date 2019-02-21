@@ -1,7 +1,9 @@
 @import '_colors';
+@import 'styles';
 
 .column-count-container {
-  color: #264478;
+  font-size: 0.8rem;
+  width: 25px;
 }
 
 div > a:hover{
@@ -16,20 +18,9 @@ div > a {
   color: white;
 }
 
-.column-container {
-  overflow:hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline;
-  z-index: 2;
-}
-
 kendo-chart {
-  height: 50%;
-  width: 70%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  width: 100%;
   z-index: 1;
 }
 
@@ -39,30 +30,57 @@ kendo-chart {
   width: 100%;
 }
 
-.pollLink
+.column-container {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline;
+  z-index: 2;
+}
+
+.chart-container
 {
-  color: #ffffff;
+  height: 35%;
+  width: 100%;
 }
 
-.pollLink:hover{
-  color:black;
+.details-body-containter
+{
+  background-color: #99C1D4;
+  position:relative; 
+  right:-2px;
 }
 
-.tile-text {
-  display: inline-block;
-  color: #FFFFFF;
-  font-size: 11px;
-  line-height: 12px;
-  max-height: 40%;
+.tile-text
+{
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+}
+
+.title-header
+{
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  width: 100%;
+}
+
+.title-body, .title-body-no-link {
+  display: block;
+  color: black;
   z-index: 2;
+}
+
+.title-body:hover{
+  color: #ffffff;
 }
 
 .btn-respond 
 {
-  background-color: $community-preview-tile-chart-color;
-  border-color:  $community-preview-tile-chart-color;
+  background-color: #ffffff;
+  border-color:  #ffffff;
+  color: #0099cc;
   display: block;
   text-align: center;
   margin-left: auto;

@@ -5,23 +5,40 @@
   [hideReloadButton]="true">
 
   <div class="d-flex h-100 w-100">
-    <div class="h-100 filters-container">
+    <div class="filters-container">
       <pf-peer-data-cut-filter-sidebar
-        [companyPayMarketId]="companyPayMarketId">
+        [companyPayMarketId]="companyPayMarketId"
+        [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
+        [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
       </pf-peer-data-cut-filter-sidebar>
     </div>
-    <div class="flex-grow-1 d-flex flex-column">
+    <div class="flex-grow-1 d-flex flex-column h-100 w-100">
       <div class="map-container flex-grow-1 d-flex flex-column">
         <pf-peer-data-cut-map
           *ngIf="systemFilter$ | async"
           [canFitBounds]="upsertDataCutPageInViewInIframe$ | async">
         </pf-peer-data-cut-map>
-        <div class="alert alert-info mb-0" *ngIf="!(hasAcceptedPeerTerms$ | async)">
-          {{!(hasRequestedPeerAccess$ | async) ? requestPeerAccessMessage : accessRequestedMessage }}
+        <div class="alert alert-mustard mb-0" *ngIf="!(hasAcceptedPeerTerms$ | async)">
+          <div class="request-access-message mb-2">
+            {{!(hasRequestedPeerAccess$ | async) ? requestPeerAccessMessage : accessRequestedMessage }}
+          </div>
+          <div class="d-flex justify-content-end mt-0">
+            <button type="button" class="btn btn-primary mr-2"
+                    [disabled]="(requestingPeerAccess$ | async) || (hasRequestedPeerAccess$ | async)"
+                    (click)="requestPeerAccess()">
+              <span *ngIf="requestingPeerAccess$ | async">
+                <pf-loading-indicator></pf-loading-indicator> Requesting Access...
+              </span>
+              <span *ngIf="!(requestingPeerAccess$ | async)">
+                  {{(hasRequestedPeerAccess$ | async) ? 'Access Requested' : 'Request Access'}}
+              </span>
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+          </div>
         </div>
       </div>
-      <div class="button-container d-flex flex-row justify-content-between align-items-center">
-        <div class="d-flex" *ngIf="(untaggedIncumbentCount$ | async) > 0">
+      <div class="button-container d-flex flex-row justify-content-between align-items-center" *ngIf="(hasAcceptedPeerTerms$ | async)">
+        <div class="d-flex" *ngIf="((untaggedIncumbentCount$ | async) > 0)">
 
           <label for="include-untagged-incs">
             Include {{untaggedIncumbentCount$ | async | number }} non geotagged employees
@@ -34,22 +51,10 @@
           </label>
         </div>
         <div class="flex-grow-1 d-flex justify-content-end">
-          <pf-guidelines-badge *ngIf="initialMapMoveComplete$ | async">
+          <pf-guidelines-badge *ngIf="(initialMapMoveComplete$ | async)">
           </pf-guidelines-badge>
 
           <div class="buttons">
-            <button type="button" class="btn btn-primary"
-                *ngIf="!(hasAcceptedPeerTerms$ | async)"
-                [disabled]="(requestingPeerAccess$ | async) || (hasRequestedPeerAccess$ | async)"
-                (click)="requestPeerAccess()">
-              <span *ngIf="requestingPeerAccess$ | async">
-                <pf-loading-indicator></pf-loading-indicator> Requesting Access...
-              </span>
-              <span *ngIf="!(requestingPeerAccess$ | async)">
-                {{(hasRequestedPeerAccess$ | async) ? 'Access Requested' : 'Request Access'}}
-              </span>
-            </button>
-
             <button  type="button" class="btn btn-primary btn-primary-legacy"
               *ngIf="(hasAcceptedPeerTerms$ | async)"
               [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async)"
@@ -57,7 +62,6 @@
 
             <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
           </div>
-
         </div>
       </div>
     </div>

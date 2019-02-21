@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
@@ -41,6 +41,20 @@ export class CommunityPollResponseEffects {
           )
         )
       );
+
+  @Effect()
+  exportCommunityPoll$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPollResponseActions.EXPORTING_COMMUNITY_USER_POLL_RESPONSES).pipe(
+      switchMap((action: fromCommunityPollResponseActions.ExportingCommunityUserPollResponses) =>
+        this.communityPollService.exportCommunityUserPoll(action.payload).pipe(
+          map((data) => {
+            return new fromCommunityPollResponseActions.ExportingCommunityUserPollResponsesSuccess();
+          }),
+          catchError(error => of(new fromCommunityPollResponseActions.ExportingCommunityUserPollResponsesError()))
+        )
+      )
+    );
+
 
   constructor(
     private actions$: Actions,

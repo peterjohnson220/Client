@@ -1,25 +1,25 @@
 import { Action } from '@ngrx/store';
 import { CommunityTag } from 'libs/models';
 
-export const LOADING_COMMUNITY_POPULAR_TAGS = '[Community/Tags] Loading Community Popular Tags';
-export const LOADING_COMMUNITY_POPULAR_TAGS_SUCCESS = '[Community/Tags] Loading Community Popular Tags Success';
-export const LOADING_COMMUNITY_POPULAR_TAGS_ERROR = '[Community/Tags] Loading Community Popular Tags Error';
+export const LOADING_COMMUNITY_TRENDING_TAGS = '[Community/Tags] Loading Community Popular Tags';
+export const LOADING_COMMUNITY_TRENDING_TAGS_SUCCESS = '[Community/Tags] Loading Community Popular Tags Success';
+export const LOADING_COMMUNITY_TRENDING_TAGS_ERROR = '[Community/Tags] Loading Community Popular Tags Error';
 
 export const SUGGESTING_COMMUNITY_TAGS = '[Community/Tags] Suggesting Community Tags';
 export const SUGGESTING_COMMUNITY_TAGS_SUCCESS = '[Community/Tags] Suggesting Community Tags Success';
 export const SUGGESTING_COMMUNITY_TAGS_ERROR = '[Community/Tags] Suggesting Community Tags Error';
 
-export class LoadingCommunityPopularTags implements Action {
-  readonly type = LOADING_COMMUNITY_POPULAR_TAGS;
+export class LoadingCommunityTrendingTags implements Action {
+  readonly type = LOADING_COMMUNITY_TRENDING_TAGS;
 }
 
-export class LoadingCommunityPopularTagsSuccess implements Action {
-  readonly type = LOADING_COMMUNITY_POPULAR_TAGS_SUCCESS;
+export class LoadingCommunityTrendingTagsSuccess implements Action {
+  readonly type = LOADING_COMMUNITY_TRENDING_TAGS_SUCCESS;
   constructor(public payload: any) {}
 }
 
-export class LoadingCommunityPopularTagsError implements Action {
-  readonly type = LOADING_COMMUNITY_POPULAR_TAGS_ERROR;
+export class LoadingCommunityTrendingTagsError implements Action {
+  readonly type = LOADING_COMMUNITY_TRENDING_TAGS_ERROR;
 }
 
 export class SuggestingCommunityTags implements Action {
@@ -38,9 +38,9 @@ export class SuggestingCommunityTagsError implements Action {
 
 
 export type Actions
-  =  LoadingCommunityPopularTags
-  | LoadingCommunityPopularTagsSuccess
-  | LoadingCommunityPopularTagsError
+  =  LoadingCommunityTrendingTags
+  | LoadingCommunityTrendingTagsSuccess
+  | LoadingCommunityTrendingTagsError
   | SuggestingCommunityTags
   | SuggestingCommunityTagsSuccess
   | SuggestingCommunityTagsError;

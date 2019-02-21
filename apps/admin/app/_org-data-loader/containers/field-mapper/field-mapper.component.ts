@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { FileRestrictions } from '@progress/kendo-angular-upload';
-import { ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL, ORG_DATA_UPLOAD_URL } from '../../constants';
+import {Observable} from 'rxjs';
+
+import {
+  DATE_FORMATS, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+  ORG_DATA_UPLOAD_URL
+} from '../../constants';
+import {DateFormatItem, LoaderFieldSet} from '../../models';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -17,10 +24,15 @@ export class FieldMapperComponent implements OnInit {
   mappedFields: string[];
   selectedMapping: string;
   payfactorsDataFieldsForReset: string[];
-  delimiter: string;
+  dateFormats: Array<{ text: string, value: string}> = DATE_FORMATS;
+  dateFormatsFilteredData: Array<{ text: string, value: string}>;
 
+  @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
+  @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
   @Input() loaderType: string;
+  @Input() dateFormat: string;
+  @Input() delimiter: string;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
@@ -31,11 +43,21 @@ export class FieldMapperComponent implements OnInit {
     };
     this.mappedFields = [];
     this.clientFields = [];
-    this.delimiter = ',';
+    this.dateFormatsFilteredData = this.dateFormats.slice();
   }
 
   ngOnInit() {
     this.payfactorsDataFieldsForReset = this.payfactorsDataFields;
+    this.fieldMappings$.subscribe(mappings => {
+      if (mappings.length > 0) {
+        const entityMapping = mappings.find(lfs => lfs.LoaderType === this.loaderType);
+        if (entityMapping) {
+          for (const mapping of entityMapping.LoaderFieldMappings) {
+            this.addMappingWithoutCompleteEvent(mapping.InternalField, mapping.ClientField);
+          }
+        }
+      }
+    });
   }
 
   successEventHandler = function($event) {
@@ -57,7 +79,7 @@ export class FieldMapperComponent implements OnInit {
   };
 
   ApplyMapping() {
-    this.addMapping(this.selectedPfField, this.selectedClientField);
+    this.addMappingWithCompleteEvent(this.selectedPfField, this.selectedClientField);
     this.selectedClientField = '';
     this.selectedPfField = '';
   }
@@ -77,7 +99,30 @@ export class FieldMapperComponent implements OnInit {
     this.fireCompleteEvent();
   }
 
+  selectionChange(dateFormat: DateFormatItem) {
+    if (dateFormat) {
+      this.dateFormat = dateFormat.value;
+      this.fireCompleteEvent();
+    } else {
+      this.dateFormat = null;
+      this.fireCompleteEvent();
+    }
+  }
+
+  filterChange(filter: string) {
+    this.dateFormatsFilteredData = this.dateFormats.filter((s) => s.value.indexOf(filter) !== -1);
+  }
+
   // Private Methods
+
+  private addMappingWithCompleteEvent(pfField, clientField) {
+    this.addMapping(pfField, clientField);
+    this.fireCompleteEvent();
+  }
+
+  private addMappingWithoutCompleteEvent(pfField, clientField) {
+    this.addMapping(pfField, clientField);
+  }
 
   private addMapping(pfField, clientField) {
     const value = pfField + '__' + clientField;
@@ -85,7 +130,6 @@ export class FieldMapperComponent implements OnInit {
 
     this.payfactorsDataFields = this.payfactorsDataFields.filter(x => x !== pfField);
     this.clientFields = this.clientFields.filter(x => x !== clientField);
-    this.fireCompleteEvent();
   }
 
   private compareFields(pfField, clientField) {
@@ -103,7 +147,7 @@ export class FieldMapperComponent implements OnInit {
       }
       for (let j = 0; j < this.payfactorsDataFields.length; j++) {
         if (this.compareFields(this.payfactorsDataFields[j], this.clientFields[i])) {
-          this.addMapping(this.payfactorsDataFields[j], this.clientFields[i]);
+          this.addMappingWithCompleteEvent(this.payfactorsDataFields[j], this.clientFields[i]);
           i = ORG_DATA_CLIENTFIELDS_INDEX_RESET;
           break;
         }
@@ -112,14 +156,15 @@ export class FieldMapperComponent implements OnInit {
   }
 
   private fireCompleteEvent() {
-    if (this.clientFields.length > 0) {
+    if (this.clientFields.length > 0 || (this.loaderType === 'Employees' && (!this.dateFormat || this.dateFormat === ''))) {
       this.mappingComplete.emit({
         complete: false
       });
     } else {
       this.mappingComplete.emit({
         complete: true,
-        mappings: this.mappedFields
+        mappings: this.mappedFields,
+        dateFormat: this.dateFormat
       });
     }
   }
@@ -128,5 +173,6 @@ export class FieldMapperComponent implements OnInit {
     this.clientFields = [];
     this.mappedFields = [];
     this.payfactorsDataFields = this.payfactorsDataFieldsForReset;
+    this.fireCompleteEvent();
   }
 }

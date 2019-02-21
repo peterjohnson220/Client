@@ -1,0 +1,22 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%
+}
+
+.job-association-modal-container {
+  height: 100%;
+  display: flex;
+}
+
+.item {
+  flex-grow: 0;
+  height: 100%;
+  width: 50%;
+  padding: 30px;
+  border: solid 1px grey;
+}
+
+:host ::ng-deep .grid-container {
+  height: 75%;
+}

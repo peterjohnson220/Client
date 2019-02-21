@@ -1,11 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UserContextGuard } from 'libs/security';
+import { PeerTileEnabledGuard, UserContextGuard } from 'libs/security';
 import { AppNoWrapperComponent } from 'libs/features/app-root';
 import { NotFoundErrorPageComponent, AccessDeniedPageComponent } from 'libs/ui/common/error/pages';
 
 export const routes: Routes = [
+  {
+    path: 'peer-job-association',
+    component: AppNoWrapperComponent,
+    canActivate: [UserContextGuard, PeerTileEnabledGuard],
+    children: [
+      { path: '', loadChildren:
+          'apps/legacy-content/app/_peer-job-association/peer-job-association.module#PeerJobAssociationModule'
+      },
+      { path: 'access-denied', component: AccessDeniedPageComponent },
+      { path: '**', component: NotFoundErrorPageComponent }
+    ]
+  },
   {
     path: '',
     component: AppNoWrapperComponent,

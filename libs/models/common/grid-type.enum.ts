@@ -9,5 +9,7 @@ export enum GridTypeEnum {
   PayfactorsCompanyExchangeInvitation = 'PAYFACTORS_COMPANY_EXCHANGE_INVITATION',
   ExchangeAccessRequests = 'EXCHANGE_ACCESS_REQUESTS',
   ExchangeJobRequests = 'EXCHANGE_JOB_REQUESTS',
-  ExchangeCompanyJob = 'EXCHANGE_COMPANY_JOB'
+  ExchangeCompanyJob = 'EXCHANGE_COMPANY_JOB',
+  JobAssociationModalPeerExchangeJobs = 'JOB_ASSOCIATION_MODAL_EXCHANGE_JOBS',
+  JobAssociationModalCompanyJobs = 'JOB_ASSOCIATION_MODAL_COMPANY_JOBS'
 }

@@ -1,0 +1,10 @@
+<div class="list-heading px-1 py-1">
+  <img *ngIf="!!model.HeadingIconImage" class="heading-icon-image"
+    src="assets/images/{{model.HeadingIconImage}}">
+  <strong>{{model.Heading}}</strong>
+</div>
+
+<div class="item d-flex p-1" *ngFor="let item of model.Items">
+  <div *ngIf="!!item.IconClass" class="icon pr-2"><i [class]="item.IconClass"></i></div>
+  <div class="name" [title]="item.Name">{{item.Name}}</div>
+</div>

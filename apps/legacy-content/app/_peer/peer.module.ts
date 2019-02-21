@@ -30,8 +30,6 @@ import { reducers } from './reducers';
 import { GuidelinesBadgeComponent } from './components';
 import { DojGuidelinesService } from './services/doj-guidelines.service';
 
-
-
 @NgModule({
   imports: [
     // Angular

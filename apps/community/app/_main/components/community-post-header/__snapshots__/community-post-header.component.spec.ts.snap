@@ -5,6 +5,7 @@ exports[`CommunityPostsComponent should show community post header 1`] = `
   isExpiredPoll="false"
   isInternalOnly="false"
   isReply="false"
+  isUserPoll="false"
   store={[Function Store]}
   time={[Function String]}
   user={[Function Object]}
@@ -31,6 +32,7 @@ exports[`CommunityPostsComponent should show internal community post header 1`] 
   isExpiredPoll="false"
   isInternalOnly={[Function Boolean]}
   isReply="false"
+  isUserPoll="false"
   store={[Function Store]}
   time={[Function String]}
   user={[Function Object]}

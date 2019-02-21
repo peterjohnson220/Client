@@ -3,3 +3,11 @@ export interface CommunityLink {
   Value: string;
   Href: string;
 }
+
+export function generateMockCommunityLink(): CommunityLink {
+  return {
+    Type: 'hashtag',
+    Value: '#t',
+    Href: '#t'
+  };
+}

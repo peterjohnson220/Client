@@ -33,12 +33,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -46,6 +46,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -57,7 +58,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -114,12 +114,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -127,6 +127,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -138,7 +139,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -194,12 +194,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -207,6 +207,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -218,7 +219,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -274,12 +274,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -287,6 +287,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -311,7 +312,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -367,12 +367,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -380,6 +380,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -391,7 +392,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -447,12 +447,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -460,6 +460,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
           
           
         </div>
+        
         <div
           class="button-container d-flex flex-row justify-content-between align-items-center"
         >
@@ -471,7 +472,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
             <div
               class="buttons"
             >
-              
               
               <button
                 class="btn btn-primary btn-primary-legacy"
@@ -527,12 +527,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -540,27 +540,20 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
           
           
           <div
-            class="alert alert-info mb-0"
+            class="alert alert-mustard mb-0"
           >
-             Thank you for your interest in Peer. Peer allows you to market price with unmatched
+            <div
+              class="request-access-message mb-2"
+            >
+               Thank you for your interest in Peer. Peer allows you to market price with unmatched
     granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
     will reach out to get you started with Peer. 
-          </div>
-        </div>
-        <div
-          class="button-container d-flex flex-row justify-content-between align-items-center"
-        >
-          
-          <div
-            class="flex-grow-1 d-flex justify-content-end"
-          >
-            
+            </div>
             <div
-              class="buttons"
+              class="d-flex justify-content-end mt-0"
             >
-              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary mr-2"
                 type="button"
               >
                 
@@ -569,7 +562,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
                    Request Access 
                 </span>
               </button>
-              
               <button
                 class="btn btn-secondary"
                 type="button"
@@ -579,6 +571,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </pf-async-container>
@@ -619,12 +612,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -632,26 +625,19 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
           
           
           <div
-            class="alert alert-info mb-0"
+            class="alert alert-mustard mb-0"
           >
-             Thank you for requesting access to Peer. A Payfactors representative will be in
-    touch shortly to discuss the details of Peer and how you can become an active member of Peer. 
-          </div>
-        </div>
-        <div
-          class="button-container d-flex flex-row justify-content-between align-items-center"
-        >
-          
-          <div
-            class="flex-grow-1 d-flex justify-content-end"
-          >
-            
             <div
-              class="buttons"
+              class="request-access-message mb-2"
             >
-              
+               Thank you for requesting access to Peer. A Payfactors representative will be in
+    touch shortly to discuss the details of Peer and how you can become an active member of Peer. 
+            </div>
+            <div
+              class="d-flex justify-content-end mt-0"
+            >
               <button
-                class="btn btn-primary"
+                class="btn btn-primary mr-2"
                 disabled=""
                 type="button"
               >
@@ -661,7 +647,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
                    Access Requested 
                 </span>
               </button>
-              
               <button
                 class="btn btn-secondary"
                 type="button"
@@ -671,6 +656,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </pf-async-container>
@@ -711,12 +697,12 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
       class="d-flex h-100 w-100"
     >
       <div
-        class="h-100 filters-container"
+        class="filters-container"
       >
         <pf-peer-data-cut-filter-sidebar />
       </div>
       <div
-        class="flex-grow-1 d-flex flex-column"
+        class="flex-grow-1 d-flex flex-column h-100 w-100"
       >
         <div
           class="map-container flex-grow-1 d-flex flex-column"
@@ -724,27 +710,20 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
           
           
           <div
-            class="alert alert-info mb-0"
+            class="alert alert-mustard mb-0"
           >
-             Thank you for your interest in Peer. Peer allows you to market price with unmatched
+            <div
+              class="request-access-message mb-2"
+            >
+               Thank you for your interest in Peer. Peer allows you to market price with unmatched
     granularity and specificity right from within the Payfactors suite. Simply click "Request Access" and someone
     will reach out to get you started with Peer. 
-          </div>
-        </div>
-        <div
-          class="button-container d-flex flex-row justify-content-between align-items-center"
-        >
-          
-          <div
-            class="flex-grow-1 d-flex justify-content-end"
-          >
-            
+            </div>
             <div
-              class="buttons"
+              class="d-flex justify-content-end mt-0"
             >
-              
               <button
-                class="btn btn-primary"
+                class="btn btn-primary mr-2"
                 disabled=""
                 type="button"
               >
@@ -755,7 +734,6 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
                 </span>
                 
               </button>
-              
               <button
                 class="btn btn-secondary"
                 type="button"
@@ -765,6 +743,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
             </div>
           </div>
         </div>
+        
       </div>
     </div>
   </pf-async-container>

@@ -6,8 +6,8 @@ import { Subscription, Observable } from 'rxjs';
 import { NgxLinkifyOptions } from 'ngx-linkifyjs';
 
 import { PfLinkifyService } from '../../services/pf-linkify-service';
-import * as constants from 'libs/models/community/community-constants.model';
-import * as fromCommunityPostReducer from '../../reducers';
+
+import * as fromCommunityTagReducer from '../../reducers';
 import * as fromCommunityTagActions from '../../actions/community-tag.actions';
 
 import { CommunityTag } from 'libs/models';
@@ -63,10 +63,10 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(public store: Store<fromCommunityPostReducer.State>,
+  constructor(public store: Store<fromCommunityTagReducer.State>,
               public pfLinkifyService: PfLinkifyService) {
-    this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityPostReducer.getSuggestingCommunityTagsPostId);
-    this.suggestedCommunityTags$ = this.store.select(fromCommunityPostReducer.getCommunityTags);
+    this.suggestedCommunityTagsPostId$ = this.store.select(fromCommunityTagReducer.getSuggestingCommunityTagsPostId);
+    this.suggestedCommunityTags$ = this.store.select(fromCommunityTagReducer.getCommunityTags);
    }
 
   ngOnInit() {
@@ -77,7 +77,7 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     this.textAreaContainer.nativeElement.style.minHeight = this.minimumHeight - 2 + 'px';
 
     this.suggestedCommunityTagsSubscription = this.suggestedCommunityTags$.subscribe((data) => {
-      this.mapToCommunityTags(data);
+      this.suggestedTags = data.map(tag => this.mapToCommunityTags(tag));
     });
 
     this.suggestedCommunityTagsPostIdSubscription = this.suggestedCommunityTagsPostId$.subscribe((data) => {
@@ -149,17 +149,25 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   }
 
   getMatches(sliceOfText: string) {
-    const hashtags = this.pfLinkifyService.getLinks(sliceOfText);
-    return hashtags.map(link => link.Value);
+    if (sliceOfText) {
+      return this.pfLinkifyService.getLinks(sliceOfText)
+        .map(link => link.Value);
+    } else {
+      return [];
+    }
   }
 
   onResize(event) {
-    if ( this.textAreaContainer.nativeElement.offsetWidth > 0 ) {
+    if ( this.hasTextareaOffsetWidth() ) {
       this.autogrow();
     }
   }
 
-  private autogrow() {
+  hasTextareaOffsetWidth() {
+    return this.textAreaContainer.nativeElement.offsetWidth > 0;
+  }
+
+  autogrow() {
     this.textAreaContainer.nativeElement.style.height = 0;
     this.textAreaContainer.nativeElement.style.height = this.discussionTextArea.nativeElement.scrollHeight + 'px';
   }
@@ -190,17 +198,13 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
     this.suggestedTags[focusedTagIndex].IsSuggested = true;
   }
 
-  private mapToCommunityTags(data: CommunityTag[]) {
-    this.suggestedTags = [];
-    data.forEach(tag => {
-      this.suggestedTags.push({
+  private mapToCommunityTags(tag: CommunityTag): CommunityTag {
+    return {
         Id: tag.Id,
         Tag: tag.Tag,
         PostIds: tag.PostIds,
         ReplyIds: tag.ReplyIds,
         IsSuggested: false
-      });
-    });
+      };
   }
-
 }

@@ -7,7 +7,7 @@ import * as fromRootState from 'libs/state/state';
 import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostReplyReducer from '../../reducers';
 
-import * as fromCommunityPostActions from '../../actions/community-post.actions';
+import * as fromCommunityLikeActions from '../../actions/community-post.actions';
 import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 
 import { CommunityLikeComponent } from './community-like.component';
@@ -39,6 +39,7 @@ describe('CommunityLikeComponent', () => {
 
     fixture = TestBed.createComponent(CommunityLikeComponent);
     instance = fixture.componentInstance;
+    instance.communityLikeUserInfos = [];
   });
 
   it('should show like component', () => {
@@ -70,7 +71,7 @@ describe('CommunityLikeComponent', () => {
     instance.updateLike();
 
     const replyResult = {postId: '1234', like: !likedByCurrentUser};
-    const expectedAction = new fromCommunityPostActions.UpdatingCommunityPostLike(replyResult);
+    const expectedAction = new fromCommunityLikeActions.UpdatingCommunityPostLike(replyResult);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });

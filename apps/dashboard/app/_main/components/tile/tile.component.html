@@ -34,4 +34,8 @@
 
   </pf-tile-preview-chart-with-list>
 
+  <pf-basic-list *ngSwitchCase="tilePreviewType.BasicList"
+                 [model]="previewModel">
+  </pf-basic-list>
+
 </div>

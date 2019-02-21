@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { environment } from 'environments/environment';
 
-import { UserContext } from 'libs/models';
 import { userVoiceUrl } from 'libs/core/functions';
 import {
   Tile, TilePreviewTypes, TilePreviewBase, TilePreviewType, TileTypes,
   generateTilePreviewIconFromTile, generateTilePreviewChartFromTile,
   generateTilePreviewListFromTile, generateTilePreviewPlaceHolderFromTile,
-  generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile
+  generateTilePreviewChartWithCalendarFromTile, generateTilePreviewChartWithListFromTile,
+  generateTilePreviewBasicListFromTile
 } from '../../models';
 
 
@@ -39,6 +39,8 @@ export class TileComponent implements OnInit {
         return generateTilePreviewPlaceHolderFromTile(tile);
       case TilePreviewTypes.ChartWithList:
         return generateTilePreviewChartWithListFromTile(tile);
+      case TilePreviewTypes.BasicList:
+        return generateTilePreviewBasicListFromTile(tile);
       default:
         return {
           PreviewType: TilePreviewTypes.Unknown,

@@ -2,13 +2,13 @@
 
   <div class="filter-header">
     <pf-pay-market-bounds-filter
-      *ngIf="(payMarket$ | async)?.CompanyPayMarketId"
+      *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowPayMarketBoundsFilter"
       [enabled]="limitToPayMarket$ | async"
       [payMarket]="payMarket$ | async"
       (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
     </pf-pay-market-bounds-filter>
 
-    <pf-scope-selector *ngIf="(payMarket$ | async)?.CompanyPayMarketId"
+    <pf-scope-selector *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowExchangeScopeSelector"
                        [addDataModal]="true">
     </pf-scope-selector>
 

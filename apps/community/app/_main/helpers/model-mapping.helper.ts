@@ -22,18 +22,20 @@ export function mapCommunityTagToTag(communityTag: CommunityTag): Tag {
 
 export function initializeFilterOptions(): FilterOptions {
   const tags: Tag[] = [];
-  return {
+  const filterOptions: FilterOptions = {
     TagFilter: initializeTagFilter(tags),
     CategoryFilter: initializeCategoryFilter(),
     PostIds: [],
     ReplyIds: []
   };
+  return filterOptions;
 }
 export function initializeTagFilter(tags: Tag[]): TagFilter {
-  return  {
+  const tagFilter: TagFilter =  {
     Tags: tags,
     IncludeReplies: true
   };
+  return tagFilter;
 }
 
 export function initializeCategoryFilter(): CategoryFilter {

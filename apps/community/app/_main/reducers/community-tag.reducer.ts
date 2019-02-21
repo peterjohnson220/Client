@@ -4,7 +4,7 @@ import { CommunityTag } from 'libs/models/community/community-tag.model';
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  popularTags: CommunityTag[];
+  trendingTags: CommunityTag[];
   suggesting: boolean;
   suggestingError: boolean;
   entities: CommunityTag[];
@@ -14,7 +14,7 @@ export interface State {
 export const initialState: State = {
   loading: false,
   loadingError: false,
-  popularTags: [],
+  trendingTags: [],
   suggesting: false,
   suggestingError: false,
   entities: [],
@@ -23,22 +23,22 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: communityTagActions.Actions): State {
   switch (action.type) {
-    case communityTagActions.LOADING_COMMUNITY_POPULAR_TAGS: {
+    case communityTagActions.LOADING_COMMUNITY_TRENDING_TAGS: {
       return {
         ...state,
         loading: true,
         loadingError: false,
-        popularTags: []
+        trendingTags: []
       };
     }
-    case communityTagActions.LOADING_COMMUNITY_POPULAR_TAGS_SUCCESS: {
+    case communityTagActions.LOADING_COMMUNITY_TRENDING_TAGS_SUCCESS: {
       return {
         ...state,
         loading: false,
-        popularTags: action.payload
+        trendingTags: action.payload
       };
     }
-    case communityTagActions.LOADING_COMMUNITY_POPULAR_TAGS_ERROR: {
+    case communityTagActions.LOADING_COMMUNITY_TRENDING_TAGS_ERROR: {
       return {
         ...state,
         loading: false,
@@ -73,9 +73,9 @@ export function reducer(state = initialState, action: communityTagActions.Action
   }
 }
 
-export const getLoadingCommunityPopularTags = (state: State) => state.loading;
-export const getLoadingCommunityPopularTagsError = (state: State) => state.loadingError;
-export const getCommunityPopularTags = (state: State) => state.popularTags;
+export const getLoadingCommunityTrendingTags = (state: State) => state.loading;
+export const getLoadingCommunityTrendingTagsError = (state: State) => state.loadingError;
+export const getCommunityTrendingTags = (state: State) => state.trendingTags;
 export const getSuggestingCommunityTags = (state: State) => state.suggesting;
 export const getSuggestingCommunityTagsError = (state: State) => state.suggestingError;
 export const getCommunityTags = (state: State) => state.entities;

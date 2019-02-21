@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // PF
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFileDownloadModule } from 'libs/features/file-download';
 
 // Effects
 import { DashboardEffects,
@@ -43,6 +44,7 @@ import { TilePreviewIconComponent } from './components';
 import { TilePreviewListComponent } from './components';
 import { TilePreviewPlaceHolderComponent } from './components';
 import { CompositeSummaryDownloadComponent } from './components';
+import { BasicListComponent } from './components';
 
 @NgModule({
   imports: [
@@ -70,7 +72,8 @@ import { CompositeSummaryDownloadComponent } from './components';
 
     // Payfactors
     PfCommonUIModule,
-    PfCommonModule
+    PfCommonModule,
+    PfFileDownloadModule,
   ],
   declarations: [
     // Pages
@@ -90,6 +93,7 @@ import { CompositeSummaryDownloadComponent } from './components';
     UserVoiceIndicatorComponent,
     DashboardTCModalComponent,
     CompositeSummaryDownloadComponent,
+    BasicListComponent
   ]
 })
 export class MainModule {

@@ -11,15 +11,26 @@
 
     </pf-company-selector>
 
-    <div [hidden]="!selectedCompany" class="mapping-container">
+    <div *ngIf="selectedCompany" class="mapping-container">
       <h3 class="pull-left">Field Mapper</h3>
       <hr class="clear" />
+      <div class="container-fluid">
+        <div class="form-group row">
+          <label for="delimiter" class="col-sm-1 col-form-label">Delimiter: </label>
+          <div class="col-sm-1">
+            <input type="text" id="delimiter" class="form-control" [(ngModel)]="delimiter">
+          </div>
+        </div>
+      </div>
       <kendo-tabstrip [keepTabContent]="true">
         <kendo-tabstrip-tab title="Pay Markets" [selected]="true">
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsPaymarketDataFields"
               [loaderType]="'PayMarkets'"
+              [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onPaymarketMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -28,6 +39,9 @@
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsJobDataFields"
               [loaderType]="'Jobs'"
+              [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onJobMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -36,6 +50,9 @@
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureDataFields"
               [loaderType]="'Structures'"
+              [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onStructureMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -44,6 +61,9 @@
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureMappingDataFields"
               [loaderType]="'StructureMapping'"
+              [delimiter]="delimiter"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onStructureMappingMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -52,6 +72,10 @@
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsEmployeeDataFields"
               [loaderType]="'Employees'"
+              [delimiter]="delimiter"
+              [dateFormat]="dateFormat"
+              [fieldMappings$]="companyMappings$"
+              [fieldMappingsLoading]="companyMappingsLoading$ | async"
               (mappingComplete)="onEmployeeMappingComplete($event)"></pf-field-mapper>
           </ng-template>
         </kendo-tabstrip-tab>
@@ -59,12 +83,13 @@
       <div class="buttons-container">
         <span class="save-message {{saveClass}}" [hidden]="!saveMessage">{{saveMessage}}</span>
         <button type="button" class="btn btn-primary"
-                [disabled]="!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete"
+                [disabled]="(!paymarketMappingComplete || !jobMappingComplete || !structureMappingComplete || !structureMappingMappingComplete || !employeeMappingComplete)
+                || delimiter === ''"
                 (click)="SaveMappings()">Update Mapping</button>
         <pf-email-recipients-modal class="email-recipients-btn"
-          *ngIf="selectedCompany"
-          [companyId]="selectedCompany"
-          [recipients]="emailRecipients$ | async"></pf-email-recipients-modal>
+                                   *ngIf="selectedCompany"
+                                   [companyId]="selectedCompany"
+                                   [recipients]="emailRecipients$ | async"></pf-email-recipients-modal>
       </div>
     </div>
   </ng-container>

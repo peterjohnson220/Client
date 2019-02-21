@@ -7,7 +7,7 @@ import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './se
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
-         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
+         ExchangeScopeApiService, ExchangeDataCutsApiService, JobAssociationApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
@@ -21,10 +21,12 @@ import { UserTicketApiService } from './service';
 import { CompanyJobApiService } from './company';
 import { CompanyJobPricingMatchApiService } from './company-job-pricing-match';
 import { RolesApiService } from './company-admin';
-import { DataLoadEmailRecipientsApiService } from './data-loads';
+import {DataLoadEmailRecipientsApiService, LoaderSettingsApiService} from './data-loads';
 import { ProjectApiService } from './project';
 import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
+import { MarketDataScopeApiService } from './paymarket';
+import { FileApiService } from './file';
 import {PermissionService} from '../../core/services';
 
 @NgModule({
@@ -37,6 +39,7 @@ import {PermissionService} from '../../core/services';
     ExchangeApiService,
     ExchangeCompanyApiService,
     ExchangeDataSearchApiService,
+    JobAssociationApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
     AccountApiService,
@@ -62,6 +65,9 @@ import {PermissionService} from '../../core/services';
     ProjectApiService,
     IntegrationApiService,
     ComphubApiService,
+    LoaderSettingsApiService,
+    MarketDataScopeApiService,
+    FileApiService,
     PermissionService,
   ]
 })

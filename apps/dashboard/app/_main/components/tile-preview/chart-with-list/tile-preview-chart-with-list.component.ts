@@ -14,30 +14,40 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   @Input() model: TilePreviewCharWithList;
   chartData: any;
   MIN_CHART_DISPLAY_VALUE = 2.0001;
+  MAX_TEXT_LENGTH = 45;
+
+  get details(): string {
+    return this.model.TileChartData.Details.length > this.MAX_TEXT_LENGTH ?
+     this.model.TileChartData.Details.substr(0, this.MAX_TEXT_LENGTH) + '...' : this.model.TileChartData.Details;
+  }
+
+  get detailsToolTip(): string {
+    return this.model.TileChartData.Details.length > this.MAX_TEXT_LENGTH ?
+    this.model.TileChartData.Details : '';
+  }
 
   ngOnInit() {
     this.chartData = cloneDeep(this.model.TileChartData);
 
-    if ( this.chartData && this.hasValidResponses() ) { this.chartData.forEach(x => {
+    if ( this.chartData && this.hasData() ) { this.chartData.TileChartItems.forEach(x => {
         if (x.Percentage === 0) { x.Percentage = this.MIN_CHART_DISPLAY_VALUE; }}); // to render in the chart
     }
   }
 
-  navigateToPost(): void {
+  navigate(): void {
     window.location.href  = this.model.PostUrl;
   }
 
-  createPoll() {
-    window.location.href  = this.model.BaseUrl + '?type=poll';
+  action() {
+    window.location.href  = this.model.BaseUrl + '?type=' + this.model.ActionItemType;
   }
 
-  hasValidResponses(): boolean {
-    return this.model.TileChartData ? this.model.TileChartData.find(x => x.Percentage > 0) : false;
+  hasData(): boolean {
+    return this.model.TileChartData ? this.model.TileChartData.TileChartItems.find(x => x.Percentage > 0) : false;
   }
 
   getPercentage(value): number {
     return value === this.MIN_CHART_DISPLAY_VALUE ? 0 : value;
   }
-
 }
 
