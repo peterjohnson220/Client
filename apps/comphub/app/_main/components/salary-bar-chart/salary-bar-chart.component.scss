@@ -9,8 +9,11 @@
   background-color: #f1f9ee;
 }
 
-.bar-row {
+.left-bar, .right-bar {
   min-height: 30px;
+}
+
+.bar-row {
   border: 1px solid $comphub-header-background-grey;
 }
 
