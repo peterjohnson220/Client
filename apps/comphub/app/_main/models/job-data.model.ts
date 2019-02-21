@@ -1,5 +1,6 @@
 export interface JobData {
   JobId: number;
+  JobCode: string;
   JobTitle: string;
   JobDescription: string;
   Education: string;
@@ -25,6 +26,7 @@ export interface JobGridData {
 export function generateFakeJobData(): JobData {
   return{
     JobId: 1,
+    JobCode: 'Ab1234',
     Tcc50: 100000,
     Base50: 100000,
     YearsOfExperience: '6+',

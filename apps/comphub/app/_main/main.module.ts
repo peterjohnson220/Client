@@ -6,6 +6,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { ChartModule } from '@progress/kendo-angular-charts';
+import 'hammerjs';
 import {
   NgbModalModule,
   NgbPaginationModule,
@@ -24,7 +26,8 @@ import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCard
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
-import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent } from './components';
+import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
+  SalaryTrendChartComponent } from './components';
 import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
 
@@ -54,6 +57,7 @@ import { MainRoutingModule } from './main-routing.module';
     // 3rd Party
     DropDownsModule,
     GridModule,
+    ChartModule,
     NgbPaginationModule,
     NgbModalModule,
     NgbProgressbarModule,
@@ -71,6 +75,7 @@ import { MainRoutingModule } from './main-routing.module';
     AddPayMarketFormComponent,
     JobLimitCounterComponent,
     SalaryBarChartComponent,
+    SalaryTrendChartComponent,
 
     // Pages
     ComphubPageComponent,
