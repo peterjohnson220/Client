@@ -15,6 +15,7 @@
   border-style: solid;
   border-color:  $community-categories-body;
   border-width: 1px;
+  font-weight: 500;
 }
 
 .category-element {
@@ -27,18 +28,28 @@
   text-decoration: underline;
 }
 
-.category-count {
-  font-weight: 500;
-}
-
 .category-count:hover {
   color: $community-category-hover-color;
   background-color: #ffffff;
   border-color: $community-category-hover-color;
 }
 
-.category-disabled {
-  opacity: 0.65;
+
+.category-count-disabled {
+  color: $community-category-hover-color;
+  background-color: #ffffff;
+  border-style: solid;
+  border-color:  $community-category-hover-color;
+  border-width: 1px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: default;
+}
+
+.category-element-disabled {
+  font-size: 1.3rem;
+  text-decoration: none;
+  cursor: default;
 }
 
 .category-selected {
@@ -46,3 +57,4 @@
   background-color: $community-category-hover-color;
   border-color: $community-category-hover-color;
 }
+
