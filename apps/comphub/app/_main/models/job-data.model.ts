@@ -6,6 +6,7 @@ export interface JobData {
   YearsOfExperience: string;
   ManagesEmployees: boolean;
   Skills: string[];
+  FLSAStatus: string;
   Base25?: number;
   Base50?: number;
   Base75?: number;
@@ -28,6 +29,7 @@ export function generateFakeJobData(): JobData {
     Base50: 100000,
     YearsOfExperience: '6+',
     Education: 'College',
+    FLSAStatus: '',
     Incs: 1,
     JobDescription: 'Some job description',
     JobTitle: 'Job A',

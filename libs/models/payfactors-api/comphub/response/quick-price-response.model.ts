@@ -10,6 +10,7 @@ export interface QuickPriceMarketData {
   Education: string;
   YearsOfExperience: string;
   ManagesEmployees: boolean;
+  FLSAStatus: string;
   Skills: string[];
   Base25?: number;
   Base50?: number;
