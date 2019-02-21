@@ -23,8 +23,8 @@
       <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>        
         <div class="details-body-containter pl-2 pb-1 pr-1">
           <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>    
-          <span class="details-body-containter">
-            <a class='col-12 tile-text title-body m-0 p-0' ngbTooltip="{{detailsToolTip}}" href="{{model.PostUrl}}">{{details}}</a>   
+          <span class="details-body-containter"  ngbTooltip="{{detailsToolTip}}">
+            <a class='col-12 tile-text title-body m-0 p-0' href="{{model.PostUrl}}">{{details}}</a>   
           </span>
         <button *ngIf="model.TileChartData && !hasData()" (click)="navigate()" class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2">{{model.ActionItemTitle}}</button>
       </div>
