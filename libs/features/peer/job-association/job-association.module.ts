@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -11,6 +12,7 @@ import { ExchangeJobsEffects, CompanyJobsEffects } from './effects';
 
 import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFormsModule } from 'libs/forms';
 
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
 
@@ -18,6 +20,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
     StoreModule.forFeature('feature_job_association', reducers),
     EffectsModule.forFeature([CompanyJobsEffects, ExchangeJobsEffects]),
 
@@ -28,6 +31,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
+    PfFormsModule,
   ],
   declarations: [
     // Components

@@ -63,6 +63,11 @@ export const getExchangeJobsLoadingError = createSelector(
   (feature) => feature.loadingError
 );
 
+export const getExchangeJobsSearchTerm = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.searchTerm
+);
+
 export const {
   selectAll: getExchangeJobsList
 } = fromExchangeJobsReducer.adapter.getSelectors(getExchangeJobsFeature);

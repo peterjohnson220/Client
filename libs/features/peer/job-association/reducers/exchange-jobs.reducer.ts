@@ -11,6 +11,7 @@ export interface State extends EntityState<ExchangeJob> {
   loading: boolean;
   loadingError: boolean;
   total: number;
+  searchTerm: string;
 }
 
 // Define our Adapter
@@ -23,6 +24,7 @@ const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   total: 0,
+  searchTerm: ''
 });
 
 // Reducer function
@@ -54,6 +56,12 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
+        case fromPeerExchangeJobsActions.UPDATE_SEARCH_TERM: {
+          return {
+            ...featureState,
+            searchTerm: featureAction.payload
+          };
+        }
         default: {
           return featureState;
         }
@@ -67,3 +75,4 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getSearchTerm = (state: State) => state.searchTerm;

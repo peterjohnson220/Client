@@ -12,10 +12,10 @@ export class JobAssociationApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  loadExchangeJobs(listState: State) {
+  loadExchangeJobs(listState: State, jobTitleSearchTerm: string) {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,
-      { params: { exchangeId: -1, listState: JSON.stringify(listState) } },
+      { params: { exchangeId: -1, listState: JSON.stringify(listState), jobTitleSearchTerm } },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }

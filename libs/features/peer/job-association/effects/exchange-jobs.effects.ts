@@ -11,6 +11,7 @@ import { JobAssociationApiService } from 'libs/data/payfactors-api/peer/job-asso
 
 import * as fromPeerJobsActions from '../actions/exchange-jobs.actions';
 import * as fromPeerJobsReducer from '../reducers';
+import { IGridState } from 'libs/core/reducers/grid.reducer';
 
 @Injectable()
 export class ExchangeJobsEffects {
@@ -22,11 +23,17 @@ export class ExchangeJobsEffects {
     withLatestFrom(
       this.store.pipe(
         select(fromPeerJobsReducer.getExchangeJobsGrid)),
-        (action, listState) => listState
+        (action, gridState: IGridState) => gridState
+    ),
+    // grab the search term
+    withLatestFrom(
+      this.store.pipe(
+        select(fromPeerJobsReducer.getExchangeJobsSearchTerm)),
+        (gridState: IGridState, searchTerm) => ({ gridState, searchTerm })
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined =>
-      this.jobAssociationApiService.loadExchangeJobs(combined.grid).pipe(
+      this.jobAssociationApiService.loadExchangeJobs(combined.gridState.grid, combined.searchTerm).pipe(
         map((gridDataResult: GridDataResult) => new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)),
         catchError(() => of(new fromPeerJobsActions.LoadExchangeJobsError())
         )

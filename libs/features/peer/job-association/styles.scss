@@ -1,19 +1,60 @@
 @import 'kendo-grid';
 
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
+  .filters {
+    margin: 8px 0;
+    min-width: 160px;
+    .fa-search {
+      font-size: 18px;
+      position: relative;
+      left: 8px;
+      z-index: 100;
+      margin-top: 6px;
+    }
+    input {
+      margin-left: -20px;
+      padding-left: 32px;
+    }
+  }
+
+  .grid-container {
+    height: 75%;
+    .k-tooltip-container {
+      height: 100%;
+      .k-grid {
+        .k-grid-content td {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .k-grid-norecords {
+          text-align: center;
+          &:hover {
+            color: inherit;
+            background-color: inherit;
+          }
+          a {
+            font-style: italic;
+            text-decoration: underline;
+            &:hover {
+              .fa-redo-alt { 
+                transform: rotate(720deg);
+              }
+            }
+            .fa-redo-alt {
+              margin-right: 2px;
+              font-size: 12px;
+              opacity: .8;
+              transition: all .4s ease-in-out;
+            }
+          }
+        }
+      }
+    }
+  }
+
   /* hide No records available when loading */
   .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
-  .k-grid .k-grid-content td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .grid-container {
-    height: 75%;
-  }
-  .k-tooltip-container {
-    height: 100%;
-  }
-} 
+}

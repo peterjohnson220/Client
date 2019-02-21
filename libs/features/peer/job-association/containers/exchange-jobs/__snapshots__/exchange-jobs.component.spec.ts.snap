@@ -3,19 +3,30 @@
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
   gridState$={[Function Store]}
+  jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
   loadingError$={[Function Store]}
   peerExchangeJobs$={[Function Store]}
+  searchTerm=""
+  searchTermSubscription={[Function Subscriber]}
   store={[Function Store]}
   tooltipDir="undefined"
-  totalPeerExchangeJobs$={[Function Observable]}
+  totalPeerExchangeJobs$={[Function Store]}
 >
   <h2>
     Peer Exchange Jobs
-  </h2><label
-    class="text-uppercase"
+  </h2><div
+    class="filters position-relative w-25 d-flex"
   >
-     peer exchange jobs: 123 total
+    <i
+      class="fas fa-search"
+    />
+    <pf-input-debounce />
+  </div><label
+    class="text-uppercase"
+    data-qa-id="lbl-exchange-jobs-total"
+  >
+     peer exchange jobs: 0 total
   
   </label><div
     class="grid-container position-relative"
@@ -35,7 +46,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
           <kendo-grid-column
             field="ExchangeJobTitle"
             title="Job Title"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeJobFamily"
             title="Job Family"
@@ -44,6 +57,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
             field="ExchangeName"
             title="Exchange Name"
           />
+          
         </kendo-grid>
       </div>
     </pf-async-container>
