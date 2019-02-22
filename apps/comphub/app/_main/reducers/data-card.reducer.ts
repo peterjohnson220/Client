@@ -11,9 +11,6 @@ export interface State {
   selectedRate: RateType;
   marketDataChange: boolean;
   peerBannerOpen: boolean;
-  pricedJobTitleHistory: string[];
-  jobPricingLimitInfo: JobPricingLimitInfo;
-  shouldIncrementPricedJobCount: boolean;
 }
 
 const initialState: State = {
@@ -26,10 +23,7 @@ const initialState: State = {
   selectedJobData: null,
   selectedRate: RateType.Annual,
   marketDataChange: false,
-  peerBannerOpen: false,
-  pricedJobTitleHistory: [],
-  jobPricingLimitInfo: null,
-  shouldIncrementPricedJobCount: false
+  peerBannerOpen: false
 };
 
 // Reducer
@@ -88,24 +82,6 @@ export function reducer(state: State = initialState, action: fromDataCardActions
         peerBannerOpen: true
       };
     }
-    case fromDataCardActions.SET_JOB_PRICING_LIMIT_INFO: {
-      return {
-        ...state,
-        jobPricingLimitInfo: action.payload
-      };
-    }
-    case fromDataCardActions.ADD_TO_PRICED_JOB_TITLE_HISTORY: {
-      return {
-        ...state,
-        pricedJobTitleHistory: [...state.pricedJobTitleHistory, action.payload]
-      };
-    }
-    case fromDataCardActions.SHOULD_INCREMENT_PRICED_JOB_COUNT: {
-      return {
-        ...state,
-        shouldIncrementPricedJobCount: action.payload
-      };
-    }
     default: {
       return state;
     }
@@ -119,6 +95,3 @@ export const getSelectedJobData = (state: State) => state.selectedJobData;
 export const getSelectedRate = (state: State) => state.selectedRate;
 export const getMarketDataChange = (state: State) => state.marketDataChange;
 export const getPeerBannerOpen = (state: State) => state.peerBannerOpen;
-export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
-export const getShouldIncrementPricedJobCount = (state: State) => state.shouldIncrementPricedJobCount;
-export const getPricedJobTitleHistory = (state: State) => state.pricedJobTitleHistory;

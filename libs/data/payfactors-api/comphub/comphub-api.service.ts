@@ -22,8 +22,8 @@ export class ComphubApiService {
     return this.payfactorsApiService.post<QuickPriceResponse>(`${this.endpoint}/GetQuickPriceData`, request);
   }
 
-  incrementPricedJobCount(): Observable<JobPricingLimitInfoResponse>  {
-    return this.payfactorsApiService.post<JobPricingLimitInfoResponse>(`${this.endpoint}/IncrementPricedJobCount`);
+  getJobPricingLimitInfo(): Observable<JobPricingLimitInfoResponse>  {
+    return this.payfactorsApiService.get<JobPricingLimitInfoResponse>(`${this.endpoint}/GetJobPricingLimitInfo`);
   }
 
   getJobSalaryTrendData(request: JobSalaryTrendRequest): Observable<JobSalaryTrendResponse>  {

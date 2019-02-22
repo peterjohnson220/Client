@@ -6,3 +6,20 @@
   right: 10px;
   bottom: 26px;
 }
+
+.smb-counter {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+  font-weight: 500;
+
+  .count {
+    font-size: 1.5rem;
+    margin-right: .5rem;
+  }
+
+  .label {
+    color: $comphub-header-blue;
+    text-transform: uppercase;
+  }
+}

@@ -41,6 +41,15 @@ describe('Comphub - Main - Trending Job Group', () => {
   });
 
 
+  it('should NOT emit a trendingJobClicked event when handling a trending job click, and the group is disabled', () => {
+    spyOn(instance.trendingJobClicked, 'emit');
+    instance.disabled = true;
+
+    instance.handleTrendingJobClicked('Accountant');
+
+    expect(instance.trendingJobClicked.emit).not.toHaveBeenCalled();
+  });
+
   it('should emit a trendingJobClicked event when handling a trending job click, and there is no selected text', () => {
     instance.winRef = {
       nativeWindow: {

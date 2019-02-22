@@ -31,11 +31,6 @@ export const QuickPriceGridColumnConfiguration: QuickPriceGridColumn[] = [
     CssClasses: 'hide-when-small'
   },
   {
-    HeaderText: 'Skills',
-    IsSortable: false,
-    CssClasses: 'hide-when-small hide-when-medium'
-  },
-  {
     HeaderText: 'Base 50th',
     IsSortable: true,
     SortField: 'Base_50_Annual'
@@ -44,16 +39,6 @@ export const QuickPriceGridColumnConfiguration: QuickPriceGridColumn[] = [
     HeaderText: 'TCC 50th',
     IsSortable: true,
     SortField: 'TCC_50_Annual'
-  },
-  {
-    HeaderText: 'Incs',
-    IsSortable: false,
-    CssClasses: 'text-center hide-when-small'
-  },
-  {
-    HeaderText: 'Orgs',
-    IsSortable: false,
-    CssClasses: 'text-center hide-when-small'
   },
   {
     HeaderText: 'Select',

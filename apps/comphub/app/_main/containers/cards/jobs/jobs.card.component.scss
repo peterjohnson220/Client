@@ -1,2 +1,24 @@
 @import 'comphub-page';
 @import 'comphub-styles';
+@import 'colors';
+
+
+.smb-limit-disabling-message{
+  position: absolute;
+  color: white;
+  display: flex;
+  bottom: 65px;
+  margin: 0 auto;
+  width: 500px;
+  padding: 1rem;
+  border-radius: .25rem;
+  background-color: $pf-additional-colors-green;
+
+  .icon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+  }
+}

@@ -1,6 +1,9 @@
+import { JobPricingLimitInfoResponse } from './job-pricing-limit-info-response.model';
+
 export interface QuickPriceResponse {
   Count: number;
   Data: QuickPriceMarketData[];
+  PricingLimitInfo: JobPricingLimitInfoResponse;
 }
 
 export interface QuickPriceMarketData {

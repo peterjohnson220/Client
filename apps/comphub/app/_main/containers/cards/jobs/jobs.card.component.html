@@ -3,7 +3,7 @@
   pageSubTitle="First, let's find a job to price"
   pageIconClass="fa-user-circle"
   [hideBackButton]="true"
-  [nextButtonEnabled]="((selectedJob$ | async)?.length)">
+  [nextButtonEnabled]="(!(jobPricingBlocked$ | async) && (selectedJob$ | async)?.length)">
 
   <ng-container page-content>
 
@@ -13,9 +13,10 @@
           class="w-100 mt-4"
           placeholder="Search for a Job Title..."
           [data]="jobSearchOptions$ | async"
-          [value]="selectedJob$ | async"
+          [value]="!(jobPricingBlocked$ | async) ? (selectedJob$ | async) : ''"
           [filterable]="true"
           [loading]="loadingJobSearchOptions$ | async"
+          [disabled]="jobPricingBlocked$ | async"
           [popupSettings]="popupSettings"
           (valueChange)="handleJobSearchValueChanged($event)"
           (filterChange)="handleJobSearchFilterChange($event)">
@@ -35,6 +36,7 @@
           <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
             <pf-trending-job-group
               [trendingJobGroup]="trendingJobGroup"
+              [disabled]="jobPricingBlocked$ | async"
               (trendingJobClicked)="handleTrendingJobClicked($event)">
             </pf-trending-job-group>
           </div>
@@ -42,6 +44,21 @@
       </div>
     </div>
 
+
+  </ng-container>
+
+  <ng-container custom-actions>
+    <div class="smb-limit-disabling-message" *ngIf="jobPricingBlocked$ | async">
+      <div class="icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="message">
+        <div class="mb-2">Congratulations</div>
+
+        <div>it looks like you've already priced {{(jobPricingLimitInfo$ | async)?.Available}} jobs!</div>
+        <div>Contact smb@payfactors.com to keep this momentum going.</div>
+      </div>
+    </div>
   </ng-container>
 
 </pf-card-layout>

@@ -1,4 +1,5 @@
 <div class="comphub-page">
+
   <div class="page-header">
     <i class="fa {{pageIconClass}} page-icon" aria-hidden="true"></i>
     <span class="page-title">{{pageTitle}}</span>
@@ -6,6 +7,13 @@
   <div>{{pageSubTitle}}</div>
 
   <ng-content select="[page-content]"></ng-content>
+
+  <div class="smb-counter">
+    <div *ngIf="!!jobPricingLimitInfo && (!(jobPricingBlocked$ | async) || (selectedPageId$ | async) !== comphubPages.Jobs)">
+      <span class="count">{{formattedLimit}}</span>
+      <span class="label">Jobs Priced</span>
+    </div>
+  </div>
 
   <div class="actions-section">
     <button *ngIf="!hideBackButton"

@@ -7,19 +7,20 @@ import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
+import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
-import { PayfactorsApiModelMapper } from '../helpers';
+import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
 import { ComphubPages } from '../data';
 
 @Injectable()
 export class JobsCardEffects {
 
   @Effect()
-  setContext$ = this.actions$
+  getTrendingJobs$ = this.actions$
     .ofType(fromJobsCardActions.GET_TRENDING_JOBS)
     .pipe(
       switchMap(() => {
@@ -55,13 +56,20 @@ export class JobsCardEffects {
     .ofType(fromJobsCardActions.SET_SELECTED_JOB)
     .pipe(
       map((action: fromJobsCardActions.SetSelectedJob) => action.payload),
-      mergeMap((jobTitle) => [
-        new fromDataCardActions.ClearSelectedJobData(),
-        new fromComphubPageActions.ResetAccessiblePages(),
-        new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: jobTitle}),
-        new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data])
+      mergeMap((payload) => {
+        const actions = [];
 
-      ])
+        actions.push(new fromComphubPageActions.ResetAccessiblePages());
+        actions.push(new fromDataCardActions.ClearSelectedJobData());
+        actions.push( new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Jobs, subTitle: payload.jobTitle}));
+        actions.push(new fromComphubPageActions.AddAccessiblePages([ComphubPages.Markets, ComphubPages.Data]));
+
+        if (payload.navigateToNextCard) {
+          actions.push(new fromComphubPageActions.NavigateToNextCard());
+        }
+
+        return actions;
+      })
     );
 
   @Effect()
