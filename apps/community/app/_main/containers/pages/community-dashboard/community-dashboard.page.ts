@@ -10,6 +10,7 @@ import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
 import { BrowserDetectionService } from 'libs/core/services';
 
+declare var InitializeUserVoice: any;
 
 @Component({
   selector: 'pf-community-dashboard-page',
@@ -249,6 +250,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    if (typeof InitializeUserVoice !== 'undefined') {
+      InitializeUserVoice();
+    }
   }
 
   ngOnDestroy() {
