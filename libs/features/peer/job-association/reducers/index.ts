@@ -119,3 +119,9 @@ export const getCompanyJobsLoadingError = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.loadingError
 );
+export const getCompanyJobsSearchTerm = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.searchTerm
+);
+
+

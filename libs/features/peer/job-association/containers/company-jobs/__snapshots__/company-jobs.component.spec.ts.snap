@@ -2,58 +2,31 @@
 
 exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
+  companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}
   gridState$={[Function Store]}
   loading$={[Function Store]}
   loadingError$={[Function Store]}
+  searchTerm=""
+  searchTermSubscription={[Function Subscriber]}
   store={[Function Store]}
   tooltipDir="undefined"
-  totalCompanyJobsGridItems$={[Function Observable]}
+  totalCompanyJobsGridItems$={[Function Store]}
 >
   <h2>
     Company Jobs
   </h2><div
-    class="d-flex"
+    class="filters position-relative w-50 d-flex"
   >
     <i
       class="fas fa-search"
     />
-    <input
-      placeholder="Accountant"
-      type="text"
-    />
-    <label>
-      <input
-        type="checkbox"
-      />
-       Associated 
-    </label>
-    <label
-      class="testClass"
-    >
-      Job Family:
-    </label>
-    <label>
-      <select>
-        <option
-          value="1"
-        >
-          Airline
-        </option>
-        <option
-          value="2"
-        >
-          Accounting
-        </option>
-        <option
-          value="3"
-        >
-          Restaurant
-        </option>
-      </select>
-    </label>
-  </div><label>
-     company jobs: 123 total
+    <pf-input-debounce />
+  </div><label
+    class="text-uppercase"
+    data-qa-id="lbl-company-jobs-total"
+  >
+     company jobs: 0 total
   
   </label><div
     class="grid-container position-relative"
@@ -78,11 +51,15 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           <kendo-grid-column
             field="JobTitle"
             title="Job Title"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobCode"
             title="Job Code"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobFamily"
             title="Job Family"
@@ -95,6 +72,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           >
             
           </kendo-grid-column>
+          
         </kendo-grid>
       </div>
     </pf-async-container>
