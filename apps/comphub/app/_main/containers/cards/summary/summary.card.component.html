@@ -5,31 +5,38 @@
   [hideNextButton]="true">
 
   <ng-container page-content>
-    <h4 class="uppercase-header mt-4 mb-4">Pricing Summary</h4>
-    <div class="d-flex flex-column flex-lg-row summary-container">
-      <div class="mr-4">
-        <div class="d-flex flex-row justify-content-between flex-wrap">
-          <div class="mb-4 mr-5">
+    <div class="summary-container row mt-4">
+      <div class="col left-container">
+        <div class="d-flex flex-row mb-4">
+          <div class="mr-5">
             <span>Job Title</span>
             <div><h4 class="header-blue">{{jobData?.JobTitle}}</h4></div>
           </div>
-          <div class="d-flex flex-row flex-wrap mb-4">
-            <div class="width-100">
-              <span>Currency</span>
-              <div><h4 class="header-blue">{{defaultCurrency}}</h4></div>
-            </div>
-            <div class="width-100">
-              <span>Rate</span>
-              <div><h4 class="header-blue">{{selectedRate}}</h4></div>
-            </div>
-            <div>
-              <span>Market</span>
-              <div><h4 class="header-blue">{{paymarket?.PayMarketName}}</h4></div>
-            </div>
+        </div>
+        <div class="d-flex flex-row mb-4">
+          <div class="mr-5">
+            <span>Effective Date</span>
+            <div><h4 class="header-blue">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</h4></div>
+          </div>
+          <div class="mr-5">
+            <span>Rate</span>
+            <div><h4 class="header-blue">{{selectedRate}}</h4></div>
+          </div>
+          <div class="mr-5">
+            <span>FLSA</span>
+            <div><h4 class="header-blue">{{jobData?.FLSAStatus || '-'}}</h4></div>
+          </div>
+          <div class="mr-5">
+            <span>Currency</span>
+            <div><h4 class="header-blue">{{defaultCurrency}}</h4></div>
+          </div>
+          <div>
+            <span>Market</span>
+            <div><h4 class="header-blue paymarket-name" [title]="paymarket?.PayMarketName">{{paymarket?.PayMarketName}}</h4></div>
           </div>
         </div>
-        <div class="d-flex flex-row flex-wrap mb-4">
-          <div class="width-300">
+        <div class="d-flex flex-row mb-4">
+          <div class="width-250">
             <span>Base Salary</span>
             <div class="d-flex flex-row">
               <h2 class="currency-sign">$</h2>
@@ -44,7 +51,7 @@
               </pf-salary-bar-chart>
             </div>
           </div>
-          <div class="width-300">
+          <div class="width-250">
             <span>Total Cash Compensation</span>
             <div class="d-flex flex-row">
               <h2 class="currency-sign">$</h2>
@@ -67,10 +74,12 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-lg-7">
-        <span>Job Description</span>
-        <div class="job-description">
-          {{jobData?.JobDescription}}
+      <div class="right-container col">
+        <div class="d-flex flex-column">
+            <span>Job Description</span>
+            <div class="job-description">
+              {{jobData?.JobDescription}}
+            </div>
         </div>
       </div>
     </div>

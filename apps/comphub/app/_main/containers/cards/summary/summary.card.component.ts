@@ -28,6 +28,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   paymarket: PricingPaymarket;
   defaultCurrency = 'USD';
   selectedRate: RateType;
+  firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
 
   constructor(
     private store: Store<fromComphubMainReducer.State>

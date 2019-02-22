@@ -2,13 +2,10 @@
 @import 'comphub-styles';
 @import 'comphub-variables';
 @import 'colors';
+@import 'common/common-variables';
 
 :host::ng-deep .close-app-btn{
   right: 50px;
-}
-
-.summary-container {
-  padding-right: 10rem;
 }
 
 .header-blue {
@@ -20,12 +17,13 @@
   line-height: 3.4rem;
 }
 
-.width-100 {
-  width: 100px;
+.width-250 {
+  width: 250px;
 }
 
-.width-300 {
-  width: 250px;
+.paymarket-name {
+  max-width: 300px;
+  @extend %ellipsis-overflowing-text;
 }
 
 .job-description {
@@ -33,6 +31,7 @@
   padding: 1rem;
   font-weight: $comphub-bold-font-weight;
   font-size: 16px;
+  min-width: 400px;
 }
 
 .badge {
@@ -42,4 +41,18 @@
   background-color: $comphub-primary-blue;
   color: white;
   font-size: $comphub-font-size;
+}
+
+.right-container {
+  padding-right: 10rem;
+}
+
+@media (max-width: 1549px) {
+  .left-container, .right-container {
+    max-width: 100% !important;
+    flex-basis: 100%;
+  }
+  .paymarket-name {
+    max-width: 100%;
+  }
 }

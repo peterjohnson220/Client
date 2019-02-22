@@ -63,6 +63,7 @@ export class PayfactorsApiModelMapper {
         JobTitle: q.JobTitle,
         JobDescription: q.JobDescription,
         Education: q.Education,
+        FLSAStatus: q.FLSAStatus,
         YearsOfExperience: q.YearsOfExperience,
         ManagesEmployees: q.ManagesEmployees,
         Skills: q.Skills,
