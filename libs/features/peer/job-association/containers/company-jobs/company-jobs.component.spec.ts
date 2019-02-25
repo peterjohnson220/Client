@@ -5,7 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
 
-import { HighlightTextPipe } from 'libs/core/pipes';
+import { HighlightTextPipe, JobDescriptionParserPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum } from 'libs/models/common';
@@ -27,7 +27,7 @@ describe('CompanyJobsComponent', () => {
           feature_job_association: combineReducers(fromCompanyJobsReducer.reducers)
         }),
       ],
-      declarations: [ CompanyJobsComponent, HighlightTextPipe ],
+      declarations: [ CompanyJobsComponent, HighlightTextPipe, JobDescriptionParserPipe ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
       .compileComponents();

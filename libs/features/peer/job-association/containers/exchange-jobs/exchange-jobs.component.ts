@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { GridDataResult, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, GridComponent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
@@ -20,6 +20,7 @@ import * as fromGridActions from 'libs/core/actions/grid.actions';
 export class ExchangeJobsComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
   @ViewChild(InputDebounceComponent) public jobTitleSearchComponent: InputDebounceComponent;
+  @ViewChild(GridComponent) public grid: GridComponent;
 
   peerExchangeJobs$: Observable<GridDataResult>;
   totalPeerExchangeJobs$: Observable<number>;
@@ -65,6 +66,19 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.JobAssociationModalPeerExchangeJobs, state));
     this.store.dispatch(new peerExchangeJobsActions.LoadExchangeJobs());
+  }
+
+  handleDetailExpand(event: any): void {
+    // determine how many results we have in the grid
+    const gridData = this.grid.data as any;
+    const totalRows = gridData.data.length;
+
+    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
+    for (let i = 0; i < totalRows; i++) {
+      if (i !== event.index) {
+        this.grid.collapseRow(i);
+      }
+    }
   }
 
   updateSearchFilter(searchTerm: string): void {
