@@ -2,14 +2,22 @@
 
 exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
+  companyJobGridDataResult={[Function Object]}
   companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}
+  companyJobsGridItemsDataSubscription={[Function Subscriber]}
+  exchangeJobAssociations={[Function Array]}
+  exchangeJobAssociations$={[Function Store]}
+  exchangeJobAssociationsSubscription={[Function Subscriber]}
   grid="undefined"
   gridState$={[Function Store]}
+  isRowSelected={[Function Function]}
   loading$={[Function Store]}
   loadingError$={[Function Store]}
+  maxSelectionThreshold={[Function Number]}
   searchTerm=""
   searchTermSubscription={[Function Subscriber]}
+  selectedCompanyJobIds={[Function Array]}
   store={[Function Store]}
   tooltipDir="undefined"
   totalCompanyJobsGridItems$={[Function Store]}
@@ -27,7 +35,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
     class="text-uppercase"
     data-qa-id="lbl-company-jobs-total"
   >
-     company jobs: 0 total
+     company jobs: 0 total | selected: 0
   
   </label><div
     class="grid-container position-relative"
@@ -44,9 +52,14 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
         <kendo-grid
           style="height: 100%;"
         >
+          <kendo-grid-checkbox-column
+            showselectall="true"
+          >
+            
+          </kendo-grid-checkbox-column>
           <kendo-grid-column
             field="CompanyJobId"
-            hidden="true"
+            hidden="hidden"
             title="Id"
           />
           <kendo-grid-column

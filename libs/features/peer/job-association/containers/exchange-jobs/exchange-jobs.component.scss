@@ -1,0 +1,24 @@
+@import "colors";
+
+.associate-button {
+  border: 0;
+  background-color: $pf-brand-secondary-color;
+  color: #FFF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.associate-button:disabled {
+  color: #CCC;
+  cursor: not-allowed;
+}
+
+.view-button {
+  border: 0;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.view-button-active {
+  color: $pf-brand-secondary-color;
+}

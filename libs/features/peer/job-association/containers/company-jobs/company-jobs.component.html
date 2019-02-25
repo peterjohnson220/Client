@@ -10,7 +10,7 @@
   </pf-input-debounce>
 </div>
 <label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
-  company jobs: {{ totalCompanyJobsGridItems$ | async }} total
+  company jobs: {{ totalCompanyJobsGridItems$ | async }} total | selected: {{selectedCompanyJobIds.length}}
 </label>
 <div class="grid-container position-relative">
   <pf-async-container
@@ -33,16 +33,27 @@
                 [skip]="(gridState$ | async)?.skip"
                 [sort]="(gridState$ | async)?.sort"
                 [filter]="(gridState$ | async)?.filter"
+                [selectable]="true"
                 [sortable]="true"
                 [resizable]="true"
-                [selectable]="true"
                 [pageable]="{
                   buttonCount: 5,
                   info: true
                  }"
                 (dataStateChange)="handleDataStateChange($event)"
-                (detailExpand)="handleDetailExpand($event)">
-      <kendo-grid-column field="CompanyJobId" title="Id" hidden="true"></kendo-grid-column>
+                (detailExpand)="handleDetailExpand($event)"
+                [kendoGridSelectBy]="'CompanyJobId'"
+                [rowSelected]="isRowSelected"
+                (selectionChange)="handleSelectionChange($event)">
+      <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35">
+        <ng-template kendoGridHeaderTemplate>
+          <input class="k-checkbox" id="selectAllCheckboxId" kendoGridSelectAllCheckbox
+                 [state]="getSelectAllState()"
+                 (click)="handleSelectAllClick()">
+          <label class="k-checkbox-label" for="selectAllCheckboxId"></label>
+        </ng-template>
+      </kendo-grid-checkbox-column>
+      <kendo-grid-column field="CompanyJobId" title="Id" hidden="hidden"></kendo-grid-column>
       <kendo-grid-column field="JobTitle" title="Job Title">
         <ng-template kendoGridCellTemplate let-dataItem>
           <div [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
@@ -63,12 +74,17 @@
       </kendo-grid-column>
       <kendo-grid-column field="AssociationStatus" title="Status" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="dataItem.IsAssociated">Associated</span>
-          <span *ngIf="!dataItem.IsAssociated">Not Associated</span>
+          <span *ngIf="dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId); else notAssociated;">
+            Associated
+          </span>
+          <ng-template #notAssociated>
+            Not Associated
+          </ng-template>
         </ng-template>
       </kendo-grid-column>
       <ng-template kendoGridDetailTemplate let-dataItem>
-        <p *ngIf="dataItem.JobDescription && dataItem.JobDescription !== '#N/A'" [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
+        <p *ngIf="dataItem.JobDescription && dataItem.JobDescription !== '#N/A'"
+           [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
         <p *ngIf="!dataItem.JobDescription || dataItem.JobDescription === '#N/A'" class="font-italic">
           No Job Description Available
         </p>

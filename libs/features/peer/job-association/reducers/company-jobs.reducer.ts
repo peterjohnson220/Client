@@ -12,6 +12,7 @@ export interface State extends EntityState<CompanyJob> {
   loadingError: boolean;
   total: number;
   searchTerm: string;
+  selectedCompanyJobs: CompanyJob[];
 }
 
 // Define Adapter
@@ -23,6 +24,7 @@ export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob
 const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
+  selectedCompanyJobs: [],
   total: 0,
   searchTerm: ''
 });
@@ -62,6 +64,14 @@ export function reducer(state, action) {
             searchTerm: featureAction.payload,
           };
         }
+        case fromCompanyJobsActions.SELECT_COMPANY_JOBS: {
+          let selectedCompanyJobs = [ ...featureState.selectedCompanyJobs ];
+          selectedCompanyJobs = featureAction.payload;
+          return {
+            ...featureState,
+            selectedCompanyJobs: featureAction.payload
+          };
+        }
         default: {
           return featureState;
         }
@@ -75,4 +85,4 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
-export const getSearchTerm = (state: State) => state.searchTerm;
+export const getSelectedCompanyJobs = (state: State) => state.selectedCompanyJobs;
