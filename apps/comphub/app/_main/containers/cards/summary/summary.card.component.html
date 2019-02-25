@@ -66,6 +66,13 @@
               </pf-salary-bar-chart>
             </div>
           </div>
+          <div class="width-250">
+            <span>Salary Trend</span>
+            <pf-salary-trend-chart
+              [isHourly]="isHourly"
+              [salaryTrendData]="jobSalaryTrendData">
+            </pf-salary-trend-chart>
+          </div>
         </div>
         <div *ngIf="jobData?.Skills.length">
           <div class="mb-2">Top Skills</div>

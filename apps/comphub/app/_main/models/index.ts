@@ -7,3 +7,4 @@ export * from './market-data-scope';
 export * from './job-data.model';
 export * from './quick-price-grid-column.model';
 export * from './job-pricing-limit-info.model';
+export * from './job-salary-trend.model';

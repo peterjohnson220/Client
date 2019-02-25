@@ -5,6 +5,7 @@ export interface QuickPriceResponse {
 
 export interface QuickPriceMarketData {
   JobId: number;
+  JobCode: string;
   JobTitle: string;
   JobDescription: string;
   Education: string;

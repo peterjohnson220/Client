@@ -9,6 +9,7 @@ import * as fromComphubPageReducer from './comphub-page.reducer';
 import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromMarketsCardReducer from './markets-card.reducer';
 import * as fromDataCardReducer from './data-card.reducer';
+import * as fromSummaryCardReducer from './summary-card.reducer';
 
 // Feature area state
 export interface ComphubMainState {
@@ -17,6 +18,7 @@ export interface ComphubMainState {
   addPayMarketForm: fromAddPayMarketFormReducer.State;
   marketsCard: fromMarketsCardReducer.State;
   dataCard: fromDataCardReducer.State;
+  summaryCard: fromSummaryCardReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   comphubPage: fromComphubPageReducer.reducer,
   marketsCard: fromMarketsCardReducer.reducer,
   dataCard: fromDataCardReducer.reducer,
-  addPayMarketForm: fromAddPayMarketFormReducer.reducer
+  addPayMarketForm: fromAddPayMarketFormReducer.reducer,
+  summaryCard: fromSummaryCardReducer.reducer
 };
 
 // Select Feature Area
@@ -60,6 +63,11 @@ export const selectMarketsCardState = createSelector(
 export const selectDataCardState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.dataCard
+);
+
+export const selectSummaryCardState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.summaryCard
 );
 
 // Jobs Card
@@ -242,4 +250,20 @@ export const getInfoBannerOpen = createSelector(
 export const getShowSkipButton = createSelector(
   selectAddPayMarketFormState,
   fromAddPayMarketFormReducer.getShowSkipButton
+);
+
+// Summary Card
+export const getSalaryTrendData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSalaryTrendData
+);
+
+export const getLoadingSalaryTrendData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getLoadingSalaryTrendData
+);
+
+export const getLoadingSalaryTrendDataError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getLoadingSalaryTrendError
 );
