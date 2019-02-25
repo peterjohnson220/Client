@@ -129,7 +129,7 @@
 
   <!--No Data Popup-->
   <mgl-popup
-    *ngIf="(peerMapShowNoData$ | async)"
+    *ngIf="(peerMapShowNoData$ | async) && !(peerMapAutoZooming$ | async)"
     [lngLat]="center"
     [closeOnClick]="false"
     [closeButton]="false"
