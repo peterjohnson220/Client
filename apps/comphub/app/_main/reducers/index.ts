@@ -106,11 +106,6 @@ export const getSelectedJob = createSelector(
   fromJobsCardReducer.getSelectedJob
 );
 
-export const getSelectedJobHistory = createSelector(
-  selectJobsCardState,
-  fromJobsCardReducer.getSelectedJobHistory
-);
-
 // Comphub Page
 export const getCards = createSelector(
   selectComphubPageState,
@@ -130,6 +125,16 @@ export const getEnabledPages = createSelector(
 export const getPagesAccessed = createSelector(
   selectComphubPageState,
   fromComphubPageReducer.getPagesAccessed
+);
+
+export const getJobPricingLimitInfo = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getJobPricingLimitInfo
+);
+
+export const getJobPricingBlocked = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getJobPricingBlocked
 );
 
 // Markets Card
@@ -204,22 +209,6 @@ export const getSelectedRate = createSelector(
   selectDataCardState,
   fromDataCardReducer.getSelectedRate
 );
-
-export const getJobPricingLimitInfo = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getJobPricingLimitInfo
-);
-
-export const getShouldIncrementPricedJobCount = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getShouldIncrementPricedJobCount
-);
-
-export const getPricedJobTitleHistory = createSelector(
-  selectDataCardState,
-  fromDataCardReducer.getPricedJobTitleHistory
-);
-
 
 // Add Pay Market Form
 export const getAddPayMarketFormOpen = createSelector(

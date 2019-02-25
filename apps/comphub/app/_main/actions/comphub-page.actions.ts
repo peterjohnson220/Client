@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
+import { JobPricingLimitInfo } from '../models';
 
 export const INIT = '[Comphub/Comphub Page] Init Comphub Page';
 export const NAVIGATE_TO_CARD = '[Comphub/Comphub Page] Navigate to Card';
@@ -11,6 +12,8 @@ export const REMOVE_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Remove Accessible
 export const RESET_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Reset Accessible Pages';
 export const RESET_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Pages Accessed';
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
+export const GET_JOB_PRICING_LIMIT_INFO = '[Comphub/Data Card] Get Job Pricing Limit Info';
+export const SET_JOB_PRICING_LIMIT_INFO = '[Comphub/Data Card] Set Job Pricing Limit Info';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -66,6 +69,18 @@ export class UpdateCardSubtitle implements Action {
   constructor(public payload: { cardId: ComphubPages, subTitle: string }) {}
 }
 
+export class GetJobPricingLimitInfo implements Action {
+  readonly type = GET_JOB_PRICING_LIMIT_INFO;
+
+  constructor() {}
+}
+
+export class SetJobPricingLimitInfo implements Action {
+  readonly type = SET_JOB_PRICING_LIMIT_INFO;
+
+  constructor(public payload: JobPricingLimitInfo) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -75,4 +90,6 @@ export type Actions
   | RemoveAccessiblePages
   | ResetAccessiblePages
   | ResetPagesAccessed
-  | UpdateCardSubtitle;
+  | UpdateCardSubtitle
+  | GetJobPricingLimitInfo
+  | SetJobPricingLimitInfo;

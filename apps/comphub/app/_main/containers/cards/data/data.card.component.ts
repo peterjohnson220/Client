@@ -8,8 +8,7 @@ import { SortDescriptor } from '@progress/kendo-data-query';
 import { ComphubPages, Rates, RateType } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem, JobPricingLimitInfo
-} from '../../../models';
+  KendoDropDownItem } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { WindowRef } from '../../../services';
@@ -47,7 +46,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
   peerBannerOpen$: Observable<boolean>;
-  jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
 
   // Subscriptions
   jobTitleSubscription: Subscription;
@@ -69,7 +67,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
-    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
 
     this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }

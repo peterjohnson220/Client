@@ -2,14 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { SortOption } from 'libs/models/payfactors-api/comphub/request';
-import * as fromRootReducer from 'libs/state/state';
-import { UserContext } from 'libs/models/security';
-import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
@@ -22,42 +19,6 @@ import { ComphubPages } from '../data';
 
 @Injectable()
 export class DataCardEffects {
-
-
-  @Effect()
-  cardOpened$ = this.actions$
-    .ofType(fromDataCardActions.CARD_OPENED)
-    .pipe(
-      withLatestFrom(
-        this.store.select(fromRootReducer.getUserContext),
-        this.store.select(fromComphubReducer.getSelectedJob),
-        this.store.select(fromComphubReducer.getPricedJobTitleHistory),
-        (action, userContext, selectedJob, pricedJobTitleHistory) => ({ selectedJob, pricedJobTitleHistory, userContext })
-      ),
-      map((data) => new fromDataCardActions.ShouldIncrementPricedJobCount(
-        this.shouldIncrementPricingLimit(data.selectedJob, data.pricedJobTitleHistory, data.userContext))
-      )
-    );
-
-  @Effect()
-  incrementJobPricedCount$ = this.actions$
-    .ofType(fromDataCardActions.INCREMENT_PRICED_JOB_COUNT)
-    .pipe(
-      switchMap(() => {
-        return this.comphubApiService.incrementPricedJobCount()
-          .pipe(
-            withLatestFrom(
-              this.store.select(fromComphubReducer.getSelectedJob), (response, selectedJob) => ({ response, selectedJob })
-            ),
-            mergeMap((data) => [
-                new fromDataCardActions.SetJobPricingLimitInfo({ Used: data.response.Used, Available: data.response.Available }),
-                new fromDataCardActions.ShouldIncrementPricedJobCount(false),
-                new fromDataCardActions.AddToPricedJobTitleHistory(data.selectedJob)
-              ]
-            )
-          );
-      })
-    );
 
   @Effect()
   getQuickPriceMarketData$ = this.actions$
@@ -74,20 +35,13 @@ export class DataCardEffects {
             Sort: DataCardEffects.getSortOption(action.payload)
           })
             .pipe(
-              withLatestFrom(
-                this.store.select(fromComphubReducer.getShouldIncrementPricedJobCount),
-                (response, shouldIncrement) => ({ response, shouldIncrement })
-              ),
-              mergeMap((data) => {
-                const actions = [];
-                const gridDataResult = PayfactorsApiModelMapper.mapPriceDataToGridDataResult(data.response);
-                actions.push(new fromDataCardActions.GetQuickPriceMarketDataSuccess(gridDataResult));
+              mergeMap((response) => {
+                const gridDataResult = PayfactorsApiModelMapper.mapPriceDataToGridDataResult(response);
 
-                if (data.shouldIncrement) {
-                  actions.push(new fromDataCardActions.IncrementPricedJobCount());
-                }
-
-                return actions;
+                return [
+                  new fromDataCardActions.GetQuickPriceMarketDataSuccess(gridDataResult),
+                  new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo)
+                  ];
               }),
               catchError(() => of(new fromDataCardActions.GetQuickPriceMarketDataError()))
             );
@@ -135,11 +89,6 @@ export class DataCardEffects {
       };
     }
     return null;
-  }
-
-  private shouldIncrementPricingLimit(jobTitle: string, history: string[], userContext: UserContext): boolean {
-    return !history.some(h => h.toLowerCase() === jobTitle.toLowerCase())
-      && userContext.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness;
   }
 
   constructor(
