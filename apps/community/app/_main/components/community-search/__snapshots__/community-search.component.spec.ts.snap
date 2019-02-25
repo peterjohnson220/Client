@@ -20,7 +20,7 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
       </span>
     </div>
     <input
-      class="form-control form-control-lg community-border-radius mt-2 ml-2 au-community-search"
+      class="form-control form-control-lg community-border-radius mt-2 ml-2 input-body au-community-search"
       placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..."
       type="text"
     />
