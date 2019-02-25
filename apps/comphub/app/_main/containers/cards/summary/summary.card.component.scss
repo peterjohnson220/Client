@@ -53,6 +53,10 @@
     flex-basis: 100%;
   }
   .paymarket-name {
-    max-width: 100%;
+    max-width: calc(100vw - 800px);
   }
+}
+
+h4 {
+  line-height: 1.5;
 }
