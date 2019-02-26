@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 
 import {
   QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
-  JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse, PayMarketDataResponse
+  JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
+  PayMarketDataResponse, SharePricingSummaryRequest
 } from '../../../models/payfactors-api/comphub';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -33,5 +34,9 @@ export class ComphubApiService {
   getPaymarketData(countryCode: string): Observable<PayMarketDataResponse>  {
     return this.payfactorsApiService.get<PayMarketDataResponse>(`${this.endpoint}/GetAccessiblePayMarkets`,
       { params: { countryCode: countryCode } });
+  }
+
+  sharePricingSummary(request: SharePricingSummaryRequest): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/SharePricingSummary`, request);
   }
 }

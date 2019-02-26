@@ -261,3 +261,18 @@ export const getLoadingSalaryTrendDataError = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getLoadingSalaryTrendError
 );
+
+export const getSharePricingSummaryModalOpen = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryModalOpen
+);
+
+export const getSharePricingSummaryError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryError
+);
+
+export const getSharePricingSummaryConflict = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryConflict
+);

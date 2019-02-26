@@ -28,7 +28,7 @@ import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardE
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
-  SalaryTrendChartComponent } from './components';
+  SalaryTrendChartComponent, SharePricingSummaryModalComponent } from './components';
 import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
 
@@ -78,6 +78,7 @@ import { MainRoutingModule } from './main-routing.module';
     JobLimitCounterComponent,
     SalaryBarChartComponent,
     SalaryTrendChartComponent,
+    SharePricingSummaryModalComponent,
 
     // Pages
     ComphubPageComponent,

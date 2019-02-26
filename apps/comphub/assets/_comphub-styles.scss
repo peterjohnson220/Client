@@ -1,6 +1,6 @@
 @import 'comphub-variables';
 
-.comphub-primary-btn {
+.comphub-primary-btn, %comphub-primary-btn {
   background-color: $comphub-primary-blue;
   border: 1px solid $comphub-primary-blue;
   color: white;

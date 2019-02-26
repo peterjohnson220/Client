@@ -106,5 +106,19 @@
          (click)="handleDownloadPdfClicked()">
       <i class="fas fa-file-pdf"></i> Download
     </div>
+
+    <div class="share-btn"
+         [attr.data-qa-id]="'btn-share'"
+         (click)="handleShareClicked()">
+      <i class="fas fa-share"></i> Share
+    </div>
   </ng-container>
 </pf-card-layout>
+
+<pf-share-pricing-summary-modal
+  [isOpen$]="sharePricingSummaryModalOpen$"
+  [sharingConflict]="sharePricingSummaryConflict$ | async"
+  [sharingError]="sharePricingSummaryError$ | async"
+  (cancelClick)="handleShareModalCancelClicked()"
+  (sendClick)="handleShareModalSendClicked($event)">
+</pf-share-pricing-summary-modal>
