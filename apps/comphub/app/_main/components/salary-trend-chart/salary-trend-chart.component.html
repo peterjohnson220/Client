@@ -1,9 +1,9 @@
 <div *ngIf="salaryTrendData?.Data.length">
   <div class="d-flex flex-row">
-    <h2 [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
+    <h2 *ngIf="salaryTrendData.PercentageChange !== 0" [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
       {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}
     </h2>
-    <h1 class="header-blue">{{absoluteValueOfPercentageChange | number : '1.0-2'}}%</h1>
+    <h1 class="header-blue">{{absoluteValueOfPercentageChange | number : '1.2-2'}}%</h1>
     <div class="date-range ml-auto" *ngIf="salaryTrendData?.Data">
       ({{salaryTrendData.Data[0].EffectiveDate | date : 'MM/yyyy'}} - {{salaryTrendData.Data[salaryTrendData.Data.length - 1].EffectiveDate | date : 'MM/yyyy'}})
     </div>

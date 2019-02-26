@@ -11,25 +11,7 @@ export interface JobSalaryTrend {
 
 export function generateMockJobSalaryTrend(): JobSalaryTrend {
   return {
-    PercentageChange: 1.7659648419365186,
-    Data: [
-      {
-        SalaryAnnual: 84846,
-        SalaryHourly: 40.79133173076923,
-        EffectiveDate: new Date(2018, 2, 1)
-      },
-      {
-        SalaryAnnual: 86344.32,
-        SalaryHourly: 41.511692307692314,
-        EffectiveDate: new Date(2019, 2, 1)
-      }
-    ]
-  };
-}
-
-export function generateMockJobSalaryTrendNegativePercentageChange(): JobSalaryTrend {
-  return {
-    PercentageChange: -1.7659648419365186,
+    PercentageChange: 1.7962441701274379,
     Data: [
       {
         SalaryAnnual: 84846,
