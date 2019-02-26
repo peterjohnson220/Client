@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
+import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -16,7 +17,7 @@ import { DataCardHelper } from '../../../helpers';
   styleUrls: ['./summary.card.component.scss']
 })
 export class SummaryCardComponent implements OnInit, OnDestroy {
-
+  @ViewChild('pdf') pdf: PDFExportComponent;
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedRate$: Observable<RateType>;
@@ -69,6 +70,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
 
   handlePriceNewJobClicked() {
     this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
+  }
+
+  handleDownloadPdfClicked() {
+    this.pdf.saveAs(`PricingSummaryFor${this.jobData.JobTitle.split(' ').join('')}`);
   }
 
   get isHourly(): boolean {

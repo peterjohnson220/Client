@@ -60,3 +60,34 @@
 h4 {
   line-height: 1.5;
 }
+
+.download-pdf {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 2rem;
+
+  svg {
+    font-size: 1.75rem;
+    margin-right: .45rem;
+    color: $comphub-primary-blue;
+  }
+}
+
+.pdf-header {
+  display: none;
+}
+
+:host ::ng-deep .k-pdf-export {
+  .pdf-header{
+    text-transform: uppercase;
+    color: $comphub-header-blue;
+    display: block;
+    font-weight: bold;
+    font-size: 1.25rem;
+  }
+
+  .right-container{
+    padding-right: 0;
+  }
+}

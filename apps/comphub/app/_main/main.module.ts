@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { ChartModule } from '@progress/kendo-angular-charts';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import 'hammerjs';
 import {
   NgbModalModule,
@@ -50,6 +51,7 @@ import { MainRoutingModule } from './main-routing.module';
       SummaryCardEffects
     ]),
     PerfectScrollbarModule,
+    PDFExportModule,
 
     // Routing
     MainRoutingModule,
