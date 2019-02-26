@@ -43,7 +43,8 @@ export class DataCardEffects {
                   new fromComphubPageActions.SetJobPricingLimitInfo(response.PricingLimitInfo)
                   ];
               }),
-              catchError(() => of(new fromDataCardActions.GetQuickPriceMarketDataError()))
+              catchError((error) => of(new fromDataCardActions.GetQuickPriceMarketDataError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       ));

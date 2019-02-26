@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -13,6 +13,7 @@ import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
 import { SmbClientHelper } from '../helpers';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class ComphubPageEffects {
@@ -82,6 +83,21 @@ export class ComphubPageEffects {
         return actions;
       })
     );
+
+  @Effect({ dispatch: false })
+  handleApiError$ = this.actions$
+    .ofType(fromComphubPageActions.HANDLE_API_ERROR).pipe(
+      tap((action: fromComphubPageActions.HandleApiError) =>
+        this.redirectForUnauthorized(action.payload)
+      )
+    );
+
+  private redirectForUnauthorized(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
+      window.location.href = '/?' + encodeURIComponent(redirectToAfterSuccessfulLogin);
+    }
+  }
 
   constructor(
     private actions$: Actions,

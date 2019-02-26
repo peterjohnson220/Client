@@ -46,7 +46,8 @@ export class SummaryCardEffects {
                 const salaryTrendData = PayfactorsApiModelMapper.mapJobSalaryTrendToTrendData(response);
                 return new fromSummaryCardActions.GetNationalJobTrendDataSuccess(salaryTrendData);
               }),
-              catchError(() => of(new fromSummaryCardActions.GetNationalJobTrendDataError()))
+              catchError((error) => of(new fromSummaryCardActions.GetNationalJobTrendDataError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       ));
