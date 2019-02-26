@@ -12,6 +12,7 @@ import * as fromRootState from 'libs/state/state';
 
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
+import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromComphubMainReducer from '../reducers';
 
@@ -32,7 +33,8 @@ export class AddPayMarketFormEffects {
           catchError(response => {
             return of(response.status === 400
               ? new fromAddPayMarketFormActions.SavePaymarketConflict()
-              : new fromAddPayMarketFormActions.SavePaymarketError());
+              : new fromAddPayMarketFormActions.SavePaymarketError(),
+              new fromComphubPageActions.HandleApiError(response));
           })
         );
     })

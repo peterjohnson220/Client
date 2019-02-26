@@ -17,13 +17,13 @@ export class PayfactorsApiService {
   get<T>(url: string, options: any = {}, mappingFn = this.extractValueFromOdata): Observable<T> {
     return this.http.get<T>(`${environment.payfactorsApiUrl}${url}`, options).pipe(
       map(mappingFn)
-    ).catch(this.handleError);
+    );
   }
 
   post<T>(url: string, body: any = {}, mappingFn = this.extractValueFromOdata): Observable<T> {
     return this.http.post<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
       map(mappingFn)
-    ).catch(this.handleError);
+    );
   }
 
   downloadFile(url: string, body: any = {}): Observable<boolean> {
@@ -38,19 +38,19 @@ export class PayfactorsApiService {
 
         return this.fileApiService.saveBlobAsFile(blob, fileName);
       })
-    ).catch(this.handleError);
+    );
   }
 
   put<T>(url: string, body: any = {}): Observable<T> {
     return this.http.put<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
       map(this.extractValueFromOdata)
-    ).catch(this.handleError);
+    );
   }
 
   delete<T>(url: string, body: any = {}): Observable<T> {
     return this.http.delete<T>(`${environment.payfactorsApiUrl}${url}`, body).pipe(
       map(this.extractValueFromOdata)
-    ).catch(this.handleError);
+    );
   }
 
   private extractValueFromOdata(response: any) {
@@ -71,20 +71,5 @@ export class PayfactorsApiService {
     }
 
     return token;
-  }
-
-  private handleError(error: any) {
-
-    if (error.status === 401) {
-      let windowLocation = window.location;
-      if (windowLocation !== window.parent.location) {
-        // for apps in ASP modals, redirect the parent location
-        windowLocation = window.parent.location;
-      }
-      const redirectToAfterSuccessfulLogin = windowLocation.pathname + windowLocation.search;
-      windowLocation.href = '/?' + encodeURIComponent(redirectToAfterSuccessfulLogin);
-    }
-
-    return Observable.throw(error);
   }
 }

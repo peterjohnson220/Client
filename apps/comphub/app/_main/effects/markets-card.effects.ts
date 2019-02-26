@@ -39,7 +39,8 @@ export class MarketsCardEffects {
                 }
                 return actions;
               }),
-              catchError(() => of(new fromMarketsCardActions.GetPaymarketsError()))
+              catchError((error) => of(new fromMarketsCardActions.GetPaymarketsError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       )
@@ -55,8 +56,9 @@ export class MarketsCardEffects {
             map((response) =>
               new fromMarketsCardActions.GetMarketDataScopeSuccess(response)
             ),
-            catchError(() => {
-              return of(new fromMarketsCardActions.GetMarketDataScopeError());
+            catchError((error) => {
+              return of(new fromMarketsCardActions.GetMarketDataScopeError(),
+                new fromComphubPageActions.HandleApiError(error));
             })
           );
       })

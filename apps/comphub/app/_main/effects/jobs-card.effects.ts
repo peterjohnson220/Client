@@ -30,7 +30,8 @@ export class JobsCardEffects {
                 const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);
                 return new fromJobsCardActions.GetTrendingJobsSuccess(trendingJobGroups);
               }),
-              catchError(() => of(new fromJobsCardActions.GetTrendingJobsError()))
+              catchError((error) => of(new fromJobsCardActions.GetTrendingJobsError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       ));
@@ -46,7 +47,8 @@ export class JobsCardEffects {
               map(response => {
                 return new fromJobsCardActions.GetJobSearchOptionsSuccess(response);
               }),
-              catchError(() => of(new fromJobsCardActions.GetJobSearchOptionsError()))
+              catchError((error) => of(new fromJobsCardActions.GetJobSearchOptionsError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       ));

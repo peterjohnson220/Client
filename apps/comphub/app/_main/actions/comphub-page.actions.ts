@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { Action } from '@ngrx/store';
 
 import { ComphubPages } from '../data';
@@ -12,8 +14,9 @@ export const REMOVE_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Remove Accessible
 export const RESET_ACCESSIBLE_PAGES = '[Comphub/Comphub Page] Reset Accessible Pages';
 export const RESET_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Pages Accessed';
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
-export const GET_JOB_PRICING_LIMIT_INFO = '[Comphub/Data Card] Get Job Pricing Limit Info';
-export const SET_JOB_PRICING_LIMIT_INFO = '[Comphub/Data Card] Set Job Pricing Limit Info';
+export const GET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Get Job Pricing Limit Info';
+export const SET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Set Job Pricing Limit Info';
+export const HANDLE_API_ERROR = '[Comphub/Comphub Page] Handle API Error';
 
 export class Init implements Action {
   readonly type = INIT;
@@ -81,6 +84,12 @@ export class SetJobPricingLimitInfo implements Action {
   constructor(public payload: JobPricingLimitInfo) {}
 }
 
+export class HandleApiError implements Action {
+readonly type = HANDLE_API_ERROR;
+
+  constructor(public payload: HttpErrorResponse) {}
+}
+
 export type Actions
   = Init
   | NavigateToCard
@@ -92,4 +101,5 @@ export type Actions
   | ResetPagesAccessed
   | UpdateCardSubtitle
   | GetJobPricingLimitInfo
-  | SetJobPricingLimitInfo;
+  | SetJobPricingLimitInfo
+  | HandleApiError;
