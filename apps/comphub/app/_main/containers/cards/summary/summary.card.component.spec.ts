@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -9,6 +10,8 @@ import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { RateType } from '../../../data';
+import { generateFakeJobData } from '../../../models';
+
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
@@ -21,7 +24,9 @@ describe('Comphub - Main - Summary Card Component', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
-        })
+        }),
+        // Bad. Using actual implementation to verify calls.
+        PDFExportModule
       ],
       declarations: [ SummaryCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -61,5 +66,24 @@ describe('Comphub - Main - Summary Card Component', () => {
     const actualValue = instance.calculateDataByRate(value);
 
     expect(actualValue).toEqual(expectedValue);
+  });
+
+  it('should call saveAs on the pdf export view child when handleDownloadPdfClicked clicked', () => {
+    spyOn(instance.pdf, 'saveAs');
+    instance.jobData = generateFakeJobData();
+
+    instance.handleDownloadPdfClicked();
+
+    expect(instance.pdf.saveAs).toHaveBeenCalled();
+  });
+
+  it('should call saveAs with the correct fileName on the pdf export view child when handleDownloadPdfClicked clicked', () => {
+    spyOn(instance.pdf, 'saveAs');
+    instance.jobData = {...generateFakeJobData(), JobTitle: 'This is a job title with spaces'};
+    const expectedFileName = 'PricingSummaryForThisisajobtitlewithspaces';
+
+    instance.handleDownloadPdfClicked();
+
+    expect(instance.pdf.saveAs).toHaveBeenCalledWith(expectedFileName);
   });
 });
