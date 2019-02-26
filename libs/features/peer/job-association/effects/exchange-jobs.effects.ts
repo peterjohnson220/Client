@@ -4,10 +4,11 @@ import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { JobAssociationApiService } from 'libs/data/payfactors-api/peer/job-association-api.service';
+import { GenericMenuItem } from 'libs/models/common';
 
 import * as fromPeerJobsActions from '../actions/exchange-jobs.actions';
 import * as fromPeerJobsReducer from '../reducers';
@@ -31,12 +32,29 @@ export class ExchangeJobsEffects {
         select(fromPeerJobsReducer.getExchangeJobsSearchTerm)),
         (gridState: IGridState, searchTerm) => ({ gridState, searchTerm })
     ),
+    // grab the selected job families
+    withLatestFrom(
+      this.store.pipe(
+        select(fromPeerJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames)),
+        (combined, jobFamilies: string[]) => ({ ...combined, jobFamilies })
+    ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined =>
-      this.jobAssociationApiService.loadExchangeJobs(combined.gridState.grid, combined.searchTerm).pipe(
+      this.jobAssociationApiService.loadExchangeJobs(combined.gridState.grid, combined.searchTerm, combined.jobFamilies).pipe(
         map((gridDataResult: GridDataResult) => new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)),
         catchError(() => of(new fromPeerJobsActions.LoadExchangeJobsError())
         )
+      )
+    )
+  );
+
+  @Effect()
+  getJobFamilies$: Observable<Action> = this.actions$.pipe(
+    ofType(fromPeerJobsActions.LOAD_JOB_FAMILY_FILTER),
+    switchMap(() =>
+      this.jobAssociationApiService.loadJobFamilies().pipe(
+        map((jobFamilies: GenericMenuItem[]) => new fromPeerJobsActions.LoadJobFamilyFilterSuccess(jobFamilies)),
+        catchError(() => of(new fromPeerJobsActions.LoadJobFamilyFilterError()))
       )
     )
   );

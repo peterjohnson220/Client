@@ -30,7 +30,9 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
     <i
       class="fas fa-search"
     />
-    <pf-input-debounce />
+    <pf-input-debounce
+      id="company-jobs-search-box"
+    />
   </div><label
     class="text-uppercase"
     data-qa-id="lbl-company-jobs-total"

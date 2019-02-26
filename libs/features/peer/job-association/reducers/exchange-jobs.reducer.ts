@@ -2,17 +2,24 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
-import { GridTypeEnum } from 'libs/models/common';
+import { GridTypeEnum, GenericMenuItem } from 'libs/models/common';
 
 import * as fromPeerExchangeJobsActions from '../actions/exchange-jobs.actions';
 import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../models/';
 
 export interface State extends EntityState<ExchangeJob> {
+  // grid and search term
   loading: boolean;
   loadingError: boolean;
   total: number;
   searchTerm: string;
   ExchangeJobAssociations: ExchangeJobAssociation[];
+  // job family filter
+  loadingJobFamilyFilter: boolean;
+  loadingJobFamilyFilterSuccess: boolean;
+  loadingJobFamilyFilterError: boolean;
+  isJobFamilyFilterExpanded: boolean;
+  jobFamilyOptions: GenericMenuItem[];
 }
 
 // Define our Adapter
@@ -22,11 +29,18 @@ export const adapter: EntityAdapter<ExchangeJob> = createEntityAdapter<ExchangeJ
 
 // Define our initial state
 const initialState: State = adapter.getInitialState({
+  // grid and search term
   loading: false,
   loadingError: false,
   total: 0,
   searchTerm: '',
-  ExchangeJobAssociations: []
+  ExchangeJobAssociations: [],
+  // job family filter
+  loadingJobFamilyFilter: false,
+  loadingJobFamilyFilterSuccess: false,
+  loadingJobFamilyFilterError: false,
+  isJobFamilyFilterExpanded: false,
+  jobFamilyOptions: []
 });
 
 // Reducer function
@@ -92,6 +106,65 @@ export function reducer(state, action) {
             ExchangeJobAssociations: exchangeJobAssociations
           };
         }
+        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER: {
+          return {
+            ...featureState,
+            loadingJobFamilyFilter: true,
+            loadingJobFamilyFilterError: false
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER_SUCCESS: {
+          return {
+            ...featureState,
+            loadingJobFamilyFilter: false,
+            loadingJobFamilyFilterError: false,
+            jobFamilyOptions: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER_ERROR: {
+          return {
+            ...featureState,
+            loadingJobFamilyFilter: false,
+            loadingJobFamilyFilterError: true
+          };
+        }
+        case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER: {
+          // if a value is explicitly passed use that as the new isExpanded value, otherwise toggle
+          const override = featureAction.payload;
+          const isJobFamilyFilterExpanded = (typeof override !== 'undefined') ? override : !featureState.isJobFamilyFilterExpanded;
+
+          return {
+            ...featureState,
+            isJobFamilyFilterExpanded
+          };
+        }
+        case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER_SELECTION: {
+          const actionOption = featureAction.payload;
+          const jobFamilyOptions = [];
+
+          // loop through the array, then add each option to the new collection with the appropriate IsSelectedValue
+          featureState.jobFamilyOptions.forEach(option => {
+            const isSelected = (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
+            jobFamilyOptions.push({ ...option, IsSelected: isSelected });
+          });
+
+          return {
+            ...featureState,
+            jobFamilyOptions
+          };
+        }
+        case fromPeerExchangeJobsActions.CLEAR_SELECTED_JOB_FAMILIES: {
+          // create a new array, and for each option create a new one with IsSelected false
+          const jobFamilyOptions = [];
+          featureState.jobFamilyOptions.forEach(option => {
+            jobFamilyOptions.push({ ...option, IsSelected: false });
+          });
+
+          return {
+            ...featureState,
+            jobFamilyOptions
+          };
+        }
         default: {
           return featureState;
         }
@@ -101,7 +174,15 @@ export function reducer(state, action) {
     })(state, action);
 }
 
-// Selector functions
+// Selector functions, grid and search term
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getSearchTerm = (state: State) => state.searchTerm;
+
+// Selector functions, job family filter
+export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
+export const getJobFamilyFilterLoadingSuccess = (state: State) => state.loadingJobFamilyFilterSuccess;
+export const getJobFamilyFilterLoadingError = (state: State) => state.loadingJobFamilyFilterError;
+export const getJobFamilyFilterIsExpanded = (state: State) => state.isJobFamilyFilterExpanded;
+export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;

@@ -3,11 +3,11 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromRoot from 'libs/state/state';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
+import { GenericMenuItem } from 'libs/models/common';
 
 // Import feature reducers
 import * as fromCompanyJobsReducer from './company-jobs.reducer';
 import * as fromExchangeJobsReducer from './exchange-jobs.reducer';
-
 
 // Feature area state
 export interface JobAssociationFeatureState {
@@ -81,6 +81,37 @@ export const getExchangeJobsData = createSelector(
   getExchangeJobsList,
   getExchangeJobsTotal,
   (data, total) => ({ data, total })
+);
+
+// Exchange Jobs Selectors, job family filter
+export const getExchangeJobsFamilyFilterLoading = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getJobFamilyFilterLoading
+);
+
+export const getExchangeJobsFamilyFilterLoadingSuccess = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getJobFamilyFilterLoadingSuccess
+);
+
+export const getExchangeJobsFamilyFilterLoadingError = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getJobFamilyFilterLoadingError
+);
+
+export const getExchangeJobFamilyFilterIsExpanded = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getJobFamilyFilterIsExpanded
+);
+
+export const getExchangeJobFamilyFilterOptions = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getJobFamilyFilterOptions
+);
+
+export const getExchangeJobFamilyFilterSelectedOptionNames = createSelector(
+  getExchangeJobsFeature,
+  (state) => state.jobFamilyOptions.filter(o => o.IsSelected).map(o => o.DisplayName)
 );
 
 // Company Jobs Selectors

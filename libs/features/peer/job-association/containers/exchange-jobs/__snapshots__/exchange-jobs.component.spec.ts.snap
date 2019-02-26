@@ -8,7 +8,10 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   exchangeJobs$={[Function Store]}
   grid="undefined"
   gridState$={[Function Store]}
+  isJobFamilyFilterExpanded$={[Function Store]}
+  isJobFamilyFilterLoading$={[Function Store]}
   isListView={[Function Boolean]}
+  jobFamilyFilterOptions$={[Function Store]}
   jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
   loadingError$={[Function Store]}
@@ -25,12 +28,25 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   <h2>
     Peer Exchange Jobs
   </h2><div
-    class="filters position-relative w-25 d-flex"
+    class="filters position-relative d-flex"
   >
     <i
       class="fas fa-search"
     />
-    <pf-input-debounce />
+    <div
+      class="w-50"
+    >
+      <pf-input-debounce
+        id="exchange-jobs-search-box"
+      />
+    </div>
+    <div
+      class="ml-3"
+    >
+      <pf-multi-select
+        pfclickelsewhere=""
+      />
+    </div>
   </div><label
     class="text-uppercase"
     data-qa-id="lbl-exchange-jobs-total"
@@ -83,7 +99,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
           <kendo-grid-column
             field="ExchangeJobFamily"
             title="Job Family"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeName"
             title="Exchange Name"

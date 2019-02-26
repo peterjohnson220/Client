@@ -18,6 +18,7 @@ import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
+import { MultiSelectComponent } from './content/multi-select';
 
 const components = [
   // Content
@@ -25,6 +26,7 @@ const components = [
   CardComponent,
   CardSelectorComponent,
   UserOrEmailPickerComponent,
+  MultiSelectComponent,
 
   // Directives
   ClickElsewhereDirective,
