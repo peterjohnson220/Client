@@ -17,8 +17,15 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   MAX_TEXT_LENGTH = 45;
 
   get details(): string {
-    return this.model.TileChartData.Details.length > this.MAX_TEXT_LENGTH ?
+    if (!this.model.TileChartData) {
+      return '';
+    }
+    return  this.model.TileChartData.Details.length > this.MAX_TEXT_LENGTH ?
      this.model.TileChartData.Details.substr(0, this.MAX_TEXT_LENGTH) + '...' : this.model.TileChartData.Details;
+  }
+
+  get hasChartItems(): boolean {
+    return  this.model.TileChartData &&  this.model.TileChartData.TileChartItems.length > 0;
   }
 
   get detailsToolTip(): string {

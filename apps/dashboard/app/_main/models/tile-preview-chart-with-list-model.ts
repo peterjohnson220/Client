@@ -26,8 +26,7 @@ export function generateTilePreviewChartWithListFromTile(tile: Tile): TilePrevie
   const actionItemType = previewData.ActionItemType;
 
   const tileListData = previewData.TileListData !== undefined && previewData.TileListData.length > 0 ? previewData.TileListData : undefined;
-  const tileChartData = previewData.TileChartData !== undefined
-    && previewData.TileChartData.TileChartItems.length > 0 ? previewData.TileChartData : undefined;
+  const tileChartData = previewData.TileChartData !== undefined ? previewData.TileChartData : undefined;
 
   return {
     TileListTitle: tileListTitle,
