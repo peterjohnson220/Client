@@ -6,7 +6,7 @@ export class DataCardHelper {
 
   static calculateDataByHourlyRate(annualValue: number): number {
     if (!annualValue) {
-      return;
+      return 0;
     }
     return annualValue / 2080;
   }
