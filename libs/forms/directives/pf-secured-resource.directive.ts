@@ -1,6 +1,7 @@
 import { ContentChild, Directive, DoCheck, ElementRef, Input, Renderer2 } from '@angular/core';
 import { FormControlName } from '@angular/forms';
 import {PermissionService} from '../../core/services';
+import {PermissionCheckEnum} from '../../constants';
 
 @Directive({
   selector: '[pfSecuredResource]'
@@ -31,11 +32,12 @@ export class PfSecuredResourceDirective implements DoCheck {
   }
 
   doAuthorize(permissionToAuthorize: string): boolean {
-    return this._PermissionsService.HasPermission(permissionToAuthorize);
+    const permissionArray: string[] = [permissionToAuthorize];
+    return this._PermissionsService.CheckPermission(permissionArray, PermissionCheckEnum.Single);
   }
 
   doAuthorizeAny(permissionsToAuthorize: string[]): boolean {
-    return this._PermissionsService.HasAnyPermission(permissionsToAuthorize);
+    return this._PermissionsService.CheckPermission(permissionsToAuthorize, PermissionCheckEnum.Any);
   }
 
   removeElement(isAuthorized: boolean): void {

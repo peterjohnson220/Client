@@ -31,7 +31,7 @@ describe('UserRoleFunctionTabComponent', () => {
 
     fixture = TestBed.createComponent(UserRoleFunctionTabComponent);
     component = fixture.componentInstance;
-    component.rolePermissions = getMockUserAssignedRoleWithPermissions().Permissions;
+    component.systemPermissions = getMockUserAssignedRoleWithPermissions().Permissions;
   }));
 
   it('Page load', () => {
@@ -39,7 +39,7 @@ describe('UserRoleFunctionTabComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
   it('Check parents checkbox', () => {
-    component.handleCheckBoxCheck(component.rolePermissions[0]);
+    component.handleCheckBoxCheck(component.systemPermissions[0]);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
