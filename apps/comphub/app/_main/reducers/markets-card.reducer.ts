@@ -12,6 +12,7 @@ export interface State {
   selectedPaymarket: PricingPaymarket;
   marketDataScope: MarketDataScope;
   hideAddPaymarketsButton: boolean;
+  displayNationalAsCard: boolean;
 }
 
 const initialState: State = {
@@ -21,7 +22,8 @@ const initialState: State = {
   paymarketsFilter: null,
   selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket(),
   marketDataScope: null,
-  hideAddPaymarketsButton: false
+  hideAddPaymarketsButton: false,
+  displayNationalAsCard: false
 };
 
 // Reducer function
@@ -92,8 +94,8 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       const allPayMarketsWithoutSelected = sortPaymarkets(state.paymarkets
         .filter(pm => pm.CompanyPayMarketId !== selectedPayMarket.CompanyPayMarketId));
 
-      // Don't add Default
-      if (selectedPayMarket.CompanyPayMarketId) {
+      // Don't add Default unless specified
+      if (selectedPayMarket.CompanyPayMarketId || state.displayNationalAsCard) {
         newPayMarkets = [selectedPayMarket, ...allPayMarketsWithoutSelected];
       } else {
         newPayMarkets = allPayMarketsWithoutSelected;
@@ -107,6 +109,12 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       return {
         ...state,
         hideAddPaymarketsButton: true
+      };
+    }
+    case fromMarketsCardActions.DISPLAY_NATIONAL_AS_CARD: {
+      return {
+        ...state,
+        displayNationalAsCard: true
       };
     }
     default: {
