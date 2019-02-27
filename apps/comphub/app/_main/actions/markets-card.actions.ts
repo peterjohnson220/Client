@@ -15,6 +15,7 @@ export const GET_MD_SCOPE = '[Comphub/Markets Card] Get Market Data Scope';
 export const GET_MD_SCOPE_SUCCESS = '[Comphub/Markets Card] Get Market Data Scope Success';
 export const GET_MD_SCOPE_ERROR = '[Comphub/Markets Card] Get Market Data Scope Error';
 export const ORDER_PAYMARKETS_WITH_SELECTED_FIRST = '[Comphub/Markets Card] Order Pay Markets with Selected First';
+export const HIDE_ADD_NEW_PAYMARKETS_BUTTON = '[Comphub/Markets Card] Hide Add New Paymarket Button';
 
 export class GetPaymarkets implements Action {
   readonly type = GET_PAYMARKETS;
@@ -78,6 +79,10 @@ export class OrderPayMarketsWithSelectedFirst implements Action {
   readonly type = ORDER_PAYMARKETS_WITH_SELECTED_FIRST;
 }
 
+export class HideAddNewPaymarketButton implements Action {
+  readonly type = HIDE_ADD_NEW_PAYMARKETS_BUTTON;
+}
+
 export type Actions
   = GetPaymarkets
   | GetPaymarketsSuccess
@@ -89,4 +94,5 @@ export type Actions
   | GetMarketDataScope
   | GetMarketDataScopeSuccess
   | GetMarketDataScopeError
-  | OrderPayMarketsWithSelectedFirst;
+  | OrderPayMarketsWithSelectedFirst
+  | HideAddNewPaymarketButton;
