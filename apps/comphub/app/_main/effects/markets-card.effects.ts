@@ -29,14 +29,19 @@ export class MarketsCardEffects {
             .pipe(
               mergeMap((paymarketsResponse: PayMarketDataResponse) => {
                 const actions = [];
-                actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(
-                  PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse.AccessiblePayMarkets)
-                ));
-                actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+                let payMarkets = PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse.AccessiblePayMarkets);
                 if (paymarketsResponse.HasPaymarketRestrictions) {
                   actions.push(new fromMarketsCardActions.HideAddNewPaymarketButton());
+                  if (!payMarkets.length) {
+                    // display national payMarket as a card
+                    payMarkets = [MarketsCardHelper.buildDefaultPricingPayMarket()];
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard());
+                  }
                 }
-                if (paymarketsResponse.AccessiblePayMarkets.length === 0) {
+                actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(payMarkets));
+                actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+
+                if (!payMarkets.length) {
                   actions.push(new fromAddPayMarketFormActions.OpenForm({ showSkipButton: true }));
                 }
                 return actions;
