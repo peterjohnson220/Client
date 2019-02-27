@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Comphub - Main - Markets Card Component should NOT hide the add paymarkets button when no restrictions exist 1`] = `
+<pf-markets-card
+  addPayMarketFormOpen$={[Function Store]}
+  defaultCountryCode={[Function String]}
+  hideNewPaymarketButton$={[Function Observable]}
+  infoBannerOpen$={[Function Store]}
+  loadingPaymarkets$={[Function Store]}
+  loadingPaymarketsError$={[Function Store]}
+  marketDataScope$={[Function Store]}
+  payMarketsFilter$={[Function Store]}
+  paymarkets$={[Function Observable]}
+  savingPayMarket$={[Function Store]}
+  savingPayMarketConflict$={[Function Store]}
+  savingPayMarketError$={[Function Store]}
+  selectedPaymarket$={[Function Store]}
+  showSkipButton$={[Function Store]}
+  store={[Function Store]}
+  visiblePaymarkets$={[Function Store]}
+>
+  <pf-card-layout
+    pageiconclass="fa-map-marker-alt"
+    pagesubtitle="Now, let's define the market"
+    pagetitle="Markets"
+  >
+    
+    
+    
+    <pf-async-container>
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-12 col-xl-9"
+        >
+          <div
+            class="search-filter"
+          >
+            <pf-input-debounce />
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-12 col-xl-9"
+        >
+          <div
+            class="add-new-market-container"
+          >
+            <span
+              class="uppercase-header"
+            >
+              My Markets
+            </span>
+            
+            <div
+              class="add-new-market-button"
+              data-qa-id="btn-addNewMarket"
+            >
+              <i
+                class="fa fa-plus-circle"
+              />
+               Add New Market 
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col"
+        >
+          
+          
+        </div>
+      </div>
+    </pf-async-container>
+  </pf-card-layout>
+</pf-markets-card>
+`;
+
+exports[`Comphub - Main - Markets Card Component should hide the add paymarkets button when restrictions exist 1`] = `
+<pf-markets-card
+  addPayMarketFormOpen$={[Function Store]}
+  defaultCountryCode={[Function String]}
+  hideNewPaymarketButton$={[Function Observable]}
+  infoBannerOpen$={[Function Store]}
+  loadingPaymarkets$={[Function Store]}
+  loadingPaymarketsError$={[Function Store]}
+  marketDataScope$={[Function Store]}
+  payMarketsFilter$={[Function Store]}
+  paymarkets$={[Function Observable]}
+  savingPayMarket$={[Function Store]}
+  savingPayMarketConflict$={[Function Store]}
+  savingPayMarketError$={[Function Store]}
+  selectedPaymarket$={[Function Store]}
+  showSkipButton$={[Function Store]}
+  store={[Function Store]}
+  visiblePaymarkets$={[Function Store]}
+>
+  <pf-card-layout
+    pageiconclass="fa-map-marker-alt"
+    pagesubtitle="Now, let's define the market"
+    pagetitle="Markets"
+  >
+    
+    
+    
+    <pf-async-container>
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-12 col-xl-9"
+        >
+          <div
+            class="search-filter"
+          >
+            <pf-input-debounce />
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-lg-12 col-xl-9"
+        >
+          <div
+            class="add-new-market-container"
+          >
+            <span
+              class="uppercase-header"
+            >
+              My Markets
+            </span>
+            
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col"
+        >
+          
+          
+        </div>
+      </div>
+    </pf-async-container>
+  </pf-card-layout>
+</pf-markets-card>
+`;

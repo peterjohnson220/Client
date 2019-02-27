@@ -1,7 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -119,5 +120,25 @@ describe('Comphub - Main - Markets Card Component', () => {
     instance.clearSearchValue();
 
     expect(instance.handleSearchChanged).toBeCalledWith('');
+  });
+
+  it('should hide the add paymarkets button when restrictions exist', () => {
+
+    instance.hideNewPaymarketButton$ = of(true);
+    instance.paymarkets$ = of([generateMockPricingPaymarket()]);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should NOT hide the add paymarkets button when no restrictions exist', () => {
+
+    instance.hideNewPaymarketButton$ = of(false);
+    instance.paymarkets$ = of([generateMockPricingPaymarket()]);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

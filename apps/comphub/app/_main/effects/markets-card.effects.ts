@@ -5,9 +5,8 @@ import { of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { MarketDataScopeApiService, PayMarketApiService } from 'libs/data/payfactors-api';
-import { PayMarket } from 'libs/models/paymarket';
-import { AddPayMarketRequest } from 'libs/models/payfactors-api';
+import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
+import { AddPayMarketRequest, PayMarketDataResponse } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
@@ -26,15 +25,18 @@ export class MarketsCardEffects {
     .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
       switchMap(() => {
-          return this.paymarketApiService.getAllByCountryCode('USA')
+          return this.comphubApiService.getPaymarketData('USA')
             .pipe(
-              mergeMap((paymarketsResponse: PayMarket[]) => {
+              mergeMap((paymarketsResponse: PayMarketDataResponse) => {
                 const actions = [];
                 actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(
-                  PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse)
+                  PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse.AccessiblePayMarkets)
                 ));
                 actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
-                if (paymarketsResponse.length === 0) {
+                if (paymarketsResponse.HasPaymarketRestrictions) {
+                  actions.push(new fromMarketsCardActions.HideAddNewPaymarketButton());
+                }
+                if (paymarketsResponse.AccessiblePayMarkets.length === 0) {
                   actions.push(new fromAddPayMarketFormActions.OpenForm({ showSkipButton: true }));
                 }
                 return actions;
@@ -126,7 +128,7 @@ export class MarketsCardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
-    private paymarketApiService: PayMarketApiService,
+    private comphubApiService: ComphubApiService,
     private marketDataScopeApiService: MarketDataScopeApiService
   ) { }
 }

@@ -174,6 +174,11 @@ export const getMarketDataScope = createSelector(
   fromMarketsCardReducer.getMarketDataScope
 );
 
+export const getHideNewPaymarketsButton = createSelector(
+  selectMarketsCardState,
+  fromMarketsCardReducer.getHideNewPaymarketsButton
+);
+
 // Data Card
 export const getJobGridResults = createSelector(
   selectDataCardState,
