@@ -40,8 +40,6 @@ export class MapComponent implements OnInit {
   peerMapApplyingScope$: Observable<boolean>;
   peerMapAutoZooming$: Observable<boolean>;
 
-  refreshSubscription: Subscription;
-
   constructor(private store: Store<fromPeerMapReducer.State>) {
     this.peerMapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
     this.peerMapFilter$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapFilter));
@@ -148,11 +146,8 @@ export class MapComponent implements OnInit {
 
   // Helper functions
   refreshMap(filterVars: any) {
-    this.refreshSubscription = this.canLoadPeerMap$.pipe(filter(canLoad => !!canLoad), take(1)).subscribe(() => {
+    this.canLoadPeerMap$.pipe(filter(canLoad => !!canLoad), take(1)).subscribe(() => {
       this.store.dispatch(new fromMapActions.UpdatePeerMapFilterBounds(filterVars));
-      if (this.refreshSubscription !== undefined) {
-        this.refreshSubscription.unsubscribe();
-      }
     });
   }
 
