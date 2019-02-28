@@ -80,7 +80,17 @@ describe('Comphub - Main - Summary Card Component', () => {
   it('should call saveAs with the correct fileName on the pdf export view child when handleDownloadPdfClicked clicked', () => {
     spyOn(instance.pdf, 'saveAs');
     instance.jobData = {...generateFakeJobData(), JobTitle: 'This is a job title with spaces'};
-    const expectedFileName = 'PricingSummaryForThisisajobtitlewithspaces';
+    const expectedFileName = 'PricingSummaryForThisisajobtitlewithspaces.pdf';
+
+    instance.handleDownloadPdfClicked();
+
+    expect(instance.pdf.saveAs).toHaveBeenCalledWith(expectedFileName);
+  });
+
+  it('should remove periods from job title when saving pdf', () => {
+    spyOn(instance.pdf, 'saveAs');
+    instance.jobData = {...generateFakeJobData(), JobTitle: 'Job.Title.III.Boy'};
+    const expectedFileName = 'PricingSummaryForJobTitleIIIBoy.pdf';
 
     instance.handleDownloadPdfClicked();
 
