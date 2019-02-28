@@ -90,4 +90,11 @@ h4 {
   .right-container{
     padding-right: 0;
   }
+
+  .paymarket-name {
+    text-overflow: inherit;
+    white-space: normal;
+    overflow: auto;
+    padding-right: 0;
+  }
 }
