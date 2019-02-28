@@ -1,0 +1,25 @@
+@import 'comphub-variables';
+@import 'comphub-styles';
+
+:host::ng-deep {
+  .modal-title {
+    color: $comphub-header-blue;
+  }
+  .send-btn {
+    @extend %comphub-primary-btn
+  }
+}
+
+.content-container {
+  height: 80px;
+}
+
+.form-title {
+  margin-right: 0.5rem;
+  font-weight: $comphub-bold-font-weight;
+  line-height: 2.2rem;
+}
+
+.text-danger {
+  margin-left: 2rem;
+}

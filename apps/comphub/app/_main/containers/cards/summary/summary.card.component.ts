@@ -4,6 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import * as cloneDeep from 'lodash.clonedeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
+import { pdf } from '@progress/kendo-drawing';
+const { exportPDF } = pdf;
+
+import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -23,6 +27,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   selectedRate$: Observable<RateType>;
   selectedPageId$: Observable<ComphubPages>;
   salaryTrendData$: Observable<JobSalaryTrend>;
+  sharePricingSummaryModalOpen$: Observable<boolean>;
+  sharePricingSummaryError$: Observable<boolean>;
+  sharePricingSummaryConflict$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -46,6 +53,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
+    this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
+    this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
+    this.sharePricingSummaryConflict$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryConflict);
   }
 
   ngOnInit() {
@@ -73,7 +83,30 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   handleDownloadPdfClicked() {
-    this.pdf.saveAs(`PricingSummaryFor${this.cleanPdfName(this.jobData.JobTitle)}.pdf`);
+    this.pdf.saveAs(this.getPDFFileName());
+  }
+
+  handleShareClicked() {
+    this.store.dispatch(new fromSummaryCardActions.OpenShareModal());
+  }
+
+  handleShareModalCancelClicked() {
+    this.store.dispatch(new fromSummaryCardActions.CloseShareModal());
+  }
+
+  handleShareModalSendClicked(toEmail: string) {
+    this.pdf.export().then((group) => {
+      exportPDF(group).then((data) => {
+        data = data.replace('data:application/pdf;base64,', '');
+        const request: SharePricingSummaryRequest = {
+          JobTitle: this.jobData.JobTitle,
+          ToEmail: toEmail,
+          AttachmentFileName: this.getPDFFileName(),
+          AttachmentContent: data
+        };
+        this.store.dispatch(new fromSummaryCardActions.SharePricingSummary(request));
+      });
+    });
   }
 
   get isHourly(): boolean {
@@ -94,7 +127,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
   }
 
-  private cleanPdfName(jobTitle: string) {
-    return jobTitle.replace(/ |\./g, '');
+  private getPDFFileName(): string {
+    return `PricingSummaryFor${this.jobData.JobTitle.replace(/ |\./g, '')}.pdf`;
   }
 }

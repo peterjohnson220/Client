@@ -1,0 +1,32 @@
+<pf-modal-form
+  size="md"
+  title="Share Pricing Summary"
+  primaryButtonText="Send"
+  primaryButtonTextSubmitting="Sending..."
+  backdropClass="light-backdrop"
+  primaryButtonClass="send-btn"
+  [centered]="true"
+  [formGroup]="sharePricingSummaryForm"
+  [isOpen$]="isOpen$"
+  (onDismiss)="handleCancelClicked()"
+  (onSubmit)="handleSendClicked()">
+
+  <ng-container form-content>
+    <div class="content-container mt-2">
+      <div class="d-flex flex-row">
+        <label class="form-title">To </label>
+        <input type="text" class="form-control ml-2"
+          formControlName="emailAddress"
+          [placeholder]="'Email Address...'"
+          [pfFocus]="true"
+          [pfFocusElementShowing]="isOpen$ | async"
+          (input)="showErrorMessages = false"/>
+      </div>
+      <ng-container *ngIf="showErrorMessages">
+        <span class="text-danger" *ngIf="sharingConflict">Please enter valid email address from your company</span>
+        <span class="text-danger" *ngIf="sharingError">Error sending email</span>
+      </ng-container>
+    </div>
+  </ng-container>
+
+</pf-modal-form>

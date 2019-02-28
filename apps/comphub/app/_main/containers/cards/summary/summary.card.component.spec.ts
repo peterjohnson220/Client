@@ -96,4 +96,22 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     expect(instance.pdf.saveAs).toHaveBeenCalledWith(expectedFileName);
   });
+
+  it('should dispatch OpenShareModal when Share button clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromSummaryCardActions.OpenShareModal();
+
+    instance.handleShareClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should dispatch CloseShareModal when Cancel button from share modal clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromSummaryCardActions.CloseShareModal();
+
+    instance.handleShareModalCancelClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });

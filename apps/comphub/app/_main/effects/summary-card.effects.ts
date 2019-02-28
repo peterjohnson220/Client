@@ -52,6 +52,24 @@ export class SummaryCardEffects {
         }
       ));
 
+  @Effect()
+  sharePricingSummary$ = this.actions$
+  .ofType(fromSummaryCardActions.SHARE_PRICING_SUMMARY)
+  .pipe(
+    switchMap((action: fromSummaryCardActions.SharePricingSummary) => {
+      return this.comphubApiService.sharePricingSummary(action.payload)
+        .pipe(
+          map(() => new fromSummaryCardActions.CloseShareModal),
+          catchError((response) => {
+            return of(response.status === 400
+              ? new fromSummaryCardActions.SharePricingSummaryConflict()
+              : new fromSummaryCardActions.SharePricingSummaryError(),
+              new fromComphubPageActions.HandleApiError(response));
+          })
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private comphubApiService: ComphubApiService,
