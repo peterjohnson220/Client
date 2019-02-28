@@ -73,7 +73,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   handleDownloadPdfClicked() {
-    this.pdf.saveAs(`PricingSummaryFor${this.jobData.JobTitle.split(' ').join('')}`);
+    this.pdf.saveAs(`PricingSummaryFor${this.cleanPdfName(this.jobData.JobTitle)}.pdf`);
   }
 
   get isHourly(): boolean {
@@ -92,5 +92,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     }
     this.lastJobTrendFetched = this.jobData;
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
+  }
+
+  private cleanPdfName(jobTitle: string) {
+    return jobTitle.replace(/ |\./g, '');
   }
 }
