@@ -260,6 +260,7 @@ describe('Comphub - Main - Data Card Component', () => {
     };
     instance.jobResults$ = of(jobGridData);
     instance.selectedRate = { Name: RateType.Hourly, Value: RateType.Hourly };
+    instance.firstDayOfMonth = new Date(2019, 1, 1);
 
     fixture.detectChanges();
 
@@ -273,6 +274,7 @@ describe('Comphub - Main - Data Card Component', () => {
     };
     instance.jobResults$ = of(jobGridData);
     instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
+    instance.firstDayOfMonth = new Date(2019, 1, 1);
 
     fixture.detectChanges();
 
