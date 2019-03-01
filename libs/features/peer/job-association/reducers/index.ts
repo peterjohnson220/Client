@@ -110,6 +110,7 @@ export const getCompanyJobsData = createSelector(
   getCompanyJobsTotal,
   (data, total) => ({ data, total})
 );
+
 export const getCompanyJobsLoading = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.loading
@@ -119,9 +120,17 @@ export const getCompanyJobsLoadingError = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.loadingError
 );
+
 export const getCompanyJobsSearchTerm = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.searchTerm
 );
 
+export const getSelectedCompanyJobs = createSelector(
+    getCompanyJobsFeature,
+    fromCompanyJobsReducer.getSelectedCompanyJobs);
 
+export const getExchangeJobAssociations = createSelector(
+    getExchangeJobsFeature,
+    (feature) => feature.ExchangeJobAssociations
+);

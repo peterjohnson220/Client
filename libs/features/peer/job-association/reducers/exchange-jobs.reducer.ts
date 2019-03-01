@@ -3,15 +3,16 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
-import { ExchangeJob } from '../models/';
 
 import * as fromPeerExchangeJobsActions from '../actions/exchange-jobs.actions';
+import { ExchangeJob, ExchangeJobAssociation } from '../models/';
 
 export interface State extends EntityState<ExchangeJob> {
   loading: boolean;
   loadingError: boolean;
   total: number;
   searchTerm: string;
+  ExchangeJobAssociations: ExchangeJobAssociation[];
 }
 
 // Define our Adapter
@@ -24,7 +25,8 @@ const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   total: 0,
-  searchTerm: ''
+  searchTerm: '',
+  ExchangeJobAssociations: []
 });
 
 // Reducer function
@@ -62,6 +64,14 @@ export function reducer(state, action) {
             searchTerm: featureAction.payload
           };
         }
+        case fromPeerExchangeJobsActions.ADD_ASSOCIATION: {
+          const exchangeJobAssociations = [...featureState.ExchangeJobAssociations];
+          exchangeJobAssociations.push(featureAction.payload);
+          return {
+            ...featureState,
+            ExchangeJobAssociations: exchangeJobAssociations
+          };
+        }
         default: {
           return featureState;
         }
@@ -71,8 +81,8 @@ export function reducer(state, action) {
     })(state, action);
 }
 
+
 // Selector functions
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
-export const getSearchTerm = (state: State) => state.searchTerm;

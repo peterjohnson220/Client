@@ -10,9 +10,19 @@
   >
   </pf-input-debounce>
 </div>
+
 <label class="text-uppercase" data-qa-id="lbl-exchange-jobs-total">
   peer exchange jobs: {{ totalPeerExchangeJobs$ | async }} total
-</label>
+</label> |
+
+<button class="view-button" title="List View" [ngClass]="{'view-button-active' : isListView}" (click)="toggleViewType()">
+  <i class="fas fa-list"></i>
+</button>
+
+<button class="view-button" title="Detail View" [ngClass]="{'view-button-active' : !isListView}" (click)="toggleViewType()">
+  <i class="fas fa-file-alt"></i>
+</button>
+
 <div class="grid-container position-relative">
   <pf-async-container
     class="h-100"
@@ -21,47 +31,138 @@
     [loadingErrorMessage]="'Error loading exchange jobs'"
     (reload)="reload()"
   >
-    <div 
-      class="k-tooltip-container" 
-      kendoTooltip 
-      showOn="none" 
-      [tooltipTemplate]="template" 
-      filter=".k-grid td"
-      (mouseover)="showTooltip($event)"
-    >
-      <kendo-grid 
-        [data]="peerExchangeJobs$ | async"
-        [style.height.%]="100"
-        [pageSize]="(gridState$ | async)?.take"
-        [skip]="(gridState$ | async)?.skip"
-        [sort]="(gridState$ | async)?.sort"
-        [filter]="(gridState$ | async)?.filter"
-        [sortable]="true"
-        [resizable]="true"
-        [selectable]="true"
-        [pageable]="{ buttonCount: 5, info: true }"
-        (dataStateChange)="handleDataStateChange($event)"
-        (detailExpand)="handleDetailExpand($event)"
-      >
-        <kendo-grid-column  field="ExchangeJobTitle" title="Job Title">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
+      <ng-template [ngIf]="isListView">
+        <div
+                class="k-tooltip-container"
+                kendoTooltip
+                showOn="none"
+                [tooltipTemplate]="template"
+                filter=".k-grid td"
+                (mouseover)="showTooltip($event)"
+        >
+          <kendo-grid
+                [data]="exchangeJobs$ | async"
+                [style.height.%]="100"
+                [pageSize]="(gridState$ | async)?.take"
+                [skip]="(gridState$ | async)?.skip"
+                [sort]="(gridState$ | async)?.sort"
+                [filter]="(gridState$ | async)?.filter"
+                [resizable]="true"
+                [sortable]="true"
+                [pageable]="{ buttonCount: 5, info: true }"
+                (dataStateChange)="handleDataStateChange($event)"
+                (detailExpand)="handleDetailExpand($event)"
+        >
+          <kendo-grid-column [width]="55">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <button class="associate-button"
+                      [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
+                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId)">
+                <i class="fas fa-exchange-alt"></i>
+              </button>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column  field="ExchangeJobTitle" title="Job Title">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="ExchangeJobFamily" title="Job Family"></kendo-grid-column>
+          <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
+          <ng-template kendoGridDetailTemplate let-dataItem>
+            <div *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) > 0">
+              <h4>Associated Jobs</h4>
+              <ul >
+                <li *ngFor="let companyJob of getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)">
+                  {{companyJob.JobTitle}} (Code: {{companyJob.JobCode}})
+                </li>
+              </ul>
+            </div>
+            <h4>Job Description</h4>
+            <p *ngIf="dataItem.ExchangeJobDescription"
+               [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
+            <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
           </ng-template>
-        </kendo-grid-column>
-        <kendo-grid-column field="ExchangeJobFamily" title="Job Family"></kendo-grid-column>
-        <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
-        <ng-template kendoGridDetailTemplate let-dataItem>
-          <p *ngIf="dataItem.ExchangeJobDescription" [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
-          <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
-        </ng-template>
-        <ng-template kendoGridNoRecordsTemplate>
-          No results based on your search.
-          <a href="javascript:void(0)" (click)="reload(true)">
-            <i class="fas fa-redo-alt"></i>Reset now
-          </a>
-        </ng-template>
-      </kendo-grid>
-    </div>
+          <ng-template kendoGridNoRecordsTemplate>
+            No results based on your search.
+            <a href="javascript:void(0)" (click)="reload(true)">
+              <i class="fas fa-redo-alt"></i>Reset now
+            </a>
+          </ng-template>
+        </kendo-grid>
+        </div>
+      </ng-template>
+
+      <ng-template [ngIf]="!isListView">
+        <kendo-grid
+                [data]="exchangeJobs$ | async"
+                [style.height.%]="100"
+                [pageSize]="(gridState$ | async)?.take"
+                [skip]="(gridState$ | async)?.skip"
+                [sort]="(gridState$ | async)?.sort"
+                [filter]="(gridState$ | async)?.filter"
+                [resizable]="true"
+                [sortable]="true"
+                [pageable]="{ buttonCount: 5, info: true }"
+                (dataStateChange)="handleDataStateChange($event)"
+                (detailExpand)="handleDetailExpand($event)"
+        >
+          <kendo-grid-span-column>
+            <kendo-grid-column
+                    field="ExchangeJobTitle"
+                    title="Job Title"
+                    >
+            </kendo-grid-column>
+            <kendo-grid-column
+                    field="ExchangeJobFamily"
+                    title="Job Family"
+                    >
+            </kendo-grid-column>
+            <kendo-grid-column
+                    field="ExchangeName"
+                    title="Exchange"
+                    >
+            </kendo-grid-column>
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <h4 class="d-inline" [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></h4>
+              <button [attr.disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId) ? true : null"
+                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId)"
+                      class="associate-button float-right">
+                <i class="fas fa-exchange-alt"></i>
+              </button>
+
+              <h6 class="clear">
+                <strong>Family:</strong> {{dataItem.ExchangeJobFamily}} |
+                <strong>Exchange: </strong>{{dataItem.ExchangeName}}
+              </h6>
+              <br />
+
+              <h4>Associated Jobs</h4>
+              <ul *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) > 0; else noAssociations">
+                <li *ngFor="let companyJob of getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)">
+                  {{companyJob.JobTitle}} (Code: {{companyJob.JobCode}})
+                </li>
+                <li *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) <= 0"><i>No Associations</i></li>
+              </ul>
+              <ng-template #noAssociations>
+                <div><i>No Associations</i></div>
+              </ng-template>
+              <br />
+
+              <h4>Job Description</h4>
+              <p *ngIf="dataItem.ExchangeJobDescription" [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
+              <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
+            </ng-template>
+          </kendo-grid-span-column>
+
+          <ng-template kendoGridNoRecordsTemplate>
+            No results based on your search.
+            <a href="javascript:void(0)" (click)="reload(true)">
+              <i class="fas fa-redo-alt"></i>Reset now
+            </a>
+          </ng-template>
+        </kendo-grid>
+      </ng-template>
   </pf-async-container>
 </div>
 <ng-template #template let-anchor>
