@@ -5,7 +5,6 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
   dangerStartNumber={[Function Number]}
   discussionTextArea={[Function ElementRef]}
   minimumHeight={[Function Number]}
-  options={[Function Object]}
   overlayTextArea={[Function ElementRef]}
   parentForm={[Function FormGroup]}
   pfLinkifyService={[Function Object]}

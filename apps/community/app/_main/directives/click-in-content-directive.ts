@@ -8,16 +8,18 @@ export class ClickInContentDirective {
 
   @Output() public hashTagClicked = new EventEmitter();
 
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    const htmlElement = event.target as HTMLElement;
+  @HostListener('document:click', ['$event', '$event.target'])
+    onClick(event: MouseEvent, targetElement: HTMLElement): void {
+      if (!targetElement) {
+        return;
+      }
 
-    if (htmlElement && this.elementRef.nativeElement.contains(htmlElement)) {
-      const innerText = targetElement.innerText;
-      if (innerText && innerText.substr(0, 1) === '#') {
-        this.hashTagClicked.emit(innerText);
+      if (this.elementRef.nativeElement.contains(targetElement)) {
+        const innerText = targetElement.innerText;
+        if (innerText && innerText.substr(0, 1) === '#') {
+           event.preventDefault();
+           this.hashTagClicked.emit(innerText);
+        }
       }
     }
-  }
-
 }
