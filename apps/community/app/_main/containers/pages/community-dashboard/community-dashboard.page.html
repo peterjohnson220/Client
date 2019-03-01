@@ -3,6 +3,9 @@
     <div class="d-flex">
       <h1>COMP <span class="header-bold">COMMUNITY</span></h1>
     </div>
+    <div *ngIf="showSearchBar" class="w-25">
+      <pf-community-search></pf-community-search>
+    </div>
   </div>
   <div class="page-content" (scroll)="onScroll($event)">
     <div class="container-fluid community-container">
@@ -16,9 +19,6 @@
               <div class="col-3 pl-0">
                 <pf-community-categories></pf-community-categories>
               </div>
-            </div>
-            <div>
-            <pf-community-search></pf-community-search>
             </div>
             <div class="tags-margin-left">
               <pf-community-trending-and-filtered-tags>

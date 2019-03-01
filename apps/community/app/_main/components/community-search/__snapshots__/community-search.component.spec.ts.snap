@@ -3,24 +3,10 @@
 exports[`CommunitySearchComponent should show community search component 1`] = `
 <pf-community-search>
   <div
-    class="input-group mb-4 col-9 pl-0 pr-2"
+    class="input-group"
   >
-    <div
-      class="input-group-prepend"
-    >
-      <span
-        class="fa-stack fa-2x"
-      >
-        <i
-          class="fas fa-circle fa-stack-2x inner-circle-icon"
-        />
-        <i
-          class="fas fa-search fa-stack-1x search-icon"
-        />
-      </span>
-    </div>
     <input
-      class="form-control form-control-lg community-border-radius mt-2 ml-2 input-body au-community-search"
+      class="form-control form-control-lg community-border-radius input-body au-community-search"
       placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..."
       type="text"
     />

@@ -6,7 +6,7 @@ import { CommunityDashboardPageComponent } from './community-dashboard.page';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromRootState from 'libs/state/state';
 import {BrowserDetectionService} from 'libs/core/services';
-
+import { SettingsService } from 'libs/state/app-context/services';
 import * as fromCommunityPostActions from '../../../actions/community-post.actions';
 
 describe('CommunityDashboardPageComponent', () => {
@@ -23,7 +23,7 @@ describe('CommunityDashboardPageComponent', () => {
         FormsModule,
         ReactiveFormsModule
       ],
-      providers: [BrowserDetectionService],
+      providers: [BrowserDetectionService, SettingsService],
       declarations: [
         CommunityDashboardPageComponent
       ],
