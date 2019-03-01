@@ -16,6 +16,7 @@ import * as fromComphubMainReducer from '../reducers';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { ComphubPages } from '../data';
+import * as fromSummaryCardActions from '../actions/summary-card.actions';
 
 @Injectable()
 export class MarketsCardEffects {
@@ -98,7 +99,8 @@ export class MarketsCardEffects {
           new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName
-          })
+          }),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
         ]
       )
     );
@@ -121,12 +123,13 @@ export class MarketsCardEffects {
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetToDefaultPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
-      map((data) => {
-          return new fromComphubPageActions.UpdateCardSubtitle({
+      mergeMap((data) => [
+          new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName
-          });
-        }
+          }),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
+        ]
       )
     );
 

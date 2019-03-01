@@ -113,6 +113,23 @@
          (click)="handleShareClicked()">
       <i class="fas fa-share"></i> Share
     </div>
+
+    <div class="create-project-btn"
+         *ngIf="paymarket?.CompanyPayMarketId &&!(creatingProject$ | async) && !(creatingProjectError$ | async)"
+         [attr.data-qa-id]="'btn-create-project'"
+         (click)="handleCreateProjectClicked()">
+      <i class="fas fa-clipboard-list"></i> Create Project
+    </div>
+
+    <div class="creating-project"
+         *ngIf="(creatingProject$ | async)">
+      <pf-loading-indicator></pf-loading-indicator> Creating Project...
+    </div>
+
+    <div class="creating-project-error"
+         *ngIf="(creatingProjectError$ | async)">
+      <i class="fas fa-exclamation-triangle"></i> Error creating project
+    </div>
   </ng-container>
 
 </pf-card-layout>

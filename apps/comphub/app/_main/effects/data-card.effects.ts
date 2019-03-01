@@ -10,6 +10,7 @@ import { SortOption } from 'libs/models/payfactors-api/comphub/request';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
+import * as fromSummaryCardActions from '../actions/summary-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
@@ -56,7 +57,8 @@ export class DataCardEffects {
       map((action: fromDataCardActions.SetSelectedJobData) => action.payload),
       mergeMap((jobData: JobData) => [
         new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: `Payfactors ${jobData.JobTitle}`}),
-        new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary])
+        new fromComphubPageActions.AddAccessiblePages([ComphubPages.Summary]),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
       ])
     );
 
@@ -67,7 +69,8 @@ export class DataCardEffects {
       mergeMap(() => {
         return [
           new fromComphubPageActions.UpdateCardSubtitle({ cardId: ComphubPages.Data, subTitle: ''}),
-          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary])
+          new fromComphubPageActions.RemoveAccessiblePages([ComphubPages.Summary]),
+          new fromSummaryCardActions.ResetCreateProjectStatus()
         ];
       })
     );

@@ -8,6 +8,8 @@ export interface State {
   sharePricingSummaryModalOpen: boolean;
   sharePricingSummaryError: boolean;
   sharePricingSummaryConflict: boolean;
+  creatingProject: boolean;
+  createProjectError: boolean;
 }
 
 const initialState: State = {
@@ -16,7 +18,9 @@ const initialState: State = {
   loadingSalaryTrendError: false,
   sharePricingSummaryModalOpen: false,
   sharePricingSummaryError: false,
-  sharePricingSummaryConflict: false
+  sharePricingSummaryConflict: false,
+  creatingProject: false,
+  createProjectError: false
 };
 
 // Reducer function
@@ -75,6 +79,28 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         sharePricingSummaryConflict: true
       };
     }
+    case fromSummaryCardActions.CREATE_PROJECT: {
+      return {
+        ...state,
+        creatingProject: true,
+        createProjectError: false
+      };
+    }
+    case fromSummaryCardActions.RESET_CREATE_PROJECT_STATUS:
+    case fromSummaryCardActions.CREATE_PROJECT_SUCCESS: {
+      return {
+        ...state,
+        creatingProject: false,
+        createProjectError: false
+      };
+    }
+    case fromSummaryCardActions.CREATE_PROJECT_ERROR: {
+      return {
+        ...state,
+        creatingProject: false,
+        createProjectError: true
+      };
+    }
 
     default: {
       return state;
@@ -89,3 +115,5 @@ export const getLoadingSalaryTrendError = (state: State) => state.loadingSalaryT
 export const getSharePricingSummaryModalOpen = (state: State) => state.sharePricingSummaryModalOpen;
 export const getSharePricingSummaryError = (state: State) => state.sharePricingSummaryError;
 export const getSharePricingSummaryConflict = (state: State) => state.sharePricingSummaryConflict;
+export const getCreatingProject = (state: State) => state.creatingProject;
+export const getCreatingProjectError = (state: State) => state.createProjectError;
