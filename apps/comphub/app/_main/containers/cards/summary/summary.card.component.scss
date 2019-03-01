@@ -87,6 +87,11 @@ h4 {
     font-size: 1.25rem;
   }
 
+  .left-container, .right-container {
+    max-width: 100% !important;
+    flex-basis: 100%;
+  }
+
   .right-container{
     padding-right: 0;
   }
