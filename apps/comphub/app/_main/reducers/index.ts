@@ -276,3 +276,13 @@ export const getSharePricingSummaryConflict = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getSharePricingSummaryConflict
 );
+
+export const getCreatingProject = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCreatingProject
+);
+
+export const getCreatingProjectError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCreatingProjectError
+);

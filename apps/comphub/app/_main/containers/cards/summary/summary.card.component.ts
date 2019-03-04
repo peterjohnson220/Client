@@ -30,6 +30,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   sharePricingSummaryModalOpen$: Observable<boolean>;
   sharePricingSummaryError$: Observable<boolean>;
   sharePricingSummaryConflict$: Observable<boolean>;
+  creatingProject$: Observable<boolean>;
+  creatingProjectError$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -56,6 +58,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
     this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
     this.sharePricingSummaryConflict$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryConflict);
+    this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
+    this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
   }
 
   ngOnInit() {
@@ -107,6 +111,10 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromSummaryCardActions.SharePricingSummary(request));
       });
     });
+  }
+
+  handleCreateProjectClicked() {
+    this.store.dispatch(new fromSummaryCardActions.CreateProject());
   }
 
   get isHourly(): boolean {

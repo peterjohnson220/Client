@@ -61,7 +61,7 @@ h4 {
   line-height: 1.5;
 }
 
-.download-pdf, .share-btn {
+.download-pdf, .share-btn, .create-project-btn, .creating-project, .creating-project-error {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -74,11 +74,33 @@ h4 {
   }
 }
 
+.creating-project-error {
+
+  svg {
+    color: #dc1e34;
+  }
+}
+
+.creating-project,.create-project-btn {
+  width: 140px;
+}
+
+.creating-project {
+  cursor: default;
+
+  ::ng-deep svg {
+    font-size: 1.75rem;
+    margin-right: .45rem;
+    color: $comphub-primary-blue;
+  }
+}
+
 .pdf-header {
   display: none;
 }
 
 :host ::ng-deep .k-pdf-export {
+
   .pdf-header{
     text-transform: uppercase;
     color: $comphub-header-blue;

@@ -12,6 +12,10 @@ export const CLOSE_SHARE_MODAL = 'Comphub/Summary Card] Close Share Modal';
 export const SHARE_PRICING_SUMMARY = '[Comphub/Summary Card] Share Pricing Summary';
 export const SHARE_PRICING_SUMMARY_ERROR = '[Comphub/Summary Card] Share Pricing Summary Error';
 export const SHARE_PRICING_SUMMARY_CONFLICT = '[Comphub/Summary Card] Share Pricing Summary Conflict';
+export const CREATE_PROJECT = '[Comphub/Summary Card] Create Project';
+export const CREATE_PROJECT_SUCCESS = '[Comphub/Summary Card] Create Project Success';
+export const CREATE_PROJECT_ERROR = '[Comphub/Summary Card] Create Project Error';
+export const RESET_CREATE_PROJECT_STATUS = '[Comphub/Summary Card] Reset Create Project';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -67,6 +71,30 @@ export class SharePricingSummaryConflict implements Action {
   constructor() {}
 }
 
+export class CreateProject implements Action {
+  readonly type = CREATE_PROJECT;
+
+  constructor() {}
+}
+
+export class CreateProjectSuccess implements Action {
+  readonly type = CREATE_PROJECT_SUCCESS;
+
+  constructor(public payload: number) {}
+}
+
+export class CreateProjectError implements Action {
+  readonly type = CREATE_PROJECT_ERROR;
+
+  constructor() {}
+}
+
+export class ResetCreateProjectStatus implements Action {
+  readonly type = RESET_CREATE_PROJECT_STATUS;
+
+  constructor() {}
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -76,4 +104,8 @@ export type Actions
   | CloseShareModal
   | SharePricingSummary
   | SharePricingSummaryError
-  | SharePricingSummaryConflict;
+  | SharePricingSummaryConflict
+  | CreateProject
+  | CreateProjectSuccess
+  | CreateProjectError
+  | ResetCreateProjectStatus;

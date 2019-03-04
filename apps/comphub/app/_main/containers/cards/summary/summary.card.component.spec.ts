@@ -114,4 +114,13 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
+
+  it('should dispatch CreateProject when create project button clicked', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromSummaryCardActions.CreateProject();
+
+    instance.handleCreateProjectClicked();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });
