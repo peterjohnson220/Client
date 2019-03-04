@@ -13,6 +13,9 @@ export class CommunityCategoryDisplayNamePipe implements PipeTransform {
     if (value === CommunityCategoryEnum.MyPosts) {
       return 'My Posts';
     }
+    if (value === CommunityCategoryEnum.Unanswered) {
+      return 'Latest Unanswered';
+    }
     return value;
   }
 }
