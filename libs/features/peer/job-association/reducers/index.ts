@@ -8,11 +8,13 @@ import { GenericMenuItem } from 'libs/models/common';
 // Import feature reducers
 import * as fromCompanyJobsReducer from './company-jobs.reducer';
 import * as fromExchangeJobsReducer from './exchange-jobs.reducer';
+import * as fromJobAssociationModalReducer from './job-association-modal.reducer';
 
 // Feature area state
 export interface JobAssociationFeatureState {
   companyJobs: IFeatureGridState<fromCompanyJobsReducer.State>;
   exchangeJobs: IFeatureGridState<fromExchangeJobsReducer.State>;
+  jobAssociationModal: fromJobAssociationModalReducer.State;
 }
 
 // Extend root state with feature area state
@@ -23,7 +25,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   companyJobs: fromCompanyJobsReducer.reducer,
-  exchangeJobs: fromExchangeJobsReducer.reducer
+  exchangeJobs: fromExchangeJobsReducer.reducer,
+  jobAssociationModal: fromJobAssociationModalReducer.reducer
 };
 
 // Select Feature Area
@@ -33,12 +36,25 @@ export const selectFeatureAreaState =
 // Feature Selectors
 export const selectExchangeJobsState = createSelector(
   selectFeatureAreaState,
-  (state: JobAssociationFeatureState) => state.exchangeJobs
-);
+  (state: JobAssociationFeatureState) => state.exchangeJobs);
 
 export const selectCompanyJobsState = createSelector(
   selectFeatureAreaState,
   (state: JobAssociationFeatureState) => state.companyJobs);
+
+export const selectJobAssociationModalState = createSelector(
+  selectFeatureAreaState,
+  (state: JobAssociationFeatureState) => state.jobAssociationModal);
+
+// Job Association Modal Selectors
+
+export const getJobAssociationModalSaving = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getSaving);
+
+export const getJobAssociationModalSavingError = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getSavingError);
 
 // Exchange Jobs Selectors
 export const getExchangeJobsGrid = createSelector(

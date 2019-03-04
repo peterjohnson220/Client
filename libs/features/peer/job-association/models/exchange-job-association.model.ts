@@ -5,3 +5,11 @@ export interface ExchangeJobAssociation {
     ExchangeJobId: number;
     CompanyJobs: CompanyJob[];
 }
+
+export function generateMockExchangeJobAssociation(): ExchangeJobAssociation {
+  return {
+    ExchangeId: 1,
+    ExchangeJobId: 123,
+    CompanyJobs: [{CompanyJobId: 100, JobCode: 'jobCode', JobFamily: 'jobFamily', JobTitle: 'jobTitle', IsAssociated: false}]
+  };
+}

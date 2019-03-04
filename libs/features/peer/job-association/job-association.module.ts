@@ -8,9 +8,9 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { reducers } from './reducers';
-import { ExchangeJobsEffects, CompanyJobsEffects } from './effects';
+import { ExchangeJobsEffects, CompanyJobsEffects, JobAssociationModalEffects } from './effects';
 
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
@@ -23,7 +23,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     CommonModule,
     FormsModule,
     StoreModule.forFeature('feature_job_association', reducers),
-    EffectsModule.forFeature([CompanyJobsEffects, ExchangeJobsEffects]),
+    EffectsModule.forFeature([CompanyJobsEffects, ExchangeJobsEffects, JobAssociationModalEffects]),
 
     // 3rd party
     GridModule,
@@ -42,9 +42,8 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     CompanyJobsComponent,
     ExchangeJobsComponent,
     JobAssociationModalComponent
-
-    // Pages
   ],
+  providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]
 })
 export class JobAssociationModule {
