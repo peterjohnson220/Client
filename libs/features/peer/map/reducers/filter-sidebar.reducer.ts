@@ -130,6 +130,7 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
     case fromFilterSidebarActions.LIMIT_TO_EXCHANGE: {
       return {
         ...state,
+        includeUntaggedEmployees: true,
         systemFilter: {...state.systemFilter, ExchangeId: action.payload }
       };
     }
