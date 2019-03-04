@@ -33,7 +33,10 @@
                 [skip]="(gridState$ | async)?.skip"
                 [sort]="(gridState$ | async)?.sort"
                 [filter]="(gridState$ | async)?.filter"
-                [selectable]="true"
+                [selectable]="{
+                  enabled: true,
+                  checkboxOnly: true
+                }"
                 [sortable]="true"
                 [resizable]="true"
                 [pageable]="{
