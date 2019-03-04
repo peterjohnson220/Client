@@ -14,6 +14,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 
+import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
   ],
   declarations: [
     // Components
+    AssociatedCompanyJobsComponent,
 
     // Containers
     CompanyJobsComponent,

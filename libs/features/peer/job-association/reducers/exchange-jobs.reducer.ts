@@ -5,7 +5,7 @@ import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromPeerExchangeJobsActions from '../actions/exchange-jobs.actions';
-import { ExchangeJob, ExchangeJobAssociation } from '../models/';
+import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../models/';
 
 export interface State extends EntityState<ExchangeJob> {
   loading: boolean;
@@ -72,6 +72,26 @@ export function reducer(state, action) {
             ExchangeJobAssociations: exchangeJobAssociations
           };
         }
+        case fromPeerExchangeJobsActions.REMOVE_ASSOCIATION: {
+          const exchangeJobAssociations: ExchangeJobAssociation[] = [];
+          featureState.ExchangeJobAssociations.forEach(exchangeJobAssociation => {
+            let companyJobs: CompanyJob[] = exchangeJobAssociation.CompanyJobs;
+            if (exchangeJobAssociation.ExchangeId === featureAction.exchangeId &&
+                exchangeJobAssociation.ExchangeJobId === featureAction.exchangeJobId) {
+              companyJobs = exchangeJobAssociation.CompanyJobs
+                  .filter(cj => cj.CompanyJobId !== featureAction.companyJobId);
+            }
+            exchangeJobAssociations.push({
+              ExchangeId: exchangeJobAssociation.ExchangeId,
+              ExchangeJobId: exchangeJobAssociation.ExchangeJobId,
+              CompanyJobs: companyJobs
+            });
+          });
+          return {
+            ...featureState,
+            ExchangeJobAssociations: exchangeJobAssociations
+          };
+        }
         default: {
           return featureState;
         }
@@ -80,7 +100,6 @@ export function reducer(state, action) {
       take: 50
     })(state, action);
 }
-
 
 // Selector functions
 export const getLoading = (state: State) => state.loading;

@@ -8,6 +8,7 @@ export const LOAD_EXCHANGE_JOBS_SUCCESS  = '[Peer Job Association Modal/Exchange
 export const LOAD_EXCHANGE_JOBS_ERROR  = '[Peer Job Association Modal/Exchange Jobs] Load Exchange Jobs Error';
 export const UPDATE_SEARCH_TERM  = '[Peer Job Association Modal/Exchange Jobs] Update Search Term';
 export const ADD_ASSOCIATION = '[Peer Job Association Modal/Exchange Jobs] Add Association';
+export const REMOVE_ASSOCIATION = '[Peer Job Association Modal/Exchange Jobs] Remove Association';
 
 export class LoadExchangeJobs implements Action {
   readonly type = LOAD_EXCHANGE_JOBS;
@@ -32,9 +33,15 @@ export class AddAssociation implements Action {
   constructor(public payload: ExchangeJobAssociation) {}
 }
 
+export class RemoveAssociation implements Action {
+  readonly type = REMOVE_ASSOCIATION;
+  constructor(public exchangeId: number, public exchangeJobId: number, public companyJobId: number) {}
+}
+
 export type Actions
   = LoadExchangeJobs
   | LoadExchangeJobsSuccess
   | LoadExchangeJobsError
   | UpdateSearchTerm
-  | AddAssociation;
+  | AddAssociation
+  | RemoveAssociation;

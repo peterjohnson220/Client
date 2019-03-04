@@ -134,6 +134,13 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleRemoveAssociateClick(exchangeId: number, exchangeJobId: number, companyJobId: number): void {
+    this.store.dispatch(new exchangeJobsActions.RemoveAssociation(
+        exchangeId,
+        exchangeJobId,
+        companyJobId));
+  }
+
   isAssociable(exchangeId: number, exchangeJobId: number): boolean {
     let isAssociable = false;
     if (this.hasSelectedCompanyJobs() &&
@@ -214,7 +221,10 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     return companyJobs;
   }
 
-  toggleViewType(): void {
+  toggleViewType(isListView: boolean): void {
+    if (this.isListView === isListView) {
+      return;
+    }
     this.isListView = !this.isListView;
   }
 }
