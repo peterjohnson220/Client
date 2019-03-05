@@ -286,3 +286,8 @@ export const getCreatingProjectError = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getCreatingProjectError
 );
+
+export const getCanAccessProjectsTile = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCanAccessProjectTile
+);

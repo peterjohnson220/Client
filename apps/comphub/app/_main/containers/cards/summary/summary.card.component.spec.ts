@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import { of } from 'rxjs';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -10,7 +11,7 @@ import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { RateType } from '../../../data';
-import { generateFakeJobData } from '../../../models';
+import { generateFakeJobData, generateMockPricingPaymarket } from '../../../models';
 
 
 describe('Comphub - Main - Summary Card Component', () => {
@@ -122,5 +123,39 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.handleCreateProjectClicked();
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should hide create project button when no access to projects tile', () => {
+    spyOn(store, 'dispatch');
+
+    instance.paymarket = generateMockPricingPaymarket();
+    instance.canAccessProjectsTile$ = of(false);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show create project button when has access to projects tile', () => {
+    spyOn(store, 'dispatch');
+
+    instance.paymarket = generateMockPricingPaymarket();
+    instance.canAccessProjectsTile$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should hide create project button has access to projects tile but no paymarketId', () => {
+    spyOn(store, 'dispatch');
+
+    instance.paymarket = generateMockPricingPaymarket();
+    instance.paymarket.CompanyPayMarketId = null;
+    instance.canAccessProjectsTile$ = of(true);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

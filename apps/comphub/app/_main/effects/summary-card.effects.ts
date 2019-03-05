@@ -8,6 +8,7 @@ import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/
 
 import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest } from 'libs/models/payfactors-api';
+import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromSummaryCardActions from '../actions/summary-card.actions';
@@ -114,6 +115,16 @@ export class SummaryCardEffects {
       tap((action: fromSummaryCardActions.CreateProjectSuccess) => {
         this.projectWindow.location.href = `/marketdata/marketdata.asp?usersession_id=${action.payload}`;
         this.projectWindow.focus();
+      })
+    );
+
+  @Effect()
+  getLeftSidebarNavigationLinksSuccess$ = this.actions$
+    .ofType(fromNavigationActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS)
+    .pipe(
+      map((action: fromNavigationActions.GetLeftSidebarNavigationLinksSuccess) => {
+        const hasAccessToProjectsTile = action.payload && action.payload.some(l => l.Name === 'Pricing Projects');
+        return new fromSummaryCardActions.SetProjectTileAccess(hasAccessToProjectsTile);
       })
     );
 
