@@ -75,7 +75,6 @@ h4 {
 }
 
 .creating-project-error {
-
   svg {
     color: #dc1e34;
   }
@@ -95,13 +94,20 @@ h4 {
   }
 }
 
-.pdf-header {
+.pdf-header, .pdf-logo {
   display: none;
 }
 
 :host ::ng-deep .k-pdf-export {
+  .pdf-logo {
+    display: block;
+    position: absolute;
+    right: 30px;
+    top: 35px;
+    width: 250px;
+  }
 
-  .pdf-header{
+  .pdf-header {
     text-transform: uppercase;
     color: $comphub-header-blue;
     display: block;
