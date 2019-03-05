@@ -32,6 +32,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   sharePricingSummaryConflict$: Observable<boolean>;
   creatingProject$: Observable<boolean>;
   creatingProjectError$: Observable<boolean>;
+  canAccessProjectsTile$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -60,6 +61,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.sharePricingSummaryConflict$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryConflict);
     this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
     this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
+    this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
   }
 
   ngOnInit() {

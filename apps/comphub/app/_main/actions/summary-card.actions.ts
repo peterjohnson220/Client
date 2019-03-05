@@ -16,6 +16,7 @@ export const CREATE_PROJECT = '[Comphub/Summary Card] Create Project';
 export const CREATE_PROJECT_SUCCESS = '[Comphub/Summary Card] Create Project Success';
 export const CREATE_PROJECT_ERROR = '[Comphub/Summary Card] Create Project Error';
 export const RESET_CREATE_PROJECT_STATUS = '[Comphub/Summary Card] Reset Create Project';
+export const SET_PROJECT_TILE_ACCESS = '[Comphub/Summary Card] Set Project Tile Access';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -95,6 +96,12 @@ export class ResetCreateProjectStatus implements Action {
   constructor() {}
 }
 
+export class SetProjectTileAccess implements Action {
+  readonly type = SET_PROJECT_TILE_ACCESS;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -108,4 +115,5 @@ export type Actions
   | CreateProject
   | CreateProjectSuccess
   | CreateProjectError
-  | ResetCreateProjectStatus;
+  | ResetCreateProjectStatus
+  | SetProjectTileAccess;

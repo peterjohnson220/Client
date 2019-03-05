@@ -10,6 +10,7 @@ export interface State {
   sharePricingSummaryConflict: boolean;
   creatingProject: boolean;
   createProjectError: boolean;
+  canAccessProjectsTile: boolean;
 }
 
 const initialState: State = {
@@ -20,7 +21,8 @@ const initialState: State = {
   sharePricingSummaryError: false,
   sharePricingSummaryConflict: false,
   creatingProject: false,
-  createProjectError: false
+  createProjectError: false,
+  canAccessProjectsTile: false
 };
 
 // Reducer function
@@ -101,6 +103,12 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         createProjectError: true
       };
     }
+    case fromSummaryCardActions.SET_PROJECT_TILE_ACCESS: {
+      return {
+        ...state,
+        canAccessProjectsTile: action.payload
+      };
+    }
 
     default: {
       return state;
@@ -117,3 +125,4 @@ export const getSharePricingSummaryError = (state: State) => state.sharePricingS
 export const getSharePricingSummaryConflict = (state: State) => state.sharePricingSummaryConflict;
 export const getCreatingProject = (state: State) => state.creatingProject;
 export const getCreatingProjectError = (state: State) => state.createProjectError;
+export const getCanAccessProjectTile = (state: State) => state.canAccessProjectsTile;
