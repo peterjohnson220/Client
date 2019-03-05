@@ -118,6 +118,15 @@ export class SummaryCardEffects {
       })
     );
 
+  @Effect({dispatch: false})
+  createProjectError$ = this.actions$
+    .ofType(fromSummaryCardActions.CREATE_PROJECT_ERROR)
+    .pipe(
+      tap(() => {
+        this.projectWindow.close();
+      })
+    );
+
   @Effect()
   getLeftSidebarNavigationLinksSuccess$ = this.actions$
     .ofType(fromNavigationActions.GET_LEFT_SIDEBAR_NAVIGATION_LINKS_SUCCESS)
