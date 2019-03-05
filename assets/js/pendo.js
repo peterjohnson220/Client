@@ -34,7 +34,8 @@ function initializePendo(userContext)
       };
       account = {
         id: idPrefix + userContext.CompanyId, // Highly recommended
-        name: userContext.CompanyName // Optional
+        name: userContext.CompanyName, // Optional,
+        systemUserGroupName: userContext.CompanySystemUserGroupsGroupName
         // planLevel:    // Optional
         // planPrice:    // Optional
         // creationDate: // Optional
