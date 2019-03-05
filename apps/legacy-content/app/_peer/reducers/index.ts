@@ -111,6 +111,21 @@ export const getCompanyJob = createSelector(
   fromAssociateCompanyJobReducer.getCompanyJob
 );
 
+export const getLoadingExchangeDictionary = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingExchangeDictionary
+);
+
+export const getLoadingExchangeDictionaryError = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getLoadingExchangeDictionaryError
+);
+
+export const getExchangeDictionaryForCompany = createSelector(
+  selectAssociateCompanyJobState,
+  fromAssociateCompanyJobReducer.getExchangeDictionary
+);
+
 // Paymarket Exchange Scope Selectors
 export const getExchangeScopesIsLoading = createSelector(
   selectPaymarketExchangeState,
