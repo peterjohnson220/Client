@@ -79,12 +79,7 @@ export class DojGuidelinesService {
     return this.dataCutValid && this.hasMinimumCompanies && this.hasNoHardDominatingData;
   }
 
-  validateDataCut(mapCompanies: any, shouldCheckSimilarity: boolean) {
-    if (!shouldCheckSimilarity) {
-      this.dataCutValid = true;
-      return;
-    }
-
+  validateDataCut(mapCompanies: any) {
     const validationInfo = this.dataCutValidationInfo;
     let validationPass = true;
 
