@@ -186,8 +186,8 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   isAssociable(exchangeId: number, exchangeJobId: number): boolean {
     let isAssociable = false;
     if (this.hasSelectedCompanyJobs() &&
-        this.hasSelectedUniqueCompanyJobs(exchangeId, exchangeJobId) &&
-        this.associableCompanyJobsAreLessThanThreshold(exchangeId, exchangeJobId) ) {
+        this.selectedCompanyJobAreUniqueToExchange(exchangeId) &&
+        this.selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId, exchangeJobId) ) {
       isAssociable = true;
     }
     return isAssociable;
@@ -197,7 +197,27 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     return this.selectedCompanyJobs.length > 0;
   }
 
-  associableCompanyJobsAreLessThanThreshold(exchangeId: number, exchangeJobId: number): boolean {
+  selectedCompanyJobAreUniqueToExchange(exchangeId: number): boolean {
+    const exchangeJobAssociations = this.exchangeJobAssociations.filter((x) => x.ExchangeId === exchangeId);
+    const isUnique = true;
+
+    if (exchangeJobAssociations.length === 0) {
+      return isUnique;
+    }
+
+    const selectedCompanyJobIds = this.selectedCompanyJobs.map(x => x.CompanyJobId).sort();
+
+    for (const exchangeJobAssociation of exchangeJobAssociations) {
+      for (const companyJobId of exchangeJobAssociation.CompanyJobs.map(cj => cj.CompanyJobId).sort()) {
+        if (selectedCompanyJobIds.indexOf(companyJobId) >= 0) {
+          return !isUnique;
+        }
+      }
+    }
+    return isUnique;
+  }
+
+  selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId: number, exchangeJobId: number): boolean {
     let count = this.selectedCompanyJobs.length;
     count += this.getAssociationCount(exchangeId, exchangeJobId);
     return count <= this.maxAssociableThreshold;
@@ -216,36 +236,6 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       totalAssociatedJobs += exchangeJobAssociation[i].CompanyJobs.map((cj) => cj.CompanyJobId).length;
     }
     return totalAssociatedJobs;
-  }
-
-  hasSelectedUniqueCompanyJobs(exchangeId: number, exchangeJobId: number): boolean {
-    const exchangeJobAssociation = this.exchangeJobAssociations
-        .filter((x) => x.ExchangeId === exchangeId && x.ExchangeJobId === exchangeJobId);
-
-    if (exchangeJobAssociation.length === 0) {
-      return true;
-    }
-
-    let exchangeJobAssociationCompanyIds: number[];
-    exchangeJobAssociationCompanyIds = exchangeJobAssociation[0].CompanyJobs
-            .map((companyJobs) => companyJobs.CompanyJobId);
-
-    if (exchangeJobAssociation.length > 1) {
-      for (let i = 1; i < exchangeJobAssociation.length; i++) {
-        exchangeJobAssociation[i].CompanyJobs.map((cj) => cj.CompanyJobId)
-            .forEach((companyJobId) => exchangeJobAssociationCompanyIds.push(companyJobId));
-      }
-    }
-
-    let selectedCompanyJobIds: number[];
-    selectedCompanyJobIds = this.selectedCompanyJobs.map(x => x.CompanyJobId).sort();
-
-    for (let i = 0; i < selectedCompanyJobIds.length; i++) {
-      if (exchangeJobAssociationCompanyIds.indexOf(selectedCompanyJobIds[i]) >= 0) {
-        return false;
-      }
-    }
-    return true;
   }
 
   getCompanyJobAssociations(exchangeId: number, exchangeJobId: number): CompanyJob[] {
