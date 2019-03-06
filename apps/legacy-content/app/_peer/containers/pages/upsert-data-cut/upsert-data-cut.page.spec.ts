@@ -1,6 +1,6 @@
-import {  NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { of } from 'rxjs/internal/observable/of';
@@ -63,14 +63,14 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
             snapshot: { queryParamMap: { get: (key) => queryStringParams[key] } }
           }
         },
-        { provide: DojGuidelinesService, useClass: DojGuidelinesStub},
+        { provide: DojGuidelinesService, useClass: DojGuidelinesStub },
         { provide: SettingsService, useClass: SettingsService }
       ],
       declarations: [
         UpsertDataCutPageComponent
       ],
       // Shallow Testing
-      schemas: [ NO_ERRORS_SCHEMA ]
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
     store = TestBed.get(Store);
@@ -208,8 +208,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
     spyOn(guidelinesService, 'validateDataCut');
 
     fixture.detectChanges();
-
-    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload);
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, 2, 3);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {
@@ -263,21 +262,21 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
   it(`should show disabled 'Requesting Access' button when peer terms haven't been accepted and access
   is being requested`, () => {
-    instance.hasAcceptedPeerTerms$ = of(false);
-    instance.requestingPeerAccess$ = of(true);
+      instance.hasAcceptedPeerTerms$ = of(false);
+      instance.requestingPeerAccess$ = of(true);
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
-  });
+      expect(fixture).toMatchSnapshot();
+    });
 
   it(`should show disabled 'Access Requested' button and 'Access Requested' message when
   peer terms haven't been accepted and access has been requested`, () => {
-    instance.hasAcceptedPeerTerms$ = of(false);
-    instance.hasRequestedPeerAccess$ = of(true);
+      instance.hasAcceptedPeerTerms$ = of(false);
+      instance.hasRequestedPeerAccess$ = of(true);
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
-  });
+      expect(fixture).toMatchSnapshot();
+    });
 });

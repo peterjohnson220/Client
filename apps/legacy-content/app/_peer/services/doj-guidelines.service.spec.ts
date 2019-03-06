@@ -55,13 +55,13 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   });
 
   it('should return false for hasNoDominatingData when there are companies > dominatingPercentage', () => {
-    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .26}];
+    service.companies = [{ ...generateMockExchangeStatCompanyMakeup(), Percentage: .26 }];
 
     expect(service.hasNoDominatingData).toBe(false);
   });
 
   it('should return true for hasNoDominatingData when there are companies <= dominatingPercentage', () => {
-    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .25}];
+    service.companies = [{ ...generateMockExchangeStatCompanyMakeup(), Percentage: .25 }];
 
     expect(service.hasNoDominatingData).toBe(true);
 
@@ -69,7 +69,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   });
 
   it('should return false for hasNoHardDominatingData when there are companies >= dominatingPercentageHard', () => {
-    service.companies = [{...generateMockExchangeStatCompanyMakeup(), Percentage: .5}];
+    service.companies = [{ ...generateMockExchangeStatCompanyMakeup(), Percentage: .5 }];
 
     expect(service.hasNoDominatingData).toBe(false);
   });
@@ -108,9 +108,9 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies);
+    service.validateDataCut(companies, 13, 13950);
 
-    expect(service.validDataCut).toBe(true);
+    expect(service.companyValidationPass).toBe(true);
   });
 
   it('should expect validDataCut to be false when the lists are too similar', () => {
@@ -124,7 +124,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies);
+    service.validateDataCut(companies, 13, 1234);
 
     expect(service.validDataCut).toBe(false);
 
