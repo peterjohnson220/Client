@@ -67,13 +67,14 @@
 }
 
 .term-container {
-  padding: 1rem;
+  padding: 1.25rem 1rem;
   
   .term {
     color: $comphub-header-blue;
   }
   
   .description {
-    padding-left: 1rem;
+    padding: 1rem;
+    background: lighten($comphub-header-background-grey, 5%);
   }
 }
