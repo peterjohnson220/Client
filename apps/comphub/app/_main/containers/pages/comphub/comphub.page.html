@@ -1,30 +1,35 @@
 <div class="accordion">
   <div class="card-container">
     
-    <pf-comphub-card
-      *ngFor="let card of (cards$ | async); trackBy: trackById"
-      [cardId]="card.Id"
-      [cardTitle]="card.Title"
-      [cardSubtitle]="card.Subtitle"
-      [cardIconClass]="card.IconClass"
-      [containerWidth]="cardContentContainerWidth"
-      [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
-      [selected]="(selectedPageId$ | async) === card.Id"
-      [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
-      (cardHeaderClick)="handleCardChange(card.Id)">
+    <ng-container *ngFor="let card of cards; let i=index; trackBy: trackById">
+      <pf-comphub-card
+        [hasCardHeader]="i !== 0"
+        [card]="card"
+        [prevCard]="i !== 0 ? cards[i - 1] : card"
+        [containerWidth]="cardContentContainerWidth"
+        [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
+        [selected]="(selectedPageId$ | async) === card.Id"
+        [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
+        [cardIndex]="i"
+        [selectedCardIndex]="selectedCardIndex"
+        (cardHeaderClick)="handleCardChange($event)">
 
-      <ng-container card-content [ngSwitch]="card.Id">
+        <ng-container card-content [ngSwitch]="card.Id">
 
-        <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
+          <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
 
-        <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
+          <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
 
-        <pf-data-card *ngSwitchCase="comphubPages.Data"></pf-data-card>
+          <pf-data-card *ngSwitchCase="comphubPages.Data"></pf-data-card>
 
-        <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
+          <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
 
-      </ng-container>
+        </ng-container>
 
-    </pf-comphub-card>
+      </pf-comphub-card>
+
+      <div class="card-separator"
+        [ngStyle]="{ 'margin-right.px' : ((selectedPageId$ | async) === card.Id) ? 0 : -cardContentContainerWidth }"></div>
+    </ng-container>
   </div>
 </div>
