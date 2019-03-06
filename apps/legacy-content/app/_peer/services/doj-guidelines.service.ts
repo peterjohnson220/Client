@@ -84,7 +84,7 @@ export class DojGuidelinesService {
     let validationPass = true;
 
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
-    if (currentMapCompanies.length > 4 && validationInfo.length > 0) {
+    if (validationInfo.length > 0) {
       // In an attempt to make this method faster, a previousSelections variable will be stored.
       // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
       if (!arraysEqual(currentMapCompanies, this.previousMapCompanies)) {
