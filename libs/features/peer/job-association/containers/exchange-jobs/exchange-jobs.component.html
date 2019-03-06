@@ -15,11 +15,17 @@
   peer exchange jobs: {{ totalPeerExchangeJobs$ | async }} total
 </label> |
 
-<button class="view-button" title="List View" [ngClass]="{'view-button-active' : isListView}" (click)="toggleViewType()">
+<button class="view-button"
+        title="List View"
+        [ngClass]="{'view-button-active' : isListView}"
+        (click)="toggleViewType(true)">
   <i class="fas fa-list"></i>
 </button>
 
-<button class="view-button" title="Detail View" [ngClass]="{'view-button-active' : !isListView}" (click)="toggleViewType()">
+<button class="view-button"
+        title="Detail View"
+        [ngClass]="{'view-button-active' : !isListView}"
+        (click)="toggleViewType(false)">
   <i class="fas fa-file-alt"></i>
 </button>
 
@@ -70,18 +76,18 @@
           <kendo-grid-column field="ExchangeJobFamily" title="Job Family"></kendo-grid-column>
           <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
           <ng-template kendoGridDetailTemplate let-dataItem>
-            <div *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) > 0">
-              <h4>Associated Jobs</h4>
-              <ul >
-                <li *ngFor="let companyJob of getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)">
-                  {{companyJob.JobTitle}} (Code: {{companyJob.JobCode}})
-                </li>
-              </ul>
-            </div>
-            <h4>Job Description</h4>
-            <p *ngIf="dataItem.ExchangeJobDescription"
-               [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
-            <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
+              <pf-peer-job-association-associated-jobs
+                      [companyJobs]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"
+                      (removeAssociation)="handleRemoveAssociateClick(
+                          dataItem.ExchangeId,
+                          dataItem.ExchangeJobId,
+                          $event)">
+              </pf-peer-job-association-associated-jobs>
+
+              <h4>Job Description</h4>
+              <p *ngIf="dataItem.ExchangeJobDescription"
+                 [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
+              <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
           </ng-template>
           <ng-template kendoGridNoRecordsTemplate>
             No results based on your search.
@@ -105,7 +111,6 @@
                 [sortable]="true"
                 [pageable]="{ buttonCount: 5, info: true }"
                 (dataStateChange)="handleDataStateChange($event)"
-                (detailExpand)="handleDetailExpand($event)"
         >
           <kendo-grid-span-column>
             <kendo-grid-column
@@ -135,18 +140,17 @@
                 <strong>Family:</strong> {{dataItem.ExchangeJobFamily}} |
                 <strong>Exchange: </strong>{{dataItem.ExchangeName}}
               </h6>
+
               <br />
 
-              <h4>Associated Jobs</h4>
-              <ul *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) > 0; else noAssociations">
-                <li *ngFor="let companyJob of getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)">
-                  {{companyJob.JobTitle}} (Code: {{companyJob.JobCode}})
-                </li>
-                <li *ngIf="getAssociationCount(dataItem.ExchangeId, dataItem.ExchangeJobId) <= 0"><i>No Associations</i></li>
-              </ul>
-              <ng-template #noAssociations>
-                <div><i>No Associations</i></div>
-              </ng-template>
+              <pf-peer-job-association-associated-jobs
+                      [companyJobs]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"
+                      (removeAssociation)="handleRemoveAssociateClick(
+                          dataItem.ExchangeId,
+                          dataItem.ExchangeJobId,
+                          $event)">
+              </pf-peer-job-association-associated-jobs>
+
               <br />
 
               <h4>Job Description</h4>
