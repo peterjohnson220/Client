@@ -66,8 +66,8 @@ export class ExchangeJobAssociationUtilityPageComponent implements OnInit, OnDes
   // Events
   handleRunButtonClick(): void {
     const payload = {
-      CompanyId: this.companySelectionControl.value.Key,
-      ExchangeId: this.exchangeSelectionControl.value.Key
+      CompanyId: this.companySelectionControl.value,
+      ExchangeId: this.exchangeSelectionControl.value
     };
     this.store.dispatch(new fromAssociateJobsActions.AssociateJobs(payload));
     this.hasAttemptedRun = true;
