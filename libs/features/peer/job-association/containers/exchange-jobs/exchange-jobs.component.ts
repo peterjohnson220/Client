@@ -129,7 +129,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleJobFamilyToggle(isExpanded) {
+  handleJobFamilyToggle(isExpanded?: boolean) {
     // if isExpanded is defined send it as the payload which determines if the component is expanded, otherwise send nothing to toggle
     if (typeof isExpanded !== 'undefined') {
       this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(isExpanded));
