@@ -1,0 +1,40 @@
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+
+// Import root app reducer
+import * as fromRoot from 'libs/state/state';
+
+import * as fromTicketsReducer from './ticket.reducer';
+import * as fromTicketsListReducer from './ticket-list.reducer';
+
+// Feature area state
+export interface TicketsAdminState {
+  ticket: fromTicketsReducer.State;
+  ticketList: fromTicketsListReducer.State;
+}
+
+// Extend root state with feature area state
+export interface State extends fromRoot.State {
+  ticketsAdmin: TicketsAdminState;
+}
+
+// Feature area reducers
+export const reducers = {
+  ticket: fromTicketsReducer.reducer,
+  ticketList: fromTicketsListReducer.reducer
+};
+
+// Select Feature area
+export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>('ticketsAdminMain');
+
+// Tickets Admin View Selectors
+export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
+export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
+
+// Ticket Selector
+export const getTicketLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
+
+// Ticket List Selectors
+export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
+export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
