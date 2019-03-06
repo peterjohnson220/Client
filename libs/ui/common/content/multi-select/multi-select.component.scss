@@ -1,0 +1,82 @@
+@import 'colors';
+
+$light-border: 1px solid rgb(206, 212, 218);
+
+@mixin center-with-spacing {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.multi-select-container {
+  a {
+    color: inherit;
+    .select-facade {
+      border: $light-border;
+      width: 140px;
+      label {
+        width: 85%;
+        vertical-align: -4px;
+      }
+      .fa-angle-down {
+        color: $link-color;
+        font-size: 1.2rem;
+      }
+    }
+  }
+  .selections-container {
+    border: $light-border;
+    box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, .2);
+    z-index: 200;
+    background-color: #fff;
+    .loading {
+      width: 200px;
+    }
+    .fa-search {
+      font-size: 18px;
+      position: relative;
+      left: 1rem;
+      top: .5rem;
+      z-index: 100;
+    }
+    input[type=text] {
+      @include center-with-spacing();
+      padding-left: 30px;
+      margin-top: -20px;
+      &+ a {
+        right: 1rem;
+        top: 1rem;
+      }
+    }
+    button.clear-selections {
+      @include center-with-spacing();
+      color: #fff;
+      background-color: $pf-brand-secondary-color;
+    }
+    .checkbox-container {
+      width: 200px;
+      max-height: 200px;
+      min-height: 1rem;
+      overflow: auto;
+      .checkbox-label {
+        transition: background-color .2s ease-in-out;
+        cursor: pointer;
+        padding: .38rem 0 .38rem .5rem;
+        &:hover {
+          background-color: #f2f2f2;
+        }
+        &.isSelected {
+          background-color: #ccc;
+        }
+        input[type=checkbox] {
+          vertical-align: -2px;
+          cursor: pointer;
+        }
+      }
+      // hide the no results label when it's adjacent to a selectable option
+      .checkbox-label + .no-results {
+        display: none !important;
+      }
+    }
+  }
+}

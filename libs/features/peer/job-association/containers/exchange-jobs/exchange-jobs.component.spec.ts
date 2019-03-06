@@ -4,6 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HighlightTextPipe, JobDescriptionParserPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
@@ -26,6 +27,7 @@ describe('ExchangeJobsComponent', () => {
           ...fromRootState.reducers,
           feature_job_association: combineReducers(fromExchangeJobsReducer.reducers)
         }),
+        NgbTooltipModule
       ],
       declarations: [ ExchangeJobsComponent, HighlightTextPipe, JobDescriptionParserPipe ],
       schemas: [ NO_ERRORS_SCHEMA ]

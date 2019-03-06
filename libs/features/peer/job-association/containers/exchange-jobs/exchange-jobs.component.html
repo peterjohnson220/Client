@@ -1,14 +1,32 @@
 <h2>Peer Exchange Jobs</h2>
-<div class="filters position-relative w-25 d-flex">
+<div class="filters position-relative d-flex">
   <i class="fas fa-search"></i>
-  <pf-input-debounce 
-    [delay]="400"
-    [(ngModel)]="searchTerm"
-    [ngModelOptions]="{standalone: true}"
-    [placeholderText]="'Search job title'"
-    (valueChanged)="updateSearchFilter($event)"
-  >
-  </pf-input-debounce>
+  <div class="w-50">
+    <pf-input-debounce 
+      [id]="'exchange-jobs-search-box'"
+      [delay]="400"
+      [(ngModel)]="searchTerm"
+      [ngModelOptions]="{standalone: true}"
+      [placeholderText]="'Search job title'"
+      (valueChanged)="updateSearchFilter($event)"
+    >
+    </pf-input-debounce>
+  </div>
+  <div class="ml-3">
+    <pf-multi-select
+      [labelText]="'Job Family'"
+      [options]="jobFamilyFilterOptions$ | async"
+      [isExpanded$]="isJobFamilyFilterExpanded$"
+      [isLoading$]="isJobFamilyFilterLoading$"
+      pfClickElsewhere
+      [whitelist]="[]"
+      (clickElsewhere)="handleJobFamilyToggle(false)"
+      (selectFacadeClick)="handleJobFamilyToggle()"
+      (checkboxClick)="handleJobFamilyCheckboxToggle($event)"
+      (clearSelectionsClick)="handleJobFamilyClearSelections()"
+    >
+    </pf-multi-select>
+  </div>
 </div>
 
 <label class="text-uppercase" data-qa-id="lbl-exchange-jobs-total">
@@ -58,7 +76,7 @@
                 [pageable]="{ buttonCount: 5, info: true }"
                 (dataStateChange)="handleDataStateChange($event)"
                 (detailExpand)="handleDetailExpand($event)"
-        >
+          >
           <kendo-grid-column [width]="55">
             <ng-template kendoGridCellTemplate let-dataItem>
               <button class="associate-button"
@@ -73,7 +91,14 @@
               <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column field="ExchangeJobFamily" title="Job Family"></kendo-grid-column>
+          <kendo-grid-column field="ExchangeJobFamily" title="Job Family">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <span *ngIf="dataItem.ExchangeJobFamily; else noFamily">{{ dataItem.ExchangeJobFamily }}</span>
+              <ng-template #noFamily>
+                <span>No Family</span>
+              </ng-template>
+            </ng-template>
+          </kendo-grid-column>
           <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
           <ng-template kendoGridDetailTemplate let-dataItem>
               <pf-peer-job-association-associated-jobs

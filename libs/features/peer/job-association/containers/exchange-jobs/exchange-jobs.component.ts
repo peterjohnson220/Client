@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -7,8 +7,10 @@ import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { InputDebounceComponent } from 'libs/forms/components';
-import { GridTypeEnum } from 'libs/models/common';
 import * as fromJobAssociationReducers from '../../reducers';
+import { GridTypeEnum, GenericMenuItem } from 'libs/models/common';
+
+import * as fromExchangeJobsReducer from '../../reducers';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { CompanyJob, ExchangeJobAssociation } from '../../models';
@@ -44,6 +46,11 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobs: CompanyJob[];
   exchangeJobAssociations: ExchangeJobAssociation[];
 
+  // Job Family Filter
+  isJobFamilyFilterExpanded$: Observable<boolean>;
+  isJobFamilyFilterLoading$: Observable<boolean>;
+  jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
+
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
   ngOnInit() {
@@ -70,8 +77,14 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
         .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
 
+    // job family
+    this.isJobFamilyFilterExpanded$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
+    this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
+    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
+
     // Dispatches
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
+    this.store.dispatch(new exchangeJobsActions.LoadJobFamilyFilter());
   }
 
   ngOnDestroy() {
@@ -84,6 +97,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
     if (resetSearchTerm) {
       this.jobTitleSearchComponent.clearValue();
+      this.store.dispatch(new exchangeJobsActions.ClearSelectedJobFamilies());
     } else {
       this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
     }
@@ -115,12 +129,40 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleJobFamilyToggle(isExpanded) {
+    // if isExpanded is defined send it as the payload which determines if the component is expanded, otherwise send nothing to toggle
+    if (typeof isExpanded !== 'undefined') {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(isExpanded));
+    } else {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter());
+    }
+  }
+
+  handleJobFamilyCheckboxToggle(option: GenericMenuItem) {
+    this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilterSelection(option));
+    this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
+  }
+
+  handleJobFamilyClearSelections() {
+    this.store.dispatch(new exchangeJobsActions.ClearSelectedJobFamilies());
+    this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
+  }
+
   updateSearchFilter(searchTerm: string): void {
     this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
 
     // only search if 2+ chars are supplied, or if the term is reset and it's empty
     if (!searchTerm || searchTerm.length >= 2) {
       this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
+    }
+  }
+
+  // close the job family filter when the escape key is clicked
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'escape') {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(false));
+      return false;
     }
   }
 
