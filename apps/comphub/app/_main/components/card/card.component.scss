@@ -18,6 +18,7 @@
   margin-right: 8px;
   background-color: $comphub-header-background-grey;
   display: block;
+  z-index: 1000;
 
   &:hover {
     cursor: pointer;
