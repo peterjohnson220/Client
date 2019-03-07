@@ -23,10 +23,6 @@
     cursor: pointer;
   }
 
-  &.selected {
-    display: none;
-  }
-
   &.disabled {
     cursor: initial;
 
@@ -66,12 +62,4 @@
   position: relative;
   transition: width 0.35s ease 0.2s;
   margin-bottom: 0px;
-  .card-content {
-    display: none;
-  }
-  &.selected {
-    .card-content {
-      display: block;
-    }
-  }
 }
