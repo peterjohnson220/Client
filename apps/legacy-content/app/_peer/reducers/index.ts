@@ -43,9 +43,9 @@ export const selectUpsertDataCutState =
 export const selectDataCutValidationState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.dataCutValidation);
 export const selectAssociateCompanyJobState =
-  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.associateCompanyJob);
+  createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.associateCompanyJob);
 export const selectPaymarketExchangeState =
-  createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.paymarketExchangeScope);
+  createSelector(selectUpsertPeerDataState , (state: UpsertPeerDataState) => state.paymarketExchangeScope);
 export const selectRequestPeerAccessState =
   createSelector(selectUpsertPeerDataState, (state: UpsertPeerDataState) => state.requestPeerAccess);
 
@@ -79,12 +79,7 @@ export const getDataCutValidationInfoLoading =
   createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoading);
 export const getDataCutValidationInfoLoadingError
   = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getLoadingError);
-export const getEmployeeSimilarityError
-  = createSelector(selectDataCutValidationState, fromDataCutValidationReducer.getEmployeeSimilarityError);
-export const getEmployeeCheckPassed = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getEmployeeSimilarityPassed);
-export const getIsEmployeeSimilarityLoading = createSelector(selectDataCutValidationState,
-  fromDataCutValidationReducer.getValidatingEmployeeSimilarity);
+
 // Associate Company Job Selectors
 export const getExchangeSearchResult = createSelector(
   selectAssociateCompanyJobState,
