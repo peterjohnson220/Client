@@ -25,17 +25,17 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   tooltipDir="undefined"
   totalPeerExchangeJobs$={[Function Store]}
 >
-  <h2>
+  <h2
+    class="text-center"
+  >
     Peer Exchange Jobs
   </h2><div
-    class="filters position-relative d-flex"
+    class="filters position-relative d-flex mt-2 mb-2"
   >
-    <i
-      class="fas fa-search"
-    />
-    <div
-      class="w-50"
-    >
+    <div>
+      <i
+        class="fas fa-search position-absolute"
+      />
       <pf-input-debounce
         id="exchange-jobs-search-box"
       />
@@ -47,31 +47,34 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
         pfclickelsewhere=""
       />
     </div>
-  </div><label
-    class="text-uppercase"
-    data-qa-id="lbl-exchange-jobs-total"
-  >
-     peer exchange jobs: 0 total
-  
-  </label> | <button
-    class="view-button view-button-active"
-    ng-reflect-klass="view-button"
-    ng-reflect-ng-class="[object Object]"
-    title="List View"
-  >
-    <i
-      class="fas fa-list"
-    />
-  </button><button
-    class="view-button"
-    ng-reflect-klass="view-button"
-    ng-reflect-ng-class="[object Object]"
-    title="Detail View"
-  >
-    <i
-      class="fas fa-file-alt"
-    />
-  </button><div
+  </div><div>
+    <label
+      class="text-uppercase"
+      data-qa-id="lbl-exchange-jobs-total"
+    >
+       peer exchange jobs: 0 total 
+    </label>
+    <button
+      class="view-button ml-2 view-button-active"
+      ng-reflect-klass="view-button ml-2"
+      ng-reflect-ng-class="[object Object]"
+      title="List View"
+    >
+      <i
+        class="fas fa-table"
+      />
+    </button>
+    <button
+      class="view-button"
+      ng-reflect-klass="view-button"
+      ng-reflect-ng-class="[object Object]"
+      title="Detail View"
+    >
+      <i
+        class="fas fa-list"
+      />
+    </button>
+  </div><div
     class="grid-container position-relative"
   >
     <pf-async-container

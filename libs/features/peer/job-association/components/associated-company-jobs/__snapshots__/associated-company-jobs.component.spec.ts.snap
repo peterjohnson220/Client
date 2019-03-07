@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AssociatedCompanyJobsComponent handleRemoveAssociate triggers removeAssociation output 1`] = `
-<pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
->
-  <div
-    class="job-association-associated-jobs container px-0"
-    id="job-association-associated-jobs"
-  >
-    <h4>
-      Associated Jobs
-    </h4>
-    
-    
-  </div>
-</pf-peer-job-association-associated-jobs>
-`;
-
 exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
 <pf-peer-job-association-associated-jobs
   companyJobs={[Function Array]}

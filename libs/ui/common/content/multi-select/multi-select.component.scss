@@ -1,6 +1,6 @@
 @import 'colors';
 
-$light-border: 1px solid rgb(206, 212, 218);
+$light-border: 1px solid #ccc;
 
 @mixin center-with-spacing {
   width: 95%;
@@ -9,6 +9,9 @@ $light-border: 1px solid rgb(206, 212, 218);
 }
 
 .multi-select-container {
+  .main-label {
+    white-space: nowrap;
+  }
   a {
     color: inherit;
     .select-facade {
@@ -26,11 +29,11 @@ $light-border: 1px solid rgb(206, 212, 218);
   }
   .selections-container {
     border: $light-border;
-    box-shadow: 2px 2px 2px 1px rgba(0, 0, 255, .2);
+    box-shadow: 2px 2px 2px 1px rgba(93, 93, 98, 0.2);
     z-index: 200;
     background-color: #fff;
     .loading {
-      width: 200px;
+      width: 300px;
     }
     .fa-search {
       font-size: 18px;
@@ -42,7 +45,6 @@ $light-border: 1px solid rgb(206, 212, 218);
     input[type=text] {
       @include center-with-spacing();
       padding-left: 30px;
-      margin-top: -20px;
       &+ a {
         right: 1rem;
         top: 1rem;
@@ -64,6 +66,9 @@ $light-border: 1px solid rgb(206, 212, 218);
         padding: .38rem 0 .38rem .5rem;
         &:hover {
           background-color: #f2f2f2;
+          text-overflow: clip;
+          white-space: normal;
+          word-break: keep-all;
         }
         &.isSelected {
           background-color: #ccc;

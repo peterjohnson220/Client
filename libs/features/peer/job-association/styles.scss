@@ -1,33 +1,125 @@
 @import 'kendo-grid';
+@import 'common/common-variables';
+@import 'colors';
 
+$sub-header-height: 27px;
+
+// styling outside of the the two main components
+.associate-button {
+  border: 0;
+  background-color: $pf-brand-secondary-color;
+  color: #fff;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+  transition: opacity .2s ease-in-out;
+  &.fake-button {
+    pointer-events: none;
+    height: 1.6rem;
+    width: 1.6rem;
+    padding-left: .25rem;
+  }
+  &:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+  }
+}
+
+.sub-header {
+  color: $header-color;
+  font-weight: 500;
+  height: $sub-header-height;
+}
+
+.grids-wrapper {
+  height: calc(100% - #{$sub-header-height});
+}
+
+
+// main component styling
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
+  &> h2 {
+    color: $header-color;
+  }
+  
   .filters {
-    margin: 8px 0;
-    min-width: 160px;
+    min-height: 35px; // this can be removed once both grids have the job family filter
+    pf-input-debounce {
+      .input-group {
+        flex-wrap: nowrap;
+      }
+      input[type=text].form-control {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+        padding: 0 2.1rem;
+        min-width: 220px;
+      }
+      .input-group-text {
+        background-color: inherit;
+        border: none;
+        margin-left: -2.1rem;
+        z-index: 100;
+        opacity: .8;
+      }
+    }
     .fa-search {
       font-size: 18px;
-      position: relative;
       left: 6px;
       z-index: 100;
       margin-top: 6px;
-    }
-    #exchange-jobs-search-box, #company-jobs-search-box {
-      margin-left: -20px;
-      padding-left: 30px;
-    }
-    pf-input-debounce {
-      width: 100%;
+      color: #0099cc;
     }
   }
+
+  .view-button {
+    color: $pf-brand-secondary-color;
+    border: 0;
+    cursor: pointer;
+    background-color: #fff;
+    opacity: .6;
+    transition: opacity .2s ease-in-out;
+    font-size: 16px;
+    &:hover {
+      opacity: 1;
+    }
+  }
+  .view-button-active {
+    color: $pf-brand-secondary-color;
+    opacity: 1;
+  }
+
   .grid-container {
     height: 75%;
     .k-tooltip-container {
       height: 100%;
       .k-grid {
-        .k-grid-content td > div {
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        border: none;
+        .k-grid-header {
+          background-color: transparent;
+          border: none;
+        }
+        .k-grid-header-wrap {
+          border-right: none;
+          .k-header {
+            font-weight: 700;
+            border: none;
+            background-color: #fff;
+            color: rgba(102, 102, 102, 0.9);
+            &:not(:first-child) {
+              border-right: 1px dashed #ccc;
+            }
+          }
+        }
+        .k-grid-content td, .k-grid-content td > div {
+          @extend %ellipsis-overflowing-text;
+          border: none;
+        }
+        .k-hierarchy-cell a {
+          padding: 0.5rem 0;
+        }
+        .k-alt:not(.k-state-selected) {
+          background-color: #f2f2f2;
         }
         // override plus/minus expand icons with right/down chevrons
         .k-icon.k-plus:before {
@@ -45,6 +137,9 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
               margin-right: .4rem;
             }
           }
+        }
+        .k-pager-wrap .k-link:not(.k-state-selected) {
+          color: $pf-brand-secondary-color;
         }
         .k-grid-norecords {
           text-align: center;

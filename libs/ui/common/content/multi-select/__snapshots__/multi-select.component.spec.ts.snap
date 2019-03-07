@@ -13,32 +13,36 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
   </div>
@@ -59,32 +63,36 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
     <div
@@ -94,10 +102,10 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
       
       <div>
         <i
-          class="fas fa-search"
+          class="fas fa-search position-absolute"
         />
         <input
-          class="form-control d-block"
+          class="form-control d-block mt-2"
           placeholder="Search"
           type="text"
         />
@@ -105,11 +113,9 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <span>
-            <i
-              class="fas fa-times"
-            />
-          </span>
+          <i
+            class="fas fa-times"
+          />
         </a>
         <button
           class="clear-selections btn d-block mt-2 mb-2"
@@ -146,32 +152,36 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
     <div
@@ -181,10 +191,10 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
       
       <div>
         <i
-          class="fas fa-search"
+          class="fas fa-search position-absolute"
         />
         <input
-          class="form-control d-block"
+          class="form-control d-block mt-2"
           placeholder="Search"
           type="text"
         />
@@ -192,11 +202,9 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <span>
-            <i
-              class="fas fa-times"
-            />
-          </span>
+          <i
+            class="fas fa-times"
+          />
         </a>
         <button
           class="clear-selections btn d-block mt-2 mb-2"
@@ -244,32 +252,36 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      job family
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        job family
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
   </div>
@@ -289,32 +301,36 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
     <div
@@ -324,10 +340,10 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
       
       <div>
         <i
-          class="fas fa-search"
+          class="fas fa-search position-absolute"
         />
         <input
-          class="form-control d-block"
+          class="form-control d-block mt-2"
           placeholder="Search"
           type="text"
         />
@@ -335,11 +351,9 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           class="position-absolute text-muted"
           href="javascript:void(0)"
         >
-          <span>
-            <i
-              class="fas fa-times"
-            />
-          </span>
+          <i
+            class="fas fa-times"
+          />
         </a>
         <button
           class="clear-selections btn d-block mt-2 mb-2"
@@ -376,32 +390,36 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
   <div
     class="multi-select-container"
   >
-    <label
-      class="mr-2"
-    >
-      
-    </label>
     <div
-      class="d-inline-block"
+      class="d-flex"
     >
-      <a
-        class="text-decoration-none"
-        href="javascript:void(0)"
+      <label
+        class="main-label mr-2 pt-2"
       >
-        <span
-          class="select-facade d-inline-block rounded p-2"
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
         >
-          <label
-            class="d-inline-block mb-0 ellipsis-overflowing-text pr-0"
-            ng-reflect-ngb-tooltip=""
+          <span
+            class="select-facade d-inline-block rounded p-1 pt-2"
           >
-            
-          </label>
-          <i
-            class="fas fa-angle-down d-inline-block ml-2"
-          />
-        </span>
-      </a>
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip=""
+            >
+              
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
     </div>
     
     <div
