@@ -103,8 +103,8 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  showTooltip(e: any): void {
-    if (e.target.offsetWidth < e.target.scrollWidth) {
+  showExchangeTitleTooltip(e: any): void {
+    if (e.target.offsetWidth < e.target.scrollWidth && e.target.id.includes('exchange-title-')) {
       this.tooltipDir.toggle(e.target);
     } else {
       this.tooltipDir.hide();
