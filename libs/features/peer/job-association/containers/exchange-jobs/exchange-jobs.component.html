@@ -62,7 +62,7 @@
                 showOn="none"
                 [tooltipTemplate]="template"
                 filter=".k-grid td"
-                (mouseover)="showTooltip($event)"
+                (mouseover)="showExchangeTitleTooltip($event)"
         >
           <kendo-grid
                 [data]="exchangeJobs$ | async"
@@ -77,7 +77,7 @@
                 (dataStateChange)="handleDataStateChange($event)"
                 (detailExpand)="handleDetailExpand($event)"
           >
-          <kendo-grid-column [width]="40">
+          <kendo-grid-column [resizable]="false" [width]="40">
             <ng-template kendoGridCellTemplate let-dataItem>
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
@@ -88,7 +88,9 @@
           </kendo-grid-column>
           <kendo-grid-column  field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
+              <div id="{{'exchange-title-'+ dataItem.ExchangeId + '-' + dataItem.ExchangeJobId}}"
+                   class="exchange-job-title" [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm">
+              </div>
             </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobFamily" title="Job Family">
