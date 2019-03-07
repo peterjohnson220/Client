@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeJobAssociation } from '../models';
+import { ExchangeJobAssociation, ExchangeJob } from '../models';
 import { GenericMenuItem } from 'libs/models';
 
 // grid and search term
@@ -11,6 +11,9 @@ export const LOAD_EXCHANGE_JOBS_ERROR  = '[Peer Job Association Modal/Exchange J
 export const UPDATE_SEARCH_TERM  = '[Peer Job Association Modal/Exchange Jobs] Update Search Term';
 export const ADD_ASSOCIATION = '[Peer Job Association Modal/Exchange Jobs] Add Association';
 export const REMOVE_ASSOCIATION = '[Peer Job Association Modal/Exchange Jobs] Remove Association';
+export const SELECT_EXCHANGE_JOB = '[Peer Job Association Modal/Exchange Jobs] Select Exchange Job';
+export const TOGGLE_DETAIL_PANEL = '[Peer Job Association Modal/Exchange Jobs] Toggle Detail Panel';
+export const CLOSE_DETAIL_PANEL = '[Peer Job Association Modal/Exchange Jobs] Close Detail Panel';
 
 // job family filter
 export const LOAD_JOB_FAMILY_FILTER = '[Peer Job Association Modal/Exchange Jobs] Load Exchange Jobs Family Filter';
@@ -49,6 +52,19 @@ export class RemoveAssociation implements Action {
   constructor(public exchangeId: number, public exchangeJobId: number, public companyJobId: number) {}
 }
 
+export class SelectExchangeJob implements Action {
+  readonly type = SELECT_EXCHANGE_JOB;
+  constructor(public payload: ExchangeJob) {}
+}
+
+export class ToggleDetailPanel implements Action {
+  readonly type = TOGGLE_DETAIL_PANEL;
+}
+
+export class CloseDetailPanel implements Action {
+  readonly type = CLOSE_DETAIL_PANEL;
+}
+
 // job family filter
 export class LoadJobFamilyFilter implements Action {
   readonly type = LOAD_JOB_FAMILY_FILTER;
@@ -84,6 +100,10 @@ export type Actions
   | UpdateSearchTerm
   | AddAssociation
   | RemoveAssociation
+  | SelectExchangeJob
+  | ToggleDetailPanel
+  | CloseDetailPanel
+  // job family
   | LoadJobFamilyFilter
   | LoadJobFamilyFilterSuccess
   | LoadJobFamilyFilterError

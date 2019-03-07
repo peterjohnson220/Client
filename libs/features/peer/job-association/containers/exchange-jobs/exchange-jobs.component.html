@@ -8,7 +8,7 @@
       [(ngModel)]="searchTerm"
       [ngModelOptions]="{standalone: true}"
       [placeholderText]="'Search job title'"
-      (valueChanged)="updateSearchFilter($event)"
+      (valueChanged)="handleSearchFilterChanged($event)"
     >
     </pf-input-debounce>
   </div>
@@ -35,7 +35,7 @@
     peer exchange jobs: {{ totalPeerExchangeJobs$ | async }} total
   </label>
   <button class="view-button ml-2"
-          title="List View" 
+          title="Grid View" 
           [ngClass]="{'view-button-active' : isListView}" 
           (click)="toggleViewType(true)">
     <i class="fas fa-table"></i>
@@ -65,6 +65,15 @@
                 filter=".k-grid td"
                 (mouseover)="showExchangeTitleTooltip($event)"
         >
+          <pf-grid-detail-panel
+            [isExpanded$]="isDetailPanelExpanded$"
+            [jobId]="selectedExchangeJob.ExchangeJobId"
+            [jobTitle]="selectedExchangeJob.ExchangeJobTitle"
+            [jobDescription]="selectedExchangeJob.ExchangeJobDescription"
+            [jobFamily]="selectedExchangeJob.ExchangeJobFamily"
+            [jobExchange]="selectedExchangeJob.ExchangeName"
+            (closeClick)="handleCloseDetailPanel()"        
+          ></pf-grid-detail-panel>
           <kendo-grid
                 [data]="exchangeJobs$ | async"
                 [style.height.%]="100"
@@ -89,9 +98,13 @@
           </kendo-grid-column>
           <kendo-grid-column  field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <div id="{{'exchange-title-'+ dataItem.ExchangeId + '-' + dataItem.ExchangeJobId}}"
-                   class="exchange-job-title" [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm">
-              </div>
+              <a id="{{'exchange-title-'+ dataItem.ExchangeId + '-' + dataItem.ExchangeJobId}}"
+                  href="javascript:void(0)" 
+                  (click)="handleExchangeJobClick(dataItem)" 
+                  class="grid-link exchange-job-title"
+                  [class.selected]="dataItem.Id === selectedExchangeJob.Id && (isDetailPanelExpanded$ | async)">
+                  <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
+              </a>
             </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobFamily" title="Job Family">
@@ -104,18 +117,13 @@
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
           <ng-template kendoGridDetailTemplate let-dataItem>
-              <pf-peer-job-association-associated-jobs
-                      [companyJobs]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      (removeAssociation)="handleRemoveAssociateClick(
-                          dataItem.ExchangeId,
-                          dataItem.ExchangeJobId,
-                          $event)">
-              </pf-peer-job-association-associated-jobs>
-
-              <h6 class="text-uppercase font-weight-bold mt-3">Job Description</h6>
-              <p *ngIf="dataItem.ExchangeJobDescription"
-                 [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
-              <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
+            <pf-peer-job-association-associated-jobs
+                    [companyJobs]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"
+                    (removeAssociation)="handleRemoveAssociateClick(
+                        dataItem.ExchangeId,
+                        dataItem.ExchangeJobId,
+                        $event)">
+            </pf-peer-job-association-associated-jobs>
           </ng-template>
           <ng-template kendoGridNoRecordsTemplate>
             No results based on your search.
@@ -181,9 +189,11 @@
 
               <br />
 
-              <h4>Job Description</h4>
-              <p *ngIf="dataItem.ExchangeJobDescription" [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
-              <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
+              <div class="job-description">
+                <h4>Job Description</h4>
+                <p *ngIf="dataItem.ExchangeJobDescription" [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
+                <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
+              </div>
             </ng-template>
           </kendo-grid-span-column>
 

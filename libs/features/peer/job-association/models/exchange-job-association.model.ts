@@ -10,6 +10,13 @@ export function generateMockExchangeJobAssociation(): ExchangeJobAssociation {
   return {
     ExchangeId: 1,
     ExchangeJobId: 123,
-    CompanyJobs: [{CompanyJobId: 100, JobCode: 'jobCode', JobFamily: 'jobFamily', JobTitle: 'jobTitle', IsAssociated: false}]
+    CompanyJobs: [{
+      CompanyJobId: 100,
+      JobCode: 'jobCode',
+      JobFamily: 'jobFamily',
+      JobDescription: 'jobDescription',
+      JobTitle: 'jobTitle',
+      IsAssociated: false
+    }]
   };
 }

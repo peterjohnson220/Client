@@ -84,6 +84,16 @@ export const getExchangeJobsSearchTerm = createSelector(
   (feature) => feature.searchTerm
 );
 
+export const getExchangeJobsSelectedExchangeJob = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.selectedExchangeJob
+);
+
+export const getExchangeJobsIsDetailPanelExpanded = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.isDetailPanelExpanded
+);
+
 export const {
   selectAll: getExchangeJobsList
 } = fromExchangeJobsReducer.adapter.getSelectors(getExchangeJobsFeature);
@@ -97,6 +107,11 @@ export const getExchangeJobsData = createSelector(
   getExchangeJobsList,
   getExchangeJobsTotal,
   (data, total) => ({ data, total })
+);
+
+export const getExchangeJobsResultsCount = createSelector(
+  getExchangeJobsList,
+  (data) => data.length
 );
 
 // Exchange Jobs Selectors, job family filter
@@ -173,6 +188,18 @@ export const getCompanyJobsSearchTerm = createSelector(
   (feature) => feature.searchTerm
 );
 
+// detail panel
+export const getCompanyJobsSelectedCompanyJobInDetailPanel = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.selectedCompanyJobInDetailPanel
+);
+
+export const getCompanyJobsIsDetailPanelExpanded = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.isDetailPanelExpanded
+);
+
+// associations
 export const getSelectedCompanyJobs = createSelector(
     getCompanyJobsFeature,
     fromCompanyJobsReducer.getSelectedCompanyJobs);

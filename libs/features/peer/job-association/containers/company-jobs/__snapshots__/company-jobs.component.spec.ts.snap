@@ -10,6 +10,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
   exchangeJobAssociationsSubscription={[Function Subscriber]}
   grid="undefined"
   gridState$={[Function Store]}
+  isDetailPanelExpanded$={[Function Store]}
   isRowSelected={[Function Function]}
   loading$={[Function Store]}
   loadingError$={[Function Store]}
@@ -17,6 +18,9 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
   searchTerm=""
   searchTermSubscription={[Function Subscriber]}
   selectedCompanyJobIds={[Function Array]}
+  selectedCompanyJobInDetailPanel={[Function Object]}
+  selectedCompanyJobInDetailPanel$={[Function Store]}
+  selectedCompanyJobInDetailPanelSubscription={[Function Subscriber]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   tooltipDir="undefined"
@@ -54,6 +58,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
         kendotooltip=""
         showon="none"
       >
+        <pf-grid-detail-panel />
         <kendo-grid
           style="height: 100%;"
         >
@@ -91,7 +96,6 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           >
             
           </kendo-grid-column>
-          
           
         </kendo-grid>
       </div>
