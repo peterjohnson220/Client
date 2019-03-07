@@ -1,20 +1,18 @@
 @import "colors";
-.associate-button {
-  border: 0;
-  background-color: $pf-brand-secondary-color;
-  color: #FFF;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.associate-button:disabled {
-  color: #CCC;
-  cursor: not-allowed;
-}
+
 .view-button {
+  color: $pf-brand-secondary-color;
   border: 0;
   cursor: pointer;
   background-color: #fff;
+  opacity: .6;
+  transition: opacity .2s ease-in-out;
+  font-size: 16px;
+  &:hover {
+    opacity: 1;
+  }
 }
 .view-button-active {
   color: $pf-brand-secondary-color;
+  opacity: 1;
 }

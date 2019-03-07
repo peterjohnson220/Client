@@ -1,24 +1,24 @@
 <div class="multi-select-container">
-  <label class="mr-2">{{ labelText }}</label>
-  <div class="d-inline-block">
-    <a href="javascript:void(0)" (click)="toggleCheckboxPanel()" class="text-decoration-none">
-      <span class="select-facade d-inline-block rounded p-2">
-        <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0" [ngbTooltip]="selectedOptionNames">{{ selectedOptionNames }}</label>
-        <i class="fas fa-angle-down d-inline-block ml-2"></i>
-      </span>
-    </a>
+  <div class="d-flex">
+    <label class="main-label mr-2 pt-2">{{ labelText }}</label>
+    <div class="d-inline-block">
+      <a href="javascript:void(0)" (click)="toggleCheckboxPanel()" class="text-decoration-none">
+        <span class="select-facade d-inline-block rounded p-1 pt-2">
+          <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="selectedOptionNames">{{ selectedOptionNames }}</label>
+          <i class="fas fa-angle-down d-inline-block ml-2"></i>
+        </span>
+      </a>
+    </div>
   </div>
   <div *ngIf="isExpanded$ | async" class="selections-container position-absolute">
     <span *ngIf="isLoading$ | async" class="loading d-block mt-2 mb-2 text-center">
       <pf-loading-indicator></pf-loading-indicator>
     </span>
     <div *ngIf="!(isLoading$ | async)">
-      <i class="fas fa-search"></i>
-      <input type="text" [(ngModel)]="searchTerm" class="form-control d-block" placeholder="Search" />
+      <i class="fas fa-search position-absolute"></i>
+      <input type="text" [(ngModel)]="searchTerm" class="form-control d-block mt-2" placeholder="Search" />
       <a href="javascript:void(0)" (click)="clearSearchTerm()" class="position-absolute text-muted">
-        <span>
-          <i class="fas fa-times"></i>
-        </span>
+        <i class="fas fa-times"></i>
       </a>
       <button (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
       <div class="checkbox-container">

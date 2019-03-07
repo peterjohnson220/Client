@@ -1,6 +1,6 @@
-<h2>Company Jobs</h2>
-<div class="filters position-relative w-50 d-flex">
-  <i class="fas fa-search"></i>
+<h2 class="text-center">Company Jobs</h2>
+<div class="filters position-relative d-flex mt-2 mb-2">
+  <i class="fas fa-search position-absolute"></i>
   <pf-input-debounce
     [id]="'company-jobs-search-box'"
     [delay]="400"
@@ -10,9 +10,23 @@
     (valueChanged)="handleSearchChanged($event)">
   </pf-input-debounce>
 </div>
-<label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
-  company jobs: {{ totalCompanyJobsGridItems$ | async }} total | selected: {{selectedCompanyJobIds.length}}
-</label>
+<div>
+  <label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
+    company jobs: {{ totalCompanyJobsGridItems$ | async }} total | selected: {{selectedCompanyJobIds.length}}
+  </label>
+  <button class="view-button ml-2 invisible"
+          title="List View" 
+          [ngClass]="{'view-button-active' : isListView}" 
+          (click)="toggleViewType(true)">
+    <i class="fas fa-table"></i>
+  </button>
+  <button class="view-button invisible"
+          title="Detail View" 
+          [ngClass]="{'view-button-active' : !isListView}" 
+          (click)="toggleViewType(false)">
+    <i class="fas fa-list"></i>
+  </button>
+</div>
 <div class="grid-container position-relative">
   <pf-async-container
     class="h-100"
@@ -68,7 +82,7 @@
           <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm"></div>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-column field="JobFamily" [sortable]="false" title="Job Family">
+      <kendo-grid-column field="JobFamily" title="Job Family" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
           <span *ngIf="dataItem.JobFamily === null; else hasFamily">No Family</span>
           <ng-template #hasFamily>
@@ -88,7 +102,7 @@
       </kendo-grid-column>
       <ng-template kendoGridDetailTemplate let-dataItem>
         <p *ngIf="dataItem.JobDescription && dataItem.JobDescription !== '#N/A'"
-           [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
+            [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
         <p *ngIf="!dataItem.JobDescription || dataItem.JobDescription === '#N/A'" class="font-italic">
           No Job Description Available
         </p>
