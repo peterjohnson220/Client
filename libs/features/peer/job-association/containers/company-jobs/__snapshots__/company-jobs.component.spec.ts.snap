@@ -42,26 +42,6 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
     >
        company jobs: 0 total | selected: 0 
     </label>
-    <button
-      class="view-button ml-2 invisible"
-      ng-reflect-klass="view-button ml-2 invisible"
-      ng-reflect-ng-class="[object Object]"
-      title="List View"
-    >
-      <i
-        class="fas fa-table"
-      />
-    </button>
-    <button
-      class="view-button invisible view-button-active"
-      ng-reflect-klass="view-button invisible"
-      ng-reflect-ng-class="[object Object]"
-      title="Detail View"
-    >
-      <i
-        class="fas fa-list"
-      />
-    </button>
   </div><div
     class="grid-container position-relative"
   >
