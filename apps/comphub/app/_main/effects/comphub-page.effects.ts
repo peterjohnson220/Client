@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
@@ -13,7 +14,7 @@ import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
 import { SmbClientHelper } from '../helpers';
-import {HttpErrorResponse} from '@angular/common/http';
+import { ComphubPages } from '../data';
 
 @Injectable()
 export class ComphubPageEffects {
@@ -67,16 +68,18 @@ export class ComphubPageEffects {
       fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD)
     .pipe(
       withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPageId),
         this.store.select(fromComphubMainReducer.getPaymarketsFilter),
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
-        (action, payMarketsFilter, selectedPayMarket) => ({ payMarketsFilter, selectedPayMarket })
+        (action, selectedPageId, payMarketsFilter, selectedPayMarket) =>
+          ({ selectedPageId, payMarketsFilter, selectedPayMarket })
       ),
       mergeMap((data) => {
         const actions = [];
         if (data.payMarketsFilter) {
           actions.push(new fromMarketsCardActions.SetPaymarketFilter(''));
         }
-        if (data.selectedPayMarket) {
+        if (data.selectedPageId === ComphubPages.Markets && data.selectedPayMarket) {
           actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
         }
 
