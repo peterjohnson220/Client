@@ -48,7 +48,7 @@ export class RangeFilterComponent implements OnChanges {
         ceil: this.filter.MaximumValue,
         showTicks: false,
         step: 0.01,
-        precision: this.precision || this.filter.Precision,
+        precisionLimit: this.precision || this.filter.Precision,
         // Precision of 1 drops the "." for whole numbers, need this custom translation
         translate: (value: number): string => {
           return value.toFixed(this.precision || this.filter.Precision);
