@@ -152,8 +152,8 @@ describe('Admin - Exchange Job Association Utility Page', () => {
   it(`should NOT display 'Run' button as disabled when there is both an exchangeSelection and companySelection`, () => {
     fixture.detectChanges();
 
-    instance.companySelectionControl.setValue(mockGenericKeyValue);
-    instance.exchangeSelectionControl.setValue(mockGenericKeyValue);
+    instance.companySelectionControl.setValue(mockGenericKeyValue.Key);
+    instance.exchangeSelectionControl.setValue(mockGenericKeyValue.Key);
 
     fixture.detectChanges();
 
@@ -171,8 +171,8 @@ describe('Admin - Exchange Job Association Utility Page', () => {
 
     fixture.detectChanges();
 
-    instance.companySelectionControl.setValue(mockGenericKeyValue);
-    instance.exchangeSelectionControl.setValue(mockGenericKeyValue);
+    instance.companySelectionControl.setValue(mockGenericKeyValue.Key);
+    instance.exchangeSelectionControl.setValue(mockGenericKeyValue.Key);
 
     fixture.detectChanges();
 
@@ -188,7 +188,7 @@ describe('Admin - Exchange Job Association Utility Page', () => {
   it(`should enable exchange selection combobox when companySelection is valid`, () => {
     fixture.detectChanges();
 
-    instance.companySelectionControl.setValue(mockGenericKeyValue);
+    instance.companySelectionControl.setValue(mockGenericKeyValue.Key);
 
     fixture.detectChanges();
 
