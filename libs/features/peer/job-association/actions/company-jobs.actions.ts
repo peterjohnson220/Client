@@ -5,6 +5,7 @@ import { CompanyJob } from '../models';
 export const LOAD_COMPANY_JOBS  = '[Peer Job Association Modal/Company Jobs Grid] Load Company Jobs';
 export const LOAD_COMPANY_JOBS_SUCCESS  = '[Peer Job Association Modal/Company Jobs Grid] Load Company Jobs Success';
 export const LOAD_COMPANY_JOBS_ERROR  = '[Peer Job Association Modal/Company Jobs Grid] Load Company Jobs Error';
+export const RESET_STATE  = '[Peer Job Association Modal/Company Jobs Grid] Reset State';
 export const SEARCH_TERM_UPDATED = '[Peer Job Association Modal/Company Jobs Grid] Search Term Updated';
 export const SELECT_COMPANY_JOBS = '[Peer Job Association Modal/Company Jobs Grid] Select Company Jobs';
 
@@ -21,6 +22,10 @@ export class LoadCompanyJobsError implements Action {
   readonly type = LOAD_COMPANY_JOBS_ERROR;
 }
 
+export class ResetState implements Action {
+  readonly type = RESET_STATE;
+}
+
 export class SearchTermUpdated implements Action {
   readonly type = SEARCH_TERM_UPDATED;
   constructor(public payload: string) {}
@@ -35,5 +40,6 @@ export type Actions
   = LoadCompanyJobs
   | LoadCompanyJobsSuccess
   | LoadCompanyJobsError
+  | ResetState
   | SearchTermUpdated
   | SelectCompanyJobs;

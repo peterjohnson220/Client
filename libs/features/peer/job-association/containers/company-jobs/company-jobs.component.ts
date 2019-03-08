@@ -34,18 +34,18 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   totalCompanyJobsGridItems$: Observable<number>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
-  exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
 
   // Subscriptions
   companyJobsGridItemsDataSubscription: Subscription;
   exchangeJobAssociationsSubscription: Subscription;
+  selectedCompanyJobsSubscription: Subscription;
   searchTermSubscription: Subscription;
 
   // Properties
   companyJobGridDataResult: GridDataResult;
   exchangeJobAssociations: ExchangeJobAssociation[];
   maxSelectionThreshold: number;
-  selectedCompanyJobIds: CompanyJob[] = [];
+  selectedCompanyJobIds: CompanyJob[];
   searchTerm;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
@@ -58,18 +58,21 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsGridState));
     this.loading$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoading));
     this.loadingError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingError));
-    this.exchangeJobAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations));
 
-    this.searchTermSubscription =
-        this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
-            (searchTerm) => this.searchTerm = searchTerm);
+    this.selectedCompanyJobsSubscription = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
+      .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs);
 
     this.companyJobsGridItemsDataSubscription =
         this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsData)).subscribe(
             (gridDataResult) => this.companyJobGridDataResult = gridDataResult);
 
-    this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$.subscribe(
+    this.exchangeJobAssociationsSubscription =
+      this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations)).subscribe(
             (exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
+
+    this.searchTermSubscription =
+      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
+        (searchTerm) => this.searchTerm = searchTerm);
 
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
@@ -78,6 +81,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.companyJobsGridItemsDataSubscription.unsubscribe();
     this.exchangeJobAssociationsSubscription.unsubscribe();
     this.searchTermSubscription.unsubscribe();
+    this.selectedCompanyJobsSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
@@ -123,16 +127,14 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   }
 
   handleSelectAllClick(): void {
-    const selectAllCheckboxState = this.getSelectAllState();
-    if (selectAllCheckboxState === 'unchecked') {
-      this.selectedCompanyJobIds = this.selectedCompanyJobIdsUptoThreshold();
-    } else if (selectAllCheckboxState === 'checked' || selectAllCheckboxState === 'indeterminate' ) {
-      this.selectedCompanyJobIds = [];
+    let selectedCompanyJobs: CompanyJob[] = [];
+    if (this.getSelectAllState() === 'unchecked') {
+      selectedCompanyJobs = this.selectCompanyJobIdsUptoThreshold();
     }
-    this.dispatchSelectCompanyJobs();
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
   }
 
-  selectedCompanyJobIdsUptoThreshold() {
+  selectCompanyJobIdsUptoThreshold(): CompanyJob[] {
     return this.companyJobGridDataResult.data.slice(0, this.maxSelectionThreshold);
   }
 
@@ -147,31 +149,21 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   }
 
   handleSelectionChange(event: any): void {
+    let selectedCompanyJobs = [...this.selectedCompanyJobIds];
     if (event.selectedRows.length > 0 && !this.hasMetMaxSelectableRowsThreshold()) {
         event.selectedRows.forEach((row) => {
-          this.selectedCompanyJobIds.push(row.dataItem);
+          selectedCompanyJobs.push(row.dataItem);
       });
     }
 
     if (event.deselectedRows.length > 0) {
       event.deselectedRows.forEach((row) => {
-        this.selectedCompanyJobIds = this.selectedCompanyJobIds
+        selectedCompanyJobs = selectedCompanyJobs
                 .filter((companyJob) => companyJob.CompanyJobId !== row.dataItem.CompanyJobId);
       });
     }
-    this.dispatchSelectCompanyJobs();
-  }
 
-  dispatchSelectCompanyJobs(): void {
-     const companyJobsToDispatch: CompanyJob[] = [];
-     this.selectedCompanyJobIds.forEach((companyJob) => companyJobsToDispatch.push({
-       CompanyJobId: companyJob.CompanyJobId,
-       JobTitle: companyJob.JobTitle,
-       IsAssociated: companyJob.IsAssociated,
-       JobFamily: companyJob.JobFamily,
-       JobCode: companyJob.JobCode
-     }));
-    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(companyJobsToDispatch));
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
   }
 
   isPendingAssociation(companyJobId: number): boolean {
@@ -185,8 +177,11 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     return isAssociated;
   }
 
-  isRowSelected = (e: RowArgs) => this.selectedCompanyJobIds
-      .map(scj => scj.CompanyJobId).indexOf(e.dataItem.CompanyJobId) >= 0
+  isRowSelected = (e: RowArgs) => this.isSelectedCompanyJob(e.dataItem.CompanyJobId);
+
+  isSelectedCompanyJob(companyJobId: number): boolean {
+    return this.selectedCompanyJobIds.map(scj => scj.CompanyJobId).indexOf(companyJobId) >= 0;
+  }
 
   hasMetMaxSelectableRowsThreshold(): boolean {
     if (!this.selectedCompanyJobIds) {
@@ -204,4 +199,3 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
         this.companyJobGridDataResult.total === this.selectedCompanyJobIds.length);
   }
 }
-
