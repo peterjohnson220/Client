@@ -4,7 +4,7 @@
       <h1>COMP <span class="header-bold">COMMUNITY</span></h1>
     </div>
     <div *ngIf="showSearchBar" class="w-25">
-      <pf-community-search></pf-community-search>
+      <pf-community-search [searchBoxText]="" (searchEvent)="routeToSearchResults($event)"></pf-community-search>
     </div>
   </div>
   <div class="page-content" (scroll)="onScroll($event)">

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommunitySearchComponent } from './community-search.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CommunitySearchComponent', () => {
   let component: CommunitySearchComponent;
@@ -7,9 +8,10 @@ describe('CommunitySearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunitySearchComponent ]
-    })
-    .compileComponents();
+      declarations: [ CommunitySearchComponent ],
+      // Shallow Testing
+      schemas: [NO_ERRORS_SCHEMA]
+    });
   }));
 
   beforeEach(() => {

@@ -25,6 +25,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   postBatchSize={[Function Number]}
   postsChangedObserver={[Function MutationObserver]}
   postsComponent={[Function ElementRef]}
+  router={[Function Object]}
   settingsService={[Function SettingsService]}
   showBackToTopButton="false"
   showSearchBar="false"
