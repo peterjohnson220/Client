@@ -5,6 +5,7 @@ exports[`CommunityPollModalComponent should not show the form text and should sh
   addCommunityPollForm={[Function FormGroup]}
   attemptedSubmit={[Function Boolean]}
   communityPollListToEdit$={[Function Store]}
+  communityPollListToEditSubscription={[Function Subscriber]}
   communityPollModalOpen$={[Function Store]}
   enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
@@ -77,6 +78,7 @@ exports[`CommunityPollModalComponent should show the form text and no error mess
   addCommunityPollForm={[Function FormGroup]}
   attemptedSubmit="false"
   communityPollListToEdit$={[Function Store]}
+  communityPollListToEditSubscription={[Function Subscriber]}
   communityPollModalOpen$={[Function Store]}
   enableEditingResponseOptions={[Function Boolean]}
   fb={[Function FormBuilder]}
