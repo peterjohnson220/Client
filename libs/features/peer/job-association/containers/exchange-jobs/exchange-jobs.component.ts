@@ -50,6 +50,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   isJobFamilyFilterExpanded$: Observable<boolean>;
   isJobFamilyFilterLoading$: Observable<boolean>;
   jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
+  selectedJobFamilyOptionNames$: Observable<string[]>;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -81,6 +82,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.isJobFamilyFilterExpanded$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
     this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
     this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
+    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
 
     // Dispatches
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());

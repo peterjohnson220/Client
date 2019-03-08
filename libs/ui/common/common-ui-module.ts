@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
@@ -54,6 +54,7 @@ const components = [
     PfCommonModule,
     NgbTooltipModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     ImgFallbackModule
   ],

@@ -17,6 +17,7 @@ $light-border: 1px solid #ccc;
     .select-facade {
       border: $light-border;
       width: 140px;
+      padding: .4rem .25rem;
       label {
         width: 85%;
         vertical-align: -4px;
