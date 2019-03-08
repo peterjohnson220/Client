@@ -72,7 +72,7 @@
       </kendo-grid-column>
       <kendo-grid-column field="JobFamily" title="Job Family" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="dataItem.JobFamily === null; else hasFamily">No Family</span>
+          <span *ngIf="!dataItem.JobFamily; else hasFamily">No Family</span>
           <ng-template #hasFamily>
             {{ dataItem.JobFamily }}
           </ng-template>
