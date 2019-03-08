@@ -111,7 +111,7 @@
                           $event)">
               </pf-peer-job-association-associated-jobs>
 
-              <h4>Job Description</h4>
+              <h6 class="text-uppercase font-weight-bold mt-3">Job Description</h6>
               <p *ngIf="dataItem.ExchangeJobDescription"
                  [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
               <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>

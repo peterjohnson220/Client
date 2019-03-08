@@ -72,6 +72,10 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     }
   }
 
+  .filters + div {
+    min-height: 30px; // this can be removed once both grids have the list view/grid view buttons
+  }
+
   .view-button {
     color: $pf-brand-secondary-color;
     border: 0;
@@ -106,6 +110,8 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             border: none;
             background-color: #fff;
             color: rgba(102, 102, 102, 0.9);
+            padding-top: .2rem;
+            padding-bottom: .2rem;
             &:not(:first-child) {
               border-right: 1px dashed #ccc;
             }
