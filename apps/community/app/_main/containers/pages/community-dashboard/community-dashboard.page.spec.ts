@@ -1,6 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { CommunityDashboardPageComponent } from './community-dashboard.page';
 import { Store, StoreModule } from '@ngrx/store';
@@ -23,7 +24,10 @@ describe('CommunityDashboardPageComponent', () => {
         FormsModule,
         ReactiveFormsModule
       ],
-      providers: [BrowserDetectionService, SettingsService],
+      providers: [BrowserDetectionService, SettingsService, {
+        provide: Router,
+        useValue: { navigate: jest.fn() },
+      }],
       declarations: [
         CommunityDashboardPageComponent
       ],

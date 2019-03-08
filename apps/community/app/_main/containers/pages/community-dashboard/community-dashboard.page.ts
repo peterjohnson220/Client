@@ -11,6 +11,7 @@ import { CommunityConstants } from '../../../models';
 import { BrowserDetectionService } from 'libs/core/services';
 import { SettingsService } from 'libs/state/app-context/services';
 import { CompanySettingsEnum } from 'libs/models/company';
+import { Router } from '@angular/router';
 
 declare var InitializeUserVoice: any;
 
@@ -63,7 +64,8 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
               private browserDetectionService: BrowserDetectionService,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private router: Router) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
@@ -283,5 +285,9 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     if (this.hasNextBatchResultsOnServerSubscription) {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
     }
+  }
+
+  routeToSearchResults(searchString) {
+    this.router.navigate(['/search-results'], { queryParams: { query: searchString } });
   }
 }

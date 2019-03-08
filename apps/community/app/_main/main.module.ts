@@ -65,11 +65,13 @@ import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
+import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
 
 const components = [
   ClickInContentDirective,
   CommunityDashboardPageComponent,
   CommunityJobPostingsPageComponent,
+  CommunitySearchResultsPageComponent,
   CommunityPostsComponent,
   CommunityPostRepliesComponent,
   CommunityPostReplyComponent,

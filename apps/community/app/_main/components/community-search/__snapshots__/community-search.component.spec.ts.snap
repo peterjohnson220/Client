@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CommunitySearchComponent should show community search component 1`] = `
-<pf-community-search>
+<pf-community-search
+  searchEvent={[Function EventEmitter]}
+>
   <div
     class="input-group"
   >
     <input
       class="form-control form-control-lg community-border-radius input-body au-community-search"
+      maxlength="50"
       placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..."
       type="text"
     />
