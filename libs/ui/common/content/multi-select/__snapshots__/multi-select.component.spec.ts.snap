@@ -4,10 +4,12 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
 <pf-multi-select
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   isExpanded$={[Function Observable]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -29,13 +31,13 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -53,11 +55,13 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
 <pf-multi-select
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   isExpanded$={[Function Observable]}
   isLoading$={[Function Observable]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -79,13 +83,13 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -140,13 +144,17 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
 
 exports[`UI/Common/Content - Multi Select should render its options when expanded 1`] = `
 <pf-multi-select
+  _options={[Function Array]}
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  form={[Function FormGroup]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   isExpanded$={[Function Observable]}
   isLoading$={[Function Observable]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -168,13 +176,13 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -243,10 +251,12 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
 <pf-multi-select
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   labelText={[Function String]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -268,13 +278,13 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -292,10 +302,12 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
 <pf-multi-select
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   isExpanded$={[Function Observable]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -317,13 +329,13 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -380,11 +392,13 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
 <pf-multi-select
   checkboxClick={[Function EventEmitter]}
   clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
   isExpanded$={[Function Observable]}
   isLoading$={[Function Observable]}
-  options={[Function Array]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
   tooltipDir="undefined"
 >
   <div
@@ -406,13 +420,13 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
           href="javascript:void(0)"
         >
           <span
-            class="select-facade d-inline-block rounded p-1 pt-2"
+            class="select-facade d-inline-block rounded"
           >
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip=""
+              ng-reflect-ngb-tooltip="zoos"
             >
-              
+              zoos
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"

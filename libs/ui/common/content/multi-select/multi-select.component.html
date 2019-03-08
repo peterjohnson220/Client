@@ -3,8 +3,8 @@
     <label class="main-label mr-2 pt-2">{{ labelText }}</label>
     <div class="d-inline-block">
       <a href="javascript:void(0)" (click)="toggleCheckboxPanel()" class="text-decoration-none">
-        <span class="select-facade d-inline-block rounded p-1 pt-2">
-          <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="selectedOptionNames">{{ selectedOptionNames }}</label>
+        <span class="select-facade d-inline-block rounded">
+          <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="(selectedOptionNames$ | async).join(', ')">{{ (selectedOptionNames$ | async).join(', ') }}</label>
           <i class="fas fa-angle-down d-inline-block ml-2"></i>
         </span>
       </a>
@@ -21,14 +21,10 @@
         <i class="fas fa-times"></i>
       </a>
       <button (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
-      <div class="checkbox-container">
-        <ng-container *ngFor="let option of options; trackBy: trackByFn">
-          <label 
-            *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1"
-            class="checkbox-label d-block ellipsis-overflowing-text m-0"
-            [class.isSelected]="option.IsSelected"
-          >
-            <input type="checkbox" (change)="toggleCheckbox(option)" [(ngModel)]="option.IsSelected" class="mr-1" />{{ option.DisplayName }}
+      <div class="checkbox-container" [formGroup]="form">
+        <ng-container *ngFor="let option of options; let i=index; trackBy: trackByFn">
+          <label class="checkbox-label d-block ellipsis-overflowing-text m-0" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1">
+            <input type="checkbox" [formControlName]="option.DisplayName" class="mr-1">{{ options[i].DisplayName }}
           </label>
         </ng-container>
         <label class="no-results font-italic text-center d-block">No Results Found</label>

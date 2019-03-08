@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GenericMenuItem } from 'libs/models/common';
@@ -8,47 +9,58 @@ import { GenericMenuItem } from 'libs/models/common';
 @Component({
   selector: 'pf-multi-select',
   templateUrl: './multi-select.component.html',
-  styleUrls: ['./multi-select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./multi-select.component.scss']
 })
-export class MultiSelectComponent implements OnInit {
+export class MultiSelectComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
 
+  // add custom getter and setter so we only hookup options once when we have a list of at least one element
+  private _options: GenericMenuItem[];
+  @Input() set options(value: GenericMenuItem[]) {
+    this._options = value;
+    if (value.length && !this.form) {
+      this.initForm();
+    }
+  }
+  get options(): GenericMenuItem[] {
+    return this._options;
+  }
+
   @Input() labelText: string;
-  @Input() options: GenericMenuItem[] = [];
   @Input() isExpanded$: Observable<boolean>;
   @Input() isLoading$: Observable<boolean>;
+  @Input() selectedOptionNames$: Observable<string[]>;
 
   @Output() selectFacadeClick = new EventEmitter();
   @Output() checkboxClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
 
   searchTerm = '';
+  form: FormGroup;
+  formValuesSubscription: Subscription = new Subscription();
 
-  get selectedOptionNames(): string {
-    let selectedOptionNames = '';
-
-    // loop through each option, and append the display name if selected
-    this.options.forEach(o => {
-      if (o.IsSelected) {
-        selectedOptionNames += o.DisplayName + ', ';
-      }
-    });
-
-    // if nothing is selcted return empty, otherwise trim the last space and comma
-    return (!selectedOptionNames) ? '' : selectedOptionNames.slice(0, -2);
-  }
-
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() { }
 
-  toggleCheckboxPanel() {
-    this.selectFacadeClick.emit();
+  initForm() {
+    const formControls = {};
+
+    // loop through each option create a form control for each
+    this.options.forEach((option, i) => {
+      const formControl = new FormControl(option.IsSelected);
+      formControls[option.DisplayName] = formControl;
+      const subscription = formControl.valueChanges.subscribe(value => {
+        this.checkboxClick.emit({ ...option, IsSelected: value });
+      });
+      this.formValuesSubscription.add(subscription);
+    });
+
+    this.form = new FormGroup(formControls);
   }
 
-  toggleCheckbox(option: GenericMenuItem) {
-    this.checkboxClick.emit({ ...option, IsSelected: !option.IsSelected });
+  toggleCheckboxPanel() {
+    this.selectFacadeClick.emit();
   }
 
   clearSelections() {
@@ -60,6 +72,10 @@ export class MultiSelectComponent implements OnInit {
   }
 
   trackByFn(index, item: GenericMenuItem) {
-    return item.DisplayName;
+    return (item.Id) ? item.Id : item.DisplayName;
+  }
+
+  ngOnDestroy() {
+    this.formValuesSubscription.unsubscribe();
   }
 }

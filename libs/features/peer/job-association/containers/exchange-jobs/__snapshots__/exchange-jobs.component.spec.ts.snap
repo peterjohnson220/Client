@@ -21,6 +21,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   selectedCompanyJobs={[Function Array]}
   selectedCompanyJobs$={[Function Store]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
+  selectedJobFamilyOptionNames$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
   totalPeerExchangeJobs$={[Function Store]}

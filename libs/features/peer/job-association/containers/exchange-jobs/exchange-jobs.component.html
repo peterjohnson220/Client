@@ -16,6 +16,7 @@
     <pf-multi-select
       [labelText]="'Job Family'"
       [options]="jobFamilyFilterOptions$ | async"
+      [selectedOptionNames$]="selectedJobFamilyOptionNames$"
       [isExpanded$]="isJobFamilyFilterExpanded$"
       [isLoading$]="isJobFamilyFilterLoading$"
       pfClickElsewhere

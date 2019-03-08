@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { FormBuilder } from '@angular/forms';
 
 import { of } from 'rxjs';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -15,12 +16,14 @@ describe('UI/Common/Content - Multi Select', () => {
     TestBed.configureTestingModule({
       imports: [ NgbTooltipModule ],
       declarations: [ MultiSelectComponent ],
+      providers: [ FormBuilder ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     fixture = TestBed.createComponent(MultiSelectComponent);
     component = fixture.componentInstance;
+    component.selectedOptionNames$ = of(['zoos']);
   });
 
   it('should create', () => {
@@ -106,7 +109,7 @@ describe('UI/Common/Content - Multi Select', () => {
     expect(component.clearSelectionsClick.emit).toHaveBeenCalled();
   });
 
-  it('should emit with the right object when a checkbox is clicked', () => {
+  it('should emit with the right object when a checkbox form value is changed', () => {
     spyOn(component.checkboxClick, 'emit');
     component.isExpanded$ = of(true);
     component.isLoading$ = of(false);
@@ -114,8 +117,8 @@ describe('UI/Common/Content - Multi Select', () => {
 
     fixture.detectChanges();
 
-    const checkbox = fixture.debugElement.nativeElement.querySelector('input[type=checkbox]');
-    checkbox.click();
+    const control = component.form.get('Zoos and Zookeeping') as any;
+    control.setValue(true);
 
     expect(component.checkboxClick.emit).toHaveBeenCalledWith({ DisplayName: 'Zoos and Zookeeping', IsSelected: true });
   });
