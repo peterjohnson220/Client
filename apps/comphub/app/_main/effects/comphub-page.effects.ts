@@ -13,7 +13,7 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
-import { SmbClientHelper } from '../helpers';
+import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
 import { ComphubPages } from '../data';
 
 @Injectable()
@@ -35,6 +35,8 @@ export class ComphubPageEffects {
       const hasNotYetAcceptedPeerTC = data.companySettings.some(s =>
         s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
         s.Value === 'false');
+
+      actions.push(new fromComphubPageActions.GetCountryDataSets());
 
       if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
         actions.push(new fromDataCardActions.ShowPeerBanner());
@@ -93,6 +95,19 @@ export class ComphubPageEffects {
       tap((action: fromComphubPageActions.HandleApiError) =>
         this.redirectForUnauthorized(action.payload)
       )
+    );
+
+  @Effect()
+  getCountryDataSets$ = this.actions$
+    .ofType(fromComphubPageActions.GET_COUNTRY_DATA_SETS).pipe(
+      switchMap(() => {
+        return this.comphubApiService.getCountryDataSets()
+          .pipe(
+            map((response) => new fromComphubPageActions.GetCountryDataSetsSuccess(
+              PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSets(response)
+            ))
+          );
+      })
     );
 
   private redirectForUnauthorized(error: HttpErrorResponse) {

@@ -2,7 +2,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
-import { JobPricingLimitInfo } from '../models';
+import { CountryDataSet, JobPricingLimitInfo } from '../models';
 
 export interface State {
   cards: AccordionCard[];
@@ -10,6 +10,8 @@ export interface State {
   pagesAccessed: ComphubPages[];
   accessiblePages: ComphubPages[];
   jobPricingLimitInfo: JobPricingLimitInfo;
+  countryDataSetsLoaded: boolean;
+  countryDataSets: CountryDataSet[];
 }
 
 const initialState: State = {
@@ -17,7 +19,9 @@ const initialState: State = {
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
-  jobPricingLimitInfo: null
+  jobPricingLimitInfo: null,
+  countryDataSetsLoaded: false,
+  countryDataSets: []
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -84,6 +88,13 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         jobPricingLimitInfo: action.payload
       };
     }
+    case fromComphubPageActions.GET_COUNTRY_DATA_SETS_SUCCESS: {
+      return {
+        ...state,
+        countryDataSetsLoaded: true,
+        countryDataSets: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -98,4 +109,7 @@ export const getEnabledPages = (state: State) => {
 };
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
 export const getJobPricingBlocked = (state: State) =>
-  !!state.jobPricingLimitInfo && state.jobPricingLimitInfo.Used >= state.jobPricingLimitInfo.Available;
+  ((!!state.jobPricingLimitInfo && state.jobPricingLimitInfo.Used >= state.jobPricingLimitInfo.Available)
+    || state.countryDataSets.length === 0);
+export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetsLoaded;
+export const getCountryDataSets = (state: State) => state.countryDataSets;

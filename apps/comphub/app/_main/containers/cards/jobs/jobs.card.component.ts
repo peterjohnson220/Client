@@ -2,8 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-
 import { PopupSettings } from '@progress/kendo-angular-dropdowns';
+
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
+import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -24,12 +27,15 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   selectedJob$: Observable<string>;
   jobPricingBlocked$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
+  userContext$: Observable<UserContext>;
+  countryDataSetsLoaded$: Observable<boolean>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
 
   potentialOptions: string[];
   selectedJob: string;
+  systemUserGroupNames = SystemUserGroupNames;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -41,6 +47,8 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
+    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.popupSettings = {
       appendTo: 'component'
     };
