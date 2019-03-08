@@ -42,8 +42,11 @@ export class JobAssociationModalEffects {
 
   @Effect({ dispatch: false })
   closeJobAssociationModal$ = this.actions$.pipe(
-    ofType(fromJobAssociationModalActions.CLOSE_JOB_ASSOCIATIONS_MODAL, fromJobAssociationModalActions.SAVE_JOB_ASSOCIATIONS_SUCCESS),
-    mapTo(new fromJobAssociationModalActions.CloseJobAssociationsModal()),
+    ofType(fromJobAssociationModalActions.CLOSE_JOB_ASSOCIATIONS_MODAL,
+      fromJobAssociationModalActions.SAVE_JOB_ASSOCIATIONS_SUCCESS),
+    map(() => {
+      return new fromJobAssociationModalActions.CloseJobAssociationsModal();
+    }),
     tap((action: fromJobAssociationModalActions.CloseJobAssociationsModal) => {
       this.windowCommunicationService.postMessage(action.type);
     })

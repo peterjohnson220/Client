@@ -38,6 +38,7 @@ export function reducer(state, action) {
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS: {
           return {
             ...adapter.removeAll(featureState),
+            selectedCompanyJobs: [],
             loading: true,
             loadingError: false
           };
@@ -56,6 +57,16 @@ export function reducer(state, action) {
             ...featureState,
             loading: false,
             loadingError: true
+          };
+        }
+        case fromCompanyJobsActions.RESET_STATE: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: false,
+            selectedCompanyJobs: [],
+            total: 0,
+            searchTerm: ''
           };
         }
         case fromCompanyJobsActions.SEARCH_TERM_UPDATED: {
