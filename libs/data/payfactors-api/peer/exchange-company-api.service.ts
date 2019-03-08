@@ -54,8 +54,6 @@ export class ExchangeCompanyApiService {
     );
   }
 
-
-
   getExchangeCompanyJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeCompanyJobs`,
@@ -67,6 +65,12 @@ export class ExchangeCompanyApiService {
   upsertExchangeJobMap(upsertExchangeJobMapRequest: UpsertExchangeJobMapRequest) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeJobMap`,
       upsertExchangeJobMapRequest
+    );
+  }
+
+  saveJobAssociations(companyJobToExchangeJobAssociations: any[]) {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/SaveJobAssociations`,
+      companyJobToExchangeJobAssociations
     );
   }
 

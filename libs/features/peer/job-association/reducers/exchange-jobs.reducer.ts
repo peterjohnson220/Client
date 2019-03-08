@@ -95,11 +95,13 @@ export function reducer(state, action) {
               companyJobs = exchangeJobAssociation.CompanyJobs
                   .filter(cj => cj.CompanyJobId !== featureAction.companyJobId);
             }
-            exchangeJobAssociations.push({
-              ExchangeId: exchangeJobAssociation.ExchangeId,
-              ExchangeJobId: exchangeJobAssociation.ExchangeJobId,
-              CompanyJobs: companyJobs
-            });
+            if (companyJobs.length > 0) {
+              exchangeJobAssociations.push({
+                ExchangeId: exchangeJobAssociation.ExchangeId,
+                ExchangeJobId: exchangeJobAssociation.ExchangeJobId,
+                CompanyJobs: companyJobs
+              });
+            }
           });
           return {
             ...featureState,
@@ -178,7 +180,6 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
-export const getSearchTerm = (state: State) => state.searchTerm;
 
 // Selector functions, job family filter
 export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
