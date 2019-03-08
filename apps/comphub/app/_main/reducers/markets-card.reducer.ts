@@ -81,7 +81,8 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
     case fromMarketsCardActions.GET_MD_SCOPE_SUCCESS:
       return {
         ...state,
-        marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(action.payload)
+        marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(
+          action.payload.response, action.payload.countryDataSet)
       };
     case fromMarketsCardActions.GET_MD_SCOPE_ERROR:
       return {

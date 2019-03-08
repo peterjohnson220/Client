@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropDownListModule, AutoCompleteModule } from '@progress/kendo-angular-dropdowns';
 
 import { AddPayMarketFormComponent } from './add-paymarket-form.component';
-import { AddPayMarketFormData, generateMockMarketDataScope } from '../../models';
+import { AddPayMarketFormData, generateMockMarketDataScope, generateMockCountryDataSet } from '../../models';
 
 describe('Comphub - Main - Add Pay Market Form Component', () => {
   let instance: AddPayMarketFormComponent;
@@ -27,14 +27,13 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   it('should emit saveClick event when handling submit clicked', () => {
     spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
+    instance.countryDataSet = generateMockCountryDataSet();
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
       location: 'Boston, MA',
       industry: { Name: 'Software', Value: 'Software' },
-      size: { Name: '100 - 500', Value: '100 - 500' },
-      country: instance.defaultCountry,
-      currency: instance.defaultCurrency
+      size: { Name: '100 - 500', Value: '100 - 500' }
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -43,7 +42,8 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Industry: 'Software',
       Size: '100 - 500',
       Country: 'USA',
-      Currency: 'USD'
+      Currency: 'USD',
+      GeoLabel: 'CityState'
     };
 
     instance.handleSaveClicked();
@@ -113,14 +113,13 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   it('should use All for location when submitting invalid location', () => {
     spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
+    instance.countryDataSet = generateMockCountryDataSet();
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
       location: 'The moon',
       industry: { Name: 'Software', Value: 'Software' },
-      size: { Name: '100 - 500', Value: '100 - 500' },
-      country: instance.defaultCountry,
-      currency: instance.defaultCurrency
+      size: { Name: '100 - 500', Value: '100 - 500' }
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -129,7 +128,8 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Industry: 'Software',
       Size: '100 - 500',
       Country: 'USA',
-      Currency: 'USD'
+      Currency: 'USD',
+      GeoLabel: 'CityState'
     };
 
     instance.handleSaveClicked();
@@ -140,14 +140,13 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   it('should use default values for Industry and Size when none is selected', () => {
     spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
+    instance.countryDataSet = generateMockCountryDataSet();
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
       location: 'The moon',
       industry: {},
-      size: {},
-      country: instance.defaultCountry,
-      currency: instance.defaultCurrency
+      size: {}
     });
 
     const expectedData: AddPayMarketFormData = {
@@ -156,7 +155,8 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Industry: 'All',
       Size: 'All',
       Country: 'USA',
-      Currency: 'USD'
+      Currency: 'USD',
+      GeoLabel: 'CityState'
     };
 
     instance.handleSaveClicked();

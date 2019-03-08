@@ -38,16 +38,6 @@ describe('Comphub - Main - Markets Card Component', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch GetPaymarkets action when initialized', () => {
-    spyOn(store, 'dispatch');
-
-    const expectedAction = new fromMarketsCardActions.GetPaymarkets();
-
-    instance.ngOnInit();
-
-    expect(store.dispatch).toBeCalledWith(expectedAction);
-  });
-
   it('should dispatch SetPaymarketFilter action when filter changed', () => {
     spyOn(store, 'dispatch');
 

@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PfValidators } from 'libs/forms/validators';
 
-import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem } from '../../models';
+import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem, CountryDataSet } from '../../models';
+import { MarketsCardHelper } from '../../helpers';
 
 @Component({
   selector: 'pf-add-paymarket-form',
@@ -16,6 +17,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
+  @Input() countryDataSet: CountryDataSet;
   @Input() isInfoBannerOpen = false;
   @Input() showSkipButton = false;
   @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
@@ -24,11 +26,8 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Output() dismissInfoBannerClick = new EventEmitter();
 
   showErrorMessages = false;
+  locationPlaceholder = 'All';
 
-  countryList: KendoDropDownItem[] = [{ Name: 'United States', Value: 'USA' }];
-  defaultCountry = { Name: 'United States', Value: 'USA' };
-  currencyList: KendoDropDownItem[] = [{ Name: 'USD', Value: 'USD' }];
-  defaultCurrency = { Name: 'USD', Value: 'USD' };
   defaultIndustry = { Name: 'All', Value: 'All' };
   defaultSize = { Name: 'All', Value: 'All' };
   defaultLocation = 'All';
@@ -44,6 +43,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
+    this.locationPlaceholder = MarketsCardHelper.getLocationPlaceholder(this.countryDataSet);
     this.createForm();
   }
 
@@ -66,8 +66,6 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   createForm() {
     this.addPayMarketForm = this.fb.group({
       'name': ['', [PfValidators.required, Validators.maxLength(255)]],
-      'country': new FormControl({value: this.defaultCountry, disabled: true}),
-      'currency': new FormControl({value: this.defaultCurrency, disabled: true}),
       'location': [''],
       'industry': [{}],
       'size': [{}]
@@ -105,11 +103,12 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   private buildFormData(): AddPayMarketFormData {
     return {
       Name: this.addPayMarketForm.value.name,
-      Country: this.defaultCountry.Value,
-      Currency: this.defaultCurrency.Value,
+      Country: this.countryDataSet.CountryCode,
+      Currency: this.countryDataSet.CurrencyCode,
       Location: this.getSelectedLocation(),
       Industry: this.addPayMarketForm.value.industry.Value || this.defaultIndustry.Value,
-      Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value
+      Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value,
+      GeoLabel: this.countryDataSet.GeoLabel
     };
   }
 

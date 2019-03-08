@@ -103,9 +103,15 @@ export class ComphubPageEffects {
       switchMap(() => {
         return this.comphubApiService.getCountryDataSets()
           .pipe(
-            map((response) => new fromComphubPageActions.GetCountryDataSetsSuccess(
-              PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSets(response)
-            ))
+            mergeMap((response) => {
+              const actions = [];
+              actions.push(new fromComphubPageActions.GetCountryDataSetsSuccess(
+                PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSets(response)));
+              if (!!response) {
+                actions.push(new fromMarketsCardActions.InitMarketsCard());
+              }
+              return actions;
+            })
           );
       })
     );

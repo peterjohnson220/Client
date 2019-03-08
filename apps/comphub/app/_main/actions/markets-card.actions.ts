@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { MDScopeResponse } from 'libs/models/payfactors-api';
+import { MDScopeResponse, MDScopeRequest } from 'libs/models/payfactors-api';
 
-import { PricingPaymarket, AddPayMarketFormData } from '../models';
+import { PricingPaymarket, AddPayMarketFormData, CountryDataSet } from '../models';
 
+export const INIT_MARKETS_CARD = '[Comphub/Markets Card] Init Markets Card';
 export const GET_PAYMARKETS = '[Comphub/Markets Card] Get Pay Markets';
 export const GET_PAYMARKETS_SUCCESS = '[Comphub/Markets Card] Get Pay Markets Success';
 export const GET_PAYMARKETS_ERROR = '[Comphub/Markets Card] Get Pay Markets Error';
@@ -18,10 +19,16 @@ export const ORDER_PAYMARKETS_WITH_SELECTED_FIRST = '[Comphub/Markets Card] Orde
 export const HIDE_ADD_NEW_PAYMARKETS_BUTTON = '[Comphub/Markets Card] Hide Add New Paymarket Button';
 export const DISPLAY_NATIONAL_AS_CARD = '[Comphub/Markets Card] Display National As Card';
 
+export class InitMarketsCard implements Action {
+  readonly type = INIT_MARKETS_CARD;
+
+  constructor() {}
+}
+
 export class GetPaymarkets implements Action {
   readonly type = GET_PAYMARKETS;
 
-  constructor() {}
+  constructor(public payload: { countryCode: string }) {}
 }
 
 export class GetPaymarketsSuccess implements Action {
@@ -63,13 +70,13 @@ export class SavePayMarket implements Action {
 export class GetMarketDataScope implements Action {
   readonly type = GET_MD_SCOPE;
 
-  constructor(public payload: { countryCode: string }) {}
+  constructor(public payload: MDScopeRequest) {}
 }
 
 export class GetMarketDataScopeSuccess implements Action {
   readonly type = GET_MD_SCOPE_SUCCESS;
 
-  constructor(public payload: MDScopeResponse) {}
+  constructor(public payload: { response: MDScopeResponse, countryDataSet: CountryDataSet }) {}
 }
 
 export class GetMarketDataScopeError implements Action {
@@ -89,7 +96,8 @@ export class DisplayNationalAsCard implements Action {
 }
 
 export type Actions
-  = GetPaymarkets
+  = InitMarketsCard
+  | GetPaymarkets
   | GetPaymarketsSuccess
   | GetPaymarketsError
   | SetPaymarketFilter

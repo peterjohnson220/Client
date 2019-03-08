@@ -2,8 +2,8 @@
 
 exports[`Comphub - Main - Markets Card Component should NOT hide the add paymarkets button when no restrictions exist 1`] = `
 <pf-markets-card
+  activeCountryDataSet$={[Function Store]}
   addPayMarketFormOpen$={[Function Store]}
-  defaultCountryCode={[Function String]}
   hideNewPaymarketButton$={[Function Observable]}
   infoBannerOpen$={[Function Store]}
   loadingPaymarkets$={[Function Store]}
@@ -80,6 +80,13 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
         >
           
           
+          <div>
+            <div
+              class="no-data"
+            >
+              No Data
+            </div>
+          </div>
         </div>
       </div>
     </pf-async-container>
@@ -89,8 +96,8 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
 
 exports[`Comphub - Main - Markets Card Component should hide the add paymarkets button when restrictions exist 1`] = `
 <pf-markets-card
+  activeCountryDataSet$={[Function Store]}
   addPayMarketFormOpen$={[Function Store]}
-  defaultCountryCode={[Function String]}
   hideNewPaymarketButton$={[Function Observable]}
   infoBannerOpen$={[Function Store]}
   loadingPaymarkets$={[Function Store]}
@@ -158,6 +165,13 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
         >
           
           
+          <div>
+            <div
+              class="no-data"
+            >
+              No Data
+            </div>
+          </div>
         </div>
       </div>
     </pf-async-container>

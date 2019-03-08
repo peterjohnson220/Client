@@ -69,3 +69,12 @@
     margin-top: 0.5rem;
   }
 }
+
+.form-control[readonly] {
+  background-color: #ffffff;
+
+  &.disabled:focus {
+    box-shadow: none !important;
+    border-color: #ced4da !important;
+  }
+}
