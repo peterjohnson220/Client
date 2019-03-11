@@ -93,8 +93,8 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  showTooltip(e: any): void {
-    if (e.target.offsetWidth < e.target.scrollWidth && e.target.tagName.toLowerCase() === 'div') {
+  showTooltip(e: any, id: string): void {
+    if (e.target.offsetWidth < e.target.scrollWidth && e.target.id.includes(id)) {
       this.tooltipDir.toggle(e.target);
     } else {
       this.tooltipDir.hide();
