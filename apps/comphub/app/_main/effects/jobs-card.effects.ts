@@ -7,14 +7,14 @@ import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
-import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
+import { PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
+import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
 export class JobsCardEffects {
@@ -41,9 +41,15 @@ export class JobsCardEffects {
     .ofType(fromJobsCardActions.GET_JOB_SEARCH_OPTIONS)
     .pipe(
       debounceTime(100),
-      switchMap((action: fromJobsCardActions.GetJobSearchOptions) => {
-          return this.jobSearchApiService.getJobSearchAutocompleteResults({Prefix: action.payload})
-            .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.GetJobSearchOptions, dataSet) => ({ action, dataSet })
+      ),
+      switchMap((data) => {
+          return this.jobSearchApiService.getJobSearchAutocompleteResults({
+            Prefix: data.action.payload,
+            PayfactorsCountryCode: data.dataSet.CountryCode
+          }).pipe(
               map(response => {
                 return new fromJobsCardActions.GetJobSearchOptionsSuccess(response);
               }),
