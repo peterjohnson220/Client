@@ -44,10 +44,14 @@ export class SummaryCardEffects {
   getJobNationalTrend$ = this.actions$
     .ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND)
     .pipe(
-      switchMap((action: fromSummaryCardActions.GetNationalJobTrendData) => {
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromSummaryCardActions.GetNationalJobTrendData, activeCountryDataSet) => ({ action, activeCountryDataSet })
+      ),
+      switchMap((data) => {
           return this.comphubApiService.getJobSalaryTrendData({
-            JobCode: action.payload.JobCode,
-            CountryCode: 'USA'
+            JobCode: data.action.payload.JobCode,
+            CountryCode: data.activeCountryDataSet.CountryCode
           })
             .pipe(
               map(response => {
