@@ -1,3 +1,5 @@
 export enum MDScopeGeoGroup {
-  CityState = 'CityState'
+  CityState = 'CityState',
+  Metro = 'Metro',
+  Region = 'Region'
 }

@@ -7,7 +7,7 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { PricingPaymarket, AddPayMarketFormData, MarketDataScope} from '../../../models';
+import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet} from '../../../models';
 
 @Component({
   selector: 'pf-markets-card',
@@ -30,8 +30,7 @@ export class MarketsCardComponent implements OnInit {
   showSkipButton$: Observable<boolean>;
   hideNewPaymarketButton$: Observable<boolean>;
   payMarketsFilter$: Observable<string>;
-
-  private readonly defaultCountryCode = 'USA';
+  activeCountryDataSet$: Observable<CountryDataSet>;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -43,13 +42,10 @@ export class MarketsCardComponent implements OnInit {
     this.loadingPaymarketsError$ = this.store.select(fromComphubMainReducer.getLoadingPaymarketsError);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.hideNewPaymarketButton$ = this.store.select(fromComphubMainReducer.getHideNewPaymarketsButton);
+    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromMarketsCardActions.GetPaymarkets());
-    this.store.dispatch(new fromMarketsCardActions.GetMarketDataScope(
-      { countryCode: this.defaultCountryCode }
-    ));
     this.addPayMarketFormOpen$ = this.store.select(fromComphubMainReducer.getAddPayMarketFormOpen);
     this.savingPayMarket$ = this.store.select(fromComphubMainReducer.getSavingPayMarket);
     this.savingPayMarketConflict$ = this.store.select(fromComphubMainReducer.getSavingPayMarketConflict);

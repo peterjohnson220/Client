@@ -31,26 +31,12 @@
 
       <div class="col-12 col-lg-4">
         <label>Country</label>
-        <kendo-dropdownlist class="form-control border"
-          [attr.data-qa-id]="'ddm-country'"
-          formControlName="country"
-          [data]="countryList"
-          [textField]="'Name'"
-          [valueField]="'Value'"
-          [defaultItem]="defaultCountry">
-        </kendo-dropdownlist>
+        <input class="form-control disabled" type="text" [placeholder]="countryDataSet?.CountryName" readonly>
       </div>
 
       <div class="col-12 col-lg-3">
         <label>Currency</label>
-        <kendo-dropdownlist class="border form-control"
-          [attr.data-qa-id]="'ddm-currency'"
-          formControlName="currency"
-          [data]="currencyList"
-          [textField]="'Name'"
-          [valueField]="'Value'"
-          [defaultItem]="defaultCurrency">
-        </kendo-dropdownlist>
+        <input class="form-control disabled" type="text" [placeholder]="countryDataSet?.CurrencyCode" readonly>
       </div>
 
     </div>
@@ -63,7 +49,7 @@
           class="form-control"
           formControlName="location"
           [data]="locations"
-          [placeholder]="'Search by City...'"
+          [placeholder]="locationPlaceholder"
           [filterable]="true"
           [valueField]="'Value'"
           (filterChange)="handleLocationFilter($event)">
@@ -101,7 +87,7 @@
 
     <div class="form-content row form-actions-section">
       <div class="col-12 d-flex justify-content-end">
-        <ng-container *ngIf="showErrorMessages">
+        <ng-container *ngIf="showErrorMessages && !saving">
           <span class="text-danger" *ngIf="savingConflict">Name in use. Please choose a unique pay market name.</span>
           <span class="text-danger" *ngIf="savingError">Error Saving Pay Market.</span>
         </ng-container>

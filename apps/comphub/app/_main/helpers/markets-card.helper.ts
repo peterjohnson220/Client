@@ -1,7 +1,8 @@
 import { AddPayMarketRequest } from 'libs/models/payfactors-api';
 import { UiPersistenceFeatureSettingsModel, FeatureAreaConstants, UiPersistenceSettingConstants } from 'libs/models/common';
 
-import { MarketDataScope, AddPayMarketFormData, PricingPaymarket } from '../models';
+import { MarketDataScope, AddPayMarketFormData, PricingPaymarket, CountryDataSet } from '../models';
+import { CountryCode } from '../data';
 
 export class MarketsCardHelper {
   static buildAddPayMarketRequest(companyId: number, data: AddPayMarketFormData): AddPayMarketRequest {
@@ -13,7 +14,7 @@ export class MarketsCardHelper {
         CompanyId: companyId,
         CountryCode: data.Country,
         CurrencyCode: data.Currency,
-        GeoLabel: 'CityState',
+        GeoLabel: data.GeoLabel,
         GeoValue: data.Location,
         IndustryLabel: 'Industry',
         IndustryValue: data.Industry,
@@ -55,5 +56,19 @@ export class MarketsCardHelper {
       Size: 'All',
       SizeLabel: 'Employees'
     };
+  }
+
+  static getLocationPlaceholder(countryDataSet: CountryDataSet): string {
+    if (!countryDataSet) {
+      return 'All';
+    }
+    switch (countryDataSet.CountryCode) {
+      case CountryCode.USA:
+        return 'Search by City...';
+      case CountryCode.CAN:
+        return 'Search by Metro...';
+      default:
+        return 'All';
+    }
   }
 }

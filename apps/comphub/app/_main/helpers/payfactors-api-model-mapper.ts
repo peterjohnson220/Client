@@ -11,7 +11,7 @@ import { PayMarket } from 'libs/models/paymarket';
 import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
   JobData, JobGridData, CountryDataSet, JobSalaryTrend } from '../models';
 import { MDScopeResponse } from 'libs/models/payfactors-api';
-import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
+import { MDScopeSizeCategory } from 'libs/constants';
 
 export class PayfactorsApiModelMapper {
 
@@ -46,15 +46,18 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse): MarketDataScope {
+  static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse, countryDataSet: CountryDataSet): MarketDataScope {
     return {
-      Locations: this.mapScopeValuesToKendoDropDownItems(response.Locations[MDScopeGeoGroup.CityState]),
+      Locations: this.mapScopeValuesToKendoDropDownItems(response.Locations[countryDataSet.GeoLabel]),
       Sizes: this.mapScopeValuesToKendoDropDownItems(response.Sizes[MDScopeSizeCategory.Employees]),
       Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries)
     };
   }
 
   static mapScopeValuesToKendoDropDownItems(scopeValues: string[]): KendoDropDownItem[] {
+    if (!scopeValues) {
+      return [];
+    }
     return scopeValues.map(s => {
       return {
         Name: s,
@@ -104,6 +107,7 @@ export class PayfactorsApiModelMapper {
     return countryDataSetResponse.map((cdsr) => {
       return {
         CountryCode: cdsr.CountryCode,
+        CountryName: cdsr.CountryName,
         CurrencyCode: cdsr.CurrencyCode,
         GeoLabel: cdsr.GeoLabel
       };
