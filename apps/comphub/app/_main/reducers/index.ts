@@ -147,6 +147,11 @@ export const getCountryDataSets = createSelector(
   fromComphubPageReducer.getCountryDataSets
 );
 
+export const getActiveCountryDataSet = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getActiveCountryDataSet
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,

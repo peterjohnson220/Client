@@ -113,3 +113,4 @@ export const getJobPricingBlocked = (state: State) =>
     || state.countryDataSets.length === 0);
 export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetsLoaded;
 export const getCountryDataSets = (state: State) => state.countryDataSets;
+export const getActiveCountryDataSet = (state: State) => state.countryDataSets.length ? state.countryDataSets[0] : null;
