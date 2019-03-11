@@ -28,7 +28,7 @@
        showOn="none"
        [tooltipTemplate]="template"
        filter=".k-grid td"
-       (mouseover)="showTooltip($event)">
+       (mouseover)="showTooltip($event, 'company-job-title-')">
     <kendo-grid
                 [data]="companyJobsGridItemsData$ | async"
                 [style.height.%]="100"
@@ -62,7 +62,9 @@
       <kendo-grid-column field="CompanyJobId" title="Id" hidden="hidden"></kendo-grid-column>
       <kendo-grid-column field="JobTitle" title="Job Title">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <div [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
+          <div id="{{'company-job-title-'+ dataItem.CompanyJobId}}"
+               class="'company-job-title-'"
+                  [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="JobCode" title="Job Code">
