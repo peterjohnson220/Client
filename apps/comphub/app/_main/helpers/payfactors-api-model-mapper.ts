@@ -1,4 +1,5 @@
 import {
+  CountryDataSetResponse,
   JobSalaryTrendResponse,
   QuickPriceMarketData,
   QuickPriceResponse,
@@ -8,7 +9,7 @@ import {
 import { PayMarket } from 'libs/models/paymarket';
 
 import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
-  JobData, JobGridData, JobSalaryTrendData, JobSalaryTrend } from '../models';
+  JobData, JobGridData, CountryDataSet, JobSalaryTrend } from '../models';
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
 
@@ -98,4 +99,15 @@ export class PayfactorsApiModelMapper {
       })
     };
   }
+
+  static mapCountryDataSetResponseToCountryDataSets(countryDataSetResponse: CountryDataSetResponse[]): CountryDataSet[] {
+    return countryDataSetResponse.map((cdsr) => {
+      return {
+        CountryCode: cdsr.CountryCode,
+        CurrencyCode: cdsr.CurrencyCode,
+        GeoLabel: cdsr.GeoLabel
+      };
+    });
+  }
+
 }

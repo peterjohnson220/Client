@@ -48,7 +48,9 @@
   </ng-container>
 
   <ng-container custom-actions>
-    <div class="smb-limit-disabling-message" *ngIf="jobPricingBlocked$ | async">
+    <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async)
+    && (countryDataSetsLoaded$ | async)
+    && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
       <div class="icon">
         <i class="fas fa-exclamation-triangle"></i>
       </div>
