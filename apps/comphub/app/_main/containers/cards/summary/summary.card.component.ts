@@ -8,6 +8,9 @@ import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
 
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
+import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -33,6 +36,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   creatingProject$: Observable<boolean>;
   creatingProjectError$: Observable<boolean>;
   canAccessProjectsTile$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -47,6 +51,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   defaultCurrency = 'USD';
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
+  systemUserGroupNames = SystemUserGroupNames;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -62,6 +67,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
     this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
     this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
   }
 
   ngOnInit() {

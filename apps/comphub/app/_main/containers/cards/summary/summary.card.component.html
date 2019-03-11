@@ -5,94 +5,107 @@
   [hideNextButton]="true">
 
   <ng-container page-content>
-    <kendo-pdf-export #pdf [paperSize]="'A4'" [scale]=".7" [creator]="'Payfactors'" [margin]="'1cm'">
-      <img class="pdf-logo" alt="payfactors" src="assets/images/payfactors-logo-on-white.png" />
-      <div class="pdf-header">Pricing Summary</div>
-      <div class="summary-container row mt-4">
-        <div class="col left-container">
-          <div class="d-flex flex-row mb-4">
-            <div class="mr-5">
-              <span>Job Title</span>
-              <div><h4 class="header-blue">{{jobData?.JobTitle}}</h4></div>
-            </div>
-          </div>
-          <div class="d-flex flex-row mb-4">
-            <div class="mr-5">
-              <span>Effective Date</span>
-              <div><h4 class="header-blue">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</h4></div>
-            </div>
-            <div class="mr-5">
-              <span>Rate</span>
-              <div><h4 class="header-blue">{{selectedRate}}</h4></div>
-            </div>
-            <div class="mr-5">
-              <span>FLSA</span>
-              <div><h4 class="header-blue">{{jobData?.FLSAStatus || '-'}}</h4></div>
-            </div>
-            <div class="mr-5">
-              <span>Currency</span>
-              <div><h4 class="header-blue">{{defaultCurrency}}</h4></div>
-            </div>
-            <div>
-              <span>Market</span>
-              <div><h4 class="header-blue paymarket-name" [title]="paymarket?.PayMarketName">{{paymarket?.PayMarketName}}</h4></div>
-            </div>
-          </div>
-          <div class="d-flex flex-row mb-4">
-            <div class="width-250">
-              <span>Base Salary</span>
-              <div class="d-flex flex-row">
-                <h2 class="currency-sign">$</h2>
-                <h1 class="header-blue">{{calculateDataByRate(jobData?.Base50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+    <kendo-pdf-export #pdf [paperSize]="'Letter'" [scale]=".7" [creator]="'Payfactors'" forcePageBreak=".page-break">
+      <div class="summary-pdf-wrapper">
+        <img class="pdf-logo" alt="payfactors" src="assets/images/payfactors-logo-on-white.png" />
+        <div class="pdf-header">Pricing Summary</div>
+        <div class="summary-container row mt-4">
+          <div class="col left-container">
+            <div class="d-flex flex-row mb-4">
+              <div class="mr-5">
+                <span>Job Title</span>
+                <div><h4 class="header-blue">{{jobData?.JobTitle}}</h4></div>
               </div>
-              <div class="w-75">
-                <pf-salary-bar-chart
+            </div>
+            <div class="d-flex flex-row mb-4">
+              <div class="mr-5">
+                <span>Effective Date</span>
+                <div><h4 class="header-blue">{{firstDayOfMonth | date:'MM/dd/yyyy'}}</h4></div>
+              </div>
+              <div class="mr-5">
+                <span>Rate</span>
+                <div><h4 class="header-blue">{{selectedRate}}</h4></div>
+              </div>
+              <div class="mr-5">
+                <span>FLSA</span>
+                <div><h4 class="header-blue">{{jobData?.FLSAStatus || '-'}}</h4></div>
+              </div>
+              <div class="mr-5">
+                <span>Currency</span>
+                <div><h4 class="header-blue">{{defaultCurrency}}</h4></div>
+              </div>
+              <div>
+                <span>Market</span>
+                <div><h4 class="header-blue paymarket-name" [title]="paymarket?.PayMarketName">{{paymarket?.PayMarketName}}</h4></div>
+              </div>
+            </div>
+            <div class="d-flex flex-row mb-4">
+              <div class="width-250">
+                <span>Base Salary</span>
+                <div class="d-flex flex-row">
+                  <h2 class="currency-sign">$</h2>
+                  <h1 class="header-blue">{{calculateDataByRate(jobData?.Base50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+                </div>
+                <div class="w-75">
+                  <pf-salary-bar-chart
+                    [isHourly]="isHourly"
+                    [salary25]="jobData?.Base25"
+                    [salary50]="jobData?.Base50"
+                    [salary75]="jobData?.Base75">
+                  </pf-salary-bar-chart>
+                </div>
+              </div>
+              <div class="width-250">
+                <span>Total Cash Compensation</span>
+                <div class="d-flex flex-row">
+                  <h2 class="currency-sign">$</h2>
+                  <h1 class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+                </div>
+                <div class="w-75">
+                  <pf-salary-bar-chart
+                    [isHourly]="isHourly"
+                    [salary25]="jobData?.Tcc25"
+                    [salary50]="jobData?.Tcc50"
+                    [salary75]="jobData?.Tcc75">
+                  </pf-salary-bar-chart>
+                </div>
+              </div>
+              <div class="width-250">
+                <span>Salary Trend</span>
+                <pf-salary-trend-chart
                   [isHourly]="isHourly"
-                  [salary25]="jobData?.Base25"
-                  [salary50]="jobData?.Base50"
-                  [salary75]="jobData?.Base75">
-                </pf-salary-bar-chart>
+                  [salaryTrendData]="jobSalaryTrendData">
+                </pf-salary-trend-chart>
               </div>
             </div>
-            <div class="width-250">
-              <span>Total Cash Compensation</span>
-              <div class="d-flex flex-row">
-                <h2 class="currency-sign">$</h2>
-                <h1 class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+            <div *ngIf="jobData?.Skills.length">
+              <div class="mb-2">Top Skills</div>
+              <div class="d-flex flex-wrap">
+                <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
               </div>
-              <div class="w-75">
-                <pf-salary-bar-chart
-                  [isHourly]="isHourly"
-                  [salary25]="jobData?.Tcc25"
-                  [salary50]="jobData?.Tcc50"
-                  [salary75]="jobData?.Tcc75">
-                </pf-salary-bar-chart>
-              </div>
-            </div>
-            <div class="width-250">
-              <span>Salary Trend</span>
-              <pf-salary-trend-chart
-                [isHourly]="isHourly"
-                [salaryTrendData]="jobSalaryTrendData">
-              </pf-salary-trend-chart>
             </div>
           </div>
-          <div *ngIf="jobData?.Skills.length">
-            <div class="mb-2">Top Skills</div>
-            <div class="d-flex flex-wrap">
-              <span *ngFor="let skill of jobData.Skills" class="badge">{{skill}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="right-container col">
-          <div class="d-flex flex-column">
-            <span>Job Description</span>
-            <div class="job-description">
-              {{jobData?.JobDescription}}
+          <div class="right-container col">
+            <div class="d-flex flex-column">
+              <span>Job Description</span>
+              <div class="job-description">
+                {{jobData?.JobDescription}}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+
+      <!--SMB Sell Sheet-->
+      <ng-container *ngIf="(userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
+        <div class="page-break"></div>
+
+        <div class="smb-sell-sheet-container">
+          <img class="smb-sell-sheet-pdf" alt="payfactors" src="assets/images/smb-sell-sheet.jpg" />
+        </div>
+      </ng-container>
+
     </kendo-pdf-export>
     <pf-glossary-of-terms></pf-glossary-of-terms>
   </ng-container>
