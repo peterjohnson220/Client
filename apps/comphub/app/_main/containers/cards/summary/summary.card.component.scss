@@ -94,11 +94,20 @@ h4 {
   }
 }
 
-.pdf-header, .pdf-logo {
+.pdf-header, .pdf-logo, .smb-sell-sheet-container {
   display: none;
 }
 
+.smb-sell-sheet-pdf{
+  width: 100%;
+  height: 100%;
+}
+
 :host ::ng-deep .k-pdf-export {
+  .summary-pdf-wrapper{
+    padding: 38px;
+  }
+
   .pdf-logo {
     display: block;
     position: absolute;
@@ -113,6 +122,12 @@ h4 {
     display: block;
     font-weight: bold;
     font-size: 1.25rem;
+  }
+
+  .smb-sell-sheet-container {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .left-container, .right-container {

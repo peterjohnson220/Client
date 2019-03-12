@@ -26,6 +26,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
   store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -34,202 +36,208 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   >
     
     <kendo-pdf-export
+      forcepagebreak=".page-break"
       ng-reflect-creator="Payfactors"
-      ng-reflect-margin="1cm"
-      ng-reflect-paper-size="A4"
+      ng-reflect-force-page-break=".page-break"
+      ng-reflect-paper-size="Letter"
       ng-reflect-scale="0.7"
     >
       <div>
-        <img
-          alt="payfactors"
-          class="pdf-logo"
-          src="assets/images/payfactors-logo-on-white.png"
-        />
         <div
-          class="pdf-header"
+          class="summary-pdf-wrapper"
         >
-          Pricing Summary
-        </div>
-        <div
-          class="summary-container row mt-4"
-        >
+          <img
+            alt="payfactors"
+            class="pdf-logo"
+            src="assets/images/payfactors-logo-on-white.png"
+          />
           <div
-            class="col left-container"
+            class="pdf-header"
           >
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Job Title
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Effective Date
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    03/01/2019
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Rate
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    Annual
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  FLSA
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    -
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Currency
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    USD
-                  </h4>
-                </div>
-              </div>
-              <div>
-                <span>
-                  Market
-                </span>
-                <div>
-                  <h4
-                    class="header-blue paymarket-name"
-                    title="Boston"
-                  >
-                    Boston
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="width-250"
-              >
-                <span>
-                  Base Salary
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Total Cash Compensation
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Salary Trend
-                </span>
-                <pf-salary-trend-chart />
-              </div>
-            </div>
-            
+            Pricing Summary
           </div>
           <div
-            class="right-container col"
+            class="summary-container row mt-4"
           >
             <div
-              class="d-flex flex-column"
+              class="col left-container"
             >
-              <span>
-                Job Description
-              </span>
               <div
-                class="job-description"
+                class="d-flex flex-row mb-4"
               >
-                  
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Job Title
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Effective Date
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      03/01/2019
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Rate
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      Annual
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    FLSA
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      -
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Currency
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      USD
+                    </h4>
+                  </div>
+                </div>
+                <div>
+                  <span>
+                    Market
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston"
+                    >
+                      Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Base Salary
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Total Cash Compensation
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Salary Trend
+                  </span>
+                  <pf-salary-trend-chart />
+                </div>
+              </div>
+              
+            </div>
+            <div
+              class="right-container col"
+            >
+              <div
+                class="d-flex flex-column"
+              >
+                <span>
+                  Job Description
+                </span>
+                <div
+                  class="job-description"
+                >
+                    
+                </div>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </kendo-pdf-export>
     <pf-glossary-of-terms />
@@ -291,6 +299,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
   store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -299,202 +309,208 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   >
     
     <kendo-pdf-export
+      forcepagebreak=".page-break"
       ng-reflect-creator="Payfactors"
-      ng-reflect-margin="1cm"
-      ng-reflect-paper-size="A4"
+      ng-reflect-force-page-break=".page-break"
+      ng-reflect-paper-size="Letter"
       ng-reflect-scale="0.7"
     >
       <div>
-        <img
-          alt="payfactors"
-          class="pdf-logo"
-          src="assets/images/payfactors-logo-on-white.png"
-        />
         <div
-          class="pdf-header"
+          class="summary-pdf-wrapper"
         >
-          Pricing Summary
-        </div>
-        <div
-          class="summary-container row mt-4"
-        >
+          <img
+            alt="payfactors"
+            class="pdf-logo"
+            src="assets/images/payfactors-logo-on-white.png"
+          />
           <div
-            class="col left-container"
+            class="pdf-header"
           >
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Job Title
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Effective Date
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    03/01/2019
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Rate
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    Annual
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  FLSA
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    -
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Currency
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    USD
-                  </h4>
-                </div>
-              </div>
-              <div>
-                <span>
-                  Market
-                </span>
-                <div>
-                  <h4
-                    class="header-blue paymarket-name"
-                    title="Boston"
-                  >
-                    Boston
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="width-250"
-              >
-                <span>
-                  Base Salary
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Total Cash Compensation
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Salary Trend
-                </span>
-                <pf-salary-trend-chart />
-              </div>
-            </div>
-            
+            Pricing Summary
           </div>
           <div
-            class="right-container col"
+            class="summary-container row mt-4"
           >
             <div
-              class="d-flex flex-column"
+              class="col left-container"
             >
-              <span>
-                Job Description
-              </span>
               <div
-                class="job-description"
+                class="d-flex flex-row mb-4"
               >
-                  
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Job Title
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Effective Date
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      03/01/2019
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Rate
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      Annual
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    FLSA
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      -
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Currency
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      USD
+                    </h4>
+                  </div>
+                </div>
+                <div>
+                  <span>
+                    Market
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston"
+                    >
+                      Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Base Salary
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Total Cash Compensation
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Salary Trend
+                  </span>
+                  <pf-salary-trend-chart />
+                </div>
+              </div>
+              
+            </div>
+            <div
+              class="right-container col"
+            >
+              <div
+                class="d-flex flex-column"
+              >
+                <span>
+                  Job Description
+                </span>
+                <div
+                  class="job-description"
+                >
+                    
+                </div>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </kendo-pdf-export>
     <pf-glossary-of-terms />
@@ -556,6 +572,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   sharePricingSummaryError$={[Function Store]}
   sharePricingSummaryModalOpen$={[Function Store]}
   store={[Function Store]}
+  systemUserGroupNames={[Function Object]}
+  userContext$={[Function Store]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -564,202 +582,208 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   >
     
     <kendo-pdf-export
+      forcepagebreak=".page-break"
       ng-reflect-creator="Payfactors"
-      ng-reflect-margin="1cm"
-      ng-reflect-paper-size="A4"
+      ng-reflect-force-page-break=".page-break"
+      ng-reflect-paper-size="Letter"
       ng-reflect-scale="0.7"
     >
       <div>
-        <img
-          alt="payfactors"
-          class="pdf-logo"
-          src="assets/images/payfactors-logo-on-white.png"
-        />
         <div
-          class="pdf-header"
+          class="summary-pdf-wrapper"
         >
-          Pricing Summary
-        </div>
-        <div
-          class="summary-container row mt-4"
-        >
+          <img
+            alt="payfactors"
+            class="pdf-logo"
+            src="assets/images/payfactors-logo-on-white.png"
+          />
           <div
-            class="col left-container"
+            class="pdf-header"
           >
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Job Title
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Effective Date
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    03/01/2019
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Rate
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    Annual
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  FLSA
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    -
-                  </h4>
-                </div>
-              </div>
-              <div
-                class="mr-5"
-              >
-                <span>
-                  Currency
-                </span>
-                <div>
-                  <h4
-                    class="header-blue"
-                  >
-                    USD
-                  </h4>
-                </div>
-              </div>
-              <div>
-                <span>
-                  Market
-                </span>
-                <div>
-                  <h4
-                    class="header-blue paymarket-name"
-                    title="Boston"
-                  >
-                    Boston
-                  </h4>
-                </div>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-row mb-4"
-            >
-              <div
-                class="width-250"
-              >
-                <span>
-                  Base Salary
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Total Cash Compensation
-                </span>
-                <div
-                  class="d-flex flex-row"
-                >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
-                  <h1
-                    class="header-blue"
-                  >
-                    
-                  </h1>
-                </div>
-                <div
-                  class="w-75"
-                >
-                  <pf-salary-bar-chart />
-                </div>
-              </div>
-              <div
-                class="width-250"
-              >
-                <span>
-                  Salary Trend
-                </span>
-                <pf-salary-trend-chart />
-              </div>
-            </div>
-            
+            Pricing Summary
           </div>
           <div
-            class="right-container col"
+            class="summary-container row mt-4"
           >
             <div
-              class="d-flex flex-column"
+              class="col left-container"
             >
-              <span>
-                Job Description
-              </span>
               <div
-                class="job-description"
+                class="d-flex flex-row mb-4"
               >
-                  
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Job Title
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Effective Date
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      03/01/2019
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Rate
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      Annual
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    FLSA
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      -
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Currency
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                    >
+                      USD
+                    </h4>
+                  </div>
+                </div>
+                <div>
+                  <span>
+                    Market
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston"
+                    >
+                      Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Base Salary
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Total Cash Compensation
+                  </span>
+                  <div
+                    class="d-flex flex-row"
+                  >
+                    <h2
+                      class="currency-sign"
+                    >
+                      $
+                    </h2>
+                    <h1
+                      class="header-blue"
+                    >
+                      
+                    </h1>
+                  </div>
+                  <div
+                    class="w-75"
+                  >
+                    <pf-salary-bar-chart />
+                  </div>
+                </div>
+                <div
+                  class="width-250"
+                >
+                  <span>
+                    Salary Trend
+                  </span>
+                  <pf-salary-trend-chart />
+                </div>
+              </div>
+              
+            </div>
+            <div
+              class="right-container col"
+            >
+              <div
+                class="d-flex flex-column"
+              >
+                <span>
+                  Job Description
+                </span>
+                <div
+                  class="job-description"
+                >
+                    
+                </div>
               </div>
             </div>
           </div>
         </div>
+        
       </div>
     </kendo-pdf-export>
     <pf-glossary-of-terms />
