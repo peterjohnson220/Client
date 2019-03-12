@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import {
   QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
   JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
-  PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse
+  PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
+  AddCompletedPricingHistoryRequest
 } from '../../../models/payfactors-api/comphub';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -46,5 +47,9 @@ export class ComphubApiService {
 
   createQuickPriceProject(request: CreateQuickPriceProjectRequest): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/CreateQuickPriceProject`, request);
+  }
+
+  addCompletedPricingHistory(request: AddCompletedPricingHistoryRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddCompletedPricingHistory`, request);
   }
 }
