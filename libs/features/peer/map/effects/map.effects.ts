@@ -56,6 +56,21 @@ export class MapEffects {
       ))
     );
 
+  @Effect()
+  loadPeerMapBounds$: Observable<Action> = this.actions$.pipe(
+    ofType(fromPeerMapActions.LOAD_PEER_MAP_BOUNDS),
+    withLatestFrom(
+      this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
+      (action, exchangeDataCutRequestData) => exchangeDataCutRequestData),
+    switchMap((payload: ExchangeDataSearchFilter) =>
+      this.exchangeDataSearchApiService.getMapBounds(payload).pipe(
+        map((exchangeMapResponse: ExchangeMapResponse) => new fromPeerMapActions
+          .LoadPeerMapBoundsSuccess(exchangeMapResponse)),
+        catchError(() => of(new fromPeerMapActions.LoadPeerMapBoundsError()))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private peerMapStore: Store<fromPeerMapReducers.State>,

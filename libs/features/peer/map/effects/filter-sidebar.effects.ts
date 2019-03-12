@@ -31,7 +31,7 @@ export class FilterSidebarEffects {
   loadingSystemFilterSuccess$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS),
       map((action: fromFilterSidebarActions.LoadSystemFilterSuccess) => action.payload),
-      switchMap(() => of(new fromPeerMapActions.LoadPeerMapData()))
+      switchMap(() => of(new fromPeerMapActions.LoadPeerMapBounds()))
     );
 
   @Effect()
