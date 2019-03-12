@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { FeatureCollection, Point } from 'geojson';
 import * as mapboxgl from 'mapbox-gl';
