@@ -84,7 +84,7 @@
               </button>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column  field="ExchangeJobTitle" title="Job Title">
+          <kendo-grid-column field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
               <a id="{{'exchange-title-'+ dataItem.ExchangeId + '-' + dataItem.ExchangeJobId}}"
                   href="javascript:void(0)" 
@@ -118,7 +118,7 @@
             </pf-peer-job-association-associated-jobs>
           </ng-template>
           <ng-template kendoGridNoRecordsTemplate>
-            No results based on your search.
+            {{ badRequestError.length > 0 ? badRequestError + " Please narrow down the list by using the filters above." : "No records based on your search." }}
             <a href="javascript:void(0)" (click)="reload(true)">
               <i class="fas fa-redo-alt"></i>Reset now
             </a>
@@ -194,7 +194,7 @@
           </kendo-grid-span-column>
 
           <ng-template kendoGridNoRecordsTemplate>
-            No results based on your search.
+            {{ badRequestError.length > 0 ? badRequestError : 'No results based on your search.' }}
             <a href="javascript:void(0)" (click)="reload(true)">
               <i class="fas fa-redo-alt"></i>Reset now
             </a>

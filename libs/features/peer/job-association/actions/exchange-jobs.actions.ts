@@ -13,6 +13,7 @@ export const RESET = '[Peer Job Association/Exchange Jobs] Reset';
 export const ADD_ASSOCIATION = '[Peer Job Association/Exchange Jobs] Add Association';
 export const CLOSE_DETAIL_PANEL = '[Peer Job Association/Exchange Jobs] Close Detail Panel';
 export const LOAD_EXCHANGE_JOBS  = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs';
+export const LOAD_EXCHANGE_JOBS_BAD_REQUEST = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Bad Request';
 export const LOAD_EXCHANGE_JOBS_SUCCESS  = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Success';
 export const LOAD_EXCHANGE_JOBS_ERROR  = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Error';
 export const REMOVE_ASSOCIATION = '[Peer Job Association/Exchange Jobs] Remove Association';
@@ -56,10 +57,6 @@ export class LoadExchangeJobs implements Action {
   readonly type = LOAD_EXCHANGE_JOBS;
 }
 
-export class LoadExchangeJobsError implements Action {
-  readonly type = LOAD_EXCHANGE_JOBS_ERROR;
-}
-
 export class LoadExchangeJobsSuccess implements Action {
   readonly type = LOAD_EXCHANGE_JOBS_SUCCESS;
   constructor(public payload: GridDataResult) {}
@@ -68,6 +65,16 @@ export class LoadExchangeJobsSuccess implements Action {
 export class RemoveAssociation implements Action {
   readonly type = REMOVE_ASSOCIATION;
   constructor(public exchangeId: number, public exchangeJobId: number, public companyJobId: number) {}
+}
+
+export class LoadExchangeJobsError implements Action {
+  readonly type = LOAD_EXCHANGE_JOBS_ERROR;
+  constructor(public payload: any) {}
+}
+
+export class LoadExchangeJobsBadRequest implements Action {
+  readonly type = LOAD_EXCHANGE_JOBS_BAD_REQUEST;
+  constructor(public payload: string) {}
 }
 
 // previous associations
@@ -155,4 +162,5 @@ export type Actions
   // previous associations
   | LoadPreviousAssociations
   | LoadPreviousAssociationsSuccess
-  | LoadPreviousAssociationsError;
+  | LoadPreviousAssociationsError
+  | LoadExchangeJobsBadRequest;

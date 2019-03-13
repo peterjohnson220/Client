@@ -11,6 +11,8 @@ export interface State extends EntityState<ExchangeJob> {
   // grid and search term
   loading: boolean;
   loadingError: boolean;
+  loadingErrorMessage: string;
+  badRequestMessage: string;
   total: number;
   searchTerm: string;
   ExchangeJobAssociations: ExchangeJobAssociation[];
@@ -40,6 +42,8 @@ const initialState: State = adapter.getInitialState({
   // grid and search term
   loading: false,
   loadingError: false,
+  loadingErrorMessage: '',
+  badRequestMessage: '',
   total: 0,
   searchTerm: '',
   ExchangeJobAssociations: [],
@@ -79,19 +83,29 @@ export function reducer(state, action) {
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_SUCCESS: {
-          const payMarketList: ExchangeJob[] = featureAction.payload.data;
+          const exchangeJobs: ExchangeJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(payMarketList, featureState),
+            ...adapter.addAll(exchangeJobs, featureState),
             total: featureAction.payload.total,
             loading: false,
-            loadingError: false
+            loadingError: false,
+            badRequestMessage: ''
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_ERROR: {
           return {
             ...featureState,
             loading: false,
-            loadingError: true
+            loadingError: true,
+            loadingErrorMessage: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_BAD_REQUEST: {
+          const emptyResponse: ExchangeJob[] = [];
+          return {
+            ...adapter.addAll(emptyResponse, featureState),
+            loading: false,
+            badRequestMessage: featureAction.payload
           };
         }
         case fromPeerExchangeJobsActions.UPDATE_SEARCH_TERM: {

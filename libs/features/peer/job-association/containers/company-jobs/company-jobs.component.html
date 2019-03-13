@@ -110,10 +110,9 @@
         </ng-template>
       </kendo-grid-column>
       <ng-template kendoGridNoRecordsTemplate>
-        No results based on your search.
+        {{ badRequestError.length > 0 ? badRequestError + " Please narrow down the list by using the filters above." : "No records based on your search." }}
         <a href="javascript:void(0)" (click)="reload(true)">
-          <i class="fas fa-redo-alt"></i>
-          Reset now
+          <i class="fas fa-redo-alt"></i>Reset now
         </a>
       </ng-template>
     </kendo-grid>

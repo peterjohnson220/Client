@@ -4,14 +4,17 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
 import { GridTypeEnum } from 'libs/models/common';
 
-import { CompanyJob } from '../models/';
+import {CompanyJob, ExchangeJob} from '../models/';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
+import * as fromPeerExchangeJobsActions from '../actions/exchange-jobs.actions';
 
 export interface State extends EntityState<CompanyJob> {
   companyJobsToAssociate: CompanyJob[];
   companyJobIdFilters: number[];
   loading: boolean;
   loadingError: boolean;
+  loadingErrorMessage: string;
+  badRequestMessage: string;
   total: number;
   searchTerm: string;
   selectedCompanyJobInDetailPanel: CompanyJob;
@@ -28,6 +31,9 @@ const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
   companyJobsToAssociate: [],
+  loadingErrorMessage: '',
+  badRequestMessage: '',
+  selectedCompanyJobs: [],
   total: 0,
   searchTerm: '',
   selectedCompanyJobInDetailPanel: {} as CompanyJob,
@@ -56,14 +62,24 @@ export function reducer(state, action) {
             ...adapter.addAll(companyJobGridItems, featureState),
             total: featureAction.payload.total,
             loading: false,
-            loadingError: false
+            loadingError: false,
+            badRequestMessage: ''
           };
         }
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS_ERROR: {
           return {
             ...featureState,
             loading: false,
-            loadingError: true
+            loadingError: true,
+            loadingErrorMessage: featureAction.payload
+          };
+        }
+        case fromCompanyJobsActions.LOAD_COMPANY_JOBS_BAD_REQUEST: {
+          const emptyResponse: CompanyJob[] = [];
+          return {
+            ...adapter.addAll(emptyResponse, featureState),
+            loading: false,
+            badRequestMessage: featureAction.payload
           };
         }
         case fromCompanyJobsActions.RESET: {

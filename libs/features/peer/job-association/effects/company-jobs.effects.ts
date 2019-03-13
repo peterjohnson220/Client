@@ -5,6 +5,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
 import * as fromReducer from '../reducers';
@@ -19,7 +20,7 @@ export class CompanyJobsEffects {
   );
 
   @Effect()
-  loadExchangeJobs$: Observable<Action> = this.actions$.pipe(
+  loadCompanyJobs$: Observable<Action> = this.actions$.pipe(
     ofType(fromCompanyJobsActions.LOAD_COMPANY_JOBS),
     // grab list state
     withLatestFrom(
@@ -39,9 +40,15 @@ export class CompanyJobsEffects {
       this.exchangeCompanyApiService.getActiveNonAssociatedCompanyJobs(
           combined.listState, combined.companyJobIds, combined.searchTerm).pipe(
             map((grid) => new fromCompanyJobsActions.LoadCompanyJobsSuccess(grid)),
-        catchError(() => of(new fromCompanyJobsActions.LoadCompanyJobsError()))
-      ))
-    )
+        catchError((error: HttpErrorResponse ) => {
+          if (error.status === 400) {
+            return of(new fromCompanyJobsActions.LoadCompanyJobsBadRequest(error.error.Message));
+          } else {
+            return of(new fromCompanyJobsActions.LoadCompanyJobsError(error.error.Message));
+          }
+        })
+      )
+    ))
   );
 
   constructor(
