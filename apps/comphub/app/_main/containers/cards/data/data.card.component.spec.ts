@@ -267,7 +267,7 @@ describe('Comphub - Main - Data Card Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display base50 and tcc50 with 1 decimal place when rate is annual', () => {
+  it('should display base50 and tcc50 with thousand seperator when rate is annual', () => {
     const jobGridData: JobGridData = {
       Data: [ generateFakeJobData() ],
       Total: 1
@@ -284,11 +284,10 @@ describe('Comphub - Main - Data Card Component', () => {
   it('should return correct value when selected rate is annual', () => {
     instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
     const value = 361100;
-    const expectedValue = 361.1;
 
     const actualValue = instance.calculateDataByRate(value);
 
-    expect(actualValue).toEqual(expectedValue);
+    expect(actualValue).toEqual(value);
   });
 
   it('should return correct value when selected rate is hourly', () => {
