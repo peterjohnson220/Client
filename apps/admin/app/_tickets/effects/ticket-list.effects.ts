@@ -9,6 +9,7 @@ import { UserTicketResponse } from 'libs/models/payfactors-api/service/response'
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 
 import * as fromTicketListActions from '../actions/ticket-list.actions';
+import {PayfactorsApiModelMapper} from '../helpers';
 
 @Injectable()
 export class TicketListEffects {
@@ -18,7 +19,8 @@ export class TicketListEffects {
             switchMap((action: fromTicketListActions.LoadTickets) =>
                 this.userTicketApiService.searchUserTickets(action.payload).pipe(
                     map((userTickets: UserTicketResponse[]) => {
-                        return new fromTicketListActions.LoadTicketsSuccess(userTickets);
+                      const userTicketGridItems = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketGridItem(userTickets);
+                      return new fromTicketListActions.LoadTicketsSuccess(userTicketGridItems);
                     }),
                     catchError(error => of(new fromTicketListActions.LoadTicketsError()))
                 )

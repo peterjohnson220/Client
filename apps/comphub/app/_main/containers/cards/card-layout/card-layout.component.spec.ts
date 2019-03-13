@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 import { environment } from 'environments/environment';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { CardLayoutComponent } from './card-layout.component';
-import { WindowRef } from '../../../services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('Comphub - Main - Card Layout', () => {

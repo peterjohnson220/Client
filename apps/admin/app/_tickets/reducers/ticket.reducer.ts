@@ -6,12 +6,14 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   userTicket: UserTicketResponse;
+  openedTicket: number;
 }
 
 export const initialState: State = {
   loading: false,
   loadingError: false,
-  userTicket: null
+  userTicket: null,
+  openedTicket: null,
 };
 
 export function reducer(state = null, action: fromTicketActions.Actions): State {
@@ -37,6 +39,13 @@ export function reducer(state = null, action: fromTicketActions.Actions): State 
         loadingError: true
       };
     }
+    case fromTicketActions.OPEN_TICKET: {
+      return {
+        ...state,
+        openedTicket: action.payload,
+        loading: false,
+      }
+    }
     default: {
       return state;
     }
@@ -46,3 +55,4 @@ export function reducer(state = null, action: fromTicketActions.Actions): State 
 export const getUserTicket = (state: State) => state.userTicket;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getOpenedTicket = (state: State) => state.openedTicket;

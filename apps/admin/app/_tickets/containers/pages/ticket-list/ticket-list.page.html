@@ -1,0 +1,15 @@
+<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+  <ng-container page-title>
+    Tickets
+  </ng-container>
+  <ng-container page-content>
+    <kendo-tabstrip>
+      <kendo-tabstrip-tab [title]="'Tickets'"
+                          [selected]="true">
+        <ng-template kendoTabContent>
+          <pf-ticket-list></pf-ticket-list>
+        </ng-template>
+      </kendo-tabstrip-tab>
+    </kendo-tabstrip>
+  </ng-container>
+</pf-page-with-title-bar>

@@ -5,13 +5,14 @@ import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
+import { WindowRef } from 'libs/core/services';
+
 import { ComphubPages, Rates, RateType } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
   KendoDropDownItem } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { WindowRef } from '../../../services';
 import { DataCardHelper } from '../../../helpers';
 
 @Component({

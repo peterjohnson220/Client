@@ -1,30 +1,60 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TicketListComponent } from './ticket-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('TicketListComponent', () => {
-  let component: TicketListComponent;
+import {combineReducers, Store, StoreModule} from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
+
+import { TicketListComponent } from './ticket-list.component';
+import * as fromTicketReducer from '../../reducers';
+import * as fromTicketListActions from '../../actions/ticket-list.actions';
+import * as fromTicketList from '../../actions/ticket.actions';
+
+import { generateMockUserTicketGridItem, UserTicketGridItem } from '../../models';
+
+
+describe('Admin - Tickets - Ticket List', () => {
+  let instance: TicketListComponent;
   let fixture: ComponentFixture<TicketListComponent>;
+  let store: Store<fromTicketReducer.State>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TicketListComponent ],
-      // Shallow Testing
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
-  }));
+  const mockUserTicketGridItem = generateMockUserTicketGridItem();
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+          ticketsAdminMain: combineReducers(fromTicketReducer.reducers),
+        })
+      ],
+      declarations: [ TicketListComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
+
     fixture = TestBed.createComponent(TicketListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    instance = fixture.componentInstance;
+
+    store = TestBed.get(Store);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should dispatch a LoadTickets action upon init based on default search params', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromTicketListActions.LoadTickets({'UserTicket_State': 'New', 'Company_ID': 13});
+
     fixture.detectChanges();
 
-    expect(fixture).toMatchSnapshot();
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(  'should dispatch an OpenTicket action when handleCellDoubleClick is triggered', () => {
+    spyOn(store, 'dispatch');
+    const userTicketGridItem: UserTicketGridItem = mockUserTicketGridItem;
+    const expectedAction = new fromTicketList.OpenTicket(userTicketGridItem.Id);
+
+    instance.handleCellClick({ dataItem: userTicketGridItem});
+    instance.handleCellDoubleClick();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
