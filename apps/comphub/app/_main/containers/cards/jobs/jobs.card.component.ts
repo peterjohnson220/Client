@@ -28,7 +28,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   jobPricingBlocked$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   userContext$: Observable<UserContext>;
-  countryDataSetsLoaded$: Observable<boolean>;
+  activeCountryDataSetLoaded$: Observable<boolean>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
@@ -47,7 +47,7 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
+    this.activeCountryDataSetLoaded$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSetLoaded);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.popupSettings = {
       appendTo: 'component'

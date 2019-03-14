@@ -33,13 +33,22 @@
         <p class="mb-4">Check out these recently priced jobs that are trending across the Payfactors' universe!</p>
 
         <div class="row">
-          <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
-            <pf-trending-job-group
-              [trendingJobGroup]="trendingJobGroup"
-              [disabled]="jobPricingBlocked$ | async"
-              (trendingJobClicked)="handleTrendingJobClicked($event)">
-            </pf-trending-job-group>
-          </div>
+          <ng-container *ngIf="(trendingJobGroups$ | async)?.length; else noTrendingJobGroups">
+            <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
+              <pf-trending-job-group
+                [trendingJobGroup]="trendingJobGroup"
+                [disabled]="jobPricingBlocked$ | async"
+                (trendingJobClicked)="handleTrendingJobClicked($event)">
+              </pf-trending-job-group>
+            </div>
+          </ng-container>
+          <ng-template #noTrendingJobGroups>
+            <div class="col-6">
+              <div class="no-trending-jobs">
+                No Data
+              </div>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
@@ -49,7 +58,7 @@
 
   <ng-container custom-actions>
     <div class="smb-limit-disabling-message" *ngIf="(jobPricingBlocked$ | async)
-    && (countryDataSetsLoaded$ | async)
+    && (activeCountryDataSetLoaded$ | async)
     && (userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
       <div class="icon">
         <i class="fas fa-exclamation-triangle"></i>

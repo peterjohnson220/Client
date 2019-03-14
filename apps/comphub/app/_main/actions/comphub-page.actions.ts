@@ -16,8 +16,8 @@ export const RESET_PAGES_ACCESSED = '[Comphub/Comphub Page] Reset Pages Accessed
 export const UPDATE_CARD_SUBTITLE = '[Comphub/Comphub Page] Update Card Subtitle';
 export const GET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Get Job Pricing Limit Info';
 export const SET_JOB_PRICING_LIMIT_INFO = '[Comphub/Comphub Page] Set Job Pricing Limit Info';
-export const GET_COUNTRY_DATA_SETS = '[Comphub/Comphub Page] Get Country Data Set';
-export const GET_COUNTRY_DATA_SETS_SUCCESS = '[Comphub/Comphub Page] Get Country Data Set Success';
+export const GET_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Comphub Page] Get Active Country Data Set';
+export const GET_ACTIVE_COUNTRY_DATA_SET_SUCCESS = '[Comphub/Comphub Page] Get Active Country Data Set Success';
 export const HANDLE_API_ERROR = '[Comphub/Comphub Page] Handle API Error';
 
 export class Init implements Action {
@@ -86,14 +86,14 @@ export class SetJobPricingLimitInfo implements Action {
   constructor(public payload: JobPricingLimitInfo) {}
 }
 
-export class GetCountryDataSets implements Action {
-  readonly type = GET_COUNTRY_DATA_SETS;
+export class GetActiveCountryDataSet implements Action {
+  readonly type = GET_ACTIVE_COUNTRY_DATA_SET;
 }
 
-export class GetCountryDataSetsSuccess implements Action {
-  readonly type = GET_COUNTRY_DATA_SETS_SUCCESS;
+export class GetActiveCountryDataSetSuccess implements Action {
+  readonly type = GET_ACTIVE_COUNTRY_DATA_SET_SUCCESS;
 
-  constructor(public payload: CountryDataSet[]) { }
+  constructor(public payload: CountryDataSet) { }
 }
 
 export class HandleApiError implements Action {
@@ -114,6 +114,6 @@ export type Actions
   | UpdateCardSubtitle
   | GetJobPricingLimitInfo
   | SetJobPricingLimitInfo
-  | GetCountryDataSets
-  | GetCountryDataSetsSuccess
+  | GetActiveCountryDataSet
+  | GetActiveCountryDataSetSuccess
   | HandleApiError;
