@@ -5,10 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { PopupSettings } from '@progress/kendo-angular-dropdowns';
 
-import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { TrendingJobGroup } from '../../../models';
+import { JobPricingLimitInfo, TrendingJobGroup } from '../../../models';
 
 @Component({
   selector: 'pf-jobs-card',
@@ -23,6 +22,8 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   jobSearchOptions$: Observable<string[]>;
   loadingJobSearchOptions$: Observable<boolean>;
   selectedJob$: Observable<string>;
+  jobPricingBlocked$: Observable<boolean>;
+  jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
@@ -38,6 +39,8 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.jobSearchOptions$ = this.store.select(fromComphubMainReducer.getJobSearchOptions);
     this.loadingJobSearchOptions$ = this.store.select(fromComphubMainReducer.getLoadingJobSearchOptions);
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
+    this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
+    this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
     this.popupSettings = {
       appendTo: 'component'
     };
@@ -57,15 +60,14 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   handleJobSearchValueChanged(selectedTerm: string): void {
     if (this.potentialOptions.some(x => x.toLowerCase() === selectedTerm.toLowerCase())) {
-      this.store.dispatch(new fromJobsCardActions.SetSelectedJob(selectedTerm));
+      this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: selectedTerm }));
     } else if (this.selectedJob) {
       this.store.dispatch(new fromJobsCardActions.ClearSelectedJob());
     }
   }
 
   handleTrendingJobClicked(trendingJob: string) {
-    this.store.dispatch(new fromJobsCardActions.SetSelectedJob(trendingJob));
-    this.store.dispatch(new fromCompHubPageActions.NavigateToNextCard());
+    this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: trendingJob, navigateToNextCard: true }));
   }
 
   ngOnDestroy(): void {

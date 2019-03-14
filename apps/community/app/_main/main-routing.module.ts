@@ -5,7 +5,8 @@ import {
   CommunityDashboardPageComponent
 } from './containers/pages';
 import { CommunityJobPostingsPageComponent } from './containers/pages';
-import { NewCommninityEnabledGuard } from 'libs/security';
+import { NewCommunityEnabledGuard } from 'libs/security';
+import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
 
 const routes: Routes = [
   {
@@ -15,26 +16,30 @@ const routes: Routes = [
   },
   { path: 'dashboard',
     component: CommunityDashboardPageComponent,
-    canActivate: [NewCommninityEnabledGuard]
+    canActivate: [NewCommunityEnabledGuard]
   },
   {
     path: 'dashboard/post/:id',
     component: CommunityDashboardPageComponent,
-    canActivate: [NewCommninityEnabledGuard]
+    canActivate: [NewCommunityEnabledGuard]
   },
   {
     path: 'dashboard/reply/:id',
     component: CommunityDashboardPageComponent,
-    canActivate: [NewCommninityEnabledGuard]
+    canActivate: [NewCommunityEnabledGuard]
   },
   {
     path: 'dashboard/tag/:id',
     component: CommunityDashboardPageComponent,
-    canActivate: [NewCommninityEnabledGuard]
+    canActivate: [NewCommunityEnabledGuard]
   },
   { path: 'job-postings',
     component: CommunityJobPostingsPageComponent,
-    canActivate: [NewCommninityEnabledGuard]
+    canActivate: [NewCommunityEnabledGuard]
+  },
+  { path: 'search-results',
+    component: CommunitySearchResultsPageComponent,
+    canActivate: [NewCommunityEnabledGuard]
   }
 ];
 

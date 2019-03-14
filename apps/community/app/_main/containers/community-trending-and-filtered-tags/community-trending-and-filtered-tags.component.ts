@@ -8,7 +8,7 @@ import * as fromCommunityPostFilterOptionsActions from '../../actions/community-
 import * as fromCommunityTagReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 
-import { CommunityTag } from 'libs/models/community';
+import { CommunityPost, CommunityTag } from 'libs/models/community';
 import { CommunityCategoryEnum } from 'libs/models/community/community-category.enum';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 import { FilterOptions } from 'apps/community/app/_main/models/filter-options.model';
@@ -25,9 +25,15 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   filters$: Observable<FilterOptions>;
   filterOptionsSubscription: Subscription;
   trendingTagSubscription: Subscription;
+  filterTitleSubscription: Subscription;
   trendingTags: CommunityTag[] = [];
   filteredTags: Tag[] = [];
   filteredCategories: CommunityCategoryEnum[] = [];
+  isFilteredByPostId = false;
+  isFilteredByReplyId = false;
+  communityPosts$: Observable<CommunityPost[]>;
+  filterTitle$: Observable<any>;
+  filterTitle: string;
 
   constructor(public store: Store<fromCommunityTagReducer.State>,
               public filterStore: Store<fromCommunityPostFilterOptionsReducer.State>,
@@ -35,6 +41,8 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     this.trendingTags$ = this.store.select(fromCommunityTagReducer.getLoadingCommunityTrendingTagsSuccess);
     this.filteredByPost$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getFilteredByPost);
     this.filters$ = this.filterStore.select(fromCommunityPostFilterOptionsReducer.getCommunityPostFilterOptions);
+    this.communityPosts$ = this.store.select(fromCommunityTagReducer.getCommunityPostsCombinedWithReplies);
+    this.filterTitle$ = this.store.select(fromCommunityTagReducer.getFilterTitle);
   }
 
   ngOnInit() {
@@ -47,6 +55,12 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     this.filterOptionsSubscription = this.filters$.subscribe((data) => {
       this.filteredTags = data.TagFilter.Tags;
       this.filteredCategories = data.CategoryFilter.Category;
+      this.isFilteredByPostId = data.PostIds.length > 0;
+      this.isFilteredByReplyId = data.ReplyIds.length > 0;
+    });
+
+    this.filterTitleSubscription = this.filterTitle$.subscribe(data => {
+      this.filterTitle = data;
     });
   }
 
@@ -57,6 +71,10 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
 
     if (this.filterOptionsSubscription) {
       this.filterOptionsSubscription.unsubscribe();
+    }
+
+    if (this.filterTitleSubscription) {
+      this.filterTitleSubscription.unsubscribe();
     }
   }
 
@@ -87,7 +105,7 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
   }
 
   showFilterView() {
-    return this.isFilteredByCategory()  || this.isFilteredByNonTrendingTags();
+    return this.isFilteredByCategory()  || this.isFilteredByNonTrendingTags() || this.isFilteredByPostId || this.isFilteredByReplyId;
   }
 
   isFilteredByCategory() {
@@ -98,6 +116,7 @@ export class CommunityTrendingAndFilteredTagsComponent implements OnInit, OnDest
     const filteredNonTrendingTags  = this.filteredTags.filter(item => !this.isTrendingTag(item));
     return filteredNonTrendingTags.length > 0;
   }
+
 
   private IsTagSelected(tag: CommunityTag): boolean {
     return this.filteredTags.some (x => x.TagName === tag.Tag);

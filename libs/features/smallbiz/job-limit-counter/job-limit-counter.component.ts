@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'pf-job-counter',
-  templateUrl: './job-counter.component.html',
-  styleUrls: ['./job-counter.component.scss'],
+  selector: 'pf-job-limit-counter',
+  templateUrl: './job-limit-counter.component.html',
+  styleUrls: ['./job-limit-counter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class JobCounterComponent {
+export class JobLimitCounterComponent {
   @Input() jobUsageCount: number;
   @Input() numberOfSearchResults: number;
   @Input() maxAllowedJobsSetting: number;

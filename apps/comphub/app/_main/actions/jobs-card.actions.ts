@@ -50,7 +50,7 @@ export class GetJobSearchOptionsError implements Action {
 export class SetSelectedJob implements Action {
   readonly type = SET_SELECTED_JOB;
 
-  constructor(public payload: string) {}
+  constructor(public payload: { jobTitle: string, navigateToNextCard?: boolean }) {}
 }
 
 export class ClearSelectedJob implements Action {

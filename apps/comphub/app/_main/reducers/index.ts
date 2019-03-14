@@ -9,6 +9,7 @@ import * as fromComphubPageReducer from './comphub-page.reducer';
 import * as fromAddPayMarketFormReducer from './add-paymarket-form.reducer';
 import * as fromMarketsCardReducer from './markets-card.reducer';
 import * as fromDataCardReducer from './data-card.reducer';
+import * as fromSummaryCardReducer from './summary-card.reducer';
 
 // Feature area state
 export interface ComphubMainState {
@@ -17,6 +18,7 @@ export interface ComphubMainState {
   addPayMarketForm: fromAddPayMarketFormReducer.State;
   marketsCard: fromMarketsCardReducer.State;
   dataCard: fromDataCardReducer.State;
+  summaryCard: fromSummaryCardReducer.State;
 }
 
 // Extend root state with feature area state
@@ -30,7 +32,8 @@ export const reducers = {
   comphubPage: fromComphubPageReducer.reducer,
   marketsCard: fromMarketsCardReducer.reducer,
   dataCard: fromDataCardReducer.reducer,
-  addPayMarketForm: fromAddPayMarketFormReducer.reducer
+  addPayMarketForm: fromAddPayMarketFormReducer.reducer,
+  summaryCard: fromSummaryCardReducer.reducer
 };
 
 // Select Feature Area
@@ -60,6 +63,11 @@ export const selectMarketsCardState = createSelector(
 export const selectDataCardState = createSelector(
   selectFeatureAreaState,
   (state: ComphubMainState) => state.dataCard
+);
+
+export const selectSummaryCardState = createSelector(
+  selectFeatureAreaState,
+  (state: ComphubMainState) => state.summaryCard
 );
 
 // Jobs Card
@@ -119,6 +127,16 @@ export const getPagesAccessed = createSelector(
   fromComphubPageReducer.getPagesAccessed
 );
 
+export const getJobPricingLimitInfo = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getJobPricingLimitInfo
+);
+
+export const getJobPricingBlocked = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getJobPricingBlocked
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,
@@ -156,6 +174,11 @@ export const getMarketDataScope = createSelector(
   fromMarketsCardReducer.getMarketDataScope
 );
 
+export const getHideNewPaymarketsButton = createSelector(
+  selectMarketsCardState,
+  fromMarketsCardReducer.getHideNewPaymarketsButton
+);
+
 // Data Card
 export const getJobGridResults = createSelector(
   selectDataCardState,
@@ -187,6 +210,11 @@ export const getPeerBannerOpen = createSelector(
   fromDataCardReducer.getPeerBannerOpen
 );
 
+export const getSelectedRate = createSelector(
+  selectDataCardState,
+  fromDataCardReducer.getSelectedRate
+);
+
 // Add Pay Market Form
 export const getAddPayMarketFormOpen = createSelector(
   selectAddPayMarketFormState,
@@ -216,4 +244,50 @@ export const getInfoBannerOpen = createSelector(
 export const getShowSkipButton = createSelector(
   selectAddPayMarketFormState,
   fromAddPayMarketFormReducer.getShowSkipButton
+);
+
+// Summary Card
+export const getSalaryTrendData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSalaryTrendData
+);
+
+export const getLoadingSalaryTrendData = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getLoadingSalaryTrendData
+);
+
+export const getLoadingSalaryTrendDataError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getLoadingSalaryTrendError
+);
+
+export const getSharePricingSummaryModalOpen = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryModalOpen
+);
+
+export const getSharePricingSummaryError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryError
+);
+
+export const getSharePricingSummaryConflict = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getSharePricingSummaryConflict
+);
+
+export const getCreatingProject = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCreatingProject
+);
+
+export const getCreatingProjectError = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCreatingProjectError
+);
+
+export const getCanAccessProjectsTile = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getCanAccessProjectTile
 );

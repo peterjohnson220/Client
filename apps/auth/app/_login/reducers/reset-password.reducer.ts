@@ -49,15 +49,13 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
         resetPasswordError: true
       };
     }
-    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN:
-    {
+    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN: {
       return {
         ...state,
         checkingResetPasswordToken: true
       };
     }
-    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_SUCCESS:
-    {
+    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_SUCCESS: {
       return {
         ...state,
         checkingResetPasswordToken: false,
@@ -66,8 +64,7 @@ export function reducer(state = initialState, action: fromResetPasswordActions.A
         minimumLength: action.payload.MinimumLength
       };
     }
-    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_ERROR:
-    {
+    case fromResetPasswordActions.CHECK_RESET_PASSWORD_TOKEN_ERROR: {
       return {
         ...state,
         checkingResetPasswordToken: false,

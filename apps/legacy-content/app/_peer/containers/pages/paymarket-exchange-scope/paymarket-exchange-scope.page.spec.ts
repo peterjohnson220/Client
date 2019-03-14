@@ -10,6 +10,7 @@ import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 
 import * as fromPaymarketExchangeScopeActions from '../../../actions/paymarket-exchange-scope.actions';
 import { PaymarketExchangeScopeComponent } from './paymarket-exchange-scope.page';
+import { generateMockExchangeScopeItem } from '../../../../../../../libs/models/peer/exchange-scope';
 
 
 describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
@@ -92,9 +93,7 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
 
   it('should dispatch the SelectExchange action when exchange is selected', () => {
 
-    const expectedActions =
-      new fromPaymarketExchangeScopeActions.SelectExchange({ Row: 0, ExchangeId : 1 })
-    ;
+    const expectedActions = new fromPaymarketExchangeScopeActions.SelectExchange({ Row: 0, ExchangeId : 1 });
 
     fixture.detectChanges();
     instance.addRow();
@@ -105,15 +104,10 @@ describe('Legacy Content - Peer - PayMarket Exchange Scope', () => {
 
   it('should dispatch the SelectScope action when scope is selected', () => {
 
+    const exchangeScopeItem = generateMockExchangeScopeItem();
     const expectedActions =
-      new fromPaymarketExchangeScopeActions.SelectScope({ Row: 0, ScopeId: 'Scope_ID_1' })
-    ;
-
-    fixture.detectChanges();
-    instance.addRow();
-    instance.selectExchange(0, {Key: 1, Value: 'Exchange 1'});
-    instance.selectScope(0, {Id: 'Scope_ID_1', Name: 'Scope 1'});
-
+      new fromPaymarketExchangeScopeActions.SelectScope({ Row: 0, ScopeId: exchangeScopeItem.Id });
+    instance.selectScope(0, exchangeScopeItem);
     expect(store.dispatch).toHaveBeenCalledWith(expectedActions);
   });
 

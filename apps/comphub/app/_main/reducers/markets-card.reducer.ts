@@ -11,6 +11,8 @@ export interface State {
   paymarketsFilter: string;
   selectedPaymarket: PricingPaymarket;
   marketDataScope: MarketDataScope;
+  hideAddPaymarketsButton: boolean;
+  displayNationalAsCard: boolean;
 }
 
 const initialState: State = {
@@ -19,7 +21,9 @@ const initialState: State = {
   loadingPaymarketsError: false,
   paymarketsFilter: null,
   selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket(),
-  marketDataScope: null
+  marketDataScope: null,
+  hideAddPaymarketsButton: false,
+  displayNationalAsCard: false
 };
 
 // Reducer function
@@ -90,8 +94,8 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
       const allPayMarketsWithoutSelected = sortPaymarkets(state.paymarkets
         .filter(pm => pm.CompanyPayMarketId !== selectedPayMarket.CompanyPayMarketId));
 
-      // Don't add Default
-      if (selectedPayMarket.CompanyPayMarketId) {
+      // Don't add Default unless specified
+      if (selectedPayMarket.CompanyPayMarketId || state.displayNationalAsCard) {
         newPayMarkets = [selectedPayMarket, ...allPayMarketsWithoutSelected];
       } else {
         newPayMarkets = allPayMarketsWithoutSelected;
@@ -101,6 +105,18 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         ...state,
         paymarkets: newPayMarkets
       };
+    case fromMarketsCardActions.HIDE_ADD_NEW_PAYMARKETS_BUTTON: {
+      return {
+        ...state,
+        hideAddPaymarketsButton: true
+      };
+    }
+    case fromMarketsCardActions.DISPLAY_NATIONAL_AS_CARD: {
+      return {
+        ...state,
+        displayNationalAsCard: true
+      };
+    }
     default: {
       return state;
     }
@@ -129,3 +145,4 @@ export const getLoadingPaymarketsError = (state: State) => state.loadingPaymarke
 export const getPaymarketsFilter = (state: State) => state.paymarketsFilter;
 export const getSelectedPaymarket = (state: State) => state.selectedPaymarket;
 export const getMarketDataScope = (state: State) => state.marketDataScope;
+export const getHideNewPaymarketsButton = (state: State) => state.hideAddPaymarketsButton;

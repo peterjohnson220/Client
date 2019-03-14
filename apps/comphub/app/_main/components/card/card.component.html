@@ -1,18 +1,24 @@
-<div class="card" id="{{cardId}}">
+<div class="card" id="{{card?.Id}}">
 
-  <div class="card-content-container" [class.selected]="selected"
-    [ngStyle]="{ 'width.px': selected ? containerWidth : 0 }">
+  <div *ngIf="hasCardHeader" class="card-header" [class.disabled]="disabled" [class.selected]="selected"
+    [attr.data-qa-id]="'cnt-cardHeader'"
+    (click)="handleCardHeaderClick()">
+    <ng-container *ngIf="showCardTitle">
+      <span><i class="fa {{card?.IconClass}} card-icon" aria-hidden="true"></i></span>
+      <span class="card-title">{{card?.Title}}</span>
+      <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{card?.Subtitle}}">{{card?.Subtitle}}</span>
+    </ng-container>
+    <ng-container *ngIf="!showCardTitle">
+      <span><i class="fa {{prevCard?.IconClass}} card-icon" aria-hidden="true"></i></span>
+      <span class="card-title">{{prevCard?.Title}}</span>
+      <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{prevCard?.Subtitle}}">{{prevCard?.Subtitle}}</span>
+    </ng-container>
+  </div>
+
+  <div class="card-content-container" [style.width.px]="containerWidth">
     <div class="card-content">
       <ng-content select="[card-content]"></ng-content>
     </div>
-  </div>
-
-  <div class="card-header" [class.disabled]="disabled" [class.selected]="selected"
-    [attr.data-qa-id]="'cnt-cardHeader'"
-    (click)="handleCardHeaderClick()">
-    <i class="fa {{cardIconClass}} card-icon" aria-hidden="true"></i>
-    <span class="card-title">{{cardTitle}}</span>
-    <span *ngIf="accessed" class="card-subtitle" data-toggle="tooltip" title="{{cardSubtitle}}">{{cardSubtitle}}</span>
   </div>
 
 </div>

@@ -2,13 +2,19 @@
 
 exports[`Comphub - Main - Card Layout should disable next button, when told to 1`] = `
 <pf-card-layout
+  comphubPages={[Function Object]}
   hideNextButton="false"
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
   modalContent={[Function TemplateRef_]}
   modalService={[Function Object]}
   nextButtonEnabled="false"
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
+  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -29,6 +35,11 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
       </span>
     </div>
     <div>
+      
+    </div>
+    <div
+      class="smb-counter"
+    >
       
     </div>
     <div
@@ -62,12 +73,18 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
 
 exports[`Comphub - Main - Card Layout should hide the back button, when told to 1`] = `
 <pf-card-layout
+  comphubPages={[Function Object]}
   hideBackButton={[Function Boolean]}
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
   modalContent={[Function TemplateRef_]}
   modalService={[Function Object]}
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
+  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -88,6 +105,11 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
       </span>
     </div>
     <div>
+      
+    </div>
+    <div
+      class="smb-counter"
+    >
       
     </div>
     <div
@@ -115,12 +137,18 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
 
 exports[`Comphub - Main - Card Layout should hide the next button, when told to 1`] = `
 <pf-card-layout
+  comphubPages={[Function Object]}
   hideNextButton={[Function Boolean]}
+  jobPricingBlocked$={[Function Store]}
+  jobPricingLimitInfo="null"
+  jobPricingLimitInfo$={[Function Store]}
+  jobPricingLimitInfoSub={[Function Subscriber]}
   modalContent={[Function TemplateRef_]}
   modalService={[Function Object]}
   pageIconClass=""
   pageSubTitle=""
   pageTitle=""
+  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -141,6 +169,11 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
       </span>
     </div>
     <div>
+      
+    </div>
+    <div
+      class="smb-counter"
+    >
       
     </div>
     <div

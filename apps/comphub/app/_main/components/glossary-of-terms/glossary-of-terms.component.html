@@ -1,0 +1,66 @@
+<div pfClickElsewhere [whitelist]="[]" (clickElsewhere)="handleClickElsewhere($event)">
+  <div class="d-flex flex-row justify-content-end book-icon" (click)="isOpen = true" [title]="'Glossary of Terms'">
+    <i class="fa fa-book-open mr-2"></i>
+  </div>
+
+  <div class="content-container" [class.opened]="isOpen">
+    <div class="content" [class.opened]="isOpen">
+
+      <div class="d-flex flex-row justify-content-end p-2 mr-3">
+        <div [attr.data-qa-id]="'btn-close'" class="close-btn" (click)="handleCloseClicked()">
+          <i class="fa fa-times"></i>
+        </div>
+      </div>
+
+      <div class="content-header">
+        <i class="fa fa-book header-icon" aria-hidden="true"></i>
+        <span class="header-title">Glossary</span>
+      </div>
+
+      <div #termsContainer class="terms-container">
+        <div class="term-container">
+          <h4 class="term">Rate</h4>
+          <div class="description">Rate defines the rate of compensation for an employee’s base salary. It’s typically displayed as either annual salary or hourly rate.</div>
+        </div>
+        
+        <div class="term-container">
+          <h4 class="term">Base Salary</h4>
+          <div class="description">Base Salary is the compensation paid to your employees for performing the basic duties of their job. It doesn’t include bonuses, incentives, benefits, or allowances.</div>
+        </div>
+    
+        <div class="term-container">
+          <h4 class="term">Total Cash Compensation (TCC)</h4>
+          <div class="description">Total Cash Compensation or TCC is the actual amount of cash compensation paid in a year. You can calculate TCC by adding up actual base salary, actual bonus, and actual short-term incentives paid.<br/>
+            TCC = Base Salary + Annual Bonus/Incentives.
+          </div>
+        </div>
+    
+        <div class="term-container">
+          <h4 class="term">Pay Percentiles</h4>
+          <div class="description">
+            <div class="mb-3 mx-1">
+              <span class="h5 term mr-2">25th:</span>
+              <span>The 25th percentile represents a value where 75% of the population pays above this number and 25% pays below this amount.</span>
+            </div>
+
+            <div class="my-3 mx-1">
+              <span class="h5 term mr-2">50th:</span>
+              <span>The 50th percentile, or the median, represents the middle of a group of measurements. 50% or the population pays above this value and 50% pays below the value.</span>
+            </div>
+
+            <div class="mt-3 mx-1">
+              <span class="h5 term mr-2">75th:</span>
+              <span>The 75th percentile represents a value where 25% of the population pays above this number and 75% pays below this amount.</span>
+            </div>
+          </div>
+        </div>
+    
+        <div class="term-container">
+          <h4 class="term">Typical FLSA Status</h4>
+          <div class="description">The Fair Labor Standards Act (FLSA) is a U.S. federal law that established minimum wage, overtime pay, recordkeeping, and child labor standards affecting full-time and part-time workers. Not all jobs are covered by FLSA. Some are considered “exempt” from FLSA, while those covered are commonly referred to as "non-exempt" jobs.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

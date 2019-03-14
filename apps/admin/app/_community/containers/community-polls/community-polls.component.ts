@@ -57,9 +57,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromCommunityPollActions.ExportingCommunityPoll(communityPoll.CommunityPollId));
     }
 
-  public onSelectCommunityPoll({ index }) {
-    const dataResult = this.grid.data;
-    this.store.dispatch(new fromCommunityPollActions.OpenCommunityPollModal(dataResult[index]));
+  public onCellClick( dataItem ) {
+    this.store.dispatch(new fromCommunityPollActions.OpenCommunityPollModal(dataItem));
   }
-
 }

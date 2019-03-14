@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,6 +16,7 @@ import { CommunityReply } from 'libs/models/community';
 })
 export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   @Input() postId: string;
+  @Output() replyHashTagClicked = new EventEmitter();
   addedReplyView$: Observable<CommunityReply[]>;
   filteredAddedReplies: CommunityReply[];
   addedRepliesSubscription: Subscription;
@@ -32,5 +33,9 @@ export class CommunityPostAddReplyViewComponent implements  OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.addedRepliesSubscription.unsubscribe();
+  }
+
+  handleHashTagClicked(event: any) {
+    this.replyHashTagClicked.emit(event);
   }
 }

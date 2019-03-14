@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
     case fromJobsCardActions.SET_SELECTED_JOB: {
       return {
         ...state,
-        selectedJob: action.payload
+        selectedJob: action.payload.jobTitle
       };
     }
     case fromJobsCardActions.CLEAR_SELECTED_JOB: {

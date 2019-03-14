@@ -5,6 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
 
+import { HighlightTextPipe, JobDescriptionParserPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { GridTypeEnum } from 'libs/models/common';
@@ -26,7 +27,7 @@ describe('CompanyJobsComponent', () => {
           feature_job_association: combineReducers(fromCompanyJobsReducer.reducers)
         }),
       ],
-      declarations: [ CompanyJobsComponent ],
+      declarations: [ CompanyJobsComponent, HighlightTextPipe, JobDescriptionParserPipe ],
       schemas: [ NO_ERRORS_SCHEMA ]
     })
       .compileComponents();
@@ -38,7 +39,6 @@ describe('CompanyJobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CompanyJobsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -54,6 +54,7 @@ describe('CompanyJobsComponent', () => {
   });
 
   it('should fire a LoadCompanyJobs action on init', () => {
+    fixture.detectChanges();
     const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
     expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
   });
@@ -66,6 +67,35 @@ describe('CompanyJobsComponent', () => {
     const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
 
     expect(store.dispatch).toHaveBeenCalledWith(updateGridAction);
+    expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
+  });
+
+  it('should fire the SearchTermUpdated action when the search term is changed', () => {
+    const searchTerm = 'changed';
+    component.handleSearchChanged(searchTerm);
+
+    const searchTermUpdatedAction = new fromCompanyJobsActions.SearchTermUpdated(searchTerm);
+
+    expect(store.dispatch).toHaveBeenCalledWith(searchTermUpdatedAction);
+  });
+
+  it('should not fire the LoadCompanyJobs action when the search term is one character', () => {
+    const searchTerm = 'x';
+    component.handleSearchChanged(searchTerm);
+
+    const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(loadCompanyJobsAction);
+  });
+
+  it('should fire the updateSearchTermAction followed by loadExchangeJobsAction when the search term is more than one character', () => {
+    const searchTerm = 'xx';
+    component.handleSearchChanged(searchTerm);
+
+    const searchTermUpdatedAction = new fromCompanyJobsActions.SearchTermUpdated(searchTerm);
+    const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
+
+    expect(store.dispatch).toHaveBeenCalledWith(searchTermUpdatedAction);
     expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
   });
 });

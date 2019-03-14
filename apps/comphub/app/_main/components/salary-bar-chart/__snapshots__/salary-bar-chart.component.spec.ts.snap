@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Comphub - Salary Bar Chart Component should display values to 1 decimal place when using annual 1`] = `
+<pf-salary-bar-chart
+  isHourly="false"
+  salary25={[Function Number]}
+  salary50={[Function Number]}
+  salary75={[Function Number]}
+>
+  <div
+    class="bar-annotations"
+  >
+    <div
+      class="text-left"
+    >
+      25th
+    </div>
+    <div
+      class="text-center"
+    >
+      50th
+    </div>
+    <div
+      class="text-right"
+    >
+      75th
+    </div>
+  </div><div
+    class="d-flex flex-row bar-row"
+  >
+    <div
+      class="w-50 left-bar"
+    />
+    <div
+      class="w-50 right-bar"
+    />
+  </div><div
+    class="bar-annotations bar-values"
+  >
+    <div
+      class="text-left"
+    >
+      \\$100.0
+    </div>
+    <div
+      class="text-center"
+    >
+      \\$125.0
+    </div>
+    <div
+      class="text-right"
+    >
+      \\$150.0
+    </div>
+  </div>
+</pf-salary-bar-chart>
+`;
+
+exports[`Comphub - Salary Bar Chart Component should values to 2 decimal places when using hourly 1`] = `
+<pf-salary-bar-chart
+  isHourly={[Function Boolean]}
+  salary25={[Function Number]}
+  salary50={[Function Number]}
+  salary75={[Function Number]}
+>
+  <div
+    class="bar-annotations"
+  >
+    <div
+      class="text-left"
+    >
+      25th
+    </div>
+    <div
+      class="text-center"
+    >
+      50th
+    </div>
+    <div
+      class="text-right"
+    >
+      75th
+    </div>
+  </div><div
+    class="d-flex flex-row bar-row"
+  >
+    <div
+      class="w-50 left-bar"
+    />
+    <div
+      class="w-50 right-bar"
+    />
+  </div><div
+    class="bar-annotations bar-values"
+  >
+    <div
+      class="text-left"
+    >
+      \\$48.08
+    </div>
+    <div
+      class="text-center"
+    >
+      \\$60.10
+    </div>
+    <div
+      class="text-right"
+    >
+      \\$72.12
+    </div>
+  </div>
+</pf-salary-bar-chart>
+`;

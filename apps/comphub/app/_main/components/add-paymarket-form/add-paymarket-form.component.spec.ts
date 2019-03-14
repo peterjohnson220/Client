@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropDownListModule, AutoCompleteModule } from '@progress/kendo-angular-dropdowns';
 
 import { AddPayMarketFormComponent } from './add-paymarket-form.component';
-import { AddPayMarketFormData } from '../../models';
+import { AddPayMarketFormData, generateMockMarketDataScope } from '../../models';
 
 describe('Comphub - Main - Add Pay Market Form Component', () => {
   let instance: AddPayMarketFormComponent;
@@ -26,6 +26,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
 
   it('should emit saveClick event when handling submit clicked', () => {
     spyOn(instance.saveClick, 'emit');
+    instance.marketDataScope = generateMockMarketDataScope();
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
@@ -59,21 +60,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
   });
 
   it('should return up to 5 locations when handling location filter', () => {
-    instance.marketDataScope = {
-      Locations: [
-        { Name: 'Aaronsburg, PA', Value: 'Aaronsburg, PA' },
-        { Name: 'Abbeville, GA', Value: 'Abbeville, GA' },
-        { Name: 'Boston, MA', Value: 'Boston, MA' },
-        { Name: 'Burlington, MA', Value: 'Burlington, MA' },
-        { Name: 'Bedford, MA', Value: 'Bedford, MA' },
-        { Name: 'Groton, MA', Value: 'Groton, MA' },
-        { Name: 'Acton, MA', Value: 'Acton, MA' },
-        { Name: 'Littleton, MA', Value: 'Littleton, MA' },
-        { Name: 'New York, NY', Value: 'New York, NY'}
-      ],
-      Sizes: [],
-      Industries: []
-    };
+    instance.marketDataScope = generateMockMarketDataScope();
 
     const expectedResults = [
       { Name: 'Boston, MA', Value: 'Boston, MA' },
@@ -121,5 +108,59 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
     instance.handleCancelClicked();
 
     expect(instance.cancelClick.emit).toHaveBeenCalled();
+  });
+
+  it('should use All for location when submitting invalid location', () => {
+    spyOn(instance.saveClick, 'emit');
+    instance.marketDataScope = generateMockMarketDataScope();
+
+    instance.addPayMarketForm.patchValue({
+      name: 'Pay Market Name',
+      location: 'The moon',
+      industry: { Name: 'Software', Value: 'Software' },
+      size: { Name: '100 - 500', Value: '100 - 500' },
+      country: instance.defaultCountry,
+      currency: instance.defaultCurrency
+    });
+
+    const expectedData: AddPayMarketFormData = {
+      Name: 'Pay Market Name',
+      Location: 'All',
+      Industry: 'Software',
+      Size: '100 - 500',
+      Country: 'USA',
+      Currency: 'USD'
+    };
+
+    instance.handleSaveClicked();
+
+    expect(instance.saveClick.emit).toHaveBeenCalledWith(expectedData);
+  });
+
+  it('should use default values for Industry and Size when none is selected', () => {
+    spyOn(instance.saveClick, 'emit');
+    instance.marketDataScope = generateMockMarketDataScope();
+
+    instance.addPayMarketForm.patchValue({
+      name: 'Pay Market Name',
+      location: 'The moon',
+      industry: {},
+      size: {},
+      country: instance.defaultCountry,
+      currency: instance.defaultCurrency
+    });
+
+    const expectedData: AddPayMarketFormData = {
+      Name: 'Pay Market Name',
+      Location: 'All',
+      Industry: 'All',
+      Size: 'All',
+      Country: 'USA',
+      Currency: 'USD'
+    };
+
+    instance.handleSaveClicked();
+
+    expect(instance.saveClick.emit).toHaveBeenCalledWith(expectedData);
   });
 });

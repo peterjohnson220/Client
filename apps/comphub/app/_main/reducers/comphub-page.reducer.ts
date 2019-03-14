@@ -2,19 +2,22 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
+import { JobPricingLimitInfo } from '../models';
 
 export interface State {
   cards: AccordionCard[];
   selectedPageId: ComphubPages;
   pagesAccessed: ComphubPages[];
   accessiblePages: ComphubPages[];
+  jobPricingLimitInfo: JobPricingLimitInfo;
 }
 
 const initialState: State = {
   cards: AccordionCards,
   selectedPageId: ComphubPages.Jobs,
   pagesAccessed: [ComphubPages.Jobs],
-  accessiblePages: [ComphubPages.Jobs]
+  accessiblePages: [ComphubPages.Jobs],
+  jobPricingLimitInfo: null
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -75,6 +78,12 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         cards: newCards
       };
     }
+    case fromComphubPageActions.SET_JOB_PRICING_LIMIT_INFO: {
+      return {
+        ...state,
+        jobPricingLimitInfo: action.payload
+      };
+    }
     default: {
       return state;
     }
@@ -87,3 +96,6 @@ export const getPagesAccessed = (state: State) => state.pagesAccessed;
 export const getEnabledPages = (state: State) => {
   return state.accessiblePages.filter(ap => state.pagesAccessed.some(pa => ap === pa));
 };
+export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
+export const getJobPricingBlocked = (state: State) =>
+  !!state.jobPricingLimitInfo && state.jobPricingLimitInfo.Used >= state.jobPricingLimitInfo.Available;

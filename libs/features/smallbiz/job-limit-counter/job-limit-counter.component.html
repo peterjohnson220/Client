@@ -10,7 +10,7 @@
             <i class="fa fa-info-circle text-info"></i>
           </span>
         </span>
-    <span class="job-limit-reached-message" *ngIf="currentJobCountSetting === maxAllowedJobsSetting">
+    <span class="job-limit-reached-message" *ngIf="currentJobCountSetting >= maxAllowedJobsSetting">
           Sorry, it looks like you've reached your job limit.
           <span *ngIf="maxJobsReachedTooltipText.length > 0" [ngbTooltip]="maxJobsReachedTooltipText">
             <i class="fa fa-info-circle text-info"></i>
@@ -19,7 +19,7 @@
   </div>
 
   <div class="search-results-count">
-    <strong>{{numberOfSearchResults.toLocaleString('en')}}</strong> Total Jobs
+    <strong>{{numberOfSearchResults?.toLocaleString('en')}}</strong> Total Jobs
   </div>
 </div>
 

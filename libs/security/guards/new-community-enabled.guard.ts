@@ -10,7 +10,7 @@ import * as fromLayoutReducer from '../../ui/layout-wrapper/reducers';
 import * as fromLeftSidebarActions from '../../ui/layout-wrapper/actions/left-sidebar.actions';
 
 @Injectable()
-export class NewCommninityEnabledGuard implements CanActivate, OnDestroy {
+export class NewCommunityEnabledGuard implements CanActivate, OnDestroy {
   navigationLoadAttempted: boolean;
   navigationLoadAttemptedSubscription: Subscription;
 

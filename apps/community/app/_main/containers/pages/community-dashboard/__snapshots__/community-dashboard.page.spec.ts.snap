@@ -25,7 +25,10 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
   postBatchSize={[Function Number]}
   postsChangedObserver={[Function MutationObserver]}
   postsComponent={[Function ElementRef]}
+  router={[Function Object]}
+  settingsService={[Function SettingsService]}
   showBackToTopButton="false"
+  showSearchBar="false"
   store={[Function Store]}
   targetNode="null"
 >
@@ -47,6 +50,7 @@ exports[`CommunityDashboardPageComponent should show community dashboard page 1`
           </span>
         </h1>
       </div>
+      
     </div>
     <div
       class="page-content"

@@ -1,5 +1,8 @@
 @import 'colors';
 
+$uservoice-left-collapsed: 60px;
+$uservoice-left-expanded: 200px;
+
 .page-header{
   background: $grey;
   border-bottom: 1px solid $border-grey;
@@ -63,4 +66,14 @@
 .tags-margin-left
 {
   margin-left: 2rem;
+}
+
+::ng-deep .uv-bottom-left {
+  bottom: 10px;
+  left:  $uservoice-left-collapsed !important;
+}
+
+::ng-deep .uv-bottom-left-expanded {
+  bottom: 10px;
+  left:  $uservoice-left-expanded;
 }

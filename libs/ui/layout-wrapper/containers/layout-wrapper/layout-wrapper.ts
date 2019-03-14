@@ -50,7 +50,10 @@ export class LayoutWrapperComponent implements OnInit {
     this.gettingHeaderDropdownNavigationLinksError$ = layoutStore.select(fromLayoutReducer.getGettingHeaderDropdownNavigationLinksError);
     this.headerDropdownNavigationLinks$ = layoutStore.select(fromLayoutReducer.getHeaderDropdownNavigationLinks);
 
-    this.leftSidebarToggleChangedSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => this.leftSidebarToggle = value);
+    this.leftSidebarToggleChangedSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe(value => {
+        this.leftSidebarToggle = value;
+        this.updateUserVoicePosition(value);
+      });
   }
 
   ngOnInit() {
@@ -68,5 +71,19 @@ export class LayoutWrapperComponent implements OnInit {
 
   leftSidebarToggleChanged(value: boolean) {
     this.leftSidebarToggleChangedSubject.next(value);
+  }
+
+  updateUserVoicePosition(expanded: boolean) {
+    const userVoiceIcon = <HTMLElement>document.getElementsByClassName('uv-icon')[0];
+    if (!userVoiceIcon) {
+      return;
+    }
+    if (expanded) {
+      userVoiceIcon.classList.remove('uv-bottom-left');
+      userVoiceIcon.classList.add('uv-bottom-left-expanded');
+    } else {
+      userVoiceIcon.classList.remove('uv-bottom-left-expanded');
+      userVoiceIcon.classList.add('uv-bottom-left');
+    }
   }
 }

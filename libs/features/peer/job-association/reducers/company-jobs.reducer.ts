@@ -11,6 +11,8 @@ export interface State extends EntityState<CompanyJob> {
   loading: boolean;
   loadingError: boolean;
   total: number;
+  searchTerm: string;
+  selectedCompanyJobs: CompanyJob[];
 }
 
 // Define Adapter
@@ -22,7 +24,9 @@ export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob
 const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
+  selectedCompanyJobs: [],
   total: 0,
+  searchTerm: ''
 });
 
 // Reducer function
@@ -34,6 +38,7 @@ export function reducer(state, action) {
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS: {
           return {
             ...adapter.removeAll(featureState),
+            selectedCompanyJobs: [],
             loading: true,
             loadingError: false
           };
@@ -54,6 +59,30 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
+        case fromCompanyJobsActions.RESET_STATE: {
+          return {
+            ...featureState,
+            loading: false,
+            loadingError: false,
+            selectedCompanyJobs: [],
+            total: 0,
+            searchTerm: ''
+          };
+        }
+        case fromCompanyJobsActions.SEARCH_TERM_UPDATED: {
+          return {
+            ...featureState,
+            searchTerm: featureAction.payload,
+          };
+        }
+        case fromCompanyJobsActions.SELECT_COMPANY_JOBS: {
+          let selectedCompanyJobs = [ ...featureState.selectedCompanyJobs ];
+          selectedCompanyJobs = featureAction.payload;
+          return {
+            ...featureState,
+            selectedCompanyJobs: featureAction.payload
+          };
+        }
         default: {
           return featureState;
         }
@@ -67,3 +96,4 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getSelectedCompanyJobs = (state: State) => state.selectedCompanyJobs;

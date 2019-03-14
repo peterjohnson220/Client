@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
@@ -18,6 +18,7 @@ import { CardSelectorComponent } from './content/cards/card-selector';
 import { CardComponent } from './content/cards/card';
 import { ClickElsewhereDirective } from './directives';
 import { UserOrEmailPickerComponent } from './user-email-picker/user-or-email-picker.component';
+import { MultiSelectComponent } from './content/multi-select';
 
 const components = [
   // Content
@@ -25,6 +26,7 @@ const components = [
   CardComponent,
   CardSelectorComponent,
   UserOrEmailPickerComponent,
+  MultiSelectComponent,
 
   // Directives
   ClickElsewhereDirective,
@@ -52,6 +54,7 @@ const components = [
     PfCommonModule,
     NgbTooltipModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbModule,
     ImgFallbackModule
   ],

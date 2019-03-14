@@ -12,7 +12,8 @@ import { CommunityCategoryEnum } from 'libs/models/community/community-category.
 import { generateMockCommunityTag } from 'libs/models/community/community-tag.model';
 import { mapCommunityTagToTag } from '../../helpers/model-mapping.helper';
 import { Tag } from '../../models/tag.model';
-import { CategoryFilter } from '../../models/category-filter.model';
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
 
 describe('CommunityPopularTagsComponent', () => {
   let fixture: ComponentFixture<CommunityTrendingAndFilteredTagsComponent>;
@@ -138,5 +139,34 @@ describe('CommunityPopularTagsComponent', () => {
 
     instance.viewAllClicked();
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+  it('should show filter title when filtering by single post', () => {
+    instance.isFilteredByPostId = true;
+    instance.filterTitle = 'Test Post Filter';
+
+    instance.filters$ = Observable.of({
+      TagFilter: null,
+      CategoryFilter: null,
+      PostIds: ['999'],
+      ReplyIds: []
+    });
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should not show filter title when filtering by multiple posts', () => {
+    instance.isFilteredByPostId = true;
+    instance.filterTitle = 'Test Post Filter';
+
+    instance.filters$ = Observable.of({
+      TagFilter: null,
+      CategoryFilter: null,
+      PostIds: ['999', '888'],
+      ReplyIds: []
+    });
+
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
   });
 });

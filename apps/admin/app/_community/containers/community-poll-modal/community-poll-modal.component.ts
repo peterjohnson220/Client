@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, ValidatorFn } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromCommunityPollActions from '../../actions/community-poll.actions';
 import * as fromCommunityPollReducer from '../../reducers';
@@ -20,10 +20,11 @@ import { CommunityPollChoicesComponent } from 'libs/features/community/container
   templateUrl: './community-poll-modal.component.html',
   styleUrls: ['./community-poll-modal.component.scss']
 })
-export class CommunityPollModalComponent implements OnInit {
 
+export class CommunityPollModalComponent implements OnInit, OnDestroy {
   communityPollModalOpen$: Observable<boolean>;
   communityPollListToEdit$: Observable<CommunityPollList>;
+  communityPollListToEditSubscription:  Subscription;
 
   addCommunityPollForm: FormGroup;
   isEditMode = false;
@@ -41,8 +42,7 @@ export class CommunityPollModalComponent implements OnInit {
   constructor(private store: Store<fromCommunityPollReducer.State>, private fb: FormBuilder) {
     this.communityPollModalOpen$ = this.store.select(fromCommunityPollReducer.getCommunityPollModalOpen);
     this.communityPollListToEdit$ = this.store.select(fromCommunityPollReducer.getCommunityPollListToEdit);
-
-   this.createForm();
+    this.createForm();
   }
 
   pollResponseOptionsLimits(array: FormArray): ValidatorFn {
@@ -54,7 +54,7 @@ export class CommunityPollModalComponent implements OnInit {
 
   ngOnInit() {
 
-    this.communityPollListToEdit$.subscribe(poll => {
+    this.communityPollListToEditSubscription = this.communityPollListToEdit$.subscribe(poll => {
 
       this.updateStatusMode(poll);
 
@@ -74,6 +74,10 @@ export class CommunityPollModalComponent implements OnInit {
     });
 
     this.choices.setValidators(this.pollResponseOptionsLimits(this.choices));
+  }
+
+  ngOnDestroy() {
+    this.communityPollListToEditSubscription.unsubscribe();
   }
 
   handleFormSubmit(): void {

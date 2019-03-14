@@ -1,8 +1,31 @@
-<div class="job-association-modal-container">
-    <div class="item company-job">
+<div class="job-association-modal-container h-100">
+  <p class="sub-header pl-3 pt-2 mb-0">
+    Select your Company Job and click<span class="associate-button fake-button d-inline-block ml-1 mr-1"><i class="fas fa-exchange-alt"></i></span>for the Exchange Job that is the best match
+  </p>
+  <pf-async-container
+    class="h-100"
+    [loading]="saving$ | async"
+    [loadingError]="savingError$ | async"
+    [loadingErrorMessage]="'Error saving associations'"
+    (reload)="reload()"
+  >
+    <div class="grids-wrapper d-flex">
+      <div class="item company-job pl-4 pt-2 pr-4 w-50 h-100">
         <pf-peer-job-association-company-jobs></pf-peer-job-association-company-jobs>
-    </div>
-    <div class="item exchange-job">
+      </div>
+      <div class="item exchange-job pl-4 pt-2 pr-4 w-50 h-100">
         <pf-peer-job-association-exchange-jobs></pf-peer-job-association-exchange-jobs>
+      </div>
     </div>
+  </pf-async-container>
+  <div class="actions-section">
+    <button class="btn btn-primary save-button"
+            [disabled]="!isSaveButtonEnabled()"
+            (click)="saveJobAssociations()">
+      Save
+    </button>
+    <button class="btn btn-secondary" (click)="handleCancelClicked()">
+      Cancel
+    </button>
+  </div>
 </div>

@@ -93,25 +93,28 @@ export class CommunityPostEffects {
       switchMap((action: fromCommunityPostActions.DeletingCommunityPost) =>
         this.communityPostService.updatePostDeletedFlag({ postId: action.payload.PostId }).pipe(
           concatMap(() => {
+            let actions: Action[];
             if (action.payload.IsInternalOnly) {
-              return [
+              actions =
+              [
                 new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload.PostId),
                 new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.MyPosts }),
-                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Unanswered }),
                 new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
                   { communityCategory: CommunityCategoryEnum.Internal })
               ];
             } else {
-              return [
+              actions = [
                 new fromCommunityPostActions.DeletingCommunityPostSuccess(action.payload.PostId),
                 new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.MyPosts }),
-                new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
-                  { communityCategory: CommunityCategoryEnum.Unanswered })
+                  { communityCategory: CommunityCategoryEnum.MyPosts })
               ];
             }
+            if (!action.payload.IsUserPoll && !action.payload.HasReplies) {
+              actions.push( new fromCommunityCategoriesActions.SubtractingCommunityPostToCategoriesCount(
+                { communityCategory: CommunityCategoryEnum.Unanswered }));
+            }
+            return actions;
           }),
           catchError(error => of(new fromCommunityPostActions.DeletingCommunityPostError()))
         )
@@ -123,8 +126,12 @@ export class CommunityPostEffects {
     .ofType(fromCommunityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL).pipe(
       switchMap((action: fromCommunityPostActions.AddingCommunityDiscussionPoll) =>
         this.communityPollService.addCommunityUserPoll(action.payload).pipe(
-          map((communityPost: CommunityPost) => {
-            return new fromCommunityPostActions.AddingCommunityDiscussionPollSuccess(communityPost);
+          concatMap((communityPost: CommunityPost) => {
+            return [
+              new fromCommunityPostActions.AddingCommunityDiscussionPollSuccess(communityPost),
+              new fromCommunityCategoriesActions.AddingCommunityPostToCategoriesCount(
+                { communityCategory: CommunityCategoryEnum.MyPosts })
+            ];
           }),
           catchError(error => of(new fromCommunityPostActions.AddingCommunityDiscussionPollError(error)))
         )

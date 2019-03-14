@@ -1,0 +1,14 @@
+<div class="bar-annotations">
+  <div class="text-left">25th</div>
+  <div class="text-center">50th</div>
+  <div class="text-right">75th</div>
+</div>
+<div class="d-flex flex-row bar-row">
+  <div class="w-50 left-bar"></div>
+  <div class="w-50 right-bar"></div>
+</div>
+<div class="bar-annotations bar-values">
+  <div class="text-left">${{calculateDataByRate(salary25) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
+  <div class="text-center">${{calculateDataByRate(salary50) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
+  <div class="text-right">${{calculateDataByRate(salary75) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
+</div>
