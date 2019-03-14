@@ -21,7 +21,7 @@
       [isLoading$]="isJobFamilyFilterLoading$"
       pfClickElsewhere
       [whitelist]="[]"
-      (clickElsewhere)="handleJobFamilyToggle(false)"
+      (clickElsewhere)="closeJobFamilyFilter()"
       (selectFacadeClick)="handleJobFamilyToggle()"
       (checkboxClick)="handleJobFamilyCheckboxToggle($event)"
       (clearSelectionsClick)="handleJobFamilyClearSelections()"

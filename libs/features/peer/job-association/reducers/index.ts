@@ -47,6 +47,9 @@ export const selectJobAssociationModalState = createSelector(
   (state: JobAssociationFeatureState) => state.jobAssociationModal);
 
 // Job Association Modal Selectors
+export const getIsModalOpen = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getIsModalOpen);
 
 export const getJobAssociationModalSaving = createSelector(
   selectJobAssociationModalState,
@@ -120,16 +123,6 @@ export const getExchangeJobsFamilyFilterLoading = createSelector(
   fromExchangeJobsReducer.getJobFamilyFilterLoading
 );
 
-export const getExchangeJobsFamilyFilterLoadingSuccess = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterLoadingSuccess
-);
-
-export const getExchangeJobsFamilyFilterLoadingError = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterLoadingError
-);
-
 export const getExchangeJobFamilyFilterIsExpanded = createSelector(
   getExchangeJobsFeature,
   fromExchangeJobsReducer.getJobFamilyFilterIsExpanded
@@ -181,6 +174,11 @@ export const getCompanyJobsLoading = createSelector(
 export const getCompanyJobsLoadingError = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.loadingError
+);
+
+export const getCompanyJobIdFilters = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.companyJobIdFilters
 );
 
 export const getCompanyJobsSearchTerm = createSelector(

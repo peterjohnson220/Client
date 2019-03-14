@@ -94,7 +94,7 @@ describe('Peer - Map - Exchange Map Page', () => {
   });
 
 
-  it('should dispatch a ResetState action to the filterSidebar upon destroy', () => {
+  it('should dispatch a Reset action to the filterSidebar upon destroy', () => {
     const expectedAction = new fromLibsFilterSidebarActions.ResetState();
 
     instance.ngOnDestroy();
@@ -102,7 +102,7 @@ describe('Peer - Map - Exchange Map Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should dispatch a ResetState action to the map upon destroy', () => {
+  it('should dispatch a Reset action to the map upon destroy', () => {
     const expectedAction = new fromLibsPeerMapActions.ResetState();
 
     instance.ngOnDestroy();

@@ -35,6 +35,8 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
     // Register Subscriptions
     this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
       .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
+
+    this.store.dispatch(new jobAssociationModalActions.Initialize());
   }
 
   ngOnDestroy(): void {
@@ -53,7 +55,7 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
   }
 
   reload() {
-    this.store.dispatch(new jobAssociationModalActions.ResetJobAssociationsModalState());
+    this.store.dispatch(new jobAssociationModalActions.ReloadJobAssociationsModal());
   }
 
   handleCancelClicked() {

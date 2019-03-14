@@ -53,6 +53,11 @@ export function reducer(state, action) {
     GridTypeEnum.JobAssociationModalPeerExchangeJobs,
     (featureState = initialState,  featureAction: fromPeerExchangeJobsActions.Actions): State => {
       switch (featureAction.type) {
+        case fromPeerExchangeJobsActions.RESET: {
+          return {
+            ...initialState
+          };
+        }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS: {
           return {
             ...adapter.removeAll(featureState),
@@ -177,7 +182,8 @@ export function reducer(state, action) {
 
           // loop through the array, then add each option to the new collection with the appropriate IsSelectedValue
           featureState.jobFamilyOptions.forEach(option => {
-            const isSelected = (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
+            const isSelected =
+              (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
             jobFamilyOptions.push({ ...option, IsSelected: isSelected });
           });
 
@@ -214,7 +220,5 @@ export const getTotal = (state: State) => state.total;
 
 // Selector functions, job family filter
 export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
-export const getJobFamilyFilterLoadingSuccess = (state: State) => state.loadingJobFamilyFilterSuccess;
-export const getJobFamilyFilterLoadingError = (state: State) => state.loadingJobFamilyFilterError;
 export const getJobFamilyFilterIsExpanded = (state: State) => state.isJobFamilyFilterExpanded;
 export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;

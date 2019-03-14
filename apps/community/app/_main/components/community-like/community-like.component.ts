@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -96,7 +96,8 @@ export class CommunityLikeComponent implements OnInit, OnDestroy {
       return tooltipText;
     }
   }
-  getSource():string {
+
+  getSource(): string {
     if (this.ReplyId) {
       return 'Reply';
     }

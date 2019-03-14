@@ -55,13 +55,6 @@ describe('ExchangeJobsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should fire a LoadExchangeJobs action on init', () => {
-    fixture.detectChanges();
-
-    const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
-    expect(store.dispatch).toHaveBeenCalledWith(loadExchangeJobsAction);
-  });
-
   it('should fire the right actions when the grid state is changed', () => {
     const dataStateChangeEvent = {} as DataStateChangeEvent;
     component.handleDataStateChange(dataStateChangeEvent);
