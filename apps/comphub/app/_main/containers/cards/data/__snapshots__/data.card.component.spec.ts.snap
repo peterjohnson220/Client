@@ -74,20 +74,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
           >
             <thead>
               <tr
-                class="top-column-header hide-when-small"
-              >
-                <th
-                  colspan="7"
-                />
-                <th
-                  class="text-center"
-                  colspan="2"
-                >
-                  Weight
-                </th>
-                <th />
-              </tr>
-              <tr
                 class="main-column-header"
               >
                 
@@ -144,13 +130,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   
                 </th>
                 <th
-                  class="hide-when-small hide-when-medium"
-                  scope="col"
-                >
-                   Skills 
-                  
-                </th>
-                <th
                   class="sortable-header"
                   scope="col"
                 >
@@ -174,20 +153,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   <span
                     class="unsorted-spacer"
                   />
-                  
-                </th>
-                <th
-                  class="text-center hide-when-small"
-                  scope="col"
-                >
-                   Incs 
-                  
-                </th>
-                <th
-                  class="text-center hide-when-small"
-                  scope="col"
-                >
-                   Orgs 
                   
                 </th>
                 <th
@@ -227,11 +192,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   
                 </td>
                 <td
-                  class="text-column hide-when-small hide-when-medium"
-                >
-                   None 
-                </td>
-                <td
                   class="number-column"
                 >
                    \\$100.0 
@@ -240,16 +200,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   class="number-column"
                 >
                    \\$100.0 
-                </td>
-                <td
-                  class="number-column text-center hide-when-small"
-                >
-                   1 
-                </td>
-                <td
-                  class="number-column text-center hide-when-small"
-                >
-                   2 
                 </td>
                 <td
                   class="text-center"
@@ -357,20 +307,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
           >
             <thead>
               <tr
-                class="top-column-header hide-when-small"
-              >
-                <th
-                  colspan="7"
-                />
-                <th
-                  class="text-center"
-                  colspan="2"
-                >
-                  Weight
-                </th>
-                <th />
-              </tr>
-              <tr
                 class="main-column-header"
               >
                 
@@ -427,13 +363,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   
                 </th>
                 <th
-                  class="hide-when-small hide-when-medium"
-                  scope="col"
-                >
-                   Skills 
-                  
-                </th>
-                <th
                   class="sortable-header"
                   scope="col"
                 >
@@ -457,20 +386,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   <span
                     class="unsorted-spacer"
                   />
-                  
-                </th>
-                <th
-                  class="text-center hide-when-small"
-                  scope="col"
-                >
-                   Incs 
-                  
-                </th>
-                <th
-                  class="text-center hide-when-small"
-                  scope="col"
-                >
-                   Orgs 
                   
                 </th>
                 <th
@@ -510,11 +425,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   
                 </td>
                 <td
-                  class="text-column hide-when-small hide-when-medium"
-                >
-                   None 
-                </td>
-                <td
                   class="number-column"
                 >
                    \\$48.08 
@@ -523,16 +433,6 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   class="number-column"
                 >
                    \\$48.08 
-                </td>
-                <td
-                  class="number-column text-center hide-when-small"
-                >
-                   1 
-                </td>
-                <td
-                  class="number-column text-center hide-when-small"
-                >
-                   2 
                 </td>
                 <td
                   class="text-center"

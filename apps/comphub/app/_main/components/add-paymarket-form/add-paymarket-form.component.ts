@@ -31,6 +31,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   defaultCurrency = { Name: 'USD', Value: 'USD' };
   defaultIndustry = { Name: 'All', Value: 'All' };
   defaultSize = { Name: 'All', Value: 'All' };
+  defaultLocation = 'All';
 
   addPayMarketForm: FormGroup;
   scopeIndustryData: KendoDropDownItem[];
@@ -106,10 +107,16 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
       Name: this.addPayMarketForm.value.name,
       Country: this.defaultCountry.Value,
       Currency: this.defaultCurrency.Value,
-      Location: this.addPayMarketForm.value.location,
-      Industry: this.addPayMarketForm.value.industry.Value,
-      Size: this.addPayMarketForm.value.size.Value
+      Location: this.getSelectedLocation(),
+      Industry: this.addPayMarketForm.value.industry.Value || this.defaultIndustry.Value,
+      Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value
     };
+  }
+
+  private getSelectedLocation(): string {
+    const isValidLocation = this.marketDataScope.Locations
+      .some(s => s.Value.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
+    return isValidLocation ? this.addPayMarketForm.value.location : this.defaultLocation;
   }
 
 }

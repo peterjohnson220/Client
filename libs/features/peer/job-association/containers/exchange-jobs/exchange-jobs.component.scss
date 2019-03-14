@@ -1,0 +1,18 @@
+@import "colors";
+
+.view-button {
+  color: $pf-brand-secondary-color;
+  border: 0;
+  cursor: pointer;
+  background-color: #fff;
+  opacity: .6;
+  transition: opacity .2s ease-in-out;
+  font-size: 16px;
+  &:hover {
+    opacity: 1;
+  }
+}
+.view-button-active {
+  color: $pf-brand-secondary-color;
+  opacity: 1;
+}

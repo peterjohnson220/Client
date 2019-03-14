@@ -31,15 +31,11 @@
         <pf-async-container [loading]="jobResultsLoading$ | async"
                             [loadingError]="jobResultsLoadingError$ | async"
                             [loadingErrorMessage]="'Error loading job data'"
+                            [hideReloadButton]="true"
                             class="flex-grow-1">
 
           <table class="table table-hover">
             <thead>
-            <tr class="top-column-header hide-when-small">
-              <th colspan="7"></th>
-              <th colspan="2" class="text-center">Weight</th>
-              <th></th>
-            </tr>
             <tr class="main-column-header">
               <th *ngFor="let column of gridColumnsConfiguration" scope="col"
                   class="{{column.CssClasses}}"
@@ -79,20 +75,11 @@
                      <i class="fa fa-check" aria-hidden="true"></i>
                   </span>
                 </td>
-                <td class="text-column hide-when-small hide-when-medium">
-                  {{job.Skills}}
-                </td>
                 <td class="number-column">
                   ${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.1-1'}}
                 </td>
                 <td class="number-column">
                   ${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.1-1'}}
-                </td>
-                <td class="number-column text-center hide-when-small">
-                  {{job.Incs}}
-                </td>
-                <td class="number-column text-center hide-when-small">
-                  {{job.Orgs}}
                 </td>
                 <td class="text-center">
                   <div class="custom-control custom-radio">

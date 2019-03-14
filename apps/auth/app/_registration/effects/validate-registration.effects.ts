@@ -18,7 +18,7 @@ export class ValidateRegistrationEffects {
       switchMap((action: fromValidateRegistrationActions.ValidateToken) =>
         this.accountApiService.validateSelfRegistrationToken(action.payload.token).pipe(
           map(() => new fromValidateRegistrationActions.ValidateTokenSuccess({ token: action.payload.token })),
-          catchError<any, fromValidateRegistrationActions.Actions>((errorResponse: HttpErrorResponse) => {
+          catchError((errorResponse: HttpErrorResponse) => {
             const errorMessage: string = errorResponse.error.message;
             if (errorResponse.status === 400 && errorMessage === 'token_expired') {
               return of(new fromValidateRegistrationActions.ValidateTokenExpired());

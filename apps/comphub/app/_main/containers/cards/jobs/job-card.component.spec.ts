@@ -37,7 +37,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   it('should dispatch an action to set the selected job, when valid search option selected', () => {
     spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job A'];
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('job a');
+    const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'job a' });
 
     instance.handleJobSearchValueChanged('job a');
 
@@ -47,7 +47,7 @@ describe('Comphub - Main - Jobs Card Component', () => {
   it('should NOT dispatch a set selected job action when invalid search option selected', () => {
     spyOn(store, 'dispatch');
     instance.potentialOptions = ['Job B', 'Job C'];
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('Job A');
+    const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Job A'});
 
     instance.handleJobSearchValueChanged('Job A');
 
@@ -93,18 +93,11 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).not.toHaveBeenCalled();
   });
 
-  it('should dispatch a SetSelectedJob action with the job title, when handling a trending job being clicked', () => {
+  it('should dispatch a SetSelectedJob action with the job title and navigateToNextCard set to true, ' +
+    'when handling a trending job being clicked', () => {
+
     spyOn(store, 'dispatch');
-    const expectedAction = new fromJobsCardActions.SetSelectedJob('Accountant');
-
-    instance.handleTrendingJobClicked('Accountant');
-
-    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-  });
-
-  it('should dispatch a NavigateToNextCard action, when handling a trending job being clicked', () => {
-    spyOn(store, 'dispatch');
-    const expectedAction = new fromCompHubPageActions.NavigateToNextCard();
+    const expectedAction = new fromJobsCardActions.SetSelectedJob({ jobTitle: 'Accountant', navigateToNextCard: true});
 
     instance.handleTrendingJobClicked('Accountant');
 

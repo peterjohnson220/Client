@@ -6,21 +6,32 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { NgbModalModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartModule } from '@progress/kendo-angular-charts';
+import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
+import 'hammerjs';
+import {
+  NgbModalModule,
+  NgbPaginationModule,
+  NgbProgressbarModule,
+  NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { JobLimitCounterComponent } from 'libs/features/smallbiz';
 
 import { ComphubPageComponent, JobsCardComponent, MarketsCardComponent, DataCardComponent, CardLayoutComponent,
   SummaryCardComponent } from './containers';
 import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardEffects, ComphubPageEffects,
   SummaryCardEffects } from './effects';
 import { reducers } from './reducers';
-import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent } from './components';
+import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
+  SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
 import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
+
 
 @NgModule({
   imports: [
@@ -40,6 +51,7 @@ import { MainRoutingModule } from './main-routing.module';
       SummaryCardEffects
     ]),
     PerfectScrollbarModule,
+    PDFExportModule,
 
     // Routing
     MainRoutingModule,
@@ -47,8 +59,11 @@ import { MainRoutingModule } from './main-routing.module';
     // 3rd Party
     DropDownsModule,
     GridModule,
+    ChartModule,
     NgbPaginationModule,
     NgbModalModule,
+    NgbProgressbarModule,
+    NgbTooltipModule,
 
     // Payfactors
     PfCommonModule,
@@ -60,6 +75,11 @@ import { MainRoutingModule } from './main-routing.module';
     TrendingJobGroupComponent,
     CardComponent,
     AddPayMarketFormComponent,
+    JobLimitCounterComponent,
+    SalaryBarChartComponent,
+    SalaryTrendChartComponent,
+    SharePricingSummaryModalComponent,
+    GlossaryOfTermsComponent,
 
     // Pages
     ComphubPageComponent,

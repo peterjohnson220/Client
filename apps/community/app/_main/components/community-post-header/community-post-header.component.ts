@@ -25,6 +25,7 @@ export class CommunityPostHeaderComponent {
   @Input() isExpiredPoll = false;
   @Input() isUserPoll = false;
   @Input() userPollId: string;
+  @Input() hasReplies: boolean;
 
   constructor(public store: Store<fromCommunityPostReducer.State>) {
   }
@@ -38,7 +39,11 @@ export class CommunityPostHeaderComponent {
   }
 
   deletePost() {
-    const post: CommunityDeletePost = { PostId: this.postId, IsInternalOnly: this.isInternalOnly };
+    const post: CommunityDeletePost = {
+      PostId: this.postId,
+      IsInternalOnly: this.isInternalOnly,
+      HasReplies: this.hasReplies,
+      IsUserPoll: this.isUserPoll };
     this.store.dispatch(new fromCommunityPostActions.DeletingCommunityPost(post));
   }
 

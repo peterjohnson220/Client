@@ -1,0 +1,452 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI/Common/Content - Multi Select should hide checkbox panel when not expanded 1`] = `
+<pf-multi-select
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  isExpanded$={[Function Observable]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</pf-multi-select>
+`;
+
+exports[`UI/Common/Content - Multi Select should hide the loading indicator when not loading 1`] = `
+<pf-multi-select
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  isExpanded$={[Function Observable]}
+  isLoading$={[Function Observable]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+    <div
+      class="selections-container position-absolute"
+    >
+      
+      
+      <div>
+        <i
+          class="fas fa-search position-absolute"
+        />
+        <input
+          class="form-control d-block mt-2"
+          placeholder="Search"
+          type="text"
+        />
+        <a
+          class="position-absolute text-muted"
+          href="javascript:void(0)"
+        >
+          <i
+            class="fas fa-times"
+          />
+        </a>
+        <button
+          class="clear-selections btn d-block mt-2 mb-2"
+        >
+          Clear Selections
+        </button>
+        <div
+          class="checkbox-container"
+        >
+          
+          <label
+            class="no-results font-italic text-center d-block"
+          >
+            No Results Found
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-multi-select>
+`;
+
+exports[`UI/Common/Content - Multi Select should render its options when expanded 1`] = `
+<pf-multi-select
+  _options={[Function Array]}
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  form={[Function FormGroup]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  isExpanded$={[Function Observable]}
+  isLoading$={[Function Observable]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+    <div
+      class="selections-container position-absolute"
+    >
+      
+      
+      <div>
+        <i
+          class="fas fa-search position-absolute"
+        />
+        <input
+          class="form-control d-block mt-2"
+          placeholder="Search"
+          type="text"
+        />
+        <a
+          class="position-absolute text-muted"
+          href="javascript:void(0)"
+        >
+          <i
+            class="fas fa-times"
+          />
+        </a>
+        <button
+          class="clear-selections btn d-block mt-2 mb-2"
+        >
+          Clear Selections
+        </button>
+        <div
+          class="checkbox-container"
+        >
+          
+          
+          
+          <label
+            class="checkbox-label d-block ellipsis-overflowing-text m-0"
+          >
+            <input
+              class="mr-1"
+              type="checkbox"
+            />
+            Zoos and Zookeeping 
+          </label>
+          
+          <label
+            class="no-results font-italic text-center d-block"
+          >
+            No Results Found
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-multi-select>
+`;
+
+exports[`UI/Common/Content - Multi Select should render the correct primary label text 1`] = `
+<pf-multi-select
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  labelText={[Function String]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        job family
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+  </div>
+</pf-multi-select>
+`;
+
+exports[`UI/Common/Content - Multi Select should show the checkbox panel when expanded 1`] = `
+<pf-multi-select
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  isExpanded$={[Function Observable]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+    <div
+      class="selections-container position-absolute"
+    >
+      
+      
+      <div>
+        <i
+          class="fas fa-search position-absolute"
+        />
+        <input
+          class="form-control d-block mt-2"
+          placeholder="Search"
+          type="text"
+        />
+        <a
+          class="position-absolute text-muted"
+          href="javascript:void(0)"
+        >
+          <i
+            class="fas fa-times"
+          />
+        </a>
+        <button
+          class="clear-selections btn d-block mt-2 mb-2"
+        >
+          Clear Selections
+        </button>
+        <div
+          class="checkbox-container"
+        >
+          
+          <label
+            class="no-results font-italic text-center d-block"
+          >
+            No Results Found
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-multi-select>
+`;
+
+exports[`UI/Common/Content - Multi Select should show the loading indicator when loading 1`] = `
+<pf-multi-select
+  checkboxClick={[Function EventEmitter]}
+  clearSelectionsClick={[Function EventEmitter]}
+  formBuilder={[Function FormBuilder]}
+  formValuesSubscription={[Function Subscription]}
+  isExpanded$={[Function Observable]}
+  isLoading$={[Function Observable]}
+  searchTerm=""
+  selectFacadeClick={[Function EventEmitter]}
+  selectedOptionNames$={[Function Observable]}
+  tooltipDir="undefined"
+>
+  <div
+    class="multi-select-container"
+  >
+    <div
+      class="d-flex"
+    >
+      <label
+        class="main-label mr-2 pt-2"
+      >
+        
+      </label>
+      <div
+        class="d-inline-block"
+      >
+        <a
+          class="text-decoration-none"
+          href="javascript:void(0)"
+        >
+          <span
+            class="select-facade d-inline-block rounded"
+          >
+            <label
+              class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
+              ng-reflect-ngb-tooltip="zoos"
+            >
+              zoos
+            </label>
+            <i
+              class="fas fa-angle-down d-inline-block ml-2"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    
+    <div
+      class="selections-container position-absolute"
+    >
+      
+      <span
+        class="loading d-block mt-2 mb-2 text-center"
+      >
+        <pf-loading-indicator />
+      </span>
+      
+    </div>
+  </div>
+</pf-multi-select>
+`;

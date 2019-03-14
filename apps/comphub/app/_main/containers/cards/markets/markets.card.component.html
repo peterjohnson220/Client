@@ -53,6 +53,7 @@
             <div class="add-new-market-container">
               <span class="uppercase-header">My Markets</span>
               <div class="add-new-market-button"
+                   *ngIf="!(hideNewPaymarketButton$ | async)"
                    [attr.data-qa-id]="'btn-addNewMarket'"
                    (click)="handleAddNewMarketClicked()">
                 <i class="fa fa-plus-circle"></i>

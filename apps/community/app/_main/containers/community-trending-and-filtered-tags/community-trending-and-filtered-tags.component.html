@@ -24,8 +24,13 @@
     </ng-container>
 
     <div *ngIf="filter.PostIds.length > 0 || filter.ReplyIds.length > 0" class="mt-1">
-       <button (click)="viewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
-          <i class="far fa-eye pr-2"></i>View All Posts
+      <button *ngIf="filter.PostIds.length === 1 || filter.ReplyIds.length === 1" (click)="viewAllClicked()"  type="button" class="btn m-1 tag py-2 px-3 shadow-none btn-selected">
+        <span>{{filterTitle}}</span>
+        <span><i class="fas fa-times-circle icon"></i></span>
+      </button>
+       <button *ngIf="filter.PostIds.length > 1 || filter.ReplyIds.length > 1" (click)="viewAllClicked()" type="button" class="btn btn-secondary submit-button-container">
+          <i class="far fa-eye pr-2"></i>
+          <span>View All Posts</span>
         </button>
     </div>
   </ng-container>

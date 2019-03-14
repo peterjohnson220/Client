@@ -2,60 +2,47 @@
 
 exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
+  companyJobGridDataResult={[Function Object]}
+  companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}
+  companyJobsGridItemsDataSubscription={[Function Subscriber]}
+  exchangeJobAssociations={[Function Array]}
+  exchangeJobAssociationsSubscription={[Function Subscriber]}
+  grid="undefined"
   gridState$={[Function Store]}
+  isRowSelected={[Function Function]}
   loading$={[Function Store]}
   loadingError$={[Function Store]}
+  maxSelectionThreshold={[Function Number]}
+  searchTerm=""
+  searchTermSubscription={[Function Subscriber]}
+  selectedCompanyJobIds={[Function Array]}
+  selectedCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   tooltipDir="undefined"
-  totalCompanyJobsGridItems$={[Function Observable]}
+  totalCompanyJobsGridItems$={[Function Store]}
 >
-  <h2>
+  <h2
+    class="text-center"
+  >
     Company Jobs
   </h2><div
-    class="d-flex"
+    class="filters position-relative d-flex mt-2 mb-2"
   >
     <i
-      class="fas fa-search"
+      class="fas fa-search position-absolute"
     />
-    <input
-      placeholder="Accountant"
-      type="text"
+    <pf-input-debounce
+      id="company-jobs-search-box"
     />
-    <label>
-      <input
-        type="checkbox"
-      />
-       Associated 
-    </label>
+  </div><div>
     <label
-      class="testClass"
+      class="text-uppercase"
+      data-qa-id="lbl-company-jobs-total"
     >
-      Job Family:
+       company jobs: 0 total | selected: 0 
     </label>
-    <label>
-      <select>
-        <option
-          value="1"
-        >
-          Airline
-        </option>
-        <option
-          value="2"
-        >
-          Accounting
-        </option>
-        <option
-          value="3"
-        >
-          Restaurant
-        </option>
-      </select>
-    </label>
-  </div><label>
-     company jobs: 123 total
-  
-  </label><div
+  </div><div
     class="grid-container position-relative"
   >
     <pf-async-container
@@ -70,19 +57,28 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
         <kendo-grid
           style="height: 100%;"
         >
+          <kendo-grid-checkbox-column
+            showselectall="true"
+          >
+            
+          </kendo-grid-checkbox-column>
           <kendo-grid-column
             field="CompanyJobId"
-            hidden="true"
+            hidden="hidden"
             title="Id"
           />
           <kendo-grid-column
             field="JobTitle"
             title="Job Title"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobCode"
             title="Job Code"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="JobFamily"
             title="Job Family"
@@ -95,6 +91,8 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           >
             
           </kendo-grid-column>
+          
+          
         </kendo-grid>
       </div>
     </pf-async-container>

@@ -164,9 +164,7 @@ export class UpsertDataCutPageComponent implements OnInit, OnDestroy {
 
   setSubscriptions(): void {
     this.peerMapCompaniesSubscription = this.peerMapCompanies$.subscribe(pms => {
-      // If the cutGuid is null, we can assume that we are NOT editing a data cut and we therefor need to check similarity.
-      const shouldCheckSimilarity = this.cutGuid === null;
-      this.guidelinesService.validateDataCut(pms, shouldCheckSimilarity);
+      this.guidelinesService.validateDataCut(pms);
     });
   }
 }

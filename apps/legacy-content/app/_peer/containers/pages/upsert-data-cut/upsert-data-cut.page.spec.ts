@@ -28,7 +28,7 @@ class DojGuidelinesStub {
     return this.passing;
   }
 
-  validateDataCut(selections: any, shouldCheckSimilarity) {
+  validateDataCut(selections: any) {
     return;
   }
 }
@@ -209,7 +209,7 @@ describe('Legacy Content - Peer - Upsert Data Cut', () => {
 
     fixture.detectChanges();
 
-    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload, true);
+    expect(guidelinesService.validateDataCut).toHaveBeenCalledWith(payload);
   });
 
   it('should disable the add/updated button when passesGuidelines is false', () => {

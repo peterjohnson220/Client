@@ -1,24 +1,23 @@
-<div class="mapping-info-container ">
+<div class="mapping-info-container">
     <div class="row h-100">
-        <div class="col-6 div-border-right ">
+        <div class="col-6 div-border-right h-100">
             <div class="row">
                 <div class="col">
                     <h5> Associate a Company Job to an Exchange Job</h5>
                 </div>
             </div>
             <div class="row company-job-info-row">
-                <div class="col"
-                     style="padding-top:10px">
+                <div class="col h-100 pt-1">
                     <pf-job-info-container *ngIf="companyJobInfo"
                                            [job]="companyJobInfo">
                     </pf-job-info-container>
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col h-100">
             <div class="row">
                 <div class="col">
-                    <pf-exchange-selector [data]="exchanges"
+                    <pf-exchange-selector [exchanges$]="exchanges$"
                                           (onExchangeSelected)="setSelectedKey($event)">
                     </pf-exchange-selector>
                 </div>
@@ -31,7 +30,6 @@
                                            (valueChanged)="handleSearchTitleValueChanged($event)"
                                            class="search-box"
                                            [disabled]="isAddingAssociation$ | async">
-
                         </pf-input-debounce>
                     </div>
                     <div class="col">
@@ -44,7 +42,7 @@
                     </div>
                 </div>
                 <div class="row mapping-results-row">
-                    <div class="col">
+                    <div class="col h-100">
                         <div class="mapping-results-container">
                             <pf-async-container [loading]="(isAddingAssociation$ | async) || (isLoading$ | async)"
                                                 [loadingError]="(hasAddingAssociationError$ | async)|| (hasLoadingError$ | async)"
@@ -54,24 +52,20 @@
                                          class="company-job-to-map-to-result d-flex flex-column">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-column">
-
                                                 <strong>
-                                                    <span [innerHtml]="res.JobTitle">
-                                                    </span> - {{res.JobFamily}}</strong>
+                                                    <span [innerHtml]="res.JobTitle"></span> - {{res.JobFamily}}</strong>
                                                 <div class="mt-2">
-
                                                     <ng-container *ngIf="res.JobDescription && res.JobDescription.length; else noJobDescription">
                                                         <pf-ellipsis-view-more [highlightFilter]="exchangeDescriptionQuery"
                                                                                [content]="res.JobDescription"
-                                                                               [maxLength]="175"></pf-ellipsis-view-more>
+                                                                               [maxLength]="175">
+                                                        </pf-ellipsis-view-more>
                                                     </ng-container>
-
                                                     <ng-template #noJobDescription>
                                                         <em>No Job Description</em>
                                                     </ng-template>
                                                 </div>
                                             </div>
-
                                             <div class="apply-mapping-container">
                                                 <pf-apply-mapping-button [mapped]="false"
                                                                          [applyingMapping]="isAddingAssociation$ | async"
@@ -85,13 +79,9 @@
                                 </ng-container>
                                 <ng-container *ngIf="!(searchResults$ | async) || (searchResults$ | async).length === 0">
                                     <div class="d-flex flex-column mt-5 align-items-center">
-                                        <h6 class="mb-1"
-                                            innerHTML="{{buildNoResultsString()}}"></h6>
-                                        <h5><small class="text-muted">Please change your filter criteria to
-                                                search
-                                                again.</small></h5>
+                                        <h6 class="mb-1" innerHTML="{{buildNoResultsString()}}"></h6>
+                                        <h5><small class="text-muted">Please change your filter criteria to search again.</small></h5>
                                     </div>
-
                                 </ng-container>
                             </pf-async-container>
                         </div>

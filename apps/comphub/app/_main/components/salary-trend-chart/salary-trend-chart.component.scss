@@ -1,0 +1,49 @@
+@import 'comphub-variables';
+@import 'colors';
+
+.left-bar {
+  background-color: $pf-additional-colors-green;
+}
+
+.right-bar {
+  background-color: #f1f9ee;
+}
+
+.left-bar, .right-bar {
+  min-height: 30px;
+}
+
+.bar-row {
+  border: 1px solid $comphub-header-background-grey;
+}
+
+.bar-annotations {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  div {
+    width: 33%;
+    display: inline-block;
+  }
+}
+
+.bar-values {
+  font-weight: $comphub-bold-font-weight;
+}
+
+.plus-sign {
+  color: $pf-additional-colors-green;
+  line-height: 3.4rem;
+}
+
+.text-danger {
+  line-height: 3.4rem;
+}
+
+.header-blue {
+  color: $comphub-header-blue;
+}
+
+.date-range {
+  line-height: 4rem;
+  padding-right: 5.5px;
+}

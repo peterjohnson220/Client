@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { AccordionCard } from '../../data';
 
 @Component({
   selector: 'pf-comphub-card',
@@ -6,20 +7,27 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent {
-  @Input() cardId: string;
-  @Input() cardTitle: string;
-  @Input() cardSubtitle: string;
-  @Input() cardIconClass: string;
+  @Input() card: AccordionCard;
+  @Input() prevCard: AccordionCard;
   @Input() selected: boolean;
   @Input() containerWidth: number;
   @Input() disabled: boolean;
   @Input() accessed: boolean;
+  @Input() cardIndex: number;
+  @Input() selectedCardIndex: number;
+  @Input() hasCardHeader = true;
 
   @Output() cardHeaderClick: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   handleCardHeaderClick() {
-    this.cardHeaderClick.emit(this.cardId);
+    const selectedCardId = this.showCardTitle ? this.card.Id : this.prevCard.Id;
+    this.cardHeaderClick.emit(selectedCardId);
   }
+
+  get showCardTitle() {
+    return this.selectedCardIndex < this.cardIndex;
+  }
+
 }

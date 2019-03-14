@@ -88,7 +88,11 @@ describe('CommunityPostsComponent', () => {
     instance.isInternalOnly = false;
 
     instance.deletePost();
-    const post: CommunityDeletePost = { PostId: instance.postId, IsInternalOnly: instance.isInternalOnly  };
+    const post: CommunityDeletePost = {
+      PostId: instance.postId,
+      IsInternalOnly: instance.isInternalOnly,
+      HasReplies: instance.hasReplies,
+      IsUserPoll: instance.isUserPoll };
     const expectedAction = new fromCommunityPostActions.DeletingCommunityPost(post);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
@@ -100,7 +104,11 @@ describe('CommunityPostsComponent', () => {
     instance.isInternalOnly = false;
 
     instance.deletePost();
-    const post: CommunityDeletePost = { PostId: instance.postId, IsInternalOnly: instance.isInternalOnly  };
+    const post: CommunityDeletePost = {
+      PostId: instance.postId,
+      IsInternalOnly: instance.isInternalOnly,
+      HasReplies: instance.hasReplies,
+      IsUserPoll: instance.isUserPoll };
     const expectedAction = new fromCommunityPostActions.DeletingCommunityPost(post);
 
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

@@ -15,7 +15,7 @@ import * as fromPeerMapReducers from '../reducers';
 @Injectable()
 export class FilterSidebarEffects {
   @Effect()
-  loadingSystemFilter$: Observable<Action> = this.actions$.pipe(
+  loadingSystemFilter$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER),
       map((action: fromFilterSidebarActions.LoadSystemFilter) => action.payload),
       switchMap(payload =>
@@ -28,7 +28,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  loadingSystemFilterSuccess$: Observable<Action> = this.actions$.pipe(
+  loadingSystemFilterSuccess$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.LOAD_SYSTEM_FILTER_SUCCESS),
       map((action: fromFilterSidebarActions.LoadSystemFilterSuccess) => action.payload),
       switchMap(() => of(new fromPeerMapActions.LoadPeerMapData()))
@@ -46,7 +46,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  loadFilterAggregates$: Observable<Action> = this.actions$.pipe(
+  loadFilterAggregates$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.LOAD_FILTER_AGGREGATES),
       map((action: fromFilterSidebarActions.LoadFilterAggregates) => action.payload),
       withLatestFrom(
@@ -67,7 +67,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  aggregateSelected$: Observable<Action> = this.actions$.pipe(
+  aggregateSelected$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.TOGGLE_AGGREGATE_SELECTED),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
@@ -76,7 +76,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  limitToPayMarketToggled$: Observable<Action> = this.actions$.pipe(
+  limitToPayMarketToggled$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.TOGGLE_LIMIT_TO_PAYMARKET),
       withLatestFrom(
         this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerFilterScopeSelection)),
@@ -100,7 +100,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  clearAllSelections$: Observable<Action> = this.actions$.pipe(
+  clearAllSelections$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData(),
@@ -109,7 +109,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  clearGroupSelections$: Observable<Action> = this.actions$.pipe(
+  clearGroupSelections$ = this.actions$.pipe(
       ofType(fromFilterSidebarActions.TOGGLE_GROUP_SELECTIONS),
       mergeMap(() => [
         new fromPeerMapActions.LoadPeerMapData,
@@ -118,7 +118,7 @@ export class FilterSidebarEffects {
     );
 
   @Effect()
-  includeUntaggedEmployeesToggled$: Observable<Action> = this.actions$.pipe(
+  includeUntaggedEmployeesToggled$ = this.actions$.pipe(
     ofType(fromFilterSidebarActions.TOGGLE_INCLUDE_UNTAGGED_EMPLOYEES),
     mergeMap(() => [
       new fromPeerMapActions.LoadPeerMapData,

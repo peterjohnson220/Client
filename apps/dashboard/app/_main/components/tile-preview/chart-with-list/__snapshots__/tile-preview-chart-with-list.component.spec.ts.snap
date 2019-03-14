@@ -32,17 +32,20 @@ exports[`Tile Preview Chart With List should show component 1`] = `
       
       
       <div>
-        <span
-          class="col-12 tile-text"
-          style="white-space: nowrap;"
+        <div
+          class="details-body-containter pl-2 pb-3 pr-1"
         >
-          
-        </span>
-        <button
-          class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2"
-        >
-          
-        </button>
+          <strong
+            class="tile-text title-body-no-link text-center py-2"
+          >
+            
+          </strong>
+          <button
+            class="col-12 btn btn-primary btn-respond"
+          >
+            
+          </button>
+        </div>
       </div>
       
     </div>

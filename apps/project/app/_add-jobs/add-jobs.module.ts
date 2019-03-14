@@ -11,6 +11,8 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { PfFormsModule } from 'libs/forms';
 import { PfSearchModule } from 'libs/features/search';
+import { JobLimitCounterComponent } from 'libs/features/smallbiz';
+
 import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import { UserFilterTypeData } from 'libs/features/user-filter/models';
 
@@ -19,9 +21,8 @@ import { reducers } from './reducers';
 import { AddJobsPageEffects, SearchResultsEffects, SearchFiltersEffects, SingledFilterEffects, PaymarketEffects,
          CreateNewJobPageEffects, JobSearchUserFilterEffects } from './effects';
 import { AddJobsPageComponent, SearchResultsComponent, PaymarketsComponent, CreateNewJobPageComponent } from './containers';
-import { JobCounterComponent, JobResultComponent } from './components';
+import { JobResultComponent } from './components';
 import { SearchFilterMappingData, JobSearchUserFilterType } from './data';
-import { CustomRouteReuseStrategy } from '../route-reuse-strategy';
 import { SavedFiltersHelper } from './helpers';
 
 @NgModule({
@@ -56,7 +57,7 @@ import { SavedFiltersHelper } from './helpers';
   declarations: [
     // Components
     SearchResultsComponent,
-    JobCounterComponent,
+    JobLimitCounterComponent,
     JobResultComponent,
 
     // Containers

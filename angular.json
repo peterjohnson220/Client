@@ -1206,7 +1206,8 @@
               "apps/community/styles.scss"
             ],
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/uservoice.js"
             ]
           },
           "configurations": {

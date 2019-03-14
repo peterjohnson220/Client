@@ -1,8 +1,14 @@
-import { QuickPriceMarketData, QuickPriceResponse, TrendingJobGroupResponse } from 'libs/models/payfactors-api/comphub';
+import {
+  JobSalaryTrendResponse,
+  QuickPriceMarketData,
+  QuickPriceResponse,
+  TrendingJobGroupResponse
+} from 'libs/models/payfactors-api/comphub';
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope, JobData, JobGridData } from '../models';
+import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
+  JobData, JobGridData, JobSalaryTrendData, JobSalaryTrend } from '../models';
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
 
@@ -60,17 +66,36 @@ export class PayfactorsApiModelMapper {
     return qpmd.map(q => {
       return {
         JobId: q.JobId,
+        JobCode: q.JobCode,
         JobTitle: q.JobTitle,
         JobDescription: q.JobDescription,
         Education: q.Education,
+        FLSAStatus: q.FLSAStatus,
         YearsOfExperience: q.YearsOfExperience,
         ManagesEmployees: q.ManagesEmployees,
         Skills: q.Skills,
+        Base25: q.Base25,
         Base50: q.Base50,
+        Base75: q.Base75,
+        Tcc25: q.Tcc25,
         Tcc50: q.Tcc50,
+        Tcc75: q.Tcc75,
         Incs: q.Incs,
         Orgs: q.Orgs
       };
     });
+  }
+
+  static mapJobSalaryTrendToTrendData(jobSalaryTrendResponse: JobSalaryTrendResponse): JobSalaryTrend {
+    return {
+      PercentageChange: jobSalaryTrendResponse.PercentageChange,
+      Data: jobSalaryTrendResponse.Data.map(s => {
+        return {
+          EffectiveDate: s.EffectiveDate,
+          SalaryAnnual: Math.round(s.AverageSalaryAnnual),
+          SalaryHourly: s.AverageSalaryHourly
+        };
+      })
+    };
   }
 }

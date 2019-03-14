@@ -9,7 +9,11 @@ import * as  fromCommunityPostActions from '../../../actions/community-post.acti
 import { CommunityPostsComponent } from '../../community-posts';
 import { CommunityConstants } from '../../../models';
 import { BrowserDetectionService } from 'libs/core/services';
+import { SettingsService } from 'libs/state/app-context/services';
+import { CompanySettingsEnum } from 'libs/models/company';
+import { Router } from '@angular/router';
 
+declare var InitializeUserVoice: any;
 
 @Component({
   selector: 'pf-community-dashboard-page',
@@ -56,9 +60,12 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
   postsChangedObserver: any;
   targetNode: any;
   observerOptions: any;
+  showSearchBar: boolean;
 
   constructor(public store: Store<fromCommunityPostReducer.State>,
-              private browserDetectionService: BrowserDetectionService) {
+              private browserDetectionService: BrowserDetectionService,
+              private settingsService: SettingsService,
+              private router: Router) {
 
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
@@ -185,6 +192,9 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
 
   // Lifecycle events
   ngOnInit() {
+    this.settingsService.selectCompanySetting<string>(CompanySettingsEnum.CommunitySearchBar, 'string')
+      .subscribe(setting => this.showSearchBar = setting === 'true');
+
     this.targetNode = document.querySelector(`#${this.COMMUNITY_POSTS_CONTAINER_ID}`);
     this.observerOptions = {
       childList: true,
@@ -249,6 +259,10 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    if (typeof InitializeUserVoice !== 'undefined') {
+      InitializeUserVoice();
+    }
   }
 
   ngOnDestroy() {
@@ -271,5 +285,9 @@ export class CommunityDashboardPageComponent implements OnInit, OnDestroy {
     if (this.hasNextBatchResultsOnServerSubscription) {
       this.hasNextBatchResultsOnServerSubscription.unsubscribe();
     }
+  }
+
+  routeToSearchResults(searchString) {
+    this.router.navigate(['/search-results'], { queryParams: { query: searchString } });
   }
 }

@@ -6,12 +6,13 @@ import { Observable, Subscription } from 'rxjs';
 import { SortDescriptor } from '@progress/kendo-data-query';
 
 import { ComphubPages, Rates, RateType } from '../../../data';
-import { JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
+import {
+  JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
   KendoDropDownItem } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { firstDayOfMonth } from '../../../helpers';
 import { WindowRef } from '../../../services';
+import { DataCardHelper } from '../../../helpers';
 
 @Component({
   selector: 'pf-data-card',
@@ -67,7 +68,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
 
-    this.firstDayOfMonth = firstDayOfMonth();
+    this.firstDayOfMonth = DataCardHelper.firstDayOfMonth();
   }
 
   ngOnInit(): void {
@@ -81,11 +82,15 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
 
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Data && this.marketDataChange) {
+      if (pageId === ComphubPages.Data) {
+        this.store.dispatch(new fromDataCardActions.CardOpened());
+
+        if (this.marketDataChange) {
           this.resetGridContext();
           this.loadJobResults();
         }
-      });
+      }
+    });
 
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
@@ -141,8 +146,9 @@ export class DataCardComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleRateSelectionChange(value: any) {
-    this.store.dispatch(new fromDataCardActions.SetSelectedRate(value));
+  handleRateSelectionChange(item: KendoDropDownItem) {
+    const selectedRate = RateType[item.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRate));
   }
 
   handleLearnMoreClicked() {
@@ -154,7 +160,9 @@ export class DataCardComponent implements OnInit, OnDestroy {
   }
 
   calculateDataByRate(value: number): number {
-    return this.isHourly ? ((value * 1000) / 2080) : value;
+    return this.isHourly
+      ? DataCardHelper.calculateDataByHourlyRate(value)
+      : value / 1000;
   }
 
   private isSortSupported(sortField: string): boolean {

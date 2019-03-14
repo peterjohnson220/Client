@@ -5,16 +5,16 @@
     </h5>
     <ng-container *ngFor="let category of categories$ | async;">
     <div class="row pl-1 py-2">
-      <div class="col-8 py-1">
+      <div class="col-9 py-1">
         <span (click)="!filteredByPost && onClick(category.Name)"
               id="communityCategory{{ category.Name }}"
-              class="category-element">{{ category.Name | communityCategoryDisplayName }}</span>
+              [ngClass]="{'category-element': !filteredByPost, 'category-element-disabled': filteredByPost }">{{ category.Name | communityCategoryDisplayName }}</span>
       </div>
-      <div class="col-2 px-0 py-1 category-count text-center community-border-radius category-text"
+      <div class="col-2 px-0 py-1 text-center community-border-radius category-text"
         (click)="!filteredByPost && onClick(category.Name)"
-        [ngClass]="{'category-selected': IsCategorySelected(category.Name) }">
+        [ngClass]="{'category-count': !filteredByPost, 'category-count-disabled' : filteredByPost, 'category-selected': IsCategorySelected(category.Name)}">
          <span id="communityCount{{ category.Name }}"
-              [ngClass]="{'category-disabled': filteredByPost, 'category-element': true }">{{ category.Count }}</span>
+              [ngClass]="{'category-disabled': filteredByPost, 'category-element': !filteredByPost, 'category-element-disabled': filteredByPost }">{{ category.Count }}</span>
       </div>
     </div>
     </ng-container>

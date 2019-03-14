@@ -65,6 +65,7 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
 }
 
 ::ng-deep .page-item.active .page-link {
+  z-index: auto;
   background-color: $comphub-header-blue;
   border-color: $comphub-header-blue;
 }
@@ -142,3 +143,7 @@ $peer-banner-text-bg: url('/client/comphub/assets/images/peer-banner-text.png') 
     background: $peer-banner-text-bg, $peer-banner-gradient;
   }
 }
+
+
+
+

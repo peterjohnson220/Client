@@ -10,6 +10,7 @@ export * from './pf.const';
 export * from './validation-result-item.model';
 export * from './validation-result-item-type.enum';
 export * from './generic-key-value.model';
+export * from './generic-menu-item.model';
 export * from './ui-persistence-feature-settings.model';
 export * from './ui-persistence-setting.const';
 export * from './feature-area.const';

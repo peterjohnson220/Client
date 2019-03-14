@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Observable, of} from 'rxjs';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
-import {map, catchError, switchMap, tap} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { map, catchError, switchMap, tap } from 'rxjs/operators';
 
 import * as fromPaymarketExchangeScopeActions from '../actions/paymarket-exchange-scope.actions';
 
-import {ExchangeScopeApiService} from 'libs/data/payfactors-api/peer';
-import {ExchangeScopes} from 'libs/models/peer/exchange-scope';
+import { ExchangeScopeApiService } from 'libs/data/payfactors-api/peer';
+import { ExchangeScopes } from 'libs/models/peer/exchange-scope';
 import { PayMarketApiService } from 'libs/data/payfactors-api/paymarket';
 import { WindowCommunicationService } from 'libs/core/services';
 

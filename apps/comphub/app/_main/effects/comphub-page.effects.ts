@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models/company';
-import { SystemUserGroupNames } from 'libs/constants';
+import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../reducers';
+import { SmbClientHelper } from '../helpers';
+import { ComphubPages } from '../data';
 
 @Injectable()
 export class ComphubPageEffects {
@@ -26,17 +29,36 @@ export class ComphubPageEffects {
       (action, userContext, companySettings) =>
         ({ action, userContext, companySettings })
     ),
-    map((data) => {
-      const isSmallBizUser = data.userContext.CompanySystemUserGroupsGroupName === SystemUserGroupNames.SmallBusiness;
+    mergeMap((data) => {
+      const actions = [];
+      const isSmallBizClient = SmbClientHelper.isSmallBuisnessClient(data.userContext);
       const hasNotYetAcceptedPeerTC = data.companySettings.some(s =>
         s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
         s.Value === 'false');
-      if (isSmallBizUser || hasNotYetAcceptedPeerTC) {
-        return new fromDataCardActions.ShowPeerBanner();
+
+      if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
+        actions.push(new fromDataCardActions.ShowPeerBanner());
       }
-      return { type: 'NO_ACTION' };
+
+      if (isSmallBizClient) {
+        actions.push(new fromComphubPageActions.GetJobPricingLimitInfo());
+      }
+
+      return actions;
     })
   );
+
+  @Effect()
+  getJobPricingLimitInfo$ = this.actions$
+    .ofType(fromComphubPageActions.GET_JOB_PRICING_LIMIT_INFO)
+    .pipe(
+      switchMap(() =>
+        this.comphubApiService.getJobPricingLimitInfo()
+          .pipe(
+            map((response) => new fromComphubPageActions.SetJobPricingLimitInfo(response))
+          )
+      )
+    );
 
   @Effect()
   onNavigation$ = this.actions$
@@ -46,23 +68,43 @@ export class ComphubPageEffects {
       fromComphubPageActions.NAVIGATE_TO_PREVIOUS_CARD)
     .pipe(
       withLatestFrom(
+        this.store.select(fromComphubMainReducer.getSelectedPageId),
         this.store.select(fromComphubMainReducer.getPaymarketsFilter),
-        (action, payMarketsFilter) => ({ payMarketsFilter })
+        this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+        (action, selectedPageId, payMarketsFilter, selectedPayMarket) =>
+          ({ selectedPageId, payMarketsFilter, selectedPayMarket })
       ),
-      mergeMap((filter) => {
+      mergeMap((data) => {
         const actions = [];
-        if (filter) {
+        if (data.payMarketsFilter) {
           actions.push(new fromMarketsCardActions.SetPaymarketFilter(''));
         }
-
-        actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+        if (data.selectedPageId === ComphubPages.Markets && data.selectedPayMarket) {
+          actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+        }
 
         return actions;
       })
     );
 
+  @Effect({ dispatch: false })
+  handleApiError$ = this.actions$
+    .ofType(fromComphubPageActions.HANDLE_API_ERROR).pipe(
+      tap((action: fromComphubPageActions.HandleApiError) =>
+        this.redirectForUnauthorized(action.payload)
+      )
+    );
+
+  private redirectForUnauthorized(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      const redirectToAfterSuccessfulLogin = window.location.pathname + window.location.search;
+      window.location.href = '/?' + encodeURIComponent(redirectToAfterSuccessfulLogin);
+    }
+  }
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
+    private comphubApiService: ComphubApiService,
   ) {}
 }
