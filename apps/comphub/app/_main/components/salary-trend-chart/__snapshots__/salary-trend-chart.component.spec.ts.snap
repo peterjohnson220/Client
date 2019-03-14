@@ -5,7 +5,9 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
   isHourly="false"
   salaryTrendData={[Function Object]}
 >
-  <div>
+  <div
+    data-qa-id="cht-salary-trend"
+  >
     <div
       class="d-flex flex-row"
     >
@@ -58,7 +60,9 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
   isHourly="false"
   salaryTrendData={[Function Object]}
 >
-  <div>
+  <div
+    data-qa-id="cht-salary-trend"
+  >
     <div
       class="d-flex flex-row"
     >
@@ -111,7 +115,9 @@ exports[`Comphub - Salary Bar Trend Component should not display plus or minus s
   isHourly="false"
   salaryTrendData={[Function Object]}
 >
-  <div>
+  <div
+    data-qa-id="cht-salary-trend"
+  >
     <div
       class="d-flex flex-row"
     >

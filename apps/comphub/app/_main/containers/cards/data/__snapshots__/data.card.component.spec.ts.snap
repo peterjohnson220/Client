@@ -71,6 +71,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         >
           <table
             class="table table-hover"
+            data-qa-id="tbl-job-data-grid"
           >
             <thead>
               <tr
@@ -189,7 +190,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="text-column hide-when-small"
                 >
-                  
+                   No 
                 </td>
                 <td
                   class="number-column"
@@ -304,6 +305,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         >
           <table
             class="table table-hover"
+            data-qa-id="tbl-job-data-grid"
           >
             <thead>
               <tr
@@ -422,7 +424,7 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="text-column hide-when-small"
                 >
-                  
+                   No 
                 </td>
                 <td
                   class="number-column"

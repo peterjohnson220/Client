@@ -38,7 +38,9 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
           <div
             class="search-filter"
           >
-            <pf-input-debounce />
+            <pf-input-debounce
+              id="search-paymarkets"
+            />
             
           </div>
         </div>
@@ -46,45 +48,49 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
       
       
       <div
-        class="row"
+        style="display: block;"
       >
         <div
-          class="col-lg-12 col-xl-9"
+          class="row"
         >
           <div
-            class="add-new-market-container"
+            class="col-lg-12 col-xl-9"
           >
-            <span
-              class="uppercase-header"
-            >
-              My Markets
-            </span>
-            
             <div
-              class="add-new-market-button"
-              data-qa-id="btn-addNewMarket"
+              class="add-new-market-container"
             >
-              <i
-                class="fa fa-plus-circle"
-              />
-               Add New Market 
+              <span
+                class="uppercase-header"
+              >
+                My Markets
+              </span>
+              
+              <div
+                class="add-new-market-button"
+                data-qa-id="btn-addNewMarket"
+              >
+                <i
+                  class="fa fa-plus-circle"
+                />
+                 Add New Market 
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="row"
-      >
         <div
-          class="col"
+          class="row"
         >
-          
-          
-          <div>
-            <div
-              class="no-data"
-            >
-              No Data
+          <div
+            class="col"
+          >
+            
+            
+            <div>
+              <div
+                class="no-data"
+              >
+                No Data
+              </div>
             </div>
           </div>
         </div>
@@ -132,7 +138,9 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
           <div
             class="search-filter"
           >
-            <pf-input-debounce />
+            <pf-input-debounce
+              id="search-paymarkets"
+            />
             
           </div>
         </div>
@@ -140,36 +148,40 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
       
       
       <div
-        class="row"
+        style="display: block;"
       >
         <div
-          class="col-lg-12 col-xl-9"
+          class="row"
         >
           <div
-            class="add-new-market-container"
+            class="col-lg-12 col-xl-9"
           >
-            <span
-              class="uppercase-header"
+            <div
+              class="add-new-market-container"
             >
-              My Markets
-            </span>
-            
+              <span
+                class="uppercase-header"
+              >
+                My Markets
+              </span>
+              
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        class="row"
-      >
         <div
-          class="col"
+          class="row"
         >
-          
-          
-          <div>
-            <div
-              class="no-data"
-            >
-              No Data
+          <div
+            class="col"
+          >
+            
+            
+            <div>
+              <div
+                class="no-data"
+              >
+                No Data
+              </div>
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@
                 [ngModel]="payMarketsFilter$ | async"
                 [placeholderText]="'Search Pay Markets...'"
                 [delay]="200" [hideClearBtn]="true"
+                id="search-paymarkets"
                 (valueChanged)="handleSearchChanged($event)">
               </pf-input-debounce>
 
