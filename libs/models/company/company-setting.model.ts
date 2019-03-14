@@ -8,7 +8,8 @@ export enum CompanySettingsEnum {
   UseUserRoleRestrictions = 'UseUserRoleRestrictions',
   CommunityReplyLimit = 'CommunityReplyLimit',
   MaxProjectJobCount = 'MaxProjectJobCount',
-  ProjectJobCount = 'ProjectJobCount'
+  ProjectJobCount = 'ProjectJobCount',
+  CommunitySearchBar = 'CommunitySearchBar'
 }
 
 export interface CompanySetting {

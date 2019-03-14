@@ -2,27 +2,86 @@
 
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
+  exchangeJobAssociations={[Function Array]}
+  exchangeJobAssociations$={[Function Store]}
+  exchangeJobAssociationsSubscription={[Function Subscriber]}
+  exchangeJobs$={[Function Store]}
+  grid="undefined"
   gridState$={[Function Store]}
+  isJobFamilyFilterExpanded$={[Function Store]}
+  isJobFamilyFilterLoading$={[Function Store]}
+  isListView={[Function Boolean]}
+  jobFamilyFilterOptions$={[Function Store]}
+  jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
   loadingError$={[Function Store]}
-  peerExchangeJobs$={[Function Store]}
+  maxAssociableThreshold={[Function Number]}
+  searchTerm=""
+  searchTermSubscription={[Function Subscriber]}
+  selectedCompanyJobs={[Function Array]}
+  selectedCompanyJobs$={[Function Store]}
+  selectedCompanyJobsSubscription={[Function Subscriber]}
+  selectedJobFamilyOptionNames$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
-  totalPeerExchangeJobs$={[Function Observable]}
+  totalPeerExchangeJobs$={[Function Store]}
 >
-  <h2>
-    Peer Exchange Jobs
-  </h2><label
-    class="text-uppercase"
+  <h2
+    class="text-center"
   >
-     peer exchange jobs: 123 total
-  
-  </label><div
+    Peer Exchange Jobs
+  </h2><div
+    class="filters position-relative d-flex mt-2 mb-2"
+  >
+    <div>
+      <i
+        class="fas fa-search position-absolute"
+      />
+      <pf-input-debounce
+        id="exchange-jobs-search-box"
+      />
+    </div>
+    <div
+      class="ml-3"
+    >
+      <pf-multi-select
+        pfclickelsewhere=""
+      />
+    </div>
+  </div><div>
+    <label
+      class="text-uppercase"
+      data-qa-id="lbl-exchange-jobs-total"
+    >
+       peer exchange jobs: 0 total 
+    </label>
+    <button
+      class="view-button ml-2 view-button-active"
+      ng-reflect-klass="view-button ml-2"
+      ng-reflect-ng-class="[object Object]"
+      title="List View"
+    >
+      <i
+        class="fas fa-table"
+      />
+    </button>
+    <button
+      class="view-button"
+      ng-reflect-klass="view-button"
+      ng-reflect-ng-class="[object Object]"
+      title="Detail View"
+    >
+      <i
+        class="fas fa-list"
+      />
+    </button>
+  </div><div
     class="grid-container position-relative"
   >
     <pf-async-container
       class="h-100"
     >
+      
       <div
         class="k-tooltip-container"
         filter=".k-grid td"
@@ -32,20 +91,30 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
         <kendo-grid
           style="height: 100%;"
         >
+          <kendo-grid-column>
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeJobTitle"
             title="Job Title"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeJobFamily"
             title="Job Family"
-          />
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-column
             field="ExchangeName"
             title="Exchange Name"
           />
+          
+          
         </kendo-grid>
       </div>
+      
     </pf-async-container>
   </div>
 </pf-peer-job-association-exchange-jobs>

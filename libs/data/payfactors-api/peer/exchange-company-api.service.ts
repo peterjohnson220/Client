@@ -27,11 +27,12 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getActiveNonAssociatedCompanyJobs(listState: any): Observable<GridDataResult> {
+  getActiveNonAssociatedCompanyJobs(listState: any, searchTerm: string): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetActiveNonAssociatedCompanyJobs`,
       {params: {
-          listState: JSON.stringify(listState)
+          listState: JSON.stringify(listState),
+          searchTerm: searchTerm
         }},
       MappingHelper.mapListAreaResultToGridDataResult
     );
@@ -53,8 +54,6 @@ export class ExchangeCompanyApiService {
     );
   }
 
-
-
   getExchangeCompanyJobs(exchangeId: number, listState: any): Observable<GridDataResult> {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeCompanyJobs`,
@@ -66,6 +65,12 @@ export class ExchangeCompanyApiService {
   upsertExchangeJobMap(upsertExchangeJobMapRequest: UpsertExchangeJobMapRequest) {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/UpsertExchangeJobMap`,
       upsertExchangeJobMapRequest
+    );
+  }
+
+  saveJobAssociations(companyJobToExchangeJobAssociations: any[]) {
+    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/SaveJobAssociations`,
+      companyJobToExchangeJobAssociations
     );
   }
 

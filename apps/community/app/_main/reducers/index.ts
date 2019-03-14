@@ -347,6 +347,7 @@ export const getCommunityPostsCombinedWithReplies = createSelector(
     }
   }
 );
+
 // Community Tag Selectors
 export const getLoadingCommunityTrendingTags = createSelector(
   selectFromCommunityTagState,
@@ -476,4 +477,16 @@ export const getLoadingCommunityLikesSuccess = createSelector(
 export const getLoadingCommunityLikesError = createSelector(
   selectFromCommunityLikeState,
   fromCommunityLikeReducer.getLoadingCommunityLikesError
+);
+
+export const getFilterTitle = createSelector(
+  getFilteredByPost,
+  getCommunityPostsCombinedWithReplies,
+  (filteredByPost, postsWithReplies) => {
+    if (filteredByPost && postsWithReplies.length === 1) {
+      const discussionType = postsWithReplies[0].UserPollRequest == null ? 'post' : 'poll';
+
+      return `${postsWithReplies[0].UserInfo.UserFirstName} ${postsWithReplies[0].UserInfo.UserLastName}'s ${discussionType} `;
+    }
+  }
 );

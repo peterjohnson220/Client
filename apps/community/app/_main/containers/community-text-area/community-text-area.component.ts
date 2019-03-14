@@ -31,13 +31,6 @@ export class CommunityTextAreaComponent implements OnInit, OnDestroy {
   suggestedCommunityTagsPostIdSubscription: Subscription;
   textValueChangesSubscription: Subscription;
 
-  options: NgxLinkifyOptions =
-    {
-      formatHref: function (href, type) {
-          return 'javascript:void(0)';
-      }
-    };
-
   @Input() public parentForm: FormGroup;
   @Input() public maxTextLength: 2000;
   @Input() public warningStartNumber = 1500;

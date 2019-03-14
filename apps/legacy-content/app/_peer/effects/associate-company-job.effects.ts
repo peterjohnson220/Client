@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map } from 'rxjs/operators';
 
 import { ExchangeApiService, ExchangeCompanyApiService, CompanyJobApiService } from 'libs/data/payfactors-api';
-import { ExchangeJobSearch, LatestCompanyJob } from 'libs/models';
+import { ExchangeJobSearch, GenericKeyValue, LatestCompanyJob } from 'libs/models';
+import { WindowCommunicationService } from 'libs/core/services';
 
 import * as fromAssociateAction from '../actions/associate-company-jobs.actions';
-import { WindowCommunicationService } from 'libs/core/services';
 
 @Injectable()
 export class AssociateCompanyJobEffects {
@@ -38,6 +38,18 @@ export class AssociateCompanyJobEffects {
                 })
                 , catchError(() => of(new fromAssociateAction.LoadExchangeJobsError())))
         )
+    );
+
+    @Effect()
+    loadExchangeDictionary$ = this.actions$.pipe(
+      ofType(fromAssociateAction.LOAD_EXCHANGE_DICTIONARY),
+      map((action: fromAssociateAction.LoadExchangeDictionary) => action.payload),
+      switchMap(payload =>
+      this.exchangeApiService.getExchangeDictionaryForCompany(payload).pipe(
+        map((exchangeDictionary: GenericKeyValue<number, string>[]) => {
+          return new fromAssociateAction.LoadExchangeDictionarySuccess(exchangeDictionary);
+        }), catchError(() => of(new fromAssociateAction.LoadExchangeDictionaryError()))
+      ))
     );
 
     @Effect()

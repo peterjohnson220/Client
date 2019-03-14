@@ -12,7 +12,7 @@
         [data]="communityPollListItems$ | async"
         [scrollable]="true"
         [selectable]="true"
-        (selectionChange)="onSelectCommunityPoll($event)">
+        (cellClick)="onCellClick($event.dataItem)">
 
         <kendo-grid-column field="Question" title="Question" [headerClass]="'font-weight-bold'"></kendo-grid-column>
         <kendo-grid-column field="DatePosted" title="Date Posted" [headerClass]="'font-weight-bold'" >
@@ -24,7 +24,9 @@
         
        <kendo-grid-column field="Status" title="Status" [headerClass]="'font-weight-bold'" [width]="130" class="text-center">
           <ng-template kendoGridCellTemplate let-dataItem="dataItem">
-              <label class="lbl-status" [ngClass]="{'lbl-draft': dataItem.Status == 0, 'lbl-live': dataItem.Status == 1, 'lbl-acrhived': dataItem.Status == 2}">
+              <label class="lbl-status" 
+                [ngClass]="{'lbl-draft': dataItem.Status == 0, 'lbl-live': dataItem.Status == 1, 'lbl-acrhived': dataItem.Status == 2}"
+                (click)="onCellClick(dataItem)">
                     {{ CommunityPollStatuses[dataItem.Status].text }}
               </label>  
           </ng-template>

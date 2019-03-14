@@ -117,6 +117,7 @@ export function reducer(state = initialState, action: communityPollActions.Actio
       return {
         ...state,
         communityPollModalOpen: false,
+        communityPollListToEdit: null
       };
     }
     case communityPollActions.EXPORTING_COMMUNITY_POLL: {

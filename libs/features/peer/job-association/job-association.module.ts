@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -7,19 +8,22 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { reducers } from './reducers';
-import { ExchangeJobsEffects, CompanyJobsEffects } from './effects';
+import { ExchangeJobsEffects, CompanyJobsEffects, JobAssociationModalEffects } from './effects';
 
-import { PfCommonModule } from 'libs/core';
+import { PfCommonModule, WindowCommunicationService } from 'libs/core';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { PfFormsModule } from 'libs/forms';
 
+import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
 
 @NgModule({
   imports: [
     // Angular
     CommonModule,
+    FormsModule,
     StoreModule.forFeature('feature_job_association', reducers),
-    EffectsModule.forFeature([CompanyJobsEffects, ExchangeJobsEffects]),
+    EffectsModule.forFeature([CompanyJobsEffects, ExchangeJobsEffects, JobAssociationModalEffects]),
 
     // 3rd party
     GridModule,
@@ -28,17 +32,18 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     // Payfactors
     PfCommonModule,
     PfCommonUIModule,
+    PfFormsModule,
   ],
   declarations: [
     // Components
+    AssociatedCompanyJobsComponent,
 
     // Containers
     CompanyJobsComponent,
     ExchangeJobsComponent,
     JobAssociationModalComponent
-
-    // Pages
   ],
+  providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]
 })
 export class JobAssociationModule {

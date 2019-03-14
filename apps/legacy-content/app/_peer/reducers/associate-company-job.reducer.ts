@@ -1,4 +1,4 @@
-import { ExchangeJobSearch, LatestCompanyJob } from 'libs/models';
+import { ExchangeJobSearch, GenericKeyValue, LatestCompanyJob } from 'libs/models';
 
 import * as fromAssociateCompanyJobActions from '../actions/associate-company-jobs.actions';
 
@@ -10,6 +10,9 @@ export interface State {
     hasAddingAssociationError: boolean;
     companyJob: LatestCompanyJob;
     exchangeJobSearch: ExchangeJobSearch[];
+    loadingExchangeDictionary: boolean;
+    loadingExchangeDictionaryError: boolean;
+    exchangeDictionary: GenericKeyValue<number, string>[];
 }
 
 // Initial State
@@ -19,7 +22,10 @@ export const initialState: State = {
     isAddingAssociation: false,
     hasAddingAssociationError: false,
     companyJob: null,
-    exchangeJobSearch: null
+    exchangeJobSearch: null,
+    loadingExchangeDictionary: false,
+    loadingExchangeDictionaryError: false,
+    exchangeDictionary: null
 };
 
 
@@ -112,6 +118,28 @@ export function reducer(
                 hasAddingAssociationError: true,
             };
         }
+        case fromAssociateCompanyJobActions.LOAD_EXCHANGE_DICTIONARY: {
+          return {
+            ...featureState,
+            loadingExchangeDictionary: true,
+            loadingExchangeDictionaryError: false
+          };
+        }
+        case fromAssociateCompanyJobActions.LOAD_EXCHANGE_DICTIONARY_SUCCESS: {
+          return {
+            ...featureState,
+            exchangeDictionary: featureAction.payload,
+            loadingExchangeDictionary: false,
+            loadingExchangeDictionaryError: false
+          };
+        }
+        case fromAssociateCompanyJobActions.LOAD_EXCHANGE_DICTIONARY_ERROR: {
+          return {
+            ...featureState,
+            loadingExchangeDictionary: false,
+            loadingExchangeDictionaryError: true
+          };
+        }
         default: {
             return featureState;
         }
@@ -124,3 +152,6 @@ export const getIsAdding = (state: State) => state.isAddingAssociation;
 export const getHasAddingError = (state: State) => state.hasAddingAssociationError;
 export const getExchangeJobs = (state: State) => state.exchangeJobSearch;
 export const getCompanyJob = (state: State) => state.companyJob;
+export const getLoadingExchangeDictionary = (state: State) => state.loadingExchangeDictionary;
+export const getLoadingExchangeDictionaryError = (state: State) => state.loadingExchangeDictionaryError;
+export const getExchangeDictionary = (state: State) => state.exchangeDictionary;

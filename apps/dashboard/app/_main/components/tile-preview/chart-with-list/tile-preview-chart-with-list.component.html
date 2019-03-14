@@ -19,7 +19,7 @@
   </div>
 
   <div class="col-7 p-0 pb-2">
-    <span *ngIf="model.TileChartData">     
+    <span *ngIf="hasChartItems">     
       <span class="tile-text title-header">{{model.TileChartData.DateTitle}}: {{model.TileChartData.Date | date:'MM-dd-yy'}}</span>        
         <div class="details-body-containter pl-2 pb-1 pr-1">
           <span class="tile-text title-body title-header"><strong>{{model.TileChartData.Company}}</strong></span>    
@@ -30,9 +30,11 @@
       </div>
     </span>
 
-    <div *ngIf="!model.TileChartData">
-      <span class="col-12 tile-text" style="white-space: nowrap;">{{model.TileChartTitle}}</span>
-      <button (click)="action()" class="col-12 btn btn-primary btn-respond px-2 py-0 mt-2">{{model.ActionItemTitle}}</button>
+    <div *ngIf="!hasChartItems">
+      <div class="details-body-containter pl-2 pb-3 pr-1">
+        <strong class='tile-text title-body-no-link text-center py-2'>{{details}}</strong>   
+        <button (click)="action()" class="col-12 btn btn-primary btn-respond">{{model.ActionItemTitle}}</button>
+      </div>
     </div>   
 
     <div *ngIf="hasData()" class="chart-container pt-2 pb-0 mb-0">

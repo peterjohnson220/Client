@@ -1,19 +1,19 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JobCounterComponent } from './job-counter.component';
+import { JobLimitCounterComponent } from './job-limit-counter.component';
 
 describe('Project - Add Jobs - Job Counter', () => {
-  let instance: JobCounterComponent;
-  let fixture: ComponentFixture<JobCounterComponent>;
+  let instance: JobLimitCounterComponent;
+  let fixture: ComponentFixture<JobLimitCounterComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ JobCounterComponent ],
+      declarations: [ JobLimitCounterComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 
-    fixture = TestBed.createComponent(JobCounterComponent);
+    fixture = TestBed.createComponent(JobLimitCounterComponent);
     instance = fixture.componentInstance;
   });
 

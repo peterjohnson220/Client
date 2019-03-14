@@ -1,6 +1,7 @@
 import * as fromDataCardActions from '../actions/data-card.actions';
 import { JobData, JobGridData } from '../models';
 import { RateType } from '../data';
+import { JobPricingLimitInfo } from '../models';
 
 export interface State {
   loading: boolean;

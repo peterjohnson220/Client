@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select, } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import * as lodash from 'lodash';
 
-import * as fromRootState from 'libs/state/state';
 import { Job, UserContext, ExchangeJobSearch, LatestCompanyJob, GenericKeyValue } from 'libs/models';
 import { ExchangeApiService } from 'libs/data/payfactors-api/';
 import { WindowCommunicationService } from 'libs/core/services';
 import { isNullOrUndefined } from 'libs/core/functions';
+import * as fromRootState from 'libs/state/state';
 
 import * as fromAssociateAction from '../../../actions/associate-company-jobs.actions';
 import * as fromAssociateReducer from '../../../reducers';
@@ -19,18 +20,16 @@ import * as fromAssociateReducer from '../../../reducers';
     templateUrl: './associate-company-job.page.html',
     styleUrls: ['./associate-company-job.page.scss']
 })
-export class AssociateCompanyJobComponent implements OnInit {
-
+export class AssociateCompanyJobComponent implements OnInit, OnDestroy {
     nullCheck = isNullOrUndefined;
     companyJobInfo: Job;
     companyJobId: number;
-    exchanges: GenericKeyValue<number, string>[];
 
     exchangeId: number = null;
     exchangeJobQuery = '';
     exchangeDescriptionQuery = '';
 
-    // observables
+    // Observables
     searchResults$: Observable<ExchangeJobSearch[]>;
     isLoading$: Observable<boolean>;
     hasLoadingError$: Observable<boolean>;
@@ -38,6 +37,11 @@ export class AssociateCompanyJobComponent implements OnInit {
     hasAddingAssociationError$: Observable<boolean>;
     userContext$: Observable<UserContext>;
     companyJob$: Observable<LatestCompanyJob>;
+    exchanges$: Observable<GenericKeyValue<number, string>[]>;
+
+    // Subscriptions
+    userContextSubscription: Subscription;
+    companyJobsSubscription: Subscription;
 
     constructor(
         private route: ActivatedRoute,
@@ -52,22 +56,22 @@ export class AssociateCompanyJobComponent implements OnInit {
         this.hasAddingAssociationError$ = this.store.pipe(select(fromAssociateReducer.getHasAddingError));
         this.userContext$ = this.store.pipe(select(fromRootState.getUserContext));
         this.companyJob$ = this.store.pipe(select(fromAssociateReducer.getCompanyJob));
+        this.exchanges$ = this.store.pipe(select(fromAssociateReducer.getExchangeDictionaryForCompany));
     }
 
     ngOnInit(): void {
         const queryParamMap = this.route.snapshot.queryParamMap;
         this.companyJobId = +queryParamMap.get('companyJobId') || 0;
 
-        this.userContext$.subscribe(userContext => {
+        this.userContextSubscription = this.userContext$.subscribe(userContext => {
             this.store.dispatch(new fromAssociateAction.LoadCompanyJob(this.companyJobId)),
-                this.exchangeApiService.getExchangeDictionaryForCompany(userContext.CompanyId)
-                    .subscribe(f => {
-                        this.exchanges = f;
-                        this.windowCommunicationService.postMessage(fromAssociateAction.INITIAL_LOAD_SUCCESS);
-                    });
+            this.store.dispatch(new fromAssociateAction.LoadExchangeDictionary(userContext.CompanyId));
+            this.exchanges$.pipe(take(1)).subscribe(() => {
+              this.windowCommunicationService.postMessage(fromAssociateAction.INITIAL_LOAD_SUCCESS);
+            });
         });
 
-        this.companyJob$.subscribe(ejm => {
+        this.companyJobsSubscription = this.companyJob$.subscribe(ejm => {
             if (ejm != null) {
                 this.companyJobInfo = {
                     JobType: 'Company',
@@ -78,6 +82,7 @@ export class AssociateCompanyJobComponent implements OnInit {
                     JobLevel: ejm.JobLevel,
                     JobDescription: ejm.JobDescription
                 };
+                this.searchChanged();
             }
         });
     }
@@ -108,10 +113,9 @@ export class AssociateCompanyJobComponent implements OnInit {
     }
 
     searchChanged() {
-
         let titleQuery = this.exchangeJobQuery;
 
-        if (this.exchangeJobQuery.length <= 0 && this.exchangeDescriptionQuery.length <= 0) {
+        if (this.exchangeJobQuery.length <= 0 && this.exchangeDescriptionQuery.length <= 0 && !!this.companyJobInfo) {
             titleQuery = this.companyJobInfo.JobTitle;
         }
 
@@ -120,17 +124,15 @@ export class AssociateCompanyJobComponent implements OnInit {
             titleQuery: titleQuery,
             exchangeDescriptionQuery: this.exchangeDescriptionQuery
         }));
-
     }
 
     buildNoResultsString(): string {
-
         let s = 'No results for ';
 
         const companyJob = lodash.escape(this.exchangeJobQuery);
         const jobDescription = lodash.escape(this.exchangeDescriptionQuery);
 
-        if (!companyJob && !jobDescription) {
+        if (!companyJob && !jobDescription && !!this.companyJobInfo) {
             s += '<u>' + this.companyJobInfo.JobTitle + '</u>';
         } else if (companyJob) {
             s += '<u>' + companyJob + '</u>';
@@ -143,7 +145,11 @@ export class AssociateCompanyJobComponent implements OnInit {
             s += '<u>' + jobDescription + '</u>';
         }
         return s;
+    }
 
+    ngOnDestroy(): void {
+      this.userContextSubscription.unsubscribe();
+      this.companyJobsSubscription.unsubscribe();
     }
 }
 

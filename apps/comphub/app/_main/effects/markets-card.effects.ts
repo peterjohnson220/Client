@@ -5,9 +5,8 @@ import { of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
 import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import { MarketDataScopeApiService, PayMarketApiService } from 'libs/data/payfactors-api';
-import { PayMarket } from 'libs/models/paymarket';
-import { AddPayMarketRequest } from 'libs/models/payfactors-api';
+import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
+import { AddPayMarketRequest, PayMarketDataResponse } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
@@ -17,6 +16,7 @@ import * as fromComphubMainReducer from '../reducers';
 import { MarketsCardHelper, PayfactorsApiModelMapper } from '../helpers';
 import * as fromAddPayMarketFormActions from '../actions/add-paymarket-form.actions';
 import { ComphubPages } from '../data';
+import * as fromSummaryCardActions from '../actions/summary-card.actions';
 
 @Injectable()
 export class MarketsCardEffects {
@@ -26,20 +26,29 @@ export class MarketsCardEffects {
     .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
       switchMap(() => {
-          return this.paymarketApiService.getAllByCountryCode('USA')
+          return this.comphubApiService.getPaymarketData('USA')
             .pipe(
-              mergeMap((paymarketsResponse: PayMarket[]) => {
+              mergeMap((paymarketsResponse: PayMarketDataResponse) => {
                 const actions = [];
-                actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(
-                  PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse)
-                ));
+                let payMarkets = PayfactorsApiModelMapper.mapPaymarketsToPricingPayMarkets(paymarketsResponse.AccessiblePayMarkets);
+                if (paymarketsResponse.HasPaymarketRestrictions) {
+                  actions.push(new fromMarketsCardActions.HideAddNewPaymarketButton());
+                  if (!payMarkets.length) {
+                    // display national payMarket as a card
+                    payMarkets = [MarketsCardHelper.buildDefaultPricingPayMarket()];
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard());
+                  }
+                }
+                actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(payMarkets));
                 actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
-                if (paymarketsResponse.length === 0) {
+
+                if (!payMarkets.length) {
                   actions.push(new fromAddPayMarketFormActions.OpenForm({ showSkipButton: true }));
                 }
                 return actions;
               }),
-              catchError(() => of(new fromMarketsCardActions.GetPaymarketsError()))
+              catchError((error) => of(new fromMarketsCardActions.GetPaymarketsError(),
+                new fromComphubPageActions.HandleApiError(error)))
             );
         }
       )
@@ -55,8 +64,9 @@ export class MarketsCardEffects {
             map((response) =>
               new fromMarketsCardActions.GetMarketDataScopeSuccess(response)
             ),
-            catchError(() => {
-              return of(new fromMarketsCardActions.GetMarketDataScopeError());
+            catchError((error) => {
+              return of(new fromMarketsCardActions.GetMarketDataScopeError(),
+                new fromComphubPageActions.HandleApiError(error));
             })
           );
       })
@@ -89,7 +99,8 @@ export class MarketsCardEffects {
           new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName
-          })
+          }),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
         ]
       )
     );
@@ -112,19 +123,20 @@ export class MarketsCardEffects {
       withLatestFrom(
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         (action: fromMarketsCardActions.SetToDefaultPaymarket, selectedPayMarket) => ({ action, selectedPayMarket })),
-      map((data) => {
-          return new fromComphubPageActions.UpdateCardSubtitle({
+      mergeMap((data) => [
+          new fromComphubPageActions.UpdateCardSubtitle({
             cardId: ComphubPages.Markets,
             subTitle: data.selectedPayMarket.PayMarketName
-          });
-        }
+          }),
+        new fromSummaryCardActions.ResetCreateProjectStatus()
+        ]
       )
     );
 
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
-    private paymarketApiService: PayMarketApiService,
+    private comphubApiService: ComphubApiService,
     private marketDataScopeApiService: MarketDataScopeApiService
   ) { }
 }

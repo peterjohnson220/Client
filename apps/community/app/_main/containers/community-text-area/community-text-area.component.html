@@ -4,7 +4,7 @@
       (window:resize)="onResize($event)">
       <div #overlayTextArea
           class="overlayTextArea"
-          [innerHtml]="discussionTextArea.value | linkify: options"></div>
+          [innerHtml]="discussionTextArea.value | linkify"></div>
       <textarea  #discussionTextArea
         id="discussionTextArea"
         class="discussionTextArea"

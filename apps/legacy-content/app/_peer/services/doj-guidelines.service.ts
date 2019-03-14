@@ -79,17 +79,12 @@ export class DojGuidelinesService {
     return this.dataCutValid && this.hasMinimumCompanies && this.hasNoHardDominatingData;
   }
 
-  validateDataCut(mapCompanies: any, shouldCheckSimilarity: boolean) {
-    if (!shouldCheckSimilarity) {
-      this.dataCutValid = true;
-      return;
-    }
-
+  validateDataCut(mapCompanies: any) {
     const validationInfo = this.dataCutValidationInfo;
     let validationPass = true;
 
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
-    if (currentMapCompanies.length > 4 && validationInfo.length > 0) {
+    if (validationInfo.length > 0) {
       // In an attempt to make this method faster, a previousSelections variable will be stored.
       // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
       if (!arraysEqual(currentMapCompanies, this.previousMapCompanies)) {

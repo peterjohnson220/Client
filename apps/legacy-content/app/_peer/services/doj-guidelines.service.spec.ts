@@ -5,8 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import {
   ExchangeStatCompanyMakeup,
   generateMockDataCutValidationInfo,
-  generateMockExchangeStatCompanyMakeup,
-  generateMockPeerMapScopeDetails
+  generateMockExchangeStatCompanyMakeup
 } from 'libs/models/peer';
 import * as fromRootState from 'libs/state/state';
 import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
@@ -109,7 +108,7 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies, true);
+    service.validateDataCut(companies);
 
     expect(service.validDataCut).toBe(true);
   });
@@ -125,22 +124,10 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
 
     service.dataCutValidationInfo = dataValidationInfo;
 
-    service.validateDataCut(companies, true);
+    service.validateDataCut(companies);
 
     expect(service.validDataCut).toBe(false);
 
     expect(service.passesGuidelines).toBe(false);
-  });
-
-  it('should expect validDataCut to be true when the lists are too similar and shouldCheckSimilarity is false', () => {
-    const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const filterSelections = { CompanyIds: [1, 2, 3, 4, 5, 6] };
-    const mockShouldCheckSimilarity = false;
-
-    service.dataCutValidationInfo = dataValidationInfo;
-
-    service.validateDataCut(filterSelections, mockShouldCheckSimilarity);
-
-    expect(service.validDataCut).toBe(true);
   });
 });

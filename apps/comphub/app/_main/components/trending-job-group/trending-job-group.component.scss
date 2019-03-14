@@ -4,6 +4,7 @@
 
   background: lighten($comphub-header-background-grey, 5%);
   padding: 1rem;
+  min-height: 280px;
 
   .group-name {
     color: $comphub-header-blue;
@@ -20,7 +21,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
-      &:hover{
+      &:not(.disabled):hover{
         text-decoration: underline;
         cursor: pointer;
       }

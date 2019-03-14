@@ -1,0 +1,17 @@
+@import 'styles';
+
+.inner-circle-icon
+{
+  color: $community-tab-color;
+}
+
+.search-icon
+{
+  color: white;
+}
+
+.input-body:focus{
+  outline: none !important;
+  border:1px solid $community-tab-active-color;
+  box-shadow: 0 0 2px $community-tab-active-color;
+}

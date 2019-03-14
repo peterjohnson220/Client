@@ -28,6 +28,7 @@ export class MarketsCardComponent implements OnInit {
   marketDataScope$: Observable<MarketDataScope>;
   infoBannerOpen$: Observable<boolean>;
   showSkipButton$: Observable<boolean>;
+  hideNewPaymarketButton$: Observable<boolean>;
   payMarketsFilter$: Observable<string>;
 
   private readonly defaultCountryCode = 'USA';
@@ -41,6 +42,7 @@ export class MarketsCardComponent implements OnInit {
     this.loadingPaymarkets$ = this.store.select(fromComphubMainReducer.getLoadingPaymarkets);
     this.loadingPaymarketsError$ = this.store.select(fromComphubMainReducer.getLoadingPaymarketsError);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
+    this.hideNewPaymarketButton$ = this.store.select(fromComphubMainReducer.getHideNewPaymarketsButton);
   }
 
   ngOnInit() {

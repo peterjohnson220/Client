@@ -18,13 +18,10 @@
   margin-right: 8px;
   background-color: $comphub-header-background-grey;
   display: block;
+  z-index: 1000;
 
   &:hover {
     cursor: pointer;
-  }
-
-  &.selected {
-    display: none;
   }
 
   &.disabled {
@@ -64,15 +61,6 @@
 .card-content-container {
   height: 100%;
   position: relative;
-  overflow: auto;
   transition: width 0.35s ease 0.2s;
   margin-bottom: 0px;
-  .card-content {
-    display: none;
-  }
-  &.selected {
-    .card-content {
-      display: block;
-    }
-  }
 }

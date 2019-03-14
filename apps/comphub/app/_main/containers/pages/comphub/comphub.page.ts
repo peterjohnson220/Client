@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -13,10 +13,12 @@ import { PricingPaymarket, JobData } from '../../../models';
   templateUrl: './comphub.page.html',
   styleUrls: ['./comphub.page.scss']
 })
-export class ComphubPageComponent implements OnInit {
+export class ComphubPageComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
   cardContentContainerWidth: number;
   enabledPages: ComphubPages[];
+  cards: AccordionCard[];
+  selectedCardIndex: number;
 
   cards$: Observable<AccordionCard[]>;
   selectedPageId$: Observable<ComphubPages>;
@@ -27,6 +29,8 @@ export class ComphubPageComponent implements OnInit {
   accessedPages$: Observable<ComphubPages[]>;
 
   private enabledPagesSub: Subscription;
+  private cardsSub: Subscription;
+  private selectedPageIdSub: Subscription;
 
   private readonly cardHeaderWidth = 60;
   private readonly cardHeaderMargin = 8;
@@ -52,7 +56,15 @@ export class ComphubPageComponent implements OnInit {
   ngOnInit() {
     this.updateCardContentContainerWidth();
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
+    this.cardsSub = this.cards$.subscribe(cards => this.cards = cards);
+    this.selectedPageIdSub = this.selectedPageId$.subscribe(pageId => this.selectedCardIndex = this.cards.findIndex(c => c.Id === pageId));
     this.store.dispatch(new fromComphubPageActions.Init());
+  }
+
+  ngOnDestroy() {
+    this.enabledPagesSub.unsubscribe();
+    this.cardsSub.unsubscribe();
+    this.selectedPageIdSub.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {

@@ -1,5 +1,5 @@
-import { Component, HostListener, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -238,7 +238,10 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     const tag = mapCommunityTagToTag(communityTag);
     this.filterStore.dispatch(new fromCommunityPostFilterOptionsActions.AddingCommunityTagToFilterOptions(tag));
     this.filtersModified();
+  }
 
+  hasReplies(post: CommunityPost) {
+    return post.ReplyCount > 0 ? true : false;
   }
 
 }
