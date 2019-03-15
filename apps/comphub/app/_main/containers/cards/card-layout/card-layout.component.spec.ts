@@ -70,6 +70,7 @@ describe('Comphub - Main - Card Layout', () => {
 
   it('should hide the back button, when told to', () => {
     instance.hideBackButton = true;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -78,6 +79,7 @@ describe('Comphub - Main - Card Layout', () => {
 
   it('should hide the next button, when told to', () => {
     instance.hideNextButton = true;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -87,6 +89,7 @@ describe('Comphub - Main - Card Layout', () => {
   it('should disable next button, when told to', () => {
     instance.hideNextButton = false;
     instance.nextButtonEnabled = false;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 

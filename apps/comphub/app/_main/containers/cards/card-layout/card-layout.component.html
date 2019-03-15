@@ -18,14 +18,14 @@
   <div class="actions-section">
     <button *ngIf="!hideBackButton"
             class="btn comphub-secondary-btn"
-            [attr.data-qa-id]="'btn-back'"
+            [attr.data-qa-id]="'btn-back-' + pageTitle"
             (click)="handleBackButtonClicked()">
       Back
     </button>
     <button *ngIf="!hideNextButton"
             class="btn comphub-primary-btn"
             [disabled]="!nextButtonEnabled"
-            [attr.data-qa-id]="'btn-next'"
+            [attr.data-qa-id]="'btn-next-'+ pageTitle"
             (click)="handleNextButtonClicked()">
       Next
     </button>
@@ -33,7 +33,7 @@
     <ng-content select="[custom-actions]"></ng-content>
 
     <button class="btn comphub-secondary-btn close-app-btn"
-            [attr.data-qa-id]="'btn-close'"
+            [attr.data-qa-id]="'btn-close-'+ pageTitle"
             (click)="handleCloseClicked()">
       Close
     </button>
@@ -53,7 +53,7 @@
     <p>If you exit the Quick Pricing workflow, changes will not be saved.</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn comphub-primary-btn" (click)="handleConfirmedCloseApp()">Yes</button>
-    <button type="button" class="btn comphub-secondary-btn" (click)="modal.dismiss()">Cancel</button>
+    <button type="button" class="btn comphub-primary-btn" [attr.data-qa-id]="'btn-confirm-close-quickprice-app-'+ pageTitle" (click)="handleConfirmedCloseApp()">Yes</button>
+    <button type="button" class="btn comphub-secondary-btn" [attr.data-qa-id]="'btn-cancel-close-quickprice-app-'+ pageTitle" (click)="modal.dismiss()">Cancel</button>
   </div>
 </ng-template>

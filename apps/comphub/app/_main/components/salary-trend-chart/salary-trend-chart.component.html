@@ -1,4 +1,4 @@
-<div *ngIf="salaryTrendData?.Data.length">
+<div *ngIf="salaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
   <div class="d-flex flex-row">
     <h2 *ngIf="salaryTrendData.PercentageChange !== 0" [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
       {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}

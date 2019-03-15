@@ -1,6 +1,7 @@
 <div class="accordion">
   <div class="card-container">
-    
+    <span class="hidden" data-qa-id="lbl-current-page">{{(selectedPageId$ | async)}}</span>
+    <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages.join(',')}}</span>
     <ng-container *ngFor="let card of cards; let i=index; trackBy: trackById">
       <pf-comphub-card
         [hasCardHeader]="i !== 0"

@@ -3,6 +3,7 @@
   <div *ngFor="let paymarket of paymarkets; trackBy: trackById"
        class="paymarket-card"
        [class.selected]="selectedPaymarketId === paymarket.CompanyPayMarketId"
+       [attr.data-qa-id]="'cnt-paymarket-card'"
        (click)="togglePaymarket(paymarket)">
 
     <div class="d-flex flex-column h-100">
