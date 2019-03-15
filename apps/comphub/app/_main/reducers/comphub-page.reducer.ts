@@ -10,8 +10,8 @@ export interface State {
   pagesAccessed: ComphubPages[];
   accessiblePages: ComphubPages[];
   jobPricingLimitInfo: JobPricingLimitInfo;
-  countryDataSetsLoaded: boolean;
-  countryDataSets: CountryDataSet[];
+  activeCountryDataSetLoaded: boolean;
+  activeCountryDataSet: CountryDataSet;
 }
 
 const initialState: State = {
@@ -20,8 +20,8 @@ const initialState: State = {
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
   jobPricingLimitInfo: null,
-  countryDataSetsLoaded: false,
-  countryDataSets: []
+  activeCountryDataSetLoaded: false,
+  activeCountryDataSet: null
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -88,11 +88,11 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         jobPricingLimitInfo: action.payload
       };
     }
-    case fromComphubPageActions.GET_COUNTRY_DATA_SETS_SUCCESS: {
+    case fromComphubPageActions.GET_ACTIVE_COUNTRY_DATA_SET_SUCCESS: {
       return {
         ...state,
-        countryDataSetsLoaded: true,
-        countryDataSets: action.payload
+        activeCountryDataSetLoaded: true,
+        activeCountryDataSet: action.payload
       };
     }
     default: {
@@ -110,7 +110,6 @@ export const getEnabledPages = (state: State) => {
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
 export const getJobPricingBlocked = (state: State) =>
   ((!!state.jobPricingLimitInfo && state.jobPricingLimitInfo.Used >= state.jobPricingLimitInfo.Available)
-    || state.countryDataSets.length === 0);
-export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetsLoaded;
-export const getCountryDataSets = (state: State) => state.countryDataSets;
-export const getActiveCountryDataSet = (state: State) => state.countryDataSets.length ? state.countryDataSets[0] : null;
+    || !state.activeCountryDataSet);
+export const getActiveCountryDataSetLoaded = (state: State) => state.activeCountryDataSetLoaded;
+export const getActiveCountryDataSet = (state: State) => state.activeCountryDataSet;

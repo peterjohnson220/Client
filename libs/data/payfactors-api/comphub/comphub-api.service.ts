@@ -36,8 +36,8 @@ export class ComphubApiService {
       { params: { countryCode: countryCode } });
   }
 
-  getCountryDataSets(): Observable<CountryDataSetResponse[]> {
-    return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
+  getActiveCountryDataSet(): Observable<CountryDataSetResponse> {
+    return this.payfactorsApiService.get<CountryDataSetResponse>(`${this.endpoint}/GetActiveCountryDataSet`);
   }
 
   sharePricingSummary(request: SharePricingSummaryRequest): Observable<any> {

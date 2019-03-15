@@ -137,14 +137,9 @@ export const getJobPricingBlocked = createSelector(
   fromComphubPageReducer.getJobPricingBlocked
 );
 
-export const getCountryDataSetsLoaded = createSelector(
+export const getActiveCountryDataSetLoaded = createSelector(
   selectComphubPageState,
-  fromComphubPageReducer.getCountryDataSetsLoaded
-);
-
-export const getCountryDataSets = createSelector(
-  selectComphubPageState,
-  fromComphubPageReducer.getCountryDataSets
+  fromComphubPageReducer.getActiveCountryDataSetLoaded
 );
 
 export const getActiveCountryDataSet = createSelector(

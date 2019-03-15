@@ -103,15 +103,12 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapCountryDataSetResponseToCountryDataSets(countryDataSetResponse: CountryDataSetResponse[]): CountryDataSet[] {
-    return countryDataSetResponse.map((cdsr) => {
-      return {
-        CountryCode: cdsr.CountryCode,
-        CountryName: cdsr.CountryName,
-        CurrencyCode: cdsr.CurrencyCode,
-        GeoLabel: cdsr.GeoLabel
-      };
-    });
+  static mapCountryDataSetResponseToCountryDataSet(countryDataSetResponse: CountryDataSetResponse): CountryDataSet {
+      return !!countryDataSetResponse ? {
+        CountryCode: countryDataSetResponse.CountryCode,
+        CountryName: countryDataSetResponse.CountryName,
+        CurrencyCode: countryDataSetResponse.CurrencyCode,
+        GeoLabel: countryDataSetResponse.GeoLabel
+      } : null;
   }
-
 }

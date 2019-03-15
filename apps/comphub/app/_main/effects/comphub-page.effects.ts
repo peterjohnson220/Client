@@ -36,7 +36,7 @@ export class ComphubPageEffects {
         s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
         s.Value === 'false');
 
-      actions.push(new fromComphubPageActions.GetCountryDataSets());
+      actions.push(new fromComphubPageActions.GetActiveCountryDataSet());
 
       if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
         actions.push(new fromDataCardActions.ShowPeerBanner());
@@ -99,14 +99,14 @@ export class ComphubPageEffects {
 
   @Effect()
   getCountryDataSets$ = this.actions$
-    .ofType(fromComphubPageActions.GET_COUNTRY_DATA_SETS).pipe(
+    .ofType(fromComphubPageActions.GET_ACTIVE_COUNTRY_DATA_SET).pipe(
       switchMap(() => {
-        return this.comphubApiService.getCountryDataSets()
+        return this.comphubApiService.getActiveCountryDataSet()
           .pipe(
             mergeMap((response) => {
               const actions = [];
-              actions.push(new fromComphubPageActions.GetCountryDataSetsSuccess(
-                PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSets(response)));
+              actions.push(new fromComphubPageActions.GetActiveCountryDataSetSuccess(
+                PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSet(response)));
               if (!!response) {
                 actions.push(new fromMarketsCardActions.InitMarketsCard());
               }
