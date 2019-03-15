@@ -193,6 +193,7 @@ export class FilterSidebarHelper {
     const name = ag.MetaData.FilterProp;
     const searchFilter = {
       Name: name,
+      DisplayName: ag.MetaData.Label,
       Options: selections.map(a => ({Name: name, Value: a.Item}))
     };
     if (selectionObj.hasOwnProperty(prop)) {
