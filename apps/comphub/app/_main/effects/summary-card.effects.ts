@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { ComphubApiService } from 'libs/data/payfactors-api';
-import { CreateQuickPriceProjectRequest } from 'libs/models/payfactors-api';
+import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -140,6 +140,36 @@ export class SummaryCardEffects {
         return new fromSummaryCardActions.SetProjectTileAccess(hasAccessToProjectsTile);
       })
     );
+
+  @Effect()
+  addCompletedPricingHistory$ = this.actions$
+  .ofType(fromSummaryCardActions.ADD_COMPLETED_PRICING_HISTORY)
+  .pipe(
+    withLatestFrom(
+      this.store.select(fromComphubMainReducer.getSelectedJob),
+      this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+      this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+      (action: fromSummaryCardActions.AddCompletedPricingHistory, selectedJob, selectedPayMarket, countryDataSet) =>
+        ({ action, selectedJob, selectedPayMarket, countryDataSet })
+    ),
+    switchMap((data) => {
+      const request: AddCompletedPricingHistoryRequest = {
+        JobTitleShort: data.selectedJob,
+        JobTitle: data.action.payload.JobTitle,
+        JobCode: data.action.payload.JobCode,
+        CountryCode: data.countryDataSet.CountryCode,
+        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId
+      };
+      return this.comphubApiService.addCompletedPricingHistory(request)
+        .pipe(
+          map(() => new fromSummaryCardActions.AddCompletedPricingHistorySuccess()),
+          catchError((error) => of(
+            new fromSummaryCardActions.AddCompletedPricingHistoryError(),
+            new fromComphubPageActions.HandleApiError(error))
+          )
+        );
+    })
+  );
 
   constructor(
     private actions$: Actions,

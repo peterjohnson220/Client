@@ -6,6 +6,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
+import * as isEqual from 'lodash.isequal';
 
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
 import * as fromRootReducer from 'libs/state/state';
@@ -75,8 +76,9 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Summary) {
+      if (pageId === ComphubPages.Summary && this.jobDataHasChanged()) {
         this.loadJobTrendChart();
+        this.addNewCompletedPricingHistoryRecord();
       }
     });
     this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
@@ -136,14 +138,19 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   private loadJobTrendChart() {
-    if (this.jobData === this.lastJobTrendFetched || !this.jobData) {
-      return;
-    }
     this.lastJobTrendFetched = this.jobData;
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
   }
 
+  private addNewCompletedPricingHistoryRecord() {
+    this.store.dispatch(new fromSummaryCardActions.AddCompletedPricingHistory(this.jobData));
+  }
+
   private getPDFFileName(): string {
     return `PricingSummaryFor${this.jobData.JobTitle.replace(/ |\./g, '')}.pdf`;
+  }
+
+  private jobDataHasChanged(): boolean {
+    return (!!this.jobData && !isEqual(this.jobData, this.lastJobTrendFetched));
   }
 }

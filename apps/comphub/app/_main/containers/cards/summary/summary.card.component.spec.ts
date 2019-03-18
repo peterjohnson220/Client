@@ -10,7 +10,7 @@ import * as fromRootState from 'libs/state/state';
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import { RateType } from '../../../data';
+import { RateType, ComphubPages } from '../../../data';
 import { generateFakeJobData, generateMockPricingPaymarket } from '../../../models';
 
 
@@ -157,5 +157,53 @@ describe('Comphub - Main - Summary Card Component', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is Summary and job data has been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.lastJobTrendFetched = generateFakeJobData();
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.selectedPageId$ = of(ComphubPages.Summary);
+    instance.ngOnInit();
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should NOT dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is Summary and job data has NOT been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedPageId$ = of(ComphubPages.Summary);
+    instance.selectedJobData$ = of(generateFakeJobData());
+    instance.lastJobTrendFetched = generateFakeJobData();
+    instance.ngOnInit();
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should NOT dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is NOT Summary and job data has been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedPageId$ = of(ComphubPages.Markets);
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.lastJobTrendFetched = generateFakeJobData();
+    instance.ngOnInit();
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
   });
 });
