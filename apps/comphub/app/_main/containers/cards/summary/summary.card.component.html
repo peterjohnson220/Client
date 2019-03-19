@@ -32,7 +32,7 @@
               </div>
               <div class="mr-5">
                 <span>Currency</span>
-                <div><h4 class="header-blue">{{defaultCurrency}}</h4></div>
+                <div><h4 class="header-blue">{{(activeCountryDataSet$ | async)?.CurrencyCode}}</h4></div>
               </div>
               <div>
                 <span>Market</span>
