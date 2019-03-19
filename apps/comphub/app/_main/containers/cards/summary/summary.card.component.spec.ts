@@ -11,7 +11,7 @@ import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { RateType, ComphubPages } from '../../../data';
-import { generateFakeJobData, generateMockPricingPaymarket } from '../../../models';
+import { generateFakeJobData, generateMockPricingPaymarket, generateMockCountryDataSet } from '../../../models';
 
 
 describe('Comphub - Main - Summary Card Component', () => {
@@ -205,5 +205,24 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
     expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should display USD for currency when active market data is USA', () => {
+    instance.activeCountryDataSet$ = of(generateMockCountryDataSet());
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display CAD for currency when active market data is Canada', () => {
+    instance.activeCountryDataSet$ = of({
+      ...generateMockCountryDataSet(),
+      CurrencyCode: 'CAD'
+    });
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

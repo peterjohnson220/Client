@@ -15,7 +15,7 @@ import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { JobData, PricingPaymarket, JobSalaryTrend } from '../../../models';
+import { JobData, PricingPaymarket, JobSalaryTrend, CountryDataSet } from '../../../models';
 import { ComphubPages, RateType } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 
@@ -38,6 +38,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   creatingProjectError$: Observable<boolean>;
   canAccessProjectsTile$: Observable<boolean>;
   userContext$: Observable<UserContext>;
+  activeCountryDataSet$: Observable<CountryDataSet>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -49,7 +50,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   jobSalaryTrendData: JobSalaryTrend;
   lastJobTrendFetched: JobData;
   paymarket: PricingPaymarket;
-  defaultCurrency = 'USD';
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
   systemUserGroupNames = SystemUserGroupNames;
@@ -69,6 +69,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
     this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
   }
 
   ngOnInit() {
