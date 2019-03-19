@@ -13,6 +13,9 @@ export interface State {
   marketDataScope: MarketDataScope;
   hideAddPaymarketsButton: boolean;
   displayNationalAsCard: boolean;
+  loadingScopes: boolean;
+  loadingLocations: boolean;
+  marketDataLocations: string[];
 }
 
 const initialState: State = {
@@ -23,7 +26,10 @@ const initialState: State = {
   selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket(),
   marketDataScope: null,
   hideAddPaymarketsButton: false,
-  displayNationalAsCard: false
+  displayNationalAsCard: false,
+  loadingScopes: false,
+  loadingLocations: false,
+  marketDataLocations: []
 };
 
 // Reducer function
@@ -78,11 +84,17 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket()
       };
     }
+    case fromMarketsCardActions.GET_MD_SCOPE:
+      return {
+        ...state,
+        loadingScopes: true
+      };
     case fromMarketsCardActions.GET_MD_SCOPE_SUCCESS:
       return {
         ...state,
+        loadingScopes: false,
         marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(
-          action.payload.response, action.payload.countryDataSet)
+          action.payload.response)
       };
     case fromMarketsCardActions.GET_MD_SCOPE_ERROR:
       return {
@@ -118,6 +130,25 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         displayNationalAsCard: true
       };
     }
+    case fromMarketsCardActions.GET_MD_LOCATIONS: {
+      return {
+        ...state,
+        loadingLocations: true
+      };
+    }
+    case fromMarketsCardActions.GET_MD_LOCATIONS_SUCCESS: {
+      return {
+        ...state,
+        marketDataLocations: action.payload,
+        loadingLocations: false
+      };
+    }
+    case fromMarketsCardActions.GET_MD_LOCATIONS_ERROR: {
+      return {
+        ...state,
+        loadingLocations: false
+      };
+    }
     default: {
       return state;
     }
@@ -146,4 +177,7 @@ export const getLoadingPaymarketsError = (state: State) => state.loadingPaymarke
 export const getPaymarketsFilter = (state: State) => state.paymarketsFilter;
 export const getSelectedPaymarket = (state: State) => state.selectedPaymarket;
 export const getMarketDataScope = (state: State) => state.marketDataScope;
+export const getLoadingMarketDataScopes = (state: State) => state.loadingScopes;
 export const getHideNewPaymarketsButton = (state: State) => state.hideAddPaymarketsButton;
+export const getLoadingMarketDataLocations = (state: State) => state.loadingLocations;
+export const getMarketDataLocations = (state: State) => state.marketDataLocations;

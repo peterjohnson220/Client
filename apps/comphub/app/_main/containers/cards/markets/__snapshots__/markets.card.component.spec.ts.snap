@@ -6,8 +6,11 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
   addPayMarketFormOpen$={[Function Store]}
   hideNewPaymarketButton$={[Function Observable]}
   infoBannerOpen$={[Function Store]}
+  loadingLocations$={[Function Store]}
+  loadingMarketDataScopes$={[Function Store]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
+  marketDataLocations$={[Function Store]}
   marketDataScope$={[Function Store]}
   payMarketsFilter$={[Function Store]}
   paymarkets$={[Function Observable]}
@@ -106,8 +109,11 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
   addPayMarketFormOpen$={[Function Store]}
   hideNewPaymarketButton$={[Function Observable]}
   infoBannerOpen$={[Function Store]}
+  loadingLocations$={[Function Store]}
+  loadingMarketDataScopes$={[Function Store]}
   loadingPaymarkets$={[Function Store]}
   loadingPaymarketsError$={[Function Store]}
+  marketDataLocations$={[Function Store]}
   marketDataScope$={[Function Store]}
   payMarketsFilter$={[Function Store]}
   paymarkets$={[Function Observable]}

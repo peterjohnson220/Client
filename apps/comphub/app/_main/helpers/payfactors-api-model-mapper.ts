@@ -46,9 +46,8 @@ export class PayfactorsApiModelMapper {
     };
   }
 
-  static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse, countryDataSet: CountryDataSet): MarketDataScope {
+  static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse): MarketDataScope {
     return {
-      Locations: this.mapScopeValuesToKendoDropDownItems(response.Locations[countryDataSet.GeoLabel]),
       Sizes: this.mapScopeValuesToKendoDropDownItems(response.Sizes[MDScopeSizeCategory.Employees]),
       Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries)
     };

@@ -28,7 +28,6 @@ export class MarketsCardHelper {
 
   static buildDefaultMarketDataScope(): MarketDataScope {
     return {
-      Locations: [{ Name: 'National', Value: 'National'}],
       Sizes: [{ Name: 'All', Value: 'All' }],
       Industries: [{ Name: 'All', Value: 'All'}]
     };
