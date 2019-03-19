@@ -6,11 +6,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -52,6 +54,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
         >
           
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -64,7 +71,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
                 disabled=""
                 type="button"
               >
-                Add
+                 Add 
               </button>
               <button
                 class="btn btn-secondary"
@@ -87,11 +94,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -133,6 +142,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
         >
           
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -144,7 +158,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
                 class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
-                Add
+                 Add 
               </button>
               <button
                 class="btn btn-secondary"
@@ -167,11 +181,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -213,6 +229,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
         >
           
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -224,7 +245,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
                 class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
-                Update
+                 Update 
               </button>
               <button
                 class="btn btn-secondary"
@@ -247,11 +268,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Observable]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -306,6 +329,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
             </label>
           </div>
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -317,7 +345,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
                 class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
-                Add
+                 Add 
               </button>
               <button
                 class="btn btn-secondary"
@@ -340,11 +368,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -386,6 +416,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
         >
           
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -397,7 +432,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
                 class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
-                Add
+                 Add 
               </button>
               <button
                 class="btn btn-secondary"
@@ -420,11 +455,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid={[Function String]}
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -466,6 +503,11 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
         >
           
           <div
+            class="d-flex flex-grow-1 justify-content-end"
+          >
+            
+          </div>
+          <div
             class="flex-grow-1 d-flex justify-content-end"
           >
             
@@ -477,7 +519,7 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
                 class="btn btn-primary btn-primary-legacy"
                 type="button"
               >
-                Update
+                 Update 
               </button>
               <button
                 class="btn btn-secondary"
@@ -500,11 +542,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show 'Request Access' bu
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -585,11 +629,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Access Re
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
@@ -670,11 +716,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should show disabled 'Requestin
   companyJobId={[Function Number]}
   companyPayMarketId={[Function Number]}
   cutGuid="null"
+  employeesValid$={[Function Store]}
   guidelinesService={[Function DojGuidelinesStub]}
   hasAcceptedPeerTerms$={[Function Observable]}
   hasRequestedPeerAccess$={[Function Observable]}
   includeUntaggedIncumbents$={[Function Store]}
   initialMapMoveComplete$={[Function Store]}
+  isEmployeeCheckLoading$={[Function Store]}
   isPayMarketOverride="false"
   map="undefined"
   mapStore={[Function Store]}
