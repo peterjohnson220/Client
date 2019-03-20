@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 
 import { DataCardComponent } from './data.card.component';
@@ -11,7 +12,6 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import { generateFakeJobData, JobGridData } from '../../../models';
 import { RateType, ComphubPages } from '../../../data';
-import { WindowRef } from '../../../services';
 
 describe('Comphub - Main - Data Card Component', () => {
   let instance: DataCardComponent;

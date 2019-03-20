@@ -24,7 +24,7 @@ export const reducers = {
 };
 
 // Select Feature area
-export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>('ticketsAdminMain');
+export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>('admin_tickets');
 
 // Tickets Admin View Selectors
 export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
@@ -34,7 +34,11 @@ export const selectTicketListState = createSelector(selectTicketsAdminState, (st
 export const getTicketLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
 export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoading);
 export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
+export const getOpenedTicket = createSelector(selectTicketState, fromTicketsReducer.getOpenedTicket);
 
 // Ticket List Selectors
+export const {
+  selectAll: getTickets,
+} = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);

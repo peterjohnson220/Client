@@ -1,9 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TicketsRoutingModule } from './tickets-routing.module';
-import { PfCommonUIModule } from 'libs/ui/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TicketListComponent } from './containers/ticket-list';
+
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+
+import { WindowRef } from 'libs/core/services';
+import { PfCommonUIModule } from 'libs/ui/common';
+
+import { TicketListComponent, TicketListPageComponent } from './containers';
+import { TicketListEffects } from './effects';
+import { reducers } from './reducers';
+import { TicketsRoutingModule } from './tickets-routing.module';
 
 @NgModule({
   imports: [
@@ -11,6 +21,13 @@ import { TicketListComponent } from './containers/ticket-list';
     PfCommonUIModule,
     FormsModule,
     ReactiveFormsModule,
+    LayoutModule,
+    GridModule,
+
+    StoreModule.forFeature('admin_tickets', reducers),
+    EffectsModule.forFeature([
+      TicketListEffects,
+    ]),
 
     // Routing
     TicketsRoutingModule
@@ -18,6 +35,11 @@ import { TicketListComponent } from './containers/ticket-list';
   declarations: [
     // Containers
     TicketListComponent,
+    // Pages
+    TicketListPageComponent,
+  ],
+  providers: [
+    WindowRef
   ]
 })
 export class TicketsModule { }

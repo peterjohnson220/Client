@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
 import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
@@ -17,7 +18,6 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
-import { WindowRef } from '../services';
 import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()

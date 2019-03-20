@@ -1,9 +1,10 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { WindowRef } from 'libs/core/services';
+
 import { TrendingJobGroupComponent } from './trending-job-group.component';
 import { generateMockTrendingJobGroup } from '../../models';
-import { WindowRef } from '../../services';
 
 describe('Comphub - Main - Trending Job Group', () => {
   let instance: TrendingJobGroupComponent;
