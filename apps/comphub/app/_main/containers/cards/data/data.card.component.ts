@@ -116,6 +116,28 @@ export class DataCardComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleExpandJdClicked(clickEvent: MouseEvent, jobId: number) {
+    clickEvent.stopPropagation();
+    this.store.dispatch(new fromDataCardActions.ToggleJobDescription({ jobId }));
+  }
+
+  handleSelectionChanged(job: JobData) {
+    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
+  }
+
+  handleRateSelectionChange(item: KendoDropDownItem) {
+    const selectedRate = RateType[item.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRate));
+  }
+
+  handleLearnMoreClicked() {
+    this.winRef.nativeWindow.open('https://payfactors.com/product-peer/');
+  }
+
+  trackByFn(index: number, jobData: JobData) {
+    return jobData.JobId * (jobData.ShowJd ? 1 : -1);
+  }
+
   updateSortFieldAndDirection(field: string): SortDescriptor {
     if (!this.gridContext.sortBy || this.gridContext.sortBy.field !== field) {
       return {
@@ -130,10 +152,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
       };
     }
     return null;
-}
-
-  handleSelectionChanged(job: JobData) {
-    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
   }
 
   loadJobResults(): void {
@@ -145,15 +163,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
       Sort: this.gridContext.sortBy
     })
     );
-  }
-
-  handleRateSelectionChange(item: KendoDropDownItem) {
-    const selectedRate = RateType[item.Value];
-    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRate));
-  }
-
-  handleLearnMoreClicked() {
-    this.winRef.nativeWindow.open('https://payfactors.com/product-peer/');
   }
 
   get isHourly(): boolean {

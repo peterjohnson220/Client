@@ -85,7 +85,8 @@ export class PayfactorsApiModelMapper {
         Tcc50: q.Tcc50,
         Tcc75: q.Tcc75,
         Incs: q.Incs,
-        Orgs: q.Orgs
+        Orgs: q.Orgs,
+        ShowJd: false
       };
     });
   }

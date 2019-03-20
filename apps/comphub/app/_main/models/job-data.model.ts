@@ -16,6 +16,7 @@ export interface JobData {
   Tcc75?: number;
   Incs?: number;
   Orgs?: number;
+  ShowJd: boolean;
 }
 
 export interface JobGridData {
@@ -37,7 +38,8 @@ export function generateFakeJobData(): JobData {
     JobTitle: 'Job A',
     ManagesEmployees: false,
     Orgs: 2,
-    Skills: ['Leadership', 'Analytical skills', 'Problem-solving', 'Ability to work within a team.']
+    Skills: ['Leadership', 'Analytical skills', 'Problem-solving', 'Ability to work within a team.'],
+    ShowJd: false
   };
 
 }
