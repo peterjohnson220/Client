@@ -139,9 +139,34 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                     </h4>
                   </div>
                 </div>
-                <div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
                   <span>
                     Market
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                      title="National"
+                    >
+                      National
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Location
                   </span>
                   <div>
                     <h4
@@ -149,6 +174,39 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                       title="National"
                     >
                       National
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Industry
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="All"
+                    >
+                      All
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <div>
+                    Size 
+                    
+                    
+                    (Employees)
+                  </div>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="All"
+                    >
+                      All
                     </h4>
                   </div>
                 </div>
@@ -412,9 +470,34 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                     </h4>
                   </div>
                 </div>
-                <div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
                   <span>
                     Market
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue"
+                      title="National"
+                    >
+                      National
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Location
                   </span>
                   <div>
                     <h4
@@ -422,6 +505,39 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                       title="National"
                     >
                       National
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Industry
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="All"
+                    >
+                      All
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <div>
+                    Size 
+                    
+                    
+                    (Employees)
+                  </div>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="All"
+                    >
+                      All
                     </h4>
                   </div>
                 </div>
@@ -685,16 +801,74 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     </h4>
                   </div>
                 </div>
-                <div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
                   <span>
                     Market
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue"
                       title="Boston"
                     >
                       Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Location
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston, MA"
+                    >
+                      Boston, MA
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Industry
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Software"
+                    >
+                      Software
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <div>
+                    Size 
+                    
+                    
+                    (Employees)
+                  </div>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="100 - 500"
+                    >
+                      100 - 500
                     </h4>
                   </div>
                 </div>
@@ -958,16 +1132,74 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                     </h4>
                   </div>
                 </div>
-                <div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
                   <span>
                     Market
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue"
                       title="Boston"
                     >
                       Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Location
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston, MA"
+                    >
+                      Boston, MA
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Industry
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Software"
+                    >
+                      Software
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <div>
+                    Size 
+                    
+                    
+                    (Employees)
+                  </div>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="100 - 500"
+                    >
+                      100 - 500
                     </h4>
                   </div>
                 </div>
@@ -1231,16 +1463,74 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                     </h4>
                   </div>
                 </div>
-                <div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
                   <span>
                     Market
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue"
                       title="Boston"
                     >
                       Boston
+                    </h4>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-row mb-4"
+              >
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Location
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Boston, MA"
+                    >
+                      Boston, MA
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <span>
+                    Industry
+                  </span>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="Software"
+                    >
+                      Software
+                    </h4>
+                  </div>
+                </div>
+                <div
+                  class="mr-5"
+                >
+                  <div>
+                    Size 
+                    
+                    
+                    (Employees)
+                  </div>
+                  <div>
+                    <h4
+                      class="header-blue paymarket-name"
+                      title="100 - 500"
+                    >
+                      100 - 500
                     </h4>
                   </div>
                 </div>
