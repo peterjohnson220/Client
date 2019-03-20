@@ -6,7 +6,7 @@
               #ticketGrid
               [data]="ticketListItems$ | async"
               [resizable]="false"
-              [scrollable]="none"
+              [scrollable]="'none'"
               (cellClick)="handleCellClick($event)"
               (dblclick)="handleCellDoubleClick()">
     <kendo-grid-column field="Id"
