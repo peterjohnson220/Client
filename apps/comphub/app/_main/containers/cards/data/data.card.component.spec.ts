@@ -308,4 +308,15 @@ describe('Comphub - Main - Data Card Component', () => {
     expect(windowRef.nativeWindow.open).toHaveBeenCalled();
   });
 
+  it('should dispatch ToggleJobDescription action with the jobId when handling a Expand JD click', () => {
+    spyOn(store, 'dispatch');
+    const jobData = generateFakeJobData();
+    const expectedAction = new fromDataCardActions.ToggleJobDescription({ jobId: jobData.JobId });
+    const mouseEvent = new MouseEvent('click');
+
+    instance.handleExpandJdClicked(mouseEvent, jobData.JobId);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
 });
