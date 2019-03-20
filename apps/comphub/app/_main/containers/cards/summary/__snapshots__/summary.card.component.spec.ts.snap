@@ -170,7 +170,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="National"
                     >
                       National
@@ -185,7 +185,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="All"
                     >
                       All
@@ -203,7 +203,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                   </div>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="All"
                     >
                       All
@@ -501,7 +501,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="National"
                     >
                       National
@@ -516,7 +516,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="All"
                     >
                       All
@@ -534,7 +534,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                   </div>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="All"
                     >
                       All
@@ -832,7 +832,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Boston, MA"
                     >
                       Boston, MA
@@ -847,7 +847,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Software"
                     >
                       Software
@@ -865,7 +865,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </div>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="100 - 500"
                     >
                       100 - 500
@@ -1163,7 +1163,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Boston, MA"
                     >
                       Boston, MA
@@ -1178,7 +1178,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Software"
                     >
                       Software
@@ -1196,7 +1196,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                   </div>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="100 - 500"
                     >
                       100 - 500
@@ -1494,7 +1494,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Boston, MA"
                     >
                       Boston, MA
@@ -1509,7 +1509,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                   </span>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="Software"
                     >
                       Software
@@ -1527,7 +1527,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                   </div>
                   <div>
                     <h4
-                      class="header-blue paymarket-name"
+                      class="header-blue text-overflow-ellipsis"
                       title="100 - 500"
                     >
                       100 - 500
