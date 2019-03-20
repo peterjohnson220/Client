@@ -48,15 +48,15 @@
             <div class="d-flex flex-row mb-4">
               <div class="mr-5">
                 <span>Location</span>
-                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Location">{{paymarket?.Location}}</h4></div>
+                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Location || ''">{{paymarket?.Location || '-'}}</h4></div>
               </div>
               <div class="mr-5">
                 <span>Industry</span>
-                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Industry">{{paymarket?.Industry}}</h4></div>
+                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Industry || ''">{{paymarket?.Industry || '-'}}</h4></div>
               </div>
               <div class="mr-5">
                 <div>Size <ng-container *ngIf="paymarket?.SizeLabel">({{paymarket?.SizeLabel}})</ng-container></div>
-                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Size">{{paymarket?.Size}}</h4></div>
+                <div><h4 class="header-blue text-overflow-ellipsis" [title]="paymarket?.Size || ''">{{paymarket?.Size || '-'}}</h4></div>
               </div>
             </div>
 
