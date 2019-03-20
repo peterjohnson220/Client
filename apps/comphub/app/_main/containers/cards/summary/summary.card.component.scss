@@ -21,7 +21,7 @@
   width: 250px;
 }
 
-.paymarket-name {
+.text-overflow-ellipsis {
   max-width: 300px;
   @extend %ellipsis-overflowing-text;
 }
@@ -52,7 +52,7 @@
     max-width: 100% !important;
     flex-basis: 100%;
   }
-  .paymarket-name {
+  .text-overflow-ellipsis {
     max-width: calc(100vw - 800px);
   }
 }
@@ -139,7 +139,7 @@ h4 {
     padding-right: 0;
   }
 
-  .paymarket-name {
+  .text-overflow-ellipsis {
     text-overflow: inherit;
     white-space: normal;
     overflow: auto;
