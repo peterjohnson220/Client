@@ -47,8 +47,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   salaryTrendSubscription: Subscription;
 
   jobData: JobData;
+  lastJobData: JobData;
   jobSalaryTrendData: JobSalaryTrend;
-  lastJobTrendFetched: JobData;
   paymarket: PricingPaymarket;
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
@@ -78,6 +78,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
     this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
       if (pageId === ComphubPages.Summary && this.jobDataHasChanged()) {
+        this.lastJobData = this.jobData;
         this.loadJobTrendChart();
         this.addNewCompletedPricingHistoryRecord();
       }
@@ -94,6 +95,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   handlePriceNewJobClicked() {
+    this.lastJobData = null;
     this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
   }
 
@@ -139,7 +141,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   private loadJobTrendChart() {
-    this.lastJobTrendFetched = this.jobData;
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
   }
 
@@ -152,6 +153,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   private jobDataHasChanged(): boolean {
-    return (!!this.jobData && !isEqual(this.jobData, this.lastJobTrendFetched));
+    return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
   }
 }
