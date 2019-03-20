@@ -44,7 +44,7 @@ export function reducer(state = null, action: fromTicketActions.Actions): State 
         ...state,
         openedTicket: action.payload,
         loading: false,
-      }
+      };
     }
     default: {
       return state;
