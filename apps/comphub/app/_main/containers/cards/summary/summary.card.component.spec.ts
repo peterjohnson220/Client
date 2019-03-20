@@ -163,9 +163,9 @@ describe('Comphub - Main - Summary Card Component', () => {
   'when selected page is Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.lastJobTrendFetched = generateFakeJobData();
-    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.selectedPageId$ = of(ComphubPages.Summary);
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
@@ -181,7 +181,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.selectedPageId$ = of(ComphubPages.Summary);
     instance.selectedJobData$ = of(generateFakeJobData());
-    instance.lastJobTrendFetched = generateFakeJobData();
+    instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
@@ -197,7 +197,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.selectedPageId$ = of(ComphubPages.Markets);
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
-    instance.lastJobTrendFetched = generateFakeJobData();
+    instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
