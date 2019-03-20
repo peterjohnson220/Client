@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { GridDataResult, GridComponent, DataStateChangeEvent } from '@progress/kendo-angular-grid';
+import { GridDataResult, GridComponent, DataStateChangeEvent, PageChangeEvent } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
@@ -142,11 +142,13 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
   handleJobFamilyCheckboxToggle(option: GenericMenuItem) {
     this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilterSelection(option));
+    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalPeerExchangeJobs, { skip: 0 } as PageChangeEvent));
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
   }
 
   handleJobFamilyClearSelections() {
     this.store.dispatch(new exchangeJobsActions.ClearSelectedJobFamilies());
+    this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalPeerExchangeJobs, { skip: 0 } as PageChangeEvent));
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
   }
 
@@ -155,6 +157,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     // only search if 2+ chars are supplied, or if the term is reset and it's empty
     if (!searchTerm || searchTerm.length >= 2) {
+      this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalPeerExchangeJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
     }
   }

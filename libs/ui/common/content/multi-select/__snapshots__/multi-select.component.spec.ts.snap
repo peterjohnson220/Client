@@ -36,8 +36,10 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -88,8 +90,10 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -181,8 +185,10 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -283,8 +289,10 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -334,8 +342,10 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"
@@ -425,8 +435,10 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-placement="bottom"
+              placement="bottom"
             >
-              zoos
+               zoos 
             </label>
             <i
               class="fas fa-angle-down d-inline-block ml-2"

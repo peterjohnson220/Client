@@ -166,7 +166,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         ...state,
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
-        filterAggregateGroups: newAggGroups
+        filterAggregateGroups: newAggGroups,
+        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents
       };
     }
     case fromFilterSidebarActions.SET_EXCHANGE_SCOPE_SELECTION: {
