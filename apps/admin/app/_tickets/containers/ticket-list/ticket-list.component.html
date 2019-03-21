@@ -73,12 +73,12 @@
         <div [innerHTML]="dataItem.ServiceUser"></div>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="Comments"
-                       title="Comments"
+    <kendo-grid-column field="Description"
+                       title="Description"
                        [width]="100">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div>{{dataItem.Comments.length > 150 ? dataItem.Comments.substring(0,150) +  '...' : dataItem.Comments}}</div>
+        <div>{{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}</div>
       </ng-template>
     </kendo-grid-column>
   </kendo-grid>
