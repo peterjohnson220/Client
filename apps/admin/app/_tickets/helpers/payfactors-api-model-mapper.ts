@@ -14,7 +14,8 @@ export class PayfactorsApiModelMapper {
         Status: ut.UserTicketState,
         OpenedUser: ut.OpenedUserEmail,
         ServiceUser: ut.ServicesUserEmail,
-        Comments: this.squashComments(ut.UserTicketComments)
+        Comments: this.squashComments(ut.UserTicketComments),
+        Description: ut.UserTicket
       };
     });
   }

@@ -8,6 +8,7 @@ export interface UserTicketGridItem {
   OpenedUser: string;
   ServiceUser: string;
   Comments: string;
+  Description: string;
 }
 
 export function generateMockUserTicketGridItem(): UserTicketGridItem {
@@ -20,6 +21,7 @@ export function generateMockUserTicketGridItem(): UserTicketGridItem {
     Status: 'New',
     OpenedUser: 'MockOpenedUser',
     ServiceUser: 'MockServiceUser',
-    Comments: 'MockComments'
+    Comments: 'MockComments',
+    Description: 'MockDescription'
   };
 }
