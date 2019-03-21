@@ -14,9 +14,13 @@
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"
       [showSkipButton]="showSkipButton$ | async"
+      [loadingScopes]="loadingMarketDataScopes$ | async"
+      [locations]="marketDataLocations$ |async"
+      [loadingLocations]="loadingLocations$ |async"
       (saveClick)="handleSavePayMarket($event)"
       (skipClick)="handleSkipAddPayMarket()"
       (cancelClick)="handleCancelAddPayMarket()"
+      (locationFilterChanged)="handleLocationFilterChanged($event)"
       (dismissInfoBannerClick)="handleDismissInfoBanner()">
     </pf-add-paymarket-form>
   </ng-container>

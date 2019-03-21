@@ -28,6 +28,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
     spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
     instance.countryDataSet = generateMockCountryDataSet();
+    instance.locations = ['Boston, MA'];
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
@@ -59,20 +60,13 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
     expect(instance.skipClick.emit).toHaveBeenCalled();
   });
 
-  it('should return up to 5 locations when handling location filter', () => {
+  it('should emit that the location filter has changed on change', () => {
+    spyOn(instance.locationFilterChanged, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
-
-    const expectedResults = [
-      { Name: 'Boston, MA', Value: 'Boston, MA' },
-      { Name: 'Burlington, MA', Value: 'Burlington, MA' },
-      { Name: 'Bedford, MA', Value: 'Bedford, MA' },
-      { Name: 'Groton, MA', Value: 'Groton, MA' },
-      { Name: 'Acton, MA', Value: 'Acton, MA' }
-    ];
 
     instance.handleLocationFilter('MA');
 
-    expect(instance.locations).toEqual(expectedResults);
+    expect(instance.locationFilterChanged.emit).toHaveBeenCalledWith('MA');
   });
 
   it('should return results containing search term when handling industry filter', () => {

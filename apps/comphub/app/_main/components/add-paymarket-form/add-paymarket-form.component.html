@@ -49,9 +49,9 @@
           class="form-control"
           formControlName="location"
           [data]="locations"
+          [loading]="loadingLocations"
           [placeholder]="locationPlaceholder"
           [filterable]="true"
-          [valueField]="'Value'"
           (filterChange)="handleLocationFilter($event)">
         </kendo-autocomplete>
       </div>
@@ -67,6 +67,7 @@
           [textField]="'Name'"
           [valueField]="'Value'"
           [defaultItem]="defaultIndustry"
+          [loading]="loadingScopes"
           (filterChange)="handleIndustryFilter($event)">
         </kendo-dropdownlist>
       </div>
@@ -79,6 +80,7 @@
           [data]="sizes"
           [textField]="'Name'"
           [valueField]="'Value'"
+          [loading]="loadingScopes"
           [defaultItem]="defaultSize">
         </kendo-dropdownlist>
       </div>

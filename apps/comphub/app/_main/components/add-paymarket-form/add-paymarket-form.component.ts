@@ -17,13 +17,17 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
+  @Input() loadingScopes: boolean;
+  @Input() loadingLocations: boolean;
   @Input() countryDataSet: CountryDataSet;
+  @Input() locations: string[] = [];
   @Input() isInfoBannerOpen = false;
   @Input() showSkipButton = false;
   @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
   @Output() skipClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
   @Output() dismissInfoBannerClick = new EventEmitter();
+  @Output() locationFilterChanged = new EventEmitter<string>();
 
   showErrorMessages = false;
   locationPlaceholder = 'All';
@@ -34,7 +38,6 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
 
   addPayMarketForm: FormGroup;
   scopeIndustryData: KendoDropDownItem[];
-  locations: KendoDropDownItem[];
   industries: KendoDropDownItem[];
   sizes: KendoDropDownItem[];
 
@@ -91,9 +94,7 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   }
 
   handleLocationFilter(value: string) {
-    this.locations = this.marketDataScope.Locations
-      .filter((s) => s.Name.toLowerCase().indexOf(value.toLowerCase()) !== -1)
-      .slice(0, 5);
+    this.locationFilterChanged.emit(value);
   }
 
   handleCancelClicked() {
@@ -113,8 +114,8 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   }
 
   private getSelectedLocation(): string {
-    const isValidLocation = this.marketDataScope.Locations
-      .some(s => s.Value.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
+    const isValidLocation = this.locations
+      .some(s => s.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
     return isValidLocation ? this.addPayMarketForm.value.location : this.defaultLocation;
   }
 

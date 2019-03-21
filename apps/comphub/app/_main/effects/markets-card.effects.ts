@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
-import { AddPayMarketRequest, PayMarketDataResponse, MDScopeRequest } from 'libs/models/payfactors-api';
+import { AddPayMarketRequest, PayMarketDataResponse, MDLocationsRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
 import { MDScopeGeoGroup } from 'libs/constants';
 
@@ -35,12 +35,7 @@ export class MarketsCardEffects {
       if (!data.countryDataSet) {
         return actions;
       }
-      const request: MDScopeRequest = {
-        CountryCode: data.countryDataSet.CountryCode,
-        GeoLabels: [ data.countryDataSet.GeoLabel as MDScopeGeoGroup ]
-      };
       actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
-      actions.push(new fromMarketsCardActions.GetMarketDataScope(request));
       return actions;
     })
   );
@@ -87,13 +82,41 @@ export class MarketsCardEffects {
         (action: fromMarketsCardActions.GetMarketDataScope, countryDataSet) => ({ action, countryDataSet })
       ),
       switchMap((data) => {
-        return this.marketDataScopeApiService.getMDScope(data.action.payload)
+        return this.marketDataScopeApiService.getMDScope()
           .pipe(
             map((response) =>
               new fromMarketsCardActions.GetMarketDataScopeSuccess({ response: response, countryDataSet: data.countryDataSet } )
             ),
             catchError((error) => {
               return of(new fromMarketsCardActions.GetMarketDataScopeError(),
+                new fromComphubPageActions.HandleApiError(error));
+            })
+          );
+      })
+    );
+
+  @Effect()
+  getMarketDataLocations$ = this.actions$
+    .ofType(fromMarketsCardActions.GET_MD_LOCATIONS)
+    .pipe(
+      debounceTime(200),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromMarketsCardActions.GetMarketDataLocations, countryDataSet) => ({ action, countryDataSet })
+      ),
+      switchMap((data) => {
+        const request: MDLocationsRequest = {
+          CountryCode: data.countryDataSet.CountryCode,
+          GeoLabel: data.countryDataSet.GeoLabel as MDScopeGeoGroup,
+          Query: data.action.payload
+        };
+        return this.marketDataScopeApiService.getMdLocations(request)
+          .pipe(
+            map((response) =>
+              new fromMarketsCardActions.GetMarketDataLocationsSuccess(response )
+            ),
+            catchError((error) => {
+              return of(new fromMarketsCardActions.GetMarketDataLocationsError(),
                 new fromComphubPageActions.HandleApiError(error));
             })
           );
@@ -159,6 +182,25 @@ export class MarketsCardEffects {
         new fromSummaryCardActions.ResetCreateProjectStatus()
         ]
       )
+    );
+
+  @Effect()
+  openPaymarketForm$ = this.actions$
+    .ofType(fromAddPayMarketFormActions.OPEN_FORM)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        this.store.select(fromComphubMainReducer.getMarketDataScope),
+        (action: fromAddPayMarketFormActions.OpenForm, countryDataSet, marketDataScopes) => ({ countryDataSet, marketDataScopes })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        if (data.marketDataScopes || !data.countryDataSet) {
+          return actions;
+        }
+        actions.push(new fromMarketsCardActions.GetMarketDataScope());
+        return actions;
+      })
     );
 
   constructor(

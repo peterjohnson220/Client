@@ -18,6 +18,9 @@ export class MarketsCardComponent implements OnInit {
   visiblePaymarkets$: Observable<PricingPaymarket[]>;
   loadingPaymarkets$: Observable<boolean>;
   loadingPaymarketsError$: Observable<boolean>;
+  loadingMarketDataScopes$: Observable<boolean>;
+  loadingLocations$: Observable<boolean>;
+  marketDataLocations$: Observable<string[]>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
 
@@ -43,6 +46,9 @@ export class MarketsCardComponent implements OnInit {
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.hideNewPaymarketButton$ = this.store.select(fromComphubMainReducer.getHideNewPaymarketsButton);
     this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
+    this.loadingMarketDataScopes$ = this.store.select(fromComphubMainReducer.getMarketDataScopesLoading);
+    this.loadingLocations$ = this.store.select(fromComphubMainReducer.getLoadingMarketDataLocations);
+    this.marketDataLocations$ = this.store.select(fromComphubMainReducer.getMarketDataLocations);
   }
 
   ngOnInit() {
@@ -57,6 +63,10 @@ export class MarketsCardComponent implements OnInit {
 
   handleSavePayMarket(formData: AddPayMarketFormData) {
     this.store.dispatch(new fromMarketsCardActions.SavePayMarket(formData));
+  }
+
+  handleLocationFilterChanged(searchTerm: string) {
+    this.store.dispatch(new fromMarketsCardActions.GetMarketDataLocations(searchTerm));
   }
 
   handleSkipAddPayMarket() {
