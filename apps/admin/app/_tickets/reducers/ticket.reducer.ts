@@ -1,3 +1,5 @@
+import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+
 import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
 
 import * as fromTicketActions from '../actions/ticket.actions';
@@ -7,6 +9,7 @@ export interface State {
   loadingError: boolean;
   userTicket: UserTicketResponse;
   openedTicket: number;
+  selectedTabTicket: number;
 }
 
 export const initialState: State = {
@@ -14,9 +17,14 @@ export const initialState: State = {
   loadingError: false,
   userTicket: null,
   openedTicket: null,
+  selectedTabTicket: null
 };
 
-export function reducer(state = null, action: fromTicketActions.Actions): State {
+export const adapter: EntityAdapter<UserTicketResponse> = createEntityAdapter<UserTicketResponse>({
+  selectId: (userTicketResponse: UserTicketResponse) => userTicketResponse.UserTicketId
+});
+
+export function reducer(state = initialState, action: fromTicketActions.Actions): State {
   switch (action.type) {
     case fromTicketActions.LOAD_TICKET: {
       return {
@@ -46,6 +54,13 @@ export function reducer(state = null, action: fromTicketActions.Actions): State 
         loading: false,
       };
     }
+    case fromTicketActions.SELECT_TICKET_TAB: {
+      return {
+        ...state,
+        selectedTabTicket: action.payload,
+        loading: false,
+      };
+    }
     default: {
       return state;
     }
@@ -56,3 +71,4 @@ export const getUserTicket = (state: State) => state.userTicket;
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getOpenedTicket = (state: State) => state.openedTicket;
+export const getSelectedTabTicket = (state: State) => state.selectedTabTicket;
