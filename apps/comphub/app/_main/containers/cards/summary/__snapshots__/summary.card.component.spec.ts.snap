@@ -294,6 +294,9 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               </div>
             </div>
           </div>
+          <kendo-pdf-export-margin
+            ng-reflect-bottom="1cm"
+          />
         </div>
         
       </div>
@@ -625,6 +628,9 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               </div>
             </div>
           </div>
+          <kendo-pdf-export-margin
+            ng-reflect-bottom="1cm"
+          />
         </div>
         
       </div>
@@ -956,6 +962,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          <kendo-pdf-export-margin
+            ng-reflect-bottom="1cm"
+          />
         </div>
         
       </div>
@@ -1287,6 +1296,9 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               </div>
             </div>
           </div>
+          <kendo-pdf-export-margin
+            ng-reflect-bottom="1cm"
+          />
         </div>
         
       </div>
@@ -1618,6 +1630,9 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               </div>
             </div>
           </div>
+          <kendo-pdf-export-margin
+            ng-reflect-bottom="1cm"
+          />
         </div>
         
       </div>
