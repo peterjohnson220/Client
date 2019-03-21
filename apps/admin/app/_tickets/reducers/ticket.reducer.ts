@@ -3,7 +3,7 @@ import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import {UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
 
 import * as fromTicketActions from '../actions/ticket.actions';
-import { UserTicketItem } from '../models';
+import { UserTicketItem, UserTicketTabItem } from '../models';
 
 import * as cloneDeep from 'lodash.clonedeep';
 
@@ -11,7 +11,7 @@ export interface State {
   loading: boolean;
   loadingError: boolean;
   userTicket: UserTicketItem;
-  openedTicket: number;
+  openedTicket: UserTicketTabItem;
   selectedTabTicket: number;
   userTicketStates: UserTicketStateResponse[];
   userTicketTypes: UserTicketTypeResponse[];

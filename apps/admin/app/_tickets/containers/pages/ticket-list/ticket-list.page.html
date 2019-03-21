@@ -1,26 +1,36 @@
 <pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+
   <ng-container page-title>
     Tickets
   </ng-container>
+
   <ng-container page-content>
-    <kendo-tabstrip [keepTabContent]="true"
-                    (tabSelect)="handleTabSelect($event)">
-      <kendo-tabstrip-tab [title]="'Tickets'"
-                          [selected]="true">
-        <ng-template kendoTabContent>
+
+    <ngb-tabset [destroyOnHide]="false">
+
+      <ngb-tab id="tab-tickets"
+               title="Tickets">
+        <ng-template ngbTabContent>
           <pf-ticket-list></pf-ticket-list>
         </ng-template>
-      </kendo-tabstrip-tab>
-      <kendo-tabstrip-tab *ngFor="let x of userTicketTabs"
-                          [title]="x.Title">
-        <ng-template kendoTabTitle>
-          <span (click)="handleCloseTabClick(x.UserTicketId)"><i class="far fa-times fa-2x close-btn"></i></span>
+      </ngb-tab>
+
+      <ngb-tab *ngFor="let tab of userTicketTabs"
+               [id]="'tab-' + tab.UserTicketId">
+        <ng-template ngbTabTitle>
+          <div [title]="tab.Title">
+            {{tab.UserTicketId}}
+            <span (click)="handleCloseTabClick(tab.UserTicketId, $event)"><i class="far fa-times fa-2x close-btn"></i></span>
+          </div>
         </ng-template>
-        <ng-template kendoTabContent>
-          <pf-ticket [ticketId]="x.UserTicketId">
+        <ng-template ngbTabContent>
+          <pf-ticket [ticketId]="tab.UserTicketId">
           </pf-ticket>
         </ng-template>
-      </kendo-tabstrip-tab>
-    </kendo-tabstrip>
+      </ngb-tab>
+
+    </ngb-tabset>
+
   </ng-container>
+
 </pf-page-with-title-bar>

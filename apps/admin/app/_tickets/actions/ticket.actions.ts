@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import {UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
-import { CompanyDetail, UserTicketItem } from '../models';
+import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
 
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
@@ -53,7 +53,7 @@ export class LoadTicketError implements Action {
 export class OpenTicket implements Action {
   readonly type = OPEN_TICKET;
 
-  constructor(public payload: number) {}
+  constructor(public payload: UserTicketTabItem) {}
 }
 
 export class SelectTicketTab implements  Action {
