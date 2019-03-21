@@ -9,6 +9,7 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
   >
     <input
       class="form-control form-control-lg community-border-radius input-body au-community-search"
+      data-qa-id="lbl-communitySearch"
       maxlength="50"
       placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..."
       type="text"

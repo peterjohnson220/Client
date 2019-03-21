@@ -12,7 +12,9 @@
     </div>
 
     <div class="col right-col text-right">
-      <a class="btn btn-primary btn-sm mr-2 " href={{job.Url}} role="button" target="_blank">
+      <a class="btn btn-primary btn-sm mr-2"
+         data-qa-id="btn-viewJob"
+         href={{job.Url}} role="button" target="_blank">
         <i class="fas fa-external-link icon pr-1"></i>View</a>
       <button id="save" type="button" class="btn btn-outline-primary btn-sm " *ngIf="showSaveJobButton">
         <i class="far fa-heart icon"></i>
@@ -21,7 +23,9 @@
       <div ngbDropdown class="d-inline-block ml-1 mt-1" *ngIf="isCurrentUserJob; else not_current_user">
         <button class="btn" ngbDropdownToggle><span class="delete-btn-text ml-2">...</span></button>
         <div ngbDropdownMenu>
-          <button class="dropdown-item" (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
+          <button class="dropdown-item"
+                  data-qa-id="btn-deleteJob"
+                  (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
         </div>
       </div>
       <ng-template #not_current_user >
@@ -31,7 +35,7 @@
       <br>
       <small class="font-italic sub-text">{{ job.ElapsedTime }}</small>
     </div>
-    
+
 
   </div>
 

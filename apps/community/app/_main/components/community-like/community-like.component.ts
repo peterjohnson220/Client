@@ -96,4 +96,11 @@ export class CommunityLikeComponent implements OnInit, OnDestroy {
       return tooltipText;
     }
   }
+  getSource():string {
+    if (this.ReplyId) {
+      return 'Reply';
+    }
+    return 'Post';
+  }
+
 }

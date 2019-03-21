@@ -18,9 +18,15 @@ exports[`CommunityStartDiscussionComponent should show community start discussio
       <div
         class="list-group"
       >
-        <pf-community-tab />
-        <pf-community-tab />
-        <pf-community-tab />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeDiscussion"
+        />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeQuestion"
+        />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeJob"
+        />
       </div>
     </div>
     <div
@@ -57,9 +63,15 @@ exports[`CommunityStartDiscussionComponent should show community start poll 1`] 
       <div
         class="list-group"
       >
-        <pf-community-tab />
-        <pf-community-tab />
-        <pf-community-tab />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeDiscussion"
+        />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeQuestion"
+        />
+        <pf-community-tab
+          data-qa-id="cnt-postTypeJob"
+        />
       </div>
     </div>
     <div

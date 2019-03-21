@@ -38,6 +38,7 @@ exports[`CommunityTextAreaComponent should show community text area 1`] = `
         />
         <textarea
           class="discussionTextArea ng-untouched ng-pristine ng-valid"
+          data-qa-id="txt-communityDiscussionTextArea"
           formcontrolname="context"
           id="discussionTextArea"
           ng-reflect-maxlength=""

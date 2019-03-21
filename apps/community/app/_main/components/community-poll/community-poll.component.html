@@ -16,13 +16,17 @@
   <div *ngIf="request && !response && !request.IsExpired">
     <div *ngFor="let option of request.ResponseOptions">
       <div class="inner-element my-1">
-        <div class="poll-choice poll-border poll-response-option-button mt-1" [ngClass]="{'selected': option.ResponseId === selectedOption }" (click)="selectOption(option.ResponseId)">
+        <div class="poll-choice poll-border poll-response-option-button mt-1"
+             [attr.data-qa-id]="'cnt-pollResponse'+option.ResponseId"
+             [ngClass]="{'selected': option.ResponseId === selectedOption }"
+             (click)="selectOption(option.ResponseId)">
           <div class="response-option-text-container pl-1" >{{option.ResponseText}}</div>
         </div>
       </div>
     </div>
     <div class="d-flex justify-content-center pt-2">
       <button type="button" class="btn btn-secondary submit-button-container"
+              data-qa-id="btn-submitPollResponse"
               (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
         <i class="fas fa-check pr-2"></i>Submit
         <pf-loading-indicator *ngIf="communityPollResponseSubmitting$ | async">
@@ -39,6 +43,8 @@
             <div class="response-option-text-container poll-response-percent">{{response.ResponsePercents[option.ResponseId]}}%</div>
         </div>
     </div>
-    <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2" (click)="dismissPoll(request.CommunityPollId)">Dismiss poll</p>
+    <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2"
+        data-qa-id="cnt-dismissPollResponse"
+        (click)="dismissPoll(request.CommunityPollId)">Dismiss poll</p>
   </div>
 </ng-template>
