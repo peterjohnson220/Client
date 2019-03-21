@@ -2,7 +2,9 @@
   <h5 id="tag-section-header">{{ showFilterView() ? 'FILTERS' : 'TRENDING TAGS' }}</h5>
   <ng-container *ngFor="let trendingTag of trendingTags$ | async">
     <button *ngIf="IsTagSelected(trendingTag) || (!IsTagSelected(trendingTag) && !showFilterView())" [disabled]="(filteredByPost$ | async)"
-            type="button" class="btn m-1 tag py-2 px-3 shadow-none" (click)="trendingTagClicked(trendingTag)"
+            type="button" class="btn m-1 tag py-2 px-3 shadow-none"
+            data-qa-id="btn-Tag"
+            (click)="trendingTagClicked(trendingTag)"
             [ngClass]="{'btn-selected': IsTagSelected(trendingTag) }">{{trendingTag.Tag}}
       <span *ngIf="IsTagSelected(trendingTag)"><i class="fas fa-times-circle icon"></i></span>
     </button>

@@ -70,6 +70,7 @@ exports[`CommunityPollComponent should show poll 1`] = `
     
     <p
       class="dismiss-poll-button text-center mt-2"
+      data-qa-id="cnt-dismissPollResponse"
     >
       Dismiss poll
     </p>

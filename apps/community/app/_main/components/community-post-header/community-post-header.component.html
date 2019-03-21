@@ -1,12 +1,22 @@
 <div ngbDropdown class="d-inline-block float-right ml-1" *ngIf="isCurrentUserPost">
-  <button class="btn m-0 p-1" ngbDropdownToggle><span>...</span></button>
+  <button class="btn m-0 p-1"
+          data-qa-id="ddm-communityPostActions"
+          ngbDropdownToggle><span>...</span></button>
   <div ngbDropdownMenu>
-    <button class="dropdown-item" (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
-    <button *ngIf="isUserPoll" class="dropdown-item" (click)="exportPollResults()"><i class="fas fa-file-excel"></i> Export Poll Results</button>
+    <button class="dropdown-item"
+            data-qa-id="ddm-communityPostActionsDelete"
+            (click)="delete()"><i class="fas fa-trash-alt"></i> Delete</button>
+    <button *ngIf="isUserPoll" class="dropdown-item"
+            data-qa-id="ddm-communityPostActionsExport"
+            (click)="exportPollResults()"><i class="fas fa-file-excel"></i> Export Poll Results</button>
   </div>
 </div>
-<div *ngIf="isInternalOnly" class="internal float-right pl-2 pr-2 community-border-radius">Internal</div>
-<div *ngIf="isExpiredPoll" class="expired float-right pl-2 pr-2 community-border-radius">Poll Expired</div>
+<div *ngIf="isInternalOnly"
+     data-qa-id="lbl-communityInternal"
+     class="internal float-right pl-2 pr-2 community-border-radius">Internal</div>
+<div *ngIf="isExpiredPoll"
+     data-qa-id="lbl-communityIsExpired"
+     class="expired float-right pl-2 pr-2 community-border-radius">Poll Expired</div>
 <p class="m-0"><span class="community-user-name-text">{{user.UserFirstName}} {{user.UserLastName}}</span>
   <span class="community-sub-text"> @ {{user.CompanyName}} | {{time}}</span>
 </p>

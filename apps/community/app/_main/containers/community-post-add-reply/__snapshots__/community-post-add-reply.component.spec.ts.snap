@@ -31,6 +31,7 @@ exports[`CommunityPostAddReplyComponent should show community add reply 1`] = `
     >
       <button
         class="btn-sm community-btn mr-2"
+        data-qa-id="btn-reply"
         id="reply"
         type="button"
       >

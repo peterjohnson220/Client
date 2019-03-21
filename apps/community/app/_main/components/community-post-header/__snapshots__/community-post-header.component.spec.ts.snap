@@ -39,6 +39,7 @@ exports[`CommunityPostsComponent should show internal community post header 1`] 
 >
   <div
     class="internal float-right pl-2 pr-2 community-border-radius"
+    data-qa-id="lbl-communityInternal"
   >
     Internal
   </div><p
