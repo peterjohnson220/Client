@@ -3,7 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { map, mergeMap, switchMap, withLatestFrom, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, withLatestFrom, tap, combineLatest } from 'rxjs/operators';
 
 import * as fromRootState from 'libs/state/state';
 import { CompanySettingsEnum } from 'libs/models/company';
@@ -23,7 +23,7 @@ export class ComphubPageEffects {
   initComphubPage$ = this.actions$
   .ofType(fromComphubPageActions.INIT)
   .pipe(
-    withLatestFrom(
+    combineLatest(
       this.store.select(fromRootState.getUserContext),
       this.store.select(fromRootState.getCompanySettings),
       (action, userContext, companySettings) =>
@@ -31,12 +31,10 @@ export class ComphubPageEffects {
     ),
     mergeMap((data) => {
       const actions = [];
-      const isSmallBizClient = SmbClientHelper.isSmallBuisnessClient(data.userContext);
-      const hasNotYetAcceptedPeerTC = data.companySettings.some(s =>
+      const isSmallBizClient = data.userContext && SmbClientHelper.isSmallBuisnessClient(data.userContext);
+      const hasNotYetAcceptedPeerTC = data.companySettings && data.companySettings.some(s =>
         s.Key === CompanySettingsEnum.PeerTermsAndConditionsAccepted &&
         s.Value === 'false');
-
-      actions.push(new fromComphubPageActions.GetActiveCountryDataSet());
 
       if (isSmallBizClient || hasNotYetAcceptedPeerTC) {
         actions.push(new fromDataCardActions.ShowPeerBanner());
