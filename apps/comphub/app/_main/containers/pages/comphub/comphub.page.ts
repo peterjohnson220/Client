@@ -34,7 +34,8 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
 
   private readonly cardHeaderWidth = 60;
   private readonly cardHeaderMargin = 8;
-  private readonly numberOfCards = 4;
+  private readonly numberOfCardHeaders = 3;
+  private readonly sideBarWidth = 56;
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
@@ -82,7 +83,8 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     if (wrapperElement === undefined || wrapperElement[0] === undefined) {
       return;
     }
-    this.cardContentContainerWidth = wrapperElement[0].clientWidth -
-      (this.cardHeaderWidth * this.numberOfCards) - this.cardHeaderMargin;
+    this.cardContentContainerWidth = wrapperElement[0].clientWidth - this.sideBarWidth -
+      (this.cardHeaderWidth * this.numberOfCardHeaders) -
+      (this.cardHeaderMargin * (this.numberOfCardHeaders - 1));
   }
 }
