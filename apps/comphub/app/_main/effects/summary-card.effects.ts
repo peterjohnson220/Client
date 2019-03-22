@@ -90,14 +90,15 @@ export class SummaryCardEffects {
         this.store.select(fromComphubMainReducer.getSelectedJobData),
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         this.store.select(fromComphubMainReducer.getSelectedRate),
-        (action: fromSummaryCardActions.CreateProject, job, payMarket, rate) => (
-          { action, job, payMarket, rate }
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromSummaryCardActions.CreateProject, job, payMarket, rate, activeCountryDataSet) => (
+          { action, job, payMarket, rate, activeCountryDataSet }
         )),
       switchMap((data) => {
         const quickPriceRequest: CreateQuickPriceProjectRequest = {
             JobCode: data.job.JobCode,
             CompanyPayMarketId: data.payMarket.CompanyPayMarketId,
-            Currency: 'USD',
+            Currency: data.activeCountryDataSet.CurrencyCode,
             Rate: data.rate,
             ProjectTitle: data.job.JobTitle,
             EffectiveDate: DataCardHelper.firstDayOfMonth()
