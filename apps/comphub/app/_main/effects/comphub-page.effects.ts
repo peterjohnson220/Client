@@ -12,6 +12,7 @@ import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
+import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromComphubMainReducer from '../reducers';
 import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
 import { ComphubPages } from '../data';
@@ -97,22 +98,40 @@ export class ComphubPageEffects {
 
   @Effect()
   getCountryDataSets$ = this.actions$
-    .ofType(fromComphubPageActions.GET_ACTIVE_COUNTRY_DATA_SET).pipe(
+    .ofType(fromComphubPageActions.GET_COUNTRY_DATA_SETS).pipe(
       switchMap(() => {
-        return this.comphubApiService.getActiveCountryDataSet()
+        return this.comphubApiService.getCountryDataSets()
           .pipe(
             mergeMap((response) => {
               const actions = [];
-              actions.push(new fromComphubPageActions.GetActiveCountryDataSetSuccess(
-                PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSet(response)));
-              if (!!response) {
+              actions.push(new fromComphubPageActions.GetCountryDataSetsSuccess(
+                PayfactorsApiModelMapper.mapCountryDataSetResponseToCountryDataSets(response)));
+
+              if (response.length) {
                 actions.push(new fromMarketsCardActions.InitMarketsCard());
+                actions.push(new fromJobsCardActions.GetTrendingJobs());
               }
               return actions;
             })
           );
       })
     );
+
+  @Effect()
+  updateActiveCountryDataSet$ = this.actions$
+    .ofType(fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET).pipe(
+      mergeMap(() => [
+        new fromJobsCardActions.GetTrendingJobs(),
+        new fromDataCardActions.ClearSelectedJobData(),
+        new fromComphubPageActions.ResetAccessiblePages(),
+        new fromComphubPageActions.ResetPagesAccessed(),
+        new fromJobsCardActions.ClearSelectedJob(),
+        new fromMarketsCardActions.SetToDefaultPaymarket(),
+        new fromMarketsCardActions.InitMarketsCard(),
+        new fromJobsCardActions.ClearJobSearchOptions()
+      ])
+    );
+
 
   private redirectForUnauthorized(error: HttpErrorResponse) {
     if (error.status === 401) {

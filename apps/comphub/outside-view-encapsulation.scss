@@ -13,7 +13,6 @@
     background-color: white !important;
     color: black !important;
   }
-
 }
 
 .k-list-container {
@@ -33,8 +32,15 @@
       color: black !important;
     }
   }
-
 }
+
+ .k-dropdown-wrap .k-input {
+
+   &::selection {
+     background: highlight !important;
+     color: black !important;
+   }
+ }
 
 .rates-dropdown {
   width: 80px;

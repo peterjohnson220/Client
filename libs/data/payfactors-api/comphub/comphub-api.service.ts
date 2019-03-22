@@ -16,8 +16,9 @@ export class ComphubApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getTrendingJobs(): Observable<TrendingJobGroupResponse[]>  {
-    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingJobs`);
+  getTrendingJobs(countryCode: string): Observable<TrendingJobGroupResponse[]>  {
+    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingJobs`,
+      { params: { countryCode: countryCode } });
   }
 
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
@@ -37,8 +38,8 @@ export class ComphubApiService {
       { params: { countryCode: countryCode } });
   }
 
-  getActiveCountryDataSet(): Observable<CountryDataSetResponse> {
-    return this.payfactorsApiService.get<CountryDataSetResponse>(`${this.endpoint}/GetActiveCountryDataSet`);
+  getCountryDataSets(): Observable<CountryDataSetResponse[]> {
+    return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
   }
 
   sharePricingSummary(request: SharePricingSummaryRequest): Observable<any> {

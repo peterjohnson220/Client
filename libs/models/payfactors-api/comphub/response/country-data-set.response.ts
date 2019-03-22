@@ -3,4 +3,5 @@ export interface CountryDataSetResponse {
   CountryName: string;
   CurrencyCode: string;
   GeoLabel: string;
+  Active: boolean;
 }
