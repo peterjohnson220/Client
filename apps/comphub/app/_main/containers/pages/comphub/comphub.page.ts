@@ -59,6 +59,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.cardsSub = this.cards$.subscribe(cards => this.cards = cards);
     this.selectedPageIdSub = this.selectedPageId$.subscribe(pageId => this.selectedCardIndex = this.cards.findIndex(c => c.Id === pageId));
     this.store.dispatch(new fromComphubPageActions.Init());
+    this.store.dispatch(new fromComphubPageActions.GetActiveCountryDataSet());
   }
 
   ngOnDestroy() {
