@@ -1,8 +1,10 @@
+import { createSelector } from '@ngrx/store';
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import { AccordionCard, AccordionCards, ComphubPages } from '../data';
 import { CountryDataSet, JobPricingLimitInfo } from '../models';
+
 
 export interface State {
   cards: AccordionCard[];
@@ -10,8 +12,8 @@ export interface State {
   pagesAccessed: ComphubPages[];
   accessiblePages: ComphubPages[];
   jobPricingLimitInfo: JobPricingLimitInfo;
-  activeCountryDataSetLoaded: boolean;
-  activeCountryDataSet: CountryDataSet;
+  countryDataSetLoaded: boolean;
+  countryDataSets: CountryDataSet[];
 }
 
 const initialState: State = {
@@ -20,8 +22,8 @@ const initialState: State = {
   pagesAccessed: [ComphubPages.Jobs],
   accessiblePages: [ComphubPages.Jobs],
   jobPricingLimitInfo: null,
-  activeCountryDataSetLoaded: false,
-  activeCountryDataSet: null
+  countryDataSetLoaded: false,
+  countryDataSets: []
 };
 
 export function reducer(state: State = initialState, action: fromComphubPageActions.Actions) {
@@ -88,11 +90,20 @@ export function reducer(state: State = initialState, action: fromComphubPageActi
         jobPricingLimitInfo: action.payload
       };
     }
-    case fromComphubPageActions.GET_ACTIVE_COUNTRY_DATA_SET_SUCCESS: {
+    case fromComphubPageActions.GET_COUNTRY_DATA_SETS_SUCCESS: {
       return {
         ...state,
-        activeCountryDataSetLoaded: true,
-        activeCountryDataSet: action.payload
+        countryDataSetLoaded: true,
+        countryDataSets: action.payload
+      };
+    }
+    case fromComphubPageActions.UPDATE_ACTIVE_COUNTRY_DATA_SET: {
+      return {
+        ...state,
+        countryDataSets: cloneDeep(state.countryDataSets).map(cds => {
+          cds.Active = cds.CountryCode === action.payload;
+          return cds;
+        })
       };
     }
     default: {
@@ -108,8 +119,14 @@ export const getEnabledPages = (state: State) => {
   return state.accessiblePages.filter(ap => state.pagesAccessed.some(pa => ap === pa));
 };
 export const getJobPricingLimitInfo = (state: State) => state.jobPricingLimitInfo;
-export const getJobPricingBlocked = (state: State) =>
-  ((!!state.jobPricingLimitInfo && state.jobPricingLimitInfo.Used >= state.jobPricingLimitInfo.Available)
-    || !state.activeCountryDataSet);
-export const getActiveCountryDataSetLoaded = (state: State) => state.activeCountryDataSetLoaded;
-export const getActiveCountryDataSet = (state: State) => state.activeCountryDataSet;
+export const getCountryDataSetsLoaded = (state: State) => state.countryDataSetLoaded;
+export const getCountryDataSets = (state: State) => state.countryDataSets;
+export const getActiveCountryDataSet = (state: State) => state.countryDataSets.find(cds => cds.Active);
+export const getJobPricingBlocked = createSelector(
+  getJobPricingLimitInfo,
+  getActiveCountryDataSet,
+  (jobPricingLimitInfo: JobPricingLimitInfo, activeCountryDataSet: CountryDataSet) => {
+    return ((!!jobPricingLimitInfo && jobPricingLimitInfo.Used >= jobPricingLimitInfo.Available)
+      || !activeCountryDataSet);
+  }
+);

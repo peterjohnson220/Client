@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
@@ -23,8 +23,13 @@ export class JobsCardEffects {
   getTrendingJobs$ = this.actions$
     .ofType(fromJobsCardActions.GET_TRENDING_JOBS)
     .pipe(
-      switchMap(() => {
-          return this.comphubApiService.getTrendingJobs()
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet) => ({ activeCountryDataSet })
+      ),
+      filter((data) => !!data.activeCountryDataSet),
+      switchMap((data) => {
+          return this.comphubApiService.getTrendingJobs(data.activeCountryDataSet.CountryCode)
             .pipe(
               map(response => {
                 const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);

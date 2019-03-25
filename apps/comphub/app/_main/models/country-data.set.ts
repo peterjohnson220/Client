@@ -3,6 +3,8 @@ export interface CountryDataSet {
   CountryName: string;
   CurrencyCode: string;
   GeoLabel: string;
+  Active: boolean;
+  FlagCode: string;
 }
 
 export function generateMockCountryDataSet(): CountryDataSet {
@@ -10,6 +12,8 @@ export function generateMockCountryDataSet(): CountryDataSet {
     CountryCode: 'USA',
     CountryName: 'United States',
     CurrencyCode: 'USD',
-    GeoLabel: 'CityState'
+    GeoLabel: 'CityState',
+    Active: true,
+    FlagCode: 'us'
   };
 }

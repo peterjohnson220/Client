@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { PopupSettings } from '@progress/kendo-angular-dropdowns';
+import { AutoCompleteComponent, PopupSettings } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootReducer from 'libs/state/state';
 import { UserContext } from 'libs/models/security';
 import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
+import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { JobPricingLimitInfo, TrendingJobGroup } from '../../../models';
+import { CountryDataSet, JobPricingLimitInfo, TrendingJobGroup } from '../../../models';
 
 @Component({
   selector: 'pf-jobs-card',
@@ -19,6 +20,7 @@ import { JobPricingLimitInfo, TrendingJobGroup } from '../../../models';
 })
 export class JobsCardComponent implements OnInit, OnDestroy {
   popupSettings: PopupSettings;
+  @ViewChild('jobSearch') jobSearch: AutoCompleteComponent;
 
   // Observables
   trendingJobGroups$: Observable<TrendingJobGroup[]>;
@@ -28,7 +30,10 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   jobPricingBlocked$: Observable<boolean>;
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   userContext$: Observable<UserContext>;
-  activeCountryDataSetLoaded$: Observable<boolean>;
+  countryDataSets$: Observable<CountryDataSet[]>;
+  countryDataSetsLoaded$: Observable<boolean>;
+  loadingTrendingJobs$: Observable<boolean>;
+  activeCountryDataSet$: Observable<CountryDataSet>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
@@ -47,7 +52,10 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.activeCountryDataSetLoaded$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSetLoaded);
+    this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
+    this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
+    this.loadingTrendingJobs$ = this.store.select(fromComphubMainReducer.getLoadingTrendingJobs);
+    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.popupSettings = {
       appendTo: 'component'
@@ -55,7 +63,6 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromJobsCardActions.GetTrendingJobs());
     this.jobSearchOptionsSub = this.jobSearchOptions$.subscribe(o => this.potentialOptions = o);
     this.selectedJobSub = this.selectedJob$.subscribe(sj => this.selectedJob = sj);
   }
@@ -76,6 +83,11 @@ export class JobsCardComponent implements OnInit, OnDestroy {
 
   handleTrendingJobClicked(trendingJob: string) {
     this.store.dispatch(new fromJobsCardActions.SetSelectedJob({jobTitle: trendingJob, navigateToNextCard: true }));
+  }
+
+  handleCountryDataSetChanged(countryCode: string) {
+    this.jobSearch.reset();
+    this.store.dispatch(new fromComphubPageActions.UpdateActiveCountryDataSet(countryCode));
   }
 
   ngOnDestroy(): void {
