@@ -1,7 +1,7 @@
 import { FeatureCollection, Point } from 'geojson';
 import { LngLatBounds } from 'mapbox-gl';
 
-import { PeerMapScopeMapInfo, ExchangeMapSummary, GeoCoordinates, GenericKeyValue } from 'libs/models/';
+import { PeerMapScopeMapInfo, ExchangeMapSummary, GenericKeyValue } from 'libs/models/';
 
 export class MapHelper {
 

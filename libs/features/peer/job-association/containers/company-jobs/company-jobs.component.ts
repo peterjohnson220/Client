@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
-import { DataStateChangeEvent, GridComponent, GridDataResult, RowArgs, SelectAllCheckboxState
+import { DataStateChangeEvent, GridComponent, GridDataResult, RowArgs, SelectAllCheckboxState, PageChangeEvent
 } from '@progress/kendo-angular-grid';
 import { State } from '@progress/kendo-data-query';
 
@@ -109,6 +109,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   handleSearchChanged(searchTerm: string) {
     this.store.dispatch(new companyJobsActions.SearchTermUpdated(searchTerm));
     if (!searchTerm  || searchTerm.length > 1) {
+      this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalCompanyJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }
   }

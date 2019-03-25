@@ -5,6 +5,7 @@ export interface PeerMapScopeSideBarInfo {
   FilterAggregateSelections: FilterAggregateGroup[];
   FilterAggregateGroups: FilterAggregateGroup[];
   SelectionsCount: number;
+  IncludeUntaggedIncumbents: boolean;
 }
 
 export function generateMockPeerMapScopeSideBarInfo(): PeerMapScopeSideBarInfo {
@@ -12,6 +13,7 @@ export function generateMockPeerMapScopeSideBarInfo(): PeerMapScopeSideBarInfo {
     Selections: {},
     FilterAggregateSelections: [generateMockFilterAggregateGroup()],
     FilterAggregateGroups: [generateMockFilterAggregateGroup()],
-    SelectionsCount: 0
+    SelectionsCount: 0,
+    IncludeUntaggedIncumbents: false
   };
 }

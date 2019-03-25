@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnDestroy, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -11,16 +11,14 @@ import { GenericMenuItem } from 'libs/models/common';
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss']
 })
-export class MultiSelectComponent implements OnInit, OnDestroy {
+export class MultiSelectComponent implements OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
 
-  // add custom getter and setter so we only hookup options once when we have a list of at least one element
+  // getter and setter so we hook up the updated form controls once the collection changes
   private _options: GenericMenuItem[];
   @Input() set options(value: GenericMenuItem[]) {
     this._options = value;
-    if (value.length && !this.form) {
-      this.initForm();
-    }
+    this.initForm();
   }
   get options(): GenericMenuItem[] {
     return this._options;
@@ -41,13 +39,11 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  ngOnInit() { }
-
   initForm() {
     const formControls = {};
 
-    // loop through each option create a form control for each
-    this.options.forEach((option, i) => {
+    // loop through each option and create a form control for each
+    this.options.forEach((option) => {
       const formControl = new FormControl(option.IsSelected);
       formControls[option.DisplayName] = formControl;
       const subscription = formControl.valueChanges.subscribe(value => {

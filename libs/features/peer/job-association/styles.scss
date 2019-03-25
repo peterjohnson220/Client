@@ -36,6 +36,10 @@ $sub-header-height: 27px;
   height: calc(100% - #{$sub-header-height});
 }
 
+// prevent tooltip flickering when hovering
+.tooltip {
+  pointer-events: none;
+}
 
 // main component styling
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {

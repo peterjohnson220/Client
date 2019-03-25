@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { RolePermission, UserAssignedRole } from 'libs/models/security/roles';
+import { SystemPermission, UserAssignedRole } from 'libs/models/security/roles';
 
 export const UPDATE_CURRENT_ROLE_FUNCTION_TAB = '[Company Admin/User Role Function Tab] Get Company Role Permissions';
 export const GRANT_DENY_PERMISSIONS = '[Company Admin/User Role Function Tab] Checkbox Clicked';
@@ -13,7 +13,7 @@ export class UpdateCurrentRoleFunctionTab implements Action {
 
 export class GrantDenyPermissions implements Action {
   readonly type = GRANT_DENY_PERMISSIONS;
-  constructor(public payload:  RolePermission) {}
+  constructor(public payload:  SystemPermission) {}
 }
 
 export class CancelPermissionChanges implements Action {
