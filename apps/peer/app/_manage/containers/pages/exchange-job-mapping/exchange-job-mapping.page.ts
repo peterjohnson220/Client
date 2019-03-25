@@ -46,7 +46,7 @@ export class ExchangeJobMappingPageComponent implements OnInit, OnDestroy {
         this.gridPageRowIndexToScrollTo$ = this.store.select(fromPeerManagementReducer.getExchangeJobMappingPageRowIndexToScrollTo);
         this.selectedExchangeJobMapping$ = this.store.select(fromPeerManagementReducer.getSelectedExchangeJobMapping);
         this.userContext$ = store.select(fromRootState.getUserContext);
-      this._Permissions = Permissions;
+        this._Permissions = Permissions;
     }
 
     handleSearchChanged(query: string): void {
