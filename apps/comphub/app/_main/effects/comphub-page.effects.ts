@@ -128,7 +128,8 @@ export class ComphubPageEffects {
         new fromJobsCardActions.ClearSelectedJob(),
         new fromMarketsCardActions.SetToDefaultPaymarket(),
         new fromMarketsCardActions.InitMarketsCard(),
-        new fromJobsCardActions.ClearJobSearchOptions()
+        new fromJobsCardActions.ClearJobSearchOptions(),
+        new fromJobsCardActions.PersistActiveCountryDataSet()
       ])
     );
 
