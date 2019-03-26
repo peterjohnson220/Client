@@ -37,6 +37,12 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedExchangeJob$: Observable<ExchangeJob>;
   isDetailPanelExpanded$: Observable<boolean>;
 
+  // Observables, previous associations
+  previousAssociations$: Observable<CompanyJob[]>;
+  loadingPreviousAssociations$: Observable<boolean>;
+  loadingPreviousAssociationsSuccess$: Observable<boolean>;
+  loadingPreviousAssociationsError$: Observable<boolean>;
+
   // Subscriptions
   searchTermSubscription: Subscription;
   selectedCompanyJobsSubscription: Subscription;
@@ -78,10 +84,16 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.selectedExchangeJob$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSelectedExchangeJob));
     this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsIsDetailPanelExpanded));
 
-    //  Register Observables, job family
+    // Register Observables, job family
     this.isJobFamilyFilterExpanded$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
     this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
     this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
+
+    // Register Observables, previous associations
+    this.previousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociations));
+    this.loadingPreviousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociations));
+    this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsSuccess));
+    this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsError));
 
     // Register Subscriptions
     this.searchTermSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
@@ -147,13 +159,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   }
 
   handleDetailExpand(event: any): void {
+    // close the detail panel and load any previous associations
     this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
+    this.store.dispatch(new exchangeJobsActions.LoadPreviousAssociations(event.dataItem.CompanyJobMappings));
 
     // determine how many results we have in the grid
     const gridData = this.grid.data as any;
     const totalRows = gridData.data.length;
 
-    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
+    // collapse all rows that are not the newly expanded row so we only have one open at a time
     for (let i = 0; i < totalRows; i++) {
       if (i !== event.index) {
         this.grid.collapseRow(i);

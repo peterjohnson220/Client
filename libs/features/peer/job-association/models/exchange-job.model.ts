@@ -1,3 +1,5 @@
+import { CompanyJobMapping } from 'libs/models/peer';
+
 export interface ExchangeJob {
   ExchangeJobId: number;
   ExchangeJobTitle: string;
@@ -5,4 +7,5 @@ export interface ExchangeJob {
   ExchangeJobFamily: string;
   ExchangeId: number;
   ExchangeName: string;
+  CompanyJobMappings: CompanyJobMapping[];
 }
