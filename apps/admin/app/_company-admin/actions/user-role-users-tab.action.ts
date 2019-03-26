@@ -13,7 +13,7 @@ export const SAVE_CHANGES = '[Company Admin/User Role User Tab] Save Changes';
 
 export class UpdateUserTabCurrentUserRole implements Action {
   readonly type = UPDATE_CURRENT_USER_ROLE_USER_TAB;
-  constructor(public payload: number) { }
+  constructor(public payload: any) { }
 }
 
 export class GetUsersAndRoles implements Action {

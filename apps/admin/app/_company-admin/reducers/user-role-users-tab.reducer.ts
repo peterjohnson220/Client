@@ -9,6 +9,7 @@ export interface State {
   usersAndRoles: UserAndRoleModel[];
   usersAndRolesError: string;
   activeRoleId: number;
+  activeRoleIsSystemRole: boolean;
   usersInActiveRole: UserAndRoleModel[];
   usersNotInActiveRole: UserAndRoleModel[];
   filterTerm: string;
@@ -18,6 +19,7 @@ export const initialState: State = {
   usersAndRoles: [],
   usersAndRolesError: '',
   activeRoleId: null,
+  activeRoleIsSystemRole: false,
   usersInActiveRole: [],
   usersNotInActiveRole: [],
   filterTerm: ''
@@ -26,16 +28,18 @@ export const initialState: State = {
 export function reducer(state = initialState, action: fromUserRoleUserTabActions.UserTabActions): State {
   switch (action.type) {
     case fromUserRoleUserTabActions.UPDATE_CURRENT_USER_ROLE_USER_TAB: {
-      const newRoleId = action.payload;
+      const newRoleId = action.payload.NewRoleId;
+      const newRoleIsSystemRole = action.payload.NewRoleIsSystemRole;
       const usersInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersCollectionByRole(uar, newRoleId))
+        .filter(uar => filterUsersCollectionByRole(uar, newRoleId, newRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       const usersNotInNewRole = state.usersAndRoles
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, newRoleId))
+        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, newRoleId, newRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       return {
         ...state,
         activeRoleId: newRoleId,
+        activeRoleIsSystemRole: newRoleIsSystemRole,
         usersInActiveRole: usersInNewRole,
         usersNotInActiveRole: usersNotInNewRole
       };
@@ -61,16 +65,17 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
       const newUser: UserAndRoleModel = cloneDeep(existingUser);
       newUser.PreviousRoleId = existingUser.CurrentRoleId;
       newUser.CurrentRoleId = state.activeRoleId;
+      newUser.IsSystemRole = state.activeRoleIsSystemRole;
       newUser.Dirty = true;
 
       const newUsersInRoleCollection = Object.assign([], state.usersInActiveRole);
       newUsersInRoleCollection.push(newUser);
 
       const usersInNewRole = newUsersInRoleCollection
-        .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId))
+        .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId, state.activeRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       const usersNotInNewRole = newUsersNotInRoleCollection
-        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId))
+        .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId, state.activeRoleIsSystemRole))
         .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending));
       return {
         ...state,
@@ -85,7 +90,7 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
         ...state,
         filterTerm: term,
         usersNotInActiveRole: currentSearchableUsers.filter(csu =>
-          filterUsersBySearchTerm(csu, term, state.activeRoleId))
+          filterUsersBySearchTerm(csu, term, state.activeRoleId, state.activeRoleIsSystemRole))
       };
     }
     case fromUserRoleUserTabActions.CANCEL_CHANGES: {
@@ -99,10 +104,10 @@ export function reducer(state = initialState, action: fromUserRoleUserTabActions
         ...state,
         usersAndRoles: originalUserCollection,
         usersInActiveRole: originalUserCollection
-          .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId))
+          .filter(uar => filterUsersCollectionByRole(uar, state.activeRoleId, state.activeRoleIsSystemRole))
           .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending)),
         usersNotInActiveRole: originalUserCollection
-          .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId))
+          .filter(uar => filterUsersBySearchTerm(uar, state.filterTerm, state.activeRoleId, state.activeRoleIsSystemRole))
           .sort((a, b) => arraySortByString(a.LastName, b.LastName, SortDirection.Ascending))
       };
     }
@@ -120,13 +125,13 @@ export const getUsersNotInActiveRole = (state: State) => state.usersNotInActiveR
 export const getUsersTabHasPendingChanges = (state: State) => state.usersInActiveRole.some(u => u.Dirty);
 export const getUserIdsToSave = (state: State) => state.usersInActiveRole.filter(u => u.Dirty).map(u => u.UserId);
 
-function filterUsersCollectionByRole(user: UserAndRoleModel, roleId: number) {
-  return user.CurrentRoleId === roleId;
+function filterUsersCollectionByRole(user: UserAndRoleModel, roleId: number, isSystemRole: boolean) {
+  return user.CurrentRoleId === roleId && user.IsSystemRole === isSystemRole;
 }
 
-function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, roleId: number) {
+function filterUsersBySearchTerm(user: UserAndRoleModel, searchTerm: string, roleId: number, isSystemRole: boolean) {
   return (user.FirstName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.LastName.toLowerCase().indexOf(searchTerm) > -1 ||
           user.UserId.toString().toLowerCase().indexOf(searchTerm) > -1) &&
-          user.CurrentRoleId !== roleId;
+          !(user.CurrentRoleId === roleId && user.IsSystemRole === isSystemRole);
 }

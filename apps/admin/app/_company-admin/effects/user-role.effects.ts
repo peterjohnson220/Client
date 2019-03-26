@@ -56,7 +56,10 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
+          new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole({
+            NewRoleId: action.payload.RoleId,
+            NewRoleIsSystemRole: action.payload.IsSystemRole
+          }),
         new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );
 
