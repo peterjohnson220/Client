@@ -11,6 +11,7 @@ export const GET_JOB_SEARCH_OPTIONS_ERROR = '[Comphub/Jobs Card] Get Job Search 
 export const CLEAR_JOB_SEARCH_OPTIONS = '[Comphub/Jobs Card] Clear Job Search Options';
 export const SET_SELECTED_JOB = '[Comphub/Jobs Card] Set Selected Job';
 export const CLEAR_SELECTED_JOB = '[Comphub/Jobs Card] Clear Selected Job';
+export const PERSIST_ACTIVE_COUNTRY_DATA_SET = '[Comphub/Jobs Card] Persist Active Country Data Set';
 
 export class GetTrendingJobs implements Action {
   readonly type = GET_TRENDING_JOBS;
@@ -62,6 +63,12 @@ export class SetSelectedJob implements Action {
 
 export class ClearSelectedJob implements Action {
   readonly type = CLEAR_SELECTED_JOB;
+
+  constructor() {}
+}
+
+export class PersistActiveCountryDataSet implements Action {
+  readonly type = PERSIST_ACTIVE_COUNTRY_DATA_SET;
 
   constructor() {}
 }

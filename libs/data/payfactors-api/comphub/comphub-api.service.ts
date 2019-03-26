@@ -42,6 +42,10 @@ export class ComphubApiService {
     return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
   }
 
+  persistActiveCountryDataSet(countryCode: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/PersistActiveCountryDataSet`, { countryCode: countryCode});
+  }
+
   sharePricingSummary(request: SharePricingSummaryRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SharePricingSummary`, request);
   }

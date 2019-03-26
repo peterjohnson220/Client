@@ -95,6 +95,17 @@ export class JobsCardEffects {
       ])
     );
 
+  @Effect({dispatch: false})
+  persistActiveCountryDataSet$ = this.actions$
+    .ofType(fromJobsCardActions.PERSIST_ACTIVE_COUNTRY_DATA_SET)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.PersistActiveCountryDataSet, dataSet) => (dataSet)
+      ),
+      switchMap((dataSet) => this.comphubApiService.persistActiveCountryDataSet(dataSet.CountryCode))
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubReducer.State>,
