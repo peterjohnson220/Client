@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -10,7 +10,8 @@ import { WindowRef } from 'libs/core/services';
 import { ComphubPages, Rates, RateType } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem } from '../../../models';
+  KendoDropDownItem, CountryDataSet
+} from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { DataCardHelper } from '../../../helpers';
@@ -21,6 +22,8 @@ import { DataCardHelper } from '../../../helpers';
   styleUrls: ['./data.card.component.scss']
 })
 export class DataCardComponent implements OnInit, OnDestroy {
+  @Input() currencyCode: string;
+
   jobTitle: string;
   paymarketId?: number;
   jobDataSelection: JobData;

@@ -8,7 +8,7 @@
   <div class="w-50 right-bar"></div>
 </div>
 <div class="bar-annotations bar-values">
-  <div class="text-left">${{calculateDataByRate(salary25) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
-  <div class="text-center">${{calculateDataByRate(salary50) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
-  <div class="text-right">${{calculateDataByRate(salary75) | number : isHourly ? '1.2-2' : '1.1-1'}}</div>
+  <div class="text-left">{{calculateDataByRate(salary25) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.1-1'}}</div>
+  <div class="text-center">{{calculateDataByRate(salary50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.1-1'}}</div>
+  <div class="text-right">{{calculateDataByRate(salary75) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.1-1'}}</div>
 </div>

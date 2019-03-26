@@ -12,7 +12,7 @@
   color: $comphub-header-blue;
 }
 
-.currency-sign {
+.currency::first-letter {
   color: $pf-additional-colors-green;
   line-height: 3.4rem;
 }

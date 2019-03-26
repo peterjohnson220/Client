@@ -80,10 +80,10 @@
                     {{job.ManagesEmployees ? 'Yes': 'No'}}
                   </td>
                   <td class="number-column">
-                    ${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.0-0'}}
+                    {{calculateDataByRate(job.Base50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
                   </td>
                   <td class="number-column">
-                    ${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.0-0'}}
+                    {{calculateDataByRate(job.Tcc50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
                   </td>
                   <td class="text-center">
                     <div class="custom-control custom-radio">

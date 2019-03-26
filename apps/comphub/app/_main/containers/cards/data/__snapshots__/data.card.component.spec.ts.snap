@@ -206,12 +206,12 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="number-column"
                 >
-                   \\$48.08 
+                   $48.08 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$48.08 
+                   $48.08 
                 </td>
                 <td
                   class="text-center"
@@ -453,12 +453,12 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="number-column"
                 >
-                   \\$100,000 
+                   $100,000 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$100,000 
+                   $100,000 
                 </td>
                 <td
                   class="text-center"

@@ -63,12 +63,12 @@
             <div class="width-250">
               <span>Base Salary</span>
               <div class="d-flex flex-row">
-                <h2 class="currency-sign">$</h2>
-                <h1 class="header-blue">{{calculateDataByRate(jobData?.Base50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+                <h1 class="currency header-blue">{{calculateDataByRate(jobData?.Base50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h1>
               </div>
               <div class="w-75">
                 <pf-salary-bar-chart
                   [isHourly]="isHourly"
+                  [currencyCode]="currencyCode"
                   [salary25]="jobData?.Base25"
                   [salary50]="jobData?.Base50"
                   [salary75]="jobData?.Base75">
@@ -78,12 +78,12 @@
             <div class="width-250">
               <span>Total Cash Compensation</span>
               <div class="d-flex flex-row">
-                <h2 class="currency-sign">$</h2>
-                <h1 class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | number : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+                <h1 class="currency header-blue">{{calculateDataByRate(jobData?.Tcc50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h1>
               </div>
               <div class="w-75">
                 <pf-salary-bar-chart
                   [isHourly]="isHourly"
+                  [currencyCode]="currencyCode"
                   [salary25]="jobData?.Tcc25"
                   [salary50]="jobData?.Tcc50"
                   [salary75]="jobData?.Tcc75">
@@ -94,6 +94,7 @@
               <span>Salary Trend</span>
               <pf-salary-trend-chart
                 [isHourly]="isHourly"
+                [currencyCode]="currencyCode"
                 [salaryTrendData]="jobSalaryTrendData">
               </pf-salary-trend-chart>
             </div>

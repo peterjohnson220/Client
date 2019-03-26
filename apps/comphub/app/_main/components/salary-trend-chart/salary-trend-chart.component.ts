@@ -10,6 +10,7 @@ import { JobSalaryTrend } from '../../models';
 export class SalaryTrendChartComponent {
   @Input() salaryTrendData: JobSalaryTrend;
   @Input() isHourly: boolean;
+  @Input() currencyCode: string;
 
   constructor() { }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -25,6 +25,7 @@ import { DataCardHelper } from '../../../helpers';
   styleUrls: ['./summary.card.component.scss']
 })
 export class SummaryCardComponent implements OnInit, OnDestroy {
+  @Input() currencyCode: string;
   @ViewChild('pdf') pdf: PDFExportComponent;
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;

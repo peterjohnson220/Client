@@ -29,7 +29,7 @@
     </kendo-chart-series>
     <kendo-chart-tooltip>
       <ng-template kendoChartSeriesTooltipTemplate let-category="category" let-value="value">
-        {{category | date : 'MM/yyyy'}}: ${{ value | number : isHourly ? '1.2-2' : '1.0-0' }}
+        {{category | date : 'MM/yyyy'}}: {{ value | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0' }}
       </ng-template>
     </kendo-chart-tooltip>
   </kendo-chart>

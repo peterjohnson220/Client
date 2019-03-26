@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { AccordionCard, ComphubPages } from '../../../data';
-import { PricingPaymarket, JobData } from '../../../models';
+import { PricingPaymarket, JobData, CountryDataSet } from '../../../models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -19,6 +19,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   enabledPages: ComphubPages[];
   cards: AccordionCard[];
   selectedCardIndex: number;
+  activeCountryDataSet: CountryDataSet;
 
   cards$: Observable<AccordionCard[]>;
   selectedPageId$: Observable<ComphubPages>;
@@ -27,15 +28,18 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   selectedJobData$: Observable<JobData>;
   enabledPages$: Observable<ComphubPages[]>;
   accessedPages$: Observable<ComphubPages[]>;
+  activeCountryDataSet$: Observable<CountryDataSet>;
 
   private enabledPagesSub: Subscription;
   private cardsSub: Subscription;
   private selectedPageIdSub: Subscription;
+  private activeCountryDataSetSub: Subscription;
 
   private readonly cardHeaderWidth = 60;
   private readonly cardHeaderMargin = 8;
   private readonly numberOfCardHeaders = 3;
   private readonly sideBarWidth = 56;
+
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
@@ -45,6 +49,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.enabledPages$ = this.store.select(fromComphubMainReducer.getEnabledPages);
     this.accessedPages$ = this.store.select(fromComphubMainReducer.getPagesAccessed);
+    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -59,6 +64,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.enabledPagesSub = this.enabledPages$.subscribe(ep => this.enabledPages = ep);
     this.cardsSub = this.cards$.subscribe(cards => this.cards = cards);
     this.selectedPageIdSub = this.selectedPageId$.subscribe(pageId => this.selectedCardIndex = this.cards.findIndex(c => c.Id === pageId));
+    this.activeCountryDataSetSub = this.activeCountryDataSet$.subscribe(ac => this.activeCountryDataSet = ac);
     this.store.dispatch(new fromComphubPageActions.Init());
     this.store.dispatch(new fromComphubPageActions.GetCountryDataSets());
   }
@@ -67,6 +73,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     this.enabledPagesSub.unsubscribe();
     this.cardsSub.unsubscribe();
     this.selectedPageIdSub.unsubscribe();
+    this.activeCountryDataSetSub.unsubscribe();
   }
 
   trackById(index: number, card: AccordionCard) {
