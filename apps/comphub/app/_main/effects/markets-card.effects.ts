@@ -55,7 +55,9 @@ export class MarketsCardEffects {
                   if (!payMarkets.length) {
                     // display national payMarket as a card
                     payMarkets = [MarketsCardHelper.buildDefaultPricingPayMarket()];
-                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard());
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard(true));
+                  } else {
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard(false));
                   }
                 }
                 actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(payMarkets));

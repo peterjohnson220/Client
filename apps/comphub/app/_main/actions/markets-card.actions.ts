@@ -96,6 +96,8 @@ export class HideAddNewPaymarketButton implements Action {
 
 export class DisplayNationalAsCard implements Action {
   readonly type = DISPLAY_NATIONAL_AS_CARD;
+
+  constructor(public payload: boolean) {}
 }
 
 export class GetMarketDataLocations implements Action {
