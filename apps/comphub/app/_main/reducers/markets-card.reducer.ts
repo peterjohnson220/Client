@@ -127,7 +127,7 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
     case fromMarketsCardActions.DISPLAY_NATIONAL_AS_CARD: {
       return {
         ...state,
-        displayNationalAsCard: true
+        displayNationalAsCard: action.payload
       };
     }
     case fromMarketsCardActions.GET_MD_LOCATIONS: {
