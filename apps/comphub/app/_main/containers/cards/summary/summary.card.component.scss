@@ -15,6 +15,7 @@
 .currency::first-letter {
   color: $pf-additional-colors-green;
   line-height: 3.4rem;
+  font-size: 70%;
 }
 
 .width-250 {
@@ -94,7 +95,7 @@ h4 {
   }
 }
 
-.pdf-header, .pdf-logo, .smb-sell-sheet-container {
+.smb-sell-sheet-container {
   display: none;
 }
 
@@ -103,9 +104,18 @@ h4 {
   height: 100%;
 }
 
+.hide-export {
+  position: relative;
+  overflow: hidden;
+
+  > * {
+    position: absolute;
+    width: 100%;
+  }
+}
+
 :host ::ng-deep .k-pdf-export {
   .pdf-logo {
-    display: block;
     position: absolute;
     right: 30px;
     top: 35px;
