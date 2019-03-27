@@ -84,8 +84,6 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.selectedCompanyJobInDetailPanelSubscription =
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
         (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel);
-
-    this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
   ngOnDestroy() {
@@ -118,8 +116,8 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
-  handleSearchChanged(searchTerm: string) {
-    this.store.dispatch(new companyJobsActions.SearchTermUpdated(searchTerm));
+  handleSearchBoxValueChanged(searchTerm: string) {
+    this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
     if (!searchTerm  || searchTerm.length > 1) {
       this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalCompanyJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
@@ -152,7 +150,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     if (this.getSelectAllState() === 'unchecked') {
       selectedCompanyJobs = this.selectCompanyJobIdsUptoThreshold();
     }
-    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobsToAssociate(selectedCompanyJobs));
   }
 
   selectCompanyJobIdsUptoThreshold(): CompanyJob[] {
@@ -184,7 +182,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobsToAssociate(selectedCompanyJobs));
   }
 
   // close the job family filter when the escape key is clicked

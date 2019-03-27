@@ -46,12 +46,14 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   // Properties
   maxAssociableThreshold: number;
   isListView: boolean;
+  isJobFamilyFilterExpanded: boolean;
   searchTerm: string;
   selectedCompanyJobs: CompanyJob[];
   exchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
 
   // Job Family Filter
+  isJobFamilyFilterExpandedSubscription: Subscription;
   isJobFamilyFilterExpanded$: Observable<boolean>;
   isJobFamilyFilterLoading$: Observable<boolean>;
   jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
@@ -95,14 +97,20 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob);
 
     // job family
-    this.isJobFamilyFilterExpanded$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
-    this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
-    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
-    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
+    this.isJobFamilyFilterExpanded$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
 
-    // Dispatches
-    this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
-    this.store.dispatch(new exchangeJobsActions.LoadJobFamilyFilter());
+    this.isJobFamilyFilterLoading$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
+
+    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
+
+    this.selectedJobFamilyOptionNames$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
+
+    this.isJobFamilyFilterExpandedSubscription = this.isJobFamilyFilterExpanded$.subscribe((isExpanded) => {
+      this.isJobFamilyFilterExpanded = isExpanded;
+    });
   }
 
   ngOnDestroy() {
@@ -110,6 +118,8 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.selectedCompanyJobsSubscription.unsubscribe();
     this.exchangeJobAssociationsSubscription.unsubscribe();
     this.selectedExchangeJobSubscription.unsubscribe();
+    // job family
+    this.isJobFamilyFilterExpandedSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
@@ -148,6 +158,12 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       if (i !== event.index) {
         this.grid.collapseRow(i);
       }
+    }
+  }
+
+  closeJobFamilyFilter(): void {
+    if (this.isJobFamilyFilterExpanded) {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(false));
     }
   }
 

@@ -2,14 +2,15 @@ import { Injectable} from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import {catchError, map, mapTo, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, withLatestFrom} from 'rxjs/operators';
 
 import { ExchangeCompanyApiService } from '../../../../data/payfactors-api/peer';
 import { ExchangeJobAssociation } from '../models';
 
 import * as fromReducer from '../reducers';
+import * as fromCompanyJobActions from '../actions/company-jobs.actions';
+import * as fromExchangeJobActions from '../actions/exchange-jobs.actions';
 import * as fromJobAssociationModalActions from '../actions/job-association-modal.actions';
-import { WindowCommunicationService } from 'libs/core/services';
 
 @Injectable()
 export class JobAssociationModalEffects {
@@ -40,22 +41,34 @@ export class JobAssociationModalEffects {
     )
   );
 
-  @Effect({ dispatch: false })
-  closeJobAssociationModal$ = this.actions$.pipe(
-    ofType(fromJobAssociationModalActions.CLOSE_JOB_ASSOCIATIONS_MODAL,
-      fromJobAssociationModalActions.SAVE_JOB_ASSOCIATIONS_SUCCESS),
-    map(() => {
-      return new fromJobAssociationModalActions.CloseJobAssociationsModal();
-    }),
-    tap((action: fromJobAssociationModalActions.CloseJobAssociationsModal) => {
-      this.windowCommunicationService.postMessage(action.type);
-    })
+  @Effect()
+  openJobAssociationModal$ = this.actions$.pipe(
+    ofType(fromJobAssociationModalActions.OPEN_JOB_ASSOCIATIONS_MODAL),
+    mergeMap(() => [new fromCompanyJobActions.Load(), new fromExchangeJobActions.Load()])
+  );
+
+  @Effect()
+  reloadJam$ = this.actions$.pipe(
+    ofType(fromJobAssociationModalActions.RELOAD_JOB_ASSOCIATIONS_MODAL),
+    mergeMap(() => [
+      new fromJobAssociationModalActions.ResetJobAssociationsModal(),
+      new fromCompanyJobActions.Load(),
+      new fromExchangeJobActions.Load()
+    ])
+  );
+
+  @Effect()
+  resetJobAssociationModal$ = this.actions$.pipe(
+    ofType(fromJobAssociationModalActions.RESET_JOB_ASSOCIATIONS_MODAL),
+    mergeMap(() => [
+      new fromCompanyJobActions.Reset(),
+      new fromExchangeJobActions.Reset()
+    ])
   );
 
   constructor(
     private actions$: Actions,
     private exchangeCompanyApiService: ExchangeCompanyApiService,
-    private store: Store<fromReducer.State>,
-    private windowCommunicationService: WindowCommunicationService
+    private store: Store<fromReducer.State>
   ) {}
 }

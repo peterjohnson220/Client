@@ -7,7 +7,7 @@
     [(ngModel)]="searchTerm"
     [ngModelOptions]="{standalone: true}"
     [placeholderText]="'Search job title or job code'"
-    (valueChanged)="handleSearchChanged($event)">
+    (valueChanged)="handleSearchBoxValueChanged($event)">
   </pf-input-debounce>
 </div>
 <div>

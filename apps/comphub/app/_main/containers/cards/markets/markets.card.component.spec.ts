@@ -113,7 +113,7 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should call handleSearchChanged with an empty string, when clearing the search value', () => {
+  it('should call handleSearchBoxValueChanged with an empty string, when clearing the search value', () => {
     spyOn(instance, 'handleSearchChanged');
 
     instance.clearSearchValue();

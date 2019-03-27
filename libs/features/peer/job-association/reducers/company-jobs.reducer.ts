@@ -8,11 +8,12 @@ import { CompanyJob } from '../models/';
 import * as fromCompanyJobsActions from '../actions/company-jobs.actions';
 
 export interface State extends EntityState<CompanyJob> {
+  companyJobsToAssociate: CompanyJob[];
+  companyJobIdFilters: number[];
   loading: boolean;
   loadingError: boolean;
   total: number;
   searchTerm: string;
-  selectedCompanyJobs: CompanyJob[];
   selectedCompanyJobInDetailPanel: CompanyJob;
   isDetailPanelExpanded: boolean;
 }
@@ -26,11 +27,12 @@ export const adapter: EntityAdapter<CompanyJob> = createEntityAdapter<CompanyJob
 const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
-  selectedCompanyJobs: [],
+  companyJobsToAssociate: [],
   total: 0,
   searchTerm: '',
   selectedCompanyJobInDetailPanel: {} as CompanyJob,
   isDetailPanelExpanded: false,
+  companyJobIdFilters: []
 });
 
 // Reducer function
@@ -42,7 +44,7 @@ export function reducer(state, action) {
         case fromCompanyJobsActions.LOAD_COMPANY_JOBS: {
           return {
             ...adapter.removeAll(featureState),
-            selectedCompanyJobs: [],
+            companyJobsToAssociate: [],
             loading: true,
             loadingError: false,
             isDetailPanelExpanded: false
@@ -64,30 +66,34 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
-        case fromCompanyJobsActions.RESET_STATE: {
+        case fromCompanyJobsActions.RESET: {
           return {
-            ...featureState,
+            ...adapter.removeAll(featureState),
             loading: false,
             loadingError: false,
-            selectedCompanyJobs: [],
+            companyJobsToAssociate: [],
+            companyJobIdFilters: [],
             total: 0,
             searchTerm: '',
             isDetailPanelExpanded: false
           };
         }
-        case fromCompanyJobsActions.SEARCH_TERM_UPDATED: {
+        case fromCompanyJobsActions.SELECT_COMPANY_JOBS_TO_ASSOCIATE: {
+          return {
+            ...featureState,
+            companyJobsToAssociate: featureAction.payload
+          };
+        }
+        case fromCompanyJobsActions.UPDATE_COMPANY_JOB_ID_FILTERS: {
+          return {
+            ...featureState,
+            companyJobIdFilters: featureAction.payload
+          };
+        }
+        case fromCompanyJobsActions.UPDATE_SEARCH_TERM: {
           return {
             ...featureState,
             searchTerm: featureAction.payload,
-            isDetailPanelExpanded: false
-          };
-        }
-        case fromCompanyJobsActions.SELECT_COMPANY_JOBS: {
-          let selectedCompanyJobs = [ ...featureState.selectedCompanyJobs ];
-          selectedCompanyJobs = featureAction.payload;
-          return {
-            ...featureState,
-            selectedCompanyJobs: featureAction.payload,
             isDetailPanelExpanded: false
           };
         }
@@ -127,4 +133,4 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
-export const getSelectedCompanyJobs = (state: State) => state.selectedCompanyJobs;
+export const getSelectedCompanyJobs = (state: State) => state.companyJobsToAssociate;

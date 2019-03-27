@@ -27,13 +27,13 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getActiveNonAssociatedCompanyJobs(listState: any, searchTerm: string): Observable<GridDataResult> {
-    return this.payfactorsApiService.get<GridDataResult>(
-      `${this.endpoint}/GetActiveNonAssociatedCompanyJobs`,
-      {params: {
-          listState: JSON.stringify(listState),
-          searchTerm: searchTerm
-        }},
+  getActiveNonAssociatedCompanyJobs(listState: any, companyJobIds: number[], searchTerm: string): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(
+      `${this.endpoint}/GetActiveNonAssociatedCompanyJobs`, {
+        ListState: listState,
+        CompanyJobIds: companyJobIds,
+        SearchTerm: searchTerm
+      },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
