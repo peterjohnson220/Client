@@ -112,7 +112,6 @@ export class DojGuidelinesService implements OnDestroy {
 
     // reset
     this.companyValidationPass = true;
-    this.employeeValidationPass = true;
 
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
     if (validationInfo.length > 0) {
