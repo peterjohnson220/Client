@@ -65,6 +65,8 @@ export class MarketsCardEffects {
 
                 if (!payMarkets.length) {
                   actions.push(new fromAddPayMarketFormActions.OpenForm({ showSkipButton: true }));
+                } else {
+                  actions.push(new fromAddPayMarketFormActions.CloseForm());
                 }
                 return actions;
               }),
