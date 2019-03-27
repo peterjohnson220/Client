@@ -7,7 +7,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   exchangeJobAssociationsSubscription={[Function Subscriber]}
   exchangeJobs$={[Function Store]}
   grid="undefined"
+  gridResultsCount$={[Function Store]}
   gridState$={[Function Store]}
+  isDetailPanelExpanded$={[Function Store]}
   isJobFamilyFilterExpanded$={[Function Store]}
   isJobFamilyFilterLoading$={[Function Store]}
   isListView={[Function Boolean]}
@@ -21,6 +23,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   selectedCompanyJobs={[Function Array]}
   selectedCompanyJobs$={[Function Store]}
   selectedCompanyJobsSubscription={[Function Subscriber]}
+  selectedExchangeJob={[Function Object]}
+  selectedExchangeJob$={[Function Store]}
+  selectedExchangeJobSubscription={[Function Subscriber]}
   selectedJobFamilyOptionNames$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
@@ -59,7 +64,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
       class="view-button ml-2 view-button-active"
       ng-reflect-klass="view-button ml-2"
       ng-reflect-ng-class="[object Object]"
-      title="List View"
+      title="Grid View"
     >
       <i
         class="fas fa-table"
@@ -88,6 +93,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
         kendotooltip=""
         showon="none"
       >
+        <pf-grid-detail-panel />
         <kendo-grid
           style="height: 100%;"
         >

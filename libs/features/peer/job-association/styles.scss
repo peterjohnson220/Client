@@ -4,6 +4,10 @@
 
 $sub-header-height: 27px;
 
+.semi-bold {
+  font-weight: 500;
+}
+
 // styling outside of the the two main components
 .associate-button {
   border: 0;
@@ -28,7 +32,6 @@ $sub-header-height: 27px;
 
 .sub-header {
   color: $header-color;
-  font-weight: 500;
   height: $sub-header-height;
 }
 
@@ -41,7 +44,24 @@ $sub-header-height: 27px;
   pointer-events: none;
 }
 
-// main component styling
+.job-description {
+  h6.primary-header {
+    font-weight: 500;
+  }
+  h6 {
+    margin-top: .7rem;
+    font-weight: 400;
+    svg {
+      margin-right: .4rem;
+      opacity: .85;
+    }
+    p {
+      padding: 0 1rem;
+    }
+  }
+}
+
+// main grid components styling
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   &> h2 {
     color: $header-color;
@@ -96,8 +116,9 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     color: $pf-brand-secondary-color;
     opacity: 1;
   }
-
   .grid-container {
+    // keep the slide in detail panel hidden outside when collapsed
+    overflow-x: hidden;
     height: 75%;
     .k-tooltip-container {
       height: 100%;
@@ -121,9 +142,15 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             }
           }
         }
+        .grid-link {
+          color: $link-color;
+        }
         .k-grid-content td, .k-grid-content td > div {
           @extend %ellipsis-overflowing-text;
           border: none;
+        }
+        a.exchange-job-title.selected, a.company-job-title.selected, a.company-job-code.selected {
+          font-weight: 700;
         }
         .k-hierarchy-cell a {
           padding: 0.5rem 0;
@@ -137,16 +164,6 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         }
         .k-icon.k-minus:before {
           content: '\E015';
-        }
-        .k-detail-cell {
-          h6 {
-            margin: .65rem 0;
-            font-weight: 400;
-            text-transform: uppercase;
-            svg {
-              margin-right: .4rem;
-            }
-          }
         }
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;

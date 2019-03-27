@@ -1,5 +1,5 @@
 // angular core
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 
 // 3rd party
 import { select, Store } from '@ngrx/store';
@@ -34,19 +34,23 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   totalCompanyJobsGridItems$: Observable<number>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  selectedCompanyJobInDetailPanel$: Observable<CompanyJob>;
+  isDetailPanelExpanded$: Observable<boolean>;
 
   // Subscriptions
   companyJobsGridItemsDataSubscription: Subscription;
   exchangeJobAssociationsSubscription: Subscription;
   selectedCompanyJobsSubscription: Subscription;
   searchTermSubscription: Subscription;
+  selectedCompanyJobInDetailPanelSubscription: Subscription;
 
   // Properties
   companyJobGridDataResult: GridDataResult;
   exchangeJobAssociations: ExchangeJobAssociation[];
   maxSelectionThreshold: number;
   selectedCompanyJobIds: CompanyJob[];
-  searchTerm;
+  selectedCompanyJobInDetailPanel: CompanyJob;
+  searchTerm: string;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -58,6 +62,9 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsGridState));
     this.loading$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoading));
     this.loadingError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingError));
+    this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsIsDetailPanelExpanded));
+    this.selectedCompanyJobInDetailPanel$ =
+      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel));
 
     this.selectedCompanyJobsSubscription = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
       .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs);
@@ -74,6 +81,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
         (searchTerm) => this.searchTerm = searchTerm);
 
+    this.selectedCompanyJobInDetailPanelSubscription =
+      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
+        (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel);
+
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
@@ -82,6 +93,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.exchangeJobAssociationsSubscription.unsubscribe();
     this.searchTermSubscription.unsubscribe();
     this.selectedCompanyJobsSubscription.unsubscribe();
+    this.selectedCompanyJobInDetailPanelSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
@@ -114,6 +126,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleCompanyJobTitleOrCodeClick(companyJob: CompanyJob) {
+    this.store.dispatch(new companyJobsActions.SelectJobTitleOrCode(companyJob));
+  }
+
   handleDetailExpand(event: any): void {
     // determine how many results we have in the grid
     const gridData = this.grid.data as any;
@@ -125,6 +141,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
         this.grid.collapseRow(i);
       }
     }
+  }
+
+  handleCloseDetailPanel() {
+    this.store.dispatch(new companyJobsActions.CloseDetailPanel());
   }
 
   handleSelectAllClick(): void {
@@ -165,6 +185,14 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
+  }
+
+  // close the job family filter when the escape key is clicked
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'escape') {
+      this.store.dispatch(new companyJobsActions.CloseDetailPanel());
+    }
   }
 
   isPendingAssociation(companyJobId: number): boolean {

@@ -14,6 +14,8 @@ export interface State extends EntityState<ExchangeJob> {
   total: number;
   searchTerm: string;
   ExchangeJobAssociations: ExchangeJobAssociation[];
+  selectedExchangeJob: ExchangeJob;
+  isDetailPanelExpanded: boolean;
   // job family filter
   loadingJobFamilyFilter: boolean;
   loadingJobFamilyFilterSuccess: boolean;
@@ -35,6 +37,8 @@ const initialState: State = adapter.getInitialState({
   total: 0,
   searchTerm: '',
   ExchangeJobAssociations: [],
+  selectedExchangeJob: {} as ExchangeJob,
+  isDetailPanelExpanded: false,
   // job family filter
   loadingJobFamilyFilter: false,
   loadingJobFamilyFilterSuccess: false,
@@ -53,7 +57,8 @@ export function reducer(state, action) {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
-            loadingError: false
+            loadingError: false,
+            isDetailPanelExpanded: false
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_SUCCESS: {
@@ -75,7 +80,8 @@ export function reducer(state, action) {
         case fromPeerExchangeJobsActions.UPDATE_SEARCH_TERM: {
           return {
             ...featureState,
-            searchTerm: featureAction.payload
+            searchTerm: featureAction.payload,
+            isDetailPanelExpanded: false
           };
         }
         case fromPeerExchangeJobsActions.ADD_ASSOCIATION: {
@@ -108,6 +114,30 @@ export function reducer(state, action) {
             ExchangeJobAssociations: exchangeJobAssociations
           };
         }
+        case fromPeerExchangeJobsActions.SELECT_EXCHANGE_JOB: {
+          // close the panel if we're expanded and selecting the same job, otherwise open it
+          const isCurrentJobSelected = (featureAction.payload.ExchangeJobId === featureState.selectedExchangeJob.ExchangeJobId);
+          const isDetailPanelExpanded = !(isCurrentJobSelected && featureState.isDetailPanelExpanded);
+
+          return {
+            ...featureState,
+            selectedExchangeJob: featureAction.payload,
+            isDetailPanelExpanded
+          };
+        }
+        case fromPeerExchangeJobsActions.TOGGLE_DETAIL_PANEL: {
+          return {
+            ...featureState,
+            isDetailPanelExpanded: !featureState.isDetailPanelExpanded
+          };
+        }
+        case fromPeerExchangeJobsActions.CLOSE_DETAIL_PANEL: {
+          return {
+            ...featureState,
+            isDetailPanelExpanded: false
+          };
+        }
+        // job family filter
         case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER: {
           return {
             ...featureState,
@@ -137,7 +167,8 @@ export function reducer(state, action) {
 
           return {
             ...featureState,
-            isJobFamilyFilterExpanded
+            isJobFamilyFilterExpanded,
+            isDetailPanelExpanded: (isJobFamilyFilterExpanded) ? false : featureState.isDetailPanelExpanded
           };
         }
         case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER_SELECTION: {

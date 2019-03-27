@@ -16,6 +16,7 @@ import { PfFormsModule } from 'libs/forms';
 
 import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
+import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-detail-panel.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     // Containers
     CompanyJobsComponent,
     ExchangeJobsComponent,
-    JobAssociationModalComponent
+    JobAssociationModalComponent,
+    GridDetailPanelComponent
   ],
   providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]
