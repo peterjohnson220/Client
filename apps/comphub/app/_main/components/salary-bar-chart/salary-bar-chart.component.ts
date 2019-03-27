@@ -12,6 +12,7 @@ export class SalaryBarChartComponent {
   @Input() salary25?: number;
   @Input() salary50?: number;
   @Input() salary75?: number;
+  @Input() currencyCode: string;
 
   constructor() { }
 

@@ -21,9 +21,9 @@
 
           <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
 
-          <pf-data-card *ngSwitchCase="comphubPages.Data"></pf-data-card>
+          <pf-data-card [currencyCode]="activeCountryDataSet?.CurrencyCode" *ngSwitchCase="comphubPages.Data"></pf-data-card>
 
-          <pf-summary-card *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
+          <pf-summary-card [currencyCode]="activeCountryDataSet?.CurrencyCode" *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
 
         </ng-container>
 

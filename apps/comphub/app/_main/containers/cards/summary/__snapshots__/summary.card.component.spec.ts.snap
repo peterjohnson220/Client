@@ -222,13 +222,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -248,13 +243,8 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -551,13 +541,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -577,13 +562,8 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -880,13 +860,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -906,13 +881,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -1209,13 +1179,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -1235,13 +1200,8 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -1538,13 +1498,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
@@ -1564,13 +1519,8 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 <div
                   class="d-flex flex-row"
                 >
-                  <h2
-                    class="currency-sign"
-                  >
-                    $
-                  </h2>
                   <h1
-                    class="header-blue"
+                    class="currency header-blue"
                   >
                     
                   </h1>
