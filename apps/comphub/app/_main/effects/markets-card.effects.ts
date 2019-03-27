@@ -111,13 +111,13 @@ export class MarketsCardEffects {
       switchMap((data) => {
         const request: MDLocationsRequest = {
           CountryCode: data.countryDataSet.CountryCode,
-          GeoLabel: data.countryDataSet.GeoLabel as MDScopeGeoGroup,
           Query: data.action.payload
         };
         return this.marketDataScopeApiService.getMdLocations(request)
           .pipe(
             map((response) =>
-              new fromMarketsCardActions.GetMarketDataLocationsSuccess(response )
+              new fromMarketsCardActions.GetMarketDataLocationsSuccess(
+                PayfactorsApiModelMapper.mapMdLocationsResponseToMarketDataLocations(response))
             ),
             catchError((error) => {
               return of(new fromMarketsCardActions.GetMarketDataLocationsError(),

@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
-import { PricingPaymarket, MarketDataScope } from '../models';
+import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
 import { PayfactorsApiModelMapper, MarketsCardHelper } from '../helpers';
 
 export interface State {
@@ -15,7 +15,7 @@ export interface State {
   displayNationalAsCard: boolean;
   loadingScopes: boolean;
   loadingLocations: boolean;
-  marketDataLocations: string[];
+  marketDataLocations: MarketDataLocation[];
 }
 
 const initialState: State = {

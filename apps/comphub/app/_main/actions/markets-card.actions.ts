@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 
-import { PricingPaymarket, AddPayMarketFormData, CountryDataSet } from '../models';
+import { PricingPaymarket, AddPayMarketFormData, CountryDataSet, MarketDataLocation } from '../models';
 
 export const INIT_MARKETS_CARD = '[Comphub/Markets Card] Init Markets Card';
 export const GET_PAYMARKETS = '[Comphub/Markets Card] Get Pay Markets';
@@ -109,7 +109,7 @@ export class GetMarketDataLocations implements Action {
 export class GetMarketDataLocationsSuccess implements Action {
   readonly type = GET_MD_LOCATIONS_SUCCESS;
 
-  constructor(public payload: string[]) {}
+  constructor(public payload: MarketDataLocation[]) {}
 }
 
 export class GetMarketDataLocationsError implements Action {

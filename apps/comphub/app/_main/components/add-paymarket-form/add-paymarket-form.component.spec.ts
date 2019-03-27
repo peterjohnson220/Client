@@ -28,7 +28,11 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
     spyOn(instance.saveClick, 'emit');
     instance.marketDataScope = generateMockMarketDataScope();
     instance.countryDataSet = generateMockCountryDataSet();
-    instance.locations = ['Boston, MA'];
+    instance.locations = [{
+      LocationName: 'Boston, MA',
+      GeoLabelDisplayName: 'City / State',
+      GeoLabel: 'CityState'
+    }];
 
     instance.addPayMarketForm.patchValue({
       name: 'Pay Market Name',
@@ -123,7 +127,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Size: '100 - 500',
       Country: 'USA',
       Currency: 'USD',
-      GeoLabel: 'CityState'
+      GeoLabel: 'Location'
     };
 
     instance.handleSaveClicked();
@@ -150,7 +154,7 @@ describe('Comphub - Main - Add Pay Market Form Component', () => {
       Size: 'All',
       Country: 'USA',
       Currency: 'USD',
-      GeoLabel: 'CityState'
+      GeoLabel: 'Location'
     };
 
     instance.handleSaveClicked();

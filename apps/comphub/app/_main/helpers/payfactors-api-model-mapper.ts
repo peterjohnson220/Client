@@ -8,9 +8,11 @@ import {
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
-  JobData, JobGridData, CountryDataSet, JobSalaryTrend } from '../models';
-import { MDScopeResponse } from 'libs/models/payfactors-api';
+import {
+  TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
+  JobData, JobGridData, CountryDataSet, JobSalaryTrend, MarketDataLocation
+} from '../models';
+import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
 import { MDScopeSizeCategory } from 'libs/constants';
 import { countryFlagMap } from '../data';
 
@@ -115,5 +117,15 @@ export class PayfactorsApiModelMapper {
           FlagCode: countryFlagMap[cdr.CountryCode]
         };
       });
+  }
+
+  static mapMdLocationsResponseToMarketDataLocations(response: MDLocationResponse[]): MarketDataLocation[] {
+    return response.map(md => {
+      return {
+        LocationName: md.LocationName,
+        GeoLabel: md.GeoLabel,
+        GeoLabelDisplayName: md.GeoLabelDisplayName
+      };
+    });
   }
 }

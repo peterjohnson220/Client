@@ -28,8 +28,8 @@ export class MarketsCardHelper {
 
   static buildDefaultMarketDataScope(): MarketDataScope {
     return {
-      Sizes: [{ Name: 'All', Value: 'All' }],
-      Industries: [{ Name: 'All', Value: 'All'}]
+      Sizes: [{Name: 'All', Value: 'All'}],
+      Industries: [{Name: 'All', Value: 'All'}]
     };
   }
 
@@ -55,19 +55,5 @@ export class MarketsCardHelper {
       Size: 'All',
       SizeLabel: 'Employees'
     };
-  }
-
-  static getLocationPlaceholder(countryDataSet: CountryDataSet): string {
-    if (!countryDataSet) {
-      return 'All';
-    }
-    switch (countryDataSet.CountryCode) {
-      case CountryCode.USA:
-        return 'Search by City...';
-      case CountryCode.CAN:
-        return 'Search by Metro...';
-      default:
-        return 'All';
-    }
   }
 }
