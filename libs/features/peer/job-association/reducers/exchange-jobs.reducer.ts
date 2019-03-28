@@ -22,6 +22,11 @@ export interface State extends EntityState<ExchangeJob> {
   loadingJobFamilyFilterError: boolean;
   isJobFamilyFilterExpanded: boolean;
   jobFamilyOptions: GenericMenuItem[];
+  // previous associations
+  loadingPreviousAssociations: boolean;
+  loadingPreviousAssociationsSuccess: boolean;
+  loadingPreviousAssociationsError: boolean;
+  previousAssociations: CompanyJob[];
 }
 
 // Define our Adapter
@@ -44,7 +49,12 @@ const initialState: State = adapter.getInitialState({
   loadingJobFamilyFilterSuccess: false,
   loadingJobFamilyFilterError: false,
   isJobFamilyFilterExpanded: false,
-  jobFamilyOptions: []
+  jobFamilyOptions: [],
+  // previous associations
+  loadingPreviousAssociations: false,
+  loadingPreviousAssociationsSuccess: false,
+  loadingPreviousAssociationsError: false,
+  previousAssociations: []
 });
 
 // Reducer function
@@ -117,6 +127,31 @@ export function reducer(state, action) {
           return {
             ...featureState,
             ExchangeJobAssociations: exchangeJobAssociations
+          };
+        }
+        // previous associations
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: true,
+            previousAssociations: []
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: false,
+            loadingPreviousAssociationsError: false,
+            loadingPreviousAssociationsSuccess: true,
+            previousAssociations: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS_ERROR: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: false,
+            loadingPreviousAssociationsError: true,
+            loadingPreviousAssociationsSuccess: false
           };
         }
         case fromPeerExchangeJobsActions.SELECT_EXCHANGE_JOB: {

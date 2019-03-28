@@ -17,6 +17,8 @@ import { PfFormsModule } from 'libs/forms';
 import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
 import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-detail-panel.component';
+import { HalfCompleteIconComponent } from './components/half-complete-icon/half-complete-icon.component';
+import { CompleteIconComponent } from './components/complete-icon/complete-icon.component';
 
 @NgModule({
   imports: [
@@ -43,7 +45,9 @@ import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-de
     CompanyJobsComponent,
     ExchangeJobsComponent,
     JobAssociationModalComponent,
-    GridDetailPanelComponent
+    GridDetailPanelComponent,
+    HalfCompleteIconComponent,
+    CompleteIconComponent
   ],
   providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]

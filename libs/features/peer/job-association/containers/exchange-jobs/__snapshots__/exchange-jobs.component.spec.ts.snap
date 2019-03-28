@@ -19,7 +19,11 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
   loadingError$={[Function Store]}
+  loadingPreviousAssociations$={[Function Store]}
+  loadingPreviousAssociationsError$={[Function Store]}
+  loadingPreviousAssociationsSuccess$={[Function Store]}
   maxAssociableThreshold={[Function Number]}
+  previousAssociations$={[Function Store]}
   searchTerm=""
   searchTermSubscription={[Function Subscriber]}
   selectedCompanyJobs={[Function Array]}
@@ -63,8 +67,8 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
        peer exchange jobs: 0 total 
     </label>
     <button
-      class="view-button ml-2 view-button-active"
-      ng-reflect-klass="view-button ml-2"
+      class="view-button ml-2 invisible view-button-active"
+      ng-reflect-klass="view-button ml-2 invisible"
       ng-reflect-ng-class="[object Object]"
       title="Grid View"
     >
@@ -73,8 +77,8 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
       />
     </button>
     <button
-      class="view-button"
-      ng-reflect-klass="view-button"
+      class="view-button invisible"
+      ng-reflect-klass="view-button invisible"
       ng-reflect-ng-class="[object Object]"
       title="Detail View"
     >

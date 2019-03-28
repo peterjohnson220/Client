@@ -155,7 +155,7 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         .k-hierarchy-cell a {
           padding: 0.5rem 0;
         }
-        .k-alt:not(.k-state-selected) {
+        .k-alt:not(.k-state-selected, .k-detail-row) {
           background-color: #f2f2f2;
         }
         // override plus/minus expand icons with right/down chevrons
@@ -198,8 +198,25 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     }
   }
 
+  pf-complete-icon, pf-half-complete-icon {
+    svg {
+      height: 2rem;
+      opacity: .9;
+    }
+    .fill-light-green {
+      fill: #009b09;
+    }
+    .fill-dark-green {
+      fill: rgba(0, 155, 9, 0.5);
+    }
+    .fill-white {
+      fill: #fff;
+    }
+  }
+
   /* hide No records available when loading */
   .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
 }
+

@@ -3,11 +3,12 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { iif, of } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { JobAssociationApiService } from 'libs/data/payfactors-api/peer/job-association-api.service';
+import { CompanyJobApiService } from 'libs/data/payfactors-api/company/company-job-api.service';
 import { GenericMenuItem } from 'libs/models/common';
 
 import * as fromPeerJobsActions from '../actions/exchange-jobs.actions';
@@ -66,9 +67,27 @@ export class ExchangeJobsEffects {
     )
   );
 
+  @Effect()
+  getPreviousAssociations$: Observable<Action> = this.actions$.pipe(
+    ofType(fromPeerJobsActions.LOAD_PREVIOUS_ASSOCIATIONS),
+    map((action: any) => action.payload.map(c => c.CompanyJobId)),
+    switchMap((companyJobIds: number[]) =>
+      // if we don't have previous associations just return an empty array, otherwise get the job info from the server
+      iif(
+        () => !companyJobIds.length,
+        of(new fromPeerJobsActions.LoadPreviousAssociationsSuccess([])),
+        this.companyJobApiService.getCompanyJobs(companyJobIds).pipe(
+          map((companyJobs: any) => new fromPeerJobsActions.LoadPreviousAssociationsSuccess(companyJobs)),
+          catchError(() => of(new fromPeerJobsActions.LoadPreviousAssociationsError()))
+        )
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private jobAssociationApiService: JobAssociationApiService,
+    private companyJobApiService: CompanyJobApiService,
     private store: Store<fromPeerJobsReducer.State>,
   ) {}
 }

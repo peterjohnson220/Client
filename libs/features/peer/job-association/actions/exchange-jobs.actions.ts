@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeJobAssociation, ExchangeJob } from '../models';
+import { ExchangeJobAssociation, ExchangeJob, CompanyJob } from '../models';
 import { GenericMenuItem } from 'libs/models';
+import { CompanyJobMapping } from 'libs/models/peer';
 
 // container
 export const LOAD = '[Peer Job Association/Exchange Jobs] Load';
@@ -18,6 +19,11 @@ export const REMOVE_ASSOCIATION = '[Peer Job Association/Exchange Jobs] Remove A
 export const SELECT_EXCHANGE_JOB = '[Peer Job Association/Exchange Jobs] Select Exchange Job';
 export const TOGGLE_DETAIL_PANEL = '[Peer Job Association/Exchange Jobs] Toggle Detail Panel';
 export const UPDATE_SEARCH_TERM  = '[Peer Job Association/Exchange Jobs] Update Search Term';
+
+// previous associations
+export const LOAD_PREVIOUS_ASSOCIATIONS = '[Peer Job Association/Exchange Jobs] Load Previous Associations';
+export const LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS = '[Peer Job Association/Exchange Jobs] Load Previous Associations Success';
+export const LOAD_PREVIOUS_ASSOCIATIONS_ERROR = '[Peer Job Association/Exchange Jobs] Load Previous Associations Error';
 
 // job family filter
 export const CLEAR_SELECTED_JOB_FAMILIES = '[Peer Job Association/Exchange Jobs] Clear Selected Job Families';
@@ -62,6 +68,21 @@ export class LoadExchangeJobsSuccess implements Action {
 export class RemoveAssociation implements Action {
   readonly type = REMOVE_ASSOCIATION;
   constructor(public exchangeId: number, public exchangeJobId: number, public companyJobId: number) {}
+}
+
+// previous associations
+export class LoadPreviousAssociations implements Action {
+  readonly type = LOAD_PREVIOUS_ASSOCIATIONS;
+  constructor(public payload: CompanyJobMapping[]) {}
+}
+
+export class LoadPreviousAssociationsSuccess implements Action {
+  readonly type = LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS;
+  constructor(public payload: CompanyJob[]) {}
+}
+
+export class LoadPreviousAssociationsError implements Action {
+  readonly type = LOAD_PREVIOUS_ASSOCIATIONS_ERROR;
 }
 
 export class SelectExchangeJob implements Action {
@@ -128,4 +149,9 @@ export type Actions
   | LoadJobFamilyFilterError
   | LoadJobFamilyFilterSuccess
   | ToggleJobFamilyFilter
-  | ToggleJobFamilyFilterSelection;
+  | ToggleJobFamilyFilterSelection
+  | ClearSelectedJobFamilies
+  // previous associations
+  | LoadPreviousAssociations
+  | LoadPreviousAssociationsSuccess
+  | LoadPreviousAssociationsError;

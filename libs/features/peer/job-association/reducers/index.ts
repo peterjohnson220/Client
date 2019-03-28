@@ -3,7 +3,6 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromRoot from 'libs/state/state';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
-import { GenericMenuItem } from 'libs/models/common';
 
 // Import feature reducers
 import * as fromCompanyJobsReducer from './company-jobs.reducer';
@@ -136,6 +135,27 @@ export const getExchangeJobFamilyFilterOptions = createSelector(
 export const getExchangeJobFamilyFilterSelectedOptionNames = createSelector(
   getExchangeJobsFeature,
   (state) => state.jobFamilyOptions.filter(o => o.IsSelected).map(o => o.DisplayName)
+);
+
+// Exchange Jobs Selectors, previous associations
+export const getPreviousAssociations = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.previousAssociations
+);
+
+export const getLoadingPreviousAssociations = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociations
+);
+
+export const getLoadingPreviousAssociationsSuccess = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociationsSuccess
+);
+
+export const getLoadingPreviousAssociationsError = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociationsError
 );
 
 // Company Jobs Selectors
