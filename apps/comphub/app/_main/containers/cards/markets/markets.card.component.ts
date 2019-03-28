@@ -7,7 +7,7 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet} from '../../../models';
+import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet, MarketDataLocation } from '../../../models';
 
 @Component({
   selector: 'pf-markets-card',
@@ -20,7 +20,7 @@ export class MarketsCardComponent implements OnInit {
   loadingPaymarketsError$: Observable<boolean>;
   loadingMarketDataScopes$: Observable<boolean>;
   loadingLocations$: Observable<boolean>;
-  marketDataLocations$: Observable<string[]>;
+  marketDataLocations$: Observable<MarketDataLocation[]>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   paymarkets$: Observable<PricingPaymarket[]>;
 

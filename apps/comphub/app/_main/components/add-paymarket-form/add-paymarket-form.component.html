@@ -50,9 +50,16 @@
           formControlName="location"
           [data]="locations"
           [loading]="loadingLocations"
-          [placeholder]="locationPlaceholder"
+          [placeholder]="'Search by Location...'"
           [filterable]="true"
+          [valueField]="'LocationName'"
           (filterChange)="handleLocationFilter($event)">
+          <ng-template kendoAutoCompleteItemTemplate let-dataItem>
+            <div class="geo-list-item" (click)="setSelectedLocation(dataItem)">
+              <div class="geo-display-value">{{ dataItem.LocationName }}</div>
+              <div class="geo-display-label">{{ dataItem.GeoLabelDisplayName }}</div>
+            </div>
+          </ng-template>
         </kendo-autocomplete>
       </div>
 
