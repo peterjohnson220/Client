@@ -44,7 +44,10 @@ export class JobAssociationModalEffects {
   @Effect()
   openJobAssociationModal$ = this.actions$.pipe(
     ofType(fromJobAssociationModalActions.OPEN_JOB_ASSOCIATIONS_MODAL),
-    mergeMap(() => [new fromCompanyJobActions.Load(), new fromExchangeJobActions.Load()])
+    mergeMap(() => [
+      new fromCompanyJobActions.Load(),
+      new fromExchangeJobActions.Load()
+    ])
   );
 
   @Effect()
