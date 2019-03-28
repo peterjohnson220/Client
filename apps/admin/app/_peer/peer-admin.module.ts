@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -20,12 +21,12 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
          ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
          ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent,
-         DenyRequestModalComponent, ApproveRequestModalComponent } from './containers';
+         DenyRequestModalComponent, ApproveRequestModalComponent, ManageExchangeFiltersComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
   PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects,
-  CompanyExchangeInvitationInfoEffects
+  CompanyExchangeInvitationInfoEffects, ExchangeFiltersEffects
 } from './effects';
 import { ExchangeJobAssociationUtilityEffects } from './effects/exchange-job-association-utility.effects';
 import { ExchangeExistsGuard } from './guards';
@@ -59,9 +60,11 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
       NewCompanyExchangeInvitationsEffects,
       ExchangeJobRequestsEffects,
       CompanyExchangeInvitationInfoEffects,
-      ExchangeJobAssociationUtilityEffects
+      ExchangeJobAssociationUtilityEffects,
+      ExchangeFiltersEffects
     ]),
     DropDownsModule,
+    SwitchModule,
 
     // Routing
     PeerAdminRoutingModule,
@@ -93,6 +96,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     ExchangeJobRequestInfoComponent,
     DenyRequestModalComponent,
     ApproveRequestModalComponent,
+    ManageExchangeFiltersComponent,
 
     // Pages
     ExchangeListPageComponent,

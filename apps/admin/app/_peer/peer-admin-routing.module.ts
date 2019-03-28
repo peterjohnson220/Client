@@ -7,7 +7,8 @@ import { PfAdminGuard } from 'libs/security/guards';
 import {
   ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
   ExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
-  NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent, ExchangeJobAssociationUtilityPageComponent
+  NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent, ExchangeJobAssociationUtilityPageComponent,
+  ManageExchangeFiltersComponent
 } from './containers';
 import { ExchangeExistsGuard } from './guards';
 
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'accessrequests', component: ExchangeAccessRequestsComponent },
       { path: 'companyinvitations', component: PayfactorsCompanyExchangeInvitationsComponent },
       { path: 'companyreferrals', component: NewCompanyExchangeInvitationsComponent },
-      { path: 'jobrequests', component: ExchangeJobRequestsComponent }
+      { path: 'jobrequests', component: ExchangeJobRequestsComponent },
+      { path: 'exchangefilters', component: ManageExchangeFiltersComponent }
     ]
   },
   { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent },

@@ -68,6 +68,15 @@
               </a>
             </div>
           </li>
+          <li class="nav-item">
+            <div>
+              <a class="nav-link" [routerLink]="['exchangefilters']" [routerLinkActive]="['selected']">
+                <i class="fas fa-filter font-a-icon"></i>
+                Exchange Filters
+                <span class="counts" *ngIf="totalExchangeFilters$ | async as exchangeFilters">{{ exchangeFilters }}</span>
+              </a>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="inner-content">
