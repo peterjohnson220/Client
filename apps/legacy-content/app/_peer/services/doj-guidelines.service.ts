@@ -110,9 +110,6 @@ export class DojGuidelinesService implements OnDestroy {
 
     const validationInfo = this.dataCutValidationInfo;
 
-    // reset
-    this.companyValidationPass = true;
-
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
     if (validationInfo.length > 0) {
       // In an attempt to make this method faster, a previousSelections variable will be stored.
@@ -120,12 +117,14 @@ export class DojGuidelinesService implements OnDestroy {
       if (!arraysEqual(currentMapCompanies, this.previousMapCompanies)) {
         this.previousMapCompanies = currentMapCompanies;
         // Check against each existing cut, if it fails we break out and set validation to false.
+        let validationPass = true;
         for (const value of validationInfo) {
           if (checkArraysOneOff(currentMapCompanies, value.CompanyIds)) {
-            this.companyValidationPass = false;
+            validationPass = false;
             break;
           }
         }
+        this.companyValidationPass = validationPass;
       }
     }
 
