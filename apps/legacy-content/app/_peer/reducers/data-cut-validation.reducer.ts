@@ -24,7 +24,7 @@ export const initialState: State = adapter.getInitialState({
   loadingError: false,
   validatingEmployeeSimilarity: false,
   validatingEmployeeSimilarityError: false,
-  employeeSimilarityPassed: false
+  employeeSimilarityPassed: true
 });
 
 // Reducer
