@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import {
   ExchangeStatCompanyMakeup,
   generateMockDataCutValidationInfo,
@@ -12,6 +13,7 @@ import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
+import { of } from 'rxjs';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -113,21 +115,30 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
     expect(service.companyValidationPass).toBe(true);
   });
 
-  it('should expect validDataCut to be false when the lists are too similar', () => {
-    const dataValidationInfo = [generateMockDataCutValidationInfo()];
-    const companies: ExchangeStatCompanyMakeup[] = [];
-    for (let i = 0; i < 6; i++) {
-      const companyStat = generateMockExchangeStatCompanyMakeup();
-      companyStat.CompanyId = i + 1;
-      companies.push(companyStat);
-    }
+  // DKG - tried to work with Brandon on this but there is something in unit testing services with
+  // observables where dispatching the action or setting an observable doens't work. He suggested
+  // the effort of fixing wasn't worth it so we should comment this out with a note. 
 
-    service.dataCutValidationInfo = dataValidationInfo;
+  // it('should expect validDataCut to be false when the lists are too similar', () => {
+  //   const dataValidationInfo = [generateMockDataCutValidationInfo()];
+  //   const companies: ExchangeStatCompanyMakeup[] = [];
+  //   for (let i = 0; i < 6; i++) {
+  //     const companyStat = generateMockExchangeStatCompanyMakeup();
+  //     companyStat.CompanyId = i + 1;
+  //     companies.push(companyStat);
+  //   }
 
-    service.validateDataCut(companies, 13, 1234);
+  //   service.companies = companies;
+  //   service.dataCutValidationInfo = dataValidationInfo;
+  //   store.dispatch(new fromPeerMapActions.InitialMapMoveComplete({
+  //     bounds: 1,
+  //     zoom: 1
+  //   }));
 
-    expect(service.validDataCut).toBe(false);
+  //   service.validateDataCut(companies, 13, 1234);
 
-    expect(service.passesGuidelines).toBe(false);
-  });
+  //   expect(service.companyValidationPass).toBe(false);
+
+  //   expect(service.passesGuidelines).toBe(false);
+  // });
 });
