@@ -3,11 +3,22 @@
     Tickets
   </ng-container>
   <ng-container page-content>
-    <kendo-tabstrip>
+    <kendo-tabstrip [keepTabContent]="true"
+                    (tabSelect)="handleTabSelect($event)">
       <kendo-tabstrip-tab [title]="'Tickets'"
                           [selected]="true">
         <ng-template kendoTabContent>
           <pf-ticket-list></pf-ticket-list>
+        </ng-template>
+      </kendo-tabstrip-tab>
+      <kendo-tabstrip-tab *ngFor="let x of userTicketTabs"
+                          [title]="x.Title">
+        <ng-template kendoTabTitle>
+          <span (click)="handleCloseTabClick(x.UserTicketId)"><i class="far fa-times fa-2x close-btn"></i></span>
+        </ng-template>
+        <ng-template kendoTabContent>
+          <pf-ticket [ticketId]="x.UserTicketId">
+          </pf-ticket>
         </ng-template>
       </kendo-tabstrip-tab>
     </kendo-tabstrip>

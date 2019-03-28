@@ -1,0 +1,6 @@
+<pf-async-container [loading]="ticketLoading$ | async"
+                    [loadingError]="ticketLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Ticket'"
+                    (reload)="handleTicketReload">
+  {{ticket?.UserTicket}}
+</pf-async-container>

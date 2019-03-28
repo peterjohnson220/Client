@@ -35,6 +35,7 @@ export const getTicketLoading = createSelector(selectTicketState, fromTicketsRed
 export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoading);
 export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
 export const getOpenedTicket = createSelector(selectTicketState, fromTicketsReducer.getOpenedTicket);
+export const getSelectedTabTicket = createSelector(selectTicketState, fromTicketsReducer.getSelectedTabTicket);
 
 // Ticket List Selectors
 export const {

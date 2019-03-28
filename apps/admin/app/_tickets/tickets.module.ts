@@ -11,8 +11,9 @@ import { WindowRef } from 'libs/core/services';
 import { PfCommonUIModule } from 'libs/ui/common';
 
 import { TicketListComponent, TicketListPageComponent } from './containers';
-import { TicketListEffects } from './effects';
+import { TicketEffects, TicketListEffects } from './effects';
 import { reducers } from './reducers';
+import { TicketComponent } from './containers/ticket';
 import { TicketsRoutingModule } from './tickets-routing.module';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
 
     StoreModule.forFeature('admin_tickets', reducers),
     EffectsModule.forFeature([
+      TicketEffects,
       TicketListEffects,
     ]),
 
@@ -35,6 +37,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
   declarations: [
     // Containers
     TicketListComponent,
+    TicketComponent,
     // Pages
     TicketListPageComponent,
   ],

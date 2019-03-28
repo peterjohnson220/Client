@@ -5,8 +5,7 @@ export const LOAD_TICKET = '[Admin Tickets / Ticket] Load Ticket';
 export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success';
 export const LOAD_TICKET_ERROR = '[Admin Tickets / Ticket] Load Ticket Error';
 export const OPEN_TICKET = '[Admin Tickets/ Ticket] Open Ticket';
-
-// TODO: Add Success and Error actions for opening ticket?
+export const SELECT_TICKET_TAB = '[Admin Tickets/ Ticket] Select Ticket Tab';
 
 export class LoadTicket implements Action {
   readonly type = LOAD_TICKET;
@@ -30,8 +29,15 @@ export class OpenTicket implements Action {
   constructor(public payload: number) {}
 }
 
+export class SelectTicketTab implements  Action {
+  readonly type = SELECT_TICKET_TAB;
+
+  constructor(public payload: number) {}
+}
+
 export type Actions
   = LoadTicket
   | LoadTicketSuccess
   | LoadTicketError
-  | OpenTicket;
+  | OpenTicket
+  | SelectTicketTab;
