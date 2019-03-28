@@ -149,6 +149,12 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         loadingLocations: false
       };
     }
+    case fromMarketsCardActions.CLEAR_MD_LOCATIONS: {
+      return {
+        ...state,
+        marketDataLocations: []
+      };
+    }
     default: {
       return state;
     }

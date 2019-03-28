@@ -21,6 +21,7 @@ export const GET_MD_LOCATIONS_ERROR = '[Comphub/Markets Card] Get Market Data Lo
 export const ORDER_PAYMARKETS_WITH_SELECTED_FIRST = '[Comphub/Markets Card] Order Pay Markets with Selected First';
 export const HIDE_ADD_NEW_PAYMARKETS_BUTTON = '[Comphub/Markets Card] Hide Add New Paymarket Button';
 export const DISPLAY_NATIONAL_AS_CARD = '[Comphub/Markets Card] Display National As Card';
+export const CLEAR_MD_LOCATIONS = '[Comphub/Markets Card] Clear MD Locations';
 
 export class InitMarketsCard implements Action {
   readonly type = INIT_MARKETS_CARD;
@@ -116,6 +117,10 @@ export class GetMarketDataLocationsError implements Action {
   readonly type = GET_MD_LOCATIONS_ERROR;
 }
 
+export class ClearMarketDataLocations implements Action {
+  readonly type = CLEAR_MD_LOCATIONS;
+}
+
 export type Actions
   = InitMarketsCard
   | GetPaymarkets
@@ -133,4 +138,5 @@ export type Actions
   | DisplayNationalAsCard
   | GetMarketDataLocations
   | GetMarketDataLocationsSuccess
-  | GetMarketDataLocationsError;
+  | GetMarketDataLocationsError
+  | ClearMarketDataLocations;
