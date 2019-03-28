@@ -5,6 +5,7 @@ import {combineReducers, Store, StoreModule} from '@ngrx/store';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { of } from 'rxjs';
 
+import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 
 import { SummaryCardComponent } from './summary.card.component';
@@ -12,7 +13,6 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { RateType, ComphubPages } from '../../../data';
 import { generateFakeJobData, generateMockPricingPaymarket, generateMockCountryDataSet } from '../../../models';
-
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
@@ -27,7 +27,8 @@ describe('Comphub - Main - Summary Card Component', () => {
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
         }),
         // Bad. Using actual implementation to verify calls.
-        PDFExportModule
+        PDFExportModule,
+        PfCommonModule
       ],
       declarations: [ SummaryCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
