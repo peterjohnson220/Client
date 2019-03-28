@@ -201,13 +201,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleAssociateClick(exchangeId: number, exchangeJobId: number): void {
+  handleAssociateClick(exchangeId: number, exchangeJobId: number, index: number): void {
     if (this.isAssociable(exchangeId, exchangeJobId)) {
       this.store.dispatch(new exchangeJobsActions.AddAssociation({
         ExchangeId: exchangeId,
         ExchangeJobId: exchangeJobId,
         CompanyJobs: this.selectedCompanyJobs
       }));
+      this.grid.expandRow(index);
+      this.handleDetailExpand({index: index});
     }
   }
 
