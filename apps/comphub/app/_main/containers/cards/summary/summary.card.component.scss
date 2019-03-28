@@ -4,19 +4,21 @@
 @import 'colors';
 @import 'common/common-variables';
 
-:host::ng-deep .close-app-btn{
-  right: 50px;
+:host::ng-deep {
+  .close-app-btn {
+    right: 50px;
+  }
+
+  .currency {
+    color: $pf-additional-colors-green;
+    line-height: 3.4rem;
+    font-size: 70%;
+  }
 }
 
 .header-blue {
   color: $comphub-header-blue;
   width: 100%;
-}
-
-.currency::first-letter {
-  color: $pf-additional-colors-green;
-  line-height: 3.4rem;
-  font-size: 70%;
 }
 
 .width-250 {

@@ -6,7 +6,7 @@
 
   <ng-container page-content>
 
-    <ng-container *ngTemplateOutlet="summary;context:{export: false}"></ng-container>
+    <ng-container *ngTemplateOutlet="summary"></ng-container>
 
     <div class="hide-export">
       <kendo-pdf-export #pdf
@@ -21,7 +21,7 @@
           <div class="pdf-header">Pricing Summary</div>
 
           <!--Summary-->
-          <ng-container *ngTemplateOutlet="summary;context:{export: true}"></ng-container>
+          <ng-container *ngTemplateOutlet="summary"></ng-container>
 
           <!--SMB Sell Sheet-->
           <ng-container *ngIf="(userContext$ | async)?.CompanySystemUserGroupsGroupName === systemUserGroupNames.SmallBusiness">
@@ -86,7 +86,7 @@
 </pf-share-pricing-summary-modal>
 
 
-<ng-template #summary let-export="export">
+<ng-template #summary>
   <div class="summary-container row mt-4">
     <div class="col left-container">
 
@@ -142,7 +142,11 @@
         <div class="width-250">
           <span>Base Salary</span>
           <div class="d-flex flex-row">
-            <h1 [class.currency]="!export" class="header-blue">{{calculateDataByRate(jobData?.Base50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+            <h1 [innerHTML]="
+                calculateDataByRate(jobData?.Base50) |
+                currency: currencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
+                wrapSubTextWithTag:0:1:'currency'"
+                class="header-blue"></h1>
           </div>
           <div class="w-75">
             <pf-salary-bar-chart
@@ -157,7 +161,11 @@
         <div class="width-250">
           <span>Total Cash Compensation</span>
           <div class="d-flex flex-row">
-            <h1 [class.currency]="!export" class="header-blue">{{calculateDataByRate(jobData?.Tcc50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}</h1>
+            <h1 [innerHTML]="
+                calculateDataByRate(jobData?.Tcc50) |
+                currency: currencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
+                wrapSubTextWithTag:0:1:'currency'"
+                class="header-blue"></h1>
           </div>
           <div class="w-75">
             <pf-salary-bar-chart
