@@ -207,6 +207,15 @@ export class MarketsCardEffects {
       })
     );
 
+  @Effect()
+  closeAddPayMarketForm$ = this.actions$
+    .ofType(fromAddPayMarketFormActions.CLOSE_FORM)
+    .pipe(
+      map(() =>
+        new fromMarketsCardActions.ClearMarketDataLocations()
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromComphubMainReducer.State>,
