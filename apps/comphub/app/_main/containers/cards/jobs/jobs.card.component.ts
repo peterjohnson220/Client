@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -11,7 +11,8 @@ import { SystemUserGroupNames } from 'libs/constants';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { CountryDataSet, JobPricingLimitInfo, TrendingJobGroup } from '../../../models';
+import { CountryDataSet, JobPricingLimitInfo, TrendingJobGroup, WorkflowContext } from '../../../models';
+import { ComphubPages } from '../../../data';
 
 @Component({
   selector: 'pf-jobs-card',
@@ -19,8 +20,8 @@ import { CountryDataSet, JobPricingLimitInfo, TrendingJobGroup } from '../../../
   styleUrls: ['./jobs.card.component.scss']
 })
 export class JobsCardComponent implements OnInit, OnDestroy {
-  popupSettings: PopupSettings;
   @ViewChild('jobSearch') jobSearch: AutoCompleteComponent;
+  @Input() workflowContext: WorkflowContext;
 
   // Observables
   trendingJobGroups$: Observable<TrendingJobGroup[]>;
@@ -33,7 +34,6 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   countryDataSets$: Observable<CountryDataSet[]>;
   countryDataSetsLoaded$: Observable<boolean>;
   loadingTrendingJobs$: Observable<boolean>;
-  activeCountryDataSet$: Observable<CountryDataSet>;
 
   jobSearchOptionsSub: Subscription;
   selectedJobSub: Subscription;
@@ -41,6 +41,8 @@ export class JobsCardComponent implements OnInit, OnDestroy {
   potentialOptions: string[];
   selectedJob: string;
   systemUserGroupNames = SystemUserGroupNames;
+  popupSettings: PopupSettings;
+  comphubPages = ComphubPages;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -55,7 +57,6 @@ export class JobsCardComponent implements OnInit, OnDestroy {
     this.countryDataSetsLoaded$ = this.store.select(fromComphubMainReducer.getCountryDataSetsLoaded);
     this.countryDataSets$ = this.store.select(fromComphubMainReducer.getCountryDataSets);
     this.loadingTrendingJobs$ = this.store.select(fromComphubMainReducer.getLoadingTrendingJobs);
-    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
     this.popupSettings = {
       appendTo: 'component'

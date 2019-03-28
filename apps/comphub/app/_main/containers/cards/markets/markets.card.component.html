@@ -2,14 +2,14 @@
   pageTitle="Markets"
   pageSubTitle="Now, let's define the market"
   pageIconClass="fa-map-marker-alt"
-  [nextButtonEnabled]="true">
+  [nextButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets">
 
   <ng-container page-content>
     <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
       [isOpen]="addPayMarketFormOpen$ | async"
       [isInfoBannerOpen]="infoBannerOpen$ | async"
       [marketDataScope]="marketDataScope$ | async"
-      [countryDataSet]="activeCountryDataSet$ | async"
+      [countryDataSet]="workflowContext?.activeCountryDataSet"
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"

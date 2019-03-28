@@ -1,6 +1,6 @@
 <div class="accordion">
   <div class="card-container">
-    <span class="hidden" data-qa-id="lbl-current-page">{{(selectedPageId$ | async)}}</span>
+    <span class="hidden" data-qa-id="lbl-current-page">{{workflowContext?.selectedPageId}}</span>
     <span class="hidden" data-qa-id="lbl-accessible-pages">{{enabledPages.join(',')}}</span>
     <ng-container *ngFor="let card of cards; let i=index; trackBy: trackById">
       <pf-comphub-card
@@ -9,21 +9,21 @@
         [prevCard]="i !== 0 ? cards[i - 1] : card"
         [containerWidth]="i !== cards.length - 1 ? cardContentContainerWidth : cardContentContainerWidth - cardHeaderMargin"
         [accessed]="(accessedPages$ | async).indexOf(card.Id) !== -1"
-        [selected]="(selectedPageId$ | async) === card.Id"
+        [selected]="workflowContext?.selectedPageId === card.Id"
         [disabled]="(enabledPages$ | async).indexOf(card.Id) === -1"
         [cardIndex]="i"
-        [selectedCardIndex]="selectedCardIndex"
+        [selectedCardIndex]="workflowContext?.selectedPageIndex"
         (cardHeaderClick)="handleCardChange($event)">
 
         <ng-container card-content [ngSwitch]="card.Id">
 
-          <pf-jobs-card *ngSwitchCase="comphubPages.Jobs"></pf-jobs-card>
+          <pf-jobs-card *ngSwitchCase="comphubPages.Jobs" [workflowContext]="workflowContext"></pf-jobs-card>
 
-          <pf-markets-card *ngSwitchCase="comphubPages.Markets"></pf-markets-card>
+          <pf-markets-card *ngSwitchCase="comphubPages.Markets" [workflowContext]="workflowContext"></pf-markets-card>
 
-          <pf-data-card [currencyCode]="activeCountryDataSet?.CurrencyCode" *ngSwitchCase="comphubPages.Data"></pf-data-card>
+          <pf-data-card *ngSwitchCase="comphubPages.Data" [workflowContext]="workflowContext"></pf-data-card>
 
-          <pf-summary-card [currencyCode]="activeCountryDataSet?.CurrencyCode" *ngSwitchCase="comphubPages.Summary"></pf-summary-card>
+          <pf-summary-card *ngSwitchCase="comphubPages.Summary" [workflowContext]="workflowContext"></pf-summary-card>
 
         </ng-container>
 
@@ -31,7 +31,7 @@
 
       <div class="card-separator"
            [class.no-transition]="resizeEvent"
-           [ngStyle]="{ 'margin-right.px' : ((selectedPageId$ | async) === card.Id) ? 0 : -cardContentContainerWidth }">
+           [ngStyle]="{ 'margin-right.px' : (workflowContext?.selectedPageId === card.Id) ? 0 : -cardContentContainerWidth }">
       </div>
     </ng-container>
   </div>

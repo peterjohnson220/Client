@@ -2,7 +2,7 @@
   pageTitle="Data"
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
   pageIconClass="fa-database"
-  [nextButtonEnabled]="!!(selectedJobData$ | async)">
+  [nextButtonEnabled]="!!(selectedJobData$ | async) && workflowContext?.selectedPageId === comphubPages.Data">
 
   <ng-container page-content>
 
@@ -80,10 +80,16 @@
                     {{job.ManagesEmployees ? 'Yes': 'No'}}
                   </td>
                   <td class="number-column">
-                    {{calculateDataByRate(job.Base50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
+                    {{
+                        calculateDataByRate(job.Base50) |
+                        currency:workflowContext?.activeCountryDataSet.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                    }}
                   </td>
                   <td class="number-column">
-                    {{calculateDataByRate(job.Tcc50) | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'}}
+                    {{
+                      calculateDataByRate(job.Tcc50) |
+                      currency:workflowContext?.activeCountryDataSet.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                    }}
                   </td>
                   <td class="text-center">
                     <div class="custom-control custom-radio">

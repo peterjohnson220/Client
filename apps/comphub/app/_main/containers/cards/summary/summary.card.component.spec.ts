@@ -12,7 +12,12 @@ import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import { RateType, ComphubPages } from '../../../data';
-import { generateFakeJobData, generateMockPricingPaymarket, generateMockCountryDataSet } from '../../../models';
+import {
+  generateFakeJobData,
+  generateMockPricingPaymarket,
+  generateMockCountryDataSet,
+  generateMockWorkflowContext
+} from '../../../models';
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
@@ -164,10 +169,19 @@ describe('Comphub - Main - Summary Card Component', () => {
   'when selected page is Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedPageId$ = of(ComphubPages.Summary);
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Summary
+        }
+      }
+    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
@@ -180,10 +194,19 @@ describe('Comphub - Main - Summary Card Component', () => {
   'when selected page is Summary and job data has NOT been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedPageId$ = of(ComphubPages.Summary);
     instance.selectedJobData$ = of(generateFakeJobData());
     instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Summary
+        }
+      }
+    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);

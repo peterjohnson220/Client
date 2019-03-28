@@ -3,7 +3,10 @@
   pageSubTitle="First, let's find a job to price"
   pageIconClass="fa-user-circle"
   [hideBackButton]="true"
-  [nextButtonEnabled]="(!(jobPricingBlocked$ | async) && (selectedJob$ | async)?.length)">
+  [nextButtonEnabled]="
+    (!(jobPricingBlocked$ | async) &&
+    (selectedJob$ | async)?.length) &&
+    workflowContext?.selectedPageId === comphubPages.Jobs">
 
   <ng-container page-content>
 
@@ -17,7 +20,7 @@
             valueField="CountryCode"
             [data]="countryDataSets$ | async"
             [valuePrimitive]="true"
-            [ngModel]="(activeCountryDataSet$ | async)?.CountryCode">
+            [ngModel]="workflowContext?.activeCountryDataSet.CountryCode">
 
             <ng-template kendoDropDownListItemTemplate let-dataItem>
               <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
@@ -61,7 +64,7 @@
               <div class="col-6" *ngFor="let trendingJobGroup of trendingJobGroups$ | async">
                 <pf-trending-job-group
                   [trendingJobGroup]="trendingJobGroup"
-                  [disabled]="jobPricingBlocked$ | async"
+                  [disabled]="(jobPricingBlocked$ | async) || workflowContext?.selectedPageId !== comphubPages.Jobs"
                   (trendingJobClicked)="handleTrendingJobClicked($event)">
                 </pf-trending-job-group>
               </div>
