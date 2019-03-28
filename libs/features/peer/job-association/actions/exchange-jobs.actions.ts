@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { ExchangeJobAssociation, ExchangeJob, CompanyJob } from '../models';
+import { ExchangeJobAssociation, ExchangeJob, CompanyJob, LoadAssociations } from '../models';
 import { GenericMenuItem } from 'libs/models';
 import { CompanyJobMapping } from 'libs/models/peer';
 
@@ -73,7 +73,7 @@ export class RemoveAssociation implements Action {
 // previous associations
 export class LoadPreviousAssociations implements Action {
   readonly type = LOAD_PREVIOUS_ASSOCIATIONS;
-  constructor(public payload: CompanyJobMapping[]) {}
+  constructor(public payload: LoadAssociations) {}
 }
 
 export class LoadPreviousAssociationsSuccess implements Action {
@@ -151,6 +151,7 @@ export type Actions
   | ToggleJobFamilyFilter
   | ToggleJobFamilyFilterSelection
   | ClearSelectedJobFamilies
+
   // previous associations
   | LoadPreviousAssociations
   | LoadPreviousAssociationsSuccess

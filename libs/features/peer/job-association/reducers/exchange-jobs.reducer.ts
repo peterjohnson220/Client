@@ -16,6 +16,7 @@ export interface State extends EntityState<ExchangeJob> {
   ExchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
   isDetailPanelExpanded: boolean;
+  expandedDetailRowId: number;
   // job family filter
   loadingJobFamilyFilter: boolean;
   loadingJobFamilyFilterSuccess: boolean;
@@ -44,6 +45,7 @@ const initialState: State = adapter.getInitialState({
   ExchangeJobAssociations: [],
   selectedExchangeJob: {} as ExchangeJob,
   isDetailPanelExpanded: false,
+  expandedDetailRowId: null,
   // job family filter
   loadingJobFamilyFilter: false,
   loadingJobFamilyFilterSuccess: false,
@@ -134,7 +136,8 @@ export function reducer(state, action) {
           return {
             ...featureState,
             loadingPreviousAssociations: true,
-            previousAssociations: []
+            previousAssociations: [],
+            expandedDetailRowId: featureAction.payload.ExpandedDetailRowId
           };
         }
         case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS: {

@@ -6,3 +6,14 @@ export interface CompanyJob {
   JobFamily: string;
   IsAssociated: boolean;
 }
+
+export function generateMockCompanyJob(): CompanyJob {
+  return {
+    CompanyJobId: 12,
+    JobTitle: 'jobTitle',
+    JobCode: 'jobCode',
+    JobDescription: 'JobDescription',
+    JobFamily: 'JobFamily',
+    IsAssociated: true,
+  };
+}

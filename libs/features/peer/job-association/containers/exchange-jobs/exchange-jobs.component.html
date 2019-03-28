@@ -91,7 +91,7 @@
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId, rowIndex)">
+                      (click)="handleAssociateClick(dataItem, rowIndex)">
                 <i class="fas fa-exchange-alt"></i>
               </button>
             </ng-template>
