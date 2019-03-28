@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Manage Exchange Filters should match snapshot 1`] = `
+<pf-manage-exchange-filters
+  exchange$={[Function Observable]}
+  exchangeFiltersGrid$={[Function Store]}
+  exchangeFiltersLoading$={[Function Store]}
+  exchangeFiltersLoadingError$={[Function Store]}
+  exchangeId={[Function Number]}
+  gridHelperService={[Function Object]}
+  route={[Function Object]}
+  store={[Function Store]}
+>
+  <div
+    class="d-flex flex-column h-100"
+  >
+    <pf-manage-exchange-section-header>
+      
+      <div
+        class="omni-box"
+      >
+        <pf-input-debounce />
+      </div>
+    </pf-manage-exchange-section-header>
+    <div
+      class="d-flex"
+    >
+      <pf-async-container
+        class="flex-grow-1"
+      >
+        <kendo-grid
+          class="no-wrap-ellipsis-values"
+        >
+          <kendo-grid-column
+            field="DisplayName"
+            title="Filter Name"
+          >
+            
+          </kendo-grid-column>
+          <kendo-grid-column
+            field="IsDisabled"
+            style=""
+            title=""
+          >
+            
+          </kendo-grid-column>
+        </kendo-grid>
+      </pf-async-container>
+    </div>
+  </div>
+</pf-manage-exchange-filters>
+`;

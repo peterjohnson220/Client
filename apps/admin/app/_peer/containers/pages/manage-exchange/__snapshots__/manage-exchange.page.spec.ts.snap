@@ -9,6 +9,7 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   store={[Function Store]}
   totalExchangeAccessRequests$={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
+  totalExchangeFilters$={[Function Store]}
   totalExchangeJobRequests$={[Function Store]}
   totalExchangeJobs$={[Function Store]}
   totalNewCompanyExchangeInvitations$={[Function Store]}
@@ -128,6 +129,21 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
                   />
                 </span>
                  Job Requests 
+                
+              </a>
+            </div>
+          </li>
+          <li
+            class="nav-item"
+          >
+            <div>
+              <a
+                class="nav-link"
+              >
+                <i
+                  class="fas fa-filter font-a-icon"
+                />
+                 Exchange Filters 
                 
               </a>
             </div>
