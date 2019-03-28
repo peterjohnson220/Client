@@ -16,10 +16,13 @@ import { PricingPaymarket, JobData, CountryDataSet } from '../../../models';
 export class ComphubPageComponent implements OnInit, OnDestroy {
   comphubPages = ComphubPages;
   cardContentContainerWidth: number;
+  cardHeaderMargin = 8;
   enabledPages: ComphubPages[];
   cards: AccordionCard[];
   selectedCardIndex: number;
   activeCountryDataSet: CountryDataSet;
+  resizeEventCompleteTimer: number;
+  resizeEvent: boolean;
 
   cards$: Observable<AccordionCard[]>;
   selectedPageId$: Observable<ComphubPages>;
@@ -36,9 +39,9 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private activeCountryDataSetSub: Subscription;
 
   private readonly cardHeaderWidth = 60;
-  private readonly cardHeaderMargin = 8;
   private readonly numberOfCardHeaders = 3;
   private readonly sideBarWidth = 56;
+
 
 
   constructor(private store: Store<fromComphubMainReducer.State>) {
@@ -54,9 +57,15 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    window.setTimeout(() => {
-      this.updateCardContentContainerWidth();
-    }, 100);
+    this.updateCardContentContainerWidth();
+
+    this.resizeEvent = true;
+
+    clearTimeout(this.resizeEventCompleteTimer);
+
+    this.resizeEventCompleteTimer = window.setTimeout(() => {
+        this.resizeEvent = false;
+      }, 750);
   }
 
   ngOnInit() {

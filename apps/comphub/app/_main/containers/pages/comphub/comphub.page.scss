@@ -17,7 +17,9 @@
 }
 
 .card-separator {
-  transition: all 0.35s ease 0.35s;
+  &:not(.no-transition) {
+    transition: all 0.35s ease 0.35s;
+  }
 }
 
 .hidden {

@@ -30,7 +30,9 @@
       </pf-comphub-card>
 
       <div class="card-separator"
-        [ngStyle]="{ 'margin-right.px' : ((selectedPageId$ | async) === card.Id) ? 0 : -cardContentContainerWidth }"></div>
+           [class.no-transition]="resizeEvent"
+           [ngStyle]="{ 'margin-right.px' : ((selectedPageId$ | async) === card.Id) ? 0 : -cardContentContainerWidth }">
+      </div>
     </ng-container>
   </div>
 </div>
