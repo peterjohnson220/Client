@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { JobData, PricingPaymarket, JobSalaryTrend, CountryDataSet } from '../../../models';
+import { JobData, PricingPaymarket, JobSalaryTrend, CountryDataSet, WorkflowContext } from '../../../models';
 import { ComphubPages, RateType } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 
@@ -24,13 +24,13 @@ import { DataCardHelper } from '../../../helpers';
   templateUrl: './summary.card.component.html',
   styleUrls: ['./summary.card.component.scss']
 })
-export class SummaryCardComponent implements OnInit, OnDestroy {
-  @Input() currencyCode: string;
+export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('pdf') pdf: PDFExportComponent;
+  @Input() workflowContext: WorkflowContext;
+
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedRate$: Observable<RateType>;
-  selectedPageId$: Observable<ComphubPages>;
   salaryTrendData$: Observable<JobSalaryTrend>;
   sharePricingSummaryModalOpen$: Observable<boolean>;
   sharePricingSummaryError$: Observable<boolean>;
@@ -44,7 +44,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
-  selectedPageIdSubscription: Subscription;
   salaryTrendSubscription: Subscription;
 
   jobData: JobData;
@@ -54,6 +53,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
   systemUserGroupNames = SystemUserGroupNames;
+  comphubPages = ComphubPages;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -61,7 +61,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
     this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
     this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
@@ -77,13 +76,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedJobDataSubscription = this.selectedJobData$.subscribe(data => this.jobData = data);
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
-    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Summary && this.jobDataHasChanged()) {
-        this.lastJobData = this.jobData;
-        this.loadJobTrendChart();
-        this.addNewCompletedPricingHistoryRecord();
-      }
-    });
     this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
       this.jobSalaryTrendData = cloneDeep(trendData);
     });
@@ -155,5 +147,17 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
 
   private jobDataHasChanged(): boolean {
     return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
+      return;
+    }
+    if (changes.workflowContext.currentValue.selectedPageId === this.comphubPages.Summary &&
+      this.jobDataHasChanged()) {
+      this.lastJobData = this.jobData;
+      this.loadJobTrendChart();
+      this.addNewCompletedPricingHistoryRecord();
+    }
   }
 }

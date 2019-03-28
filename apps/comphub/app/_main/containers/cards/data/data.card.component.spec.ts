@@ -96,10 +96,19 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Data
+        }
+      }
+    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -115,9 +124,18 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageId$ = of(ComphubPages.Jobs);
     instance.selectedJobTitle$ = of('Test job');
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Jobs
+        }
+      }
+    });
 
     expect(store.dispatch).not.toBeCalledWith(expectedAction);
   });
@@ -234,10 +252,19 @@ describe('Comphub - Main - Data Card Component', () => {
       take: 6
     };
 
-    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Data
+        }
+      }
+    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });

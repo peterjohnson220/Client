@@ -6,7 +6,11 @@
     <div class="icon">
       <img src="assets/images/trending-green.png">
     </div>
-    <div class="name" [class.disabled]="disabled" [attr.data-qa-id]="'lnk-trending-job'" [title]="trendingJob" (click)="handleTrendingJobClicked(trendingJob)">
+    <div [class.disabled]="disabled"
+         [attr.data-qa-id]="'lnk-trending-job'"
+         [title]="trendingJob"
+         (click)="handleTrendingJobClicked(trendingJob)"
+         class="name">
       {{trendingJob}}
     </div>
   </div>

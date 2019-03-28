@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,9 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet, MarketDataLocation } from '../../../models';
+import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet, MarketDataLocation,
+  WorkflowContext } from '../../../models';
+import { ComphubPages } from '../../../data';
 
 @Component({
   selector: 'pf-markets-card',
@@ -15,6 +17,8 @@ import { PricingPaymarket, AddPayMarketFormData, MarketDataScope, CountryDataSet
   styleUrls: ['./markets.card.component.scss']
 })
 export class MarketsCardComponent implements OnInit {
+  @Input() workflowContext: WorkflowContext;
+
   visiblePaymarkets$: Observable<PricingPaymarket[]>;
   loadingPaymarkets$: Observable<boolean>;
   loadingPaymarketsError$: Observable<boolean>;
@@ -33,7 +37,8 @@ export class MarketsCardComponent implements OnInit {
   showSkipButton$: Observable<boolean>;
   hideNewPaymarketButton$: Observable<boolean>;
   payMarketsFilter$: Observable<string>;
-  activeCountryDataSet$: Observable<CountryDataSet>;
+
+  comphubPages = ComphubPages;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -45,7 +50,6 @@ export class MarketsCardComponent implements OnInit {
     this.loadingPaymarketsError$ = this.store.select(fromComphubMainReducer.getLoadingPaymarketsError);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.hideNewPaymarketButton$ = this.store.select(fromComphubMainReducer.getHideNewPaymarketsButton);
-    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
     this.loadingMarketDataScopes$ = this.store.select(fromComphubMainReducer.getMarketDataScopesLoading);
     this.loadingLocations$ = this.store.select(fromComphubMainReducer.getLoadingMarketDataLocations);
     this.marketDataLocations$ = this.store.select(fromComphubMainReducer.getMarketDataLocations);

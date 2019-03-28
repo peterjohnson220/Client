@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -10,8 +10,7 @@ import { WindowRef } from 'libs/core/services';
 import { ComphubPages, Rates, RateType } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem, CountryDataSet
-} from '../../../models';
+  KendoDropDownItem, WorkflowContext } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { DataCardHelper } from '../../../helpers';
@@ -21,8 +20,8 @@ import { DataCardHelper } from '../../../helpers';
   templateUrl: './data.card.component.html',
   styleUrls: ['./data.card.component.scss']
 })
-export class DataCardComponent implements OnInit, OnDestroy {
-  @Input() currencyCode: string;
+export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() workflowContext: WorkflowContext;
 
   jobTitle: string;
   paymarketId?: number;
@@ -39,6 +38,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   marketDataChange: boolean;
+  comphubPages = ComphubPages;
 
   // Observables
   jobResults$: Observable<JobGridData>;
@@ -46,7 +46,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
   jobResultsLoadingError$: Observable<boolean>;
   selectedJobTitle$: Observable<string>;
   selectedPaymarket$: Observable<PricingPaymarket>;
-  selectedPageId$: Observable<ComphubPages>;
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
   peerBannerOpen$: Observable<boolean>;
@@ -67,7 +66,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.jobResultsLoadingError$ = this.store.select(fromComphubMainReducer.getLoadingJobGridResultsError);
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
@@ -84,18 +82,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     });
 
     this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
-
-    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Data) {
-        this.store.dispatch(new fromDataCardActions.CardOpened());
-
-        if (this.marketDataChange) {
-          this.resetGridContext();
-          this.loadJobResults();
-        }
-      }
-    });
-
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
 
@@ -197,5 +183,20 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedPageIdSubscription.unsubscribe();
     this.selectedJobSubscription.unsubscribe();
     this.marketDataChangeSubscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
+      return;
+    }
+
+    if (changes.workflowContext.currentValue.selectedPageId === ComphubPages.Data) {
+      this.store.dispatch(new fromDataCardActions.CardOpened());
+
+      if (this.marketDataChange) {
+        this.resetGridContext();
+        this.loadJobResults();
+      }
+    }
   }
 }

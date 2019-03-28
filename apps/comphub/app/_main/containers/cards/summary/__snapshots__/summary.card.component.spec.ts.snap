@@ -4,6 +4,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
 <pf-summary-card
   activeCountryDataSet$={[Function Observable]}
   canAccessProjectsTile$={[Function Store]}
+  comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
@@ -15,8 +16,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedPaymarketSubscription={[Function Subscriber]}
   selectedRate={[Function String]}
@@ -552,6 +551,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
 <pf-summary-card
   activeCountryDataSet$={[Function Observable]}
   canAccessProjectsTile$={[Function Store]}
+  comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
@@ -563,8 +563,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedPaymarketSubscription={[Function Subscriber]}
   selectedRate={[Function String]}
@@ -1100,6 +1098,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 <pf-summary-card
   activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
+  comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
@@ -1111,8 +1110,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedPaymarketSubscription={[Function Subscriber]}
   selectedRate={[Function String]}
@@ -1648,6 +1645,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
 <pf-summary-card
   activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
+  comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
@@ -1659,8 +1657,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedPaymarketSubscription={[Function Subscriber]}
   selectedRate={[Function String]}
@@ -2196,6 +2192,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
 <pf-summary-card
   activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
+  comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
@@ -2207,8 +2204,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   salaryTrendSubscription={[Function Subscriber]}
   selectedJobData$={[Function Store]}
   selectedJobDataSubscription={[Function Subscriber]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedPaymarketSubscription={[Function Subscriber]}
   selectedRate={[Function String]}
