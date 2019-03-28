@@ -3,11 +3,14 @@ import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
 
 import * as fromTicketActions from '../actions/ticket.actions';
+import { UserTicketItem } from '../models';
+
+import * as cloneDeep from 'lodash.clonedeep';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
-  userTicket: UserTicketResponse;
+  userTicket: UserTicketItem;
   openedTicket: number;
   selectedTabTicket: number;
 }
@@ -20,8 +23,8 @@ export const initialState: State = {
   selectedTabTicket: null
 };
 
-export const adapter: EntityAdapter<UserTicketResponse> = createEntityAdapter<UserTicketResponse>({
-  selectId: (userTicketResponse: UserTicketResponse) => userTicketResponse.UserTicketId
+export const adapter: EntityAdapter<UserTicketItem> = createEntityAdapter<UserTicketItem>({
+  selectId: (userTicketResponse: UserTicketItem) => userTicketResponse.TicketInfo.TicketId
 });
 
 export function reducer(state = initialState, action: fromTicketActions.Actions): State {

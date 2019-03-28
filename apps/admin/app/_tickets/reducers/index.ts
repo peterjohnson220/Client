@@ -32,7 +32,7 @@ export const selectTicketListState = createSelector(selectTicketsAdminState, (st
 
 // Ticket Selector
 export const getTicketLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
-export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoadingError);
 export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
 export const getOpenedTicket = createSelector(selectTicketState, fromTicketsReducer.getOpenedTicket);
 export const getSelectedTabTicket = createSelector(selectTicketState, fromTicketsReducer.getSelectedTabTicket);

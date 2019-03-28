@@ -54,7 +54,7 @@
                        [width]="100">
       <ng-template kendoGridCellTemplate
                    let-dataItem>
-        <div [innerHTML]="dataItem.Type"></div>
+        <div><h4><span class="badge {{dataItem.TicketCssClass}}">{{dataItem.Type}}</span></h4></div>
       </ng-template>
     </kendo-grid-column>
     <kendo-grid-column field="Status"
