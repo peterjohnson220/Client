@@ -95,6 +95,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   }
 
   reload(resetSearchTerm = false): void {
+    this.store.dispatch(new companyJobsActions.Reset());
     // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
     if (resetSearchTerm) {
       this.companyJobSearchComponent.clearValue();
