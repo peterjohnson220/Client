@@ -34,7 +34,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   totalPeerExchangeJobs$={[Function Store]}
 >
   <h2
-    class="text-center"
+    class="text-center mb-3"
   >
     Peer Exchange Jobs
   </h2><div
