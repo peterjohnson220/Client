@@ -88,10 +88,10 @@
                 (detailExpand)="handleDetailExpand($event)"
           >
           <kendo-grid-column [resizable]="false" [width]="40">
-            <ng-template kendoGridCellTemplate let-dataItem>
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId)">
+                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId, rowIndex)">
                 <i class="fas fa-exchange-alt"></i>
               </button>
             </ng-template>
