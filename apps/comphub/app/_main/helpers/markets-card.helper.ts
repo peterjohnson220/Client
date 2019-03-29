@@ -13,7 +13,7 @@ export class MarketsCardHelper {
         CompanyId: companyId,
         CountryCode: data.Country,
         CurrencyCode: data.Currency,
-        GeoLabel: 'CityState',
+        GeoLabel: 'City',
         GeoValue: data.Location,
         IndustryLabel: 'Industry',
         IndustryValue: data.Industry,
