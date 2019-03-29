@@ -70,7 +70,7 @@ export class ExchangeJobsEffects {
   @Effect()
   getPreviousAssociations$: Observable<Action> = this.actions$.pipe(
     ofType(fromPeerJobsActions.LOAD_PREVIOUS_ASSOCIATIONS),
-    map((action: any) => action.payload.map(c => c.CompanyJobId)),
+    map((action: any) => action.payload.CompanyJobMappings.map(c => c.CompanyJobId)),
     switchMap((companyJobIds: number[]) =>
       // if we don't have previous associations just return an empty array, otherwise get the job info from the server
       iif(

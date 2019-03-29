@@ -129,19 +129,6 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.SelectJobTitleOrCode(companyJob));
   }
 
-  handleDetailExpand(event: any): void {
-    // determine how many results we have in the grid
-    const gridData = this.grid.data as any;
-    const totalRows = gridData.data.length;
-
-    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
-    for (let i = 0; i < totalRows; i++) {
-      if (i !== event.index) {
-        this.grid.collapseRow(i);
-      }
-    }
-  }
-
   handleCloseDetailPanel() {
     this.store.dispatch(new companyJobsActions.CloseDetailPanel());
   }

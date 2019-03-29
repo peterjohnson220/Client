@@ -96,6 +96,11 @@ export const getExchangeJobsIsDetailPanelExpanded = createSelector(
   (feature) => feature.isDetailPanelExpanded
 );
 
+export const getExchangeJobsExpandedDetailRowId = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.expandedDetailRowId
+);
+
 export const {
   selectAll: getExchangeJobsList
 } = fromExchangeJobsReducer.adapter.getSelectors(getExchangeJobsFeature);

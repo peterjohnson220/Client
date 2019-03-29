@@ -14,6 +14,7 @@ import * as fromExchangeJobsReducer from '../../reducers';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../../models';
+import { CompanyJobMapping } from 'libs/models/peer';
 
 @Component({
   selector: 'pf-peer-job-association-exchange-jobs',
@@ -48,6 +49,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobsSubscription: Subscription;
   exchangeJobAssociationsSubscription: Subscription;
   selectedExchangeJobSubscription: Subscription;
+  expandedDetailRowIdSubscription: Subscription;
 
   // Properties
   maxAssociableThreshold: number;
@@ -57,6 +59,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobs: CompanyJob[];
   exchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
+  expandedDetailRowId: number;
 
   // Job Family Filter
   isJobFamilyFilterExpandedSubscription: Subscription;
@@ -108,6 +111,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobSubscription = this.selectedExchangeJob$
       .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob);
 
+    this.expandedDetailRowIdSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExpandedDetailRowId))
+      .subscribe((expandedDetailRowId) => this.expandedDetailRowId = expandedDetailRowId);
+
     // job family
     this.isJobFamilyFilterExpanded$ =
       this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
@@ -130,7 +136,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.selectedCompanyJobsSubscription.unsubscribe();
     this.exchangeJobAssociationsSubscription.unsubscribe();
     this.selectedExchangeJobSubscription.unsubscribe();
-    // job family
+    this.expandedDetailRowIdSubscription.unsubscribe();
     this.isJobFamilyFilterExpandedSubscription.unsubscribe();
   }
 
@@ -159,20 +165,16 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   }
 
   handleDetailExpand(event: any): void {
-    // close the detail panel and load any previous associations
+    // close the slide in detail panel when expanding a detail row, then close the currently open row if available
     this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
-    this.store.dispatch(new exchangeJobsActions.LoadPreviousAssociations(event.dataItem.CompanyJobMappings));
-
-    // determine how many results we have in the grid
-    const gridData = this.grid.data as any;
-    const totalRows = gridData.data.length;
-
-    // collapse all rows that are not the newly expanded row so we only have one open at a time
-    for (let i = 0; i < totalRows; i++) {
-      if (i !== event.index) {
-        this.grid.collapseRow(i);
-      }
+    if (this.expandedDetailRowId !== null) {
+      this.grid.collapseRow(this.expandedDetailRowId);
     }
+
+    // send the company job mappings so they can be used in the xhr, plus the event index so we know which row is currently open
+    const CompanyJobMappings = event.dataItem.CompanyJobMappings as CompanyJobMapping[];
+    const ExpandedDetailRowId = event.index;
+    this.store.dispatch(new exchangeJobsActions.LoadPreviousAssociations({ CompanyJobMappings, ExpandedDetailRowId }));
   }
 
   closeJobFamilyFilter(): void {
@@ -215,15 +217,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleAssociateClick(exchangeId: number, exchangeJobId: number, index: number): void {
-    if (this.isAssociable(exchangeId, exchangeJobId)) {
-      this.store.dispatch(new exchangeJobsActions.AddAssociation({
-        ExchangeId: exchangeId,
-        ExchangeJobId: exchangeJobId,
-        CompanyJobs: this.selectedCompanyJobs
-      }));
+  handleAssociateClick({ ExchangeId, ExchangeJobId, CompanyJobMappings }, index: number): void {
+    if (this.isAssociable(ExchangeId, ExchangeJobId)) {
+      this.store.dispatch(new exchangeJobsActions.AddAssociation({ ExchangeId, ExchangeJobId, CompanyJobs: this.selectedCompanyJobs }));
       this.grid.expandRow(index);
-      this.handleDetailExpand({index: index});
+
+      // if it's not already open, pass in matching params for what kendo sends on an expand triggered by clicking the > button
+      if (this.expandedDetailRowId !== index) {
+        this.handleDetailExpand({ index, dataItem: { CompanyJobMappings } });
+      }
     }
   }
 
