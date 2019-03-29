@@ -2,7 +2,7 @@
 <div class="filters position-relative d-flex mt-2 mb-2">
   <div>
     <i class="fas fa-search position-absolute"></i>
-    <pf-input-debounce 
+    <pf-input-debounce
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
       [(ngModel)]="searchTerm"
@@ -14,17 +14,12 @@
   </div>
   <div class="ml-3">
     <pf-multi-select
+      #multiSelect
       [labelText]="'Job Family'"
-      [options]="jobFamilyFilterOptions$ | async"
-      [selectedOptionNames$]="selectedJobFamilyOptionNames$"
-      [isExpanded$]="isJobFamilyFilterExpanded$"
-      [isLoading$]="isJobFamilyFilterLoading$"
-      pfClickElsewhere
-      [whitelist]="[]"
-      (clickElsewhere)="closeJobFamilyFilter()"
-      (selectFacadeClick)="handleJobFamilyToggle()"
-      (checkboxClick)="handleJobFamilyCheckboxToggle($event)"
-      (clearSelectionsClick)="handleJobFamilyClearSelections()"
+      [options]="jobFamilyFilterOptions"
+      [(selectedOptions)]="selectedJobFamilies"
+      (selectedOptionsChange)="selectedJobFamilyOptionsChanged()"
+      [isLoading]="isJobFamilyFilterLoading$ | async"
     >
     </pf-multi-select>
   </div>

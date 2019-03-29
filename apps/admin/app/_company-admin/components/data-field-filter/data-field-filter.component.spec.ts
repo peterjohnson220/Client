@@ -1,0 +1,47 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
+import { DataFieldFilterComponent } from './data-field-filter.component';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { Store, StoreModule} from '@ngrx/store';
+
+import * as fromRootState from 'libs/state/state';
+import {getMockDataTypes} from 'libs/models/security/roles/data-type';
+
+
+describe('DataFieldFilterComponent', () => {
+  let component: DataFieldFilterComponent;
+  let fixture: ComponentFixture<DataFieldFilterComponent>;
+  let store: Store<fromRootState.State>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          ...fromRootState.reducers,
+        }),
+      ],
+      declarations: [ DataFieldFilterComponent ],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+    .compileComponents();
+
+    store = TestBed.get(Store);
+    spyOn(store, 'dispatch');
+
+    fixture = TestBed.createComponent(DataFieldFilterComponent);
+    component = fixture.componentInstance;
+    component._DataFieldTypes = getMockDataTypes();
+    component.selectedField = getMockDataTypes()[0].DataFields[0];
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(DataFieldFilterComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

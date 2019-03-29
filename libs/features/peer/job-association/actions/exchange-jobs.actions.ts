@@ -27,6 +27,7 @@ export const LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS = '[Peer Job Association/Exchang
 export const LOAD_PREVIOUS_ASSOCIATIONS_ERROR = '[Peer Job Association/Exchange Jobs] Load Previous Associations Error';
 
 // job family filter
+export const SELECTED_JOB_FAMILIES_CHANGED = '[Peer Job Association Modal/Exchange Jobs] Selected Job Options has been changed';
 export const CLEAR_SELECTED_JOB_FAMILIES = '[Peer Job Association/Exchange Jobs] Clear Selected Job Families';
 export const LOAD_JOB_FAMILY_FILTER = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Family Filter';
 export const LOAD_JOB_FAMILY_FILTER_SUCCESS = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Family Filter Success';
@@ -119,6 +120,11 @@ export class LoadJobFamilyFilterError implements Action {
   readonly type = LOAD_JOB_FAMILY_FILTER_ERROR;
 }
 
+export class SelectedJobFamiliesChanged  implements Action {
+  readonly type = SELECTED_JOB_FAMILIES_CHANGED;
+  constructor(public payload: GenericMenuItem[]) {}
+}
+
 export class LoadJobFamilyFilterSuccess implements Action {
   readonly type = LOAD_JOB_FAMILY_FILTER_SUCCESS;
   constructor(public payload: GenericMenuItem[]) {}
@@ -163,4 +169,5 @@ export type Actions
   | LoadPreviousAssociations
   | LoadPreviousAssociationsSuccess
   | LoadPreviousAssociationsError
+  | SelectedJobFamiliesChanged
   | LoadExchangeJobsBadRequest;

@@ -25,6 +25,7 @@ export interface State extends EntityState<ExchangeJob> {
   loadingJobFamilyFilterError: boolean;
   isJobFamilyFilterExpanded: boolean;
   jobFamilyOptions: GenericMenuItem[];
+  selectedJobFamilies: GenericMenuItem[];
   // previous associations
   loadingPreviousAssociations: boolean;
   loadingPreviousAssociationsSuccess: boolean;
@@ -55,6 +56,7 @@ const initialState: State = adapter.getInitialState({
   loadingJobFamilyFilterSuccess: false,
   loadingJobFamilyFilterError: false,
   isJobFamilyFilterExpanded: false,
+  selectedJobFamilies: [],
   jobFamilyOptions: [],
   // previous associations
   loadingPreviousAssociations: false,
@@ -244,16 +246,19 @@ export function reducer(state, action) {
             jobFamilyOptions
           };
         }
-        case fromPeerExchangeJobsActions.CLEAR_SELECTED_JOB_FAMILIES: {
-          // create a new array, and for each option create a new one with IsSelected false
-          const jobFamilyOptions = [];
-          featureState.jobFamilyOptions.forEach(option => {
-            jobFamilyOptions.push({ ...option, IsSelected: false });
-          });
-
+        case fromPeerExchangeJobsActions.SELECTED_JOB_FAMILIES_CHANGED: {
           return {
             ...featureState,
-            jobFamilyOptions
+            selectedJobFamilies:  [...action.payload]
+          };
+          break;
+        }
+        case fromPeerExchangeJobsActions.CLEAR_SELECTED_JOB_FAMILIES: {
+          // create a new array, and for each option create a new one with IsSelected false
+          const selectedJobFamilies = [];
+          return {
+            ...featureState,
+            selectedJobFamilies
           };
         }
         default: {
@@ -274,3 +279,4 @@ export const getTotal = (state: State) => state.total;
 export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
 export const getJobFamilyFilterIsExpanded = (state: State) => state.isJobFamilyFilterExpanded;
 export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;
+export const getSelectedJobFamilies = (state: State) => state.selectedJobFamilies;
