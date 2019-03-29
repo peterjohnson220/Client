@@ -144,14 +144,14 @@
           <div class="d-flex flex-row">
             <h1 [innerHTML]="
                 calculateDataByRate(jobData?.Base50) |
-                currency: currencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
+                currency: workflowContext?.activeCountryDataSet.CurrencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
                 wrapSubTextWithTag:0:1:'currency'"
                 class="header-blue"></h1>
           </div>
           <div class="w-75">
             <pf-salary-bar-chart
               [isHourly]="isHourly"
-              [currencyCode]="currencyCode"
+              [currencyCode]="workflowContext?.activeCountryDataSet.CurrencyCode"
               [salary25]="jobData?.Base25"
               [salary50]="jobData?.Base50"
               [salary75]="jobData?.Base75">
@@ -163,14 +163,14 @@
           <div class="d-flex flex-row">
             <h1 [innerHTML]="
                 calculateDataByRate(jobData?.Tcc50) |
-                currency: currencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
+                currency: workflowContext?.activeCountryDataSet.CurrencyCode: 'symbol-narrow' : (isHourly ? '1.2-2' : '1.0-0') |
                 wrapSubTextWithTag:0:1:'currency'"
                 class="header-blue"></h1>
           </div>
           <div class="w-75">
             <pf-salary-bar-chart
               [isHourly]="isHourly"
-              [currencyCode]="currencyCode"
+              [currencyCode]="workflowContext?.activeCountryDataSet.CurrencyCode"
               [salary25]="jobData?.Tcc25"
               [salary50]="jobData?.Tcc50"
               [salary75]="jobData?.Tcc75">
@@ -181,7 +181,7 @@
           <span>Salary Trend</span>
           <pf-salary-trend-chart
             [isHourly]="isHourly"
-            [currencyCode]="currencyCode"
+            [currencyCode]="workflowContext?.activeCountryDataSet.CurrencyCode"
             [salaryTrendData]="jobSalaryTrendData">
           </pf-salary-trend-chart>
         </div>
