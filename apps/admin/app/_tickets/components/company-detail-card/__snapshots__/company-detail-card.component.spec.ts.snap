@@ -33,7 +33,7 @@ exports[`Admin - Tickets - Company Detail Card Should display details about a co
           <div
             class="card-text mb-2"
           >
-            MockCompanyDetailName
+            1 - MockCompanyDetailName
           </div>
         </div>
       </div>

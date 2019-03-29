@@ -40,6 +40,7 @@ export class PayfactorsApiModelMapper {
 
   static mapUserTicketCompanyDetailResponseToCompanyDetail(response: UserTicketCompanyDetailResponse): CompanyDetail {
     return {
+      Id: response.CompanyId,
       Name: response.CompanyName,
       ClientType: response.ClientType,
       OpenTickets: response.NumberOfOpenTickets,
