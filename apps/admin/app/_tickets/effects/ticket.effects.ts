@@ -5,7 +5,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, mergeMap, map } from 'rxjs/operators';
 
-import { UserTicketResponse} from 'libs/models/payfactors-api/service/response';
+import { UserTicketCompanyDetailResponse, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 import * as fromTicketActions from '../actions/ticket.actions';
@@ -22,13 +22,28 @@ export class TicketEffects {
                     mergeMap((userTicket: UserTicketResponse) => {
                         const ticket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketItem(userTicket);
                         return [
-                          new fromTicketActions.LoadTicketSuccess(ticket)
+                          new fromTicketActions.LoadTicketSuccess(ticket),
+                          new fromTicketActions.LoadCompanyDetail({ companyId: userTicket.CompanyId})
                         ];
-                    }),
-                    catchError(error => of(new fromTicketActions.LoadTicketError()))
-                )
+                }),
+                catchError(error => of(new fromTicketActions.LoadTicketError()))
             )
-        );
+        )
+    );
+
+  @Effect()
+  loadCompanyDetail$: Observable<Action> = this.actions$
+    .ofType(fromTicketActions.LOAD_COMPANY_DETAIL).pipe(
+      switchMap((action: fromTicketActions.LoadCompanyDetail) =>
+        this.userTicketApiService.getCompanyDetails(action.payload.companyId).pipe(
+          map((companyDetailResponse: UserTicketCompanyDetailResponse) => {
+            const companyDetail = PayfactorsApiModelMapper.mapUserTicketCompanyDetailResponseToCompanyDetail(companyDetailResponse);
+            return new fromTicketActions.LoadCompanyDetailSuccess({ companyDetail: companyDetail});
+          }),
+          catchError(error => of(new fromTicketActions.LoadCompanyDetailError()))
+        )
+      )
+    );
 
     constructor(
         private actions$: Actions,

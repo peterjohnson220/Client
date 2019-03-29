@@ -64,6 +64,31 @@ export function reducer(state = initialState, action: fromTicketActions.Actions)
         loading: false,
       };
     }
+    case fromTicketActions.LOAD_COMPANY_DETAIL: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false
+      };
+    }
+    case fromTicketActions.LOAD_COMPANY_DETAIL_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
+    }
+    case fromTicketActions.LOAD_COMPANY_DETAIL_SUCCESS: {
+      const userTicketWithCompanyInfo = cloneDeep(state.userTicket);
+
+      userTicketWithCompanyInfo.CompanyInfo = action.payload.companyDetail;
+
+      return {
+        ...state,
+        userTicket: userTicketWithCompanyInfo,
+        loading: false,
+      };
+    }
     default: {
       return state;
     }

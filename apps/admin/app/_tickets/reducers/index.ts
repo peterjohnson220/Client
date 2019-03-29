@@ -30,6 +30,10 @@ export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>(
 export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
 export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
 
+// Company Detail area
+export const getCompanyDetailLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getCompanyDetailLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoadingError);
+
 // Ticket Selector
 export const getTicketLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
 export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoadingError);
