@@ -34,18 +34,6 @@
   <label class="text-uppercase" data-qa-id="lbl-exchange-jobs-total">
     peer exchange jobs: {{ totalPeerExchangeJobs$ | async }} total
   </label>
-  <button class="view-button ml-2 invisible"
-          title="Grid View" 
-          [ngClass]="{'view-button-active' : isListView}" 
-          (click)="toggleViewType(true)">
-    <i class="fas fa-table"></i>
-  </button>
-  <button class="view-button invisible" 
-          title="Detail View" 
-          [ngClass]="{'view-button-active' : !isListView}" 
-          (click)="toggleViewType(false)">
-    <i class="fas fa-list"></i>
-  </button>
 </div>
 
 <div class="grid-container position-relative">

@@ -14,16 +14,6 @@
   <label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
     company jobs: {{ totalCompanyJobsGridItems$ | async }} total | selected: {{selectedCompanyJobIds.length}}
   </label>
-  <button class="view-button ml-2 invisible"
-          title="Grid View" 
-          [ngClass]="{'view-button-active' : isListView}">
-    <i class="fas fa-table"></i>
-  </button>
-  <button class="view-button invisible" 
-          title="Detail View" 
-          [ngClass]="{'view-button-active' : !isListView}">
-    <i class="fas fa-list"></i>
-  </button>
 </div>
 <div class="grid-container position-relative">
   <pf-async-container
