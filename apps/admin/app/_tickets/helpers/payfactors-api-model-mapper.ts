@@ -1,6 +1,6 @@
 
-import {UserTicketGridItem, UserTicketItem} from '../models';
-import {UserTicketComment, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
+import {CompanyDetail, UserTicketGridItem, UserTicketItem} from '../models';
+import {UserTicketComment, UserTicketCompanyDetailResponse, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -33,7 +33,19 @@ export class PayfactorsApiModelMapper {
         TicketType: response.UserTicketType,
         TicketCssClass: response.TicketCssClass,
         TicketState: response.UserTicketState
-      }
+      },
+      CompanyInfo: null
+    };
+  }
+
+  static mapUserTicketCompanyDetailResponseToCompanyDetail(response: UserTicketCompanyDetailResponse): CompanyDetail {
+    return {
+      Name: response.CompanyName,
+      ClientType: response.ClientType,
+      OpenTickets: response.NumberOfOpenTickets,
+      RecentTickets: response.NumberOfRecentTickets,
+      RecentTicketIds: response.RecentTickets,
+      RangeOfOpenedTickets: response.NumberOfDays
     };
   }
 
