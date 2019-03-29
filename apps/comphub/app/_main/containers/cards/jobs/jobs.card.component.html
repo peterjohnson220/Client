@@ -20,7 +20,7 @@
             valueField="CountryCode"
             [data]="countryDataSets$ | async"
             [valuePrimitive]="true"
-            [ngModel]="workflowContext?.activeCountryDataSet.CountryCode">
+            [ngModel]="workflowContext?.activeCountryDataSet?.CountryCode">
 
             <ng-template kendoDropDownListItemTemplate let-dataItem>
               <img src="assets/images/blank.gif" class="flag flag-{{dataItem?.FlagCode}} mr-2" /> {{ dataItem?.CountryCode }}
