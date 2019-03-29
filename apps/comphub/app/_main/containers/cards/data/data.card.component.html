@@ -82,13 +82,13 @@
                   <td class="number-column">
                     {{
                         calculateDataByRate(job.Base50) |
-                        currency:workflowContext?.activeCountryDataSet.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                        currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
                     }}
                   </td>
                   <td class="number-column">
                     {{
                       calculateDataByRate(job.Tcc50) |
-                      currency:workflowContext?.activeCountryDataSet.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                      currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
                     }}
                   </td>
                   <td class="text-center">
