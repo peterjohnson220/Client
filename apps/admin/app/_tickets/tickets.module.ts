@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { LayoutModule } from '@progress/kendo-angular-layout';
+import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { WindowRef } from 'libs/core/services';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -19,21 +20,24 @@ import { TicketsRoutingModule } from './tickets-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule,
-    PfCommonUIModule,
-    FormsModule,
-    ReactiveFormsModule,
-    LayoutModule,
-    GridModule,
+    // Angular
+    CommonModule, FormsModule, ReactiveFormsModule,
 
+    // 3rd Party
     StoreModule.forFeature('admin_tickets', reducers),
     EffectsModule.forFeature([
       TicketEffects,
       TicketListEffects,
     ]),
+    GridModule,
+    LayoutModule,
+    NgbTabsetModule,
 
     // Routing
-    TicketsRoutingModule
+    TicketsRoutingModule,
+
+    // Payfactors
+    PfCommonUIModule
   ],
   declarations: [
     // Components

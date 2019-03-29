@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
-import { UserTicketGridItem } from '../../models';
+import { UserTicketGridItem, UserTicketTabItem } from '../../models';
 
 @Component({
   selector: 'pf-ticket-list',
@@ -14,7 +14,7 @@ import { UserTicketGridItem } from '../../models';
   styleUrls: ['./ticket-list.component.scss']
 })
 export class TicketListComponent implements OnInit {
-  private selectedTicketId: number;
+  private selectedTicket: UserTicketTabItem;
 
   ticketListLoading$: Observable<boolean>;
   ticketListLoadingError$: Observable<boolean>;
@@ -31,12 +31,17 @@ export class TicketListComponent implements OnInit {
   }
 
   handleCellClick(cellClickEvent: any): void {
-    this.selectedTicketId = cellClickEvent.dataItem.Id;
+    const ut: UserTicketTabItem = {
+      UserTicketId: cellClickEvent.dataItem.Id,
+      Title: cellClickEvent.dataItem.Description
+    };
+
+    this.selectedTicket = ut;
   }
 
   handleCellDoubleClick(): void {
-    if (this.selectedTicketId !== 0) {
-      this.store.dispatch(new fromTicketActions.OpenTicket(this.selectedTicketId));
+    if (this.selectedTicket) {
+      this.store.dispatch(new fromTicketActions.OpenTicket(this.selectedTicket));
     }
   }
 

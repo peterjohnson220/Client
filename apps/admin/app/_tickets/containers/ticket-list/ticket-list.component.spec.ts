@@ -10,7 +10,7 @@ import * as fromTicketReducer from '../../reducers';
 import * as fromTicketListActions from '../../actions/ticket-list.actions';
 import * as fromTicketList from '../../actions/ticket.actions';
 
-import { generateMockUserTicketGridItem, UserTicketGridItem } from '../../models';
+import { generateMockUserTicketGridItem, UserTicketGridItem, UserTicketTabItem } from '../../models';
 
 
 describe('Admin - Tickets - Ticket List', () => {
@@ -49,8 +49,10 @@ describe('Admin - Tickets - Ticket List', () => {
 
   it(  'should dispatch an OpenTicket action when handleCellDoubleClick is triggered', () => {
     spyOn(store, 'dispatch');
+
     const userTicketGridItem: UserTicketGridItem = mockUserTicketGridItem;
-    const expectedAction = new fromTicketList.OpenTicket(userTicketGridItem.Id);
+    const mockUserTicketTabItem: UserTicketTabItem = {UserTicketId: userTicketGridItem.Id, Title: userTicketGridItem.Description};
+    const expectedAction = new fromTicketList.OpenTicket(mockUserTicketTabItem);
 
     instance.handleCellClick({ dataItem: userTicketGridItem});
     instance.handleCellDoubleClick();

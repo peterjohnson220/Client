@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
 
-import {UserTicketItem} from '../../models';
+import { UserTicketItem } from '../../models';
 
 @Component({
   selector: 'pf-ticket',
