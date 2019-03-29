@@ -81,6 +81,11 @@ export const getExchangeJobsLoadingError = createSelector(
   (feature) => feature.loadingError
 );
 
+export const getExchangeJobsLoadingBadRequestError = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.badRequestMessage
+);
+
 export const getExchangeJobsSearchTerm = createSelector(
   getExchangeJobsFeature,
   (feature) => feature.searchTerm
@@ -199,6 +204,11 @@ export const getCompanyJobsLoading = createSelector(
 export const getCompanyJobsLoadingError = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.loadingError
+);
+
+export const getCompanyJobsLoadingBadRequestError = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.badRequestMessage
 );
 
 export const getCompanyJobIdFilters = createSelector(

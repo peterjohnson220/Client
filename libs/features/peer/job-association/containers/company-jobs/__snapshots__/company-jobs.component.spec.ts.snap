@@ -2,6 +2,9 @@
 
 exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
+  badRequestError=""
+  badRequestError$={[Function Store]}
+  badRequestErrorSubscription={[Function Subscriber]}
   companyJobGridDataResult={[Function Object]}
   companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}

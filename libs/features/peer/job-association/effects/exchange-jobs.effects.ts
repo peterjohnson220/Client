@@ -14,6 +14,7 @@ import { GenericMenuItem } from 'libs/models/common';
 import * as fromPeerJobsActions from '../actions/exchange-jobs.actions';
 import * as fromPeerJobsReducer from '../reducers';
 import { IGridState } from 'libs/core/reducers/grid.reducer';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ExchangeJobsEffects {
@@ -50,8 +51,13 @@ export class ExchangeJobsEffects {
         combined.jobFamilies).pipe(map((gridDataResult: GridDataResult) =>
           new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)
         ),
-        catchError(() => of(new fromPeerJobsActions.LoadExchangeJobsError())
-        )
+        catchError((error: HttpErrorResponse ) => {
+          if (error.status === 400) {
+            return of(new fromPeerJobsActions.LoadExchangeJobsBadRequest(error.error.Message));
+          } else {
+            return of(new fromPeerJobsActions.LoadExchangeJobsError(error.error.Message));
+          }
+        })
       )
     )
   );

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -8,9 +8,8 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromJobAssociationReducers from '../../reducers';
-import { GridTypeEnum, GenericMenuItem } from 'libs/models/common';
-
 import * as fromExchangeJobsReducer from '../../reducers';
+import { GenericMenuItem, GridTypeEnum } from 'libs/models/common';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../../models';
@@ -32,6 +31,8 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   gridState$: Observable<State>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  badRequestError$: Observable<string>;
+
   selectedCompanyJobs$: Observable<CompanyJob[]>;
   exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
   gridResultsCount$: Observable<number>;
@@ -50,12 +51,14 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   exchangeJobAssociationsSubscription: Subscription;
   selectedExchangeJobSubscription: Subscription;
   expandedDetailRowIdSubscription: Subscription;
+  badRequestErrorSubscription: Subscription;
 
   // Properties
   maxAssociableThreshold: number;
   isListView: boolean;
   isJobFamilyFilterExpanded: boolean;
   searchTerm: string;
+  badRequestError: string;
   selectedCompanyJobs: CompanyJob[];
   exchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
@@ -97,6 +100,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.loadingPreviousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociations));
     this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsSuccess));
     this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsError));
+    this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoadingBadRequestError));
 
     // Register Subscriptions
     this.searchTermSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
@@ -110,6 +114,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     this.selectedExchangeJobSubscription = this.selectedExchangeJob$
       .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob);
+
+    this.badRequestErrorSubscription = this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError);
 
     this.expandedDetailRowIdSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExpandedDetailRowId))
       .subscribe((expandedDetailRowId) => this.expandedDetailRowId = expandedDetailRowId);
@@ -138,6 +145,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.selectedExchangeJobSubscription.unsubscribe();
     this.expandedDetailRowIdSubscription.unsubscribe();
     this.isJobFamilyFilterExpandedSubscription.unsubscribe();
+    this.badRequestErrorSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {

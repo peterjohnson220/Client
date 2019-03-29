@@ -36,6 +36,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   loadingError$: Observable<boolean>;
   selectedCompanyJobInDetailPanel$: Observable<CompanyJob>;
   isDetailPanelExpanded$: Observable<boolean>;
+  badRequestError$: Observable<string>;
 
   // Subscriptions
   companyJobsGridItemsDataSubscription: Subscription;
@@ -43,6 +44,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobsSubscription: Subscription;
   searchTermSubscription: Subscription;
   selectedCompanyJobInDetailPanelSubscription: Subscription;
+  badRequestErrorSubscription: Subscription;
 
   // Properties
   companyJobGridDataResult: GridDataResult;
@@ -51,6 +53,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobIds: CompanyJob[];
   selectedCompanyJobInDetailPanel: CompanyJob;
   searchTerm: string;
+  badRequestError: string;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -65,6 +68,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsIsDetailPanelExpanded));
     this.selectedCompanyJobInDetailPanel$ =
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel));
+    this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingBadRequestError));
 
     this.selectedCompanyJobsSubscription = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
       .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs);
@@ -84,6 +88,9 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.selectedCompanyJobInDetailPanelSubscription =
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
         (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel);
+
+    this.badRequestErrorSubscription = this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError);
   }
 
   ngOnDestroy() {
@@ -92,6 +99,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.searchTermSubscription.unsubscribe();
     this.selectedCompanyJobsSubscription.unsubscribe();
     this.selectedCompanyJobInDetailPanelSubscription.unsubscribe();
+    this.badRequestErrorSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {

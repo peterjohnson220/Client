@@ -6,6 +6,7 @@ export const CLOSE_DETAIL_PANEL = '[Peer Job Association/Company Jobs] Close Det
 export const LOAD = '[Peer Job Association/Company Jobs] Load';
 export const LOAD_COMPANY_JOBS  = '[Peer Job Association/Company Jobs] Load Company Jobs';
 export const LOAD_COMPANY_JOBS_ERROR  = '[Peer Job Association/Company Jobs] Load Company Jobs Error';
+export const LOAD_COMPANY_JOBS_BAD_REQUEST = '[Peer Job Association/Company Jobs] Load Company Jobs Bad Request';
 export const LOAD_COMPANY_JOBS_SUCCESS  = '[Peer Job Association/Company Jobs] Load Company Jobs Success';
 export const RESET = '[Peer Job Association/Company Jobs] Reset';
 export const SELECT_COMPANY_JOB_FOR_DETAIL_PANEL = '[Peer Job Association/Company Jobs] Select Company Job For Detail Panel';
@@ -22,13 +23,19 @@ export class LoadCompanyJobs implements Action {
   readonly type = LOAD_COMPANY_JOBS;
 }
 
-export class LoadCompanyJobsError implements Action {
-  readonly type = LOAD_COMPANY_JOBS_ERROR;
-}
-
 export class LoadCompanyJobsSuccess implements Action {
   readonly type = LOAD_COMPANY_JOBS_SUCCESS;
   constructor(public payload: GridDataResult) {}
+}
+
+export class LoadCompanyJobsError implements Action {
+  readonly type = LOAD_COMPANY_JOBS_ERROR;
+  constructor(public payload: any) {}
+}
+
+export class LoadCompanyJobsBadRequest implements Action {
+  readonly type = LOAD_COMPANY_JOBS_BAD_REQUEST;
+  constructor(public payload: string) {}
 }
 
 export class Reset implements Action {
@@ -69,6 +76,7 @@ export type Actions
   | LoadCompanyJobs
   | LoadCompanyJobsSuccess
   | LoadCompanyJobsError
+  | LoadCompanyJobsBadRequest
   | Reset
   | SelectJobTitleOrCode
   | SelectCompanyJobsToAssociate

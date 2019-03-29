@@ -2,6 +2,9 @@
 
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
+  badRequestError=""
+  badRequestError$={[Function Store]}
+  badRequestErrorSubscription={[Function Subscriber]}
   exchangeJobAssociations={[Function Array]}
   exchangeJobAssociations$={[Function Store]}
   exchangeJobAssociationsSubscription={[Function Subscriber]}
