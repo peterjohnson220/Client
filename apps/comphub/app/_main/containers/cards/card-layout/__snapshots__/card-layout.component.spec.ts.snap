@@ -49,6 +49,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
       <button
         class="btn comphub-secondary-btn"
         data-qa-id="btn-back-Jobs"
+        disabled=""
       >
          Back 
       </button>
@@ -183,6 +184,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
       <button
         class="btn comphub-secondary-btn"
         data-qa-id="btn-back-Jobs"
+        disabled=""
       >
          Back 
       </button>

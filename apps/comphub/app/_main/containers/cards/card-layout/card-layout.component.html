@@ -18,6 +18,7 @@
   <div class="actions-section">
     <button *ngIf="!hideBackButton"
             class="btn comphub-secondary-btn"
+            [disabled]="!backButtonEnabled"
             [attr.data-qa-id]="'btn-back-' + pageTitle"
             (click)="handleBackButtonClicked()">
       Back

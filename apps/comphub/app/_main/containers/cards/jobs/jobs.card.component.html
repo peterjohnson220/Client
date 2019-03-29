@@ -6,7 +6,8 @@
   [nextButtonEnabled]="
     (!(jobPricingBlocked$ | async) &&
     (selectedJob$ | async)?.length) &&
-    workflowContext?.selectedPageId === comphubPages.Jobs">
+    workflowContext?.selectedPageId === comphubPages.Jobs"
+  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Jobs">
 
   <ng-container page-content>
 

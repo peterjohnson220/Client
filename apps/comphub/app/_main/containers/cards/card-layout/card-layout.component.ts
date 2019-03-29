@@ -25,6 +25,7 @@ export class CardLayoutComponent implements OnInit {
   @Input() hideBackButton: boolean;
   @Input() hideNextButton: boolean;
   @Input() nextButtonEnabled: boolean;
+  @Input() backButtonEnabled: boolean;
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;

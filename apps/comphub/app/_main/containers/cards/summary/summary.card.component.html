@@ -2,7 +2,8 @@
   pageTitle="Summary"
   pageSubTitle="Let's review a summary of your pricing activity"
   pageIconClass="fa-file-alt"
-  [hideNextButton]="true">
+  [hideNextButton]="true"
+  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Summary">
 
   <ng-container page-content>
 
@@ -41,6 +42,7 @@
 
   <ng-container custom-actions>
     <button class="btn comphub-primary-btn"
+            [disabled]="workflowContext?.selectedPageId !== comphubPages.Summary"
             [attr.data-qa-id]="'btn-priceNewJob'"
             (click)="handlePriceNewJobClicked()">
       Price New Job
