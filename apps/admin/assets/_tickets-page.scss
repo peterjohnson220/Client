@@ -1,0 +1,21 @@
+@import 'tickets-variables';
+
+.badge {
+
+  &.productIssueBugColor {
+    background-color: $tickets-tickettype-productissuebug-background;
+  }
+
+  &.questionColor {
+    background-color: $tickets-tickettype-question-background;
+  }
+
+  &.jobPricingColor {
+    background-color: $tickets-tickettype-jobpricing-background;
+  }
+
+  &.fileUploadColor {
+    background-color: $tickets-tickettype-fileupload-background;
+  }
+
+}

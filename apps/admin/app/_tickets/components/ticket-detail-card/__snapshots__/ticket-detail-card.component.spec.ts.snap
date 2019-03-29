@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Tickets - Ticket Detail Card Should display details about a ticket 1`] = `
+<pf-ticket-detail-card
+  ticketDetail={[Function Object]}
+>
+  <div
+    class="section card mb-2"
+    title="Ticket Details"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            ID
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            <h4>
+              1
+            </h4>
+          </div>
+        </div>
+        <div
+          class="col-sm"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            Status
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            <h4>
+              MockTicketState
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm"
+        >
+          <h4>
+            <span
+              class="badge MockTicketCssClass"
+            >
+              MockTicketType
+            </span>
+          </h4>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-6"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            Company
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            MockCompanyName
+          </div>
+        </div>
+        <div
+          class="col-sm-6"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            Opened By
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            MockOpenedByUser
+          </div>
+        </div>
+      </div>
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-6"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            Last Updated
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            Jan 1, 1990, 12:00:00 AM
+          </div>
+        </div>
+        <div
+          class="col-sm-6"
+        >
+          <div
+            class="card-subtitle text-muted"
+          >
+            Submitted
+          </div>
+          <div
+            class="card-text mb-2"
+          >
+            Jan 1, 1990, 12:00:00 AM
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-ticket-detail-card>
+`;

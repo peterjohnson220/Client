@@ -18,7 +18,8 @@
             "polyfills": "apps/admin/polyfills.ts",
             "stylePreprocessorOptions": {
               "includePaths": [
-                "assets/scss"
+                "assets/scss",
+                "apps/admin/assets"
               ]
             },
             "assets": [

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import { UserTicketItem } from '../models';
 
 export const LOAD_TICKET = '[Admin Tickets / Ticket] Load Ticket';
 export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success';
@@ -16,7 +16,7 @@ export class LoadTicket implements Action {
 export class LoadTicketSuccess implements Action {
   readonly type = LOAD_TICKET_SUCCESS;
 
-  constructor(public payload: UserTicketResponse) {}
+  constructor(public payload: UserTicketItem) {}
 }
 
 export class LoadTicketError implements Action {

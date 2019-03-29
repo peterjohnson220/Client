@@ -1,0 +1,37 @@
+<div class="section card mb-2" title="Ticket Details">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm">
+        <div class="card-subtitle text-muted">ID</div>
+        <div class="card-text mb-2"><h4>{{ticketDetail.TicketId}}</h4></div>
+      </div>
+      <div class="col-sm">
+        <div class="card-subtitle text-muted">Status</div>
+        <div class="card-text mb-2"><h4>{{ticketDetail.TicketState}}</h4></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm"><h4><span class="badge {{ticketDetail.TicketCssClass}}">{{ticketDetail.TicketType}}</span></h4></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card-subtitle text-muted">Company</div>
+        <div class="card-text mb-2">{{ticketDetail.CompanyName}}</div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-subtitle text-muted">Opened By</div>
+        <div class="card-text mb-2">{{ticketDetail.OpenedBy}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card-subtitle text-muted">Last Updated</div>
+        <div class="card-text mb-2">{{ticketDetail.EditDate | date:'medium'}}</div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card-subtitle text-muted">Submitted</div>
+        <div class="card-text mb-2">{{ticketDetail.CreateDate | date:'medium'}}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { TicketListComponent, TicketListPageComponent } from './containers';
 import { TicketEffects, TicketListEffects } from './effects';
 import { reducers } from './reducers';
 import { TicketComponent } from './containers/ticket';
+import { TicketDetailCardComponent } from './components';
 import { TicketsRoutingModule } from './tickets-routing.module';
 
 @NgModule({
@@ -35,9 +36,13 @@ import { TicketsRoutingModule } from './tickets-routing.module';
     TicketsRoutingModule
   ],
   declarations: [
+    // Components
+    TicketDetailCardComponent,
+
     // Containers
     TicketListComponent,
     TicketComponent,
+
     // Pages
     TicketListPageComponent,
   ],

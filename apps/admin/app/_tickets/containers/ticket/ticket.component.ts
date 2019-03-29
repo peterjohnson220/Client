@@ -3,10 +3,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
-import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
-
 import * as fromTicketActions from '../../actions/ticket.actions';
 import * as fromTicketReducer from '../../reducers';
+
+import { UserTicketItem } from '../../models';
 
 @Component({
   selector: 'pf-ticket',
@@ -16,7 +16,7 @@ import * as fromTicketReducer from '../../reducers';
 export class TicketComponent implements OnInit, OnDestroy {
   @Input() ticketId: number;
 
-  ticket: UserTicketResponse;
+  ticket: UserTicketItem;
 
   ticketSubscription: Subscription;
 
@@ -26,7 +26,7 @@ export class TicketComponent implements OnInit, OnDestroy {
     this.ticket$ = this.store.select(fromTicketReducer.getUserTicket);
 
     this.ticketSubscription = this.ticket$.subscribe((userTicketResponse) => {
-      if (userTicketResponse && userTicketResponse.UserTicketId === this.ticketId) {
+      if (userTicketResponse && userTicketResponse.TicketInfo.TicketId === this.ticketId) {
         this.ticket = userTicketResponse;
       }
     });
@@ -34,7 +34,7 @@ export class TicketComponent implements OnInit, OnDestroy {
 
   ticketLoading$: Observable<boolean>;
   ticketLoadingError$: Observable<boolean>;
-  ticket$: Observable<UserTicketResponse>;
+  ticket$: Observable<UserTicketItem>;
 
   handleTicketReload() {
     this.store.dispatch(new fromTicketActions.LoadTicket(this.ticketId));

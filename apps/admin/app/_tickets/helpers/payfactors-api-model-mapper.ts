@@ -1,5 +1,5 @@
 
-import {UserTicketGridItem} from '../models';
+import {UserTicketGridItem, UserTicketItem} from '../models';
 import {UserTicketComment, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
 
 export class PayfactorsApiModelMapper {
@@ -15,9 +15,26 @@ export class PayfactorsApiModelMapper {
         OpenedUser: ut.OpenedUserEmail,
         ServiceUser: ut.ServicesUserEmail,
         Comments: this.squashComments(ut.UserTicketComments),
-        Description: ut.UserTicket
+        Description: ut.UserTicket,
+        TicketCssClass: ut.TicketCssClass
       };
     });
+  }
+
+  static mapUserTicketResponseToUserTicketItem(response: UserTicketResponse): UserTicketItem {
+    return {
+      Description: response.UserTicket,
+      TicketInfo: {
+        TicketId: response.UserTicketId,
+        CompanyName: response.CompanyName,
+        EditDate: response.EditDate,
+        CreateDate: response.CreateDate,
+        OpenedBy: response.OpenedUserEmail,
+        TicketType: response.UserTicketType,
+        TicketCssClass: response.TicketCssClass,
+        TicketState: response.UserTicketState
+      }
+    };
   }
 
   private static squashComments( userTicketComments: UserTicketComment[]): string {
