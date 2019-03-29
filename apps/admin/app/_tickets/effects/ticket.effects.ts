@@ -5,7 +5,9 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError, mergeMap, map } from 'rxjs/operators';
 
-import { UserTicketCompanyDetailResponse, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
+import {
+  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse
+} from 'libs/models/payfactors-api/service/response';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 import * as fromTicketActions from '../actions/ticket.actions';
@@ -44,6 +46,32 @@ export class TicketEffects {
         )
       )
     );
+
+    @Effect()
+    loadTicketStates$: Observable<Action> = this.actions$
+        .ofType(fromTicketActions.LOAD_TICKETSTATES).pipe(
+            switchMap((action: fromTicketActions.LoadTicketStates) =>
+                this.userTicketApiService.getUserTicketStates().pipe(
+                    map((ticketStates: UserTicketStateResponse[]) => {
+                        return new fromTicketActions.LoadTicketStatesSuccess(ticketStates);
+                    }),
+                    catchError(error => of(new fromTicketActions.LoadTicketStatesError()))
+                )
+            )
+        );
+
+    @Effect()
+    loadTicketTypes$: Observable<Action> = this.actions$
+        .ofType(fromTicketActions.LOAD_TICKETSTATES).pipe(
+            switchMap((action: fromTicketActions.LoadTicketTypes) =>
+                this.userTicketApiService.getUserTicketTypes().pipe(
+                    map((ticketTypes: UserTicketTypeResponse[]) => {
+                      return new fromTicketActions.LoadTicketTypesSuccess(ticketTypes);
+                    }),
+                    catchError(error => of(new fromTicketActions.LoadTicketTypesError()))
+                )
+            )
+        );
 
     constructor(
         private actions$: Actions,
