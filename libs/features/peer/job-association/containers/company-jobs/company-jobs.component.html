@@ -1,4 +1,4 @@
-<h2 class="text-center">Company Jobs</h2>
+<h2 class="text-center mb-3">Company Jobs</h2>
 <div class="filters position-relative d-flex mt-2 mb-2">
   <i class="fas fa-search position-absolute"></i>
   <pf-input-debounce
@@ -14,6 +14,16 @@
   <label class="text-uppercase" data-qa-id="lbl-company-jobs-total">
     company jobs: {{ totalCompanyJobsGridItems$ | async }} total | selected: {{selectedCompanyJobIds.length}}
   </label>
+  <button class="view-button ml-2 invisible"
+          title="Grid View" 
+          [ngClass]="{'view-button-active' : isListView}">
+    <i class="fas fa-table"></i>
+  </button>
+  <button class="view-button invisible" 
+          title="Detail View" 
+          [ngClass]="{'view-button-active' : !isListView}">
+    <i class="fas fa-list"></i>
+  </button>
 </div>
 <div class="grid-container position-relative">
   <pf-async-container

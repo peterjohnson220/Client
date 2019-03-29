@@ -3,6 +3,7 @@
 @import 'colors';
 
 $sub-header-height: 27px;
+$buttons-height: 70px;
 
 .semi-bold {
   font-weight: 500;
@@ -18,11 +19,19 @@ $sub-header-height: 27px;
   width: 25px;
   cursor: pointer;
   transition: opacity .2s ease-in-out;
+  svg {
+    vertical-align: -1px;
+  }
   &.fake-button {
     pointer-events: none;
-    height: 1.6rem;
-    width: 1.6rem;
+    height: 1.7rem;
+    width: 1.7rem;
     padding-left: .25rem;
+    svg {
+      font-size: .85rem;
+      margin-left: .15rem;
+      vertical-align: -2px;
+    }
   }
   &:disabled {
     opacity: .6;
@@ -36,7 +45,7 @@ $sub-header-height: 27px;
 }
 
 .grids-wrapper {
-  height: calc(100% - #{$sub-header-height});
+  height: calc(100% - #{$sub-header-height} - #{$buttons-height});
 }
 
 // prevent tooltip flickering when hovering
@@ -119,26 +128,26 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   .grid-container {
     // keep the slide in detail panel hidden outside when collapsed
     overflow-x: hidden;
-    height: 75%;
+    // consume 100% of the parent minus some space for the header, filters, and some cushion beneath
+    height: calc(100% - 140px);
     .k-tooltip-container {
       height: 100%;
       .k-grid {
-        border: none;
         .k-grid-header {
-          background-color: transparent;
+          background-color: #E4E4E4;
           border: none;
         }
         .k-grid-header-wrap {
           border-right: none;
           .k-header {
-            font-weight: 700;
+            font-weight: 500;
             border: none;
-            background-color: #fff;
-            color: rgba(102, 102, 102, 0.9);
-            padding-top: .2rem;
-            padding-bottom: .2rem;
+            background-color: #E4E4E4;
+            color: #666;
+            padding-top: .5rem;
+            padding-bottom: .5rem;
             &:not(:first-child) {
-              border-right: 1px dashed #ccc;
+              border-right: 1px dashed #fff;
             }
           }
         }
