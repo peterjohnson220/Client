@@ -47,3 +47,7 @@ export const {
 } = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
+
+// Ticket Field Lookup Selectors
+export const getUserTicketStates = createSelector(selectTicketState, fromTicketsReducer.getUserTicketStates);
+export const getUserTicketTypes = createSelector(selectTicketState, fromTicketsReducer.getUserTicketTypes);
