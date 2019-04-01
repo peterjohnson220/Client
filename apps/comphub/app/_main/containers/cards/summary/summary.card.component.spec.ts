@@ -222,10 +222,19 @@ describe('Comphub - Main - Summary Card Component', () => {
   'when selected page is NOT Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedPageId$ = of(ComphubPages.Markets);
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Markets
+        }
+      }
+    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
