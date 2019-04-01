@@ -136,6 +136,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(false);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -147,6 +148,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -159,6 +161,7 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.paymarket = generateMockPricingPaymarket();
     instance.paymarket.CompanyPayMarketId = null;
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -233,6 +236,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
   it('should display USD for currency when active market data is USA', () => {
     instance.activeCountryDataSet$ = of(generateMockCountryDataSet());
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -244,6 +248,7 @@ describe('Comphub - Main - Summary Card Component', () => {
       ...generateMockCountryDataSet(),
       CurrencyCode: 'CAD'
     });
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
