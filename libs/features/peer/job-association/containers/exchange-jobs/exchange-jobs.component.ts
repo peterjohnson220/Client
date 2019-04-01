@@ -45,13 +45,14 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   loadingPreviousAssociationsSuccess$: Observable<boolean>;
   loadingPreviousAssociationsError$: Observable<boolean>;
 
+  // Observables, Job Family Filter
+  isJobFamilyFilterExpanded$: Observable<boolean>;
+  isJobFamilyFilterLoading$: Observable<boolean>;
+  jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
+  selectedJobFamilyOptionNames$: Observable<string[]>;
+
   // Subscriptions
-  searchTermSubscription: Subscription;
-  selectedCompanyJobsSubscription: Subscription;
-  exchangeJobAssociationsSubscription: Subscription;
-  selectedExchangeJobSubscription: Subscription;
-  expandedDetailRowIdSubscription: Subscription;
-  badRequestErrorSubscription: Subscription;
+  allSubscriptions: Subscription = new Subscription();
 
   // Properties
   maxAssociableThreshold: number;
@@ -63,13 +64,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   exchangeJobAssociations: ExchangeJobAssociation[];
   selectedExchangeJob: ExchangeJob;
   expandedDetailRowId: number;
-
-  // Job Family Filter
-  isJobFamilyFilterExpandedSubscription: Subscription;
-  isJobFamilyFilterExpanded$: Observable<boolean>;
-  isJobFamilyFilterLoading$: Observable<boolean>;
-  jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
-  selectedJobFamilyOptionNames$: Observable<string[]>;
+  exchangeJobs: ExchangeJob[];
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -103,23 +98,29 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoadingBadRequestError));
 
     // Register Subscriptions
-    this.searchTermSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
-        .subscribe((searchTerm) => this.searchTerm = searchTerm);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
+      .subscribe((searchTerm) => this.searchTerm = searchTerm));
 
-    this.selectedCompanyJobsSubscription = this.selectedCompanyJobs$
-        .subscribe((selectedCompanyJobs) => this.selectedCompanyJobs = selectedCompanyJobs);
+    this.allSubscriptions.add(this.selectedCompanyJobs$
+      .subscribe((selectedCompanyJobs) => this.selectedCompanyJobs = selectedCompanyJobs));
 
-    this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
-        .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
+    this.allSubscriptions.add(this.exchangeJobAssociations$
+      .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations));
 
-    this.selectedExchangeJobSubscription = this.selectedExchangeJob$
-      .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob);
+    this.allSubscriptions.add(this.selectedExchangeJob$
+      .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob));
 
-    this.badRequestErrorSubscription = this.badRequestError$
-      .subscribe((badRequestError) => this.badRequestError = badRequestError);
+    this.allSubscriptions.add(this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError));
 
-    this.expandedDetailRowIdSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExpandedDetailRowId))
-      .subscribe((expandedDetailRowId) => this.expandedDetailRowId = expandedDetailRowId);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExpandedDetailRowId))
+      .subscribe((expandedDetailRowId) => this.expandedDetailRowId = expandedDetailRowId));
+
+    this.allSubscriptions.add(this.exchangeJobs$
+      .subscribe((exchangeJobs) => this.exchangeJobs = exchangeJobs.data));
+
+    this.allSubscriptions.add(this.isJobFamilyFilterExpanded$
+      .subscribe((isExpanded) => this.isJobFamilyFilterExpanded = isExpanded));
 
     // job family
     this.isJobFamilyFilterExpanded$ =
@@ -132,20 +133,10 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     this.selectedJobFamilyOptionNames$ =
       this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
-
-    this.isJobFamilyFilterExpandedSubscription = this.isJobFamilyFilterExpanded$.subscribe((isExpanded) => {
-      this.isJobFamilyFilterExpanded = isExpanded;
-    });
   }
 
   ngOnDestroy() {
-    this.searchTermSubscription.unsubscribe();
-    this.selectedCompanyJobsSubscription.unsubscribe();
-    this.exchangeJobAssociationsSubscription.unsubscribe();
-    this.selectedExchangeJobSubscription.unsubscribe();
-    this.expandedDetailRowIdSubscription.unsubscribe();
-    this.isJobFamilyFilterExpandedSubscription.unsubscribe();
-    this.badRequestErrorSubscription.unsubscribe();
+    this.allSubscriptions.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
@@ -291,6 +282,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId: number, exchangeJobId: number): boolean {
     let count = this.selectedCompanyJobs.length;
     count += this.getAssociationCount(exchangeId, exchangeJobId);
+    count += this.getPreviouslyAssociatedExchangeJobCount(exchangeId, exchangeJobId);
     return count <= this.maxAssociableThreshold;
   }
 
@@ -307,6 +299,11 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       totalAssociatedJobs += exchangeJobAssociation[i].CompanyJobs.map((cj) => cj.CompanyJobId).length;
     }
     return totalAssociatedJobs;
+  }
+
+  getPreviouslyAssociatedExchangeJobCount(exchangeId: number, exchangeJobId: number): number {
+    const exchangeJob = this.exchangeJobs.find((ej: ExchangeJob) => ej.ExchangeId === exchangeId && ej.ExchangeJobId === exchangeJobId);
+    return exchangeJob.CompanyJobMappings.length;
   }
 
   getCompanyJobAssociations(exchangeId: number, exchangeJobId: number): CompanyJob[] {
