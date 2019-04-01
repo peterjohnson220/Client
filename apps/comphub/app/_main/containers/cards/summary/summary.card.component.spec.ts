@@ -136,6 +136,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(false);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -147,6 +148,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -159,6 +161,7 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.paymarket = generateMockPricingPaymarket();
     instance.paymarket.CompanyPayMarketId = null;
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -219,10 +222,19 @@ describe('Comphub - Main - Summary Card Component', () => {
   'when selected page is NOT Summary and job data has been changed', () => {
     spyOn(store, 'dispatch');
 
-    instance.selectedPageId$ = of(ComphubPages.Markets);
     instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
     instance.lastJobData = generateFakeJobData();
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Markets
+        }
+      }
+    });
 
     const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
     const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
@@ -233,6 +245,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
   it('should display USD for currency when active market data is USA', () => {
     instance.activeCountryDataSet$ = of(generateMockCountryDataSet());
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -244,6 +257,7 @@ describe('Comphub - Main - Summary Card Component', () => {
       ...generateMockCountryDataSet(),
       CurrencyCode: 'CAD'
     });
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
