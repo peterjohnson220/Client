@@ -321,3 +321,8 @@ export const getCanAccessProjectsTile = createSelector(
   selectSummaryCardState,
   fromSummaryCardReducer.getCanAccessProjectTile
 );
+
+export const getGlossaryOpen = createSelector(
+  selectSummaryCardState,
+  fromSummaryCardReducer.getGlossaryOpen
+);

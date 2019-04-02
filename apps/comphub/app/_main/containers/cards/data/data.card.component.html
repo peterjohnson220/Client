@@ -105,8 +105,8 @@
                   </td>
                 </tr>
                 <tr *ngIf="job.ShowJd" class="jd-row">
-                  <td [attr.colspan]="gridColumnsConfiguration.length + 1">
-                    {{job.JobDescription}}
+                  <td [attr.colspan]="gridColumnsConfiguration.length + 1"
+                      [innerHTML]="job.JobDescription | jobDescriptionParser">
                   </td>
                 </tr>
               </ng-container>

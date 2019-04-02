@@ -21,6 +21,7 @@ export const SET_PROJECT_TILE_ACCESS = '[Comphub/Summary Card] Set Project Tile 
 export const ADD_COMPLETED_PRICING_HISTORY = '[Comphub/Summary Card] Create Completed Pricing History';
 export const ADD_COMPLETED_PRICING_HISTORY_SUCCESS = '[Comphub/Summary Card] Create Completed Pricing History Success';
 export const ADD_COMPLETED_PRICING_HISTORY_ERROR = '[Comphub/Summary Card] Create Completed Pricing History Error';
+export const TOGGLE_GLOSSARY_DISPLAY = '[Comphub/Summary Card] Toggle Glossary Display';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -124,6 +125,12 @@ export class AddCompletedPricingHistoryError implements Action {
   constructor() {}
 }
 
+export class ToggleGlossaryDisplay implements Action {
+  readonly type = TOGGLE_GLOSSARY_DISPLAY;
+
+  constructor(public payload: { open: boolean}) {}
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -141,4 +148,5 @@ export type Actions
   | SetProjectTileAccess
   | AddCompletedPricingHistory
   | AddCompletedPricingHistorySuccess
-  | AddCompletedPricingHistoryError;
+  | AddCompletedPricingHistoryError
+  | ToggleGlossaryDisplay;
