@@ -13,7 +13,7 @@ export class ClickElsewhereDirective {
     const targetElement = event.target as HTMLElement;
     // Check if the click was outside the element
     if (targetElement && typeof targetElement.className === 'string' && !this.elementRef.nativeElement.contains(targetElement) ) {
-      if (!this.whitelist.some(w => targetElement.className.includes(w))) {
+      if (!this.whitelist || !this.whitelist.some(w => targetElement.className.includes(w))) {
         this.clickElsewhere.emit(event);
       }
     }

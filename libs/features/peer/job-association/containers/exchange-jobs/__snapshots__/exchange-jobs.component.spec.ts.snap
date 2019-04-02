@@ -5,19 +5,19 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   allSubscriptions={[Function Subscription]}
   badRequestError=""
   badRequestError$={[Function Store]}
+  exchangeFilterOptions={[Function Array]}
+  exchangeFilterOptions$={[Function Store]}
   exchangeJobAssociations={[Function Array]}
   exchangeJobAssociations$={[Function Store]}
   exchangeJobs={[Function Array]}
   exchangeJobs$={[Function Store]}
   expandedDetailRowId="null"
   grid="undefined"
-  gridResultsCount$={[Function Store]}
   gridState$={[Function Store]}
   isDetailPanelExpanded$={[Function Store]}
-  isJobFamilyFilterExpanded="false"
-  isJobFamilyFilterExpanded$={[Function Store]}
+  isExchangeFilterLoading$={[Function Store]}
   isJobFamilyFilterLoading$={[Function Store]}
-  isListView={[Function Boolean]}
+  jobFamilyFilterOptions={[Function Array]}
   jobFamilyFilterOptions$={[Function Store]}
   jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
@@ -26,12 +26,15 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   loadingPreviousAssociationsError$={[Function Store]}
   loadingPreviousAssociationsSuccess$={[Function Store]}
   maxAssociableThreshold={[Function Number]}
+  multiSelectExchange={[Function ElementRef]}
+  multiSelectJobFamily={[Function ElementRef]}
   previousAssociations$={[Function Store]}
   searchTerm=""
   selectedCompanyJobs={[Function Array]}
   selectedCompanyJobs$={[Function Store]}
   selectedExchangeJob={[Function Object]}
   selectedExchangeJob$={[Function Store]}
+  selectedExchangeOptionNames$={[Function Store]}
   selectedJobFamilyOptionNames$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
@@ -42,9 +45,11 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   >
     Peer Exchange Jobs
   </h2><div
-    class="filters position-relative d-flex mt-2 mb-2"
+    class="filters position-relative d-flex flex-wrap mt-2 mb-2"
   >
-    <div>
+    <div
+      class="mb-2"
+    >
       <i
         class="fas fa-search position-absolute"
       />
@@ -53,10 +58,17 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
       />
     </div>
     <div
-      class="ml-3"
+      class="ml-3 mb-2"
     >
       <pf-multi-select
-        pfclickelsewhere=""
+        data-qa-id="ddm-job-family-filter"
+      />
+    </div>
+    <div
+      class="ml-3 mb-2"
+    >
+      <pf-multi-select
+        data-qa-id="ddm-exchange-filter"
       />
     </div>
   </div><div>
@@ -72,7 +84,6 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
     <pf-async-container
       class="h-100"
     >
-      
       <div
         class="k-tooltip-container"
         filter=".k-grid td"
@@ -106,7 +117,6 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
           
         </kendo-grid>
       </div>
-      
     </pf-async-container>
   </div>
 </pf-peer-job-association-exchange-jobs>

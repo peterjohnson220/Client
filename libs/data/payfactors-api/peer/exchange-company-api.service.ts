@@ -2,13 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
+import { State } from '@progress/kendo-data-query';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
   ExchangeListItem, UpsertExchangeJobMapRequest,
   GetChartRequest, GetDetailChartRequest, ChartItem,
-  RequestExchangeRequest, ExchangeRequestCandidatesRequest
+  RequestExchangeRequest, ExchangeRequestCandidatesRequest,
 } from '../../../models';
+import { GenericMenuItem } from 'libs/models/common';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 
 @Injectable()
@@ -42,6 +45,14 @@ export class ExchangeCompanyApiService {
     return this.payfactorsApiService.get<GridDataResult>(
       `${this.endpoint}/GetExchangeJobsWithMappings`,
       { params: { exchangeId, listState: JSON.stringify(listState) } },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  getExchangeJobs(listState: State, jobTitleSearchTerm: string, jobFamilies: string[], exchangeIds: number[]): Observable<GridDataResult> {
+    return this.payfactorsApiService.post<GridDataResult>(
+      `${this.endpoint}/GetExchangeJobs`,
+      { JobTitleSearchTerm: jobTitleSearchTerm, ListState: listState, JobFamilies: jobFamilies, ExchangeIds: exchangeIds },
       MappingHelper.mapListAreaResultToGridDataResult
     );
   }
@@ -122,5 +133,13 @@ export class ExchangeCompanyApiService {
 
   requestPeerAccess(): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/RequestPeerAccess`);
+  }
+
+  getJobFamilies(): Observable<GenericMenuItem[]> {
+    return this.payfactorsApiService.get<GenericMenuItem[]>(`${this.endpoint}/GetExchangeJobFamilies`, {}, this.mapJobFamiliesToItems);
+  }
+
+  private mapJobFamiliesToItems(jobFamilies: string[]) {
+    return jobFamilies.map(f => ({ DisplayName: f, IsSelected: false, Id: null } as GenericMenuItem));
   }
 }

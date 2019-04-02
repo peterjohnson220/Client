@@ -1,37 +1,38 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
+import {TestBed, ComponentFixture, async} from '@angular/core/testing';
 
-import { of } from 'rxjs';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MultiSelectComponent } from './multi-select.component';
+import {RemoteDataSourceService} from 'libs/core/services';
+import {PayfactorsApiService} from '../../../../data/payfactors-api/payfactors-api.service';
+import {HttpClient, HttpHandler} from '@angular/common/http';
+import {FileApiService} from '../../../../data/payfactors-api/file';
 
 describe('UI/Common/Content - Multi Select', () => {
   let fixture: ComponentFixture<MultiSelectComponent>;
   let component: MultiSelectComponent;
 
   // Configure Testing Module for before each test
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ NgbTooltipModule ],
       declarations: [ MultiSelectComponent ],
-      providers: [ FormBuilder ],
+      providers: [FileApiService, HttpHandler, HttpClient, PayfactorsApiService, RemoteDataSourceService ],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
-
     fixture = TestBed.createComponent(MultiSelectComponent);
     component = fixture.componentInstance;
-    component.selectedOptionNames$ = of(['zoos']);
-  });
+    component.selectedOptionNames = ['zoos'];
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should hide checkbox panel when not expanded', () => {
-    component.isExpanded$ = of(false);
+    component.isExpanded = false;
 
     fixture.detectChanges();
 
@@ -39,7 +40,7 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should show the checkbox panel when expanded', () => {
-    component.isExpanded$ = of(true);
+    component.isExpanded = true;
 
     fixture.detectChanges();
 
@@ -47,8 +48,8 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should hide the loading indicator when not loading', () => {
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(false);
+    component.isExpanded = true;
+    component.isLoading = false;
 
     fixture.detectChanges();
 
@@ -56,8 +57,8 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should show the loading indicator when loading', () => {
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(true);
+    component.isExpanded = true;
+    component.isLoading = true;
 
     fixture.detectChanges();
 
@@ -73,8 +74,8 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should render its options when expanded', () => {
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(false);
+    component.isExpanded = true;
+    component.isLoading = false;
     component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
 
     fixture.detectChanges();
@@ -85,8 +86,8 @@ describe('UI/Common/Content - Multi Select', () => {
   it('should emit when the select facade is clicked', () => {
     spyOn(component.selectFacadeClick, 'emit');
 
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(false);
+    component.isExpanded = true;
+    component.isLoading = false;
     const selectFacade = fixture.debugElement.nativeElement.querySelector('a');
     selectFacade.click();
 
@@ -96,30 +97,28 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should emit when the clear selections button is clicked', () => {
+    component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
     spyOn(component.clearSelectionsClick, 'emit');
-
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(false);
+    component.isExpanded = true;
+    component.isLoading = false;
 
     fixture.detectChanges();
-
-    const clearSelections = fixture.debugElement.nativeElement.querySelector('button.clear-selections');
-    clearSelections.click();
-
+    component.clearSelections();
     expect(component.clearSelectionsClick.emit).toHaveBeenCalled();
   });
 
   it('should emit with the right object when a checkbox form value is changed', () => {
-    spyOn(component.checkboxClick, 'emit');
-    component.isExpanded$ = of(true);
-    component.isLoading$ = of(false);
+    spyOn(component.selectedOptionsChange, 'emit');
+    component.isExpanded = true;
+    component.isLoading = false;
     component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
 
     fixture.detectChanges();
 
-    const control = component.form.get('Zoos and Zookeeping') as any;
-    control.setValue(true);
+    const option = component.options.find(f => f.DisplayName === 'Zoos and Zookeeping');
+    option.IsSelected = true;
+    component.refreshSelected();
 
-    expect(component.checkboxClick.emit).toHaveBeenCalledWith({ DisplayName: 'Zoos and Zookeeping', IsSelected: true });
+    expect(component.selectedOptionsChange.emit).toHaveBeenCalled();
   });
 });

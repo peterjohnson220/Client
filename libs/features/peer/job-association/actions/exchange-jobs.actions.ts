@@ -3,7 +3,6 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { ExchangeJobAssociation, ExchangeJob, CompanyJob, LoadAssociations } from '../models';
 import { GenericMenuItem } from 'libs/models';
-import { CompanyJobMapping } from 'libs/models/peer';
 
 // container
 export const LOAD = '[Peer Job Association/Exchange Jobs] Load';
@@ -27,12 +26,18 @@ export const LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS = '[Peer Job Association/Exchang
 export const LOAD_PREVIOUS_ASSOCIATIONS_ERROR = '[Peer Job Association/Exchange Jobs] Load Previous Associations Error';
 
 // job family filter
+export const SELECTED_JOB_FAMILIES_CHANGED = '[Peer Job Association Modal/Exchange Jobs] Selected Job Family Options has been changed';
 export const CLEAR_SELECTED_JOB_FAMILIES = '[Peer Job Association/Exchange Jobs] Clear Selected Job Families';
 export const LOAD_JOB_FAMILY_FILTER = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Family Filter';
 export const LOAD_JOB_FAMILY_FILTER_SUCCESS = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Family Filter Success';
 export const LOAD_JOB_FAMILY_FILTER_ERROR = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Family Filter Error';
-export const TOGGLE_JOB_FAMILY_FILTER = '[Peer Job Association/Exchange Jobs] Toggle Job Family Filter';
-export const TOGGLE_JOB_FAMILY_FILTER_SELECTION = '[Peer Job Association/Exchange Jobs] Toggle Job Family Filter Selection';
+
+// exchange filter
+export const SELECTED_EXCHANGES_CHANGED = '[Peer Job Association Modal/Exchange Jobs] Selected Exchange Options has been changed';
+export const CLEAR_SELECTED_EXCHANGES = '[Peer Job Association/Exchange Jobs] Clear Selected Exchanges';
+export const LOAD_EXCHANGE_FILTER = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Exchange Filter';
+export const LOAD_EXCHANGE_FILTER_SUCCESS = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Exchange Filter Success';
+export const LOAD_EXCHANGE_FILTER_ERROR = '[Peer Job Association/Exchange Jobs] Load Exchange Jobs Exchange Filter Error';
 
 // container
 export class Load implements Action {
@@ -111,6 +116,11 @@ export class ClearSelectedJobFamilies implements Action {
   readonly type = CLEAR_SELECTED_JOB_FAMILIES;
 }
 
+export class SelectedJobFamiliesChanged  implements Action {
+  readonly type = SELECTED_JOB_FAMILIES_CHANGED;
+  constructor(public payload: GenericMenuItem[]) {}
+}
+
 export class LoadJobFamilyFilter implements Action {
   readonly type = LOAD_JOB_FAMILY_FILTER;
 }
@@ -124,14 +134,27 @@ export class LoadJobFamilyFilterSuccess implements Action {
   constructor(public payload: GenericMenuItem[]) {}
 }
 
-export class ToggleJobFamilyFilter implements Action {
-  readonly type = TOGGLE_JOB_FAMILY_FILTER;
-  constructor(public payload?: boolean) {}
+// exchange filter
+export class ClearSelectedExchanges implements Action {
+  readonly type = CLEAR_SELECTED_EXCHANGES;
 }
 
-export class ToggleJobFamilyFilterSelection implements Action {
-  readonly type = TOGGLE_JOB_FAMILY_FILTER_SELECTION;
-  constructor(public payload: GenericMenuItem) {}
+export class SelectedExchangesChanged implements Action {
+  readonly type = SELECTED_EXCHANGES_CHANGED;
+  constructor(public payload: GenericMenuItem[]) {}
+}
+
+export class LoadExchangeFilter implements Action {
+  readonly type = LOAD_EXCHANGE_FILTER;
+}
+
+export class LoadExchangeFilterError implements Action {
+  readonly type = LOAD_EXCHANGE_FILTER_ERROR;
+}
+
+export class LoadExchangeFilterSuccess implements Action {
+  readonly type = LOAD_EXCHANGE_FILTER_SUCCESS;
+  constructor(public payload: GenericMenuItem[]) {}
 }
 
 export type Actions
@@ -152,12 +175,17 @@ export type Actions
 
   // job family
   | ClearSelectedJobFamilies
+  | SelectedJobFamiliesChanged
   | LoadJobFamilyFilter
   | LoadJobFamilyFilterError
   | LoadJobFamilyFilterSuccess
-  | ToggleJobFamilyFilter
-  | ToggleJobFamilyFilterSelection
-  | ClearSelectedJobFamilies
+
+  // exchange
+  | ClearSelectedExchanges
+  | SelectedExchangesChanged
+  | LoadExchangeFilter
+  | LoadExchangeFilterError
+  | LoadExchangeFilterSuccess
 
   // previous associations
   | LoadPreviousAssociations

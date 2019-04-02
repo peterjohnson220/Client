@@ -70,7 +70,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the UpdateSearchTerm action when the search term is changed', () => {
     const searchTerm = 'abc';
-    component.handleSearchBoxValueChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
 
@@ -79,7 +79,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should not fire the LoadExchangeJobs action when the search term is one character', () => {
     const searchTerm = 'a';
-    component.handleSearchBoxValueChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
 
@@ -88,7 +88,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the correct actions when the search term is more than one character', () => {
     const searchTerm = 'ab';
-    component.handleSearchBoxValueChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();

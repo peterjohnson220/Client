@@ -1,28 +1,40 @@
 <h2 class="text-center mb-3">Peer Exchange Jobs</h2>
-<div class="filters position-relative d-flex mt-2 mb-2">
-  <div>
+<div class="filters position-relative d-flex flex-wrap mt-2 mb-2">
+  <div class="mb-2">
     <i class="fas fa-search position-absolute"></i>
     <pf-input-debounce 
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
       [placeholderText]="'Search job title'"
-      (valueChanged)="handleSearchBoxValueChanged($event)"
+      (valueChanged)="handleJobTitleFilterChanged($event)"
     >
     </pf-input-debounce>
   </div>
-  <div class="ml-3">
+  <div class="ml-3 mb-2">
     <pf-multi-select
+      #multiSelectJobFamily
+      [attr.data-qa-id]="'ddm-job-family-filter'"
       [labelText]="'Job Family'"
-      [options]="jobFamilyFilterOptions$ | async"
-      [selectedOptionNames$]="selectedJobFamilyOptionNames$"
-      [isExpanded$]="isJobFamilyFilterExpanded$"
-      [isLoading$]="isJobFamilyFilterLoading$"
-      pfClickElsewhere
-      [whitelist]="[]"
-      (clickElsewhere)="closeJobFamilyFilter()"
-      (selectFacadeClick)="handleJobFamilyToggle()"
-      (checkboxClick)="handleJobFamilyCheckboxToggle($event)"
-      (clearSelectionsClick)="handleJobFamilyClearSelections()"
+      [options]="jobFamilyFilterOptions"
+      [selectedOptionNames]="selectedJobFamilyOptionNames$ | async"
+      [isLoading]="isJobFamilyFilterLoading$ | async"
+      [(selectedOptions)]="selectedJobFamilies"
+      (selectedOptionsChange)="selectedJobFamilyOptionsChanged()"
+      (selectFacadeClick)="handleJobFamilyFilterToggle()"
+    >
+    </pf-multi-select>
+  </div>
+  <div class="ml-3 mb-2">
+    <pf-multi-select
+      #multiSelectExchange
+      [attr.data-qa-id]="'ddm-exchange-filter'"
+      [labelText]="'Exchange'"
+      [options]="exchangeFilterOptions"
+      [selectedOptionNames]="selectedExchangeOptionNames$ | async"
+      [isLoading]="isExchangeFilterLoading$ | async"
+      [(selectedOptions)]="selectedExchanges"
+      (selectedOptionsChange)="selectedExchangeOptionsChanged()"
+      (selectFacadeClick)="handleExchangeFilterToggle()"
     >
     </pf-multi-select>
   </div>
@@ -42,7 +54,6 @@
     [loadingErrorMessage]="'Error loading exchange jobs'"
     (reload)="reload()"
   >
-      <ng-template [ngIf]="isListView">
         <div
                 class="k-tooltip-container"
                 kendoTooltip
@@ -123,83 +134,7 @@
             </a>
           </ng-template>
         </kendo-grid>
-        </div>
-      </ng-template>
-
-      <ng-template [ngIf]="!isListView">
-        <kendo-grid
-                [data]="exchangeJobs$ | async"
-                [style.height.%]="100"
-                [pageSize]="(gridState$ | async)?.take"
-                [skip]="(gridState$ | async)?.skip"
-                [sort]="(gridState$ | async)?.sort"
-                [filter]="(gridState$ | async)?.filter"
-                [resizable]="true"
-                [sortable]="true"
-                [pageable]="{ buttonCount: 5, info: true }"
-                (dataStateChange)="handleDataStateChange($event)"
-        >
-          <kendo-grid-span-column>
-            <kendo-grid-column
-                    field="ExchangeJobTitle"
-                    title="Job Title"
-                    >
-            </kendo-grid-column>
-            <kendo-grid-column
-                    field="ExchangeJobFamily"
-                    title="Job Family"
-                    >
-            </kendo-grid-column>
-            <kendo-grid-column
-                    field="ExchangeName"
-                    title="Exchange"
-                    >
-            </kendo-grid-column>
-            <ng-template kendoGridCellTemplate let-dataItem>
-              <h4 class="d-inline" [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></h4>
-              <button [attr.disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId) ? true : null"
-                      (click)="handleAssociateClick(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      class="associate-button float-right">
-                <i class="fas fa-exchange-alt"></i>
-              </button>
-
-              <h6 class="clear">
-                <strong>Family:</strong> {{dataItem.ExchangeJobFamily}} |
-                <strong>Exchange: </strong>{{dataItem.ExchangeName}}
-              </h6>
-
-              <br />
-
-              <pf-peer-job-association-associated-jobs
-                      [companyJobs]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      [previousAssociations]="previousAssociations$ | async"
-                      [loadingPreviousAssociations]="loadingPreviousAssociations$ | async"
-                      [loadingPreviousAssociationsSuccess]="loadingPreviousAssociationsSuccess$ | async"
-                      [loadingPreviousAssociationsError]="loadingPreviousAssociationsError$ | async"
-                      (removeAssociation)="handleRemoveAssociateClick(
-                          dataItem.ExchangeId,
-                          dataItem.ExchangeJobId,
-                          $event)">
-              </pf-peer-job-association-associated-jobs>
-
-              <br />
-
-              <div class="job-description">
-                <h4>Job Description</h4>
-                <p *ngIf="dataItem.ExchangeJobDescription" [innerHTML]="dataItem.ExchangeJobDescription | jobDescriptionParser"></p>
-                <p class="font-italic" *ngIf="!dataItem.ExchangeJobDescription">No Job Description Available</p>
-              </div>
-            </ng-template>
-          </kendo-grid-span-column>
-
-          <ng-template kendoGridNoRecordsTemplate>
-            {{ badRequestError.length > 0 ? badRequestError : 'No results based on your search.' }}
-            <a href="javascript:void(0)" (click)="reload(true)">
-              <i class="fas fa-redo-alt"></i>Reset now
-            </a>
-          </ng-template>
-        </kendo-grid>
-      </ng-template>
+      </div>
   </pf-async-container>
 </div>
 <ng-template #template let-anchor>
