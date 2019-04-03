@@ -59,6 +59,16 @@
                 [kendoGridSelectBy]="'CompanyJobId'"
                 [rowSelected]="isRowSelected"
                 (selectionChange)="handleSelectionChange($event)">
+      <kendo-grid-column field="AssociationStatus" title="" [sortable]="false" [width]="11" class="p-0 m-0">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span 
+            class="association-status" 
+            [ngClass]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'associated' : 'not-associated'"
+            [title]="(dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId)) ? 'Associated' : 'Not Associated'"
+          >
+          </span>
+        </ng-template>
+      </kendo-grid-column>
       <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35">
         <ng-template kendoGridHeaderTemplate>
           <input class="k-checkbox" id="selectAllCheckboxId" kendoGridSelectAllCheckbox
@@ -96,16 +106,6 @@
           <span *ngIf="!dataItem.JobFamily; else hasFamily">No Family</span>
           <ng-template #hasFamily>
             {{ dataItem.JobFamily }}
-          </ng-template>
-        </ng-template>
-      </kendo-grid-column>
-      <kendo-grid-column field="AssociationStatus" title="Status" [sortable]="false">
-        <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="dataItem.IsAssociated || isPendingAssociation(dataItem.CompanyJobId); else notAssociated;">
-            Associated
-          </span>
-          <ng-template #notAssociated>
-            Not Associated
           </ng-template>
         </ng-template>
       </kendo-grid-column>
