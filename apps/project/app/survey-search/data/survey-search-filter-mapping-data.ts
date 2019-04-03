@@ -5,7 +5,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'combined_scopes_weighted',
     DisplayName: 'Default Survey Scopes',
-    Order: 11,
+    Order: 12,
     OptionCountDisabled: true,
     SaveDisabled: true,
     RefreshOptionsFromServer: false
@@ -14,7 +14,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'job_family',
     DisplayName: 'Job Family',
-    Order: 4,
+    Order: 5,
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -23,7 +23,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'survey_effective_year',
     DisplayName: 'Year',
-    Order: 8,
+    Order: 9,
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -32,7 +32,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'survey_title',
     DisplayName: 'Survey Title',
-    Order: 7,
+    Order: 8,
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -41,7 +41,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'survey_publisher',
     DisplayName: 'Survey Publisher',
-    Order: 6,
+    Order: 7,
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -50,7 +50,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'job_level',
     DisplayName: 'Job Level',
-    Order: 5,
+    Order: 6,
     OptionCountDisabled: false,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -59,7 +59,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'weighting_types',
     DisplayName: 'Weighting',
-    Order: 10,
+    Order: 11,
     OptionCountDisabled: true,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -68,7 +68,7 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Multi,
     BackingField: 'country_codes',
     DisplayName: 'Country',
-    Order: 9,
+    Order: 10,
     OptionCountDisabled: true,
     SaveDisabled: false,
     RefreshOptionsFromServer: true
@@ -77,9 +77,18 @@ export const SurveySearchFilterMappingDataObj: SearchFilterMappingDataObj = {
     Type: FilterType.Range,
     BackingField: 'base_50th',
     DisplayName: 'Base 50th',
-    Order: 12,
+    Order: 13,
     OptionCountDisabled: false,
     SaveDisabled: true,
+    RefreshOptionsFromServer: true
+  },
+  'data_source': {
+    Type: FilterType.Multi,
+    BackingField: 'data_source',
+    DisplayName: 'Data Source',
+    Order: 4,
+    OptionCountDisabled: false,
+    SaveDisabled: false,
     RefreshOptionsFromServer: true
   },
 };
