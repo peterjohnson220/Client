@@ -2,6 +2,8 @@
   pageTitle="Summary"
   pageSubTitle="Let's review a summary of your pricing activity"
   pageIconClass="fa-file-alt"
+  [page]="comphubPages.Summary"
+  [workflowContext]="workflowContext"
   [hideNextButton]="true"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Summary">
 

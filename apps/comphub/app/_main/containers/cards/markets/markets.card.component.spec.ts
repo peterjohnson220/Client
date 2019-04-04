@@ -11,7 +11,13 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromMarketsCardActions from '../../../actions/markets-card.actions';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromAddPayMarketFormActions from '../../../actions/add-paymarket-form.actions';
-import { AddPayMarketFormData, generateMockAddPayMarketFormData, generateMockPricingPaymarket } from '../../../models';
+import {
+  AddPayMarketFormData,
+  generateMockAddPayMarketFormData,
+  generateMockPricingPaymarket,
+  generateMockWorkflowContext
+} from '../../../models';
+import { ComphubPages } from '../../../data';
 
 
 describe('Comphub - Main - Markets Card Component', () => {
@@ -35,6 +41,12 @@ describe('Comphub - Main - Markets Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+
+    instance.workflowContext = {
+      ...generateMockWorkflowContext(),
+      selectedPageId: ComphubPages.Markets,
+      selectedPageIdDelayed: ComphubPages.Markets
+    };
     fixture.detectChanges();
   });
 

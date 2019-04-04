@@ -14,7 +14,6 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
-  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -37,6 +36,7 @@ exports[`Comphub - Main - Card Layout should disable next button, when told to 1
     <div>
       
     </div>
+    
     <div
       class="smb-counter"
     >
@@ -85,7 +85,6 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
-  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -108,6 +107,7 @@ exports[`Comphub - Main - Card Layout should hide the back button, when told to 
     <div>
       
     </div>
+    
     <div
       class="smb-counter"
     >
@@ -149,7 +149,6 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
   pageIconClass=""
   pageSubTitle=""
   pageTitle={[Function String]}
-  selectedPageId$={[Function Store]}
   store={[Function Store]}
   window={[Function Object]}
 >
@@ -172,6 +171,7 @@ exports[`Comphub - Main - Card Layout should hide the next button, when told to 
     <div>
       
     </div>
+    
     <div
       class="smb-counter"
     >

@@ -11,7 +11,7 @@ import { PfCommonModule } from 'libs/core';
 import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
-import { generateFakeJobData, JobGridData } from '../../../models';
+import { generateFakeJobData, generateMockWorkflowContext, JobGridData } from '../../../models';
 import { RateType, ComphubPages } from '../../../data';
 
 describe('Comphub - Main - Data Card Component', () => {
@@ -48,6 +48,12 @@ describe('Comphub - Main - Data Card Component', () => {
 
     store = TestBed.get(Store);
     windowRef = TestBed.get(WindowRef);
+
+    instance.workflowContext = {
+      ...generateMockWorkflowContext(),
+      selectedPageId: ComphubPages.Data,
+      selectedPageIdDelayed: ComphubPages.Data
+    };
     fixture.detectChanges();
   });
 
