@@ -6,6 +6,7 @@ exports[`CommunityBackToTopNavigationComponent should show back to top button 1`
 >
   <div
     class="back-to-top-container"
+    data-qa-id="ctn-backToTop"
   >
     <span
       class="arrow-color"

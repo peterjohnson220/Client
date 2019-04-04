@@ -1,11 +1,85 @@
-<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
-  <ng-container page-title>
-    Tickets
-  </ng-container>
-  <ng-container page-actions>
-    Page actions here
-  </ng-container>
-  <ng-container page-content>
-    Page content here
-  </ng-container>
-</pf-page-with-title-bar>
+<pf-async-container [loading]="ticketListLoading$ | async"
+                    [loadingError]="ticketListLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Tickets'"
+                    (reload)="handleTicketGridReload">
+  <kendo-grid class="row-click-navigates"
+              #ticketGrid
+              [data]="ticketListItems$ | async"
+              [resizable]="false"
+              [scrollable]="'none'"
+              (cellClick)="handleCellClick($event)"
+              (dblclick)="handleCellDoubleClick()">
+    <kendo-grid-column field="Id"
+                       title="Id"
+                       [width]="50">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.Id"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CompanyName"
+                       title="Company Name"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.CompanyName"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CompanyId"
+                       title="Company Id"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.CompanyId"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="OpenedUser"
+                       title="Opened By"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.OpenedUser"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Created"
+                       title="Create Date"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.Created | date:'medium'"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Type"
+                       title="Type"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div><h4><span class="badge {{dataItem.TicketCssClass}}">{{dataItem.Type}}</span></h4></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Status"
+                       title="Status"
+                       [width]="75">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.Status"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ServiceUser"
+                       title="Assigned To"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div [innerHTML]="dataItem.ServiceUser"></div>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="Description"
+                       title="Description"
+                       [width]="100">
+      <ng-template kendoGridCellTemplate
+                   let-dataItem>
+        <div>{{dataItem.Description.length > 150 ? dataItem.Description.substring(0,150) +  '...' : dataItem.Description}}</div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</pf-async-container>

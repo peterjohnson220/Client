@@ -1,0 +1,56 @@
+@import 'colors';
+
+.slide-in-panel {
+  // cover the grid content but not pager (41px)
+  height: calc(100% - 41px);
+  z-index: 300;
+  background-color: #fff;
+  right: 0px;
+  overflow-y: auto;
+  border: 1px solid #d1d1d1;
+  border-radius: 4px;
+  width: 70%;
+  header {
+    h5 {
+      background-color: #f2f2f2;
+      padding: .5rem;
+      font-size: 1.1rem;
+    }
+    a.close-detail {
+      right: .25rem;
+      font-size: 1.5rem;
+      transition: opacity .3s ease-in-out;
+      opacity: .8;
+      &:hover {
+        opacity: 1;
+        color: $link-color;
+      }
+    }
+  }
+  p {
+    margin: 0 .5rem;
+    &:last-of-type {
+      margin-bottom: 1rem;
+    }
+  }
+  &.expanded {
+    animation: slide-in .8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+    border-width: 1px;
+  }
+  &.collapsed {
+    animation: slide-out .8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(100%);
+    border-width: 0;
+  }
+}
+
+@keyframes slide-in {
+  0% { transform: translateX(100%); border-width: 0; }
+  100% { transform: translateX(0); border-width: 1px; }
+}
+
+@keyframes slide-out {
+  0% { transform: translateX(0); border-width: 1px; }
+  100% { transform: translateX(100%); border-width: 0; }
+}

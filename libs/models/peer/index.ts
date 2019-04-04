@@ -30,3 +30,4 @@ export * from './exchange-job-assocation.model';
 export * from './exchange-request-action.model';
 export * from './company-exchange-invitation-action.model';
 export * from './exchange-request-people-to-notify.enum';
+export * from './exchange-search-filter-aggregate.model';

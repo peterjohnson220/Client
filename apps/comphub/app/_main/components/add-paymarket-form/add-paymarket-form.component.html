@@ -1,7 +1,7 @@
 <div class="form-container container">
 
-  <h4 class="uppercase-header">Add New Pay Market</h4>
-  <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children">
+  <h4 class="uppercase-header" data-qa-id="lbl-add-new-paymarket">Add New Pay Market</h4>
+  <div *ngIf="isInfoBannerOpen" class="info-banner d-flex flex-column flex-lg-row space-out-children" data-qa-id="cnt-info-message">
     <div class="d-flex flex-row">
       <i class="fa fa-info-circle fa-w-16 info-icon"></i>
       <div class="info-message">Your job's location, company size and industry are factors that can impact compensation.</div>
@@ -31,26 +31,12 @@
 
       <div class="col-12 col-lg-4">
         <label>Country</label>
-        <kendo-dropdownlist class="form-control border"
-          [attr.data-qa-id]="'ddm-country'"
-          formControlName="country"
-          [data]="countryList"
-          [textField]="'Name'"
-          [valueField]="'Value'"
-          [defaultItem]="defaultCountry">
-        </kendo-dropdownlist>
+        <input class="form-control disabled" type="text" [placeholder]="countryDataSet?.CountryName" readonly>
       </div>
 
       <div class="col-12 col-lg-3">
         <label>Currency</label>
-        <kendo-dropdownlist class="border form-control"
-          [attr.data-qa-id]="'ddm-currency'"
-          formControlName="currency"
-          [data]="currencyList"
-          [textField]="'Name'"
-          [valueField]="'Value'"
-          [defaultItem]="defaultCurrency">
-        </kendo-dropdownlist>
+        <input class="form-control disabled" type="text" [placeholder]="countryDataSet?.CurrencyCode" readonly>
       </div>
 
     </div>
@@ -63,10 +49,17 @@
           class="form-control"
           formControlName="location"
           [data]="locations"
-          [placeholder]="'Search by City...'"
+          [loading]="loadingLocations"
+          [placeholder]="'Search by Location...'"
           [filterable]="true"
-          [valueField]="'Value'"
+          [valueField]="'LocationName'"
           (filterChange)="handleLocationFilter($event)">
+          <ng-template kendoAutoCompleteItemTemplate let-dataItem>
+            <div class="geo-list-item" (click)="setSelectedLocation(dataItem)">
+              <div class="geo-display-value">{{ dataItem.LocationName }}</div>
+              <div class="geo-display-label">{{ dataItem.GeoLabelDisplayName }}</div>
+            </div>
+          </ng-template>
         </kendo-autocomplete>
       </div>
 
@@ -81,6 +74,7 @@
           [textField]="'Name'"
           [valueField]="'Value'"
           [defaultItem]="defaultIndustry"
+          [loading]="loadingScopes"
           (filterChange)="handleIndustryFilter($event)">
         </kendo-dropdownlist>
       </div>
@@ -93,6 +87,7 @@
           [data]="sizes"
           [textField]="'Name'"
           [valueField]="'Value'"
+          [loading]="loadingScopes"
           [defaultItem]="defaultSize">
         </kendo-dropdownlist>
       </div>
@@ -101,7 +96,7 @@
 
     <div class="form-content row form-actions-section">
       <div class="col-12 d-flex justify-content-end">
-        <ng-container *ngIf="showErrorMessages">
+        <ng-container *ngIf="showErrorMessages && !saving">
           <span class="text-danger" *ngIf="savingConflict">Name in use. Please choose a unique pay market name.</span>
           <span class="text-danger" *ngIf="savingError">Error Saving Pay Market.</span>
         </ng-container>

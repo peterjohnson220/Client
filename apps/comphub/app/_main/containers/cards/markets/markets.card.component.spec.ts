@@ -38,16 +38,6 @@ describe('Comphub - Main - Markets Card Component', () => {
     fixture.detectChanges();
   });
 
-  it('should dispatch GetPaymarkets action when initialized', () => {
-    spyOn(store, 'dispatch');
-
-    const expectedAction = new fromMarketsCardActions.GetPaymarkets();
-
-    instance.ngOnInit();
-
-    expect(store.dispatch).toBeCalledWith(expectedAction);
-  });
-
   it('should dispatch SetPaymarketFilter action when filter changed', () => {
     spyOn(store, 'dispatch');
 
@@ -95,6 +85,15 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
+  it('should dispatch filter locations action when location filter changed', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromMarketsCardActions.GetMarketDataLocations('test');
+
+    instance.handleLocationFilterChanged('test');
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
   it('should dispatch CloseForm from AddPayMarketForm actions when cancel button clicked', () => {
     spyOn(store, 'dispatch');
     const expectedAction = new fromAddPayMarketFormActions.CloseForm();
@@ -114,7 +113,7 @@ describe('Comphub - Main - Markets Card Component', () => {
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
-  it('should call handleSearchChanged with an empty string, when clearing the search value', () => {
+  it('should call handleSearchBoxValueChanged with an empty string, when clearing the search value', () => {
     spyOn(instance, 'handleSearchChanged');
 
     instance.clearSearchValue();

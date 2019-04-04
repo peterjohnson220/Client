@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 
 import { DataCardComponent } from './data.card.component';
@@ -11,7 +12,6 @@ import * as fromComphubMainReducer from '../../../reducers';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import { generateFakeJobData, JobGridData } from '../../../models';
 import { RateType, ComphubPages } from '../../../data';
-import { WindowRef } from '../../../services';
 
 describe('Comphub - Main - Data Card Component', () => {
   let instance: DataCardComponent;
@@ -96,10 +96,19 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Data
+        }
+      }
+    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -115,9 +124,18 @@ describe('Comphub - Main - Data Card Component', () => {
       Sort: null
     });
 
-    instance.selectedPageId$ = of(ComphubPages.Jobs);
     instance.selectedJobTitle$ = of('Test job');
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Jobs
+        }
+      }
+    });
 
     expect(store.dispatch).not.toBeCalledWith(expectedAction);
   });
@@ -234,10 +252,19 @@ describe('Comphub - Main - Data Card Component', () => {
       take: 6
     };
 
-    instance.selectedPageId$ = of(ComphubPages.Data);
     instance.selectedJobTitle$ = of('Test job');
     instance.marketDataChange$ = of(true);
     instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Data
+        }
+      }
+    });
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
@@ -267,7 +294,7 @@ describe('Comphub - Main - Data Card Component', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display base50 and tcc50 with 1 decimal place when rate is annual', () => {
+  it('should display base50 and tcc50 with thousand seperator when rate is annual', () => {
     const jobGridData: JobGridData = {
       Data: [ generateFakeJobData() ],
       Total: 1
@@ -284,11 +311,10 @@ describe('Comphub - Main - Data Card Component', () => {
   it('should return correct value when selected rate is annual', () => {
     instance.selectedRate = { Name: RateType.Annual, Value: RateType.Annual };
     const value = 361100;
-    const expectedValue = 361.1;
 
     const actualValue = instance.calculateDataByRate(value);
 
-    expect(actualValue).toEqual(expectedValue);
+    expect(actualValue).toEqual(value);
   });
 
   it('should return correct value when selected rate is hourly', () => {
@@ -307,6 +333,17 @@ describe('Comphub - Main - Data Card Component', () => {
     instance.handleLearnMoreClicked();
 
     expect(windowRef.nativeWindow.open).toHaveBeenCalled();
+  });
+
+  it('should dispatch ToggleJobDescription action with the jobId when handling a Expand JD click', () => {
+    spyOn(store, 'dispatch');
+    const jobData = generateFakeJobData();
+    const expectedAction = new fromDataCardActions.ToggleJobDescription({ jobId: jobData.JobId });
+    const mouseEvent = new MouseEvent('click');
+
+    instance.handleExpandJdClicked(mouseEvent, jobData.JobId);
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
   });
 
 });

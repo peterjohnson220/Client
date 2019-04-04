@@ -5,6 +5,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { DataStateChangeEvent } from '@progress/kendo-angular-grid';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 import { HighlightTextPipe, JobDescriptionParserPipe } from 'libs/core/pipes';
 import * as fromRootState from 'libs/state/state';
@@ -14,6 +15,7 @@ import { GridTypeEnum } from 'libs/models/common';
 import * as fromExchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromExchangeJobsReducer from '../../reducers';
 import { ExchangeJobsComponent } from './exchange-jobs.component';
+import { generateMockCompanyJob } from '../../models';
 
 describe('ExchangeJobsComponent', () => {
   let component: ExchangeJobsComponent;
@@ -55,13 +57,6 @@ describe('ExchangeJobsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should fire a LoadExchangeJobs action on init', () => {
-    fixture.detectChanges();
-
-    const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
-    expect(store.dispatch).toHaveBeenCalledWith(loadExchangeJobsAction);
-  });
-
   it('should fire the right actions when the grid state is changed', () => {
     const dataStateChangeEvent = {} as DataStateChangeEvent;
     component.handleDataStateChange(dataStateChangeEvent);
@@ -75,7 +70,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the UpdateSearchTerm action when the search term is changed', () => {
     const searchTerm = 'abc';
-    component.updateSearchFilter(searchTerm);
+    component.handleSearchFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
 
@@ -84,7 +79,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should not fire the LoadExchangeJobs action when the search term is one character', () => {
     const searchTerm = 'a';
-    component.updateSearchFilter(searchTerm);
+    component.handleSearchFilterChanged(searchTerm);
 
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
 
@@ -93,12 +88,46 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the correct actions when the search term is more than one character', () => {
     const searchTerm = 'ab';
-    component.updateSearchFilter(searchTerm);
+    component.handleSearchFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
 
     expect(store.dispatch).toHaveBeenCalledWith(updateSearchTermAction);
     expect(store.dispatch).toHaveBeenCalledWith(loadExchangeJobsAction);
+  });
+
+  it('should fire the expected action when handleAssociateClick is clicked', () => {
+    const dataItem = { ExchangeId: 123, ExchangeJobId: 456, CompanyJobMappings: [generateMockCompanyJob()] };
+
+    const addAssociationAction = new fromExchangeJobsActions.AddAssociation({
+      ExchangeId: dataItem.ExchangeId,
+      ExchangeJobId: dataItem.ExchangeJobId,
+      CompanyJobs: [generateMockCompanyJob()]
+    });
+
+    component.isAssociable = () => true;
+    component.grid = {} as GridComponent;
+    component.grid.expandRow = () => ({});
+    component.grid.collapseRow = () => ({});
+    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.handleAssociateClick(dataItem, 44);
+
+    expect(store.dispatch).toHaveBeenCalledWith(addAssociationAction);
+  });
+
+  it('should not fire an action when handleAssociateClick is clicked and isAssociable returns false', () => {
+    const dataItem = { ExchangeId: 123, ExchangeJobId: 456, CompanyJobMappings: [generateMockCompanyJob()] };
+
+    const addAssociationAction = new fromExchangeJobsActions.AddAssociation({
+      ExchangeId: dataItem.ExchangeId,
+      ExchangeJobId: dataItem.ExchangeJobId,
+      CompanyJobs: [generateMockCompanyJob()]
+    });
+
+    component.isAssociable = () => false;
+    component.handleAssociateClick(dataItem, 44);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(addAssociationAction);
   });
 });

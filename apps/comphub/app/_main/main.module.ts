@@ -18,6 +18,7 @@ import {
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { PfCommonModule } from 'libs/core';
+import { WindowRef } from 'libs/core/services';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { JobLimitCounterComponent } from 'libs/features/smallbiz';
@@ -29,7 +30,6 @@ import { JobsCardEffects, MarketsCardEffects, AddPayMarketFormEffects, DataCardE
 import { reducers } from './reducers';
 import { TrendingJobGroupComponent, CardComponent, PaymarketCardsComponent, AddPayMarketFormComponent, SalaryBarChartComponent,
   SalaryTrendChartComponent, SharePricingSummaryModalComponent, GlossaryOfTermsComponent } from './components';
-import { WindowRef } from './services';
 import { MainRoutingModule } from './main-routing.module';
 
 

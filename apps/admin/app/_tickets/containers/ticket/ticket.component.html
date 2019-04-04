@@ -1,0 +1,20 @@
+<pf-async-container [loading]="ticketLoading$ | async"
+                    [loadingError]="ticketLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Ticket'"
+                    (reload)="handleTicketReload">
+  <div class="container-fluid" *ngIf="ticket">
+    <div class="row">
+      <div class="col-sm-8">
+        <h4>
+          <pf-ellipsis-view-more [content]="ticket.Description"
+                                 [maxLength]="350">
+          </pf-ellipsis-view-more>
+        </h4>
+      </div>
+      <div class="col-sm-4">
+        <pf-ticket-detail-card [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>
+        <pf-company-detail-card [companyDetail]="ticket.CompanyInfo"></pf-company-detail-card>
+      </div>
+    </div>
+  </div>
+</pf-async-container>

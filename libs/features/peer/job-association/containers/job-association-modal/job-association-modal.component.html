@@ -1,5 +1,5 @@
 <div class="job-association-modal-container h-100">
-  <p class="sub-header pl-3 pt-2 mb-0">
+  <p class="sub-header semi-bold pl-3 pt-2 mb-0">
     Select your Company Job and click<span class="associate-button fake-button d-inline-block ml-1 mr-1"><i class="fas fa-exchange-alt"></i></span>for the Exchange Job that is the best match
   </p>
   <pf-async-container
@@ -18,13 +18,13 @@
       </div>
     </div>
   </pf-async-container>
-  <div class="actions-section">
+  <div class="actions-section mx-auto d-table">
     <button class="btn btn-primary save-button"
             [disabled]="!isSaveButtonEnabled()"
             (click)="saveJobAssociations()">
       Save
     </button>
-    <button class="btn btn-secondary" (click)="handleCancelClicked()">
+    <button class="btn btn-secondary ml-2 cancel-button" (click)="handleCancelClicked()">
       Cancel
     </button>
   </div>

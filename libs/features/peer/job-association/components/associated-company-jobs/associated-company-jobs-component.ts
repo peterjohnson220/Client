@@ -8,6 +8,12 @@ import { CompanyJob } from '../../models';
 })
 export class AssociatedCompanyJobsComponent {
   @Input() companyJobs: CompanyJob[];
+  @Input() previousAssociations: CompanyJob[];
+
+  @Input() loadingPreviousAssociations: boolean;
+  @Input() loadingPreviousAssociationsSuccess: boolean;
+  @Input() loadingPreviousAssociationsError: boolean;
+
   @Output() removeAssociation = new EventEmitter<number>();
 
   constructor() {}

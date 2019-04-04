@@ -82,11 +82,15 @@ export class AddPayMarketFormEffects {
   savePayMarketSuccess$ = this.actions$
     .ofType(fromAddPayMarketFormActions.SAVE_PAYMARKET_SUCCESS)
     .pipe(
-      mergeMap((action: fromAddPayMarketFormActions.SavePaymarketSuccess) => {
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromAddPayMarketFormActions.SavePaymarketSuccess, countryDataSet) => ({ action, countryDataSet })
+      ),
+      mergeMap((data) => {
         return [
           new fromAddPayMarketFormActions.CloseForm(),
-          new fromMarketsCardActions.GetPaymarkets(),
-          new fromMarketsCardActions.SetSelectedPaymarket(action.payload),
+          new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }),
+          new fromMarketsCardActions.SetSelectedPaymarket(data.action.payload),
           new fromMarketsCardActions.SetPaymarketFilter('')
         ];
       })

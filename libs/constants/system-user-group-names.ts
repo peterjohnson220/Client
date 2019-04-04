@@ -1,3 +1,3 @@
-export class SystemUserGroupNames {
-  public static SmallBusiness = 'Small Business';
+export enum SystemUserGroupNames {
+  SmallBusiness = 'Small Business'
 }

@@ -137,6 +137,21 @@ export const getJobPricingBlocked = createSelector(
   fromComphubPageReducer.getJobPricingBlocked
 );
 
+export const getCountryDataSetsLoaded = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getCountryDataSetsLoaded
+);
+
+export const getCountryDataSets = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getCountryDataSets
+);
+
+export const getActiveCountryDataSet = createSelector(
+  selectComphubPageState,
+  fromComphubPageReducer.getActiveCountryDataSet
+);
+
 // Markets Card
 export const getSelectedPaymarket = createSelector(
   selectMarketsCardState,
@@ -163,6 +178,16 @@ export const getPaymarketsFilter = createSelector(
   fromMarketsCardReducer.getPaymarketsFilter
 );
 
+export const getLoadingMarketDataLocations = createSelector(
+  selectMarketsCardState,
+  fromMarketsCardReducer.getLoadingMarketDataLocations
+);
+
+export const getMarketDataLocations = createSelector(
+  selectMarketsCardState,
+  fromMarketsCardReducer.getMarketDataLocations
+);
+
 export const getVisiblePaymarkets = createSelector(
   getPaymarkets, getPaymarketsFilter, (paymarkets, filter) => {
     return paymarkets.filter(x => !filter || x.PayMarketName.toLowerCase().indexOf(filter.toLowerCase()) !== -1);
@@ -177,6 +202,11 @@ export const getMarketDataScope = createSelector(
 export const getHideNewPaymarketsButton = createSelector(
   selectMarketsCardState,
   fromMarketsCardReducer.getHideNewPaymarketsButton
+);
+
+export const getMarketDataScopesLoading = createSelector(
+  selectMarketsCardState,
+  fromMarketsCardReducer.getLoadingMarketDataScopes
 );
 
 // Data Card

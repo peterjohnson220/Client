@@ -17,6 +17,10 @@ export const LOAD_ZOOM_PRECISION_DICTIONARY = '[Features/Peer/Map] Load Zoom Pre
 export const LOAD_ZOOM_PRECISION_DICTIONARY_SUCCESS = '[Features/Peer/Map] Load Zoom Precision Dictionary Success';
 export const LOAD_ZOOM_PRECISION_DICTIONARY_ERROR = '[Features/Peer/Map] Load Zoom Precision Dictionary Error';
 export const AUTO_ZOOM_COMPLETE = '[Features/Peer/Map] Auto Zoom Complete';
+export const LOAD_PEER_MAP_BOUNDS  = '[Features/Peer/Map] Load Peer Map Bounds';
+export const LOAD_PEER_MAP_BOUNDS_SUCCESS  = '[Features/Peer/Map] Load Peer Map Bounds Success';
+export const LOAD_PEER_MAP_BOUNDS_ERROR  = '[Features/Peer/Map] Load Peer Map Bounds Error';
+
 
 export class LoadPeerMapData implements Action {
   readonly type = LOAD_PEER_MAP_DATA;
@@ -92,6 +96,22 @@ export class AutoZoomComplete implements Action {
   readonly type = AUTO_ZOOM_COMPLETE;
 }
 
+export class LoadPeerMapBounds implements Action {
+  readonly type = LOAD_PEER_MAP_BOUNDS;
+  readonly payload = null;
+}
+
+export class LoadPeerMapBoundsSuccess implements Action {
+  readonly type = LOAD_PEER_MAP_BOUNDS_SUCCESS;
+
+  constructor(public payload: ExchangeMapResponse) {}
+}
+
+export class LoadPeerMapBoundsError implements Action {
+  readonly type = LOAD_PEER_MAP_BOUNDS_ERROR;
+  readonly payload = null;
+}
+
 export type Actions
   = LoadPeerMapData
   | LoadPeerMapDataSuccess
@@ -107,4 +127,7 @@ export type Actions
   | LoadZoomPrecisionDictionary
   | LoadZoomPrecisionDictionarySuccess
   | LoadZoomPrecisionDictionaryError
-  | AutoZoomComplete;
+  | AutoZoomComplete
+  | LoadPeerMapBounds
+  | LoadPeerMapBoundsSuccess
+  | LoadPeerMapBoundsError;

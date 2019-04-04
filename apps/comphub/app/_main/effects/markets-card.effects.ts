@@ -3,11 +3,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { ComphubApiService, MarketDataScopeApiService } from 'libs/data/payfactors-api';
-import { AddPayMarketRequest, PayMarketDataResponse } from 'libs/models/payfactors-api';
+import { AddPayMarketRequest, PayMarketDataResponse, MDLocationsRequest } from 'libs/models/payfactors-api';
 import * as fromRootState from 'libs/state/state';
+import { MDScopeGeoGroup } from 'libs/constants';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
@@ -22,11 +23,29 @@ import * as fromSummaryCardActions from '../actions/summary-card.actions';
 export class MarketsCardEffects {
 
   @Effect()
+  initMarketsCard$ = this.actions$
+  .ofType(fromMarketsCardActions.INIT_MARKETS_CARD)
+  .pipe(
+    withLatestFrom(
+      this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+      (action: fromMarketsCardActions.InitMarketsCard, countryDataSet) => ({ action, countryDataSet })
+    ),
+    mergeMap((data) => {
+      const actions = [];
+      if (!data.countryDataSet) {
+        return actions;
+      }
+      actions.push(new fromMarketsCardActions.GetPaymarkets({ countryCode: data.countryDataSet.CountryCode }));
+      return actions;
+    })
+  );
+
+  @Effect()
   getPaymarkets$ = this.actions$
     .ofType(fromMarketsCardActions.GET_PAYMARKETS)
     .pipe(
-      switchMap(() => {
-          return this.comphubApiService.getPaymarketData('USA')
+      switchMap((action: fromMarketsCardActions.GetPaymarkets) => {
+          return this.comphubApiService.getPaymarketData(action.payload.countryCode)
             .pipe(
               mergeMap((paymarketsResponse: PayMarketDataResponse) => {
                 const actions = [];
@@ -36,7 +55,9 @@ export class MarketsCardEffects {
                   if (!payMarkets.length) {
                     // display national payMarket as a card
                     payMarkets = [MarketsCardHelper.buildDefaultPricingPayMarket()];
-                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard());
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard(true));
+                  } else {
+                    actions.push(new fromMarketsCardActions.DisplayNationalAsCard(false));
                   }
                 }
                 actions.push(new fromMarketsCardActions.GetPaymarketsSuccess(payMarkets));
@@ -44,6 +65,8 @@ export class MarketsCardEffects {
 
                 if (!payMarkets.length) {
                   actions.push(new fromAddPayMarketFormActions.OpenForm({ showSkipButton: true }));
+                } else {
+                  actions.push(new fromAddPayMarketFormActions.CloseForm());
                 }
                 return actions;
               }),
@@ -58,14 +81,46 @@ export class MarketsCardEffects {
   getMarketDataScope$ = this.actions$
     .ofType(fromMarketsCardActions.GET_MD_SCOPE)
     .pipe(
-      switchMap((action: fromMarketsCardActions.GetMarketDataScope) => {
-        return this.marketDataScopeApiService.getMDScope(action.payload.countryCode)
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromMarketsCardActions.GetMarketDataScope, countryDataSet) => ({ action, countryDataSet })
+      ),
+      switchMap((data) => {
+        return this.marketDataScopeApiService.getMDScope()
           .pipe(
             map((response) =>
-              new fromMarketsCardActions.GetMarketDataScopeSuccess(response)
+              new fromMarketsCardActions.GetMarketDataScopeSuccess({ response: response, countryDataSet: data.countryDataSet } )
             ),
             catchError((error) => {
               return of(new fromMarketsCardActions.GetMarketDataScopeError(),
+                new fromComphubPageActions.HandleApiError(error));
+            })
+          );
+      })
+    );
+
+  @Effect()
+  getMarketDataLocations$ = this.actions$
+    .ofType(fromMarketsCardActions.GET_MD_LOCATIONS)
+    .pipe(
+      debounceTime(200),
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromMarketsCardActions.GetMarketDataLocations, countryDataSet) => ({ action, countryDataSet })
+      ),
+      switchMap((data) => {
+        const request: MDLocationsRequest = {
+          CountryCode: data.countryDataSet.CountryCode,
+          Query: data.action.payload
+        };
+        return this.marketDataScopeApiService.getMdLocations(request)
+          .pipe(
+            map((response) =>
+              new fromMarketsCardActions.GetMarketDataLocationsSuccess(
+                PayfactorsApiModelMapper.mapMdLocationsResponseToMarketDataLocations(response))
+            ),
+            catchError((error) => {
+              return of(new fromMarketsCardActions.GetMarketDataLocationsError(),
                 new fromComphubPageActions.HandleApiError(error));
             })
           );
@@ -130,6 +185,34 @@ export class MarketsCardEffects {
           }),
         new fromSummaryCardActions.ResetCreateProjectStatus()
         ]
+      )
+    );
+
+  @Effect()
+  openPaymarketForm$ = this.actions$
+    .ofType(fromAddPayMarketFormActions.OPEN_FORM)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        this.store.select(fromComphubMainReducer.getMarketDataScope),
+        (action: fromAddPayMarketFormActions.OpenForm, countryDataSet, marketDataScopes) => ({ countryDataSet, marketDataScopes })
+      ),
+      mergeMap((data) => {
+        const actions = [];
+        if (data.marketDataScopes || !data.countryDataSet) {
+          return actions;
+        }
+        actions.push(new fromMarketsCardActions.GetMarketDataScope());
+        return actions;
+      })
+    );
+
+  @Effect()
+  closeAddPayMarketForm$ = this.actions$
+    .ofType(fromAddPayMarketFormActions.CLOSE_FORM)
+    .pipe(
+      map(() =>
+        new fromMarketsCardActions.ClearMarketDataLocations()
       )
     );
 

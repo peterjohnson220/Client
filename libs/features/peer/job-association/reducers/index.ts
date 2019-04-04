@@ -3,7 +3,6 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 import * as fromRoot from 'libs/state/state';
 import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
-import { GenericMenuItem } from 'libs/models/common';
 
 // Import feature reducers
 import * as fromCompanyJobsReducer from './company-jobs.reducer';
@@ -47,6 +46,9 @@ export const selectJobAssociationModalState = createSelector(
   (state: JobAssociationFeatureState) => state.jobAssociationModal);
 
 // Job Association Modal Selectors
+export const getIsModalOpen = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getIsModalOpen);
 
 export const getJobAssociationModalSaving = createSelector(
   selectJobAssociationModalState,
@@ -79,9 +81,29 @@ export const getExchangeJobsLoadingError = createSelector(
   (feature) => feature.loadingError
 );
 
+export const getExchangeJobsLoadingBadRequestError = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.badRequestMessage
+);
+
 export const getExchangeJobsSearchTerm = createSelector(
   getExchangeJobsFeature,
   (feature) => feature.searchTerm
+);
+
+export const getExchangeJobsSelectedExchangeJob = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.selectedExchangeJob
+);
+
+export const getExchangeJobsIsDetailPanelExpanded = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.isDetailPanelExpanded
+);
+
+export const getExchangeJobsExpandedDetailRowId = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.expandedDetailRowId
 );
 
 export const {
@@ -99,20 +121,15 @@ export const getExchangeJobsData = createSelector(
   (data, total) => ({ data, total })
 );
 
+export const getExchangeJobsResultsCount = createSelector(
+  getExchangeJobsList,
+  (data) => data.length
+);
+
 // Exchange Jobs Selectors, job family filter
 export const getExchangeJobsFamilyFilterLoading = createSelector(
   getExchangeJobsFeature,
   fromExchangeJobsReducer.getJobFamilyFilterLoading
-);
-
-export const getExchangeJobsFamilyFilterLoadingSuccess = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterLoadingSuccess
-);
-
-export const getExchangeJobsFamilyFilterLoadingError = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterLoadingError
 );
 
 export const getExchangeJobFamilyFilterIsExpanded = createSelector(
@@ -128,6 +145,27 @@ export const getExchangeJobFamilyFilterOptions = createSelector(
 export const getExchangeJobFamilyFilterSelectedOptionNames = createSelector(
   getExchangeJobsFeature,
   (state) => state.jobFamilyOptions.filter(o => o.IsSelected).map(o => o.DisplayName)
+);
+
+// Exchange Jobs Selectors, previous associations
+export const getPreviousAssociations = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.previousAssociations
+);
+
+export const getLoadingPreviousAssociations = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociations
+);
+
+export const getLoadingPreviousAssociationsSuccess = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociationsSuccess
+);
+
+export const getLoadingPreviousAssociationsError = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.loadingPreviousAssociationsError
 );
 
 // Company Jobs Selectors
@@ -168,11 +206,33 @@ export const getCompanyJobsLoadingError = createSelector(
   (feature) => feature.loadingError
 );
 
+export const getCompanyJobsLoadingBadRequestError = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.badRequestMessage
+);
+
+export const getCompanyJobIdFilters = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.companyJobIdFilters
+);
+
 export const getCompanyJobsSearchTerm = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.searchTerm
 );
 
+// detail panel
+export const getCompanyJobsSelectedCompanyJobInDetailPanel = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.selectedCompanyJobInDetailPanel
+);
+
+export const getCompanyJobsIsDetailPanelExpanded = createSelector(
+  getCompanyJobsFeature,
+  (feature) => feature.isDetailPanelExpanded
+);
+
+// associations
 export const getSelectedCompanyJobs = createSelector(
     getCompanyJobsFeature,
     fromCompanyJobsReducer.getSelectedCompanyJobs);

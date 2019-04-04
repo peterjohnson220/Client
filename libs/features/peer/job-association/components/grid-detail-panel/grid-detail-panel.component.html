@@ -1,0 +1,28 @@
+<section class="slide-in-panel position-absolute" [ngClass]="(isExpanded$ | async) ? 'expanded' : 'collapsed'" [class.invisible]="!jobId">
+  <header>
+    <a href="javascript:void(0)" (click)="handleClose()" class="close-detail position-absolute">
+      <i class="far fa-arrow-alt-circle-right"></i>
+    </a>
+    <h5>{{ jobTitle }}</h5>
+  </header>
+  <div class="job-description">
+    <div class="ml-2 mr-2">
+      <label class="mr-1">Family:</label><span class="semi-bold mr-1">{{ jobFamily || 'No Family' }}</span>
+      <span *ngIf="jobExchange">
+        <span class="mr-1 font-weight-light">|</span>
+        <label class="mr-1">Exchange:</label><span class="semi-bold">{{ jobExchange }}</span>
+      </span>
+      <span *ngIf="jobCode">
+        <span class="mr-1 font-weight-light">|</span>
+        <label class="mr-1">Job Code:</label><span class="semi-bold">{{ jobCode }}</span>
+      </span>
+    </div>
+    <h6 class="primary-header mt-1 ml-2">Job Description</h6>
+    <div *ngIf="jobDescription && jobDescription !== '#N/A'; else noDescription" class="mt-2">
+      <p [innerHTML]="jobDescription | jobDescriptionParser"></p>
+    </div>
+    <ng-template #noDescription>
+      <p class="font-italic">No Job Description Available</p>
+    </ng-template>
+  </div>
+</section>

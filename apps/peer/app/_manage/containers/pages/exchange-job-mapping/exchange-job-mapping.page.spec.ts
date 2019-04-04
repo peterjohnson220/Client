@@ -75,7 +75,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should dispatch a UpdateFilter action when handleSearchChanged is called', () => {
+  it('should dispatch a UpdateFilter action when handleSearchBoxValueChanged is called', () => {
     const query = 'New Search';
     const action = new fromGridActions.UpdateFilter(
       GridTypeEnum.ExchangeJobMapping,
@@ -87,7 +87,7 @@ describe('Peer - Exchange Job Mapping Page', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
-  it('should call loadExchangeJobMappings with the exchangeId when handleSearchChanged is called', () => {
+  it('should call loadExchangeJobMappings with the exchangeId when handleSearchBoxValueChanged is called', () => {
     spyOn(exchangeJobMappingService, 'loadExchangeJobMappings');
 
     instance.handleSearchChanged('New Search');

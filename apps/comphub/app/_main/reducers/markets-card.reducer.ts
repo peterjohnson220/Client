@@ -1,7 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromMarketsCardActions from '../actions/markets-card.actions';
-import { PricingPaymarket, MarketDataScope } from '../models';
+import { PricingPaymarket, MarketDataScope, MarketDataLocation } from '../models';
 import { PayfactorsApiModelMapper, MarketsCardHelper } from '../helpers';
 
 export interface State {
@@ -13,6 +13,9 @@ export interface State {
   marketDataScope: MarketDataScope;
   hideAddPaymarketsButton: boolean;
   displayNationalAsCard: boolean;
+  loadingScopes: boolean;
+  loadingLocations: boolean;
+  marketDataLocations: MarketDataLocation[];
 }
 
 const initialState: State = {
@@ -23,7 +26,10 @@ const initialState: State = {
   selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket(),
   marketDataScope: null,
   hideAddPaymarketsButton: false,
-  displayNationalAsCard: false
+  displayNationalAsCard: false,
+  loadingScopes: false,
+  loadingLocations: false,
+  marketDataLocations: []
 };
 
 // Reducer function
@@ -78,10 +84,17 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
         selectedPaymarket: MarketsCardHelper.buildDefaultPricingPayMarket()
       };
     }
+    case fromMarketsCardActions.GET_MD_SCOPE:
+      return {
+        ...state,
+        loadingScopes: true
+      };
     case fromMarketsCardActions.GET_MD_SCOPE_SUCCESS:
       return {
         ...state,
-        marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(action.payload)
+        loadingScopes: false,
+        marketDataScope: PayfactorsApiModelMapper.mapMDScopeResponseToMarketDataScope(
+          action.payload.response)
       };
     case fromMarketsCardActions.GET_MD_SCOPE_ERROR:
       return {
@@ -114,7 +127,32 @@ export function reducer(state = initialState, action: fromMarketsCardActions.Act
     case fromMarketsCardActions.DISPLAY_NATIONAL_AS_CARD: {
       return {
         ...state,
-        displayNationalAsCard: true
+        displayNationalAsCard: action.payload
+      };
+    }
+    case fromMarketsCardActions.GET_MD_LOCATIONS: {
+      return {
+        ...state,
+        loadingLocations: true
+      };
+    }
+    case fromMarketsCardActions.GET_MD_LOCATIONS_SUCCESS: {
+      return {
+        ...state,
+        marketDataLocations: action.payload,
+        loadingLocations: false
+      };
+    }
+    case fromMarketsCardActions.GET_MD_LOCATIONS_ERROR: {
+      return {
+        ...state,
+        loadingLocations: false
+      };
+    }
+    case fromMarketsCardActions.CLEAR_MD_LOCATIONS: {
+      return {
+        ...state,
+        marketDataLocations: []
       };
     }
     default: {
@@ -145,4 +183,7 @@ export const getLoadingPaymarketsError = (state: State) => state.loadingPaymarke
 export const getPaymarketsFilter = (state: State) => state.paymarketsFilter;
 export const getSelectedPaymarket = (state: State) => state.selectedPaymarket;
 export const getMarketDataScope = (state: State) => state.marketDataScope;
+export const getLoadingMarketDataScopes = (state: State) => state.loadingScopes;
 export const getHideNewPaymarketsButton = (state: State) => state.hideAddPaymarketsButton;
+export const getLoadingMarketDataLocations = (state: State) => state.loadingLocations;
+export const getMarketDataLocations = (state: State) => state.marketDataLocations;

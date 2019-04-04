@@ -2,12 +2,19 @@
 
 exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
 <pf-peer-job-association-exchange-jobs
+  allSubscriptions={[Function Subscription]}
+  badRequestError=""
+  badRequestError$={[Function Store]}
   exchangeJobAssociations={[Function Array]}
   exchangeJobAssociations$={[Function Store]}
-  exchangeJobAssociationsSubscription={[Function Subscriber]}
+  exchangeJobs={[Function Array]}
   exchangeJobs$={[Function Store]}
+  expandedDetailRowId="null"
   grid="undefined"
+  gridResultsCount$={[Function Store]}
   gridState$={[Function Store]}
+  isDetailPanelExpanded$={[Function Store]}
+  isJobFamilyFilterExpanded="false"
   isJobFamilyFilterExpanded$={[Function Store]}
   isJobFamilyFilterLoading$={[Function Store]}
   isListView={[Function Boolean]}
@@ -15,19 +22,23 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   jobTitleSearchComponent="undefined"
   loading$={[Function Store]}
   loadingError$={[Function Store]}
+  loadingPreviousAssociations$={[Function Store]}
+  loadingPreviousAssociationsError$={[Function Store]}
+  loadingPreviousAssociationsSuccess$={[Function Store]}
   maxAssociableThreshold={[Function Number]}
+  previousAssociations$={[Function Store]}
   searchTerm=""
-  searchTermSubscription={[Function Subscriber]}
   selectedCompanyJobs={[Function Array]}
   selectedCompanyJobs$={[Function Store]}
-  selectedCompanyJobsSubscription={[Function Subscriber]}
+  selectedExchangeJob={[Function Object]}
+  selectedExchangeJob$={[Function Store]}
   selectedJobFamilyOptionNames$={[Function Store]}
   store={[Function Store]}
   tooltipDir="undefined"
   totalPeerExchangeJobs$={[Function Store]}
 >
   <h2
-    class="text-center"
+    class="text-center mb-3"
   >
     Peer Exchange Jobs
   </h2><div
@@ -55,26 +66,6 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
     >
        peer exchange jobs: 0 total 
     </label>
-    <button
-      class="view-button ml-2 view-button-active"
-      ng-reflect-klass="view-button ml-2"
-      ng-reflect-ng-class="[object Object]"
-      title="List View"
-    >
-      <i
-        class="fas fa-table"
-      />
-    </button>
-    <button
-      class="view-button"
-      ng-reflect-klass="view-button"
-      ng-reflect-ng-class="[object Object]"
-      title="Detail View"
-    >
-      <i
-        class="fas fa-list"
-      />
-    </button>
   </div><div
     class="grid-container position-relative"
   >
@@ -88,6 +79,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
         kendotooltip=""
         showon="none"
       >
+        <pf-grid-detail-panel />
         <kendo-grid
           style="height: 100%;"
         >

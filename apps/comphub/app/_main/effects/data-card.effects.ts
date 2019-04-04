@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
@@ -17,6 +17,7 @@ import * as fromComphubReducer from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 import { JobData, QuickPriceGridContext } from '../models';
 import { ComphubPages } from '../data';
+import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
 export class DataCardEffects {
@@ -25,15 +26,20 @@ export class DataCardEffects {
   getQuickPriceMarketData$ = this.actions$
     .ofType(fromDataCardActions.GET_QUICK_PRICE_MARKET_DATA)
     .pipe(
-      switchMap((action: fromDataCardActions.GetQuickPriceMarketData) => {
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromDataCardActions.GetQuickPriceMarketData, dataSet) => ({ action, dataSet })
+      ),
+      switchMap((data) => {
           return this.comphubApiService.getQuickPriceData({
-            JobTitleShort: action.payload.JobTitleShort,
-            CompanyPaymarketId: action.payload.CompanyPayMarketId,
+            JobTitleShort: data.action.payload.JobTitleShort,
+            CompanyPaymarketId: data.action.payload.CompanyPayMarketId,
             PagingOptions: {
-              Count: action.payload.Take,
-              From: action.payload.Skip
+              Count: data.action.payload.Take,
+              From: data.action.payload.Skip
             },
-            Sort: DataCardEffects.getSortOption(action.payload)
+            Sort: DataCardEffects.getSortOption(data.action.payload),
+            CountryCode: data.dataSet.CountryCode
           })
             .pipe(
               mergeMap((response) => {

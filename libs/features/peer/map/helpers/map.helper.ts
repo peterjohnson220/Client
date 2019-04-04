@@ -46,6 +46,20 @@ export class MapHelper {
     };
   }
 
+  static setBounds(mapSummary: ExchangeMapSummary, currentState: any, newState: any): any {
+    const newTL = mapSummary.TopLeft;
+    const newBR = mapSummary.BottomRight;
+    const hasNewTLBounds = !!newTL && !!newTL.Lat && !!newTL.Lon;
+    const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
+    const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
+    if (currentState.isInitialLoad && shouldSetBounds) {
+      newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
+      newState.mapFilter.TopLeft = newTL;
+      newState.mapFilter.BottomRight = newBR;
+    }
+    return newState;
+  }
+
   private static swapBounds(bounds: any): any {
     const ne = bounds._ne;
     const sw = bounds._sw;

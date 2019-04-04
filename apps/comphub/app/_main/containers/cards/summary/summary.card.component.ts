@@ -1,17 +1,21 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as cloneDeep from 'lodash.clonedeep';
+  import * as cloneDeep from 'lodash.clonedeep';
 import { PDFExportComponent } from '@progress/kendo-angular-pdf-export';
 import { pdf } from '@progress/kendo-drawing';
 const { exportPDF } = pdf;
+import * as isEqual from 'lodash.isequal';
 
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+import * as fromRootReducer from 'libs/state/state';
+import { UserContext } from 'libs/models/security';
+import { SystemUserGroupNames } from 'libs/constants';
 
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { JobData, PricingPaymarket, JobSalaryTrend } from '../../../models';
+import { JobData, PricingPaymarket, JobSalaryTrend, CountryDataSet, WorkflowContext } from '../../../models';
 import { ComphubPages, RateType } from '../../../data';
 import { DataCardHelper } from '../../../helpers';
 
@@ -20,12 +24,13 @@ import { DataCardHelper } from '../../../helpers';
   templateUrl: './summary.card.component.html',
   styleUrls: ['./summary.card.component.scss']
 })
-export class SummaryCardComponent implements OnInit, OnDestroy {
+export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('pdf') pdf: PDFExportComponent;
+  @Input() workflowContext: WorkflowContext;
+
   selectedJobData$: Observable<JobData>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedRate$: Observable<RateType>;
-  selectedPageId$: Observable<ComphubPages>;
   salaryTrendData$: Observable<JobSalaryTrend>;
   sharePricingSummaryModalOpen$: Observable<boolean>;
   sharePricingSummaryError$: Observable<boolean>;
@@ -33,20 +38,22 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   creatingProject$: Observable<boolean>;
   creatingProjectError$: Observable<boolean>;
   canAccessProjectsTile$: Observable<boolean>;
+  userContext$: Observable<UserContext>;
+  activeCountryDataSet$: Observable<CountryDataSet>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
   selectedRateSubscription: Subscription;
-  selectedPageIdSubscription: Subscription;
   salaryTrendSubscription: Subscription;
 
   jobData: JobData;
+  lastJobData: JobData;
   jobSalaryTrendData: JobSalaryTrend;
-  lastJobTrendFetched: JobData;
   paymarket: PricingPaymarket;
-  defaultCurrency = 'USD';
   selectedRate: RateType;
   firstDayOfMonth: Date = DataCardHelper.firstDayOfMonth();
+  systemUserGroupNames = SystemUserGroupNames;
+  comphubPages = ComphubPages;
 
   constructor(
     private store: Store<fromComphubMainReducer.State>
@@ -54,7 +61,6 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedRate$ = this.store.select(fromComphubMainReducer.getSelectedRate);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.salaryTrendData$ = this.store.select(fromComphubMainReducer.getSalaryTrendData);
     this.sharePricingSummaryModalOpen$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryModalOpen);
     this.sharePricingSummaryError$ = this.store.select(fromComphubMainReducer.getSharePricingSummaryError);
@@ -62,17 +68,14 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
     this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
     this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
     this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
+    this.userContext$ = this.store.select(fromRootReducer.getUserContext);
+    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
   }
 
   ngOnInit() {
     this.selectedJobDataSubscription = this.selectedJobData$.subscribe(data => this.jobData = data);
     this.selectedPaymarketSubscription = this.selectedPaymarket$.subscribe(paymarket => this.paymarket = paymarket);
     this.selectedRateSubscription = this.selectedRate$.subscribe(r => this.selectedRate = r);
-    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Summary) {
-        this.loadJobTrendChart();
-      }
-    });
     this.salaryTrendSubscription = this.salaryTrendData$.subscribe(trendData => {
       this.jobSalaryTrendData = cloneDeep(trendData);
     });
@@ -85,6 +88,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   handlePriceNewJobClicked() {
+    this.lastJobData = null;
     this.store.dispatch(new fromSummaryCardActions.PriceNewJob());
   }
 
@@ -130,14 +134,30 @@ export class SummaryCardComponent implements OnInit, OnDestroy {
   }
 
   private loadJobTrendChart() {
-    if (this.jobData === this.lastJobTrendFetched || !this.jobData) {
-      return;
-    }
-    this.lastJobTrendFetched = this.jobData;
     this.store.dispatch(new fromSummaryCardActions.GetNationalJobTrendData(this.jobData));
+  }
+
+  private addNewCompletedPricingHistoryRecord() {
+    this.store.dispatch(new fromSummaryCardActions.AddCompletedPricingHistory(this.jobData));
   }
 
   private getPDFFileName(): string {
     return `PricingSummaryFor${this.jobData.JobTitle.replace(/ |\./g, '')}.pdf`;
+  }
+
+  private jobDataHasChanged(): boolean {
+    return (!!this.jobData && !isEqual(this.jobData, this.lastJobData));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
+      return;
+    }
+    if (changes.workflowContext.currentValue.selectedPageId === this.comphubPages.Summary &&
+      this.jobDataHasChanged()) {
+      this.lastJobData = this.jobData;
+      this.loadJobTrendChart();
+      this.addNewCompletedPricingHistoryRecord();
+    }
   }
 }

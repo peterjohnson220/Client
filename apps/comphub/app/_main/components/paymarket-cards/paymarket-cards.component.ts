@@ -25,10 +25,13 @@ export class PaymarketCardsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.paymarkets) {
-      const container = document.querySelector('.paymarket-card-container');
-      container.scrollLeft = 0;
+      // Push this task to the end of the queue to allow for DOM manipulation to complete.
+      setTimeout(() => {
+        const container = document.querySelector('.paymarket-card-container');
+        container.scrollLeft = 0;
 
-      this.psDirectiveRef.update();
+        this.psDirectiveRef.update();
+      });
     }
   }
 

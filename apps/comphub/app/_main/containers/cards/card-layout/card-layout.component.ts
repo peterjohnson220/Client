@@ -4,10 +4,11 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
+import { WindowRef } from 'libs/core/services';
+
 import { environment } from 'environments/environment';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { WindowRef } from '../../../services';
 
 import { JobPricingLimitInfo } from '../../../models';
 import { ComphubPages } from '../../../data';
@@ -24,6 +25,7 @@ export class CardLayoutComponent implements OnInit {
   @Input() hideBackButton: boolean;
   @Input() hideNextButton: boolean;
   @Input() nextButtonEnabled: boolean;
+  @Input() backButtonEnabled: boolean;
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;

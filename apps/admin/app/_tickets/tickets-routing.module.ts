@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PfAdminGuard } from 'libs/security/guards';
-import { TicketListComponent } from './containers/ticket-list';
+import { TicketListPageComponent } from './containers/pages/ticket-list';
 
 const routes: Routes = [
-  { path: 'ticket-list', component: TicketListComponent, canActivate: [PfAdminGuard] },
+  { path: 'ticket-list', component: TicketListPageComponent, canActivate: [PfAdminGuard] },
   { path: '', redirectTo: 'ticket-list', pathMatch: 'full' }
 ];
 

@@ -1,4 +1,4 @@
-<h2 class="text-center">Company Jobs</h2>
+<h2 class="text-center mb-3">Company Jobs</h2>
 <div class="filters position-relative d-flex mt-2 mb-2">
   <i class="fas fa-search position-absolute"></i>
   <pf-input-debounce
@@ -7,7 +7,7 @@
     [(ngModel)]="searchTerm"
     [ngModelOptions]="{standalone: true}"
     [placeholderText]="'Search job title or job code'"
-    (valueChanged)="handleSearchChanged($event)">
+    (valueChanged)="handleSearchBoxValueChanged($event)">
   </pf-input-debounce>
 </div>
 <div>
@@ -29,6 +29,15 @@
        [tooltipTemplate]="template"
        filter=".k-grid td"
        (mouseover)="showTooltip($event, 'company-job-title-')">
+    <pf-grid-detail-panel
+      [isExpanded$]="isDetailPanelExpanded$"
+      [jobId]="selectedCompanyJobInDetailPanel.CompanyJobId"
+      [jobTitle]="selectedCompanyJobInDetailPanel.JobTitle"
+      [jobCode]="selectedCompanyJobInDetailPanel.JobCode"
+      [jobDescription]="selectedCompanyJobInDetailPanel.JobDescription"
+      [jobFamily]="selectedCompanyJobInDetailPanel.JobFamily"
+      (closeClick)="handleCloseDetailPanel()"        
+    ></pf-grid-detail-panel>
     <kendo-grid
                 [data]="companyJobsGridItemsData$ | async"
                 [style.height.%]="100"
@@ -47,7 +56,6 @@
                   info: true
                  }"
                 (dataStateChange)="handleDataStateChange($event)"
-                (detailExpand)="handleDetailExpand($event)"
                 [kendoGridSelectBy]="'CompanyJobId'"
                 [rowSelected]="isRowSelected"
                 (selectionChange)="handleSelectionChange($event)">
@@ -62,14 +70,25 @@
       <kendo-grid-column field="CompanyJobId" title="Id" hidden="hidden"></kendo-grid-column>
       <kendo-grid-column field="JobTitle" title="Job Title">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <div id="{{'company-job-title-'+ dataItem.CompanyJobId}}"
-               class="'company-job-title-'"
-                  [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
+          <a href="javascript:void(0)" 
+            (click)="handleCompanyJobTitleOrCodeClick(dataItem)" 
+            class="grid-link company-job-title"
+            [class.selected]="dataItem.CompanyJobId === selectedCompanyJobInDetailPanel.CompanyJobId && (isDetailPanelExpanded$ | async)">
+            <div id="{{'company-job-title-'+ dataItem.CompanyJobId}}"
+                class="'company-job-title-'"
+                [innerHTML]="dataItem.JobTitle | highlightText: searchTerm">
+            </div>
+          </a>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="JobCode" title="Job Code">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm"></div>
+          <a href="javascript:void(0)" 
+            (click)="handleCompanyJobTitleOrCodeClick(dataItem)" 
+            class="grid-link company-job-code"
+            [class.selected]="dataItem.CompanyJobId === selectedCompanyJobInDetailPanel.CompanyJobId && (isDetailPanelExpanded$ | async)">
+            <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm"></div>
+          </a>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="JobFamily" title="Job Family" [sortable]="false">
@@ -90,18 +109,10 @@
           </ng-template>
         </ng-template>
       </kendo-grid-column>
-      <ng-template kendoGridDetailTemplate let-dataItem>
-        <p *ngIf="dataItem.JobDescription && dataItem.JobDescription !== '#N/A'"
-            [innerHTML]="dataItem.JobDescription | jobDescriptionParser"></p>
-        <p *ngIf="!dataItem.JobDescription || dataItem.JobDescription === '#N/A'" class="font-italic">
-          No Job Description Available
-        </p>
-      </ng-template>
       <ng-template kendoGridNoRecordsTemplate>
-        No results based on your search.
+        {{ badRequestError.length > 0 ? badRequestError + " Please narrow down the list by using the filters above." : "No records based on your search." }}
         <a href="javascript:void(0)" (click)="reload(true)">
-          <i class="fas fa-redo-alt"></i>
-          Reset now
+          <i class="fas fa-redo-alt"></i>Reset now
         </a>
       </ng-template>
     </kendo-grid>

@@ -3,13 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
+import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
 import { environment } from 'environments/environment';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { CardLayoutComponent } from './card-layout.component';
-import { WindowRef } from '../../../services';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 describe('Comphub - Main - Card Layout', () => {
@@ -70,6 +70,7 @@ describe('Comphub - Main - Card Layout', () => {
 
   it('should hide the back button, when told to', () => {
     instance.hideBackButton = true;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -78,6 +79,7 @@ describe('Comphub - Main - Card Layout', () => {
 
   it('should hide the next button, when told to', () => {
     instance.hideNextButton = true;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 
@@ -87,6 +89,7 @@ describe('Comphub - Main - Card Layout', () => {
   it('should disable next button, when told to', () => {
     instance.hideNextButton = false;
     instance.nextButtonEnabled = false;
+    instance.pageTitle = 'Jobs';
 
     fixture.detectChanges();
 

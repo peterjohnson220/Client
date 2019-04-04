@@ -7,6 +7,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
   dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
   payfactorsDataFieldsForReset="undefined"
@@ -27,7 +28,14 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
         select="Select file..."
       />
     </kendo-upload>
-  </div><div
+  </div><p>
+    Client file name for this entity must begin with 
+    <span
+      class="font-weight-bold text-underline"
+    >
+      structures
+    </span>
+  </p><div
     class="field-mappings-container"
   >
     <table>
@@ -109,6 +117,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
   dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
   payfactorsDataFieldsForReset="undefined"
@@ -128,7 +137,14 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
         select="Select file..."
       />
     </kendo-upload>
-  </div><div
+  </div><p>
+    Client file name for this entity must begin with 
+    <span
+      class="font-weight-bold text-underline"
+    >
+      structures
+    </span>
+  </p><div
     class="field-mappings-container"
   >
     <table>
@@ -210,6 +226,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
   dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
   payfactorsDataFieldsForReset="undefined"
@@ -230,7 +247,14 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
         select="Select file..."
       />
     </kendo-upload>
-  </div><div
+  </div><p>
+    Client file name for this entity must begin with 
+    <span
+      class="font-weight-bold text-underline"
+    >
+      structures
+    </span>
+  </p><div
     class="field-mappings-container"
   >
     <table>
@@ -311,6 +335,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
   dateFormatsFilteredData={[Function Array]}
   fieldMappings$={[Function Observable]}
   fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
   payfactorsDataFieldsForReset="undefined"
@@ -330,7 +355,14 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
         select="Select file..."
       />
     </kendo-upload>
-  </div><div
+  </div><p>
+    Client file name for this entity must begin with 
+    <span
+      class="font-weight-bold text-underline"
+    >
+      structures
+    </span>
+  </p><div
     class="field-mappings-container"
   >
     <table>
@@ -450,7 +482,14 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         select="Select file..."
       />
     </kendo-upload>
-  </div><div
+  </div><p>
+    Client file name for this entity must begin with 
+    <span
+      class="font-weight-bold text-underline"
+    >
+      employees
+    </span>
+  </p><div
     class="field-mappings-container"
   >
     <table>
@@ -533,6 +572,7 @@ exports[`FieldMapperComponent should show a spinner when the company's mappings 
   fieldMappings$={[Function Observable]}
   fieldMappingsLoading={[Function Boolean]}
   fileRestrictions={[Function Object]}
+  loaderType={[Function String]}
   mappedFields={[Function Array]}
   mappingComplete={[Function EventEmitter]}
   payfactorsDataFieldsForReset="undefined"

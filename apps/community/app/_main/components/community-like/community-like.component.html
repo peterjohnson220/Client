@@ -3,7 +3,8 @@
         <pf-loading-indicator></pf-loading-indicator>
     </span>{{getTooltipText()}}
 </ng-template>
-<span id="like-reply" class="community-like p-0 "
+<span id="like-reply" class="community-like p-0"
+          [attr.data-qa-id]="'ctn-communityLike'+ getSource()"
           [ngClass]="LikedByCurrentUser ? 'community-btn-clicked': 'community-btn'"
           (click)="updateLike()"
           (mouseenter)="mouseEnter()"
@@ -11,6 +12,6 @@
           [ngbTooltip]="tipContent">
     <span *ngIf="LikedByCurrentUser"><i class="fas fa-heart icon"></i></span>
     <span *ngIf="!LikedByCurrentUser"><i class="far fa-heart icon"></i></span>
-    <span> {{LikeCount > 0 ? LikeCount : ''}} {{LikeCount > 1 ? 'Likes' : 'Like'}}</span>
+    <span data-qa-id="cnt-likeCount"> {{LikeCount > 0 ? LikeCount : ''}} {{LikeCount > 1 ? 'Likes' : 'Like'}}</span>
 </span>
 

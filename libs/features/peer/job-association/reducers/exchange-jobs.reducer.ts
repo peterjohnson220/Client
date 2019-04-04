@@ -11,15 +11,25 @@ export interface State extends EntityState<ExchangeJob> {
   // grid and search term
   loading: boolean;
   loadingError: boolean;
+  loadingErrorMessage: string;
+  badRequestMessage: string;
   total: number;
   searchTerm: string;
   ExchangeJobAssociations: ExchangeJobAssociation[];
+  selectedExchangeJob: ExchangeJob;
+  isDetailPanelExpanded: boolean;
+  expandedDetailRowId: number;
   // job family filter
   loadingJobFamilyFilter: boolean;
   loadingJobFamilyFilterSuccess: boolean;
   loadingJobFamilyFilterError: boolean;
   isJobFamilyFilterExpanded: boolean;
   jobFamilyOptions: GenericMenuItem[];
+  // previous associations
+  loadingPreviousAssociations: boolean;
+  loadingPreviousAssociationsSuccess: boolean;
+  loadingPreviousAssociationsError: boolean;
+  previousAssociations: CompanyJob[];
 }
 
 // Define our Adapter
@@ -32,15 +42,25 @@ const initialState: State = adapter.getInitialState({
   // grid and search term
   loading: false,
   loadingError: false,
+  loadingErrorMessage: '',
+  badRequestMessage: '',
   total: 0,
   searchTerm: '',
   ExchangeJobAssociations: [],
+  selectedExchangeJob: {} as ExchangeJob,
+  isDetailPanelExpanded: false,
+  expandedDetailRowId: null,
   // job family filter
   loadingJobFamilyFilter: false,
   loadingJobFamilyFilterSuccess: false,
   loadingJobFamilyFilterError: false,
   isJobFamilyFilterExpanded: false,
-  jobFamilyOptions: []
+  jobFamilyOptions: [],
+  // previous associations
+  loadingPreviousAssociations: false,
+  loadingPreviousAssociationsSuccess: false,
+  loadingPreviousAssociationsError: false,
+  previousAssociations: []
 });
 
 // Reducer function
@@ -49,33 +69,50 @@ export function reducer(state, action) {
     GridTypeEnum.JobAssociationModalPeerExchangeJobs,
     (featureState = initialState,  featureAction: fromPeerExchangeJobsActions.Actions): State => {
       switch (featureAction.type) {
+        case fromPeerExchangeJobsActions.RESET: {
+          return {
+            ...initialState
+          };
+        }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS: {
           return {
             ...adapter.removeAll(featureState),
             loading: true,
-            loadingError: false
+            loadingError: false,
+            isDetailPanelExpanded: false
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_SUCCESS: {
-          const payMarketList: ExchangeJob[] = featureAction.payload.data;
+          const exchangeJobs: ExchangeJob[] = featureAction.payload.data;
           return {
-            ...adapter.addAll(payMarketList, featureState),
+            ...adapter.addAll(exchangeJobs, featureState),
             total: featureAction.payload.total,
             loading: false,
-            loadingError: false
+            loadingError: false,
+            badRequestMessage: ''
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_ERROR: {
           return {
             ...featureState,
             loading: false,
-            loadingError: true
+            loadingError: true,
+            loadingErrorMessage: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_BAD_REQUEST: {
+          const emptyResponse: ExchangeJob[] = [];
+          return {
+            ...adapter.addAll(emptyResponse, featureState),
+            loading: false,
+            badRequestMessage: featureAction.payload
           };
         }
         case fromPeerExchangeJobsActions.UPDATE_SEARCH_TERM: {
           return {
             ...featureState,
-            searchTerm: featureAction.payload
+            searchTerm: featureAction.payload,
+            isDetailPanelExpanded: false
           };
         }
         case fromPeerExchangeJobsActions.ADD_ASSOCIATION: {
@@ -108,6 +145,56 @@ export function reducer(state, action) {
             ExchangeJobAssociations: exchangeJobAssociations
           };
         }
+        // previous associations
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: true,
+            previousAssociations: [],
+            expandedDetailRowId: featureAction.payload.ExpandedDetailRowId
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: false,
+            loadingPreviousAssociationsError: false,
+            loadingPreviousAssociationsSuccess: true,
+            previousAssociations: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS_ERROR: {
+          return {
+            ...featureState,
+            loadingPreviousAssociations: false,
+            loadingPreviousAssociationsError: true,
+            loadingPreviousAssociationsSuccess: false
+          };
+        }
+        case fromPeerExchangeJobsActions.SELECT_EXCHANGE_JOB: {
+          // close the panel if we're expanded and selecting the same job, otherwise open it
+          const isCurrentJobSelected = (featureAction.payload.ExchangeJobId === featureState.selectedExchangeJob.ExchangeJobId);
+          const isDetailPanelExpanded = !(isCurrentJobSelected && featureState.isDetailPanelExpanded);
+
+          return {
+            ...featureState,
+            selectedExchangeJob: featureAction.payload,
+            isDetailPanelExpanded
+          };
+        }
+        case fromPeerExchangeJobsActions.TOGGLE_DETAIL_PANEL: {
+          return {
+            ...featureState,
+            isDetailPanelExpanded: !featureState.isDetailPanelExpanded
+          };
+        }
+        case fromPeerExchangeJobsActions.CLOSE_DETAIL_PANEL: {
+          return {
+            ...featureState,
+            isDetailPanelExpanded: false
+          };
+        }
+        // job family filter
         case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER: {
           return {
             ...featureState,
@@ -137,7 +224,8 @@ export function reducer(state, action) {
 
           return {
             ...featureState,
-            isJobFamilyFilterExpanded
+            isJobFamilyFilterExpanded,
+            isDetailPanelExpanded: (isJobFamilyFilterExpanded) ? false : featureState.isDetailPanelExpanded
           };
         }
         case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER_SELECTION: {
@@ -146,7 +234,8 @@ export function reducer(state, action) {
 
           // loop through the array, then add each option to the new collection with the appropriate IsSelectedValue
           featureState.jobFamilyOptions.forEach(option => {
-            const isSelected = (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
+            const isSelected =
+              (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
             jobFamilyOptions.push({ ...option, IsSelected: isSelected });
           });
 
@@ -183,7 +272,5 @@ export const getTotal = (state: State) => state.total;
 
 // Selector functions, job family filter
 export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
-export const getJobFamilyFilterLoadingSuccess = (state: State) => state.loadingJobFamilyFilterSuccess;
-export const getJobFamilyFilterLoadingError = (state: State) => state.loadingJobFamilyFilterError;
 export const getJobFamilyFilterIsExpanded = (state: State) => state.isJobFamilyFilterExpanded;
 export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;

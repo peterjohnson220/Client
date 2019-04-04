@@ -2,8 +2,17 @@
 @import 'comphub-styles';
 @import 'colors';
 
+.no-trending-jobs {
+  background: lighten($comphub-header-background-grey, 5%);
+  padding: 1rem;
+  min-height: 280px;
+  font-style: italic;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.smb-limit-disabling-message{
+.smb-limit-disabling-message {
   position: absolute;
   color: white;
   display: flex;
@@ -26,5 +35,17 @@
 
   a {
     color: white;
+  }
+}
+
+.data-set-selector {
+  display: flex;
+  justify-content: flex-end;
+
+  kendo-dropdownlist {
+    position: absolute;
+    top: -25px;
+    right: 15px;
+    width: 105px;
   }
 }

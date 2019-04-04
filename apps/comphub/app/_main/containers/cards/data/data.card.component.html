@@ -2,12 +2,13 @@
   pageTitle="Data"
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
   pageIconClass="fa-database"
-  [nextButtonEnabled]="!!(selectedJobData$ | async)">
+  [nextButtonEnabled]="!!(selectedJobData$ | async) && workflowContext?.selectedPageId === comphubPages.Data"
+  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Data">
 
   <ng-container page-content>
 
     <div *ngIf="peerBannerOpen$ | async" class="peer-banner">
-      <button (click)="handleLearnMoreClicked()" class="btn learn-more-btn">Learn More</button>
+      <button (click)="handleLearnMoreClicked()" class="btn learn-more-btn" data-qa-id="btn-peer-learn-more">Learn More</button>
     </div>
 
     <div class="d-flex flex-row content-top-bar">
@@ -34,9 +35,10 @@
                             [hideReloadButton]="true"
                             class="flex-grow-1">
 
-          <table class="table table-hover">
+          <table class="table table-hover" [attr.data-qa-id]="'tbl-job-data-grid'" [class.grid-loading]="jobResultsLoading$ | async">
             <thead>
             <tr class="main-column-header">
+              <th></th>
               <th *ngFor="let column of gridColumnsConfiguration" scope="col"
                   class="{{column.CssClasses}}"
                   [class.sortable-header]="column.IsSortable"
@@ -56,43 +58,58 @@
             </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let job of (jobResults$ | async)?.Data"
-                (click)="handleSelectionChanged(job)"
-                class="job-row"
-                [class.selected]="job.JobId === (selectedJobData$ | async)?.JobId">
+              <ng-container *ngFor="let job of (jobResults$ | async)?.Data; trackBy: trackByFn">
+                <tr (click)="handleSelectionChanged(job)"
+                  class="job-row"
+                  [class.selected]="job.JobId === (selectedJobData$ | async)?.JobId">
 
-                <td class="text-column job-title-column" title="{{job.JobTitle}}">
-                  {{job.JobTitle}}
-                </td>
-                <td class="text-column education-column hide-when-small" title="{{job.Education}}">
-                  {{job.Education}}
-                </td>
-                <td class="text-column hide-when-small">
-                  {{job.YearsOfExperience}}
-                </td>
-                <td class="text-column hide-when-small">
-                  <span *ngIf="job.ManagesEmployees">
-                     <i class="fa fa-check" aria-hidden="true"></i>
-                  </span>
-                </td>
-                <td class="number-column">
-                  ${{calculateDataByRate(job.Base50) | number : isHourly ? '1.2-2' : '1.1-1'}}
-                </td>
-                <td class="number-column">
-                  ${{calculateDataByRate(job.Tcc50) | number : isHourly ? '1.2-2' : '1.1-1'}}
-                </td>
-                <td class="text-center">
-                  <div class="custom-control custom-radio">
-                    <input type="radio" id="customRadio-{{job.JobId}}"
-                           [attr.data-qa-id]="'chk-select-job-'+job.JobId"
-                           name="select-job-data"
-                           [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
-                           (change)="handleSelectionChanged(job)"
-                           class="custom-control-input">
-                    <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>
-                  </div>
-                </td>
-              </tr>
+                  <td class="expand-caret" (click)="handleExpandJdClicked($event, job.JobId)">
+                    <i *ngIf="!job.ShowJd" class="fas fa-caret-right"></i>
+                    <i *ngIf="job.ShowJd" class="fas fa-caret-down"></i>
+                  </td>
+
+                  <td class="text-column job-title-column" title="{{job.JobTitle}}">
+                    {{job.JobTitle}}
+                  </td>
+                  <td class="text-column education-column hide-when-small" title="{{job.Education}}">
+                    {{job.Education}}
+                  </td>
+                  <td class="text-column hide-when-small">
+                    {{job.YearsOfExperience}}
+                  </td>
+                  <td class="text-column hide-when-small">
+                    {{job.ManagesEmployees ? 'Yes': 'No'}}
+                  </td>
+                  <td class="number-column">
+                    {{
+                        calculateDataByRate(job.Base50) |
+                        currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                    }}
+                  </td>
+                  <td class="number-column">
+                    {{
+                      calculateDataByRate(job.Tcc50) |
+                      currency:workflowContext?.activeCountryDataSet?.CurrencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0'
+                    }}
+                  </td>
+                  <td class="text-center">
+                    <div class="custom-control custom-radio">
+                      <input type="radio" id="customRadio-{{job.JobId}}"
+                             [attr.data-qa-id]="'chk-select-job-'+job.JobId"
+                             name="select-job-data"
+                             [checked]="job.JobId === (selectedJobData$ | async)?.JobId"
+                             (change)="handleSelectionChanged(job)"
+                             class="custom-control-input">
+                      <label class="custom-control-label" for="customRadio-{{job.JobId}}">&nbsp;</label>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="job.ShowJd" class="jd-row">
+                  <td [attr.colspan]="gridColumnsConfiguration.length + 1">
+                    {{job.JobDescription}}
+                  </td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
 

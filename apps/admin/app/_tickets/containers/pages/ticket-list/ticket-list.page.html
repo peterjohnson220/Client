@@ -1,0 +1,36 @@
+<pf-page-with-title-bar [absoluteUrl]="'/ng/site-admin/navigation'">
+
+  <ng-container page-title>
+    Tickets
+  </ng-container>
+
+  <ng-container page-content>
+
+    <ngb-tabset [destroyOnHide]="false">
+
+      <ngb-tab id="tab-tickets"
+               title="Tickets">
+        <ng-template ngbTabContent>
+          <pf-ticket-list></pf-ticket-list>
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab *ngFor="let tab of userTicketTabs"
+               [id]="'tab-' + tab.UserTicketId">
+        <ng-template ngbTabTitle>
+          <div [title]="tab.Title">
+            {{tab.UserTicketId}}
+            <span (click)="handleCloseTabClick(tab.UserTicketId, $event)"><i class="far fa-times fa-2x close-btn"></i></span>
+          </div>
+        </ng-template>
+        <ng-template ngbTabContent>
+          <pf-ticket [ticketId]="tab.UserTicketId">
+          </pf-ticket>
+        </ng-template>
+      </ngb-tab>
+
+    </ngb-tabset>
+
+  </ng-container>
+
+</pf-page-with-title-bar>
