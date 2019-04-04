@@ -1,5 +1,5 @@
 <div *ngIf="salaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
-  <div class="percentage-change">
+  <div class="percentage-change" [attr.data-qa-id]="'cnt-percentageChange'">
     <span *ngIf="salaryTrendData.PercentageChange !== 0"
           [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
       {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}
