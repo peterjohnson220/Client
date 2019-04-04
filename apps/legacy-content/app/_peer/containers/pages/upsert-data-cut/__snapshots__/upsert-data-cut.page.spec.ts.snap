@@ -67,14 +67,14 @@ exports[`Legacy Content - Peer - Upsert Data Cut should disable the add/updated 
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 disabled=""
                 type="button"
               >
                  Add 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel
@@ -155,13 +155,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 type="button"
               >
                  Add 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel
@@ -242,13 +242,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display the upsert data 
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 type="button"
               >
                  Update 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel
@@ -342,13 +342,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should display untagged incumbe
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 type="button"
               >
                  Add 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel
@@ -429,13 +429,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the add button wh
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 type="button"
               >
                  Add 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel
@@ -516,13 +516,13 @@ exports[`Legacy Content - Peer - Upsert Data Cut should enable the update button
             >
               
               <button
-                class="btn btn-primary btn-primary-legacy"
+                class="btn legacy-primary-btn au-btn-add"
                 type="button"
               >
                  Update 
               </button>
               <button
-                class="btn btn-secondary"
+                class="btn btn-secondary au-btn-cancel"
                 type="button"
               >
                 Cancel

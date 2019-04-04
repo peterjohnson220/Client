@@ -15,8 +15,9 @@ import { PfCommonUIModule } from 'libs/ui/common/common-ui-module';
 import {
   FilterAggregateComponent,
   FilterAggregateGroupComponent,
+  ExcludeIndirectMatchesFilterComponent,
   PayMarketBoundsFilterComponent,
-  PayMarketFilterInfoComponent
+  PeerFilterInfoComponent
 } from './components';
 import { FilterSidebarComponent, MapComponent, ScopeSelectorComponent } from './containers';
 import { FilterSidebarEffects, MapEffects, ExchangeScopeEffects } from './effects';
@@ -24,7 +25,8 @@ import { reducers } from './reducers';
 
 const declarations = [
   // Components
-  FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent, PayMarketFilterInfoComponent,
+  FilterAggregateComponent, FilterAggregateGroupComponent, PayMarketBoundsFilterComponent, PeerFilterInfoComponent,
+  ExcludeIndirectMatchesFilterComponent,
 
   // Containers
   FilterSidebarComponent, MapComponent, ScopeSelectorComponent

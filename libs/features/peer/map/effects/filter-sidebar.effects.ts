@@ -88,7 +88,7 @@ export class FilterSidebarEffects {
         // Only clear selections on paymarket toggle if a scope is not selected
         if (scopeSelected) {
           obs = [
-            new fromPeerMapActions.LoadPeerMapBounds()
+            new fromPeerMapActions.LoadPeerMapBounds
           ];
         } else {
            obs = [
@@ -100,6 +100,32 @@ export class FilterSidebarEffects {
         return obs;
       })
     );
+
+  @Effect()
+  excludeIndirectJobMatchesToggled$ = this.actions$.pipe(
+    ofType(fromFilterSidebarActions.TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES),
+    withLatestFrom(
+      this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerFilterScopeSelection)),
+      (action, scopeSelection: ExchangeScopeItem) => !!scopeSelection
+    ),
+    tap(() => this.peerMapStore.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
+    mergeMap((scopeSelected: boolean) => {
+      let obs;
+      // Only clear selections on paymarket toggle if a scope is not selected
+      if (scopeSelected) {
+        obs = [
+          new fromPeerMapActions.LoadPeerMapBounds
+        ];
+      } else {
+        obs = [
+          new fromFilterSidebarActions.ClearAllSelections,
+          new fromPeerMapActions.LoadPeerMapBounds
+        ];
+      }
+
+      return obs;
+    })
+  );
 
   @Effect()
   getMapData$ = this.actions$.pipe(

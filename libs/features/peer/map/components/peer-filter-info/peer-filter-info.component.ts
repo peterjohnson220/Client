@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'pf-pay-market-filter-info',
-  templateUrl: './pay-market-filter-info.component.html',
-  styleUrls: ['./pay-market-filter-info.component.scss']
+  selector: 'pf-peer-filter-info',
+  templateUrl: './peer-filter-info.component.html',
+  styleUrls: ['./peer-filter-info.component.scss']
 })
 
-export class PayMarketFilterInfoComponent {
+export class PeerFilterInfoComponent {
   @Input() orgCount: number;
   @Input() incCount: number;
   @Input() hasSelections: boolean;

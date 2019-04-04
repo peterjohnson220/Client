@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { FilterAggregateGroup, PayMarket, ExchangeMapSummary, ToggleAggregateGroupSelections } from 'libs/models';
@@ -18,26 +18,31 @@ export class FilterSidebarComponent implements OnInit {
   // When provided a companyPayMarketId the sidebar will include a pay market bounds filter
   @Input() companyPayMarketId: number;
   @Input() shouldShowPayMarketBoundsFilter = true;
+  @Input() shouldShowExcludeIndirectJobMatchesFilter = true;
   @Input() shouldShowExchangeScopeSelector = true;
 
   filterAggregateGroups$: Observable<FilterAggregateGroup[]>;
   filterAggregateGroupsLoading$: Observable<boolean>;
   filterAggregateGroupsLoadingError$: Observable<boolean>;
   limitToPayMarket$: Observable<boolean>;
+  excludeIndirectJobMatches$: Observable<boolean>;
+  hasAdditionalJobLevels$: Observable<boolean>;
   payMarket$: Observable<PayMarket>;
   previewLimit$: Observable<number>;
   mapSummary$: Observable<ExchangeMapSummary>;
   selectionsCount$: Observable<number>;
 
   constructor(private store: Store<fromPeerMapReducer.State>) {
-    this.filterAggregateGroups$ = this.store.select(fromPeerMapReducer.getFilterAggregateGroups);
-    this.filterAggregateGroupsLoading$ = this.store.select(fromPeerMapReducer.getFilterAggregateGroupsLoading);
-    this.filterAggregateGroupsLoadingError$ = this.store.select(fromPeerMapReducer.getFilterAggregateGroupsLoadingError);
-    this.limitToPayMarket$ = this.store.select(fromPeerMapReducer.getPeerFilterLimitToPayMarket);
-    this.payMarket$ = this.store.select(fromPeerMapReducer.getPeerFilterPayMarket);
-    this.previewLimit$ = this.store.select(fromPeerMapReducer.getPeerFilterPreviewLimit);
-    this.mapSummary$ = this.store.select(fromPeerMapReducer.getPeerMapSummary);
-    this.selectionsCount$ = this.store.select(fromPeerMapReducer.getPeerFilterSelectionsCount);
+    this.filterAggregateGroups$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroups));
+    this.filterAggregateGroupsLoading$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroupsLoading));
+    this.filterAggregateGroupsLoadingError$ = this.store.pipe(select(fromPeerMapReducer.getFilterAggregateGroupsLoadingError));
+    this.limitToPayMarket$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterLimitToPayMarket));
+    this.excludeIndirectJobMatches$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterExcludeIndirectJobMatches));
+    this.hasAdditionalJobLevels$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterHasSimilarJobLevels));
+    this.payMarket$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterPayMarket));
+    this.previewLimit$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterPreviewLimit));
+    this.mapSummary$ = this.store.pipe(select(fromPeerMapReducer.getPeerMapSummary));
+    this.selectionsCount$ = this.store.pipe(select(fromPeerMapReducer.getPeerFilterSelectionsCount));
   }
 
   trackByFilterProp(index: number, filterAggregateGroup: FilterAggregateGroup): string {
@@ -51,6 +56,10 @@ export class FilterSidebarComponent implements OnInit {
 
   handleLimitToPayMarketToggled() {
     this.store.dispatch(new fromFilterSidebarActions.ToggleLimitToPayMarket());
+  }
+
+  handleIncludeAdditionalJobLevelsToggled() {
+    this.store.dispatch(new fromFilterSidebarActions.ToggleExcludeIndirectJobMatches());
   }
 
   handleAggregateGroupSelectionsToggled(toggleAggregateGroupSelectionsPayload: ToggleAggregateGroupSelections) {
