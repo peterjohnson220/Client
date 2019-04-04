@@ -1,18 +1,22 @@
 <div *ngIf="jobSubmitted; else job_not_sumbitted">
     <p class="lead text-center pt-2">Your job has been posted!</p>
     <div class="text-center">
-        <button type="button" class="btn btn-link" (click)="postAnotherJob()">Post another job</button> 
+        <button type="button"
+                data-qa-id="btn-postAnotherJob"
+                class="btn btn-link"
+                (click)="postAnotherJob()">Post another job</button>
     </div>
 </div>
 <ng-template #job_not_sumbitted>
-<div class="form-group required-indicator" [formGroup]="communityJobForm" > 
+<div class="form-group required-indicator" [formGroup]="communityJobForm" >
     <label for="positionTitle" class="control-label col-3 px-0">Position Title</label>
     <div class="input col-9 pt-2 pb-4 pr-0">
       <input #positionTitle
-          type="text" 
+          type="text"
+          data-qa-id="txt-positionTitle"
           class="form-control input-body community-border-radius"
           formControlName="positionTitle"
-          [maxLength]="textMaxLength">  
+          [maxLength]="textMaxLength">
     </div>
     <label for="location" class="control-label col-3 px-0">Locations</label>
     <div class="input col-9 pt-2 pb-4 pr-0">
@@ -22,6 +26,7 @@
     <div class="input col-9 pb-4 pr-0">
       <input #postingUrl
           type="url"
+          data-qa-id="txt-positionUrl"
           class="form-control input-body community-border-radius"
           formControlName="postingUrl"
           placeholder="http://"

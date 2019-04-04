@@ -24,17 +24,30 @@ export const reducers = {
 };
 
 // Select Feature area
-export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>('ticketsAdminMain');
+export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>('admin_tickets');
 
 // Tickets Admin View Selectors
 export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
 export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
 
+// Company Detail area
+export const getCompanyDetailLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getCompanyDetailLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoadingError);
+
 // Ticket Selector
 export const getTicketLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
-export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoading);
+export const getTicketLoadingError = createSelector(selectTicketState, fromTicketsReducer.getLoadingError);
 export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
+export const getOpenedTicket = createSelector(selectTicketState, fromTicketsReducer.getOpenedTicket);
+export const getSelectedTabTicket = createSelector(selectTicketState, fromTicketsReducer.getSelectedTabTicket);
 
 // Ticket List Selectors
+export const {
+  selectAll: getTickets,
+} = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
+
+// Ticket Field Lookup Selectors
+export const getUserTicketStates = createSelector(selectTicketState, fromTicketsReducer.getUserTicketStates);
+export const getUserTicketTypes = createSelector(selectTicketState, fromTicketsReducer.getUserTicketTypes);

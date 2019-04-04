@@ -7,9 +7,7 @@ import { of } from 'rxjs';
 import * as fromRootState from 'libs/state/state';
 
 import * as fromJobAssociationReducers from '../../reducers';
-import * as jobAssociationModalActions from '../../actions/job-association-modal.actions';
 import { JobAssociationModalComponent } from './job-association-modal.component';
-import {ExchangeJobAssociation, generateMockExchangeJobAssociation} from '../../models';
 
 describe('JobAssociationModalComponent', () => {
   let component: JobAssociationModalComponent;

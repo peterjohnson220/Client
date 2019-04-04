@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import { SortDescriptor } from '@progress/kendo-data-query';
 
+import { WindowRef } from 'libs/core/services';
+
 import { ComphubPages, Rates, RateType } from '../../../data';
 import {
   JobData, PricingPaymarket, JobGridData, QuickPriceGridColumn, QuickPriceGridColumnConfiguration,
-  KendoDropDownItem } from '../../../models';
+  KendoDropDownItem, WorkflowContext } from '../../../models';
 import * as fromDataCardActions from '../../../actions/data-card.actions';
 import * as fromComphubMainReducer from '../../../reducers';
-import { WindowRef } from '../../../services';
 import { DataCardHelper } from '../../../helpers';
 
 @Component({
@@ -19,7 +20,9 @@ import { DataCardHelper } from '../../../helpers';
   templateUrl: './data.card.component.html',
   styleUrls: ['./data.card.component.scss']
 })
-export class DataCardComponent implements OnInit, OnDestroy {
+export class DataCardComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() workflowContext: WorkflowContext;
+
   jobTitle: string;
   paymarketId?: number;
   jobDataSelection: JobData;
@@ -35,6 +38,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   rates: KendoDropDownItem[] = Rates;
   selectedRate: KendoDropDownItem = { Name: RateType.Annual, Value: RateType.Annual };
   marketDataChange: boolean;
+  comphubPages = ComphubPages;
 
   // Observables
   jobResults$: Observable<JobGridData>;
@@ -42,7 +46,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
   jobResultsLoadingError$: Observable<boolean>;
   selectedJobTitle$: Observable<string>;
   selectedPaymarket$: Observable<PricingPaymarket>;
-  selectedPageId$: Observable<ComphubPages>;
   selectedJobData$: Observable<JobData>;
   marketDataChange$: Observable<boolean>;
   peerBannerOpen$: Observable<boolean>;
@@ -63,7 +66,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.jobResultsLoadingError$ = this.store.select(fromComphubMainReducer.getLoadingJobGridResultsError);
     this.selectedJobTitle$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
     this.marketDataChange$ = this.store.select(fromComphubMainReducer.getMarketDataChange);
     this.peerBannerOpen$ = this.store.select(fromComphubMainReducer.getPeerBannerOpen);
@@ -80,18 +82,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     });
 
     this.marketDataChangeSubscription = this.marketDataChange$.subscribe(isChanged => this.marketDataChange = isChanged);
-
-    this.selectedPageIdSubscription = this.selectedPageId$.subscribe(pageId => {
-      if (pageId === ComphubPages.Data) {
-        this.store.dispatch(new fromDataCardActions.CardOpened());
-
-        if (this.marketDataChange) {
-          this.resetGridContext();
-          this.loadJobResults();
-        }
-      }
-    });
-
     this.selectedJobSubscription = this.selectedJobData$.subscribe(j => this.jobDataSelection = j);
   }
 
@@ -115,6 +105,28 @@ export class DataCardComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleExpandJdClicked(clickEvent: MouseEvent, jobId: number) {
+    clickEvent.stopPropagation();
+    this.store.dispatch(new fromDataCardActions.ToggleJobDescription({ jobId }));
+  }
+
+  handleSelectionChanged(job: JobData) {
+    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
+  }
+
+  handleRateSelectionChange(item: KendoDropDownItem) {
+    const selectedRate = RateType[item.Value];
+    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRate));
+  }
+
+  handleLearnMoreClicked() {
+    this.winRef.nativeWindow.open('https://payfactors.com/product-peer/');
+  }
+
+  trackByFn(index: number, jobData: JobData) {
+    return jobData.JobId * (jobData.ShowJd ? 1 : -1);
+  }
+
   updateSortFieldAndDirection(field: string): SortDescriptor {
     if (!this.gridContext.sortBy || this.gridContext.sortBy.field !== field) {
       return {
@@ -129,10 +141,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
       };
     }
     return null;
-}
-
-  handleSelectionChanged(job: JobData) {
-    this.store.dispatch(new fromDataCardActions.SetSelectedJobData(job));
   }
 
   loadJobResults(): void {
@@ -146,15 +154,6 @@ export class DataCardComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleRateSelectionChange(item: KendoDropDownItem) {
-    const selectedRate = RateType[item.Value];
-    this.store.dispatch(new fromDataCardActions.SetSelectedRate(selectedRate));
-  }
-
-  handleLearnMoreClicked() {
-    this.winRef.nativeWindow.open('https://payfactors.com/product-peer/');
-  }
-
   get isHourly(): boolean {
     return (this.selectedRate.Value === RateType.Hourly);
   }
@@ -162,7 +161,7 @@ export class DataCardComponent implements OnInit, OnDestroy {
   calculateDataByRate(value: number): number {
     return this.isHourly
       ? DataCardHelper.calculateDataByHourlyRate(value)
-      : value / 1000;
+      : value;
   }
 
   private isSortSupported(sortField: string): boolean {
@@ -184,5 +183,20 @@ export class DataCardComponent implements OnInit, OnDestroy {
     this.selectedPageIdSubscription.unsubscribe();
     this.selectedJobSubscription.unsubscribe();
     this.marketDataChangeSubscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes.workflowContext || !changes.workflowContext.currentValue) {
+      return;
+    }
+
+    if (changes.workflowContext.currentValue.selectedPageId === ComphubPages.Data) {
+      this.store.dispatch(new fromDataCardActions.CardOpened());
+
+      if (this.marketDataChange) {
+        this.resetGridContext();
+        this.loadJobResults();
+      }
+    }
   }
 }

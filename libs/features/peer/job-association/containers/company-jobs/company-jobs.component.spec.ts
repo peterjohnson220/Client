@@ -53,12 +53,6 @@ describe('CompanyJobsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should fire a LoadCompanyJobs action on init', () => {
-    fixture.detectChanges();
-    const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
-    expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
-  });
-
   it('should fire the right actions when the grid state is changed', () => {
     const dataStateChangeEvent = {} as DataStateChangeEvent;
     component.handleDataStateChange(dataStateChangeEvent);
@@ -70,18 +64,18 @@ describe('CompanyJobsComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(loadCompanyJobsAction);
   });
 
-  it('should fire the SearchTermUpdated action when the search term is changed', () => {
+  it('should fire the UpdateSearchTerm action when the search term is changed', () => {
     const searchTerm = 'changed';
-    component.handleSearchChanged(searchTerm);
+    component.handleSearchBoxValueChanged(searchTerm);
 
-    const searchTermUpdatedAction = new fromCompanyJobsActions.SearchTermUpdated(searchTerm);
+    const searchTermUpdatedAction = new fromCompanyJobsActions.UpdateSearchTerm(searchTerm);
 
     expect(store.dispatch).toHaveBeenCalledWith(searchTermUpdatedAction);
   });
 
   it('should not fire the LoadCompanyJobs action when the search term is one character', () => {
     const searchTerm = 'x';
-    component.handleSearchChanged(searchTerm);
+    component.handleSearchBoxValueChanged(searchTerm);
 
     const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
 
@@ -90,9 +84,9 @@ describe('CompanyJobsComponent', () => {
 
   it('should fire the updateSearchTermAction followed by loadExchangeJobsAction when the search term is more than one character', () => {
     const searchTerm = 'xx';
-    component.handleSearchChanged(searchTerm);
+    component.handleSearchBoxValueChanged(searchTerm);
 
-    const searchTermUpdatedAction = new fromCompanyJobsActions.SearchTermUpdated(searchTerm);
+    const searchTermUpdatedAction = new fromCompanyJobsActions.UpdateSearchTerm(searchTerm);
     const loadCompanyJobsAction = new fromCompanyJobsActions.LoadCompanyJobs();
 
     expect(store.dispatch).toHaveBeenCalledWith(searchTermUpdatedAction);

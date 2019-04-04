@@ -8,9 +8,11 @@
       <div class="col-9 py-1">
         <span (click)="!filteredByPost && onClick(category.Name)"
               id="communityCategory{{ category.Name }}"
+              [attr.data-qa-id]="'cnt'+category.Name"
               [ngClass]="{'category-element': !filteredByPost, 'category-element-disabled': filteredByPost }">{{ category.Name | communityCategoryDisplayName }}</span>
       </div>
       <div class="col-2 px-0 py-1 text-center community-border-radius category-text"
+        [attr.data-qa-id]="'cnt-count'+category.Name"
         (click)="!filteredByPost && onClick(category.Name)"
         [ngClass]="{'category-count': !filteredByPost, 'category-count-disabled' : filteredByPost, 'category-selected': IsCategorySelected(category.Name)}">
          <span id="communityCount{{ category.Name }}"

@@ -12,6 +12,7 @@ export const SET_SELECTED_RATE = '[Comphub/Data Card] Set Selected Rate';
 export const CLEAR_SELECTED_JOB_DATA  = '[Comphub/Data Card] Clear Selected Job Data';
 export const SET_MARKET_DATA_CHANGE = '[Comphub/Data Card] Set Market Data Change';
 export const SHOW_PEER_BANNER = '[Comphub/Data Card] Show Peer Banner';
+export const TOGGLE_JOB_DESCRIPTION = '[Comphub/Data Card] Toggle Job Description';
 
 export class CardOpened implements Action {
   readonly type = CARD_OPENED;
@@ -63,6 +64,11 @@ export class ShowPeerBanner implements Action {
   constructor() {}
 }
 
+export class ToggleJobDescription implements Action {
+  readonly type = TOGGLE_JOB_DESCRIPTION;
+
+  constructor(public payload: { jobId: number }) {}
+}
 
 export type Actions
   = CardOpened
@@ -73,4 +79,5 @@ export type Actions
   | SetSelectedRate
   | ClearSelectedJobData
   | SetMarketDataChange
-  | ShowPeerBanner;
+  | ShowPeerBanner
+  | ToggleJobDescription;

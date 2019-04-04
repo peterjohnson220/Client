@@ -13,7 +13,6 @@
     background-color: white !important;
     color: black !important;
   }
-
 }
 
 .k-list-container {
@@ -33,8 +32,15 @@
       color: black !important;
     }
   }
-
 }
+
+ .k-dropdown-wrap .k-input {
+
+   &::selection {
+     background: highlight !important;
+     color: black !important;
+   }
+ }
 
 .rates-dropdown {
   width: 80px;
@@ -68,3 +74,21 @@ pf-salary-trend-chart {
   }
 }
 
+.k-list {
+  .geo-list-item{
+    width: 100%;
+    .geo-display-value {
+      float: left;
+      width: 70%;
+    }
+
+    .geo-display-label {
+      float: right;
+      text-align: right;
+      width: 30%;
+      color: #C3C3C3;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}

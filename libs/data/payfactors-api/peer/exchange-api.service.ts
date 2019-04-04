@@ -5,11 +5,24 @@ import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { MappingHelper } from '../../../core/helpers';
 import {
-  ExchangeJobSearch, ExchangeScopes,
-  ExchangeListItem, Exchange, UpsertExchangeRequest, AddExchangeCompaniesRequest,
-  ValidateExchangeJobsRequest, ImportExchangeJobsRequest, CompanyOption,
-  ExchangeJobsValidationResultModel, AddExchangeJobsRequest, ExchangeJobRequest, ExchangeInvitation,
-  GenericKeyValue, AutoAssociateExchangeJobsRequest, ExchangeJobRequestAction, ExchangeRequestActionEnum, CompanyExchangeInvitationAction
+  ExchangeJobSearch,
+  ExchangeListItem,
+  Exchange,
+  UpsertExchangeRequest,
+  AddExchangeCompaniesRequest,
+  ValidateExchangeJobsRequest,
+  ImportExchangeJobsRequest,
+  CompanyOption,
+  ExchangeJobsValidationResultModel,
+  AddExchangeJobsRequest,
+  ExchangeJobRequest,
+  ExchangeInvitation,
+  GenericKeyValue,
+  AutoAssociateExchangeJobsRequest,
+  ExchangeJobRequestAction,
+  ExchangeRequestActionEnum,
+  CompanyExchangeInvitationAction,
+  ExchangeSearchFilterAggregate
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -169,5 +182,17 @@ export class ExchangeApiService {
   getExchangeJobSearch(exchangeId: number, jobTitleSearch: string, jobDescriptionSearch: string) {
     return this.payfactorsApiService.get<ExchangeJobSearch[]>(`${this.endpoint}/GetExchangeJobSearch`,
       { params: { exchangeId: exchangeId, jobTitleSearch: jobTitleSearch, jobDescriptionSearch: jobDescriptionSearch } });
+  }
+
+  getExchangeFilters(exchangeId: number, searchString: string): Observable<GridDataResult>  {
+    return this.payfactorsApiService.get<GridDataResult>(`${this.endpoint}/GetExchangeFilters`, {
+      params: { exchangeId: exchangeId, searchString: searchString }
+    },
+      MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  putFilter(filter: ExchangeSearchFilterAggregate): Observable<any> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/PutFilter`, filter);
   }
 }

@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { catchError, debounceTime, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 import { ComphubApiService } from 'libs/data/payfactors-api/comphub';
 import { JobSearchApiService } from 'libs/data/payfactors-api/search/jobs';
-import * as fromRootReducer from 'libs/state/state';
 
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import * as fromDataCardActions from '../actions/data-card.actions';
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
 import * as fromComphubReducer from '../reducers';
-import { PayfactorsApiModelMapper, SmbClientHelper } from '../helpers';
+import { PayfactorsApiModelMapper } from '../helpers';
 import { ComphubPages } from '../data';
+import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
 export class JobsCardEffects {
@@ -23,8 +23,13 @@ export class JobsCardEffects {
   getTrendingJobs$ = this.actions$
     .ofType(fromJobsCardActions.GET_TRENDING_JOBS)
     .pipe(
-      switchMap(() => {
-          return this.comphubApiService.getTrendingJobs()
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.GetTrendingJobs, activeCountryDataSet) => ({ activeCountryDataSet })
+      ),
+      filter((data) => !!data.activeCountryDataSet),
+      switchMap((data) => {
+          return this.comphubApiService.getTrendingJobs(data.activeCountryDataSet.CountryCode)
             .pipe(
               map(response => {
                 const trendingJobGroups = PayfactorsApiModelMapper.mapTrendingJobGroupsResponseToTrendingJobGroups(response);
@@ -41,9 +46,15 @@ export class JobsCardEffects {
     .ofType(fromJobsCardActions.GET_JOB_SEARCH_OPTIONS)
     .pipe(
       debounceTime(100),
-      switchMap((action: fromJobsCardActions.GetJobSearchOptions) => {
-          return this.jobSearchApiService.getJobSearchAutocompleteResults({Prefix: action.payload})
-            .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.GetJobSearchOptions, dataSet) => ({ action, dataSet })
+      ),
+      switchMap((data) => {
+          return this.jobSearchApiService.getJobSearchAutocompleteResults({
+            Prefix: data.action.payload,
+            PayfactorsCountryCode: data.dataSet.CountryCode
+          }).pipe(
               map(response => {
                 return new fromJobsCardActions.GetJobSearchOptionsSuccess(response);
               }),
@@ -82,6 +93,17 @@ export class JobsCardEffects {
         new fromComphubPageActions.ResetAccessiblePages(),
         new fromDataCardActions.ClearSelectedJobData()
       ])
+    );
+
+  @Effect({dispatch: false})
+  persistActiveCountryDataSet$ = this.actions$
+    .ofType(fromJobsCardActions.PERSIST_ACTIVE_COUNTRY_DATA_SET)
+    .pipe(
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromJobsCardActions.PersistActiveCountryDataSet, dataSet) => (dataSet)
+      ),
+      switchMap((dataSet) => this.comphubApiService.persistActiveCountryDataSet(dataSet.CountryCode))
     );
 
   constructor(

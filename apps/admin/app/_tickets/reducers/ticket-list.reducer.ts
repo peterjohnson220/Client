@@ -1,18 +1,18 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import {UserTicketGridItem} from '../models';
 
 import * as fromTicketListActions from '../actions/ticket-list.actions';
 
 // Extended entity state
-export interface State extends EntityState<UserTicketResponse> {
+export interface State extends EntityState<UserTicketGridItem> {
   loading: boolean;
   loadingError: boolean;
 }
 
 // Create entity adapter
-export const adapter: EntityAdapter<UserTicketResponse> = createEntityAdapter<UserTicketResponse>({
-    selectId: (userTicketViewModel: UserTicketResponse) => userTicketViewModel.UserTicketId
+export const adapter: EntityAdapter<UserTicketGridItem> = createEntityAdapter<UserTicketGridItem>({
+    selectId: (userTicketViewModel: UserTicketGridItem) => userTicketViewModel.Id
 });
 
 // Initial State
@@ -21,7 +21,7 @@ export const initialState: State = adapter.getInitialState({
   loadingError: false
 });
 
-export function reducer(state = null, action: fromTicketListActions.Actions): State {
+export function reducer(state = initialState, action: fromTicketListActions.Actions): State {
   switch (action.type) {
     case fromTicketListActions.LOAD_TICKETS: {
       return {

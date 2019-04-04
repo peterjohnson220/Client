@@ -1,18 +1,23 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { of } from 'rxjs';
 
+import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import { RateType } from '../../../data';
-import { generateFakeJobData, generateMockPricingPaymarket } from '../../../models';
-
+import { ComphubPages, RateType } from '../../../data';
+import {
+  generateFakeJobData,
+  generateMockCountryDataSet,
+  generateMockPricingPaymarket,
+  generateMockWorkflowContext
+} from '../../../models';
 
 describe('Comphub - Main - Summary Card Component', () => {
   let instance: SummaryCardComponent;
@@ -27,7 +32,8 @@ describe('Comphub - Main - Summary Card Component', () => {
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
         }),
         // Bad. Using actual implementation to verify calls.
-        PDFExportModule
+        PDFExportModule,
+        PfCommonModule
       ],
       declarations: [ SummaryCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -37,6 +43,12 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+
+    instance.workflowContext = {
+      ...generateMockWorkflowContext(),
+      selectedPageId: ComphubPages.Summary,
+      selectedPageIdDelayed: ComphubPages.Summary
+    };
     fixture.detectChanges();
   });
 
@@ -130,6 +142,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(false);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -141,6 +154,7 @@ describe('Comphub - Main - Summary Card Component', () => {
 
     instance.paymarket = generateMockPricingPaymarket();
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 
@@ -153,6 +167,103 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance.paymarket = generateMockPricingPaymarket();
     instance.paymarket.CompanyPayMarketId = null;
     instance.canAccessProjectsTile$ = of(true);
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is Summary and job data has been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.lastJobData = generateFakeJobData();
+    instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Summary
+        }
+      }
+    });
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should NOT dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is Summary and job data has NOT been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedJobData$ = of(generateFakeJobData());
+    instance.lastJobData = generateFakeJobData();
+    instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Summary
+        }
+      }
+    });
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should NOT dispatch load job trend chart and add new completed pricing record ' +
+  'when selected page is NOT Summary and job data has been changed', () => {
+    spyOn(store, 'dispatch');
+
+    instance.selectedJobData$ = of({...generateFakeJobData(), JobTitle: 'Different Job'});
+    instance.lastJobData = generateFakeJobData();
+    instance.ngOnInit();
+    instance.ngOnChanges({
+      'workflowContext': {
+        previousValue: null,
+        firstChange: true,
+        isFirstChange: () => true,
+        currentValue: {
+          selectedPageId: ComphubPages.Markets
+        }
+      }
+    });
+
+    const getNationalJobTrendDataAction = new fromSummaryCardActions.GetNationalJobTrendData(instance.jobData);
+    const addCompletedPricingHistoryAction = new fromSummaryCardActions.AddCompletedPricingHistory(instance.jobData);
+
+    expect(store.dispatch).not.toHaveBeenCalledWith(getNationalJobTrendDataAction);
+    expect(store.dispatch).not.toHaveBeenCalledWith(addCompletedPricingHistoryAction);
+  });
+
+  it('should display USD for currency when active market data is USA', () => {
+    instance.activeCountryDataSet$ = of(generateMockCountryDataSet());
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display CAD for currency when active market data is Canada', () => {
+    instance.activeCountryDataSet$ = of({
+      ...generateMockCountryDataSet(),
+      CurrencyCode: 'CAD'
+    });
+    instance.firstDayOfMonth = new Date(2019, 2, 1);
 
     fixture.detectChanges();
 

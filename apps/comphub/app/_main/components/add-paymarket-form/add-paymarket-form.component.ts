@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PfValidators } from 'libs/forms/validators';
 
-import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem } from '../../models';
+import { MarketDataScope, AddPayMarketFormData, KendoDropDownItem, CountryDataSet, MarketDataLocation } from '../../models';
 
 @Component({
   selector: 'pf-add-paymarket-form',
@@ -16,28 +16,34 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   @Input() savingConflict: boolean;
   @Input() savingError: boolean;
   @Input() marketDataScope: MarketDataScope;
+  @Input() loadingScopes: boolean;
+  @Input() loadingLocations: boolean;
+  @Input() countryDataSet: CountryDataSet;
+  @Input() locations: MarketDataLocation[] = [];
   @Input() isInfoBannerOpen = false;
   @Input() showSkipButton = false;
   @Output() saveClick = new EventEmitter<AddPayMarketFormData>();
   @Output() skipClick = new EventEmitter();
   @Output() cancelClick = new EventEmitter();
   @Output() dismissInfoBannerClick = new EventEmitter();
+  @Output() locationFilterChanged = new EventEmitter<string>();
 
   showErrorMessages = false;
 
-  countryList: KendoDropDownItem[] = [{ Name: 'United States', Value: 'USA' }];
-  defaultCountry = { Name: 'United States', Value: 'USA' };
-  currencyList: KendoDropDownItem[] = [{ Name: 'USD', Value: 'USD' }];
-  defaultCurrency = { Name: 'USD', Value: 'USD' };
   defaultIndustry = { Name: 'All', Value: 'All' };
   defaultSize = { Name: 'All', Value: 'All' };
-  defaultLocation = 'All';
+  defaultLocation: MarketDataLocation = {
+    GeoLabel: 'Location',
+    LocationName: 'All',
+    GeoLabelDisplayName: 'Location'
+  };
 
   addPayMarketForm: FormGroup;
   scopeIndustryData: KendoDropDownItem[];
-  locations: KendoDropDownItem[];
   industries: KendoDropDownItem[];
   sizes: KendoDropDownItem[];
+
+  selectedLocation: MarketDataLocation;
 
   constructor(
     private fb: FormBuilder
@@ -66,8 +72,6 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   createForm() {
     this.addPayMarketForm = this.fb.group({
       'name': ['', [PfValidators.required, Validators.maxLength(255)]],
-      'country': new FormControl({value: this.defaultCountry, disabled: true}),
-      'currency': new FormControl({value: this.defaultCurrency, disabled: true}),
       'location': [''],
       'industry': [{}],
       'size': [{}]
@@ -93,30 +97,40 @@ export class AddPayMarketFormComponent implements OnInit, OnChanges {
   }
 
   handleLocationFilter(value: string) {
-    this.locations = this.marketDataScope.Locations
-      .filter((s) => s.Name.toLowerCase().indexOf(value.toLowerCase()) !== -1)
-      .slice(0, 5);
+    this.locationFilterChanged.emit(value);
   }
 
   handleCancelClicked() {
     this.cancelClick.emit();
   }
 
+  setSelectedLocation(location: MarketDataLocation) {
+    this.selectedLocation = location;
+  }
+
   private buildFormData(): AddPayMarketFormData {
+    const location = this.getSelectedLocation();
     return {
       Name: this.addPayMarketForm.value.name,
-      Country: this.defaultCountry.Value,
-      Currency: this.defaultCurrency.Value,
-      Location: this.getSelectedLocation(),
+      Country: this.countryDataSet.CountryCode,
+      Currency: this.countryDataSet.CurrencyCode,
+      Location: location.LocationName,
       Industry: this.addPayMarketForm.value.industry.Value || this.defaultIndustry.Value,
-      Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value
+      Size: this.addPayMarketForm.value.size.Value || this.defaultSize.Value,
+      GeoLabel: location.GeoLabel
     };
   }
 
-  private getSelectedLocation(): string {
-    const isValidLocation = this.marketDataScope.Locations
-      .some(s => s.Value.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
-    return isValidLocation ? this.addPayMarketForm.value.location : this.defaultLocation;
+  private getSelectedLocation(): MarketDataLocation {
+    if (!!this.selectedLocation &&
+      this.addPayMarketForm.value.location.toLowerCase() === this.selectedLocation.LocationName.toLowerCase()) {
+      return this.selectedLocation;
+    }
+    // if no selected location or it doesn't match, grab the 1st one that matches
+    const firstMatchingLocation = this.locations
+      .find(s => s.LocationName !== null && s.LocationName.toLowerCase() === this.addPayMarketForm.value.location.toLowerCase());
+    // fall back to default location if none of those match
+    return !!firstMatchingLocation ? firstMatchingLocation : this.defaultLocation;
   }
 
 }

@@ -7,6 +7,7 @@ exports[`CommunityPostContentComponent should show community post content 1`] = 
 >
   <div
     class="m-0 content-body"
+    data-qa-id="cnt-postContent"
     pfclickincontent=""
   >
     test

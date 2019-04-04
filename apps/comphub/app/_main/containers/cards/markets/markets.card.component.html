@@ -2,25 +2,31 @@
   pageTitle="Markets"
   pageSubTitle="Now, let's define the market"
   pageIconClass="fa-map-marker-alt"
-  [nextButtonEnabled]="true">
+  [page]="comphubPages.Markets"
+  [workflowContext]="workflowContext"
+  [nextButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets"
+  [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Markets">
 
   <ng-container page-content>
+
     <pf-add-paymarket-form *ngIf="addPayMarketFormOpen$ | async"
       [isOpen]="addPayMarketFormOpen$ | async"
       [isInfoBannerOpen]="infoBannerOpen$ | async"
       [marketDataScope]="marketDataScope$ | async"
+      [countryDataSet]="workflowContext?.activeCountryDataSet"
       [saving]="savingPayMarket$ | async"
       [savingConflict]="savingPayMarketConflict$ | async"
       [savingError]="savingPayMarketError$ | async"
       [showSkipButton]="showSkipButton$ | async"
+      [loadingScopes]="loadingMarketDataScopes$ | async"
+      [locations]="marketDataLocations$ |async"
+      [loadingLocations]="loadingLocations$ |async"
       (saveClick)="handleSavePayMarket($event)"
       (skipClick)="handleSkipAddPayMarket()"
       (cancelClick)="handleCancelAddPayMarket()"
+      (locationFilterChanged)="handleLocationFilterChanged($event)"
       (dismissInfoBannerClick)="handleDismissInfoBanner()">
     </pf-add-paymarket-form>
-  </ng-container>
-
-  <ng-container page-content>
 
     <pf-async-container
       [loading]="loadingPaymarkets$ | async"
@@ -36,6 +42,7 @@
                 [ngModel]="payMarketsFilter$ | async"
                 [placeholderText]="'Search Pay Markets...'"
                 [delay]="200" [hideClearBtn]="true"
+                id="search-paymarkets"
                 (valueChanged)="handleSearchChanged($event)">
               </pf-input-debounce>
 
@@ -47,8 +54,9 @@
         </div>
       </div>
 
-      <ng-container  *ngIf="(paymarkets$ |async).length && !(addPayMarketFormOpen$ | async)">
-        <div class="row">
+      <ng-container  *ngIf="(paymarkets$ |async).length">
+        <div [style.display]="(addPayMarketFormOpen$ | async) ? 'none' : 'block'">
+          <div class="row">
           <div class="col-lg-12 col-xl-9">
             <div class="add-new-market-container">
               <span class="uppercase-header">My Markets</span>
@@ -63,7 +71,7 @@
           </div>
         </div>
 
-        <div class="row">
+          <div class="row">
           <div class="col">
             <pf-paymarket-cards
               *ngIf="(visiblePaymarkets$ |async).length"
@@ -77,10 +85,12 @@
             </div>
           </div>
         </div>
+        </div>
       </ng-container>
 
 
     </pf-async-container>
+
   </ng-container>
 
 </pf-card-layout>

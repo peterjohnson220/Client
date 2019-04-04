@@ -81,16 +81,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         isInitialLoad: false
       };
 
-      const newTL = mapSummary.TopLeft;
-      const newBR = mapSummary.BottomRight;
-      const hasNewTLBounds = !!newTL && !!newTL.Lat && !!newTL.Lon;
-      const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
-      const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
-      if (state.isInitialLoad && shouldSetBounds) {
-        newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
-        newState.mapFilter.TopLeft = newTL;
-        newState.mapFilter.BottomRight = newBR;
-      }
+      MapHelper.setBounds(mapSummary, state, newState);
 
       return newState;
     }
@@ -195,6 +186,37 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
         newState.autoZooming = false;
       }
       return newState;
+    }
+    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS: {
+      return {
+        ...state,
+        loading: true,
+        loadingError: false
+      };
+    }
+    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_SUCCESS: {
+      const mapSummary: ExchangeMapSummary = action.payload.MapSummary;
+      const mapFilter = {
+        ...state.mapFilter
+      };
+      const newState = {
+        ...state,
+        loading: false,
+        loadingError: false,
+        mapFilter: mapFilter,
+        isInitialLoad: false
+      };
+
+      MapHelper.setBounds(mapSummary, state, newState);
+
+      return newState;
+    }
+    case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_ERROR: {
+      return {
+        ...state,
+        loading: false,
+        loadingError: true
+      };
     }
     default: {
       return state;

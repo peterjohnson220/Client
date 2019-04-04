@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
-import { UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import {UserTicketGridItem} from '../models';
 
 export const LOAD_TICKETS = '[Admin Tickets / Ticket List] Load Tickets';
 export const LOAD_TICKETS_SUCCESS = '[Admin Tickets / Ticket List] Load Tickets Success';
@@ -15,7 +15,7 @@ export class LoadTickets implements Action {
 export class LoadTicketsSuccess implements Action {
   readonly type = LOAD_TICKETS_SUCCESS;
 
-  constructor(public payload: UserTicketResponse[]) {}
+  constructor(public payload: UserTicketGridItem[]) {}
 }
 
 export class LoadTicketsError implements Action {

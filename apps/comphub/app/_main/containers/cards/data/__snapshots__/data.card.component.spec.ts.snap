@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Comphub - Main - Data Card Component should display base50 and tcc50 with 1 decimal place when rate is annual 1`] = `
+exports[`Comphub - Main - Data Card Component should display base50 and tcc50 with 2 decimal places when rate is hourly 1`] = `
 <pf-data-card
+  comphubPages={[Function Object]}
   currentPageNumber={[Function Number]}
   firstDayOfMonth={[Function Date]}
   gridColumnsConfiguration={[Function Array]}
@@ -23,12 +24,11 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   selectedJobData$={[Function Store]}
   selectedJobSubscription={[Function Subscriber]}
   selectedJobTitle$={[Function Store]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedRate={[Function Object]}
   store={[Function Store]}
   winRef={[Function Object]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-database"
@@ -71,11 +71,13 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         >
           <table
             class="table table-hover"
+            data-qa-id="tbl-job-data-grid"
           >
             <thead>
               <tr
                 class="main-column-header"
               >
+                <th />
                 
                 <th
                   class="job-title-column sortable-header"
@@ -166,9 +168,19 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
             </thead>
             <tbody>
               
+              
               <tr
                 class="job-row"
               >
+                <td
+                  class="expand-caret"
+                >
+                  
+                  <i
+                    class="fas fa-caret-right"
+                  />
+                  
+                </td>
                 <td
                   class="text-column job-title-column"
                   title="Job A"
@@ -189,17 +201,17 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="text-column hide-when-small"
                 >
-                  
+                   No 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$100.0 
+                   $48.08 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$100.0 
+                   $48.08 
                 </td>
                 <td
                   class="text-center"
@@ -223,6 +235,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   </div>
                 </td>
               </tr>
+              
+              
             </tbody>
           </table>
           
@@ -233,8 +247,9 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
 </pf-data-card>
 `;
 
-exports[`Comphub - Main - Data Card Component should display base50 and tcc50 with 2 decimal places when rate is hourly 1`] = `
+exports[`Comphub - Main - Data Card Component should display base50 and tcc50 with thousand seperator when rate is annual 1`] = `
 <pf-data-card
+  comphubPages={[Function Object]}
   currentPageNumber={[Function Number]}
   firstDayOfMonth={[Function Date]}
   gridColumnsConfiguration={[Function Array]}
@@ -256,12 +271,11 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
   selectedJobData$={[Function Store]}
   selectedJobSubscription={[Function Subscriber]}
   selectedJobTitle$={[Function Store]}
-  selectedPageId$={[Function Store]}
-  selectedPageIdSubscription={[Function Subscriber]}
   selectedPaymarket$={[Function Store]}
   selectedRate={[Function Object]}
   store={[Function Store]}
   winRef={[Function Object]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-database"
@@ -304,11 +318,13 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
         >
           <table
             class="table table-hover"
+            data-qa-id="tbl-job-data-grid"
           >
             <thead>
               <tr
                 class="main-column-header"
               >
+                <th />
                 
                 <th
                   class="job-title-column sortable-header"
@@ -399,9 +415,19 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
             </thead>
             <tbody>
               
+              
               <tr
                 class="job-row"
               >
+                <td
+                  class="expand-caret"
+                >
+                  
+                  <i
+                    class="fas fa-caret-right"
+                  />
+                  
+                </td>
                 <td
                   class="text-column job-title-column"
                   title="Job A"
@@ -422,17 +448,17 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                 <td
                   class="text-column hide-when-small"
                 >
-                  
+                   No 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$48.08 
+                   $100,000 
                 </td>
                 <td
                   class="number-column"
                 >
-                   \\$48.08 
+                   $100,000 
                 </td>
                 <td
                   class="text-center"
@@ -456,6 +482,8 @@ exports[`Comphub - Main - Data Card Component should display base50 and tcc50 wi
                   </div>
                 </td>
               </tr>
+              
+              
             </tbody>
           </table>
           

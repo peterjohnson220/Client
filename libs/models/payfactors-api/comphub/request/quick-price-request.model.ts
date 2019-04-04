@@ -5,6 +5,7 @@ export interface QuickPriceRequest {
   CompanyPaymarketId?: number;
   PagingOptions: PagingOptions;
   Sort?: SortOption;
+  CountryCode: string;
 }
 
 export interface SortOption {

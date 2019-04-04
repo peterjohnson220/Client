@@ -8,6 +8,7 @@
   [centered]="true"
   [formGroup]="sharePricingSummaryForm"
   [isOpen$]="isOpen$"
+  [attr.data-qa-id]="'cnt-share-summary-form'"
   (onDismiss)="handleCancelClicked()"
   (onSubmit)="handleSendClicked()">
 
@@ -20,11 +21,12 @@
           [placeholder]="'Email Address...'"
           [pfFocus]="true"
           [pfFocusElementShowing]="isOpen$ | async"
+          [attr.data-qa-id]="'txt-share-pdf-email'"
           (input)="showErrorMessages = false"/>
       </div>
       <ng-container *ngIf="showErrorMessages">
-        <span class="text-danger" *ngIf="sharingConflict">Please enter valid email address from your company</span>
-        <span class="text-danger" *ngIf="sharingError">Error sending email</span>
+        <span class="text-danger" [attr.data-qa-id]="'lbl-share-email-validation-error'" *ngIf="sharingConflict">Please enter valid email address from your company</span>
+        <span class="text-danger" [attr.data-qa-id]="'lbl-share-email-error'"*ngIf="sharingError">Error sending email</span>
       </ng-container>
     </div>
   </ng-container>

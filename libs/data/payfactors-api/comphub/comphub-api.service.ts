@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import {
   QuickPriceResponse, QuickPriceRequest, TrendingJobGroupResponse,
   JobPricingLimitInfoResponse, JobSalaryTrendRequest, JobSalaryTrendResponse,
-  PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest
+  PayMarketDataResponse, SharePricingSummaryRequest, CreateQuickPriceProjectRequest, CountryDataSetResponse,
+  AddCompletedPricingHistoryRequest
 } from '../../../models/payfactors-api/comphub';
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -15,8 +16,9 @@ export class ComphubApiService {
 
   constructor(private payfactorsApiService: PayfactorsApiService) { }
 
-  getTrendingJobs(): Observable<TrendingJobGroupResponse[]>  {
-    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingJobs`);
+  getTrendingJobs(countryCode: string): Observable<TrendingJobGroupResponse[]>  {
+    return this.payfactorsApiService.get<TrendingJobGroupResponse[]>(`${this.endpoint}/GetTrendingJobs`,
+      { params: { countryCode: countryCode } });
   }
 
   getQuickPriceData(request: QuickPriceRequest): Observable<QuickPriceResponse>  {
@@ -36,11 +38,23 @@ export class ComphubApiService {
       { params: { countryCode: countryCode } });
   }
 
+  getCountryDataSets(): Observable<CountryDataSetResponse[]> {
+    return this.payfactorsApiService.get<CountryDataSetResponse[]>(`${this.endpoint}/GetCountryDataSets`);
+  }
+
+  persistActiveCountryDataSet(countryCode: string): Observable<any> {
+    return this.payfactorsApiService.post<any>(`${this.endpoint}/PersistActiveCountryDataSet`, { countryCode: countryCode});
+  }
+
   sharePricingSummary(request: SharePricingSummaryRequest): Observable<any> {
     return this.payfactorsApiService.post<any>(`${this.endpoint}/SharePricingSummary`, request);
   }
 
   createQuickPriceProject(request: CreateQuickPriceProjectRequest): Observable<number> {
     return this.payfactorsApiService.post(`${this.endpoint}/CreateQuickPriceProject`, request);
+  }
+
+  addCompletedPricingHistory(request: AddCompletedPricingHistoryRequest): Observable<any> {
+    return this.payfactorsApiService.post(`${this.endpoint}/AddCompletedPricingHistory`, request);
   }
 }

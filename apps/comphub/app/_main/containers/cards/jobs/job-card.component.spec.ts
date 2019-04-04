@@ -2,6 +2,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 
 import * as fromRootState from 'libs/state/state';
 
@@ -9,6 +10,8 @@ import { JobsCardComponent } from './jobs.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromJobsCardActions from '../../../actions/jobs-card.actions';
 import * as fromCompHubPageActions from '../../../actions/comphub-page.actions';
+import { generateMockWorkflowContext } from '../../../models';
+
 
 describe('Comphub - Main - Jobs Card Component', () => {
   let instance: JobsCardComponent;
@@ -21,7 +24,8 @@ describe('Comphub - Main - Jobs Card Component', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
-        })
+        }),
+        DropDownsModule,
       ],
       declarations: [ JobsCardComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
@@ -31,6 +35,8 @@ describe('Comphub - Main - Jobs Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+
+    instance.workflowContext = generateMockWorkflowContext();
     fixture.detectChanges();
   });
 
@@ -104,4 +110,12 @@ describe('Comphub - Main - Jobs Card Component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should dispatch a UpdateActiveCountryDataSet action with the country code when handling the country data set changes', () => {
+    spyOn(store, 'dispatch');
+    const expectedAction = new fromCompHubPageActions.UpdateActiveCountryDataSet('CAN');
+
+    instance.handleCountryDataSetChanged('CAN');
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
 });

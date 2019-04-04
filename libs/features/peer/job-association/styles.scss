@@ -3,6 +3,11 @@
 @import 'colors';
 
 $sub-header-height: 27px;
+$buttons-height: 70px;
+
+.semi-bold {
+  font-weight: 500;
+}
 
 // styling outside of the the two main components
 .associate-button {
@@ -14,11 +19,19 @@ $sub-header-height: 27px;
   width: 25px;
   cursor: pointer;
   transition: opacity .2s ease-in-out;
+  svg {
+    vertical-align: -1px;
+  }
   &.fake-button {
     pointer-events: none;
-    height: 1.6rem;
-    width: 1.6rem;
+    height: 1.7rem;
+    width: 1.7rem;
     padding-left: .25rem;
+    svg {
+      font-size: .85rem;
+      margin-left: .15rem;
+      vertical-align: -2px;
+    }
   }
   &:disabled {
     opacity: .6;
@@ -28,12 +41,11 @@ $sub-header-height: 27px;
 
 .sub-header {
   color: $header-color;
-  font-weight: 500;
   height: $sub-header-height;
 }
 
 .grids-wrapper {
-  height: calc(100% - #{$sub-header-height});
+  height: calc(100% - #{$sub-header-height} - #{$buttons-height});
 }
 
 // prevent tooltip flickering when hovering
@@ -41,7 +53,24 @@ $sub-header-height: 27px;
   pointer-events: none;
 }
 
-// main component styling
+.job-description {
+  h6.primary-header {
+    font-weight: 500;
+  }
+  h6 {
+    margin-top: .7rem;
+    font-weight: 400;
+    svg {
+      margin-right: .4rem;
+      opacity: .85;
+    }
+    p {
+      padding: 0 1rem;
+    }
+  }
+}
+
+// main grid components styling
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   &> h2 {
     color: $header-color;
@@ -96,39 +125,46 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     color: $pf-brand-secondary-color;
     opacity: 1;
   }
-
   .grid-container {
-    height: 75%;
+    // keep the slide in detail panel hidden outside when collapsed
+    overflow-x: hidden;
+    // consume 100% of the parent minus some space for the header, filters, and some cushion beneath
+    height: calc(100% - 140px);
     .k-tooltip-container {
       height: 100%;
       .k-grid {
-        border: none;
         .k-grid-header {
-          background-color: transparent;
+          background-color: #E4E4E4;
           border: none;
         }
         .k-grid-header-wrap {
           border-right: none;
           .k-header {
-            font-weight: 700;
+            font-weight: 500;
             border: none;
-            background-color: #fff;
-            color: rgba(102, 102, 102, 0.9);
-            padding-top: .2rem;
-            padding-bottom: .2rem;
+            background-color: #E4E4E4;
+            color: #666;
+            padding-top: .5rem;
+            padding-bottom: .5rem;
             &:not(:first-child) {
-              border-right: 1px dashed #ccc;
+              border-right: 1px dashed #fff;
             }
           }
+        }
+        .grid-link {
+          color: $link-color;
         }
         .k-grid-content td, .k-grid-content td > div {
           @extend %ellipsis-overflowing-text;
           border: none;
         }
+        a.exchange-job-title.selected, a.company-job-title.selected, a.company-job-code.selected {
+          font-weight: 700;
+        }
         .k-hierarchy-cell a {
           padding: 0.5rem 0;
         }
-        .k-alt:not(.k-state-selected) {
+        .k-alt:not(.k-state-selected, .k-detail-row) {
           background-color: #f2f2f2;
         }
         // override plus/minus expand icons with right/down chevrons
@@ -137,16 +173,6 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         }
         .k-icon.k-minus:before {
           content: '\E015';
-        }
-        .k-detail-cell {
-          h6 {
-            margin: .65rem 0;
-            font-weight: 400;
-            text-transform: uppercase;
-            svg {
-              margin-right: .4rem;
-            }
-          }
         }
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;
@@ -181,8 +207,25 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     }
   }
 
+  pf-complete-icon, pf-half-complete-icon {
+    svg {
+      height: 2rem;
+      opacity: .9;
+    }
+    .fill-light-green {
+      fill: #009b09;
+    }
+    .fill-dark-green {
+      fill: rgba(0, 155, 9, 0.5);
+    }
+    .fill-white {
+      fill: #fff;
+    }
+  }
+
   /* hide No records available when loading */
   .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
 }
+

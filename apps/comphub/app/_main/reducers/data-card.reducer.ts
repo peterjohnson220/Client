@@ -1,7 +1,8 @@
+import * as cloneDeep from 'lodash.clonedeep';
+
 import * as fromDataCardActions from '../actions/data-card.actions';
 import { JobData, JobGridData } from '../models';
 import { RateType } from '../data';
-import { JobPricingLimitInfo } from '../models';
 
 export interface State {
   loading: boolean;
@@ -80,6 +81,16 @@ export function reducer(state: State = initialState, action: fromDataCardActions
       return {
         ...state,
         peerBannerOpen: true
+      };
+    }
+    case fromDataCardActions.TOGGLE_JOB_DESCRIPTION: {
+      const newJobResults = cloneDeep(state.jobResults);
+      const jobToShowJd = newJobResults.Data.find(jr => jr.JobId === action.payload.jobId);
+      jobToShowJd.ShowJd = !jobToShowJd.ShowJd;
+
+      return {
+        ...state,
+        jobResults: newJobResults
       };
     }
     default: {

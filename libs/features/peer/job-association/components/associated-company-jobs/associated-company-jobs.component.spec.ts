@@ -1,6 +1,8 @@
 import { AssociatedCompanyJobsComponent } from './associated-company-jobs-component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { AsyncContainerComponent } from 'libs/ui/common';
 
 describe('AssociatedCompanyJobsComponent', () => {
   let component: AssociatedCompanyJobsComponent;
@@ -8,7 +10,7 @@ describe('AssociatedCompanyJobsComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [AssociatedCompanyJobsComponent],
+      declarations: [AssociatedCompanyJobsComponent, AsyncContainerComponent],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -28,7 +30,9 @@ describe('AssociatedCompanyJobsComponent', () => {
       CompanyJobId: 1,
       JobFamily: 'Family',
       IsAssociated: false,
-      JobTitle: 'Job Title'}];
+      JobTitle: 'Job Title',
+      JobDescription: 'Job Description'
+    }];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -39,7 +43,9 @@ describe('AssociatedCompanyJobsComponent', () => {
       CompanyJobId: 1,
       JobFamily: 'Family',
       IsAssociated: false,
-      JobTitle: 'Job Title'}];
+      JobTitle: 'Job Title',
+      JobDescription: 'Job Description'
+    }];
 
     component.removeAssociation.subscribe(r => {
       expect(r).toEqual(1);
@@ -47,5 +53,80 @@ describe('AssociatedCompanyJobsComponent', () => {
     });
 
     component.handleRemoveAssociate(1);
+  });
+
+  it('should show jobs after loading successfully', () => {
+    component.companyJobs = [{
+      JobCode: '001',
+      CompanyJobId: 1,
+      JobFamily: 'Family',
+      IsAssociated: false,
+      JobTitle: 'Job Title',
+      JobDescription: 'Job Description'
+    }];
+
+    component.loadingPreviousAssociations = false;
+    component.loadingPreviousAssociationsSuccess = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should show No Associations instead of the table if there are no jobs', () => {
+    component.companyJobs = [];
+    component.previousAssociations = [];
+
+    component.loadingPreviousAssociations = false;
+    component.loadingPreviousAssociationsSuccess = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should render the table if there are only company jobs', () => {
+    component.companyJobs = [{
+      JobCode: '001',
+      CompanyJobId: 1,
+      JobFamily: 'Family',
+      IsAssociated: false,
+      JobTitle: 'Job Title',
+      JobDescription: 'Job Description'
+    }];
+    component.previousAssociations = [];
+
+    component.loadingPreviousAssociations = false;
+    component.loadingPreviousAssociationsSuccess = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should render the table if there are only previous associations', () => {
+    component.companyJobs = [];
+    component.previousAssociations = [{
+      JobCode: '001',
+      CompanyJobId: 1,
+      JobFamily: 'Family',
+      IsAssociated: false,
+      JobTitle: 'Job Title',
+      JobDescription: 'Job Description'
+    }];
+
+    component.loadingPreviousAssociations = false;
+    component.loadingPreviousAssociationsSuccess = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should render different messaging if there was an error', () => {
+    component.companyJobs = [];
+    component.previousAssociations = [];
+    component.loadingPreviousAssociations = false;
+    component.loadingPreviousAssociationsSuccess = false;
+    component.loadingPreviousAssociationsError = true;
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

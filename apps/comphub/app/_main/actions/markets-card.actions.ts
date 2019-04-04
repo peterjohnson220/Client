@@ -2,8 +2,9 @@ import { Action } from '@ngrx/store';
 
 import { MDScopeResponse } from 'libs/models/payfactors-api';
 
-import { PricingPaymarket, AddPayMarketFormData } from '../models';
+import { PricingPaymarket, AddPayMarketFormData, CountryDataSet, MarketDataLocation } from '../models';
 
+export const INIT_MARKETS_CARD = '[Comphub/Markets Card] Init Markets Card';
 export const GET_PAYMARKETS = '[Comphub/Markets Card] Get Pay Markets';
 export const GET_PAYMARKETS_SUCCESS = '[Comphub/Markets Card] Get Pay Markets Success';
 export const GET_PAYMARKETS_ERROR = '[Comphub/Markets Card] Get Pay Markets Error';
@@ -14,14 +15,24 @@ export const SAVE_PAYMARKET = '[Comphub/Markets Card] Save Pay Market';
 export const GET_MD_SCOPE = '[Comphub/Markets Card] Get Market Data Scope';
 export const GET_MD_SCOPE_SUCCESS = '[Comphub/Markets Card] Get Market Data Scope Success';
 export const GET_MD_SCOPE_ERROR = '[Comphub/Markets Card] Get Market Data Scope Error';
+export const GET_MD_LOCATIONS = '[Comphub/Markets Card] Get Market Data Locations';
+export const GET_MD_LOCATIONS_SUCCESS = '[Comphub/Markets Card] Get Market Data Locations Success';
+export const GET_MD_LOCATIONS_ERROR = '[Comphub/Markets Card] Get Market Data Locations Error';
 export const ORDER_PAYMARKETS_WITH_SELECTED_FIRST = '[Comphub/Markets Card] Order Pay Markets with Selected First';
 export const HIDE_ADD_NEW_PAYMARKETS_BUTTON = '[Comphub/Markets Card] Hide Add New Paymarket Button';
 export const DISPLAY_NATIONAL_AS_CARD = '[Comphub/Markets Card] Display National As Card';
+export const CLEAR_MD_LOCATIONS = '[Comphub/Markets Card] Clear MD Locations';
+
+export class InitMarketsCard implements Action {
+  readonly type = INIT_MARKETS_CARD;
+
+  constructor() {}
+}
 
 export class GetPaymarkets implements Action {
   readonly type = GET_PAYMARKETS;
 
-  constructor() {}
+  constructor(public payload: { countryCode: string }) {}
 }
 
 export class GetPaymarketsSuccess implements Action {
@@ -63,13 +74,13 @@ export class SavePayMarket implements Action {
 export class GetMarketDataScope implements Action {
   readonly type = GET_MD_SCOPE;
 
-  constructor(public payload: { countryCode: string }) {}
+  constructor() {}
 }
 
 export class GetMarketDataScopeSuccess implements Action {
   readonly type = GET_MD_SCOPE_SUCCESS;
 
-  constructor(public payload: MDScopeResponse) {}
+  constructor(public payload: { response: MDScopeResponse, countryDataSet: CountryDataSet }) {}
 }
 
 export class GetMarketDataScopeError implements Action {
@@ -86,10 +97,33 @@ export class HideAddNewPaymarketButton implements Action {
 
 export class DisplayNationalAsCard implements Action {
   readonly type = DISPLAY_NATIONAL_AS_CARD;
+
+  constructor(public payload: boolean) {}
+}
+
+export class GetMarketDataLocations implements Action {
+  readonly type = GET_MD_LOCATIONS;
+
+  constructor(public payload: string) {}
+}
+
+export class GetMarketDataLocationsSuccess implements Action {
+  readonly type = GET_MD_LOCATIONS_SUCCESS;
+
+  constructor(public payload: MarketDataLocation[]) {}
+}
+
+export class GetMarketDataLocationsError implements Action {
+  readonly type = GET_MD_LOCATIONS_ERROR;
+}
+
+export class ClearMarketDataLocations implements Action {
+  readonly type = CLEAR_MD_LOCATIONS;
 }
 
 export type Actions
-  = GetPaymarkets
+  = InitMarketsCard
+  | GetPaymarkets
   | GetPaymarketsSuccess
   | GetPaymarketsError
   | SetPaymarketFilter
@@ -101,4 +135,8 @@ export type Actions
   | GetMarketDataScopeError
   | OrderPayMarketsWithSelectedFirst
   | HideAddNewPaymarketButton
-  | DisplayNationalAsCard;
+  | DisplayNationalAsCard
+  | GetMarketDataLocations
+  | GetMarketDataLocationsSuccess
+  | GetMarketDataLocationsError
+  | ClearMarketDataLocations;

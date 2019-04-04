@@ -22,6 +22,7 @@ import * as fromExchangeJobAssociationUtilityReducers from './exchange-job-assoc
 import * as fromCompanyOptionsReducer from './exchange-job-association-utility/company-options.reducer';
 import * as fromExchangeOptionsReducer from './exchange-job-association-utility/exchange-options.reducer';
 import * as fromAssociateJobsReducer from './exchange-job-association-utility/associate-jobs.reducer';
+import * as fromExchangeFiltersReducer from './exchange-filters.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -38,6 +39,7 @@ export interface PeerAdminState {
   exchangeList: fromExchangeListReducer.State;
   companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.State;
   exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.State;
+  exchangeFilters: IFeatureGridState<fromExchangeFiltersReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -59,7 +61,8 @@ export const reducers = {
   exchangeJobRequests: fromExchangeJobRequestsReducer.reducer,
   exchangeList: fromExchangeListReducer.reducer,
   companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.reducer,
-  exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.reducer
+  exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.reducer,
+  exchangeFilters: fromExchangeFiltersReducer.reducer
 };
 
 // Select Feature Area
@@ -84,8 +87,8 @@ export const selectCompanyExchangeInvitationInfoState =
   createSelector(selectPeerAdminState, (state: PeerAdminState) => state.companyExchangeInvitationInfo);
 export const selectExchangeJobAssociationUtilityState = createSelector(
   selectPeerAdminState,
-  (state: PeerAdminState) => state.exchangeJobAssociationUtility
-);
+  (state: PeerAdminState) => state.exchangeJobAssociationUtility);
+export const selectExchangeFiltersState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeFilters);
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
@@ -618,4 +621,34 @@ export const getAssociatingJobsError = createSelector(
 export const getAssociatingJobsCount = createSelector(
   selectAssociateJobsState,
   fromAssociateJobsReducer.getAssociatingCount
+);
+
+// Exchange Filters Selectors
+export const selectExchangeFiltersFeatureState = createSelector(
+  selectExchangeFiltersState,
+  (state: IFeatureGridState<fromExchangeFiltersReducer.State>) => state.feature
+);
+
+export const {
+  selectAll: getExchangeFilters
+} = fromExchangeFiltersReducer.adapter.getSelectors(selectExchangeFiltersFeatureState);
+
+export const getExchangeFiltersLoading = createSelector(
+  selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getLoading
+);
+
+export const getExchangeFiltersLoadingError = createSelector(
+  selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getLoadingError
+);
+
+export const getTotalExchangeFilters = createSelector(
+  selectExchangeFiltersFeatureState, fromExchangeFiltersReducer.getTotal
+);
+
+export const getExchangeFiltersGrid = createSelector(
+  getExchangeFilters,
+  getTotalExchangeFilters,
+  (data, total) => {
+    return { data: data, total: total };
+  }
 );

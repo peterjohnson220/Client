@@ -12,6 +12,7 @@ export interface UserTicketResponse {
   CompanyName: string;
   OpenedUserEmail: string;
   ServicesUserEmail?: string;
+  TicketCssClass: string;
   EditDate?: Date;
   ClosedDate?: Date;
   UserTicketFiles?: UserTicketFile[];
@@ -40,6 +41,7 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     CompanyId: 13,
     UserId: 1234,
     UserTicketType: 'Question',
+    TicketCssClass: 'questionColor',
     UserTicketState: 'New',
     UserTicket: 'Hello',
     CompanyName: 'Test Company',

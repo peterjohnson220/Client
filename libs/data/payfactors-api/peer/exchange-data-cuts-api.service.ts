@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { UpsertDataCutRequest } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
-import { DataCutValidationInfo, ExchangeDataCutsExportRequest } from '../../../models/peer';
+import { DataCutValidationInfo, ExchangeDataCutsExportRequest, ExchangeDataSearchFilter } from '../../../models/peer';
 
 @Injectable()
 export class ExchangeDataCutsApiService {
@@ -18,10 +18,16 @@ export class ExchangeDataCutsApiService {
 
   getDataCutValidationInfo(payload: any): Observable<DataCutValidationInfo[]> {
     return this.payfactorsApiService.get<DataCutValidationInfo[]>(`${this.endpoint}/GetDataCutValidationInfo`,
-      {params: {companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId}});
+      { params: { companyJobId: payload.CompanyJobId, userSessionId: payload.UserSessionId } });
   }
 
   exportExchangeDataCuts(payload: ExchangeDataCutsExportRequest): Observable<any> {
     return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportExchangeDataCuts`, payload);
   }
+
+  validateCutEmployeeSimilarity(searchFilter: ExchangeDataSearchFilter, companyJobId: number, userSessionId: number): Observable<boolean> {
+    return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarity`,
+      { CompanyJobId: companyJobId, UserSessionId: userSessionId, CurrentFilters: searchFilter }, (success: boolean) => success);
+  }
+
 }

@@ -40,17 +40,17 @@ exports[`Comphub - Salary Bar Chart Component should display values to 1 decimal
     <div
       class="text-left"
     >
-      \\$100.0
+      $100.0
     </div>
     <div
       class="text-center"
     >
-      \\$125.0
+      $125.0
     </div>
     <div
       class="text-right"
     >
-      \\$150.0
+      $150.0
     </div>
   </div>
 </pf-salary-bar-chart>
@@ -96,17 +96,17 @@ exports[`Comphub - Salary Bar Chart Component should values to 2 decimal places 
     <div
       class="text-left"
     >
-      \\$48.08
+      $48.08
     </div>
     <div
       class="text-center"
     >
-      \\$60.10
+      $60.10
     </div>
     <div
       class="text-right"
     >
-      \\$72.12
+      $72.12
     </div>
   </div>
 </pf-salary-bar-chart>

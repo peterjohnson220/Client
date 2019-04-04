@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GridDetailPanelComponent should render a falsy job family as No Family 1`] = `
+<pf-grid-detail-panel
+  closeClick={[Function EventEmitter]}
+  jobFamily=""
+>
+  <section
+    class="slide-in-panel position-absolute collapsed invisible"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="collapsed"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2"
+      >
+        Job Description
+      </h6>
+      
+      <p
+        class="font-italic"
+      >
+        No Job Description Available
+      </p>
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should render input props 1`] = `
+<pf-grid-detail-panel
+  closeClick={[Function EventEmitter]}
+  jobCode={[Function String]}
+  jobDescription={[Function String]}
+  jobExchange={[Function String]}
+  jobFamily={[Function String]}
+  jobId={[Function Number]}
+>
+  <section
+    class="slide-in-panel position-absolute collapsed invisible"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="collapsed"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2"
+      >
+        Job Description
+      </h6>
+      
+      <p
+        class="font-italic"
+      >
+        No Job Description Available
+      </p>
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;

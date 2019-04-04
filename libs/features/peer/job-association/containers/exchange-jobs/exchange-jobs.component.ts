@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -8,12 +8,12 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromJobAssociationReducers from '../../reducers';
-import { GridTypeEnum, GenericMenuItem } from 'libs/models/common';
-
 import * as fromExchangeJobsReducer from '../../reducers';
+import { GenericMenuItem, GridTypeEnum } from 'libs/models/common';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
-import { CompanyJob, ExchangeJobAssociation } from '../../models';
+import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../../models';
+import { CompanyJobMapping } from 'libs/models/peer';
 
 @Component({
   selector: 'pf-peer-job-association-exchange-jobs',
@@ -31,26 +31,40 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   gridState$: Observable<State>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  badRequestError$: Observable<string>;
+
   selectedCompanyJobs$: Observable<CompanyJob[]>;
   exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
+  gridResultsCount$: Observable<number>;
+  selectedExchangeJob$: Observable<ExchangeJob>;
+  isDetailPanelExpanded$: Observable<boolean>;
 
-  // Subscriptions
-  searchTermSubscription: Subscription;
-  selectedCompanyJobsSubscription: Subscription;
-  exchangeJobAssociationsSubscription: Subscription;
+  // Observables, previous associations
+  previousAssociations$: Observable<CompanyJob[]>;
+  loadingPreviousAssociations$: Observable<boolean>;
+  loadingPreviousAssociationsSuccess$: Observable<boolean>;
+  loadingPreviousAssociationsError$: Observable<boolean>;
 
-  // Properties
-  maxAssociableThreshold: number;
-  isListView: boolean;
-  searchTerm: string;
-  selectedCompanyJobs: CompanyJob[];
-  exchangeJobAssociations: ExchangeJobAssociation[];
-
-  // Job Family Filter
+  // Observables, Job Family Filter
   isJobFamilyFilterExpanded$: Observable<boolean>;
   isJobFamilyFilterLoading$: Observable<boolean>;
   jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
   selectedJobFamilyOptionNames$: Observable<string[]>;
+
+  // Subscriptions
+  allSubscriptions: Subscription = new Subscription();
+
+  // Properties
+  maxAssociableThreshold: number;
+  isListView: boolean;
+  isJobFamilyFilterExpanded: boolean;
+  searchTerm: string;
+  badRequestError: string;
+  selectedCompanyJobs: CompanyJob[];
+  exchangeJobAssociations: ExchangeJobAssociation[];
+  selectedExchangeJob: ExchangeJob;
+  expandedDetailRowId: number;
+  exchangeJobs: ExchangeJob[];
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -67,32 +81,62 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsGridState));
     this.selectedCompanyJobs$ = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs));
     this.exchangeJobAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations));
+    this.gridResultsCount$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsResultsCount));
+    this.selectedExchangeJob$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSelectedExchangeJob));
+    this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsIsDetailPanelExpanded));
 
-    // Register Subscriptions
-    this.searchTermSubscription = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
-        .subscribe((searchTerm) => this.searchTerm = searchTerm);
-
-    this.selectedCompanyJobsSubscription = this.selectedCompanyJobs$
-        .subscribe((selectedCompanyJobs) => this.selectedCompanyJobs = selectedCompanyJobs);
-
-    this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
-        .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
-
-    // job family
+    // Register Observables, job family
     this.isJobFamilyFilterExpanded$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
     this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
     this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
-    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
 
-    // Dispatches
-    this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
-    this.store.dispatch(new exchangeJobsActions.LoadJobFamilyFilter());
+    // Register Observables, previous associations
+    this.previousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociations));
+    this.loadingPreviousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociations));
+    this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsSuccess));
+    this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsError));
+    this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoadingBadRequestError));
+
+    // Register Subscriptions
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
+      .subscribe((searchTerm) => this.searchTerm = searchTerm));
+
+    this.allSubscriptions.add(this.selectedCompanyJobs$
+      .subscribe((selectedCompanyJobs) => this.selectedCompanyJobs = selectedCompanyJobs));
+
+    this.allSubscriptions.add(this.exchangeJobAssociations$
+      .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations));
+
+    this.allSubscriptions.add(this.selectedExchangeJob$
+      .subscribe((selectedExchangeJob) => this.selectedExchangeJob = selectedExchangeJob));
+
+    this.allSubscriptions.add(this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError));
+
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExpandedDetailRowId))
+      .subscribe((expandedDetailRowId) => this.expandedDetailRowId = expandedDetailRowId));
+
+    this.allSubscriptions.add(this.exchangeJobs$
+      .subscribe((exchangeJobs) => this.exchangeJobs = exchangeJobs.data));
+
+    this.allSubscriptions.add(this.isJobFamilyFilterExpanded$
+      .subscribe((isExpanded) => this.isJobFamilyFilterExpanded = isExpanded));
+
+    // job family
+    this.isJobFamilyFilterExpanded$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterIsExpanded));
+
+    this.isJobFamilyFilterLoading$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
+
+    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
+
+    this.selectedJobFamilyOptionNames$ =
+      this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
   }
 
   ngOnDestroy() {
-    this.searchTermSubscription.unsubscribe();
-    this.selectedCompanyJobsSubscription.unsubscribe();
-    this.exchangeJobAssociationsSubscription.unsubscribe();
+    this.allSubscriptions.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
@@ -113,31 +157,33 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
+  // event handlers
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.JobAssociationModalPeerExchangeJobs, state));
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
   }
 
   handleDetailExpand(event: any): void {
-    // determine how many results we have in the grid
-    const gridData = this.grid.data as any;
-    const totalRows = gridData.data.length;
+    // close the slide in detail panel when expanding a detail row, then close the currently open row if available
+    this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
+    if (this.expandedDetailRowId !== null) {
+      this.grid.collapseRow(this.expandedDetailRowId);
+    }
 
-    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
-    for (let i = 0; i < totalRows; i++) {
-      if (i !== event.index) {
-        this.grid.collapseRow(i);
-      }
+    // send the company job mappings so they can be used in the xhr, plus the event index so we know which row is currently open
+    const CompanyJobMappings = event.dataItem.CompanyJobMappings as CompanyJobMapping[];
+    const ExpandedDetailRowId = event.index;
+    this.store.dispatch(new exchangeJobsActions.LoadPreviousAssociations({ CompanyJobMappings, ExpandedDetailRowId }));
+  }
+
+  closeJobFamilyFilter(): void {
+    if (this.isJobFamilyFilterExpanded) {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(false));
     }
   }
 
   handleJobFamilyToggle(isExpanded?: boolean) {
-    // if isExpanded is defined send it as the payload which determines if the component is expanded, otherwise send nothing to toggle
-    if (typeof isExpanded !== 'undefined') {
-      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(isExpanded));
-    } else {
-      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter());
-    }
+    this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(isExpanded));
   }
 
   handleJobFamilyCheckboxToggle(option: GenericMenuItem) {
@@ -152,7 +198,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
   }
 
-  updateSearchFilter(searchTerm: string): void {
+  handleExchangeJobClick(exchangeJob: ExchangeJob) {
+    this.store.dispatch(new exchangeJobsActions.SelectExchangeJob(exchangeJob));
+  }
+
+  handleCloseDetailPanel() {
+    this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
+  }
+
+  handleSearchFilterChanged(searchTerm: string): void {
     this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
 
     // only search if 2+ chars are supplied, or if the term is reset and it's empty
@@ -162,22 +216,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // close the job family filter when the escape key is clicked
-  @HostListener('document:keyup', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key.toLowerCase() === 'escape') {
-      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(false));
-      return false;
-    }
-  }
+  handleAssociateClick({ ExchangeId, ExchangeJobId, CompanyJobMappings }, index: number): void {
+    if (this.isAssociable(ExchangeId, ExchangeJobId)) {
+      this.store.dispatch(new exchangeJobsActions.AddAssociation({ ExchangeId, ExchangeJobId, CompanyJobs: this.selectedCompanyJobs }));
+      this.grid.expandRow(index);
 
-  handleAssociateClick(exchangeId: number, exchangeJobId: number): void {
-    if (this.isAssociable(exchangeId, exchangeJobId)) {
-      this.store.dispatch(new exchangeJobsActions.AddAssociation({
-        ExchangeId: exchangeId,
-        ExchangeJobId: exchangeJobId,
-        CompanyJobs: this.selectedCompanyJobs
-      }));
+      // if it's not already open, pass in matching params for what kendo sends on an expand triggered by clicking the > button
+      if (this.expandedDetailRowId !== index) {
+        this.handleDetailExpand({ index, dataItem: { CompanyJobMappings } });
+      }
     }
   }
 
@@ -188,6 +235,16 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
         companyJobId));
   }
 
+  // close the job family filter when the escape key is clicked
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'escape') {
+      this.store.dispatch(new exchangeJobsActions.ToggleJobFamilyFilter(false));
+      this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
+    }
+  }
+
+  // validation/business logic
   isAssociable(exchangeId: number, exchangeJobId: number): boolean {
     let isAssociable = false;
     if (this.hasSelectedCompanyJobs() &&
@@ -225,6 +282,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedCompanyJobsAndAssociatedExchangeJobAreLessThanLimit(exchangeId: number, exchangeJobId: number): boolean {
     let count = this.selectedCompanyJobs.length;
     count += this.getAssociationCount(exchangeId, exchangeJobId);
+    count += this.getPreviouslyAssociatedExchangeJobCount(exchangeId, exchangeJobId);
     return count <= this.maxAssociableThreshold;
   }
 
@@ -241,6 +299,11 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       totalAssociatedJobs += exchangeJobAssociation[i].CompanyJobs.map((cj) => cj.CompanyJobId).length;
     }
     return totalAssociatedJobs;
+  }
+
+  getPreviouslyAssociatedExchangeJobCount(exchangeId: number, exchangeJobId: number): number {
+    const exchangeJob = this.exchangeJobs.find((ej: ExchangeJob) => ej.ExchangeId === exchangeId && ej.ExchangeJobId === exchangeJobId);
+    return exchangeJob.CompanyJobMappings.length;
   }
 
   getCompanyJobAssociations(exchangeId: number, exchangeJobId: number): CompanyJob[] {

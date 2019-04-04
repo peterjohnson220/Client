@@ -1,0 +1,19 @@
+
+:host::ng-deep {
+
+  .nav-tabs {
+    min-height: 34px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    display: block;
+  }
+
+  .nav-tabs .nav-item {
+    float: none;
+    display: inline-block;
+  }
+}
+
+
+

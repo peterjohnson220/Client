@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { MDScopeResponse } from 'libs/models/payfactors-api';
+import { MDScopeResponse, MDLocationsRequest, MDLocationResponse } from 'libs/models/payfactors-api';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -15,8 +15,11 @@ export class MarketDataScopeApiService {
     private payfactorsApiService: PayfactorsApiService
   ) {}
 
-  getMDScope(countryCode?: string): Observable<MDScopeResponse> {
-    return this.payfactorsApiService.get<MDScopeResponse>(`${this.endpoint}/GetMDScope`,
-    { params: { countryCode: countryCode }});
+  getMDScope(): Observable<MDScopeResponse> {
+    return this.payfactorsApiService.get<MDScopeResponse>(`${this.endpoint}/GetMDScope`);
+  }
+
+  getMdLocations(request: MDLocationsRequest): Observable<MDLocationResponse[]> {
+    return this.payfactorsApiService.post<MDLocationResponse[]>(`${this.endpoint}/GetLocations`, request);
   }
 }

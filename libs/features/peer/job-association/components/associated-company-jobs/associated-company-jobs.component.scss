@@ -1,7 +1,35 @@
 @import "colors";
-.remove-association-button {
-  border: 0;
-  background-color: inherit;
-  color: $pf-brand-secondary-color;
-  cursor: pointer;
+
+.job-association-associated-jobs {
+  min-height: 4rem;
+  background-color: #fff;
+  padding: .5rem;
+  .remove-association-button {
+    border: 0;
+    background-color: inherit;
+    color: $pf-brand-secondary-color;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-left: .25rem;
+  }
+  table thead tr {
+    th {
+      border: 0;
+      font-weight: 500;
+      padding-left: .25rem;
+      &.buttons, &.saved { 
+        width: 40px;
+      }
+      &.title, &.code {
+        width: calc(50% - 40px);
+      }
+    }
+  }
+  table tbody tr td {
+    padding: .25rem;
+    border: 0;
+  }
+  table tr:hover {
+    background-color: #fff;
+  }
 }

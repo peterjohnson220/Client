@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
+import { WindowRef } from 'libs/core/services';
 import { ComphubApiService } from 'libs/data/payfactors-api';
-import { CreateQuickPriceProjectRequest } from 'libs/models/payfactors-api';
+import { CreateQuickPriceProjectRequest, AddCompletedPricingHistoryRequest } from 'libs/models/payfactors-api';
 import * as fromNavigationActions from 'libs/ui/layout-wrapper/actions/left-sidebar.actions';
 
 import * as fromComphubPageActions from '../actions/comphub-page.actions';
@@ -17,7 +18,6 @@ import * as fromMarketsCardActions from '../actions/markets-card.actions';
 import * as fromJobsCardActions from '../actions/jobs-card.actions';
 import { ComphubPages } from '../data';
 import { DataCardHelper, PayfactorsApiModelMapper } from '../helpers';
-import { WindowRef } from '../services';
 import * as fromComphubMainReducer from '../reducers';
 
 @Injectable()
@@ -44,10 +44,14 @@ export class SummaryCardEffects {
   getJobNationalTrend$ = this.actions$
     .ofType(fromSummaryCardActions.GET_JOB_NATIONAL_TREND)
     .pipe(
-      switchMap((action: fromSummaryCardActions.GetNationalJobTrendData) => {
+      withLatestFrom(
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromSummaryCardActions.GetNationalJobTrendData, activeCountryDataSet) => ({ action, activeCountryDataSet })
+      ),
+      switchMap((data) => {
           return this.comphubApiService.getJobSalaryTrendData({
-            JobCode: action.payload.JobCode,
-            CountryCode: 'USA'
+            JobCode: data.action.payload.JobCode,
+            CountryCode: data.activeCountryDataSet.CountryCode
           })
             .pipe(
               map(response => {
@@ -86,14 +90,15 @@ export class SummaryCardEffects {
         this.store.select(fromComphubMainReducer.getSelectedJobData),
         this.store.select(fromComphubMainReducer.getSelectedPaymarket),
         this.store.select(fromComphubMainReducer.getSelectedRate),
-        (action: fromSummaryCardActions.CreateProject, job, payMarket, rate) => (
-          { action, job, payMarket, rate }
+        this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+        (action: fromSummaryCardActions.CreateProject, job, payMarket, rate, activeCountryDataSet) => (
+          { action, job, payMarket, rate, activeCountryDataSet }
         )),
       switchMap((data) => {
         const quickPriceRequest: CreateQuickPriceProjectRequest = {
             JobCode: data.job.JobCode,
             CompanyPayMarketId: data.payMarket.CompanyPayMarketId,
-            Currency: 'USD',
+            Currency: data.activeCountryDataSet.CurrencyCode,
             Rate: data.rate,
             ProjectTitle: data.job.JobTitle,
             EffectiveDate: DataCardHelper.firstDayOfMonth()
@@ -136,6 +141,36 @@ export class SummaryCardEffects {
         return new fromSummaryCardActions.SetProjectTileAccess(hasAccessToProjectsTile);
       })
     );
+
+  @Effect()
+  addCompletedPricingHistory$ = this.actions$
+  .ofType(fromSummaryCardActions.ADD_COMPLETED_PRICING_HISTORY)
+  .pipe(
+    withLatestFrom(
+      this.store.select(fromComphubMainReducer.getSelectedJob),
+      this.store.select(fromComphubMainReducer.getSelectedPaymarket),
+      this.store.select(fromComphubMainReducer.getActiveCountryDataSet),
+      (action: fromSummaryCardActions.AddCompletedPricingHistory, selectedJob, selectedPayMarket, countryDataSet) =>
+        ({ action, selectedJob, selectedPayMarket, countryDataSet })
+    ),
+    switchMap((data) => {
+      const request: AddCompletedPricingHistoryRequest = {
+        JobTitleShort: data.selectedJob,
+        JobTitle: data.action.payload.JobTitle,
+        JobCode: data.action.payload.JobCode,
+        CountryCode: data.countryDataSet.CountryCode,
+        CompanyPayMarketId: data.selectedPayMarket.CompanyPayMarketId
+      };
+      return this.comphubApiService.addCompletedPricingHistory(request)
+        .pipe(
+          map(() => new fromSummaryCardActions.AddCompletedPricingHistorySuccess()),
+          catchError((error) => of(
+            new fromSummaryCardActions.AddCompletedPricingHistoryError(),
+            new fromComphubPageActions.HandleApiError(error))
+          )
+        );
+    })
+  );
 
   constructor(
     private actions$: Actions,

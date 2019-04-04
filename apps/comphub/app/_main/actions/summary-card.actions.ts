@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { JobData, JobSalaryTrend } from '../models';
 import { SharePricingSummaryRequest } from 'libs/models/payfactors-api';
+
+import { JobData, JobSalaryTrend } from '../models';
 
 export const PRICE_NEW_JOB = '[Comphub/Summary Card] Price New Job';
 export const GET_JOB_NATIONAL_TREND = '[Comphub/Summary Card] Get National Job Trend';
@@ -17,6 +18,9 @@ export const CREATE_PROJECT_SUCCESS = '[Comphub/Summary Card] Create Project Suc
 export const CREATE_PROJECT_ERROR = '[Comphub/Summary Card] Create Project Error';
 export const RESET_CREATE_PROJECT_STATUS = '[Comphub/Summary Card] Reset Create Project';
 export const SET_PROJECT_TILE_ACCESS = '[Comphub/Summary Card] Set Project Tile Access';
+export const ADD_COMPLETED_PRICING_HISTORY = '[Comphub/Summary Card] Create Completed Pricing History';
+export const ADD_COMPLETED_PRICING_HISTORY_SUCCESS = '[Comphub/Summary Card] Create Completed Pricing History Success';
+export const ADD_COMPLETED_PRICING_HISTORY_ERROR = '[Comphub/Summary Card] Create Completed Pricing History Error';
 
 export class PriceNewJob implements Action {
   readonly type = PRICE_NEW_JOB;
@@ -102,6 +106,24 @@ export class SetProjectTileAccess implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class AddCompletedPricingHistory implements Action {
+  readonly type = ADD_COMPLETED_PRICING_HISTORY;
+
+  constructor(public payload: JobData) {}
+}
+
+export class AddCompletedPricingHistorySuccess implements Action {
+  readonly type = ADD_COMPLETED_PRICING_HISTORY_SUCCESS;
+
+  constructor() {}
+}
+
+export class AddCompletedPricingHistoryError implements Action {
+  readonly type = ADD_COMPLETED_PRICING_HISTORY_ERROR;
+
+  constructor() {}
+}
+
 export type Actions
   = PriceNewJob
   | GetNationalJobTrendData
@@ -116,4 +138,7 @@ export type Actions
   | CreateProjectSuccess
   | CreateProjectError
   | ResetCreateProjectStatus
-  | SetProjectTileAccess;
+  | SetProjectTileAccess
+  | AddCompletedPricingHistory
+  | AddCompletedPricingHistorySuccess
+  | AddCompletedPricingHistoryError;

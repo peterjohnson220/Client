@@ -4,24 +4,28 @@
 @import 'colors';
 @import 'common/common-variables';
 
-:host::ng-deep .close-app-btn{
-  right: 50px;
+:host::ng-deep {
+  .close-app-btn {
+    right: 50px;
+  }
+
+  .currency {
+    color: $pf-additional-colors-green;
+    line-height: 3.4rem;
+    font-size: 70%;
+  }
 }
 
 .header-blue {
   color: $comphub-header-blue;
-}
-
-.currency-sign {
-  color: $pf-additional-colors-green;
-  line-height: 3.4rem;
+  width: 100%;
 }
 
 .width-250 {
   width: 250px;
 }
 
-.paymarket-name {
+.text-overflow-ellipsis {
   max-width: 300px;
   @extend %ellipsis-overflowing-text;
 }
@@ -52,7 +56,7 @@
     max-width: 100% !important;
     flex-basis: 100%;
   }
-  .paymarket-name {
+  .text-overflow-ellipsis {
     max-width: calc(100vw - 800px);
   }
 }
@@ -94,13 +98,27 @@ h4 {
   }
 }
 
-.pdf-header, .pdf-logo {
+.smb-sell-sheet-container {
   display: none;
+}
+
+.smb-sell-sheet-pdf{
+  width: 100%;
+  height: 100%;
+}
+
+.hide-export {
+  position: relative;
+  overflow: hidden;
+
+  > * {
+    position: absolute;
+    width: 100%;
+  }
 }
 
 :host ::ng-deep .k-pdf-export {
   .pdf-logo {
-    display: block;
     position: absolute;
     right: 30px;
     top: 35px;
@@ -115,6 +133,12 @@ h4 {
     font-size: 1.25rem;
   }
 
+  .smb-sell-sheet-container {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .left-container, .right-container {
     max-width: 100% !important;
     flex-basis: 100%;
@@ -124,7 +148,7 @@ h4 {
     padding-right: 0;
   }
 
-  .paymarket-name {
+  .text-overflow-ellipsis {
     text-overflow: inherit;
     white-space: normal;
     overflow: auto;

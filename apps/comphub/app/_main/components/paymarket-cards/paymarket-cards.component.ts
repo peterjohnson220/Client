@@ -25,10 +25,7 @@ export class PaymarketCardsComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.paymarkets) {
-      const container = document.querySelector('.paymarket-card-container');
-      container.scrollLeft = 0;
-
-      this.psDirectiveRef.update();
+      this.refreshScroll();
     }
   }
 
@@ -38,6 +35,20 @@ export class PaymarketCardsComponent implements OnChanges {
 
   trackById(index: number, paymarket: PricingPaymarket): number {
     return paymarket.CompanyPayMarketId;
+  }
+
+  private refreshScroll() {
+    // Push this task to the end of the queue to allow for DOM manipulation to complete.
+    setTimeout(() => {
+      const container = document.querySelector('.paymarket-card-container');
+
+      if (container) {
+        container.scrollLeft = 0;
+
+        this.psDirectiveRef.update();
+      }
+
+    });
   }
 }
 

@@ -2,20 +2,23 @@
     <div class="col-4">
       <div class="list-group">
         <pf-community-tab
+          data-qa-id="cnt-postTypeDiscussion"
           [type]="CommunityPostTypes.Discussion"
           [active]="postType === CommunityPostTypes.Discussion"
           (click)="onPostTypeClick(CommunityPostTypes.Discussion)">
         </pf-community-tab>
         <pf-community-tab
+          data-qa-id="cnt-postTypeQuestion"
           [type]="CommunityPostTypes.Question"
           [active]="postType === CommunityPostTypes.Question"
           (click)="onPostTypeClick(CommunityPostTypes.Question)">
         </pf-community-tab>
         <pf-community-tab
+          data-qa-id="cnt-postTypeJob"
           [type]="CommunityPostTypes.Job"
           [active]="postType === CommunityPostTypes.Job"
           (click)="onPostTypeClick(CommunityPostTypes.Job)">
-        </pf-community-tab>        
+        </pf-community-tab>
       </div>
     </div>
   <div class="col-8 start-discussion-body pt-2 pb-2">
@@ -23,9 +26,10 @@
           <pf-community-new-post #newPostComponent *ngIf="postType === CommunityPostTypes.Discussion"></pf-community-new-post>
           <pf-community-new-poll #newPollComponent *ngIf="postType === CommunityPostTypes.Question"></pf-community-new-poll>
           <pf-community-new-job #newJobComponent *ngIf="postType === CommunityPostTypes.Job"></pf-community-new-job>
-  
+
           <div *ngIf="submitVisible" class="ml-3 p-0">
             <button id="start-discussion-post-button" [disabled]="!submitEnabled"
+                    data-qa-id="btn-startDiscussionPost"
                     (click)="submitContent()" class="btn btn-primary float-right shadow-none">Post
               <pf-loading-indicator *ngIf="submittingCommunityPost$ | async">
               </pf-loading-indicator></button>

@@ -1,4 +1,5 @@
 import {
+  CountryDataSetResponse,
   JobSalaryTrendResponse,
   QuickPriceMarketData,
   QuickPriceResponse,
@@ -7,10 +8,13 @@ import {
 
 import { PayMarket } from 'libs/models/paymarket';
 
-import { TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
-  JobData, JobGridData, JobSalaryTrendData, JobSalaryTrend } from '../models';
-import { MDScopeResponse } from 'libs/models/payfactors-api';
-import { MDScopeSizeCategory, MDScopeGeoGroup } from 'libs/constants';
+import {
+  TrendingJobGroup, PricingPaymarket, KendoDropDownItem, MarketDataScope,
+  JobData, JobGridData, CountryDataSet, JobSalaryTrend, MarketDataLocation
+} from '../models';
+import { MDLocationResponse, MDScopeResponse } from 'libs/models/payfactors-api';
+import { MDScopeSizeCategory } from 'libs/constants';
+import { countryFlagMap } from '../data';
 
 export class PayfactorsApiModelMapper {
 
@@ -47,13 +51,15 @@ export class PayfactorsApiModelMapper {
 
   static mapMDScopeResponseToMarketDataScope(response: MDScopeResponse): MarketDataScope {
     return {
-      Locations: this.mapScopeValuesToKendoDropDownItems(response.Locations[MDScopeGeoGroup.CityState]),
       Sizes: this.mapScopeValuesToKendoDropDownItems(response.Sizes[MDScopeSizeCategory.Employees]),
       Industries: this.mapScopeValuesToKendoDropDownItems(response.Industries)
     };
   }
 
   static mapScopeValuesToKendoDropDownItems(scopeValues: string[]): KendoDropDownItem[] {
+    if (!scopeValues) {
+      return [];
+    }
     return scopeValues.map(s => {
       return {
         Name: s,
@@ -81,7 +87,8 @@ export class PayfactorsApiModelMapper {
         Tcc50: q.Tcc50,
         Tcc75: q.Tcc75,
         Incs: q.Incs,
-        Orgs: q.Orgs
+        Orgs: q.Orgs,
+        ShowJd: false
       };
     });
   }
@@ -97,5 +104,28 @@ export class PayfactorsApiModelMapper {
         };
       })
     };
+  }
+
+  static mapCountryDataSetResponseToCountryDataSets(countryDataSetResponse: CountryDataSetResponse[]): CountryDataSet[] {
+    return countryDataSetResponse.map(cdr => {
+        return {
+          CountryCode: cdr.CountryCode,
+          CountryName: cdr.CountryName,
+          CurrencyCode: cdr.CurrencyCode,
+          GeoLabel: cdr.GeoLabel,
+          Active: cdr.Active,
+          FlagCode: countryFlagMap[cdr.CountryCode]
+        };
+      });
+  }
+
+  static mapMdLocationsResponseToMarketDataLocations(response: MDLocationResponse[]): MarketDataLocation[] {
+    return response.map(md => {
+      return {
+        LocationName: md.LocationName,
+        GeoLabel: md.GeoLabel,
+        GeoLabelDisplayName: md.GeoLabelDisplayName
+      };
+    });
   }
 }

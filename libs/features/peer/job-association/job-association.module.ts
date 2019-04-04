@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { GridModule } from '@progress/kendo-angular-grid';
+import {GridModule, RowFilterModule} from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { reducers } from './reducers';
@@ -16,6 +16,9 @@ import { PfFormsModule } from 'libs/forms';
 
 import { AssociatedCompanyJobsComponent } from './components';
 import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsComponent } from './containers';
+import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-detail-panel.component';
+import { HalfCompleteIconComponent } from './components/half-complete-icon/half-complete-icon.component';
+import { CompleteIconComponent } from './components/complete-icon/complete-icon.component';
 
 @NgModule({
   imports: [
@@ -33,6 +36,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
+    RowFilterModule,
   ],
   declarations: [
     // Components
@@ -41,7 +45,10 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
     // Containers
     CompanyJobsComponent,
     ExchangeJobsComponent,
-    JobAssociationModalComponent
+    JobAssociationModalComponent,
+    GridDetailPanelComponent,
+    HalfCompleteIconComponent,
+    CompleteIconComponent
   ],
   providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]

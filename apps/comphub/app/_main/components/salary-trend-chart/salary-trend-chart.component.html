@@ -1,4 +1,4 @@
-<div *ngIf="salaryTrendData?.Data.length">
+<div *ngIf="salaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
   <div class="d-flex flex-row">
     <h2 *ngIf="salaryTrendData.PercentageChange !== 0" [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
       {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}
@@ -29,7 +29,7 @@
     </kendo-chart-series>
     <kendo-chart-tooltip>
       <ng-template kendoChartSeriesTooltipTemplate let-category="category" let-value="value">
-        {{category | date : 'MM/yyyy'}}: ${{ value | number : isHourly ? '1.2-2' : '1.0-0' }}
+        {{category | date : 'MM/yyyy'}}: {{ value | currency:currencyCode : 'symbol-narrow' : isHourly ? '1.2-2' : '1.0-0' }}
       </ng-template>
     </kendo-chart-tooltip>
   </kendo-chart>

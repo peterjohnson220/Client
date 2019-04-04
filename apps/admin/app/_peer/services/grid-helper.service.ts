@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -11,6 +11,7 @@ import * as fromExchangeAccessRequests from '../actions/exchange-access-requests
 import * as fromPayfactorsCompanyExchangeInvitations from '../actions/payfactors-company-exchange-invitations.actions';
 import * as fromNewCompanyExchangeInvitations from '../actions/new-company-exchange-invitations.actions';
 import * as fromExchangeJobRequestsActions from '../actions/exchange-job-requests.actions';
+import * as fromExchangeFiltersActions from '../actions/exchange-filters.actions';
 
 @Injectable()
 export class GridHelperService {
@@ -20,8 +21,8 @@ export class GridHelperService {
   constructor(
     private store: Store<fromPeerAdminReducer.State>
   ) {
-    this.exchangeJobsGridState$ = this.store.select(fromPeerAdminReducer.getExchangeJobsGridState);
-    this.exchangeCompaniesGridState$ = this.store.select(fromPeerAdminReducer.getExchangeCompaniesGridState);
+    this.exchangeJobsGridState$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeJobsGridState));
+    this.exchangeCompaniesGridState$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeCompaniesGridState));
   }
 
   loadExchangeJobs(exchangeId: number) {
@@ -74,6 +75,15 @@ export class GridHelperService {
     return this.store.dispatch(new fromExchangeJobRequestsActions.LoadExchangeJobRequests(
       {
         exchangeId: exchangeId
+      }
+    ));
+  }
+
+  loadExchangeFilters(exchangeId: number, searchString: string) {
+    return this.store.dispatch(new fromExchangeFiltersActions.LoadExchangeFilters(
+      {
+        exchangeId: exchangeId,
+        searchString: searchString
       }
     ));
   }

@@ -1,3 +1,5 @@
+import { KendoDropDownItem } from './kendo-dropdown-item.model';
+
 export interface AddPayMarketFormData {
   Name: string;
   Country: string;
@@ -5,6 +7,7 @@ export interface AddPayMarketFormData {
   Location: string;
   Industry: string;
   Size: string;
+  GeoLabel: string;
 }
 
 export function generateMockAddPayMarketFormData(): AddPayMarketFormData {
@@ -14,6 +17,7 @@ export function generateMockAddPayMarketFormData(): AddPayMarketFormData {
     Currency: 'USD',
     Location: 'Burlington, MA',
     Industry: 'Software',
-    Size: '100 - 500'
+    Size: '100 - 500',
+    GeoLabel: 'CityState'
   };
 }

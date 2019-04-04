@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { WindowRef } from 'libs/core/services';
+
 import { TrendingJobGroup } from '../../models';
-import { WindowRef } from '../../services';
 
 @Component({
   selector: 'pf-trending-job-group',

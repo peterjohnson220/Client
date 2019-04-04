@@ -69,6 +69,12 @@ export function reducer(state = initialState, action: fromJobsCardActions.Action
         loadingJobSearchOptionsError: true
       };
     }
+    case fromJobsCardActions.CLEAR_JOB_SEARCH_OPTIONS: {
+      return {
+        ...state,
+        jobSearchOptions: []
+      };
+    }
     case fromJobsCardActions.SET_SELECTED_JOB: {
       return {
         ...state,

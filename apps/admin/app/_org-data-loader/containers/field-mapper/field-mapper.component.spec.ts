@@ -18,6 +18,7 @@ describe('FieldMapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
+    component.loaderType = 'Structures';
     component.fieldMappings$ = of([{
       CompanyId: 13,
       LoaderType: 'Jobs',

@@ -1,5 +1,5 @@
 // angular core
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 
 // 3rd party
 import { select, Store } from '@ngrx/store';
@@ -34,19 +34,26 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   totalCompanyJobsGridItems$: Observable<number>;
   loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
+  selectedCompanyJobInDetailPanel$: Observable<CompanyJob>;
+  isDetailPanelExpanded$: Observable<boolean>;
+  badRequestError$: Observable<string>;
 
   // Subscriptions
   companyJobsGridItemsDataSubscription: Subscription;
   exchangeJobAssociationsSubscription: Subscription;
   selectedCompanyJobsSubscription: Subscription;
   searchTermSubscription: Subscription;
+  selectedCompanyJobInDetailPanelSubscription: Subscription;
+  badRequestErrorSubscription: Subscription;
 
   // Properties
   companyJobGridDataResult: GridDataResult;
   exchangeJobAssociations: ExchangeJobAssociation[];
   maxSelectionThreshold: number;
   selectedCompanyJobIds: CompanyJob[];
-  searchTerm;
+  selectedCompanyJobInDetailPanel: CompanyJob;
+  searchTerm: string;
+  badRequestError: string;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -58,6 +65,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsGridState));
     this.loading$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoading));
     this.loadingError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingError));
+    this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsIsDetailPanelExpanded));
+    this.selectedCompanyJobInDetailPanel$ =
+      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel));
+    this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingBadRequestError));
 
     this.selectedCompanyJobsSubscription = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
       .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs);
@@ -74,7 +85,12 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
         (searchTerm) => this.searchTerm = searchTerm);
 
-    this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
+    this.selectedCompanyJobInDetailPanelSubscription =
+      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
+        (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel);
+
+    this.badRequestErrorSubscription = this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError);
   }
 
   ngOnDestroy() {
@@ -82,9 +98,12 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.exchangeJobAssociationsSubscription.unsubscribe();
     this.searchTermSubscription.unsubscribe();
     this.selectedCompanyJobsSubscription.unsubscribe();
+    this.selectedCompanyJobInDetailPanelSubscription.unsubscribe();
+    this.badRequestErrorSubscription.unsubscribe();
   }
 
   reload(resetSearchTerm = false): void {
+    this.store.dispatch(new companyJobsActions.Reset());
     // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
     if (resetSearchTerm) {
       this.companyJobSearchComponent.clearValue();
@@ -106,25 +125,20 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
-  handleSearchChanged(searchTerm: string) {
-    this.store.dispatch(new companyJobsActions.SearchTermUpdated(searchTerm));
+  handleSearchBoxValueChanged(searchTerm: string) {
+    this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
     if (!searchTerm  || searchTerm.length > 1) {
       this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalCompanyJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }
   }
 
-  handleDetailExpand(event: any): void {
-    // determine how many results we have in the grid
-    const gridData = this.grid.data as any;
-    const totalRows = gridData.data.length;
+  handleCompanyJobTitleOrCodeClick(companyJob: CompanyJob) {
+    this.store.dispatch(new companyJobsActions.SelectJobTitleOrCode(companyJob));
+  }
 
-    // collapse all rows that are not the newly expanded row so we only have one detail open at a time
-    for (let i = 0; i < totalRows; i++) {
-      if (i !== event.index) {
-        this.grid.collapseRow(i);
-      }
-    }
+  handleCloseDetailPanel() {
+    this.store.dispatch(new companyJobsActions.CloseDetailPanel());
   }
 
   handleSelectAllClick(): void {
@@ -132,7 +146,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     if (this.getSelectAllState() === 'unchecked') {
       selectedCompanyJobs = this.selectCompanyJobIdsUptoThreshold();
     }
-    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobsToAssociate(selectedCompanyJobs));
   }
 
   selectCompanyJobIdsUptoThreshold(): CompanyJob[] {
@@ -164,7 +178,15 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.store.dispatch(new companyJobsActions.SelectCompanyJobs(selectedCompanyJobs));
+    this.store.dispatch(new companyJobsActions.SelectCompanyJobsToAssociate(selectedCompanyJobs));
+  }
+
+  // close the job family filter when the escape key is clicked
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'escape') {
+      this.store.dispatch(new companyJobsActions.CloseDetailPanel());
+    }
   }
 
   isPendingAssociation(companyJobId: number): boolean {
