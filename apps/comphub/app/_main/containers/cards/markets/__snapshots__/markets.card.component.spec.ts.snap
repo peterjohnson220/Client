@@ -21,13 +21,13 @@ exports[`Comphub - Main - Markets Card Component should NOT hide the add paymark
   showSkipButton$={[Function Store]}
   store={[Function Store]}
   visiblePaymarkets$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-map-marker-alt"
     pagesubtitle="Now, let's define the market"
     pagetitle="Markets"
   >
-    
     
     
     <pf-async-container>
@@ -124,13 +124,13 @@ exports[`Comphub - Main - Markets Card Component should hide the add paymarkets 
   showSkipButton$={[Function Store]}
   store={[Function Store]}
   visiblePaymarkets$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-map-marker-alt"
     pagesubtitle="Now, let's define the market"
     pagetitle="Markets"
   >
-    
     
     
     <pf-async-container>

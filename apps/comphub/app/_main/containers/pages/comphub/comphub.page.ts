@@ -1,13 +1,13 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 import { AccordionCard, ComphubPages } from '../../../data';
-import { PricingPaymarket, JobData, CountryDataSet, WorkflowContext } from '../../../models';
+import { CountryDataSet, JobData, PricingPaymarket, WorkflowContext } from '../../../models';
 
 @Component({
   selector: 'pf-comphub-page',
@@ -26,6 +26,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
 
   cards$: Observable<AccordionCard[]>;
   selectedPageId$: Observable<ComphubPages>;
+  selectedPageIdDelayed$: Observable<ComphubPages>;
   selectedJob$: Observable<string>;
   selectedPaymarket$: Observable<PricingPaymarket>;
   selectedJobData$: Observable<JobData>;
@@ -37,7 +38,12 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   private cardsSub: Subscription;
   private workflowContextSub: Subscription;
 
-  workflowContext: WorkflowContext;
+  workflowContext: WorkflowContext = {
+    selectedPageId: ComphubPages.Jobs,
+    selectedPageIdDelayed: ComphubPages.Jobs,
+    selectedPageIndex: 0,
+    activeCountryDataSet: null
+  };
 
   private readonly cardHeaderWidth = 60;
   private readonly numberOfCardHeaders = 3;
@@ -46,6 +52,7 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromComphubMainReducer.State>) {
     this.cards$ = this.store.select(fromComphubMainReducer.getCards);
     this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
+    this.selectedPageIdDelayed$ = this.store.select(fromComphubMainReducer.getSelectedPageId).pipe(debounceTime(750));
     this.selectedJob$ = this.store.select(fromComphubMainReducer.getSelectedJob);
     this.selectedPaymarket$ = this.store.select(fromComphubMainReducer.getSelectedPaymarket);
     this.selectedJobData$ = this.store.select(fromComphubMainReducer.getSelectedJobData);
@@ -75,11 +82,13 @@ export class ComphubPageComponent implements OnInit, OnDestroy {
     // Build a workflow context object using the latest values from the store
     this.workflowContextSub = combineLatest(
       this.selectedPageId$,
+      this.selectedPageIdDelayed$,
       this.activeCountryDataSet$
     ).pipe(
-      map(([selectedPageId, activeCountryDataSet]) => {
+      map(([selectedPageId, selectedPageIdDelayed, activeCountryDataSet]) => {
         return {
           selectedPageId,
+          selectedPageIdDelayed,
           selectedPageIndex: this.cards.findIndex(c => c.Id === selectedPageId),
           activeCountryDataSet
         };

@@ -77,11 +77,14 @@ export class ComphubPageEffects {
       ),
       mergeMap((data) => {
         const actions = [];
-        if (data.payMarketsFilter) {
-          actions.push(new fromMarketsCardActions.SetPaymarketFilter(''));
-        }
-        if (data.selectedPageId === ComphubPages.Markets && data.selectedPayMarket) {
-          actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+
+        if (data.selectedPageId === ComphubPages.Markets) {
+          if (data.payMarketsFilter) {
+            actions.push(new fromMarketsCardActions.SetPaymarketFilter(''));
+          }
+          if (data.selectedPayMarket) {
+            actions.push(new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst());
+          }
         }
 
         return actions;

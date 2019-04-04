@@ -161,17 +161,6 @@ export class MarketsCardEffects {
     );
 
   @Effect()
-  setPayMarketFilter$ = this.actions$
-    .ofType(fromMarketsCardActions.SET_PAYMARKET_FILTER)
-    .pipe(
-      map((action: fromMarketsCardActions.SetPaymarketFilter) =>
-        !action.payload
-          ? new fromMarketsCardActions.OrderPayMarketsWithSelectedFirst()
-          : { type: 'NO_ACTION' }
-      )
-    );
-
-  @Effect()
   clearSelectedPayMarket$ = this.actions$
     .ofType(fromMarketsCardActions.SET_TO_DEFAULT_PAYMARKET)
     .pipe(

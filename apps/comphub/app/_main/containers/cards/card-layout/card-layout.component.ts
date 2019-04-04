@@ -10,7 +10,7 @@ import { environment } from 'environments/environment';
 import * as fromComphubPageActions from '../../../actions/comphub-page.actions';
 import * as fromComphubMainReducer from '../../../reducers';
 
-import { JobPricingLimitInfo } from '../../../models';
+import { JobPricingLimitInfo, WorkflowContext } from '../../../models';
 import { ComphubPages } from '../../../data';
 
 @Component({
@@ -26,11 +26,12 @@ export class CardLayoutComponent implements OnInit {
   @Input() hideNextButton: boolean;
   @Input() nextButtonEnabled: boolean;
   @Input() backButtonEnabled: boolean;
+  @Input() page: ComphubPages;
+  @Input() workflowContext: WorkflowContext;
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
   jobPricingLimitInfo$: Observable<JobPricingLimitInfo>;
   jobPricingLimitInfoSub: Subscription;
-  selectedPageId$: Observable<ComphubPages>;
   jobPricingBlocked$: Observable<boolean>;
   jobPricingLimitInfo: JobPricingLimitInfo;
   comphubPages = ComphubPages;
@@ -41,7 +42,6 @@ export class CardLayoutComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.jobPricingLimitInfo$ = this.store.select(fromComphubMainReducer.getJobPricingLimitInfo);
-    this.selectedPageId$ = this.store.select(fromComphubMainReducer.getSelectedPageId);
     this.jobPricingBlocked$ = this.store.select(fromComphubMainReducer.getJobPricingBlocked);
   }
 

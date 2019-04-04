@@ -9,6 +9,7 @@ $light-unselected-grey: #DCE3E6;
 :host::ng-deep{
   .ps__rail-x {
     height: 12px;
+    top: auto !important;
   }
 
   .ps__thumb-x,
@@ -16,6 +17,7 @@ $light-unselected-grey: #DCE3E6;
   .ps__rail-x:focus > .ps__thumb-x,
   .ps__rail-x.ps--clicking .ps__thumb-x {
     height: 9px;
+    top: auto !important;
   }
 }
 
@@ -26,6 +28,7 @@ $light-unselected-grey: #DCE3E6;
   overflow: hidden;
   width: 100%;
   padding-bottom: .75rem;
+  min-height: 305px;
 
   .paymarket-card {
     min-width: 275px;

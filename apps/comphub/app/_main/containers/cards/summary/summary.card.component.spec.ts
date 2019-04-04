@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {combineReducers, Store, StoreModule} from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { PDFExportModule } from '@progress/kendo-angular-pdf-export';
 import { of } from 'rxjs';
 
@@ -11,11 +11,11 @@ import * as fromRootState from 'libs/state/state';
 import { SummaryCardComponent } from './summary.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
 import * as fromSummaryCardActions from '../../../actions/summary-card.actions';
-import { RateType, ComphubPages } from '../../../data';
+import { ComphubPages, RateType } from '../../../data';
 import {
   generateFakeJobData,
-  generateMockPricingPaymarket,
   generateMockCountryDataSet,
+  generateMockPricingPaymarket,
   generateMockWorkflowContext
 } from '../../../models';
 
@@ -43,6 +43,12 @@ describe('Comphub - Main - Summary Card Component', () => {
     instance = fixture.componentInstance;
 
     store = TestBed.get(Store);
+
+    instance.workflowContext = {
+      ...generateMockWorkflowContext(),
+      selectedPageId: ComphubPages.Summary,
+      selectedPageIdDelayed: ComphubPages.Summary
+    };
     fixture.detectChanges();
   });
 
