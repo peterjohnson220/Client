@@ -27,6 +27,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -519,7 +520,6 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
-      disabled=""
     >
        Price New Job 
     </button>
@@ -575,6 +575,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -1067,7 +1068,6 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
-      disabled=""
     >
        Price New Job 
     </button>
@@ -1123,6 +1123,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -1615,7 +1616,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
-      disabled=""
     >
        Price New Job 
     </button>
@@ -1671,6 +1671,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -2163,7 +2164,6 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
-      disabled=""
     >
        Price New Job 
     </button>
@@ -2219,6 +2219,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
   store={[Function Store]}
   systemUserGroupNames={[Function Object]}
   userContext$={[Function Store]}
+  workflowContext={[Function Object]}
 >
   <pf-card-layout
     pageiconclass="fa-file-alt"
@@ -2711,7 +2712,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     <button
       class="btn comphub-primary-btn"
       data-qa-id="btn-priceNewJob"
-      disabled=""
     >
        Price New Job 
     </button>

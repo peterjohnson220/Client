@@ -2,6 +2,8 @@
   pageTitle="Data"
   pageSubTitle="Let's find the most timely and relevant data sources for pricing your job"
   pageIconClass="fa-database"
+  [page]="comphubPages.Data"
+  [workflowContext]="workflowContext"
   [nextButtonEnabled]="!!(selectedJobData$ | async) && workflowContext?.selectedPageId === comphubPages.Data"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Data">
 

@@ -3,11 +3,14 @@
   pageSubTitle="First, let's find a job to price"
   pageIconClass="fa-user-circle"
   [hideBackButton]="true"
+  [page]="comphubPages.Jobs"
+  [workflowContext]="workflowContext"
   [nextButtonEnabled]="
     (!(jobPricingBlocked$ | async) &&
     (selectedJob$ | async)?.length) &&
     workflowContext?.selectedPageId === comphubPages.Jobs"
   [backButtonEnabled]="workflowContext?.selectedPageId === comphubPages.Jobs">
+
 
   <ng-container page-content>
 
