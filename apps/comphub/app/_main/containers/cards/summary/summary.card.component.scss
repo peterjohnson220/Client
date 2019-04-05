@@ -41,12 +41,14 @@
 
   .info-horizontal {
     background: #f7f7f7;
-    margin-top: 1rem;
+    margin-top: 2rem;
     display: none;
     border-top: 4px solid rgba(0, 153, 204, 0.06);
+    padding-bottom: 1rem;
 
     .item {
       @extend %info-item;
+      margin: .75rem;
     }
   }
 
@@ -64,11 +66,13 @@
         font-size: 2rem;
         font-weight: $comphub-bold-font-weight;
         color: $comphub-header-blue;
+        margin-right: 1rem;
       }
 
       .actions {
         min-width: 185px;
         display: flex;
+        justify-content: flex-end;
 
         .non-action {
           padding: 0.375rem 0.75rem;
@@ -186,7 +190,9 @@
 // Responsive Styles
 @media (max-width: 1250px) {
   .summary-container {
+
     .summary {
+
       .graphs {
         flex-direction: column;
 
@@ -212,17 +218,12 @@
 
   .info-horizontal {
     display: block !important;
-    padding-bottom: 1rem;
-
-    .row {
-      height: 60px;
-    }
   }
 
   .pdf-logo {
     position: absolute;
-    right: 25px;
-    top: 55px;
+    right: 0;
+    top: 20px;
     width: 250px;
   }
 
@@ -235,8 +236,43 @@
     padding-bottom: 25px;
 
     .summary {
+
       margin-left: 0;
-      padding-top: 35px;
+
+      .header {
+
+        .job-title {
+          min-height: 55px;
+          display: flex;
+          align-items: flex-end;
+          margin-right: 250px !important;
+        }
+
+        .actions {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1250px) {
+    .summary-container {
+
+      .summary {
+
+        .graphs {
+          flex-direction: row !important;
+
+          .g {
+            width: 250px !important;
+
+            &:not(:first-of-type) {
+              margin-top: 0 !important;
+              margin-left: 35px !important;
+            }
+          }
+        }
+      }
     }
   }
 }
