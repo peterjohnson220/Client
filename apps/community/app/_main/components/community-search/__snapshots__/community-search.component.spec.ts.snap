@@ -5,15 +5,43 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
   searchEvent={[Function EventEmitter]}
 >
   <div
-    class="input-group"
+    class="input-group shadow"
   >
     <input
-      class="form-control form-control-lg community-border-radius input-body au-community-search"
+      class="form-control form-control-lg input-body rounded-left border-right-0"
       data-qa-id="lbl-communitySearch"
       maxlength="50"
-      placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..."
+      placeholder="Search discussions..."
       type="text"
     />
+    <div
+      class="input-group-append"
+      data-qa-id="ctr-clear-search"
+    >
+      <span
+        class="input-group-text clear-container clear-container-empty-search"
+        ng-reflect-klass="input-group-text clear-contain"
+        ng-reflect-ng-class="[object Object]"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-times"
+        />
+      </span>
+    </div>
+    <div
+      class="input-group-append"
+      data-qa-id="ctr-search"
+    >
+      <span
+        class="input-group-text search-container"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-search fa-2x"
+        />
+      </span>
+    </div>
   </div>
 </pf-community-search>
 `;
