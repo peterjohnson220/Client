@@ -174,6 +174,19 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         .k-icon.k-minus:before {
           content: '\E015';
         }
+        .association-status {
+          display: inline-block;
+          width: 100%;
+          height: 32px;
+          margin-left: -4px;
+          transition: background-color .4s ease-in-out;
+          &.associated {
+            background-color: #8ed985;
+          }
+          &.not-associated {
+            background-color: #fc6e68;
+          }
+        }
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;
         }

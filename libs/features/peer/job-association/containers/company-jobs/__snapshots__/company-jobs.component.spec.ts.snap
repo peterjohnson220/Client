@@ -65,6 +65,13 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
         <kendo-grid
           style="height: 100%;"
         >
+          <kendo-grid-column
+            class="p-0 m-0"
+            field="AssociationStatus"
+            title=""
+          >
+            
+          </kendo-grid-column>
           <kendo-grid-checkbox-column
             showselectall="true"
           >
@@ -90,12 +97,6 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
           <kendo-grid-column
             field="JobFamily"
             title="Job Family"
-          >
-            
-          </kendo-grid-column>
-          <kendo-grid-column
-            field="AssociationStatus"
-            title="Status"
           >
             
           </kendo-grid-column>
