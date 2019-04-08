@@ -1,8 +1,25 @@
- <div class="input-group">
+ <div class="input-group shadow">
    <input (keydown)="onKeyDown($event)"
           data-qa-id="lbl-communitySearch"
           maxlength="50"
           type="text"
-          class="form-control form-control-lg community-border-radius input-body au-community-search"
-          placeholder="Search for a Discussion, Poll, Post, Podcast or Tag..." [(ngModel)]="searchBoxText">
-  </div>
+          class="form-control form-control-lg input-body rounded-left border-right-0"
+          placeholder="Search discussions..." [(ngModel)]="searchBoxText">
+   <div (click)="clearValue()"
+        class="input-group-append"
+        data-qa-id="ctr-clear-search">
+    <span class="input-group-text clear-container"
+          [ngClass]="{'clear-container-search': !isClear(), 'clear-container-empty-search': isClear()}">
+      <i class="fas fa-times"
+         aria-hidden="true"></i>
+    </span>
+   </div>
+   <div (click)="searchClick()"
+        class="input-group-append"
+        data-qa-id="ctr-search">
+    <span class="input-group-text search-container">
+      <i class="fas fa-search fa-2x"
+         aria-hidden="true"></i>
+    </span>
+   </div>
+ </div>
