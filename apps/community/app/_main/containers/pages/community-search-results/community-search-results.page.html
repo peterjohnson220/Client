@@ -1,18 +1,17 @@
 <pf-page-with-title-bar [returnUrl]="'/dashboard/'" [contentNoPadding]="true">
-
   <ng-container page-title>
     Search Results
   </ng-container>
-
   <ng-container page-content>
-  <div class="page-content">
-    <div class="container-fluid">
-      <div class="d-flex justify-content-center">
-        <pf-community-search class="m-1 w-50" [searchBoxText]="searchQuery" (searchEvent)="executeSearchEvent($event)"></pf-community-search>
+    <div class="page-content pt-0">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-center sticky-top search-bar-container p-1">
+          <pf-community-search class="mt-2 w-50" [searchBoxText]="searchQuery"
+                               (searchEvent)="routeToSearch($event)"></pf-community-search>
+        </div>
+        <hr>
+        <pf-community-search-results></pf-community-search-results>
       </div>
-
     </div>
-  </div>
   </ng-container>
-
 </pf-page-with-title-bar>

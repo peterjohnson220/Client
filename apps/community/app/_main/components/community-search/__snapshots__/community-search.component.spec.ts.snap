@@ -34,7 +34,7 @@ exports[`CommunitySearchComponent should show community search component 1`] = `
       data-qa-id="ctr-search"
     >
       <span
-        class="input-group-text search-container"
+        class="input-group-text search-container cursor-pointer"
       >
         <i
           aria-hidden="true"
