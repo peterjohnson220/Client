@@ -10,6 +10,9 @@ export const LOAD_EXCHANGE_FILTERS_ERROR = '[Peer Admin/Exchange Filters] Load E
 export const PUT_FILTER = '[Peer Admin/Exchange Filters] Put Filter';
 export const PUT_FILTER_SUCCESS = '[Peer Admin/Exchange Filters] Put Filter Success';
 export const PUT_FILTER_ERROR = '[Peer Admin/Exchange Filters] Put Filter Error';
+export const REORDER_FILTERS = '[Peer Admin/Exchange Filters] Reorder Filters';
+export const REORDER_FILTERS_SUCCESS = '[Peer Admin/Exchange Filters] Reorder Filters Success';
+export const REORDER_FILTERS_ERROR = '[Peer Admin/Exchange Filters] Reorder Filters Error';
 
 export class LoadExchangeFilters implements Action {
   readonly type = LOAD_EXCHANGE_FILTERS;
@@ -41,10 +44,27 @@ export class PutFilterError implements Action {
   readonly type = PUT_FILTER_ERROR;
 }
 
+export class ReorderFilters implements Action {
+  readonly type = REORDER_FILTERS;
+
+  constructor(public payload: ExchangeSearchFilterAggregate[]) {}
+}
+
+export class ReorderFiltersSuccess implements Action {
+  readonly type = REORDER_FILTERS_SUCCESS;
+}
+
+export class ReorderFiltersError implements Action {
+  readonly type = REORDER_FILTERS_ERROR;
+}
+
 export type Actions
   = LoadExchangeFilters
   | LoadExchangeFiltersSuccess
   | LoadExchangeFilterError
   | PutFilter
   | PutFilterSuccess
-  | PutFilterError;
+  | PutFilterError
+  | ReorderFilters
+  | ReorderFiltersSuccess
+  | ReorderFiltersError;

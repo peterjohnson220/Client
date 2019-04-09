@@ -1,4 +1,5 @@
 export interface ExchangeSearchFilterAggregate {
+  Id: number;
   ExchangesSearchFilterAggregateId: number;
   SearchFilterAggregateId: number;
   TagCategoryId: number;
@@ -12,6 +13,7 @@ export interface ExchangeSearchFilterAggregate {
 
 export function generateMockExchangeSearchFilterAggregate(): ExchangeSearchFilterAggregate {
   return {
+    Id: 1,
     ExchangesSearchFilterAggregateId: 1,
     SearchFilterAggregateId: 1,
     TagCategoryId: 1,
