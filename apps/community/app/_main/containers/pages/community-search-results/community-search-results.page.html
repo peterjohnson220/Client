@@ -4,13 +4,12 @@
     Search Results
   </ng-container>
 
-  <ng-container page-actions>
-    <pf-community-search [searchBoxText]="searchQuery" (searchEvent)="executeSearchEvent($event)"></pf-community-search>
-  </ng-container>
-
   <ng-container page-content>
   <div class="page-content">
-    <div class="container-fluid community-container">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-center">
+        <pf-community-search class="m-1 w-50" [searchBoxText]="searchQuery" (searchEvent)="executeSearchEvent($event)"></pf-community-search>
+      </div>
 
     </div>
   </div>
