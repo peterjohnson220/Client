@@ -88,22 +88,24 @@ export class FilterSidebarEffects {
         // Only clear selections on paymarket toggle if a scope is not selected
         if (scopeSelected) {
           obs = [
-            new fromPeerMapActions.LoadPeerMapData(),
-            new fromFilterSidebarActions.LoadFilterAggregates()
+            new fromPeerMapActions.LoadPeerMapBounds()
           ];
         } else {
-          obs = [new fromFilterSidebarActions.ClearAllSelections()];
-        }
+           obs = [
+             new fromFilterSidebarActions.ClearAllSelections,
+             new fromPeerMapActions.LoadPeerMapBounds
+            ];
+         }
 
         return obs;
       })
     );
 
   @Effect()
-  clearAllSelections$ = this.actions$.pipe(
-      ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS),
+  getMapData$ = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.GET_MAP_DATA),
       mergeMap(() => [
-        new fromPeerMapActions.LoadPeerMapData(),
+        new fromPeerMapActions.LoadPeerMapData,
         new fromFilterSidebarActions.LoadFilterAggregates()
       ])
     );
