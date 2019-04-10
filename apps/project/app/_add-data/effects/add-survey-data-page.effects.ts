@@ -65,7 +65,9 @@ export class AddSurveyDataPageEffects {
           JobDataCuts: jobContextAndCuts.selectedDataCuts,
           ExcludeFromParticipation: jobContextAndCuts.action.payload,
           PayMarketId : jobContextAndCuts.jobContext.JobPayMarketId,
-          JobCode: jobContextAndCuts.jobContext.JobCode
+          JobCode: jobContextAndCuts.jobContext.JobCode,
+          CompanyPayMarketId: jobContextAndCuts.projectSearchContext.PayMarketId,
+          PeerDataCuts: []
         })
           .pipe(
             mergeMap((addResponse: AddSurveyDataCutMatchResponse) => [
