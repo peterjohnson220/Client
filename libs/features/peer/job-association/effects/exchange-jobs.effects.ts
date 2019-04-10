@@ -42,13 +42,13 @@ export class ExchangeJobsEffects {
     // grab the selected job families
     withLatestFrom(
       this.store.pipe(
-        select(fromPeerJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames)),
-        (combined, jobFamilies: string[]) => ({ ...combined, jobFamilies })
+        select(fromPeerJobsReducer.getSelectedJobFamilies)),
+        (combined, selectedJobFamilies: GenericMenuItem[]) => ({ ...combined, selectedJobFamilies })
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined =>
       this.jobAssociationApiService.loadExchangeJobs(combined.gridState.grid, combined.searchTerm,
-        combined.jobFamilies).pipe(map((gridDataResult: GridDataResult) =>
+        combined.selectedJobFamilies.map(o => o.DisplayName)).pipe(map((gridDataResult: GridDataResult) =>
           new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)
         ),
         catchError((error: HttpErrorResponse ) => {

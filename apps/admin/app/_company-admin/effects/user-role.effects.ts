@@ -6,14 +6,17 @@ import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 
+import { DataType } from 'libs/models/security/roles/data-type';
 import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security/roles';
 import { RoleApiResponse } from '../constants/user-role.constants';
 
 import * as fromUserRoleActions from '../actions/user-role-view.action';
+import * as fromDataAccessActions from '../actions/data-access-tab.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
 import * as fromUserRoleFunctionTabActions from '../actions/user-role-functions-tab.action';
 import * as fromUserRoleViewReducer from '../reducers';
+
 
 
 
@@ -86,6 +89,15 @@ export class UserRoleEffects {
       mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
         [new fromUserRoleUserTabActions.CancelChanges(), new fromUserRoleFunctionTabActions.CancelPermissionChanges()])
     );
+
+    @Effect()
+    loadDataTypes$: Observable<Action> = this.actions$
+      .ofType(fromDataAccessActions.LOAD_DATA_TYPES).pipe(
+        switchMap((action: fromDataAccessActions.LoadDataTypes) => this.adminRolesApi.getDataTypes().pipe(
+          map((dataTypes: DataType[]) => {
+            return new fromDataAccessActions.LoadedDataTypes(dataTypes); })
+        ))
+      );
 
   constructor(private actions$: Actions,
               private adminRolesApi: RolesApiService,

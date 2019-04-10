@@ -21,6 +21,7 @@ import { UserRolePageComponent } from './containers/pages';
 import { UserRoleService, UserRoleValidationService} from './services';
 import { UserRoleEffects } from './effects/user-role.effects';
 import { UserRoleDataAccessTabComponent } from './containers/user-role-data-access-tab';
+import { DataFieldFilterComponent } from './components/data-field-filter/data-field-filter.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { UserRoleDataAccessTabComponent } from './containers/user-role-data-acce
     UserRoleFunctionTabComponent,
     UserRolePageComponent,
     UserRoleUsersTabComponent,
-    AddCompanyRoleModalComponent
+    AddCompanyRoleModalComponent,
+    DataFieldFilterComponent
   ],
   providers: [
     // Services

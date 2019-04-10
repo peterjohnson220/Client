@@ -1,3 +1,12 @@
 <h3>
   Data Access Tab
 </h3>
+<ul class="list-group nav" >
+  <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes">
+    {{dt.Name}}
+    <ul class="list-group nav">
+      <li class="nav-item subElement">
+       <pf-data-field-filter [dataType]="dt"></pf-data-field-filter>
+      </li>
+    </ul>
+</ul>

@@ -45,6 +45,8 @@
             </div>
             <div class="card-block">
               <div class="tab-container mx-2 py-2">
+                <pf-user-role-data-access-tab
+                  *ngIf="currentUserRoleTabState === _UserRoleTabState.DATA_ACCESS"></pf-user-role-data-access-tab>
                 <pf-user-role-function-tab
                   *ngIf="currentUserRoleTabState === _UserRoleTabState.FUNCTION"></pf-user-role-function-tab>
                 <pf-user-role-users-tab

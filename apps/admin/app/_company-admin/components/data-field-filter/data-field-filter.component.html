@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-12 col-lg-2">
+    <div>
+        <kendo-dropdownlist class="form-control border"
+                          [attr.data-qa-id]="'ddm-'+ dataType?.Name"
+                          [data]="dataType?.DataFields"
+                          [textField]="'Name'"
+                          [valueField]="'Id'"
+                          [(ngModel)]="selectedField"
+      ></kendo-dropdownlist>
+    </div>
+  </div>
+  <div class="col-12 col-lg-2">
+    <kendo-dropdownlist class="border form-control"
+                        [attr.data-qa-id]="'ddm-Operators'"
+                        [tabIndex]="0" [data]="Operators"></kendo-dropdownlist>
+  </div>
+  <div class="col-12 col-lg-4">
+     <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.REFERENCE">
+        <div  *ngIf="selectedField?.Name=='Name' && dataType?.Name=='CompanyPayMarkets'">
+          <pf-multi-select
+          [attr.data-qa-id]="'ddm-'+ dataType.Name + '-' +selectedField.Name"
+          [(selectedOptions)]="selectedPayMarkets"
+          [selectedOnTop]="true"
+          [endpointName]="paymarketApiName"
+          [valueField]="'CompanyPayMarketId'"
+          [textField]="'PayMarket'">
+          </pf-multi-select>
+        </div>
+        <div  *ngIf="selectedField?.Name=='Country' && dataType?.Name=='CompanySurveys'">
+          <pf-multi-select
+            [attr.data-qa-id]="'ddm-'+ dataType?.Name + '-' +selectedField?.Name"
+            [(selectedOptions)]="selectedSurvey"
+            [selectedOnTop]="true"
+            [endpointName]="surveyApiName"
+            [valueField]="'CountryCode'"
+            [textField]="'CountryName'"
+          >
+          </pf-multi-select>
+        </div>
+     </div>
+      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
+       <input type="text" [attr.data-qa-id]="'txt-'+ dataType?.Name + '-' +selectedField?.Name" class="form-control ng-pristine">
+      </div>
+  </div>
+</div>
