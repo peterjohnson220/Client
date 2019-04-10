@@ -9,11 +9,11 @@ import { PfCommonModule } from 'libs/core';
 import * as fromRootState from 'libs/state/state';
 
 import { UserRolePageComponent } from './user-role.page';
-import { UserRoleService } from '../../services';
-import { UserRoleTabState } from '../../constants/user-role.constants';
-import * as fromUserRoleViewReducer from '../../reducers';
-import * as fromUserRoleViewActions from '../../actions';
-import * as fromUserRoleActions from '../../actions/user-role-view.action';
+import { UserRoleService } from '../../../services';
+import { UserRoleTabState } from '../../../constants/user-role.constants';
+import * as fromUserRoleViewReducer from '../../../reducers';
+import * as fromUserRoleViewActions from '../../../actions';
+import * as fromUserRoleActions from '../../../actions/user-role-view.action';
 
 describe('UserRolePageComponent', () => {
   let fixture, component, de;
