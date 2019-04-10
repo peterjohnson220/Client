@@ -79,7 +79,8 @@
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
-                      (click)="handleAssociateClick(dataItem, rowIndex)">
+                      (click)="handleAssociateClick(dataItem, rowIndex)"
+                      [title]="createAssociateButtonTooltipText(dataItem.ExchangeId, dataItem.ExchangeJobId)">
                 <i class="fas fa-exchange-alt"></i>
               </button>
             </ng-template>
