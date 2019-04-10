@@ -4,11 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { UserAssignedRole } from 'libs/models/security';
 
-import { UserRoleTabState, RoleApiResponse } from '../../constants/user-role.constants';
-import { UserRoleService } from '../../services';
-import * as fromUserRoleViewReducer from '../../reducers';
-import * as fromUserRoleActions from '../../actions/user-role-view.action';
-import * as fromUserRoleUserTabActions from '../../actions/user-role-users-tab.action';
+import { UserRoleTabState, RoleApiResponse } from '../../../constants/user-role.constants';
+import { UserRoleService } from '../../../services';
+import * as fromUserRoleViewReducer from '../../../reducers';
+import * as fromUserRoleActions from '../../../actions/user-role-view.action';
+import * as fromUserRoleUserTabActions from '../../../actions/user-role-users-tab.action';
 
 @Component({
   selector: 'pf-user-role-page',

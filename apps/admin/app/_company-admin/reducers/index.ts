@@ -7,12 +7,14 @@ import * as fromRoot from 'libs/state/state';
 import * as fromUserRoleViewReducer from './user-role-view.reducer';
 import * as fromUserRoleUserTabReducer from './user-role-users-tab.reducer';
 import * as fromUserRoleFunctionTabReducer from './user-role-functions-tab.reducer';
+import * as fromNavigationReducer from './navigation.reducer';
 
 // Feature area state
 export interface UserRoleViewStateMain {
   userRoleView: fromUserRoleViewReducer.IUserRoleState;
   userRoleUserTab: fromUserRoleUserTabReducer.State;
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.State;
+  navigation: fromNavigationReducer.State;
 }
 
 // Extend root state with feature area state
@@ -24,7 +26,8 @@ export interface State extends fromRoot.State {
 export const reducers = {
   userRoleView: fromUserRoleViewReducer.reducer,
   userRoleUserTab: fromUserRoleUserTabReducer.reducer,
-  userRoleFunctionTab: fromUserRoleFunctionTabReducer.reducer
+  userRoleFunctionTab: fromUserRoleFunctionTabReducer.reducer,
+  navigation: fromNavigationReducer.reducer
 };
 
 // Select Feature Area
@@ -40,6 +43,9 @@ export const selectUserRoleFunctionTabState =
 
 export const selectUserRoleUserTabState =
   createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
+
+export const selectNavigationState =
+  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.navigation);
 
 export const getUserRoleViewState = createSelector(
   selectUserRoleState, fromUserRoleViewReducer.getUserRoleViewState
@@ -117,4 +123,17 @@ export const getUsersTabHasPendingChanges = createSelector(
 
 export const getUserIdsToSave = createSelector(
   selectUserRoleUserTabState, fromUserRoleUserTabReducer.getUserIdsToSave
+);
+
+// Navigation Links
+export const getLinks = createSelector(
+  selectNavigationState, fromNavigationReducer.getLinks
+);
+
+export const getNavigationLinksLoading = createSelector(
+  selectNavigationState, fromNavigationReducer.getLoading
+);
+
+export const getNavigationLinksLoadingError = createSelector(
+  selectNavigationState, fromNavigationReducer.getLoadingError
 );

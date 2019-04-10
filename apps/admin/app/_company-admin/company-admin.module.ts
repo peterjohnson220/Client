@@ -12,15 +12,16 @@ import { PfCommonUIModule } from 'libs/ui/common';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 
-import { AddCompanyRoleModalComponent } from './containers/add-company-role-modal';
-import { CompanyAdminRoutingModule } from './company-admin-routing.module';
+import { AddCompanyRoleModalComponent,
+  NavigationPageComponent,
+  UserRoleFunctionTabComponent,
+  UserRoleUsersTabComponent,
+  UserRolePageComponent,
+  UserRoleDataAccessTabComponent } from './containers';
+import { NavigationEffects, UserRoleEffects } from './effects';
 import { reducers } from './reducers';
-import { UserRoleFunctionTabComponent } from './containers/user-role-functions-tab';
-import { UserRoleUsersTabComponent } from './containers/user-role-users-tab';
-import { UserRolePageComponent } from './containers/pages';
 import { UserRoleService, UserRoleValidationService} from './services';
-import { UserRoleEffects } from './effects/user-role.effects';
-import { UserRoleDataAccessTabComponent } from './containers/user-role-data-access-tab';
+import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { UserRoleDataAccessTabComponent } from './containers/user-role-data-acce
     LayoutModule,
     StoreModule.forFeature('userRoleAdminMain', reducers),
     EffectsModule.forFeature([
+      NavigationEffects,
       UserRoleEffects
     ]),
 
@@ -50,9 +52,12 @@ import { UserRoleDataAccessTabComponent } from './containers/user-role-data-acce
     // Components
     UserRoleDataAccessTabComponent,
     UserRoleFunctionTabComponent,
-    UserRolePageComponent,
     UserRoleUsersTabComponent,
-    AddCompanyRoleModalComponent
+    AddCompanyRoleModalComponent,
+
+    // Pages
+    UserRolePageComponent,
+    NavigationPageComponent
   ],
   providers: [
     // Services

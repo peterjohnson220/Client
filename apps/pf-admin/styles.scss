@@ -1,0 +1,29 @@
+@import '_colors';
+
+$header-width: 190px;
+$header-color: darken(#f7f7f7, 10%);
+$header-background-color: #1f2f3d;
+$branded-color: #0882BE;
+
+#au-modal-add-company-role {
+  .modal-content {
+    border-radius: .4rem;
+    .modal-header {
+      background-color: $header-background-color;
+      color: $header-color;
+      h5 small {
+        color: $header-color !important;
+      }
+      button.close {
+        color: #fff;
+        transition: opacity .2s ease-in-out;
+      }
+    }
+  }
+}
+
+.close-btn {
+  height: 18px;
+  padding-left: 5px;
+  padding-top: 3px;
+}
