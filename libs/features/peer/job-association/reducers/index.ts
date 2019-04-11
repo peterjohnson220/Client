@@ -121,20 +121,10 @@ export const getExchangeJobsData = createSelector(
   (data, total) => ({ data, total })
 );
 
-export const getExchangeJobsResultsCount = createSelector(
-  getExchangeJobsList,
-  (data) => data.length
-);
-
 // Exchange Jobs Selectors, job family filter
 export const getExchangeJobsFamilyFilterLoading = createSelector(
   getExchangeJobsFeature,
   fromExchangeJobsReducer.getJobFamilyFilterLoading
-);
-
-export const getExchangeJobFamilyFilterIsExpanded = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterIsExpanded
 );
 
 export const getExchangeJobFamilyFilterOptions = createSelector(
@@ -144,7 +134,28 @@ export const getExchangeJobFamilyFilterOptions = createSelector(
 
 export const getExchangeJobFamilyFilterSelectedOptionNames = createSelector(
   getExchangeJobsFeature,
-  (state) => state.jobFamilyOptions.filter(o => o.IsSelected).map(o => o.DisplayName)
+  (state) => state.selectedJobFamilies.map(o => o.DisplayName)
+);
+
+// Exchange Jobs Selectors, exchange filter
+export const getExchangeJobsExchangeFilterLoading = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getExchangeFilterLoading
+);
+
+export const getExchangeJobExchangeFilterOptions = createSelector(
+  getExchangeJobsFeature,
+  fromExchangeJobsReducer.getExchangeFilterOptions
+);
+
+export const getExchangeJobExchangeFilterSelectedOptionNames = createSelector(
+  getExchangeJobsFeature,
+  (state) => state.selectedExchanges.map(o => o.DisplayName)
+);
+
+export const getExchangeJobExchangeFilterSelectedOptionIds = createSelector(
+  getExchangeJobsFeature,
+  (state) => state.selectedExchanges.map(o => o.Id)
 );
 
 // Exchange Jobs Selectors, previous associations

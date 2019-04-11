@@ -73,10 +73,9 @@ $buttons-height: 70px;
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   &> h2 {
     color: $header-color;
-  }
-  
+  }  
   .filters {
-    min-height: 35px; // this can be removed once both grids have the job family filter
+    min-height: 40px; // this can be removed once both grids have the job family filter
     pf-input-debounce {
       .input-group {
         flex-wrap: nowrap;
@@ -102,10 +101,6 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
       margin-top: 6px;
       color: #0099cc;
     }
-  }
-
-  .filters + div {
-    min-height: 30px; // this can be removed once both grids have the list view/grid view buttons
   }
 
   .view-button {
@@ -235,9 +230,26 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
     }
   }
 
-  /* hide No records available when loading */
+  // hide No records available when loading
   .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
 }
 
+// stack filters at 1400px and shrink grid container to accomodate
+@media screen and (max-width: 1400px) {
+  pf-peer-job-association-exchange-jobs {
+    .filters {
+      height: 120px;
+      width: 250px;
+    }
+    .grid-container {
+      height: calc(100% - 220px);
+    }
+    pf-multi-select {
+      .main-label {
+        min-width: 60px;
+      }
+    }
+  }
+}
