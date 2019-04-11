@@ -4,8 +4,6 @@
   <pf-input-debounce
     [id]="'company-jobs-search-box'"
     [delay]="400"
-    [(ngModel)]="searchTerm"
-    [ngModelOptions]="{standalone: true}"
     [placeholderText]="'Search job title or job code'"
     (valueChanged)="handleSearchBoxValueChanged($event)">
   </pf-input-debounce>

@@ -5,10 +5,8 @@
     <pf-input-debounce 
       [id]="'exchange-jobs-search-box'"
       [delay]="400"
-      [(ngModel)]="searchTerm"
-      [ngModelOptions]="{standalone: true}"
       [placeholderText]="'Search job title'"
-      (valueChanged)="handleSearchFilterChanged($event)"
+      (valueChanged)="handleSearchBoxValueChanged($event)"
     >
     </pf-input-debounce>
   </div>

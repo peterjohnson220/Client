@@ -2,15 +2,13 @@
 
 exports[`CompanyJobsComponent should show total company jobs 1`] = `
 <pf-peer-job-association-company-jobs
+  allSubscriptions={[Function Subscription]}
   badRequestError=""
   badRequestError$={[Function Store]}
-  badRequestErrorSubscription={[Function Subscriber]}
   companyJobGridDataResult={[Function Object]}
   companyJobSearchComponent="undefined"
   companyJobsGridItemsData$={[Function Store]}
-  companyJobsGridItemsDataSubscription={[Function Subscriber]}
   exchangeJobAssociations={[Function Array]}
-  exchangeJobAssociationsSubscription={[Function Subscriber]}
   grid="undefined"
   gridState$={[Function Store]}
   isDetailPanelExpanded$={[Function Store]}
@@ -19,12 +17,9 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
   loadingError$={[Function Store]}
   maxSelectionThreshold={[Function Number]}
   searchTerm=""
-  searchTermSubscription={[Function Subscriber]}
   selectedCompanyJobIds={[Function Array]}
   selectedCompanyJobInDetailPanel={[Function Object]}
   selectedCompanyJobInDetailPanel$={[Function Store]}
-  selectedCompanyJobInDetailPanelSubscription={[Function Subscriber]}
-  selectedCompanyJobsSubscription={[Function Subscriber]}
   store={[Function Store]}
   tooltipDir="undefined"
   totalCompanyJobsGridItems$={[Function Store]}

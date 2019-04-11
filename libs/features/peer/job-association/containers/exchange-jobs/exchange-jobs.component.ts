@@ -58,7 +58,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   maxAssociableThreshold: number;
   isListView: boolean;
   isJobFamilyFilterExpanded: boolean;
-  searchTerm: string;
+  searchTerm = '';
   badRequestError: string;
   selectedCompanyJobs: CompanyJob[];
   exchangeJobAssociations: ExchangeJobAssociation[];
@@ -206,10 +206,12 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
   }
 
-  handleSearchFilterChanged(searchTerm: string): void {
-    this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
+  handleSearchBoxValueChanged(searchTerm: string): void {
+    if (searchTerm === this.searchTerm) {
+      return;
+    }
 
-    // only search if 2+ chars are supplied, or if the term is reset and it's empty
+    this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
     if (!searchTerm || searchTerm.length >= 2) {
       this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalPeerExchangeJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
