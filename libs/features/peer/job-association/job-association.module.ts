@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {GridModule, RowFilterModule} from '@progress/kendo-angular-grid';
+import { GridModule, RowFilterModule} from '@progress/kendo-angular-grid';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 
 import { reducers } from './reducers';
@@ -36,7 +36,7 @@ import { CompleteIconComponent } from './components/complete-icon/complete-icon.
     PfCommonModule,
     PfCommonUIModule,
     PfFormsModule,
-    RowFilterModule,
+    RowFilterModule
   ],
   declarations: [
     // Components

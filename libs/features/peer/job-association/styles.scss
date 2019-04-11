@@ -219,14 +219,20 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
       height: 2rem;
       opacity: .9;
     }
-    .fill-light-green {
+    .fill-active-primary {
       fill: #009b09;
     }
-    .fill-dark-green {
+    .fill-active-secondary {
       fill: rgba(0, 155, 9, 0.5);
     }
     .fill-white {
       fill: #fff;
+    }
+    .fill-inactive-primary {
+      fill: rgba(222, 222, 222, 1.0);
+    }
+    .fill-inactive-secondary {
+      fill: rgba(222, 222, 222, 0.4);
     }
   }
 

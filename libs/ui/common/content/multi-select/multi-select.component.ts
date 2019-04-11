@@ -6,9 +6,6 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { GenericMenuItem } from 'libs/models/common';
 import {RemoteDataSourceService} from 'libs/core/services';
 
-
-
-
 @Component({
   selector: 'pf-multi-select',
   templateUrl: './multi-select.component.html',
@@ -48,13 +45,18 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     if (this.endpointName) {this.getFromRemoteSource(); }
   }
 
+  ngOnDestroy() {
+    if (this.remoteDataSourceSubscription) {
+      this.remoteDataSourceSubscription.unsubscribe();
+    }
+  }
+
   refreshSelected() {
-    debugger;
     this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
     this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
     this.selectedOptionsChange.emit(this.selectedOptions);
-
   }
+
   getFromRemoteSource() {
      this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${this.endpointName}`).subscribe(
       s => {
@@ -90,22 +92,15 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   clickElsewhere () {
     this.isExpanded = false;
   }
+
   clearSearchTerm() {
     this.searchTerm = '';
   }
 
-  trackByFn(index, item: GenericMenuItem) {
-    return ((item.Id) ? item.Id : item.DisplayName ) + (item.IsSelected ? 'true' : 'false');
-  }
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key.toLowerCase() === 'escape') {
       this.isExpanded = false;
     }
-  }
-  ngOnDestroy() {
-      if (this.remoteDataSourceSubscription) {
-        this.remoteDataSourceSubscription.unsubscribe();
-      }
   }
 }

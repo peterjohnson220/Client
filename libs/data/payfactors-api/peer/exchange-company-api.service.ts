@@ -9,6 +9,7 @@ import {
   ExchangeListItem, UpsertExchangeJobMapRequest,
   GetChartRequest, GetDetailChartRequest, ChartItem,
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
+  SaveExchangeJobAssociationRequestModel
 } from '../../../models';
 import { GenericMenuItem } from 'libs/models/common';
 
@@ -79,9 +80,9 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  saveJobAssociations(companyJobToExchangeJobAssociations: any[]) {
-    return this.payfactorsApiService.post<any[]>(`${this.endpoint}/SaveJobAssociations`,
-      companyJobToExchangeJobAssociations
+  saveJobAssociations(request: SaveExchangeJobAssociationRequestModel) {
+    return this.payfactorsApiService.put<SaveExchangeJobAssociationRequestModel>(`${this.endpoint}/SaveJobAssociations`,
+      request
     );
   }
 

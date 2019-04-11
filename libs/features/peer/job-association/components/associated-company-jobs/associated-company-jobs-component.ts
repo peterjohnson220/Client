@@ -7,19 +7,39 @@ import { CompanyJob } from '../../models';
   styleUrls: ['./associated-company-jobs.component.scss']
 })
 export class AssociatedCompanyJobsComponent {
-  @Input() companyJobs: CompanyJob[];
+  @Input() newAssociations: CompanyJob[];
   @Input() previousAssociations: CompanyJob[];
-
+  @Input() previousAssociationPendingRemoval: number[];
   @Input() loadingPreviousAssociations: boolean;
-  @Input() loadingPreviousAssociationsSuccess: boolean;
   @Input() loadingPreviousAssociationsError: boolean;
 
-  @Output() removeAssociation = new EventEmitter<number>();
+  @Output() removeNewAssociation = new EventEmitter<number>();
+  @Output() removePreviousAssociation = new EventEmitter<number>();
+  @Output() undoRemovePreviousAssociation = new EventEmitter<number>();
 
   constructor() {}
 
-  handleRemoveAssociate(companyJobId: number) {
-    this.removeAssociation.emit(companyJobId);
+  hasAssociations(): boolean {
+    return this.newAssociations.length > 0 || this.previousAssociations.length > 0;
+  }
+
+  isPendingRemoval(companyJobId: number): boolean {
+    if (!this.previousAssociationPendingRemoval || this.previousAssociationPendingRemoval.length === 0) {
+      return false;
+    }
+    return this.previousAssociationPendingRemoval.some(_companyJobId => _companyJobId === companyJobId);
+  }
+
+  handleRemoveNewAssociate(companyJobId: number) {
+    this.removeNewAssociation.emit(companyJobId);
+  }
+
+  handleRemovePreviousAssociation(companyJobId: number) {
+    this.removePreviousAssociation.emit(companyJobId);
+  }
+
+  handleUndoRemovePreviousAssociation(companyJobId: number) {
+    this.undoRemovePreviousAssociation.emit(companyJobId);
   }
 
   trackByFn(index, item) {

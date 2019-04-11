@@ -32,6 +32,7 @@ export interface State extends EntityState<ExchangeJob> {
   loadingPreviousAssociationsSuccess: boolean;
   loadingPreviousAssociationsError: boolean;
   previousAssociations: CompanyJob[];
+  previousAssociationsToDelete: number[];
 }
 
 // Define our Adapter
@@ -64,7 +65,8 @@ const initialState: State = adapter.getInitialState({
   loadingPreviousAssociations: false,
   loadingPreviousAssociationsSuccess: false,
   loadingPreviousAssociationsError: false,
-  previousAssociations: []
+  previousAssociations: [],
+  previousAssociationsToDelete: [],
 });
 
 // Reducer function
@@ -150,6 +152,22 @@ export function reducer(state, action) {
           };
         }
         // previous associations
+        case fromPeerExchangeJobsActions.REMOVE_PREVIOUS_ASSOCIATION: {
+          const previousAssociationsToDelete = [...featureState.previousAssociationsToDelete];
+          previousAssociationsToDelete.push(featureAction.payload);
+          return {
+            ...featureState,
+            previousAssociationsToDelete: previousAssociationsToDelete
+          };
+        }
+        case fromPeerExchangeJobsActions.UNDO_REMOVE_PREVIOUS_ASSOCIATION: {
+          const previousAssociationsToDelete = [...featureState.previousAssociationsToDelete]
+            .filter((id) => id !== featureAction.payload);
+          return {
+            ...featureState,
+            previousAssociationsToDelete: previousAssociationsToDelete
+          };
+        }
         case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS: {
           return {
             ...featureState,

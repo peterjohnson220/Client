@@ -37,7 +37,6 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   badRequestError$: Observable<string>;
   selectedCompanyJobs$: Observable<CompanyJob[]>;
   exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
-  gridResultsCount$: Observable<number>;
   selectedExchangeJob$: Observable<ExchangeJob>;
   isDetailPanelExpanded$: Observable<boolean>;
   jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
@@ -49,6 +48,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
   // Observables, previous associations
   previousAssociations$: Observable<CompanyJob[]>;
+  previousAssociationsToDelete$: Observable<number[]>;
   loadingPreviousAssociations$: Observable<boolean>;
   loadingPreviousAssociationsSuccess$: Observable<boolean>;
   loadingPreviousAssociationsError$: Observable<boolean>;
@@ -57,9 +57,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   allSubscriptions: Subscription = new Subscription();
 
   // Properties
-  maxAssociableThreshold = 10;
-  isListView: boolean;
-  isJobFamilyFilterExpanded: boolean;
+  maxAssociableThreshold: number;
   searchTerm = '';
   badRequestError: string;
   selectedCompanyJobs: CompanyJob[];
@@ -77,6 +75,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
   ngOnInit() {
+    // Set properties
+    this.maxAssociableThreshold = 10;
+
     // Register Observables
     this.loading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoading));
     this.loadingError$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoadingError));
@@ -99,6 +100,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     // Register Observables, previous associations
     this.previousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociations));
+    this.previousAssociationsToDelete$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociationsToDelete));
     this.loadingPreviousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociations));
     this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsSuccess));
     this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsError));
@@ -241,6 +243,23 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
   handleRemoveAssociateClick(exchangeId: number, exchangeJobId: number, companyJobId: number): void {
     this.store.dispatch(new exchangeJobsActions.RemoveAssociation(exchangeId, exchangeJobId, companyJobId));
+  }
+
+  getCompanyJobIdFromExchangeJobToCompanyJobIds(exchangeJobToCompanyJobIds: number[], { CompanyJobMappings }): number[] {
+    return CompanyJobMappings.filter(
+      x => exchangeJobToCompanyJobIds.indexOf(x.ExchangeJobToCompanyJobId) >= 0).map(x => x.CompanyJobId);
+  }
+
+  handleRemovePreviousAssociationClick(dataItem: any, companyJobId: number): void {
+    const CompanyJobMappings = dataItem.CompanyJobMappings as CompanyJobMapping[];
+    const mapping = CompanyJobMappings.find(x => x.CompanyJobId === companyJobId);
+    this.store.dispatch(new exchangeJobsActions.RemovePreviousAssociation(mapping.ExchangeJobToCompanyJobId));
+  }
+
+  handleUndoRemovePreviousAssociationClick(dataItem: any, companyJobId: number): void {
+    const CompanyJobMappings = dataItem.CompanyJobMappings as CompanyJobMapping[];
+    const mapping = CompanyJobMappings.find(x => x.CompanyJobId === companyJobId);
+    this.store.dispatch(new exchangeJobsActions.UndoRemovePreviousAssociation(mapping.ExchangeJobToCompanyJobId));
   }
 
   // validation/business logic
