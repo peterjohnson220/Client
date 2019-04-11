@@ -208,7 +208,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   }
 
   handleJobTitleFilterChanged(searchTerm: string): void {
-    this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
+    if (searchTerm === this.searchTerm) {
+      return;
+    }
 
     this.store.dispatch(new exchangeJobsActions.UpdateSearchTerm(searchTerm));
     if (!searchTerm || searchTerm.length >= 2) {
