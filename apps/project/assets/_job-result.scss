@@ -17,6 +17,7 @@
 }
 
 .result{
+  position: relative;
   padding: .75rem 1.5rem .75rem .5rem;
   border-bottom: 1px solid $grey;
   border-left: 3px solid transparent;
@@ -62,4 +63,13 @@
 
 .no-job-description{
   font-style: italic;
+}
+
+
+.peer {
+  background: #fdb82c0a;
+
+  &:hover {
+    border-left: 3px solid #FDB82C;
+  }
 }

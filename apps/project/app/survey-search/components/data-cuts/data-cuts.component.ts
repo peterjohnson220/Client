@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
 
@@ -11,7 +12,6 @@ import { JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../model
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataCutsComponent implements OnDestroy {
-
   @Input() job: JobResult;
   @Input() numberCutsSelected: number;
   @Input() dataCuts: SurveyDataCut[];
@@ -24,6 +24,7 @@ export class DataCutsComponent implements OnDestroy {
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   isMatchesHovered: boolean;
+  surveySearchResultDataSources = SurveySearchResultDataSources;
   private matchesMouseLeaveTimer: number;
   private readonly matchesMouseLeaveTimeout: number = 100;
 

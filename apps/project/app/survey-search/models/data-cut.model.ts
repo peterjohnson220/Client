@@ -1,3 +1,5 @@
+import { SurveySearchResultDataSources } from 'libs/constants';
+
 import { JobResult } from './';
 
 export interface SurveyDataCut {
@@ -13,9 +15,9 @@ export interface SurveyDataCut {
 
 export interface DataCutDetails {
   DataCutId?: number;
+  DataSource: SurveySearchResultDataSources;
   SurveyJobCode?: string;
   SurveyJobId?: number;
-  IsPayfactorsJob: boolean;
   CountryCode?: string;
   Job?: JobResult;
   Base50th?: number;
