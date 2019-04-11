@@ -15,7 +15,7 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromMultiMatchPageActions from '../actions/multi-match-page.actions';
 import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
-import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
+import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from '../../survey-search/helpers';
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
 
@@ -98,7 +98,7 @@ export class MultiMatchPageEffects {
       return {
         UserJobListTempId: job.Id,
         MatchesToDelete: job.DeletedJobMatchCutIds,
-        DataCutMatchesToAdd: job.DataCutsToAdd
+        DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailstoDataCuts(job.DataCutsToAdd)
       };
     });
   }

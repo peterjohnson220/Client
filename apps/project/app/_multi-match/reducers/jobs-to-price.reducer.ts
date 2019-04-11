@@ -1,11 +1,13 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { DataCut, JobMatchCut } from 'libs/models/payfactors-api';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 import { DataCutDetails } from '../../survey-search/models';
+
 
 export interface State {
   loadingJobs: boolean;
@@ -120,7 +122,7 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
     return {
       JobTitle: jobCut.Job.Title,
       JobCode: jobCut.Job.Code,
-      Source: jobCut.IsPayfactorsJob ? jobCut.Job.Source :
+      Source: jobCut.DataSource === SurveySearchResultDataSources.Payfactors ? jobCut.Job.Source :
         jobCut.Job.Source + ': ' + jobCut.Job.SurveyName + ' ' + formatDate(jobCut.Job.EffectiveDate.toString()),
       Base50: Number(jobCut.Base50th),
       TCC50: Number(jobCut.TCC50th),
@@ -130,7 +132,7 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
   });
 }
 
-function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCut[]) {
+function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts || [];
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(mapDataCutToMatchCut(newDataCuts));
   jobToPrice.TotalDataCuts += newDataCuts.length;

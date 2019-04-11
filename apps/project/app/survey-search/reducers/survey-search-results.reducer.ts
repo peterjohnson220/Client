@@ -1,5 +1,7 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
+import { SurveySearchResultDataSources } from 'libs/constants';
+
 import * as fromSurveySearchResultsActions from '../actions/survey-search-results.actions';
 import { DataCutDetails, JobResult } from '../models';
 import { applyMatchesToJobResults } from '../helpers';
@@ -124,15 +126,18 @@ export const getSelectedDataCuts = (state: State) => state.selectedDataCuts;
 
 function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDetails[]) {
   let matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
-  if (!dataCut.IsPayfactorsJob) {
+  if (dataCut.DataSource === SurveySearchResultDataSources.Surveys) {
     matchingDataCut = filter => filter.DataCutId === dataCut.DataCutId;
   }
   return selectedDataCuts.find(matchingDataCut);
 }
 
 function setSelectedPropertyInSearchResults(dataCut: DataCutDetails, resultsCopy: JobResult[], isSelected: boolean) {
-  if (dataCut.IsPayfactorsJob) {
-    const payfactorsJob = resultsCopy.find(job => job.Code === dataCut.SurveyJobCode && job.CountryCode === dataCut.CountryCode);
+  if (dataCut.DataSource === SurveySearchResultDataSources.Payfactors) {
+    const payfactorsJob = resultsCopy.find(job =>
+      job.Code === dataCut.SurveyJobCode &&
+      job.CountryCode === dataCut.CountryCode &&
+      job.DataSource === SurveySearchResultDataSources.Payfactors);
     payfactorsJob.IsSelected = isSelected;
   } else {
     const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);

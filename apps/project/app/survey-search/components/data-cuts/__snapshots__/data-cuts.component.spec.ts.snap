@@ -9,6 +9,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -38,6 +39,7 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -126,6 +128,8 @@ exports[`Project - Survey Search - Data Cuts should display Scope, Country and W
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -146,6 +150,7 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -175,6 +180,7 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -265,6 +271,8 @@ exports[`Project - Survey Search - Data Cuts should display singular drag cuts m
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -283,6 +291,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -312,6 +321,7 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -400,6 +410,8 @@ exports[`Project - Survey Search - Data Cuts should handle empty currency fields
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -419,6 +431,7 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -448,6 +461,7 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -538,6 +552,8 @@ exports[`Project - Survey Search - Data Cuts should have a draggable class if cu
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -557,6 +573,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -586,6 +603,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -674,6 +692,8 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -693,6 +713,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -722,6 +743,7 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -812,6 +834,8 @@ exports[`Project - Survey Search - Data Cuts should not have a draggable class i
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -832,6 +856,7 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
   matchesMouseLeaveTimeout={[Function Number]}
   numberCutsSelected={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -861,6 +886,7 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -953,6 +979,8 @@ exports[`Project - Survey Search - Data Cuts should pluralize drag cuts message 
           </td>
         </tr>
         
+        
+        
       </tbody>
     </table>
     
@@ -972,6 +1000,7 @@ exports[`Project - Survey Search - Data Cuts should show a message when there is
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -999,6 +1028,7 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
   matchesMouseLeave={[Function EventEmitter]}
   matchesMouseLeaveTimeout={[Function Number]}
   payFactorsCutSelected={[Function EventEmitter]}
+  surveySearchResultDataSources={[Function Object]}
 >
   <div
     class="data-cuts-container"
@@ -1028,6 +1058,7 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
           >
             Weight
           </th>
+          
           <th
             class="text-center"
           >
@@ -1117,6 +1148,8 @@ exports[`Project - Survey Search - Data Cuts should show selected if the data cu
             </div>
           </td>
         </tr>
+        
+        
         
       </tbody>
     </table>
