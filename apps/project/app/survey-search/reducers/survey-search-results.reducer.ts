@@ -128,6 +128,9 @@ function getMatchingDataCut(dataCut: DataCutDetails, selectedDataCuts: DataCutDe
   let matchingDataCut = filter => filter.SurveyJobCode === dataCut.SurveyJobCode && filter.CountryCode === dataCut.CountryCode;
   if (dataCut.DataSource === SurveySearchResultDataSources.Surveys) {
     matchingDataCut = filter => filter.DataCutId === dataCut.DataCutId;
+  } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
+    matchingDataCut = filter => filter.DataSource === SurveySearchResultDataSources.Peer &&
+      filter.Job.PeerJobInfo.Id === dataCut.Job.PeerJobInfo.Id;
   }
   return selectedDataCuts.find(matchingDataCut);
 }
@@ -139,6 +142,9 @@ function setSelectedPropertyInSearchResults(dataCut: DataCutDetails, resultsCopy
       job.CountryCode === dataCut.CountryCode &&
       job.DataSource === SurveySearchResultDataSources.Payfactors);
     payfactorsJob.IsSelected = isSelected;
+  } else if (dataCut.DataSource === SurveySearchResultDataSources.Peer) {
+    const peerJob = resultsCopy.find(job => job.PeerJobInfo.Id === dataCut.Job.PeerJobInfo.Id);
+    peerJob.IsSelected = isSelected;
   } else {
     const surveyJob = resultsCopy.find(job => job.Id === dataCut.SurveyJobId);
     const surveyCut = surveyJob.DataCuts.find(surveyData => surveyData.SurveyDataId === dataCut.DataCutId);
