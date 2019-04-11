@@ -13,6 +13,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'navigation', pathMatch: 'full' },
       { path: 'navigation', loadChildren: 'apps/pf-admin/app/_navigation/navigation.module#NavigationModule' },
+      { path: 'companies', loadChildren: 'apps/pf-admin/app/_companies/company.module#CompanyModule' },
       { path: 'access-denied', component: AccessDeniedPageComponent },
       { path: '**', component: NotFoundErrorPageComponent }
     ]
@@ -24,7 +25,3 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
-
-
-
-

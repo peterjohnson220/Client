@@ -22,4 +22,9 @@ export class CompanyApiService {
   getCompany() {
     return this.payfactorsApiService.get<CompanyDto>(`${this.endpoint}/Get`);
   }
+
+  getListOfCompanies() {
+    return this.payfactorsApiService.get(`${this.endpoint}/Default.GetCompanyList`);
+  }
+
 }
