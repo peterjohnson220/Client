@@ -3,7 +3,7 @@ import { Action, select, Store } from '@ngrx/store';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { catchError, map, switchMap, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap, withLatestFrom, debounceTime } from 'rxjs/operators';
 import { iif, of } from 'rxjs';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
@@ -31,6 +31,8 @@ export class ExchangeJobsEffects {
   @Effect()
   getExchangeJobs$: Observable<Action> = this.actions$.pipe(
     ofType(fromPeerJobsActions.LOAD_EXCHANGE_JOBS),
+    // debounce for when multiple filters are changed at once, eg a reset click in an empty grid
+    debounceTime(600),
     // grab list state
     withLatestFrom(
       this.store.pipe(

@@ -43,6 +43,8 @@ describe('ExchangeJobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExchangeJobsComponent);
     component = fixture.componentInstance;
+    component.jobTitleSearchComponent = {} as any;
+    component.jobTitleSearchComponent.writeValue = () => {};
   });
 
   it('should create', () => {

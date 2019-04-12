@@ -105,7 +105,11 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     // Register Subscriptions
     this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
-      .subscribe((searchTerm) => this.searchTerm = searchTerm));
+      .subscribe((searchTerm) => {
+        // when reducer value changes sync the input's content to prevent the search value persisting when modal opened/closed
+        this.jobTitleSearchComponent.writeValue(searchTerm);
+        this.searchTerm = searchTerm;
+      }));
 
     this.allSubscriptions.add(this.selectedCompanyJobs$
       .subscribe((selectedCompanyJobs) => this.selectedCompanyJobs = selectedCompanyJobs));
