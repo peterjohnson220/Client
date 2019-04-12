@@ -18,6 +18,7 @@ import * as fromSurveySearchFiltersActions from '../../survey-search/actions/sur
 import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from '../../survey-search/helpers';
 import { JobToPrice } from '../models';
 import * as fromMultiMatchReducer from '../reducers';
+import * as fromSurveySearchReducer from '../../survey-search/reducers';
 
 @Injectable()
 export class MultiMatchPageEffects {
@@ -63,13 +64,16 @@ export class MultiMatchPageEffects {
       withLatestFrom(
         this.store.select(fromMultiMatchReducer.getJobsToPrice),
         this.store.select(fromMultiMatchReducer.getMultimatchProjectContext),
-        (action, jobsToPrice, projectContext ) => ({  jobsToPrice, projectContext  })
+        this.store.select(fromSurveySearchReducer.getProjectSearchContext),
+        (action, jobsToPrice, projectContext, projectSearchContext ) =>
+          ({ jobsToPrice, projectContext, projectSearchContext })
       ),
       switchMap((contextAndJobs) => {
           const jobsWithUpdates = contextAndJobs.jobsToPrice.filter(j => (!!j.DataCutsToAdd && j.DataCutsToAdd.length)
                                   || (!!j.DeletedJobMatchCutIds && j.DeletedJobMatchCutIds.length));
           return this.surveySearchApiService.updateUserJobMatches({
             ProjectId: contextAndJobs.projectContext.ProjectId,
+            CompanyPayMarketId: contextAndJobs.projectSearchContext.PayMarketId,
             SurveyJobMatchUpdates: this.buildMatchUpdates(jobsWithUpdates)
           })
             .pipe(
@@ -98,7 +102,8 @@ export class MultiMatchPageEffects {
       return {
         UserJobListTempId: job.Id,
         MatchesToDelete: job.DeletedJobMatchCutIds,
-        DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToDataCuts(job.DataCutsToAdd)
+        DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToDataCuts(job.DataCutsToAdd),
+        PeerCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToPeerCuts(job.DataCutsToAdd)
       };
     });
   }

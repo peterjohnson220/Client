@@ -80,6 +80,9 @@ export class PayfactorsSurveySearchApiModelMapper {
   /// OUT
   ///
   static mapDataCutDetailsToDataCuts(dataCutDetails: DataCutDetails[]): DataCut[] {
+    if (!dataCutDetails) {
+      return [];
+    }
     return dataCutDetails
     .filter((dcd: DataCutDetails) => dcd.DataSource !== SurveySearchResultDataSources.Peer)
     .map((dcd: DataCutDetails) => {
@@ -94,6 +97,9 @@ export class PayfactorsSurveySearchApiModelMapper {
   }
 
   static mapDataCutDetailsToPeerCuts(dataCutDetails: DataCutDetails[]): PeerCut[] {
+    if (!dataCutDetails) {
+      return [];
+    }
     return dataCutDetails
     .filter((dcd: DataCutDetails) => dcd.DataSource === SurveySearchResultDataSources.Peer)
       .map((dcd: DataCutDetails) => {
