@@ -1,16 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CommunitySearchResultsPageComponent } from './community-search-results.page';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+
+import { CommunitySearchResultsPageComponent } from './community-search-results.page';
+import { CommunitySearchResultsComponent } from '../../community-search-results';
 
 describe('CommunitySearchResultsComponent', () => {
-  let component: CommunitySearchResultsPageComponent;
   let fixture: ComponentFixture<CommunitySearchResultsPageComponent>;
+  let instance: CommunitySearchResultsPageComponent;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+      ],
       providers: [
         {
         provide: Router,
@@ -25,15 +28,13 @@ describe('CommunitySearchResultsComponent', () => {
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
+
+    fixture = TestBed.createComponent(CommunitySearchResultsPageComponent);
+    router = TestBed.get(Router);
+    instance = fixture.componentInstance;
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CommunitySearchResultsPageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(instance).toBeTruthy();
   });
 });
