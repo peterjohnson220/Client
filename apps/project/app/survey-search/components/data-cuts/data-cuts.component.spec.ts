@@ -152,4 +152,12 @@ describe('Project - Survey Search - Data Cuts', () => {
 
     expect(fixture).toMatchSnapshot();
   });
+
+  it('should emit peerCutSelected when check/uncheck a peer cut', () => {
+    spyOn(instance.peerCutSelected, 'emit');
+
+    instance.togglePeerCutSelection();
+
+    expect(instance.peerCutSelected.emit).toHaveBeenCalled();
+  });
 });

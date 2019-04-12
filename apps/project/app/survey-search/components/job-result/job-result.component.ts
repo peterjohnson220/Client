@@ -106,6 +106,13 @@ export class JobResultComponent implements OnInit, OnDestroy {
     });
   }
 
+  handlePeerCutSelected() {
+    this.cutSelected.emit({
+      DataSource: this.job.DataSource,
+      Job: this.job
+    });
+  }
+
   handleMatchesMouseEnter(event: MouseEvent): void {
     const request: PricingMatchesDetailsRequest = this.createPricingMatchesDetailsRequest();
     const data: MatchesDetailsTooltipData = {

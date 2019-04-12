@@ -98,7 +98,7 @@ export class MultiMatchPageEffects {
       return {
         UserJobListTempId: job.Id,
         MatchesToDelete: job.DeletedJobMatchCutIds,
-        DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailstoDataCuts(job.DataCutsToAdd)
+        DataCutMatchesToAdd: PayfactorsSurveySearchApiModelMapper.mapDataCutDetailsToDataCuts(job.DataCutsToAdd)
       };
     });
   }

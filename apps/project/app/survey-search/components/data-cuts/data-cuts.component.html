@@ -72,8 +72,8 @@
         </tr>
       </ng-container>
       <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
-        <tr>
-          <td></td>
+        <tr (click)="togglePeerCutSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
+          <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
           <td class="scope-cell">National</td>
           <td class="text-center">{{job.CountryCode}}</td>
           <td class="text-center">Inc</td>

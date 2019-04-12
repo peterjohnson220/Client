@@ -35,6 +35,8 @@ interface Job {
   TCC50th: number;
   CountryCode?: string;
   EEO: string;
+  ExchangeId?: number;
+  ExchangeJobId?: number;
 }
 
 export interface SearchResponse {

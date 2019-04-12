@@ -20,6 +20,7 @@ export class DataCutsComponent implements OnDestroy {
 
   @Output() dataCutSelected: EventEmitter<SurveyDataCut> = new EventEmitter();
   @Output() payFactorsCutSelected: EventEmitter<any> = new EventEmitter();
+  @Output() peerCutSelected: EventEmitter<any> = new EventEmitter();
   @Output() matchesMouseEnter: EventEmitter<MatchesDetailsTooltipData> = new EventEmitter<MatchesDetailsTooltipData>();
   @Output() matchesMouseLeave: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -46,6 +47,10 @@ export class DataCutsComponent implements OnDestroy {
 
   togglePayfactorsSelection(): void {
     this.payFactorsCutSelected.emit();
+  }
+
+  togglePeerCutSelection(): void {
+    this.peerCutSelected.emit();
   }
 
   handleMatchesMouseEnter(event: MouseEvent, dataCut: SurveyDataCut): void {

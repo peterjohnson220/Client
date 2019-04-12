@@ -14,6 +14,12 @@ export interface BaseJobInfo {
   LoadingDataCutsError: boolean;
 }
 
+export interface PeerJobInfo {
+  Id: string;
+  ExchangeId: number;
+  ExchangeJobId: number;
+}
+
 export interface JobResult extends BaseJobInfo {
     SurveyName: string;
     DataSource: SurveySearchResultDataSources;
@@ -32,6 +38,7 @@ export interface JobResult extends BaseJobInfo {
     IsSelected: boolean;
     EEO: string;
     DataCuts: SurveyDataCut[];
+    PeerJobInfo?: PeerJobInfo;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
