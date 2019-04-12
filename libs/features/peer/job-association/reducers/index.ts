@@ -46,10 +46,6 @@ export const selectJobAssociationModalState = createSelector(
   (state: JobAssociationFeatureState) => state.jobAssociationModal);
 
 // Job Association Modal Selectors
-export const getIsModalOpen = createSelector(
-  selectJobAssociationModalState,
-  fromJobAssociationModalReducer.getIsModalOpen);
-
 export const getJobAssociationModalSaving = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSaving);
@@ -162,6 +158,11 @@ export const getExchangeJobExchangeFilterSelectedOptionIds = createSelector(
 export const getPreviousAssociations = createSelector(
   getExchangeJobsFeature,
   (feature) => feature.previousAssociations
+);
+
+export const getPreviousAssociationsToDelete = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.previousAssociationsToDelete
 );
 
 export const getLoadingPreviousAssociations = createSelector(

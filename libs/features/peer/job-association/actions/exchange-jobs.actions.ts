@@ -21,6 +21,8 @@ export const TOGGLE_DETAIL_PANEL = '[Peer Job Association/Exchange Jobs] Toggle 
 export const UPDATE_SEARCH_TERM  = '[Peer Job Association/Exchange Jobs] Update Search Term';
 
 // previous associations
+export const REMOVE_PREVIOUS_ASSOCIATION = '[Peer Job Association/Exchange Jobs] Remove Previous Associations';
+export const UNDO_REMOVE_PREVIOUS_ASSOCIATION = '[Peer Job Association/Exchange Jobs] Undo Remove Previous Associations';
 export const LOAD_PREVIOUS_ASSOCIATIONS = '[Peer Job Association/Exchange Jobs] Load Previous Associations';
 export const LOAD_PREVIOUS_ASSOCIATIONS_SUCCESS = '[Peer Job Association/Exchange Jobs] Load Previous Associations Success';
 export const LOAD_PREVIOUS_ASSOCIATIONS_ERROR = '[Peer Job Association/Exchange Jobs] Load Previous Associations Error';
@@ -83,6 +85,16 @@ export class LoadExchangeJobsBadRequest implements Action {
 }
 
 // previous associations
+export class RemovePreviousAssociation implements Action {
+  readonly type = REMOVE_PREVIOUS_ASSOCIATION;
+  constructor(public payload: number) {}
+}
+
+export class UndoRemovePreviousAssociation implements Action {
+  readonly type = UNDO_REMOVE_PREVIOUS_ASSOCIATION;
+  constructor(public payload: number) {}
+}
+
 export class LoadPreviousAssociations implements Action {
   readonly type = LOAD_PREVIOUS_ASSOCIATIONS;
   constructor(public payload: LoadAssociations) {}
@@ -188,6 +200,8 @@ export type Actions
   | LoadExchangeFilterSuccess
 
   // previous associations
+  | RemovePreviousAssociation
+  | UndoRemovePreviousAssociation
   | LoadPreviousAssociations
   | LoadPreviousAssociationsSuccess
   | LoadPreviousAssociationsError

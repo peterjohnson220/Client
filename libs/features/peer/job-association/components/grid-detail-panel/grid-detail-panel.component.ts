@@ -11,7 +11,7 @@ export class GridDetailPanelComponent {
   @Input() isExpanded$: Observable<boolean>;
 
   @Input() jobId: number;
-  @Input() jobTitle: number;
+  @Input() jobTitle: string;
   @Input() jobDescription: string;
   @Input() jobCode: string;
   @Input() jobFamily: string;

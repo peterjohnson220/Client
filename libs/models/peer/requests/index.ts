@@ -15,3 +15,4 @@ export * from './exchange-request-candidates-request.model';
 export * from './upsert-exchange-scope-request.model';
 export * from './auto-associate-exchange-jobs-request.model';
 export * from './exchange-data-cuts-export-request.model';
+export * from './save-exchange-job-association-request.model';
