@@ -49,7 +49,6 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
 
   refreshSelected() {
-    debugger;
     this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
     this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
     this.selectedOptionsChange.emit(this.selectedOptions);
