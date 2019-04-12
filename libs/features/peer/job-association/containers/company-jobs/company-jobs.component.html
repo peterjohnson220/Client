@@ -26,7 +26,7 @@
        showOn="none"
        [tooltipTemplate]="template"
        filter=".k-grid td"
-       (mouseover)="showTooltip($event, 'company-job-title-')">
+       (mouseover)="showGridTooltip($event)">
     <pf-grid-detail-panel
       [isExpanded$]="isDetailPanelExpanded$"
       [jobId]="selectedCompanyJobInDetailPanel.CompanyJobId"
@@ -67,7 +67,7 @@
           </span>
         </ng-template>
       </kendo-grid-column>
-      <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35">
+      <kendo-grid-checkbox-column showSelectAll="true" [resizable]="false" [width]="35" class="no-ellipsis">
         <ng-template kendoGridHeaderTemplate>
           <input class="k-checkbox" id="selectAllCheckboxId" kendoGridSelectAllCheckbox
                  [state]="getSelectAllState()"
@@ -82,10 +82,7 @@
             (click)="handleCompanyJobTitleOrCodeClick(dataItem)" 
             class="grid-link company-job-title"
             [class.selected]="dataItem.CompanyJobId === selectedCompanyJobInDetailPanel.CompanyJobId && (isDetailPanelExpanded$ | async)">
-            <div id="{{'company-job-title-'+ dataItem.CompanyJobId}}"
-                class="'company-job-title-'"
-                [innerHTML]="dataItem.JobTitle | highlightText: searchTerm">
-            </div>
+            <div class="show-tooltip" [innerHTML]="dataItem.JobTitle | highlightText: searchTerm"></div>
           </a>
         </ng-template>
       </kendo-grid-column>
@@ -95,15 +92,15 @@
             (click)="handleCompanyJobTitleOrCodeClick(dataItem)" 
             class="grid-link company-job-code"
             [class.selected]="dataItem.CompanyJobId === selectedCompanyJobInDetailPanel.CompanyJobId && (isDetailPanelExpanded$ | async)">
-            <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm"></div>
+            <div [innerHTML]="dataItem.JobCode | highlightText: searchTerm" class="show-tooltip"></div>
           </a>
         </ng-template>
       </kendo-grid-column>
       <kendo-grid-column field="JobFamily" title="Job Family" [sortable]="false">
         <ng-template kendoGridCellTemplate let-dataItem>
-          <span *ngIf="!dataItem.JobFamily; else hasFamily">No Family</span>
+          <div *ngIf="!dataItem.JobFamily; else hasFamily" class="show-tooltip">No Family</div>
           <ng-template #hasFamily>
-            {{ dataItem.JobFamily }}
+            <div class="show-tooltip">{{ dataItem.JobFamily }}</div>
           </ng-template>
         </ng-template>
       </kendo-grid-column>

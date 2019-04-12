@@ -95,7 +95,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
         <kendo-grid
           style="height: 100%;"
         >
-          <kendo-grid-column>
+          <kendo-grid-column
+            class="no-ellipsis"
+          >
             
           </kendo-grid-column>
           <kendo-grid-column
@@ -113,7 +115,9 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
           <kendo-grid-column
             field="ExchangeName"
             title="Exchange Name"
-          />
+          >
+            
+          </kendo-grid-column>
           
           
         </kendo-grid>

@@ -60,7 +60,7 @@
           showOn="none"
           [tooltipTemplate]="template"
           filter=".k-grid td"
-          (mouseover)="showExchangeTitleTooltip($event)"
+          (mouseover)="showGridTooltip($event)"
         >
           <pf-grid-detail-panel
             [isExpanded$]="isDetailPanelExpanded$"
@@ -84,7 +84,7 @@
             (dataStateChange)="handleDataStateChange($event)"
             (detailExpand)="handleDetailExpand($event)"
           >
-          <kendo-grid-column [resizable]="false" [width]="40">
+          <kendo-grid-column [resizable]="false" [width]="40" class="no-ellipsis">
             <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
               <button class="associate-button"
                       [disabled]="!isAssociable(dataItem.ExchangeId, dataItem.ExchangeJobId)"
@@ -96,24 +96,27 @@
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobTitle" title="Job Title">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <a id="{{'exchange-title-'+ dataItem.ExchangeId + '-' + dataItem.ExchangeJobId}}"
-                  href="javascript:void(0)" 
-                  (click)="handleExchangeJobClick(dataItem)" 
-                  class="grid-link exchange-job-title"
-                  [class.selected]="dataItem.Id === selectedExchangeJob.Id && (isDetailPanelExpanded$ | async)">
-                  <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm"></div>
+              <a href="javascript:void(0)" 
+                (click)="handleExchangeJobClick(dataItem)" 
+                class="grid-link exchange-job-title"
+                [class.selected]="dataItem.Id === selectedExchangeJob.Id && (isDetailPanelExpanded$ | async)">
+                <div [innerHTML]="dataItem.ExchangeJobTitle | highlightText: searchTerm" class="show-tooltip"></div>
               </a>
             </ng-template>
           </kendo-grid-column>
           <kendo-grid-column field="ExchangeJobFamily" title="Job Family">
             <ng-template kendoGridCellTemplate let-dataItem>
-              <span *ngIf="dataItem.ExchangeJobFamily; else noFamily">{{ dataItem.ExchangeJobFamily }}</span>
+              <div *ngIf="dataItem.ExchangeJobFamily; else noFamily" class="show-tooltip">{{ dataItem.ExchangeJobFamily }}</div>
               <ng-template #noFamily>
-                <span>No Family</span>
+                <div class="show-tooltip">No Family</div>
               </ng-template>
             </ng-template>
           </kendo-grid-column>
-          <kendo-grid-column field="ExchangeName" title="Exchange Name"></kendo-grid-column>
+          <kendo-grid-column field="ExchangeName" title="Exchange Name">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="show-tooltip">{{ dataItem.ExchangeJobFamily }}</div>
+            </ng-template>
+          </kendo-grid-column>
           <ng-template kendoGridDetailTemplate let-dataItem>
             <pf-peer-job-association-associated-jobs
               [newAssociations]="getCompanyJobAssociations(dataItem.ExchangeId, dataItem.ExchangeJobId)"

@@ -64,12 +64,12 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>
@@ -205,12 +205,12 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>
@@ -298,11 +298,15 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                   
                 </td>
                 <td
+                  class="show-tooltip"
+                  ng-reflect-klass="show-tooltip"
                   ng-reflect-ng-class=""
                 >
                    Job Title 
                 </td>
                 <td
+                  class="show-tooltip"
+                  ng-reflect-klass="show-tooltip"
                   ng-reflect-ng-class=""
                 >
                    001 
@@ -422,12 +426,12 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>

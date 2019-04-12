@@ -68,6 +68,7 @@ exports[`CompanyJobsComponent should show total company jobs 1`] = `
             
           </kendo-grid-column>
           <kendo-grid-checkbox-column
+            class="no-ellipsis"
             showselectall="true"
           >
             

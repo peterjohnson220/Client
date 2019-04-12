@@ -73,7 +73,7 @@ $buttons-height: 70px;
 pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   &> h2 {
     color: $header-color;
-  }  
+  }
   .filters {
     min-height: 40px; // this can be removed once both grids have the job family filter
     pf-input-debounce {
@@ -140,6 +140,8 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             color: #666;
             padding-top: .5rem;
             padding-bottom: .5rem;
+            text-overflow: clip;
+            word-wrap: normal;
             &:not(:first-child) {
               border-right: 1px dashed #fff;
             }
@@ -149,8 +151,14 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
           color: $link-color;
         }
         .k-grid-content td, .k-grid-content td > div {
-          @extend %ellipsis-overflowing-text;
           border: none;
+        }
+        .k-grid-content .show-tooltip {
+          @extend %ellipsis-overflowing-text;
+        }
+        .k-grid-content .no-ellipsis {
+          text-overflow: clip;
+          word-wrap: normal;
         }
         a.exchange-job-title.selected, a.company-job-title.selected, a.company-job-code.selected {
           font-weight: 700;

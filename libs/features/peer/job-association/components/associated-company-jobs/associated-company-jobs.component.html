@@ -29,8 +29,8 @@
                 <pf-half-complete-icon title="Unsaved Association">
                 </pf-half-complete-icon>
               </td>
-              <td class="font-italic">{{companyJob.JobTitle}}</td>
-              <td class="font-italic">{{companyJob.JobCode}}</td>
+              <td class="font-italic show-tooltip">{{companyJob.JobTitle}}</td>
+              <td class="font-italic show-tooltip">{{companyJob.JobCode}}</td>
             </tr>
             <tr *ngFor="let previousAssociation of previousAssociations; trackBy: trackByFn">
               <td>
@@ -57,10 +57,10 @@
                   </pf-complete-icon>
                 </ng-template>
               </td>
-              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''">
+              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''" class="show-tooltip">
                 {{previousAssociation.JobTitle}}
               </td>
-              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''">
+              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''" class="show-tooltip">
                 {{previousAssociation.JobCode}}
               </td>
             </tr>
