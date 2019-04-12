@@ -195,4 +195,8 @@ export class ExchangeApiService {
   putFilter(filter: ExchangeSearchFilterAggregate): Observable<any> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/PutFilter`, filter);
   }
+
+  putFilters(filters: ExchangeSearchFilterAggregate[]): Observable<any> {
+    return this.payfactorsApiService.put<any>(`${this.endpoint}/PutFilters`, filters);
+  }
 }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Exchange, ExchangeSearchFilterAggregate } from 'libs/models/peer';
 
@@ -17,12 +18,17 @@ import * as fromExchangeFiltersActions from '../../actions/exchange-filters.acti
   styleUrls: ['./manage-exchange-filters.component.scss']
 })
 
-export class ManageExchangeFiltersComponent {
+export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
   exchangeFiltersLoading$: Observable<boolean>;
   exchangeFiltersLoadingError$: Observable<boolean>;
-  exchangeFiltersGrid$: Observable<GridDataResult>;
+  exchangeFilters$: Observable<ExchangeSearchFilterAggregate[]>;
+
   exchangeId: number;
+  searchString = '';
+  exchangeFilters: ExchangeSearchFilterAggregate[];
+
+  filtersSubscription: Subscription;
 
   constructor(
     private store: Store<fromPeerAdminReducer.State>,
@@ -32,9 +38,13 @@ export class ManageExchangeFiltersComponent {
     this.exchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchange));
     this.exchangeFiltersLoading$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersLoading));
     this.exchangeFiltersLoadingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersLoadingError));
-    this.exchangeFiltersGrid$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersGrid));
+    this.exchangeFilters$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFilters));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
+  }
+
+  get searching() {
+    return this.searchString !== '';
   }
 
   // Events
@@ -50,6 +60,20 @@ export class ManageExchangeFiltersComponent {
   }
 
   handleSearchChanged(query: string): void {
+    this.searchString = query;
     this.gridHelperService.loadExchangeFilters(this.exchangeId, query);
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.exchangeFilters, event.previousIndex, event.currentIndex);
+    this.store.dispatch(new fromExchangeFiltersActions.ReorderFilters(this.exchangeFilters));
+  }
+
+  ngOnInit(): void {
+    this.filtersSubscription = this.exchangeFilters$.subscribe(ef => this.exchangeFilters = ef);
+  }
+
+  ngOnDestroy(): void {
+    this.filtersSubscription.unsubscribe();
   }
 }
