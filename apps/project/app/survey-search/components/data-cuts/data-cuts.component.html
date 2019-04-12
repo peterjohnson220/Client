@@ -75,12 +75,12 @@
         <tr (click)="togglePeerCutSelection()" [class.selected]="job.IsSelected" [class.draggable]="job.IsSelected && cutsDraggable">
           <td><input type="checkbox" [ngModel]="job.IsSelected" /></td>
           <td class="scope-cell">National</td>
-          <td class="text-center">{{job.CountryCode}}</td>
+          <td class="text-center">{{job.CountryCode || '-'}}</td>
           <td class="text-center">Inc</td>
-          <td class="text-center">{{job.Incs}}</td>
-          <td class="text-center">{{job.Orgs}}</td>
-          <td class="text-center">{{job.Base50th}}</td>
-          <td class="text-center">{{job.TCC50th}}</td>
+          <td class="text-center">{{job.Incs || '-'}}</td>
+          <td class="text-center">{{job.Orgs || '-'}}</td>
+          <td class="text-center">{{job.Base50th || '-'}}</td>
+          <td class="text-center">{{job.TCC50th || '-'}}</td>
         </tr>
       </ng-container>
     </ng-container>
