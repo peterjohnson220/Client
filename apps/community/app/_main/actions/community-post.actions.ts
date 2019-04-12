@@ -36,6 +36,10 @@ export const ADDING_COMMUNITY_DISCUSSION_POLL = '[Community/Post] Adding Communi
 export const ADDING_COMMUNITY_DISCUSSION_POLL_SUCCESS = '[Community/Post] Adding Community Discussion Poll Success';
 export const ADDING_COMMUNITY_DISCUSSION_POLL_ERROR = '[Community/Post] Adding Community Discussion Poll Error';
 
+export const GETTING_COMMUNITY_POST = '[Community/Post] Get Community Post';
+export const GETTING_COMMUNITY_POST_SUCCESS = '[Community/Post] Get Community Post Success';
+export const GETTING_COMMUNITY_POST_ERROR = '[Community/Post] Get Community Post Error';
+
 export class SubmittingCommunityPost implements Action {
   readonly type = SUBMITTING_COMMUNITY_POST;
   constructor(public payload: any) {}
@@ -156,6 +160,20 @@ export class AddingCommunityDiscussionPollError implements Action {
   constructor(public payload: string) {}
 }
 
+export class GettingCommunityPost implements Action {
+  readonly type = GETTING_COMMUNITY_POST;
+  constructor(public payload: any) {}
+}
+
+export class GettingCommunityPostSuccess implements Action {
+  readonly type = GETTING_COMMUNITY_POST_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class GettingCommunityPostError implements Action {
+  readonly type = GETTING_COMMUNITY_POST_ERROR;
+}
+
 export type Actions
   =  SubmittingCommunityPost
   | SubmittingCommunityPostSuccess
@@ -182,4 +200,7 @@ export type Actions
   | DeletingCommunityPostError
   | AddingCommunityDiscussionPoll
   | AddingCommunityDiscussionPollSuccess
-  | AddingCommunityDiscussionPollError;
+  | AddingCommunityDiscussionPollError
+  | GettingCommunityPost
+  | GettingCommunityPostSuccess
+  | GettingCommunityPostError;
