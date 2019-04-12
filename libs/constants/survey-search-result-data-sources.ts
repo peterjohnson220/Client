@@ -1,5 +1,5 @@
 export enum SurveySearchResultDataSources {
   Payfactors = 'Payfactors Market Data',
-  Peer = 'Peer',
+  Peer = 'Payfactors Peer',
   Surveys = 'Surveys'
 }
