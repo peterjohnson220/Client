@@ -35,7 +35,10 @@
 
       <div class="d-flex h-100">
         <div class="sidebar">
-          <pf-peer-data-cut-filter-sidebar></pf-peer-data-cut-filter-sidebar>
+          <pf-peer-data-cut-filter-sidebar
+            [shouldShowPayMarketBoundsFilter]="false"
+            [shouldShowExcludeIndirectJobMatchesFilter]="false"
+          ></pf-peer-data-cut-filter-sidebar>
         </div>
         <div class="map">
           <pf-peer-data-cut-map [canFitBounds]="true"></pf-peer-data-cut-map>

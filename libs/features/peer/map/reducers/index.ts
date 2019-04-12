@@ -79,9 +79,17 @@ export const getPeerFilterIncludeUntaggedIncumbents = createSelector(
   selectPeerFiltersState,
   fromFilterSidebarReducer.getIncludeUntaggedIncumbents
 );
+export const getPeerFilterExcludeIndirectJobMatches = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getExcludeIndirectJobMatches
+);
 export const getPeerFilterCountUnGeoTaggedIncumbents = createSelector(
   selectPeerFiltersState,
   fromFilterSidebarReducer.getCountUntaggedIncumbents
+);
+export const getPeerFilterHasSimilarJobLevels = createSelector(
+  selectPeerFiltersState,
+  fromFilterSidebarReducer.getHasSimilarJobLevels
 );
 
 // Exchange Scope Selectors
@@ -110,13 +118,17 @@ export const getExchangeDataCutRequestData = createSelector(
   getPeerMapFilter,
   getPeerFilterLimitToPayMarket,
   getPeerFilterIncludeUntaggedIncumbents,
-  (sf, fs, pmf, pfltp, includeUntaggedIncumbents) => {
+  getPeerFilterExcludeIndirectJobMatches,
+  (sf, fs, pmf, pfltp, includeUntaggedIncumbents, isExcludingIndirectJobMatches) => {
     return {
         ...sf,
         ...fs,
         ...pmf,
         LimitToPayMarket: pfltp,
-        IncludeUntaggedIncumbents: includeUntaggedIncumbents
+        IncludeUntaggedIncumbents: includeUntaggedIncumbents,
+        // We store the inverse logic ("IsFilteredBySimilarExchangeJobIds") in the filter model so that the default will be false and
+        // thus avoids any potential issues with existing data cuts/scopes. [JP]
+        IsFilteredBySimilarExchangeJobIds: !isExcludingIndirectJobMatches
     };
   });
 

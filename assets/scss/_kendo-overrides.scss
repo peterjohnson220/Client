@@ -14,6 +14,9 @@
 }
 
 .k-switch {
+  &.k-switch-sm {
+    font-size: .5rem;
+  }
   &.k-switch-on .k-switch-handle {
     background-color: $switch-on-color;
     border: $switch-on-color;
@@ -29,6 +32,8 @@
     color: #616161;
   }
 }
+
+
 
 // To be used as the class of the kendo-switch to allow for longer labels in a switch 30% in width.
 .k-switch-w30.k-switch {

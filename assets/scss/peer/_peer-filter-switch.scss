@@ -1,0 +1,23 @@
+@import 'colors';
+
+.filter-switch-container{
+  color: #616161;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .5rem;
+  position: relative;
+}
+
+.filter-switch-left{
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-switch-label{
+  font-weight: bolder;
+}
+
+.filter-switch-sub-label{
+  font-size: .9rem;
+}

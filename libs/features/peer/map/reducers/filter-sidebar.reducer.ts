@@ -20,6 +20,7 @@ export interface State {
   selectionsCount: number;
   scopeSelection: ExchangeScopeItem;
   includeUntaggedEmployees: boolean;
+  excludeIndirectJobMatches: boolean;
 }
 
 // Initial State
@@ -34,7 +35,8 @@ export const initialState: State = {
   systemFilter: null,
   selectionsCount: 0,
   scopeSelection: null,
-  includeUntaggedEmployees: false
+  includeUntaggedEmployees: false,
+  excludeIndirectJobMatches: true
 };
 
 // Reducer
@@ -81,6 +83,12 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
       return {
         ...state,
         limitToPayMarket: !state.limitToPayMarket
+      };
+    }
+    case fromFilterSidebarActions.TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES: {
+      return {
+        ...state,
+        excludeIndirectJobMatches: !state.excludeIndirectJobMatches
       };
     }
     case fromFilterSidebarActions.LOAD_PAYMARKET_INFORMATION: {
@@ -154,7 +162,8 @@ export function reducer(state = initialState, action: fromFilterSidebarActions.A
         selections: cutCriteria.Selections,
         selectionsCount: cutCriteria.SelectionsCount,
         filterAggregateGroups: newAggGroups,
-        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents
+        includeUntaggedEmployees: cutCriteria.IncludeUntaggedIncumbents,
+        excludeIndirectJobMatches: !cutCriteria.IsFilteredBySimilarExchangeJobIds
       };
     }
     case fromFilterSidebarActions.APPLY_SCOPE_CRITERIA: {
@@ -210,3 +219,6 @@ export const getSystemFilter = (state: State) => state.systemFilter;
 export const getSelectionsCount = (state: State) => state.selectionsCount;
 export const getScopeSelection = (state: State) => state.scopeSelection;
 export const getIncludeUntaggedIncumbents = (state: State) => state.includeUntaggedEmployees;
+export const getExcludeIndirectJobMatches = (state: State) => state.excludeIndirectJobMatches;
+export const getHasSimilarJobLevels = (state: State) => state.systemFilter && state.systemFilter.SimilarExchangeJobIds
+  && state.systemFilter.SimilarExchangeJobIds.some(x => !state.systemFilter.ExchangeJobIds.includes(x));

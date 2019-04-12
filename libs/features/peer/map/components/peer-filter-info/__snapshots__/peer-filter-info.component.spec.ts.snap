@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Feature - Peer - Pay Market Filter Info Component should provide correct values to the pf-pay-market-filter-info component 1`] = `
-<pf-pay-market-filter-info
+exports[`Feature - Peer - Pay Market Filter Info Component should provide correct values to the pf-peer-filter-info component 1`] = `
+<pf-peer-filter-info
   resetAllFiltersClicked={[Function EventEmitter]}
 >
   <div
@@ -33,5 +33,5 @@ exports[`Feature - Peer - Pay Market Filter Info Component should provide correc
        Reset Filters 
     </div>
   </div>
-</pf-pay-market-filter-info>
+</pf-peer-filter-info>
 `;
