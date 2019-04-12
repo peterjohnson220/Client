@@ -29,6 +29,7 @@ exports[`ExchangeJobsComponent should show total exchange jobs 1`] = `
   multiSelectExchange={[Function ElementRef]}
   multiSelectJobFamily={[Function ElementRef]}
   previousAssociations$={[Function Store]}
+  previousAssociationsToDelete$={[Function Store]}
   searchTerm=""
   selectedCompanyJobs={[Function Array]}
   selectedCompanyJobs$={[Function Store]}
