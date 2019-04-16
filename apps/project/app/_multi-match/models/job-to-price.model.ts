@@ -1,4 +1,4 @@
-import { JobMatchCut, DataCut } from 'libs/models/payfactors-api';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 
 import { BaseJobInfo } from '../../survey-search/models/job-result.model';
 import { DataCutDetails } from '../../survey-search/models';
