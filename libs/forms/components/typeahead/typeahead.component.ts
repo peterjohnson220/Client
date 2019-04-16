@@ -119,7 +119,7 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
   registerOnTouched() { }
 
   typeaheadFn = (text$: Observable<string>) => text$
-    .debounceTime(PfConstants.DEBOUNCE_DELAY)
+    .debounceTime(this.delay)
     .distinctUntilChanged()
     .map(term => this.typeaheadOptions.filter(v => new RegExp(term, 'gi').test(v)).splice(0, this.numTypeaheadResults))
 }
