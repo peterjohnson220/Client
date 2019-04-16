@@ -17,7 +17,7 @@ exports[`Features - Peer - Exclude Indirect Matches Filter should display approp
       </div>
     </div>
     <div
-      class="pm-bounds-filter-switch"
+      class="exclude-indirect-matches-filter-switch"
     >
       <kendo-switch
         class="k-switch-sm"
