@@ -21,9 +21,12 @@
   </ng-container>
 </pf-async-container>
 <ng-template #noResultsMessage>
-  <div *ngIf="!(loadingSearchResults$ | async)" class="row no-results-message-container">
-    <div class="col-12 mt-2">
-      No results. Please change your filter criteria and search again.
+  <div class="no-results-message-container" *ngIf="!(loadingSearchResults$ | async) && !(loadingSearchResultsError$ | async)">
+    <div class="row mt-5 justify-content-center" >
+      <i class="fas fa-search fa-3x"></i>
+    </div>
+    <div class="row mt-2 justify-content-center">
+      <h3>No results. Please change your filter criteria and search again.</h3>
     </div>
   </div>
 </ng-template>

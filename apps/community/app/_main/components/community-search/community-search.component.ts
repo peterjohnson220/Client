@@ -26,7 +26,9 @@ export class CommunitySearchComponent implements OnInit {
   }
 
   searchClick() {
-    this.searchEvent.emit(this.searchBoxText);
+    if (this.searchBoxText.trim().length > 0) {
+      this.searchEvent.emit(this.searchBoxText);
+    }
   }
 
   isClear() {

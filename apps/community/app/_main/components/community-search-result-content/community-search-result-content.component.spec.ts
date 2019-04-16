@@ -4,9 +4,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 import { CommunitySearchResultContentComponent } from './community-search-result-content.component';
-
-import { NewLinePipe } from 'libs/core/pipes/new-line.pipe';
-import { CommunityContentEllipsisPipe } from '../../pipes';
+import { TruncateAfterPipe, NewLinePipe } from 'libs/core/pipes';
 
 
 describe('CommunitySearchResultContentComponent', () => {
@@ -21,7 +19,7 @@ describe('CommunitySearchResultContentComponent', () => {
       declarations: [
         CommunitySearchResultContentComponent,
         NewLinePipe,
-        CommunityContentEllipsisPipe ],
+        TruncateAfterPipe],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });

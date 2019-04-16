@@ -5,6 +5,7 @@ exports[`CommunitySearchResultContentComponent should display content 1`] = `
   content={[Function String]}
 >
   <div
+    class="h-100 w-100 position-absolute cursor-pointer"
     id="overlay"
   /><div
     class="mt-2 mb-2"

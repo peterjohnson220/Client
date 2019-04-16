@@ -68,7 +68,6 @@ import { MapboxApiService } from 'libs/data/mapbox-api/mapbox-api.service';
 import { BrowserDetectionService} from 'libs/core/services';
 import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/community/community-categories-api.service';
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
-import {CommunityContentEllipsisPipe} from './pipes/community-content-ellipsis.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
 import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
 import { CommunitySearchEffects } from './effects/community-search.effects';
@@ -101,7 +100,6 @@ const components = [
   CommunityNewJobComponent,
   CommunityCategoriesComponent,
   CommunityCategoryDisplayNamePipe,
-  CommunityContentEllipsisPipe,
   CommunityJobComponent,
   CommunityJobsComponent,
   CommunityTabComponent,
