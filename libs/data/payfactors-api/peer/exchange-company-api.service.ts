@@ -9,7 +9,7 @@ import {
   ExchangeListItem, UpsertExchangeJobMapRequest,
   GetChartRequest, GetDetailChartRequest, ChartItem,
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
-  SaveExchangeJobAssociationRequestModel
+  SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest
 } from '../../../models';
 import { GenericMenuItem } from 'libs/models/common';
 
@@ -71,6 +71,13 @@ export class ExchangeCompanyApiService {
       `${this.endpoint}/GetExchangeCompanyJobs`,
       { params: { exchangeId, listState: JSON.stringify(listState) } },
       MappingHelper.mapListAreaResultToGridDataResult
+    );
+  }
+
+  getExchangeCompanyJobsAllEntities(request: GetExchangeCompanyJobsAllEntityIdsRequest): Observable<number[]> {
+    return this.payfactorsApiService.post<number[]>(
+      `${this.endpoint}/GetExchangeCompanyJobsAllEntities`,
+      request
     );
   }
 

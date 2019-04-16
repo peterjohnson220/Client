@@ -87,6 +87,17 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
     expect(store.dispatch).toBeCalledWith(action);
   });
 
+  it('should dispatch LoadExchangeCompanyJobsIds action when loadExchangeCompanyJobs is called', () => {
+    const action = new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobsIds;
+    fixture.detectChanges();
+
+    instance.loadExchangeCompanyJobs();
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toBeCalledWith(action);
+  });
+
   it('should call loadingAvailableJobs onInit when the modal is opened', () => {
     spyOn(instance, 'loadExchangeCompanyJobs');
 
@@ -267,5 +278,32 @@ describe('Peer - Map - Export Data Cuts Modal', () => {
       fixture.detectChanges();
 
       expect(instance.handleDataStateChange).toHaveBeenCalledWith(expectedState);
+  });
+
+  it(`should dispatch a SetSelections action when onSelectAllClick is called`, () => {
+    const allIds = [1];
+    const expectedAction = new fromGridActions.SetSelections(GridTypeEnum.ExchangeCompanyJob, allIds, instance.pageEntityIds);
+
+    instance.allIds$ = of(allIds);
+
+    fixture.detectChanges();
+
+    instance.onSelectAllClick({});
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it(`should dispatch a SetSelections action with an empty array when onClearAllClick is called`, () => {
+    const expectedAction = new fromGridActions.SetSelections(GridTypeEnum.ExchangeCompanyJob, [], instance.pageEntityIds);
+
+    fixture.detectChanges();
+
+    instance.onClearAllClick({});
+
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 });
