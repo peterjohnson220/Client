@@ -62,7 +62,7 @@
                     (cancelClicked)="cancelChanges()"
                     [saveButtonQaId]="'btn-user-role-save-changes-btn'"
                     [cancelButtonQaId]="'btn-user-role-cancel-btn'"
-                    [saveButtonDisabled]="saveButtonDisabled || !currentRole"
+                    [saveButtonDisabled]="saveButtonDisabled || !currentRole || permissionIdsToSave.length === 0"
                     [cancelButtonDisabled]="!(functionTabPendingChanges || usersTabPendingChanges) || saveButtonDisabled"
                   ></pf-action-button>
                 </div>
