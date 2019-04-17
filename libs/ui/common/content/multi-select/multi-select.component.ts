@@ -1,77 +1,110 @@
-import { Component, OnDestroy, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import {Subscription} from 'rxjs';
 
-import { Observable, Subscription } from 'rxjs';
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { GenericMenuItem } from 'libs/models/common';
+import {RemoteDataSourceService} from 'libs/core/services';
+
+
+
 
 @Component({
   selector: 'pf-multi-select',
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss']
 })
-export class MultiSelectComponent implements OnDestroy {
+export class MultiSelectComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
-
-  // getter and setter so we hook up the updated form controls once the collection changes
-  private _options: GenericMenuItem[];
-  @Input() set options(value: GenericMenuItem[]) {
-    this._options = value;
-    this.initForm();
-  }
-  get options(): GenericMenuItem[] {
-    return this._options;
-  }
+  @Input() options: GenericMenuItem[];
 
   @Input() labelText: string;
-  @Input() isExpanded$: Observable<boolean>;
-  @Input() isLoading$: Observable<boolean>;
-  @Input() selectedOptionNames$: Observable<string[]>;
+  @Input() isExpanded: boolean;
+  @Input() isLoading: boolean;
+  @Input() selectedOptionNames: string[];
 
   @Output() selectFacadeClick = new EventEmitter();
-  @Output() checkboxClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
 
+  @Output()selectedOptionsChange = new EventEmitter();
+  @Input() selectedOptions: GenericMenuItem[];
+  @Input() selectedOnTop: boolean;
+  @Input() endpointName: string;
+  @Input() valueField: string;
+  @Input() textField: string;
+
   searchTerm = '';
-  form: FormGroup;
-  formValuesSubscription: Subscription = new Subscription();
+  remoteDataSourceSubscription: Subscription;
+  constructor( private remoteDataSourceService: RemoteDataSourceService) {
+    this.isExpanded =  false;
+    this.selectedOptions = [];
+    this.selectedOptionNames = [];
+    this.isLoading = true;
+    this.valueField = 'Id';
+    this.textField = 'DisplayName';
+  }
 
-  constructor(private formBuilder: FormBuilder) { }
+  ngOnInit() {
+    if (this.endpointName) {this.getFromRemoteSource(); }
+  }
 
-  initForm() {
-    const formControls = {};
+  refreshSelected() {
+    this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
+    this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
+    this.selectedOptionsChange.emit(this.selectedOptions);
 
-    // loop through each option and create a form control for each
-    this.options.forEach((option) => {
-      const formControl = new FormControl(option.IsSelected);
-      formControls[option.DisplayName] = formControl;
-      const subscription = formControl.valueChanges.subscribe(value => {
-        this.checkboxClick.emit({ ...option, IsSelected: value });
-      });
-      this.formValuesSubscription.add(subscription);
-    });
-
-    this.form = new FormGroup(formControls);
+  }
+  getFromRemoteSource() {
+     this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${this.endpointName}`).subscribe(
+      s => {
+        this.options = s.map(o => {
+          return {
+            DisplayName: o[this.textField],
+            Id: o[this.valueField],
+            IsSelected: false
+          };
+        });
+        this.isLoading = false;
+      }
+    );
   }
 
   toggleCheckboxPanel() {
+    // Sort after closing dropdown
+    if (this.options &&  this.selectedOnTop && !this.isExpanded) {
+      this.options = this.options.sort((a, b) => a.IsSelected === b.IsSelected ? 0 : a.IsSelected ? -1 : 1) ;
+    }
+    this.isExpanded = !this.isExpanded;
     this.selectFacadeClick.emit();
   }
 
   clearSelections() {
+    this.options = this.options.map(o => ({...o, IsSelected: false }));
+    this.selectedOptions =  [];
+    this.selectedOptionNames = [];
     this.clearSelectionsClick.emit();
+    this.selectedOptionsChange.emit([]);
   }
 
+  clickElsewhere () {
+    this.isExpanded = false;
+  }
   clearSearchTerm() {
     this.searchTerm = '';
   }
 
   trackByFn(index, item: GenericMenuItem) {
-    return (item.Id) ? item.Id : item.DisplayName;
+    return ((item.Id) ? item.Id : item.DisplayName ) + (item.IsSelected ? 'true' : 'false');
   }
-
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key.toLowerCase() === 'escape') {
+      this.isExpanded = false;
+    }
+  }
   ngOnDestroy() {
-    this.formValuesSubscription.unsubscribe();
+      if (this.remoteDataSourceSubscription) {
+        this.remoteDataSourceSubscription.unsubscribe();
+      }
   }
 }

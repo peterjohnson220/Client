@@ -1,10 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UserRoleDataAccessTabComponent should match snapshot 1`] = `
-<pf-user-role-data-access-tab>
+<pf-user-role-data-access-tab
+  dataTypes={[Function Array]}
+  dataTypesSubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
   <h3>
      Data Access Tab
   
-  </h3>
+  </h3><ul
+    class="list-group nav"
+  >
+    
+    <li
+      class="nav-item nav-item parentElement"
+    >
+       Test Data type 
+      <ul
+        class="list-group nav"
+      >
+        <li
+          class="nav-item subElement"
+        >
+          <pf-data-field-filter />
+        </li>
+      </ul>
+    </li>
+  </ul>
 </pf-user-role-data-access-tab>
 `;
