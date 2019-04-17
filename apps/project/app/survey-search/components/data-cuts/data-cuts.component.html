@@ -81,6 +81,12 @@
           <td class="text-center">{{job.Orgs || '-'}}</td>
           <td class="text-center">{{job.Base50th || '-'}}</td>
           <td class="text-center">{{job.TCC50th || '-'}}</td>
+          <!-- Hidden Cell for Drag/Drop Re-Order -->
+          <td class="gu-mirror-show">
+            <div class="card">
+              <div class="card-block">Add <strong>{{numberCutsSelected}}</strong> selected data cut<ng-container *ngIf="numberCutsSelected > 1">s</ng-container> to job...</div>
+            </div>
+          </td>
         </tr>
       </ng-container>
     </ng-container>
