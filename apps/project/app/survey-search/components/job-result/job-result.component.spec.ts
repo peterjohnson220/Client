@@ -189,7 +189,9 @@ describe('Project - Survey Search - Job Result', () => {
 
     const expectedDataCutDetails: DataCutDetails = {
       DataSource: SurveySearchResultDataSources.Peer,
-      Job: instance.job
+      Job: instance.job,
+      Base50th: instance.job.Base50th,
+      TCC50th: instance.job.TCC50th
     };
 
     instance.handlePeerCutSelected();

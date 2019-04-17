@@ -109,7 +109,9 @@ export class JobResultComponent implements OnInit, OnDestroy {
   handlePeerCutSelected() {
     this.cutSelected.emit({
       DataSource: this.job.DataSource,
-      Job: this.job
+      Job: this.job,
+      Base50th: this.job.Base50th,
+      TCC50th: this.job.TCC50th
     });
   }
 
