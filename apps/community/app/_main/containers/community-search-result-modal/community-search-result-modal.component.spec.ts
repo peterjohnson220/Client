@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import * as fromCommunitySearchActions from '../../actions/community-search.actions';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 import * as fromRootState from 'libs/state/state';
@@ -15,7 +16,7 @@ describe('CommunityPostSearchResultComponent', () => {
   let instance: CommunitySearchResultModalComponent;
   let store: Store<fromRootState.State>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -32,19 +33,38 @@ describe('CommunityPostSearchResultComponent', () => {
 
     fixture = TestBed.createComponent(CommunitySearchResultModalComponent);
     instance = fixture.componentInstance;
-  }));
-
-  it('should create', () => {
-    expect(instance).toBeTruthy();
   });
 
-  it('should dispatch GettingCommunityPost when getting communitySearchResultModal$ with valid result', () => {
+  it('should show a modal with when communityPost has value', () => {
+    instance.communityPost = generateMockCommunityPost();
 
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should dispatch GettingCommunityPost actions when getting communitySearchResultModal$ with valid result', () => {
+
+    instance.communityPost = generateMockCommunityPost();
     const result = generateMockCommunityPost();
     instance.communitySearchResultModal$ = of(result.Id);
+    fixture.detectChanges();
+
     const expectedAction = new fromCommunityPostActions.GettingCommunityPost(result.Id);
     fixture.detectChanges();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
   });
+
+  it('should dispatch CloseSearchResultModal action when handleModalDismissed() is called', () => {
+    instance.communityPost = generateMockCommunityPost();
+    instance.handleModalDismissed();
+    fixture.detectChanges();
+
+    const expectedAction = new fromCommunitySearchActions.CloseSearchResultModal();
+    fixture.detectChanges();
+
+    expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
 });

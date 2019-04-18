@@ -35,21 +35,21 @@
               [PostId]="post.Id"
               [LikeCount]="post.LikeCount">
             </pf-community-like>      
-            <a id="reply" href="javascript:void(0)" class="pl-2 community-link" (click)="showReply(i)">
+            <a id="reply" href="javascript:void(0)" class="pl-2 community-link" (click)="showReply()">
               <span>Reply</span>
             </a>
           </div>
-          <div class="mt-2 py-1" [ngClass]="showAddReply[i] ? 'show' : 'hide'">
+          <div class="mt-2 py-1" [ngClass]="showAddReply ? 'show' : 'hide'">
             <pf-community-post-add-reply
               [postId]="post.Id"
               [maximumReplies]="maximumReplies"
               [replyCount]="post.ReplyCount"
-              (replySubmitted)="onReplySubmitted(i)">
+              (replySubmitted)="onReplySubmitted()">
             </pf-community-post-add-reply>
           </div>
           <pf-community-post-add-reply-view
             [postId]="post.Id" (replyHashTagClicked)="hashtagClicked($event)"></pf-community-post-add-reply-view>
-          <pf-community-post-filtered-reply-view [postId]="post.Id"></pf-community-post-filtered-reply-view>      
+          <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>      
           <div *ngIf="post.ReplyCount > 0">
             <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
           <span class="mr-1">
@@ -57,12 +57,12 @@
                 <line class="line" x1="0" y1="0" x2="100" y2="0"/>
               </svg>
           </span>
-          <span *ngIf="!showReplies[i]"
-                (click)="getReplies(i, post.Id)">View Replies ({{ post.ReplyCount }})</span>
-          <span *ngIf="showReplies[i]" (click)="hideReplies(i, post.Id)">Hide Replies</span>
+          <span *ngIf="!showReplies"
+                (click)="getReplies(post.Id)">View Replies ({{ post.ReplyCount }})</span>
+          <span *ngIf="showReplies" (click)="hideReplies(post.Id)">Hide Replies</span>
             </a>
           </div>
-          <div *ngIf="showReplies[i]">
+          <div *ngIf="showReplies">
             <pf-community-post-replies
               [replies]="post.Replies"
               [loading]="loadingCommunityPostReplies$ | async"

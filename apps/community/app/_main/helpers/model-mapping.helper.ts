@@ -59,3 +59,17 @@ export function mapToCategoryEnum(category: string): CommunityCategoryEnum {
 
 }
 
+export function populatePostReplies(post: any, addReplies: string[], filterReplies: string[], replies) {
+  if (post.ReplyIds && post.ReplyIds.length > 0) {
+    const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0
+      && filterReplies.indexOf(replyId) < 0);
+    const filteredReplies = filteredReplyIds.reduce((acc, id) => {
+      return replies[id] ? [...acc, replies[id]] : acc;
+    }, []);
+    post.ReplyCount = filteredReplies.length;
+    filteredReplies.forEach(filteredReply => {
+      post.Replies.push(filteredReply);
+    });
+  }
+}
+

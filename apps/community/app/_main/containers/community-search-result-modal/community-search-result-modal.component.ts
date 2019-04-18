@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 
 import * as fromCommunitySearchPostReducer from '../../reducers';
 
-import { CommunityPost } from 'libs/models';
 import * as fromCommunitySearchActions from '../../actions/community-search.actions';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
+
+import { CommunityPost } from 'libs/models';
 
 @Component({
   selector: 'pf-community-search-result-modal',
@@ -18,25 +19,35 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   communitySearchResultModal$: Observable<any>;
   communitySearchResultModalSubscription: Subscription;
 
-  communityPost$: Observable<CommunityPost>;
+  communityPost$: Observable<any>;
+  communityPostSubscription: Subscription;
+
   maximumReplies$: Observable<number>;
 
   loadingCommunityPost$: Observable<boolean>;
   loadingCommunityPostError$: Observable<boolean>;
 
+  communityPost: CommunityPost;
+
   constructor(public store: Store<fromCommunitySearchPostReducer.State>) {
     this.communitySearchResultModal$ = this.store.select(fromCommunitySearchPostReducer.getCommunitySearchResultModal);
-    this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPost);
-    this.maximumReplies$ = this.store.select(fromCommunitySearchPostReducer.getMaximumReplies);
+
+    this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostCombinedWithReplies);
     this.loadingCommunityPost$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPost);
     this.loadingCommunityPostError$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPostError);
-  }
+
+    this.maximumReplies$ = this.store.select(fromCommunitySearchPostReducer.getMaximumReplies);
+   }
 
   ngOnInit() {
-    this.communitySearchResultModalSubscription = this.communitySearchResultModal$.subscribe(result => {
-      if (result != null) {
-        this.store.dispatch(new fromCommunityPostActions.GettingCommunityPost(result));
-      }
+    this.communitySearchResultModalSubscription = this.communitySearchResultModal$.subscribe(postId => {
+      if (postId != null) {
+        this.store.dispatch(new fromCommunityPostActions.GettingCommunityPost(postId));
+        }
+    });
+
+    this.communityPostSubscription = this.communityPost$.subscribe(post => {
+      this.communityPost = post;
     });
   }
 
@@ -44,9 +55,14 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     if (this.communitySearchResultModalSubscription) {
       this.communitySearchResultModalSubscription.unsubscribe();
     }
+
+    if (this.communityPostSubscription) {
+      this.communityPostSubscription.unsubscribe();
+    }
   }
 
   handleModalDismissed(): void {
     this.store.dispatch(new fromCommunitySearchActions.CloseSearchResultModal);
+    this.communityPost = null;
   }
 }
