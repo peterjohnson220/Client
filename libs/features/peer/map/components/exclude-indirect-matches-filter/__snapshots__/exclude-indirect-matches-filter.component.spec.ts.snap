@@ -13,7 +13,7 @@ exports[`Features - Peer - Exclude Indirect Matches Filter should display approp
       <div
         class="filter-switch-label"
       >
-         Exclude Indirect Matches 
+         Exact Level Only 
       </div>
     </div>
     <div
