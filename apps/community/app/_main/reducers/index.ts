@@ -249,6 +249,21 @@ export const getMaximumReplies = createSelector(
   fromCommunityPostReducer.getMaximumReplies
 );
 
+export const getLoadingCommunityPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingCommunityPost
+);
+
+export const getCommunityPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPost
+);
+
+export const getLoadingCommunityPostError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingCommunityPostError
+);
+
 export const getHasNextBatchPostsOnServer = createSelector(
   getTotalDiscussionResultsOnServer,
   selectFromCommunityPostState,
@@ -513,5 +528,10 @@ export const getLoadingSearchResultsError = createSelector(
 export const getCommunitySearchResults = createSelector(
   selectFromCommunitySearchState,
   fromCommunitySearchReducer.getSearchResults
+);
+
+export const getCommunitySearchResultModal = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getSearchResultModalPostId
 );
 

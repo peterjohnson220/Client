@@ -4,7 +4,6 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
 <pf-community-posts
   addReplyViewStore={[Function Store]}
   avatarUrl={[Function String]}
-  communityPollResponseSubmitted$={[Function Store]}
   communityPosts$={[Function Store]}
   communityPostsSubscription={[Function Subscriber]}
   filterStore={[Function Store]}
@@ -17,15 +16,12 @@ exports[`CommunityPostsComponent should show community posts 1`] = `
   loadingCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPosts$={[Function Store]}
   loadingNextBatchCommunityPostsSubscription={[Function Subscriber]}
-  loadingPostsSubscription={[Function Subscriber]}
   loadingPreviousBatchCommunityPosts$={[Function Store]}
   loadingPreviousBatchCommunityPostsSubscription={[Function Subscriber]}
   maximumReplies$={[Function Store]}
   pollsType={[Function Number]}
   replyStore={[Function Store]}
   route={[Function Object]}
-  showAddReply={[Function Object]}
-  showReplies={[Function Array]}
   store={[Function Store]}
   totalDiscussionResultsOnServer$={[Function Store]}
 >

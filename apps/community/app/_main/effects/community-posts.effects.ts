@@ -138,6 +138,19 @@ export class CommunityPostEffects {
       )
     );
 
+  @Effect()
+  gettingCommunityPost$: Observable<Action> = this.actions$
+    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST).pipe(
+      switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
+        this.communityPostService.getPost(action.payload).pipe(
+          map((communityPost: CommunityPost) => {
+            return new fromCommunityPostActions.GettingCommunityPostSuccess(communityPost);
+          }),
+          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostError()))
+        )
+      )
+    );
+
   constructor(
     private actions$: Actions,
     private store: Store<fromCommunityPostFilterOptionsReducer.State>,

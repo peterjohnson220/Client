@@ -29,7 +29,8 @@ export class CommunitySearchResultsComponent {
     this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query));
   }
 
-  openDetailsModal(resultId) {
+  openDetailsModal(result) {
+    this.store.dispatch(new fromCommunitySearchActions.OpenSearchResultModal(result));
   }
 
   trackByFn(index, item) {
