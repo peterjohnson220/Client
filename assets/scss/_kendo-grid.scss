@@ -32,10 +32,6 @@
   }
 }
 
-:host ::ng-deep .k-grid th {
-  border-left-width: 1px;
-}
-
 :host ::ng-deep .k-grid .k-alt:not(.k-state-selected) {
   background: none;
 }

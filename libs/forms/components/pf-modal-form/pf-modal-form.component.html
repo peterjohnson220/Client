@@ -22,14 +22,15 @@
     <div class="flex-column space-out-children" [ngClass]="{'w-50': (size != 'sm')}">
       <ng-content select="[footer-left]"></ng-content>
     </div>
-    <div class="flex-column space-out-children">
-      <button type="button" class="btn btn-secondary" (click)="dismiss()">{{secondaryButtonText}}</button>
+    <div class="flex-grow-1 d-flex flex-row justify-content-end space-out-children">
+      <ng-content select="[button-container-left]"></ng-content>
       <button type="button" class="btn" [ngClass]="primaryButtonClass" [disabled]="submitDisabled" (click)="submit()">
         <span *ngIf="submitting">
           <pf-loading-indicator></pf-loading-indicator> {{primaryButtonTextSubmitting}}
         </span>
         <span *ngIf="!submitting">{{primaryButtonText}}</span>
       </button>
+      <button type="button" class="btn btn-secondary" (click)="dismiss()">{{secondaryButtonText}}</button>
     </div>
   </div>
 </ng-template>

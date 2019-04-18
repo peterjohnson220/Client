@@ -154,6 +154,16 @@ describe('Peer - Map - Exchange Map Page', () => {
 
   it('should display a disabled Export Data Cuts Button when peerMapCompaniesCount$ is < 5', () => {
     instance.peerMapCompaniesCount$ = of(1);
+    instance.exchangeJobIdsInScope$ = of([1]);
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display a disabled Export Data Cuts Button when exchangeJobIdsInScope$ is empty or null', () => {
+    instance.peerMapCompaniesCount$ = of(6);
+    instance.exchangeJobIdsInScope$ = of(null);
 
     fixture.detectChanges();
 

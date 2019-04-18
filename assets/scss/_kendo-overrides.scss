@@ -47,10 +47,15 @@
   }
 }
 
-
+// Kendo Grid
 .k-grid-content, .k-grid-footer-wrap, .k-grid-header-wrap {
   flex-basis: 100%;
 }
+
+.k-grid-header .k-header:first-child,  .k-grid th {
+  border-left-width: 1px;
+}
+
 
 kendo-tabstrip.tabstrip-no-borders > .k-content {
   border-width: 0;
