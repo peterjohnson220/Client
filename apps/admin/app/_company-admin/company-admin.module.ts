@@ -22,6 +22,7 @@ import { NavigationEffects, UserRoleEffects } from './effects';
 import { reducers } from './reducers';
 import { UserRoleService, UserRoleValidationService} from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
+import { DataFieldFilterComponent } from './components/data-field-filter/data-field-filter.component';
 
 @NgModule({
   imports: [
@@ -54,10 +55,14 @@ import { CompanyAdminRoutingModule } from './company-admin-routing.module';
     UserRoleFunctionTabComponent,
     UserRoleUsersTabComponent,
     AddCompanyRoleModalComponent,
+    DataFieldFilterComponent,
+    NavigationPageComponent,
 
     // Pages
-    UserRolePageComponent,
-    NavigationPageComponent
+    UserRolePageComponent
+
+
+
   ],
   providers: [
     // Services

@@ -8,6 +8,7 @@ import { UserRoleTabState, RoleApiResponse } from '../../../constants/user-role.
 import { UserRoleService } from '../../../services';
 import * as fromUserRoleViewReducer from '../../../reducers';
 import * as fromUserRoleActions from '../../../actions/user-role-view.action';
+import * as fromDataAccessActions from '../../../actions/data-access-tab.action';
 import * as fromUserRoleUserTabActions from '../../../actions/user-role-users-tab.action';
 
 @Component({
@@ -40,6 +41,7 @@ export class UserRolePageComponent implements OnDestroy {
   constructor(private userRoleService: UserRoleService, private store: Store<fromUserRoleViewReducer.State>) {
     this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
     this.store.dispatch(new fromUserRoleUserTabActions.GetUsersAndRoles());
+    this.store.dispatch(new fromDataAccessActions.LoadDataTypes());
 
     this.companyRolesSubscription = this.store.select(fromUserRoleViewReducer.getCompanyRoles).subscribe(userRoles => {
       this.userAssignedRoles = userRoles;

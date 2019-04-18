@@ -8,7 +8,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
-  currentUserRoleTabState="0"
+  currentUserRoleTabState={[Function Number]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
   permissionIdsToSave={[Function Array]}
@@ -106,6 +106,17 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
                   class="nav-item"
                 >
                   <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Data Access 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
                     class="nav-link active"
                     ng-reflect-klass="nav-link"
                     ng-reflect-ng-class="[object Object]"
@@ -132,6 +143,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
               <div
                 class="tab-container mx-2 py-2"
               >
+                
                 
                 <pf-user-role-function-tab />
                 
@@ -161,7 +173,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
-  currentUserRoleTabState="0"
+  currentUserRoleTabState={[Function Number]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
   permissionIdsToSave={[Function Array]}
@@ -250,6 +262,17 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
                   class="nav-item"
                 >
                   <button
+                    class="nav-link"
+                    ng-reflect-klass="nav-link"
+                    ng-reflect-ng-class="[object Object]"
+                  >
+                    Data Access 
+                  </button>
+                </li>
+                <li
+                  class="nav-item"
+                >
+                  <button
                     class="nav-link active"
                     ng-reflect-klass="nav-link"
                     ng-reflect-ng-class="[object Object]"
@@ -276,6 +299,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
               <div
                 class="tab-container mx-2 py-2"
               >
+                
                 
                 <pf-user-role-function-tab />
                 

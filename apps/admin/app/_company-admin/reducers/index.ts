@@ -8,6 +8,7 @@ import * as fromUserRoleViewReducer from './user-role-view.reducer';
 import * as fromUserRoleUserTabReducer from './user-role-users-tab.reducer';
 import * as fromUserRoleFunctionTabReducer from './user-role-functions-tab.reducer';
 import * as fromNavigationReducer from './navigation.reducer';
+import * as fromDataAccessTabReducer from './role-data-access-tab.reducer';
 
 // Feature area state
 export interface UserRoleViewStateMain {
@@ -15,6 +16,7 @@ export interface UserRoleViewStateMain {
   userRoleUserTab: fromUserRoleUserTabReducer.State;
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.State;
   navigation: fromNavigationReducer.State;
+  dataAccessTab: fromDataAccessTabReducer.State;
 }
 
 // Extend root state with feature area state
@@ -27,7 +29,8 @@ export const reducers = {
   userRoleView: fromUserRoleViewReducer.reducer,
   userRoleUserTab: fromUserRoleUserTabReducer.reducer,
   userRoleFunctionTab: fromUserRoleFunctionTabReducer.reducer,
-  navigation: fromNavigationReducer.reducer
+  navigation: fromNavigationReducer.reducer,
+  dataAccessTab: fromDataAccessTabReducer.reducer
 };
 
 // Select Feature Area
@@ -40,6 +43,9 @@ export const selectUserRoleState =
 
 export const selectUserRoleFunctionTabState =
   createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleFunctionTab);
+
+export const selectRoleDataAccessTabState =
+  createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.dataAccessTab);
 
 export const selectUserRoleUserTabState =
   createSelector(selectUserRoleAdminMainState, (state: UserRoleViewStateMain) => state.userRoleUserTab);
@@ -136,4 +142,10 @@ export const getNavigationLinksLoading = createSelector(
 
 export const getNavigationLinksLoadingError = createSelector(
   selectNavigationState, fromNavigationReducer.getLoadingError
+);
+
+// Data Access Tab
+
+export const getDataTypes = createSelector(
+  selectRoleDataAccessTabState, fromDataAccessTabReducer.getDataTypes
 );
