@@ -11,6 +11,7 @@ import { ExchangeMapResponse, ExchangeDataSearchFilter, GenericKeyValue } from '
 import * as fromFilterSidebarActions from '../actions/filter-sidebar.actions';
 import * as fromPeerMapActions from '../actions/map.actions';
 import * as fromPeerMapReducers from '../reducers';
+import { MapHelper } from '../helpers';
 
 @Injectable()
 export class MapEffects {
@@ -56,20 +57,32 @@ export class MapEffects {
       ))
     );
 
-  @Effect()
-  loadPeerMapBounds$: Observable<Action> = this.actions$.pipe(
-    ofType(fromPeerMapActions.LOAD_PEER_MAP_BOUNDS),
-    withLatestFrom(
-      this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
-      (action, exchangeDataCutRequestData) => exchangeDataCutRequestData),
-    switchMap((payload: ExchangeDataSearchFilter) =>
-      this.exchangeDataSearchApiService.getMapBounds(payload).pipe(
-        map((exchangeMapResponse: ExchangeMapResponse) => new fromPeerMapActions
-          .LoadPeerMapBoundsSuccess(exchangeMapResponse)),
-        catchError(() => of(new fromPeerMapActions.LoadPeerMapBoundsError()))
+    @Effect()
+    loadPeerMapBounds$ = this.actions$.pipe(
+      ofType(fromPeerMapActions.LOAD_PEER_MAP_BOUNDS),
+      withLatestFrom(
+        this.peerMapStore.pipe(select(fromPeerMapReducers.getExchangeDataCutRequestData)),
+        (action, exchangeDataCutRequestData) => exchangeDataCutRequestData),
+      switchMap((payload: ExchangeDataSearchFilter) =>
+        this.exchangeDataSearchApiService.getMapBounds(payload).pipe(
+          mergeMap((exchangeMapResponse: ExchangeMapResponse) => {
+            let obs: any = [
+              new fromPeerMapActions.LoadPeerMapBoundsSuccess(exchangeMapResponse)
+              ];
+
+              // if we don't have bounds then our result is empty
+            if (!MapHelper.MapSummaryHasBounds(exchangeMapResponse.MapSummary)) {
+              obs = [
+                new fromPeerMapActions.LoadPeerMapBoundsSuccess(exchangeMapResponse),
+                new fromFilterSidebarActions.LoadFilterAggregates
+              ];
+            }
+            return obs;
+          }),
+          catchError(() => of(new fromPeerMapActions.LoadPeerMapBoundsError()))
+        )
       )
-    )
-  );
+    );
 
   constructor(
     private actions$: Actions,

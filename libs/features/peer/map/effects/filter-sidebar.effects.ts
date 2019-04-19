@@ -92,6 +92,7 @@ export class FilterSidebarEffects {
           ];
         } else {
            obs = [
+             new fromFilterSidebarActions.ClearAllSelections,
              new fromPeerMapActions.LoadPeerMapBounds
             ];
          }
@@ -124,10 +125,10 @@ export class FilterSidebarEffects {
   );
 
   @Effect()
-  clearAllSelections$ = this.actions$.pipe(
-      ofType(fromFilterSidebarActions.CLEAR_ALL_SELECTIONS),
+  getMapData$ = this.actions$.pipe(
+      ofType(fromFilterSidebarActions.GET_MAP_DATA),
       mergeMap(() => [
-        new fromPeerMapActions.LoadPeerMapData(),
+        new fromPeerMapActions.LoadPeerMapData,
         new fromFilterSidebarActions.LoadFilterAggregates()
       ])
     );
