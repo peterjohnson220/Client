@@ -27,7 +27,8 @@ import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
 import { MarketDataScopeApiService } from './paymarket';
 import { FileApiService } from './file';
-import {PermissionService, RemoteDataSourceService} from '../../core/services';
+import { TagApiService } from './tags';
+import { PermissionService, RemoteDataSourceService } from '../../core/services';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -69,6 +70,7 @@ import {PermissionService, RemoteDataSourceService} from '../../core/services';
     FileApiService,
     PermissionService,
     RemoteDataSourceService,
+    TagApiService
   ]
 })
 export class PfApiModule { }

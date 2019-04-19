@@ -17,4 +17,4 @@ export * from './auto-associate-exchange-jobs-request.model';
 export * from './exchange-data-cuts-export-request.model';
 export * from './save-exchange-job-association-request.model';
 export * from './get-exchange-company-jobs-all-entity-ids-request.model';
-
+export * from './upsert-tag-category-request.model';

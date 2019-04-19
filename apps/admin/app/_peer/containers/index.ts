@@ -16,3 +16,4 @@ export * from './exchange-job-request-info';
 export * from './deny-request-modal';
 export * from './approve-request-modal';
 export * from './manage-exchange-filters';
+export * from './create-tag-category-modal';
