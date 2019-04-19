@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Create Tag Category Modal (the modal) should match the snapshot 1`] = `
+<pf-create-tag-category-modal
+  createTagCategoryForm={[Function FormGroup]}
+  createTagCategoryModalOpen$={[Function Store]}
+  creatingTagCategory$={[Function Store]}
+  fb={[Function FormBuilder]}
+  store={[Function Store]}
+  tagApiService={[Function Object]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="New Custom Filter"
+  >
+    
+    <div
+      class="form-group"
+    >
+      <div>
+        <label
+          class="col-form-label"
+          for="tag-category-name"
+        >
+          Please give the new custom filter a name:
+        </label>
+        <input
+          class="form-control ng-untouched ng-pristine ng-invalid"
+          formcontrolname="name"
+          id="tag-category-name"
+          ng-reflect-name="name"
+          pffocus=""
+          placeholder="Name"
+          type="text"
+        />
+        
+        
+        
+        
+        
+        <span
+          class="pf-placeholder"
+        />
+      </div>
+      <div>
+        <label
+          class="col-form-label"
+        >
+          Choose what types you would like this filter to apply to:
+        </label>
+        <div
+          class="d-flex flex-row"
+        >
+          <div>
+            <input
+              class="ng-untouched ng-pristine ng-valid"
+              formcontrolname="entityTypeCompany"
+              id="Company"
+              ng-reflect-name="entityTypeCompany"
+              type="checkbox"
+              value="Company"
+            />
+            <label
+              class="checkbox-label"
+              for="Company"
+            >
+              Company
+            </label>
+          </div>
+          <div>
+            <input
+              class="ng-untouched ng-pristine ng-valid"
+              formcontrolname="entityTypeJob"
+              id="Job"
+              ng-reflect-name="entityTypeJob"
+              type="checkbox"
+              value="Job"
+            />
+            <label
+              class="checkbox-label"
+              for="Job"
+            >
+              Job
+            </label>
+          </div>
+          <div>
+            <input
+              class="ng-untouched ng-pristine ng-valid"
+              formcontrolname="entityTypeEmployee"
+              id="Employee"
+              ng-reflect-name="entityTypeEmployee"
+              type="checkbox"
+              value="Employee"
+            />
+            <label
+              class="checkbox-label"
+              for="Employee"
+            >
+              Employee
+            </label>
+          </div>
+        </div>
+        <textarea
+          class="form-control text-area-no-resize ng-untouched ng-pristine ng-valid"
+          formcontrolname="description"
+          id="tag-category-description"
+          maxlength="250"
+          name="description"
+          ng-reflect-maxlength="250"
+          ng-reflect-name="description"
+          onfocus="this.placeholder = ''"
+          placeholder="Add a brief description about the Custom Filter you are creating."
+          rows="5"
+        />
+      </div>
+    </div>
+  </pf-modal-form>
+</pf-create-tag-category-modal>
+`;
