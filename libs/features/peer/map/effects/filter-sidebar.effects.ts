@@ -88,12 +88,11 @@ export class FilterSidebarEffects {
         // Only clear selections on paymarket toggle if a scope is not selected
         if (scopeSelected) {
           obs = [
-            new fromPeerMapActions.LoadPeerMapBounds()
+            new fromPeerMapActions.LoadPeerMapData(),
+            new fromFilterSidebarActions.LoadFilterAggregates()
           ];
         } else {
-           obs = [
-             new fromPeerMapActions.LoadPeerMapBounds
-            ];
+          obs = [new fromFilterSidebarActions.ClearAllSelections()];
          }
 
         return obs;
@@ -113,7 +112,8 @@ export class FilterSidebarEffects {
       // Only clear selections on paymarket toggle if a scope is not selected
       if (scopeSelected) {
         obs = [
-          new fromPeerMapActions.LoadPeerMapBounds
+          new fromPeerMapActions.LoadPeerMapData(),
+          new fromFilterSidebarActions.LoadFilterAggregates()
         ];
       } else {
           obs = [new fromFilterSidebarActions.ClearAllSelections()];
