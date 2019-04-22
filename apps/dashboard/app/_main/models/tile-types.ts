@@ -16,4 +16,5 @@ export enum TileTypes {
   NewCommunity = 'NewCommunity',
   Ideas = 'Ideas',
   QuickPrice = 'QuickPrice',
+  DataViews = 'DataViews'
 }
