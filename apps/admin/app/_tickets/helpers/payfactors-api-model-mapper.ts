@@ -32,7 +32,8 @@ export class PayfactorsApiModelMapper {
         OpenedBy: response.OpenedUserEmail,
         TicketType: response.UserTicketType,
         TicketCssClass: response.TicketCssClass,
-        TicketState: response.UserTicketState
+        TicketState: response.UserTicketState,
+        LastUpdatedText: response.LastUpdatedText
       },
       CompanyInfo: null
     };
