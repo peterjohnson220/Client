@@ -11,8 +11,8 @@ export class CommunitySearchApiService {
   constructor(private payfactorsApiService: PayfactorsApiService) {
   }
 
-  searchCommunity(search: string): Observable<CommunitySearchResult[]> {
+  searchCommunity(search: any, from = 0, count = 15): Observable<CommunitySearchResult[]> {
     return this.payfactorsApiService.post<CommunitySearchResult[]>
-    (`${this.endpoint}/Get`,  { SearchTerm: search,  PagingOptions: {From: 0, Count: 15}  });
+    (`${this.endpoint}/Get`,  { SearchTerm: search,  PagingOptions: {From: from, Count: count}  });
   }
 }

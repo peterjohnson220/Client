@@ -515,6 +515,10 @@ export const getFilterTitle = createSelector(
 );
 
 // Community Search Selectors
+export const {
+  selectAll: getCommunitySearchResults,
+} = fromCommunitySearchReducer.adapter.getSelectors(selectFromCommunitySearchState);
+
 export const getLoadingSearchResults = createSelector(
   selectFromCommunitySearchState,
   fromCommunitySearchReducer.getLoadingSearchResults
@@ -525,9 +529,14 @@ export const getLoadingSearchResultsError = createSelector(
   fromCommunitySearchReducer.getLoadingSearchResultsError
 );
 
-export const getCommunitySearchResults = createSelector(
+export const getCommunityLoadingMoreSearchResults = createSelector(
   selectFromCommunitySearchState,
-  fromCommunitySearchReducer.getSearchResults
+  fromCommunitySearchReducer.getLoadingMoreSearchResults
+);
+
+export const getSearchResultsPagingOptions = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getSearchResultsPagingOptions
 );
 
 export const getCommunitySearchResultModal = createSelector(
@@ -535,3 +544,15 @@ export const getCommunitySearchResultModal = createSelector(
   fromCommunitySearchReducer.getSearchResultModalPostId
 );
 
+export const getTotalSearchResultsOnServer = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getTotalSearchResultsOnServer
+);
+
+export const getHasMoreSearchResultsOnServer = createSelector(
+  getCommunitySearchResults,
+  getTotalSearchResultsOnServer,
+  (results, totalResults) => {
+    return totalResults > results.length;
+  }
+);
