@@ -92,14 +92,9 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.allSubscriptions.unsubscribe();
   }
 
-  reload(resetSearchTerm = false): void {
+  reload(): void {
     this.store.dispatch(new companyJobsActions.Reset());
-    // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
-    if (resetSearchTerm) {
-      this.companyJobSearchComponent.clearValue();
-    } else {
-      this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
-    }
+    this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
   showGridTooltip(e: any): void {
