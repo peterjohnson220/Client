@@ -7,6 +7,7 @@ export interface TicketDetail {
   TicketType: string;
   TicketCssClass: string;
   TicketState: string;
+  LastUpdatedText: string;
 }
 
 export function generateMockTicketDetail() {
@@ -18,6 +19,7 @@ export function generateMockTicketDetail() {
     OpenedBy: 'MockOpenedByUser',
     TicketType: 'MockTicketType',
     TicketCssClass: 'MockTicketCssClass',
-    TicketState: 'MockTicketState'
+    TicketState: 'MockTicketState',
+    LastUpdatedText: 'MockLastUpdatedText'
   };
 }
