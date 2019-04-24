@@ -57,6 +57,17 @@
       </ng-template>
     </kendo-grid-column>
 
+    <kendo-grid-column field="Status" title="" [width]="150">
+      <ng-template kendoGridCellTemplate let-dataItem>
+
+        <div class="text-center" [ngSwitch]="dataItem.Status">
+          <span *ngSwitchCase="3" class="badge badge-warning">Inactive</span>
+          <span *ngSwitchCase="1" class="badge badge-info">Active</span>
+        </div>
+
+      </ng-template>
+    </kendo-grid-column>
+
     <kendo-grid-column title=""
                        [width]="50">
       <ng-template kendoGridCellTemplate

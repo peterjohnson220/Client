@@ -195,7 +195,7 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
       };
     }
     case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_SUCCESS: {
-      let mapSummary: ExchangeMapSummary = action.payload.MapSummary;
+      const mapSummary: ExchangeMapSummary = action.payload.MapSummary;
       const mapFilter = {
         ...state.mapFilter
       };

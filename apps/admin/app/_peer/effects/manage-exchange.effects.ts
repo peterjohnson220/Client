@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
 
+import { Action, select, Store } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import {map, switchMap, catchError} from 'rxjs/operators';
+import { NEVER } from 'rxjs/internal/observable/never';
+import { map, switchMap, catchError, withLatestFrom, tap } from 'rxjs/operators';
 
 import { ExchangeApiService } from 'libs/data/payfactors-api';
-import { ExchangeJobsValidationResultModel } from 'libs/models';
+import { Exchange, ExchangeJobsValidationResultModel } from 'libs/models';
 
-import { GridHelperService } from '../services/grid-helper.service';
+import { GridHelperService } from '../services';
+import { ExchangeManagementDetails } from '../models';
 import * as fromImportExchangeJobActionActions from '../actions/import-exchange-jobs.actions';
+import * as fromExchangeActions from '../actions/exchange.actions';
+import * as fromExchangeCompaniesActions from '../actions/exchange-companies.actions';
+import * as fromPeerAdminReducer from '../reducers';
 
 @Injectable()
 export class ManageExchangeEffects {
 
   @Effect()
-  uploadingFile$: Observable<Action> = this.actions$
-    .ofType(fromImportExchangeJobActionActions.UPLOADING_FILE).pipe(
+  uploadingFile$: Observable<Action> = this.actions$.pipe(
+      ofType(fromImportExchangeJobActionActions.UPLOADING_FILE),
       switchMap((action: fromImportExchangeJobActionActions.UploadingFile) =>
         this.exchangeApiService.validateExchangeJobs(action.payload).pipe(
           map((exchangeJobsValidationResultModel: ExchangeJobsValidationResultModel) => {
@@ -28,8 +33,8 @@ export class ManageExchangeEffects {
     );
 
   @Effect()
-  importingFile: Observable<Action> = this.actions$
-    .ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS).pipe(
+  importingFile: Observable<Action> = this.actions$.pipe(
+      ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS),
       map((action: fromImportExchangeJobActionActions.ImportingExchangeJobs) => action.payload),
       switchMap((payload) => {
           return this.exchangeApiService.importExchangeJobs(payload).pipe(
@@ -44,15 +49,55 @@ export class ManageExchangeEffects {
     );
 
   @Effect()
-  importingFileSuccess$: Observable<Action> = this.actions$
-    .ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS_SUCCESS).pipe(
+  importingFileSuccess$: Observable<Action> = this.actions$.pipe(
+      ofType(fromImportExchangeJobActionActions.IMPORTING_EXCHANGE_JOBS_SUCCESS),
       switchMap(() => of(new fromImportExchangeJobActionActions.ClosingImportExchangeJobsModal()))
     );
+
+  @Effect()
+  updateExchangeStatus$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeActions.UPDATE_EXCHANGE_STATUS),
+    map((action: fromExchangeActions.UpdateExchangeStatus) => {
+      return {exchangeId: action.exchangeId, newStatus: action.newStatus};
+    }),
+    switchMap((payload) => {
+      return this.exchangeApiService.updateExchangeStatus(payload).pipe(
+        map((exchange: Exchange) => new fromExchangeActions.UpdateExchangeStatusSuccess(exchange)),
+        catchError(error => of(new fromExchangeActions.UpdateExchangeStatusError))
+      );
+    })
+  );
+
+  @Effect()
+  loadExchangeManagement$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeActions.LOAD_EXCHANGE_MANAGEMENT_DETAILS),
+    map((action: fromExchangeActions.LoadExchangeManagementDetails) => action.payload),
+    switchMap((payload) => {
+      return this.exchangeApiService
+        .getExchangeManagementDetails(payload).pipe(
+          map((exchange: ExchangeManagementDetails) => new fromExchangeActions.LoadExchangeManagementDetailsSuccess(exchange)),
+          catchError((error) => of(new fromExchangeActions.LoadExchangeManagementDetailsError)));
+    })
+  );
+
+  @Effect()
+  companiesChanged$: Observable<never> = this.actions$.pipe(
+    ofType(fromExchangeCompaniesActions.ADDING_EXCHANGE_COMPANIES_SUCCESS,
+      fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY_SUCCESS),
+    withLatestFrom(this.store.pipe(select(fromPeerAdminReducer.getManageExchange)),
+      (action, storePayload) => storePayload.ExchangeId
+    ),
+    tap((exchangeId: number) => {
+      this.store.dispatch(new fromExchangeActions.LoadExchangeManagementDetails(exchangeId));
+    }),
+    switchMap(() => NEVER)
+  );
 
   constructor(
     private actions$: Actions,
     private exchangeApiService: ExchangeApiService,
-    private gridHelperService: GridHelperService
+    private gridHelperService: GridHelperService,
+    private store: Store<fromPeerAdminReducer.State>
   ) {}
 }
 

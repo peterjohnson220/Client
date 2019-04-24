@@ -6,7 +6,7 @@ import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
-import * as fromExchangeReducer from './exchange.reducer';
+import * as fromExchangeReducer from './exchange-management.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
 import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';
@@ -98,6 +98,13 @@ export const selectTagCategoriesState = createSelector(
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
+export const getExchangeStatusConfirmationModalOpen = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getExchangeStatusConfirmationModalOpen
+);
+export const getManageExchangeUpdating = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdating);
+export const getManageExchangeUpdatingError = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdatingError);
+export const getManageExchangeCanActivate = createSelector(selectExchangeState, fromExchangeReducer.getCanActivateExchange);
 
 // Exchange List Selectors
 export const getManageExchangeLoading = createSelector(

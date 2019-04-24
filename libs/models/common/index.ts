@@ -14,3 +14,4 @@ export * from './generic-menu-item.model';
 export * from './ui-persistence-feature-settings.model';
 export * from './ui-persistence-setting.const';
 export * from './feature-area.const';
+export * from './status.enum';
