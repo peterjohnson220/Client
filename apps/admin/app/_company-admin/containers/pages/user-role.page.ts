@@ -106,6 +106,10 @@ export class UserRolePageComponent implements OnDestroy {
   }
 
   setEditRoleNameMode(inEditRoleMode: boolean) {
+    if (this.currentRole && this.currentRole.IsSystemRole) {
+      return;
+    }
+
     if (inEditRoleMode) {
       this.updateNewRoleName(this.currentRole.RoleName);
       this.inEditRoleMode = true;

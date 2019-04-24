@@ -85,7 +85,9 @@
 <ng-template #readonlyModeRoleName let-userAssignedRole="userAssignedRole">
   <button type="button" title="Edit Role Name" class="btn btn-link ignore-click-elsewhere cursor-pointer"
           (click)="setEditRoleNameMode(true)"
-          [style.visibility]="currentRole && currentRole.RoleId === userAssignedRole.RoleId ? 'visible' : 'hidden'">
+          [style.visibility]="currentRole
+          && currentRole.RoleId === userAssignedRole.RoleId
+          && !userAssignedRole.IsSystemRole? 'visible' : 'hidden'">
     <i class="fas fa-pencil ignore-click-elsewhere ignore-click cursor-pointer" aria-hidden="true"></i>
   </button>
   <a class="ml-1 ignore-click-elsewhere cursor-pointer" [routerLink]="" (click)="clickRole(userAssignedRole)">{{userAssignedRole.RoleName}}</a>
