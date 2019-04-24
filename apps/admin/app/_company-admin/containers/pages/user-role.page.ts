@@ -111,9 +111,10 @@ export class UserRolePageComponent implements OnDestroy {
       this.inEditRoleMode = true;
     } else {
       if (this.newRoleName && this.newRoleName !== this.currentRole.RoleName) {
-        this.userRoleService.updateCurrentRoleName(this.newRoleName, this.currentRole.RoleId).subscribe( success => {
-          this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
-        });
+        this.store.dispatch(new fromUserRoleActions.EditRoleName({
+          NewRoleName: this.newRoleName,
+          RoleId: this.currentRole.RoleId
+        }));
       }
       this.inEditRoleMode = false;
       this.updateNewRoleName(null);

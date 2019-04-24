@@ -9,57 +9,53 @@ exports[`UserRoleFunctionTabComponent Check parents checkbox 1`] = `
   systemPermissions={[Function Array]}
 >
   <div>
-    <div
-      class="scrollable"
+    <ul
+      class="list-group nav"
     >
-      <ul
-        class="list-group nav"
+      
+      <li
+        class="nav-item pt-2 parentPermission"
       >
-        
-        <li
-          class="nav-item parentElement"
+        <input
+          data-qa-id="chk-1"
+          type="checkbox"
+        />
+         Parent Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-1"
-            type="checkbox"
-          />
-           Parent Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentElement"
+          
+        </ul>
+      </li>
+      <li
+        class="nav-item pt-2 parentPermission"
+      >
+        <input
+          data-qa-id="chk-2"
+          type="checkbox"
+        />
+         Sub1 Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-2"
-            type="checkbox"
-          />
-           Sub1 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentElement"
+          
+        </ul>
+      </li>
+      <li
+        class="nav-item pt-2 parentPermission"
+      >
+        <input
+          data-qa-id="chk-3"
+          type="checkbox"
+        />
+         Sub2 Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-3"
-            type="checkbox"
-          />
-           Sub2 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-      </ul>
-    </div>
+          
+        </ul>
+      </li>
+    </ul>
   </div>
 </pf-user-role-function-tab>
 `;
@@ -73,57 +69,53 @@ exports[`UserRoleFunctionTabComponent Page load 1`] = `
   systemPermissions={[Function Array]}
 >
   <div>
-    <div
-      class="scrollable"
+    <ul
+      class="list-group nav"
     >
-      <ul
-        class="list-group nav"
+      
+      <li
+        class="nav-item pt-2 parentPermission"
       >
-        
-        <li
-          class="nav-item parentElement"
+        <input
+          data-qa-id="chk-1"
+          type="checkbox"
+        />
+         Parent Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-1"
-            type="checkbox"
-          />
-           Parent Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentElement"
+          
+        </ul>
+      </li>
+      <li
+        class="nav-item pt-2 parentPermission"
+      >
+        <input
+          data-qa-id="chk-2"
+          type="checkbox"
+        />
+         Sub1 Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-2"
-            type="checkbox"
-          />
-           Sub1 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-        <li
-          class="nav-item parentElement"
+          
+        </ul>
+      </li>
+      <li
+        class="nav-item pt-2 parentPermission"
+      >
+        <input
+          data-qa-id="chk-3"
+          type="checkbox"
+        />
+         Sub2 Permission 
+        <ul
+          class="list-group nav"
         >
-          <input
-            data-qa-id="chk-3"
-            type="checkbox"
-          />
-           Sub2 Permission 
-          <ul
-            class="list-group nav"
-          >
-            
-          </ul>
-        </li>
-      </ul>
-    </div>
+          
+        </ul>
+      </li>
+    </ul>
   </div>
 </pf-user-role-function-tab>
 `;
