@@ -1,3 +1,5 @@
+import {generateMockUserTicketTabItems, UserTicketTabItem} from './user-ticket-tab-item.model';
+
 export interface CompanyDetail {
   Id: number;
   Name: string;
@@ -5,7 +7,7 @@ export interface CompanyDetail {
   OpenTickets: number;
   RangeOfOpenedTickets: number;
   RecentTickets: number;
-  RecentTicketIds: number[];
+  RecentTicketIds: UserTicketTabItem[];
 }
 
 export function generateMockCompanyDetail() {
@@ -16,6 +18,6 @@ export function generateMockCompanyDetail() {
     OpenTickets: 1,
     RangeOfOpenedTickets: 1,
     RecentTickets: 1,
-    RecentTicketIds: [1]
+    RecentTicketIds: generateMockUserTicketTabItems()
   };
 }

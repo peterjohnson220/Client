@@ -11,11 +11,11 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { WindowRef } from 'libs/core/services';
 import { PfCommonUIModule } from 'libs/ui/common';
 
-import { TicketListComponent, TicketListPageComponent } from './containers';
+import { TicketListComponent, TicketListPageComponent, CompanyDetailCardComponent } from './containers';
 import { TicketEffects, TicketListEffects } from './effects';
 import { reducers } from './reducers';
 import { TicketComponent } from './containers/ticket';
-import { CompanyDetailCardComponent, TicketDetailCardComponent } from './components';
+import { TicketDetailCardComponent } from './components';
 import { TicketsRoutingModule } from './tickets-routing.module';
 
 @NgModule({
