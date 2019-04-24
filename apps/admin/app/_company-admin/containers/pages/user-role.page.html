@@ -78,7 +78,8 @@
                      id="edit-role-name-input"
                      [automationClassName]="'au-txt-edit-role-name-input'"
                      pfClickElsewhere [whitelist]="['ignore-click-elsewhere']"
-                     (clickElsewhere)="setEditRoleNameMode(false)">
+                     (clickElsewhere)="setEditRoleNameMode(false)"
+                     (clearClicked)="updateNewRoleName(null)">
   </pf-input-debounce>
 </ng-template>
 
