@@ -37,12 +37,53 @@ describe('CommunitySearchResultsComponent', () => {
 
   it('should dispatch SearchingCommunity when calling executeSearch', () => {
     const searchQuery = 'searchQuery';
-
     const expectedAction = new fromCommunitySearchActions.SearchingCommunity(searchQuery);
 
     instance.executeSearch(searchQuery);
-    fixture.detectChanges();
 
     expect(store.dispatch).toBeCalledWith(expectedAction);
+  });
+
+  it('should dispatch GettingMoreCommunitySearchResults onScrollDown with more results true and not loading', () => {
+    const searchQuery = 'searchQuery';
+    instance.query = searchQuery;
+    instance.hasMoreResultsOnServer = true;
+    instance.loadingMoreSearchResults = false;
+
+    const expectedAction = new fromCommunitySearchActions.GettingMoreCommunitySearchResults(searchQuery);
+
+    instance.onScrollDown();
+
+    expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+  });
+
+  it('should not dispatch GettingMoreCommunitySearchResults if still loading more results', () => {
+    instance.query = 'test';
+    instance.hasMoreResultsOnServer = true;
+    instance.loadingMoreSearchResults = true;
+
+    instance.onScrollDown();
+
+    expect(store.dispatch).toBeCalledTimes(0);
+  });
+
+  it('should not dispatch GettingMoreCommunitySearchResults onScrollDown with no more results and not loading', () => {
+    instance.query = 'test';
+    instance.hasMoreResultsOnServer = false;
+    instance.loadingMoreSearchResults = false;
+
+    instance.onScrollDown();
+
+    expect(store.dispatch).toBeCalledTimes(0);
+  });
+
+  it('should not dispatch GettingMoreCommunitySearchResults onScrollDown without query', () => {
+    instance.query = '';
+    instance.hasMoreResultsOnServer = true;
+    instance.loadingMoreSearchResults = false;
+
+    instance.onScrollDown();
+
+    expect(store.dispatch).toBeCalledTimes(0);
   });
 });
