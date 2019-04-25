@@ -1,8 +1,9 @@
 import { generateMockSearchFilter, SearchFilter, PagingResponse } from '../../search';
+import { SurveySearchResultDataSources } from '../../../../constants';
 
 export interface SurveyJob {
   Id: string;
-  IsPayfactorsJob: boolean;
+  DataSource: SurveySearchResultDataSources;
   Survey: Survey;
   Job: Job;
 }
@@ -28,10 +29,14 @@ interface Job {
   Description: string;
   FLSAStatus?: string;
   Category?: string;
+  Incs: number;
+  Orgs: number;
   Base50th: number;
   TCC50th: number;
   CountryCode?: string;
   EEO: string;
+  ExchangeId?: number;
+  ExchangeJobId?: number;
 }
 
 export interface SearchResponse {
@@ -43,7 +48,7 @@ export interface SearchResponse {
 export function generateMockSurveyJob(): SurveyJob {
   return {
     Id: '12345',
-    IsPayfactorsJob: false,
+    DataSource: SurveySearchResultDataSources.Surveys,
     Survey: {
       Id: '1693',
       Publisher: 'Towers Watson',
@@ -58,6 +63,8 @@ export function generateMockSurveyJob(): SurveyJob {
       Description: 'Lorem Ipsum',
       FLSAStatus: 'Typically Exempt',
       Category: 'Professional',
+      Incs: 25,
+      Orgs: 5,
       Base50th: 1,
       TCC50th: 1,
       CountryCode: 'USA',

@@ -1,0 +1,16 @@
+<pf-async-container [loading]="navigationLinkGroupsLoading$ | async"
+                    [loadingError]="navigationLinkGroupsLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Admin Links'">
+    <pf-page-with-title-bar>
+        <ng-container page-title>
+            Site Administration
+        </ng-container>
+        <ng-container page-content>
+            <div class="col-12 scroll-y">
+                <pf-navigation-links 
+                    [navigationGroupLinks]="navigationLinkGroups$ | async">
+                </pf-navigation-links>
+            </div>
+        </ng-container>
+    </pf-page-with-title-bar>
+</pf-async-container>

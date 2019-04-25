@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import * as fromSurveySearchResultsActions from '../../actions/survey-search-results.actions';
-import { JobResult, MatchesDetailsTooltipData, ProjectSearchContext, DataCutDetails } from '../../models';
+import { DataCutDetails, JobResult, MatchesDetailsTooltipData, ProjectSearchContext } from '../../models';
 import { TooltipContainerComponent } from '../tooltip-container';
 import * as fromSurveySearchReducer from '../../reducers';
 import { hasMoreDataCuts } from '../../helpers';
@@ -35,7 +36,7 @@ export class SurveySearchResultsComponent {
 
   // Events
   handleLoadDataCuts(job: JobResult): void {
-    if ((job.DataCuts.length && !hasMoreDataCuts(job)) || job.IsPayfactors) {
+    if ((job.DataCuts.length && !hasMoreDataCuts(job)) || job.DataSource !== SurveySearchResultDataSources.Surveys) {
       return;
     }
     this.store.dispatch(new fromSurveySearchResultsActions.GetSurveyDataResults(job));

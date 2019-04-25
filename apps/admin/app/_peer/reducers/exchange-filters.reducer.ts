@@ -13,9 +13,15 @@ export interface State extends EntityState<ExchangeSearchFilterAggregate> {
   total: number;
 }
 
+// Sort by Ordinal
+export function sortByOrdinal(o1: ExchangeSearchFilterAggregate, o2: ExchangeSearchFilterAggregate): number {
+  return o1.Ordinal - o2.Ordinal;
+}
+
 // Create entity adapter
 export const adapter: EntityAdapter<ExchangeSearchFilterAggregate> = createEntityAdapter<ExchangeSearchFilterAggregate>({
-  selectId: (exchangeSearchFilterAggregateInfo: ExchangeSearchFilterAggregate) => exchangeSearchFilterAggregateInfo.DisplayName
+  selectId: (exchangeSearchFilterAggregateInfo: ExchangeSearchFilterAggregate) => exchangeSearchFilterAggregateInfo.Id,
+  sortComparer: sortByOrdinal
 });
 
 // Initial State
@@ -55,10 +61,16 @@ export function reducer(state, action) {
           };
         }
         case fromExchangeFiltersActions.PUT_FILTER: {
-          const displayName = action.payload.DisplayName;
+          const id = action.payload.Id;
           const change = action.payload.IsDisabled !== true;
           return {
-            ...adapter.updateOne({ id: displayName, changes: { IsDisabled: change } }, featureState)
+            ...adapter.updateOne({ id: id, changes: { IsDisabled: change } }, featureState)
+          };
+        }
+        case fromExchangeFiltersActions.REORDER_FILTERS: {
+          return {
+            ...adapter.updateMany(action.payload.map((filter, index) =>
+              Object.assign({}, {id: filter.Id, changes: { Ordinal: index + 1 }})),  featureState)
           };
         }
         default: {

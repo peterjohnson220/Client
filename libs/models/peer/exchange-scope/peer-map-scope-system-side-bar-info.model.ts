@@ -4,6 +4,7 @@ import { generateMockPeerMapScopeSideBarInfo, PeerMapScopeSideBarInfo } from './
 
 export interface PeerMapScopeSystemSideBarInfo extends PeerMapScopeSideBarInfo {
   IncludeUntaggedIncumbents: boolean;
+  IsFilteredBySimilarExchangeJobIds: boolean;
   LimitToPayMarket: boolean;
   PayMarket: PayMarket;
   SystemFilter: SystemFilter;
@@ -13,6 +14,7 @@ export function generateMockPeerMapScopeSystemSideBarInfo(): PeerMapScopeSystemS
   return {
     ...generateMockPeerMapScopeSideBarInfo(),
     IncludeUntaggedIncumbents: false,
+    IsFilteredBySimilarExchangeJobIds: false,
     LimitToPayMarket: false,
     PayMarket: generateMockPayMarket(),
     SystemFilter: generateMockSystemFilter()

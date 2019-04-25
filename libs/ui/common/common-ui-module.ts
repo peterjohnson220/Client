@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ImgFallbackModule } from 'ngx-img-fallback';
 
-import { EllipsisViewMoreComponent } from './content';
+import { EllipsisViewMoreComponent, NavigationLinksComponent } from './content';
 import { ErrorIndicatorComponent, NotFoundErrorPageComponent, AccessDeniedPageComponent } from './error';
 import { LoadingIndicatorComponent, LoadingUserContextComponent,
          AsyncContainerComponent } from './loading';
@@ -27,6 +27,7 @@ const components = [
   CardSelectorComponent,
   UserOrEmailPickerComponent,
   MultiSelectComponent,
+  NavigationLinksComponent,
 
   // Directives
   ClickElsewhereDirective,

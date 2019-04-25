@@ -2,8 +2,10 @@
 
 exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
+  newAssociations={[Function Array]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -48,7 +50,7 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
               <tr>
                 <td>
                   <button
-                    class="remove-association-button"
+                    class="association-action-button"
                     title="Remove"
                   >
                     <i
@@ -62,12 +64,12 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>
@@ -85,12 +87,13 @@ exports[`AssociatedCompanyJobsComponent should display company jobs 1`] = `
 
 exports[`AssociatedCompanyJobsComponent should render different messaging if there was an error 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
   loadingPreviousAssociations="false"
   loadingPreviousAssociationsError={[Function Boolean]}
-  loadingPreviousAssociationsSuccess="false"
+  newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -137,11 +140,12 @@ exports[`AssociatedCompanyJobsComponent should render different messaging if the
 
 exports[`AssociatedCompanyJobsComponent should render the table if there are only company jobs 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
   loadingPreviousAssociations="false"
-  loadingPreviousAssociationsSuccess={[Function Boolean]}
+  newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -187,7 +191,7 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
               <tr>
                 <td>
                   <button
-                    class="remove-association-button"
+                    class="association-action-button"
                     title="Remove"
                   >
                     <i
@@ -201,12 +205,12 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>
@@ -224,11 +228,12 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
 
 exports[`AssociatedCompanyJobsComponent should render the table if there are only previous associations 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
   loadingPreviousAssociations="false"
-  loadingPreviousAssociationsSuccess={[Function Boolean]}
+  newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -273,17 +278,38 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
               
               
               <tr>
-                <td />
                 <td>
+                  
+                  <button
+                    class="association-action-button"
+                    title="Remove"
+                  >
+                    <i
+                      class="fas fa-times"
+                    />
+                  </button>
+                  
+                </td>
+                <td>
+                  
                   <pf-complete-icon
                     title="Saved Association"
                   />
+                  
                 </td>
-                <td>
-                  Job Title
+                <td
+                  class="show-tooltip"
+                  ng-reflect-klass="show-tooltip"
+                  ng-reflect-ng-class=""
+                >
+                   Job Title 
                 </td>
-                <td>
-                  001
+                <td
+                  class="show-tooltip"
+                  ng-reflect-klass="show-tooltip"
+                  ng-reflect-ng-class=""
+                >
+                   001 
                 </td>
               </tr>
             </tbody>
@@ -298,11 +324,12 @@ exports[`AssociatedCompanyJobsComponent should render the table if there are onl
 
 exports[`AssociatedCompanyJobsComponent should show No Associations instead of the table if there are no jobs 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
   loadingPreviousAssociations="false"
-  loadingPreviousAssociationsSuccess={[Function Boolean]}
+  newAssociations={[Function Array]}
   previousAssociations={[Function Array]}
-  removeAssociation={[Function EventEmitter]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -335,10 +362,11 @@ exports[`AssociatedCompanyJobsComponent should show No Associations instead of t
 
 exports[`AssociatedCompanyJobsComponent should show jobs after loading successfully 1`] = `
 <pf-peer-job-association-associated-jobs
-  companyJobs={[Function Array]}
   loadingPreviousAssociations="false"
-  loadingPreviousAssociationsSuccess={[Function Boolean]}
-  removeAssociation={[Function EventEmitter]}
+  newAssociations={[Function Array]}
+  removeNewAssociation={[Function EventEmitter]}
+  removePreviousAssociation={[Function EventEmitter]}
+  undoRemovePreviousAssociation={[Function EventEmitter]}
 >
   <div
     class="job-association-associated-jobs"
@@ -384,7 +412,7 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
               <tr>
                 <td>
                   <button
-                    class="remove-association-button"
+                    class="association-action-button"
                     title="Remove"
                   >
                     <i
@@ -398,12 +426,12 @@ exports[`AssociatedCompanyJobsComponent should show jobs after loading successfu
                   />
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   Job Title
                 </td>
                 <td
-                  class="font-italic"
+                  class="font-italic show-tooltip"
                 >
                   001
                 </td>

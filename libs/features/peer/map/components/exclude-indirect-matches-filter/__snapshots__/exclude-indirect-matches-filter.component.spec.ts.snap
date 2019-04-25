@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Features - Peer - Exclude Indirect Matches Filter should display appropriate label 1`] = `
+<pf-exclude-indirect-matches-filter
+  filterToggled={[Function EventEmitter]}
+>
+  <div
+    class="filter-switch-container"
+  >
+    <div
+      class="filter-switch-left"
+    >
+      <div
+        class="filter-switch-label"
+      >
+         Exact Level Only 
+      </div>
+    </div>
+    <div
+      class="exclude-indirect-matches-filter-switch"
+    >
+      <kendo-switch
+        class="k-switch-sm"
+      >
+        
+        <span
+          class="k-switch-container"
+        >
+          <span
+            class="k-switch-handle"
+          >
+            <span
+              class="k-switch-label-on"
+            >
+              
+            </span>
+            <span
+              class="k-switch-label-off"
+            >
+              
+            </span>
+          </span>
+        </span>
+        <kendo-resize-sensor
+          _nghost-c0=""
+        >
+          <div
+            _ngcontent-c0=""
+            style="position: absolute; display: block; left: 0; top: 0; right: 0; bottom: 0; z-index: -1;overflow: hidden; visibility: hidden;"
+          >
+            <div
+              _ngcontent-c0=""
+              style="position: absolute; left: 0; top: 0; transition: 0s;"
+            />
+          </div>
+          <div
+            _ngcontent-c0=""
+            style="position: absolute; display: block; left: 0; top: 0; right: 0; bottom: 0; z-index: -1;overflow: hidden; visibility: hidden;"
+          >
+            <div
+              _ngcontent-c0=""
+              style="position: absolute; left: 0; top: 0; transition: 0s;width: 200%; height: 200%;"
+            />
+          </div>
+        </kendo-resize-sensor>
+      </kendo-switch>
+    </div>
+  </div>
+</pf-exclude-indirect-matches-filter>
+`;

@@ -35,7 +35,6 @@ $buttons-height: 70px;
   }
   &:disabled {
     opacity: .6;
-    cursor: not-allowed;
   }
 }
 
@@ -75,9 +74,8 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
   &> h2 {
     color: $header-color;
   }
-  
   .filters {
-    min-height: 35px; // this can be removed once both grids have the job family filter
+    min-height: 40px; // this can be removed once both grids have the job family filter
     pf-input-debounce {
       .input-group {
         flex-wrap: nowrap;
@@ -103,10 +101,6 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
       margin-top: 6px;
       color: #0099cc;
     }
-  }
-
-  .filters + div {
-    min-height: 30px; // this can be removed once both grids have the list view/grid view buttons
   }
 
   .view-button {
@@ -146,6 +140,8 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
             color: #666;
             padding-top: .5rem;
             padding-bottom: .5rem;
+            text-overflow: clip;
+            word-wrap: normal;
             &:not(:first-child) {
               border-right: 1px dashed #fff;
             }
@@ -155,8 +151,14 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
           color: $link-color;
         }
         .k-grid-content td, .k-grid-content td > div {
-          @extend %ellipsis-overflowing-text;
           border: none;
+        }
+        .k-grid-content .show-tooltip {
+          @extend %ellipsis-overflowing-text;
+        }
+        .k-grid-content .no-ellipsis {
+          text-overflow: clip;
+          word-wrap: normal;
         }
         a.exchange-job-title.selected, a.company-job-title.selected, a.company-job-code.selected {
           font-weight: 700;
@@ -173,6 +175,19 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
         }
         .k-icon.k-minus:before {
           content: '\E015';
+        }
+        .association-status {
+          display: inline-block;
+          width: 100%;
+          height: 32px;
+          margin-left: -4px;
+          transition: background-color .4s ease-in-out;
+          &.associated {
+            background-color: #8ed985;
+          }
+          &.not-associated {
+            background-color: #fc6e68;
+          }
         }
         .k-pager-wrap .k-link:not(.k-state-selected) {
           color: $pf-brand-secondary-color;
@@ -212,20 +227,43 @@ pf-peer-job-association-exchange-jobs, pf-peer-job-association-company-jobs {
       height: 2rem;
       opacity: .9;
     }
-    .fill-light-green {
+    .fill-active-primary {
       fill: #009b09;
     }
-    .fill-dark-green {
+    .fill-active-secondary {
       fill: rgba(0, 155, 9, 0.5);
     }
     .fill-white {
       fill: #fff;
     }
+    .fill-inactive-primary {
+      fill: rgba(222, 222, 222, 1.0);
+    }
+    .fill-inactive-secondary {
+      fill: rgba(222, 222, 222, 0.4);
+    }
   }
 
-  /* hide No records available when loading */
+  // hide No records available when loading
   .loading-blanket + .k-tooltip-container .k-grid .k-grid-norecords {
     display: none;
   }
 }
 
+// stack filters at 1400px and shrink grid container to accomodate
+@media screen and (max-width: 1400px) {
+  pf-peer-job-association-exchange-jobs {
+    .filters {
+      height: 120px;
+      width: 250px;
+    }
+    .grid-container {
+      height: calc(100% - 220px);
+    }
+    pf-multi-select {
+      .main-label {
+        min-width: 60px;
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ export interface State {
   creatingProject: boolean;
   createProjectError: boolean;
   canAccessProjectsTile: boolean;
+  glossaryOpen: boolean;
 }
 
 const initialState: State = {
@@ -22,7 +23,8 @@ const initialState: State = {
   sharePricingSummaryConflict: false,
   creatingProject: false,
   createProjectError: false,
-  canAccessProjectsTile: false
+  canAccessProjectsTile: false,
+  glossaryOpen: false
 };
 
 // Reducer function
@@ -109,6 +111,12 @@ export function reducer(state = initialState, action: fromSummaryCardActions.Act
         canAccessProjectsTile: action.payload
       };
     }
+    case fromSummaryCardActions.TOGGLE_GLOSSARY_DISPLAY: {
+      return {
+        ...state,
+        glossaryOpen: action.payload.open
+      };
+    }
 
     default: {
       return state;
@@ -126,3 +134,4 @@ export const getSharePricingSummaryConflict = (state: State) => state.sharePrici
 export const getCreatingProject = (state: State) => state.creatingProject;
 export const getCreatingProjectError = (state: State) => state.createProjectError;
 export const getCanAccessProjectTile = (state: State) => state.canAccessProjectsTile;
+export const getGlossaryOpen = (state: State) => state.glossaryOpen;

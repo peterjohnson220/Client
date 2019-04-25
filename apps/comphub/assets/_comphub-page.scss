@@ -9,12 +9,12 @@
   font-size: $comphub-font-size;
   padding: 28px;
   max-height: calc(100vh - 120px);
-  overflow-x: hidden;
   overflow-y: auto;
 
   .page-header {
     font-size: 2.5rem;
     color: $comphub-header-blue;
+    position: relative;
   }
 
   .page-icon {

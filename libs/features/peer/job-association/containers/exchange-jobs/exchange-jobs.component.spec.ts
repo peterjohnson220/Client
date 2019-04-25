@@ -43,6 +43,8 @@ describe('ExchangeJobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExchangeJobsComponent);
     component = fixture.componentInstance;
+    component.jobTitleSearchComponent = {} as any;
+    component.jobTitleSearchComponent.writeValue = () => {};
   });
 
   it('should create', () => {
@@ -70,7 +72,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the UpdateSearchTerm action when the search term is changed', () => {
     const searchTerm = 'abc';
-    component.handleSearchFilterChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
 
@@ -79,7 +81,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should not fire the LoadExchangeJobs action when the search term is one character', () => {
     const searchTerm = 'a';
-    component.handleSearchFilterChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
 
@@ -88,7 +90,7 @@ describe('ExchangeJobsComponent', () => {
 
   it('should fire the correct actions when the search term is more than one character', () => {
     const searchTerm = 'ab';
-    component.handleSearchFilterChanged(searchTerm);
+    component.handleJobTitleFilterChanged(searchTerm);
 
     const updateSearchTermAction = new fromExchangeJobsActions.UpdateSearchTerm(searchTerm);
     const loadExchangeJobsAction = new fromExchangeJobsActions.LoadExchangeJobs();
@@ -129,5 +131,42 @@ describe('ExchangeJobsComponent', () => {
     component.handleAssociateClick(dataItem, 44);
 
     expect(store.dispatch).not.toHaveBeenCalledWith(addAssociationAction);
+  });
+
+  it('should create the correct associate button tooltip msg when no jobs are selected', () => {
+    component.selectedCompanyJobs = [];
+
+    const tooltipText = component.createAssociateButtonTooltipText(123, 456);
+    expect(tooltipText).toBe('First select the company job you want to associate');
+  });
+
+  it('should create the correct associate button tooltip msg when the job is associable', () => {
+    component.maxAssociableThreshold = 10;
+    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.isAssociable = () => true;
+    component.getAssociationCount = () => 1;
+
+    const tooltipText = component.createAssociateButtonTooltipText(123, 456);
+    expect(tooltipText).toBe('Click to associate');
+  });
+
+  it('should create the correct associate button tooltip msg when there are > 10 associations', () => {
+    component.maxAssociableThreshold = 10;
+    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.isAssociable = () => false;
+    component.getAssociationCount = () => component.maxAssociableThreshold + 1;
+
+    const tooltipText = component.createAssociateButtonTooltipText(123, 456);
+    expect(tooltipText).toBe('Exchange jobs should not have more than 10 associations per exchange');
+  });
+
+  it('should create the correct associate button tooltip msg when the job is already associated to an exchange', () => {
+    component.maxAssociableThreshold = 10;
+    component.selectedCompanyJobs = [generateMockCompanyJob()];
+    component.isAssociable = () => false;
+    component.getAssociationCount = () => 1;
+
+    const tooltipText = component.createAssociateButtonTooltipText(123, 456);
+    expect(tooltipText).toBe('A single company job can be associated to only 1 job per exchange');
   });
 });

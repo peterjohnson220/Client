@@ -5,6 +5,8 @@ export interface AddSurveyDataCutRequest {
   ExcludeFromParticipation: boolean;
   PayMarketId?: number;
   JobCode: string;
+  CompanyPayMarketId?: number;
+  PeerDataCuts: PeerCut[];
 }
 
 export interface DataCut {
@@ -13,6 +15,11 @@ export interface DataCut {
   SurveyJobId?: number;
   IsPayfactorsJob: boolean;
   CountryCode?: string;
+}
+
+export interface PeerCut {
+  ExchangeId: number;
+  ExchangeJobId: number;
 }
 
 export function generateMockPayfactorsCutData(): DataCut {

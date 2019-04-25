@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Feature - Peer - Pay Market Filter Info Component should provide correct values to the pf-peer-filter-info component 1`] = `
+<pf-peer-filter-info
+  resetAllFiltersClicked={[Function EventEmitter]}
+>
+  <div
+    class="filter-info"
+  >
+    <label
+      class="filter-info-org-label"
+    >
+      Orgs: 
+      <span
+        class="filter-info-span"
+      >
+        
+      </span>
+    </label>
+    <label
+      class="filter-info-inc-label"
+    >
+      Incs: 
+      <span
+        class="filter-info-span"
+      >
+        
+      </span>
+    </label>
+    <div
+      class="reset-link filters-link disabled"
+    >
+       Reset Filters 
+    </div>
+  </div>
+</pf-peer-filter-info>
+`;

@@ -7,17 +7,22 @@
       [payMarket]="payMarket$ | async"
       (limitToPayMarketToggled)="handleLimitToPayMarketToggled()">
     </pf-pay-market-bounds-filter>
+    <pf-exclude-indirect-matches-filter
+      *ngIf="shouldShowExcludeIndirectJobMatchesFilter && (hasAdditionalJobLevels$ | async)"
+      [enabled]="excludeIndirectJobMatches$ | async"
+      (filterToggled)="handleIncludeAdditionalJobLevelsToggled()"
+    ></pf-exclude-indirect-matches-filter>
 
     <pf-scope-selector *ngIf="((payMarket$ | async)?.CompanyPayMarketId) && shouldShowExchangeScopeSelector"
                        [addDataModal]="true">
     </pf-scope-selector>
 
-    <pf-pay-market-filter-info
+    <pf-peer-filter-info
       [orgCount]="(mapSummary$ | async)?.OverallMapStats.CompanyCount"
       [incCount]="(mapSummary$ | async)?.OverallMapStats.SalaryCount"
       [hasSelections]="(selectionsCount$ | async) > 0"
       (resetAllFiltersClicked)="handleClearAllSelections()">
-    </pf-pay-market-filter-info>
+    </pf-peer-filter-info>
   </div>
 
   <div class="aggregate-groups-container">

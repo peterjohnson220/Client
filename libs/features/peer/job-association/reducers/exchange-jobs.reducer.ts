@@ -21,16 +21,18 @@ export interface State extends EntityState<ExchangeJob> {
   expandedDetailRowId: number;
   // job family filter
   loadingJobFamilyFilter: boolean;
-  loadingJobFamilyFilterSuccess: boolean;
-  loadingJobFamilyFilterError: boolean;
-  isJobFamilyFilterExpanded: boolean;
   jobFamilyOptions: GenericMenuItem[];
   selectedJobFamilies: GenericMenuItem[];
+  // exchange filter
+  loadingExchangeFilter: boolean;
+  exchangeOptions: GenericMenuItem[];
+  selectedExchanges: GenericMenuItem[];
   // previous associations
   loadingPreviousAssociations: boolean;
   loadingPreviousAssociationsSuccess: boolean;
   loadingPreviousAssociationsError: boolean;
   previousAssociations: CompanyJob[];
+  previousAssociationsToDelete: number[];
 }
 
 // Define our Adapter
@@ -53,16 +55,18 @@ const initialState: State = adapter.getInitialState({
   expandedDetailRowId: null,
   // job family filter
   loadingJobFamilyFilter: false,
-  loadingJobFamilyFilterSuccess: false,
-  loadingJobFamilyFilterError: false,
-  isJobFamilyFilterExpanded: false,
-  selectedJobFamilies: [],
   jobFamilyOptions: [],
+  selectedJobFamilies: [],
+  // exchange filter
+  loadingExchangeFilter: false,
+  exchangeOptions: [],
+  selectedExchanges: [],
   // previous associations
   loadingPreviousAssociations: false,
   loadingPreviousAssociationsSuccess: false,
   loadingPreviousAssociationsError: false,
-  previousAssociations: []
+  previousAssociations: [],
+  previousAssociationsToDelete: [],
 });
 
 // Reducer function
@@ -148,6 +152,22 @@ export function reducer(state, action) {
           };
         }
         // previous associations
+        case fromPeerExchangeJobsActions.REMOVE_PREVIOUS_ASSOCIATION: {
+          const previousAssociationsToDelete = [...featureState.previousAssociationsToDelete];
+          previousAssociationsToDelete.push(featureAction.payload);
+          return {
+            ...featureState,
+            previousAssociationsToDelete: previousAssociationsToDelete
+          };
+        }
+        case fromPeerExchangeJobsActions.UNDO_REMOVE_PREVIOUS_ASSOCIATION: {
+          const previousAssociationsToDelete = [...featureState.previousAssociationsToDelete]
+            .filter((id) => id !== featureAction.payload);
+          return {
+            ...featureState,
+            previousAssociationsToDelete: previousAssociationsToDelete
+          };
+        }
         case fromPeerExchangeJobsActions.LOAD_PREVIOUS_ASSOCIATIONS: {
           return {
             ...featureState,
@@ -200,65 +220,52 @@ export function reducer(state, action) {
         case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER: {
           return {
             ...featureState,
-            loadingJobFamilyFilter: true,
-            loadingJobFamilyFilterError: false
+            loadingJobFamilyFilter: true
           };
         }
         case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER_SUCCESS: {
           return {
             ...featureState,
             loadingJobFamilyFilter: false,
-            loadingJobFamilyFilterError: false,
             jobFamilyOptions: featureAction.payload
-          };
-        }
-        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER_ERROR: {
-          return {
-            ...featureState,
-            loadingJobFamilyFilter: false,
-            loadingJobFamilyFilterError: true
-          };
-        }
-        case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER: {
-          // if a value is explicitly passed use that as the new isExpanded value, otherwise toggle
-          const override = featureAction.payload;
-          const isJobFamilyFilterExpanded = (typeof override !== 'undefined') ? override : !featureState.isJobFamilyFilterExpanded;
-
-          return {
-            ...featureState,
-            isJobFamilyFilterExpanded,
-            isDetailPanelExpanded: (isJobFamilyFilterExpanded) ? false : featureState.isDetailPanelExpanded
-          };
-        }
-        case fromPeerExchangeJobsActions.TOGGLE_JOB_FAMILY_FILTER_SELECTION: {
-          const actionOption = featureAction.payload;
-          const jobFamilyOptions = [];
-
-          // loop through the array, then add each option to the new collection with the appropriate IsSelectedValue
-          featureState.jobFamilyOptions.forEach(option => {
-            const isSelected =
-              (option.DisplayName === actionOption.DisplayName) ? actionOption.IsSelected : option.IsSelected;
-            jobFamilyOptions.push({ ...option, IsSelected: isSelected });
-          });
-
-          return {
-            ...featureState,
-            jobFamilyOptions
           };
         }
         case fromPeerExchangeJobsActions.SELECTED_JOB_FAMILIES_CHANGED: {
           return {
             ...featureState,
-            selectedJobFamilies:  [...action.payload]
+            selectedJobFamilies: [...action.payload]
           };
-          break;
         }
         case fromPeerExchangeJobsActions.CLEAR_SELECTED_JOB_FAMILIES: {
-          // create a new array, and for each option create a new one with IsSelected false
-          const selectedJobFamilies = [];
           return {
             ...featureState,
-            selectedJobFamilies
+            jobFamilyOptions: []
+          };
+        }
+        // exchange filter
+        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_FILTER: {
+          return {
+            ...featureState,
+            loadingExchangeFilter: true
+          };
+        }
+        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_FILTER_SUCCESS: {
+          return {
+            ...featureState,
+            loadingExchangeFilter: false,
+            exchangeOptions: featureAction.payload
+          };
+        }
+        case fromPeerExchangeJobsActions.SELECTED_EXCHANGES_CHANGED: {
+          return {
+            ...featureState,
+            selectedExchanges: [...action.payload]
+          };
+        }
+        case fromPeerExchangeJobsActions.CLEAR_SELECTED_EXCHANGES: {
+          return {
+            ...featureState,
+            selectedExchanges: []
           };
         }
         default: {
@@ -277,6 +284,10 @@ export const getTotal = (state: State) => state.total;
 
 // Selector functions, job family filter
 export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
-export const getJobFamilyFilterIsExpanded = (state: State) => state.isJobFamilyFilterExpanded;
 export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;
 export const getSelectedJobFamilies = (state: State) => state.selectedJobFamilies;
+
+// Selector functions, exchange filter
+export const getExchangeFilterLoading = (state: State) => state.loadingExchangeFilter;
+export const getExchangeFilterOptions = (state: State) => state.exchangeOptions;
+export const getSelectedExchanges = (state: State) => state.selectedExchanges;

@@ -30,6 +30,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
   numberOfCompanySelections$: Observable<number>;
   numberOfSelections$: Observable<number>;
   peerMapCompaniesCount$: Observable<number>;
+  exchangeJobIdsInScope$: Observable<number[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,7 @@ export class ExchangeMapPageComponent implements OnInit, OnDestroy {
     this.numberOfCompanySelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getNumberOfCompanySelections));
     this.numberOfSelections$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerFilterSelectionsCount));
     this.peerMapCompaniesCount$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapCompaniesCount));
+    this.exchangeJobIdsInScope$ = this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary));
     this.exchangeId = +this.route.snapshot.params.id;
   }
 

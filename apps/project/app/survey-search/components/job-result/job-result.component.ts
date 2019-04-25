@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 
 import { MatchesDetailsRequestJobTypes, PricingMatchesDetailsRequest } from 'libs/models/payfactors-api';
 import * as fromSearchReducer from 'libs/features/search/reducers';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { DataCutDetails, JobResult, MatchesDetailsTooltipData, SurveyDataCut } from '../../models';
 import { hasMoreDataCuts } from '../../helpers';
@@ -35,6 +36,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
   showDataCuts: boolean;
   showJobDetail: boolean;
   matchesMouseLeaveTimer: number;
+  surveySearchResultDataSources = SurveySearchResultDataSources;
 
   private readonly showCutsLabel: string = 'Show Cuts';
   private readonly hideCutsLabel: string = 'Hide Cuts';
@@ -84,7 +86,7 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   handleDataCutSelected(idObj: SurveyDataCut) {
     this.cutSelected.emit({
-      IsPayfactorsJob: false,
+      DataSource: this.job.DataSource,
       DataCutId: idObj.SurveyDataId,
       SurveyJobId: this.job.Id,
       Job: this.job,
@@ -95,9 +97,18 @@ export class JobResultComponent implements OnInit, OnDestroy {
 
   handlePayfactorsCutSelected() {
     this.cutSelected.emit({
-      IsPayfactorsJob: true,
+      DataSource: this.job.DataSource,
       SurveyJobCode: this.job.Code,
       CountryCode: this.job.CountryCode,
+      Job: this.job,
+      Base50th: this.job.Base50th,
+      TCC50th: this.job.TCC50th
+    });
+  }
+
+  handlePeerCutSelected() {
+    this.cutSelected.emit({
+      DataSource: this.job.DataSource,
       Job: this.job,
       Base50th: this.job.Base50th,
       TCC50th: this.job.TCC50th
@@ -133,8 +144,8 @@ export class JobResultComponent implements OnInit, OnDestroy {
   }
 
   private createPricingMatchesDetailsRequest(): PricingMatchesDetailsRequest {
-    const jobId: string = this.job.IsPayfactors ? this.job.Code : this.job.Id.toString();
-    const jobType: string = this.job.IsPayfactors ?
+    const jobId: string = this.job.DataSource === SurveySearchResultDataSources.Payfactors ? this.job.Code : this.job.Id.toString();
+    const jobType: string = this.job.DataSource === SurveySearchResultDataSources.Payfactors ?
       MatchesDetailsRequestJobTypes.PayfactorsJob : MatchesDetailsRequestJobTypes.SurveyJob;
     const request: PricingMatchesDetailsRequest = {
       JobId: jobId,

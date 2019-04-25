@@ -1,10 +1,6 @@
-<div pfClickElsewhere [whitelist]="[]" (clickElsewhere)="handleClickElsewhere($event)">
-  <div class="d-flex flex-row justify-content-end book-icon" (click)="isOpen = true" [attr.data-qa-id]="'btn-open-glossary'" [title]="'Glossary of Terms'">
-    <i class="fa fa-book-open mr-2"></i>
-  </div>
-
-  <div class="content-container" [class.opened]="isOpen">
-    <div class="content" [class.opened]="isOpen">
+<div pfClickElsewhere [whitelist]="['glossary-btn']" (clickElsewhere)="handleClickElsewhere()">
+  <div class="content-container" [class.opened]="open">
+    <div class="content" [class.opened]="open">
 
       <div class="d-flex flex-row justify-content-end p-2 mr-3">
         <div [attr.data-qa-id]="'btn-close-glossary'" class="close-btn" (click)="handleCloseClicked()">

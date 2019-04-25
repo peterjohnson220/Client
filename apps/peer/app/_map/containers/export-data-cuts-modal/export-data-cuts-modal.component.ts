@@ -31,12 +31,14 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   gridState$: Observable<State>;
   selections$: Observable<number[]>;
   selectAllState$: Observable<SelectAllCheckboxState>;
+  allIds$: Observable<number[]>;
 
   exportDataCutsModalOpenSubscription: Subscription;
   exportingJobsErrorSubscription: Subscription;
   gridDataResultSubscription: Subscription;
   gridStateSubscription: Subscription;
   selectionsSubscription: Subscription;
+  allIdsSubscription: Subscription;
 
   gridDataResult: GridDataResult;
   gridState: State;
@@ -46,6 +48,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
   exchangeId: number;
   total = 0;
   pageSizes = [];
+  allIds: number[] = [];
 
   constructor(
     private store: Store<fromPeerMapReducer.State>,
@@ -61,6 +64,7 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.gridState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState));
     this.selections$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelections));
     this.selectAllState$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridSelectAllState));
+    this.allIds$ = this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsAllIds));
 
     this.exchangeId = this.route.parent.snapshot.params.id;
     this.createForm();
@@ -154,6 +158,18 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSelectAllClick(event: any) {
+    if (!this.allIds || !this.allIds.length) {
+      return;
+    }
+
+    this.store.dispatch(new fromGridActions.SetSelections(GridTypeEnum.ExchangeCompanyJob, this.allIds, this.pageEntityIds));
+  }
+
+  onClearAllClick(event: any) {
+    this.store.dispatch(new fromGridActions.SetSelections(GridTypeEnum.ExchangeCompanyJob, [], this.pageEntityIds));
+  }
+
   // Lifecycle
   ngOnInit() {
     this.exportDataCutsModalOpenSubscription = this.exportDataCutsModalOpen$.subscribe(isOpen => {
@@ -180,12 +196,15 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
           {text: '10', value: 10},
           {text: '25', value: 25},
           {text: '50', value: 50},
-          {text: '100', value: 100},
-          {text: 'All', value: gridDataResult.total}
+          {text: '100', value: 100}
         ];
         this.total = gridDataResult.total;
       }
       this.store.dispatch(new fromGridActions.SetSelectAllState(GridTypeEnum.ExchangeCompanyJob, this.pageEntityIds));
+    });
+
+    this.allIdsSubscription = this.allIds$.subscribe(ids => {
+      this.allIds = ids;
     });
   }
 
@@ -195,10 +214,12 @@ export class ExportDataCutsModalComponent implements OnInit, OnDestroy {
     this.selectionsSubscription.unsubscribe();
     this.gridStateSubscription.unsubscribe();
     this.gridDataResultSubscription.unsubscribe();
+    this.allIdsSubscription.unsubscribe();
   }
 
   // Helper methods
   loadExchangeCompanyJobs(): void {
     this.store.dispatch(new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobs);
+    this.store.dispatch(new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobsIds);
   }
 }

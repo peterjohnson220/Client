@@ -14,6 +14,7 @@ import * as fromCommunityJobReducer from './community-job.reducer';
 import * as fromCommunityCategoriesReducer from './community-categories.reducer';
 import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-options.reducer';
 import * as fromCommunityLikeReducer from './community-like.reducer';
+import * as fromCommunitySearchReducer from './community-search.reducer';
 import { CommunityConstants } from '../models';
 
 // Feature area state
@@ -29,6 +30,7 @@ export interface CommunityState {
   communityCategories: fromCommunityCategoriesReducer.State;
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.State;
   communityLikes: fromCommunityLikeReducer.State;
+  communitySearch: fromCommunitySearchReducer.State;
 }
 
 // Extend root state with feature area state
@@ -48,7 +50,8 @@ export const reducers = {
   communityJob: fromCommunityJobReducer.reducer,
   communityCategories: fromCommunityCategoriesReducer.reducer,
   communityPostFilterOptions: fromCommunityPostFilterOptionsReducer.reducer,
-  communityLikes: fromCommunityLikeReducer.reducer
+  communityLikes: fromCommunityLikeReducer.reducer,
+  communitySearch: fromCommunitySearchReducer.reducer
 };
 
 // select feature area
@@ -109,6 +112,11 @@ export const selectFromCommunityLikeState = createSelector(
     selectCommunityState,
     (state: CommunityState) => state.communityLikes
   );
+
+export const selectFromCommunitySearchState = createSelector(
+  selectCommunityState,
+  (state: CommunityState) => state.communitySearch
+);
 
 // Community Poll Selectors
 export const getGettingCommunityPollRequests = createSelector(
@@ -239,6 +247,21 @@ export const getLoadingPreviousBatchPosts = createSelector(
 export const getMaximumReplies = createSelector(
   selectFromCommunityPostState,
   fromCommunityPostReducer.getMaximumReplies
+);
+
+export const getLoadingCommunityPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingCommunityPost
+);
+
+export const getCommunityPost = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getCommunityPost
+);
+
+export const getLoadingCommunityPostError = createSelector(
+  selectFromCommunityPostState,
+  fromCommunityPostReducer.getLoadingCommunityPostError
 );
 
 export const getHasNextBatchPostsOnServer = createSelector(
@@ -490,3 +513,25 @@ export const getFilterTitle = createSelector(
     }
   }
 );
+
+// Community Search Selectors
+export const getLoadingSearchResults = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getLoadingSearchResults
+);
+
+export const getLoadingSearchResultsError = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getLoadingSearchResultsError
+);
+
+export const getCommunitySearchResults = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getSearchResults
+);
+
+export const getCommunitySearchResultModal = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getSearchResultModalPostId
+);
+
