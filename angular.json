@@ -55,7 +55,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -90,6 +91,10 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/admin/../../assets/js/new-relic.js",
+                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -144,7 +149,8 @@
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -246,7 +252,8 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -281,6 +288,10 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -336,7 +347,8 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -439,7 +451,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js",
-              "assets/js/drift.js"
+              "assets/js/drift.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -474,6 +487,10 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/peer/../../assets/js/new-relic.js",
+                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -528,7 +545,8 @@
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -634,7 +652,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -669,6 +688,10 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
+                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -723,7 +746,8 @@
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -827,7 +851,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -862,6 +887,10 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/auth/../../assets/js/new-relic.js",
+                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -916,7 +945,8 @@
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1018,7 +1048,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1053,6 +1084,10 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/project/../../assets/js/new-relic.js",
+                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1106,7 +1141,8 @@
             "polyfills": "apps/project/polyfills.ts",
             "tsConfig": "apps/project/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1208,7 +1244,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/uservoice.js"
+              "assets/js/uservoice.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1243,6 +1280,10 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/community/../../assets/js/new-relic.js",
+                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1296,7 +1337,8 @@
             "polyfills": "apps/community/polyfills.ts",
             "tsConfig": "apps/community/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1396,7 +1438,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1444,6 +1487,10 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1488,6 +1535,10 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1525,7 +1576,8 @@
             "tsConfig": "apps/smallbiz/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "apps/smallbiz/styles.scss"
@@ -1625,7 +1677,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1660,6 +1713,10 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/jobs/../../assets/js/new-relic.js",
+                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1714,7 +1771,8 @@
             "tsConfig": "apps/jobs/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1817,7 +1875,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1852,6 +1911,10 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/comphub/../../assets/js/new-relic.js",
+                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1906,7 +1969,8 @@
             "tsConfig": "apps/comphub/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
