@@ -10,6 +10,7 @@ export const LOAD_FILTER_AGGREGATES_SUCCESS  = '[Features/Peer/Sidebar] Load Fil
 export const LOAD_FILTER_AGGREGATES_ERROR  = '[Features/Peer/Sidebar] Load Filter Aggregates Error';
 export const TOGGLE_AGGREGATE_SELECTED  = '[Features/Peer/Sidebar] Toggle Aggregate Selected';
 export const TOGGLE_LIMIT_TO_PAYMARKET  = '[Features/Peer/Sidebar] Toggle Limit To PayMarket';
+export const TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES  = '[Features/Peer/Sidebar] Toggle Exclude Indirect Job Matches';
 export const LOAD_PAYMARKET_INFORMATION  = '[Features/Peer/Sidebar] Load PayMarket Information';
 export const LOAD_PAYMARKET_INFORMATION_SUCCESS  = '[Features/Peer/Sidebar] Load PayMarket Information Success';
 export const CLEAR_ALL_SELECTIONS  = '[Features/Peer/Sidebar] Clear All Selections';
@@ -47,6 +48,10 @@ export class ToggleAggregateSelected implements Action {
 
 export class ToggleLimitToPayMarket implements Action {
   readonly type = TOGGLE_LIMIT_TO_PAYMARKET;
+}
+
+export class ToggleExcludeIndirectJobMatches implements Action {
+  readonly type = TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES;
 }
 
 export class LoadPayMarketInformation implements Action {
@@ -123,6 +128,7 @@ export type Actions
   | LoadFilterAggregatesError
   | ToggleAggregateSelected
   | ToggleLimitToPayMarket
+  | ToggleExcludeIndirectJobMatches
   | LoadPayMarketInformation
   | LoadPayMarketInformationSuccess
   | ClearAllSelections

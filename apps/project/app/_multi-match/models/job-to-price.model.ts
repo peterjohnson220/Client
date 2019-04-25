@@ -1,13 +1,14 @@
-import { JobMatchCut, DataCut } from 'libs/models/payfactors-api';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 
 import { BaseJobInfo } from '../../survey-search/models/job-result.model';
+import { DataCutDetails } from '../../survey-search/models';
 
 
 export interface JobToPrice extends BaseJobInfo {
   PaymarketId?: number;
   Paymarket?: string;
   JobMatchCuts?: JobMatchCut[];
-  DataCutsToAdd?: DataCut[];
+  DataCutsToAdd?: DataCutDetails[];
   DeletedJobMatchCutIds?: number[];
 }
 

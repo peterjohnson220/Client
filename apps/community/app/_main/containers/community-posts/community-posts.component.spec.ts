@@ -67,62 +67,12 @@ describe('CommunityPostsComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should show the replies when show replies clicked', () => {
-    const item = 1;
-    const postId = 1;
-    instance.showReplies[item] = false;
-    instance.getReplies(item, postId);
-
-    expect(instance.showReplies[item]).toBe(true);
-  });
-
-  it('should hide the replies when hide replies clicked', () => {
-    const item = 1;
-    const postId = 1;
-    instance.showReplies[item] = true;
-    instance.hideReplies(item, postId);
-
-    expect(instance.showReplies[item]).toBe(false);
-  });
-  it('should show reply area when reply link clicked', () => {
-    const item = 1;
-
-    instance.showAddReply[item] = false;
-    instance.showReply(item);
-
-    expect(instance.showAddReply[item]).toBe(true);
-  });
-  it('should show reply area when onreplysubmitted', () => {
-    const item = 1;
-
-    instance.showAddReply[item] = false;
-    instance.onReplySubmitted(item);
-
-    expect(instance.showAddReply[item]).toBe(true);
-  });
   it('should return the id for tracking purposes ', () => {
     const filter: CommunityPost = generateMockCommunityPost();
 
     const postId = instance.trackByPostId(5, filter);
 
     expect(postId).toBe(filter.Id);
-  });
-
-  it('should dispatch on clearing the replies from the add view', () => {
-    const postId = 1;
-    const action = new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies();
-    instance.clearRepliesFromAddView(postId);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
-  });
-
-  it('should dispatch on getting community post replies', () => {
-    const postId = 1;
-    const parameter = {
-      PostId: postId
-    };
-    const action = new fromCommunityPostReplyActions.GettingCommunityPostReplies(parameter);
-    instance.getCommunityPostReplies(postId);
-    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
   it('should dispatch GettingPreviousBatchCommunityPosts when calling onScrollUp ' +
@@ -187,11 +137,7 @@ describe('CommunityPostsComponent', () => {
 
     expect(store.dispatch).not.toHaveBeenCalledWith(action);
   });
-  it('should set show replies to empty when loadingCommunityPosts is true ', () => {
-    instance.loadingCommunityPosts$ = of(true);
-    fixture.detectChanges();
-    expect(instance.showReplies).toEqual([]);
-  });
+
   it('should set show replies to empty when loadingNextBatchCommunityPosts$ is true', () => {
     instance.loadingNextBatchCommunityPosts$ = of(true);
     fixture.detectChanges();

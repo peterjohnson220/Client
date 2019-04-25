@@ -2,8 +2,7 @@
   <pf-manage-exchange-section-header
     [sectionTitle]="'Exchange Filters'"
     [sectionDescription]="'Manage which Exchange filters are available in the ' + (exchange$ | async).ExchangeName + ' Exchange. ' +
-     'Changes made here will reflect on the Peer Exchange Tab and the Full Peer Exchange map.'"
-  >
+     'Changes made here will reflect on the Peer Exchange Tab and the Full Peer Exchange map.'">
     <ng-container header-actions>
       <div class="omni-box">
         <pf-input-debounce [placeholderText]="'Search for Filters in this Exchange...'" (valueChanged)="handleSearchChanged($event)">
@@ -11,39 +10,25 @@
       </div>
     </ng-container>
   </pf-manage-exchange-section-header>
-    <div class="d-flex">
+  <div class="header"><label><strong>Filter Name</strong></label></div>
+    <div class="d-flex h-100">
       <pf-async-container
         [loading]="exchangeFiltersLoading$ | async"
         [loadingError]="exchangeFiltersLoadingError$ | async"
         [loadingErrorMessage]="'Error loading exchange filters'"
         (reload)="handleExchangeFiltersGridReload()"
-        class="flex-grow-1"
-      >
-
-        <kendo-grid class="no-wrap-ellipsis-values"
-                    [data]="exchangeFiltersGrid$ | async"
-                    [scrollable]="true"
-        >
-
-          <kendo-grid-column field="DisplayName" title="Filter Name">
-            <ng-template kendoGridCellTemplate let-dataItem>
-              <span title="{{dataItem.DisplayName}}">{{dataItem.DisplayName}}</span>
-            </ng-template>
-          </kendo-grid-column>
-
-          <kendo-grid-column field="IsDisabled" title="" [headerStyle]="{'text-align': 'center'}"
-                             [style]="{'text-align': 'center'}">
-            <ng-template kendoGridCellTemplate let-dataItem>
-              <kendo-switch [checked]="!dataItem.IsDisabled"
-                            [onLabel]="'On'"
-                            [offLabel]="'Off'"
-                            (valueChange)="handleSwitchToggled(dataItem)">
-              </kendo-switch>
-            </ng-template>
-          </kendo-grid-column>
-
-        </kendo-grid>
-
+        class="flex-grow-1 h-100">
+        <div cdkDropList class="filter-list h-100" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="searching">
+          <div class="filter-box" [class.cursor-no-move]="searching" *ngFor="let efs of exchangeFilters" cdkDrag>
+            {{efs.DisplayName}}
+            <kendo-switch [checked]="!efs.IsDisabled"
+                          [onLabel]="'On'"
+                          [offLabel]="'Off'"
+                          (valueChange)="handleSwitchToggled(efs)"
+                          class="switch">
+            </kendo-switch>
+          </div>
+        </div>
       </pf-async-container>
     </div>
 </div>

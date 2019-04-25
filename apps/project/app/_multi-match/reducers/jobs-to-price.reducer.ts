@@ -1,11 +1,13 @@
 import * as cloneDeep from 'lodash.clonedeep';
 
-import { DataCut, JobMatchCut } from 'libs/models/payfactors-api';
+import { JobMatchCut } from 'libs/models/payfactors-api';
 import { arraySortByString, SortDirection } from 'libs/core/functions';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import * as fromJobsToPriceActions from '../actions/jobs-to-price.actions';
 import { JobToPrice } from '../models';
 import { DataCutDetails } from '../../survey-search/models';
+
 
 export interface State {
   loadingJobs: boolean;
@@ -119,18 +121,39 @@ function mapDataCutToMatchCut(jobCuts: DataCutDetails[]): JobMatchCut[] {
   return jobCuts.map(jobCut => {
     return {
       JobTitle: jobCut.Job.Title,
-      JobCode: jobCut.Job.Code,
-      Source: jobCut.IsPayfactorsJob ? jobCut.Job.Source :
-        jobCut.Job.Source + ': ' + jobCut.Job.SurveyName + ' ' + formatDate(jobCut.Job.EffectiveDate.toString()),
+      JobCode: getJobCode(jobCut),
+      Source: getJobSource(jobCut),
       Base50: Number(jobCut.Base50th),
       TCC50: Number(jobCut.TCC50th),
       DataCutId: jobCut.DataCutId,
-      SurveyJobCode: jobCut.SurveyJobCode
+      SurveyJobCode: jobCut.SurveyJobCode,
+      PeerCutId: getPeerCutId(jobCut)
     };
   });
 }
 
-function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCut[]) {
+function getJobCode(jobCut: DataCutDetails): string {
+  return jobCut.DataSource === SurveySearchResultDataSources.Peer
+    ? 'N/A - Peer Exchange'
+    : jobCut.Job.Code;
+}
+
+function getPeerCutId(jobCut: DataCutDetails): string {
+  return jobCut.DataSource === SurveySearchResultDataSources.Peer ? jobCut.Job.PeerJobInfo.Id : null;
+}
+
+function getJobSource(jobCut: DataCutDetails): string {
+  switch (jobCut.DataSource) {
+    case SurveySearchResultDataSources.Surveys:
+      return jobCut.Job.Source + ': ' + jobCut.Job.SurveyName + ' ' + formatDate(jobCut.Job.EffectiveDate.toString());
+    case SurveySearchResultDataSources.Peer:
+      return jobCut.Job.Source + ' - ' + jobCut.Job.SurveyName;
+    default:
+      return jobCut.Job.Source;
+  }
+}
+
+function addJobCuts(jobToPrice: JobToPrice, newDataCuts: DataCutDetails[]) {
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts || [];
   jobToPrice.JobMatchCuts = jobToPrice.JobMatchCuts.concat(mapDataCutToMatchCut(newDataCuts));
   jobToPrice.TotalDataCuts += newDataCuts.length;
@@ -152,6 +175,8 @@ function removeJobMatchCut(jobToPrice: JobToPrice, cutToRemove: JobMatchCut) {
     let cutFilter = x => x.DataCutId === cutToRemove.DataCutId;
     if (cutToRemove.SurveyJobCode) {
       cutFilter = x => x.SurveyJobCode === cutToRemove.SurveyJobCode;
+    } else if (!!cutToRemove.PeerCutId) {
+      cutFilter = x => x.PeerCutId === cutToRemove.PeerCutId;
     }
     const matchingJobCut = jobToPrice.JobMatchCuts.find(cutFilter);
     const matchingDataCut = jobToPrice.DataCutsToAdd.find(cutFilter);

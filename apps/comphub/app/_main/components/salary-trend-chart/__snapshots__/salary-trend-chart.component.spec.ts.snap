@@ -9,26 +9,17 @@ exports[`Comphub - Salary Bar Trend Component should display minus sign when per
     data-qa-id="cht-salary-trend"
   >
     <div
-      class="d-flex flex-row"
+      class="percentage-change"
+      data-qa-id="cnt-percentageChange"
     >
       
-      <h2
+      <span
         class="text-danger"
         ng-reflect-ng-class="text-danger"
       >
          - 
-      </h2>
-      <h1
-        class="header-blue"
-      >
-        1.77%
-      </h1>
-      
-      <div
-        class="date-range ml-auto"
-      >
-         (03/2018 - 03/2019) 
-      </div>
+      </span>
+       1.77% 
     </div>
     <kendo-chart>
       <kendo-chart-legend
@@ -64,26 +55,17 @@ exports[`Comphub - Salary Bar Trend Component should display plus sign when perc
     data-qa-id="cht-salary-trend"
   >
     <div
-      class="d-flex flex-row"
+      class="percentage-change"
+      data-qa-id="cnt-percentageChange"
     >
       
-      <h2
+      <span
         class="plus-sign"
         ng-reflect-ng-class="plus-sign"
       >
          + 
-      </h2>
-      <h1
-        class="header-blue"
-      >
-        1.80%
-      </h1>
-      
-      <div
-        class="date-range ml-auto"
-      >
-         (03/2018 - 03/2019) 
-      </div>
+      </span>
+       1.80% 
     </div>
     <kendo-chart>
       <kendo-chart-legend
@@ -119,20 +101,11 @@ exports[`Comphub - Salary Bar Trend Component should not display plus or minus s
     data-qa-id="cht-salary-trend"
   >
     <div
-      class="d-flex flex-row"
+      class="percentage-change"
+      data-qa-id="cnt-percentageChange"
     >
       
-      <h1
-        class="header-blue"
-      >
-        0.00%
-      </h1>
-      
-      <div
-        class="date-range ml-auto"
-      >
-         (03/2018 - 03/2019) 
-      </div>
+       0.00% 
     </div>
     <kendo-chart>
       <kendo-chart-legend

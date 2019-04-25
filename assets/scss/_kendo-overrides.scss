@@ -14,6 +14,9 @@
 }
 
 .k-switch {
+  &.k-switch-sm {
+    font-size: .5rem;
+  }
   &.k-switch-on .k-switch-handle {
     background-color: $switch-on-color;
     border: $switch-on-color;
@@ -30,6 +33,8 @@
   }
 }
 
+
+
 // To be used as the class of the kendo-switch to allow for longer labels in a switch 30% in width.
 .k-switch-w30.k-switch {
   width: 30%;
@@ -42,10 +47,15 @@
   }
 }
 
-
+// Kendo Grid
 .k-grid-content, .k-grid-footer-wrap, .k-grid-header-wrap {
   flex-basis: 100%;
 }
+
+.k-grid-header .k-header:first-child,  .k-grid th {
+  border-left-width: 1px;
+}
+
 
 kendo-tabstrip.tabstrip-no-borders > .k-content {
   border-width: 0;

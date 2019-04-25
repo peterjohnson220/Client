@@ -49,6 +49,11 @@ import { CommunityCategoriesEffects } from './effects/community-categories.effec
 import { CommunityPostFilterOptionsEffects } from './effects/community-post-filter-options.effects';
 import { CommunityTrendingAndFilteredTagsComponent } from './containers/community-trending-and-filtered-tags';
 import { CommunitySearchComponent } from './components/community-search/community-search.component';
+import {CommunitySearchResultsComponent} from './containers/community-search-results/community-search-results.component';
+import {CommunitySearchResultHeaderComponent} from './components/community-search-result-header';
+import {CommunitySearchResultContentComponent} from './components/community-search-result-content';
+import { CommunityPostComponent } from './components/community-post/community-post.component';
+import { CommunitySearchResultModalComponent } from './containers/community-search-result-modal/community-search-result-modal.component';
 
 import { CommunityPostEffects, CommunityTagEffects, CommunityPostReplyEffects, CommunityJobEffects, CommunityLikeEffects } from './effects';
 import { CommunityJobEffectsService } from './services/community-job-effects-service';
@@ -66,6 +71,8 @@ import { CommunityCategoriesApiService } from 'libs/data/payfactors-api/communit
 import { CommunityCategoryDisplayNamePipe } from './pipes/community-category-displayname.pipe';
 import { ClickInContentDirective } from './directives/click-in-content-directive';
 import { CommunitySearchResultsPageComponent } from './containers/pages/community-search-results/community-search-results.page';
+import { CommunitySearchEffects } from './effects/community-search.effects';
+import { CommunitySearchApiService } from 'libs/data/payfactors-api/community/community-search-api.service';
 
 const components = [
   ClickInContentDirective,
@@ -98,7 +105,12 @@ const components = [
   CommunityJobsComponent,
   CommunityTabComponent,
   CommunityTrendingAndFilteredTagsComponent,
-  CommunitySearchComponent
+  CommunitySearchComponent,
+  CommunitySearchResultsComponent,
+  CommunitySearchResultHeaderComponent,
+  CommunitySearchResultContentComponent,
+  CommunitySearchResultModalComponent,
+  CommunityPostComponent
 ];
 
 @NgModule({
@@ -127,7 +139,8 @@ const components = [
       CommunityJobEffects,
       CommunityCategoriesEffects,
       CommunityPostFilterOptionsEffects,
-      CommunityLikeEffects
+      CommunityLikeEffects,
+      CommunitySearchEffects
     ]),
 
     // Routing
@@ -149,7 +162,8 @@ const components = [
     CommunityPostEffectsService,
     MapboxApiService,
     PfLinkifyService,
-    BrowserDetectionService
+    BrowserDetectionService,
+    CommunitySearchApiService
   ]
 })
 export class MainModule {

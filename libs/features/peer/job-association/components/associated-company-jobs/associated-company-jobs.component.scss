@@ -1,10 +1,12 @@
 @import "colors";
-
+.strike {
+  text-decoration: line-through;
+}
 .job-association-associated-jobs {
   min-height: 4rem;
   background-color: #fff;
   padding: .5rem;
-  .remove-association-button {
+  .association-action-button {
     border: 0;
     background-color: inherit;
     color: $pf-brand-secondary-color;

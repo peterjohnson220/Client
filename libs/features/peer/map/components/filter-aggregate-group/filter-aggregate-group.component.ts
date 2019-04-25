@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { FilterAggregateGroup, FilterAggregateItem, ToggleAggregateGroupSelections} from 'libs/models/peer/aggregate-filters';
+import { FilterAggregateGroup, FilterAggregateItem, ToggleAggregateGroupSelections } from 'libs/models/peer/aggregate-filters';
 
 import { AggregateSelectionInfo } from '../../models';
 
@@ -38,7 +38,8 @@ export class FilterAggregateGroupComponent {
   }
 
   get allOptionsSelected(): boolean {
-    return this.aggregateGroup.Aggregates.every(option => option.Selected);
+    return this.aggregateGroup.Aggregates && (this.aggregateGroup.Aggregates.length
+      && this.aggregateGroup.Aggregates.every(option => option.Selected));
   }
 
   trackById(index: number, filterAggregateItem: FilterAggregateItem): number | string {

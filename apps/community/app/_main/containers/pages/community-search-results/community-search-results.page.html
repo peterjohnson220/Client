@@ -1,20 +1,17 @@
-<div class="flex-column-container">
-  <div class="page-header d-flex justify-content-between align-items-center">
-    <div class="d-flex">
-      <button
-              class="btn btn-secondary back-btn"
-              routerLink="/dashboard/">
-        <i class="fas fa-long-arrow-alt-left" aria-hidden="true"></i>
-      </button>
-      <h3>Search Results</h3>
+<pf-page-with-title-bar [returnUrl]="'/dashboard/'" [contentNoPadding]="true">
+  <ng-container page-title>
+    Search Results
+  </ng-container>
+  <ng-container page-content>
+    <div class="page-content pt-0">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-center sticky-top search-bar-container p-1">
+          <pf-community-search class="mt-2 w-50" [searchBoxText]="searchQuery"
+                               (searchEvent)="routeToSearch($event)"></pf-community-search>
+        </div>
+        <hr>
+        <pf-community-search-results></pf-community-search-results>
+      </div>
     </div>
-    <div class="w-25">
-      <pf-community-search [searchBoxText]="searchQuery" (searchEvent)="executeSearchEvent($event)"></pf-community-search>
-    </div>
-  </div>
-  <div class="page-content">
-    <div class="container-fluid community-container">
-
-    </div>
-  </div>
-</div>
+  </ng-container>
+</pf-page-with-title-bar>

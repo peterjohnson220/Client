@@ -12,6 +12,7 @@ export class GridAction implements Action {
 export const UPDATE_GRID = '[Grid Action/Update] Update Grid State Action';
 export const RESET_GRID = '[Grid Action/Reset] Reset Grid Action';
 export const TOGGLE_ROW_SELECTION = '[Grid Action/Toggle Row Selection] Select/Deselect Grid Row Action';
+export const SET_SELECTIONS = '[Grid Action/Toggle Row Selection] Set Selections Action';
 export const TOGGLE_SELECT_ALL = '[Grid Action/Toggle Select All] Select/Deselect All';
 export const SET_SELECT_ALL_STATE = '[Grid Action/Set Select All State] Set Select All State';
 export const UPDATE_FILTER = '[Grid Action/Update Filter] Update Filter Action';
@@ -41,6 +42,14 @@ export class ToggleRowSelection implements GridAction {
 
   constructor(public gridType: GridTypeEnum, public payload: number, public pageEntityIds: number[] = null) {
     this.type = `${gridType}_${TOGGLE_ROW_SELECTION}`;
+  }
+}
+
+export class SetSelections implements GridAction {
+  readonly type: string;
+
+  constructor(public gridType: GridTypeEnum, public payload: number[], public pageEntityIds: number[] = null) {
+    this.type = `${gridType}_${SET_SELECTIONS}`;
   }
 }
 
@@ -89,6 +98,7 @@ export type GridActions = UpdateGrid
   | ResetGrid
   | ToggleRowSelection
   | ToggleSelectAll
+  | SetSelections
   | SetSelectAllState
   | UpdateFilter
   | PageChange

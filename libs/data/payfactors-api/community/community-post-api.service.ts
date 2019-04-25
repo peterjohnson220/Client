@@ -58,4 +58,14 @@ export class CommunityPostApiService {
       }
     });
   }
+
+  getPost(communityPostId: any): Observable<CommunityPost> {
+    return this.payfactorsApiService.get<CommunityPost>
+    (`${this.endpoint}/GetPost`,
+    {
+      params: {
+        communityPostId: communityPostId
+      }
+    });
+  }
 }

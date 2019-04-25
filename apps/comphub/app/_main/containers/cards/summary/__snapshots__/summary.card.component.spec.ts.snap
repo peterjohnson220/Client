@@ -2,12 +2,12 @@
 
 exports[`Comphub - Main - Summary Card Component should display CAD for currency when active market data is Canada 1`] = `
 <pf-summary-card
-  activeCountryDataSet$={[Function Observable]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
+  glossaryOpen$={[Function Store]}
   jobData="null"
   jobSalaryTrendData="null"
   paymarket={[Function Object]}
@@ -37,225 +37,420 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     
     
     <div
-      class="summary-container row mt-4"
+      class="summary-container"
     >
       <div
-        class="col left-container"
+        class="d-flex h-100"
       >
         <div
-          class="d-flex flex-row mb-4"
+          class="info-sidebar"
         >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
-              Job Title
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
-          <div
-            class="mr-5"
-          >
-            <span>
-              Effective Date
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                03/01/2019
-              </h4>
-            </div>
-          </div>
-          <div
-            class="mr-5"
-          >
-            <span>
+            <div
+              class="h"
+            >
               Rate
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                Annual
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-selectedRate"
+            >
+              Annual
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
+              Effective Date
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-effectiveDate"
+            >
+              03/01/2019
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="h"
+            >
               FLSA
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                -
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-FLSAStatus"
+            >
+              -
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Currency
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                CAD
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-currency"
+            >
+              CAD
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Market
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-                title="National"
-              >
-                National
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-payMarketName"
+            >
+              National
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Location
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="National"
-              >
-                National
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-location"
+            >
+              National
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Industry
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="All"
-              >
-                All
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-industry"
+            >
+              All
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <div>
+            <div
+              class="h"
+            >
               Size 
               
               
               (Employees)
             </div>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="All"
+            <div
+              class="v"
+              data-qa-id="cnt-size"
+            >
+              All
+            </div>
+          </div>
+        </div>
+        <div
+          class="summary"
+        >
+          <div
+            class="header"
+          >
+            <div
+              class="job-title"
+              data-qa-id="cnt-jobTitle"
+            >
+                
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-downloadPdf"
+                ngbtooltip="Export"
               >
-                All
-              </h4>
+                <i
+                  class="fas fa-file-pdf"
+                />
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-share"
+                ngbtooltip="Share"
+              >
+                <i
+                  class="fas fa-share"
+                />
+              </button>
+              
+              
+              
+              <button
+                class="btn btn-secondary glossary-btn"
+                data-qa-id="btn-open-glossary"
+                ngbtooltip="Glossary"
+                title="Glossary of Terms"
+              >
+                <i
+                  class="fa fa-book-open"
+                />
+              </button>
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="width-250"
+            class="info-horizontal"
           >
-            <span>
-              Base Salary
-            </span>
             <div
-              class="d-flex flex-row"
+              class="container"
             >
-              <h1
-                class="header-blue"
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Rate
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Annual
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      FLSA
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Currency
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      CAD
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Location
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      National
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Industry
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-4"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Size 
+                      
+                      
+                      (Employees)
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-8"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Market
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      National
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="graphs"
+          >
+            <div
+              class="g"
+            >
+              <div
+                class="h"
+              >
+                 Base Salary 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-baseSalary"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
-            </div>
-          </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Total Cash Compensation
-            </span>
-            <div
-              class="d-flex flex-row"
-            >
-              <h1
-                class="header-blue"
+              <div
+                class="h"
+              >
+                 Total Cash Compensation 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-totalCashCompensation"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
+              <div
+                class="h"
+              >
+                 Salary Trend 
+                
+              </div>
+              <div
+                class="gr"
+              >
+                <pf-salary-trend-chart />
+              </div>
             </div>
           </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Salary Trend
-            </span>
-            <pf-salary-trend-chart />
-          </div>
-        </div>
-        
-      </div>
-      <div
-        class="col right-container"
-      >
-        <div
-          class="d-flex flex-column"
-        >
-          <span>
-            Job Description
-          </span>
+          
           <div
             class="job-description"
           >
-              
+            <div
+              class="h"
+            >
+              Job Description
+            </div>
+            <div
+              class="v"
+            />
           </div>
         </div>
       </div>
@@ -267,7 +462,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
         forcepagebreak=".page-break"
         ng-reflect-creator="Payfactors"
         ng-reflect-force-page-break=".page-break"
-        ng-reflect-margin="1cm"
+        ng-reflect-margin=".5cm"
         ng-reflect-paper-size="Letter"
         ng-reflect-scale="0.7"
       >
@@ -280,232 +475,422 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            <div
-              class="pdf-header"
-            >
-              Pricing Summary
-            </div>
             
             <div
-              class="summary-container row mt-4"
+              class="summary-container"
             >
               <div
-                class="col left-container"
+                class="d-flex h-100"
               >
                 <div
-                  class="d-flex flex-row mb-4"
+                  class="info-sidebar"
                 >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
-                      Job Title
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
-                      Effective Date
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        03/01/2019
-                      </h4>
-                    </div>
-                  </div>
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Rate
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        Annual
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-selectedRate"
+                    >
+                      Annual
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-effectiveDate"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
                       FLSA
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        -
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-FLSAStatus"
+                    >
+                      -
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Currency
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        CAD
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-currency"
+                    >
+                      CAD
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Market
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                        title="National"
-                      >
-                        National
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-payMarketName"
+                    >
+                      National
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Location
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="National"
-                      >
-                        National
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-location"
+                    >
+                      National
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Industry
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="All"
-                      >
-                        All
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-industry"
+                    >
+                      All
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <div>
+                    <div
+                      class="h"
+                    >
                       Size 
                       
                       
                       (Employees)
                     </div>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="All"
+                    <div
+                      class="v"
+                      data-qa-id="cnt-size"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="summary"
+                >
+                  <div
+                    class="header"
+                  >
+                    <div
+                      class="job-title"
+                      data-qa-id="cnt-jobTitle"
+                    >
+                        
+                    </div>
+                    <div
+                      class="actions"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-downloadPdf"
+                        ngbtooltip="Export"
                       >
-                        All
-                      </h4>
+                        <i
+                          class="fas fa-file-pdf"
+                        />
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-share"
+                        ngbtooltip="Share"
+                      >
+                        <i
+                          class="fas fa-share"
+                        />
+                      </button>
+                      
+                      
+                      
+                      <button
+                        class="btn btn-secondary glossary-btn"
+                        data-qa-id="btn-open-glossary"
+                        ngbtooltip="Glossary"
+                        title="Glossary of Terms"
+                      >
+                        <i
+                          class="fa fa-book-open"
+                        />
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="width-250"
+                    class="info-horizontal"
                   >
-                    <span>
-                      Base Salary
-                    </span>
                     <div
-                      class="d-flex flex-row"
+                      class="container"
                     >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Rate
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Annual
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Effective Date
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              03/01/2019
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              FLSA
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Currency
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              CAD
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Location
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              National
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Industry
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              All
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-4"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Size 
+                              
+                              
+                              (Employees)
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              All
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col-8"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Market
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              National
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="graphs"
+                  >
+                    <div
+                      class="g"
+                    >
+                      <div
+                        class="h"
+                      >
+                         Base Salary 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-baseSalary"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
-                    </div>
-                  </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Total Cash Compensation
-                    </span>
-                    <div
-                      class="d-flex flex-row"
-                    >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="h"
+                      >
+                         Total Cash Compensation 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-totalCashCompensation"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
+                      <div
+                        class="h"
+                      >
+                         Salary Trend 
+                        
+                      </div>
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-trend-chart />
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Salary Trend
-                    </span>
-                    <pf-salary-trend-chart />
-                  </div>
-                </div>
-                
-              </div>
-              <div
-                class="col right-container"
-              >
-                <div
-                  class="d-flex flex-column"
-                >
-                  <span>
-                    Job Description
-                  </span>
+                  
                   <div
                     class="job-description"
                   >
-                      
+                    <div
+                      class="h"
+                    >
+                      Job Description
+                    </div>
+                    <div
+                      class="v"
+                    />
                   </div>
                 </div>
               </div>
@@ -523,39 +908,18 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
     >
        Price New Job 
     </button>
-    <div
-      class="download-pdf"
-      data-qa-id="btn-downloadPdf"
-    >
-      <i
-        class="fas fa-file-pdf"
-      />
-       Download 
-    </div>
-    <div
-      class="share-btn"
-      data-qa-id="btn-share"
-    >
-      <i
-        class="fas fa-share"
-      />
-       Share 
-    </div>
-    
-    
-    
   </pf-card-layout><pf-share-pricing-summary-modal />
 </pf-summary-card>
 `;
 
 exports[`Comphub - Main - Summary Card Component should display USD for currency when active market data is USA 1`] = `
 <pf-summary-card
-  activeCountryDataSet$={[Function Observable]}
   canAccessProjectsTile$={[Function Store]}
   comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
+  glossaryOpen$={[Function Store]}
   jobData="null"
   jobSalaryTrendData="null"
   paymarket={[Function Object]}
@@ -585,225 +949,420 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     
     
     <div
-      class="summary-container row mt-4"
+      class="summary-container"
     >
       <div
-        class="col left-container"
+        class="d-flex h-100"
       >
         <div
-          class="d-flex flex-row mb-4"
+          class="info-sidebar"
         >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
-              Job Title
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
-          <div
-            class="mr-5"
-          >
-            <span>
-              Effective Date
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                03/01/2019
-              </h4>
-            </div>
-          </div>
-          <div
-            class="mr-5"
-          >
-            <span>
+            <div
+              class="h"
+            >
               Rate
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                Annual
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-selectedRate"
+            >
+              Annual
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
+              Effective Date
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-effectiveDate"
+            >
+              03/01/2019
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="h"
+            >
               FLSA
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                -
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-FLSAStatus"
+            >
+              -
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Currency
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                USD
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-currency"
+            >
+              USD
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Market
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-                title="National"
-              >
-                National
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-payMarketName"
+            >
+              National
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Location
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="National"
-              >
-                National
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-location"
+            >
+              National
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Industry
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="All"
-              >
-                All
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-industry"
+            >
+              All
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <div>
+            <div
+              class="h"
+            >
               Size 
               
               
               (Employees)
             </div>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="All"
+            <div
+              class="v"
+              data-qa-id="cnt-size"
+            >
+              All
+            </div>
+          </div>
+        </div>
+        <div
+          class="summary"
+        >
+          <div
+            class="header"
+          >
+            <div
+              class="job-title"
+              data-qa-id="cnt-jobTitle"
+            >
+                
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-downloadPdf"
+                ngbtooltip="Export"
               >
-                All
-              </h4>
+                <i
+                  class="fas fa-file-pdf"
+                />
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-share"
+                ngbtooltip="Share"
+              >
+                <i
+                  class="fas fa-share"
+                />
+              </button>
+              
+              
+              
+              <button
+                class="btn btn-secondary glossary-btn"
+                data-qa-id="btn-open-glossary"
+                ngbtooltip="Glossary"
+                title="Glossary of Terms"
+              >
+                <i
+                  class="fa fa-book-open"
+                />
+              </button>
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="width-250"
+            class="info-horizontal"
           >
-            <span>
-              Base Salary
-            </span>
             <div
-              class="d-flex flex-row"
+              class="container"
             >
-              <h1
-                class="header-blue"
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Rate
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Annual
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      FLSA
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Currency
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      USD
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Location
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      National
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Industry
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-4"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Size 
+                      
+                      
+                      (Employees)
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-8"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Market
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      National
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="graphs"
+          >
+            <div
+              class="g"
+            >
+              <div
+                class="h"
+              >
+                 Base Salary 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-baseSalary"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
-            </div>
-          </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Total Cash Compensation
-            </span>
-            <div
-              class="d-flex flex-row"
-            >
-              <h1
-                class="header-blue"
+              <div
+                class="h"
+              >
+                 Total Cash Compensation 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-totalCashCompensation"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
+              <div
+                class="h"
+              >
+                 Salary Trend 
+                
+              </div>
+              <div
+                class="gr"
+              >
+                <pf-salary-trend-chart />
+              </div>
             </div>
           </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Salary Trend
-            </span>
-            <pf-salary-trend-chart />
-          </div>
-        </div>
-        
-      </div>
-      <div
-        class="col right-container"
-      >
-        <div
-          class="d-flex flex-column"
-        >
-          <span>
-            Job Description
-          </span>
+          
           <div
             class="job-description"
           >
-              
+            <div
+              class="h"
+            >
+              Job Description
+            </div>
+            <div
+              class="v"
+            />
           </div>
         </div>
       </div>
@@ -815,7 +1374,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
         forcepagebreak=".page-break"
         ng-reflect-creator="Payfactors"
         ng-reflect-force-page-break=".page-break"
-        ng-reflect-margin="1cm"
+        ng-reflect-margin=".5cm"
         ng-reflect-paper-size="Letter"
         ng-reflect-scale="0.7"
       >
@@ -828,232 +1387,422 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            <div
-              class="pdf-header"
-            >
-              Pricing Summary
-            </div>
             
             <div
-              class="summary-container row mt-4"
+              class="summary-container"
             >
               <div
-                class="col left-container"
+                class="d-flex h-100"
               >
                 <div
-                  class="d-flex flex-row mb-4"
+                  class="info-sidebar"
                 >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
-                      Job Title
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
-                      Effective Date
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        03/01/2019
-                      </h4>
-                    </div>
-                  </div>
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Rate
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        Annual
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-selectedRate"
+                    >
+                      Annual
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-effectiveDate"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
                       FLSA
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        -
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-FLSAStatus"
+                    >
+                      -
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Currency
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        USD
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-currency"
+                    >
+                      USD
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Market
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                        title="National"
-                      >
-                        National
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-payMarketName"
+                    >
+                      National
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Location
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="National"
-                      >
-                        National
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-location"
+                    >
+                      National
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Industry
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="All"
-                      >
-                        All
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-industry"
+                    >
+                      All
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <div>
+                    <div
+                      class="h"
+                    >
                       Size 
                       
                       
                       (Employees)
                     </div>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="All"
+                    <div
+                      class="v"
+                      data-qa-id="cnt-size"
+                    >
+                      All
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="summary"
+                >
+                  <div
+                    class="header"
+                  >
+                    <div
+                      class="job-title"
+                      data-qa-id="cnt-jobTitle"
+                    >
+                        
+                    </div>
+                    <div
+                      class="actions"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-downloadPdf"
+                        ngbtooltip="Export"
                       >
-                        All
-                      </h4>
+                        <i
+                          class="fas fa-file-pdf"
+                        />
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-share"
+                        ngbtooltip="Share"
+                      >
+                        <i
+                          class="fas fa-share"
+                        />
+                      </button>
+                      
+                      
+                      
+                      <button
+                        class="btn btn-secondary glossary-btn"
+                        data-qa-id="btn-open-glossary"
+                        ngbtooltip="Glossary"
+                        title="Glossary of Terms"
+                      >
+                        <i
+                          class="fa fa-book-open"
+                        />
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="width-250"
+                    class="info-horizontal"
                   >
-                    <span>
-                      Base Salary
-                    </span>
                     <div
-                      class="d-flex flex-row"
+                      class="container"
                     >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Rate
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Annual
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Effective Date
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              03/01/2019
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              FLSA
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Currency
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              USD
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Location
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              National
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Industry
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              All
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-4"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Size 
+                              
+                              
+                              (Employees)
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              All
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col-8"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Market
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              National
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="graphs"
+                  >
+                    <div
+                      class="g"
+                    >
+                      <div
+                        class="h"
+                      >
+                         Base Salary 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-baseSalary"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
-                    </div>
-                  </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Total Cash Compensation
-                    </span>
-                    <div
-                      class="d-flex flex-row"
-                    >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="h"
+                      >
+                         Total Cash Compensation 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-totalCashCompensation"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
+                      <div
+                        class="h"
+                      >
+                         Salary Trend 
+                        
+                      </div>
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-trend-chart />
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Salary Trend
-                    </span>
-                    <pf-salary-trend-chart />
-                  </div>
-                </div>
-                
-              </div>
-              <div
-                class="col right-container"
-              >
-                <div
-                  class="d-flex flex-column"
-                >
-                  <span>
-                    Job Description
-                  </span>
+                  
                   <div
                     class="job-description"
                   >
-                      
+                    <div
+                      class="h"
+                    >
+                      Job Description
+                    </div>
+                    <div
+                      class="v"
+                    />
                   </div>
                 </div>
               </div>
@@ -1071,39 +1820,18 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
     >
        Price New Job 
     </button>
-    <div
-      class="download-pdf"
-      data-qa-id="btn-downloadPdf"
-    >
-      <i
-        class="fas fa-file-pdf"
-      />
-       Download 
-    </div>
-    <div
-      class="share-btn"
-      data-qa-id="btn-share"
-    >
-      <i
-        class="fas fa-share"
-      />
-       Share 
-    </div>
-    
-    
-    
   </pf-card-layout><pf-share-pricing-summary-modal />
 </pf-summary-card>
 `;
 
 exports[`Comphub - Main - Summary Card Component should hide create project button has access to projects tile but no paymarketId 1`] = `
 <pf-summary-card
-  activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
+  glossaryOpen$={[Function Store]}
   jobData="null"
   jobSalaryTrendData="null"
   paymarket={[Function Object]}
@@ -1133,225 +1861,420 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="summary-container row mt-4"
+      class="summary-container"
     >
       <div
-        class="col left-container"
+        class="d-flex h-100"
       >
         <div
-          class="d-flex flex-row mb-4"
+          class="info-sidebar"
         >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
-              Job Title
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
-          <div
-            class="mr-5"
-          >
-            <span>
-              Effective Date
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                03/01/2019
-              </h4>
-            </div>
-          </div>
-          <div
-            class="mr-5"
-          >
-            <span>
+            <div
+              class="h"
+            >
               Rate
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                Annual
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-selectedRate"
+            >
+              Annual
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
+              Effective Date
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-effectiveDate"
+            >
+              03/01/2019
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="h"
+            >
               FLSA
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                -
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-FLSAStatus"
+            >
+              -
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Currency
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-currency"
+            >
+              USD
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Market
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-                title="Boston"
-              >
-                Boston
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-payMarketName"
+            >
+              Boston
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Location
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Boston, MA"
-              >
-                Boston, MA
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-location"
+            >
+              Boston, MA
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Industry
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Software"
-              >
-                Software
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-industry"
+            >
+              Software
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <div>
+            <div
+              class="h"
+            >
               Size 
               
               
               (Employees)
             </div>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="100 - 500"
+            <div
+              class="v"
+              data-qa-id="cnt-size"
+            >
+              100 - 500
+            </div>
+          </div>
+        </div>
+        <div
+          class="summary"
+        >
+          <div
+            class="header"
+          >
+            <div
+              class="job-title"
+              data-qa-id="cnt-jobTitle"
+            >
+                
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-downloadPdf"
+                ngbtooltip="Export"
               >
-                100 - 500
-              </h4>
+                <i
+                  class="fas fa-file-pdf"
+                />
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-share"
+                ngbtooltip="Share"
+              >
+                <i
+                  class="fas fa-share"
+                />
+              </button>
+              
+              
+              
+              <button
+                class="btn btn-secondary glossary-btn"
+                data-qa-id="btn-open-glossary"
+                ngbtooltip="Glossary"
+                title="Glossary of Terms"
+              >
+                <i
+                  class="fa fa-book-open"
+                />
+              </button>
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="width-250"
+            class="info-horizontal"
           >
-            <span>
-              Base Salary
-            </span>
             <div
-              class="d-flex flex-row"
+              class="container"
             >
-              <h1
-                class="header-blue"
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Rate
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Annual
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      FLSA
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Currency
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      USD
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Location
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston, MA
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Industry
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Software
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-4"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Size 
+                      
+                      
+                      (Employees)
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-8"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Market
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="graphs"
+          >
+            <div
+              class="g"
+            >
+              <div
+                class="h"
+              >
+                 Base Salary 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-baseSalary"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
-            </div>
-          </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Total Cash Compensation
-            </span>
-            <div
-              class="d-flex flex-row"
-            >
-              <h1
-                class="header-blue"
+              <div
+                class="h"
+              >
+                 Total Cash Compensation 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-totalCashCompensation"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
+              <div
+                class="h"
+              >
+                 Salary Trend 
+                
+              </div>
+              <div
+                class="gr"
+              >
+                <pf-salary-trend-chart />
+              </div>
             </div>
           </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Salary Trend
-            </span>
-            <pf-salary-trend-chart />
-          </div>
-        </div>
-        
-      </div>
-      <div
-        class="col right-container"
-      >
-        <div
-          class="d-flex flex-column"
-        >
-          <span>
-            Job Description
-          </span>
+          
           <div
             class="job-description"
           >
-              
+            <div
+              class="h"
+            >
+              Job Description
+            </div>
+            <div
+              class="v"
+            />
           </div>
         </div>
       </div>
@@ -1363,7 +2286,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         forcepagebreak=".page-break"
         ng-reflect-creator="Payfactors"
         ng-reflect-force-page-break=".page-break"
-        ng-reflect-margin="1cm"
+        ng-reflect-margin=".5cm"
         ng-reflect-paper-size="Letter"
         ng-reflect-scale="0.7"
       >
@@ -1376,232 +2299,422 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            <div
-              class="pdf-header"
-            >
-              Pricing Summary
-            </div>
             
             <div
-              class="summary-container row mt-4"
+              class="summary-container"
             >
               <div
-                class="col left-container"
+                class="d-flex h-100"
               >
                 <div
-                  class="d-flex flex-row mb-4"
+                  class="info-sidebar"
                 >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
-                      Job Title
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
-                      Effective Date
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        03/01/2019
-                      </h4>
-                    </div>
-                  </div>
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Rate
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        Annual
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-selectedRate"
+                    >
+                      Annual
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-effectiveDate"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
                       FLSA
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        -
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-FLSAStatus"
+                    >
+                      -
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Currency
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-currency"
+                    >
+                      USD
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Market
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                        title="Boston"
-                      >
-                        Boston
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-payMarketName"
+                    >
+                      Boston
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Location
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Boston, MA"
-                      >
-                        Boston, MA
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-location"
+                    >
+                      Boston, MA
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Industry
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Software"
-                      >
-                        Software
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-industry"
+                    >
+                      Software
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <div>
+                    <div
+                      class="h"
+                    >
                       Size 
                       
                       
                       (Employees)
                     </div>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="100 - 500"
+                    <div
+                      class="v"
+                      data-qa-id="cnt-size"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="summary"
+                >
+                  <div
+                    class="header"
+                  >
+                    <div
+                      class="job-title"
+                      data-qa-id="cnt-jobTitle"
+                    >
+                        
+                    </div>
+                    <div
+                      class="actions"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-downloadPdf"
+                        ngbtooltip="Export"
                       >
-                        100 - 500
-                      </h4>
+                        <i
+                          class="fas fa-file-pdf"
+                        />
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-share"
+                        ngbtooltip="Share"
+                      >
+                        <i
+                          class="fas fa-share"
+                        />
+                      </button>
+                      
+                      
+                      
+                      <button
+                        class="btn btn-secondary glossary-btn"
+                        data-qa-id="btn-open-glossary"
+                        ngbtooltip="Glossary"
+                        title="Glossary of Terms"
+                      >
+                        <i
+                          class="fa fa-book-open"
+                        />
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="width-250"
+                    class="info-horizontal"
                   >
-                    <span>
-                      Base Salary
-                    </span>
                     <div
-                      class="d-flex flex-row"
+                      class="container"
                     >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Rate
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Annual
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Effective Date
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              03/01/2019
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              FLSA
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Currency
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              USD
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Location
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston, MA
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Industry
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Software
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-4"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Size 
+                              
+                              
+                              (Employees)
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              100 - 500
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col-8"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Market
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="graphs"
+                  >
+                    <div
+                      class="g"
+                    >
+                      <div
+                        class="h"
+                      >
+                         Base Salary 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-baseSalary"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
-                    </div>
-                  </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Total Cash Compensation
-                    </span>
-                    <div
-                      class="d-flex flex-row"
-                    >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="h"
+                      >
+                         Total Cash Compensation 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-totalCashCompensation"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
+                      <div
+                        class="h"
+                      >
+                         Salary Trend 
+                        
+                      </div>
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-trend-chart />
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Salary Trend
-                    </span>
-                    <pf-salary-trend-chart />
-                  </div>
-                </div>
-                
-              </div>
-              <div
-                class="col right-container"
-              >
-                <div
-                  class="d-flex flex-column"
-                >
-                  <span>
-                    Job Description
-                  </span>
+                  
                   <div
                     class="job-description"
                   >
-                      
+                    <div
+                      class="h"
+                    >
+                      Job Description
+                    </div>
+                    <div
+                      class="v"
+                    />
                   </div>
                 </div>
               </div>
@@ -1619,39 +2732,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     >
        Price New Job 
     </button>
-    <div
-      class="download-pdf"
-      data-qa-id="btn-downloadPdf"
-    >
-      <i
-        class="fas fa-file-pdf"
-      />
-       Download 
-    </div>
-    <div
-      class="share-btn"
-      data-qa-id="btn-share"
-    >
-      <i
-        class="fas fa-share"
-      />
-       Share 
-    </div>
-    
-    
-    
   </pf-card-layout><pf-share-pricing-summary-modal />
 </pf-summary-card>
 `;
 
 exports[`Comphub - Main - Summary Card Component should hide create project button when no access to projects tile 1`] = `
 <pf-summary-card
-  activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
+  glossaryOpen$={[Function Store]}
   jobData="null"
   jobSalaryTrendData="null"
   paymarket={[Function Object]}
@@ -1681,225 +2773,420 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     
     
     <div
-      class="summary-container row mt-4"
+      class="summary-container"
     >
       <div
-        class="col left-container"
+        class="d-flex h-100"
       >
         <div
-          class="d-flex flex-row mb-4"
+          class="info-sidebar"
         >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
-              Job Title
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
-          <div
-            class="mr-5"
-          >
-            <span>
-              Effective Date
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                03/01/2019
-              </h4>
-            </div>
-          </div>
-          <div
-            class="mr-5"
-          >
-            <span>
+            <div
+              class="h"
+            >
               Rate
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                Annual
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-selectedRate"
+            >
+              Annual
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
+              Effective Date
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-effectiveDate"
+            >
+              03/01/2019
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="h"
+            >
               FLSA
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                -
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-FLSAStatus"
+            >
+              -
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Currency
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-currency"
+            >
+              USD
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Market
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-                title="Boston"
-              >
-                Boston
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-payMarketName"
+            >
+              Boston
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Location
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Boston, MA"
-              >
-                Boston, MA
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-location"
+            >
+              Boston, MA
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Industry
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Software"
-              >
-                Software
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-industry"
+            >
+              Software
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <div>
+            <div
+              class="h"
+            >
               Size 
               
               
               (Employees)
             </div>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="100 - 500"
+            <div
+              class="v"
+              data-qa-id="cnt-size"
+            >
+              100 - 500
+            </div>
+          </div>
+        </div>
+        <div
+          class="summary"
+        >
+          <div
+            class="header"
+          >
+            <div
+              class="job-title"
+              data-qa-id="cnt-jobTitle"
+            >
+                
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-downloadPdf"
+                ngbtooltip="Export"
               >
-                100 - 500
-              </h4>
+                <i
+                  class="fas fa-file-pdf"
+                />
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-share"
+                ngbtooltip="Share"
+              >
+                <i
+                  class="fas fa-share"
+                />
+              </button>
+              
+              
+              
+              <button
+                class="btn btn-secondary glossary-btn"
+                data-qa-id="btn-open-glossary"
+                ngbtooltip="Glossary"
+                title="Glossary of Terms"
+              >
+                <i
+                  class="fa fa-book-open"
+                />
+              </button>
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="width-250"
+            class="info-horizontal"
           >
-            <span>
-              Base Salary
-            </span>
             <div
-              class="d-flex flex-row"
+              class="container"
             >
-              <h1
-                class="header-blue"
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Rate
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Annual
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      FLSA
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Currency
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      USD
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Location
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston, MA
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Industry
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Software
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-4"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Size 
+                      
+                      
+                      (Employees)
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-8"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Market
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="graphs"
+          >
+            <div
+              class="g"
+            >
+              <div
+                class="h"
+              >
+                 Base Salary 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-baseSalary"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
-            </div>
-          </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Total Cash Compensation
-            </span>
-            <div
-              class="d-flex flex-row"
-            >
-              <h1
-                class="header-blue"
+              <div
+                class="h"
+              >
+                 Total Cash Compensation 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-totalCashCompensation"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
+              <div
+                class="h"
+              >
+                 Salary Trend 
+                
+              </div>
+              <div
+                class="gr"
+              >
+                <pf-salary-trend-chart />
+              </div>
             </div>
           </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Salary Trend
-            </span>
-            <pf-salary-trend-chart />
-          </div>
-        </div>
-        
-      </div>
-      <div
-        class="col right-container"
-      >
-        <div
-          class="d-flex flex-column"
-        >
-          <span>
-            Job Description
-          </span>
+          
           <div
             class="job-description"
           >
-              
+            <div
+              class="h"
+            >
+              Job Description
+            </div>
+            <div
+              class="v"
+            />
           </div>
         </div>
       </div>
@@ -1911,7 +3198,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
         forcepagebreak=".page-break"
         ng-reflect-creator="Payfactors"
         ng-reflect-force-page-break=".page-break"
-        ng-reflect-margin="1cm"
+        ng-reflect-margin=".5cm"
         ng-reflect-paper-size="Letter"
         ng-reflect-scale="0.7"
       >
@@ -1924,232 +3211,422 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            <div
-              class="pdf-header"
-            >
-              Pricing Summary
-            </div>
             
             <div
-              class="summary-container row mt-4"
+              class="summary-container"
             >
               <div
-                class="col left-container"
+                class="d-flex h-100"
               >
                 <div
-                  class="d-flex flex-row mb-4"
+                  class="info-sidebar"
                 >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
-                      Job Title
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
-                      Effective Date
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        03/01/2019
-                      </h4>
-                    </div>
-                  </div>
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Rate
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        Annual
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-selectedRate"
+                    >
+                      Annual
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-effectiveDate"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
                       FLSA
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        -
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-FLSAStatus"
+                    >
+                      -
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Currency
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-currency"
+                    >
+                      USD
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Market
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                        title="Boston"
-                      >
-                        Boston
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-payMarketName"
+                    >
+                      Boston
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Location
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Boston, MA"
-                      >
-                        Boston, MA
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-location"
+                    >
+                      Boston, MA
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Industry
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Software"
-                      >
-                        Software
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-industry"
+                    >
+                      Software
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <div>
+                    <div
+                      class="h"
+                    >
                       Size 
                       
                       
                       (Employees)
                     </div>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="100 - 500"
+                    <div
+                      class="v"
+                      data-qa-id="cnt-size"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="summary"
+                >
+                  <div
+                    class="header"
+                  >
+                    <div
+                      class="job-title"
+                      data-qa-id="cnt-jobTitle"
+                    >
+                        
+                    </div>
+                    <div
+                      class="actions"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-downloadPdf"
+                        ngbtooltip="Export"
                       >
-                        100 - 500
-                      </h4>
+                        <i
+                          class="fas fa-file-pdf"
+                        />
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-share"
+                        ngbtooltip="Share"
+                      >
+                        <i
+                          class="fas fa-share"
+                        />
+                      </button>
+                      
+                      
+                      
+                      <button
+                        class="btn btn-secondary glossary-btn"
+                        data-qa-id="btn-open-glossary"
+                        ngbtooltip="Glossary"
+                        title="Glossary of Terms"
+                      >
+                        <i
+                          class="fa fa-book-open"
+                        />
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="width-250"
+                    class="info-horizontal"
                   >
-                    <span>
-                      Base Salary
-                    </span>
                     <div
-                      class="d-flex flex-row"
+                      class="container"
                     >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Rate
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Annual
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Effective Date
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              03/01/2019
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              FLSA
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Currency
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              USD
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Location
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston, MA
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Industry
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Software
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-4"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Size 
+                              
+                              
+                              (Employees)
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              100 - 500
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col-8"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Market
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="graphs"
+                  >
+                    <div
+                      class="g"
+                    >
+                      <div
+                        class="h"
+                      >
+                         Base Salary 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-baseSalary"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
-                    </div>
-                  </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Total Cash Compensation
-                    </span>
-                    <div
-                      class="d-flex flex-row"
-                    >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="h"
+                      >
+                         Total Cash Compensation 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-totalCashCompensation"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
+                      <div
+                        class="h"
+                      >
+                         Salary Trend 
+                        
+                      </div>
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-trend-chart />
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Salary Trend
-                    </span>
-                    <pf-salary-trend-chart />
-                  </div>
-                </div>
-                
-              </div>
-              <div
-                class="col right-container"
-              >
-                <div
-                  class="d-flex flex-column"
-                >
-                  <span>
-                    Job Description
-                  </span>
+                  
                   <div
                     class="job-description"
                   >
-                      
+                    <div
+                      class="h"
+                    >
+                      Job Description
+                    </div>
+                    <div
+                      class="v"
+                    />
                   </div>
                 </div>
               </div>
@@ -2167,39 +3644,18 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
     >
        Price New Job 
     </button>
-    <div
-      class="download-pdf"
-      data-qa-id="btn-downloadPdf"
-    >
-      <i
-        class="fas fa-file-pdf"
-      />
-       Download 
-    </div>
-    <div
-      class="share-btn"
-      data-qa-id="btn-share"
-    >
-      <i
-        class="fas fa-share"
-      />
-       Share 
-    </div>
-    
-    
-    
   </pf-card-layout><pf-share-pricing-summary-modal />
 </pf-summary-card>
 `;
 
 exports[`Comphub - Main - Summary Card Component should show create project button when has access to projects tile 1`] = `
 <pf-summary-card
-  activeCountryDataSet$={[Function Store]}
   canAccessProjectsTile$={[Function Observable]}
   comphubPages={[Function Object]}
   creatingProject$={[Function Store]}
   creatingProjectError$={[Function Store]}
   firstDayOfMonth={[Function Date]}
+  glossaryOpen$={[Function Store]}
   jobData="null"
   jobSalaryTrendData="null"
   paymarket={[Function Object]}
@@ -2229,225 +3685,429 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     
     
     <div
-      class="summary-container row mt-4"
+      class="summary-container"
     >
       <div
-        class="col left-container"
+        class="d-flex h-100"
       >
         <div
-          class="d-flex flex-row mb-4"
+          class="info-sidebar"
         >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
-              Job Title
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
-            </div>
-          </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
-          <div
-            class="mr-5"
-          >
-            <span>
-              Effective Date
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                03/01/2019
-              </h4>
-            </div>
-          </div>
-          <div
-            class="mr-5"
-          >
-            <span>
+            <div
+              class="h"
+            >
               Rate
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                Annual
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-selectedRate"
+            >
+              Annual
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
+              Effective Date
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-effectiveDate"
+            >
+              03/01/2019
+            </div>
+          </div>
+          <div
+            class="item"
+          >
+            <div
+              class="h"
+            >
               FLSA
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                -
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-FLSAStatus"
+            >
+              -
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Currency
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-              >
-                
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-currency"
+            >
+              USD
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Market
-            </span>
-            <div>
-              <h4
-                class="header-blue"
-                title="Boston"
-              >
-                Boston
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-payMarketName"
+            >
+              Boston
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Location
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Boston, MA"
-              >
-                Boston, MA
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-location"
+            >
+              Boston, MA
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <span>
+            <div
+              class="h"
+            >
               Industry
-            </span>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="Software"
-              >
-                Software
-              </h4>
+            </div>
+            <div
+              class="v"
+              data-qa-id="cnt-industry"
+            >
+              Software
             </div>
           </div>
           <div
-            class="mr-5"
+            class="item"
           >
-            <div>
+            <div
+              class="h"
+            >
               Size 
               
               
               (Employees)
             </div>
-            <div>
-              <h4
-                class="header-blue text-overflow-ellipsis"
-                title="100 - 500"
+            <div
+              class="v"
+              data-qa-id="cnt-size"
+            >
+              100 - 500
+            </div>
+          </div>
+        </div>
+        <div
+          class="summary"
+        >
+          <div
+            class="header"
+          >
+            <div
+              class="job-title"
+              data-qa-id="cnt-jobTitle"
+            >
+                
+            </div>
+            <div
+              class="actions"
+            >
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-downloadPdf"
+                ngbtooltip="Export"
               >
-                100 - 500
-              </h4>
+                <i
+                  class="fas fa-file-pdf"
+                />
+              </button>
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-share"
+                ngbtooltip="Share"
+              >
+                <i
+                  class="fas fa-share"
+                />
+              </button>
+              
+              <button
+                class="btn btn-secondary"
+                data-qa-id="btn-create-project"
+                ngbtooltip="Create Project"
+              >
+                <i
+                  class="fas fa-file-plus"
+                />
+              </button>
+              
+              
+              <button
+                class="btn btn-secondary glossary-btn"
+                data-qa-id="btn-open-glossary"
+                ngbtooltip="Glossary"
+                title="Glossary of Terms"
+              >
+                <i
+                  class="fa fa-book-open"
+                />
+              </button>
             </div>
           </div>
-        </div>
-        <div
-          class="d-flex flex-row mb-4"
-        >
           <div
-            class="width-250"
+            class="info-horizontal"
           >
-            <span>
-              Base Salary
-            </span>
             <div
-              class="d-flex flex-row"
+              class="container"
             >
-              <h1
-                class="header-blue"
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Rate
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Annual
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      FLSA
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      -
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Currency
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      USD
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Location
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston, MA
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Industry
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Software
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="row"
+              >
+                <div
+                  class="col-4"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Size 
+                      
+                      
+                      (Employees)
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-8"
+                >
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
+                      Market
+                    </div>
+                    <div
+                      class="v"
+                    >
+                      Boston
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="graphs"
+          >
+            <div
+              class="g"
+            >
+              <div
+                class="h"
+              >
+                 Base Salary 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-baseSalary"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
-            </div>
-          </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Total Cash Compensation
-            </span>
-            <div
-              class="d-flex flex-row"
-            >
-              <h1
-                class="header-blue"
+              <div
+                class="h"
+              >
+                 Total Cash Compensation 
+              </div>
+              <div
+                class="v"
+                data-qa-id="cnt-totalCashCompensation"
               />
+              <div
+                class="gr"
+              >
+                <pf-salary-bar-chart />
+              </div>
             </div>
             <div
-              class="w-75"
+              class="g"
             >
-              <pf-salary-bar-chart />
+              <div
+                class="h"
+              >
+                 Salary Trend 
+                
+              </div>
+              <div
+                class="gr"
+              >
+                <pf-salary-trend-chart />
+              </div>
             </div>
           </div>
-          <div
-            class="width-250"
-          >
-            <span>
-              Salary Trend
-            </span>
-            <pf-salary-trend-chart />
-          </div>
-        </div>
-        
-      </div>
-      <div
-        class="col right-container"
-      >
-        <div
-          class="d-flex flex-column"
-        >
-          <span>
-            Job Description
-          </span>
+          
           <div
             class="job-description"
           >
-              
+            <div
+              class="h"
+            >
+              Job Description
+            </div>
+            <div
+              class="v"
+            />
           </div>
         </div>
       </div>
@@ -2459,7 +4119,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
         forcepagebreak=".page-break"
         ng-reflect-creator="Payfactors"
         ng-reflect-force-page-break=".page-break"
-        ng-reflect-margin="1cm"
+        ng-reflect-margin=".5cm"
         ng-reflect-paper-size="Letter"
         ng-reflect-scale="0.7"
       >
@@ -2472,232 +4132,431 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
               class="pdf-logo"
               src="assets/images/payfactors-logo-on-white.png"
             />
-            <div
-              class="pdf-header"
-            >
-              Pricing Summary
-            </div>
             
             <div
-              class="summary-container row mt-4"
+              class="summary-container"
             >
               <div
-                class="col left-container"
+                class="d-flex h-100"
               >
                 <div
-                  class="d-flex flex-row mb-4"
+                  class="info-sidebar"
                 >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
-                      Job Title
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
-                      Effective Date
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        03/01/2019
-                      </h4>
-                    </div>
-                  </div>
-                  <div
-                    class="mr-5"
-                  >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Rate
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        Annual
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-selectedRate"
+                    >
+                      Annual
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
+                      Effective Date
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-effectiveDate"
+                    >
+                      03/01/2019
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="h"
+                    >
                       FLSA
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        -
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-FLSAStatus"
+                    >
+                      -
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Currency
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                      >
-                        
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-currency"
+                    >
+                      USD
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Market
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue"
-                        title="Boston"
-                      >
-                        Boston
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-payMarketName"
+                    >
+                      Boston
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Location
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Boston, MA"
-                      >
-                        Boston, MA
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-location"
+                    >
+                      Boston, MA
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <span>
+                    <div
+                      class="h"
+                    >
                       Industry
-                    </span>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="Software"
-                      >
-                        Software
-                      </h4>
+                    </div>
+                    <div
+                      class="v"
+                      data-qa-id="cnt-industry"
+                    >
+                      Software
                     </div>
                   </div>
                   <div
-                    class="mr-5"
+                    class="item"
                   >
-                    <div>
+                    <div
+                      class="h"
+                    >
                       Size 
                       
                       
                       (Employees)
                     </div>
-                    <div>
-                      <h4
-                        class="header-blue text-overflow-ellipsis"
-                        title="100 - 500"
+                    <div
+                      class="v"
+                      data-qa-id="cnt-size"
+                    >
+                      100 - 500
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="summary"
+                >
+                  <div
+                    class="header"
+                  >
+                    <div
+                      class="job-title"
+                      data-qa-id="cnt-jobTitle"
+                    >
+                        
+                    </div>
+                    <div
+                      class="actions"
+                    >
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-downloadPdf"
+                        ngbtooltip="Export"
                       >
-                        100 - 500
-                      </h4>
+                        <i
+                          class="fas fa-file-pdf"
+                        />
+                      </button>
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-share"
+                        ngbtooltip="Share"
+                      >
+                        <i
+                          class="fas fa-share"
+                        />
+                      </button>
+                      
+                      <button
+                        class="btn btn-secondary"
+                        data-qa-id="btn-create-project"
+                        ngbtooltip="Create Project"
+                      >
+                        <i
+                          class="fas fa-file-plus"
+                        />
+                      </button>
+                      
+                      
+                      <button
+                        class="btn btn-secondary glossary-btn"
+                        data-qa-id="btn-open-glossary"
+                        ngbtooltip="Glossary"
+                        title="Glossary of Terms"
+                      >
+                        <i
+                          class="fa fa-book-open"
+                        />
+                      </button>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="d-flex flex-row mb-4"
-                >
                   <div
-                    class="width-250"
+                    class="info-horizontal"
                   >
-                    <span>
-                      Base Salary
-                    </span>
                     <div
-                      class="d-flex flex-row"
+                      class="container"
                     >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Rate
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Annual
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Effective Date
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              03/01/2019
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              FLSA
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              -
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Currency
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              USD
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Location
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston, MA
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Industry
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Software
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-4"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Size 
+                              
+                              
+                              (Employees)
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              100 - 500
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="col-8"
+                        >
+                          <div
+                            class="item"
+                          >
+                            <div
+                              class="h"
+                            >
+                              Market
+                            </div>
+                            <div
+                              class="v"
+                            >
+                              Boston
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="graphs"
+                  >
+                    <div
+                      class="g"
+                    >
+                      <div
+                        class="h"
+                      >
+                         Base Salary 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-baseSalary"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
-                    </div>
-                  </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Total Cash Compensation
-                    </span>
-                    <div
-                      class="d-flex flex-row"
-                    >
-                      <h1
-                        class="header-blue"
+                      <div
+                        class="h"
+                      >
+                         Total Cash Compensation 
+                      </div>
+                      <div
+                        class="v"
+                        data-qa-id="cnt-totalCashCompensation"
                       />
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-bar-chart />
+                      </div>
                     </div>
                     <div
-                      class="w-75"
+                      class="g"
                     >
-                      <pf-salary-bar-chart />
+                      <div
+                        class="h"
+                      >
+                         Salary Trend 
+                        
+                      </div>
+                      <div
+                        class="gr"
+                      >
+                        <pf-salary-trend-chart />
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="width-250"
-                  >
-                    <span>
-                      Salary Trend
-                    </span>
-                    <pf-salary-trend-chart />
-                  </div>
-                </div>
-                
-              </div>
-              <div
-                class="col right-container"
-              >
-                <div
-                  class="d-flex flex-column"
-                >
-                  <span>
-                    Job Description
-                  </span>
+                  
                   <div
                     class="job-description"
                   >
-                      
+                    <div
+                      class="h"
+                    >
+                      Job Description
+                    </div>
+                    <div
+                      class="v"
+                    />
                   </div>
                 </div>
               </div>
@@ -2715,36 +4574,6 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
     >
        Price New Job 
     </button>
-    <div
-      class="download-pdf"
-      data-qa-id="btn-downloadPdf"
-    >
-      <i
-        class="fas fa-file-pdf"
-      />
-       Download 
-    </div>
-    <div
-      class="share-btn"
-      data-qa-id="btn-share"
-    >
-      <i
-        class="fas fa-share"
-      />
-       Share 
-    </div>
-    
-    <div
-      class="create-project-btn"
-      data-qa-id="btn-create-project"
-    >
-      <i
-        class="fas fa-clipboard-list"
-      />
-       Create Project 
-    </div>
-    
-    
   </pf-card-layout><pf-share-pricing-summary-modal />
 </pf-summary-card>
 `;

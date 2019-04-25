@@ -8,6 +8,7 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { LayoutModule } from '@progress/kendo-angular-layout';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { PfKendoExtensions } from 'libs/extensions';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -21,12 +22,13 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          ExchangeJobRequestsComponent, ExchangeListComponent, DeleteExchangeModalComponent,
          ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
          ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent,
-         DenyRequestModalComponent, ApproveRequestModalComponent, ManageExchangeFiltersComponent } from './containers';
+         DenyRequestModalComponent, ApproveRequestModalComponent, ManageExchangeFiltersComponent,
+         TagCategoriesPageComponent, CreateTagCategoryModalComponent } from './containers';
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
   PayfactorsCompanyExchangeInvitationsEffects, NewCompanyExchangeInvitationsEffects, ExchangeJobRequestsEffects,
-  CompanyExchangeInvitationInfoEffects, ExchangeFiltersEffects
+  CompanyExchangeInvitationInfoEffects, ExchangeFiltersEffects, TagCategoriesEffects
 } from './effects';
 import { ExchangeJobAssociationUtilityEffects } from './effects/exchange-job-association-utility.effects';
 import { ExchangeExistsGuard } from './guards';
@@ -61,10 +63,12 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
       ExchangeJobRequestsEffects,
       CompanyExchangeInvitationInfoEffects,
       ExchangeJobAssociationUtilityEffects,
-      ExchangeFiltersEffects
+      ExchangeFiltersEffects,
+      TagCategoriesEffects
     ]),
     DropDownsModule,
     SwitchModule,
+    DragDropModule,
 
     // Routing
     PeerAdminRoutingModule,
@@ -97,6 +101,8 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     DenyRequestModalComponent,
     ApproveRequestModalComponent,
     ManageExchangeFiltersComponent,
+    TagCategoriesPageComponent,
+    CreateTagCategoryModalComponent,
 
     // Pages
     ExchangeListPageComponent,

@@ -23,6 +23,7 @@ import * as fromCompanyOptionsReducer from './exchange-job-association-utility/c
 import * as fromExchangeOptionsReducer from './exchange-job-association-utility/exchange-options.reducer';
 import * as fromAssociateJobsReducer from './exchange-job-association-utility/associate-jobs.reducer';
 import * as fromExchangeFiltersReducer from './exchange-filters.reducer';
+import * as fromTagCategoriesReducer from './tag-categories.reducer';
 
 // Feature area state
 export interface PeerAdminState {
@@ -40,6 +41,7 @@ export interface PeerAdminState {
   companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.State;
   exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.State;
   exchangeFilters: IFeatureGridState<fromExchangeFiltersReducer.State>;
+  tagCategories: IFeatureGridState<fromTagCategoriesReducer.State>;
 }
 
 // Extend root state with feature area state
@@ -62,7 +64,8 @@ export const reducers = {
   exchangeList: fromExchangeListReducer.reducer,
   companyExchangeInvitationInfo: fromCompanyExchangeInvitationInfoReducer.reducer,
   exchangeJobAssociationUtility: fromExchangeJobAssociationUtilityReducers.reducer,
-  exchangeFilters: fromExchangeFiltersReducer.reducer
+  exchangeFilters: fromExchangeFiltersReducer.reducer,
+  tagCategories: fromTagCategoriesReducer.reducer
 };
 
 // Select Feature Area
@@ -89,6 +92,9 @@ export const selectExchangeJobAssociationUtilityState = createSelector(
   selectPeerAdminState,
   (state: PeerAdminState) => state.exchangeJobAssociationUtility);
 export const selectExchangeFiltersState = createSelector(selectPeerAdminState, (state: PeerAdminState) => state.exchangeFilters);
+export const selectTagCategoriesState = createSelector(
+  selectPeerAdminState, (state: PeerAdminState) => state.tagCategories);
+
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
@@ -648,6 +654,48 @@ export const getTotalExchangeFilters = createSelector(
 export const getExchangeFiltersGrid = createSelector(
   getExchangeFilters,
   getTotalExchangeFilters,
+  (data, total) => {
+    return { data: data, total: total };
+  }
+);
+
+// Tag Categories Selectors
+export const selectTagCategoriesFeatureState = createSelector(
+  selectTagCategoriesState,
+  (state: IFeatureGridState<fromTagCategoriesReducer.State>) => state.feature
+);
+
+export const {
+  selectAll: getTagCategories
+} = fromTagCategoriesReducer.adapter.getSelectors(selectTagCategoriesFeatureState);
+
+export const getTagCategoriesLoading = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getLoading
+);
+
+export const getTagCategoriesLoadingError = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getLoadingError
+);
+
+export const getCreateTagCategoryModalOpen = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getCreateTagCategoryModalOpen
+);
+
+export const getCreatingTagCategory = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getCreatingTagCategory
+);
+
+export const getCreatingTagCategoryError = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getCreatingTagCategoryError
+);
+
+export const getTotalTagCategories = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getTotal
+);
+
+export const getTagCategoriesGrid = createSelector(
+  getTagCategories,
+  getTotalTagCategories,
   (data, total) => {
     return { data: data, total: total };
   }

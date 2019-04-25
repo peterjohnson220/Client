@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { NavigationLink, SidebarLink } from '../../../models/navigation';
+import { CompanyAdminNavigationLinkResponse, SiteAdminNavigationLinkResponse } from '../../../models/payfactors-api/navigation';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -27,4 +28,11 @@ export class NavigationApiService {
       .get<NavigationLink>(`${this.endpoint}.GetUserVoiceNavigationLink`);
   }
 
+  getSiteAdminNavigationLinks() {
+    return this.payfactorsApiService.get<SiteAdminNavigationLinkResponse[]>(`${this.endpoint}.GetSiteAdminNavigationLinks`);
+  }
+
+  getCompanyAdminNavigationLinks() {
+    return this.payfactorsApiService.get<CompanyAdminNavigationLinkResponse[]>(`${this.endpoint}.GetCompanyAdminNavigationLinks`);
+  }
 }

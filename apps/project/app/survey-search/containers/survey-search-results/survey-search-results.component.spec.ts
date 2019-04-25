@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import { DataCut } from 'libs/models/payfactors-api';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import * as fromSurveySearchResultsActions from '../../actions/survey-search-results.actions';
-import { generateMockSurveyJobResult, JobResult, generateMockDataCut } from '../../models';
+import { DataCutDetails, generateMockDataCut, generateMockSurveyJobResult, JobResult } from '../../models';
 import * as fromSurveySearchReducer from '../../reducers';
 import { SurveySearchResultsComponent } from './survey-search-results.component';
 
@@ -38,8 +38,8 @@ describe('Project - Survey Search - Search Results', () => {
   });
 
   it('should toggle the data cut selection when cut is selected ', () => {
-    const surveyDataCut: DataCut = {
-      IsPayfactorsJob: true,
+    const surveyDataCut: DataCutDetails = {
+        DataSource: SurveySearchResultDataSources.Payfactors,
         CountryCode: 'USA',
         SurveyJobCode: '1234'
     };

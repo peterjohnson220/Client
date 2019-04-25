@@ -30,20 +30,30 @@
   font-weight: $comphub-bold-font-weight;
 }
 
-.plus-sign {
-  color: $pf-additional-colors-green;
-  line-height: 3.4rem;
-}
-
-.text-danger {
-  line-height: 3.4rem;
-}
-
 .header-blue {
   color: $comphub-header-blue;
+  font-weight: $comphub-bold-font-weight;
 }
 
 .date-range {
   line-height: 4rem;
   padding-right: 5.5px;
+}
+
+.percentage-change {
+  font-size: 2.25rem;
+  color: $comphub-header-blue;
+
+  .plus-sign {
+    color: $pf-additional-colors-green;
+    font-size: 85%;
+    line-height: 3.4rem;
+    margin-right: -5px;
+  }
+
+  .text-danger {
+    font-size: 85%;
+    line-height: 3.4rem;
+    margin-right: -5px;
+  }
 }

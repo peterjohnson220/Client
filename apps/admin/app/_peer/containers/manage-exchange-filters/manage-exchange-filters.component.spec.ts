@@ -1,13 +1,14 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 
 import { of } from 'rxjs';
 import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import { SwitchModule } from '@progress/kendo-angular-inputs';
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockExchange, generateMockExchangeSearchFilterAggregate } from 'libs/models/peer';
+import { ExchangeSearchFilterAggregate, generateMockExchange, generateMockExchangeSearchFilterAggregate } from 'libs/models/peer';
 
 import { ManageExchangeFiltersComponent } from './manage-exchange-filters.component';
 import { GridHelperService } from '../../services';
@@ -97,5 +98,25 @@ describe('Manage Exchange Filters', () => {
     instance.handleSearchChanged(str);
 
     expect(gridHelperService.loadExchangeFilters).toHaveBeenCalledWith(instance.exchangeId, str);
+  });
+
+  it('should dispatch a ReorderFilters action when drop is called', () => {
+    const filter = generateMockExchangeSearchFilterAggregate();
+    const filters: ExchangeSearchFilterAggregate[] = [filter, filter];
+    // Not crazy about this but it is the most straight forward way to mock the drag and drop event and test this method. [BG]
+    const ddEvent: CdkDragDrop<string[]> = new class implements CdkDragDrop<string[]> {
+      container: CdkDropList<string[]>;
+      currentIndex = 1;
+      isPointerOverContainer: boolean;
+      item: CdkDrag;
+      previousContainer: CdkDropList<string[]>;
+      previousIndex = 1;
+    };
+    const action = new fromExchangeFiltersActions.ReorderFilters(filters);
+
+    instance.exchangeFilters = filters;
+    instance.drop(ddEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 });

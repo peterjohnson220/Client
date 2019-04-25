@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunitySearchResultHeaderComponent should display company name and elapsed time 1`] = `
+<pf-community-search-result-header
+  companyName={[Function String]}
+  elapsedTime={[Function String]}
+>
+  <p
+    class="m-0"
+  >
+    <span
+      class="search-result-header-text"
+    >
+      <span
+        class="search-result-header-text-bold"
+      >
+        Discussion
+      </span>
+       posted by 
+      <span>
+        test company
+      </span>
+    </span>
+    <span
+      class="community-sub-text"
+    >
+       | 2 days ago
+    </span>
+  </p>
+</pf-community-search-result-header>
+`;

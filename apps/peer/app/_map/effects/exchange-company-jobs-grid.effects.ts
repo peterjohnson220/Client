@@ -4,10 +4,12 @@ import { Action, select, Store } from '@ngrx/store';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { GridDataResult } from '@progress/kendo-angular-grid';
 import { Observable, of } from 'rxjs';
-import { catchError, map, withLatestFrom, switchMap } from 'rxjs/operators';
+import { catchError, map, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 
 import * as fromLibsPeerMapReducer from 'libs/features/peer/map/reducers';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api';
+import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromExchangeCompanyJobGridActions from '../actions/exchange-company-job-grid.actions';
 import * as fromPeerMapReducer from '../reducers';
@@ -36,6 +38,28 @@ export class ExchangeCompanyJobsGridEffects {
         )
       )
     ));
+
+  @Effect()
+  loadExchangeCompanyJobsIds$: Observable<Action> = this.actions$
+    .pipe(
+      ofType(fromExchangeCompanyJobGridActions.LOAD_EXCHANGE_COMPANY_JOBS_IDS),
+      withLatestFrom(
+        this.store.pipe(select(fromPeerMapReducer.getExchangeCompanyJobsGridState)),
+        this.sharedPeerStore.pipe(select(fromSharedPeerReducer.getExchangeId)),
+        this.libsPeerMapStore.pipe(select(fromLibsPeerMapReducer.getPeerMapExchangeJobIdsFromSummary)),
+        (action, listState, exchangeId, exchangeJobIds) => {
+          return {ExchangeId: exchangeId, ListState: listState, ExchangeJobIdsInScope: exchangeJobIds};
+        }
+      ),
+      switchMap(payload =>
+        this.exchangeCompanyApiService.getExchangeCompanyJobsAllEntities(payload).pipe(
+          map((exchangeJobToCompanyJobIds: number[]) => {
+            return new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobsIdsSuccess(exchangeJobToCompanyJobIds);
+          }),
+          catchError(() => of(new fromExchangeCompanyJobGridActions.LoadExchangeCompanyJobsIdsError)
+          )
+        )
+      ));
 
   constructor(
     private actions$: Actions,
