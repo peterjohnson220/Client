@@ -1,4 +1,4 @@
-@import 'legacy-variables';
+@import 'legacy/legacy-variables';
 @import 'colors';
 @import 'common/common';
 @import 'job-result';
@@ -10,6 +10,24 @@
 .vendor{
   margin: .25rem 0;
   color: #848484;
+}
+
+.peer {
+  .vendor {
+    display: inline-block;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      height: 7px;
+      width: 7px;
+      top: 0;
+      right: -6px;
+      border-right: 1px solid #ffc107;
+      border-top: 1px solid #ffc107;
+    }
+  }
 }
 
 .loading-datacuts-error{

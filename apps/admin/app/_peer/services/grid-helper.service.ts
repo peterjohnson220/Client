@@ -12,6 +12,7 @@ import * as fromPayfactorsCompanyExchangeInvitations from '../actions/payfactors
 import * as fromNewCompanyExchangeInvitations from '../actions/new-company-exchange-invitations.actions';
 import * as fromExchangeJobRequestsActions from '../actions/exchange-job-requests.actions';
 import * as fromExchangeFiltersActions from '../actions/exchange-filters.actions';
+import * as fromTagCategoriesActions from '../actions/tag-categories.actions';
 
 @Injectable()
 export class GridHelperService {
@@ -86,5 +87,9 @@ export class GridHelperService {
         searchString: searchString
       }
     ));
+  }
+
+  loadTagCategories(query: string) {
+    return this.store.dispatch(new fromTagCategoriesActions.LoadTagCategories(query));
   }
 }

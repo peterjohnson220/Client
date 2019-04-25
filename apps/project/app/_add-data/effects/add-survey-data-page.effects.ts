@@ -15,9 +15,9 @@ import { SearchFilterMappingDataObj } from 'libs/features/search/models';
 import * as fromAddSurveyDataPageActions from '../actions/add-survey-data-page.actions';
 import * as fromContextActions from '../../survey-search/actions/context.actions';
 import * as fromSurveySearchFiltersActions from '../../survey-search/actions/survey-search-filters.actions';
-import { JobContext, ProjectSearchContext } from '../../survey-search/models';
+import { DataCutDetails, JobContext, ProjectSearchContext } from '../../survey-search/models';
 import * as fromSurveySearchReducer from '../../survey-search/reducers';
-import { SurveySearchFiltersHelper } from '../../survey-search/helpers';
+import { PayfactorsSurveySearchApiModelMapper, SurveySearchFiltersHelper } from '../../survey-search/helpers';
 
 @Injectable()
 export class AddSurveyDataPageEffects {
@@ -56,17 +56,16 @@ export class AddSurveyDataPageEffects {
         this.store.select(fromSurveySearchReducer.getProjectSearchContext),
         this.store.select(fromSurveySearchReducer.getSelectedDataCuts),
         (action: fromAddSurveyDataPageActions.AddData, jobContext: JobContext,
-         projectSearchContext: ProjectSearchContext, selectedDataCuts: DataCut[]) =>
+         projectSearchContext: ProjectSearchContext, selectedDataCuts: DataCutDetails[]) =>
           ({ action, jobContext, selectedDataCuts, projectSearchContext })),
       switchMap(jobContextAndCuts => {
-        return this.surveySearchApiService.addSurveyDataCuts({
-          CompanyJobId: jobContextAndCuts.jobContext.CompanyJobId,
-          ProjectId: jobContextAndCuts.projectSearchContext.ProjectId,
-          JobDataCuts: jobContextAndCuts.selectedDataCuts,
-          ExcludeFromParticipation: jobContextAndCuts.action.payload,
-          PayMarketId : jobContextAndCuts.jobContext.JobPayMarketId,
-          JobCode: jobContextAndCuts.jobContext.JobCode
-        })
+        return this.surveySearchApiService.addSurveyDataCuts(
+          PayfactorsSurveySearchApiModelMapper.buildAddSurveyDataCutRequest(
+          jobContextAndCuts.action.payload,
+          jobContextAndCuts.jobContext,
+          jobContextAndCuts.projectSearchContext,
+          jobContextAndCuts.selectedDataCuts)
+        )
           .pipe(
             mergeMap((addResponse: AddSurveyDataCutMatchResponse) => [
                 new fromAddSurveyDataPageActions.AddDataSuccess(addResponse.JobMatchIds),

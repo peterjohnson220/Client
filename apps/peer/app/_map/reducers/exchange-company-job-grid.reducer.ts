@@ -9,7 +9,10 @@ import { ExchangeCompanyJob } from '../models';
 export interface State extends EntityState<ExchangeCompanyJob> {
   loading: boolean;
   loadingError: boolean;
+  loadingAllIds: boolean;
+  loadingAllIdsError: boolean;
   total: number;
+  allIds: number[];
 }
 
 export const adapter: EntityAdapter<ExchangeCompanyJob> = createEntityAdapter<ExchangeCompanyJob>({
@@ -19,6 +22,9 @@ export const adapter: EntityAdapter<ExchangeCompanyJob> = createEntityAdapter<Ex
 const initialState: State = adapter.getInitialState({
   loading: false,
   loadingError: false,
+  loadingAllIds: false,
+  loadingAllIdsError: false,
+  allIds: [],
   total: 0
 });
 
@@ -59,6 +65,27 @@ export function reducer(state, action) {
             loadingError: true
           };
         }
+        case fromExchangeCompanyJobActions.LOAD_EXCHANGE_COMPANY_JOBS_IDS: {
+          return {
+            ...featureState,
+            loadingAllIds: true,
+            loadingAllIdsError: false
+          };
+        }
+        case fromExchangeCompanyJobActions.LOAD_EXCHANGE_COMPANY_JOBS_IDS_SUCCESS: {
+          return {
+            ...featureState,
+            allIds: action.exchangeJobToCompanyJobIds,
+            loadingAllIds: false,
+            loadingAllIdsError: false
+          };
+        }
+        case fromExchangeCompanyJobActions.LOAD_EXCHANGE_COMPANY_JOBS_IDS_ERROR: {
+          return {
+            ...featureState,
+            loadingAllIdsError: true
+          };
+        }
         default: {
           return featureState;
         }
@@ -72,3 +99,4 @@ export function reducer(state, action) {
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
+export const getAllIds = (state: State) => state.allIds;

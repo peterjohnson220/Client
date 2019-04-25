@@ -1,0 +1,29 @@
+<pf-async-container [loading]="companiesLoading$ | async"
+                    [loadingError]="companiesLoadingError$ | async"
+                    [loadingErrorMessage]="'Error Loading Companies'">
+    <pf-page-with-title-bar [absoluteUrl]="'/client/pf-admin/navigation'">
+        <ng-container page-title>
+            Company Management
+        </ng-container>
+
+        <ng-container page-actions>
+            <pf-input-debounce 
+                id="search-box"
+                [minWidth]="250"
+                (valueChanged)="updateSearchTerm($event)">
+            </pf-input-debounce>  
+            <button [routerLink]="'/companies/add'" class="btn btn-primary" type="submit">Add Company</button>
+        </ng-container>
+
+        <ng-container page-content>
+            <div class="column-scroll-container col-12">
+                <div class="column-scroll-inner scroll-y">
+                    <pf-companies-list
+                            [companiesList]="companies$ | async"
+                            [filter]="searchTerm$ | async">
+                    </pf-companies-list>
+                </div>
+            </div>
+        </ng-container>
+    </pf-page-with-title-bar>
+</pf-async-container>

@@ -42,7 +42,7 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i
@@ -99,7 +99,7 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i
@@ -196,7 +196,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i
@@ -305,7 +305,7 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i
@@ -362,7 +362,7 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i
@@ -430,7 +430,7 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip="zoos"
             >
-              zoos
+               zoos
             </label>
             
             <i

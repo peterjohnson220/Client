@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 
 import { DebounceClickDirective } from './directives';
-import { HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
-  NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag } from './pipes';
+import {
+  HighlightTextPipe, HumanizeNumberPipe, StringReplacePipe, TruncateAfterPipe,
+  NewLinePipe, JobDescriptionParserPipe, WrapSubtextWithTag, DataTypeFilterPipe
+} from './pipes';
 
 
 const declarations = [
@@ -15,6 +17,7 @@ const declarations = [
   StringReplacePipe,
   TruncateAfterPipe,
   NewLinePipe,
+  DataTypeFilterPipe,
   JobDescriptionParserPipe,
   WrapSubtextWithTag
 ];

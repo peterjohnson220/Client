@@ -6,7 +6,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 
-import { DataType } from 'libs/models/security/roles/data-type';
+import { DataType } from 'libs/models/security/roles/data-type.model';
 import { RolesApiService } from 'libs/data/payfactors-api/company-admin';
 import { UserAssignedRole, UserAndRoleModel } from 'libs/models/security/roles';
 import { RoleApiResponse } from '../constants/user-role.constants';
@@ -16,9 +16,6 @@ import * as fromDataAccessActions from '../actions/data-access-tab.action';
 import * as fromUserRoleUserTabActions from '../actions/user-role-users-tab.action';
 import * as fromUserRoleFunctionTabActions from '../actions/user-role-functions-tab.action';
 import * as fromUserRoleViewReducer from '../reducers';
-
-
-
 
 @Injectable()
 export class UserRoleEffects {
@@ -59,6 +56,7 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
+          new fromDataAccessActions.UpdateCurrentRoleDataRestrictions(action.payload.DataRestrictions),
           new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
         new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );
@@ -67,7 +65,8 @@ export class UserRoleEffects {
   saveAllChanges$: Observable<Action> = this.actions$
     .ofType(fromUserRoleActions.SAVE_ALL_CHANGES).pipe(
       switchMap((action: fromUserRoleActions.SaveAllChanges) => {
-        return this.adminRolesApi.saveRole(action.payload.PermissionIdsToSave, action.payload.UserIdsToAssign,
+        return this.adminRolesApi.saveRole(action.payload.PermissionIdsToSave,
+          action.payload.UserIdsToAssign, action.payload.DataRestrictions,
           action.payload.CurrentRole.RoleId, action.payload.CurrentRole.IsSystemRole).pipe(
           mergeMap(response => {
             const actions = [];
@@ -87,7 +86,9 @@ export class UserRoleEffects {
   cancelAllChanges$: Observable<Action> = this.actions$
     .ofType(fromUserRoleActions.CANCEL_ALL_CHANGES).pipe(
       mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
-        [new fromUserRoleUserTabActions.CancelChanges(), new fromUserRoleFunctionTabActions.CancelPermissionChanges()])
+        [new fromUserRoleUserTabActions.CancelChanges(),
+          new fromUserRoleFunctionTabActions.CancelPermissionChanges(),
+          new fromDataAccessActions.CancelRoleDataRestrictionChanges()])
     );
 
     @Effect()

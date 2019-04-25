@@ -7,7 +7,7 @@
       [loadingErrorMessage]="'Error loading associations'"
       [hideReloadButton]="true"
     >
-      <div *ngIf="companyJobs.length > 0 || previousAssociations.length > 0">
+      <div *ngIf="hasAssociations()">
         <table>
           <thead>
             <tr>
@@ -18,30 +18,58 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let companyJob of companyJobs; trackBy: trackByFn">
+            <tr *ngFor="let companyJob of newAssociations; trackBy: trackByFn">
               <td>
-                <button class="remove-association-button" title="Remove" (click)="handleRemoveAssociate(companyJob.CompanyJobId)">
+                <button class="association-action-button" title="Remove"
+                        (click)="handleRemoveNewAssociate(companyJob.CompanyJobId)">
                   <i class="fas fa-times"></i>
                 </button>
               </td>
-              <td><pf-half-complete-icon title="Unsaved Association"></pf-half-complete-icon></td>
-              <td class="font-italic">{{companyJob.JobTitle}}</td>
-              <td class="font-italic">{{companyJob.JobCode}}</td>
-            </tr>
-            <tr *ngFor="let previousAssociation of previousAssociations">
               <td>
-                <!-- remove button here -->
+                <pf-half-complete-icon title="Unsaved Association">
+                </pf-half-complete-icon>
               </td>
-              <td><pf-complete-icon title="Saved Association"></pf-complete-icon></td>
-              <td>{{previousAssociation.JobTitle}}</td>
-              <td>{{previousAssociation.JobCode}}</td>
+              <td class="font-italic show-tooltip">{{companyJob.JobTitle}}</td>
+              <td class="font-italic show-tooltip">{{companyJob.JobCode}}</td>
+            </tr>
+            <tr *ngFor="let previousAssociation of previousAssociations; trackBy: trackByFn">
+              <td>
+                <span *ngIf="isPendingRemoval(previousAssociation.CompanyJobId); else isNotPendingRemoval">
+                  <button class="association-action-button" title="Undo"
+                          (click)="handleUndoRemovePreviousAssociation(previousAssociation.CompanyJobId)">
+                    <i class="fas fa-undo"></i>
+                  </button>
+                </span>
+                <ng-template #isNotPendingRemoval>
+                  <button class="association-action-button" title="Remove"
+                          (click)="handleRemovePreviousAssociation(previousAssociation.CompanyJobId)">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </ng-template>
+              </td>
+              <td>
+                <span *ngIf="isPendingRemoval(previousAssociation.CompanyJobId); else isNotPendingRemoval2">
+                  <pf-complete-icon [isActive]="false" title="Saved Association (Pending Deletion)">
+                  </pf-complete-icon>
+                </span>
+                <ng-template #isNotPendingRemoval2>
+                  <pf-complete-icon [isActive]="true" title="Saved Association">
+                  </pf-complete-icon>
+                </ng-template>
+              </td>
+              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''" class="show-tooltip">
+                {{previousAssociation.JobTitle}}
+              </td>
+              <td [ngClass]="isPendingRemoval(previousAssociation.CompanyJobId) ? 'strike' : ''" class="show-tooltip">
+                {{previousAssociation.JobCode}}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </pf-async-container>
   </div>
-  <div *ngIf="!loadingPreviousAssociations && !loadingPreviousAssociationsError && !companyJobs.length && !previousAssociations.length">
+  <div *ngIf="!loadingPreviousAssociations && !loadingPreviousAssociationsError && !hasAssociations()">
     <i>No Associations</i>
   </div>
 </div>

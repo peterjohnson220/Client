@@ -31,3 +31,5 @@ export * from './exchange-request-action.model';
 export * from './company-exchange-invitation-action.model';
 export * from './exchange-request-people-to-notify.enum';
 export * from './exchange-search-filter-aggregate.model';
+export * from './tag-category.model';
+export * from './entity-types-flag.enum';

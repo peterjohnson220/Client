@@ -8,7 +8,7 @@ import {
   ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompaniesComponent, ExchangeJobsComponent,
   ExchangeAccessRequestsComponent, PayfactorsCompanyExchangeInvitationsComponent,
   NewCompanyExchangeInvitationsComponent, ExchangeJobRequestsComponent, ExchangeJobAssociationUtilityPageComponent,
-  ManageExchangeFiltersComponent
+  ManageExchangeFiltersComponent, TagCategoriesPageComponent
 } from './containers';
 import { ExchangeExistsGuard } from './guards';
 
@@ -28,6 +28,7 @@ const routes: Routes = [
     ]
   },
   { path: 'exchangejobassociationutility', component: ExchangeJobAssociationUtilityPageComponent },
+  { path: 'tagcategories', component: TagCategoriesPageComponent},
   { path: 'exchange-not-found', component: NotFoundErrorPageComponent },
   { path: '**', component: NotFoundErrorPageComponent }
 ];

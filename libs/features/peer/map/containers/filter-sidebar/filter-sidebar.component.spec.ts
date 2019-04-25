@@ -2,10 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import {of} from 'rxjs/internal/observable/of';
 import spyOn = jest.spyOn;
 
 import * as fromRootState from 'libs/state/state';
-import { generateMockFilterAggregateGroup } from 'libs/models';
+import {generateMockFilterAggregateGroup, generateMockPayMarket} from 'libs/models';
 
 import * as fromFilterSidebarActions from '../../actions/filter-sidebar.actions';
 import * as fromFeaturePeerMapReducer from '../../../map/reducers';
@@ -84,5 +85,25 @@ describe('Features - Peer - Filter Sidebar Component', () => {
     instance.handleClearAllSelections();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it(`should not display "Pay Market Only" filter when shouldShowPayMarketBoundsFilter is false`, () => {
+    instance.hasAdditionalJobLevels$ = of(true);
+    instance.shouldShowExcludeIndirectJobMatchesFilter = true;
+    instance.shouldShowPayMarketBoundsFilter = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it(`should not display "Exclude Indirect Matches" filter when shouldShowExcludeIndirectJobMatchesFilter is false`, () => {
+    instance.payMarket$ = of(generateMockPayMarket());
+    instance.shouldShowPayMarketBoundsFilter = true;
+    instance.shouldShowExcludeIndirectJobMatchesFilter = false;
+
+    fixture.detectChanges();
+
+    expect(fixture).toMatchSnapshot();
   });
 });

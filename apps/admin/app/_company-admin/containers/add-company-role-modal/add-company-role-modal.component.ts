@@ -112,6 +112,7 @@ export class AddCompanyRoleModalComponent implements OnInit, OnDestroy {
       IsSystemRole: false,
       Assigned: false,
       Permissions: [],
+      DataRestrictions: []
     };
   }
 }

@@ -1,13 +1,12 @@
 <div *ngIf="salaryTrendData?.Data.length" data-qa-id="cht-salary-trend">
-  <div class="d-flex flex-row">
-    <h2 *ngIf="salaryTrendData.PercentageChange !== 0" [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
+  <div class="percentage-change" [attr.data-qa-id]="'cnt-percentageChange'">
+    <span *ngIf="salaryTrendData.PercentageChange !== 0"
+          [ngClass]="salaryTrendData.PercentageChange > 0 ? 'plus-sign' : 'text-danger'">
       {{salaryTrendData.PercentageChange > 0 ? '+' : '-' }}
-    </h2>
-    <h1 class="header-blue">{{absoluteValueOfPercentageChange | number : '1.2-2'}}%</h1>
-    <div class="date-range ml-auto" *ngIf="salaryTrendData?.Data">
-      ({{salaryTrendData.Data[0].EffectiveDate | date : 'MM/yyyy'}} - {{salaryTrendData.Data[salaryTrendData.Data.length - 1].EffectiveDate | date : 'MM/yyyy'}})
-    </div>
+    </span>
+    {{absoluteValueOfPercentageChange | number : '1.2-2'}}%
   </div>
+
   <kendo-chart>
     <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
     <kendo-chart-value-axis>

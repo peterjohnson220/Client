@@ -18,11 +18,13 @@ export interface ExchangeDataSearchFilter extends SystemFilter {
   TopLeft: GeoCoordinates;
   BottomRight: GeoCoordinates;
   ClusterPrecision: number;
+  IsFilteredBySimilarExchangeJobIds: boolean;
 }
 
 export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter {
   return {
     ExchangeJobIds: [1, 2, 4],
+    SimilarExchangeJobIds: [1, 2, 4],
     PayMarketLocation: generateMockPayMarketLocation(),
     ExchangeId: 1,
     ExchangeIds: [1, 2],
@@ -39,6 +41,7 @@ export function generateMockExchangeDataSearchFilter(): ExchangeDataSearchFilter
     ExchangeJobFLSAStatuses: ['MockExchangeJobFLSAStatus'],
     TopLeft: generateMockGeoCoordinates(),
     BottomRight: generateMockGeoCoordinates(),
-    ClusterPrecision: 12
+    ClusterPrecision: 12,
+    IsFilteredBySimilarExchangeJobIds: false
   };
 }

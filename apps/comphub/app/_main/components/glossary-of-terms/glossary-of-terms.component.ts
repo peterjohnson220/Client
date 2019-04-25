@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'pf-glossary-of-terms',
@@ -7,17 +7,17 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 })
 export class GlossaryOfTermsComponent {
   @ViewChild('termsContainer') private termsContainerElement: ElementRef;
-
-  isOpen = false;
+  @Input() open: boolean;
+  @Output() close = new EventEmitter();
 
   constructor() { }
 
   handleCloseClicked() {
-    this.isOpen = false;
     this.termsContainerElement.nativeElement.scrollTop = 0;
+    this.close.emit();
   }
 
-  handleClickElsewhere(event) {
+  handleClickElsewhere() {
     this.handleCloseClicked();
   }
 

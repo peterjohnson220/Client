@@ -1,0 +1,45 @@
+<div class="table-responsive" *ngIf="companiesList">
+    <kendo-grid [data]="gridView | companySearch :filter :companiesList :state"
+            [pageSize]="gridTakeAmount$ | async"
+            [skip]="gridSkipAmount$ | async"
+            [pageable]="true"
+            [selectable]="true"
+            (pageChange)="pageChange($event)"
+            (selectionChange)="gridSelectionChange($event)">
+        <kendo-grid-column field="CompanyId" title="Id" [width]="65">
+        </kendo-grid-column>
+        <kendo-grid-column field="CompanyName" title="Company Name" [width]="300">
+        </kendo-grid-column>
+        <kendo-grid-column field="ClientType" title="Client Type" [width]="175">
+        </kendo-grid-column>
+        <kendo-grid-column field="GroupDisplayName" title="Repository" [width]="325">
+        </kendo-grid-column>
+        <kendo-grid-column field="Status" title="Status" [width]="165">
+        </kendo-grid-column>
+        <kendo-grid-column field="ServicesRep" title="Services Rep" [width]="220">
+        </kendo-grid-column>
+        <kendo-grid-column field="CustomerSuccessMgr" title="Customer Success Mgr" [width]="220">
+        </kendo-grid-column>
+        <kendo-grid-column field="TicketCount" title="Open Tickets" [width]="125">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <a (click)="$event.stopPropagation()"
+              href="/marketdata/admin/tickets.asp?company_id={{dataItem.CompanyId}}">{{dataItem.TicketCount > 0 ? dataItem.TicketCount : "-"}}</a>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="NotesCount" title="Notes" [width]="80">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <a (click)="$event.stopPropagation()"
+              href="/marketdata/admin/notes.asp?company_id={{dataItem.CompanyId}}">{{dataItem.NotesCount > 0 ? dataItem.NotesCount : "-"}}</a>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="UserCount" title="Users" [width]="85">
+          <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+            <a (click)="$event.stopPropagation()"
+              href="/client/admin/company-admin/{{dataItem.CompanyId}}/users">{{dataItem.UserCount}}</a>
+          </ng-template>
+        </kendo-grid-column>
+    </kendo-grid>
+</div>
+<div *ngIf="!loading && !companiesList">
+    <h5>No Companies</h5>
+</div>

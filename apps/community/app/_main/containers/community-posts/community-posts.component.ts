@@ -9,16 +9,13 @@ import * as fromCommunityPostReducer from '../../reducers';
 import * as fromCommunityPostActions from '../../actions/community-post.actions';
 
 import * as fromCommunityPostReplyReducer from '../../reducers';
-import * as fromCommunityPollReducer from '../../reducers';
 import * as fromCommunityPostFilterOptionsReducer from '../../reducers';
 
-import * as fromCommunityPostReplyActions from '../../actions/community-post-reply.actions';
 import * as fromCommunityPostFilterOptionsActions from '../../actions/community-post-filter-options.actions';
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
-import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 
-import { CommunityPost, CommunityPollResponse } from 'libs/models/community';
+import { CommunityPost } from 'libs/models/community';
 import { environment } from 'environments/environment';
 import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 import { CommunityTag } from 'libs/models/community/community-tag.model';
@@ -36,7 +33,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   avatarUrl = environment.avatarSource;
   communityPosts$: Observable<CommunityPost[]>;
   maximumReplies$: Observable<number>;
-  communityPollResponseSubmitted$: Observable<CommunityPollResponse>;
   loadingCommunityPosts$: Observable<boolean>;
   loadingNextBatchCommunityPosts$: Observable<boolean>;
   loadingPreviousBatchCommunityPosts$: Observable<boolean>;
@@ -45,13 +41,9 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   filteredByPost$: Observable<boolean>;
   totalDiscussionResultsOnServer$: Observable<number>;
 
-  showAddReply = {};
-  showReplies = [];
-
   communityPosts: CommunityPost[];
   pollsType = CommunityPollTypeEnum.DiscussionPoll;
 
-  loadingPostsSubscription: Subscription;
   communityPostsSubscription: Subscription;
   loadingNextBatchCommunityPostsSubscription: Subscription;
   loadingPreviousBatchCommunityPostsSubscription: Subscription;
@@ -74,8 +66,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.maximumReplies$ = this.store.select(fromCommunityPostReducer.getMaximumReplies);
 
     this.loadingCommunityPosts$ = this.store.select(fromCommunityPostReducer.getGettingCommunityPosts);
-    this.communityPollResponseSubmitted$ = this.store.select(fromCommunityPollReducer.getSubmittingCommunityPollRequestResponses);
-
     this.loadingNextBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingNextBatchPosts);
     this.loadingPreviousBatchCommunityPosts$ = this.store.select(fromCommunityPostReducer.getLoadingPreviousBatchPosts);
     this.totalDiscussionResultsOnServer$ = this.store.select(fromCommunityPostReducer.getTotalDiscussionResultsOnServer);
@@ -109,13 +99,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
       }
     });
 
-
-    this.loadingPostsSubscription = this.loadingCommunityPosts$.subscribe(model => {
-      if (model) {
-        this.showReplies = [];
-      }
-    });
-
     this.communityPostsSubscription = this.communityPosts$.subscribe(posts => {
       if (posts != null) {
         this.communityPosts = posts;
@@ -125,14 +108,12 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.loadingNextBatchCommunityPostsSubscription = this.loadingNextBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
         this.loadingNextBatchCommunityPosts = value;
-        this.showReplies = [];
       }
     });
 
     this.loadingPreviousBatchCommunityPostsSubscription = this.loadingPreviousBatchCommunityPosts$.subscribe(value => {
       if (value != null) {
         this.loadingPreviousBatchCommunityPosts = value;
-        this.showReplies = [];
       }
     });
 
@@ -152,10 +133,6 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.communityPostsSubscription) {
       this.communityPostsSubscription.unsubscribe();
-    }
-
-    if (this.loadingPostsSubscription) {
-      this.loadingPostsSubscription.unsubscribe();
     }
 
     if (this.loadingNextBatchCommunityPostsSubscription) {
@@ -191,35 +168,8 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromCommunityPostActions.GettingCommunityPosts());
   }
 
-  getReplies(item: number, postId: number) {
-    this.showReplies[ item ] = !this.showReplies[ item ];
-    this.getCommunityPostReplies(postId);
-  }
-
-  hideReplies(item: number, postId: number) {
-    this.showReplies[ item ] = !this.showReplies[ item ];
-    this.clearRepliesFromAddView(postId);
-    this.getCommunityPostReplies(postId);
-  }
-
-  clearRepliesFromAddView(postId: number) {
-    this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies());
-  }
-
-  getCommunityPostReplies(postId: number) {
-    this.replyStore.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
-  }
-
   trackByPostId(index, item: CommunityPost) {
     return item.Id;
-  }
-
-  showReply(item: number) {
-    this.showAddReply[ item ] = !this.showAddReply[ item ];
-  }
-
-  onReplySubmitted(item: number) {
-    this.showReply(item);
   }
 
   filtersModified() {

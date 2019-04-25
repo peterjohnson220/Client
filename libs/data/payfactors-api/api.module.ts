@@ -7,7 +7,7 @@ import { UiPersistenceSettingsApiService, CompanySettingsApiService } from './se
 import { AccountApiService} from './auth';
 import { PayMarketApiService } from './paymarket';
 import { ExchangeApiService, ExchangeCompanyApiService, ExchangeDataSearchApiService,
-         ExchangeScopeApiService, ExchangeDataCutsApiService, JobAssociationApiService } from './peer';
+         ExchangeScopeApiService, ExchangeDataCutsApiService } from './peer';
 import { CompanySecurityApiService } from './security';
 import { SurveySearchApiService, JobSearchApiService } from './search';
 import { DashboardApiService } from './dashboard';
@@ -27,7 +27,8 @@ import { IntegrationApiService } from './integration';
 import { ComphubApiService } from './comphub';
 import { MarketDataScopeApiService } from './paymarket';
 import { FileApiService } from './file';
-import {PermissionService, RemoteDataSourceService} from '../../core/services';
+import { TagApiService } from './tags';
+import { PermissionService, RemoteDataSourceService } from '../../core/services';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -39,7 +40,6 @@ import {PermissionService, RemoteDataSourceService} from '../../core/services';
     ExchangeApiService,
     ExchangeCompanyApiService,
     ExchangeDataSearchApiService,
-    JobAssociationApiService,
     NavigationApiService,
     UiPersistenceSettingsApiService,
     AccountApiService,
@@ -70,6 +70,7 @@ import {PermissionService, RemoteDataSourceService} from '../../core/services';
     FileApiService,
     PermissionService,
     RemoteDataSourceService,
+    TagApiService
   ]
 })
 export class PfApiModule { }

@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 
 import { WindowRef } from 'libs/core/services';
 import * as fromRootState from 'libs/state/state';
+import { PfCommonModule } from 'libs/core';
 
 import { DataCardComponent } from './data.card.component';
 import * as fromComphubMainReducer from '../../../reducers';
@@ -25,7 +26,8 @@ describe('Comphub - Main - Data Card Component', () => {
         StoreModule.forRoot({
           ...fromRootState.reducers,
           comphub_main: combineReducers(fromComphubMainReducer.reducers),
-        })
+        }),
+        PfCommonModule
       ],
       providers: [
         {

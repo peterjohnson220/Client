@@ -3,10 +3,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
+import { SurveySearchResultDataSources } from 'libs/constants';
 
 import { JobResultComponent } from './job-result.component';
 import { generateMockPayfactorsJobResult, generateMockSurveyJobResult, generateMockDataCut, SurveyDataCut,
-  MatchesDetailsTooltipData } from '../../models';
+  MatchesDetailsTooltipData, DataCutDetails} from '../../models';
 import * as fromSurveySearchReducer from '../../reducers';
 import * as fromSurveySearchResultsActions from '../../actions/survey-search-results.actions';
 
@@ -172,6 +173,30 @@ describe('Project - Survey Search - Job Result', () => {
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should emit cutSelected with peer data cut details when a peer cut is selected', () => {
+    spyOn(instance.cutSelected, 'emit');
+
+    instance.job = { ...generateMockSurveyJobResult(),
+      DataSource: SurveySearchResultDataSources.Peer,
+      PeerJobInfo: {
+        Id: 'PEER_10_1254',
+        ExchangeId: 10,
+        ExchangeJobId: 751
+      }
+    };
+
+    const expectedDataCutDetails: DataCutDetails = {
+      DataSource: SurveySearchResultDataSources.Peer,
+      Job: instance.job,
+      Base50th: instance.job.Base50th,
+      TCC50th: instance.job.TCC50th
+    };
+
+    instance.handlePeerCutSelected();
+
+    expect(instance.cutSelected.emit).toBeCalledWith(expectedDataCutDetails);
   });
 
 });
