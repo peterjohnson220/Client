@@ -17,6 +17,7 @@ export class CommunitySearchResultsComponent {
   loadingSearchResults$: Observable<boolean>;
   loadingSearchResultsError$: Observable<boolean>;
   communitySearchResults$: Observable<CommunitySearchResult[]>;
+  searchTerm: string;
 
   constructor(public store: Store<fromCommunitySearchReducer.State>) {
 
@@ -26,6 +27,7 @@ export class CommunitySearchResultsComponent {
   }
 
   executeSearch(query) {
+    this.searchTerm = query;
     this.store.dispatch(new fromCommunitySearchActions.SearchingCommunity(query));
   }
 

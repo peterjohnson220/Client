@@ -9,7 +9,8 @@
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"></pf-community-search-result-header>
-          <pf-community-search-result-content [content]="result.Content"></pf-community-search-result-content>
+          <pf-community-search-result-content [content]="result.Content"
+                                              [searchTerm]="searchTerm"></pf-community-search-result-content>
           <div class="footer-container">
             <span> <i class="fas fa-heart icon"></i> {{result.LikeCount}} Likes</span>
             <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
