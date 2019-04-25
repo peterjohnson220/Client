@@ -32,7 +32,9 @@
     <div class="row" *ngIf="companyDetail.RecentTicketIds.length">
       <div class="col-sm">
         <div class="card-subtitle mb-1">Recent Tickets</div>
-        <div *ngFor="let ticketId of companyDetail.RecentTicketIds">{{ticketId}}</div>
+        <div *ngFor="let ticketId of companyDetail.RecentTicketIds">
+          <a href="javascript:void(0)" (click)="openTicket(ticketId)" title="{{ticketId.Title}}">{{ticketId.UserTicketId}}</a>
+        </div>
       </div>
     </div>
   </div>
