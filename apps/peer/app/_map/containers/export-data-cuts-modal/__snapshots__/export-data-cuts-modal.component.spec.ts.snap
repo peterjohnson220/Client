@@ -2,6 +2,9 @@
 
 exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchange company jobs grid when exportDataCutsModalOpen$ is true 1`] = `
 <pf-export-data-cuts-modal
+  allIds={[Function Array]}
+  allIds$={[Function Store]}
+  allIdsSubscription={[Function Subscriber]}
   attemptedSubmit="false"
   exchangeCompanyJobsLoading$={[Function Store]}
   exchangeCompanyJobsLoadingError$={[Function Store]}
@@ -30,6 +33,7 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
   <pf-modal-form
     class="ng-touched ng-pristine ng-invalid"
     ng-reflect-form="[object Object]"
+    primarybuttonclass="btn-primary ml-3"
     title="Export Data Cuts"
   >
     
@@ -87,6 +91,24 @@ exports[`Peer - Map - Export Data Cuts Modal should show a modal with an exchang
         value=""
       />
       
+    </div>
+    
+    <div
+      class="selection-action-links space-out-children"
+    >
+      <div
+        class="pf-link disabled"
+      >
+         Clear All
+      </div>
+      <div
+        class="vertical-separator-inset"
+      />
+      <div
+        class="pf-link disabled"
+      >
+        Select All (0)
+      </div>
     </div>
     
     <small>

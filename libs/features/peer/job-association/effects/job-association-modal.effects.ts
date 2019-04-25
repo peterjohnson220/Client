@@ -18,25 +18,30 @@ export class JobAssociationModalEffects {
   @Effect()
   saveJobAssociations$: Observable<Action> = this.actions$.pipe(
     ofType(fromJobAssociationModalActions.SAVE_JOB_ASSOCIATIONS),
+    // grab associations to add
     withLatestFrom(
       this.store.pipe(
         select(fromReducer.getExchangeJobAssociations)),
-      (action, exchangeJobAssociations: ExchangeJobAssociation[]) => ({ exchangeJobAssociations })
+      (action, exchangeJobAssociations: ExchangeJobAssociation[]) => exchangeJobAssociations
     ),
-    map(exchangeJobAssociations => exchangeJobAssociations.exchangeJobAssociations
-      .map((associations => ({
-          ExchangeId: associations.ExchangeId,
-          ExchangeJobId: associations.ExchangeJobId,
-          CompanyJobIds: associations.CompanyJobs.map(({ CompanyJobId }) => CompanyJobId) })
-      ))
+    // grab associations to remove
+    withLatestFrom(
+      this.store.pipe(
+        select(fromReducer.getPreviousAssociationsToDelete)),
+        (exchangeJobAssociations: ExchangeJobAssociation[], associationsToDelete) => ({exchangeJobAssociations, associationsToDelete})
     ),
-    switchMap(associations =>
-      this.exchangeCompanyApiService.saveJobAssociations(associations).pipe(
-        map(() => {
+    switchMap( combined =>
+      this.exchangeCompanyApiService.saveJobAssociations({
+            AssociationsToAdd: combined.exchangeJobAssociations.map((associations => ({
+              ExchangeId: associations.ExchangeId,
+              ExchangeJobId: associations.ExchangeJobId,
+              CompanyJobIds: associations.CompanyJobs.map(({ CompanyJobId }) => CompanyJobId) })
+          )),
+            AssociationsToRemove: combined.associationsToDelete
+        }).pipe(map(() => {
           return new fromJobAssociationModalActions.SaveJobAssociationsSuccess();
         }),
-        catchError(() => of(new fromJobAssociationModalActions.SaveJobAssociationsError())
-        )
+        catchError(() => of(new fromJobAssociationModalActions.SaveJobAssociationsError()))
       )
     )
   );

@@ -39,6 +39,8 @@ describe('CompanyJobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CompanyJobsComponent);
     component = fixture.componentInstance;
+    component.companyJobSearchComponent = {} as any;
+    component.companyJobSearchComponent.writeValue = () => {};
   });
 
   it('should create', () => {

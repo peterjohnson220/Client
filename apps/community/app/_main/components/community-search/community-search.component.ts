@@ -20,4 +20,18 @@ export class CommunitySearchComponent implements OnInit {
       this.searchEvent.emit(this.searchBoxText);
     }
   }
+
+  clearValue() {
+    this.searchBoxText = '';
+  }
+
+  searchClick() {
+    if (this.searchBoxText.trim().length > 0) {
+      this.searchEvent.emit(this.searchBoxText);
+    }
+  }
+
+  isClear() {
+    return !this.searchBoxText || this.searchBoxText.length < 1;
+  }
 }

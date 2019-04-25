@@ -250,8 +250,12 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should display USD for currency when active market data is USA', () => {
-    instance.activeCountryDataSet$ = of(generateMockCountryDataSet());
     instance.firstDayOfMonth = new Date(2019, 2, 1);
+    instance.workflowContext.activeCountryDataSet = {
+      ...generateMockCountryDataSet(),
+      CountryCode: 'USA',
+      CurrencyCode: 'USD'
+    };
 
     fixture.detectChanges();
 
@@ -259,11 +263,12 @@ describe('Comphub - Main - Summary Card Component', () => {
   });
 
   it('should display CAD for currency when active market data is Canada', () => {
-    instance.activeCountryDataSet$ = of({
-      ...generateMockCountryDataSet(),
-      CurrencyCode: 'CAD'
-    });
     instance.firstDayOfMonth = new Date(2019, 2, 1);
+    instance.workflowContext.activeCountryDataSet = {
+      ...generateMockCountryDataSet(),
+      CountryCode: 'CAN',
+      CurrencyCode: 'CAD'
+    };
 
     fixture.detectChanges();
 

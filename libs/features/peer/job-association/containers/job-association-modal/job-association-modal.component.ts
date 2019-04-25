@@ -14,14 +14,17 @@ import { ExchangeJobAssociation } from '../../models';
 export class JobAssociationModalComponent implements OnInit, OnDestroy {
   // Observables
   exchangeJobAssociations$: Observable<ExchangeJobAssociation[]>;
+  exchangeJobAssociationsToRemove$: Observable<number[]>;
   saving$: Observable<boolean>;
   savingError$: Observable<boolean>;
 
   // Subscriptions
   exchangeJobAssociationsSubscription: Subscription;
+  exchangeJobAssociationsToRemoveSubscription: Subscription;
 
   // Properties
   exchangeJobAssociations: ExchangeJobAssociation[];
+  exchangeJobAssociationsToRemove: number[];
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
@@ -29,25 +32,29 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Register Observables
     this.exchangeJobAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations));
+    this.exchangeJobAssociationsToRemove$ = this.store.pipe(select(fromJobAssociationReducers.getPreviousAssociationsToDelete));
     this.saving$ = this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalSaving));
     this.savingError$ = this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalSavingError));
 
     // Register Subscriptions
     this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
       .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
+    this.exchangeJobAssociationsToRemoveSubscription = this.exchangeJobAssociationsToRemove$.
+      subscribe((exchangeJobToCompanyJobIds) => this.exchangeJobAssociationsToRemove = exchangeJobToCompanyJobIds);
 
     this.store.dispatch(new jobAssociationModalActions.Initialize());
   }
 
   ngOnDestroy(): void {
     this.exchangeJobAssociationsSubscription.unsubscribe();
+    this.exchangeJobAssociationsToRemoveSubscription.unsubscribe();
   }
 
   isSaveButtonEnabled(): boolean {
-    if (!this.exchangeJobAssociations) {
+    if (!this.exchangeJobAssociations && !this.exchangeJobAssociationsToRemove) {
       return false;
     }
-    return this.exchangeJobAssociations.length > 0;
+    return this.exchangeJobAssociations.length > 0 || this.exchangeJobAssociationsToRemove.length > 0;
   }
 
   saveJobAssociations(): void {

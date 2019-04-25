@@ -131,3 +131,8 @@ export const getExchangeCompanyJobsGridData = createSelector(
     return { data: data, total: total };
   }
 );
+
+export const getExchangeCompanyJobsAllIds = createSelector(
+  selectExchangeCompanyJobsFeatureState,
+  fromExchangeCompanyJobsReducer.getAllIds
+);

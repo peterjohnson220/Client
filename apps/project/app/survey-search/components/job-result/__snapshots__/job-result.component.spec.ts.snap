@@ -15,12 +15,12 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
+  surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
 >
   <div
     class="result job-result-row"
-    ng-reflect-klass="result job-result-row"
-    ng-reflect-ng-class="[object Object]"
+    data-qa-id="cnt-DataSource-Surveys"
   >
     <div
       class="d-flex justify-content-between"
@@ -49,10 +49,12 @@ exports[`Project - Survey Search - Job Result should not show Load More link whe
     <div
       class="vendor"
     >
-       Hewitt Associates 
       
       
-      - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+      
+       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+      
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -102,12 +104,12 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
+  surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
 >
   <div
     class="result job-result-row"
-    ng-reflect-klass="result job-result-row"
-    ng-reflect-ng-class="[object Object]"
+    data-qa-id="cnt-DataSource-Surveys"
   >
     <div
       class="d-flex justify-content-between"
@@ -136,10 +138,12 @@ exports[`Project - Survey Search - Job Result should show Load More link when th
     <div
       class="vendor"
     >
-       Hewitt Associates 
       
       
-      - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+      
+       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+      
+      
     </div>
     <div
       class="d-flex mt-2"
@@ -194,12 +198,12 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
   showCutsLabel={[Function String]}
   showDataCuts={[Function Boolean]}
   store={[Function Store]}
+  surveySearchResultDataSources={[Function Object]}
   toggleDataCutsLabel={[Function String]}
 >
   <div
     class="result job-result-row"
-    ng-reflect-klass="result job-result-row"
-    ng-reflect-ng-class="[object Object]"
+    data-qa-id="cnt-DataSource-Surveys"
   >
     <div
       class="d-flex justify-content-between"
@@ -228,10 +232,12 @@ exports[`Project - Survey Search - Job Result should show error state if issue l
     <div
       class="vendor"
     >
-       Hewitt Associates 
       
       
-      - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10)
+      
+       Hewitt Associates - TCM Executive Long Term Incentives Total Compensation by Industry (4/1/10) 
+      
+      
     </div>
     <div
       class="d-flex mt-2"

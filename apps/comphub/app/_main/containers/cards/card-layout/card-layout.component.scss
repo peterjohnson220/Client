@@ -1,6 +1,10 @@
 @import 'comphub-page';
 @import 'comphub-styles';
 
+.comphub-page {
+  height: 100%;
+}
+
 .close-app-btn{
   position: absolute;
   right: 10px;

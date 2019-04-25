@@ -5,7 +5,7 @@ import * as cloneDeep from 'lodash.clonedeep';
 
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
-import {GridActions, ToggleRowSelection} from '../actions/grid.actions';
+import {GridActions, SetSelections, ToggleRowSelection} from '../actions/grid.actions';
 import { KendoGridFilterHelper } from '../helpers';
 import { GridTypeEnum } from '../../models/common';
 
@@ -98,6 +98,22 @@ const getGridReducer = (gridType: GridTypeEnum, initialState: IGridState = initi
         }
 
         return newState;
+      }
+      case `${gridType}_${fromGridActions.SET_SELECTIONS}`: {
+        const setAction = action as SetSelections;
+        const selections = setAction.payload;
+        const entityIdsOnPage = setAction.pageEntityIds;
+
+        let newSelectAllState: SelectAllCheckboxState = state.selectAllState;
+
+        if (!!entityIdsOnPage) {
+          newSelectAllState = getSelectAllState(selections, entityIdsOnPage);
+        }
+        return {
+          ...state,
+          selections: selections,
+          selectAllState: newSelectAllState
+        };
       }
       case `${gridType}_${fromGridActions.SET_SELECT_ALL_STATE}`: {
         const entityIdsOnPage = action.payload;

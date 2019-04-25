@@ -39,7 +39,7 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
   creatingProjectError$: Observable<boolean>;
   canAccessProjectsTile$: Observable<boolean>;
   userContext$: Observable<UserContext>;
-  activeCountryDataSet$: Observable<CountryDataSet>;
+  glossaryOpen$: Observable<boolean>;
 
   selectedJobDataSubscription: Subscription;
   selectedPaymarketSubscription: Subscription;
@@ -68,8 +68,8 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
     this.creatingProject$ = this.store.select(fromComphubMainReducer.getCreatingProject);
     this.creatingProjectError$ = this.store.select(fromComphubMainReducer.getCreatingProjectError);
     this.canAccessProjectsTile$ = this.store.select(fromComphubMainReducer.getCanAccessProjectsTile);
+    this.glossaryOpen$ = this.store.select(fromComphubMainReducer.getGlossaryOpen);
     this.userContext$ = this.store.select(fromRootReducer.getUserContext);
-    this.activeCountryDataSet$ = this.store.select(fromComphubMainReducer.getActiveCountryDataSet);
   }
 
   ngOnInit() {
@@ -121,6 +121,14 @@ export class SummaryCardComponent implements OnInit, OnDestroy, OnChanges {
 
   handleCreateProjectClicked() {
     this.store.dispatch(new fromSummaryCardActions.CreateProject());
+  }
+
+  handleGlossaryClicked() {
+    this.store.dispatch(new fromSummaryCardActions.ToggleGlossaryDisplay({ open: true }));
+  }
+
+  handleGlossaryClosed() {
+    this.store.dispatch(new fromSummaryCardActions.ToggleGlossaryDisplay({ open: false }));
   }
 
   get isHourly(): boolean {

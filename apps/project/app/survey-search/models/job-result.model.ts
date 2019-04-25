@@ -1,3 +1,5 @@
+import { SurveySearchResultDataSources } from 'libs/constants';
+
 import { SurveyDataCut } from './data-cut.model';
 
 export interface BaseJobInfo {
@@ -12,27 +14,37 @@ export interface BaseJobInfo {
   LoadingDataCutsError: boolean;
 }
 
+export interface PeerJobInfo {
+  Id: string;
+  ExchangeId: number;
+  ExchangeJobId: number;
+}
+
 export interface JobResult extends BaseJobInfo {
     SurveyName: string;
+    DataSource: SurveySearchResultDataSources;
     Source: string;
-    IsPayfactors: boolean;
     Matches: number;
     EffectiveDate: Date;
     Category?: string;
     FLSAStatus?: string;
     Scope?: string;
     LoadingMoreDataCuts: boolean;
+    Incs: number;
+    Orgs: number;
     Base50th: number;
     TCC50th: number;
     CountryCode?: string;
     IsSelected: boolean;
     EEO: string;
     DataCuts: SurveyDataCut[];
+    PeerJobInfo?: PeerJobInfo;
 }
 
 export function generateMockSurveyJobResult(): JobResult {
   return {
     Id: 100,
+    DataSource: SurveySearchResultDataSources.Surveys,
     Title: 'Blend of Gas Operations Top Executive-Corporate, G',
     Code: '13001',
     SurveyName: 'TCM Executive Long Term Incentives Total Compensation by Industry',
@@ -40,7 +52,6 @@ export function generateMockSurveyJobResult(): JobResult {
     Level: 'I',
     Source: 'Hewitt Associates',
     Description: 'Job Description: Accountant',
-    IsPayfactors: false,
     Matches: 5,
     EffectiveDate: new Date(2010, 3, 1),
     LoadingDataCuts: false,
@@ -48,6 +59,8 @@ export function generateMockSurveyJobResult(): JobResult {
     DataCuts: [],
     Base50th: 1,
     TCC50th: 1,
+    Incs: 25,
+    Orgs: 5,
     CountryCode: 'USA',
     IsSelected: false,
     EEO: null,
@@ -58,6 +71,7 @@ export function generateMockSurveyJobResult(): JobResult {
 export function generateMockPayfactorsJobResult(): JobResult {
   return {
     Id: 101,
+    DataSource: SurveySearchResultDataSources.Payfactors,
     Title: 'Accountant II',
     Code: '1002',
     SurveyName: 'PayFactors',
@@ -77,7 +91,6 @@ export function generateMockPayfactorsJobResult(): JobResult {
      Typically requires a Bachelor's degree and 2 to 4 years of experience. May require a CPA.
      Reports to: Typically reports to a department head or manager. Competencies: Analytical skills.
      Problem-solving. Ability to work within a team.`,
-    IsPayfactors: true,
     Matches: 0,
     EffectiveDate: new Date(2018, 6, 1),
     Category: 'Professional',
@@ -88,6 +101,8 @@ export function generateMockPayfactorsJobResult(): JobResult {
     DataCuts: [],
     Base50th: 1,
     TCC50th: 1,
+    Incs: 10,
+    Orgs: 5,
     CountryCode: 'USA',
     IsSelected: false,
     EEO: 'Yes',

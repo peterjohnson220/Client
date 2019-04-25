@@ -39,12 +39,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   badRequestError$: Observable<string>;
 
   // Subscriptions
-  companyJobsGridItemsDataSubscription: Subscription;
-  exchangeJobAssociationsSubscription: Subscription;
-  selectedCompanyJobsSubscription: Subscription;
-  searchTermSubscription: Subscription;
-  selectedCompanyJobInDetailPanelSubscription: Subscription;
-  badRequestErrorSubscription: Subscription;
+  allSubscriptions: Subscription = new Subscription();
 
   // Properties
   companyJobGridDataResult: GridDataResult;
@@ -52,7 +47,7 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   maxSelectionThreshold: number;
   selectedCompanyJobIds: CompanyJob[];
   selectedCompanyJobInDetailPanel: CompanyJob;
-  searchTerm: string;
+  searchTerm = '';
   badRequestError: string;
 
   constructor(private store: Store<fromJobAssociationReducers.State>) {}
@@ -70,50 +65,40 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel));
     this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingBadRequestError));
 
-    this.selectedCompanyJobsSubscription = this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
-      .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
+      .subscribe((selectedCompanyJobs) => this.selectedCompanyJobIds = selectedCompanyJobs));
 
-    this.companyJobsGridItemsDataSubscription =
-        this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsData)).subscribe(
-            (gridDataResult) => this.companyJobGridDataResult = gridDataResult);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsData)).subscribe(
+            (gridDataResult) => this.companyJobGridDataResult = gridDataResult));
 
-    this.exchangeJobAssociationsSubscription =
-      this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations)).subscribe(
-            (exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobAssociations)).subscribe(
+            (exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations));
 
-    this.searchTermSubscription =
-      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
-        (searchTerm) => this.searchTerm = searchTerm);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSearchTerm)).subscribe(
+        (searchTerm) => {
+          // when reducer value changes sync the input's content to prevent the search value persisting when modal opened/closed
+          this.companyJobSearchComponent.writeValue(searchTerm);
+          this.searchTerm = searchTerm;
+        }));
 
-    this.selectedCompanyJobInDetailPanelSubscription =
-      this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
-        (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel);
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel)).subscribe(
+        (selectedCompanyJobInDetailPanel) => this.selectedCompanyJobInDetailPanel = selectedCompanyJobInDetailPanel));
 
-    this.badRequestErrorSubscription = this.badRequestError$
-      .subscribe((badRequestError) => this.badRequestError = badRequestError);
+    this.allSubscriptions.add(this.badRequestError$
+      .subscribe((badRequestError) => this.badRequestError = badRequestError));
   }
 
   ngOnDestroy() {
-    this.companyJobsGridItemsDataSubscription.unsubscribe();
-    this.exchangeJobAssociationsSubscription.unsubscribe();
-    this.searchTermSubscription.unsubscribe();
-    this.selectedCompanyJobsSubscription.unsubscribe();
-    this.selectedCompanyJobInDetailPanelSubscription.unsubscribe();
-    this.badRequestErrorSubscription.unsubscribe();
+    this.allSubscriptions.unsubscribe();
   }
 
-  reload(resetSearchTerm = false): void {
+  reload(): void {
     this.store.dispatch(new companyJobsActions.Reset());
-    // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
-    if (resetSearchTerm) {
-      this.companyJobSearchComponent.clearValue();
-    } else {
-      this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
-    }
+    this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
-  showTooltip(e: any, id: string): void {
-    if (e.target.offsetWidth < e.target.scrollWidth && e.target.id.includes(id)) {
+  showGridTooltip(e: any): void {
+    if (e.target.offsetWidth < e.target.scrollWidth && e.target.classList.contains('show-tooltip')) {
       this.tooltipDir.toggle(e.target);
     } else {
       this.tooltipDir.hide();
@@ -125,9 +110,13 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
   }
 
-  handleSearchBoxValueChanged(searchTerm: string) {
+  handleSearchBoxValueChanged(searchTerm: string): void {
+    if (searchTerm === this.searchTerm) {
+      return;
+    }
+
     this.store.dispatch(new companyJobsActions.UpdateSearchTerm(searchTerm));
-    if (!searchTerm  || searchTerm.length > 1) {
+    if (!searchTerm || searchTerm.length >= 2) {
       this.store.dispatch(new fromGridActions.PageChange(GridTypeEnum.JobAssociationModalCompanyJobs, { skip: 0 } as PageChangeEvent));
       this.store.dispatch(new companyJobsActions.LoadCompanyJobs());
     }

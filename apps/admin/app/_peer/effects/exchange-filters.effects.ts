@@ -40,12 +40,33 @@ export class ExchangeFiltersEffects {
         }
       ),
       switchMap(payload => {
-        const updateFilter = payload.exchangeFilters.filter(f => f.DisplayName === payload.action.DisplayName);
+        const updateFilter = payload.exchangeFilters.filter(f => f.Id === payload.action.Id);
         return this.exchangeApiService.putFilter(updateFilter[0]).pipe(
           map(() => {
             return new fromExchangeFiltersActions.PutFilterSuccess();
           }),
           catchError(error => of(new fromExchangeFiltersActions.PutFilterError()))
+        );
+      }
+    )
+  );
+
+  @Effect()
+  reorderFilters$: Observable<Action> = this.actions$.pipe(
+    ofType(fromExchangeFiltersActions.REORDER_FILTERS),
+      map((action: fromExchangeFiltersActions.ReorderFilters) => action.payload),
+      withLatestFrom(
+        this.peerAdminStore.pipe(select(fromPeerAdminReducer.getExchangeFilters)),
+        (action, exchangeFilters) => {
+          return {action, exchangeFilters};
+        }
+      ),
+      switchMap(payload => {
+        return this.exchangeApiService.putFilters(payload.exchangeFilters).pipe(
+          map(() => {
+            return new fromExchangeFiltersActions.ReorderFiltersSuccess();
+          }),
+          catchError(error => of(new fromExchangeFiltersActions.ReorderFiltersError()))
         );
       }
     )

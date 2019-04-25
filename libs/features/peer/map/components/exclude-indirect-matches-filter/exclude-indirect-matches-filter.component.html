@@ -1,0 +1,18 @@
+<div class="filter-switch-container">
+
+  <div class="filter-switch-left">
+    <div class="filter-switch-label">
+      Exact Level Only
+    </div>
+  </div>
+
+  <div class="exclude-indirect-matches-filter-switch">
+    <kendo-switch class="k-switch-sm"
+                  [checked]="enabled"
+                  [onLabel]="'Yes'"
+                  [offLabel]="'No'"
+                  (valueChange)="handleSwitchToggled()">
+    </kendo-switch>
+  </div>
+
+</div>

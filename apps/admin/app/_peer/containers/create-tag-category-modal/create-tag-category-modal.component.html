@@ -1,0 +1,64 @@
+<pf-modal-form
+  [size]="'md'"
+  [title]="'New Custom Filter'"
+  [subTitle]="''"
+  [primaryButtonText]="'Create'"
+  [submitting]="creatingTagCategory$ | async"
+  [primaryButtonTextSubmitting]="'Creating...'"
+  [primaryButtonClass]="'btn-primary'"
+  [secondaryButtonText]="'Cancel'"
+  [isOpen$]="createTagCategoryModalOpen$"
+  [formGroup]="createTagCategoryForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()"
+>
+  <ng-container form-content>
+    <div class="form-group">
+      <div>
+        <label class="col-form-label" for="tag-category-name">Please give the new custom filter a name:</label>
+        <input type="text"
+               class="form-control"
+               placeholder="Name"
+               formControlName="name"
+               id="tag-category-name"
+               pfFocus
+               [pfValidatable]="true"
+        >
+        <ng-container *ngIf="name.errors">
+          <div *ngIf="name.errors.tagCategoryNameExists" class="invalid-feedback mt-override">{{name.errors.tagCategoryNameExists}}</div>
+        </ng-container>
+        <span *ngIf="!name?.errors?.tagCategoryNameExists" class="pf-placeholder"></span>
+      </div>
+      <div>
+        <label class="col-form-label">Choose what types you would like this filter to apply to:</label>
+        <div class="d-flex flex-row">
+          <div>
+            <input type="checkbox" [id]="'Company'" [value]="'Company'" formControlName="entityTypeCompany">
+            <label [for]="'Company'" class="checkbox-label">Company</label>
+          </div>
+          <div>
+            <input type="checkbox" [id]="'Job'" [value]="'Job'" formControlName="entityTypeJob">
+            <label [for]="'Job'" class="checkbox-label">Job</label>
+          </div>
+          <div>
+            <input type="checkbox" [id]="'Employee'" [value]="'Employee'" formControlName="entityTypeEmployee">
+            <label [for]="'Employee'" class="checkbox-label">Employee</label>
+          </div>
+        </div>
+
+        <textarea
+          maxlength="250"
+          id="tag-category-description"
+          class="form-control text-area-no-resize"
+          rows="5"
+          name="description"
+          formControlName="description"
+          [placeholder]="descriptionPlaceholder"
+          [pfValidatable]="true"
+          onfocus="this.placeholder = ''"
+          (blur)="setPlaceholderOnBlur($event)"
+        ></textarea>
+      </div>
+    </div>
+  </ng-container>
+</pf-modal-form>

@@ -1,4 +1,5 @@
 <pf-modal-form
+  primaryButtonClass="btn-primary ml-3"
   [size]="'lg'"
   [title]="'Export Data Cuts'"
   [primaryButtonText]="primaryButtonText"
@@ -29,9 +30,9 @@
                   [selectable]="{
                     checkboxOnly: true
                   }"
-                  [rowClass]="rowClass"
                   [kendoGridSelectBy]="selectionKey"
                   filterable="menu"
+                  [rowClass]="rowClass"
                   [selectedKeys]="selections"
                   (cellClick)="handleCellClick($event)"
                   (dataStateChange)="handleDataStateChange($event)">
@@ -129,6 +130,16 @@
       <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
         <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
       </ng-container>
+    </div>
+
+  </ng-container>
+
+  <ng-container button-container-left>
+
+    <div class="selection-action-links space-out-children">
+      <div class="pf-link" [class.disabled]="selections.length === 0" (click)="onClearAllClick($event)"> Clear All</div>
+      <div class="vertical-separator-inset"></div>
+      <div class="pf-link" [class.disabled]="selections.length === allIds.length" (click)="onSelectAllClick($event)">Select All ({{ allIds.length }})</div>
     </div>
 
   </ng-container>

@@ -93,11 +93,35 @@ export class FilterSidebarEffects {
           ];
         } else {
           obs = [new fromFilterSidebarActions.ClearAllSelections()];
-        }
+         }
 
         return obs;
       })
     );
+
+  @Effect()
+  excludeIndirectJobMatchesToggled$ = this.actions$.pipe(
+    ofType(fromFilterSidebarActions.TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES),
+    withLatestFrom(
+      this.peerMapStore.pipe(select(fromPeerMapReducers.getPeerFilterScopeSelection)),
+      (action, scopeSelection: ExchangeScopeItem) => !!scopeSelection
+    ),
+    tap(() => this.peerMapStore.dispatch(new fromPeerMapActions.ClearMapFilterBounds())),
+    mergeMap((scopeSelected: boolean) => {
+      let obs;
+      // Only clear selections on paymarket toggle if a scope is not selected
+      if (scopeSelected) {
+        obs = [
+          new fromPeerMapActions.LoadPeerMapData(),
+          new fromFilterSidebarActions.LoadFilterAggregates()
+        ];
+      } else {
+          obs = [new fromFilterSidebarActions.ClearAllSelections()];
+         }
+
+      return obs;
+    })
+  );
 
   @Effect()
   clearAllSelections$ = this.actions$.pipe(

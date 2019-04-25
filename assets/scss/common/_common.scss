@@ -60,7 +60,7 @@ tr.row-disabled {
   margin-bottom: -.35rem;
 }
 
-.pf-link {
+.pf-link:not(.disabled) {
   cursor: pointer;
   color: $link-color;
 }
@@ -73,6 +73,11 @@ tr.row-disabled {
 .vertical-separator{
   border-left: 1px solid $border-grey;
   box-shadow: -1px 0px 1px 0px #d8d8d8;
+}
+
+.vertical-separator-inset {
+  @extend .vertical-separator;
+  box-shadow: inset -1px 0px 1px 0px #d8d8d8;
 }
 
 .text-area-no-resize {

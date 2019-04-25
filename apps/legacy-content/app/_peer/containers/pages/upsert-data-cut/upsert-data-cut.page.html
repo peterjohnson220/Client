@@ -7,6 +7,7 @@
     <div class="filters-container">
       <pf-peer-data-cut-filter-sidebar [companyPayMarketId]="companyPayMarketId"
                                        [shouldShowPayMarketBoundsFilter]="hasAcceptedPeerTerms$ | async"
+                                       [shouldShowExcludeIndirectJobMatchesFilter]="hasAcceptedPeerTerms$ | async"
                                        [shouldShowExchangeScopeSelector]="hasAcceptedPeerTerms$ | async">
       </pf-peer-data-cut-filter-sidebar>
     </div>
@@ -66,7 +67,7 @@
 
           <div class="buttons">
             <button type="button"
-                    class="btn btn-primary btn-primary-legacy"
+                    class="btn legacy-primary-btn au-btn-add"
                     *ngIf="(hasAcceptedPeerTerms$ | async)"
                     [disabled]="failsGuidelines || !(hasAcceptedPeerTerms$ | async) || (isEmployeeCheckLoading$ | async)"
                     (click)="upsert()">
@@ -75,7 +76,7 @@
             </button>
 
             <button type="button"
-                    class="btn btn-secondary"
+                    class="btn btn-secondary au-btn-cancel"
                     (click)="cancel()">Cancel</button>
           </div>
         </div>

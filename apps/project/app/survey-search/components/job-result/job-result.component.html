@@ -1,4 +1,6 @@
-<div class="result job-result-row" [ngClass]="{'au-payfactors-job-result': job.IsPayfactors}">
+<div class="result job-result-row"
+     [class.peer]="job.DataSource === surveySearchResultDataSources.Peer"
+     [attr.data-qa-id]="'cnt-DataSource-'+job.DataSource.toString().trim()">
   <div class="d-flex justify-content-between">
     <div class="d-flex">
       <div class="job-title">
@@ -17,8 +19,17 @@
   </div>
 
   <div class="vendor">
-    {{job.Source}}
-    <ng-container *ngIf="!job.IsPayfactors">- {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})</ng-container>
+    <ng-container [ngSwitch]="job.DataSource">
+      <ng-container *ngSwitchCase="surveySearchResultDataSources.Surveys">
+        {{job.Source}} - {{job.SurveyName}} ({{job.EffectiveDate | date: 'shortDate'}})
+      </ng-container>
+      <ng-container *ngSwitchCase="surveySearchResultDataSources.Payfactors">
+        {{job.Source}}
+      </ng-container>
+      <ng-container *ngSwitchCase="surveySearchResultDataSources.Peer">
+        Payfactors Peer - {{job.SurveyName}}
+      </ng-container>
+    </ng-container>
   </div>
 
   <div class="d-flex mt-2">
@@ -45,7 +56,7 @@
         <td>{{job.Level || '-'}}</td>
       </tr>
 
-      <ng-container *ngIf="job.IsPayfactors && !!job.Category">
+      <ng-container *ngIf="job.DataSource === surveySearchResultDataSources.Payfactors && !!job.Category">
         <tr>
           <th>Job Category:</th>
           <td>{{job.Category || '-'}}</td>
@@ -78,6 +89,7 @@
                     [currencyCode]="currencyCode"
                     (dataCutSelected)="handleDataCutSelected($event)"
                     (payFactorsCutSelected)="handlePayfactorsCutSelected()"
+                    (peerCutSelected)="handlePeerCutSelected()"
                     (matchesMouseEnter)="handleDataCutMatchesMouseEnter($event)"
                     (matchesMouseLeave)="handleMatchesMouseLeave()">
       </pf-data-cuts>

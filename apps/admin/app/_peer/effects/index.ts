@@ -10,3 +10,4 @@ export * from './new-company-exchange-invitations.effects';
 export * from './exchange-job-requests.effects';
 export * from './company-exchange-invitation-info.effects';
 export * from './exchange-filters.effects';
+export * from './tag-categories.effects';
