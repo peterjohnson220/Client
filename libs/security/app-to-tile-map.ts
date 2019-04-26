@@ -3,5 +3,6 @@ interface AppToTileMap {
 }
 
 export const AppToTileMapping: AppToTileMap = {
-  'comphub': { tileName: 'Quick Price' }
+  'comphub': { tileName: 'Quick Price' },
+  'dataviews': { tileName: 'Data Views' }
 };
