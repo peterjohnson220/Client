@@ -1,9 +1,8 @@
-import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, OnDestroy, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
 
-import {DataField} from 'libs/models/security/roles/data-field';
 
 import {DataFieldTypes} from '../../constants/data-field-type.constants';
-import {DataType} from 'libs/models/security/roles/data-type';
+import {DataType, RoleDataRestriction, DataField} from 'libs/models/security/roles';
 import * as fromRootState from 'libs/state/state';
 import {Observable, Subscription} from 'rxjs';
 
@@ -11,23 +10,22 @@ import {Store} from '@ngrx/store';
 
 import { UserContext } from 'libs/models';
 
-
 @Component({
   selector: 'pf-data-field-filter',
   templateUrl: './data-field-filter.component.html',
   styleUrls: ['./data-field-filter.component.scss']
 })
-export class DataFieldFilterComponent implements OnDestroy {
+export class DataFieldFilterComponent implements OnInit, OnDestroy {
 
   @Input() dataType: DataType;
-  @Input() value: any;
+  @Input() roleDataRestriction: RoleDataRestriction;
+  @Output() roleDataRestrictionChange =  new EventEmitter();
+  @Output() roleDataRestrictionChanged =  new EventEmitter();
   userContext$: Observable<UserContext>;
-  selectedPayMarkets = [];
-  selectedSurvey = [];
  _DataFieldTypes: typeof DataFieldTypes = DataFieldTypes;
-  Operators = ['Is equal to'];
+  Operators = [{value: true, text: 'Is equal to'}];
   selectedField: DataField;
-  paymarketApiName = 'PayMarket?$select=CompanyPayMarketId,PayMarket';
+  paymarketApiName = 'PayMarket?$select=CompanyPayMarketId,PayMarket&$orderby=PayMarket';
   surveyApiName: string;
   surveyApiNameSubscription: Subscription;
   constructor(private store: Store<fromRootState.State>) {
@@ -36,6 +34,16 @@ export class DataFieldFilterComponent implements OnDestroy {
          this.surveyApiName = `User(${uc.UserId})/Default.GetSurveysAndAccessForUser?companyId=${uc.CompanyId}`;
        }
      });
+  }
+  dataFieldChanged(value) {
+    this.selectedField = this.dataType.DataFields.find(f => f.Id ===  value);
+    this.roleDataRestrictionChanged.emit();
+  }
+
+  ngOnInit() {
+    if (this.dataType && this.dataType.DataFields && this.roleDataRestriction) {
+      this.selectedField = this.dataType.DataFields.find(f => f.Id === this.roleDataRestriction.DataFieldId);
+    }
   }
   ngOnDestroy() {
     this.surveyApiNameSubscription.unsubscribe();

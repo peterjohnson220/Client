@@ -42,6 +42,8 @@ $light-border: 1px solid #ccc;
       left: 1rem;
       top: .5rem;
       z-index: 100;
+      margin-top: 6px;
+      color: #0099cc;
     }
     input[type=text] {
       @include center-with-spacing();
@@ -49,6 +51,9 @@ $light-border: 1px solid #ccc;
       &+ a {
         right: 1rem;
         top: 1rem;
+      }
+      &::-ms-clear {
+        display: none;
       }
     }
     button.clear-selections {
@@ -70,6 +75,7 @@ $light-border: 1px solid #ccc;
           text-overflow: clip;
           white-space: normal;
           word-break: keep-all;
+          color: black;
         }
         &.isSelected {
           background-color: #ccc;
@@ -82,6 +88,10 @@ $light-border: 1px solid #ccc;
       // hide the no results label when it's adjacent to a selectable option
       .checkbox-label + .no-results {
         display: none !important;
+      }
+      .highlight{
+        background-color: $pf-brand-secondary-color;
+        color:white;
       }
     }
   }

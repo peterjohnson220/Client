@@ -1,4 +1,4 @@
-import {DataField} from './data-field';
+import {DataField} from './data-field.model';
 export class DataType {
   Id: number;
   Name: string;

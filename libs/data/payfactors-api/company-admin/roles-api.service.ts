@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import {Observable} from 'rxjs';
 
-import { UserAndRoleModel, UserAssignedRole, SaveRoleResponseModel } from 'libs/models/security/roles';
-import {DataType} from 'libs/models/security/roles/data-type';
+import { UserAndRoleModel, UserAssignedRole, SaveRoleResponseModel, DataType, RoleDataRestriction } from 'libs/models/security/roles';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
+
 
 
 @Injectable()
@@ -27,10 +27,9 @@ export class RolesApiService {
   getUsersAndRoles() {
     return this.payfactorsApiService.get<UserAndRoleModel[]>(`${this.endpoint}.GetUsersAndRoles`);
   }
-
-  saveRole(permissionIds: number[], userIds: number[], roleId: number, isSystemRole: boolean) {
+  saveRole(permissionIds: number[], userIds: number[], roleDataRestrictions: RoleDataRestriction[], roleId: number, isSystemRole: boolean) {
     return this.payfactorsApiService.post<SaveRoleResponseModel>(`${this.endpoint}(${roleId})/Default.SaveRole`,
-      {permissionIds: permissionIds, userIdsToAssign: userIds, isSystemRole: isSystemRole});
+      {permissionIds: permissionIds, userIdsToAssign: userIds, roleDataRestrictions: roleDataRestrictions, isSystemRole: isSystemRole});
   }
 
   updateRoleName(newRoleName: string, roleId: number) {
