@@ -117,8 +117,9 @@ export class FilterSidebarEffects {
           new fromPeerMapActions.LoadPeerMapBounds
         ];
       } else {
-          obs = [new fromFilterSidebarActions.ClearAllSelections()];
-         }
+        obs = [new fromFilterSidebarActions.ClearAllSelections(),
+        new fromPeerMapActions.LoadPeerMapBounds];
+      }
 
       return obs;
     })
