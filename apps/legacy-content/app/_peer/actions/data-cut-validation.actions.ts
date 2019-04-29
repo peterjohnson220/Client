@@ -27,7 +27,7 @@ export class LoadDataCutValidationError implements Action {
 
 export class ValidateDataCutEmployees implements Action {
   readonly type = VALIDATE_DATA_CUT_EMPLOYEES;
-  constructor(public companyJobId: number, public userSessionId: number) { }
+  constructor(public companyJobId: number, public userSessionId: number, public dataCutGuid: string) { }
 }
 
 export class ValidateDataCutEmployeesSuccess implements Action {
