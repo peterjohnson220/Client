@@ -8,7 +8,6 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 
 import { InputDebounceComponent } from 'libs/forms/components';
 import * as fromJobAssociationReducers from '../../reducers';
-import * as fromExchangeJobsReducer from '../../reducers';
 import { GenericMenuItem, GridTypeEnum } from 'libs/models/common';
 import * as exchangeJobsActions from '../../actions/exchange-jobs.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -91,19 +90,19 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoadingBadRequestError));
 
     // Register Observables, filters
-    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterOptions));
-    this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsFamilyFilterLoading));
-    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames));
-    this.exchangeFilterOptions$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobExchangeFilterOptions));
-    this.isExchangeFilterLoading$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobsExchangeFilterLoading));
-    this.selectedExchangeOptionNames$ = this.store.pipe(select(fromExchangeJobsReducer.getExchangeJobExchangeFilterSelectedOptionNames));
+    this.jobFamilyFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobFamilyFilterOptions));
+    this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsFamilyFilterLoading));
+    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobFamilyFilterSelectedOptionNames));
+    this.exchangeFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobExchangeFilterOptions));
+    this.isExchangeFilterLoading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExchangeFilterLoading));
+    this.selectedExchangeOptionNames$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobExchangeFilterSelectedOptionNames));
 
     // Register Observables, previous associations
-    this.previousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociations));
-    this.previousAssociationsToDelete$ = this.store.pipe(select(fromExchangeJobsReducer.getPreviousAssociationsToDelete));
-    this.loadingPreviousAssociations$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociations));
-    this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsSuccess));
-    this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromExchangeJobsReducer.getLoadingPreviousAssociationsError));
+    this.previousAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getPreviousAssociations));
+    this.previousAssociationsToDelete$ = this.store.pipe(select(fromJobAssociationReducers.getPreviousAssociationsToDelete));
+    this.loadingPreviousAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getLoadingPreviousAssociations));
+    this.loadingPreviousAssociationsSuccess$ = this.store.pipe(select(fromJobAssociationReducers.getLoadingPreviousAssociationsSuccess));
+    this.loadingPreviousAssociationsError$ = this.store.pipe(select(fromJobAssociationReducers.getLoadingPreviousAssociationsError));
 
     // Register Subscriptions
     this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsSearchTerm))
@@ -138,6 +137,13 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.allSubscriptions.add(this.exchangeFilterOptions$.subscribe(v => {
       this.exchangeFilterOptions =  v.map(f => ({Id: f.Id, DisplayName: f.DisplayName, IsSelected: false}));
     }));
+
+    // if the modal is closed and a row is expanded close the expanded row to prevent potentially unlisted associations
+    this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalIsOpen)).subscribe(isOpen => {
+      if (!isOpen && this.expandedDetailRowId !== null) {
+        this.grid.collapseRow(this.expandedDetailRowId);
+      }
+    });
   }
 
   ngOnDestroy() {
