@@ -54,6 +54,10 @@ export const getJobAssociationModalSavingError = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSavingError);
 
+export const getJobAssociationModalIsOpen = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getIsModalOpen);
+
 // Exchange Jobs Selectors
 export const getExchangeJobsGrid = createSelector(
   selectExchangeJobsState,
