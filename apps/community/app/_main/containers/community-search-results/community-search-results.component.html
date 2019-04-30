@@ -3,6 +3,7 @@
      [scrollWindow]="false"
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="50"
+     (scroll)="onScroll($event)"
      (scrolled)="onScrollDown()"
      class="search-results-container">
 
@@ -14,7 +15,7 @@
     <div
       *ngFor="let result of (communitySearchResults$ | async); trackBy: trackByFn; let last = last;">
       <hr>
-      <div class="row ml-4" (click)="openDetailsModal(result.Id)">
+      <div class="row mx-4" (click)="openDetailsModal(result.Id)">
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"></pf-community-search-result-header>
@@ -33,14 +34,19 @@
           All results are displayed.
         </div>
       </div>
+
     </div>
+  </div>
+  <div class="back-to-top-container">
+    <pf-community-back-to-top-navigation *ngIf="isNavigationVisible" (backToTopClicked)="backToTop()">
+    </pf-community-back-to-top-navigation>
   </div>
 </pf-async-container>
-  <div class="row m-3" *ngIf="(loadingMoreSearchResults$ | async)">
-    <div class="col-12 mt-3 ml-4">
-      <pf-loading-indicator></pf-loading-indicator> Loading More Results...
-    </div>
+<div class="row m-3" *ngIf="(loadingMoreSearchResults$ | async)">
+  <div class="col-12 mt-3 ml-4">
+    <pf-loading-indicator></pf-loading-indicator> Loading More Results...
   </div>
+</div>
 <ng-template #noResultsMessage>
   <div class="no-results-message-container" *ngIf="!(loadingSearchResults$ | async) && !(loadingSearchResultsError$ | async)">
     <div class="row mt-5 justify-content-center" >

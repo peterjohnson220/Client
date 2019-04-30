@@ -9,6 +9,8 @@ import * as fromCommunitySearchReducer from '../../reducers';
 
 import { CommunityPost } from 'libs/models/community';
 
+import { ScrollDirectionEnum } from '../../models/scroll-direction.enum';
+
 @Component({
   selector: 'pf-community-search-results',
   templateUrl: './community-search-results.component.html',
@@ -16,6 +18,7 @@ import { CommunityPost } from 'libs/models/community';
 })
 export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   @ViewChild('SearchResults') public searchResultsScrollContainer: ElementRef;
+  @ViewChild(InfiniteScrollDirective) infiniteScroll: InfiniteScrollDirective;
 
   loadingSearchResults$: Observable<boolean>;
   loadingSearchResultsError$: Observable<boolean>;
@@ -27,6 +30,13 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
   query: string;
   hasMoreResultsOnServer: boolean;
   loadingMoreSearchResults: boolean;
+  isNavigationVisible = false;
+  scrollTimerId: number;
+  scrollerTimeout = 1000;
+  sendBackToTop = false;
+  scrollDirection = ScrollDirectionEnum.Down;
+  currentScrollTop: number;
+  lastScrollTop = 0;
 
   constructor(public store: Store<fromCommunitySearchReducer.State>) {
 
@@ -79,5 +89,60 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     if (this.query.length > 0 && this.hasMoreResultsOnServer && !this.loadingMoreSearchResults) {
       this.store.dispatch(new fromCommunitySearchActions.GettingMoreCommunitySearchResults(this.query));
     }
+  }
+
+  setTimer() {
+    if (this.scrollTimerId !== undefined) {
+      this.clearTimeout();
+    }
+    this.setScrollTimer();
+  }
+
+  clearTimeout() {
+    clearTimeout(this.scrollTimerId);
+  }
+
+  setScrollTimer() {
+    this.scrollTimerId = window.setTimeout(() => {
+      this.isNavigationVisible = true;
+    }, this.scrollerTimeout);
+  }
+
+  onScroll(event: any) {
+    this.setScrollDirection(event);
+
+    if (this.scrollDirection === ScrollDirectionEnum.Up) {
+      if (!this.sendBackToTop) {
+        this.isNavigationVisible = true;
+      } else {
+        this.sendBackToTop = false;
+      }
+    } else {
+      this.setTimer();
+    }
+  }
+  setScrollDirection(event: any) {
+    this.currentScrollTop = event.srcElement.scrollTop;
+    if (this.currentScrollTop > 0 && this.lastScrollTop <= this.currentScrollTop) {
+      this.scrollDirection = ScrollDirectionEnum.Down;
+    } else {
+      this.scrollDirection = ScrollDirectionEnum.Up;
+    }
+    this.lastScrollTop = this.currentScrollTop;
+  }
+  resetInfiniteScroll() {
+    // work around for this issue where ngx scrolling events stopped
+    // working when going back to top after second or third time
+    // https://github.com/orizens/ngx-infinite-scroll/issues/294
+    this.infiniteScroll.ngOnDestroy();
+    this.infiniteScroll.setup();
+  }
+
+  backToTop() {
+    this.isNavigationVisible = false;
+    this.clearTimeout();
+    this.sendBackToTop = true;
+    this.scrollToTop();
+    this.resetInfiniteScroll();
   }
 }
