@@ -10,6 +10,10 @@
                                  [maxLength]="350">
           </pf-ellipsis-view-more>
         </h4>
+        <pf-ticket-fields *ngIf="ticket.TicketInfo"
+                          [ticket]="ticket.TicketInfo"
+                          (valueChange)="fieldChange($event)">
+        </pf-ticket-fields>
       </div>
       <div class="col-sm-4">
         <pf-ticket-detail-card [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>

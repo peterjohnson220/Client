@@ -1,7 +1,5 @@
 import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
-import {UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
-
 import * as fromTicketActions from '../actions/ticket.actions';
 import { UserTicketItem, UserTicketTabItem } from '../models';
 
@@ -13,8 +11,6 @@ export interface State {
   userTicket: UserTicketItem;
   openedTicket: UserTicketTabItem;
   selectedTabTicket: number;
-  userTicketStates: UserTicketStateResponse[];
-  userTicketTypes: UserTicketTypeResponse[];
 }
 
 export const initialState: State = {
@@ -22,9 +18,7 @@ export const initialState: State = {
   loadingError: false,
   userTicket: null,
   openedTicket: null,
-  selectedTabTicket: null,
-  userTicketStates: [],
-  userTicketTypes: []
+  selectedTabTicket: null
 };
 
 export const adapter: EntityAdapter<UserTicketItem> = createEntityAdapter<UserTicketItem>({
@@ -68,18 +62,6 @@ export function reducer(state = initialState, action: fromTicketActions.Actions)
         loading: false,
       };
     }
-    case fromTicketActions.LOAD_TICKETSTATES_SUCCESS: {
-      return {
-        ...state,
-        userTicketStates: action.payload
-      };
-    }
-    case fromTicketActions.LOAD_TICKETTYPES_SUCCESS: {
-      return {
-        ...state,
-        userTicketTypes: action.payload
-      };
-    }
     case fromTicketActions.LOAD_COMPANY_DETAIL: {
       return {
         ...state,
@@ -116,5 +98,3 @@ export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
 export const getOpenedTicket = (state: State) => state.openedTicket;
 export const getSelectedTabTicket = (state: State) => state.selectedTabTicket;
-export const getUserTicketStates = (state: State) => state.userTicketStates;
-export const getUserTicketTypes = (state: State) => state.userTicketTypes;

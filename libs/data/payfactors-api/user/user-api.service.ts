@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HomePageLink } from '../../../models/user';
 import {UserAssignedRole} from '../../../models/security';
+import {UserResponse} from '../../../models/payfactors-api/user/response';
 
 import { PayfactorsApiService } from '../payfactors-api.service';
 
@@ -37,5 +38,15 @@ export class UserApiService {
           loaderType: loaderType
         }
       });
+  }
+
+  getPfServicesReps() {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesReps`);
+  }
+
+  getPfServiceRepsByCompany(companyId: number) {
+    return this.payfactorsApiService
+      .get<UserResponse[]>(`${this.endpoint}/Default.GetPfServicesRepsForCompany?companyId=${companyId}`);
   }
 }

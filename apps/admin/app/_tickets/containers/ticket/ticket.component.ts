@@ -4,9 +4,8 @@ import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
 import * as fromTicketActions from '../../actions/ticket.actions';
-import * as fromTicketReducer from '../../reducers';
-
 import { UserTicketItem } from '../../models';
+import * as fromTicketReducer from '../../reducers';
 
 @Component({
   selector: 'pf-ticket',
@@ -51,5 +50,9 @@ export class TicketComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.ticketSubscription.unsubscribe();
+  }
+
+  fieldChange(event: any) {
+    console.log(event);
   }
 }

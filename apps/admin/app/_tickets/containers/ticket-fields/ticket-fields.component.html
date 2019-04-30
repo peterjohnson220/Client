@@ -1,0 +1,44 @@
+<pf-async-container [loading]="(lookupsLoading$ | async) || !pfServicesReps.length"
+                    [loadingError]="lookupsLoadingError$ | async"
+                    [loadingErrorMessage]="'Error loading lookups'">
+  <div class="row">
+    <div class="col-sm-2">
+      Assigned To:
+    </div>
+    <div class="col-sm-3">
+      <kendo-combobox
+        [data]="pfServicesReps"
+        [valueField]="'PfServicesRepId'"
+        [textField]="'Name'"
+        (valueChange)="comboValueChanged($event, 'assigned')"
+        [(ngModel)]="selectedPfServicesRep">
+      </kendo-combobox>
+    </div>
+    <div class="col-sm-2">
+      Status:
+    </div>
+    <div class="col-sm-3">
+      <kendo-combobox
+        (valueChange)="comboValueChanged($event, 'status')">
+      </kendo-combobox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      Type:
+    </div>
+    <div class="col-sm-3">
+      <kendo-combobox
+        (valueChange)="comboValueChanged($event, 'type')">
+      </kendo-combobox>
+    </div>
+    <div class="col-sm-2">
+      Priority:
+    </div>
+    <div class="col-sm-3">
+      <kendo-combobox
+        (valueChange)="comboValueChanged($event, 'priority')">
+      </kendo-combobox>
+    </div>
+  </div>
+</pf-async-container>

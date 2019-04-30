@@ -5,11 +5,13 @@ import * as fromRoot from 'libs/state/state';
 
 import * as fromTicketsReducer from './ticket.reducer';
 import * as fromTicketsListReducer from './ticket-list.reducer';
+import * as fromTicketLookupsReducer from './ticket-lookups.reducer';
 
 // Feature area state
 export interface TicketsAdminState {
   ticket: fromTicketsReducer.State;
   ticketList: fromTicketsListReducer.State;
+  ticketLookups: fromTicketLookupsReducer.State;
 }
 
 // Extend root state with feature area state
@@ -20,7 +22,8 @@ export interface State extends fromRoot.State {
 // Feature area reducers
 export const reducers = {
   ticket: fromTicketsReducer.reducer,
-  ticketList: fromTicketsListReducer.reducer
+  ticketList: fromTicketsListReducer.reducer,
+  ticketLookups: fromTicketLookupsReducer.reducer
 };
 
 // Select Feature area
@@ -29,6 +32,7 @@ export const selectTicketsAdminState = createFeatureSelector<TicketsAdminState>(
 // Tickets Admin View Selectors
 export const selectTicketState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticket);
 export const selectTicketListState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketList);
+export const selectTicketLookupsState = createSelector(selectTicketsAdminState, (state: TicketsAdminState) => state.ticketLookups);
 
 // Company Detail area
 export const getCompanyDetailLoading = createSelector(selectTicketState, fromTicketsReducer.getLoading);
@@ -49,5 +53,9 @@ export const getTicketListLoading = createSelector(selectTicketListState, fromTi
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
 
 // Ticket Field Lookup Selectors
-export const getUserTicketStates = createSelector(selectTicketState, fromTicketsReducer.getUserTicketStates);
-export const getUserTicketTypes = createSelector(selectTicketState, fromTicketsReducer.getUserTicketTypes);
+export const getUserTicketStates = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getUserTicketStates);
+export const getUserTicketTypes = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getUserTicketTypes);
+
+export const getLookupLoading = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoading);
+export const getLookupLoadingError = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getLoadingError);
+export const getUserTicketPfServiceReps = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getPfServicesReps);

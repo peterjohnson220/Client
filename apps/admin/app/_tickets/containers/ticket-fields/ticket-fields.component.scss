@@ -1,0 +1,12 @@
+:host > * .k-combobox {
+  width: 100% !important;
+}
+
+:host > * div[class*="col-sm"] {
+  align-self: center;
+}
+
+:host > * div.row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

@@ -1,32 +1,45 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import {Effect, Actions, ofType} from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError, mergeMap, map } from 'rxjs/operators';
+import {switchMap, catchError, mergeMap, map, withLatestFrom} from 'rxjs/operators';
 
-import {
-  UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse
-} from 'libs/models/payfactors-api/service/response';
+import { UserTicketCompanyDetailResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 import * as fromTicketActions from '../actions/ticket.actions';
+import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
+import * as fromReducers from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
-
 
 @Injectable()
 export class TicketEffects {
     @Effect()
-    loadTicket$: Observable<Action> = this.actions$
-        .ofType(fromTicketActions.LOAD_TICKET).pipe(
-            switchMap((action: fromTicketActions.LoadTicket) =>
-                this.userTicketApiService.getUserTicket(action.payload).pipe(
-                    mergeMap((userTicket: UserTicketResponse) => {
-                        const ticket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketItem(userTicket);
-                        return [
-                          new fromTicketActions.LoadTicketSuccess(ticket),
-                          new fromTicketActions.LoadCompanyDetail({ companyId: userTicket.CompanyId})
-                        ];
+    loadTicket$: Observable<Action> = this.actions$.pipe(
+        ofType<fromTicketActions.LoadTicket>(fromTicketActions.LOAD_TICKET),
+        withLatestFrom(
+          this.store.select(fromReducers.getUserTicketTypes),
+          this.store.select(fromReducers.getUserTicketStates),
+          (action, userTicketTypes, userTicketStates) => {
+            return { action, userTicketTypes, userTicketStates };
+          }
+        ),
+        switchMap(obj =>
+            this.userTicketApiService.getUserTicket(obj.action.payload).pipe(
+                mergeMap((userTicket: UserTicketResponse) => {
+                    const ticket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketItem(userTicket);
+                    const actions = [];
+                    actions.push(new fromTicketActions.LoadTicketSuccess(ticket));
+                    actions.push(new fromTicketActions.LoadCompanyDetail({ companyId: userTicket.CompanyId}));
+
+                    if (!obj.userTicketTypes.length) {
+                      actions.push(new fromTicketLookupActions.LoadTicketTypes());
+                    }
+                    if (!obj.userTicketStates.length) {
+                      actions.push(new fromTicketLookupActions.LoadTicketStates());
+                    }
+                    return actions;
                 }),
                 catchError(error => of(new fromTicketActions.LoadTicketError()))
             )
@@ -47,34 +60,9 @@ export class TicketEffects {
       )
     );
 
-    @Effect()
-    loadTicketStates$: Observable<Action> = this.actions$
-        .ofType(fromTicketActions.LOAD_TICKETSTATES).pipe(
-            switchMap((action: fromTicketActions.LoadTicketStates) =>
-                this.userTicketApiService.getUserTicketStates().pipe(
-                    map((ticketStates: UserTicketStateResponse[]) => {
-                        return new fromTicketActions.LoadTicketStatesSuccess(ticketStates);
-                    }),
-                    catchError(error => of(new fromTicketActions.LoadTicketStatesError()))
-                )
-            )
-        );
-
-    @Effect()
-    loadTicketTypes$: Observable<Action> = this.actions$
-        .ofType(fromTicketActions.LOAD_TICKETSTATES).pipe(
-            switchMap((action: fromTicketActions.LoadTicketTypes) =>
-                this.userTicketApiService.getUserTicketTypes().pipe(
-                    map((ticketTypes: UserTicketTypeResponse[]) => {
-                      return new fromTicketActions.LoadTicketTypesSuccess(ticketTypes);
-                    }),
-                    catchError(error => of(new fromTicketActions.LoadTicketTypesError()))
-                )
-            )
-        );
-
     constructor(
         private actions$: Actions,
+        private store: Store<fromReducers.State>,
         private userTicketApiService: UserTicketApiService
     ) {}
 }

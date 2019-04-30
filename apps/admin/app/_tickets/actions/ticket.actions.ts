@@ -11,12 +11,6 @@ export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success
 export const LOAD_TICKET_ERROR = '[Admin Tickets / Ticket] Load Ticket Error';
 export const OPEN_TICKET = '[Admin Tickets/ Ticket] Open Ticket';
 export const SELECT_TICKET_TAB = '[Admin Tickets/ Ticket] Select Ticket Tab';
-export const LOAD_TICKETTYPES = '[Admin Tickets / Ticket] Load Ticket Types';
-export const LOAD_TICKETTYPES_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Types Success';
-export const LOAD_TICKETTYPES_ERROR = '[Admin Tickets / Ticket] Load Ticket Types Error';
-export const LOAD_TICKETSTATES = '[Admin Tickets / Ticket] Load Ticket States';
-export const LOAD_TICKETSTATES_SUCCESS = '[Admin Tickets / Ticket] Load Ticket States Success';
-export const LOAD_TICKETSTATES_ERROR = '[Admin Tickets / Ticket] Load Ticket States Error';
 
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
@@ -62,34 +56,6 @@ export class SelectTicketTab implements  Action {
   constructor(public payload: number) {}
 }
 
-export class LoadTicketTypes implements Action {
-  readonly type = LOAD_TICKETTYPES;
-}
-
-export class LoadTicketTypesSuccess implements Action {
-  readonly type = LOAD_TICKETTYPES_SUCCESS;
-
-  constructor(public payload: UserTicketTypeResponse[]) {}
-}
-
-export class LoadTicketTypesError implements Action {
-  readonly type = LOAD_TICKETTYPES_ERROR;
-}
-
-export class LoadTicketStates implements Action {
-  readonly type = LOAD_TICKETSTATES;
-}
-
-export class LoadTicketStatesSuccess implements Action {
-  readonly type = LOAD_TICKETSTATES_SUCCESS;
-
-  constructor(public payload: UserTicketStateResponse[]) {}
-}
-
-export class LoadTicketStatesError implements Action {
-  readonly type = LOAD_TICKETSTATES_ERROR;
-}
-
 export type Actions
   = LoadCompanyDetail
   | LoadCompanyDetailSuccess
@@ -98,10 +64,4 @@ export type Actions
   | LoadTicketSuccess
   | LoadTicketError
   | OpenTicket
-  | SelectTicketTab
-  | LoadTicketTypes
-  | LoadTicketTypesSuccess
-  | LoadTicketTypesError
-  | LoadTicketStates
-  | LoadTicketStatesSuccess
-  | LoadTicketStatesError;
+  | SelectTicketTab;
