@@ -7,4 +7,5 @@ export interface ListAreaColumn {
   Order: number;
   Default: boolean;
   Required: boolean;
+  DisableDropdown: boolean;
 }

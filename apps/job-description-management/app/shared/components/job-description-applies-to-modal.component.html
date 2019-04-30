@@ -1,0 +1,89 @@
+<ng-template #jobDescriptionAppliesToModal let-c="close" let-d="dismiss">
+  <form [formGroup]="appliesToform" (ngSubmit)="submit()">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ this.editing ? 'Update Job Description' : 'Create New Job Description' }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="!this.editing">
+        <div class="form-group row">
+          <label class="col-4 col-form-label">Job Code:</label>
+          <div class="col-8">
+            <p class="form-control-static mb-0">{{selectedCompanyJob?.JobCode}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-4 col-form-label">Job Title:</label>
+          <div class="col-8">
+            <p class="form-control-static mb-0">{{selectedCompanyJob?.JobTitle}}</p>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-4 col-form-label">Template Name:</label>
+          <div class="col-8">
+            <p class="form-control-static mb-0">{{selectedCompanyJob?.TemplateName}}</p>
+            <select *ngIf="selectedCompanyJob.TemplateName == null" id="templateListInput" class="form-control" [(ngModel)]="templateId" [ngModelOptions]="{standalone: true}">
+              <option [value]="-1"></option>
+              <option *ngFor="let template of templateListItems$ | async" [value]="template.TemplateId">{{template.TemplateName}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Job Description Title:</label>
+        <div class="col-8">
+					<span [class.has-danger]="!appliesToform.controls['jobDescriptionTitle'].pristine && jobDescriptionTitleExists" >
+				 		<span *ngIf="!appliesToform.controls['jobDescriptionTitle'].pristine && jobDescriptionTitleExists" class="text-danger float-right">Job Description Title already in use</span>
+                    	<input type="text" class="form-control" formControlName="jobDescriptionTitle" (keydown)="handleJobDescriptionChanged()">
+                    </span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Applies To:</label>
+        <div class="col-8">
+          <kendo-combobox class="form-control" formControlName="appliesToField"
+                          [clearButton]="false"
+                          [suggest]="true"
+                          [data]="jobDescriptionAppliesToItems$ | async"
+                          [textField]="'DisplayName'"
+                          [valueField]="'ColumnName'"
+                          [valuePrimitive]="true"
+                          (valueChange)="handleAppliesToFieldChanged($event)">
+          </kendo-combobox>
+
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-4 col-form-label">Applies To Value:</label>
+        <div class="col-8">
+					<span [class.has-danger]="!appliesToform.controls['appliesToValue'].pristine &&  (appliesToValueInvalid || appliesToExists)" >
+						<span *ngIf="!appliesToform.controls['appliesToValue'].pristine && appliesToValueInvalid" class="text-danger float-right">Applies To Value must be selected from list of values</span>
+						<span *ngIf="!appliesToform.controls['appliesToValue'].pristine && appliesToExists" class="text-danger float-right">Applies To already in use</span> 	
+		             	<kendo-combobox class="form-control" formControlName="appliesToValue"
+                                  [disabled]="jobDescriptionAppliesToValuesLoading$ | async"
+                                  [data]="data"
+                                  [clearButton]="false"
+                                  [suggest]="true"
+                                  [filterable]="true"
+                                  [valuePrimitive]="true"
+                                  (filterChange)="handleFilter($event)"
+                                  (valueChange)="handleAppliesToValueChanged()">
+				        </kendo-combobox>
+	             	</span>
+        </div>
+      </div>
+      <div *ngIf="!requiredFieldsFilledIn">
+				<span class="text-danger">
+            	Please enter either Job Description Title or Applies To Values              
+          		</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <button type="submit" [disabled]="appliesToform.invalid" class="btn btn-primary">{{ this.editing ? 'Save' : 'Create' }}</button>
+
+    </div>
+  </form>
+</ng-template>

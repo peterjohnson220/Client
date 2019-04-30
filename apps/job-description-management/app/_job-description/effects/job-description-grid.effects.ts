@@ -1,0 +1,72 @@
+import { Injectable } from '@angular/core';
+
+import { Action, Store } from '@ngrx/store';
+import { Actions, Effect } from '@ngrx/effects';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import * as cloneDeep from 'lodash.clonedeep';
+
+import { UserProfileApiService } from 'libs/data/payfactors-api/user';
+import { JobDescriptionApiService } from 'libs/data/payfactors-api/jdm';
+import { CompanyJobViewListItemsResponse } from 'libs/models/payfactors-api/job-description/response';
+import { ListAreaColumnResponse } from 'libs/models/payfactors-api/user-profile/response';
+
+import * as fromJobDescriptionGridActions from '../actions/job-description-grid.actions';
+import * as fromJobDescriptionGridReducer from '../reducers';
+import { PayfactorsApiModelMapper } from '../../shared/helpers';
+
+@Injectable()
+export class JobDescriptionGridEffects {
+  @Effect()
+  getListAreaColumns$: Observable<Action> = this.actions$
+    .ofType(fromJobDescriptionGridActions.LOAD_LIST_AREA_COLUMNS).pipe(
+      switchMap((action: fromJobDescriptionGridActions.LoadListAreaColumns) =>
+        this.userProfileApiService.getListAreaColumns(action.payload).pipe(
+          map((response: ListAreaColumnResponse[]) => {
+            const listAreaColumnList =  PayfactorsApiModelMapper.mapListAreaColumnResponseListToListAreaColumnList(response);
+            return new fromJobDescriptionGridActions.LoadListAreaColumnsSuccess(listAreaColumnList);
+          }),
+          catchError(response => of(new fromJobDescriptionGridActions.LoadListAreaColumnsError()))
+        )
+      ));
+
+  @Effect()
+  loadJobDescriptionGrid$: Observable<Action> = this.actions$
+    .ofType(fromJobDescriptionGridActions.LOAD_JOB_DESCRIPTION_GRID).pipe(
+      switchMap((action: fromJobDescriptionGridActions.LoadJobDescriptionGrid) => {
+        this.store.dispatch(new fromJobDescriptionGridActions.UpdateGridState(JSON.parse(action.payload.ListState)));
+
+        return this.jobDescriptionApiService.getCompanyJobViewListItems(action.payload).pipe(
+          map((response: CompanyJobViewListItemsResponse) => {
+            const gridDataResult = PayfactorsApiModelMapper.mapCompanyJobViewListItemsResponseToGridDataResult(response);
+            return new fromJobDescriptionGridActions.LoadJobDescriptionGridSuccess(gridDataResult);
+          }),
+          catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
+        );
+      }
+      ));
+
+  @Effect()
+  saveListAreaColumns$: Observable<Action> = this.actions$
+    .ofType(fromJobDescriptionGridActions.SAVE_LIST_AREA_COLUMNS).pipe(
+      switchMap((action: fromJobDescriptionGridActions.SaveListAreaColumns) => {
+          const newRequest = cloneDeep(action.payload);
+          const listAreaColumnsRequestList = PayfactorsApiModelMapper.mapListAreaColumnListToListAreaColumnRequestList(
+            newRequest.Columns);
+
+          return this.userProfileApiService.saveListAreaColumns(newRequest).pipe(
+            map((response: number) => {
+              return new fromJobDescriptionGridActions.SaveListAreaColumnsSuccess({ ListAreaColumns: action.payload.Columns });
+            }),
+            catchError(response => of(new fromJobDescriptionGridActions.SaveListAreaColumnsError()))
+          );
+        }
+      ));
+
+  constructor(
+    private actions$: Actions,
+    private jobDescriptionApiService: JobDescriptionApiService,
+    private userProfileApiService: UserProfileApiService,
+    private store: Store<fromJobDescriptionGridReducer.State>,
+  ) {}
+}
