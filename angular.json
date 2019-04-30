@@ -851,6 +851,7 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
+              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js",
               "assets/js/new-relic.js"
             ]
@@ -945,6 +946,7 @@
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
+              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js",
               "assets/js/new-relic.js"
             ],
