@@ -59,13 +59,13 @@ export class CommunityPostApiService {
     });
   }
 
-  getPost(communityPostId: any): Observable<CommunityPost> {
+  getPost(payload: any): Observable<any> {
     return this.payfactorsApiService.get<CommunityPost>
-    (`${this.endpoint}/GetPost`,
-    {
+    (`${this.endpoint}/GetPost`, {
       params: {
-        communityPostId: communityPostId
+        communityPostId: payload
       }
     });
   }
+
 }

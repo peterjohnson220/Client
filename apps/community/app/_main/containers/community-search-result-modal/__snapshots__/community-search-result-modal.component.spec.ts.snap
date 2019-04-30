@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommunityPostSearchResultComponent should show a modal with when communityPost has value 1`] = `
+<pf-community-search-result-modal
+  communityPost={[Function Object]}
+  communityPost$={[Function Store]}
+  communityPostSubscription={[Function Subscriber]}
+  communitySearchResultModal$={[Function Store]}
+  communitySearchResultModalSubscription={[Function Subscriber]}
+  loadingCommunityPost$={[Function Store]}
+  loadingCommunityPostError$={[Function Store]}
+  maximumReplies$={[Function Store]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    title="Community Discussion"
+  >
+    
+    <pf-async-container>
+      
+      <div
+        class="px-5 pb-3"
+      >
+        <pf-community-post />
+      </div>
+    </pf-async-container>
+  </pf-modal-form>
+</pf-community-search-result-modal>
+`;
