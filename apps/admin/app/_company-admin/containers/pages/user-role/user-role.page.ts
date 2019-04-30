@@ -88,7 +88,7 @@ export class UserRolePageComponent implements OnDestroy {
   // clear edit role name when in edit mode
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.inEditRoleMode && event.key.toLowerCase() === 'escape') {
+    if (this.inEditRoleMode && event.key.toLowerCase().startsWith('esc')) {
       this.newRoleName = null;
       return false;
     } else if (this.inEditRoleMode && event.key.toLowerCase() === 'enter') {
