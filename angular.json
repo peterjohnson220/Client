@@ -852,8 +852,7 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/googletagmanager.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ]
           },
           "configurations": {
@@ -947,8 +946,7 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/googletagmanager.js",
-              "assets/js/fontawesome-all.min.js",
-              "assets/js/new-relic.js"
+              "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
               "assets/scss/client.scss",
