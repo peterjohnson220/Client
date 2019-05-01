@@ -139,11 +139,15 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }));
 
     // if the modal is closed and a row is expanded close the expanded row to prevent potentially unlisted associations
-    this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalIsOpen)).subscribe(isOpen => {
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalIsOpen)).subscribe(isOpen => {
       if (!isOpen && this.expandedDetailRowId !== null) {
         this.grid.collapseRow(this.expandedDetailRowId);
       }
-    });
+    }));
+
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoading)).subscribe(isLoading => {
+      this.collapseDetailRow();
+    }));
   }
 
   ngOnDestroy() {
@@ -169,6 +173,12 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     }
   }
 
+  collapseDetailRow(): void {
+    if (this.expandedDetailRowId !== null) {
+      this.grid.collapseRow(this.expandedDetailRowId);
+    }
+  }
+
   // event handlers
   handleDataStateChange(state: DataStateChangeEvent): void {
     this.store.dispatch(new fromGridActions.UpdateGrid(GridTypeEnum.JobAssociationModalPeerExchangeJobs, state));
@@ -178,9 +188,7 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   handleDetailExpand(event: any): void {
     // close the slide in detail panel when expanding a detail row, then close the currently open row if available
     this.store.dispatch(new exchangeJobsActions.CloseDetailPanel());
-    if (this.expandedDetailRowId !== null) {
-      this.grid.collapseRow(this.expandedDetailRowId);
-    }
+    this.collapseDetailRow();
 
     // send the company job mappings so they can be used in the xhr, plus the event index so we know which row is currently open
     const CompanyJobMappings = event.dataItem.CompanyJobMappings as CompanyJobMapping[];
