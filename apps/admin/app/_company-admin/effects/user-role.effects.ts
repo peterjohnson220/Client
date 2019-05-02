@@ -56,7 +56,7 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromDataAccessActions.UpdateCurrentRoleDataRestrictions(action.payload.DataRestrictions),
+          new fromDataAccessActions.UpdateCurrentRoleDataAccessTab(action.payload),
           new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
         new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );
@@ -71,8 +71,8 @@ export class UserRoleEffects {
           mergeMap(response => {
             const actions = [];
             actions.push(new fromUserRoleUserTabActions.GetUsersAndRolesSuccess(response.UpdatedUsers));
-            actions.push(new fromUserRoleActions.UpdateCurrentUserRole(response.UpdatedRole));
             actions.push(new fromUserRoleActions.UpdateCompanyRoles(response.UpdatedRoleList));
+            actions.push(new fromUserRoleActions.UpdateCurrentUserRole(response.UpdatedRole));
             actions.push(new fromUserRoleActions.SaveRoleSuccess(RoleApiResponse.Success));
             return actions;
           }),
@@ -87,8 +87,8 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.CANCEL_ALL_CHANGES).pipe(
       mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromUserRoleFunctionTabActions.CancelPermissionChanges(),
-          new fromDataAccessActions.CancelRoleDataRestrictionChanges()])
+          new fromDataAccessActions.CancelRoleDataRestrictionChanges(),
+          new fromUserRoleFunctionTabActions.CancelPermissionChanges()])
     );
 
     @Effect()

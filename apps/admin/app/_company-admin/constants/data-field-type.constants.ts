@@ -1,4 +1,4 @@
 export enum DataFieldTypes {
-  REFERENCE = 'reference',
-  TEXT = 'string'
+  MULTISELECT = 'multiselect',
+  STRING = 'string'
 }
