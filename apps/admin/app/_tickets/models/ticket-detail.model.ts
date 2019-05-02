@@ -1,6 +1,8 @@
 export interface TicketDetail {
   TicketId: number;
+  CompanyId: number;
   CompanyName: string;
+  ServicesUserId?: number;
   EditDate: Date;
   CreateDate: Date;
   OpenedBy: string;
@@ -13,6 +15,8 @@ export interface TicketDetail {
 export function generateMockTicketDetail() {
   return {
     TicketId: 1,
+    CompanyId: 13,
+    ServicesUserId: 1,
     CompanyName: 'MockCompanyName',
     EditDate: new Date('1/1/1990'),
     CreateDate: new Date('1/1/1990'),

@@ -1,10 +1,10 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {CompanyDetail, UserTicketTabItem} from '../../models';
+import { Store } from '@ngrx/store';
+
 import * as fromTicketActions from '../../actions/ticket.actions';
-import {Store} from '@ngrx/store';
+import { CompanyDetail, UserTicketTabItem } from '../../models';
 import * as fromTicketReducer from '../../reducers';
-
 
 @Component({
   selector: 'pf-company-detail-card',

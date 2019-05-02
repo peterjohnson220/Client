@@ -1,6 +1,8 @@
+import { UserTicketComment, UserTicketCompanyDetailResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import { UserResponse } from 'libs/models/payfactors-api/user/response';
 
-import {CompanyDetail, UserTicketGridItem, UserTicketItem} from '../models';
-import {UserTicketComment, UserTicketCompanyDetailResponse, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
+import { CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem } from '../models';
+
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -26,7 +28,9 @@ export class PayfactorsApiModelMapper {
       Description: response.UserTicket,
       TicketInfo: {
         TicketId: response.UserTicketId,
+        CompanyId: response.CompanyId,
         CompanyName: response.CompanyName,
+        ServicesUserId: response.ServicesUserId,
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
@@ -49,6 +53,15 @@ export class PayfactorsApiModelMapper {
       RecentTicketIds: response.RecentTickets,
       RangeOfOpenedTickets: response.NumberOfDays
     };
+  }
+
+  static mapUserResponseToPfServicesRep(response: UserResponse[]): PfServicesRep[] {
+    return response.map( ur => {
+      return {
+        PfServicesRepId: ur.UserId,
+        Name: `${ur.FirstName} ${ur.LastName}`
+      };
+    });
   }
 
   private static squashComments( userTicketComments: UserTicketComment[]): string {
