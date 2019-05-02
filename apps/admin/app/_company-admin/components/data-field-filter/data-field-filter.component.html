@@ -24,7 +24,7 @@
                         [tabIndex]="0" [data]="Operators"></kendo-dropdownlist>
   </div>
   <div class="col-12 col-lg-4">
-     <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.REFERENCE">
+     <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
         <div  *ngIf="dataType?.Name=='CompanyPayMarkets'">
           <pf-multi-select
           [attr.data-qa-id]="'ddm-'+ dataType.Name"
@@ -51,8 +51,8 @@
           </pf-multi-select>
         </div>
      </div>
-      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
-       <input type="text" (change)="roleDataRestrictionChange.emit(roleDataRestriction)" [attr.data-qa-id]="'txt-'+ dataType?.Name + '-' +selectedField?.Name" class="form-control ng-pristine">
+      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.STRING">
+       <input type="text" (change)="roleDataRestrictionChanged.emit()" [(ngModel)]="roleDataRestriction.DataValue" [attr.data-qa-id]="'txt-'+ dataType?.Name + '-' +selectedField?.Name" class="form-control ng-pristine">
       </div>
   </div>
 </div>

@@ -3,7 +3,11 @@
     {{dt.Name}}
     <ul class="list-group nav">
       <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions | dataTypeFilter:dt">
-      <pf-data-field-filter [dataType]="dt"  [(roleDataRestriction)]="rdr"  (roleDataRestrictionChanged)="roleDataRestrictionChanged()" ></pf-data-field-filter>
+      <pf-data-field-filter
+        [dataType]="dt"
+        [(roleDataRestriction)]="rdr"
+        (roleDataRestrictionChanged)="roleDataRestrictionChanged()" >
+      </pf-data-field-filter>
       </li>
   </ul>
   </li>

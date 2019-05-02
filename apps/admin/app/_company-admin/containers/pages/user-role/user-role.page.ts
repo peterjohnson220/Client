@@ -89,7 +89,7 @@ export class UserRolePageComponent implements OnDestroy {
       this.permissionIdsToSave = p;
     });
 
-    this.roleDataRestrictionsSubscription = this.store.select(fromUserRoleViewReducer.getRoleDataRestrictions).subscribe(p => {
+    this.roleDataRestrictionsSubscription = this.store.select(fromUserRoleViewReducer.getRoleDataRestrictionsToSave).subscribe(p => {
       this.roleDataRestrictions = p;
     });
 
