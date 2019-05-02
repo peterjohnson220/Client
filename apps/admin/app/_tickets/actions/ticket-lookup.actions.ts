@@ -1,8 +1,8 @@
 import {Action} from '@ngrx/store';
 
-import {UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
+import {UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
 
-import {PfServicesRep} from '../models';
+import {PfServicesRep, UserTicketState} from '../models';
 
 export const LOAD_PFSERVICESREPS = '[Admin Tickets / Ticket Fields] Load Pf Services Reps';
 export const LOAD_PFSERVICESREPS_SUCCESS = '[Admin Tickets / Ticket Fields] Load Pf Services Reps Success';
@@ -49,7 +49,7 @@ export class LoadTicketStates implements Action {
 export class LoadTicketStatesSuccess implements Action {
   readonly type = LOAD_TICKETSTATES_SUCCESS;
 
-  constructor(public payload: UserTicketStateResponse[]) {}
+  constructor(public payload: UserTicketState[]) {}
 }
 
 export class LoadTicketStatesError implements Action {

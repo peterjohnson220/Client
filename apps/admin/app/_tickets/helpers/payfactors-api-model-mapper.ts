@@ -1,7 +1,12 @@
-import { UserTicketComment, UserTicketCompanyDetailResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
+import {
+  UserTicketComment,
+  UserTicketCompanyDetailResponse,
+  UserTicketResponse,
+  UserTicketStateResponse
+} from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 
-import { CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem } from '../models';
+import {CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem, UserTicketState} from '../models';
 
 
 export class PayfactorsApiModelMapper {
@@ -56,10 +61,19 @@ export class PayfactorsApiModelMapper {
   }
 
   static mapUserResponseToPfServicesRep(response: UserResponse[]): PfServicesRep[] {
-    return response.map( ur => {
+    return response.map(ur => {
       return {
         PfServicesRepId: ur.UserId,
         Name: `${ur.FirstName} ${ur.LastName}`
+      };
+    });
+  }
+
+  static mapUserTicketStatesResposnseToUserTicketState(response: UserTicketStateResponse[]): UserTicketState[] {
+    return response.map(us => {
+      return {
+        UserTicketStateId: us.UserTicketStateId,
+        UserTicketState: us.TicketStateName
       };
     });
   }

@@ -1,13 +1,13 @@
-import { UserTicketStateResponse, UserTicketTypeResponse } from 'libs/models/payfactors-api/service/response';
+import { UserTicketTypeResponse } from 'libs/models/payfactors-api/service/response';
 
 import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
-import { PfServicesRep } from '../models';
+import {PfServicesRep, UserTicketState} from '../models';
 
 export interface State {
   loading: boolean;
   loadingError: boolean;
   pfServicesReps: PfServicesRep[];
-  userTicketStates: UserTicketStateResponse[];
+  userTicketStates: UserTicketState[];
   userTicketTypes: UserTicketTypeResponse[];
 }
 

@@ -9,8 +9,8 @@ import { debounceTime, distinctUntilChanged, filter, flatMap, map, takeUntil } f
 import { UserApiService } from 'libs/data/payfactors-api/user';
 
 import { PayfactorsApiModelMapper } from '../../helpers';
-import { PfServicesRep, TicketDetail } from '../../models';
 import * as fromTicketReducer from '../../reducers';
+import {PfServicesRep, TicketDetail, UserTicketState} from '../../models';
 
 @Component({
   selector: 'pf-ticket-fields',
@@ -23,10 +23,14 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
   lookupsLoading$: Observable<boolean>;
   lookupsLoadingError$: Observable<boolean>;
+  userTicketStates$: Observable<UserTicketState[]>;
   pfServicesReps: PfServicesRep[] = [];
   public selectedPfServicesRep: PfServicesRep;
+  public selectedUserTicketState: UserTicketState;
   private companySubscription$ = new Subscription();
+  private userTicketSubscription$ = new Subscription();
   private companyId$ = new BehaviorSubject<number>(0);
+  private ticketState$ = new BehaviorSubject<string>(null);
   private unsubscribe$ = new Subject();
 
   constructor(private store: Store<fromTicketReducer.State>,
@@ -34,13 +38,14 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
               private ref: ChangeDetectorRef) {
     this.lookupsLoading$ = this.store.select(fromTicketReducer.getLookupLoading);
     this.lookupsLoadingError$ = this.store.select(fromTicketReducer.getLookupLoadingError);
+    this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
   }
 
   ngOnInit() {
-    this.configureSubscription();
+    this.configureSubscriptions();
   }
 
-  configureSubscription() {
+  configureSubscriptions() {
     this.companySubscription$ = this.companyId$
       .pipe(
         takeUntil(this.unsubscribe$),
@@ -59,17 +64,39 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
         if (this.ticket && this.ticket.ServicesUserId) {
           const match = v.find(e => Math.abs(e.PfServicesRepId) === this.ticket.ServicesUserId);
           if (match) {
-            console.log(match);
             this.selectedPfServicesRep = match;
+            this.ref.markForCheck();
           }
         }
-        this.ref.markForCheck();
+      });
+
+    this.userTicketSubscription$ = this.ticketState$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(v => v && v.length > 0),
+        debounceTime(250),
+        distinctUntilChanged(),
+        flatMap(v => {
+          return this.userTicketStates$;
+        })
+      )
+      .subscribe(v => {
+        if (this.ticket && this.ticket.TicketState) {
+          const match = v.find(e => e.UserTicketState === this.ticket.TicketState);
+          if (match) {
+            this.selectedUserTicketState = match;
+            this.ref.markForCheck();
+          }
+        }
       });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes.ticket.previousValue || changes.ticket.previousValue.CompanyId !== changes.ticket.currentValue.CompanyId) {
       this.companyId$.next(changes.ticket.currentValue.CompanyId);
+    }
+    if (!changes.ticket.previousValue || changes.ticket.previousValue.TicketStatus !== changes.ticket.currentValue.TicketStatus) {
+      this.ticketState$.next(changes.ticket.currentValue.TicketState);
     }
   }
 
@@ -90,5 +117,7 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.unsubscribe();
     this.companySubscription$.unsubscribe();
+    this.ticketState$.unsubscribe();
+    this.userTicketSubscription$.unsubscribe();
   }
 }

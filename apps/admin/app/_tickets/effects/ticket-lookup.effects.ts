@@ -34,7 +34,8 @@ export class TicketLookupEffects {
       switchMap((action: fromTicketLookupActions.LoadTicketStates) =>
         this.userTicketApiService.getUserTicketStates().pipe(
           map((ticketStates: UserTicketStateResponse[]) => {
-            return new fromTicketLookupActions.LoadTicketStatesSuccess(ticketStates);
+            const states = PayfactorsApiModelMapper.mapUserTicketStatesResposnseToUserTicketState(ticketStates);
+            return new fromTicketLookupActions.LoadTicketStatesSuccess(states);
           }),
           catchError(error => of(new fromTicketLookupActions.LoadTicketStatesError()))
         )
