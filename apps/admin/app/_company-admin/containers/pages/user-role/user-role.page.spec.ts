@@ -59,7 +59,7 @@ describe('UserRolePageComponent', () => {
     const mockUserAssignedRoles = [generateMockUserAssignedRole()];
     component.userAssignedRoles = [mockUserAssignedRoles];
 
-    bindingElement = de.query(By.css('.role-list')).nativeElement;
+    bindingElement = de.query(By.css('.left-side-menu-nav ')).nativeElement;
 
     fixture.detectChanges();
 

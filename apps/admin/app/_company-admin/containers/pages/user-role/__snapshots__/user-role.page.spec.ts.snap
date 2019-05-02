@@ -11,6 +11,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   currentUserRoleTabState={[Function Number]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
+  inEditRoleMode="false"
   permissionIdsToSave={[Function Array]}
   permissionIdsToSaveSubscription={[Function Subscriber]}
   roleApiResponse="undefined"
@@ -25,138 +26,133 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   usersTabPendingChanges="false"
   usersTabPendingChangesSubscription={[Function Subscriber]}
 >
-  <pf-page-with-title-bar>
+  <pf-page-with-title-bar
+    class="wrapper"
+  >
     
      User Roles 
     
     
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-      Create
-    </button>
-    
     <div
-      class="container-fluid h-100 w-i"
+      class="d-flex flex-row main-container"
     >
       <div
-        class="row h-100"
+        class="d-flex flex-column-reverse left-side-menu flex-grow-7"
       >
         <div
-          class="col-1 p-0 roles-list-column inner-nav"
+          class="d-flex outer-nav-link m-3"
         >
-          <div
-            class="h-100 w-100 rounded-0"
+          <a
+            class="cursor-pointer"
           >
-            <div>
-              <div
-                class="align-self-center mr-auto"
-              >
-                <h4>
-                  Roles
-                </h4>
-              </div>
-            </div>
-            <div
-              id="wrapper"
+            Create New Role
+          </a>
+        </div>
+        <div
+          class="scrollable h-100"
+        >
+          <ul
+            class="left-side-menu-nav flex-grow-1 pt-2 pl-0 m-0 mb-0"
+          >
+            
+            <li
+              class="py-0 px-1"
+              ng-reflect-klass="py-0 px-1"
+              ng-reflect-ng-class="[object Object]"
             >
               <div
-                class="scrollbar"
+                class="d-flex flex-row left-side-menu-nav-row"
               >
-                <ul
-                  class="list-group nav role-list"
+                
+                <button
+                  class="btn btn-link ignore-click-elsewhere cursor-pointer"
+                  style="visibility: hidden;"
+                  title="Edit Role Name"
+                  type="button"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-pencil ignore-click-elsewhere ignore-click cursor-pointer"
+                  />
+                </button>
+                <a
+                  class="ml-1 ignore-click-elsewhere cursor-pointer"
                 >
                   
-                  <li
-                    class="nav-item"
-                    ng-reflect-klass="nav-item"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    <a>
-                      
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <a
-                  class="outer-nav-link"
-                >
-                  Create New Role
                 </a>
               </div>
-            </div>
+            </li>
+          </ul>
+        </div>
+        <h4>
+          Roles
+        </h4>
+      </div>
+      <div
+        class="d-flex flex-column-reverse flex-grow-1 role-tab-container"
+      >
+        <div
+          class="d-flex flex-row action-container "
+        >
+          
+          <div
+            class="d-flex my-3"
+          >
+            <pf-action-button />
           </div>
         </div>
         <div
-          class="col p-0"
+          class="d-flex card h-100 flex-grow-1"
         >
           <div
-            class="card h-100 w-100 rounded-0"
+            class="card-header"
           >
-            <div
-              class="card-header"
+            <ul
+              class="nav nav-tabs card-header-tabs"
             >
-              <ul
-                class="nav nav-tabs card-header-tabs"
+              
+              <li
+                class="nav-item"
               >
-                
-                <li
-                  class="nav-item"
+                <button
+                  class="nav-link cursor-pointer"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
                 >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Data Access 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link active"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Function 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Users 
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="card-block"
-            >
-              <div
-                class="tab-container mx-2 py-2"
+                  Data Access 
+                </button>
+              </li>
+              <li
+                class="nav-item"
               >
-                
-                
-                <pf-user-role-function-tab />
-                
-              </div>
-              <div
-                class="action-container row"
+                <button
+                  class="nav-link cursor-pointer active"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
+                >
+                  Function 
+                </button>
+              </li>
+              <li
+                class="nav-item"
               >
-                
-                <div>
-                  <pf-action-button />
-                </div>
-              </div>
-            </div>
+                <button
+                  class="nav-link cursor-pointer"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
+                >
+                  Users 
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="scrollable tab-container h-100 p-3"
+          >
+            
+            
+            <pf-user-role-function-tab />
+            
           </div>
         </div>
       </div>
@@ -176,6 +172,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   currentUserRoleTabState={[Function Number]}
   functionTabPendingChanges="false"
   functionTabPendingChangesSubscription={[Function Subscriber]}
+  inEditRoleMode="false"
   permissionIdsToSave={[Function Array]}
   permissionIdsToSaveSubscription={[Function Subscriber]}
   roleApiResponse="undefined"
@@ -190,129 +187,106 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   usersTabPendingChanges="false"
   usersTabPendingChangesSubscription={[Function Subscriber]}
 >
-  <pf-page-with-title-bar>
+  <pf-page-with-title-bar
+    class="wrapper"
+  >
     
      User Roles 
     
     
-    <button
-      class="btn btn-primary"
-      type="button"
-    >
-      Create
-    </button>
-    
     <div
-      class="container-fluid h-100 w-i"
+      class="d-flex flex-row main-container"
     >
       <div
-        class="row h-100"
+        class="d-flex flex-column-reverse left-side-menu flex-grow-7"
       >
         <div
-          class="col-1 p-0 roles-list-column inner-nav"
+          class="d-flex outer-nav-link m-3"
         >
-          <div
-            class="h-100 w-100 rounded-0"
+          <a
+            class="cursor-pointer"
           >
-            <div>
-              <div
-                class="align-self-center mr-auto"
-              >
-                <h4>
-                  Roles
-                </h4>
-              </div>
-            </div>
-            <div
-              id="wrapper"
-            >
-              <div
-                class="scrollbar"
-              >
-                <ul
-                  class="list-group nav role-list"
-                >
-                  
-                </ul>
-              </div>
-              <div>
-                <a
-                  class="outer-nav-link"
-                >
-                  Create New Role
-                </a>
-              </div>
-            </div>
+            Create New Role
+          </a>
+        </div>
+        <div
+          class="scrollable h-100"
+        >
+          <ul
+            class="left-side-menu-nav flex-grow-1 pt-2 pl-0 m-0 mb-0"
+          >
+            
+          </ul>
+        </div>
+        <h4>
+          Roles
+        </h4>
+      </div>
+      <div
+        class="d-flex flex-column-reverse flex-grow-1 role-tab-container"
+      >
+        <div
+          class="d-flex flex-row action-container "
+        >
+          
+          <div
+            class="d-flex my-3"
+          >
+            <pf-action-button />
           </div>
         </div>
         <div
-          class="col p-0"
+          class="d-flex card h-100 flex-grow-1"
         >
           <div
-            class="card h-100 w-100 rounded-0"
+            class="card-header"
           >
-            <div
-              class="card-header"
+            <ul
+              class="nav nav-tabs card-header-tabs"
             >
-              <ul
-                class="nav nav-tabs card-header-tabs"
+              
+              <li
+                class="nav-item"
               >
-                
-                <li
-                  class="nav-item"
+                <button
+                  class="nav-link cursor-pointer"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
                 >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Data Access 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link active"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Function 
-                  </button>
-                </li>
-                <li
-                  class="nav-item"
-                >
-                  <button
-                    class="nav-link"
-                    ng-reflect-klass="nav-link"
-                    ng-reflect-ng-class="[object Object]"
-                  >
-                    Users 
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div
-              class="card-block"
-            >
-              <div
-                class="tab-container mx-2 py-2"
+                  Data Access 
+                </button>
+              </li>
+              <li
+                class="nav-item"
               >
-                
-                
-                <pf-user-role-function-tab />
-                
-              </div>
-              <div
-                class="action-container row"
+                <button
+                  class="nav-link cursor-pointer active"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
+                >
+                  Function 
+                </button>
+              </li>
+              <li
+                class="nav-item"
               >
-                
-                <div>
-                  <pf-action-button />
-                </div>
-              </div>
-            </div>
+                <button
+                  class="nav-link cursor-pointer"
+                  ng-reflect-klass="nav-link cursor-pointer"
+                  ng-reflect-ng-class="[object Object]"
+                >
+                  Users 
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="scrollable tab-container h-100 p-3"
+          >
+            
+            
+            <pf-user-role-function-tab />
+            
           </div>
         </div>
       </div>

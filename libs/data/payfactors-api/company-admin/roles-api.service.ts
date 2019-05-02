@@ -33,6 +33,11 @@ export class RolesApiService {
       {permissionIds: permissionIds, userIdsToAssign: userIds, isSystemRole: isSystemRole});
   }
 
+  updateRoleName(newRoleName: string, roleId: number) {
+    return this.payfactorsApiService.post<string>(`${this.endpoint}(${roleId})/Default.UpdateRoleName`,
+      {newRoleName: newRoleName});
+  }
+
   getDataTypes() {
     return this.payfactorsApiService.get<DataType[]>(`${this.endpoint}/GetDataTypes`);
   }

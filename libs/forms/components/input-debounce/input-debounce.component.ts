@@ -36,6 +36,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   @Input() automationClassName: '';
   @Input() minWidth: '100';
   @Output() valueChanged = new EventEmitter();
+  @Output() clearClicked = new EventEmitter();
 
   constructor(private elementRef: ElementRef) {
     this.clearEvent = new Subject();
@@ -62,6 +63,7 @@ export class InputDebounceComponent implements OnInit, ControlValueAccessor {
   clearValue() {
     this.innerValue = '';
     this.clearEvent.next('');
+    this.clearClicked.emit();
   }
 
   onKey() {
