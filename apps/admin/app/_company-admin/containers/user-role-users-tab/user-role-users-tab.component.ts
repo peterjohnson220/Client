@@ -41,7 +41,6 @@ export class UserRoleUsersTabComponent implements OnDestroy {
         this.currentRoleIsSystemRole = ur.IsSystemRole;
       }
     });
-
   }
 
   ngOnDestroy() {

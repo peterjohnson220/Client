@@ -1,4 +1,4 @@
 <div class="action-button-container">
-  <button class="btn btn-primary" (click)="saveButtonClicked()" [attr.data-qa-id]="saveButtonQaId" [disabled]="saveButtonDisabled">{{saveButtonText}}</button>
-  <button *ngIf="showCancelButton" class="btn btn-secondary" (click)="cancelButtonClicked()" [attr.data-qa-id]="cancelButtonQaId" [disabled]="cancelButtonDisabled">{{cancelButtonText}}</button>
+  <button class="btn btn-primary mx-1" (click)="saveButtonClicked()" [attr.data-qa-id]="saveButtonQaId" [disabled]="saveButtonDisabled">{{saveButtonText}}</button>
+  <button *ngIf="showCancelButton" class="btn btn-secondary ml-2" (click)="cancelButtonClicked()" [attr.data-qa-id]="cancelButtonQaId" [disabled]="cancelButtonDisabled">{{cancelButtonText}}</button>
 </div>

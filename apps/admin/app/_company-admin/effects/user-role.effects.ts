@@ -99,6 +99,18 @@ export class UserRoleEffects {
         ))
       );
 
+  @Effect()
+  editRoleName$: Observable<Action> = this.actions$
+    .ofType(fromUserRoleActions.EDIT_ROLE_NAME).pipe(
+      switchMap((action: fromUserRoleActions.EditRoleName) =>
+        this.adminRolesApi.updateRoleName(action.payload.NewRoleName, action.payload.RoleId).pipe(
+          mergeMap(response => {
+            return [new fromUserRoleActions.LoadCompanyRoles()];
+          }),
+          catchError(error => of(new fromUserRoleActions
+            .SaveRoleError(RoleApiResponse.Error)))
+      )));
+
   constructor(private actions$: Actions,
               private adminRolesApi: RolesApiService,
               private store: Store<fromUserRoleViewReducer.State>) {

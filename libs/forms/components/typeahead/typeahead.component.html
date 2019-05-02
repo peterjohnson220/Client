@@ -1,0 +1,45 @@
+<input *ngIf="hideClearBtn"
+       type="text"
+       class="form-control"
+       autocomplete="off"
+       [id]="id"
+       (keyup)="onKey()"
+       (paste)="onPaste()"
+       [placeholder]="placeholderText"
+       [(ngModel)]="innerValue"
+       [disabled]="disabled"
+       [pfFocus]="focus"
+       [pfFocusElementShowing]="showing"
+       [maxlength]="maxLength"
+       [ngClass]="automationClassName"
+       [attr.data-qa-id]="'txt-'+id"
+       (selectItem)="onItemSelect($event.item)"
+       [ngbTypeahead]="typeaheadFn">
+<div *ngIf="!hideClearBtn"
+     class="input-group">
+  <input type="text"
+         class="form-control"
+         autocomplete="off"
+         [placeholder]="placeholderText"
+         [id]="id"
+         (keyup)="onKey()"
+         (paste)="onPaste()"
+         [(ngModel)]="innerValue"
+         [disabled]="disabled"
+         [pfFocus]="focus"
+         [pfFocusElementShowing]="showing"
+         [maxlength]="maxLength"
+         [ngClass]="automationClassName"
+         [attr.data-qa-id]="'txt-'+id"
+         [style.min-width]="minWidth + 'px'"
+         (selectItem)="onItemSelect($event.item)"
+         [ngbTypeahead]="typeaheadFn">
+  <div (click)="clearValue()"
+       class="input-group-append"
+       [ngClass]="automationClassName + '-clear'">
+    <span class="input-group-text">
+      <i class="fas fa-times"
+         aria-hidden="true"></i>
+    </span>
+  </div>
+</div>

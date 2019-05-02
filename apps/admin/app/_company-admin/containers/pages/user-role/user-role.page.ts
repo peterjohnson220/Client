@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
@@ -37,6 +37,8 @@ export class UserRolePageComponent implements OnDestroy {
   saveButtonDisabled: boolean;
   permissionIdsToSave: number[];
   permissionIdsToSaveSubscription: Subscription;
+  inEditRoleMode = false;
+  newRoleName: string;
 
   constructor(private userRoleService: UserRoleService, private store: Store<fromUserRoleViewReducer.State>) {
     this.store.dispatch(new fromUserRoleActions.LoadCompanyRoles());
@@ -45,6 +47,9 @@ export class UserRolePageComponent implements OnDestroy {
 
     this.companyRolesSubscription = this.store.select(fromUserRoleViewReducer.getCompanyRoles).subscribe(userRoles => {
       this.userAssignedRoles = userRoles;
+      if (this.currentRole) {
+       this.refreshCurrentRole();
+      }
     });
 
     this.currentTabStateSubscription = this.store.select(fromUserRoleViewReducer.getUserRoleCurrentTabState).subscribe(tabState => {
@@ -80,6 +85,18 @@ export class UserRolePageComponent implements OnDestroy {
     });
   }
 
+  // clear edit role name when in edit mode
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.inEditRoleMode && event.key.toLowerCase().startsWith('esc')) {
+      this.newRoleName = null;
+      return false;
+    } else if (this.inEditRoleMode && event.key.toLowerCase() === 'enter') {
+      this.setEditRoleNameMode(false);
+      return false;
+    }
+  }
+
   handleTabClick(userRoleViewTabState: UserRoleTabState) {
     this.store.dispatch(new fromUserRoleActions.UpdateUserRoleTabState(userRoleViewTabState));
   }
@@ -88,7 +105,37 @@ export class UserRolePageComponent implements OnDestroy {
     this.store.dispatch(new fromUserRoleActions.OpenAddCompanyRoleModal());
   }
 
+  setEditRoleNameMode(inEditRoleMode: boolean) {
+    if (this.currentRole && this.currentRole.IsSystemRole) {
+      return;
+    }
+
+    if (inEditRoleMode) {
+      this.updateNewRoleName(this.currentRole.RoleName);
+      this.inEditRoleMode = true;
+    } else {
+      if (this.newRoleName && this.newRoleName !== this.currentRole.RoleName) {
+        this.store.dispatch(new fromUserRoleActions.EditRoleName({
+          NewRoleName: this.newRoleName,
+          RoleId: this.currentRole.RoleId
+        }));
+      }
+      this.inEditRoleMode = false;
+      this.updateNewRoleName(null);
+    }
+  }
+
+  updateNewRoleName(name: string) {
+    this.newRoleName = name;
+  }
+
+  refreshCurrentRole() {
+    const role = this.userAssignedRoles.find(uar => uar.RoleId === this.currentRole.RoleId);
+    this.userRoleService.updateCurrentUserRole(role);
+  }
+
   clickRole(role: UserAssignedRole) {
+    this.setEditRoleNameMode(false);
     if (this.promptUserToSave(role)) {
       this.userRoleService.updateCurrentUserRole(role);
     }
