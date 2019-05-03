@@ -35,15 +35,12 @@
     </div>
     <div class="col-sm-4">
       <kendo-combobox
+        [data]="userTicketTypes$ | async"
+        [textField]="'TicketTypeDisplayName'"
+        [valueField]="'TicketTypeDisplayName'"
+        [suggest]="true"
+        [(ngModel)]="selectedUserTicketType"
         (valueChange)="comboValueChanged($event, 'type')">
-      </kendo-combobox>
-    </div>
-    <div class="col-sm-2">
-      Priority:
-    </div>
-    <div class="col-sm-4">
-      <kendo-combobox
-        (valueChange)="comboValueChanged($event, 'priority')">
       </kendo-combobox>
     </div>
   </div>

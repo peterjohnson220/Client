@@ -44,11 +44,12 @@ export class TicketLookupEffects {
 
   @Effect()
   loadTicketTypes$: Observable<Action> = this.actions$
-    .ofType(fromTicketLookupActions.LOAD_TICKETSTATES).pipe(
+    .ofType(fromTicketLookupActions.LOAD_TICKETTYPES).pipe(
       switchMap((action: fromTicketLookupActions.LoadTicketTypes) =>
         this.userTicketApiService.getUserTicketTypes().pipe(
           map((ticketTypes: UserTicketTypeResponse[]) => {
-            return new fromTicketLookupActions.LoadTicketTypesSuccess(ticketTypes);
+            const types = PayfactorsApiModelMapper.mapUserTicketTypeResponseToTicketType(ticketTypes);
+            return new fromTicketLookupActions.LoadTicketTypesSuccess(types);
           }),
           catchError(error => of(new fromTicketLookupActions.LoadTicketTypesError()))
         )
