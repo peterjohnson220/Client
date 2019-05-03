@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import * as fromTicketActions from '../../actions/ticket.actions';
-import { CompanyDetail, UserTicketTabItem } from '../../models';
 import * as fromTicketReducer from '../../reducers';
+import { CompanyDetail, UserTicketTabItem } from '../../models';
 
 @Component({
   selector: 'pf-company-detail-card',

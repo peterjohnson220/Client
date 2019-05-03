@@ -1,19 +1,20 @@
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-
 import { FileApiService } from 'libs/data/payfactors-api/file';
 import { PayfactorsApiService } from 'libs/data/payfactors-api/payfactors-api.service';
 import { UserApiService } from 'libs/data/payfactors-api/user';
 import * as fromRootState from 'libs/state/state';
+import { of } from 'rxjs';
 
-import { generateMockPfServicesRep, generateMockUserTicketItem } from '../../models';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+
 import * as fromTicketReducer from '../../reducers';
 import { TicketFieldsComponent } from './ticket-fields.component';
+import {
+  generateMockPfServicesRep, generateMockUserTicketItem, generateMockUserTicketState
+} from '../../models';
 
 describe('Admin - Tickets - Ticket - TicketFields', () => {
   let instance: TicketFieldsComponent;
@@ -50,6 +51,7 @@ describe('Admin - Tickets - Ticket - TicketFields', () => {
     jest.useFakeTimers();
 
     instance.ticket = mockUserTicketItem.TicketDetail;
+    instance.userTicketStates$ = of([generateMockUserTicketState()]);
     instance.ngOnInit();
     instance.ngOnChanges( {
       ticket: new SimpleChange(null, mockUserTicketItem.TicketDetail, false)

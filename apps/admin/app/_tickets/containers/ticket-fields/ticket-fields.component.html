@@ -5,21 +5,27 @@
     <div class="col-sm-2">
       Assigned To:
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <kendo-combobox
         [data]="pfServicesReps"
         [valueField]="'PfServicesRepId'"
         [textField]="'Name'"
         (valueChange)="comboValueChanged($event, 'assigned')"
-        [(ngModel)]="selectedPfServicesRep">
+        [(ngModel)]="selectedPfServicesRep"
+        [suggest]="true">
       </kendo-combobox>
     </div>
     <div class="col-sm-2">
       Status:
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <kendo-combobox
-        (valueChange)="comboValueChanged($event, 'status')">
+        [data]="userTicketStates$ | async"
+        [valueField]="'UserTicketStateId'"
+        [textField]="'UserTicketState'"
+        (valueChange)="comboValueChanged($event, 'status')"
+        [(ngModel)]="selectedUserTicketState"
+        [suggest]="true">
       </kendo-combobox>
     </div>
   </div>
@@ -27,7 +33,7 @@
     <div class="col-sm-2">
       Type:
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <kendo-combobox
         (valueChange)="comboValueChanged($event, 'type')">
       </kendo-combobox>
@@ -35,7 +41,7 @@
     <div class="col-sm-2">
       Priority:
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-4">
       <kendo-combobox
         (valueChange)="comboValueChanged($event, 'priority')">
       </kendo-combobox>
