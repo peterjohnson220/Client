@@ -21,6 +21,7 @@ export class UserRoleDataAccessTabComponent  implements OnDestroy {
   currentRoleId: number;
   dataTypesSubscription: Subscription;
   roleDataRestrictionSubscription: Subscription;
+  currentUserRoleSubscription: Subscription
   constructor(public store: Store<userRoleReducer.State>, public dataAccessService: DataAccessService) {
     this.dataTypesSubscription = this.store.select(userRoleReducer.getDataTypes).subscribe(p => {
       this.dataTypes = p || [];
@@ -33,7 +34,7 @@ export class UserRoleDataAccessTabComponent  implements OnDestroy {
       const withBlankRows = dataAccessService.createBlankDataRestrictionIfNeeded(this.dataTypes, rd);
       this.roleDataRestrictions = dataAccessService.ConvertRoleDataRestrictionForUI(this.dataFields, withBlankRows);
     });
-    this.roleDataRestrictionSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(ur => {
+    this.currentUserRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(ur => {
       if (ur) {
         this.currentRoleId = ur.RoleId;
       }
@@ -49,5 +50,7 @@ export class UserRoleDataAccessTabComponent  implements OnDestroy {
   }
   ngOnDestroy() {
     this.dataTypesSubscription.unsubscribe();
+    this.currentUserRoleSubscription.unsubscribe();
+    this.roleDataRestrictionSubscription.unsubscribe();
   }
 }

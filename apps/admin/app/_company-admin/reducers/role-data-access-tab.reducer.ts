@@ -64,7 +64,7 @@ function RemapRoleDataRestrictions(dataRestrictions: RoleDataRestriction[]) {
     DataFieldId : rd.DataFieldId,
     RoleId: rd.RoleId,
     DataConditionIsEqual: rd.DataConditionIsEqual,
-    DataValue: rd.DataValue.toString()
+    DataValue: (rd.DataValue || '').toString()
   }));
 }
 
