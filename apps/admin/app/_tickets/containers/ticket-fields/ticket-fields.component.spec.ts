@@ -13,7 +13,7 @@ import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import * as fromTicketReducer from '../../reducers';
 import { TicketFieldsComponent } from './ticket-fields.component';
 import {
-  generateMockPfServicesRep, generateMockUserTicketItem, generateMockUserTicketState
+  generateMockPfServicesRep, generateMockUserTicketItem, generateMockUserTicketState, generateMockUserTicketType
 } from '../../models';
 
 describe('Admin - Tickets - Ticket - TicketFields', () => {
@@ -52,6 +52,7 @@ describe('Admin - Tickets - Ticket - TicketFields', () => {
 
     instance.ticket = mockUserTicketItem.TicketDetail;
     instance.userTicketStates$ = of([generateMockUserTicketState()]);
+    instance.userTicketTypes$ = of([generateMockUserTicketType()]);
     instance.ngOnInit();
     instance.ngOnChanges( {
       ticket: new SimpleChange(null, mockUserTicketItem.TicketDetail, false)
