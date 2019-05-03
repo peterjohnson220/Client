@@ -4,10 +4,8 @@ export interface UserTicketTypeResponse {
   TicketCssClass: string;
   SortOrder: number;
   Active: boolean;
-  CreateDate: Date;
-  CreateUser: number;
-  EditDate: Date;
-  EditUser: number;
+  TicketSubTypeName: string;
+  TicketTypeDisplayName: string;
 }
 
 export function generateMockUserTicketTypeResponse(): UserTicketTypeResponse {
@@ -17,9 +15,7 @@ export function generateMockUserTicketTypeResponse(): UserTicketTypeResponse {
     TicketCssClass: 'jobPricingColor',
     SortOrder: 1,
     Active: true,
-    CreateDate: new Date(2019, 3, 28),
-    CreateUser: -1,
-    EditDate: new Date(2019, 3, 28),
-    EditUser: -1,
+    TicketSubTypeName: 'MockTicketSubTypeName',
+    TicketTypeDisplayName: 'MockTicketTypeDisplayName'
   };
 }

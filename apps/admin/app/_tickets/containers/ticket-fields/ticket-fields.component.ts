@@ -10,7 +10,7 @@ import { UserApiService } from 'libs/data/payfactors-api/user';
 
 import { PayfactorsApiModelMapper } from '../../helpers';
 import * as fromTicketReducer from '../../reducers';
-import {PfServicesRep, TicketDetail, UserTicketState} from '../../models';
+import { PfServicesRep, TicketDetail, UserTicketState, UserTicketType } from '../../models';
 
 @Component({
   selector: 'pf-ticket-fields',
@@ -21,16 +21,26 @@ import {PfServicesRep, TicketDetail, UserTicketState} from '../../models';
 export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() ticket: TicketDetail;
   @Output() valueChange: EventEmitter<any> = new EventEmitter<any>();
+
   lookupsLoading$: Observable<boolean>;
   lookupsLoadingError$: Observable<boolean>;
   userTicketStates$: Observable<UserTicketState[]>;
+  userTicketTypes$: Observable<UserTicketType[]>;
+
   pfServicesReps: PfServicesRep[] = [];
+  userTicketTypes: UserTicketType[] = [];
+
   public selectedPfServicesRep: PfServicesRep;
   public selectedUserTicketState: UserTicketState;
+  public selectedUserTicketType: UserTicketType;
+
   private companySubscription$ = new Subscription();
   private userTicketSubscription$ = new Subscription();
+  private userTicketTypeSubscription$ = new Subscription();
+
   private companyId$ = new BehaviorSubject<number>(0);
   private ticketState$ = new BehaviorSubject<string>(null);
+  private ticketType$ = new BehaviorSubject<string>(null);
   private unsubscribe$ = new Subject();
 
   constructor(private store: Store<fromTicketReducer.State>,
@@ -39,6 +49,7 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
     this.lookupsLoading$ = this.store.select(fromTicketReducer.getLookupLoading);
     this.lookupsLoadingError$ = this.store.select(fromTicketReducer.getLookupLoadingError);
     this.userTicketStates$ = this.store.select(fromTicketReducer.getUserTicketStates);
+    this.userTicketTypes$ = this.store.select(fromTicketReducer.getUserTicketTypes);
   }
 
   ngOnInit() {
@@ -89,6 +100,27 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       });
+
+    this.userTicketTypeSubscription$ = this.ticketType$
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(v => v && v.length > 0),
+        debounceTime(250),
+        distinctUntilChanged(),
+        flatMap(v => {
+          return this.userTicketTypes$;
+        })
+      )
+      .subscribe(v => {
+        if (this.ticket && this.ticket.TicketType) {
+          const match = v.find(e => (e.TicketTypeName === this.ticket.TicketType && !this.ticket.TicketSubType)
+            || (e.TicketTypeName === this.ticket.TicketType && e.TicketSubTypeName === this.ticket.TicketSubType));
+          if (match) {
+            this.selectedUserTicketType = match;
+            this.ref.markForCheck();
+          }
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -97,6 +129,10 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (!changes.ticket.previousValue || changes.ticket.previousValue.TicketStatus !== changes.ticket.currentValue.TicketStatus) {
       this.ticketState$.next(changes.ticket.currentValue.TicketState);
+    }
+    if (!changes.ticket.previousValue || changes.ticket.previousValue.TicketTypeDisplayName
+      !== changes.ticket.currentValue.TicketTypeDisplayName) {
+      this.ticketType$.next(changes.ticket.currentValue.TicketTypeDisplayName);
     }
   }
 
@@ -118,6 +154,8 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
     this.unsubscribe$.unsubscribe();
     this.companySubscription$.unsubscribe();
     this.ticketState$.unsubscribe();
+    this.ticketType$.unsubscribe();
     this.userTicketSubscription$.unsubscribe();
+    this.userTicketTypeSubscription$.unsubscribe();
   }
 }

@@ -2,11 +2,12 @@ import {
   UserTicketComment,
   UserTicketCompanyDetailResponse,
   UserTicketResponse,
-  UserTicketStateResponse
+  UserTicketStateResponse,
+  UserTicketTypeResponse
 } from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 
-import {CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem, UserTicketState} from '../models';
+import {CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem, UserTicketState, UserTicketType} from '../models';
 
 
 export class PayfactorsApiModelMapper {
@@ -17,7 +18,7 @@ export class PayfactorsApiModelMapper {
         Created: ut.CreateDate,
         CompanyName: ut.CompanyName,
         CompanyId: ut.CompanyId,
-        Type: ut.UserTicketType,
+        Type: this.getTicketTypeDisplayName(ut.UserTicketType, ut.FileType),
         Status: ut.UserTicketState,
         OpenedUser: ut.OpenedUserEmail,
         ServiceUser: ut.ServicesUserEmail,
@@ -39,7 +40,9 @@ export class PayfactorsApiModelMapper {
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
+        TicketTypeDisplayName: this.getTicketTypeDisplayName(response.UserTicketType, response.FileType),
         TicketType: response.UserTicketType,
+        TicketSubType: response.FileType,
         TicketCssClass: response.TicketCssClass,
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText
@@ -78,6 +81,18 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
+    return response.map( utt => {
+      return {
+        UserTicketTypeId: utt.UserTicketTypeId,
+        TicketTypeName: utt.TicketTypeName,
+        SortOrder: utt.SortOrder,
+        TicketSubTypeName: utt.TicketSubTypeName,
+        TicketTypeDisplayName: utt.TicketTypeDisplayName
+      };
+    });
+  }
+
   private static squashComments( userTicketComments: UserTicketComment[]): string {
 
     let comment = '';
@@ -90,5 +105,14 @@ export class PayfactorsApiModelMapper {
     });
 
     return comment;
+  }
+
+  private static getTicketTypeDisplayName( userTicketType: string, fileType: string): string {
+    let displayName = userTicketType;
+    if (fileType) {
+      displayName = displayName + ' - ' + fileType;
+    }
+
+    return displayName;
   }
 }
