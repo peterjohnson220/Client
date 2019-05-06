@@ -25,31 +25,16 @@
   </div>
   <div class="col-12 col-lg-4">
      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
-        <div  *ngIf="dataType?.Name=='CompanyPayMarkets'">
-          <pf-multi-select
-          [attr.data-qa-id]="'ddm-'+ dataType.Name"
-          [(selectedValues)]="roleDataRestriction.DataValue"
-          (selectedValuesChange)="roleDataRestrictionChanged.emit()"
-          [selectedOnTop]="true"
-          [highlightSelected]="true"
-          [endpointName]="selectedField?.Name == 'PayMarket'?paymarketApiName: surveyApiName"
-          [valueField]="'CompanyPayMarketId'"
-          [textField]="'PayMarket'">
-          </pf-multi-select>
-        </div>
-        <div  *ngIf="selectedField?.Name=='Country_Code' && dataType?.Name=='CompanySurveys'">
-          <pf-multi-select
-            [attr.data-qa-id]="'ddm-'+ dataType?.Name"
-            [(selectedValues)]="roleDataRestriction.DataValue"
-            (selectedValuesChange)="roleDataRestrictionChanged.emit()"
-            [selectedOnTop]="true"
-            [highlightSelected]="true"
-            [endpointName]="surveyApiName"
-            [valueField]="'CountryCode'"
-            [textField]="'CountryName'"
-          >
-          </pf-multi-select>
-        </div>
+        <pf-multi-select
+        [attr.data-qa-id]="'ddm-'+ dataType.Name"
+        [(selectedValues)]="roleDataRestriction.DataValue"
+        (selectedValuesChange)="roleDataRestrictionChanged.emit()"
+        [selectedOnTop]="true"
+        [highlightSelected]="true"
+        [endpointName]="'Role/GetRoleDataRestrictionValues?dataType='+dataType.Name+'&dataField='+toTitleCase(selectedField.Name)"
+        [valueField]="'Id'"
+        [textField]="'Value'">
+        </pf-multi-select>
      </div>
       <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
         <pf-typeahead [apiEndpoint]="'Role/GetRoleDataRestrictionValues?dataType='+dataType.Name+'&dataField='+toTitleCase(selectedField.Name)"
