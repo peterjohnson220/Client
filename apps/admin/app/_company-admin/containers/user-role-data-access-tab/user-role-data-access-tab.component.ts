@@ -31,8 +31,10 @@ export class UserRoleDataAccessTabComponent  implements OnDestroy {
     });
 
     this.roleDataRestrictionSubscription = this.store.select(userRoleReducer.getRoleDataRestrictions).subscribe(rd => {
-      const withBlankRows = dataAccessService.createBlankDataRestrictionIfNeeded(this.dataTypes, rd);
-      this.roleDataRestrictions = dataAccessService.ConvertRoleDataRestrictionForUI(this.dataFields, withBlankRows);
+      if (rd) {
+        const withBlankRows = dataAccessService.createBlankDataRestrictionIfNeeded(this.dataTypes, rd);
+        this.roleDataRestrictions = dataAccessService.ConvertRoleDataRestrictionForUI(this.dataFields, withBlankRows);
+      }
     });
     this.currentUserRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(ur => {
       if (ur) {

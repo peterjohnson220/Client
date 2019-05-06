@@ -32,12 +32,12 @@
           (selectedValuesChange)="roleDataRestrictionChanged.emit()"
           [selectedOnTop]="true"
           [highlightSelected]="true"
-          [endpointName]="selectedField?.Name == 'Name'?paymarketApiName: surveyApiName"
+          [endpointName]="selectedField?.Name == 'PayMarket'?paymarketApiName: surveyApiName"
           [valueField]="'CompanyPayMarketId'"
           [textField]="'PayMarket'">
           </pf-multi-select>
         </div>
-        <div  *ngIf="selectedField?.Name=='Country' && dataType?.Name=='CompanySurveys'">
+        <div  *ngIf="selectedField?.Name=='Country_Code' && dataType?.Name=='CompanySurveys'">
           <pf-multi-select
             [attr.data-qa-id]="'ddm-'+ dataType?.Name"
             [(selectedValues)]="roleDataRestriction.DataValue"
@@ -51,8 +51,12 @@
           </pf-multi-select>
         </div>
      </div>
-      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.STRING">
-       <input type="text" (change)="roleDataRestrictionChanged.emit()" [(ngModel)]="roleDataRestriction.DataValue" [attr.data-qa-id]="'txt-'+ dataType?.Name + '-' +selectedField?.Name" class="form-control ng-pristine">
+      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
+        <pf-typeahead [apiEndpoint]="'Role/GetRoleDataRestrictionValues?dataType='+dataType.Name+'&dataField='+toTitleCase(selectedField.Name)"
+                      [apiResponsePropertyForTypeahead]="'Value'"
+                      [(ngModel)]="roleDataRestriction.DataValue"
+                      (componentLeave)="roleDataRestrictionChanged.emit();"
+        ></pf-typeahead>
       </div>
   </div>
 </div>
