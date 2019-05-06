@@ -1,15 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 import { Exchange } from 'libs/models/peer';
-import { GridTypeEnum } from 'libs/models';
+import { GridTypeEnum, StatusEnum } from 'libs/models';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
 
 import * as fromPeerAdminReducer from '../../../reducers';
+import * as fromExchangeActions from '../../../actions/exchange.actions';
 import { GridHelperService } from '../../../services';
+
 
 @Component({
   selector: 'pf-manage-exchange-page',
@@ -18,7 +21,6 @@ import { GridHelperService } from '../../../services';
 })
 export class ManageExchangePageComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
-  exchangeId: number;
   totalExchangeCompanies$: Observable<number>;
   totalExchangeJobs$: Observable<number>;
   totalExchangeAccessRequests$: Observable<number>;
@@ -26,6 +28,12 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   totalNewCompanyExchangeInvitations$: Observable<number>;
   totalExchangeJobRequests$: Observable<number>;
   totalExchangeFilters$: Observable<number>;
+  isExchangeActive$: Observable<boolean>;
+  canActivateExchange$: Observable<boolean>;
+
+  canActivateExchangeSubscription: Subscription;
+
+  exchangeId: number;
 
   constructor(private store: Store<fromPeerAdminReducer.State>,
               private activeRoute: ActivatedRoute,
@@ -40,9 +48,26 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.totalNewCompanyExchangeInvitations$ = this.store.pipe(select(fromPeerAdminReducer.getTotalNewCompanyExchangeInvitations));
     this.totalExchangeJobRequests$ = this.store.pipe(select(fromPeerAdminReducer.getTotalExchangeJobRequests));
     this.totalExchangeFilters$ = this.store.pipe(select(fromPeerAdminReducer.getTotalExchangeFilters));
+    this.isExchangeActive$ = this.exchange$.pipe(map(e => e.Status === StatusEnum.Active));
+    this.canActivateExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeCanActivate));
+  }
+
+  handleSwitchToggled() {
+    this.store.dispatch(new fromExchangeActions.OpenToggleExchangeStatusModal());
   }
 
   ngOnInit() {
+    this.canActivateExchangeSubscription = this.canActivateExchange$.subscribe(canActivateExchange => {
+      let isExchangeActive = false;
+      this.isExchangeActive$.pipe(take(1)).subscribe(x => {
+        isExchangeActive = x;
+      });
+
+      if (!canActivateExchange && isExchangeActive) {
+        this.store.dispatch(new fromExchangeActions.UpdateExchangeStatus(this.exchangeId, StatusEnum.Inactive));
+      }
+    });
+
     this.gridHelperService.loadExchangeJobs(this.exchangeId);
     this.gridHelperService.loadExchangeCompanies(this.exchangeId);
     this.gridHelperService.loadExchangeAccessRequests(this.exchangeId);
@@ -53,6 +78,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.canActivateExchangeSubscription.unsubscribe();
+
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanies));
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobs));
   }

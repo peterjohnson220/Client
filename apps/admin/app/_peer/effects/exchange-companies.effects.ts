@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
 
+import { Action } from '@ngrx/store';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, map} from 'rxjs/operators';
 import { GridDataResult } from '@progress/kendo-angular-grid';
@@ -15,8 +15,8 @@ import * as fromExchangeCompaniesActions from '../actions/exchange-companies.act
 export class ExchangeCompaniesEffects {
 
   @Effect()
-  loadExchangeCompanies$: Observable<Action> = this.actions$
-    .ofType(fromExchangeCompaniesActions.LOADING_EXCHANGE_COMPANIES).pipe(
+  loadExchangeCompanies$: Observable<Action> = this.actions$.pipe(
+      ofType(fromExchangeCompaniesActions.LOADING_EXCHANGE_COMPANIES),
       map((action: fromExchangeCompaniesActions.LoadingExchangeCompanies) => action.payload),
       switchMap(payload => {
           return this.exchangeApiService.getCompanies(payload.exchangeId, payload.listState).pipe(
@@ -30,8 +30,8 @@ export class ExchangeCompaniesEffects {
     );
 
   @Effect()
-  addExchangeCompanies$: Observable<Action> = this.actions$
-    .ofType(fromExchangeCompaniesActions.ADDING_EXCHANGE_COMPANIES).pipe(
+  addExchangeCompanies$: Observable<Action> = this.actions$.pipe(
+      ofType(fromExchangeCompaniesActions.ADDING_EXCHANGE_COMPANIES),
       map((action: fromExchangeCompaniesActions.AddingExchangeCompanies) => action.payload),
       switchMap(payload =>
         this.exchangeApiService.addCompanies(payload).pipe(
@@ -45,8 +45,8 @@ export class ExchangeCompaniesEffects {
     );
 
   @Effect()
-  deleteExchangeCompany$: Observable<Action> = this.actions$
-    .ofType(fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY).pipe(
+  deleteExchangeCompany$: Observable<Action> = this.actions$.pipe(
+      ofType(fromExchangeCompaniesActions.DELETING_EXCHANGE_COMPANY),
       map((action: fromExchangeCompaniesActions.DeletingExchangeCompany) => action.payload),
       switchMap(payload =>
         this.exchangeApiService.deleteExchangeCompany(payload).pipe(

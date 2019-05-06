@@ -1,8 +1,10 @@
+import { StatusEnum } from '../common';
+
 export interface Exchange {
   ExchangeId: number;
   ExchangeName: string;
   ExchangeManagerUserId?: number;
-  Status: string;
+  Status: StatusEnum;
   ExchangeType: string;
   CreateDate: Date;
   CreateUser: number;
@@ -15,7 +17,7 @@ export function generateMockExchange(): Exchange {
     ExchangeId: 1,
     ExchangeName: 'Mock Exchange',
     ExchangeManagerUserId: null,
-    Status: 'Active',
+    Status: StatusEnum.Active,
     ExchangeType: 'Type',
     CreateDate: new Date(1512056138449),
     CreateUser: 2437,

@@ -1,0 +1,19 @@
+<pf-modal-form
+  size="md"
+  secondaryButtonText="Cancel"
+  [primaryButtonClass]="primaryButtonClass"
+  [title]="title"
+  [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
+  [submitting]="updatingExchangeStatus$ | async"
+  [isOpen$]="exchangeStatusConfirmationModalOpen$"
+  (onSubmit)="handleToggleConfirmed()"
+  (onDismiss)="handleModalDismissed()">
+
+  <ng-container basic-content>
+    <div [innerHtml]="bodyText"></div>
+    <br />
+    Would you like to continue?
+  </ng-container>
+
+</pf-modal-form>

@@ -35,11 +35,11 @@
 
 
 
-// To be used as the class of the kendo-switch to allow for longer labels in a switch 30% in width.
-.k-switch-w30.k-switch {
-  width: 30%;
+// To be used as the class of the kendo-switch to allow for longer labels.
+.k-switch-lg.k-switch {
+  width: 7rem;
   .k-switch-label-on {
-    left: -300%;
+    left: -200%;
     white-space: nowrap;
   }
   .k-switch-label-off {

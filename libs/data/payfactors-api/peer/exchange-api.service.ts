@@ -22,9 +22,10 @@ import {
   ExchangeJobRequestAction,
   ExchangeRequestActionEnum,
   CompanyExchangeInvitationAction,
-  ExchangeSearchFilterAggregate
+  ExchangeSearchFilterAggregate, StatusEnum
 } from '../../../models';
 import { PayfactorsApiService } from '../payfactors-api.service';
+import {ExchangeManagementDetails} from '../../../../apps/admin/app/_peer/models';
 
 @Injectable()
 export class ExchangeApiService {
@@ -96,6 +97,12 @@ export class ExchangeApiService {
 
   getExchange(exchangeId: number): Observable<Exchange> {
     return this.payfactorsApiService.get<Exchange>(`${this.endpoint}/GetExchange`, { params: { exchangeId: exchangeId } });
+  }
+
+  getExchangeManagementDetails(exchangeId: number): Observable<ExchangeManagementDetails> {
+    return this.payfactorsApiService.get<ExchangeManagementDetails>(`${this.endpoint}/GetExchangeManagementDetails`,
+      { params: { exchangeId: exchangeId } }
+      );
   }
 
   getPendingExchangeAccessRequests(exchangeId: number): Observable<GridDataResult> {
@@ -198,5 +205,9 @@ export class ExchangeApiService {
 
   putFilters(filters: ExchangeSearchFilterAggregate[]): Observable<any> {
     return this.payfactorsApiService.put<any>(`${this.endpoint}/PutFilters`, filters);
+  }
+
+  updateExchangeStatus(payload: any): Observable<Exchange> {
+    return this.payfactorsApiService.post<Exchange>(`${this.endpoint}/UpdateExchangeStatus`, payload);
   }
 }
