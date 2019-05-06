@@ -9,6 +9,11 @@ import { Observable } from 'rxjs';
 })
 export class GridDetailPanelComponent {
   @Input() isExpanded$: Observable<boolean>;
+  @Input() checkForJdmDescription = false;
+
+  @Input() jdmDescriptionIds: number[];
+  @Input() jdmDescriptionLoading: boolean;
+  @Input() jdmDescriptionLoadingError: boolean;
 
   @Input() jobId: number;
   @Input() jobTitle: string;
@@ -18,10 +23,15 @@ export class GridDetailPanelComponent {
   @Input() jobExchange: string;
 
   @Output() closeClick = new EventEmitter();
+  @Output() viewJdmDescriptionClick = new EventEmitter();
 
   constructor() { }
 
   handleClose() {
     this.closeClick.emit();
+  }
+
+  handleViewJdmDescriptionClick() {
+    this.viewJdmDescriptionClick.emit();
   }
 }
