@@ -15,7 +15,7 @@ import { UserContext } from 'libs/models';
   templateUrl: './data-field-filter.component.html',
   styleUrls: ['./data-field-filter.component.scss']
 })
-export class DataFieldFilterComponent implements OnInit, OnDestroy {
+export class DataFieldFilterComponent implements OnInit {
 
   @Input() dataType: DataType;
   @Input() roleDataRestriction: RoleDataRestriction;
@@ -25,16 +25,7 @@ export class DataFieldFilterComponent implements OnInit, OnDestroy {
  _DataFieldTypes: typeof DataFieldTypes = DataFieldTypes;
   Operators = [{value: true, text: 'Is equal to'}];
   selectedField: DataField;
-  paymarketApiName = 'PayMarket?$select=CompanyPayMarketId,PayMarket&$orderby=PayMarket';
-  surveyApiName: string;
-  surveyApiNameSubscription: Subscription;
-  constructor(private store: Store<fromRootState.State>) {
-     this.surveyApiNameSubscription = store.select(fromRootState.getUserContext).subscribe(uc => {
-       if (uc) {
-         this.surveyApiName = `User(${uc.UserId})/Default.GetSurveysAndAccessForUser?companyId=${uc.CompanyId}`;
-       }
-     });
-  }
+  constructor() { }
   dataFieldChanged(value) {
     this.selectedField = this.dataType.DataFields.find(f => f.Id ===  value);
     this.roleDataRestrictionChanged.emit();
@@ -44,9 +35,6 @@ export class DataFieldFilterComponent implements OnInit, OnDestroy {
     if (this.dataType && this.dataType.DataFields && this.roleDataRestriction) {
       this.selectedField = this.dataType.DataFields.find(f => f.Id === this.roleDataRestriction.DataFieldId);
     }
-  }
-  ngOnDestroy() {
-    this.surveyApiNameSubscription.unsubscribe();
   }
 
   toTitleCase(input: string) {
