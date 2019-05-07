@@ -24,3 +24,7 @@ export enum RoleApiResponse {
   Success = 'Success',
   Error = 'An error has occurred while saving this role. Please contact Payfactors support for assistance'
 }
+
+export enum RoleApiNames {
+  GetDataFieldValues = 'Role/GetRoleDataRestrictionValues?dataType='
+}

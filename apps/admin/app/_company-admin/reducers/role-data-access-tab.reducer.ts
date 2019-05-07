@@ -2,6 +2,7 @@ import * as fromDataAccessTabActions from '../actions/data-access-tab.action';
 import {DataField, DataType, RoleDataRestriction} from 'libs/models/security/roles';
 
 import {arraysEqual} from 'libs/core/functions';
+import {DataFieldTypes} from '../constants/data-field-type.constants';
 
 export interface State {
   dataTypes: DataType[];
@@ -10,9 +11,9 @@ export interface State {
 }
 
 export const initialState: State = {
-  dataTypes: undefined,
-  currentRoleDataRestrictions: undefined,
-  currentRoleDataRestrictionsUnchanged: undefined
+  dataTypes: [],
+  currentRoleDataRestrictions: [],
+  currentRoleDataRestrictionsUnchanged: []
 };
 
 export function reducer(state = initialState, action: fromDataAccessTabActions.DataAccessTabAction): State {
@@ -30,11 +31,18 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
         currentRoleDataRestrictionsUnchanged: action.payload.DataRestrictions
       };
     }
-    case fromDataAccessTabActions.LOADED_DATA_TYPES:
+    case fromDataAccessTabActions.SET_DATA_RESTRICTIONS_UNCHANGED: {
+      return {
+        ...state,
+        currentRoleDataRestrictionsUnchanged: action.payload
+      };
+    }
+    case fromDataAccessTabActions.LOADED_DATA_TYPES: {
       return {
         ...state,
         dataTypes: action.payload
       };
+    }
     case fromDataAccessTabActions.CANCEL_ROLE_DATA_RESTRICTIONS_CHANGES:
       return {
         ...state,
@@ -47,26 +55,10 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
 }
 export const getDataTypes =  (state: State) => state.dataTypes;
 export const getRoleDataRestrictions =  (state: State) => state.currentRoleDataRestrictions;
-// TODO remove when API returns paymarket Ids as string and user 'getRoleDataRestrictions'
-export const getRoleDataRestrictionsToSave = (state: State) => RemapRoleDataRestrictions(state.currentRoleDataRestrictions);
 export const getDataAccessTabHasPendingChanges = (state: State) => {
  return !(arraysEqual(getRoleDataAccessString(state.currentRoleDataRestrictions),
    getRoleDataAccessString(state.currentRoleDataRestrictionsUnchanged)));
 };
-
-
-// TODO remove when API returns paymarket Ids as string
-function RemapRoleDataRestrictions(dataRestrictions: RoleDataRestriction[]) {
-  if (!dataRestrictions || dataRestrictions.length === 0) {
-    return [];
-  }
-  return dataRestrictions.map(rd => ({
-    DataFieldId : rd.DataFieldId,
-    RoleId: rd.RoleId,
-    DataConditionIsEqual: rd.DataConditionIsEqual,
-    DataValue: (rd.DataValue || '').toString()
-  }));
-}
 
 function getRoleDataAccessString(roleDataPermissions: RoleDataRestriction[]) {
   return roleDataPermissions ? roleDataPermissions.map(r => `${r.DataFieldId}_${r.DataConditionIsEqual}_${r.DataValue}`) : [];

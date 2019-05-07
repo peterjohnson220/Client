@@ -1,14 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, OnDestroy, Output, Pipe, PipeTransform, ViewChild} from '@angular/core';
-
-
-import {DataFieldTypes} from '../../constants/data-field-type.constants';
-import {DataType, RoleDataRestriction, DataField} from 'libs/models/security/roles';
-import * as fromRootState from 'libs/state/state';
 import {Observable, Subscription} from 'rxjs';
 
-import {Store} from '@ngrx/store';
-
+import {DataType, RoleDataRestriction, DataField} from 'libs/models/security/roles';
 import { UserContext } from 'libs/models';
+import {TypeaheadComponent} from 'libs/forms/components/typeahead';
+
+import {DataFieldTypes} from '../../constants/data-field-type.constants';
+import {RoleApiNames} from '../../constants/user-role.constants';
 
 @Component({
   selector: 'pf-data-field-filter',
@@ -16,19 +14,22 @@ import { UserContext } from 'libs/models';
   styleUrls: ['./data-field-filter.component.scss']
 })
 export class DataFieldFilterComponent implements OnInit {
-
+  @ViewChild('typeaheadComponent') typeaheadComponent: TypeaheadComponent;
   @Input() dataType: DataType;
   @Input() roleDataRestriction: RoleDataRestriction;
   @Output() roleDataRestrictionChange =  new EventEmitter();
   @Output() roleDataRestrictionChanged =  new EventEmitter();
   userContext$: Observable<UserContext>;
  _DataFieldTypes: typeof DataFieldTypes = DataFieldTypes;
-  Operators = [{value: true, text: 'Is equal to'}];
+  Operators = [{value: true, text: 'Is equal to'}, {value: false, text: 'Is not equal to'}];
   selectedField: DataField;
   constructor() { }
   dataFieldChanged(value) {
     this.selectedField = this.dataType.DataFields.find(f => f.Id ===  value);
     this.roleDataRestrictionChanged.emit();
+    if (this.typeaheadComponent) {
+      this.typeaheadComponent.refreshRemoteData(this.buildApiEndpoint(), 'Value');
+    }
   }
 
   ngOnInit() {
@@ -41,5 +42,13 @@ export class DataFieldFilterComponent implements OnInit {
     return input.toLowerCase().split('_').map(word => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join('');
+  }
+
+  buildApiEndpoint() {
+    let endpoint = `${RoleApiNames.GetDataFieldValues}${this.dataType.Name}`;
+    if (this.selectedField.FieldType !== this._DataFieldTypes.MULTISELECT) {
+      endpoint += `&dataField=${this.toTitleCase(this.selectedField.Name)}`;
+    }
+    return endpoint;
   }
 }

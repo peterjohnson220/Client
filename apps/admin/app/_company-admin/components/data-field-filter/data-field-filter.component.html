@@ -4,7 +4,7 @@
         <kendo-dropdownlist class="form-control border"
                           [attr.data-qa-id]="'ddm-'+ dataType?.Name"
                           [data]="dataType?.DataFields"
-                          [textField]="'Name'"
+                          [textField]="'DisplayName'"
                           [valueField]="'Id'"
                           (valueChange)="dataFieldChanged($event)"
                           [valuePrimitive]="true"
@@ -31,16 +31,17 @@
         (selectedValuesChange)="roleDataRestrictionChanged.emit()"
         [selectedOnTop]="true"
         [highlightSelected]="true"
-        [endpointName]="'Role/GetRoleDataRestrictionValues?dataType='+dataType.Name+'&dataField='+toTitleCase(selectedField.Name)"
+        [endpointName]="buildApiEndpoint()"
         [valueField]="'Id'"
         [textField]="'Value'">
         </pf-multi-select>
      </div>
       <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
-        <pf-typeahead [apiEndpoint]="'Role/GetRoleDataRestrictionValues?dataType='+dataType.Name+'&dataField='+toTitleCase(selectedField.Name)"
+        <pf-typeahead #typeaheadComponent
+          [apiEndpoint]="buildApiEndpoint()"
                       [apiResponsePropertyForTypeahead]="'Value'"
                       [(ngModel)]="roleDataRestriction.DataValue"
-                      (componentLeave)="roleDataRestrictionChanged.emit();"
+                      (valueChanged)="roleDataRestrictionChanged.emit()"
         ></pf-typeahead>
       </div>
   </div>
