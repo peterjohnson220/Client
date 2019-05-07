@@ -56,7 +56,6 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.UPDATE_CURRENT_USER_ROLE).pipe(
       mergeMap((action: fromUserRoleActions.UpdateCurrentUserRole) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromDataAccessActions.UpdateCurrentRoleDataAccessTab(action.payload),
           new fromUserRoleUserTabActions.UpdateUserTabCurrentUserRole(action.payload.RoleId),
         new fromUserRoleFunctionTabActions.UpdateCurrentRoleFunctionTab(action.payload)])
     );
@@ -87,7 +86,7 @@ export class UserRoleEffects {
     .ofType(fromUserRoleActions.CANCEL_ALL_CHANGES).pipe(
       mergeMap((action: fromUserRoleActions.CancelAllChanges) =>
         [new fromUserRoleUserTabActions.CancelChanges(),
-          new fromDataAccessActions.CancelRoleDataRestrictionChanges(),
+          new fromUserRoleActions.DiscardRoleChanges(),
           new fromUserRoleFunctionTabActions.CancelPermissionChanges()])
     );
 

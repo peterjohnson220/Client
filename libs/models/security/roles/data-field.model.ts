@@ -5,4 +5,5 @@ export class DataField {
   Name: string;
   FieldType: string;
   DataType: DataType;
+  DisplayName: string;
 }
