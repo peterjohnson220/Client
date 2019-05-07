@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnsavedChangesWarningComponent should not render when isVisible is false 1`] = `
+<pf-unsaved-changes-warning
+  cancelClick={[Function EventEmitter]}
+  isVisible="false"
+  leaveClick={[Function EventEmitter]}
+>
+  
+</pf-unsaved-changes-warning>
+`;
+
+exports[`UnsavedChangesWarningComponent should render when isVisible is true 1`] = `
+<pf-unsaved-changes-warning
+  cancelClick={[Function EventEmitter]}
+  isVisible={[Function Boolean]}
+  leaveClick={[Function EventEmitter]}
+>
+  <div
+    class="unsaved-changes-warning position-absolute h-100 w-100"
+  >
+    <div
+      class="dialog p-4 position-absolute d-inline-block text-center"
+    >
+      <h5
+        class="mb-4 mt-2"
+      >
+        <i
+          class="far fa-exclamation-triangle mr-2"
+        />
+        Leave without saving changes? 
+      </h5>
+      <button
+        class="btn btn-primary mr-3"
+      >
+        Leave
+      </button>
+      <button
+        class="btn btn-secondary"
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</pf-unsaved-changes-warning>
+`;

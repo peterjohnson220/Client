@@ -58,6 +58,10 @@ export const getJobAssociationModalIsOpen = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getIsModalOpen);
 
+export const getJobAssociationModalShowUnsavedChangesWarning = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getShowUnsavedChangesWarning);
+
 // Exchange Jobs Selectors
 export const getExchangeJobsGrid = createSelector(
   selectExchangeJobsState,
@@ -258,4 +262,9 @@ export const getSelectedCompanyJobs = createSelector(
 export const getExchangeJobAssociations = createSelector(
     getExchangeJobsFeature,
     (feature) => feature.ExchangeJobAssociations
+);
+
+export const getExchangeJobAssociationsToDelete = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.previousAssociationsToDelete
 );

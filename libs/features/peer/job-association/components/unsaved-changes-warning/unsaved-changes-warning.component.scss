@@ -1,0 +1,34 @@
+@import "colors";
+
+$warning-color: #ffc107;
+
+.unsaved-changes-warning {
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 400;
+  .dialog {
+    background-color: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-top: 4px solid $warning-color;
+    h5 {
+      opacity: .88;
+      svg {
+        font-size: 1.4rem;
+        color: $warning-color
+      }
+    }
+    button {
+      width: 70px;
+      height: 30px;
+      &.btn-primary {
+        background-color: $pf-brand-secondary-color;
+        border-color: $pf-brand-secondary-color;
+        &:focus {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}

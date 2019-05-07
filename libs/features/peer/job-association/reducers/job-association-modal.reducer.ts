@@ -4,13 +4,15 @@ export interface State {
   isModalOpen: boolean;
   savingAssociations: boolean;
   savingAssociationsError: boolean;
+  showUnsavedChangesWarning: boolean;
 }
 
 // Define initial state
 const initialState: State = {
   isModalOpen: false,
   savingAssociations: false,
-  savingAssociationsError: false
+  savingAssociationsError: false,
+  showUnsavedChangesWarning: false
 };
 
 export function reducer(state = initialState, action: jobAssociationModalActions.Actions): State {
@@ -18,7 +20,8 @@ export function reducer(state = initialState, action: jobAssociationModalActions
     case jobAssociationModalActions.CLOSE_JOB_ASSOCIATIONS_MODAL: {
       return {
         ...state,
-        isModalOpen: false
+        isModalOpen: false,
+        showUnsavedChangesWarning: false
       };
     }
     case jobAssociationModalActions.OPEN_JOB_ASSOCIATIONS_MODAL: {
@@ -55,6 +58,18 @@ export function reducer(state = initialState, action: jobAssociationModalActions
         savingAssociationsError: true
       };
     }
+    case jobAssociationModalActions.CLOSE_MODAL_WITH_SAVEABLE_CHANGES: {
+      return {
+        ...state,
+        showUnsavedChangesWarning: true
+      };
+    }
+    case jobAssociationModalActions.CANCEL_UNSAVED_CHANGES_WARNING: {
+      return {
+        ...state,
+        showUnsavedChangesWarning: false
+      };
+    }
     default: {
       return state;
     }
@@ -65,3 +80,4 @@ export function reducer(state = initialState, action: jobAssociationModalActions
 export const getIsModalOpen = (state: State) => state.isModalOpen;
 export const getSaving = (state: State) => state.savingAssociations;
 export const getSavingError = (state: State) => state.savingAssociationsError;
+export const getShowUnsavedChangesWarning = (state: State) => state.showUnsavedChangesWarning;
