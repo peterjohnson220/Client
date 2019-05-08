@@ -14,6 +14,7 @@ import { ManageExchangeFiltersComponent } from './manage-exchange-filters.compon
 import { GridHelperService } from '../../services';
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromExchangeFiltersActions from '../../actions/exchange-filters.actions';
+import * as fromTagCategoriesActions from '../../actions/tag-categories.actions';
 
 describe('Manage Exchange Filters', () => {
   let fixture: ComponentFixture<ManageExchangeFiltersComponent>;
@@ -116,6 +117,14 @@ describe('Manage Exchange Filters', () => {
 
     instance.exchangeFilters = filters;
     instance.drop(ddEvent);
+
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  it('should dispatch a OpenAddTagCategoriesModal action when openAddTagCategoriesModal is called', () => {
+    const action = new fromTagCategoriesActions.OpenAddTagCategoriesModal();
+
+    instance.openAddTagCategoriesModal();
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });

@@ -1,15 +1,15 @@
-/* tslint:disable:no-bitwise */
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
+import { take } from 'rxjs/operators';
+import { State } from '@progress/kendo-data-query';
 
-import { EntityTypesFlag } from 'libs/models/peer';
+import * as fromGridActions from 'libs/core/actions/grid.actions';
+import { GridTypeEnum } from 'libs/models/common';
 
 import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromTagCategoriesActions from '../../../actions/tag-categories.actions';
-import { GridHelperService } from '../../../services';
 
 @Component({
   selector: 'pf-tag-categories',
@@ -17,52 +17,36 @@ import { GridHelperService } from '../../../services';
   styleUrls: ['./tag-categories.page.scss']
 })
 
-export class TagCategoriesPageComponent implements OnInit {
-  tagCategoriesLoading$: Observable<boolean>;
-  tagCategoriesLoadingError$: Observable<boolean>;
-  tagCategoriesGrid$: Observable<GridDataResult>;
+export class TagCategoriesPageComponent {
+  gridState$: Observable<State>;
 
   constructor(
-    private store: Store<fromPeerAdminReducer.State>,
-    private gridHelperService: GridHelperService
+    private store: Store<fromPeerAdminReducer.State>
   ) {
-    this.tagCategoriesLoading$ = this.store.pipe(select(fromPeerAdminReducer.getTagCategoriesLoading));
-    this.tagCategoriesLoadingError$ = this.store.pipe(select(fromPeerAdminReducer.getTagCategoriesLoadingError));
-    this.tagCategoriesGrid$ = this.store.pipe(select(fromPeerAdminReducer.getTagCategoriesGrid));
+    this.gridState$ = this.store.pipe(select(fromPeerAdminReducer.getTagCategoriesGridState));
   }
 
   // Events
-  handleTagCategoriesGridReload() {
-    this.store.dispatch(new fromTagCategoriesActions.LoadTagCategories(''));
-  }
-
-  handleSearchChanged(query: string): void {
-    this.gridHelperService.loadTagCategories(query);
-  }
-
   openCreateTagCategoryModal() {
     this.store.dispatch(new fromTagCategoriesActions.OpenCreateTagCategoryModal());
   }
 
-  getEntityTypes(types: number) {
-    const x: EntityTypesFlag = types;
-    let i = 0;
-    let type: number;
-    let typeStr = '';
-    if (types === 0) {
-      typeStr = EntityTypesFlag[types];
-    } else {
-      while (EntityTypesFlag[type = 1 << i++]) {
-        if (x & type) {
-          typeStr += EntityTypesFlag[type] + ', ';
-        }
-      }
-      typeStr = typeStr.replace(/,\s*$/, '');
-    }
-    return typeStr;
+  updateSearchFilter(newSearchTerm: string) {
+    this.store.dispatch(new fromGridActions.UpdateFilter(
+      GridTypeEnum.TagCategories,
+      {columnName: 'DisplayName', value: newSearchTerm}
+    ));
+    this.loadTagCategories();
   }
 
-  ngOnInit() {
-    this.gridHelperService.loadTagCategories('');
+  loadTagCategories() {
+    this.gridState$.pipe(take(1)).subscribe(gridState => {
+      this.store.dispatch(new fromTagCategoriesActions.LoadTagCategories(
+        {
+          exchangeId: -1,
+          listState: gridState
+        }
+      ));
+    });
   }
 }

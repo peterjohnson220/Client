@@ -23,9 +23,9 @@ import { ExchangeListPageComponent, ManageExchangePageComponent, ExchangeCompani
          ExchangeAccessRequestInfoComponent, CompanyExchangeInvitationInfoComponent,
          ExchangeJobRequestInfoComponent, ExchangeJobAssociationUtilityPageComponent,
          DenyRequestModalComponent, ApproveRequestModalComponent, ManageExchangeFiltersComponent,
-         TagCategoriesPageComponent, CreateTagCategoryModalComponent,
-         ToggleExchangeStatusConfirmationModalComponent
-} from './containers';
+         TagCategoriesPageComponent, CreateTagCategoryModalComponent, TagCategoriesListComponent,
+         AddTagCategoriesModalComponent, ToggleExchangeStatusConfirmationModalComponent } from './containers';
+
 import {
   ExchangeListEffects, ExchangeCompaniesEffects, AvailableCompaniesEffects,
   ManageExchangeEffects, ExchangeJobsEffects, AvailableJobsEffects, ExchangeAccessRequestsEffects,
@@ -106,6 +106,8 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     TagCategoriesPageComponent,
     CreateTagCategoryModalComponent,
     ToggleExchangeStatusConfirmationModalComponent,
+    TagCategoriesListComponent,
+    AddTagCategoriesModalComponent,
 
     // Pages
     ExchangeListPageComponent,
