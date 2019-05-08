@@ -21,7 +21,10 @@
                         (valueChange)="roleDataRestrictionChanged.emit()"
                         valueField="value"
                         [(ngModel)] = "roleDataRestriction.DataConditionIsEqual"
-                        [tabIndex]="0" [data]="Operators"></kendo-dropdownlist>
+                        [tabIndex]="0"
+                        [data]="Operators"
+                        [disabled]="selectedField?.FieldType == _DataFieldTypes.MULTISELECT"
+    ></kendo-dropdownlist>
   </div>
   <div class="col-12 col-lg-4">
      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
