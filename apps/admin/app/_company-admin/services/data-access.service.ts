@@ -12,7 +12,7 @@ export class DataAccessService {
     dataTypes.forEach(dt => {
       const rd = roleDataRestrictions.find(r => dt.DataFields.map(m => m.Id).indexOf(r.DataFieldId) > -1);
       if (!rd) {
-        dataRestrictions.push({ DataFieldId : dt.DataFields[0].Id });
+        dataRestrictions.push({ DataFieldId : dt.DataFields[0].Id, DataConditionIsEqual: true });
       }
     });
     return dataRestrictions.concat(roleDataRestrictions);
