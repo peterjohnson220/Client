@@ -5,6 +5,7 @@ import {
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, flatMap, map, takeUntil } from 'rxjs/operators';
+import { orderBy, cloneDeep } from 'lodash';
 
 import { UserApiService } from 'libs/data/payfactors-api/user';
 
@@ -112,11 +113,30 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
         })
       )
       .subscribe(v => {
-        if (this.ticket && this.ticket.TicketType) {
-          const match = v.find(e => (e.TicketTypeName === this.ticket.TicketType && !this.ticket.TicketSubType)
-            || (e.TicketTypeName === this.ticket.TicketType && e.TicketSubTypeName === this.ticket.TicketSubType));
+        if (this.ticket && this.ticket.UserTicketType) {
+          this.userTicketTypes = cloneDeep(v);
+          const match = this.userTicketTypes.find(e =>
+            (e.TicketTypeName === this.ticket.UserTicketType.TicketTypeName && !this.ticket.UserTicketType.TicketSubTypeName)
+              || (e.TicketTypeName === this.ticket.UserTicketType.TicketTypeName
+              && e.TicketSubTypeName === this.ticket.UserTicketType.TicketSubTypeName));
           if (match) {
             this.selectedUserTicketType = match;
+            this.ref.markForCheck();
+          } else {
+
+            const localType: UserTicketType = {
+              UserTicketTypeId: this.ticket.UserTicketType.UserTicketTypeId,
+              TicketTypeName: this.ticket.UserTicketType.TicketTypeName,
+              SortOrder: this.ticket.UserTicketType.SortOrder,
+              TicketSubTypeName: this.ticket.UserTicketType.TicketSubTypeName,
+              TicketTypeDisplayName: this.ticket.UserTicketType.TicketTypeDisplayName,
+              TicketCssClass: this.ticket.UserTicketType.TicketCssClass
+            };
+
+            this.userTicketTypes.push(localType);
+            this.userTicketTypes = orderBy(this.userTicketTypes, ['SortOrder', 'TicketSubTypeName'], 'asc');
+
+            this.selectedUserTicketType = localType;
             this.ref.markForCheck();
           }
         }
@@ -130,9 +150,10 @@ export class TicketFieldsComponent implements OnInit, OnChanges, OnDestroy {
     if (!changes.ticket.previousValue || changes.ticket.previousValue.TicketStatus !== changes.ticket.currentValue.TicketStatus) {
       this.ticketState$.next(changes.ticket.currentValue.TicketState);
     }
-    if (!changes.ticket.previousValue || changes.ticket.previousValue.TicketTypeDisplayName
-      !== changes.ticket.currentValue.TicketTypeDisplayName) {
-      this.ticketType$.next(changes.ticket.currentValue.TicketTypeDisplayName);
+    if (!changes.ticket.previousValue || changes.ticket.previousValue.UserTicketType.TicketTypeDisplayName
+      !== changes.ticket.currentValue.UserTicketType.TicketTypeDisplayName) {
+
+      this.ticketType$.next(changes.ticket.currentValue.UserTicketType.TicketTypeDisplayName);
     }
   }
 

@@ -4,6 +4,7 @@ export interface UserTicketType {
     TicketTypeName: string;
     TicketSubTypeName: string;
     TicketTypeDisplayName: string;
+    TicketCssClass: string;
 }
 
 export function generateMockUserTicketType(): UserTicketType {
@@ -12,6 +13,7 @@ export function generateMockUserTicketType(): UserTicketType {
       TicketTypeName: 'Job Pricing',
       SortOrder: 1,
       TicketSubTypeName: 'MockTicketSubTypeName',
-      TicketTypeDisplayName: 'MockTicketTypeDisplayName'
+      TicketTypeDisplayName: 'MockTicketTypeDisplayName',
+      TicketCssClass: 'MockTicketCssClass'
     };
 }

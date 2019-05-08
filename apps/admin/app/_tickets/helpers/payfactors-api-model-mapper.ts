@@ -40,12 +40,16 @@ export class PayfactorsApiModelMapper {
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
-        TicketTypeDisplayName: this.getTicketTypeDisplayName(response.UserTicketType, response.FileType),
-        TicketType: response.UserTicketType,
-        TicketSubType: response.FileType,
-        TicketCssClass: response.TicketCssClass,
         TicketState: response.UserTicketState,
-        LastUpdatedText: response.LastUpdatedText
+        LastUpdatedText: response.LastUpdatedText,
+        UserTicketType: {
+          UserTicketTypeId: response.UserTicketTypeId,
+          SortOrder: response.UserTicketTypeSortOrder,
+          TicketTypeDisplayName: this.getTicketTypeDisplayName(response.UserTicketType, response.FileType),
+          TicketTypeName: response.UserTicketType,
+          TicketSubTypeName: response.FileType,
+          TicketCssClass: response.TicketCssClass,
+        }
       },
       CompanyInfo: null
     };
@@ -88,7 +92,8 @@ export class PayfactorsApiModelMapper {
         TicketTypeName: utt.TicketTypeName,
         SortOrder: utt.SortOrder,
         TicketSubTypeName: utt.TicketSubTypeName,
-        TicketTypeDisplayName: utt.TicketTypeDisplayName
+        TicketTypeDisplayName: utt.TicketTypeDisplayName,
+        TicketCssClass: utt.TicketCssClass
       };
     });
   }

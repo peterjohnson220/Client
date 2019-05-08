@@ -53,6 +53,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   fieldChange(event: any) {
-    console.log(event);
+    // console.log(event);
   }
 }
