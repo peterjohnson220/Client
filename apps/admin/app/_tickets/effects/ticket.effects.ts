@@ -3,18 +3,29 @@ import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
 import {Effect, Actions, ofType} from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import {switchMap, catchError, mergeMap, map, withLatestFrom} from 'rxjs/operators';
+import {switchMap, catchError, mergeMap, map, withLatestFrom, delay} from 'rxjs/operators';
 
 import { UserTicketCompanyDetailResponse, UserTicketResponse } from 'libs/models/payfactors-api/service/response';
 
 import { UserTicketApiService } from 'libs/data/payfactors-api';
 import * as fromTicketActions from '../actions/ticket.actions';
 import * as fromTicketLookupActions from '../actions/ticket-lookup.actions';
+import * as fromTicketListActions from '../actions/ticket-list.actions';
 import * as fromReducers from '../reducers';
 import { PayfactorsApiModelMapper } from '../helpers';
 
 @Injectable()
 export class TicketEffects {
+    @Effect()
+    initializeTicket$: Observable<Action> = this.actions$.pipe(
+      ofType(fromTicketActions.INITIALIZE_TICKET_TAB),
+        delay(0),
+        switchMap((action: fromTicketActions.InitializeTicketTab) => of(action.payload)),
+        switchMap((res) => [
+            new fromTicketActions.LoadTicket(res)
+        ])
+      );
+
     @Effect()
     loadTicket$: Observable<Action> = this.actions$.pipe(
         ofType<fromTicketActions.LoadTicket>(fromTicketActions.LOAD_TICKET),
@@ -56,6 +67,24 @@ export class TicketEffects {
             return new fromTicketActions.LoadCompanyDetailSuccess({ companyDetail: companyDetail});
           }),
           catchError(error => of(new fromTicketActions.LoadCompanyDetailError()))
+        )
+      )
+    );
+
+  @Effect()
+  updateUserTicket$: Observable<Action> = this.actions$
+    .ofType(fromTicketActions.UPDATE_TICKET).pipe(
+      switchMap((action: fromTicketActions.UpdateTicket) =>
+        this.userTicketApiService.updateUserTicket(action.payload).pipe(
+          mergeMap((userTicket: UserTicketResponse) => {
+            const ticket = PayfactorsApiModelMapper.mapUserTicketResponseToUserTicketItem(userTicket);
+            return [
+              new fromTicketActions.UpdateTicketSuccess(ticket),
+              new fromTicketActions.LoadCompanyDetail({companyId: userTicket.CompanyId }),
+              new fromTicketListActions.SetGridDirtyStatus(true)
+            ];
+          }),
+          catchError(error => of(new fromTicketActions.UpdateTicketError()))
         )
       )
     );

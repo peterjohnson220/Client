@@ -11,6 +11,7 @@ export interface TicketDetail {
   UserTicketType: UserTicketType;
   TicketState: string;
   LastUpdatedText: string;
+  Description: string;
 }
 
 export function generateMockTicketDetail() {
@@ -22,12 +23,13 @@ export function generateMockTicketDetail() {
     EditDate: new Date('1/1/1990'),
     CreateDate: new Date('1/1/1990'),
     OpenedBy: 'MockOpenedByUser',
-    TicketTypeDisplayName: 'MockTicketTpye - MockTicketSubType',
+    TicketTypeDisplayName: 'MockTicketType - MockTicketSubType',
     TicketType: 'MockTicketType',
     TicketSubType: 'MockTicketSubType',
     TicketCssClass: 'MockTicketCssClass',
     TicketState: 'MockTicketState',
     LastUpdatedText: 'MockLastUpdatedText',
+    Description: 'MockDescription',
     UserTicketType: generateMockUserTicketType()
   };
 }

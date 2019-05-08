@@ -7,17 +7,18 @@ import {
   UserTicketFile
 } from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
+import {UserTicketDto} from 'libs/models/service';
 
 import {
-  CompanyDetail,
-  PfServicesRep,
-  UserTicketGridItem,
-  UserTicketItem,
-  UserTicketState,
-  UserTicketType,
-  TicketAttachment
+    CompanyDetail,
+    PfServicesRep,
+    UserTicketGridItem,
+    UserTicketItem,
+    UserTicketState,
+    UserTicketType,
+    TicketDetail,
+    TicketAttachment
 } from '../models';
-
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -51,6 +52,7 @@ export class PayfactorsApiModelMapper {
         OpenedBy: response.OpenedUserEmail,
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText,
+        Description: response.UserTicket,
         UserTicketType: {
           UserTicketTypeId: response.UserTicketTypeId,
           SortOrder: response.UserTicketTypeSortOrder,
@@ -106,6 +108,17 @@ export class PayfactorsApiModelMapper {
         TicketCssClass: utt.TicketCssClass
       };
     });
+  }
+
+  static mapTicketDetailToUserTicketDto(ticketDetail: TicketDetail): UserTicketDto {
+    return {
+      UserTicketId: ticketDetail.TicketId,
+      UserTicket: ticketDetail.Description,
+      ServicesUserId: ticketDetail.ServicesUserId,
+      UserTicketState: ticketDetail.TicketState,
+      UserTicketType: ticketDetail.UserTicketType.TicketTypeName,
+      FileType: ticketDetail.UserTicketType.TicketSubTypeName
+    };
   }
 
   static mapUserTicketFilesToTicketAttachment( userTicketFiles: UserTicketFile[]): TicketAttachment[] {

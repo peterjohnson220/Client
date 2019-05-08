@@ -1,11 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit} from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
+import {PayfactorsApiModelMapper} from '../../helpers';
 import * as fromTicketActions from '../../actions/ticket.actions';
-import { UserTicketItem } from '../../models';
 import * as fromTicketReducer from '../../reducers';
+import {PfServicesRep, UserTicketItem, UserTicketState, UserTicketType} from '../../models';
 
 @Component({
   selector: 'pf-ticket',
@@ -18,6 +19,7 @@ export class TicketComponent implements OnInit, OnDestroy {
   ticket: UserTicketItem;
 
   ticketSubscription: Subscription;
+  tabSelectionSubscription: Subscription;
 
   constructor(private store: Store<fromTicketReducer.State>) {
     this.ticketLoading$ = this.store.select(fromTicketReducer.getTicketLoading || fromTicketReducer.getCompanyDetailLoading);
@@ -40,19 +42,54 @@ export class TicketComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new fromTicketActions.LoadTicket(this.ticketId));
-
-    // Done to ensure component is fully loaded before sending out success event. Otherwise selectTab call won't always work.
-    setTimeout(() => {
-      this.store.dispatch(new fromTicketActions.SelectTicketTab(this.ticketId));
-    }, 0);
+    this.store.dispatch(new fromTicketActions.InitializeTicketTab(this.ticketId));
   }
 
   ngOnDestroy() {
     this.ticketSubscription.unsubscribe();
+    this.tabSelectionSubscription.unsubscribe();
   }
 
   fieldChange(event: any) {
-    // console.log(event);
+    let changed = false;
+    const changedFields = [];
+    const ticket = { ...this.ticket.TicketInfo };
+    switch (event.source) {
+      case 'assigned': {
+        changed = true;
+        const v = event.value as PfServicesRep;
+        ticket.ServicesUserId = v.PfServicesRepId;
+        changedFields.push('ServicesUserId');
+        break;
+      }
+      case 'type': {
+        changed = true;
+        const v = event.value as UserTicketType;
+        ticket.UserTicketType = {
+          UserTicketTypeId: 0,
+          TicketCssClass: null,
+          SortOrder: 0,
+          TicketTypeName: v.TicketTypeName,
+          TicketSubTypeName: v.TicketSubTypeName,
+          TicketTypeDisplayName: v.TicketTypeDisplayName
+        };
+        changedFields.push('UserTicketType', 'FileType');
+        break;
+      }
+      case 'status': {
+        changed = true;
+        const v = event.value as UserTicketState;
+        ticket.TicketState = v.UserTicketState;
+        changedFields.push('UserTicketState');
+        break;
+      }
+    }
+    if (changed) {
+      const dto = PayfactorsApiModelMapper.mapTicketDetailToUserTicketDto(ticket);
+      this.store.dispatch(new fromTicketActions.UpdateTicket({
+        UserTicket: dto,
+        UpdateFields: changedFields
+      }));
+    }
   }
 }
