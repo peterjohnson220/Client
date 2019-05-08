@@ -18,5 +18,4 @@ export const environment = {
   smallBusinessApiUrl: 'https://smallbiz.payfactors.com/api/',
   smallBusinessAppUrl: 'https://smallbiz.payfactors.com/app/',
   hostPath: 'client',
-  utilitiesApiUrl: 'https://utilities.payfactors.com/',
 };
