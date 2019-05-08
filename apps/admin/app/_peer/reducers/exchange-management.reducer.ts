@@ -104,4 +104,5 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getExchangeStatusConfirmationModalOpen = (state: State) => state.exchangeStatusConfirmationModalOpen;
 export const getExchangeUpdating = (state: State) => state.updating;
 export const getExchangeUpdatingError = (state: State) => state.updatingError;
-export const getCanActivateExchange = (state: State) => state.companyCount >= 6 && !state.isSystemExchange;
+export const getIsValidExchange = (state: State) => state.companyCount >= 6 || state.isSystemExchange;
+export const getCanToggleExchangeStatus = (state: State) => state.companyCount >= 6 && !state.isSystemExchange;

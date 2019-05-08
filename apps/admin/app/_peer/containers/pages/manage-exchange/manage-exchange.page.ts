@@ -13,7 +13,6 @@ import * as fromPeerAdminReducer from '../../../reducers';
 import * as fromExchangeActions from '../../../actions/exchange.actions';
 import { GridHelperService } from '../../../services';
 
-
 @Component({
   selector: 'pf-manage-exchange-page',
   templateUrl: './manage-exchange.page.html',
@@ -29,9 +28,10 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   totalExchangeJobRequests$: Observable<number>;
   totalExchangeFilters$: Observable<number>;
   isExchangeActive$: Observable<boolean>;
-  canActivateExchange$: Observable<boolean>;
+  canToggleExchangeStatus$: Observable<boolean>;
+  isValidExchange$: Observable<boolean>;
 
-  canActivateExchangeSubscription: Subscription;
+  isValidExchangeSubcription: Subscription;
 
   exchangeId: number;
 
@@ -49,7 +49,8 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
     this.totalExchangeJobRequests$ = this.store.pipe(select(fromPeerAdminReducer.getTotalExchangeJobRequests));
     this.totalExchangeFilters$ = this.store.pipe(select(fromPeerAdminReducer.getTotalExchangeFilters));
     this.isExchangeActive$ = this.exchange$.pipe(map(e => e.Status === StatusEnum.Active));
-    this.canActivateExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeCanActivate));
+    this.canToggleExchangeStatus$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeCanToggleExchangeStatus));
+    this.isValidExchange$ = this.store.pipe(select(fromPeerAdminReducer.getManageExchangeIsValidExchange));
   }
 
   handleSwitchToggled() {
@@ -57,13 +58,13 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.canActivateExchangeSubscription = this.canActivateExchange$.subscribe(canActivateExchange => {
+    this.isValidExchangeSubcription = this.isValidExchange$.subscribe(isValidExchange => {
       let isExchangeActive = false;
       this.isExchangeActive$.pipe(take(1)).subscribe(x => {
         isExchangeActive = x;
       });
 
-      if (!canActivateExchange && isExchangeActive) {
+      if (!isValidExchange && isExchangeActive) {
         this.store.dispatch(new fromExchangeActions.UpdateExchangeStatus(this.exchangeId, StatusEnum.Inactive));
       }
     });
@@ -78,7 +79,7 @@ export class ManageExchangePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.canActivateExchangeSubscription.unsubscribe();
+    this.isValidExchangeSubcription.unsubscribe();
 
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeCompanies));
     this.store.dispatch(new fromGridActions.ResetGrid(GridTypeEnum.ExchangeJobs));
