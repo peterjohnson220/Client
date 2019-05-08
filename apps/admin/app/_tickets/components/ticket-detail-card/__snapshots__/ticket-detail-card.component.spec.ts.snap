@@ -57,7 +57,7 @@ exports[`Admin - Tickets - Ticket Detail Card Should display details about a tic
             <span
               class="badge MockTicketCssClass"
             >
-              MockTicketTpye - MockTicketSubType
+              MockTicketTypeDisplayName
             </span>
           </h4>
         </div>
