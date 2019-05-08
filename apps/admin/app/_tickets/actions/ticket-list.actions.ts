@@ -5,6 +5,7 @@ import {UserTicketGridItem} from '../models';
 export const LOAD_TICKETS = '[Admin Tickets / Ticket List] Load Tickets';
 export const LOAD_TICKETS_SUCCESS = '[Admin Tickets / Ticket List] Load Tickets Success';
 export const LOAD_TICKETS_ERROR = '[Admin Tickets / Ticket List] Load Tickets Error';
+export const SET_GRID_DIRTY_STATUS = '[Admin Tickets / Ticket List] Set Grid Dirty Status';
 
 export class LoadTickets implements Action {
   readonly type = LOAD_TICKETS;
@@ -22,7 +23,14 @@ export class LoadTicketsError implements Action {
   readonly type = LOAD_TICKETS_ERROR;
 }
 
+export class SetGridDirtyStatus implements Action {
+  readonly type = SET_GRID_DIRTY_STATUS;
+
+  constructor(public payload: boolean) {}
+}
+
 export type Actions
   = LoadTickets
   | LoadTicketsSuccess
-  | LoadTicketsError;
+  | LoadTicketsError
+  | SetGridDirtyStatus;

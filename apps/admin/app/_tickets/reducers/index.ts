@@ -44,6 +44,9 @@ export const getTicketLoadingError = createSelector(selectTicketState, fromTicke
 export const getUserTicket = createSelector(selectTicketState, fromTicketsReducer.getUserTicket);
 export const getOpenedTicket = createSelector(selectTicketState, fromTicketsReducer.getOpenedTicket);
 export const getSelectedTabTicket = createSelector(selectTicketState, fromTicketsReducer.getSelectedTabTicket);
+export const getLoadingTabTicket = createSelector(selectTicketState, fromTicketsReducer.getLoadingTabTicket);
+export const getTicketUpdating = createSelector(selectTicketState, fromTicketsReducer.getUpdating);
+export const getTicketUpdatingError = createSelector(selectTicketState, fromTicketsReducer.getUpdatingError);
 
 // Ticket List Selectors
 export const {
@@ -51,6 +54,7 @@ export const {
 } = fromTicketsListReducer.adapter.getSelectors(selectTicketListState);
 export const getTicketListLoading = createSelector(selectTicketListState, fromTicketsListReducer.getLoading);
 export const getTicketListLoadingError = createSelector(selectTicketListState, fromTicketsListReducer.getLoadingError);
+export const getDirtyGridState = createSelector(selectTicketListState, fromTicketsListReducer.getDirtyGridState);
 
 // Ticket Field Lookup Selectors
 export const getUserTicketStates = createSelector(selectTicketLookupsState, fromTicketLookupsReducer.getUserTicketStates);

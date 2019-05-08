@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 import { Store } from '@ngrx/store';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import {NgbTabChangeEvent, NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 
 
 import { WindowRef } from 'libs/core/services';
 
+import { TicketListComponent } from '../../ticket-list';
 import { UserTicketTabItem } from '../../../models';
 import * as fromTicketReducer from '../../../reducers';
+import * as fromTicketActions from '../../../actions/ticket.actions';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -16,26 +19,30 @@ import * as fromTicketReducer from '../../../reducers';
   templateUrl: './ticket-list.page.html',
   styleUrls: ['./ticket-list.page.scss']
 })
-export class TicketListPageComponent implements OnInit {
+export class TicketListPageComponent implements OnDestroy {
   userTicketTabs: UserTicketTabItem[] = [];
   selectedTicketId: number = null;
 
   openTicket$: Observable<UserTicketTabItem>;
-  selectTicketTab$: Observable<number>;
+  loadingTicketTab$: Observable<number>;
 
   openTicketSubscription: Subscription;
   selectTicketTabSubscription: Subscription;
+  private unsubscribe$ = new Subject();
 
   @ViewChild(NgbTabset) tabSet: NgbTabset;
+  @ViewChild(TicketListComponent) ticketListComponent: TicketListComponent;
 
   constructor(private window: WindowRef, private store: Store<fromTicketReducer.State>) {
     this.openTicket$ = this.store.select(fromTicketReducer.getOpenedTicket);
-    this.selectTicketTab$ = this.store.select(fromTicketReducer.getSelectedTabTicket);
+    this.loadingTicketTab$ = this.store.select(fromTicketReducer.getLoadingTabTicket);
 
     this.configureTicketEvents();
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.unsubscribe();
   }
 
   handleBackButtonClick(): void {
@@ -43,13 +50,17 @@ export class TicketListPageComponent implements OnInit {
   }
 
   configureTicketEvents(): void {
-    this.openTicketSubscription = this.openTicket$.subscribe((userTicket) => { this.handleOpenTicketEvent(userTicket); });
+    this.openTicketSubscription = this.openTicket$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((userTicket) => { this.handleOpenTicketEvent(userTicket); });
 
-    this.selectTicketTabSubscription = this.selectTicketTab$.subscribe((userTicketId) => {
-      if (userTicketId > 0) {
-        this.tabSet.select('tab-' + userTicketId);
-      }
-    });
+    this.selectTicketTabSubscription = this.loadingTicketTab$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((userTicketId) => {
+        if (userTicketId > 0) {
+          this.tabSet.select('tab-' + userTicketId);
+        }
+      });
   }
 
   handleCloseTabClick(userTicketId: number, $event): void {
@@ -70,6 +81,16 @@ export class TicketListPageComponent implements OnInit {
       } else {
         this.userTicketTabs.unshift(userTicket);
       }
+    }
+  }
+
+  onTabChanged(event: NgbTabChangeEvent) {
+    if (event.nextId !== 'tab-tickets' && event.activeId !== event.nextId) {
+      const ticketId = parseInt(event.nextId.replace('tab-', ''), 10);
+      this.store.dispatch(new fromTicketActions.SelectTicketTab(ticketId));
+    }
+    if (event.nextId === 'tab-tickets') {
+      this.ticketListComponent.checkForRefresh();
     }
   }
 }

@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import {UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
+import { UserTicketUpdateRequest } from 'libs/models/payfactors-api/service/request';
 import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
-
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
 export const LOAD_COMPANY_DETAIL_ERROR = '[Admin Tickets/ Ticket] Load Company Detail Error';
@@ -11,6 +10,10 @@ export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success
 export const LOAD_TICKET_ERROR = '[Admin Tickets / Ticket] Load Ticket Error';
 export const OPEN_TICKET = '[Admin Tickets/ Ticket] Open Ticket';
 export const SELECT_TICKET_TAB = '[Admin Tickets/ Ticket] Select Ticket Tab';
+export const INITIALIZE_TICKET_TAB = '[Admin Tickets/ Ticket] Initialize Ticket Tab';
+export const UPDATE_TICKET = '[Admin Tickets / Ticket] Update Ticket';
+export const UPDATE_TICKET_SUCCESS = '[Admin Tickets / Ticket] Update Ticket Success';
+export const UPDATE_TICKET_ERROR = '[Admin Tickets / Ticket] Update Ticket Error';
 
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
@@ -50,10 +53,32 @@ export class OpenTicket implements Action {
   constructor(public payload: UserTicketTabItem) {}
 }
 
-export class SelectTicketTab implements  Action {
+export class SelectTicketTab implements Action {
   readonly type = SELECT_TICKET_TAB;
 
   constructor(public payload: number) {}
+}
+
+export class InitializeTicketTab implements Action {
+  readonly type = INITIALIZE_TICKET_TAB;
+
+  constructor(public payload: number) {}
+}
+
+export class UpdateTicket implements Action {
+  readonly type = UPDATE_TICKET;
+
+  constructor(public payload: UserTicketUpdateRequest) {}
+}
+
+export class UpdateTicketSuccess implements Action {
+  readonly type = UPDATE_TICKET_SUCCESS;
+
+  constructor(public payload: UserTicketItem) {}
+}
+
+export class UpdateTicketError implements Action {
+  readonly type = UPDATE_TICKET_ERROR;
 }
 
 export type Actions
@@ -64,4 +89,8 @@ export type Actions
   | LoadTicketSuccess
   | LoadTicketError
   | OpenTicket
-  | SelectTicketTab;
+  | SelectTicketTab
+  | InitializeTicketTab
+  | UpdateTicket
+  | UpdateTicketSuccess
+  | UpdateTicketError;
