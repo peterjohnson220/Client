@@ -7,7 +7,7 @@
   <ng-container page-actions>
     <div class="omni-box">
       <pf-input-debounce [placeholderText]="'Search for a Custom Filter...'"
-                         (valueChanged)="handleSearchChanged($event)">
+                         (valueChanged)="updateSearchFilter($event)">
       </pf-input-debounce>
     </div>
     <button type="button"
@@ -16,39 +16,9 @@
   </ng-container>
 
   <ng-container page-content>
-    <pf-async-container
-      [loading]="tagCategoriesLoading$ | async"
-      [loadingError]="tagCategoriesLoadingError$ | async"
-      [loadingErrorMessage]="'Error loading custom filter categories'"
-      (reload)="handleTagCategoriesGridReload()"
-      class="flex-grow-1"
-    >
-
-      <kendo-grid class="no-wrap-ellipsis-values"
-                  [data]="tagCategoriesGrid$ | async"
-                  [scrollable]="true"
-      >
-
-        <kendo-grid-column field="DisplayName" title="Display Name">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <span title="{{dataItem.DisplayName}}">{{dataItem.DisplayName}}</span>
-          </ng-template>
-        </kendo-grid-column>
-
-        <kendo-grid-column field="EntityTypesFlag" title="Types">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <span>{{getEntityTypes(dataItem.EntityTypesFlag)}}</span>
-          </ng-template>
-        </kendo-grid-column>
-
-        <kendo-grid-column field="Description" title="Description">
-          <ng-template kendoGridCellTemplate let-dataItem>
-            <span title="{{dataItem.Description}}">{{dataItem.Description}}</span>
-          </ng-template>
-        </kendo-grid-column>
-      </kendo-grid>
-
-    </pf-async-container>
+    <pf-tag-categories-list
+      [InAddTagCategoriesModal]="false"
+    ></pf-tag-categories-list>
   </ng-container>
 
 </pf-page-with-title-bar>

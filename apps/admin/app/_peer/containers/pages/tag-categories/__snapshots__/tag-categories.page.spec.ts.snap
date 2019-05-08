@@ -2,11 +2,8 @@
 
 exports[`Admin - Tag Categories Page (the page) should match the snapshot 1`] = `
 <pf-tag-categories
-  gridHelperService={[Function Object]}
+  gridState$={[Function Observable]}
   store={[Function Store]}
-  tagCategoriesGrid$={[Function Store]}
-  tagCategoriesLoading$={[Function Store]}
-  tagCategoriesLoadingError$={[Function Store]}
 >
   <pf-page-with-title-bar>
     
@@ -24,32 +21,7 @@ exports[`Admin - Tag Categories Page (the page) should match the snapshot 1`] = 
       Create
     </button>
     
-    <pf-async-container
-      class="flex-grow-1"
-    >
-      <kendo-grid
-        class="no-wrap-ellipsis-values"
-      >
-        <kendo-grid-column
-          field="DisplayName"
-          title="Display Name"
-        >
-          
-        </kendo-grid-column>
-        <kendo-grid-column
-          field="EntityTypesFlag"
-          title="Types"
-        >
-          
-        </kendo-grid-column>
-        <kendo-grid-column
-          field="Description"
-          title="Description"
-        >
-          
-        </kendo-grid-column>
-      </kendo-grid>
-    </pf-async-container>
+    <pf-tag-categories-list />
   </pf-page-with-title-bar><pf-create-tag-category-modal />
 </pf-tag-categories>
 `;

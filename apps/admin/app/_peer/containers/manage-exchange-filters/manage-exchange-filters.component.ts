@@ -11,6 +11,7 @@ import { Exchange, ExchangeSearchFilterAggregate } from 'libs/models/peer';
 import { GridHelperService } from '../../services';
 import * as fromPeerAdminReducer from '../../reducers';
 import * as fromExchangeFiltersActions from '../../actions/exchange-filters.actions';
+import * as fromTagCategoriesActions from '../../actions/tag-categories.actions';
 
 @Component({
   selector: 'pf-manage-exchange-filters',
@@ -67,6 +68,10 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.exchangeFilters, event.previousIndex, event.currentIndex);
     this.store.dispatch(new fromExchangeFiltersActions.ReorderFilters(this.exchangeFilters));
+  }
+
+  openAddTagCategoriesModal() {
+    this.store.dispatch(new fromTagCategoriesActions.OpenAddTagCategoriesModal());
   }
 
   ngOnInit(): void {

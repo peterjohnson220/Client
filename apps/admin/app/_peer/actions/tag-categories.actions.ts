@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { GridDataResult } from '@progress/kendo-angular-grid';
 
-import { UpsertTagCategoryRequest } from 'libs/models/peer/requests';
+import { AddTagCategoriesRequest, UpsertTagCategoryRequest } from 'libs/models/peer/requests';
 
 export const LOAD_TAG_CATEGORIES = '[Peer Admin/Tag Categories] Load Tag Categories';
 export const LOAD_TAG_CATEGORIES_SUCCESS = '[Peer Admin/Tag Categories] Load Tag Categories Success';
@@ -12,11 +12,16 @@ export const CLOSE_CREATE_TAG_CATEGORY_MODAL = '[Peer Admin/Tag Categories] Clos
 export const CREATE_TAG_CATEGORY = '[Peer Admin/Tag Categories] Create Tag Category';
 export const CREATE_TAG_CATEGORY_SUCCESS = '[Peer Admin/Tag Categories] Create Tag Category Success';
 export const CREATE_TAG_CATEGORY_ERROR = '[Peer Admin/Tag Categories] Create Tag Category Error';
+export const OPEN_ADD_TAG_CATEGORIES_MODAL = '[Peer Admin/Tag Categories] Open Add Tag Categories Modal';
+export const CLOSE_ADD_TAG_CATEGORIES_MODAL = '[Peer Admin/Tag Categories] Close Add Tag Categories Modal';
+export const ADD_TAG_CATEGORIES_TO_EXCHANGE = '[Peer Admin/Tag Categories] Add Tag Categories To Exchange';
+export const ADD_TAG_CATEGORIES_TO_EXCHANGE_SUCCESS = '[Peer Admin/Tag Categories] Add Tag Categories To Exchange Success';
+export const ADD_TAG_CATEGORIES_TO_EXCHANGE_ERROR = '[Peer Admin/Tag Categories] Add Tag Categories To Exchange Error';
 
 export class LoadTagCategories implements Action {
   readonly type = LOAD_TAG_CATEGORIES;
 
-  constructor(public payload: string) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadTagCategoriesSuccess implements Action {
@@ -51,6 +56,28 @@ export class CreateTagCategoryError implements Action {
   readonly type = CREATE_TAG_CATEGORY_ERROR;
 }
 
+export class OpenAddTagCategoriesModal implements Action {
+  readonly type = OPEN_ADD_TAG_CATEGORIES_MODAL;
+}
+
+export class CloseAddTagCategoriesModal implements Action {
+  readonly type = CLOSE_ADD_TAG_CATEGORIES_MODAL;
+}
+
+export class AddTagCategoriesToExchange implements Action {
+  readonly type = ADD_TAG_CATEGORIES_TO_EXCHANGE;
+
+  constructor(public payload: AddTagCategoriesRequest) {}
+}
+
+export class AddTagCategoriesToExchangeSuccess implements Action {
+  readonly type = ADD_TAG_CATEGORIES_TO_EXCHANGE_SUCCESS;
+}
+
+export class AddTagCategoriesToExchangeError implements Action {
+  readonly type = ADD_TAG_CATEGORIES_TO_EXCHANGE_ERROR;
+}
+
 export type Actions
   = LoadTagCategories
   | LoadTagCategoriesSuccess
@@ -59,4 +86,9 @@ export type Actions
   | CloseCreateTagCategoryModal
   | CreateTagCategory
   | CreateTagCategorySuccess
-  | CreateTagCategoryError;
+  | CreateTagCategoryError
+  | OpenAddTagCategoriesModal
+  | CloseAddTagCategoriesModal
+  | AddTagCategoriesToExchange
+  | AddTagCategoriesToExchangeSuccess
+  | AddTagCategoriesToExchangeError;
