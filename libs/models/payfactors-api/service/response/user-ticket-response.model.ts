@@ -18,6 +18,8 @@ export interface UserTicketResponse {
   ClosedDate?: Date;
   UserTicketFiles?: UserTicketFile[];
   UserTicketComments?: UserTicketComment[];
+  UserTicketTypeId: number;
+  UserTicketTypeSortOrder: number;
 }
 
 export interface UserTicketFile {
@@ -47,7 +49,9 @@ export function generateMockUserTicketViewModel(): UserTicketResponse {
     UserTicket: 'Hello',
     CompanyName: 'Test Company',
     OpenedUserEmail: 'test@hello.com',
-    LastUpdatedText: '5 seconds ago'
+    LastUpdatedText: '5 seconds ago',
+    UserTicketTypeId: 1,
+    UserTicketTypeSortOrder: 1,
   };
 }
 
@@ -70,4 +74,3 @@ export function generateMockUserTicketsComment(): UserTicketComment {
     CreateDate: new Date(2019, 3, 4)
   };
 }
-

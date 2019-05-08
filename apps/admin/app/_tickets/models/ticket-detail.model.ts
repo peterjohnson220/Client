@@ -1,3 +1,5 @@
+import { generateMockUserTicketType, UserTicketType } from './user-ticket-type.model';
+
 export interface TicketDetail {
   TicketId: number;
   CompanyId: number;
@@ -6,10 +8,7 @@ export interface TicketDetail {
   EditDate: Date;
   CreateDate: Date;
   OpenedBy: string;
-  TicketTypeDisplayName: string;
-  TicketType: string;
-  TicketSubType: string;
-  TicketCssClass: string;
+  UserTicketType: UserTicketType;
   TicketState: string;
   LastUpdatedText: string;
 }
@@ -28,6 +27,7 @@ export function generateMockTicketDetail() {
     TicketSubType: 'MockTicketSubType',
     TicketCssClass: 'MockTicketCssClass',
     TicketState: 'MockTicketState',
-    LastUpdatedText: 'MockLastUpdatedText'
+    LastUpdatedText: 'MockLastUpdatedText',
+    UserTicketType: generateMockUserTicketType()
   };
 }
