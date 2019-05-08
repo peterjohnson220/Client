@@ -8,6 +8,8 @@ export const RESET_JOB_ASSOCIATIONS_MODAL  = '[Peer/Job Association Modal] Reset
 export const SAVE_JOB_ASSOCIATIONS  = '[Peer/Job Association Modal] Save Job Associations';
 export const SAVE_JOB_ASSOCIATIONS_ERROR  = '[Peer/Job Association Modal] Save Job Associations Error';
 export const SAVE_JOB_ASSOCIATIONS_SUCCESS  = '[Peer/Job Association Modal] Save Job Associations Success';
+
+// saveable actions are fired when the user makes changes to the JAM that would be lost without saving
 export const CHANGE_SAVEABLE_ENTITIES  = '[Peer/Job Association Modal] Change Saveable Entities';
 export const CLOSE_MODAL_WITH_SAVEABLE_CHANGES = '[Peer/Job Association Modal] Close Modal With Saveable Changes';
 export const CANCEL_UNSAVED_CHANGES_WARNING = '[Peer/Job Association Modal] Cancel Unsaved Changes Warning';

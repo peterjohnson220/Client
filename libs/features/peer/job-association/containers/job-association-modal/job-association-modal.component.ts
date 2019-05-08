@@ -41,12 +41,14 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
     // Register Subscriptions
     this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$.subscribe(
       (exchangeJobAssociations) => {
+        // keep ASP informed of whether or not there are saveable changes so warnings can be shown
         this.exchangeJobAssociations = exchangeJobAssociations;
         this.store.dispatch(new jobAssociationModalActions.ChangeSaveableEntities(this.isSaveButtonEnabled()));
       });
 
     this.exchangeJobAssociationsToRemoveSubscription = this.exchangeJobAssociationsToRemove$.subscribe(
       (exchangeJobToCompanyJobIds) => {
+        // keep ASP informed of whether or not there are saveable changes so warnings can be shown
         this.exchangeJobAssociationsToRemove = exchangeJobToCompanyJobIds;
         this.store.dispatch(new jobAssociationModalActions.ChangeSaveableEntities(this.isSaveButtonEnabled()));
       });
