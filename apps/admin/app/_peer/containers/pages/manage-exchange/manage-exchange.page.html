@@ -7,7 +7,7 @@
     <kendo-switch class="k-switch-lg"
                   onLabel="Active"
                   offLabel="Inactive"
-                  [disabled]="!(canActivateExchange$ | async)"
+                  [disabled]="!(canToggleExchangeStatus$ | async)"
                   [readonly]="true"
                   [checked]="isExchangeActive$ | async"
                   (click)="handleSwitchToggled()">

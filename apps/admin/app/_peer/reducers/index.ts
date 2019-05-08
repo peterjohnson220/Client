@@ -104,7 +104,14 @@ export const getExchangeStatusConfirmationModalOpen = createSelector(
 );
 export const getManageExchangeUpdating = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdating);
 export const getManageExchangeUpdatingError = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdatingError);
-export const getManageExchangeCanActivate = createSelector(selectExchangeState, fromExchangeReducer.getCanActivateExchange);
+export const getManageExchangeCanToggleExchangeStatus = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getCanToggleExchangeStatus
+);
+export const getManageExchangeIsValidExchange = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getIsValidExchange
+);
 
 // Exchange List Selectors
 export const getManageExchangeLoading = createSelector(
