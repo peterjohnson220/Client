@@ -14,7 +14,7 @@ import { PfCommonUIModule } from 'libs/ui/common';
 
 import {
   TicketListComponent, TicketListPageComponent, CompanyDetailCardComponent,
-  TicketComponent, TicketFieldsComponent
+  TicketComponent, TicketFieldsComponent, AttachmentDetailCardComponent
 } from './containers';
 import {TicketEffects, TicketListEffects, TicketLookupEffects} from './effects';
 import { reducers } from './reducers';
@@ -47,6 +47,7 @@ import { TicketsRoutingModule } from './tickets-routing.module';
   ],
   declarations: [
     // Components
+    AttachmentDetailCardComponent,
     CompanyDetailCardComponent,
     TicketDetailCardComponent,
 

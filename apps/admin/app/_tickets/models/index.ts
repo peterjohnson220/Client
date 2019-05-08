@@ -6,3 +6,4 @@ export * from './user-ticket-tab-item.model';
 export * from './pf-services-rep.model';
 export * from './user-ticket-state.model';
 export * from './user-ticket-type.model';
+export * from './ticket-attachment.model';

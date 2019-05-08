@@ -3,11 +3,20 @@ import {
   UserTicketCompanyDetailResponse,
   UserTicketResponse,
   UserTicketStateResponse,
-  UserTicketTypeResponse
+  UserTicketTypeResponse,
+  UserTicketFile
 } from 'libs/models/payfactors-api/service/response';
 import { UserResponse } from 'libs/models/payfactors-api/user/response';
 
-import {CompanyDetail, PfServicesRep, UserTicketGridItem, UserTicketItem, UserTicketState, UserTicketType} from '../models';
+import {
+  CompanyDetail,
+  PfServicesRep,
+  UserTicketGridItem,
+  UserTicketItem,
+  UserTicketState,
+  UserTicketType,
+  TicketAttachment
+} from '../models';
 
 
 export class PayfactorsApiModelMapper {
@@ -47,7 +56,8 @@ export class PayfactorsApiModelMapper {
         TicketState: response.UserTicketState,
         LastUpdatedText: response.LastUpdatedText
       },
-      CompanyInfo: null
+      CompanyInfo: null,
+      Attachments: this.mapUserTicketFilesToTicketAttachment(response.UserTicketFiles)
     };
   }
 
@@ -93,6 +103,18 @@ export class PayfactorsApiModelMapper {
     });
   }
 
+  static mapUserTicketFilesToTicketAttachment( userTicketFiles: UserTicketFile[]): TicketAttachment[] {
+    return userTicketFiles.map( utf => {
+      return {
+        AttachmentId: utf.UserTicketsFileId,
+        DisplayName: utf.DisplayName,
+        FileName: utf.FileName,
+        ExtensionType: this.getFileExtensionType(utf.DisplayName),
+        ExtensionCssClass: this.getExtensionCssClass(this.getFileExtensionType(utf.DisplayName.toLowerCase()))
+      };
+    });
+  }
+
   private static squashComments( userTicketComments: UserTicketComment[]): string {
 
     let comment = '';
@@ -114,5 +136,54 @@ export class PayfactorsApiModelMapper {
     }
 
     return displayName;
+  }
+
+  private static getFileExtensionType(file: string): string {
+    const re = /(?:\.([^.]+))?$/;
+    return re.exec(file)[1];
+  }
+
+  private static getExtensionCssClass(extension: string): string {
+    switch (extension) {
+      case 'xlsx':
+      case 'xls':
+      case 'xlsb':
+      case 'xlsm':
+      case 'xltx':
+      case 'xltm':
+      case 'xla':
+        return 'fa-file-excel';
+      case 'docx':
+      case 'docm':
+      case 'dotx':
+      case 'dotm':
+      case 'docb':
+      case 'doc':
+        return 'fa-file-word';
+      case 'ppt':
+      case 'pptx':
+        return 'fa-file-word';
+      case 'pdf':
+        return 'fa-file-pdf';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return 'fa-file-image';
+      case 'zip':
+      case 'zipx':
+      case '7z':
+        return 'fa-file-archive';
+      case 'msg':
+        return 'fa-envelope';
+      case 'csv':
+      case 'txt':
+      case 'xml':
+      case 'exe':
+      case 'mht':
+      case 'mdb':
+      case 'partial':
+      default:
+        return 'fa-file-alt';
+    }
   }
 }

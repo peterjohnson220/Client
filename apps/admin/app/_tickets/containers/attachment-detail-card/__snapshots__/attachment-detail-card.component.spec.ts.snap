@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin - Tickets - Attachment Detail Card Should display details about a ticket 1`] = `
+<pf-attachment-detail-card
+  ticketAttachments={[Function Array]}
+>
+  <div
+    class="section card mb-2"
+  >
+    <div
+      class="card-header bg-transparent border-bottom-0"
+    >
+      <h4>
+        Attachments
+      </h4>
+      <div />
+    </div>
+    <div
+      class="card-body mx-3"
+    >
+      
+      
+      <div
+        class="row"
+      >
+        <table
+          class="table table-hover"
+        >
+          <tbody>
+            
+            <tr>
+              <td>
+                <i
+                  class="fa fa-file "
+                  style="font-size: 45px"
+                />
+              </td>
+              <td
+                class="align-middle"
+              >
+                <h5>
+                  MockAttachmentDisplayName1.txt
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <i
+                  class="fa fa-file "
+                  style="font-size: 45px"
+                />
+              </td>
+              <td
+                class="align-middle"
+              >
+                <h5>
+                  MockAttachmentDisplayName2.xlsx
+                </h5>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <i
+                  class="fa fa-file "
+                  style="font-size: 45px"
+                />
+              </td>
+              <td
+                class="align-middle"
+              >
+                <h5>
+                  MockAttachmentDisplayName3.docx
+                </h5>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <hr
+        class="my-2"
+      />
+      <div
+        class="row justify-content-center"
+      >
+        <div
+          class="col-s12"
+        >
+          <button
+            class="btn btn-primary px-5 py-2"
+            type="button"
+          >
+            Upload
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</pf-attachment-detail-card>
+`;
