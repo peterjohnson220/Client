@@ -50,6 +50,10 @@ export const getJobAssociationModalSaving = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSaving);
 
+export const getJobAssociationModalSavingSuccess = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getSavingSuccess);
+
 export const getJobAssociationModalSavingError = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSavingError);

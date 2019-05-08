@@ -140,14 +140,22 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     // if the modal is closed and a row is expanded close the expanded row to prevent potentially unlisted associations
     this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalIsOpen)).subscribe(isOpen => {
-      if (!isOpen && this.expandedDetailRowId !== null) {
-        this.grid.collapseRow(this.expandedDetailRowId);
+      if (!isOpen) {
+        this.collapseDetailRow();
       }
     }));
 
-    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoading)).subscribe(isLoading => {
+    this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsLoading)).subscribe(() => {
       this.collapseDetailRow();
     }));
+
+    this.allSubscriptions.add(
+      this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalSavingSuccess)).subscribe((isSuccess) => {
+        if (isSuccess) {
+          this.collapseDetailRow();
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
