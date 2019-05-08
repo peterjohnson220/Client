@@ -29,12 +29,17 @@
        (mouseover)="showGridTooltip($event)">
     <pf-grid-detail-panel
       [isExpanded$]="isDetailPanelExpanded$"
+      [checkForJdmDescription]="true"
+      [jdmDescriptionIds]="jdmDescriptionIds$ | async"
+      [jdmDescriptionLoading]="jdmDescriptionLoading$ | async"
+      [jdmDescriptionLoadingError]="jdmDescriptionLoadingError$ | async"
       [jobId]="selectedCompanyJobInDetailPanel.CompanyJobId"
       [jobTitle]="selectedCompanyJobInDetailPanel.JobTitle"
       [jobCode]="selectedCompanyJobInDetailPanel.JobCode"
       [jobDescription]="selectedCompanyJobInDetailPanel.JobDescription"
       [jobFamily]="selectedCompanyJobInDetailPanel.JobFamily"
-      (closeClick)="handleCloseDetailPanel()"        
+      (closeClick)="handleCloseDetailPanel()"
+      (viewJdmDescriptionClick)="handleViewJdmDescriptionClick()"
     ></pf-grid-detail-panel>
     <kendo-grid
                 [data]="companyJobsGridItemsData$ | async"
