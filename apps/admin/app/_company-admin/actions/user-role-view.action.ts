@@ -106,8 +106,8 @@ export class EditRoleName implements  Action {
   constructor(public payload: any) {}
 }
 
-export class DiscardRoleChanges implements  Action{
-  readonly type = DISCARD_ROLE_CHANGES
+export class DiscardRoleChanges implements  Action {
+  readonly type = DISCARD_ROLE_CHANGES;
   constructor() {}
 }
 

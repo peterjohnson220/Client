@@ -56,10 +56,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       this.options.forEach(o => {
         o.IsSelected =  o.Id && (this.selectedValues.indexOf(o.Id) > -1 || this.selectedValues.indexOf(o.Id.toString())  > -1);
       });
-      this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
-      this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
-      this.selectedValues = this.selectedOptions.map(o => o.Id);
-
+      this.refreshSelected();
     }
   }
 
@@ -67,6 +64,9 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
       this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
       this.selectedValues = this.selectedOptions.map(o => o.Id);
+      this.selectedOptionsChange.emit(this.selectedOptions);
+      this.selectedValuesChange.emit(this.selectedValues);
+
     }
     getFromRemoteSource() {
       this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${this.endpointName}`).subscribe(
@@ -92,10 +92,6 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
         this.options = this.options.sort((a, b) => a.IsSelected === b.IsSelected ? 0 : a.IsSelected ? -1 : 1) ;
       }
       this.isExpanded = !this.isExpanded;
-      if (!this.isExpanded) {
-        this.selectedOptionsChange.emit(this.selectedOptions);
-        this.selectedValuesChange.emit(this.selectedValues);
-      }
       this.selectFacadeClick.emit();
     }
 
@@ -110,10 +106,6 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     }
 
     clickElsewhere () {
-      if (this.isExpanded) {
-        this.selectedOptionsChange.emit(this.selectedOptions);
-        this.selectedValuesChange.emit(this.selectedValues);
-      }
       this.isExpanded = false;
     }
     clearSearchTerm() {

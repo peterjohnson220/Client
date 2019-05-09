@@ -8,7 +8,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
-  currentUserRoleTabState={[Function Number]}
+  currentUserRoleTabState="0"
   dataAccessTabPendingChanges="false"
   dataAccessTabPendingChangesSubscription={[Function Subscriber]}
   functionTabPendingChanges="false"
@@ -18,7 +18,7 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
   permissionIdsToSaveSubscription={[Function Subscriber]}
   roleApiResponse="undefined"
   roleApiResponseSubscription={[Function Subscriber]}
-  roleDataRestrictions="undefined"
+  roleDataRestrictions={[Function Array]}
   roleDataRestrictionsSubscription={[Function Subscriber]}
   saveButtonDisabled="false"
   saveButtonDisabledSubscription={[Function Subscriber]}
@@ -119,22 +119,22 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
                 class="nav-item"
               >
                 <button
-                  class="nav-link cursor-pointer"
+                  class="nav-link cursor-pointer active"
                   ng-reflect-klass="nav-link cursor-pointer"
                   ng-reflect-ng-class="[object Object]"
                 >
-                  Data Access 
+                  Function 
                 </button>
               </li>
               <li
                 class="nav-item"
               >
                 <button
-                  class="nav-link cursor-pointer active"
+                  class="nav-link cursor-pointer"
                   ng-reflect-klass="nav-link cursor-pointer"
                   ng-reflect-ng-class="[object Object]"
                 >
-                  Function 
+                  Data Access 
                 </button>
               </li>
               <li
@@ -153,10 +153,13 @@ exports[`UserRolePageComponent should display user roles in role-list 1`] = `
           <div
             class="scrollable tab-container h-100 p-3"
           >
-            
-            
+            <pf-user-role-data-access-tab
+              hidden=""
+            />
             <pf-user-role-function-tab />
-            
+            <pf-user-role-users-tab
+              hidden=""
+            />
           </div>
         </div>
       </div>
@@ -173,7 +176,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   currentRole="undefined"
   currentRoleSubscription={[Function Subscriber]}
   currentTabStateSubscription={[Function Subscriber]}
-  currentUserRoleTabState={[Function Number]}
+  currentUserRoleTabState="0"
   dataAccessTabPendingChanges="false"
   dataAccessTabPendingChangesSubscription={[Function Subscriber]}
   functionTabPendingChanges="false"
@@ -183,7 +186,7 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
   permissionIdsToSaveSubscription={[Function Subscriber]}
   roleApiResponse="undefined"
   roleApiResponseSubscription={[Function Subscriber]}
-  roleDataRestrictions="undefined"
+  roleDataRestrictions={[Function Array]}
   roleDataRestrictionsSubscription={[Function Subscriber]}
   saveButtonDisabled="false"
   saveButtonDisabledSubscription={[Function Subscriber]}
@@ -257,22 +260,22 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
                 class="nav-item"
               >
                 <button
-                  class="nav-link cursor-pointer"
+                  class="nav-link cursor-pointer active"
                   ng-reflect-klass="nav-link cursor-pointer"
                   ng-reflect-ng-class="[object Object]"
                 >
-                  Data Access 
+                  Function 
                 </button>
               </li>
               <li
                 class="nav-item"
               >
                 <button
-                  class="nav-link cursor-pointer active"
+                  class="nav-link cursor-pointer"
                   ng-reflect-klass="nav-link cursor-pointer"
                   ng-reflect-ng-class="[object Object]"
                 >
-                  Function 
+                  Data Access 
                 </button>
               </li>
               <li
@@ -291,10 +294,13 @@ exports[`UserRolePageComponent should match snapshot 1`] = `
           <div
             class="scrollable tab-container h-100 p-3"
           >
-            
-            
+            <pf-user-role-data-access-tab
+              hidden=""
+            />
             <pf-user-role-function-tab />
-            
+            <pf-user-role-users-tab
+              hidden=""
+            />
           </div>
         </div>
       </div>
