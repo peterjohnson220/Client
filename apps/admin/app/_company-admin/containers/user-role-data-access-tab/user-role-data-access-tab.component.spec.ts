@@ -11,6 +11,7 @@ import {getMockRoleDataRestrictions} from 'libs/models/security/roles/role-data-
 import { UserRoleDataAccessTabComponent } from './user-role-data-access-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromDataAccessTabActions from '../../reducers';
+import {DataAccessService} from '../../services';
 
 
 
@@ -26,6 +27,7 @@ describe('UserRoleDataAccessTabComponent', () => {
           userRoleAdminMain: combineReducers(fromDataAccessTabActions.reducers)
         }),
       ],
+      providers: [ DataAccessService ],
       declarations: [UserRoleDataAccessTabComponent, DataTypeFilterPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
