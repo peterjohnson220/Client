@@ -42,9 +42,10 @@
       <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
         <pf-typeahead #typeaheadComponent
           [apiEndpoint]="buildApiEndpoint()"
-                      [apiResponsePropertyForTypeahead]="'Value'"
-                      [(ngModel)]="roleDataRestriction.DataValue"
-                      (valueChanged)="roleDataRestrictionChanged.emit()"
+          [apiResponsePropertyForTypeahead]="'Value'"
+          [(ngModel)]="roleDataRestriction.DataValue"
+          (valueChanged)="roleDataRestrictionChanged.emit()"
+          [automationClassName]="'txt-restrictionTypeahead'"
         ></pf-typeahead>
       </div>
   </div>
