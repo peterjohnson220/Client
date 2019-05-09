@@ -71,6 +71,9 @@ describe('IntegrationApiService', () => {
     };
     const userContext = <UserContext> {
       CompanyId,
+      ConfigSettings: [
+        { Name: 'UtilitiesSubDomain', Value: 'utilities' },
+      ],
     };
     const expectedAction = new FileDownloadSuccess({
       fileId,
