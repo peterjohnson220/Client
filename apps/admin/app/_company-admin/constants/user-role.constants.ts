@@ -1,6 +1,6 @@
 export enum UserRoleTabState {
-  DATA_ACCESS,
   FUNCTION,
+  DATA_ACCESS,
   USERS
 }
 
