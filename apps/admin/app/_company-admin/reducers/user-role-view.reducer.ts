@@ -3,6 +3,7 @@ import { AddCompanyRoleForm } from 'libs/models/admin';
 
 import { RoleApiResponse, UserRoleTabState } from '../constants/user-role.constants';
 import * as fromUserRoleViewActions from '../actions/user-role-view.action';
+import * as cloneDeep from 'lodash.clonedeep';
 
 export interface IUserRoleState {
   currentTab: UserRoleTabState;
@@ -117,6 +118,12 @@ export function reducer(state = initialState, action: fromUserRoleViewActions.Ac
       return {
         ...noApiResponseState,
         disableSaveButton: true
+      };
+    }
+    case fromUserRoleViewActions.DISCARD_ROLE_CHANGES: {
+      return {
+        ...noApiResponseState,
+        currentUserRole: cloneDeep(noApiResponseState.currentUserRoleDefaultState)
       };
     }
     default: {

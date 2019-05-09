@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 
 import { DataFieldFilterComponent } from './data-field-filter.component';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import { Store, StoreModule} from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import {getMockDataTypes} from 'libs/models/security/roles/data-type';
+import {getMockDataTypes} from 'libs/models/security/roles/data-type.model';
+import {getMockRoleDataRestrictions} from 'libs/models/security/roles/role-data-restriction.model';
 
 
 describe('DataFieldFilterComponent', () => {
@@ -28,16 +28,15 @@ describe('DataFieldFilterComponent', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch');
-
     fixture = TestBed.createComponent(DataFieldFilterComponent);
     component = fixture.componentInstance;
-    component._DataFieldTypes = getMockDataTypes();
-    component.selectedField = getMockDataTypes()[0].DataFields[0];
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DataFieldFilterComponent);
     component = fixture.componentInstance;
+    component.dataType = getMockDataTypes()[0];
+    component.roleDataRestriction = getMockRoleDataRestrictions()[0];
     fixture.detectChanges();
   });
 

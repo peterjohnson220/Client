@@ -2,7 +2,7 @@ import { Component, HostListener, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-import { UserAssignedRole } from 'libs/models/security';
+import { UserAssignedRole, RoleDataRestriction } from 'libs/models/security';
 
 import { UserRoleTabState, RoleApiResponse } from '../../../constants/user-role.constants';
 import { UserRoleService } from '../../../services';
@@ -10,6 +10,7 @@ import * as fromUserRoleViewReducer from '../../../reducers';
 import * as fromUserRoleActions from '../../../actions/user-role-view.action';
 import * as fromDataAccessActions from '../../../actions/data-access-tab.action';
 import * as fromUserRoleUserTabActions from '../../../actions/user-role-users-tab.action';
+
 
 @Component({
   selector: 'pf-user-role-page',
@@ -29,6 +30,8 @@ export class UserRolePageComponent implements OnDestroy {
   usersTabPendingChanges: boolean;
   functionTabPendingChangesSubscription: Subscription;
   functionTabPendingChanges: boolean;
+  dataAccessTabPendingChanges: boolean;
+  dataAccessTabPendingChangesSubscription: Subscription;
   userIdsToAssignSubscription: Subscription;
   userIdsToAssignToRole: number[];
   roleApiResponseSubscription: Subscription;
@@ -37,6 +40,8 @@ export class UserRolePageComponent implements OnDestroy {
   saveButtonDisabled: boolean;
   permissionIdsToSave: number[];
   permissionIdsToSaveSubscription: Subscription;
+  roleDataRestrictions: RoleDataRestriction[];
+  roleDataRestrictionsSubscription: Subscription;
   inEditRoleMode = false;
   newRoleName: string;
 
@@ -83,6 +88,13 @@ export class UserRolePageComponent implements OnDestroy {
     this.permissionIdsToSaveSubscription = this.store.select(fromUserRoleViewReducer.getCurrentCheckedPermissionIds).subscribe(p => {
       this.permissionIdsToSave = p;
     });
+
+    this.roleDataRestrictionsSubscription = this.store.select(fromUserRoleViewReducer.getRoleDataRestrictions).subscribe(p => {
+      this.roleDataRestrictions = p;
+    });
+
+    this.dataAccessTabPendingChangesSubscription = this.store.select(fromUserRoleViewReducer.getDataAccessTabPendingChanges)
+      .subscribe(p => {  this.dataAccessTabPendingChanges = p; });
   }
 
   // clear edit role name when in edit mode
@@ -147,7 +159,8 @@ export class UserRolePageComponent implements OnDestroy {
     const savePayload = {
       PermissionIdsToSave: this.permissionIdsToSave,
       UserIdsToAssign: this.userIdsToAssignToRole,
-      CurrentRole: this.currentRole
+      CurrentRole: this.currentRole,
+      DataRestrictions: this.roleDataRestrictions
     };
 
     this.store.dispatch(new fromUserRoleActions.SaveAllChanges(savePayload));
@@ -167,6 +180,8 @@ export class UserRolePageComponent implements OnDestroy {
     this.roleApiResponseSubscription.unsubscribe();
     this.saveButtonDisabledSubscription.unsubscribe();
     this.permissionIdsToSaveSubscription.unsubscribe();
+    this.dataAccessTabPendingChangesSubscription.unsubscribe();
+    this.roleDataRestrictionsSubscription.unsubscribe();
   }
 
   promptUserToSave(input: any): boolean {
@@ -174,7 +189,7 @@ export class UserRolePageComponent implements OnDestroy {
       return true;
     }
 
-    const stateIsModified = this.functionTabPendingChanges || this.usersTabPendingChanges;
+    const stateIsModified = this.functionTabPendingChanges || this.usersTabPendingChanges || this.dataAccessTabPendingChanges;
 
     if (input === this.currentRole) {
       return false;

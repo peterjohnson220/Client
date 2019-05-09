@@ -20,7 +20,7 @@ import { AddCompanyRoleModalComponent,
   UserRoleDataAccessTabComponent } from './containers';
 import { NavigationEffects, UserRoleEffects } from './effects';
 import { reducers } from './reducers';
-import { UserRoleService, UserRoleValidationService} from './services';
+import {DataAccessService, UserRoleService, UserRoleValidationService} from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 import { DataFieldFilterComponent } from './components/data-field-filter/data-field-filter.component';
 
@@ -67,7 +67,8 @@ import { DataFieldFilterComponent } from './components/data-field-filter/data-fi
   providers: [
     // Services
     UserRoleService,
-    UserRoleValidationService
+    UserRoleValidationService,
+    DataAccessService
   ]
 })
 export class CompanyAdminModule { }

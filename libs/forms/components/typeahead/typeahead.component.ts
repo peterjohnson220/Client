@@ -44,6 +44,7 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
   @Input() apiEndpoint = '';
   @Input() apiResponsePropertyForTypeahead = '';
   @Output() valueChanged = new EventEmitter();
+  @Output() ngModelChange = new EventEmitter();
 
   constructor(private elementRef: ElementRef, private remoteDataSourceService: RemoteDataSourceService) {
     this.clearEvent = new Subject();
@@ -76,10 +77,11 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
       this.remoteDataSourceSubscription.unsubscribe();
     }
   }
-
   clearValue() {
     this.innerValue = '';
     this.clearEvent.next('');
+    this.ngModelChange.emit(this.innerValue);
+    this.valueChanged.emit(this.innerValue);
   }
 
   onKey() {
@@ -88,10 +90,12 @@ export class TypeaheadComponent implements OnInit, OnDestroy, ControlValueAccess
 
   onPaste() {
     this.propogateChange(this.innerValue);
+    this.valueChanged.emit(this.innerValue);
   }
 
   onItemSelect(item: any) {
     this.innerValue = item;
+    this.ngModelChange.emit(this.innerValue);
     this.valueChanged.emit(this.innerValue);
   }
 

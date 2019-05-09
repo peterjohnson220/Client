@@ -1,12 +1,19 @@
-<h3>
-  Data Access Tab
-</h3>
-<ul class="list-group nav" >
+<ul *ngIf="currentRoleId;else no_role" class="list-group nav" >
   <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes">
     {{dt.Name}}
     <ul class="list-group nav">
-      <li class="nav-item subElement">
-       <pf-data-field-filter [dataType]="dt"></pf-data-field-filter>
+      <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions | dataTypeFilter:dt">
+      <pf-data-field-filter
+        [dataType]="dt"
+        [(roleDataRestriction)]="rdr"
+        (roleDataRestrictionChanged)="roleDataRestrictionChanged()" >
+      </pf-data-field-filter>
       </li>
-    </ul>
+  </ul>
+  </li>
 </ul>
+<ng-template #no_role>
+  <div>
+    <h4>Please select a role from the role list.</h4>
+  </div>
+</ng-template>

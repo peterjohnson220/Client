@@ -22,9 +22,9 @@
         <i class="fas fa-times"></i>
       </a>
       <button (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
-      <div class="checkbox-container" (change)="refreshSelected()">
+      <div class="checkbox-container"  (change)="refreshSelected()">
         <ng-container *ngFor="let option of options; let i=index;">
-          <label  class="checkbox-label d-block ellipsis-overflowing-text m-0" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1">
+          <label class="checkbox-label d-block ellipsis-overflowing-text m-0" [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1">
             <input type="checkbox" [(ngModel)] = "option.IsSelected"  class="mr-1">{{ option.DisplayName }}
           </label>
         </ng-container>

@@ -149,3 +149,12 @@ export const getNavigationLinksLoadingError = createSelector(
 export const getDataTypes = createSelector(
   selectRoleDataAccessTabState, fromDataAccessTabReducer.getDataTypes
 );
+
+export const getRoleDataRestrictions = createSelector(
+  selectRoleDataAccessTabState, fromDataAccessTabReducer.getRoleDataRestrictions
+);
+
+export  const getDataAccessTabPendingChanges = createSelector(
+  selectRoleDataAccessTabState, fromDataAccessTabReducer.getDataAccessTabHasPendingChanges
+);
+
