@@ -6,8 +6,8 @@
 
   <ng-container page-actions>
 
-    <pf-scope-selector [addDataModal]="false"
-                       [exchangeId]="exchangeId"></pf-scope-selector>
+    <pf-exchange-scope-selector [isExchangeJobSpecific]="false"
+                                [exchangeId]="exchangeId"></pf-exchange-scope-selector>
 
     <button type="button" class="btn btn-secondary"
             [disabled]="(numberOfSelections$ | async) === 0 ||

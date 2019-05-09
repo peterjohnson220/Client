@@ -6,7 +6,14 @@ import {
   ExchangeDataSearchFilter, ExchangeMapResponse, SystemFilterRequest, SystemFilter,
   FilterAggregateGroup } from 'libs/models/peer';
 
-import { PayfactorsApiService } from '../payfactors-api.service';
+import { PayfactorsApiService } from '../../payfactors-api.service';
+import {SearchSurveyAggregationsRequest, SurveySearchRequest} from '../../../../models/payfactors-api/survey-search/request';
+import {SearchFilter} from '../../../../models/payfactors-api/search/response';
+import {
+  ExchangeDataSearchRequest,
+  SearchExchangeAggregationsRequest
+} from '../../../../models/payfactors-api/peer-exchange-explorer-search/request';
+import {ExchangeDataSearchResponse} from '../../../../models/payfactors-api/peer-exchange-explorer-search/response';
 
 @Injectable()
 export class ExchangeDataSearchApiService {
@@ -46,4 +53,13 @@ export class ExchangeDataSearchApiService {
       }
     });
   }
+
+  searchExchangeData(searchRequest: ExchangeDataSearchRequest): Observable<ExchangeDataSearchResponse> {
+    return this.payfactorsApiService.post(`${this.endpoint}/GetResults`, searchRequest);
+  }
+
+  searchExchangeAggregations(request: SearchExchangeAggregationsRequest): Observable<SearchFilter> {
+    return this.payfactorsApiService.post(`${this.endpoint}/SearchAggregations`, request);
+  }
+
 }

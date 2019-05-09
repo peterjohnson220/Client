@@ -4,12 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { NgbPopoverModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbPopoverModule, NgbTooltipModule} from '@ng-bootstrap/ng-bootstrap';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-
-import * as fromFaIcons from './fa-icons';
 
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
@@ -17,13 +15,16 @@ import { WindowCommunicationService } from 'libs/core/services';
 import { PfPeerMapModule, ExchangeSelectorComponent } from 'libs/features/peer/';
 import { CompanyJobApiService } from 'libs/data/payfactors-api/';
 import { PfCommonModule } from 'libs/core';
+import { PfExchangeExplorerModule } from 'libs/features/peer/exchange-explorer';
 
+import * as fromFaIcons from './fa-icons';
 import {
   JobInfoContainerComponent, CompanyJobMapResultComponent,
   ApplyMappingButtonComponent
 } from './../../../peer/app/_manage/components';
 import {
-  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent, TaggingEntitiesPageComponent
+  AssociateCompanyJobComponent, PaymarketExchangeScopeComponent, UpsertDataCutPageComponent,
+  TaggingEntitiesPageComponent, UpsertDataCutNewPageComponent
 } from './containers';
 import { PeerRoutingModule } from './peer-routing.module';
 import {
@@ -52,6 +53,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
       TaggingEntitiesEffects
     ]),
     NgbPopoverModule,
+    NgbTooltipModule,
     DropDownsModule,
     FontAwesomeModule,
 
@@ -63,7 +65,7 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     PfCommonModule,
     PfFormsModule,
     PfPeerMapModule,
-    NgbTooltipModule
+    PfExchangeExplorerModule
   ],
   declarations: [
     // Components
@@ -77,7 +79,8 @@ import { DojGuidelinesService } from './services/doj-guidelines.service';
     AssociateCompanyJobComponent,
     PaymarketExchangeScopeComponent,
     UpsertDataCutPageComponent,
-    TaggingEntitiesPageComponent
+    TaggingEntitiesPageComponent,
+    UpsertDataCutNewPageComponent
   ],
   providers: [
     WindowCommunicationService, DojGuidelinesService, CompanyJobApiService

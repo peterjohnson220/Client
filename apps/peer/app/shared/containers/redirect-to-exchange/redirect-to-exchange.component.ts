@@ -10,7 +10,7 @@ import { UiPersistenceSettingsApiService } from 'libs/data/payfactors-api';
 
 import * as fromExchangeSelectorActions from '../../actions/exchange-selector.actions';
 import * as fromPeerDashboardReducer from '../../reducers';
-import { ExchangesAndLastVisted } from '../../models';
+import { ExchangesAndLastVisted } from '../../models/';
 
 @Component({
   selector: 'pf-redirect-to-exchange',
