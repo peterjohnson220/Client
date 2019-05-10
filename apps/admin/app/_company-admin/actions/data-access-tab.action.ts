@@ -28,11 +28,6 @@ export class SetDataRestrictionsUnchanged implements Action {
   constructor(public payload: RoleDataRestriction[]) {
   }
 }
-export class UpdateCurrentRoleDataAccessTab implements Action {
-  readonly type = UPDATE_CURRENT_ROLE_DATA_ACCESS_TAB;
-  constructor(public payload: UserAssignedRole) {
-  }
-}
 export class CancelRoleDataRestrictionChanges implements Action {
   readonly type = CANCEL_ROLE_DATA_RESTRICTIONS_CHANGES;
   constructor() {  }
@@ -41,6 +36,5 @@ export class CancelRoleDataRestrictionChanges implements Action {
 export type DataAccessTabAction = LoadDataTypes
   | LoadedDataTypes
   | UpdateCurrentRoleDataRestrictions
-  | UpdateCurrentRoleDataAccessTab
   | CancelRoleDataRestrictionChanges
   | SetDataRestrictionsUnchanged;
