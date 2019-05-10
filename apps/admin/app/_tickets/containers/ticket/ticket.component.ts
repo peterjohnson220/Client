@@ -19,7 +19,6 @@ export class TicketComponent implements OnInit, OnDestroy {
   ticket: UserTicketItem;
 
   ticketSubscription: Subscription;
-  tabSelectionSubscription: Subscription;
 
   constructor(private store: Store<fromTicketReducer.State>) {
     this.ticketLoading$ = this.store.select(fromTicketReducer.getTicketLoading || fromTicketReducer.getCompanyDetailLoading);
@@ -47,7 +46,6 @@ export class TicketComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.ticketSubscription.unsubscribe();
-    this.tabSelectionSubscription.unsubscribe();
   }
 
   fieldChange(event: any) {

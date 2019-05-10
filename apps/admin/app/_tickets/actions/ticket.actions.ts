@@ -9,6 +9,7 @@ export const LOAD_TICKET = '[Admin Tickets / Ticket] Load Ticket';
 export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success';
 export const LOAD_TICKET_ERROR = '[Admin Tickets / Ticket] Load Ticket Error';
 export const OPEN_TICKET = '[Admin Tickets/ Ticket] Open Ticket';
+export const CLOSE_TICKET = '[Admin Tickets/ Ticket] Close Ticket';
 export const SELECT_TICKET_TAB = '[Admin Tickets/ Ticket] Select Ticket Tab';
 export const INITIALIZE_TICKET_TAB = '[Admin Tickets/ Ticket] Initialize Ticket Tab';
 export const UPDATE_TICKET = '[Admin Tickets / Ticket] Update Ticket';
@@ -53,6 +54,10 @@ export class OpenTicket implements Action {
   constructor(public payload: UserTicketTabItem) {}
 }
 
+export class CloseTicket implements Action {
+  readonly type = CLOSE_TICKET;
+}
+
 export class SelectTicketTab implements Action {
   readonly type = SELECT_TICKET_TAB;
 
@@ -89,6 +94,7 @@ export type Actions
   | LoadTicketSuccess
   | LoadTicketError
   | OpenTicket
+  | CloseTicket
   | SelectTicketTab
   | InitializeTicketTab
   | UpdateTicket

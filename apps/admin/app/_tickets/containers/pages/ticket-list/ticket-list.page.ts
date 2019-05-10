@@ -25,9 +25,12 @@ export class TicketListPageComponent implements OnDestroy {
 
   openTicket$: Observable<UserTicketTabItem>;
   loadingTicketTab$: Observable<number>;
+  selectedTicketTab$: Observable<number>;
 
   openTicketSubscription: Subscription;
-  selectTicketTabSubscription: Subscription;
+  loadingTicketTabSubscription: Subscription;
+  selectedTicketTabSubscription: Subscription;
+
   private unsubscribe$ = new Subject();
 
   @ViewChild(NgbTabset) tabSet: NgbTabset;
@@ -36,6 +39,7 @@ export class TicketListPageComponent implements OnDestroy {
   constructor(private window: WindowRef, private store: Store<fromTicketReducer.State>) {
     this.openTicket$ = this.store.select(fromTicketReducer.getOpenedTicket);
     this.loadingTicketTab$ = this.store.select(fromTicketReducer.getLoadingTabTicket);
+    this.selectedTicketTab$ = this.store.select(fromTicketReducer.getSelectedTabTicket);
 
     this.configureTicketEvents();
   }
@@ -54,11 +58,19 @@ export class TicketListPageComponent implements OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((userTicket) => { this.handleOpenTicketEvent(userTicket); });
 
-    this.selectTicketTabSubscription = this.loadingTicketTab$
+    this.loadingTicketTabSubscription = this.loadingTicketTab$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((userTicketId) => {
         if (userTicketId > 0) {
           this.tabSet.select('tab-' + userTicketId);
+        }
+      });
+
+    this.selectedTicketTabSubscription = this.selectedTicketTab$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(v => {
+        if (this.tabSet && v && v > 0) {
+          this.tabSet.select('tab-' + v);
         }
       });
   }
@@ -70,6 +82,7 @@ export class TicketListPageComponent implements OnDestroy {
       }
       this.userTicketTabs = this.userTicketTabs.filter(tab  => tab.UserTicketId !== userTicketId);
 
+      this.store.dispatch(new fromTicketActions.CloseTicket());
       $event.preventDefault();
     }
   }

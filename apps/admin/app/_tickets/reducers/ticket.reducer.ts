@@ -59,6 +59,15 @@ export function reducer(state = initialState, action: fromTicketActions.Actions)
       return {
         ...state,
         openedTicket: action.payload,
+        selectedTabTicket: action.payload.UserTicketId,
+        loading: false
+      };
+    }
+    case fromTicketActions.CLOSE_TICKET: {
+      return {
+        ...state,
+        openedTicket: null,
+        selectedTabTicket: null,
         loading: false
       };
     }
