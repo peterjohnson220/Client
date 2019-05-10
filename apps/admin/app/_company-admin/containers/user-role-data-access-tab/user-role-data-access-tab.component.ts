@@ -30,12 +30,10 @@ export class UserRoleDataAccessTabComponent  implements OnDestroy {
     });
     this.currentUserRoleSubscription = this.store.select(userRoleReducer.getCurrentUserRole).subscribe(ur => {
       if (ur) {
-        this.store.dispatch(new fromRoleDataTabActions.SetDataRestrictionsUnchanged(ur.DataRestrictions));
-        this.store.dispatch(new fromRoleDataTabActions.UpdateCurrentRoleDataRestrictions(ur.DataRestrictions));
-
         this.currentRoleId = ur.RoleId;
         const withBlankRows = dataAccessService.createBlankDataRestrictionIfNeeded(this.dataTypes, ur.DataRestrictions);
         this.roleDataRestrictions = dataAccessService.ConvertRoleDataRestrictionForUI(this.dataFields, withBlankRows);
+        this.store.dispatch(new fromRoleDataTabActions.SetDataRestrictionsUnchanged( ur.DataRestrictions));
       }
     });
   }

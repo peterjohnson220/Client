@@ -24,13 +24,6 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
         currentRoleDataRestrictions: action.payload
       };
     }
-    case fromDataAccessTabActions.UPDATE_CURRENT_ROLE_DATA_ACCESS_TAB: {
-      return {
-        ...state,
-        currentRoleDataRestrictions: action.payload.DataRestrictions,
-        currentRoleDataRestrictionsUnchanged: action.payload.DataRestrictions
-      };
-    }
     case fromDataAccessTabActions.SET_DATA_RESTRICTIONS_UNCHANGED: {
       return {
         ...state,
@@ -56,10 +49,19 @@ export function reducer(state = initialState, action: fromDataAccessTabActions.D
 export const getDataTypes =  (state: State) => state.dataTypes;
 export const getRoleDataRestrictions =  (state: State) => state.currentRoleDataRestrictions;
 export const getDataAccessTabHasPendingChanges = (state: State) => {
- return !(arraysEqual(getRoleDataAccessString(state.currentRoleDataRestrictions),
-   getRoleDataAccessString(state.currentRoleDataRestrictionsUnchanged)));
+  let changed = false;
+  const stringCurrentRoleDataRestrictionsUnchanged = getRoleDataAccessString(state.currentRoleDataRestrictionsUnchanged);
+  getRoleDataAccessString(state.currentRoleDataRestrictions).forEach( f => {
+    if (!stringCurrentRoleDataRestrictionsUnchanged.find(uch => uch === f)) {
+      changed = true;
+      return;
+    }
+  });
+  return changed;
 };
 
 function getRoleDataAccessString(roleDataPermissions: RoleDataRestriction[]) {
-  return roleDataPermissions ? roleDataPermissions.map(r => `${r.DataFieldId}_${r.DataConditionIsEqual}_${r.DataValue}`) : [];
+  return roleDataPermissions ? roleDataPermissions
+    .filter(f => f.DataValue && f.DataConditionIsEqual && f.DataFieldId)
+    .map(r => `${r.DataFieldId}_${r.DataConditionIsEqual}_${r.DataValue}`) : [];
 }
