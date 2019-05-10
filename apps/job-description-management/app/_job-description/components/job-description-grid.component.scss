@@ -1,0 +1,50 @@
+@import 'kendo-grid';
+
+/* Styles to remain here */
+#jd-list-view-actions-dropdown svg {
+  font-size:  0.875rem;
+  color: #ffffff;
+}
+
+#jd-list-view-actions-dropdown:after{
+  display: none;
+}
+
+#jd-list-view-actions-dropdown{
+  border-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#jd-list-view-actions-dropdown:hover {
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  color: #292b2c;
+}
+
+#jd-list-view-actions-dropdown:focus {
+  background-color: #e6e6e6;
+  border-color: #adadad;
+  color: #292b2c;
+}
+
+#jd-list-view-actions-dropdown:focus svg {
+  color: #292b2c;
+}
+
+#history-btn {
+  color: #1872AE;
+  padding: .75rem 1.5rem;
+}
+
+#history-btn:hover {
+  text-decoration: underline;
+}
+
+:host ::ng-deep tr:hover #jd-list-view-actions-dropdown svg {
+  color: #292b2c;
+}
+
+/*Dropdown item inside grid causes horizontal scroll because of 100% width*/
+.dropdown-item{
+  width: inherit;
+}

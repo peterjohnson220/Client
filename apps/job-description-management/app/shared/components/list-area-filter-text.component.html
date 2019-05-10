@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-6 p-0">
+    <kendo-dropdownlist
+      [data]="dropDownOptions"
+      [textField]="'display'"
+      [valueField]="'value'"
+      [valuePrimitive]="true"
+      [ngModel]="filter?.operator"
+      [disabled]="disableDropdown"
+      [style.width]="'100%'"
+      (valueChange)="handleFilterOperatorChanged($event)">
+    </kendo-dropdownlist>
+  </div>
+  <div class="col-6 px-2">
+    <input type="text" class="form-control"
+           [ngModel]="filter?.value"
+           [disabled]="disableValue"
+           [style.width]="'100%'"
+           (ngModelChange)="handleFilterValueChanged($event)" />
+  </div>
+</div>

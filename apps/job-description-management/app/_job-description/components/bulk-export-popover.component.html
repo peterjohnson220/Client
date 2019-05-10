@@ -1,0 +1,56 @@
+<ng-template #popContent>
+  <ng-container *ngIf="isUserDefinedViewsAvailable()">
+    <kendo-dropdownlist class="view-dropdown p-3"
+                        [defaultItem]="'Default'"
+                        [data]="jobDescriptionListViews"
+                        (valueChange)="handleViewChanged($event)">
+    </kendo-dropdownlist>
+  </ng-container>
+  <div class="control-label-container p-3">
+    <pf-async-container [loading]="controlLabelsLoading || jobInformationFieldsLoading"></pf-async-container>
+
+    <pf-job-information-fields
+      (selectedJobInformationFieldsString)="selectedJobInformationFieldsString($event)"></pf-job-information-fields>
+
+    <div *ngFor="let controlLabel of controlLabels" class="form-check pb-1">
+      <label class="form-check-label w-100">
+        <input class="form-check-input" type="checkbox" [attr.data-control-label]="stringify(controlLabel)" (change)="toggleControlLabel($event)" [checked]="viewSelected">
+        {{ controlLabel.Label }}<br />
+        <span *ngIf="controlLabel.TemplateName" class="control-label-template-name">Template: {{ controlLabel.TemplateName }}</span>
+      </label>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <h5 class="p-3" *ngIf="noPublishedJobDescriptions">No Published Job Descriptions</h5>
+      <h5 class="p-3" *ngIf="!controlLabels?.length && !noPublishedJobDescriptions && !controlLabelsLoading">No Content to Export</h5>
+    </div>
+  </div>
+  <div class="footer d-flex justify-content-end p-2">
+    <button [disabled]="!selectedControlLabels.length && !viewSelected || (viewSelected && !controlLabels?.length) || (!selectedJobInformationFieldsAsString || selectedJobInformationFieldsAsString.length == 0)"
+            (click)="export()" class="btn btn-primary">
+      Export
+    </button>
+  </div>
+</ng-template>
+
+<button type="button"
+        title="Bulk Export"
+        id="export-popover-btn"
+        class="btn btn-secondary"
+        placement="bottom-right"
+        popoverTitle="Choose Content to Export"
+        #p="ngbPopover"
+        [ngbPopover]="popContent"
+        (shown)="open.emit(); handlePopoverShown()"
+        [autoClose]="'outside'">
+  <i class="fas fa-download" aria-hidden="true"></i>
+</button>
+
+<!--Export Form-->
+<form name="bulkExportForm" [action]="'/odata/JobDescription/Default.BulkExport'" method="POST">
+  <input type="hidden" name="viewName" value="{{viewNameString}}">
+  <input type="hidden" name="controlsToInclude" value="{{selectedControlLabelsAsString}}">
+  <input type="hidden" name="query" value="{{listFilterValue}}">
+  <input type="hidden" name="listState" value="{{gridStateAsString}}">
+  <input type="hidden" name="jobInformationFieldsToInclude" value="{{selectedJobInformationFieldsAsString}}">
+</form>
