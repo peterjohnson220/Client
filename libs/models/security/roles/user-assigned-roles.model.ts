@@ -21,6 +21,19 @@ export function generateMockUserAssignedRole(): UserAssignedRole {
     DataRestrictions: []
   };
 }
+
+export function generateMockSystemDefinedUserAssignedRole(): UserAssignedRole {
+  return {
+    RoleId: 0,
+    CompanyId: 0,
+    RoleName: 'Test Role',
+    IsSystemRole: true,
+    Assigned: false,
+    Permissions: [],
+    DataRestrictions: []
+  };
+}
+
 export function getMockUserAssignedRoleWithPermissions(): UserAssignedRole {
   return {
     RoleId: 0,

@@ -1,26 +1,35 @@
-<ul *ngIf="currentRole$ | async;else no_role" class="list-group nav" >
-  <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes$ | async">
-    {{dt.Name}}
-    <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)">
-      <i class="fal fa-plus"></i>
-    </button>
-    <ul class="list-group nav">
-      <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions$ | async | dataTypeFilter:dt;trackBy: trackByFn;">
+<div *ngIf="currentRole$ | async;else no_role">
+  <ul *ngIf="!(currentRole$ | async)?.IsSystemRole;else system_role_restriction_message" class="list-group nav" >
+    <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes$ | async">
+      {{dt.Name}}
+      <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)">
+        <i class="fal fa-plus"></i>
+      </button>
+      <ul class="list-group nav">
+        <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions$ | async | dataTypeFilter:dt;trackBy: trackByFn;">
 
-      <pf-data-field-filter
-        [dataType]="dt"
-        [roleDataRestriction]="rdr"
-        (roleDataRestrictionChanged)="roleDataRestrictionChanged(rdr, $event.property, $event.value)" >
-      </pf-data-field-filter>
-        <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)">
-          <i class="fal fa-trash"></i>
-        </button>
-      </li>
+          <pf-data-field-filter
+            [dataType]="dt"
+            [roleDataRestriction]="rdr"
+            (roleDataRestrictionChanged)="roleDataRestrictionChanged(rdr, $event.property, $event.value)" >
+          </pf-data-field-filter>
+          <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)">
+            <i class="fal fa-trash"></i>
+          </button>
+        </li>
+      </ul>
+    </li>
   </ul>
-  </li>
-</ul>
+</div>
+
 <ng-template #no_role>
   <div>
     <h4>Please select a role from the role list.</h4>
+  </div>
+</ng-template>
+
+<ng-template #system_role_restriction_message>
+  <div>
+    <h4>No data restrictions can be added to the {{(currentRole$ | async)?.RoleName}} role. If you would like to add data restrictions, please create a new user role.</h4>
   </div>
 </ng-template>

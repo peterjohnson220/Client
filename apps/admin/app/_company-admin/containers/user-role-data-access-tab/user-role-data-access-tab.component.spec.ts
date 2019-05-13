@@ -3,10 +3,15 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
 
+import { Observable } from 'rxjs';
+import 'rxjs/add/observable/of';
+
 import * as fromRootState from 'libs/state/state';
 import {DataTypeFilterPipe} from 'libs/core/pipes';
 import {getMockDataTypes} from 'libs/models/security/roles/data-type.model';
 import {getMockRoleDataRestrictions} from 'libs/models/security/roles/role-data-restriction.model';
+import {generateMockSystemDefinedUserAssignedRole, generateMockUserAssignedRole}
+  from 'libs/models/security/roles/user-assigned-roles.model.ts';
 
 import { UserRoleDataAccessTabComponent } from './user-role-data-access-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
@@ -37,15 +42,22 @@ describe('UserRoleDataAccessTabComponent', () => {
 
     fixture = TestBed.createComponent(UserRoleDataAccessTabComponent);
     component = fixture.componentInstance;  // to access properties and methods
-    component.roleDataRestrictions = getMockRoleDataRestrictions();
-    component.dataTypes = getMockDataTypes();
+    component.roleDataRestrictions$ = Observable.of(getMockRoleDataRestrictions());
+    component.dataTypes$ = Observable.of(getMockDataTypes());
+    component.currentRole$ = Observable.of(generateMockUserAssignedRole());
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should match snapshot', () => {
+  it('should show data access tab on company role', () => {
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should display message on system role', () => {
+    component.currentRole$ = Observable.of(generateMockSystemDefinedUserAssignedRole());
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
