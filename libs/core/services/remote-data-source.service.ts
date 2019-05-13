@@ -1,15 +1,21 @@
 import {Injectable} from '@angular/core';
-import 'rxjs-compat/add/observable/of';
+import {shareReplay} from 'rxjs/operators';
 
 import {PayfactorsApiService} from '../../data/payfactors-api/payfactors-api.service';
 
 @Injectable()
 export class RemoteDataSourceService {
+  private cache = [];
   constructor(
     private payfactorsApiService: PayfactorsApiService,
   ) { }
 
   getDataSource(apiUrl: string) {
-    return this.payfactorsApiService.get<any>(apiUrl);
+    if (!this.cache[apiUrl]) {
+      this.cache[apiUrl] = this.payfactorsApiService.get<any>(apiUrl).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.cache[apiUrl];
   }
 }
