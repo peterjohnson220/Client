@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -29,7 +31,8 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
   communityPost: CommunityPost;
 
-  constructor(public store: Store<fromCommunitySearchPostReducer.State>) {
+  constructor(public store: Store<fromCommunitySearchPostReducer.State>,
+              private router: Router) {
     this.communitySearchResultModal$ = this.store.select(fromCommunitySearchPostReducer.getCommunitySearchResultModal);
 
     this.communityPost$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostCombinedWithReplies);
@@ -64,5 +67,15 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   handleModalDismissed(): void {
     this.store.dispatch(new fromCommunitySearchActions.CloseSearchResultModal);
     this.communityPost = null;
+  }
+
+  hashtagClicked(hashTagName: string) {
+    this.handleModalDismissed();
+
+    if (hashTagName && hashTagName.substr(0, 1) === '#') {
+
+      const hashTagText = hashTagName.substr(1);
+      this.router.navigate([ `/dashboard/tag/${hashTagText}` ]);
+    }
   }
 }
