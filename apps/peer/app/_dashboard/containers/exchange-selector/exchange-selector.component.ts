@@ -12,7 +12,8 @@ import {
   ExchangeListItem,
   ExchangeRequestTypeEnum,
   FeatureAreaConstants,
-  UiPersistenceSettingConstants
+  UiPersistenceSettingConstants,
+  StatusEnum
 } from 'libs/models';
 import * as fromUiPersistenceSettingsActions from 'libs/state/app-context/actions/ui-persistence-settings.actions';
 import * as fromGridActions from 'libs/core/actions/grid.actions';
@@ -45,6 +46,10 @@ export class ExchangeSelectorComponent implements OnInit, OnDestroy {
   ) {
     this.exchangeListItems$ = this.store.select(fromPeerDashboardReducer.getExchangeSelectorList);
     this.exchange$ = this.store.select(fromSharedPeerReducer.getExchange);
+  }
+
+  isInactive(exchangeListItem: ExchangeListItem): boolean {
+    return exchangeListItem.Status === StatusEnum.Inactive;
   }
 
   handleExchangeClicked(exchangeListItem: ExchangeListItem) {

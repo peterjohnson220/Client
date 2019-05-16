@@ -1,25 +1,52 @@
+<div #SearchResults
+     infinite-scroll
+     [scrollWindow]="false"
+     [infiniteScrollDistance]="2"
+     [infiniteScrollThrottle]="50"
+     (scroll)="onScroll($event)"
+     (scrolled)="onScrollDown()"
+     class="search-results-container">
+
 <pf-async-container
   [loading]="loadingSearchResults$ | async"
   [loadingError]="loadingSearchResultsError$ | async"
   [hideReloadButton]="true">
-  <ng-container *ngIf="(communitySearchResults$ | async)?.CommunityPosts?.length; else noResultsMessage">
+  <div class="container-fluid" *ngIf="(communitySearchResults$ | async)?.length; else noResultsMessage">
     <div
-      *ngFor="let result of (communitySearchResults$ | async).CommunityPosts; trackBy: trackByFn; let last = last;">
-      <div class="row ml-3" (click)="openDetailsModal(result.Id)">
+      *ngFor="let result of (communitySearchResults$ | async); trackBy: trackByFn; let last = last;">
+      <hr>
+      <div class="row mx-4" (click)="openDetailsModal(result.Id)">
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"></pf-community-search-result-header>
-          <pf-community-search-result-content [content]="result.Content"></pf-community-search-result-content>
+          <pf-community-search-result-content [content]="result.Content"
+                                              [searchTerm]="query"></pf-community-search-result-content>
           <div class="footer-container">
             <span> <i class="fas fa-heart icon"></i> {{result.LikeCount}} Likes</span>
             <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
           </div>
         </div>
       </div>
-      <hr *ngIf="!last">
+      <div
+        *ngIf="last && !hasMoreResultsOnServer && !loadingMoreSearchResults && !(loadingSearchResults$ | async)"
+        class="row m-3">
+        <div class="col-12 mt-3 ml-4">
+          All results are displayed.
+        </div>
+      </div>
+
     </div>
-  </ng-container>
+  </div>
+  <div class="back-to-top-container">
+    <pf-community-back-to-top-navigation *ngIf="isNavigationVisible" (backToTopClicked)="backToTop()">
+    </pf-community-back-to-top-navigation>
+  </div>
 </pf-async-container>
+<div class="row m-3" *ngIf="(loadingMoreSearchResults$ | async)">
+  <div class="col-12 mt-3 ml-4">
+    <pf-loading-indicator></pf-loading-indicator> Loading More Results...
+  </div>
+</div>
 <ng-template #noResultsMessage>
   <div class="no-results-message-container" *ngIf="!(loadingSearchResults$ | async) && !(loadingSearchResultsError$ | async)">
     <div class="row mt-5 justify-content-center" >
@@ -30,5 +57,5 @@
     </div>
   </div>
 </ng-template>
-
+</div>
 <pf-community-search-result-modal></pf-community-search-result-modal>

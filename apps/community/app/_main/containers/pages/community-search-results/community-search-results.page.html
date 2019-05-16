@@ -3,13 +3,12 @@
     Search Results
   </ng-container>
   <ng-container page-content>
-    <div class="page-content pt-0">
-      <div class="container-fluid">
+    <div class="p-0 m-0">
+      <div class="w-100 m-0 search-results-container-height">
         <div class="d-flex justify-content-center sticky-top search-bar-container p-1">
           <pf-community-search class="mt-2 w-50" [searchBoxText]="searchQuery"
                                (searchEvent)="routeToSearch($event)"></pf-community-search>
         </div>
-        <hr>
         <pf-community-search-results></pf-community-search-results>
       </div>
     </div>

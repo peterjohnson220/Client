@@ -1,3 +1,9 @@
+.search-results-container{
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 .footer-container
 {
   color: #99A0A4;
@@ -6,4 +12,11 @@
 .no-results-message-container
 {
   color: #99A0A4;
+}
+
+.back-to-top-container
+{
+  position: fixed;
+  right: 20px;
+  bottom: 10px;
 }

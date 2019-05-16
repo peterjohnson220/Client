@@ -23,15 +23,29 @@
       opacity: .8;
       &:hover {
         opacity: 1;
-        color: $link-color;
       }
     }
   }
+  a:hover {
+    color: $link-color;
+  }
   p {
     margin: 0 .5rem;
-    &:last-of-type {
+    &:last-of-type:not(.jdm-description-error) {
       margin-bottom: 1rem;
     }
+  }
+  a.jdm-description {
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    pointer-events: none;
+    &.show {
+      opacity: 1;
+      pointer-events: initial;
+    }
+  }
+  .jdm-description-error {
+    color: tomato;
   }
   &.expanded {
     animation: slide-in .8s cubic-bezier(0.4, 0, 0.2, 1);

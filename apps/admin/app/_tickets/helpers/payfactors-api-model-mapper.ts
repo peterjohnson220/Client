@@ -1,6 +1,24 @@
+import {
+  UserTicketComment,
+  UserTicketCompanyDetailResponse,
+  UserTicketResponse,
+  UserTicketStateResponse,
+  UserTicketTypeResponse,
+  UserTicketFile
+} from 'libs/models/payfactors-api/service/response';
+import { UserResponse } from 'libs/models/payfactors-api/user/response';
+import {UserTicketDto} from 'libs/models/service';
 
-import {CompanyDetail, UserTicketGridItem, UserTicketItem} from '../models';
-import {UserTicketComment, UserTicketCompanyDetailResponse, UserTicketResponse} from 'libs/models/payfactors-api/service/response';
+import {
+    CompanyDetail,
+    PfServicesRep,
+    UserTicketGridItem,
+    UserTicketItem,
+    UserTicketState,
+    UserTicketType,
+    TicketDetail,
+    TicketAttachment
+} from '../models';
 
 export class PayfactorsApiModelMapper {
   static mapUserTicketResponseToUserTicketGridItem(response: UserTicketResponse[]): UserTicketGridItem[] {
@@ -10,7 +28,7 @@ export class PayfactorsApiModelMapper {
         Created: ut.CreateDate,
         CompanyName: ut.CompanyName,
         CompanyId: ut.CompanyId,
-        Type: ut.UserTicketType,
+        Type: this.getTicketTypeDisplayName(ut.UserTicketType, ut.FileType),
         Status: ut.UserTicketState,
         OpenedUser: ut.OpenedUserEmail,
         ServiceUser: ut.ServicesUserEmail,
@@ -26,15 +44,26 @@ export class PayfactorsApiModelMapper {
       Description: response.UserTicket,
       TicketInfo: {
         TicketId: response.UserTicketId,
+        CompanyId: response.CompanyId,
         CompanyName: response.CompanyName,
+        ServicesUserId: response.ServicesUserId,
         EditDate: response.EditDate,
         CreateDate: response.CreateDate,
         OpenedBy: response.OpenedUserEmail,
-        TicketType: response.UserTicketType,
-        TicketCssClass: response.TicketCssClass,
-        TicketState: response.UserTicketState
+        TicketState: response.UserTicketState,
+        LastUpdatedText: response.LastUpdatedText,
+        Description: response.UserTicket,
+        UserTicketType: {
+          UserTicketTypeId: response.UserTicketTypeId,
+          SortOrder: response.UserTicketTypeSortOrder,
+          TicketTypeDisplayName: this.getTicketTypeDisplayName(response.UserTicketType, response.FileType),
+          TicketTypeName: response.UserTicketType,
+          TicketSubTypeName: response.FileType,
+          TicketCssClass: response.TicketCssClass,
+        }
       },
-      CompanyInfo: null
+      CompanyInfo: null,
+      Attachments: this.mapUserTicketFilesToTicketAttachment(response.UserTicketFiles)
     };
   }
 
@@ -50,6 +79,60 @@ export class PayfactorsApiModelMapper {
     };
   }
 
+  static mapUserResponseToPfServicesRep(response: UserResponse[]): PfServicesRep[] {
+    return response.map(ur => {
+      return {
+        PfServicesRepId: ur.UserId,
+        Name: `${ur.FirstName} ${ur.LastName}`
+      };
+    });
+  }
+
+  static mapUserTicketStatesResposnseToUserTicketState(response: UserTicketStateResponse[]): UserTicketState[] {
+    return response.map(us => {
+      return {
+        UserTicketStateId: us.UserTicketStateId,
+        UserTicketState: us.TicketStateName
+      };
+    });
+  }
+
+  static mapUserTicketTypeResponseToTicketType(response: UserTicketTypeResponse[]): UserTicketType[] {
+    return response.map( utt => {
+      return {
+        UserTicketTypeId: utt.UserTicketTypeId,
+        TicketTypeName: utt.TicketTypeName,
+        SortOrder: utt.SortOrder,
+        TicketSubTypeName: utt.TicketSubTypeName,
+        TicketTypeDisplayName: utt.TicketTypeDisplayName,
+        TicketCssClass: utt.TicketCssClass
+      };
+    });
+  }
+
+  static mapTicketDetailToUserTicketDto(ticketDetail: TicketDetail): UserTicketDto {
+    return {
+      UserTicketId: ticketDetail.TicketId,
+      UserTicket: ticketDetail.Description,
+      ServicesUserId: ticketDetail.ServicesUserId,
+      UserTicketState: ticketDetail.TicketState,
+      UserTicketType: ticketDetail.UserTicketType.TicketTypeName,
+      FileType: ticketDetail.UserTicketType.TicketSubTypeName
+    };
+  }
+
+  static mapUserTicketFilesToTicketAttachment( userTicketFiles: UserTicketFile[]): TicketAttachment[] {
+    return userTicketFiles.map( utf => {
+      return {
+        AttachmentId: utf.UserTicketsFileId,
+        DisplayName: utf.DisplayName,
+        FileName: utf.FileName,
+        ExtensionType: this.getFileExtensionType(utf.DisplayName),
+        ExtensionCssClass: this.getExtensionCssClass(this.getFileExtensionType(utf.DisplayName.toLowerCase()))
+      };
+    });
+  }
+
   private static squashComments( userTicketComments: UserTicketComment[]): string {
 
     let comment = '';
@@ -62,5 +145,63 @@ export class PayfactorsApiModelMapper {
     });
 
     return comment;
+  }
+
+  private static getTicketTypeDisplayName( userTicketType: string, fileType: string): string {
+    let displayName = userTicketType;
+    if (fileType) {
+      displayName = displayName + ' - ' + fileType;
+    }
+
+    return displayName;
+  }
+
+  private static getFileExtensionType(file: string): string {
+    const re = /(?:\.([^.]+))?$/;
+    return re.exec(file)[1];
+  }
+
+  private static getExtensionCssClass(extension: string): string {
+    switch (extension) {
+      case 'xlsx':
+      case 'xls':
+      case 'xlsb':
+      case 'xlsm':
+      case 'xltx':
+      case 'xltm':
+      case 'xla':
+        return 'fa-file-excel';
+      case 'docx':
+      case 'docm':
+      case 'dotx':
+      case 'dotm':
+      case 'docb':
+      case 'doc':
+        return 'fa-file-word';
+      case 'ppt':
+      case 'pptx':
+        return 'fa-file-word';
+      case 'pdf':
+        return 'fa-file-pdf';
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+        return 'fa-file-image';
+      case 'zip':
+      case 'zipx':
+      case '7z':
+        return 'fa-file-archive';
+      case 'msg':
+        return 'fa-envelope';
+      case 'csv':
+      case 'txt':
+      case 'xml':
+      case 'exe':
+      case 'mht':
+      case 'mdb':
+      case 'partial':
+      default:
+        return 'fa-file-alt';
+    }
   }
 }

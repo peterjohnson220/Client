@@ -4,6 +4,8 @@
     [showFooter]="false"
     [centered]="true"
     [isOpen$]="communitySearchResultModal$"
+    [resetFormOnClose]="true"
+    [backdrop]="true"
     (onDismiss)="handleModalDismissed()">
     
       <ng-container basic-content>
@@ -11,12 +13,13 @@
           [loading]="loadingCommunityPost$ | async"
           [loadingError]="loadingCommunityPostError$ | async"
           [loadingErrorMessage]="'Error Loading Community Discussion'">
-          <div *ngIf = "communityPost$ | async" class="px-5 pb-3">
-            <pf-community-post
-              [post]="communityPost$ | async"
-              [maximumReplies]="150"> <!--TODO: maximumReplies$ | async (BT-370)-->
-            </pf-community-post>  
-          </div> 
+            <div *ngIf = "communityPost" class="px-5 pb-3">
+              <pf-community-post
+                [post]="communityPost"
+                [isModal]="true"       
+                [maximumReplies]="maximumReplies$ | async">
+              </pf-community-post>  
+            </div>
           </pf-async-container>
       </ng-container>
   </pf-modal-form>

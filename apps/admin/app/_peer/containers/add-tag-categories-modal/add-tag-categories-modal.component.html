@@ -1,0 +1,42 @@
+<pf-modal-form
+  [size]="'lg'"
+  [title]="'Add Exchange Filter'"
+  [primaryButtonText]="primaryButtonText"
+  [primaryButtonTextSubmitting]="primaryButtonTextSubmitting"
+  [submitting]="addingTagCategoriesToExchange$ | async"
+  [isOpen$]="addTagCategoriesModalOpen$"
+  [formGroup]="addTagCategoriesForm"
+  (onSubmit)="handleFormSubmit()"
+  (onDismiss)="handleModalDismissed()"
+  >
+
+  <ng-container form-content>
+
+    <div class="form-group">
+      <pf-input-debounce [id]="'search-box'"
+                         [focus]="true"
+                         [showing]="addTagCategoriesModalOpen$ | async"
+                         [delay]="400"
+                         [(ngModel)]="searchTerm"
+                         [ngModelOptions]="{standalone: true}"
+                         [placeholderText]="'Search for and select an Exchange Filter to add to the ' + (exchange$ | async).ExchangeName + ' Exchange.'"
+                         (valueChanged)="updateSearchFilter($event)">
+      </pf-input-debounce>
+    </div>
+
+    <pf-tag-categories-list
+      [ExchangeId]="exchangeId"
+      [InAddTagCategoriesModal]="true"
+      (onCellClick)="handleCellClick()"
+    ></pf-tag-categories-list>
+
+    <div class="form-group hidden-form-control">
+      <input type="hidden" class="form-control" name="hasSelections" formControlName="selections" [ngModel]="selections$ | async" [pfValidatable]="attemptedSubmit"/>
+      <ng-container *ngIf="selectionsControl.errors && attemptedSubmit">
+        <div *ngIf="selectionsControl.errors.error" class="invalid-feedback">{{selectionsControl.errors.error}}</div>
+      </ng-container>
+    </div>
+
+  </ng-container>
+
+</pf-modal-form>

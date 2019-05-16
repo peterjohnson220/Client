@@ -3,6 +3,16 @@
   <ng-container page-title>
     Manage Exchange - {{ (exchange$ | async).ExchangeName }}
   </ng-container>
+  <ng-container page-actions>
+    <kendo-switch class="k-switch-lg"
+                  onLabel="Active"
+                  offLabel="Inactive"
+                  [disabled]="!(canToggleExchangeStatus$ | async)"
+                  [readonly]="true"
+                  [checked]="isExchangeActive$ | async"
+                  (click)="handleSwitchToggled()">
+    </kendo-switch>
+  </ng-container>
 
   <ng-container page-content>
     <div class="d-flex h-100 w-100">
@@ -88,4 +98,5 @@
   </ng-container>
 
 </pf-page-with-title-bar>
+<pf-toggle-exchange-status-confirmation-modal></pf-toggle-exchange-status-confirmation-modal>
 

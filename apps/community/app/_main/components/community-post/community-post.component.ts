@@ -17,53 +17,56 @@ import * as fromCommunityPostAddReplyViewActions from '../../actions/community-p
 export class CommunityPostComponent implements OnInit {
   @Input() post: CommunityPost;
   @Input() maximumReplies: number;
+  @Input() isModal: boolean;
 
   @Output() filtersModifiedEvent = new EventEmitter<string>();
 
-  showAddReply = {};
-  showReplies = [];
+  showAddReply: boolean;
+  showReplies: boolean;
 
   constructor( public replyStore: Store<fromCommunityPostReplyReducer.State>,
     public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {
   }
 
   ngOnInit() {
+    if ( this.isModal ) {
+      this.getReplies(this.post.Id);
+    }
   }
 
   hashtagClicked(tagName: string) {
     this.filtersModifiedEvent.emit(tagName);
   }
 
-  showReply(item: number) {
-    this.showAddReply[ item ] = !this.showAddReply[ item ];
+  showReply() {
+    this.showAddReply = !this.showAddReply;
   }
 
-  onReplySubmitted(item: number) {
-    this.showReply(item);
+  onReplySubmitted() {
+    this.showReply();
   }
 
-  getReplies(item: number, postId: number) {
-    this.showReplies[ item ] = !this.showReplies[ item ];
+  getReplies(postId) {
+    this.showReplies = !this.showReplies;
     this.getCommunityPostReplies(postId);
   }
 
-  hideReplies(item: number, postId: number) {
-    this.showReplies[ item ] = !this.showReplies[ item ];
-    this.clearRepliesFromAddView(postId);
+  hideReplies(postId) {
+    this.showReplies = !this.showReplies;
+    this.clearRepliesFromAddView();
     this.getCommunityPostReplies(postId);
   }
 
-  getCommunityPostReplies(postId: number) {
+  getCommunityPostReplies(postId) {
     this.replyStore.dispatch(new fromCommunityPostReplyActions.GettingCommunityPostReplies({ PostId: postId }));
   }
 
-  clearRepliesFromAddView(postId: number) {
+  clearRepliesFromAddView() {
     this.addReplyViewStore.dispatch(new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies());
   }
 
   hasReplies(post: CommunityPost) {
     return post.ReplyCount > 0 ? true : false;
   }
-
 
 }

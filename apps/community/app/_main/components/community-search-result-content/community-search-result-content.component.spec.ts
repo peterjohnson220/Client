@@ -5,6 +5,8 @@ import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
 
 import { CommunitySearchResultContentComponent } from './community-search-result-content.component';
 import { TruncateAfterPipe, NewLinePipe } from 'libs/core/pipes';
+import { CommunityLinkifyPipe } from '../../pipes/community-linkify.pipe';
+import { CommunityHighlightTextPipe } from '../../pipes/community-highlight-search.pipe';
 
 
 describe('CommunitySearchResultContentComponent', () => {
@@ -19,7 +21,9 @@ describe('CommunitySearchResultContentComponent', () => {
       declarations: [
         CommunitySearchResultContentComponent,
         NewLinePipe,
-        TruncateAfterPipe],
+        TruncateAfterPipe,
+        CommunityLinkifyPipe,
+        CommunityHighlightTextPipe],
       // Shallow Testing
       schemas: [ NO_ERRORS_SCHEMA ]
     });
@@ -34,6 +38,7 @@ describe('CommunitySearchResultContentComponent', () => {
   });
 
   it('should display content', () => {
+    instance.searchTerm = 'test';
     instance.content = 'test content';
     fixture.detectChanges();
 

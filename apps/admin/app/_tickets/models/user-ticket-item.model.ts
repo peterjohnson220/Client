@@ -1,17 +1,19 @@
-import { generateMockTicketDetail, TicketDetail } from './ticket-detail.model';
 import { CompanyDetail, generateMockCompanyDetail } from './company-detail.model';
-
+import { generateMockTicketAttachments, TicketAttachment } from './ticket-attachment.model';
+import { generateMockTicketDetail, TicketDetail } from './ticket-detail.model';
 
 export interface UserTicketItem {
   TicketInfo: TicketDetail;
   CompanyInfo: CompanyDetail;
   Description: string;
+  Attachments: TicketAttachment[];
 }
 
 export function generateMockUserTicketItem() {
   return {
     Description: 'MockDescription',
     CompanyInfo: generateMockCompanyDetail(),
-    TicketDetail: generateMockTicketDetail()
+    TicketDetail: generateMockTicketDetail(),
+    Attachments: generateMockTicketAttachments()
   };
 }

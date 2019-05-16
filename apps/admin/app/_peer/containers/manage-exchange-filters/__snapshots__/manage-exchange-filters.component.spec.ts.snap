@@ -24,6 +24,12 @@ exports[`Manage Exchange Filters should match snapshot 1`] = `
       >
         <pf-input-debounce />
       </div>
+      <button
+        class="btn btn-md btn-primary"
+        type="button"
+      >
+        Add Filter
+      </button>
     </pf-manage-exchange-section-header>
     <div
       class="header"
@@ -48,6 +54,6 @@ exports[`Manage Exchange Filters should match snapshot 1`] = `
         </div>
       </pf-async-container>
     </div>
-  </div>
+  </div><pf-add-tag-categories-modal />
 </pf-manage-exchange-filters>
 `;

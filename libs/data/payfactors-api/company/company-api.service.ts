@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
 import { PayfactorsApiService } from '../payfactors-api.service';
 import { CompanyDto, LegacyCompanySettingDto } from '../../../models/company';
 import { Company } from '../../../models/company/company.model';
@@ -10,6 +13,10 @@ export class CompanyApiService {
   constructor(
     private payfactorsApiService: PayfactorsApiService
   ) {}
+
+  get(companyId: number): Observable<CompanyDto> {
+    return this.payfactorsApiService.get<CompanyDto>(this.endpoint + `(${companyId})`);
+  }
 
   getCompanySettings() {
     return this.payfactorsApiService.get<LegacyCompanySettingDto[]>(`${this.endpoint}.GetCompanySettings`);

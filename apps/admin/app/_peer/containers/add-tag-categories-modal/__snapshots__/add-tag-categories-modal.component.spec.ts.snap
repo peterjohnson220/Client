@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Add Tag Categories Modal should show a modal with a search bar and a tag categories grid when addTagCategoriesModalOpen$ is true 1`] = `
+<pf-add-tag-categories-modal
+  addTagCategoriesForm={[Function FormGroup]}
+  addTagCategoriesModalOpen$={[Function Observable]}
+  addTagCategoriesModalOpenSubscription={[Function Subscriber]}
+  addingTagCategoriesToExchange$={[Function Store]}
+  addingTagCategoriesToExchangeError$={[Function Store]}
+  attemptedSubmit="false"
+  exchange$={[Function Observable]}
+  exchangeId={[Function Number]}
+  fb={[Function FormBuilder]}
+  gridState$={[Function Observable]}
+  route={[Function Object]}
+  selections={[Function Array]}
+  selections$={[Function Observable]}
+  selectionsSubscription={[Function Subscriber]}
+  store={[Function Store]}
+>
+  <pf-modal-form
+    class="ng-untouched ng-pristine ng-invalid"
+    ng-reflect-form="[object Object]"
+    title="Add Exchange Filter"
+  >
+    
+    <div
+      class="form-group"
+    >
+      <pf-input-debounce
+        class="ng-untouched ng-pristine ng-valid"
+        ng-reflect-delay="400"
+        ng-reflect-focus="true"
+        ng-reflect-id="search-box"
+        ng-reflect-options="[object Object]"
+        ng-reflect-placeholder-text="Search for and select an Excha"
+        ng-reflect-showing="true"
+      >
+        
+        
+        <div
+          class="input-group"
+        >
+          <input
+            autocomplete="off"
+            class="form-control ng-untouched ng-pristine ng-valid"
+            data-qa-id="txt-search-box"
+            id="search-box"
+            maxlength="524288"
+            ng-reflect-is-disabled="false"
+            ng-reflect-klass="form-control"
+            ng-reflect-maxlength="524288"
+            placeholder="Search for and select an Exchange Filter to add to the Mock Exchange Exchange."
+            style="min-width: undefinedpx;"
+            type="text"
+          />
+          <div
+            class="input-group-append undefined-clear"
+            ng-reflect-klass="input-group-append"
+            ng-reflect-ng-class="undefined-clear"
+          >
+            <span
+              class="input-group-text"
+            >
+              <i
+                aria-hidden="true"
+                class="fas fa-times"
+              />
+            </span>
+          </div>
+        </div>
+      </pf-input-debounce>
+    </div>
+    <pf-tag-categories-list />
+    <div
+      class="form-group hidden-form-control"
+    >
+      <input
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        formcontrolname="selections"
+        name="hasSelections"
+        ng-reflect-model=""
+        ng-reflect-name="selections"
+        ng-reflect-pf-validatable="false"
+        type="hidden"
+        value=""
+      />
+      
+    </div>
+  </pf-modal-form>
+</pf-add-tag-categories-modal>
+`;

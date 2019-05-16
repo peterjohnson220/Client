@@ -1,0 +1,125 @@
+<pf-page-with-title-bar>
+  <ng-container page-title>
+    Job Description Management <pf-public-view-header *ngIf="(identity$ | async)?.IsPublic"></pf-public-view-header>
+  </ng-container>
+
+  <ng-container page-actions>
+    <pf-input-debounce id="search-box" (valueChanged)="updateSearchFilter($event)" [delay]="400" [(ngModel)]="savedSearchTerm" [placeholderText]="'Search for a Job Code or Title...'"></pf-input-debounce>
+
+    <!-- Hide from public view -->
+    <ng-container *ngIf="!(identity$ | async)?.IsPublic">
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-primary" ngbDropdownToggle>Admin</button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <button routerLink="/job-description-management/templates" class="dropdown-item">Template Management</button>
+          <button routerLink="/job-description-management/settings" class="dropdown-item">Settings</button>
+        </div>
+      </div>
+      <button class="btn btn-secondary" type="submit" (click)="addJobClicked()">Add Job</button>
+      <pf-bulk-export-popover
+        [controlLabels]="bulkExportControlLabels$ | async"
+        [controlLabelsLoading]="bulkExportControlLabelsLoading$ | async"
+        [listFilterValue]="listFilter"
+        [gridState]="gridState"
+        [noPublishedJobDescriptions]="bulkExportNoPublishedJobDescriptions$ | async"
+        [jobDescriptionListViews]="jobDescriptionListViews$ | async"
+        [jobDescriptionListViewsLoading]="jobDescriptionListViewsLoading$ | async"
+        [jobInformationFields]="jobInformationFields$ | async"
+        [jobInformationFieldsLoading]="jobInformationFieldsLoading$ | async"
+        (open)="handleBulkExportPopoverOpened($event)"
+        (viewSelectionChanged)="handleViewSelectionChangedOnBulkExport($event)">
+      </pf-bulk-export-popover>
+      <span class="column-popover">
+          <pf-column-selector-popover
+            [ListAreaColumns]="listAreaColumnsToUpdate$ | async"
+            (columnModified)="handleColumnModified($event)"
+            (saveColumns)="handleSaveColumns($event)">
+          </pf-column-selector-popover>
+      </span>
+      <span class="user-filter-popover">
+          <pf-filter-selector-popover
+            [loading]="userFilterListLoading$ | async"
+            [deleting]="userFilterDeleting$ | async"
+            [userFilterList]="userFilterList$ | async"
+            [listAreaColumns]="listAreaColumns$ | async"
+            [customListAreaColumns]="customListAreaColumns"
+            (onFilterSidebarToggle)="showFilterSidebar = !showFilterSidebar"
+            (onFilterSelected)="handleUserFilterSelected($event)"
+            (onDeleteConfirmed)="handleUserFilterDeleteConfirmed($event)"
+            (open)="handleUserFilterListPopoverOpened($event)">
+          </pf-filter-selector-popover>
+      </span>
+    </ng-container>
+  </ng-container>
+
+  <ng-container page-content>
+    <div class="col-12 full-height" [class.column-sidebar-open]="showFilterSidebar">
+      <div *ngIf="(userFilterError$ | async) && !(userFilterListLoading$ | async)" >
+        <div class="alert alert-danger" role="alert">
+          {{userFilterErrorMessage$ | async}}
+        </div>
+      </div>
+      <div class="d-flex h-100">
+        <div class="grid-and-filter-container">
+          <div *ngIf="gridState.filter?.filters.length" class="filter-pills-container"
+               [class.background-light-grey]="showFilterSidebar">
+            <pf-list-area-filter-pills
+              [listAreaColumns]="listAreaColumns$ | async"
+              [customListAreaColumns]="customListAreaColumns"
+              [filters]="gridState.filter?.filters"
+              (clearFilter)="handleClearFilter($event)"
+              (clearAllFilters)="handleClearAllFilters($event)">
+            </pf-list-area-filter-pills>
+          </div>
+
+          <div class="grid-container" [class.shift-grid-down]="gridState.filter?.filters.length">
+            <pf-job-description-grid
+              [gridDataResult]="gridDataResult$ | async"
+              [loading]="gridLoading$ | async"
+              [listAreaColumns]="nonStaticListAreaColumns"
+              [gridState]="gridState"
+              [isPublic]="(identity$ | async)?.IsPublic"
+              (navigateToJobDescription)="navigateToJobDescription($event)"
+              (openJobDescriptionHistoryModal)="openJobDescriptionHistoryModal($event)"
+              (openNewJobDescriptionModal)="openNewJobDescModal($event)"
+              (pageChanged)="handlePageChanged($event)"
+              (sortChanged)="handleSortChanged($event)">
+            </pf-job-description-grid>
+          </div>
+        </div>
+
+        <div [hidden]="!showFilterSidebar" class="sidebar-filter-container">
+          <pf-list-area-filter-sidebar
+            [filters]="gridState.filter?.filters"
+            [listAreaColumns]="listAreaColumns$ | async"
+            [customListAreaColumns]="customListAreaColumns"
+            (filterChanged)="handleFilterChanged($event)"
+            (close)="showFilterSidebar = false"
+            (saveFilterClicked)="saveFilterClicked()">
+          </pf-list-area-filter-sidebar>
+        </div>
+      </div>
+    </div>
+
+    <pf-assign-jobs-to-template-modal
+      [selectedCompanyJob]="selectedCompanyJobForModal"
+      (templateAssignedToJob)="handleTemplateAssignedToJob($event)">
+    </pf-assign-jobs-to-template-modal>
+
+    <pf-job-description-history-modal></pf-job-description-history-modal>
+
+    <pf-job-description-applies-to-modal
+      [editing]="false"
+      [selectedCompanyJob]="selectedCompanyJobForModal"
+      (appliesToUpdated)="appliesToFormCompleted($event)">
+    </pf-job-description-applies-to-modal>
+
+<!--    <pf-add-job-modal-->
+<!--      (createCompanyJobComplete)="handleCreateCompanyJobComplete($event)">-->
+<!--    </pf-add-job-modal>-->
+    <pf-save-filter-modal
+      [userFilters]="userFilterList$ | async"
+      (saved)="saveFilterHandler($event)"
+      (opened)="handleSaveFilterModalOpened()"></pf-save-filter-modal>
+  </ng-container>
+</pf-page-with-title-bar>

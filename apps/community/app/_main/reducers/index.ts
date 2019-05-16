@@ -16,6 +16,7 @@ import * as fromCommunityPostFilterOptionsReducer from './community-post-filter-
 import * as fromCommunityLikeReducer from './community-like.reducer';
 import * as fromCommunitySearchReducer from './community-search.reducer';
 import { CommunityConstants } from '../models';
+import { populatePostReplies } from '../helpers/model-mapping.helper';
 
 // Feature area state
 export interface CommunityState {
@@ -254,9 +255,9 @@ export const getLoadingCommunityPost = createSelector(
   fromCommunityPostReducer.getLoadingCommunityPost
 );
 
-export const getCommunityPost = createSelector(
+export const getLoadingCommunityPostSuccess = createSelector(
   selectFromCommunityPostState,
-  fromCommunityPostReducer.getCommunityPost
+  fromCommunityPostReducer.getLoadingCommunityPostSuccess
 );
 
 export const getLoadingCommunityPostError = createSelector(
@@ -339,8 +340,7 @@ export const getFilteredCommunityPostReplyView = createSelector(
   }, [])
 );
 
-
-// Community Post With Replies
+// Community Posts With Replies
 export const getCommunityPostsCombinedWithReplies = createSelector(
   getCommunityPosts,
   getCommunityPostReplyEntities,
@@ -350,24 +350,31 @@ export const getCommunityPostsCombinedWithReplies = createSelector(
     if (posts && replies) {
       const postlist = cloneDeep(posts);
       postlist.forEach(post => {
-        if (post.ReplyIds && post.ReplyIds.length > 0) {
-          const filteredReplyIds = post.ReplyIds.filter(replyId => addReplies.indexOf(replyId) < 0
-            && filterReplies.indexOf(replyId) < 0);
-
-          const filteredReplies = filteredReplyIds.reduce((acc, id) => {
-            return replies[ id ] ? [ ...acc, replies[ id ] ] : acc;
-          }, []);
-
-          post.ReplyCount = filteredReplies.length;
-          filteredReplies.forEach(filteredReply => {
-            post.Replies.push(filteredReply);
-          });
-        }
+        populatePostReplies(post, addReplies, filterReplies, replies);
       });
       return postlist;
     } else {
       return posts;
     }
+  }
+);
+
+
+// Community Post With Replies
+export const getCommunityPostCombinedWithReplies = createSelector(
+  getCommunityPosts,
+  getCommunityPostReplyEntities,
+  getCommunityPostAddReplyView,
+  getLoadingCommunityPostSuccess,
+  (posts,  replies, addReplies, postId) => {
+    const post =  postId ? posts.find(x => x.Id === postId) : null;
+    if (!post) {
+      return post;
+    }
+
+    const postWithReplies = cloneDeep(post);
+    populatePostReplies(postWithReplies, addReplies, [], replies);
+    return postWithReplies;
   }
 );
 
@@ -515,6 +522,10 @@ export const getFilterTitle = createSelector(
 );
 
 // Community Search Selectors
+export const {
+  selectAll: getCommunitySearchResults,
+} = fromCommunitySearchReducer.adapter.getSelectors(selectFromCommunitySearchState);
+
 export const getLoadingSearchResults = createSelector(
   selectFromCommunitySearchState,
   fromCommunitySearchReducer.getLoadingSearchResults
@@ -525,13 +536,31 @@ export const getLoadingSearchResultsError = createSelector(
   fromCommunitySearchReducer.getLoadingSearchResultsError
 );
 
-export const getCommunitySearchResults = createSelector(
+export const getCommunityLoadingMoreSearchResults = createSelector(
   selectFromCommunitySearchState,
-  fromCommunitySearchReducer.getSearchResults
+  fromCommunitySearchReducer.getLoadingMoreSearchResults
+);
+
+export const getSearchResultsPagingOptions = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getSearchResultsPagingOptions
 );
 
 export const getCommunitySearchResultModal = createSelector(
   selectFromCommunitySearchState,
   fromCommunitySearchReducer.getSearchResultModalPostId
+);
+
+export const getTotalSearchResultsOnServer = createSelector(
+  selectFromCommunitySearchState,
+  fromCommunitySearchReducer.getTotalSearchResultsOnServer
+);
+
+export const getHasMoreSearchResultsOnServer = createSelector(
+  getCommunitySearchResults,
+  getTotalSearchResultsOnServer,
+  (results, totalResults) => {
+    return totalResults > results.length;
+  }
 );
 

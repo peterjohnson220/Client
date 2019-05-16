@@ -17,12 +17,26 @@
         <label class="mr-1">Job Code:</label><span class="semi-bold">{{ jobCode }}</span>
       </span>
     </div>
-    <h6 class="primary-header mt-1 ml-2">Job Description</h6>
+    <h6 class="primary-header mt-1 ml-2 d-inline-block">
+      Job Description
+    </h6>
+    <span *ngIf="checkForJdmDescription">
+      <a href="javascript:void(0)" [class.show]="jdmDescriptionIds.length === 1" class="jdm-description ml-2 mr-2" (click)="handleViewJdmDescriptionClick()">View Full Job Description</a>
+      <p class="text-muted mb-1" *ngIf="jdmDescriptionIds.length > 1">
+        There is more than one Job Description for this job. Please refer to the 
+          <a href="/ng/job-description-management/job-descriptions" target="_blank">Job Description Management Tile</a> 
+        to view each description.
+      </p>
+      <pf-loading-indicator *ngIf="jdmDescriptionLoading"></pf-loading-indicator>
+      <p *ngIf="jdmDescriptionLoadingError" class="jdm-description-error d-inline-block ml-0">Unable to load job description</p>
+    </span>
     <div *ngIf="jobDescription && jobDescription !== '#N/A'; else noDescription" class="mt-2">
       <p [innerHTML]="jobDescription | jobDescriptionParser"></p>
     </div>
     <ng-template #noDescription>
-      <p class="font-italic">No Job Description Available</p>
+      <p *ngIf="checkForJdmDescription && !jdmDescriptionIds.length > 0" class="font-italic">
+        No Job Description Available
+      </p>
     </ng-template>
   </div>
 </section>

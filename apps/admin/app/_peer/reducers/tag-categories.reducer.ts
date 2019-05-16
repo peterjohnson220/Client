@@ -13,6 +13,9 @@ export interface State extends EntityState<TagCategory> {
   createTagCategoryModalOpen: boolean;
   creatingTagCategory: boolean;
   creatingTagCategoryError: boolean;
+  addTagCategoriesModalOpen: boolean;
+  addingTagCategoriesToExchange: boolean;
+  addingTagCategoriesToExchangeError: boolean;
   total: number;
 }
 
@@ -28,6 +31,9 @@ export const initialState: State = adapter.getInitialState({
   createTagCategoryModalOpen: false,
   creatingTagCategory: false,
   creatingTagCategoryError: false,
+  addTagCategoriesModalOpen: false,
+  addingTagCategoriesToExchange: false,
+  addingTagCategoriesToExchangeError: false,
   total: 0
 });
 
@@ -94,6 +100,40 @@ export function reducer(state, action) {
             creatingTagCategoryError: true
           };
         }
+        case fromTagCategoriesActions.OPEN_ADD_TAG_CATEGORIES_MODAL: {
+          return {
+            ...featureState,
+            addTagCategoriesModalOpen: true
+          };
+        }
+        case fromTagCategoriesActions.CLOSE_ADD_TAG_CATEGORIES_MODAL: {
+          return {
+            ...featureState,
+            addTagCategoriesModalOpen: false
+          };
+        }
+        case fromTagCategoriesActions.ADD_TAG_CATEGORIES_TO_EXCHANGE: {
+          return {
+            ...featureState,
+            addingTagCategoriesToExchange: true,
+            addingTagCategoriesToExchangeError: false
+          };
+        }
+        case fromTagCategoriesActions.ADD_TAG_CATEGORIES_TO_EXCHANGE_SUCCESS: {
+          return {
+            ...featureState,
+            addingTagCategoriesToExchange: false,
+            addingTagCategoriesToExchangeError: false,
+            addTagCategoriesModalOpen: false
+          };
+        }
+        case fromTagCategoriesActions.ADD_TAG_CATEGORIES_TO_EXCHANGE_ERROR: {
+          return {
+            ...featureState,
+            addingTagCategoriesToExchange: false,
+            addingTagCategoriesToExchangeError: true
+          };
+        }
         default: {
           return featureState;
         }
@@ -108,3 +148,6 @@ export const getTotal = (state: State) => state.total;
 export const getCreateTagCategoryModalOpen = (state: State) => state.createTagCategoryModalOpen;
 export const getCreatingTagCategory = (state: State) => state.creatingTagCategory;
 export const getCreatingTagCategoryError = (state: State) => state.creatingTagCategoryError;
+export const getAddTagCategoriesModalOpen = (state: State) => state.addTagCategoriesModalOpen;
+export const getAddingTagCategoriesToExchange = (state: State) => state.addingTagCategoriesToExchange;
+export const getAddingTagCategoriesToExchangeError = (state: State) => state.addingTagCategoriesToExchangeError;

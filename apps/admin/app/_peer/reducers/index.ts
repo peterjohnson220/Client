@@ -6,7 +6,7 @@ import * as fromGridReducer from 'libs/core/reducers/grid.reducer';
 import { IFeatureGridState } from 'libs/core/reducers/grid.reducer';
 
 // Import feature reducers
-import * as fromExchangeReducer from './exchange.reducer';
+import * as fromExchangeReducer from './exchange-management.reducer';
 import * as fromExchangeCompaniesReducer from './exchange-companies.reducer';
 import * as fromImportExchangeJobsReducer from './import-exchange-jobs.reducer';
 import * as fromAvailableCompaniesReducer from './available-companies.reducer';
@@ -98,6 +98,20 @@ export const selectTagCategoriesState = createSelector(
 
 // Manage Exchange Selectors
 export const getManageExchange = createSelector(selectExchangeState, fromExchangeReducer.getExchange);
+export const getExchangeStatusConfirmationModalOpen = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getExchangeStatusConfirmationModalOpen
+);
+export const getManageExchangeUpdating = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdating);
+export const getManageExchangeUpdatingError = createSelector(selectExchangeState, fromExchangeReducer.getExchangeUpdatingError);
+export const getManageExchangeCanToggleExchangeStatus = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getCanToggleExchangeStatus
+);
+export const getManageExchangeIsValidExchange = createSelector(
+  selectExchangeState,
+  fromExchangeReducer.getIsValidExchange
+);
 
 // Exchange List Selectors
 export const getManageExchangeLoading = createSelector(
@@ -665,6 +679,11 @@ export const selectTagCategoriesFeatureState = createSelector(
   (state: IFeatureGridState<fromTagCategoriesReducer.State>) => state.feature
 );
 
+export const selectTagCategoriesGridState = createSelector(
+  selectTagCategoriesState,
+  (state: IFeatureGridState<fromTagCategoriesReducer.State>) => state.grid
+);
+
 export const {
   selectAll: getTagCategories
 } = fromTagCategoriesReducer.adapter.getSelectors(selectTagCategoriesFeatureState);
@@ -689,8 +708,36 @@ export const getCreatingTagCategoryError = createSelector(
   selectTagCategoriesFeatureState, fromTagCategoriesReducer.getCreatingTagCategoryError
 );
 
+export const getAddTagCategoriesModalOpen = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getAddTagCategoriesModalOpen
+);
+
+export const getAddingTagCategoriesToExchange = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getAddingTagCategoriesToExchange
+);
+
+export const getAddingTagCategoriesToExchangeError = createSelector(
+  selectTagCategoriesFeatureState, fromTagCategoriesReducer.getAddingTagCategoriesToExchangeError
+);
+
 export const getTotalTagCategories = createSelector(
   selectTagCategoriesFeatureState, fromTagCategoriesReducer.getTotal
+);
+
+export const getTagCategoriesGridState = createSelector(
+  selectTagCategoriesGridState,
+  fromGridReducer.getGridState
+);
+
+export const getTagCategoriesGridStateForModal = createSelector(
+  getTagCategoriesGridState, x => {
+    return {...x, take: 10};
+  }
+);
+
+export const getTagCategoriesGridSelections = createSelector(
+  selectTagCategoriesGridState,
+  fromGridReducer.getGridSelections
 );
 
 export const getTagCategoriesGrid = createSelector(

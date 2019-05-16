@@ -1,0 +1,9 @@
+<div *ngIf="isVisible" class="unsaved-changes-warning position-absolute h-100 w-100">
+  <div class="dialog p-4 position-absolute d-inline-block text-center">
+    <h5 class="mb-4 mt-2">
+      <i class="far fa-exclamation-triangle mr-2"></i>Leave without saving changes?
+    </h5>
+    <button class="btn btn-primary mr-3" (click)="handleLeaveClicked()">Leave</button>
+    <button class="btn btn-secondary" (click)="handleCancelClicked()">Cancel</button>
+  </div>
+</div>

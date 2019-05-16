@@ -83,7 +83,8 @@ export class ExchangeScopeEffects {
             if (!!payload.selectedScope && payload.selectedScope.Id === payload.action) {
               return [
                 new fromLibsExchangeScopeActions.DeleteExchangeScopeSuccess(payload.action),
-                new fromLibsFilterSidebarActions.ClearAllSelections()
+                new fromLibsFilterSidebarActions.ClearAllSelections(),
+                new fromLibsFilterSidebarActions.GetMapData()
               ];
             } else {
               return [

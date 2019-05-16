@@ -46,13 +46,16 @@ export class MapHelper {
     };
   }
 
+ public static MapSummaryHasBounds(mapSummary: ExchangeMapSummary): boolean {
+    const hasNewTLBounds = !!mapSummary.TopLeft && !!mapSummary.TopLeft.Lat && !!mapSummary.TopLeft.Lon;
+    const hasNewBRBounds = !!mapSummary.BottomRight && !!mapSummary.BottomRight.Lat && !!mapSummary.BottomRight.Lon;
+    return hasNewTLBounds && hasNewBRBounds;
+  }
+
   static setBounds(mapSummary: ExchangeMapSummary, currentState: any, newState: any): any {
-    const newTL = mapSummary.TopLeft;
-    const newBR = mapSummary.BottomRight;
-    const hasNewTLBounds = !!newTL && !!newTL.Lat && !!newTL.Lon;
-    const hasNewBRBounds = !!newBR && !!newBR.Lat && !!newBR.Lon;
-    const shouldSetBounds = hasNewTLBounds && hasNewBRBounds;
-    if (currentState.isInitialLoad && shouldSetBounds) {
+    if (currentState.isInitialLoad && MapHelper.MapSummaryHasBounds(mapSummary)) {
+      const newTL = mapSummary.TopLeft;
+      const newBR = mapSummary.BottomRight;
       newState.mapBounds = [newTL.Lon, newBR.Lat, newBR.Lon, newTL.Lat];
       newState.mapFilter.TopLeft = newTL;
       newState.mapFilter.BottomRight = newBR;

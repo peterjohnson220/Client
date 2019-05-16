@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -39,7 +41,8 @@ export class DojGuidelinesService implements OnDestroy {
   initialMapMoveCompleteSubscription: Subscription;
 
   constructor(private store: Store<fromUpsertPeerDataReducers.State>,
-    private mapStore: Store<fromPeerMapReducers.State>) {
+    private mapStore: Store<fromPeerMapReducers.State>,
+    private route: ActivatedRoute) {
     this.peerMapCompanies$ = this.mapStore.pipe(select(fromPeerMapReducers.getPeerMapCompaniesFromSummary));
     this.dataCutValidationInfo$ = this.store.pipe(select(fromUpsertPeerDataReducers.getDataCutValidationInfo));
     this.areEmployeesValid$ = this.store.pipe(select(fromUpsertPeerDataReducers.getEmployeeCheckPassed));
@@ -109,16 +112,27 @@ export class DojGuidelinesService implements OnDestroy {
     if (!this.initialMapMoveComplete || !this.hasMinimumCompanies || !this.hasNoHardDominatingData) { return; }
 
     const validationInfo = this.dataCutValidationInfo;
-
+    const guid = this.route.snapshot.queryParamMap.get('dataCutGuid') || null;
     const currentMapCompanies: number[] = mapCompanies.map(item => item.CompanyId);
     if (validationInfo.length > 0) {
+
       // In an attempt to make this method faster, a previousSelections variable will be stored.
       // Current selections and previousSelections will be checked, if they are equal then we do not change the validation variable.
       if (!arraysEqual(currentMapCompanies, this.previousMapCompanies)) {
         this.previousMapCompanies = currentMapCompanies;
         // Check against each existing cut, if it fails we break out and set validation to false.
         let validationPass = true;
+
+        // if we have a guid, there is only one, and the guids are the same we are editing so
+        // we don't need to perform validation
+        if (guid && validationInfo.length === 1 && validationInfo[0].DataCutGuid === guid) {
+          return;
+        }
+
         for (const value of validationInfo) {
+          // if the the guid is the same then we are editing a cut
+          // so we shouldn't check against ourselves
+          if (guid && guid === value.DataCutGuid) { continue; }
           if (checkArraysOneOff(currentMapCompanies, value.CompanyIds)) {
             validationPass = false;
             break;
@@ -131,7 +145,7 @@ export class DojGuidelinesService implements OnDestroy {
     // we've passed on company now lets check the employees
     if (this.companyValidationPass) {
       this.store.dispatch(new fromDataCutValidationActions.ValidateDataCutEmployees(
-        companyJobId, userSessionId));
+        companyJobId, userSessionId, guid));
     }
   }
 }

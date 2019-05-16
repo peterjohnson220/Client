@@ -19,6 +19,7 @@ import { CompanyJobsComponent, JobAssociationModalComponent, ExchangeJobsCompone
 import { GridDetailPanelComponent } from './components/grid-detail-panel/grid-detail-panel.component';
 import { HalfCompleteIconComponent } from './components/half-complete-icon/half-complete-icon.component';
 import { CompleteIconComponent } from './components/complete-icon/complete-icon.component';
+import { UnsavedChangesWarningComponent } from './components/unsaved-changes-warning/unsaved-changes-warning.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { CompleteIconComponent } from './components/complete-icon/complete-icon.
     JobAssociationModalComponent,
     GridDetailPanelComponent,
     HalfCompleteIconComponent,
-    CompleteIconComponent
+    CompleteIconComponent,
+    UnsavedChangesWarningComponent
   ],
   providers: [WindowCommunicationService],
   exports: [JobAssociationModalComponent]

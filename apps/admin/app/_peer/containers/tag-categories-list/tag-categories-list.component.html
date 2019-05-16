@@ -1,0 +1,50 @@
+<pf-async-container
+  [loading]="tagCategoriesLoading$ | async"
+  [loadingError]="tagCategoriesLoadingError$ | async"
+  [loadingErrorMessage]="'Error loading custom filter categories'"
+  (reload)="handleTagCategoriesGridReload()"
+  class="flex-grow-1"
+>
+
+  <kendo-grid class="no-wrap-ellipsis-values"
+              [data]="tagCategoriesGrid$ | async"
+              [pageSize]="(gridState$ | async)?.take"
+              [skip]="(gridState$ | async)?.skip"
+              [sort]="(gridState$ | async)?.sort"
+              [filter]="gridState?.filter"
+              [height]="InAddTagCategoriesModal ? 500 : '100%'"
+              [pageable]="{
+                buttonCount: 5,
+                info: true
+              }"
+              [selectable]="{
+                checkboxOnly: InAddTagCategoriesModal
+              }"
+              [sortable]="true"
+              (dataStateChange)="handleDataStateChange($event)"
+              [ngClass]="{'row-click-selects': InAddTagCategoriesModal}"
+              [kendoGridSelectBy]="selectionKey"
+              [selectedKeys]="selections$ | async"
+              (cellClick)="handleCellClick($event)"
+  >
+
+    <kendo-grid-column field="DisplayName" title="Filter Name">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span title="{{dataItem.DisplayName}}">{{dataItem.DisplayName}}</span>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="EntityTypesFlag" title="Filter Type">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span>{{getEntityTypes(dataItem.EntityTypesFlag)}}</span>
+      </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column field="Description" title="Description">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <span title="{{dataItem.Description}}">{{dataItem.Description}}</span>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+
+</pf-async-container>

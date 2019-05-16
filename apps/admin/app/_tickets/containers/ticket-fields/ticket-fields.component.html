@@ -1,0 +1,47 @@
+<pf-async-container [loading]="(lookupsLoading$ | async) || !pfServicesReps.length"
+                    [loadingError]="lookupsLoadingError$ | async"
+                    [loadingErrorMessage]="'Error loading lookups'">
+  <div class="row">
+    <div class="col-sm-2">
+      Assigned To:
+    </div>
+    <div class="col-sm-4">
+      <kendo-combobox
+        [data]="pfServicesReps"
+        [valueField]="'PfServicesRepId'"
+        [textField]="'Name'"
+        (valueChange)="comboValueChanged($event, 'assigned')"
+        [(ngModel)]="selectedPfServicesRep"
+        [suggest]="true">
+      </kendo-combobox>
+    </div>
+    <div class="col-sm-2">
+      Status:
+    </div>
+    <div class="col-sm-4">
+      <kendo-combobox
+        [data]="userTicketStates$ | async"
+        [valueField]="'UserTicketStateId'"
+        [textField]="'UserTicketState'"
+        (valueChange)="comboValueChanged($event, 'status')"
+        [(ngModel)]="selectedUserTicketState"
+        [suggest]="true">
+      </kendo-combobox>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2">
+      Type:
+    </div>
+    <div class="col-sm-4">
+      <kendo-combobox
+        [data]="userTicketTypes"
+        [textField]="'TicketTypeDisplayName'"
+        [valueField]="'TicketTypeDisplayName'"
+        [suggest]="true"
+        [(ngModel)]="selectedUserTicketType"
+        (valueChange)="comboValueChanged($event, 'type')">
+      </kendo-combobox>
+    </div>
+  </div>
+</pf-async-container>

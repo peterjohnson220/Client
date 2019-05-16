@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class CommunitySearchResultContentComponent {
 
   @Input() content: string;
+  @Input() searchTerm: string;
   constructor() { }
 
 }

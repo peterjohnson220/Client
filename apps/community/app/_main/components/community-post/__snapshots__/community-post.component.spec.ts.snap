@@ -6,8 +6,6 @@ exports[`CommunityPostComponent should show post 1`] = `
   filtersModifiedEvent={[Function EventEmitter]}
   post={[Function Object]}
   replyStore={[Function Store]}
-  showAddReply={[Function Object]}
-  showReplies={[Function Array]}
 >
   <div
     class="pl-1 col-12"

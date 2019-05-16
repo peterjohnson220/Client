@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs/operators';
 
-import * as fromJobAssociationReducer from 'libs/features/peer/job-association/reducers';
 import * as fromJamActions from 'libs/features/peer/job-association/actions/job-association-modal.actions';
 
 import { WindowCommunicationService } from 'libs/core/services';
@@ -29,7 +27,12 @@ export class JobAssociationModalEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  updateSaveableChanges$ = this.actions$.pipe(
+    ofType(fromJamActions.CHANGE_SAVEABLE_ENTITIES),
+    tap((action: fromJamActions.ChangeSaveableEntities) => this.windowCommunicationService.postMessage(action.type, action.payload))
+  );
+
   constructor(private actions$: Actions,
-              private store: Store<fromJobAssociationReducer.State>,
               private windowCommunicationService: WindowCommunicationService) { }
 }

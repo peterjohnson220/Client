@@ -67,7 +67,8 @@ export class FilterSidebarComponent implements OnInit {
   }
 
   handleClearAllSelections() {
-    this.store.dispatch(new fromFilterSidebarActions.ClearAllSelections());
+    this.store.dispatch(new fromFilterSidebarActions.ClearAllSelections);
+    this.store.dispatch(new fromFilterSidebarActions.GetMapData);
   }
 
   ngOnInit() {

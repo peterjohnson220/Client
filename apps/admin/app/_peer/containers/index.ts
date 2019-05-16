@@ -17,3 +17,6 @@ export * from './deny-request-modal';
 export * from './approve-request-modal';
 export * from './manage-exchange-filters';
 export * from './create-tag-category-modal';
+export * from './toggle-exchange-status-confirmation-modal';
+export * from './tag-categories-list';
+export * from './add-tag-categories-modal';

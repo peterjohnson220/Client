@@ -50,9 +50,21 @@ export const getJobAssociationModalSaving = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSaving);
 
+export const getJobAssociationModalSavingSuccess = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getSavingSuccess);
+
 export const getJobAssociationModalSavingError = createSelector(
   selectJobAssociationModalState,
   fromJobAssociationModalReducer.getSavingError);
+
+export const getJobAssociationModalIsOpen = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getIsModalOpen);
+
+export const getJobAssociationModalShowUnsavedChangesWarning = createSelector(
+  selectJobAssociationModalState,
+  fromJobAssociationModalReducer.getShowUnsavedChangesWarning);
 
 // Exchange Jobs Selectors
 export const getExchangeJobsGrid = createSelector(
@@ -235,7 +247,7 @@ export const getCompanyJobsSearchTerm = createSelector(
   (feature) => feature.searchTerm
 );
 
-// detail panel
+// detail panel/Jdm PDF download
 export const getCompanyJobsSelectedCompanyJobInDetailPanel = createSelector(
   getCompanyJobsFeature,
   (feature) => feature.selectedCompanyJobInDetailPanel
@@ -246,12 +258,33 @@ export const getCompanyJobsIsDetailPanelExpanded = createSelector(
   (feature) => feature.isDetailPanelExpanded
 );
 
+export const getCompanyJobsJdmDescriptionIds = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getJdmDescriptionIds
+);
+
+export const getCompanyJobsDownloadingJdmDescription = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getDownloadingJdmDescription
+);
+
+export const getCompanyJobsDownloadingJdmDescriptionError = createSelector(
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getDownloadingJdmDescriptionError
+);
+
 // associations
 export const getSelectedCompanyJobs = createSelector(
-    getCompanyJobsFeature,
-    fromCompanyJobsReducer.getSelectedCompanyJobs);
+  getCompanyJobsFeature,
+  fromCompanyJobsReducer.getSelectedCompanyJobs
+);
 
 export const getExchangeJobAssociations = createSelector(
-    getExchangeJobsFeature,
-    (feature) => feature.ExchangeJobAssociations
+  getExchangeJobsFeature,
+  (feature) => feature.ExchangeJobAssociations
+);
+
+export const getExchangeJobAssociationsToDelete = createSelector(
+  getExchangeJobsFeature,
+  (feature) => feature.previousAssociationsToDelete
 );

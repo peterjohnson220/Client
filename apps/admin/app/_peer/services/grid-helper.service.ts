@@ -89,7 +89,7 @@ export class GridHelperService {
     ));
   }
 
-  loadTagCategories(query: string) {
-    return this.store.dispatch(new fromTagCategoriesActions.LoadTagCategories(query));
+  loadTagCategories(payload: any) {
+    return this.store.dispatch(new fromTagCategoriesActions.LoadTagCategories(payload));
   }
 }

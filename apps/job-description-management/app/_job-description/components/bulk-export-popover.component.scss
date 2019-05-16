@@ -1,0 +1,49 @@
+.control-label-container{
+  max-height: 375px;
+  overflow-y: auto;
+}
+
+.control-label-template-name{
+  font-style: italic;
+  font-size: .95rem;
+  color: #888e92;
+}
+
+.view-dropdown{
+  min-width: 100%;
+}
+
+.footer{
+  border-top: 1px solid #CCC;
+  background: #f7f7f7
+}
+
+.text-trim{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.form-check{
+  border-bottom: 1px solid #eaecef;
+}
+
+.job-information-label{
+  font-weight: bold;
+  padding-right: 3px;
+}
+
+:host ::ng-deep .popover{
+  min-width: 300px;
+  font-size: 1rem;
+}
+
+:host ::ng-deep .popover::before{
+  border-width: 10px;
+  border-top-width: 0;
+}
+
+:host ::ng-deep .popover.popover-bottom::before, :host ::ng-deep .popover.popover-bottom::after{
+  right: 9px;
+  left: auto;
+}
