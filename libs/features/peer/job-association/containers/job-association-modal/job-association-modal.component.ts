@@ -17,6 +17,7 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
   exchangeJobAssociationsToRemove$: Observable<number[]>;
   saving$: Observable<boolean>;
   savingError$: Observable<boolean>;
+  showUnsavedChangesWarning$: Observable<boolean>;
 
   // Subscriptions
   exchangeJobAssociationsSubscription: Subscription;
@@ -35,12 +36,22 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
     this.exchangeJobAssociationsToRemove$ = this.store.pipe(select(fromJobAssociationReducers.getPreviousAssociationsToDelete));
     this.saving$ = this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalSaving));
     this.savingError$ = this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalSavingError));
+    this.showUnsavedChangesWarning$ = this.store.pipe(select(fromJobAssociationReducers.getJobAssociationModalShowUnsavedChangesWarning));
 
     // Register Subscriptions
-    this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$
-      .subscribe((exchangeJobAssociations) => this.exchangeJobAssociations = exchangeJobAssociations);
-    this.exchangeJobAssociationsToRemoveSubscription = this.exchangeJobAssociationsToRemove$.
-      subscribe((exchangeJobToCompanyJobIds) => this.exchangeJobAssociationsToRemove = exchangeJobToCompanyJobIds);
+    this.exchangeJobAssociationsSubscription = this.exchangeJobAssociations$.subscribe(
+      (exchangeJobAssociations) => {
+        // keep ASP informed of whether or not there are saveable changes so warnings can be shown
+        this.exchangeJobAssociations = exchangeJobAssociations;
+        this.store.dispatch(new jobAssociationModalActions.ChangeSaveableEntities(this.isSaveButtonEnabled()));
+      });
+
+    this.exchangeJobAssociationsToRemoveSubscription = this.exchangeJobAssociationsToRemove$.subscribe(
+      (exchangeJobToCompanyJobIds) => {
+        // keep ASP informed of whether or not there are saveable changes so warnings can be shown
+        this.exchangeJobAssociationsToRemove = exchangeJobToCompanyJobIds;
+        this.store.dispatch(new jobAssociationModalActions.ChangeSaveableEntities(this.isSaveButtonEnabled()));
+      });
 
     this.store.dispatch(new jobAssociationModalActions.Initialize());
   }
@@ -51,7 +62,7 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
   }
 
   isSaveButtonEnabled(): boolean {
-    if (!this.exchangeJobAssociations && !this.exchangeJobAssociationsToRemove) {
+    if (!this.exchangeJobAssociations || !this.exchangeJobAssociationsToRemove) {
       return false;
     }
     return this.exchangeJobAssociations.length > 0 || this.exchangeJobAssociationsToRemove.length > 0;
@@ -66,6 +77,18 @@ export class JobAssociationModalComponent implements OnInit, OnDestroy {
   }
 
   handleCancelClicked() {
+    if (this.isSaveButtonEnabled()) {
+      this.store.dispatch(new jobAssociationModalActions.CloseModalWithSaveableChanges());
+    } else {
+      this.store.dispatch(new jobAssociationModalActions.CloseJobAssociationsModal());
+    }
+  }
+
+  handleLeaveModalConfirmed() {
     this.store.dispatch(new jobAssociationModalActions.CloseJobAssociationsModal());
+  }
+
+  handleLeaveModalCancelled() {
+    this.store.dispatch(new jobAssociationModalActions.CancelUnsavedChangesWarning());
   }
 }

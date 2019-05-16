@@ -1,4 +1,2 @@
-<div id="overlay" class="h-100 w-100 position-absolute cursor-pointer">
-</div>
-<div class="mt-2 mb-2" [innerHtml]="content | TruncateAfter:875  | linkify | newLine">
-</div>
+<div id="overlay" class="h-100 w-100 position-absolute cursor-pointer"></div>
+<div class="mt-2 mb-2" [innerHtml]="content | TruncateAfter:875   | communityLinkify | newLine  | communityHighlightText : searchTerm"></div>

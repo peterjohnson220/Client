@@ -3,9 +3,13 @@
 exports[`Manage Exchange Page should pass the exchange name to the page title transclusion area 1`] = `
 <pf-manage-exchange-page
   activeRoute={[Function Object]}
+  canToggleExchangeStatus$={[Function Store]}
   exchange$={[Function Observable]}
   exchangeId={[Function Number]}
   gridHelperService={[Function Object]}
+  isExchangeActive$={[Function Store]}
+  isValidExchange$={[Function Store]}
+  isValidExchangeSubcription={[Function Subscriber]}
   store={[Function Store]}
   totalExchangeAccessRequests$={[Function Store]}
   totalExchangeCompanies$={[Function Store]}
@@ -18,6 +22,12 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
   <pf-page-with-title-bar>
     
      Manage Exchange - Mock Exchange 
+    
+    <kendo-switch
+      class="k-switch-lg"
+      offlabel="Inactive"
+      onlabel="Active"
+    />
     
     <div
       class="d-flex h-100 w-100"
@@ -160,6 +170,6 @@ exports[`Manage Exchange Page should pass the exchange name to the page title tr
         </div>
       </div>
     </div>
-  </pf-page-with-title-bar>
+  </pf-page-with-title-bar><pf-toggle-exchange-status-confirmation-modal />
 </pf-manage-exchange-page>
 `;

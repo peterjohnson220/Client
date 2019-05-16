@@ -5,15 +5,20 @@
   <div class="container-fluid" *ngIf="ticket">
     <div class="row">
       <div class="col-sm-8">
-        <h4>
+        <h4 class="ticket-description-title">
           <pf-ellipsis-view-more [content]="ticket.Description"
                                  [maxLength]="350">
           </pf-ellipsis-view-more>
         </h4>
+        <pf-ticket-fields *ngIf="ticket.TicketInfo"
+                          [ticket]="ticket.TicketInfo"
+                          (valueChange)="fieldChange($event)">
+        </pf-ticket-fields>
       </div>
       <div class="col-sm-4">
         <pf-ticket-detail-card [ticketDetail]="ticket.TicketInfo"></pf-ticket-detail-card>
         <pf-company-detail-card [companyDetail]="ticket.CompanyInfo"></pf-company-detail-card>
+        <pf-attachment-detail-card [ticketAttachments]="ticket.Attachments"></pf-attachment-detail-card>
       </div>
     </div>
   </div>

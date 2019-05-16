@@ -5,3 +5,11 @@
   background-color: white;
 }
 
+:host ::ng-deep  .page-content{
+  overflow: hidden !important;
+}
+
+.search-results-container-height
+{
+  height: calc(100vh - 170px);
+}

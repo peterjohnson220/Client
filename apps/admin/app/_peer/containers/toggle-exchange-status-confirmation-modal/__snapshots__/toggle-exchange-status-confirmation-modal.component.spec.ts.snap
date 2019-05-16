@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should display 'Activate' verbiage when exchange is inactive 1`] = `
+<pf-toggle-exchange-status-confirmation-modal
+  exchange={[Function Object]}
+  exchange$={[Function Observable]}
+  exchangeStatusConfirmationModalOpen$={[Function Store]}
+  exchangeSubscription={[Function Subscriber]}
+  store={[Function Store]}
+  updatingExchangeStatus$={[Function Store]}
+>
+  <pf-modal-form
+    secondarybuttontext="Cancel"
+    size="md"
+    title="Activate Exchange"
+  >
+    
+    <div>
+      You are about to activate the 
+      <strong>
+        Mock Exchange
+      </strong>
+       exchange. By doing so, it will be visible and
+         available for use by all companies that have been added to the exchange.
+    </div>
+    <br />
+     Would you like to continue? 
+  </pf-modal-form>
+</pf-toggle-exchange-status-confirmation-modal>
+`;
+
+exports[`Exchange Management - Toggle Exchange Status Confirmation Modal should display 'Deactivate' verbiage when exchange is active 1`] = `
+<pf-toggle-exchange-status-confirmation-modal
+  exchange={[Function Object]}
+  exchange$={[Function Observable]}
+  exchangeStatusConfirmationModalOpen$={[Function Store]}
+  exchangeSubscription={[Function Subscriber]}
+  store={[Function Store]}
+  updatingExchangeStatus$={[Function Store]}
+>
+  <pf-modal-form
+    secondarybuttontext="Cancel"
+    size="md"
+    title="Deactivate Exchange"
+  >
+    
+    <div>
+      You are about to deactivate the 
+      <strong>
+        Mock Exchange
+      </strong>
+       exchange. By doing so, it will no longer
+          be visible and available for use by any companies that have been added to the exchange.
+    </div>
+    <br />
+     Would you like to continue? 
+  </pf-modal-form>
+</pf-toggle-exchange-status-confirmation-modal>
+`;

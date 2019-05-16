@@ -55,7 +55,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -90,6 +91,10 @@
                 {
                   "replace": "apps/admin/../../environments/environment.ts",
                   "with": "apps/admin/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/admin/../../assets/js/new-relic.js",
+                  "with": "apps/admin/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -144,7 +149,8 @@
             "tsConfig": "apps/admin/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -246,7 +252,8 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -281,6 +288,10 @@
                 {
                   "replace": "apps/dashboard/../../environments/environment.ts",
                   "with": "apps/dashboard/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/dashboard/../../assets/js/new-relic.js",
+                  "with": "apps/dashboard/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -336,7 +347,8 @@
             "scripts": [
               "assets/js/drift.js",
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -439,7 +451,8 @@
             "scripts": [
               "assets/js/pendo.js",
               "assets/js/fontawesome-all.min.js",
-              "assets/js/drift.js"
+              "assets/js/drift.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -474,6 +487,10 @@
                 {
                   "replace": "apps/peer/../../environments/environment.ts",
                   "with": "apps/peer/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/peer/../../assets/js/new-relic.js",
+                  "with": "apps/peer/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -528,7 +545,8 @@
             "tsConfig": "apps/peer/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -634,7 +652,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -669,6 +688,10 @@
                 {
                   "replace": "apps/legacy-content/../../environments/environment.ts",
                   "with": "apps/legacy-content/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/legacy-content/../../assets/js/new-relic.js",
+                  "with": "apps/legacy-content/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -723,7 +746,8 @@
             "tsConfig": "apps/legacy-content/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -863,6 +887,10 @@
                 {
                   "replace": "apps/auth/../../environments/environment.ts",
                   "with": "apps/auth/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/auth/../../assets/js/new-relic.js",
+                  "with": "apps/auth/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1020,7 +1048,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1055,6 +1084,10 @@
                 {
                   "replace": "apps/project/../../environments/environment.ts",
                   "with": "apps/project/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/project/../../assets/js/new-relic.js",
+                  "with": "apps/project/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1108,7 +1141,8 @@
             "polyfills": "apps/project/polyfills.ts",
             "tsConfig": "apps/project/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1210,7 +1244,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/uservoice.js"
+              "assets/js/uservoice.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1245,6 +1280,10 @@
                 {
                   "replace": "apps/community/../../environments/environment.ts",
                   "with": "apps/community/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/community/../../assets/js/new-relic.js",
+                  "with": "apps/community/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1298,7 +1337,8 @@
             "polyfills": "apps/community/polyfills.ts",
             "tsConfig": "apps/community/../../tsconfig.spec.json",
             "scripts": [
-              "assets/js/pendo.js"
+              "assets/js/pendo.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1398,7 +1438,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1446,6 +1487,10 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1490,6 +1535,10 @@
                 {
                   "replace": "apps/smallbiz/../../environments/environment.ts",
                   "with": "apps/smallbiz/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/smallbiz/../../assets/js/new-relic.js",
+                  "with": "apps/smallbiz/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             }
@@ -1527,7 +1576,8 @@
             "tsConfig": "apps/smallbiz/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "apps/smallbiz/styles.scss"
@@ -1627,7 +1677,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1662,6 +1713,10 @@
                 {
                   "replace": "apps/jobs/../../environments/environment.ts",
                   "with": "apps/jobs/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/jobs/../../assets/js/new-relic.js",
+                  "with": "apps/jobs/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1716,7 +1771,8 @@
             "tsConfig": "apps/jobs/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -1819,7 +1875,8 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ]
           },
           "configurations": {
@@ -1854,6 +1911,10 @@
                 {
                   "replace": "apps/comphub/../../environments/environment.ts",
                   "with": "apps/comphub/../../environments/environment.prod.ts"
+                },
+                {
+                  "replace": "apps/comphub/../../assets/js/new-relic.js",
+                  "with": "apps/comphub/../../libs/ui/common/assets/js/new-relic.prod.js"
                 }
               ]
             },
@@ -1908,7 +1969,8 @@
             "tsConfig": "apps/comphub/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/fontawesome-all.min.js"
+              "assets/js/fontawesome-all.min.js",
+              "assets/js/new-relic.js"
             ],
             "styles": [
               "assets/scss/client.scss",
@@ -2128,6 +2190,386 @@
               {
                 "glob": "web.config",
                 "input": "apps/pf-admin",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "dataviews": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/dataviews",
+            "index": "apps/dataviews/index.html",
+            "main": "apps/dataviews/main.ts",
+            "tsConfig": "apps/dataviews/tsconfig.app.json",
+            "polyfills": "apps/dataviews/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/dataviews/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/dataviews/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/dataviews",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/dataviews",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/dataviews/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/dataviews/../../environments/environment.ts",
+                  "with": "apps/dataviews/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/dataviews/../../environments/environment.ts",
+                  "with": "apps/dataviews/../../environments/environment.prod.ts"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/dataviews/../../environments/environment.ts",
+                  "with": "apps/dataviews/../../environments/environment.sales.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "dataviews:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "dataviews:build:staging"
+            },
+            "production": {
+              "browserTarget": "dataviews:build:production"
+            },
+            "sales": {
+              "browserTarget": "dataviews:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "dataviews:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/dataviews/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/dataviews/polyfills.ts",
+            "tsConfig": "apps/dataviews/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/dataviews/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/dataviews/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/dataviews",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/dataviews",
+                "output": "/"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "./tsconfig.json",
+              "./tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "job-description-management": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/job-description-management",
+            "index": "apps/job-description-management/index.html",
+            "main": "apps/job-description-management/main.ts",
+            "tsConfig": "apps/job-description-management/tsconfig.app.json",
+            "polyfills": "apps/job-description-management/polyfills.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "assets/scss",
+                "apps/job-description-management/assets"
+              ]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/job-description-management/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/job-description-management",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/job-description-management",
+                "output": "/"
+              }
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/job-description-management/styles.scss"
+            ],
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ]
+          },
+          "configurations": {
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/job-description-management/../../environments/environment.ts",
+                  "with": "apps/job-description-management/../../environments/environment.staging.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/job-description-management/../../environments/environment.ts",
+                  "with": "apps/job-description-management/../../environments/environment.prod.ts"
+                }
+              ]
+            },
+            "sales": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/job-description-management/../../environments/environment.ts",
+                  "with": "apps/job-description-management/../../environments/environment.sales.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "job-description-management:build"
+          },
+          "configurations": {
+            "staging": {
+              "browserTarget": "job-description-management:build:staging"
+            },
+            "production": {
+              "browserTarget": "job-description-management:build:production"
+            },
+            "sales": {
+              "browserTarget": "job-description-management:build:sales"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "job-description-management:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/job-description-management/../../test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "apps/job-description-management/polyfills.ts",
+            "tsConfig": "apps/job-description-management/../../tsconfig.spec.json",
+            "scripts": [
+              "assets/js/pendo.js",
+              "assets/js/fontawesome-all.min.js"
+            ],
+            "styles": [
+              "assets/scss/client.scss",
+              "apps/job-description-management/styles.scss"
+            ],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "assets/images",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "assets/js",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "apps/job-description-management/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "apps/job-description-management",
+                "output": "/"
+              },
+              {
+                "glob": "web.config",
+                "input": "apps/job-description-management",
                 "output": "/"
               }
             ]

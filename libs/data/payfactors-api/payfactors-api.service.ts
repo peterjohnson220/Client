@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -26,17 +26,22 @@ export class PayfactorsApiService {
     );
   }
 
-  downloadFile(url: string, body: any = {}): Observable<boolean> {
+  downloadFile(url: string, body: any = {}, headers: HttpHeaders = null, openInNewTab = false): Observable<boolean> {
     const options: any = {
       responseType: 'blob',
       observe: 'response'
     };
+
+    if (headers) {
+      options.headers = headers;
+    }
+
     return this.http.post<any>(`${environment.payfactorsApiUrl}${url}`, body, options).pipe(
       map((response: any) => {
         const blob = response.body;
         const fileName = this.getHeaderTokenValue(response.headers, 'filename', 'Content-Disposition');
 
-        return this.fileApiService.saveBlobAsFile(blob, fileName);
+        return this.fileApiService.saveBlobAsFile(blob, fileName, openInNewTab);
       })
     );
   }

@@ -56,6 +56,8 @@ export class UserTileToTileMapper {
         return TileTypes.Ideas;
       case 'Quick Price':
         return TileTypes.QuickPrice;
+      case 'Data Views':
+        return TileTypes.DataViews;
       default:
         return TileTypes.Unknown;
     }
@@ -194,6 +196,10 @@ export class UserTileToTileMapper {
       case TileTypes.Ideas:
           tile.CssClass = 'tile-lightblue';
           break;
+
+      case TileTypes.DataViews:
+        tile.CssClass = 'tile-blue';
+        break;
 
       default:
         tile.CssClass = 'tile-green';

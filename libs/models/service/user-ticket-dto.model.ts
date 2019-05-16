@@ -1,4 +1,6 @@
 export interface UserTicketDto {
+  UserTicketId?: number;
+  ServicesUserId?: number;
   UserTicketType: string;
   UserTicketState: string;
   UserTicket: string;

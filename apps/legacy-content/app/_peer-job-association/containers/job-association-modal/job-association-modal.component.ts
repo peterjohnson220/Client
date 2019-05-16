@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { Actions } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import * as companyJobActions from 'libs/features/peer/job-association/actions/company-jobs.actions';
@@ -13,14 +12,17 @@ import * as fromJobAssociationReducers from 'libs/features/peer/job-association/
 })
 
 export class LegacyContentPeerJobAssociationModalComponent {
-  constructor(private actions$: Actions,
-              private store: Store<fromJobAssociationReducers.State>) {}
+  constructor(private store: Store<fromJobAssociationReducers.State>) {}
 
   @HostListener('window:message', ['$event'])
   onMessage(ev) {
     switch (ev.data.type) {
       case jobAssociationModalActions.CLOSE_JOB_ASSOCIATIONS_MODAL: {
         this.store.dispatch(new jobAssociationModalActions.CloseJobAssociationsModal());
+        break;
+      }
+      case jobAssociationModalActions.CLOSE_MODAL_WITH_SAVEABLE_CHANGES: {
+        this.store.dispatch(new jobAssociationModalActions.CloseModalWithSaveableChanges());
         break;
       }
       case jobAssociationModalActions.OPEN_JOB_ASSOCIATIONS_MODAL: {

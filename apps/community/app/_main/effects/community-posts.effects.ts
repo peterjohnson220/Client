@@ -17,6 +17,7 @@ import { CommunityCategoryEnum } from 'libs/models/community/community-category.
 import * as fromCommunityPostFilterOptionsReducer from '../reducers';
 import * as fromCommunityPostActions from '../actions/community-post.actions';
 import * as fromCommunityCategoriesActions from '../actions/community-categories.actions';
+
 import { CommunityPostEffectsService } from '../services/community-post-effects-service';
 
 
@@ -138,18 +139,18 @@ export class CommunityPostEffects {
       )
     );
 
-  @Effect()
-  gettingCommunityPost$: Observable<Action> = this.actions$
-    .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST).pipe(
-      switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
-        this.communityPostService.getPost(action.payload).pipe(
-          map((communityPost: CommunityPost) => {
-            return new fromCommunityPostActions.GettingCommunityPostSuccess(communityPost);
-          }),
-          catchError(error => of(new fromCommunityPostActions.GettingCommunityPostError()))
+    @Effect()
+    gettingCommunityPost$: Observable<Action> = this.actions$
+      .ofType(fromCommunityPostActions.GETTING_COMMUNITY_POST).pipe(
+        switchMap((action: fromCommunityPostActions.GettingCommunityPost) =>
+          this.communityPostService.getPost(action.payload).pipe(
+            map((post: CommunityPost) => {
+              return new fromCommunityPostActions.GettingCommunityPostSuccess(post);
+            }),
+            catchError(error => of(new fromCommunityPostActions.GettingCommunityPostError()))
+          )
         )
-      )
-    );
+      );
 
   constructor(
     private actions$: Actions,

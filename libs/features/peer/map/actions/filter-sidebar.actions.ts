@@ -14,6 +14,7 @@ export const TOGGLE_EXCLUDE_INDIRECT_JOB_MATCHES  = '[Features/Peer/Sidebar] Tog
 export const LOAD_PAYMARKET_INFORMATION  = '[Features/Peer/Sidebar] Load PayMarket Information';
 export const LOAD_PAYMARKET_INFORMATION_SUCCESS  = '[Features/Peer/Sidebar] Load PayMarket Information Success';
 export const CLEAR_ALL_SELECTIONS  = '[Features/Peer/Sidebar] Clear All Selections';
+export const GET_MAP_DATA  = '[Features/Peer/Sidebar] Get Map Data';
 export const TOGGLE_GROUP_SELECTIONS = '[Features/Peer/Sidebar] Toggle Group Selections';
 export const LOAD_SYSTEM_FILTER = '[Features/Peer/Sidebar] Load System Filter';
 export const LOAD_SYSTEM_FILTER_SUCCESS = '[Features/Peer/Sidebar] Load System Filter Success';
@@ -68,8 +69,10 @@ export class LoadPayMarketInformationSuccess implements Action {
 
 export class ClearAllSelections implements Action {
   readonly type = CLEAR_ALL_SELECTIONS;
+}
 
-  constructor() {}
+export class GetMapData implements Action {
+  readonly type = GET_MAP_DATA;
 }
 
 export class ToggleGroupSelections implements Action {

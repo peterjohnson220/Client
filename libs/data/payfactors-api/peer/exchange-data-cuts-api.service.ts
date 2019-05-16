@@ -25,9 +25,15 @@ export class ExchangeDataCutsApiService {
     return this.payfactorsApiService.downloadFile(`${this.endpoint}/ExportExchangeDataCuts`, payload);
   }
 
-  validateCutEmployeeSimilarity(searchFilter: ExchangeDataSearchFilter, companyJobId: number, userSessionId: number): Observable<boolean> {
+  validateCutEmployeeSimilarity(searchFilter: ExchangeDataSearchFilter,
+    companyJobId: number,
+    userSessionId: number,
+    dataCutGuid: string): Observable<boolean> {
     return this.payfactorsApiService.post(`${this.endpoint}/ValidateCutEmployeeSimilarity`,
-      { CompanyJobId: companyJobId, UserSessionId: userSessionId, CurrentFilters: searchFilter }, (success: boolean) => success);
+      {
+        CompanyJobId: companyJobId, UserSessionId: userSessionId,
+        CurrentFilters: searchFilter, DataCutGuid: dataCutGuid
+      }, (success: boolean) => success);
   }
 
 }

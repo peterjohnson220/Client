@@ -21,9 +21,7 @@ export interface State extends EntityState<CommunityPost> {
   pagingOptions: PagingOptions;
   totalResultsOnServer: number;
   maximumReplies: number;
-  post: CommunityPost;
-  loadingPost: boolean;
-  loadingPostError: boolean;
+  postId: string;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -55,9 +53,7 @@ export const initialState: State = adapter.getInitialState({
   },
   totalResultsOnServer: 0,
   maximumReplies: null,
-  post: null,
-  loadingPost: false,
-  loadingPostError: false
+  postId: null
 });
 
 export function reducer(
@@ -305,24 +301,26 @@ export function reducer(
     case communityPostActions.GETTING_COMMUNITY_POST: {
       return {
         ...state,
-        loadingPost: true,
-        loadingPostError: false
+        loading: true,
+        loadingError: false,
+        postId: null
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POST_SUCCESS: {
+      const post = action.payload;
       return {
-          ...state,
-          post: action.payload,
-          loadingPost: false,
-          loadingPostError: false
+        ...adapter.upsertOne(post, state),
+        loading: false,
+        postId: post.Id,
+        maximumReplies: 150
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POST_ERROR: {
       return {
         ...state,
-        loadingPost: false,
-        loadingPostError: true,
-        post: null
+        loading: false,
+        loadingError: true,
+        postId: null
       };
     }
     default: {
@@ -347,7 +345,7 @@ export const getLoadingNextBatchPosts = (state: State) => state.loadingNextBatch
 export const getLoadingPreviousBatchPosts = (state: State) => state.loadingPreviousBatchPosts;
 export const getMaximumReplies = (state: State) => state.maximumReplies;
 
-export const getLoadingCommunityPost = (state: State) => state.loadingPost;
-export const getCommunityPost = (state: State) => state.post;
-export const getLoadingCommunityPostError = (state: State) => state.loadingPostError;
+export const getLoadingCommunityPost = (state: State) => state.loading;
+export const getLoadingCommunityPostError = (state: State) => state.loadingError;
+export const getLoadingCommunityPostSuccess = (state: State) => state.postId;
 

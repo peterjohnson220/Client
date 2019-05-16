@@ -53,7 +53,7 @@ export class FileApiService {
     );
   }
 
-  saveBlobAsFile(blob: Blob, fileName: string) {
+  saveBlobAsFile(blob: Blob, fileName: string, openInNewTab = false) {
     const link = document.createElement('a');
     let success = false;
 
@@ -64,8 +64,13 @@ export class FileApiService {
     } else if (link.download !== undefined) {
       const downloadLink = URL.createObjectURL(blob);
       link.setAttribute('href', downloadLink);
-      link.setAttribute('download', fileName);
       link.style.visibility = 'hidden';
+
+      if (openInNewTab) {
+        link.setAttribute('target', '_blank');
+      } else {
+        link.setAttribute('download', fileName);
+      }
 
       document.body.appendChild(link);
 

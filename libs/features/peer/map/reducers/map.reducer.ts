@@ -209,6 +209,21 @@ export function reducer(state = initialState, action: fromPeerMapActions.Actions
 
       MapHelper.setBounds(mapSummary, state, newState);
 
+      if (!MapHelper.MapSummaryHasBounds(mapSummary)) {
+         // if we tried to get bounds and have none there is no data, we need to wipe out
+         // the previous map items so they no longer show
+         const mapCollection: FeatureCollection<Point> = {
+          type: 'FeatureCollection',
+          features: []
+        };
+
+        newState.mapCollection = mapCollection;
+        newState.mapFilter = null;
+
+         if (!!newState.mapSummary) {
+           newState.mapSummary = mapSummary;
+         }
+      }
       return newState;
     }
     case fromPeerMapActions.LOAD_PEER_MAP_BOUNDS_ERROR: {
@@ -237,6 +252,6 @@ export const getInitialZoomLevel = (state: State) => state.initialZoom;
 export const getMapCentroid = (state: State) => state.initialMapCentroid;
 export const canLoadMap = (state: State) => !state.isInitialLoad && !state.loading;
 export const showNoData = (state: State) => !state.loading && !state.isInitialLoad &&
-  (!state.mapCollection || state.mapCollection.features.length === 0);
+(!state.mapCollection || state.mapCollection.features.length === 0);
 export const getApplyingScope = (state: State) => state.applyingScope;
 export const getAutoZooming = (state: State) => state.autoZooming;

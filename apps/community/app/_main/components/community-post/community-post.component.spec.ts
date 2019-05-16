@@ -2,8 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Observable } from 'rxjs';
-import { of } from 'rxjs';
 import 'rxjs/add/observable/of';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
@@ -14,8 +12,6 @@ import * as fromCommunityPostReplyActions from '../../actions/community-post-rep
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
 
 import { CommunityPostComponent } from './community-post.component';
-import { CommunityPost } from 'libs/models/community/community-post.model';
-import { ActivatedRouteStub } from 'libs/test/activated-route-stub';
 import { generateMockCommunityPost } from 'libs/models/community/community-post.model';
 
 describe('CommunityPostComponent', () => {
@@ -58,45 +54,39 @@ describe('CommunityPostComponent', () => {
 
 
   it('should show the replies when show replies clicked', () => {
-    const item = 1;
     const postId = 1;
-    instance.showReplies[item] = false;
-    instance.getReplies(item, postId);
+    instance.showReplies = false;
+    instance.getReplies(postId);
 
-    expect(instance.showReplies[item]).toBe(true);
+    expect(instance.showReplies).toBe(true);
   });
 
   it('should hide the replies when hide replies clicked', () => {
-    const item = 1;
     const postId = 1;
-    instance.showReplies[item] = true;
-    instance.hideReplies(item, postId);
+    instance.showReplies = true;
+    instance.hideReplies(postId);
 
-    expect(instance.showReplies[item]).toBe(false);
+    expect(instance.showReplies).toBe(false);
   });
 
   it('should show reply area when reply link clicked', () => {
-    const item = 1;
+    instance.showAddReply = false;
+    instance.showReply();
 
-    instance.showAddReply[item] = false;
-    instance.showReply(item);
-
-    expect(instance.showAddReply[item]).toBe(true);
+    expect(instance.showAddReply).toBe(true);
   });
 
   it('should show reply area when onreplysubmitted', () => {
-    const item = 1;
 
-    instance.showAddReply[item] = false;
-    instance.onReplySubmitted(item);
+    instance.showAddReply = false;
+    instance.onReplySubmitted();
 
-    expect(instance.showAddReply[item]).toBe(true);
+    expect(instance.showAddReply).toBe(true);
   });
 
   it('should dispatch on clearing the replies from the add view', () => {
-    const postId = 1;
     const action = new fromCommunityPostAddReplyViewActions.ClearingCommunityPostReplies();
-    instance.clearRepliesFromAddView(postId);
+    instance.clearRepliesFromAddView();
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 

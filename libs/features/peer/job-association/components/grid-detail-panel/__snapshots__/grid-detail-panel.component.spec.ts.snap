@@ -1,9 +1,146 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`GridDetailPanelComponent should hide a link to download the jdm description via omitting the \`show\` class when no jdm descriptions exists 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription={[Function Boolean]}
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  jdmDescriptionIds={[Function Array]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      <span>
+        <a
+          class="jdm-description ml-2 mr-2"
+          href="javascript:void(0)"
+        >
+          View Full Job Description
+        </a>
+        
+        
+        
+      </span>
+      
+      
+      <p
+        class="font-italic"
+      >
+         No Job Description Available 
+      </p>
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should not render jdm controls when checkForJdmDescription is false 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription="false"
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      
+      
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
 exports[`GridDetailPanelComponent should render a falsy job family as No Family 1`] = `
 <pf-grid-detail-panel
+  checkForJdmDescription="false"
   closeClick={[Function EventEmitter]}
   jobFamily=""
+  viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
@@ -43,16 +180,14 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
         
       </div>
       <h6
-        class="primary-header mt-1 ml-2"
+        class="primary-header mt-1 ml-2 d-inline-block"
       >
-        Job Description
+         Job Description 
       </h6>
       
-      <p
-        class="font-italic"
-      >
-        No Job Description Available
-      </p>
+      
+      
+      
       
     </div>
   </section>
@@ -61,12 +196,14 @@ exports[`GridDetailPanelComponent should render a falsy job family as No Family 
 
 exports[`GridDetailPanelComponent should render input props 1`] = `
 <pf-grid-detail-panel
+  checkForJdmDescription="false"
   closeClick={[Function EventEmitter]}
   jobCode={[Function String]}
   jobDescription={[Function String]}
   jobExchange={[Function String]}
   jobFamily={[Function String]}
   jobId={[Function Number]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
 >
   <section
     class="slide-in-panel position-absolute collapsed invisible"
@@ -106,16 +243,319 @@ exports[`GridDetailPanelComponent should render input props 1`] = `
         
       </div>
       <h6
-        class="primary-header mt-1 ml-2"
+        class="primary-header mt-1 ml-2 d-inline-block"
       >
-        Job Description
+         Job Description 
       </h6>
       
-      <p
-        class="font-italic"
+      
+      
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should show a link to download the jdm description via the \`show\` class when one jdm description id exists 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription={[Function Boolean]}
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  jdmDescriptionIds={[Function Array]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
       >
-        No Job Description Available
-      </p>
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      <span>
+        <a
+          class="jdm-description ml-2 mr-2 show"
+          href="javascript:void(0)"
+        >
+          View Full Job Description
+        </a>
+        
+        
+        
+      </span>
+      
+      
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should show a spinner when downloading a jdm description 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription={[Function Boolean]}
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  jdmDescriptionIds={[Function Array]}
+  jdmDescriptionLoading={[Function Boolean]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      <span>
+        <a
+          class="jdm-description ml-2 mr-2 show"
+          href="javascript:void(0)"
+        >
+          View Full Job Description
+        </a>
+        
+        
+        <pf-loading-indicator />
+        
+      </span>
+      
+      
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should show an error message if the jdm description download fails 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription={[Function Boolean]}
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  jdmDescriptionIds={[Function Array]}
+  jdmDescriptionLoading="false"
+  jdmDescriptionLoadingError={[Function Boolean]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      <span>
+        <a
+          class="jdm-description ml-2 mr-2 show"
+          href="javascript:void(0)"
+        >
+          View Full Job Description
+        </a>
+        
+        
+        
+        <p
+          class="jdm-description-error d-inline-block ml-0"
+        >
+          Unable to load job description
+        </p>
+      </span>
+      
+      
+      
+      
+    </div>
+  </section>
+</pf-grid-detail-panel>
+`;
+
+exports[`GridDetailPanelComponent should show an informational message when multiple jdm ids exist 1`] = `
+<pf-grid-detail-panel
+  checkForJdmDescription={[Function Boolean]}
+  closeClick={[Function EventEmitter]}
+  isExpanded$={[Function Observable]}
+  jdmDescriptionIds={[Function Array]}
+  viewJdmDescriptionClick={[Function EventEmitter]}
+>
+  <section
+    class="slide-in-panel position-absolute invisible expanded"
+    ng-reflect-klass="slide-in-panel position-absolu"
+    ng-reflect-ng-class="expanded"
+  >
+    <header>
+      <a
+        class="close-detail position-absolute"
+        href="javascript:void(0)"
+      >
+        <i
+          class="far fa-arrow-alt-circle-right"
+        />
+      </a>
+      <h5>
+        
+      </h5>
+    </header>
+    <div
+      class="job-description"
+    >
+      <div
+        class="ml-2 mr-2"
+      >
+        <label
+          class="mr-1"
+        >
+          Family:
+        </label>
+        <span
+          class="semi-bold mr-1"
+        >
+          No Family
+        </span>
+        
+        
+      </div>
+      <h6
+        class="primary-header mt-1 ml-2 d-inline-block"
+      >
+         Job Description 
+      </h6>
+      
+      <span>
+        <a
+          class="jdm-description ml-2 mr-2"
+          href="javascript:void(0)"
+        >
+          View Full Job Description
+        </a>
+        
+        <p
+          class="text-muted mb-1"
+        >
+           There is more than one Job Description for this job. Please refer to the 
+          <a
+            href="/ng/job-description-management/job-descriptions"
+            target="_blank"
+          >
+            Job Description Management Tile
+          </a>
+           to view each description. 
+        </p>
+        
+        
+      </span>
+      
+      
+      
       
     </div>
   </section>

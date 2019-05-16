@@ -169,4 +169,32 @@ describe('ExchangeJobsComponent', () => {
     const tooltipText = component.createAssociateButtonTooltipText(123, 456);
     expect(tooltipText).toBe('A single company job can be associated to only 1 job per exchange');
   });
+
+  it('should not call the kendo api when collapseDetailRow is invoked and detailRowId is not set', () => {
+    // arrange
+    component.grid = {} as GridComponent;
+    component.grid.collapseRow = () => ({});
+    spyOn(component.grid, 'collapseRow');
+    component.expandedDetailRowId = null;
+
+    // act
+    component.collapseDetailRow();
+
+    // assert
+    expect(component.grid.collapseRow).not.toHaveBeenCalled();
+  });
+
+  it('should call the kendo api when collapseDetailRow is invoked and detailRowId is set', () => {
+    // arrange
+    component.grid = {} as GridComponent;
+    component.grid.collapseRow = () => ({});
+    spyOn(component.grid, 'collapseRow');
+    component.expandedDetailRowId = 123;
+
+    // act
+    component.collapseDetailRow();
+
+    // assert
+    expect(component.grid.collapseRow).toHaveBeenCalledTimes(1);
+  });
 });

@@ -1,0 +1,37 @@
+<ng-template #saveFilterModal let-c="close" let-d="dismiss">
+  <form [formGroup]="filterForm" (ngSubmit)="save()">
+    <div class="modal-header">
+      <h4 class="modal-title">Save Filter</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label for="filter-name" class="control-label">Filter Name: </label>
+      <input id="filter-name"
+             [readonly]="saving"
+             [pfFocus]="true"
+             formControlName="name"
+             type="text"
+             class="form-control">
+      <div *ngIf="filterForm.controls['name'].hasError('maxlength')" class="text-danger text-right">
+        Exceeds {{ filterForm.controls.name.errors.maxlength.requiredLength }} characters:
+        {{ filterForm.controls.name.errors.maxlength.actualLength}}
+      </div>
+      <div *ngIf="filterForm.controls['name'].hasError('required') && attemptedSave" class="text-danger text-right">
+        Name required
+      </div>
+      <div *ngIf="filterForm.controls['name'].hasError('notBlackListed') && attemptedSave" class="text-danger text-right">
+        There is already a filter saved by this name.
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+      <button type="button" class="btn btn-primary" [disabled]="(filterForm.invalid && attemptedSave) || saving" (click)="save()">
+        <span *ngIf="saving"><pf-loading-indicator></pf-loading-indicator> Saving...</span>
+        <span *ngIf="!saving">Save</span>
+      </button>
+    </div>
+  </form>
+</ng-template>

@@ -29,6 +29,7 @@ import { MarketDataScopeApiService } from './paymarket';
 import { FileApiService } from './file';
 import { TagApiService } from './tags';
 import { PermissionService, RemoteDataSourceService } from '../../core/services';
+import { JobDescriptionTemplateApiService } from './jdm/job-description-template-api.service';
 
 @NgModule({
   imports:      [ HttpClientModule ],
@@ -70,7 +71,8 @@ import { PermissionService, RemoteDataSourceService } from '../../core/services'
     FileApiService,
     PermissionService,
     RemoteDataSourceService,
-    TagApiService
+    TagApiService,
+    JobDescriptionTemplateApiService
   ]
 })
 export class PfApiModule { }

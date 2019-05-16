@@ -11,7 +11,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm"><h4><span class="badge {{ticketDetail.TicketCssClass}}">{{ticketDetail.TicketType}}</span></h4></div>
+      <div class="col-sm">
+        <h4>
+          <span class="badge {{ticketDetail.UserTicketType.TicketCssClass}}">{{ticketDetail.UserTicketType.TicketTypeDisplayName}}</span>
+        </h4>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-6">
@@ -26,7 +30,7 @@
     <div class="row">
       <div class="col-sm-6">
         <div class="card-subtitle text-muted">Last Updated</div>
-        <div class="card-text mb-2">{{ticketDetail.EditDate | date:'medium'}}</div>
+        <div class="card-text mb-2">{{ticketDetail.LastUpdatedText}}</div>
       </div>
       <div class="col-sm-6">
         <div class="card-subtitle text-muted">Submitted</div>

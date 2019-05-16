@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 
-import * as fromPeerMapActions from 'libs/features/peer/map/actions/map.actions';
 import {
   ExchangeStatCompanyMakeup,
   generateMockDataCutValidationInfo,
@@ -13,7 +13,6 @@ import * as fromPeerMapReducer from 'libs/features/peer/map/reducers';
 
 import { DojGuidelinesService } from './doj-guidelines.service';
 import * as fromLegacyAddPeerDataReducer from '../reducers';
-import { of } from 'rxjs';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   LngLatBounds: () => ({})
@@ -22,6 +21,7 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
 describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
   let service: DojGuidelinesService;
   let store: Store<fromRootState.State>;
+  let activatedRoute: ActivatedRoute;
 
   // Configure Testing Module for before each test
   beforeEach(() => {
@@ -34,12 +34,14 @@ describe('Legacy Content - Peer - DOJ Guidelines Service', () => {
         })
       ],
       providers: [
-        DojGuidelinesService
+        DojGuidelinesService,
+        { provide: ActivatedRoute, useValue: { parent: { snapshot: { params: { id: 1 } } } } }
       ]
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(DojGuidelinesService);
+    activatedRoute = TestBed.get(ActivatedRoute);
   });
 
   it('should return false for hasMinimumCompanies when receiving less than the minCompanies', () => {

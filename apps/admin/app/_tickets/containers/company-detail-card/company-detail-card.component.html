@@ -1,0 +1,41 @@
+<div class="section card mb-2" title="Company Details" *ngIf="companyDetail">
+  <div class="card-header bg-transparent border-bottom-0">
+    <h4>Company Details</h4>
+    <div></div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm">
+        <div class="card-subtitle text-muted">Name</div>
+        <div class="card-text mb-2">{{companyDetail.Id}} - {{companyDetail.Name}}</div>
+      </div>
+    </div>
+    <div class="row" *ngIf="companyDetail.ClientType">
+      <div class="col-sm">
+        <div class="card-subtitle text-muted">Client Type</div>
+        <div class="card-text mb-2">{{companyDetail.ClientType}}</div>
+      </div>
+    </div>
+    <hr class="my-2" />
+    <div class="row">
+      <div class="col-sm">
+        <div class="card-subtitle mb-2"><span class="font-weight-bold">{{companyDetail.OpenTickets}}</span> Tickets Total</div>
+      </div>
+    </div>
+    <hr class="my-2" />
+    <div class="row">
+      <div class="col-sm">
+        <div class="card-subtitle mb-2"><span class="font-weight-bold">{{companyDetail.RecentTickets}}</span> Opened tickets in the past {{companyDetail.RangeOfOpenedTickets}}</div>
+      </div>
+    </div>
+    <hr class="my-2" *ngIf="companyDetail.RecentTicketIds.length" />
+    <div class="row" *ngIf="companyDetail.RecentTicketIds.length">
+      <div class="col-sm">
+        <div class="card-subtitle mb-1">Recent Tickets</div>
+        <div *ngFor="let ticketId of companyDetail.RecentTicketIds">
+          <a href="javascript:void(0)" (click)="openTicket(ticketId)" title="{{ticketId.Title}}">{{ticketId.UserTicketId}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

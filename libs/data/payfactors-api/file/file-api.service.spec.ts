@@ -86,6 +86,25 @@ describe('FileApiService', () => {
     expect(success).toBeFalsy();
   });
 
+  it('should create an anchor tag with modified attributes when openInNewTab is true', () => {
+    // arrange
+    const content = 'Some Text Content';
+    const blob = new Blob([ content ], { type: 'text/plain' });
+    const fileName = 'test.txt';
+
+    const a = document.createElement('a');
+    jest.spyOn(document, 'createElement').mockReturnValue(a);
+
+    // act
+    service.saveBlobAsFile(blob, fileName, true);
+
+    jest.runAllTimers();
+
+    // assert
+    expect(a.download).toBeFalsy();
+    expect(a.target).toBe('_blank');
+  });
+
   it('should return a FileDownloadSuccess action when downloading a file succeeds', () => {
     // arrange
     const content = 'Some Text Content';

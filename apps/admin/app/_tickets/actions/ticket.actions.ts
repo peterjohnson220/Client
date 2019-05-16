@@ -1,7 +1,6 @@
 import { Action } from '@ngrx/store';
-import {UserTicketResponse, UserTicketStateResponse, UserTicketTypeResponse} from 'libs/models/payfactors-api/service/response';
+import { UserTicketUpdateRequest } from 'libs/models/payfactors-api/service/request';
 import { CompanyDetail, UserTicketItem, UserTicketTabItem } from '../models';
-
 
 export const LOAD_COMPANY_DETAIL = '[Admin / Tickets] Load Company Detail';
 export const LOAD_COMPANY_DETAIL_ERROR = '[Admin Tickets/ Ticket] Load Company Detail Error';
@@ -10,13 +9,12 @@ export const LOAD_TICKET = '[Admin Tickets / Ticket] Load Ticket';
 export const LOAD_TICKET_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Success';
 export const LOAD_TICKET_ERROR = '[Admin Tickets / Ticket] Load Ticket Error';
 export const OPEN_TICKET = '[Admin Tickets/ Ticket] Open Ticket';
+export const CLOSE_TICKET = '[Admin Tickets/ Ticket] Close Ticket';
 export const SELECT_TICKET_TAB = '[Admin Tickets/ Ticket] Select Ticket Tab';
-export const LOAD_TICKETTYPES = '[Admin Tickets / Ticket] Load Ticket Types';
-export const LOAD_TICKETTYPES_SUCCESS = '[Admin Tickets / Ticket] Load Ticket Types Success';
-export const LOAD_TICKETTYPES_ERROR = '[Admin Tickets / Ticket] Load Ticket Types Error';
-export const LOAD_TICKETSTATES = '[Admin Tickets / Ticket] Load Ticket States';
-export const LOAD_TICKETSTATES_SUCCESS = '[Admin Tickets / Ticket] Load Ticket States Success';
-export const LOAD_TICKETSTATES_ERROR = '[Admin Tickets / Ticket] Load Ticket States Error';
+export const INITIALIZE_TICKET_TAB = '[Admin Tickets/ Ticket] Initialize Ticket Tab';
+export const UPDATE_TICKET = '[Admin Tickets / Ticket] Update Ticket';
+export const UPDATE_TICKET_SUCCESS = '[Admin Tickets / Ticket] Update Ticket Success';
+export const UPDATE_TICKET_ERROR = '[Admin Tickets / Ticket] Update Ticket Error';
 
 export class LoadCompanyDetail implements Action {
   readonly type = LOAD_COMPANY_DETAIL;
@@ -56,38 +54,36 @@ export class OpenTicket implements Action {
   constructor(public payload: UserTicketTabItem) {}
 }
 
-export class SelectTicketTab implements  Action {
+export class CloseTicket implements Action {
+  readonly type = CLOSE_TICKET;
+}
+
+export class SelectTicketTab implements Action {
   readonly type = SELECT_TICKET_TAB;
 
   constructor(public payload: number) {}
 }
 
-export class LoadTicketTypes implements Action {
-  readonly type = LOAD_TICKETTYPES;
+export class InitializeTicketTab implements Action {
+  readonly type = INITIALIZE_TICKET_TAB;
+
+  constructor(public payload: number) {}
 }
 
-export class LoadTicketTypesSuccess implements Action {
-  readonly type = LOAD_TICKETTYPES_SUCCESS;
+export class UpdateTicket implements Action {
+  readonly type = UPDATE_TICKET;
 
-  constructor(public payload: UserTicketTypeResponse[]) {}
+  constructor(public payload: UserTicketUpdateRequest) {}
 }
 
-export class LoadTicketTypesError implements Action {
-  readonly type = LOAD_TICKETTYPES_ERROR;
+export class UpdateTicketSuccess implements Action {
+  readonly type = UPDATE_TICKET_SUCCESS;
+
+  constructor(public payload: UserTicketItem) {}
 }
 
-export class LoadTicketStates implements Action {
-  readonly type = LOAD_TICKETSTATES;
-}
-
-export class LoadTicketStatesSuccess implements Action {
-  readonly type = LOAD_TICKETSTATES_SUCCESS;
-
-  constructor(public payload: UserTicketStateResponse[]) {}
-}
-
-export class LoadTicketStatesError implements Action {
-  readonly type = LOAD_TICKETSTATES_ERROR;
+export class UpdateTicketError implements Action {
+  readonly type = UPDATE_TICKET_ERROR;
 }
 
 export type Actions
@@ -98,10 +94,9 @@ export type Actions
   | LoadTicketSuccess
   | LoadTicketError
   | OpenTicket
+  | CloseTicket
   | SelectTicketTab
-  | LoadTicketTypes
-  | LoadTicketTypesSuccess
-  | LoadTicketTypesError
-  | LoadTicketStates
-  | LoadTicketStatesSuccess
-  | LoadTicketStatesError;
+  | InitializeTicketTab
+  | UpdateTicket
+  | UpdateTicketSuccess
+  | UpdateTicketError;

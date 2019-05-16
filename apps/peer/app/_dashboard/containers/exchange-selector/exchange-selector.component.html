@@ -24,6 +24,7 @@
 
           <div class="ellipsis-overflowing-text">
             {{exchangeListItem.ExchangeName}}
+            <span class="text-muted" *ngIf="isInactive(exchangeListItem)">(Inactive)</span>
           </div>
         </div>
 

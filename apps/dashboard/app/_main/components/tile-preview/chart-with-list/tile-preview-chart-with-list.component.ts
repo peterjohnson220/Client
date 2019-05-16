@@ -14,7 +14,7 @@ export class TilePreviewChartWithListComponent  implements OnInit {
   @Input() model: TilePreviewCharWithList;
   chartData: any;
   MIN_CHART_DISPLAY_VALUE = 2.0001;
-  MAX_TEXT_LENGTH = 45;
+  MAX_TEXT_LENGTH = 55;
 
   get details(): string {
     if (!this.model.TileChartData) {

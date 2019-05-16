@@ -37,7 +37,8 @@ export class TileType {
       TileTypes.Community,
       TileTypes.NewCommunity,
       TileTypes.QuickPrice,
-      TileTypes.Ideas
+      TileTypes.Ideas,
+      TileTypes.DataViews
     ];
   }
 }

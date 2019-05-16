@@ -1,0 +1,35 @@
+<ng-template #assignJobsToTemplateModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Assign to Template</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group row">
+      <label class="col-4 col-form-label">Job Code:</label>
+      <div class="col-8">
+        <p class="form-control-static mb-0">{{selectedCompanyJob?.JobCode}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-4 col-form-label">Job Title:</label>
+      <div class="col-8">
+        <p class="form-control-static mb-0">{{selectedCompanyJob?.JobTitle}}</p>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="templateListInput" class="col-4 col-form-label">Template Name:</label>
+      <div class="col-8">
+        <select id="templateListInput" class="form-control" [disabled]="templateListLoading$ | async" [(ngModel)]="templateId">
+          <option [value]="-1"></option>
+          <option *ngFor="let template of templateListItems$ | async" [value]="template.TemplateId">{{template.TemplateName}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancel</button>
+    <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="templateId == -1 || (templateListLoading$ | async)">Assign</button>
+  </div>
+</ng-template>

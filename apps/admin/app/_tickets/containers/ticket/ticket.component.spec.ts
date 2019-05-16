@@ -35,7 +35,7 @@ describe('Admin - Tickets - Ticket', () => {
     store = TestBed.get(Store);
   });
 
-  it('should dispatch LoadTicket & OpenTicketSuccess actions upon init. Both containing the ticketId assigned to the component', () => {
+  it('should dispatch InitializeTicket action upon init. Containing the ticketId assigned to the component', () => {
     spyOn(store, 'dispatch');
 
     jest.useFakeTimers();
@@ -47,10 +47,8 @@ describe('Admin - Tickets - Ticket', () => {
 
     fixture.detectChanges();
 
-    const expectedLoadTicketAction = new fromTicketActions.LoadTicket(mockUserTicketTabItem.UserTicketId);
-    const expectedOpenTicketSuccessAction = new fromTicketActions.SelectTicketTab(mockUserTicketTabItem.UserTicketId);
+    const expectedLoadTicketAction = new fromTicketActions.InitializeTicketTab(mockUserTicketTabItem.UserTicketId);
 
     expect(store.dispatch).toHaveBeenNthCalledWith(1, expectedLoadTicketAction);
-    expect(store.dispatch).toHaveBeenNthCalledWith(2, expectedOpenTicketSuccessAction);
   });
 });

@@ -38,6 +38,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
   isDetailPanelExpanded$: Observable<boolean>;
   badRequestError$: Observable<string>;
 
+  jdmDescriptionIds$: Observable<number[]>;
+  jdmDescriptionLoading$: Observable<boolean>;
+  jdmDescriptionLoadingError$: Observable<boolean>;
+
   // Subscriptions
   allSubscriptions: Subscription = new Subscription();
 
@@ -63,6 +67,9 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
     this.isDetailPanelExpanded$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsIsDetailPanelExpanded));
     this.selectedCompanyJobInDetailPanel$ =
       this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsSelectedCompanyJobInDetailPanel));
+    this.jdmDescriptionIds$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsJdmDescriptionIds));
+    this.jdmDescriptionLoading$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsDownloadingJdmDescription));
+    this.jdmDescriptionLoadingError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsDownloadingJdmDescriptionError));
     this.badRequestError$ = this.store.pipe(select(fromJobAssociationReducers.getCompanyJobsLoadingBadRequestError));
 
     this.allSubscriptions.add(this.store.pipe(select(fromJobAssociationReducers.getSelectedCompanyJobs))
@@ -128,6 +135,10 @@ export class CompanyJobsComponent implements OnInit, OnDestroy {
 
   handleCloseDetailPanel() {
     this.store.dispatch(new companyJobsActions.CloseDetailPanel());
+  }
+
+  handleViewJdmDescriptionClick() {
+    this.store.dispatch(new companyJobsActions.DownloadJdmDescription());
   }
 
   handleSelectAllClick(): void {

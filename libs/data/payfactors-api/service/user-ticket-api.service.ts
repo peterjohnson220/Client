@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { UserTicketSearchRequest } from 'libs/models/payfactors-api/service/request';
+import {UserTicketSearchRequest, UserTicketUpdateRequest} from 'libs/models/payfactors-api/service/request';
 import {
   UserTicketCompanyDetailResponse, UserTicketResponse, UserTicketTypeResponse, UserTicketStateResponse
 } from 'libs/models/payfactors-api/service/response';
@@ -39,5 +39,10 @@ export class UserTicketApiService {
 
   getUserTicketStates(): Observable<UserTicketStateResponse[]> {
     return this.payfactorsApiService.get<UserTicketStateResponse[]>(`${this.endpoint}.GetUserTicketStates`);
+  }
+
+  updateUserTicket(request: UserTicketUpdateRequest) {
+    return this.payfactorsApiService
+      .post<UserTicketResponse>( `${this.endpoint}(${request.UserTicket.UserTicketId})/Default.UpdateUserTicket`, request);
   }
 }

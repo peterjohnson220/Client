@@ -8,6 +8,7 @@ import * as fromTicketListActions from '../actions/ticket-list.actions';
 export interface State extends EntityState<UserTicketGridItem> {
   loading: boolean;
   loadingError: boolean;
+  dirty: boolean;
 }
 
 // Create entity adapter
@@ -18,7 +19,8 @@ export const adapter: EntityAdapter<UserTicketGridItem> = createEntityAdapter<Us
 // Initial State
 export const initialState: State = adapter.getInitialState({
   loading: false,
-  loadingError: false
+  loadingError: false,
+  dirty: false,
 });
 
 export function reducer(state = initialState, action: fromTicketListActions.Actions): State {
@@ -33,7 +35,8 @@ export function reducer(state = initialState, action: fromTicketListActions.Acti
     case fromTicketListActions.LOAD_TICKETS_SUCCESS: {
       return {
         ...adapter.addAll(action.payload, state),
-        loading: false
+        loading: false,
+        dirty: false
       };
     }
     case fromTicketListActions.LOAD_TICKETS_ERROR: {
@@ -41,6 +44,12 @@ export function reducer(state = initialState, action: fromTicketListActions.Acti
         ...state,
         loading: false,
         loadingError: true
+      };
+    }
+    case fromTicketListActions.SET_GRID_DIRTY_STATUS: {
+      return {
+        ...state,
+        dirty: action.payload
       };
     }
     default: {
@@ -51,3 +60,4 @@ export function reducer(state = initialState, action: fromTicketListActions.Acti
 
 export const getLoading = (state: State) => state.loading;
 export const getLoadingError = (state: State) => state.loadingError;
+export const getDirtyGridState = (state: State) => state.dirty;

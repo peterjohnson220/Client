@@ -28,4 +28,10 @@
       Cancel
     </button>
   </div>
+  <pf-unsaved-changes-warning 
+    [isVisible]="showUnsavedChangesWarning$ | async"
+    (leaveClick)="handleLeaveModalConfirmed()"
+    (cancelClick)="handleLeaveModalCancelled()"
+  >
+  </pf-unsaved-changes-warning>
 </div>

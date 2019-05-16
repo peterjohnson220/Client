@@ -8,6 +8,7 @@
         <pf-input-debounce [placeholderText]="'Search for Filters in this Exchange...'" (valueChanged)="handleSearchChanged($event)">
         </pf-input-debounce>
       </div>
+      <button type="button" class="btn btn-md btn-primary" (click)="openAddTagCategoriesModal()">Add Filter</button>
     </ng-container>
   </pf-manage-exchange-section-header>
   <div class="header"><label><strong>Filter Name</strong></label></div>
@@ -32,3 +33,5 @@
       </pf-async-container>
     </div>
 </div>
+
+<pf-add-tag-categories-modal></pf-add-tag-categories-modal>

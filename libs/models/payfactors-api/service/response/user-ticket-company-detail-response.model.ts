@@ -1,3 +1,5 @@
+import {generateMockUserTicketTabItems, UserTicketTabItem} from '../../../../../apps/admin/app/_tickets/models';
+
 export interface UserTicketCompanyDetailResponse {
   CompanyName: string;
   CompanyId: number;
@@ -5,7 +7,7 @@ export interface UserTicketCompanyDetailResponse {
   NumberOfDays: number;
   NumberOfOpenTickets: number;
   NumberOfRecentTickets: number;
-  RecentTickets: number[];
+  RecentTickets: UserTicketTabItem[];
 }
 
 export function generateMockUserTicketCompanyDetailResponse() {
@@ -16,6 +18,6 @@ export function generateMockUserTicketCompanyDetailResponse() {
     NumberOfDays: 1,
     NumberOfOpenTickets: 1,
     NumberOfRecentTickets: 1,
-    RecentTickets: [1]
+    RecentTickets: generateMockUserTicketTabItems()
   };
 }

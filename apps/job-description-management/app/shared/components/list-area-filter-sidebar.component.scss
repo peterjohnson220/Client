@@ -1,0 +1,29 @@
+.sidebar-container{
+  position: relative;
+  height: 100%;
+}
+
+.sidebar-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 .5rem;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 40px;
+  border-bottom: 2px solid #eceeef;
+  background: #f7f7f9;
+  font-weight: bold;
+}
+
+.sidebar-content{
+  position: absolute;
+  padding: 1rem 0 0 .5rem;
+  top: 40px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow:auto;
+}
