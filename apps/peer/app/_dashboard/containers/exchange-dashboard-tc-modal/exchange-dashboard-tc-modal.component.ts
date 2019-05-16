@@ -24,7 +24,9 @@ export class ExchangeDashboardTCModalComponent implements OnInit {
   tcTitle: string;
   tcContent: string;
   termAndConditionsFeatureName = 'PeerOnly';
+  acceptText = 'Continue';
   showClose = false;
+  isPeerHardCopy = false;
 
   constructor(private store: Store<fromExchangeDashboardTCReducer.State>) {
     this.tcModel$ = this.store.pipe(select(fromExchangeDashboardTCReducer.getTCData));
@@ -41,6 +43,10 @@ export class ExchangeDashboardTCModalComponent implements OnInit {
         this.tcId = tcModel.TCId;
         this.tcTitle = tcModel.Title;
         this.tcContent = tcModel.Content;
+        if (tcModel.Type === 'PeerHardCopy') {
+          this.isPeerHardCopy = true;
+          this.showClose = true;
+        }
       }
     });
   }
