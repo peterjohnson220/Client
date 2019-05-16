@@ -8,7 +8,7 @@
                           [valueField]="'Id'"
                           (valueChange)="dataFieldChanged($event)"
                           [valuePrimitive]="true"
-                          [(ngModel)] = "roleDataRestriction.DataFieldId"
+                          [ngModel] = "roleDataRestriction.DataFieldId"
 
       ></kendo-dropdownlist>
     </div>
@@ -18,9 +18,9 @@
                         [attr.data-qa-id]="'ddm-Operators'"
                         [valuePrimitive]="true"
                         textField="text"
-                        (valueChange)="roleDataRestrictionChanged.emit()"
+                        (valueChange)="roleDataRestrictionChanged.emit({property: 'DataConditionIsEqual', value: $event})"
                         valueField="value"
-                        [(ngModel)] = "roleDataRestriction.DataConditionIsEqual"
+                        [ngModel] = "roleDataRestriction.DataConditionIsEqual"
                         [tabIndex]="0"
                         [data]="Operators"
                         [disabled]="selectedField?.FieldType == _DataFieldTypes.MULTISELECT"
@@ -30,8 +30,8 @@
      <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.MULTISELECT">
         <pf-multi-select
         [attr.data-qa-id]="'ddm-'+ dataType.Name"
-        [(selectedValues)]="roleDataRestriction.DataValue"
-        (selectedValuesChange)="roleDataRestrictionChanged.emit()"
+        [selectedValues]="roleDataRestriction.DataValue"
+        (selectedValuesChange)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
         [selectedOnTop]="true"
         [highlightSelected]="true"
         [endpointName]="buildApiEndpoint()"
@@ -43,8 +43,8 @@
         <pf-typeahead #typeaheadComponent
           [apiEndpoint]="buildApiEndpoint()"
           [apiResponsePropertyForTypeahead]="'Value'"
-          [(ngModel)]="roleDataRestriction.DataValue"
-          (valueChanged)="roleDataRestrictionChanged.emit()"
+          [ngModel]="roleDataRestriction.DataValue"
+          (valueChanged)="roleDataRestrictionChanged.emit({property: 'DataValue', value: $event})"
           [automationClassName]="'txt-restrictionTypeahead'"
         ></pf-typeahead>
       </div>

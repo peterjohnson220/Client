@@ -1,4 +1,5 @@
 export class RoleDataRestriction {
+  Id: number;
   RoleId: number;
   DataConditionIsEqual: boolean;
   DataFieldId: number;

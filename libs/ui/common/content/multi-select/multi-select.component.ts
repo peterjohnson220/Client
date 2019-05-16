@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, Output, EventEmitter, ViewChild, HostListener, OnChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 
 import { TooltipDirective } from '@progress/kendo-angular-tooltip';
@@ -64,6 +64,9 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
       this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
       this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
       this.selectedValues = this.selectedOptions.map(o => o.Id);
+    }
+    emitChanges() {
+      this.refreshSelected()
       this.selectedOptionsChange.emit(this.selectedOptions);
       this.selectedValuesChange.emit(this.selectedValues);
 

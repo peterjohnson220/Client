@@ -1,13 +1,20 @@
-<ul *ngIf="currentRoleId;else no_role" class="list-group nav" >
-  <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes">
+<ul *ngIf="currentRole$ | async;else no_role" class="list-group nav" >
+  <li class="nav-item nav-item parentElement"  *ngFor="let dt of dataTypes$ | async">
     {{dt.Name}}
+    <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="addDataRestriction(dt)">
+      <i class="fal fa-plus"></i>
+    </button>
     <ul class="list-group nav">
-      <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions | dataTypeFilter:dt">
+      <li class="nav-item nf subElement" *ngFor="let rdr of roleDataRestrictions$ | async | dataTypeFilter:dt;trackBy: trackByFn;">
+
       <pf-data-field-filter
         [dataType]="dt"
-        [(roleDataRestriction)]="rdr"
-        (roleDataRestrictionChanged)="roleDataRestrictionChanged()" >
+        [roleDataRestriction]="rdr"
+        (roleDataRestrictionChanged)="roleDataRestrictionChanged(rdr, $event.property, $event.value)" >
       </pf-data-field-filter>
+        <button type="button" class="btn btn-secondary add-btn ml-4" *ngIf="dt.DataFields.length > 1" (click)="removeDataRestriction(rdr)">
+          <i class="fal fa-trash"></i>
+        </button>
       </li>
   </ul>
   </li>
