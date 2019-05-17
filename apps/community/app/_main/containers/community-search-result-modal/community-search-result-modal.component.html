@@ -16,9 +16,10 @@
             <div *ngIf = "communityPost" class="px-5 pb-3">
               <pf-community-post
                 [post]="communityPost"
-                [isModal]="true"       
+                [isModal]="true"
+                (filtersModifiedEvent)="hashtagClicked($event)"
                 [maximumReplies]="maximumReplies$ | async">
-              </pf-community-post>  
+              </pf-community-post>
             </div>
           </pf-async-container>
       </ng-container>

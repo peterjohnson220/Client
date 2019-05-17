@@ -10,6 +10,7 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
   loadingCommunityPost$={[Function Store]}
   loadingCommunityPostError$={[Function Store]}
   maximumReplies$={[Function Store]}
+  router={[Function Object]}
   store={[Function Store]}
 >
   <pf-modal-form

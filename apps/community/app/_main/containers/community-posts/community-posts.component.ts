@@ -190,8 +190,4 @@ export class CommunityPostsComponent implements OnInit, OnDestroy {
     this.filtersModified();
   }
 
-  hasReplies(post: CommunityPost) {
-    return post.ReplyCount > 0 ? true : false;
-  }
-
 }
