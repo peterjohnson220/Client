@@ -2,12 +2,11 @@
 
 exports[`UserRoleDataAccessTabComponent should match snapshot 1`] = `
 <pf-user-role-data-access-tab
-  currentUserRoleSubscription={[Function Subscriber]}
-  dataAccessService={[Function DataAccessService]}
-  dataFields={[Function Array]}
+  currentRole$={[Function Store]}
   dataTypes={[Function Array]}
-  dataTypesSubscription={[Function Subscriber]}
+  dataTypes$={[Function Store]}
   roleDataRestrictions={[Function Array]}
+  roleDataRestrictions$={[Function Store]}
   store={[Function Store]}
 >
   <div>
