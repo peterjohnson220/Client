@@ -14,6 +14,7 @@ import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
 import { CompanyApiService } from 'libs/data/payfactors-api/company';
+import { UsersModule } from 'libs/features/pf-admin/users';
 
 import { DataFieldFilterComponent } from './components';
 import {
@@ -25,6 +26,7 @@ import { NavigationEffects, PasswordSettingEffects, UserRoleEffects } from './ef
 import { reducers } from './reducers';
 import { DataAccessService, UserRoleService, UserRoleValidationService } from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
+import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
 
 @NgModule({
   imports: [
@@ -50,7 +52,8 @@ import { CompanyAdminRoutingModule } from './company-admin-routing.module';
     // PF
     PfCommonModule,
     PfCommonUIModule,
-    PfFormsModule
+    PfFormsModule,
+    UsersModule,
   ],
   declarations: [
     // Components
@@ -65,7 +68,8 @@ import { CompanyAdminRoutingModule } from './company-admin-routing.module';
 
     // Pages
     UserRolePageComponent,
-    PasswordManagementPageComponent
+    PasswordManagementPageComponent,
+    CompanyAdminUsersListPageComponent,
   ],
   providers: [
     // Services

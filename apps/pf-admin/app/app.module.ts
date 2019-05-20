@@ -13,6 +13,7 @@ import { PfAppRootModule, AppComponent } from 'libs/features/app-root';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CompanyModule } from './_companies/company.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     PfStateModule,
     PfFormsModule,
     PfAppRootModule,
+    CompanyModule,
 
     // Routing
     AppRoutingModule

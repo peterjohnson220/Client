@@ -5,6 +5,7 @@ import {AuthorizationGuard} from 'libs/security/guards';
 import {PermissionCheckEnum, Permissions} from 'libs/constants';
 
 import {NavigationPageComponent, PasswordManagementPageComponent, UserRolePageComponent} from './containers';
+import { CompanyAdminUsersListPageComponent } from './components/pages/company-admin-users-list';
 
 
 const routes: Routes = [
@@ -16,6 +17,9 @@ const routes: Routes = [
   },
   { path: 'passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single}
+  },
+  { path: ':companyId/users', component: CompanyAdminUsersListPageComponent, canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.COMPANY_ADMIN], Check: PermissionCheckEnum.Single}
   },
   { path: '', redirectTo: 'user-role', pathMatch: 'full' },
 ];
