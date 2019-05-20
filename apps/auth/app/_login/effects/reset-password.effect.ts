@@ -37,7 +37,8 @@ export class ResetPasswordEffects {
           map((response: any) => {
               const payload: any = {
                 TokenIsValid: response.TokenIsValid,
-                MinimumLength: response.MinimumLength
+                MinimumLength: response.MinimumLength,
+                Username: response.Username
               };
               return new fromResetPasswordAction.CheckResetPasswordTokenSuccess(payload);
             }
