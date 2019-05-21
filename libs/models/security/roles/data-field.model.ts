@@ -4,6 +4,7 @@ export class DataField {
   Id: number;
   Name: string;
   FieldType: string;
+  DataTypeId: number;
   DataType: DataType;
   DisplayName: string;
 }

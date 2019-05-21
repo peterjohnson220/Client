@@ -26,9 +26,10 @@ export class DataFieldFilterComponent implements OnInit {
   constructor() { }
   dataFieldChanged(value) {
     this.selectedField = this.dataType.DataFields.find(f => f.Id ===  value);
-    this.roleDataRestrictionChanged.emit();
+    this.roleDataRestrictionChanged.emit({property: 'DataFieldId', value: this.selectedField.Id});
     if (this.typeaheadComponent) {
       this.typeaheadComponent.refreshRemoteData(this.buildApiEndpoint(), 'Value');
+      this.typeaheadComponent.clearValue();
     }
   }
 
