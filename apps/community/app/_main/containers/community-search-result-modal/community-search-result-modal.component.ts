@@ -29,7 +29,10 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
   loadingCommunityPost$: Observable<boolean>;
   loadingCommunityPostError$: Observable<boolean>;
 
+  communityPostDeleted$: Observable<any>;
+
   communityPost: CommunityPost;
+  isUserPoll: boolean;
 
   constructor(public store: Store<fromCommunitySearchPostReducer.State>,
               private router: Router) {
@@ -40,6 +43,8 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
     this.loadingCommunityPostError$ = this.store.select(fromCommunitySearchPostReducer.getLoadingCommunityPostError);
 
     this.maximumReplies$ = this.store.select(fromCommunitySearchPostReducer.getMaximumReplies);
+
+    this.communityPostDeleted$ = this.store.select(fromCommunitySearchPostReducer.getCommunityPostDeleted);
    }
 
   ngOnInit() {
@@ -51,6 +56,9 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
 
     this.communityPostSubscription = this.communityPost$.subscribe(post => {
       this.communityPost = post;
+      if (post) {
+        this.isUserPoll = post.UserPollRequest ? true : false;
+      }
     });
   }
 
@@ -77,5 +85,13 @@ export class CommunitySearchResultModalComponent implements OnInit, OnDestroy {
       const hashTagText = hashTagName.substr(1);
       this.router.navigate([ `/dashboard/tag/${hashTagText}` ]);
     }
+  }
+
+  getTitle() {
+    return this.isUserPoll ? 'Community Poll' : 'Community Discussion';
+  }
+
+  getDeletedMessage() {
+    return this.isUserPoll ? 'Poll successfully deleted.' : 'Post successfully deleted.';
   }
 }

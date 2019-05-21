@@ -4,6 +4,7 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
 <pf-community-search-result-modal
   communityPost={[Function Object]}
   communityPost$={[Function Store]}
+  communityPostDeleted$={[Function Store]}
   communityPostSubscription={[Function Subscriber]}
   communitySearchResultModal$={[Function Store]}
   communitySearchResultModalSubscription={[Function Subscriber]}
@@ -24,6 +25,7 @@ exports[`CommunityPostSearchResultComponent should show a modal with when commun
       >
         <pf-community-post />
       </div>
+      
     </pf-async-container>
   </pf-modal-form>
 </pf-community-search-result-modal>

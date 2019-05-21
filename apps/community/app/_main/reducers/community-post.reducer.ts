@@ -22,6 +22,7 @@ export interface State extends EntityState<CommunityPost> {
   totalResultsOnServer: number;
   maximumReplies: number;
   postId: string;
+  deletedPostId: string;
 }
 
 function sortByTime(a: CommunityPost, b: CommunityPost) {
@@ -53,7 +54,8 @@ export const initialState: State = adapter.getInitialState({
   },
   totalResultsOnServer: 0,
   maximumReplies: null,
-  postId: null
+  postId: null,
+  deletedPostId: null
 });
 
 export function reducer(
@@ -265,13 +267,15 @@ export function reducer(
       const postId = action.payload;
       return {
         ...adapter.removeOne(postId,
-          state)
+          state),
+          deletedPostId: postId
       };
     }
     case communityPostActions.DELETING_COMMUNITY_POST_ERROR: {
       return {
         ...state,
-        submittingError: true
+        submittingError: true,
+        deletedPostId: null
       };
     }
     case communityPostActions.ADDING_COMMUNITY_DISCUSSION_POLL: {
@@ -312,7 +316,8 @@ export function reducer(
         ...adapter.upsertOne(post, state),
         loading: false,
         postId: post.Id,
-        maximumReplies: 150
+        maximumReplies: 150,
+        deletedPostId: null
       };
     }
     case communityPostActions.GETTING_COMMUNITY_POST_ERROR: {
@@ -348,4 +353,6 @@ export const getMaximumReplies = (state: State) => state.maximumReplies;
 export const getLoadingCommunityPost = (state: State) => state.loading;
 export const getLoadingCommunityPostError = (state: State) => state.loadingError;
 export const getLoadingCommunityPostSuccess = (state: State) => state.postId;
+
+export const getCommunityPostDeleted = (state: State) => state.deletedPostId;
 
