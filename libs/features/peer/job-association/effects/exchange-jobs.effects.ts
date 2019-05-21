@@ -5,11 +5,9 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, switchMap, mergeMap, withLatestFrom, debounceTime } from 'rxjs/operators';
 import { iif, of } from 'rxjs';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 
 import { CompanyJobApiService } from 'libs/data/payfactors-api/company/company-job-api.service';
 import { ExchangeCompanyApiService } from 'libs/data/payfactors-api/peer/exchange-company-api.service';
-import { GenericMenuItem } from 'libs/models/common';
 
 import * as fromPeerJobsActions from '../actions/exchange-jobs.actions';
 import * as fromPeerJobsReducer from '../reducers';
@@ -22,9 +20,7 @@ export class ExchangeJobsEffects {
   load$: Observable<Action> = this.actions$.pipe(
     ofType(fromPeerJobsActions.LOAD),
     mergeMap(() => [
-      new fromPeerJobsActions.LoadExchangeJobs(),
-      new fromPeerJobsActions.LoadJobFamilyFilter(),
-      new fromPeerJobsActions.LoadExchangeFilter()
+      new fromPeerJobsActions.LoadExchangeJobs()
     ])
   );
 
@@ -48,21 +44,21 @@ export class ExchangeJobsEffects {
     // grab the selected job families
     withLatestFrom(
       this.store.pipe(
-        select(fromPeerJobsReducer.getExchangeJobFamilyFilterSelectedOptionNames)),
+        select(fromPeerJobsReducer.getExchangeJobFamilyFilterSelectedOptionValues)),
         (combined, selectedJobFamilyNames: string[]) => ({ ...combined, selectedJobFamilyNames })
     ),
     // grab the selected exchanges
     withLatestFrom(
       this.store.pipe(
-        select(fromPeerJobsReducer.getExchangeJobExchangeFilterSelectedOptionIds)),
-        (combined, selectedExchangeIds: number[]) => ({ ...combined, selectedExchangeIds })
+        select(fromPeerJobsReducer.getExchangeJobExchangeFilterSelectedOptionValues)),
+    (combined, selectedExchangeNames: string[]) => ({ ...combined, selectedExchangeNames })
     ),
     // make the call to the api service, then fire a success/failure action
     switchMap(combined =>
       this.exchangeCompanyApiService.getExchangeJobs(
-        combined.gridState.grid, combined.searchTerm, combined.selectedJobFamilyNames, combined.selectedExchangeIds
+        combined.gridState.grid, combined.searchTerm, combined.selectedJobFamilyNames, combined.selectedExchangeNames
       ).pipe(
-          map((gridDataResult: GridDataResult) => new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)),
+          map((gridDataResult: any) => new fromPeerJobsActions.LoadExchangeJobsSuccess(gridDataResult)),
           catchError((error: HttpErrorResponse ) => {
             if (error.status === 400) {
               return of(new fromPeerJobsActions.LoadExchangeJobsBadRequest(error.error.Message));
@@ -72,29 +68,6 @@ export class ExchangeJobsEffects {
           })
         )
       )
-  );
-
-  @Effect()
-  getJobFamilies$: Observable<Action> = this.actions$.pipe(
-    ofType(fromPeerJobsActions.LOAD_JOB_FAMILY_FILTER),
-    switchMap(() =>
-      this.exchangeCompanyApiService.getJobFamilies().pipe(
-        map((jobFamilies: GenericMenuItem[]) => new fromPeerJobsActions.LoadJobFamilyFilterSuccess(jobFamilies)),
-        catchError(() => of(new fromPeerJobsActions.LoadJobFamilyFilterError()))
-      )
-    )
-  );
-
-  @Effect()
-  getExchanges$: Observable<Action> = this.actions$.pipe(
-    ofType(fromPeerJobsActions.LOAD_EXCHANGE_FILTER),
-    switchMap(() =>
-      this.exchangeCompanyApiService.getExchanges().pipe(
-        map((exchanges) => exchanges.map(e => ({ Id: e.ExchangeId, DisplayName: e.ExchangeName } as GenericMenuItem))),
-        map((genericMenuItems) => new fromPeerJobsActions.LoadExchangeFilterSuccess(genericMenuItems)),
-        catchError(() => of(new fromPeerJobsActions.LoadExchangeFilterError()))
-      )
-    )
   );
 
   @Effect()

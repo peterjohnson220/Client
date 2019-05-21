@@ -5,11 +5,10 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
   clearSelectionsClick={[Function EventEmitter]}
   highlightSelected="false"
   isExpanded="false"
-  isLoading={[Function Boolean]}
+  isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -40,14 +39,12 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-ngb-tooltip=""
             >
-               zoos
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />
@@ -69,7 +66,6 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -100,14 +96,12 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-ngb-tooltip=""
             >
-               zoos
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />
@@ -140,6 +134,7 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
         </a>
         <button
           class="clear-selections btn d-block mt-2 mb-2"
+          disabled=""
         >
           Clear Selections
         </button>
@@ -169,7 +164,6 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -200,14 +194,12 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
               ng-reflect-ngb-tooltip=""
             >
-               
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />
@@ -240,6 +232,7 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
         </a>
         <button
           class="clear-selections btn d-block mt-2 mb-2"
+          disabled=""
         >
           Clear Selections
         </button>
@@ -278,12 +271,11 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
   clearSelectionsClick={[Function EventEmitter]}
   highlightSelected="false"
   isExpanded="false"
-  isLoading={[Function Boolean]}
+  isLoading="false"
   labelText={[Function String]}
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -314,14 +306,12 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-ngb-tooltip=""
             >
-               zoos
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />
@@ -339,11 +329,10 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
   clearSelectionsClick={[Function EventEmitter]}
   highlightSelected="false"
   isExpanded={[Function Boolean]}
-  isLoading={[Function Boolean]}
+  isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -374,14 +363,12 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-ngb-tooltip=""
             >
-               zoos
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />
@@ -394,12 +381,41 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
       class="selections-container position-absolute"
     >
       
-      <span
-        class="loading d-block mt-2 mb-2 text-center"
-      >
-        <pf-loading-indicator />
-      </span>
       
+      <div>
+        <i
+          class="fas fa-search position-absolute"
+        />
+        <input
+          class="form-control d-block mt-2"
+          placeholder="Search"
+          type="text"
+        />
+        <a
+          class="position-absolute text-muted"
+          href="javascript:void(0)"
+        >
+          <i
+            class="fas fa-times"
+          />
+        </a>
+        <button
+          class="clear-selections btn d-block mt-2 mb-2"
+          disabled=""
+        >
+          Clear Selections
+        </button>
+        <div
+          class="checkbox-container"
+        >
+          
+          <label
+            class="no-results font-italic text-center d-block"
+          >
+            No Results Found
+          </label>
+        </div>
+      </div>
     </div>
   </div>
 </pf-multi-select>
@@ -414,7 +430,6 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
   remoteDataSourceService={[Function RemoteDataSourceService]}
   searchTerm=""
   selectFacadeClick={[Function EventEmitter]}
-  selectedOptionNames={[Function Array]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
   selectedValues={[Function Array]}
@@ -445,14 +460,12 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
           <span
             class="select-facade d-inline-block rounded"
           >
-            
             <label
               class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2"
-              ng-reflect-ngb-tooltip="zoos"
+              ng-reflect-ngb-tooltip=""
             >
-               zoos
+                
             </label>
-            
             <i
               class="fas fa-angle-down d-inline-block ml-2"
             />

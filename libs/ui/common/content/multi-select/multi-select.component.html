@@ -4,8 +4,9 @@
     <div class="d-inline-block">
       <a href="javascript:void(0)" (click)="toggleCheckboxPanel()" class="text-decoration-none">
         <span class="select-facade d-inline-block rounded">
-          <label *ngIf="selectedOptionNames" class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="selectedOptionNames.join(', ')">
-            {{ selectedOptionNames.join(', ') }}</label>
+          <label class="d-inline-block mb-0 ellipsis-overflowing-text pr-0 pl-2" [ngbTooltip]="getSelectionsString()">
+            {{ getSelectionsString() }}
+          </label>
           <i class="fas fa-angle-down d-inline-block ml-2"></i>
         </span>
       </a>
@@ -21,10 +22,10 @@
       <a href="javascript:void(0)" (click)="clearSearchTerm()" class="position-absolute text-muted">
         <i class="fas fa-times"></i>
       </a>
-      <button (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
-      <div class="checkbox-container"  (change)="refreshSelected()">
-        <ng-container *ngFor="let option of options; let i=index;">
-          <label class="checkbox-label d-block ellipsis-overflowing-text m-0" [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1">
+      <button [disabled]="!hasSelections()" (click)="clearSelections()" class="clear-selections btn d-block mt-2 mb-2">Clear Selections</button>
+      <div class="checkbox-container" (change)="refreshSelected()">
+        <ng-container *ngFor="let option of options; trackBy: trackByFn; let i=index;" >
+          <label  class="checkbox-label d-block ellipsis-overflowing-text m-0" *ngIf="option.DisplayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1" [ngClass]="highlightSelected && option.IsSelected? 'highlight' :''">
             <input type="checkbox" [(ngModel)] = "option.IsSelected"  class="mr-1">{{ option.DisplayName }}
           </label>
         </ng-container>
