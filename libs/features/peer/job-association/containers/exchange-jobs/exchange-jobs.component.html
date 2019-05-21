@@ -16,8 +16,6 @@
       [attr.data-qa-id]="'ddm-job-family-filter'"
       [labelText]="'Job Family'"
       [options]="jobFamilyFilterOptions"
-      [selectedOptionNames]="selectedJobFamilyOptionNames$ | async"
-      [isLoading]="isJobFamilyFilterLoading$ | async"
       [(selectedOptions)]="selectedJobFamilies"
       (selectedOptionsChange)="selectedJobFamilyOptionsChanged()"
       (selectFacadeClick)="handleJobFamilyFilterToggle()"
@@ -30,8 +28,6 @@
       [attr.data-qa-id]="'ddm-exchange-filter'"
       [labelText]="'Exchange'"
       [options]="exchangeFilterOptions"
-      [selectedOptionNames]="selectedExchangeOptionNames$ | async"
-      [isLoading]="isExchangeFilterLoading$ | async"
       [(selectedOptions)]="selectedExchanges"
       (selectedOptionsChange)="selectedExchangeOptionsChanged()"
       (selectFacadeClick)="handleExchangeFilterToggle()"
@@ -132,7 +128,7 @@
           </ng-template>
           <ng-template kendoGridNoRecordsTemplate>
             {{ badRequestError.length > 0 ? badRequestError + " Please narrow down the list by using the filters above." : "No records based on your search." }}
-            <a href="javascript:void(0)" (click)="reload(true)">
+            <a href="javascript:void(0)" (click)="reload()">
               <i class="fas fa-redo-alt"></i>Reset now
             </a>
           </ng-template>

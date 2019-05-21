@@ -2,7 +2,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { createGridReducer } from 'libs/core/reducers/grid.reducer';
-import { GridTypeEnum, GenericMenuItem } from 'libs/models/common';
+import { GridTypeEnum, GenericMenuItem, AggregateResult } from 'libs/models/common';
 
 import * as fromPeerExchangeJobsActions from '../actions/exchange-jobs.actions';
 import { CompanyJob, ExchangeJob, ExchangeJobAssociation } from '../models/';
@@ -19,12 +19,11 @@ export interface State extends EntityState<ExchangeJob> {
   selectedExchangeJob: ExchangeJob;
   isDetailPanelExpanded: boolean;
   expandedDetailRowId: number;
+  aggregateResults: AggregateResult[];
   // job family filter
-  loadingJobFamilyFilter: boolean;
   jobFamilyOptions: GenericMenuItem[];
   selectedJobFamilies: GenericMenuItem[];
   // exchange filter
-  loadingExchangeFilter: boolean;
   exchangeOptions: GenericMenuItem[];
   selectedExchanges: GenericMenuItem[];
   // previous associations
@@ -53,14 +52,16 @@ const initialState: State = adapter.getInitialState({
   selectedExchangeJob: {} as ExchangeJob,
   isDetailPanelExpanded: false,
   expandedDetailRowId: null,
+  aggregateResults: [],
+
   // job family filter
-  loadingJobFamilyFilter: false,
   jobFamilyOptions: [],
   selectedJobFamilies: [],
+
   // exchange filter
-  loadingExchangeFilter: false,
   exchangeOptions: [],
   selectedExchanges: [],
+
   // previous associations
   loadingPreviousAssociations: false,
   loadingPreviousAssociationsSuccess: false,
@@ -90,12 +91,76 @@ export function reducer(state, action) {
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_SUCCESS: {
           const exchangeJobs: ExchangeJob[] = featureAction.payload.data;
+          const aggregateResults: AggregateResult[] = featureAction.payload.aggregates;
+          const EXCHANGE_JOB_FAMILY_BUCKET_NAME = 'exchange_job_family';
+          const EXCHANGE_NAME_BUCKET_NAME = 'exchange_name';
+
+          let jobFamilyOptions: GenericMenuItem[] = [{Value: '', DisplayName: 'No Job Family', IsSelected: false}];
+          let exchangeOptions: GenericMenuItem[] = [];
+
+          for (let i = 0; i < aggregateResults.length; i++) {
+            const bucketName = aggregateResults[i].BucketName.toLowerCase();
+            const genericMenuItems: GenericMenuItem[] = [];
+            for (let j = 0; j < aggregateResults[i].Data.length; j++) {
+              const value = aggregateResults[i].Data[j].Name;
+              const displayName = aggregateResults[i].Data[j].Name + ' (' + aggregateResults[i].Data[j].Value + ')';
+              let isSelected = false;
+              if (bucketName === EXCHANGE_JOB_FAMILY_BUCKET_NAME) {
+                isSelected = featureState.selectedJobFamilies.map(x => x.Value).indexOf(value) >= 0;
+              } else if (bucketName === EXCHANGE_NAME_BUCKET_NAME) {
+                isSelected = featureState.selectedExchanges.map(x => x.Value).indexOf(value) >= 0;
+              }
+              genericMenuItems.push({
+                Value: value,
+                DisplayName: displayName,
+                IsSelected: isSelected
+              });
+            }
+
+            switch (bucketName) {
+              case EXCHANGE_JOB_FAMILY_BUCKET_NAME:
+                jobFamilyOptions = genericMenuItems;
+                break;
+
+              case EXCHANGE_NAME_BUCKET_NAME:
+                exchangeOptions = genericMenuItems;
+                break;
+
+              default:
+                break;
+            }
+          }
+          // Previously selected filters might not comeback in the new aggregates.
+          // If they don't come back in the aggregates keep them as checked but with a count of 0
+          featureState.selectedJobFamilies.filter(x =>
+            jobFamilyOptions.map(options => options.Value).indexOf(x.Value) < 0)
+            .forEach(selectedJobFamilyOption =>
+              jobFamilyOptions.push({
+                Value: selectedJobFamilyOption.Value,
+                IsSelected: true,
+                DisplayName: selectedJobFamilyOption.Value + ' (0)'
+              })
+          );
+
+          featureState.selectedExchanges.filter(x =>
+            exchangeOptions.map(options => options.Value).indexOf(x.Value) < 0)
+            .forEach(selectedExchangeOption =>
+              exchangeOptions.push({
+                Value: selectedExchangeOption.Value,
+                IsSelected: true,
+                DisplayName: selectedExchangeOption.Value + ' (0)'
+              })
+            );
+
           return {
             ...adapter.addAll(exchangeJobs, featureState),
             total: featureAction.payload.total,
             loading: false,
             loadingError: false,
-            badRequestMessage: ''
+            badRequestMessage: '',
+            aggregateResults: aggregateResults,
+            jobFamilyOptions: jobFamilyOptions,
+            exchangeOptions: exchangeOptions
           };
         }
         case fromPeerExchangeJobsActions.LOAD_EXCHANGE_JOBS_ERROR: {
@@ -217,19 +282,6 @@ export function reducer(state, action) {
           };
         }
         // job family filter
-        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER: {
-          return {
-            ...featureState,
-            loadingJobFamilyFilter: true
-          };
-        }
-        case fromPeerExchangeJobsActions.LOAD_JOB_FAMILY_FILTER_SUCCESS: {
-          return {
-            ...featureState,
-            loadingJobFamilyFilter: false,
-            jobFamilyOptions: featureAction.payload
-          };
-        }
         case fromPeerExchangeJobsActions.SELECTED_JOB_FAMILIES_CHANGED: {
           return {
             ...featureState,
@@ -243,19 +295,6 @@ export function reducer(state, action) {
           };
         }
         // exchange filter
-        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_FILTER: {
-          return {
-            ...featureState,
-            loadingExchangeFilter: true
-          };
-        }
-        case fromPeerExchangeJobsActions.LOAD_EXCHANGE_FILTER_SUCCESS: {
-          return {
-            ...featureState,
-            loadingExchangeFilter: false,
-            exchangeOptions: featureAction.payload
-          };
-        }
         case fromPeerExchangeJobsActions.SELECTED_EXCHANGES_CHANGED: {
           return {
             ...featureState,
@@ -283,11 +322,7 @@ export const getLoadingError = (state: State) => state.loadingError;
 export const getTotal = (state: State) => state.total;
 
 // Selector functions, job family filter
-export const getJobFamilyFilterLoading = (state: State) => state.loadingJobFamilyFilter;
 export const getJobFamilyFilterOptions = (state: State) => state.jobFamilyOptions;
-export const getSelectedJobFamilies = (state: State) => state.selectedJobFamilies;
 
 // Selector functions, exchange filter
-export const getExchangeFilterLoading = (state: State) => state.loadingExchangeFilter;
 export const getExchangeFilterOptions = (state: State) => state.exchangeOptions;
-export const getSelectedExchanges = (state: State) => state.selectedExchanges;

@@ -39,11 +39,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
   selectedExchangeJob$: Observable<ExchangeJob>;
   isDetailPanelExpanded$: Observable<boolean>;
   jobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
-  selectedJobFamilyOptionNames$: Observable<string[]>;
-  isJobFamilyFilterLoading$: Observable<boolean>;
+  selectedJobFamilyFilterOptions$: Observable<GenericMenuItem[]>;
   exchangeFilterOptions$: Observable<GenericMenuItem[]>;
-  selectedExchangeOptionNames$: Observable<string[]>;
-  isExchangeFilterLoading$: Observable<boolean>;
+  selectedExchangeFilterOptions$: Observable<GenericMenuItem[]>;
 
   // Observables, previous associations
   previousAssociations$: Observable<CompanyJob[]>;
@@ -91,11 +89,10 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
 
     // Register Observables, filters
     this.jobFamilyFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobFamilyFilterOptions));
-    this.isJobFamilyFilterLoading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsFamilyFilterLoading));
-    this.selectedJobFamilyOptionNames$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobFamilyFilterSelectedOptionNames));
+    this.selectedJobFamilyFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeSelectedJobFamilies));
+
     this.exchangeFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobExchangeFilterOptions));
-    this.isExchangeFilterLoading$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobsExchangeFilterLoading));
-    this.selectedExchangeOptionNames$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeJobExchangeFilterSelectedOptionNames));
+    this.selectedExchangeFilterOptions$ = this.store.pipe(select(fromJobAssociationReducers.getExchangeSelectedJobExchangeFilterOptions));
 
     // Register Observables, previous associations
     this.previousAssociations$ = this.store.pipe(select(fromJobAssociationReducers.getPreviousAssociations));
@@ -131,11 +128,19 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
       .subscribe((exchangeJobs) => this.exchangeJobs = exchangeJobs.data));
 
     this.allSubscriptions.add(this.jobFamilyFilterOptions$.subscribe(v => {
-      this.jobFamilyFilterOptions =  v.map(f => ({DisplayName: f.DisplayName, IsSelected: false}));
+      this.jobFamilyFilterOptions =  v.map(f => ({DisplayName: f.DisplayName, Value: f.Value, IsSelected: f.IsSelected}));
+    }));
+
+    this.allSubscriptions.add(this.selectedJobFamilyFilterOptions$.subscribe(selectedJobFamilies => {
+      this.selectedJobFamilies = selectedJobFamilies;
     }));
 
     this.allSubscriptions.add(this.exchangeFilterOptions$.subscribe(v => {
-      this.exchangeFilterOptions =  v.map(f => ({Id: f.Id, DisplayName: f.DisplayName, IsSelected: false}));
+      this.exchangeFilterOptions =  v.map(f => ({DisplayName: f.DisplayName, Value: f.Value, IsSelected: f.IsSelected}));
+    }));
+
+    this.allSubscriptions.add(this.selectedExchangeFilterOptions$.subscribe( selectedExchangeFilterOptions => {
+      this.selectedExchanges = selectedExchangeFilterOptions;
     }));
 
     // if the modal is closed and a row is expanded close the expanded row to prevent potentially unlisted associations
@@ -162,15 +167,9 @@ export class ExchangeJobsComponent implements OnInit, OnDestroy {
     this.allSubscriptions.unsubscribe();
   }
 
-  reload(resetSearchTerm = false): void {
-    // if this is invoked from an empty search results grid reset the term, otherwise keep the term as is and reload
-    if (resetSearchTerm) {
-      this.multiSelectJobFamily.clearSelections();
-      this.multiSelectExchange.clearSelections();
-      this.jobTitleSearchComponent.clearValue();
-    } else {
-      this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
-    }
+  reload(): void {
+    this.store.dispatch(new exchangeJobsActions.Reset());
+    this.store.dispatch(new exchangeJobsActions.LoadExchangeJobs());
   }
 
   showGridTooltip(e: any): void {
