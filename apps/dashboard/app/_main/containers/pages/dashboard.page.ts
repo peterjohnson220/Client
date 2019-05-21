@@ -14,15 +14,12 @@ import { Feature } from '../../models';
   styleUrls: [ './dashboard.page.scss' ]
 })
 export class DashboardPageComponent implements OnInit {
-  loading$: Observable<boolean>;
   loadingError$: Observable<boolean>;
   features$: Observable<Feature[]>;
 
   constructor(private store: Store<fromDashboardReducer.State>) {
-    this.loading$ = this.store.select(fromDashboardReducer.getFeaturesLoading);
     this.loadingError$ = this.store.select(fromDashboardReducer.getFeaturesLoadingError);
     this.features$ = this.store.select(fromDashboardReducer.getFeatures);
-
   }
 
   // Events
