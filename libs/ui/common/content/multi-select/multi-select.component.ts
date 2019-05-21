@@ -15,7 +15,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
 
   @Input() options: GenericMenuItem[];
-  @Input() selectedOptions: GenericMenuItem[];
+  @Input() selectedOptions: GenericMenuItem[] = [];
   @Input() labelText: string;
   @Input() isExpanded = false;
   @Input() isLoading = false;
@@ -29,7 +29,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   @Output()selectedOptionsChange = new EventEmitter();
   @Input() highlightSelected = false;
-  @Input() selectedValues: any[];
+  @Input() selectedValues: any[] = [];
   @Output()selectedValuesChange = new EventEmitter();
 
   searchTerm = '';
@@ -38,9 +38,6 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   constructor( private remoteDataSourceService: RemoteDataSourceService) {}
 
   ngOnInit() {
-    this.selectedOptions = [];
-    this.selectedValues = [];
-
     if (this.endpointName) {
       this.getFromRemoteSource();
     } else if (this.options) {
@@ -53,7 +50,14 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
 
   refreshSelected() {
     this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
+    this.selectedValues = this.selectedOptions.map(o => o.Value);
+  }
+
+  emitChanges() {
+    this.refreshSelected()
     this.selectedOptionsChange.emit(this.selectedOptions);
+    this.selectedValuesChange.emit(this.selectedValues);
+
   }
 
   getFromRemoteSource() {
@@ -112,7 +116,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   getSelectionsString(): string {
     return this.selectedOptions
       .filter((selectedOptions) => selectedOptions.IsSelected)
-      .map((x) => x.Value).join(', ');
+      .map((x) => x.DisplayName).join(', ');
   }
 
   trackByFn(index, item: GenericMenuItem) {
