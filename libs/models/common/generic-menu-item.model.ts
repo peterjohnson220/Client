@@ -1,5 +1,5 @@
 export interface GenericMenuItem {
-  Id?: number;
+  Value: string;
   DisplayName: string;
   IsSelected: boolean;
 }
