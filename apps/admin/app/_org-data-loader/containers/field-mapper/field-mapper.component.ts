@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
-import { Observable } from 'rxjs';
 
 import {
   DATE_FORMATS,
@@ -9,9 +9,16 @@ import {
   ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from '../../constants';
-import { DateFormatItem, LoaderFieldSet } from '../../models';
-import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
+
+
 import { LoaderType } from '../../constants/loader-type.enum';
+
+import {
+  DateFormatItem,
+  LoaderFieldSet,
+  LoaderEntityStatus,
+  FilenamePattern }
+from '../../models';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -39,6 +46,7 @@ export class FieldMapperComponent implements OnInit {
   @Input() delimiter: string;
   @Input() isFullReplace: boolean;
   @Input() loadEnabled: boolean;
+  @Input() filenamePattern: FilenamePattern;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {

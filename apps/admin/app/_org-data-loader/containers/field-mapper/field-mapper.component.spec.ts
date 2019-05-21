@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { FieldMapperComponent } from './field-mapper.component';
+
 import { LoaderType } from '../../constants/loader-type.enum';
+import { FieldMapperComponent } from './field-mapper.component';
 
 describe('FieldMapperComponent', () => {
   let component: FieldMapperComponent;
@@ -172,7 +173,6 @@ describe('FieldMapperComponent', () => {
     expect(component.mappedFields).toEqual([]);
     expect(component.clientFields).toEqual([]);
     expect(component.payfactorsDataFields).toBe(component.payfactorsDataFieldsForReset);
-
   });
 
   it('should reset the mappings on removal of a file', () => {
@@ -185,7 +185,6 @@ describe('FieldMapperComponent', () => {
     expect(component.mappedFields).toEqual([]);
     expect(component.clientFields).toEqual([]);
     expect(component.payfactorsDataFields).toBe(component.payfactorsDataFieldsForReset);
-
   });
 
   it('should populate the mappings box with the company\'s existing mappings on init', () => {
@@ -198,5 +197,40 @@ describe('FieldMapperComponent', () => {
     fixture.detectChanges();
 
     expect(component.mappedFields).toEqual(expectedMappings);
+  });
+
+  describe('Filename Pattern', () => {
+    it('should read "begin with" if the pattern is start restricted', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: true,
+        Name: "paymarkets_pf"
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
+
+    it('should read "contain" if the pattern is not start restricted', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: false,
+        Name: "employees_123"
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
+
+    it('should display the filename pattern', () => {
+      component.filenamePattern = {
+        IsStartWithRestricted: true,
+        Name: "this-is-my-filename-pattern"
+      };
+
+      fixture.detectChanges();
+
+      expect(fixture).toMatchSnapshot();
+    });
   });
 });

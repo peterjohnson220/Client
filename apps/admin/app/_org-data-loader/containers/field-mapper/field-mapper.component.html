@@ -63,7 +63,13 @@
     </div>
   </div>
 
-  <p>Client file name for this entity must begin with <span class="font-weight-bold text-underline">{{loaderType.toLowerCase()}}</span></p>
+  <p *ngIf="filenamePattern">
+    Client filename for this entity must 
+    <span *ngIf="filenamePattern.IsStartWithRestricted; else elseBlock">begin with </span>
+    <ng-template #elseBlock>contain </ng-template>
+    <span class="font-weight-bold text-underline">{{filenamePattern.Name}}</span>
+  </p>
+
   <div class="field-mappings-container">
     <table>
       <tr class="header">

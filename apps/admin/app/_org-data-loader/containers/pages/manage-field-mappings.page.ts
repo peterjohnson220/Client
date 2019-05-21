@@ -9,22 +9,31 @@ import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loa
 import { LoaderTypes } from 'libs/constants/loader-types';
 
 import * as fromOrgDataAutoloaderReducer from '../../reducers';
+
 import * as fromCompanySelectorActions from '../../actions/company-selector.actions';
 import * as fromEmailRecipientsActions from '../../actions/email-recipients.actions';
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 
-import { LoaderFieldSet, MappingModel } from '../../models';
 import {
   ORG_DATA_PF_EMPLOYEE_FIELDS,
-  ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
+  ORG_DATA_PF_JOB_FIELDS,
+  ORG_DATA_PF_PAYMARKET_FIELDS,
+  ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
-import { EmailRecipientModel } from '../../models/email-recipient.model';
-import { LoaderSetting } from '../../models/loader-settings.model';
-import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
+
 import { LoaderSettingsKeys } from '../../constants/loader-settings-keys.enum';
 import { LoaderType } from '../../constants/loader-type.enum';
+
+import {
+  EmailRecipientModel,
+  LoaderEntityStatus,
+  LoaderFieldSet,
+  LoaderSetting,
+  MappingModel,
+  OrgDataFilenamePatternSet
+} from '../../models';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -70,8 +79,10 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   existingCompanyLoaderSettings: LoaderSetting[];
   loaderSettingsToSave: LoaderSetting[];
   loaderTypes = LoaderType;
+  orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
 
-  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
+  constructor (private store: Store<fromOrgDataAutoloaderReducer.State>,
+               private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
     this.payfactorsJobDataFields = ORG_DATA_PF_JOB_FIELDS;
     this.payfactorsStructureDataFields = ORG_DATA_PF_STRUCTURE_FIELDS;
@@ -94,6 +105,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.loaderSettings$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettings);
     this.saveLoaderSettingsSuccess$ = this.store.select(fromOrgDataAutoloaderReducer.getLoaderSettingsSavingSuccess);
     this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
+    this.orgDataFilenamePatternSet$ = this.store.select(fromOrgDataAutoloaderReducer.getOrgDataFilenamePatternSet);
 
     this.mappings = [];
     this.isActive = true;
@@ -196,7 +208,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveClass = 'error';
         this.saveMessage = 'Failed.';
       });
-  }
+  } // end constructor
 
   ngOnInit() {
     this.store.dispatch(new fromCompanySelectorActions.LoadingCompanies());
