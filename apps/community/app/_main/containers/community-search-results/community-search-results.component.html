@@ -15,7 +15,7 @@
     <div
       *ngFor="let result of (communitySearchResults$ | async); trackBy: trackByFn; let last = last;">
       <hr>
-      <div class="row mx-4" (click)="openDetailsModal(result.Id)">
+      <div class="row mx-4" (click)="openDetailsModal(result)">
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
                                              [elapsedTime]="result.ElapsedTime"></pf-community-search-result-header>
