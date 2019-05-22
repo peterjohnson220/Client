@@ -17,7 +17,9 @@ import { AddCompanyRoleModalComponent,
   UserRoleFunctionTabComponent,
   UserRoleUsersTabComponent,
   UserRolePageComponent,
-  UserRoleDataAccessTabComponent } from './containers';
+  UserRoleDataAccessTabComponent,
+  PasswordManagementPageComponent
+} from './containers';
 import { NavigationEffects, UserRoleEffects } from './effects';
 import { reducers } from './reducers';
 import { UserRoleService, UserRoleValidationService} from './services';
@@ -59,10 +61,8 @@ import { DataFieldFilterComponent } from './components/data-field-filter/data-fi
     NavigationPageComponent,
 
     // Pages
-    UserRolePageComponent
-
-
-
+    UserRolePageComponent,
+    PasswordManagementPageComponent
   ],
   providers: [
     // Services
