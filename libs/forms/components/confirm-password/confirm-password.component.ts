@@ -106,7 +106,7 @@ export class ConfirmPasswordComponent implements OnInit {
 
     // No username allowed
     if (this.allowUsername) {
-      const username = this.allowUsername.split('@')[0];
+      const username = this.allowUsername.split('@')[0].toLowerCase();
       rules.push({
         Name: 'Contains Username',
         Message: 'Cannot contain username',
