@@ -36,7 +36,9 @@
         [highlightSelected]="true"
         [endpointName]="buildApiEndpoint()"
         [valueField]="'Id'"
-        [textField]="'Value'">
+        [textField]="'Value'"
+        [displayNamePreview]="true"
+        >
         </pf-multi-select>
      </div>
       <div  *ngIf="selectedField?.FieldType == _DataFieldTypes.TEXT">
