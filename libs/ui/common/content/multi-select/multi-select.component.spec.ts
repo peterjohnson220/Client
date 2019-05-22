@@ -24,7 +24,6 @@ describe('UI/Common/Content - Multi Select', () => {
     });
     fixture = TestBed.createComponent(MultiSelectComponent);
     component = fixture.componentInstance;
-    component.selectedOptionNames = ['zoos'];
   }));
 
   it('should create', () => {
@@ -76,7 +75,7 @@ describe('UI/Common/Content - Multi Select', () => {
   it('should render its options when expanded', () => {
     component.isExpanded = true;
     component.isLoading = false;
-    component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
+    component.options = [{ DisplayName: 'Zoos and Zookeeping', Value: 'Zoos and Zookeeping', IsSelected: false }];
 
     fixture.detectChanges();
 
@@ -97,7 +96,7 @@ describe('UI/Common/Content - Multi Select', () => {
   });
 
   it('should emit when the clear selections button is clicked', () => {
-    component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
+    component.options = [{ DisplayName: 'Zoos and Zookeeping', Value: 'Zoos and Zookeeping', IsSelected: false }];
     spyOn(component.clearSelectionsClick, 'emit');
     component.isExpanded = true;
     component.isLoading = false;
@@ -111,7 +110,7 @@ describe('UI/Common/Content - Multi Select', () => {
     spyOn(component.selectedOptionsChange, 'emit');
     component.isExpanded = true;
     component.isLoading = false;
-    component.options = [{ DisplayName: 'Zoos and Zookeeping', IsSelected: false }];
+    component.options = [{ DisplayName: 'Zoos and Zookeeping', Value: 'Zoos and Zookeeping', IsSelected: false }];
 
     fixture.detectChanges();
 
