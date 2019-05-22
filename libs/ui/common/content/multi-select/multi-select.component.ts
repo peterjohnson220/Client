@@ -23,6 +23,7 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   @Input() endpointName: string;
   @Input() valueField = 'Value';
   @Input() textField = 'DisplayName';
+  @Input() displayNamePreview = false;
 
   @Output() selectFacadeClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
@@ -116,9 +117,10 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     this.searchTerm = '';
   }
   getSelectionsString(): string {
+    const fieldMap = this.displayNamePreview ? 'DisplayName' : 'Value';
     return this.selectedOptions
       .filter((selectedOptions) => selectedOptions.IsSelected)
-      .map((x) => x.DisplayName).join(', ');
+      .map((x) => x[fieldMap]).join(', ');
   }
 
   trackByFn(index, item: GenericMenuItem) {
