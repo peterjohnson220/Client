@@ -30,6 +30,7 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   selectedOption: number;
   dismissedPollIds: string[] = [];
   pollTypes = CommunityPollTypeEnum;
+  showResults = false;
 
   constructor(public store: Store<fromCommunityPollReducer.State>) {
     this.communityPollResponses$ = this.store.select(fromCommunityPollReducer.getGettingCommunityPollResponsesSuccess);
@@ -41,7 +42,9 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
       if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
         this.response = response;
       }
-    }); this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(response => {
+    });
+
+    this.communityPollResponseSubmittedSubscription = this.communityPolResponseSubmitted$.subscribe(response => {
       if (response != null && response.CommunityPollId === this.request.CommunityPollId) {
         this.response = response;
       }
@@ -79,5 +82,8 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   }
   handleHashTagClicked(event: any) {
     this.pollHashTagClicked.emit(event);
+  }
+  jumpToResults() {
+    this.showResults = true;
   }
 }
