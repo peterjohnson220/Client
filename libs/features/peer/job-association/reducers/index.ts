@@ -103,10 +103,7 @@ export const getExchangeJobsSelectedExchangeJob = createSelector(
   getExchangeJobsFeature,
   (feature) => feature.selectedExchangeJob
 );
-export const getSelectedJobFamilies = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getSelectedJobFamilies
-);
+
 export const getExchangeJobsIsDetailPanelExpanded = createSelector(
   getExchangeJobsFeature,
   (feature) => feature.isDetailPanelExpanded
@@ -132,40 +129,36 @@ export const getExchangeJobsData = createSelector(
 );
 
 // Exchange Jobs Selectors, job family filter
-export const getExchangeJobsFamilyFilterLoading = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getJobFamilyFilterLoading
-);
-
 export const getExchangeJobFamilyFilterOptions = createSelector(
   getExchangeJobsFeature,
   fromExchangeJobsReducer.getJobFamilyFilterOptions
 );
 
-export const getExchangeJobFamilyFilterSelectedOptionNames = createSelector(
+export const getExchangeSelectedJobFamilies = createSelector(
   getExchangeJobsFeature,
-  (state) => state.selectedJobFamilies.map(o => o.DisplayName)
+  (state) => state.selectedJobFamilies
+);
+
+export const getExchangeJobFamilyFilterSelectedOptionValues = createSelector(
+  getExchangeJobsFeature,
+  (state) => state.selectedJobFamilies.map(o => o.Value)
 );
 
 // Exchange Jobs Selectors, exchange filter
-export const getExchangeJobsExchangeFilterLoading = createSelector(
-  getExchangeJobsFeature,
-  fromExchangeJobsReducer.getExchangeFilterLoading
-);
 
 export const getExchangeJobExchangeFilterOptions = createSelector(
   getExchangeJobsFeature,
   fromExchangeJobsReducer.getExchangeFilterOptions
 );
 
-export const getExchangeJobExchangeFilterSelectedOptionNames = createSelector(
+export const getExchangeSelectedJobExchangeFilterOptions = createSelector(
   getExchangeJobsFeature,
-  (state) => state.selectedExchanges.map(o => o.DisplayName)
+  (state) => state.selectedExchanges
 );
 
-export const getExchangeJobExchangeFilterSelectedOptionIds = createSelector(
+export const getExchangeJobExchangeFilterSelectedOptionValues = createSelector(
   getExchangeJobsFeature,
-  (state) => state.selectedExchanges.map(o => o.Id)
+  (state) => state.selectedExchanges.map(o => o.Value)
 );
 
 // Exchange Jobs Selectors, previous associations

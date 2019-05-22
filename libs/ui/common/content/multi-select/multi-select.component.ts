@@ -6,9 +6,6 @@ import { TooltipDirective } from '@progress/kendo-angular-tooltip';
 import { GenericMenuItem } from 'libs/models/common';
 import {RemoteDataSourceService} from 'libs/core/services';
 
-
-
-
 @Component({
   selector: 'pf-multi-select',
   templateUrl: './multi-select.component.html',
@@ -16,51 +13,51 @@ import {RemoteDataSourceService} from 'libs/core/services';
 })
 export class MultiSelectComponent implements OnInit, OnDestroy {
   @ViewChild(TooltipDirective) public tooltipDir: TooltipDirective;
-  @Input() options: GenericMenuItem[];
 
+  @Input() options: GenericMenuItem[];
+  @Input() selectedOptions: GenericMenuItem[];
   @Input() labelText: string;
-  @Input() isExpanded: boolean;
-  @Input() isLoading: boolean;
-  @Input() selectedOptionNames: string[];
+  @Input() isExpanded = false;
+  @Input() isLoading = false;
+  @Input() selectedOnTop: boolean;
+  @Input() endpointName: string;
+  @Input() valueField = 'Value';
+  @Input() textField = 'DisplayName';
 
   @Output() selectFacadeClick = new EventEmitter();
   @Output() clearSelectionsClick = new EventEmitter();
-
-  @Output()selectedOptionsChange = new EventEmitter();
-  @Input() selectedOptions: GenericMenuItem[];
-  @Input() selectedOnTop: boolean;
-  @Input() endpointName: string;
-  @Input() valueField: string;
-  @Input() textField: string;
+  @Output() selectedOptionsChange = new EventEmitter();
 
   searchTerm = '';
   remoteDataSourceSubscription: Subscription;
-  constructor( private remoteDataSourceService: RemoteDataSourceService) {
-    this.isExpanded =  false;
-    this.selectedOptions = [];
-    this.selectedOptionNames = [];
-    this.isLoading = true;
-    this.valueField = 'Id';
-    this.textField = 'DisplayName';
-  }
+
+  constructor( private remoteDataSourceService: RemoteDataSourceService) {}
 
   ngOnInit() {
-    if (this.endpointName) {this.getFromRemoteSource(); }
+    if (this.endpointName) {
+      this.getFromRemoteSource();
+    }
+    this.selectedOptions = [];
+  }
+
+  ngOnDestroy() {
+    if (this.remoteDataSourceSubscription) {
+      this.remoteDataSourceSubscription.unsubscribe();
+    }
   }
 
   refreshSelected() {
     this.selectedOptions =  this.options.filter(o => o.IsSelected).map(v => ({ ...v}));
-    this.selectedOptionNames = this.selectedOptions.map(o => o.DisplayName);
     this.selectedOptionsChange.emit(this.selectedOptions);
-
   }
+
   getFromRemoteSource() {
      this.remoteDataSourceSubscription =  this.remoteDataSourceService.getDataSource(`${this.endpointName}`).subscribe(
       s => {
         this.options = s.map(o => {
           return {
             DisplayName: o[this.textField],
-            Id: o[this.valueField],
+            Value: o[this.valueField],
             IsSelected: false
           };
         });
@@ -78,33 +75,46 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
     this.selectFacadeClick.emit();
   }
 
-  clearSelections() {
-    this.options = this.options.map(o => ({...o, IsSelected: false }));
-    this.selectedOptions =  [];
-    this.selectedOptionNames = [];
-    this.clearSelectionsClick.emit();
-    this.selectedOptionsChange.emit([]);
+  hasSelections(): boolean {
+    if (this.options) {
+      return this.options.map(o => o.IsSelected).indexOf(true) >= 0;
+    } else {
+      return false;
+    }
+  }
+
+  clearSelections(emitClearSelectionsClickEvent: boolean = true, emitSelectedOptionsChangeEvent: boolean = true) {
+    this.options = this.options.map(o => ({ ...o, IsSelected: false }));
+    this.selectedOptions = [];
+    if (emitClearSelectionsClickEvent) {
+      this.clearSelectionsClick.emit();
+    }
+    if (emitSelectedOptionsChangeEvent) {
+      this.selectedOptionsChange.emit([]);
+    }
   }
 
   clickElsewhere () {
     this.isExpanded = false;
   }
+
   clearSearchTerm() {
     this.searchTerm = '';
   }
+  getSelectionsString(): string {
+    return this.selectedOptions
+      .filter((selectedOptions) => selectedOptions.IsSelected)
+      .map((x) => x.Value).join(', ');
+  }
 
   trackByFn(index, item: GenericMenuItem) {
-    return ((item.Id) ? item.Id : item.DisplayName ) + (item.IsSelected ? 'true' : 'false');
+    return ((item.Value) ? item.Value : item.DisplayName ) + (item.IsSelected ? 'true' : 'false');
   }
+
   @HostListener('document:keyup', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key.toLowerCase() === 'escape') {
       this.isExpanded = false;
     }
-  }
-  ngOnDestroy() {
-      if (this.remoteDataSourceSubscription) {
-        this.remoteDataSourceSubscription.unsubscribe();
-      }
   }
 }

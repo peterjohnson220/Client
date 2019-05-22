@@ -9,7 +9,7 @@ import {
   ExchangeListItem, UpsertExchangeJobMapRequest,
   GetChartRequest, GetDetailChartRequest, ChartItem,
   RequestExchangeRequest, ExchangeRequestCandidatesRequest,
-  SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest
+  SaveExchangeJobAssociationRequestModel, GetExchangeCompanyJobsAllEntityIdsRequest, AggregateGridDataResult
 } from '../../../models';
 import { GenericMenuItem } from 'libs/models/common';
 
@@ -50,11 +50,17 @@ export class ExchangeCompanyApiService {
     );
   }
 
-  getExchangeJobs(listState: State, jobTitleSearchTerm: string, jobFamilies: string[], exchangeIds: number[]): Observable<GridDataResult> {
-    return this.payfactorsApiService.post<GridDataResult>(
+  getExchangeJobs(listState: State, jobTitleSearchTerm: string, jobFamilies: string[], exchangeNames: string[]):
+    Observable<GridDataResult> {
+    return this.payfactorsApiService.post<AggregateGridDataResult>(
       `${this.endpoint}/GetExchangeJobs`,
-      { JobTitleSearchTerm: jobTitleSearchTerm, ListState: listState, JobFamilies: jobFamilies, ExchangeIds: exchangeIds },
-      MappingHelper.mapListAreaResultToGridDataResult
+      {
+        JobTitleSearchTerm: jobTitleSearchTerm,
+        ListState: listState,
+        JobFamilies: jobFamilies,
+        ExchangeNames: exchangeNames
+      },
+      MappingHelper.mapListAreaResultToAggregateGridDataResult
     );
   }
 
@@ -148,6 +154,6 @@ export class ExchangeCompanyApiService {
   }
 
   private mapJobFamiliesToItems(jobFamilies: string[]) {
-    return jobFamilies.map(f => ({ DisplayName: f, IsSelected: false, Id: null } as GenericMenuItem));
+    return jobFamilies.map(f => ({ DisplayName: f, IsSelected: false, Value: f } as GenericMenuItem));
   }
 }
