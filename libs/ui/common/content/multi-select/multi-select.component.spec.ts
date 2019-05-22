@@ -116,7 +116,7 @@ describe('UI/Common/Content - Multi Select', () => {
 
     const option = component.options.find(f => f.DisplayName === 'Zoos and Zookeeping');
     option.IsSelected = true;
-    component.refreshSelected();
+    component.emitChanges();
 
     expect(component.selectedOptionsChange.emit).toHaveBeenCalled();
   });
