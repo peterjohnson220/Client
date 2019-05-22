@@ -98,6 +98,8 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   clearSelections(emitClearSelectionsClickEvent: boolean = true, emitSelectedOptionsChangeEvent: boolean = true) {
     this.options = this.options.map(o => ({ ...o, IsSelected: false }));
     this.selectedOptions = [];
+    this.selectedValues = [];
+    this.emitChanges();
     if (emitClearSelectionsClickEvent) {
       this.clearSelectionsClick.emit();
     }
