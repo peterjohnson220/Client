@@ -118,9 +118,10 @@ export class MultiSelectComponent implements OnInit, OnDestroy {
   }
   getSelectionsString(): string {
     const fieldMap = this.displayNamePreview ? 'DisplayName' : 'Value';
+
     return this.selectedOptions
-      .filter((selectedOptions) => selectedOptions.IsSelected)
-      .map((x) => x[fieldMap]).join(', ');
+    .filter((selectedOptions) => selectedOptions.IsSelected)
+    .map((x) => x[fieldMap]).join(', ');
   }
 
   trackByFn(index, item: GenericMenuItem) {

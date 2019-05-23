@@ -4,3 +4,7 @@
 .form-control::-ms-clear {
   display: none;
 }
+
+.action-item:hover {
+  cursor: pointer;  
+}
