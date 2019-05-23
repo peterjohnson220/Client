@@ -5,3 +5,4 @@ export * from './truncate-after.pipe';
 export * from './new-line.pipe';
 export * from './parse-job-description.pipe';
 export * from './wrap-subtext-with-tag';
+export * from './data-type-filter.pipe';

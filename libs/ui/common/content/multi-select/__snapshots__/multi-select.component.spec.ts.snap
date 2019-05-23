@@ -3,6 +3,8 @@
 exports[`UI/Common/Content - Multi Select should hide checkbox panel when not expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded="false"
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
@@ -10,6 +12,8 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -57,6 +61,8 @@ exports[`UI/Common/Content - Multi Select should hide checkbox panel when not ex
 exports[`UI/Common/Content - Multi Select should hide the loading indicator when not loading 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded={[Function Boolean]}
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
@@ -64,6 +70,8 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -151,6 +159,8 @@ exports[`UI/Common/Content - Multi Select should hide the loading indicator when
 exports[`UI/Common/Content - Multi Select should render its options when expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded={[Function Boolean]}
   isLoading="false"
   options={[Function Array]}
@@ -159,6 +169,8 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -235,6 +247,8 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
           
           <label
             class="checkbox-label d-block ellipsis-overflowing-text m-0"
+            ng-reflect-klass="checkbox-label d-block ellipsi"
+            ng-reflect-ng-class=""
           >
             <input
               class="mr-1"
@@ -258,6 +272,8 @@ exports[`UI/Common/Content - Multi Select should render its options when expande
 exports[`UI/Common/Content - Multi Select should render the correct primary label text 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded="false"
   isLoading="false"
   labelText={[Function String]}
@@ -266,6 +282,8 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -313,6 +331,8 @@ exports[`UI/Common/Content - Multi Select should render the correct primary labe
 exports[`UI/Common/Content - Multi Select should show the checkbox panel when expanded 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded={[Function Boolean]}
   isLoading="false"
   remoteDataSourceService={[Function RemoteDataSourceService]}
@@ -320,6 +340,8 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}
@@ -407,6 +429,8 @@ exports[`UI/Common/Content - Multi Select should show the checkbox panel when ex
 exports[`UI/Common/Content - Multi Select should show the loading indicator when loading 1`] = `
 <pf-multi-select
   clearSelectionsClick={[Function EventEmitter]}
+  displayNamePreview="false"
+  highlightSelected="false"
   isExpanded={[Function Boolean]}
   isLoading={[Function Boolean]}
   remoteDataSourceService={[Function RemoteDataSourceService]}
@@ -414,6 +438,8 @@ exports[`UI/Common/Content - Multi Select should show the loading indicator when
   selectFacadeClick={[Function EventEmitter]}
   selectedOptions={[Function Array]}
   selectedOptionsChange={[Function EventEmitter]}
+  selectedValues={[Function Array]}
+  selectedValuesChange={[Function EventEmitter]}
   textField={[Function String]}
   tooltipDir="undefined"
   valueField={[Function String]}

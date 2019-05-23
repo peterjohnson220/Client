@@ -2,31 +2,18 @@
 
 exports[`UserRoleDataAccessTabComponent should match snapshot 1`] = `
 <pf-user-role-data-access-tab
+  currentUserRoleSubscription={[Function Subscriber]}
+  dataAccessService={[Function DataAccessService]}
+  dataFields={[Function Array]}
   dataTypes={[Function Array]}
   dataTypesSubscription={[Function Subscriber]}
+  roleDataRestrictions={[Function Array]}
   store={[Function Store]}
 >
-  <h3>
-     Data Access Tab
-  
-  </h3><ul
-    class="list-group nav"
-  >
-    
-    <li
-      class="nav-item nav-item parentElement"
-    >
-       Test Data type 
-      <ul
-        class="list-group nav"
-      >
-        <li
-          class="nav-item subElement"
-        >
-          <pf-data-field-filter />
-        </li>
-      </ul>
-    </li>
-  </ul>
+  <div>
+    <h4>
+      Please select a role from the role list.
+    </h4>
+  </div>
 </pf-user-role-data-access-tab>
 `;
