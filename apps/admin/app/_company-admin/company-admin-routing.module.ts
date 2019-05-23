@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 
-import { AuthorizationGuard } from 'libs/security/guards';
-import { PermissionCheckEnum, Permissions } from 'libs/constants';
+import {AuthorizationGuard} from 'libs/security/guards';
+import {PermissionCheckEnum, Permissions} from 'libs/constants';
 
-import { UserRolePageComponent, NavigationPageComponent } from './containers';
+import {NavigationPageComponent, PasswordManagementPageComponent, UserRolePageComponent} from './containers';
 
 
 const routes: Routes = [
@@ -13,6 +13,9 @@ const routes: Routes = [
   },
   { path: 'user-role', component: UserRolePageComponent, canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.USER_ROLES], Check: PermissionCheckEnum.Single}
+  },
+  { path: ':id/passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
+    data: {Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single}
   },
   { path: '', redirectTo: 'user-role', pathMatch: 'full' },
 ];
