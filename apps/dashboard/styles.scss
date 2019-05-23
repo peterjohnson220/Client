@@ -2,6 +2,10 @@
 @import 'colors';
 @import '~dragula/dist/dragula.min.css';
 
+.main-body-scroll {
+  background: url('/client/dashboard/assets/images/DarkWood.png') repeat;
+}
+
 .reset-button {
   background: none;
   color: inherit;
