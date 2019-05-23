@@ -1,5 +1,5 @@
 <!--Poll question-->
-<pf-community-post-content class="text-center lead mt-2 mb-2"
+<pf-community-post-content class="font-weight-bold mt-2 mb-2"
                            (hashTagClicked)="handleHashTagClicked($event)"
                            [content]="request.Question">
 </pf-community-post-content>
@@ -13,34 +13,52 @@
 </div>
 
 <ng-template #poll_not_dismissed>
-  <div *ngIf="request && !response && !request.IsExpired">
+  <div *ngIf="request && !response && !request.IsExpired && !showResults">
+    <div [attr.data-qa-id]="'cnt-pollclosedate'" class="p-2"><i class="far fa-stopwatch fa-lg poll-close-date"></i><span class="pl-3">This poll closes on {{ request.ExpirationDate  | date:'medium' }} </span></div>
     <div *ngFor="let option of request.ResponseOptions">
-      <div class="inner-element my-1">
-        <div class="poll-choice poll-border poll-response-option-button mt-1"
+      <div class="inner-element mb-3 pt-2">
+        <div class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
              [attr.data-qa-id]="'cnt-pollResponse'+option.ResponseId"
              [ngClass]="{'selected': option.ResponseId === selectedOption }"
              (click)="selectOption(option.ResponseId)">
-          <div class="response-option-text-container pl-1" >{{option.ResponseText}}</div>
+          <div class="response-option-text-container pl-1">
+            <span *ngIf="option.ResponseId !== selectedOption" class="poll-choice-unselected-indicator">
+              <i class="far fa-circle"></i>
+            </span>
+            <span *ngIf="option.ResponseId === selectedOption" class="poll-choice-selected-indicator">
+              <i class="fas fa-check-circle"></i>
+            </span>
+            <span class="poll-choice-label pl-1">{{option.ResponseText}}</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center pt-2">
+    <div class="d-flex justify-content-between pt-3">
+      <div data-qa-id="cnt-submitJumpToResults"
+           class="poll-jump-to-results"
+           (click)="jumpToResults()">
+        Jump to results <i class="far fa-chevron-right"></i>
+      </div>
       <button type="button" class="btn btn-secondary submit-button-container"
               data-qa-id="btn-submitPollResponse"
               (click)="submitPollResponse(request.CommunityPollId, selectedOption)">
-        <i class="fas fa-check pr-2"></i>Submit
+        Vote
         <pf-loading-indicator *ngIf="communityPollResponseSubmitting$ | async">
         </pf-loading-indicator>
       </button>
     </div>
   </div>
-  <div *ngIf="response || request.IsExpired">
+  <div *ngIf="response || request.IsExpired || showResults">
     <div *ngFor="let option of request.ResponseOptions">
         <div class="inner-element my-1">
-            <div class = "poll-choice poll-border community-border-radius"></div>
-            <div class = "poll-border" [ngClass] ="{'poll-choice-filled': response.ResponsePercents[option.ResponseId] > 0}" [style.width.%]="getPercentage(option.ResponseId)"></div>
-            <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
-            <div class="response-option-text-container poll-response-percent">{{response.ResponsePercents[option.ResponseId]}}%</div>
+            <div class="poll-choice poll-border community-border-radius">
+              <div *ngIf="response" [ngClass] ="{'poll-choice-filled': response?.ResponsePercents[option.ResponseId] > 0 }" [style.width.%]="getPercentage(option.ResponseId)"></div>
+              <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
+              <div class="response-option-text-container poll-response-percent">
+                <span *ngIf="response">{{response?.ResponsePercents[option.ResponseId]}}</span>
+                <span *ngIf="!response">0</span>%
+              </div>
+            </div>
         </div>
     </div>
     <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2"

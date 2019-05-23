@@ -10,11 +10,12 @@ exports[`CommunityPollComponent should show poll 1`] = `
   pollTypes={[Function Object]}
   request={[Function Object]}
   response={[Function Object]}
+  showResults="false"
   store={[Function Store]}
   type="0"
 >
   <pf-community-post-content
-    class="text-center lead mt-2 mb-2"
+    class="font-weight-bold mt-2 mb-2"
   /><div>
     
     <div>
@@ -23,22 +24,27 @@ exports[`CommunityPollComponent should show poll 1`] = `
       >
         <div
           class="poll-choice poll-border community-border-radius"
-        />
-        <div
-          class="poll-border"
-          ng-reflect-klass="poll-border"
-          ng-reflect-ng-class="[object Object]"
-          style="width: 100%;"
-        />
-        <div
-          class="response-option-text-container poll-response-question"
         >
-          yes
-        </div>
-        <div
-          class="response-option-text-container poll-response-percent"
-        >
-          0%
+          
+          <div
+            ng-reflect-ng-class="[object Object]"
+            style="width: 100%;"
+          />
+          <div
+            class="response-option-text-container poll-response-question"
+          >
+            yes
+          </div>
+          <div
+            class="response-option-text-container poll-response-percent"
+          >
+            
+            <span>
+              0
+            </span>
+            
+            % 
+          </div>
         </div>
       </div>
     </div>
@@ -48,22 +54,28 @@ exports[`CommunityPollComponent should show poll 1`] = `
       >
         <div
           class="poll-choice poll-border community-border-radius"
-        />
-        <div
-          class="poll-border poll-choice-filled"
-          ng-reflect-klass="poll-border"
-          ng-reflect-ng-class="[object Object]"
-          style="width: 100%;"
-        />
-        <div
-          class="response-option-text-container poll-response-question"
         >
-          no
-        </div>
-        <div
-          class="response-option-text-container poll-response-percent"
-        >
-          100%
+          
+          <div
+            class="poll-choice-filled"
+            ng-reflect-ng-class="[object Object]"
+            style="width: 100%;"
+          />
+          <div
+            class="response-option-text-container poll-response-question"
+          >
+            no
+          </div>
+          <div
+            class="response-option-text-container poll-response-percent"
+          >
+            
+            <span>
+              100
+            </span>
+            
+            % 
+          </div>
         </div>
       </div>
     </div>

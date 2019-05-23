@@ -17,9 +17,13 @@ exports[`CommunityPostComponent should show post 1`] = `
       <pf-community-post-header />
       
       <div
-        class="px-5 pb-2"
+        class="row justify-content-center m-0"
       >
-        <pf-community-poll />
+        <div
+          class="col-8 pb-2"
+        >
+          <pf-community-poll />
+        </div>
       </div>
       
       <div>

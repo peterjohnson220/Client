@@ -34,7 +34,7 @@
               [LikedByCurrentUser]="post.LikedByCurrentUser"
               [PostId]="post.Id"
               [LikeCount]="post.LikeCount">
-            </pf-community-like>      
+            </pf-community-like>
             <a id="reply" href="javascript:void(0)" class="pl-2 community-link" (click)="showReply()">
               <span>Reply</span>
             </a>
@@ -49,7 +49,7 @@
           </div>
           <pf-community-post-add-reply-view
             [postId]="post.Id" (replyHashTagClicked)="hashtagClicked($event)"></pf-community-post-add-reply-view>
-          <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>      
+          <pf-community-post-filtered-reply-view *ngIf="!isModal" [postId]="post.Id"></pf-community-post-filtered-reply-view>
           <div *ngIf="post.ReplyCount > 0">
             <a id="replyAction" href="javascript:void(0)" class="community-link m-1">
           <span class="mr-1">
@@ -69,15 +69,17 @@
               (replyHashTagClicked)="hashtagClicked($event)">
             </pf-community-post-replies>
           </div>
-        </div> 
+        </div>
         <ng-template #user_poll>
-          <div class="px-5 pb-2">
-            <pf-community-poll
-              [request]="post.UserPollRequest"
-              [response]="post.UserPollResponse"
-              [type]="pollsType"
-              (pollHashTagClicked)="hashtagClicked($event)">
-            </pf-community-poll>
+          <div class="row justify-content-center m-0">
+            <div class="col-8 pb-2">
+              <pf-community-poll
+                [request]="post.UserPollRequest"
+                [response]="post.UserPollResponse"
+                [type]="pollsType"
+                (pollHashTagClicked)="hashtagClicked($event)">
+              </pf-community-poll>
+            </div>
           </div>
         </ng-template>
         <div>
@@ -89,4 +91,3 @@
         </div>
       </div>
     </div>
-  
