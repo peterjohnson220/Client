@@ -4,11 +4,16 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {combineReducers, Store, StoreModule} from '@ngrx/store';
 
 import * as fromRootState from 'libs/state/state';
-import {getMockDataTypes} from 'libs/models/security/roles/data-type';
+import {DataTypeFilterPipe} from 'libs/core/pipes';
+import {getMockDataTypes} from 'libs/models/security/roles/data-type.model';
+import {getMockRoleDataRestrictions} from 'libs/models/security/roles/role-data-restriction.model';
 
 import { UserRoleDataAccessTabComponent } from './user-role-data-access-tab.component';
 import * as fromUserRoleViewReducer from '../../reducers';
 import * as fromDataAccessTabActions from '../../reducers';
+import {DataAccessService} from '../../services';
+
+
 
 
 describe('UserRoleDataAccessTabComponent', () => {
@@ -22,7 +27,8 @@ describe('UserRoleDataAccessTabComponent', () => {
           userRoleAdminMain: combineReducers(fromDataAccessTabActions.reducers)
         }),
       ],
-      declarations: [UserRoleDataAccessTabComponent],
+      providers: [ DataAccessService ],
+      declarations: [UserRoleDataAccessTabComponent, DataTypeFilterPipe],
       schemas: [NO_ERRORS_SCHEMA]
     });
     store = TestBed.get(Store);
@@ -31,6 +37,7 @@ describe('UserRoleDataAccessTabComponent', () => {
 
     fixture = TestBed.createComponent(UserRoleDataAccessTabComponent);
     component = fixture.componentInstance;  // to access properties and methods
+    component.roleDataRestrictions = getMockRoleDataRestrictions();
     component.dataTypes = getMockDataTypes();
   }));
 

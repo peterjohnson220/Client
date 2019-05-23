@@ -21,6 +21,7 @@ export const SAVE_ROLE_SUCCESS = '[Company Admin/User Role] Save Role Success';
 export const SAVE_ROLE_ERROR = '[Company Admin/User Role] Save Role Error';
 export const DISABLE_SAVE_BUTTON = '[Company Admin/User Role] Disable Save Button';
 export const EDIT_ROLE_NAME = '[Company Admin/User Role] Edit Role Name IUserRoleUsersTabState';
+export const DISCARD_ROLE_CHANGES = '[Company Admin/User Role] Discard Role Changes';
 
 export class FieldChange implements Action {
   readonly type = FIELD_CHANGE;
@@ -105,6 +106,11 @@ export class EditRoleName implements  Action {
   constructor(public payload: any) {}
 }
 
+export class DiscardRoleChanges implements  Action {
+  readonly type = DISCARD_ROLE_CHANGES;
+  constructor() {}
+}
+
 export type Actions = FieldChange
   | UpdateUserRoleTabState
   | UpdateCurrentUserRole
@@ -120,4 +126,5 @@ export type Actions = FieldChange
   | SaveRoleSuccess
   | SaveRoleError
   | DisableSaveButton
-  | EditRoleName;
+  | EditRoleName
+  | DiscardRoleChanges;

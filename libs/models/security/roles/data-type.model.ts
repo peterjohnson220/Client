@@ -1,4 +1,4 @@
-import {DataField} from './data-field';
+import {DataField} from './data-field.model';
 export class DataType {
   Id: number;
   Name: string;
@@ -12,7 +12,8 @@ export function getMockDataTypes(): DataType[] {
       Id: 1,
       Name: 'Test Field',
       DataType: undefined,
-      FieldType: 'text'
+      FieldType: 'text',
+      DisplayName: 'Test Field'
     }]
   }];
 }
