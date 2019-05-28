@@ -145,4 +145,8 @@ export class CommunitySearchResultsComponent implements OnInit, OnDestroy {
     this.scrollToTop();
     this.resetInfiniteScroll();
   }
+
+  isPoll(post: any) {
+    return post.CommunityContent.Responses;
+  }
 }

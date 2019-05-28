@@ -18,10 +18,13 @@
       <div class="row mx-4" (click)="openDetailsModal(result)">
         <div class="col-12">
           <pf-community-search-result-header [companyName]="result.CompanyName"
-                                             [elapsedTime]="result.ElapsedTime"></pf-community-search-result-header>
+                                             [elapsedTime]="result.ElapsedTime"
+                                             [isPoll]=isPoll(result)
+                                             [pollExpirationDate]="result.CommunityContent.ExpirationDate"></pf-community-search-result-header>
           <pf-community-search-result-content [content]="result.Content"
-                                              [searchTerm]="query"></pf-community-search-result-content>
-          <div class="footer-container">
+                                              [searchTerm]="query"
+                                              [pollResponses]="result.CommunityContent.Responses"></pf-community-search-result-content>
+          <div *ngIf="!isPoll(result)" class="footer-container">
             <span> <i class="fas fa-heart icon"></i> {{result.LikeCount}} Likes</span>
             <span class="ml-1"> Replies ({{result.ReplyCount}})</span>
           </div>
