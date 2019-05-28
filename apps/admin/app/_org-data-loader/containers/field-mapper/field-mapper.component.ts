@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { FileRestrictions } from '@progress/kendo-angular-upload';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
-  DATE_FORMATS, ORG_DATA_CLIENTFIELDS_INDEX_RESET, ORG_DATA_REMOVE_URL,
+  DATE_FORMATS,
+  ORG_DATA_CLIENTFIELDS_INDEX_RESET,
+  ORG_DATA_REMOVE_URL,
   ORG_DATA_UPLOAD_URL
 } from '../../constants';
-import {DateFormatItem, LoaderFieldSet} from '../../models';
+import { DateFormatItem, LoaderFieldSet } from '../../models';
+import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
+
 
 @Component({
   selector: 'pf-field-mapper',
@@ -33,6 +37,8 @@ export class FieldMapperComponent implements OnInit {
   @Input() loaderType: string;
   @Input() dateFormat: string;
   @Input() delimiter: string;
+  @Input() isFullReplace: boolean;
+  @Input() loadEnabled: boolean;
   @Output() mappingComplete = new EventEmitter<any>();
 
   constructor() {
@@ -58,6 +64,11 @@ export class FieldMapperComponent implements OnInit {
         }
       }
     });
+  }
+
+  changeIsFullReplace(isFullReplace: boolean) {
+    this.isFullReplace = isFullReplace;
+    this.fireCompleteEvent();
   }
 
   successEventHandler = function($event) {
@@ -138,6 +149,7 @@ export class FieldMapperComponent implements OnInit {
 
     return pfField === clientField;
   }
+
   private mapSimilarFields() {
     for (let i = 0; i < this.clientFields.length; i++) {
       /* the Bonus_Target field in the client files do not map to the Pf Bonus_Target field,
@@ -156,17 +168,55 @@ export class FieldMapperComponent implements OnInit {
   }
 
   private fireCompleteEvent() {
-    if (this.clientFields.length > 0 || (this.loaderType === 'Employees' && (!this.dateFormat || this.dateFormat === ''))) {
-      this.mappingComplete.emit({
-        complete: false
-      });
-    } else {
-      this.mappingComplete.emit({
-        complete: true,
-        mappings: this.mappedFields,
-        dateFormat: this.dateFormat
-      });
+    let payload: LoaderEntityStatus = {
+      complete: false,
+      loaderType: this.loaderType,
+    };
+
+    if (this.clientFields.length === 0) {
+      payload = this.configureCompleteEventPayloadForLoaderType(payload);
     }
+
+    this.mappingComplete.emit(payload);
+  }
+
+  private configureCompleteEventPayloadForLoaderType(basePayload: LoaderEntityStatus) {
+    let payload: LoaderEntityStatus = {
+      ...basePayload,
+    };
+
+    switch (this.loaderType) {
+      case 'Employees':
+        if (this.dateFormat && this.dateFormat !== '') {
+          payload = {
+            ...payload,
+            complete: true,
+            dateFormat: this.dateFormat,
+            isFullReplace: this.isFullReplace,
+            loadEnabled: true,
+            mappings: this.mappedFields,
+          };
+        }
+        break;
+      case 'StructureMappings':
+        payload = {
+          ...payload,
+          complete: true,
+          isFullReplace: this.isFullReplace,
+          loadEnabled: true,
+          mappings: this.mappedFields,
+        };
+        break;
+      default:
+        payload = {
+          ...payload,
+          complete: true,
+          loadEnabled: true,
+          mappings: this.mappedFields,
+        };
+    }
+
+    return payload;
   }
 
   private resetMapping() {

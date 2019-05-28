@@ -127,3 +127,11 @@ export const DATE_FORMATS: DateFormatItem[] = [
 
 export const DELIMITER_LOADER_SETTING_KEY_NAME = 'Delimiter';
 export const DATEFORMAT_LOADER_SETTING_KEY_NAME = 'DateFormat';
+export const IS_ACTIVE_SETTING_KEY_NAME = 'IsActive';
+export const IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME = 'IsEmployeesLoadEnabled';
+export const IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME = 'IsJobsLoadEnabled';
+export const IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME = 'IsPaymarketsLoadEnabled';
+export const IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME = 'IsStructuresLoadEnabled';
+export const IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME = 'IsStructureMappingsLoadEnabled';
+export const IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME = 'IsEmployeesFullReplace';
+export const IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME = 'IsStructureMappingsFullReplace';

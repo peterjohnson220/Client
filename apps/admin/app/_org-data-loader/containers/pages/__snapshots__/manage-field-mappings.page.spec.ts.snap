@@ -2,6 +2,7 @@
 
 exports[`ManageFieldMapperPageComponent should disable the save button when no delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -10,10 +11,19 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -27,6 +37,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -163,6 +174,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
 
 exports[`ManageFieldMapperPageComponent should disable the save button when not all mappings are complete 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -171,10 +183,19 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   emailRecipients$={[Function Store]}
   employeeMappingComplete="false"
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -188,6 +209,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -324,6 +346,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
 
 exports[`ManageFieldMapperPageComponent should enable the save button when all mappings are complete AND a delimiter is specified 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -332,10 +355,19 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -349,6 +381,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -484,6 +517,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
 
 exports[`ManageFieldMapperPageComponent should hide the field mapper when a company has not been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -492,10 +526,19 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -509,6 +552,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   saveMappingsSuccess$={[Function Store]}
   selectedCompany="undefined"
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -561,6 +605,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
 
 exports[`ManageFieldMapperPageComponent should not show a message when the mappings have not been saved yet 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -569,10 +614,19 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -587,6 +641,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   saveMessage=""
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -722,6 +777,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
 
 exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -730,10 +786,19 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -748,6 +813,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   saveMessage={[Function String]}
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >
@@ -882,6 +948,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
 
 exports[`ManageFieldMapperPageComponent should show the field mapper when a company has been selected 1`] = `
 <pf-autoloader-field-mapping-page
+  booleanSettingToStringTransform={[Function Function]}
   companies$={[Function Store]}
   companiesLoading$={[Function Store]}
   companyMappings$={[Function Store]}
@@ -890,10 +957,19 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   emailRecipients$={[Function Store]}
   employeeMappingComplete={[Function Boolean]}
   existingCompanyLoaderSettings={[Function Array]}
+  isActive={[Function Boolean]}
+  isEmployeesFullReplace={[Function Boolean]}
+  isEmployeesLoadEnabled="false"
+  isJobsLoadEnabled="false"
+  isPaymarketsLoadEnabled="false"
+  isStructureMappingsFullReplace={[Function Boolean]}
+  isStructureMappingsLoadEnabled="false"
+  isStructuresLoadEnabled="false"
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
   mappings={[Function Array]}
+  noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
   payfactorsEmployeeDataFields={[Function Array]}
   payfactorsJobDataFields={[Function Array]}
@@ -907,6 +983,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   saveMappingsSuccess$={[Function Store]}
   selectedCompany={[Function Number]}
   store={[Function Store]}
+  stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
 >

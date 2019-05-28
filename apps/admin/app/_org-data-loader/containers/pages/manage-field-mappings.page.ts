@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import {filter} from 'rxjs/internal/operators';
+import { filter } from 'rxjs/operators';
 
 import { Company } from 'libs/models/company/company.model';
 import { LoaderFieldMappingsApiService } from 'libs/data/payfactors-api/data-loads/index';
@@ -18,12 +18,21 @@ import {LoaderFieldSet, MappingModel} from '../../models';
 import {
   DATEFORMAT_LOADER_SETTING_KEY_NAME,
   DELIMITER_LOADER_SETTING_KEY_NAME,
+  IS_ACTIVE_SETTING_KEY_NAME,
+  IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
+  IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
+  IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
+  IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
+  IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
+  IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
+  IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
   ORG_DATA_PF_EMPLOYEE_FIELDS,
   ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
 } from '../../constants';
 import { EmailRecipientModel } from '../../models/email-recipient.model';
-import {LoaderSetting} from '../../models/loader-settings.model';
+import { LoaderSetting } from '../../models/loader-settings.model';
+import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -53,8 +62,16 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveMessage: string;
   saveClass: string;
   emailRecipients$: Observable<EmailRecipientModel[]>;
+  isActive: boolean;
   delimiter: string;
   dateFormat: string;
+  isEmployeesLoadEnabled: boolean;
+  isJobsLoadEnabled: boolean;
+  isPaymarketsLoadEnabled: boolean;
+  isStructuresLoadEnabled: boolean;
+  isStructureMappingsLoadEnabled: boolean;
+  isEmployeesFullReplace: boolean;
+  isStructureMappingsFullReplace: boolean;
   loaderSettings$: Observable<LoaderSetting[]>;
   saveLoaderSettingsSuccess$: Observable<boolean>;
   saveLoaderSettingsError$: Observable<boolean>;
@@ -86,99 +103,160 @@ export class ManageFieldMappingsPageComponent implements OnInit {
     this.saveLoaderSettingsError$ = this.store.select(fromOrgDataAutoloaderReducer.getLoadingLoaderSettingsError);
 
     this.mappings = [];
+    this.isActive = true;
     this.delimiter = ',';
+    this.isEmployeesLoadEnabled = false;
+    this.isJobsLoadEnabled = false;
+    this.isPaymarketsLoadEnabled = false;
+    this.isStructuresLoadEnabled = false;
+    this.isStructureMappingsLoadEnabled = false;
+    this.isEmployeesFullReplace = true;
+    this.isStructureMappingsFullReplace = true;
     this.loaderSettingsToSave = [];
     this.existingCompanyLoaderSettings = [];
 
-
-    this.saveMappingsSuccess$.subscribe(success => {
-      if (success) {
+    this.saveMappingsSuccess$
+      .pipe(
+        filter(success => success),
+      )
+      .subscribe(success => {
         this.saveClass = 'success';
         this.saveMessage = 'Saved.';
         this.mappings = [];
-      }
-    });
+      });
 
-    this.saveMappingsError$.subscribe(error => {
-      if (error) {
+    this.saveMappingsError$
+      .pipe(
+        filter(error => error),
+      )
+      .subscribe(error => {
         this.saveClass = 'error';
         this.saveMessage = 'Failed.';
-      }
-    });
+      });
 
-    this.loaderSettings$.subscribe(settings => {
-      if (settings.length > 0) {
+    this.loaderSettings$
+      .pipe(
+        filter(settings => settings.length > 0),
+      )
+      .subscribe(settings => {
         this.existingCompanyLoaderSettings = settings;
-        const delimiterSetting = this.existingCompanyLoaderSettings.find(x => x.KeyName === DELIMITER_LOADER_SETTING_KEY_NAME);
-        this.delimiter = delimiterSetting ? delimiterSetting.KeyValue : null;
-        const dateFormatSetting = this.existingCompanyLoaderSettings.find(x => x.KeyName === DATEFORMAT_LOADER_SETTING_KEY_NAME);
-        this.dateFormat = dateFormatSetting ? dateFormatSetting.KeyValue : null;
-      }
-    });
 
-    this.saveLoaderSettingsSuccess$.pipe(
-      filter(success => success)
-    ).subscribe(success => {
-      this.saveClass = 'success';
-      this.saveMessage = 'Saved.';
-      this.loaderSettingsToSave = [];
-    });
+        this.isActive = this.getLoaderSettingValueIfSet<boolean>(
+          IS_ACTIVE_SETTING_KEY_NAME,
+          true,
+          this.stringSettingToBooleanTransform,
+        );
+        this.delimiter = this.getLoaderSettingValueIfSet<string>(DELIMITER_LOADER_SETTING_KEY_NAME, null, this.noopStringTransform);
+        this.dateFormat = this.getLoaderSettingValueIfSet<string>(DATEFORMAT_LOADER_SETTING_KEY_NAME, null, this.noopStringTransform);
+        this.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
+          IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
+          false,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
+          IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
+          false,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isPaymarketsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
+          IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
+          false,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isStructuresLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
+          IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
+          false,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isStructureMappingsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
+          IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
+          false,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(
+          IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
+          true,
+          this.stringSettingToBooleanTransform,
+        );
+        this.isStructureMappingsFullReplace = this.getLoaderSettingValueIfSet<boolean>(
+          IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
+          true,
+          this.stringSettingToBooleanTransform,
+        );
+      });
 
-    this.saveLoaderSettingsError$.pipe(
-      filter(error => error)
-      ).subscribe(error => {
-      if (error) {
+    this.saveLoaderSettingsSuccess$
+      .pipe(
+        filter(success => success),
+      )
+      .subscribe(() => {
+        this.saveClass = 'success';
+        this.saveMessage = 'Saved.';
+        this.loaderSettingsToSave = [];
+      });
+
+    this.saveLoaderSettingsError$
+      .pipe(
+        filter(error => error),
+      )
+      .subscribe(() => {
         this.saveClass = 'error';
         this.saveMessage = 'Failed.';
-      }
-    });
+      });
   }
 
   ngOnInit() {
     this.store.dispatch(new fromCompanySelectorActions.LoadingCompanies());
   }
 
-  onPaymarketMappingComplete($event: any) {
+  onPaymarketMappingComplete($event: LoaderEntityStatus) {
     this.saveMessage = '';
     this.paymarketMappingComplete = $event.complete;
+    this.isPaymarketsLoadEnabled = $event.loadEnabled;
     if (this.paymarketMappingComplete) {
       this.addOrReplaceMappings('PayMarkets', $event.mappings);
     }
   }
 
-  onJobMappingComplete($event: any) {
+  onJobMappingComplete($event: LoaderEntityStatus) {
     this.saveMessage = '';
     this.jobMappingComplete = $event.complete;
+    this.isJobsLoadEnabled = $event.loadEnabled;
     if (this.jobMappingComplete) {
       this.addOrReplaceMappings('Jobs', $event.mappings);
     }
   }
 
-  onStructureMappingComplete($event: any) {
+  onStructureMappingComplete($event: LoaderEntityStatus) {
     this.saveMessage = '';
     this.structureMappingComplete = $event.complete;
+    this.isStructuresLoadEnabled = $event.loadEnabled;
     if (this.structureMappingComplete) {
       this.addOrReplaceMappings('Structures', $event.mappings);
     }
   }
 
-  onStructureMappingMappingComplete($event: any) {
+  onStructureMappingMappingComplete($event: LoaderEntityStatus) {
     this.saveMessage = '';
     this.structureMappingMappingComplete = $event.complete;
+    this.isStructureMappingsLoadEnabled = $event.loadEnabled;
     if (this.structureMappingMappingComplete) {
       this.addOrReplaceMappings('StructureMapping', $event.mappings);
     }
+    this.isStructureMappingsFullReplace = $event.isFullReplace;
   }
 
-  onEmployeeMappingComplete($event: any) {
+  onEmployeeMappingComplete($event: LoaderEntityStatus) {
     this.saveMessage = '';
     this.employeeMappingComplete = $event.complete;
+    this.isEmployeesLoadEnabled = $event.loadEnabled;
     if (this.employeeMappingComplete) {
       this.addOrReplaceMappings('Employees', $event.mappings);
     }
     if ($event.dateFormat) {
       this.dateFormat = $event.dateFormat;
     }
+    this.isEmployeesFullReplace = $event.isFullReplace;
   }
 
   onCompanySelected($event: number) {
@@ -223,37 +301,70 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
-    let index = -1;
     const mappingsModel: MappingModel = {
       LoaderType: loaderType,
       Mappings: mappings
     };
 
-    for (let i = 0; i < this.mappings.length; i++) {
-      if (this.mappings[i].LoaderType === loaderType) {
-        index = i;
-      }
-    }
+    this.mappings = this.mappings.filter(mapping => mapping.LoaderType !== loaderType);
+    this.mappings.push(mappingsModel);
+  }
 
-    if (index !== -1) {
-      this.mappings[index] = mappingsModel;
-    } else {
-      this.mappings.push(mappingsModel);
-    }
+  private getLoaderSettingValueIfSet<T>(keyName: string, defaultValue: T, transform: (value: string) => T) {
+    const setting = this.existingCompanyLoaderSettings.find(x => x.KeyName === keyName);
+    return setting ? transform(setting.KeyValue) : defaultValue;
   }
 
   private getLoaderSettingsToSave() {
-    const existingDelimiterSetting = this.existingCompanyLoaderSettings.filter(x => x.KeyName === DELIMITER_LOADER_SETTING_KEY_NAME)[0];
-    const existingDateFormatSetting = this.existingCompanyLoaderSettings.filter(x => x.KeyName === DATEFORMAT_LOADER_SETTING_KEY_NAME)[0];
+    this.updateSettingIfChanged(
+      IS_ACTIVE_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isActive),
+    );
+    this.updateSettingIfChanged(DELIMITER_LOADER_SETTING_KEY_NAME, this.delimiter);
+    this.updateSettingIfChanged(DATEFORMAT_LOADER_SETTING_KEY_NAME, this.dateFormat);
+    this.updateSettingIfChanged(
+      IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
+    );
+    this.updateSettingIfChanged(
+      IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
+    );
+    this.updateSettingIfChanged(
+      IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
+    );
+    this.updateSettingIfChanged(
+      IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
+    );
+    this.updateSettingIfChanged(
+      IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
+    );
+    this.updateSettingIfChanged(
+      IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
+    );
+    this.updateSettingIfChanged(
+      IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
+      this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
+    );
+  }
 
-    if ((!existingDelimiterSetting && this.delimiter)
-      || (existingDelimiterSetting && this.delimiter !== existingDelimiterSetting.KeyValue)) {
-      this.pushToLoaderSettingsToSave(DELIMITER_LOADER_SETTING_KEY_NAME, this.delimiter);
-    }
+  private booleanSettingToStringTransform = (value: boolean) => value ? 'true' : 'false';
+  private stringSettingToBooleanTransform = (value: string) => /^true$/i.test(value);
 
-    if ((!existingDateFormatSetting && this.dateFormat)
-      || (existingDateFormatSetting && this.dateFormat !== existingDateFormatSetting.KeyValue)) {
-      this.pushToLoaderSettingsToSave(DATEFORMAT_LOADER_SETTING_KEY_NAME, this.dateFormat);
+  private noopStringTransform = (value: string) => value;
+
+  private updateSettingIfChanged(keyName: string, keyValue: string) {
+    const existingSettingValue = this.existingCompanyLoaderSettings.find(setting => setting.KeyName === keyName);
+
+    if (
+      (!existingSettingValue && keyValue) ||
+      (existingSettingValue && keyValue !== existingSettingValue.KeyValue)
+    ) {
+      this.pushToLoaderSettingsToSave(keyName, keyValue);
     }
   }
 
