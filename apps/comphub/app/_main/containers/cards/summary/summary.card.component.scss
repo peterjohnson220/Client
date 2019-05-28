@@ -23,6 +23,10 @@
     }
 }
 
+.glossary-svg-disable {
+  pointer-events: none;
+}
+
 .summary-container {
   flex-grow: 1;
   margin-top: 2rem;
