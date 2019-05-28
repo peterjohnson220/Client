@@ -31,10 +31,8 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
   occurence: string[] = ['First', 'Second', 'Third', 'Fourth'];
 
   constructor(private store: Store<fromJdmAdminReducer.State>) {
-    this.schedule.DayOfWeek = '';
-    this.daysOfWeekSelected = [];
-    this.schedule.Frequency = 'One-time';
-    this.validSchedule = true;
+    this.setDefaultPageValues();
+
     this.addingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAdding);
     this.addingScheduleError$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleAddingError);
     this.removingSchedule$ = this.store.select(fromJdmAdminReducer.getBulkExportScheduleRemoving);
@@ -71,10 +69,11 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
       if (this.schedule.Frequency !== 'One-time') {
         this.generateCronExpression();
       }
+
       this.store.dispatch(new fromJdmBulkExportScheduleActions.AddingSchedule(this.schedule));
       this.schedule = new BulkExportSchedule();
-      this.schedule.Frequency = 'One-time';
-      this.daysOfWeekSelected = [];
+
+      this.setDefaultPageValues();
     }
   }
 
@@ -154,6 +153,15 @@ export class BulkExportSchedulerFormComponent implements OnInit, OnDestroy {
     }
 
     return '';
+  }
+
+  setDefaultPageValues() {
+    this.schedule.DayOfWeek = '';
+    this.schedule.Frequency = 'One-time';
+    this.schedule.IncludeDelimiters = false;
+
+    this.daysOfWeekSelected = [];
+    this.validSchedule = true;
   }
 
   // Lifecycle

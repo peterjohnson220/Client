@@ -3,6 +3,7 @@ export class BulkExportSchedule {
   FileName: string;
   ViewId: string;
   Filter: string;
+  IncludeDelimiters: boolean;
   Frequency: string;
   DayOfWeek: string;
   Occurrence: string;
@@ -17,6 +18,7 @@ export function generateMockBulkExportSchedule(): BulkExportSchedule {
     FileName: 'Mock',
     ViewId: 'MockViewId',
     Filter: 'MockFilter',
+    IncludeDelimiters: false,
     Frequency: 'Weekly',
     DayOfWeek: '2,4,6',
     Occurrence: null,
