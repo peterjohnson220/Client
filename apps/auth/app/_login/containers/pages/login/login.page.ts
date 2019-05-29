@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -43,7 +43,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               public loginStore: Store<fromLoginReducer.State>,
               public store: Store<fromMarketingReducer.State>,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
     this.login$ = this.loginStore.select(fromLoginReducer.getLogin);
     this.loginError$ = this.loginStore.select(fromLoginReducer.getLoginError);
     this.loginSuccess$ = this.loginStore.select(fromLoginReducer.getLoginSuccess);
@@ -107,5 +108,12 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   getValue(controlName: string) {
     const control = this.loginForm.get(controlName);
     return control.value.toString();
+  }
+  navigateToRegistration() {
+    if (environment.allowHubspotRegistration) {
+      window.location.href = environment.hubspotRegistrationUrl;
+    } else {
+      this.router.navigateByUrl('/registration');
+    }
   }
 }
