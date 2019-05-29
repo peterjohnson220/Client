@@ -540,9 +540,9 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           class="d-inline-block mr-2"
         >
           <input
-            class="k-radio Employees"
+            class="k-radio"
             id="addRecords_Employees"
-            name="addOrFullReplaceRecords"
+            name="addOrFullReplaceRecords_Employees"
             type="radio"
           />
           <label
@@ -558,7 +558,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
           <input
             class="k-radio"
             id="fullReplaceRecords_Employees"
-            name="addOrFullReplaceRecords"
+            name="addOrFullReplaceRecords_Employees"
             type="radio"
           />
           <label
@@ -838,9 +838,9 @@ exports[`FieldMapperComponent should show a date format selector when the loader
           class="d-inline-block mr-2"
         >
           <input
-            class="k-radio Employees"
+            class="k-radio"
             id="addRecords_Employees"
-            name="addOrFullReplaceRecords"
+            name="addOrFullReplaceRecords_Employees"
             type="radio"
           />
           <label
@@ -856,7 +856,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
           <input
             class="k-radio"
             id="fullReplaceRecords_Employees"
-            name="addOrFullReplaceRecords"
+            name="addOrFullReplaceRecords_Employees"
             type="radio"
           />
           <label
