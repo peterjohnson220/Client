@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'user-role', component: UserRolePageComponent, canActivate: [AuthorizationGuard],
     data: { Permissions: [Permissions.USER_ROLES], Check: PermissionCheckEnum.Single}
   },
-  { path: ':id/passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
+  { path: 'passwordmanagement', component: PasswordManagementPageComponent, canActivate: [AuthorizationGuard],
     data: {Permissions: [Permissions.PASSWORD_MANAGEMENT], Check: PermissionCheckEnum.Single}
   },
   { path: '', redirectTo: 'user-role', pathMatch: 'full' },

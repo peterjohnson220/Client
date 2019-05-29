@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as fromCompanyAdminReducer from '../../../reducers';
+import { PasswordManagementSettingsComponent } from '../../password-management-settings';
 
 @Component({
   selector: 'pf-company-admin-password-management',
@@ -6,17 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./password-management.page.scss']
 })
 export class PasswordManagementPageComponent implements OnInit {
+  @ViewChild(PasswordManagementSettingsComponent) settingsComponent: PasswordManagementSettingsComponent;
+  public passwordSettingsSaving$: Observable<boolean>;
+  public isDirty = false;
 
-  constructor() { }
+  constructor(private store: Store<fromCompanyAdminReducer.State>) {}
 
   ngOnInit() {
+    this.passwordSettingsSaving$ = this.store.select(fromCompanyAdminReducer.getPasswordSettingsSaving);
   }
 
   save() {
-
+    this.settingsComponent.trySubmit();
+  }
+  cancel() {
+    this.settingsComponent.resetForm();
   }
 
-  cancel() {
-
+  setDirty($value: boolean) {
+    this.isDirty = $value;
   }
 }

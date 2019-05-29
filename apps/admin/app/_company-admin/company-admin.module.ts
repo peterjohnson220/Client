@@ -1,30 +1,29 @@
 import { NgModule } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { EffectsModule } from '@ngrx/effects';
-import { GridModule } from '@progress/kendo-angular-grid';
-import { LayoutModule } from '@progress/kendo-angular-layout';
 import { StoreModule } from '@ngrx/store';
 
-import { PfCommonUIModule } from 'libs/ui/common';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { GridModule } from '@progress/kendo-angular-grid';
+import { LayoutModule } from '@progress/kendo-angular-layout';
+
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
+import { PfCommonUIModule } from 'libs/ui/common';
 
-import { AddCompanyRoleModalComponent,
-  NavigationPageComponent,
-  UserRoleFunctionTabComponent,
-  UserRoleUsersTabComponent,
-  UserRolePageComponent,
-  UserRoleDataAccessTabComponent,
-  PasswordManagementPageComponent
+import { DataFieldFilterComponent } from './components';
+import {
+    AddCompanyRoleModalComponent, NavigationPageComponent, PasswordManagementPageComponent, PasswordManagementSettingsComponent,
+    SavePasswordSettingsModalComponent, UserRoleDataAccessTabComponent, UserRoleFunctionTabComponent, UserRolePageComponent,
+    UserRoleUsersTabComponent
 } from './containers';
-import { NavigationEffects, UserRoleEffects } from './effects';
+import { NavigationEffects, PasswordSettingEffects, UserRoleEffects } from './effects';
 import { reducers } from './reducers';
-import {DataAccessService, UserRoleService, UserRoleValidationService} from './services';
+import { DataAccessService, UserRoleService, UserRoleValidationService } from './services';
 import { CompanyAdminRoutingModule } from './company-admin-routing.module';
-import { DataFieldFilterComponent } from './components/data-field-filter/data-field-filter.component';
 
 @NgModule({
   imports: [
@@ -40,7 +39,8 @@ import { DataFieldFilterComponent } from './components/data-field-filter/data-fi
     StoreModule.forFeature('userRoleAdminMain', reducers),
     EffectsModule.forFeature([
       NavigationEffects,
-      UserRoleEffects
+      UserRoleEffects,
+      PasswordSettingEffects
     ]),
 
     // Routing
@@ -59,6 +59,8 @@ import { DataFieldFilterComponent } from './components/data-field-filter/data-fi
     AddCompanyRoleModalComponent,
     DataFieldFilterComponent,
     NavigationPageComponent,
+    PasswordManagementSettingsComponent,
+    SavePasswordSettingsModalComponent,
 
     // Pages
     UserRolePageComponent,
