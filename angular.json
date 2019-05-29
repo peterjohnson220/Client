@@ -851,7 +851,6 @@
             ],
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js"
             ]
           },
@@ -945,7 +944,6 @@
             "tsConfig": "apps/auth/../../tsconfig.spec.json",
             "scripts": [
               "assets/js/pendo.js",
-              "assets/js/googletagmanager.js",
               "assets/js/fontawesome-all.min.js"
             ],
             "styles": [
