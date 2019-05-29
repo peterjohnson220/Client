@@ -91,11 +91,6 @@ $response-container-height: 40px;
   background-color: white;
 }
 
-.poll-border {
-  border: solid 1px $community-poll-option-color;
-  height: 100%;
-}
-
 
 .poll-choice-unanswered {
   position: absolute;
@@ -108,19 +103,11 @@ $response-container-height: 40px;
 .poll-choice-unanswered:hover{
   cursor: pointer;
 }
-.poll-choice-filled{
-  position: absolute;
-  height: 100%;
-  background: $community-poll-option-color;
-}
 
-.poll-response-question{
-  width: 70%;
-  left: 2%;
+.poll-choice-filled {
 }
 
 .poll-response-percent{
-  right: 2%;
   font-weight: bold;
 }
 
@@ -129,4 +116,15 @@ $response-container-height: 40px;
   border:none;
   text-decoration: underline;
   cursor: pointer;
+}
+
+::ng-deep .progress-bar{
+  background-color: #28435A !important;
+}
+
+.response-inner-element {
+  position: relative;
+  height: 80px;
+  transition: background-color 0.5s ease;
+  pointer-events: none !important;
 }

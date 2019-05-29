@@ -17,75 +17,97 @@ exports[`CommunityPollComponent should show poll 1`] = `
   <pf-community-post-content
     class="font-weight-bold mt-2 mb-2"
   /><div>
-    
-    <div>
-      <div
-        class="inner-element my-1"
-      >
-        <div
-          class="poll-choice poll-border community-border-radius"
-        >
-          
-          <div
-            ng-reflect-ng-class="[object Object]"
-            style="width: 100%;"
-          />
-          <div
-            class="response-option-text-container poll-response-question"
-          >
-            yes
-          </div>
-          <div
-            class="response-option-text-container poll-response-percent"
-          >
-            
-            <span>
-              0
-            </span>
-            
-            % 
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <div
-        class="inner-element my-1"
-      >
-        <div
-          class="poll-choice poll-border community-border-radius"
-        >
-          
-          <div
-            class="poll-choice-filled"
-            ng-reflect-ng-class="[object Object]"
-            style="width: 100%;"
-          />
-          <div
-            class="response-option-text-container poll-response-question"
-          >
-            no
-          </div>
-          <div
-            class="response-option-text-container poll-response-percent"
-          >
-            
-            <span>
-              100
-            </span>
-            
-            % 
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <p
-      class="dismiss-poll-button text-center mt-2"
-      data-qa-id="cnt-dismissPollResponse"
+    <div
+      class="p-2"
+      data-qa-id="cnt-pollclosedate"
     >
-      Dismiss poll
-    </p>
+      <i
+        class="far fa-stopwatch fa-lg poll-close-date"
+      />
+      <span
+        class="pl-3"
+      >
+        This poll closes on May 29, 2019, 6:40:07 PM 
+      </span>
+    </div>
+    
+    <div>
+      <div
+        class="inner-element mb-3 pt-2"
+      >
+        <div
+          class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
+          data-qa-id="cnt-pollResponse0"
+          ng-reflect-klass="poll-choice-unanswered poll-ch"
+          ng-reflect-ng-class="[object Object]"
+        >
+          <div
+            class="response-option-text-container pl-1"
+          >
+            
+            <span
+              class="poll-choice-unselected-indicator"
+            >
+              <i
+                class="far fa-circle"
+              />
+            </span>
+            
+            <span
+              class="poll-choice-label pl-1"
+            >
+              yes
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="inner-element mb-3 pt-2"
+      >
+        <div
+          class="poll-choice-unanswered poll-choice-shadow p-3 mb-5 bg-white rounded"
+          data-qa-id="cnt-pollResponse1"
+          ng-reflect-klass="poll-choice-unanswered poll-ch"
+          ng-reflect-ng-class="[object Object]"
+        >
+          <div
+            class="response-option-text-container pl-1"
+          >
+            
+            <span
+              class="poll-choice-unselected-indicator"
+            >
+              <i
+                class="far fa-circle"
+              />
+            </span>
+            
+            <span
+              class="poll-choice-label pl-1"
+            >
+              no
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex pt-3 justify-content-end"
+      ng-reflect-klass="d-flex pt-3"
+      ng-reflect-ng-class="[object Object]"
+    >
+      
+      <button
+        class="btn btn-secondary submit-button-container"
+        data-qa-id="btn-submitPollResponse"
+        type="button"
+      >
+         Vote 
+        
+      </button>
+    </div>
   </div>
 </pf-community-poll>
 `;

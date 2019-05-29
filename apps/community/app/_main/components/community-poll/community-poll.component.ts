@@ -20,6 +20,7 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   @Input() public request: CommunityPollRequest;
   @Input() public response: CommunityPollResponse;
   @Input() public type = CommunityPollTypeEnum.CommunityPoll;
+  @Input() public isCurrentUserPost: boolean;
   @Output() public pollHashTagClicked  = new EventEmitter();
 
   communityPollResponses$: Observable<CommunityPollResponse[]>;
@@ -61,8 +62,42 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
     this.selectedOption = selected;
   }
 
-  getPercentage(responseId: number): number {
-    return this.response.ResponsePercents[responseId] <= 0 ? 100 : this.response.ResponsePercents[responseId];
+  isMostSelected(responseId: number, votes: any) {
+
+    const allEqual = votes.every( (val, i, arr) => val === arr[0] );
+
+    if (allEqual) {
+      return false;
+    }
+
+    const index = this.indexOfMax();
+    if (index === responseId) {
+      return true;
+    }
+    return false;
+
+  }
+
+  indexOfMax() {
+
+    if (!this.response || !this.response.ResponsePercents) {
+      return -1;
+    }
+    if (this.response.ResponsePercents.length === 0) {
+      return -1;
+    }
+
+    let max = this.response.ResponsePercents[0];
+    let maxIndex = 0;
+
+    for (let i = 1; i < this.response.ResponsePercents.length; i++) {
+      if (this.response.ResponsePercents[i] > max) {
+        maxIndex = i;
+        max = this.response.ResponsePercents[i];
+      }
+    }
+
+    return maxIndex;
   }
 
   submitPollResponse(communityPollId: string, selectedResponseId: string) {
@@ -85,5 +120,23 @@ export class CommunityPollComponent implements OnInit, OnDestroy {
   }
   jumpToResults() {
     this.showResults = true;
+  }
+
+  backToPoll() {
+    this.showResults = false;
+  }
+
+  showJumpToResults(votes: any) {
+    let sum = 0;
+
+    if (votes) {
+      for (let i = 0; i < votes.length; i++) {
+        sum += votes[ i ];
+      }
+    }
+    if (sum === 0) {
+      return false;
+    }
+    return sum;
   }
 }
