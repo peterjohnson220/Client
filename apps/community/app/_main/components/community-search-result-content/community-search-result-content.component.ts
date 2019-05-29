@@ -9,6 +9,7 @@ export class CommunitySearchResultContentComponent {
 
   @Input() content: string;
   @Input() searchTerm: string;
+  @Input() pollResponses: any;
   constructor() { }
 
 }
