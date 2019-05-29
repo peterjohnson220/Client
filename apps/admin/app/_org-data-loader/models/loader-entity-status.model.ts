@@ -1,8 +1,10 @@
+import { LoaderType } from '../constants/loader-type.enum';
+
 export interface LoaderEntityStatus {
   complete: boolean;
   dateFormat?: string;
   isFullReplace?: boolean;
   loadEnabled?: boolean;
-  loaderType: string;
+  loaderType: LoaderType;
   mappings?: string[];
 }

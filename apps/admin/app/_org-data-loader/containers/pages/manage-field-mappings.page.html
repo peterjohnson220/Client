@@ -27,7 +27,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsPaymarketDataFields"
-              loaderType="PayMarkets"
+              [loaderType]="loaderTypes.PayMarkets"
               [delimiter]="delimiter"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
@@ -39,7 +39,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsJobDataFields"
-              loaderType="Jobs"
+              [loaderType]="loaderTypes.Jobs"
               [delimiter]="delimiter"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
@@ -51,7 +51,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureDataFields"
-              loaderType="Structures"
+              [loaderType]="loaderTypes.Structures"
               [delimiter]="delimiter"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
@@ -63,7 +63,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureMappingDataFields"
-              loaderType="StructureMapping"
+              [loaderType]="loaderTypes.StructureMapping"
               [delimiter]="delimiter"
               [fieldMappings$]="companyMappings$"
               [fieldMappingsLoading]="companyMappingsLoading$ | async"
@@ -76,7 +76,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsEmployeeDataFields"
-              loaderType="Employees"
+              [loaderType]="loaderTypes.Employees"
               [delimiter]="delimiter"
               [dateFormat]="dateFormat"
               [fieldMappings$]="companyMappings$"

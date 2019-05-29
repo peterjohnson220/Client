@@ -11,7 +11,7 @@ import {
 } from '../../constants';
 import { DateFormatItem, LoaderFieldSet } from '../../models';
 import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
-
+import { LoaderType } from '../../constants/loader-type.enum';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -34,7 +34,7 @@ export class FieldMapperComponent implements OnInit {
   @Input() fieldMappings$: Observable<LoaderFieldSet[]>;
   @Input() fieldMappingsLoading: boolean;
   @Input() payfactorsDataFields: string[];
-  @Input() loaderType: string;
+  @Input() loaderType: LoaderType;
   @Input() dateFormat: string;
   @Input() delimiter: string;
   @Input() isFullReplace: boolean;
@@ -186,7 +186,7 @@ export class FieldMapperComponent implements OnInit {
     };
 
     switch (this.loaderType) {
-      case 'Employees':
+      case LoaderType.Employees:
         if (this.dateFormat && this.dateFormat !== '') {
           payload = {
             ...payload,
@@ -198,7 +198,7 @@ export class FieldMapperComponent implements OnInit {
           };
         }
         break;
-      case 'StructureMappings':
+      case LoaderType.StructureMapping:
         payload = {
           ...payload,
           complete: true,
