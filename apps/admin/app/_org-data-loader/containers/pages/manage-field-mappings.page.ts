@@ -14,18 +14,8 @@ import * as fromEmailRecipientsActions from '../../actions/email-recipients.acti
 import * as fromOrgDataFieldMappingsActions from '../../actions/org-data-field-mappings.actions';
 import * as fromLoaderSettingsActions from '../../actions/loader-settings.actions';
 
-import {LoaderFieldSet, MappingModel} from '../../models';
+import { LoaderFieldSet, MappingModel } from '../../models';
 import {
-  DATEFORMAT_LOADER_SETTING_KEY_NAME,
-  DELIMITER_LOADER_SETTING_KEY_NAME,
-  IS_ACTIVE_SETTING_KEY_NAME,
-  IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
-  IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
-  IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
-  IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
-  IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
-  IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
-  IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
   ORG_DATA_PF_EMPLOYEE_FIELDS,
   ORG_DATA_PF_JOB_FIELDS, ORG_DATA_PF_PAYMARKET_FIELDS, ORG_DATA_PF_STRUCTURE_FIELDS,
   ORG_DATA_PF_STRUCTURE_MAPPING_FIELDS
@@ -33,6 +23,8 @@ import {
 import { EmailRecipientModel } from '../../models/email-recipient.model';
 import { LoaderSetting } from '../../models/loader-settings.model';
 import { LoaderEntityStatus } from '../../models/loader-entity-status.model';
+import { LoaderSettingsKeys } from '../../constants/loader-settings-keys.enum';
+import { LoaderType } from '../../constants/loader-type.enum';
 
 @Component({
   selector: 'pf-autoloader-field-mapping-page',
@@ -77,6 +69,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveLoaderSettingsError$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
   loaderSettingsToSave: LoaderSetting[];
+  loaderTypes = LoaderType;
 
   constructor (private store: Store<fromOrgDataAutoloaderReducer.State>, private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {
     this.payfactorsPaymarketDataFields = ORG_DATA_PF_PAYMARKET_FIELDS;
@@ -142,44 +135,44 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.existingCompanyLoaderSettings = settings;
 
         this.isActive = this.getLoaderSettingValueIfSet<boolean>(
-          IS_ACTIVE_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsActive,
           true,
           this.stringSettingToBooleanTransform,
         );
-        this.delimiter = this.getLoaderSettingValueIfSet<string>(DELIMITER_LOADER_SETTING_KEY_NAME, null, this.noopStringTransform);
-        this.dateFormat = this.getLoaderSettingValueIfSet<string>(DATEFORMAT_LOADER_SETTING_KEY_NAME, null, this.noopStringTransform);
+        this.delimiter = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.Delimiter, null, this.noopStringTransform);
+        this.dateFormat = this.getLoaderSettingValueIfSet<string>(LoaderSettingsKeys.DateFormat, null, this.noopStringTransform);
         this.isEmployeesLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsEmployeesLoadEnabled,
           false,
           this.stringSettingToBooleanTransform,
         );
         this.isJobsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsJobsLoadEnabled,
           false,
           this.stringSettingToBooleanTransform,
         );
         this.isPaymarketsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsPaymarketsLoadEnabled,
           false,
           this.stringSettingToBooleanTransform,
         );
         this.isStructuresLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsStructuresLoadEnabled,
           false,
           this.stringSettingToBooleanTransform,
         );
         this.isStructureMappingsLoadEnabled = this.getLoaderSettingValueIfSet<boolean>(
-          IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
           false,
           this.stringSettingToBooleanTransform,
         );
         this.isEmployeesFullReplace = this.getLoaderSettingValueIfSet<boolean>(
-          IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsEmployeesFullReplace,
           true,
           this.stringSettingToBooleanTransform,
         );
         this.isStructureMappingsFullReplace = this.getLoaderSettingValueIfSet<boolean>(
-          IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
+          LoaderSettingsKeys.IsStructureMappingsFullReplace,
           true,
           this.stringSettingToBooleanTransform,
         );
@@ -317,37 +310,37 @@ export class ManageFieldMappingsPageComponent implements OnInit {
 
   private getLoaderSettingsToSave() {
     this.updateSettingIfChanged(
-      IS_ACTIVE_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsActive,
       this.booleanSettingToStringTransform(this.isActive),
     );
-    this.updateSettingIfChanged(DELIMITER_LOADER_SETTING_KEY_NAME, this.delimiter);
-    this.updateSettingIfChanged(DATEFORMAT_LOADER_SETTING_KEY_NAME, this.dateFormat);
+    this.updateSettingIfChanged(LoaderSettingsKeys.Delimiter, this.delimiter);
+    this.updateSettingIfChanged(LoaderSettingsKeys.DateFormat, this.dateFormat);
     this.updateSettingIfChanged(
-      IS_EMPLOYEES_LOAD_ENABLED_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsEmployeesLoadEnabled,
       this.booleanSettingToStringTransform(this.isEmployeesLoadEnabled),
     );
     this.updateSettingIfChanged(
-      IS_JOBS_LOAD_ENABLED_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsJobsLoadEnabled,
       this.booleanSettingToStringTransform(this.isJobsLoadEnabled),
     );
     this.updateSettingIfChanged(
-      IS_PAYMARKETS_LOAD_ENABLED_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsPaymarketsLoadEnabled,
       this.booleanSettingToStringTransform(this.isPaymarketsLoadEnabled),
     );
     this.updateSettingIfChanged(
-      IS_STRUCTURES_LOAD_ENABLED_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsStructuresLoadEnabled,
       this.booleanSettingToStringTransform(this.isStructuresLoadEnabled),
     );
     this.updateSettingIfChanged(
-      IS_STRUCTURE_MAPPINGS_LOAD_ENABLED_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsStructureMappingsLoadEnabled,
       this.booleanSettingToStringTransform(this.isStructureMappingsLoadEnabled),
     );
     this.updateSettingIfChanged(
-      IS_EMPLOYEES_FULL_REPLACE_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsEmployeesFullReplace,
       this.booleanSettingToStringTransform(this.isEmployeesFullReplace),
     );
     this.updateSettingIfChanged(
-      IS_STRUCTURE_MAPPINGS_FULL_REPLACE_SETTING_KEY_NAME,
+      LoaderSettingsKeys.IsStructureMappingsFullReplace,
       this.booleanSettingToStringTransform(this.isStructureMappingsFullReplace),
     );
   }

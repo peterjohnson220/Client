@@ -1,7 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 import { FieldMapperComponent } from './field-mapper.component';
+import { LoaderType } from '../../constants/loader-type.enum';
 
 describe('FieldMapperComponent', () => {
   let component: FieldMapperComponent;
@@ -18,10 +19,10 @@ describe('FieldMapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FieldMapperComponent);
     component = fixture.componentInstance;
-    component.loaderType = 'Structures';
+    component.loaderType = LoaderType.Structures;
     component.fieldMappings$ = of([{
       CompanyId: 13,
-      LoaderType: 'Jobs',
+      LoaderType: LoaderType.Jobs,
       LoaderFieldMappings: [{
         InternalField: 'Job_Code',
         ClientField: 'JobCode'
@@ -33,7 +34,7 @@ describe('FieldMapperComponent', () => {
     },
     {
       CompanyId: 13,
-      LoaderType: 'Employees',
+      LoaderType: LoaderType.Employees,
       LoaderFieldMappings: [{
         InternalField: 'Employee_Id',
         ClientField: 'EmpId'
@@ -92,21 +93,21 @@ describe('FieldMapperComponent', () => {
   });
 
   it('should show a date format selector when the loader type is Employees', () => {
-    component.loaderType = 'Employees';
+    component.loaderType = LoaderType.Employees;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show a add/full replace toggle when the loader type is Employees', () => {
-    component.loaderType = 'Employees';
+    component.loaderType = LoaderType.Employees;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
   });
 
   it('should show a add/full replace toggle when the loader type is Structure Mappings', () => {
-    component.loaderType = 'StructureMappings';
+    component.loaderType = LoaderType.StructureMapping;
     fixture.detectChanges();
 
     expect(fixture).toMatchSnapshot();
@@ -188,7 +189,7 @@ describe('FieldMapperComponent', () => {
   });
 
   it('should populate the mappings box with the company\'s existing mappings on init', () => {
-    component.loaderType = 'Jobs';
+    component.loaderType = LoaderType.Jobs;
     component.payfactorsDataFields = ['Job_Code', 'Job_Title'];
 
     const expectedMappings = ['Job_Code__JobCode', 'Job_Title__JobTitle'];

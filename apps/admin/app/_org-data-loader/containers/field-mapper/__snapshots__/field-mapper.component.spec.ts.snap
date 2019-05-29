@@ -690,6 +690,42 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     >
       
       
+      <div
+        class="col-md-4"
+      >
+        <div
+          class="d-inline-block mr-2"
+        >
+          <input
+            class="k-radio"
+            id="addRecords_StructureMapping"
+            name="addOrFullReplaceRecords_StructureMapping"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="addRecords_StructureMapping"
+          >
+            Add
+          </label>
+        </div>
+        <div
+          class="d-inline-block"
+        >
+          <input
+            class="k-radio"
+            id="fullReplaceRecords_StructureMapping"
+            name="addOrFullReplaceRecords_StructureMapping"
+            type="radio"
+          />
+          <label
+            class="k-radio-label"
+            for="fullReplaceRecords_StructureMapping"
+          >
+            Full Replace
+          </label>
+        </div>
+      </div>
     </div>
     <div
       class="row"
@@ -709,7 +745,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
     <span
       class="font-weight-bold text-underline"
     >
-      structuremappings
+      structuremapping
     </span>
   </p><div
     class="field-mappings-container"
