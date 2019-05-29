@@ -212,7 +212,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                 title="Glossary of Terms"
               >
                 <i
-                  class="fa fa-book-open"
+                  class="fa fa-book-open glossary-svg-disable"
                 />
               </button>
             </div>
@@ -652,7 +652,7 @@ exports[`Comphub - Main - Summary Card Component should display CAD for currency
                         title="Glossary of Terms"
                       >
                         <i
-                          class="fa fa-book-open"
+                          class="fa fa-book-open glossary-svg-disable"
                         />
                       </button>
                     </div>
@@ -1124,7 +1124,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                 title="Glossary of Terms"
               >
                 <i
-                  class="fa fa-book-open"
+                  class="fa fa-book-open glossary-svg-disable"
                 />
               </button>
             </div>
@@ -1564,7 +1564,7 @@ exports[`Comphub - Main - Summary Card Component should display USD for currency
                         title="Glossary of Terms"
                       >
                         <i
-                          class="fa fa-book-open"
+                          class="fa fa-book-open glossary-svg-disable"
                         />
                       </button>
                     </div>
@@ -2036,7 +2036,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 title="Glossary of Terms"
               >
                 <i
-                  class="fa fa-book-open"
+                  class="fa fa-book-open glossary-svg-disable"
                 />
               </button>
             </div>
@@ -2476,7 +2476,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                         title="Glossary of Terms"
                       >
                         <i
-                          class="fa fa-book-open"
+                          class="fa fa-book-open glossary-svg-disable"
                         />
                       </button>
                     </div>
@@ -2948,7 +2948,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                 title="Glossary of Terms"
               >
                 <i
-                  class="fa fa-book-open"
+                  class="fa fa-book-open glossary-svg-disable"
                 />
               </button>
             </div>
@@ -3388,7 +3388,7 @@ exports[`Comphub - Main - Summary Card Component should hide create project butt
                         title="Glossary of Terms"
                       >
                         <i
-                          class="fa fa-book-open"
+                          class="fa fa-book-open glossary-svg-disable"
                         />
                       </button>
                     </div>
@@ -3869,7 +3869,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                 title="Glossary of Terms"
               >
                 <i
-                  class="fa fa-book-open"
+                  class="fa fa-book-open glossary-svg-disable"
                 />
               </button>
             </div>
@@ -4318,7 +4318,7 @@ exports[`Comphub - Main - Summary Card Component should show create project butt
                         title="Glossary of Terms"
                       >
                         <i
-                          class="fa fa-book-open"
+                          class="fa fa-book-open glossary-svg-disable"
                         />
                       </button>
                     </div>
