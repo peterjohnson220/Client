@@ -11,9 +11,8 @@
       </div>
     </div>
 </div>
-
 <ng-template #poll_not_dismissed>
-  <div *ngIf="request && !response && !request.IsExpired && !showResults">
+  <div *ngIf="request && !isCurrentUserPost && (!response  || !response?.UserHasVoted ) && !request.IsExpired && !showResults">
     <div [attr.data-qa-id]="'cnt-pollclosedate'" class="p-2"><i class="far fa-stopwatch fa-lg poll-close-date"></i><span class="pl-3">This poll closes on {{ request.ExpirationDate  | date:'medium' }} </span></div>
     <div *ngFor="let option of request.ResponseOptions">
       <div class="inner-element mb-3 pt-2">
@@ -33,8 +32,9 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-between pt-3">
-      <div data-qa-id="cnt-submitJumpToResults"
+    <div class="d-flex pt-3"
+      [ngClass]="{'justify-content-between':showJumpToResults(response?.ResponseVotes), 'justify-content-end' : !showJumpToResults(response?.ResponseVotes)}">
+      <div *ngIf="showJumpToResults(response?.ResponseVotes)" data-qa-id="cnt-submitJumpToResults"
            class="poll-jump-to-results"
            (click)="jumpToResults()">
         Jump to results <i class="far fa-chevron-right"></i>
@@ -48,18 +48,29 @@
       </button>
     </div>
   </div>
-  <div *ngIf="response || request.IsExpired || showResults">
+  <div *ngIf="(response && response?.UserHasVoted) || isCurrentUserPost || request.IsExpired || showResults">
     <div *ngFor="let option of request.ResponseOptions">
-        <div class="inner-element my-1">
-            <div class="poll-choice poll-border community-border-radius">
-              <div *ngIf="response" [ngClass] ="{'poll-choice-filled': response?.ResponsePercents[option.ResponseId] > 0 }" [style.width.%]="getPercentage(option.ResponseId)"></div>
-              <div class="response-option-text-container poll-response-question">{{option.ResponseText}}</div>
-              <div class="response-option-text-container poll-response-percent">
-                <span *ngIf="response">{{response?.ResponsePercents[option.ResponseId]}}</span>
-                <span *ngIf="!response">0</span>%
+        <div class="response-inner-element my-3">
+            <div class="poll-choice poll-choice-shadow p-3 mb-5 bg-white rounded"
+                 [ngClass]="{'selected':isMostSelected(option.ResponseId, response.ResponseVotes)}">
+              <div class="">
+                <span class="">{{option.ResponseText}}</span>
+                <span *ngIf="response && response.ResponsePercents" class="float-right poll-response-percent">{{response?.ResponsePercents[option.ResponseId]}}%</span>
+                <span *ngIf="!response" class="float-right poll-response-percent">0%</span>
               </div>
+              <div *ngIf="response && response.ResponsePercents" class="pt-1"><ngb-progressbar [value]="response.ResponsePercents[option.ResponseId]"></ngb-progressbar></div>
+              <div *ngIf="!response" class="pt-1"><ngb-progressbar [value]="0"></ngb-progressbar></div>
+              <div *ngIf="response?.ResponseVotes">{{response.ResponseVotes[option.ResponseId]}} Votes </div>
+              <div *ngIf="!response?.ResponseVotes">0 Votes </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="!request.IsExpired && !response?.UserHasVoted && !isCurrentUserPost" class="d-flex justify-content-start pt-3">
+      <div data-qa-id="cnt-submitBackToPoll"
+           class="poll-jump-to-results"
+           (click)="backToPoll()">
+        <i class="far fa-chevron-left"></i> Back To Poll
+      </div>
     </div>
     <p *ngIf="type===pollTypes.CommunityPoll" class="dismiss-poll-button text-center mt-2"
         data-qa-id="cnt-dismissPollResponse"
