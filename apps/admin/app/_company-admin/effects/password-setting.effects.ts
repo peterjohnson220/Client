@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 import { catchError, combineLatest, mergeMap, switchMap } from 'rxjs/operators';
 
 import { CompanySettingsApiService } from 'libs/data/payfactors-api/settings';
+import { CompanyApiService } from 'libs/data/payfactors-api/company';
+
 import * as fromCompanySettingActions from 'libs/state/app-context/actions/company-settings.actions';
 import * as fromRootState from 'libs/state/state';
 
@@ -38,10 +40,27 @@ export class PasswordSettingEffects {
     .pipe(
       switchMap((action: fromPasswordSettingActions.SaveCompanyAdminPasswordSettings) =>
         this.companySettingsApiService.putSettings(action.payload).pipe(
-          mergeMap(() => [new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsSuccess(),
-                                   new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsPromptClose(),
-                                   new fromCompanySettingActions.LoadCompanySettings()]),
+          mergeMap(() => {
+            const actions = [];
+            actions.push(new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsSuccess());
+            actions.push(new fromCompanySettingActions.LoadCompanySettings());
+            if (action.payload.Settings.filter(x => x.Name === 'PasswordExpirationEnabled').length > 0) {
+              actions.push(new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsSuccessPost());
+            }
+            return actions;
+          }),
           catchError(e => of(new fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsError()))
+        )
+      )
+    );
+
+  @Effect({dispatch: false})
+  savePasswordSettingsPost$ = this.actions$
+    .ofType(fromPasswordSettingActions.SAVE_PASSWORD_SETTINGS_SUCCESS_POST)
+    .pipe(
+      switchMap((action: fromPasswordSettingActions.SaveCompanyAdminPasswordSettingsSuccessPost) =>
+        this.companyApiService.setPasswordExpiration().pipe(
+          mergeMap(() => [null])
         )
       )
     );
@@ -49,6 +68,7 @@ export class PasswordSettingEffects {
   constructor(
     private actions$: Actions,
     private store: Store<fromCompanyAdminReducer.State>,
-    private companySettingsApiService: CompanySettingsApiService
+    private companySettingsApiService: CompanySettingsApiService,
+    private companyApiService: CompanyApiService
   ) {}
 }

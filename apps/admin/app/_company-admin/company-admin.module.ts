@@ -13,6 +13,7 @@ import { LayoutModule } from '@progress/kendo-angular-layout';
 import { PfCommonModule } from 'libs/core';
 import { PfFormsModule } from 'libs/forms';
 import { PfCommonUIModule } from 'libs/ui/common';
+import { CompanyApiService } from 'libs/data/payfactors-api/company';
 
 import { DataFieldFilterComponent } from './components';
 import {
@@ -70,7 +71,8 @@ import { CompanyAdminRoutingModule } from './company-admin-routing.module';
     // Services
     UserRoleService,
     UserRoleValidationService,
-    DataAccessService
+    DataAccessService,
+    CompanyApiService
   ]
 })
 export class CompanyAdminModule { }
