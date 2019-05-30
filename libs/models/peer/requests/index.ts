@@ -19,3 +19,5 @@ export * from './save-exchange-job-association-request.model';
 export * from './get-exchange-company-jobs-all-entity-ids-request.model';
 export * from './upsert-tag-category-request.model';
 export * from './add-tag-categories-request.model';
+export * from './tag-information-request.model';
+export * from './save-tag-information-request.model';
