@@ -30,6 +30,27 @@ exports[`UserRoleDataAccessTabComponent should show data access tab on company r
     <ul
       class="list-group nav"
     >
+      <li>
+        <div
+          class="alert alert-info"
+        >
+           Create user roles to permit or restrict users from accessing specific data. Users assigned to a role cannot access any data that does not meet the criteria defined below.
+          <br />
+           Select 
+          <span
+            class="text-danger"
+          >
+            Is equal to
+          </span>
+           to allow users access to only data defined in the field and select 
+          <span
+            class="text-danger"
+          >
+            Is not equal to
+          </span>
+           to allow users access to everything except data defined in the field. If there are no restrictions set, users will have access to all data for that entity. 
+        </div>
+      </li>
       
       <li
         class="nav-item nav-item parentElement"
