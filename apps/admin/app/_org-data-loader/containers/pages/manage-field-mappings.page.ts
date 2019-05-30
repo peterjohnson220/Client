@@ -128,6 +128,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveClass = 'success';
         this.saveMessage = 'Saved.';
         this.mappings = [];
+        this.reloadFieldMappings();
       });
 
     this.saveMappingsError$
@@ -198,6 +199,7 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         this.saveClass = 'success';
         this.saveMessage = 'Saved.';
         this.loaderSettingsToSave = [];
+        this.reloadLoaderSettings();
       });
 
     this.saveLoaderSettingsError$
@@ -283,8 +285,8 @@ export class ManageFieldMappingsPageComponent implements OnInit {
       loaderType: LoaderTypes.OrgData
     }));
 
-    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany));
-    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany));
+    this.reloadLoaderSettings();
+    this.reloadFieldMappings();
   }
 
   SaveMappings() {
@@ -303,6 +305,14 @@ export class ManageFieldMappingsPageComponent implements OnInit {
         companyId: this.selectedCompany,
       }));
     }
+  }
+
+  private reloadLoaderSettings() {
+    this.store.dispatch(new fromLoaderSettingsActions.LoadingLoaderSettings(this.selectedCompany));
+  }
+
+  private reloadFieldMappings() {
+    this.store.dispatch(new fromOrgDataFieldMappingsActions.LoadingFieldMappings(this.selectedCompany));
   }
 
   private addOrReplaceMappings(loaderType: string, mappings: string[]) {
