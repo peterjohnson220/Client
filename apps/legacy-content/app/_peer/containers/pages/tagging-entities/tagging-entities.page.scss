@@ -1,0 +1,40 @@
+.te-outer-container {
+  height: 342px;
+  overflow: auto;
+}
+
+.multiselect-container {
+  margin: 0 15px 20px 0;
+}
+
+.multiselect-label {
+  font-weight: bold;
+  width: 200px;
+}
+
+.link-override {
+  &:hover {
+    text-decoration: none !important;
+    color: black !important;
+  }
+}
+
+.button-font {
+  font-size: 1.15rem;
+}
+
+// Kendo Overrides
+::ng-deep .k-item.k-state-selected {
+  background-color: #0883BE !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .k-list .k-item.k-state-focused {
+  box-shadow: none !important;
+}
+
+::ng-deep .k-nodata {
+  height: 30px !important;
+  max-height: 30px !important;
+  min-height: 30px !important;
+}

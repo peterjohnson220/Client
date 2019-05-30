@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Legacy Content - Tags - Tagging Entities should match snapshot of page 1`] = `
+<pf-tagging-entities
+  addedTags={[Function Array]}
+  addedTags$={[Function Store]}
+  addedTagsSubscription={[Function Subscriber]}
+  entityId={[Function Number]}
+  entityType={[Function String]}
+  filterSettings={[Function Object]}
+  loadingTagInformation$={[Function Store]}
+  loadingTagInformationError$={[Function Store]}
+  priorityCategories={[Function Array]}
+  regularCategories={[Function Array]}
+  removedTags={[Function Array]}
+  removedTags$={[Function Store]}
+  removedTagsSubscription={[Function Subscriber]}
+  route={[Function Object]}
+  saveDisabled={[Function Boolean]}
+  saving$={[Function Store]}
+  showViewMoreLink={[Function Boolean]}
+  store={[Function Store]}
+  tagInformation={[Function Array]}
+  tagInformation$={[Function Store]}
+  tagInformationSubscription={[Function Subscriber]}
+  viewMore="false"
+  viewMoreLinkText={[Function String]}
+>
+  <div
+    class="te-outer-container"
+  >
+    <pf-async-container>
+      
+      
+      <span
+        class="pf-link-underline link-override"
+      >
+        View More
+      </span>
+    </pf-async-container>
+  </div><hr /><div
+    class="flex-grow-1 d-flex flex-row justify-content-end space-out-children mr-3"
+  >
+    <button
+      class="btn btn-primary button-font"
+      disabled=""
+      type="button"
+    >
+      
+      
+      <span>
+        Save
+      </span>
+    </button>
+    <button
+      class="btn btn-secondary button-font"
+      type="button"
+    >
+      Close
+    </button>
+  </div>
+</pf-tagging-entities>
+`;

@@ -33,3 +33,6 @@ export * from './exchange-request-people-to-notify.enum';
 export * from './exchange-search-filter-aggregate.model';
 export * from './tag-category.model';
 export * from './entity-types-flag.enum';
+export * from './tag.model';
+export * from './tag-entity-type.enum';
+export * from './tag-information.model';
