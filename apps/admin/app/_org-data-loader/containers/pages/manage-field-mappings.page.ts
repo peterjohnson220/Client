@@ -78,8 +78,10 @@ export class ManageFieldMappingsPageComponent implements OnInit {
   saveLoaderSettingsError$: Observable<boolean>;
   existingCompanyLoaderSettings: LoaderSetting[];
   loaderSettingsToSave: LoaderSetting[];
-  loaderTypes = LoaderType;
   orgDataFilenamePatternSet$: Observable<OrgDataFilenamePatternSet>;
+  templateReferenceConstants = {
+    LoaderType,
+  };
 
   constructor (private store: Store<fromOrgDataAutoloaderReducer.State>,
                private orgDataAutoloaderApi: LoaderFieldMappingsApiService) {

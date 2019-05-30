@@ -29,7 +29,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsPaymarketDataFields"
-              [loaderType]="loaderTypes.PayMarkets"
+              [loaderType]="templateReferenceConstants.LoaderType.PayMarkets"
               [delimiter]="delimiter"
               [filenamePattern]="orgDataFilenamePatternSet?.PayMarketsFilenamePattern"
               [fieldMappings$]="companyMappings$"
@@ -42,7 +42,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsJobDataFields"
-              [loaderType]="loaderTypes.Jobs"
+              [loaderType]="templateReferenceConstants.LoaderType.Jobs"
               [delimiter]="delimiter"
               [filenamePattern]="orgDataFilenamePatternSet?.JobsFilenamePattern"
               [fieldMappings$]="companyMappings$"
@@ -55,7 +55,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureDataFields"
-              [loaderType]="loaderTypes.Structures"
+              [loaderType]="templateReferenceConstants.LoaderType.Structures"
               [delimiter]="delimiter"
               [filenamePattern]="orgDataFilenamePatternSet?.StructuresFilenamePattern"
               [fieldMappings$]="companyMappings$"
@@ -68,7 +68,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsStructureMappingDataFields"
-              [loaderType]="loaderTypes.StructureMapping"
+              [loaderType]="templateReferenceConstants.LoaderType.StructureMapping"
               [delimiter]="delimiter"
               [filenamePattern]="orgDataFilenamePatternSet?.StructureMappingsFilenamePattern"
               [fieldMappings$]="companyMappings$"
@@ -82,7 +82,7 @@
           <ng-template kendoTabContent>
             <pf-field-mapper
               [payfactorsDataFields]="payfactorsEmployeeDataFields"
-              [loaderType]="loaderTypes.Employees"
+              [loaderType]="templateReferenceConstants.LoaderType.Employees"
               [delimiter]="delimiter"
               [filenamePattern]="orgDataFilenamePatternSet?.EmployeesFilenamePattern"
               [dateFormat]="dateFormat"

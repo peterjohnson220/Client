@@ -22,7 +22,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -42,6 +41,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when no d
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -197,7 +197,6 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -217,6 +216,7 @@ exports[`ManageFieldMapperPageComponent should disable the save button when not 
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -372,7 +372,6 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -392,6 +391,7 @@ exports[`ManageFieldMapperPageComponent should enable the save button when all m
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -546,7 +546,6 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -566,6 +565,7 @@ exports[`ManageFieldMapperPageComponent should hide the field mapper when a comp
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -636,7 +636,6 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -657,6 +656,7 @@ exports[`ManageFieldMapperPageComponent should not show a message when the mappi
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -811,7 +811,6 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -832,6 +831,7 @@ exports[`ManageFieldMapperPageComponent should show a message on save 1`] = `
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"
@@ -985,7 +985,6 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   jobMappingComplete={[Function Boolean]}
   loaderSettings$={[Function Store]}
   loaderSettingsToSave={[Function Array]}
-  loaderTypes={[Function Object]}
   mappings={[Function Array]}
   noopStringTransform={[Function Function]}
   orgDataAutoloaderApi="undefined"
@@ -1005,6 +1004,7 @@ exports[`ManageFieldMapperPageComponent should show the field mapper when a comp
   stringSettingToBooleanTransform={[Function Function]}
   structureMappingComplete={[Function Boolean]}
   structureMappingMappingComplete={[Function Boolean]}
+  templateReferenceConstants={[Function Object]}
 >
   <pf-page-with-title-bar
     ng-reflect-absolute-url="/ng/site-admin/navigation"

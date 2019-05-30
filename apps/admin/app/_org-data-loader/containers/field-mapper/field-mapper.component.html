@@ -4,10 +4,13 @@
 
 <ng-template #content>
   <div class="container-fluid">
-    <div class="row mt-3 mb-4">
-      <div *ngIf="loaderType === 'Employees'" class="col-md-4">
-        <label for="dateFormat">Date Format: </label>
-        <kendo-combobox class="form-control dateFormat" id="dateFormat" [(ngModel)]="dateFormat"
+    <div
+      class="row mt-3"
+      *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees || loaderType === templateReferenceConstants.LoaderType.StructureMapping"
+    >
+      <div *ngIf="loaderType === templateReferenceConstants.LoaderType.Employees" class="col-md-4 d-flex">
+        <label class="text-nowrap mr-4" for="dateFormat">Date Format: </label>
+        <kendo-combobox class="form-control flex-fill" id="dateFormat" [(ngModel)]="dateFormat"
                         [data]="dateFormatsFilteredData"
                         textField="text"
                         valueField="value"
@@ -19,7 +22,7 @@
         </kendo-combobox>
         <span class="text-danger ml-2">*</span>
       </div>
-      <div *ngIf="loaderType === 'Employees' || loaderType === 'StructureMapping'" class="col-md-4">
+      <div class="col-md-4">
         <div class="d-inline-block mr-2">
           <input
             type="radio"
@@ -44,7 +47,8 @@
         </div>
       </div>
     </div>
-    <div class="row">
+
+    <div class="row mt-3">
       <div class="col">
         <kendo-upload
           [saveUrl]="uploadSaveUrl"
@@ -61,50 +65,53 @@
         </kendo-upload>
       </div>
     </div>
-  </div>
 
-  <p *ngIf="filenamePattern">
-    Client filename for this entity must 
-    <span *ngIf="filenamePattern.IsStartWithRestricted; else elseBlock">begin with </span>
-    <ng-template #elseBlock>contain </ng-template>
-    <span class="font-weight-bold text-underline">{{filenamePattern.Name}}</span>
-  </p>
+    <div class="row mt-3" *ngIf="filenamePattern">
+      <div class="col">
+        Client filename for this entity must 
+        <span *ngIf="filenamePattern.IsStartWithRestricted; else elseBlock">begin with </span>
+        <ng-template #elseBlock>contain </ng-template>
+        <span class="font-weight-bold text-monospace d-inline-block px-2 bg-light rounded text-pre">{{filenamePattern.Name}}</span>
+      </div>
+    </div>
 
-  <div class="field-mappings-container">
-    <table>
-      <tr class="header">
-        <td>Payfactors fields</td>
-        <td>Client fields</td>
-        <td></td>
-        <td>Mapping</td>
-      </tr>
-      <tr>
-        <td>
-          <select name="payfactors_fields" size="20" class="list-box" [(ngModel)]="selectedPfField">
-            <option *ngFor="let field of payfactorsDataFields" value="{{field}}">{{field}}</option>
-          </select>
-        </td>
-        <td>
-          <select name="client_fields" size="20" class="list-box" [(ngModel)]="selectedClientField">
-            <option *ngFor="let field of clientFields" value="{{field}}">{{field}}</option>
-          </select>
-        </td>
-        <td>
-          <div class="mapping-btn-container" role="group">
-            <button type="button" class="btn btn-primary" (click)="ApplyMapping()"
-                    [disabled]="!selectedPfField || !selectedClientField">Map >
-            </button>
-            <button type="button" class="btn btn-primary" (click)="RemoveMapping()" [disabled]="!selectedMapping"><
-              Remove Mapping
-            </button>
-          </div>
-        </td>
-        <td>
-          <select name="mapped_fields" size="20" class="list-box mapped-fields" [(ngModel)]="selectedMapping">
-            <option *ngFor="let field of mappedFields" value="{{field}}">{{formatMappingForDisplay(field)}}</option>
-          </select>
-        </td>
-      </tr>
-    </table>
+    <div class="row mt-3 h5 font-weight-bold text-center">
+      <div class="col px-0">Payfactors fields</div>
+      <div class="col px-0">Client fields</div>
+      <div class="col px-0"></div>
+      <div class="col px-0">Mapping</div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col px-0">
+        <select name="payfactors_fields" size="20" class="list-box d-block mx-auto w-50 px-2" [(ngModel)]="selectedPfField">
+          <option *ngFor="let field of payfactorsDataFields" value="{{field}}">{{field}}</option>
+        </select>
+      </div>
+      <div class="col px-0">
+        <select name="client_fields" size="20" class="list-box d-block mx-auto w-50 px-2" [(ngModel)]="selectedClientField">
+          <option *ngFor="let field of clientFields" value="{{field}}">{{field}}</option>
+        </select>
+      </div>
+      <div class="col px-0 align-self-center" role="group">
+        <button
+          type="button"
+          class="btn btn-primary d-block my-3 mx-auto"
+          (click)="ApplyMapping()"
+          [disabled]="!selectedPfField || !selectedClientField"
+        >Map &gt;</button>
+        <button
+          type="button"
+          class="btn btn-primary d-block my-3 mx-auto"
+          (click)="RemoveMapping()"
+          [disabled]="!selectedMapping"
+        >&lt; Remove Mapping</button>
+      </div>
+      <div class="col px-0">
+        <select name="mapped_fields" size="20" class="list-box d-block mx-auto w-75 px-2 mapped-fields" [(ngModel)]="selectedMapping">
+          <option *ngFor="let field of mappedFields" value="{{field}}">{{formatMappingForDisplay(field)}}</option>
+        </select>
+      </div>
+    </div>
   </div>
 </ng-template>
