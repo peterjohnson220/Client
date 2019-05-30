@@ -10,7 +10,6 @@ import * as fromRegistrationFormActions from '../../../actions/registration-form
 
 import { PfValidators, PfEmailValidators } from 'libs/forms/validators';
 import { RegistrationFormValidationService } from '../../../services/registration-form-validation.service';
-declare var initializeGoogleTagManager: any;
 
 @Component({
   selector: 'pf-registration-form-page',
@@ -54,10 +53,6 @@ export class RegistrationFormPageComponent implements OnInit, OnDestroy {
         this.registrationForm.enable();
       }
     });
-
-    if (typeof initializeGoogleTagManager !== 'undefined') {
-      initializeGoogleTagManager();
-    }
   }
 
   ngOnDestroy() {
