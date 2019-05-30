@@ -17,8 +17,9 @@ import {
   DateFormatItem,
   LoaderFieldSet,
   LoaderEntityStatus,
-  FilenamePattern }
-from '../../models';
+  FilenamePattern
+} from '../../models';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'pf-field-mapper',
@@ -177,13 +178,13 @@ export class FieldMapperComponent implements OnInit {
 
   private fireCompleteEvent() {
     let payload: LoaderEntityStatus = {
-      complete: false,
+      complete: this.clientFields.length === 0,
       loaderType: this.loaderType,
+      loadEnabled: true,
+      mappings: this.clientFields.length === 0 ? this.mappedFields : null,
     };
 
-    if (this.clientFields.length === 0) {
-      payload = this.configureCompleteEventPayloadForLoaderType(payload);
-    }
+    payload = this.configureCompleteEventPayloadForLoaderType(payload);
 
     this.mappingComplete.emit(payload);
   }
@@ -195,33 +196,19 @@ export class FieldMapperComponent implements OnInit {
 
     switch (this.loaderType) {
       case LoaderType.Employees:
-        if (this.dateFormat && this.dateFormat !== '') {
-          payload = {
-            ...payload,
-            complete: true,
-            dateFormat: this.dateFormat,
-            isFullReplace: this.isFullReplace,
-            loadEnabled: true,
-            mappings: this.mappedFields,
-          };
-        }
+        payload = {
+          ...payload,
+          complete: !(isNullOrUndefined(this.dateFormat) || this.dateFormat === '') && payload.complete,
+          dateFormat: this.dateFormat,
+          isFullReplace: this.isFullReplace,
+        };
         break;
       case LoaderType.StructureMapping:
         payload = {
           ...payload,
-          complete: true,
           isFullReplace: this.isFullReplace,
-          loadEnabled: true,
-          mappings: this.mappedFields,
         };
         break;
-      default:
-        payload = {
-          ...payload,
-          complete: true,
-          loadEnabled: true,
-          mappings: this.mappedFields,
-        };
     }
 
     return payload;
