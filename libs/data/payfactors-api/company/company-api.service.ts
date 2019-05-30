@@ -34,4 +34,7 @@ export class CompanyApiService {
     return this.payfactorsApiService.get(`${this.endpoint}/Default.GetCompanyList`);
   }
 
+  setPasswordExpiration() {
+    return this.payfactorsApiService.get(`${this.endpoint}/SetPasswordExpiration`);
+  }
 }

@@ -12,6 +12,8 @@ export const SAVE_PASSWORD_SETTINGS = '[Company Admin - Password Management] Sav
 export const SAVE_PASSWORD_SETTINGS_PROMPT_OPEN = '[Company Admin - Password Management] Save Company Admin Password Settings Prompt Open';
 export const SAVE_PASSWORD_SETTINGS_PROMPT_CLOSE =
   '[Company Admin - Password Management] Save Company Admin Password Settings Prompt Close';
+export const SAVE_PASSWORD_SETTINGS_SUCCESS_POST =
+  '[Company Admin - Password Management] Save Company Admin Password Settings Success Post';
 
 export class LoadCompanyAdminPasswordSettings implements Action {
   readonly type = LOAD_PASSWORD_SETTINGS;
@@ -49,12 +51,17 @@ export class SaveCompanyAdminPasswordSettingsError implements Action {
   readonly type = SAVE_PASSWORD_SETTINGS_ERROR;
 }
 
+export class SaveCompanyAdminPasswordSettingsSuccessPost implements Action {
+  readonly type = SAVE_PASSWORD_SETTINGS_SUCCESS_POST;
+}
+
 export type PasswordSettingActions
   = LoadCompanyAdminPasswordSettings
   | LoadCompanyAdminPasswordSettingsSuccess
   | LoadCompanyAdminPasswordSettingsError
   | SaveCompanyAdminPasswordSettings
   | SaveCompanyAdminPasswordSettingsSuccess
+  | SaveCompanyAdminPasswordSettingsSuccessPost
   | SaveCompanyAdminPasswordSettingsError
   | SaveCompanyAdminPasswordSettingsPromptOpen
   | SaveCompanyAdminPasswordSettingsPromptClose;
