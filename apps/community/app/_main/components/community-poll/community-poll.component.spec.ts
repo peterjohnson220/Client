@@ -51,6 +51,8 @@ describe('CommunityPollComponent', () => {
     });
 
     it('should show poll', () => {
+      instance.request.ExpirationDate = new Date('1995-12-17T03:24:00');
+
       fixture.detectChanges();
       expect(fixture).toMatchSnapshot();
     });
