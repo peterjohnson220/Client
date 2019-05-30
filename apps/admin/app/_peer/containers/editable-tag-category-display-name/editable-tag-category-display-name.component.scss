@@ -1,0 +1,5 @@
+@import 'colors';
+
+.editable {
+  text-decoration: underline dashed $pf-brand-secondary-accent-color;
+}

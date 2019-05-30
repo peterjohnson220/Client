@@ -11,27 +11,56 @@
       <button type="button" class="btn btn-md btn-primary" (click)="openAddTagCategoriesModal()">Add Filter</button>
     </ng-container>
   </pf-manage-exchange-section-header>
-  <div class="header"><label><strong>Filter Name</strong></label></div>
-    <div class="d-flex h-100">
-      <pf-async-container
-        [loading]="exchangeFiltersLoading$ | async"
-        [loadingError]="exchangeFiltersLoadingError$ | async"
-        [loadingErrorMessage]="'Error loading exchange filters'"
-        (reload)="handleExchangeFiltersGridReload()"
-        class="flex-grow-1 h-100">
-        <div cdkDropList class="filter-list h-100" (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="searching">
-          <div class="filter-box" [class.cursor-no-move]="searching" *ngFor="let efs of exchangeFilters" cdkDrag>
-            {{efs.DisplayName}}
-            <kendo-switch [checked]="!efs.IsDisabled"
-                          [onLabel]="'On'"
-                          [offLabel]="'Off'"
-                          (valueChange)="handleSwitchToggled(efs)"
-                          class="switch">
-            </kendo-switch>
-          </div>
-        </div>
-      </pf-async-container>
-    </div>
+
+  <pf-async-container
+    [loading]="exchangeFiltersLoading$ | async"
+    [loadingError]="exchangeFiltersLoadingError$ | async"
+    [loadingErrorMessage]="'Error loading exchange filters'"
+    (reload)="handleExchangeFiltersGridReload()"
+    class="flex-grow-1 h-100">
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th width="35%" scope="col">Display Name</th>
+        <th width="15%" scope="col">Field Name</th>
+        <th width="40%" scope="col">&nbsp;</th>
+        <th width="10%">&nbsp;</th>
+      </tr>
+      </thead>
+      <tbody  cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="searching">
+        <tr [class.cursor-no-move]="searching" *ngFor="let efs of exchangeFilters" cdkDrag>
+          <th width="35%" scope="row">
+            <pf-editable-tag-category-display-name
+              [value]="efs.DisplayName"
+              [saving$]="exchangeFilterPutting$"
+              [errorSaving$]="exchangeFilterPuttingError$"
+              (onSave)="handleSaveFilterDisplayName($event, efs.Id)"
+            ></pf-editable-tag-category-display-name>
+          </th>
+          <td width="15%">{{efs.FieldName}}</td>
+          <td width="40%">
+            <div class="d-flex justify-content-end">
+              <kendo-switch [checked]="!efs.IsDisabled"
+                            [onLabel]="'On'"
+                            [offLabel]="'Off'"
+                            (valueChange)="handleSwitchToggled(efs)"
+                            class="switch">
+              </kendo-switch>
+            </div>
+
+
+          </td>
+          <td width="10%" class="text-right">
+            <span cdkDragHandle>
+              <i class="fas fa-grip-vertical fa-lg"></i>
+            </span>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </pf-async-container>
 </div>
 
 <pf-add-tag-categories-modal></pf-add-tag-categories-modal>

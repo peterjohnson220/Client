@@ -14,17 +14,21 @@
   overflow: auto;
 }
 
-.filter-box {
-  padding: 9px 9px;
-  border-bottom: solid 1px $border-grey;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+tr:not(.cursor-no-move) .cdk-drag-handle {
   cursor: move;
-  background: white;
-  font-size: 1rem;
+}
+
+.filter-box {
+  //padding: 9px 9px;
+  //border-bottom: solid 1px $border-grey;
+  //display: flex;
+  //flex-direction: row;
+  //align-items: center;
+  //justify-content: space-between;
+  //box-sizing: border-box;
+  cursor: move;
+  //background: white;
+  //font-size: 1rem;
 }
 
 .cursor-no-move {
@@ -36,6 +40,11 @@
 }
 
 .cdk-drag-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
@@ -49,6 +58,13 @@
 
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.cdk-drag-handle {
+  color: $grey;
+
+  &:hover {
+    color: darken($grey, 20%)
+  }
 }
 
 .filter-box:last-child {

@@ -5,6 +5,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import * as cloneDeep from 'lodash.clonedeep';
 
 import { Exchange, ExchangeSearchFilterAggregate } from 'libs/models/peer';
 
@@ -23,6 +24,8 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   exchange$: Observable<Exchange>;
   exchangeFiltersLoading$: Observable<boolean>;
   exchangeFiltersLoadingError$: Observable<boolean>;
+  exchangeFilterPutting$: Observable<boolean>;
+  exchangeFilterPuttingError$: Observable<boolean>;
   exchangeFilters$: Observable<ExchangeSearchFilterAggregate[]>;
 
   exchangeId: number;
@@ -40,6 +43,8 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
     this.exchangeFiltersLoading$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersLoading));
     this.exchangeFiltersLoadingError$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFiltersLoadingError));
     this.exchangeFilters$ = this.store.pipe(select(fromPeerAdminReducer.getExchangeFilters));
+    this.exchangeFilterPutting$ = this.store.pipe(select(fromPeerAdminReducer.getPuttingExchangeFilter));
+    this.exchangeFilterPuttingError$ = this.store.pipe(select(fromPeerAdminReducer.getPuttingExchangeFilterError));
 
     this.exchangeId = this.route.snapshot.parent.params.id;
   }
@@ -57,7 +62,9 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
   }
 
   handleSwitchToggled(exchangeFilter: ExchangeSearchFilterAggregate) {
-    this.store.dispatch(new fromExchangeFiltersActions.PutFilter(exchangeFilter));
+    const updatedExchangeFilter = {...exchangeFilter};
+    updatedExchangeFilter.IsDisabled = !updatedExchangeFilter.IsDisabled;
+    this.store.dispatch(new fromExchangeFiltersActions.PutFilter(updatedExchangeFilter));
   }
 
   handleSearchChanged(query: string): void {
@@ -74,8 +81,16 @@ export class ManageExchangeFiltersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromTagCategoriesActions.OpenAddTagCategoriesModal());
   }
 
+  handleSaveFilterDisplayName(newDisplayName: string, id: number): void {
+    const currentExchangeFilterObj = {...this.exchangeFilters.find(ef => ef.Id === id)};
+    if (currentExchangeFilterObj) {
+      currentExchangeFilterObj.DisplayName = newDisplayName;
+      this.store.dispatch(new fromExchangeFiltersActions.PutFilter(currentExchangeFilterObj));
+    }
+  }
+
   ngOnInit(): void {
-    this.filtersSubscription = this.exchangeFilters$.subscribe(ef => this.exchangeFilters = ef);
+    this.filtersSubscription = this.exchangeFilters$.subscribe(ef => this.exchangeFilters = cloneDeep(ef));
   }
 
   ngOnDestroy(): void {

@@ -40,6 +40,7 @@ import { PeerAdminRoutingModule } from './peer-admin-routing.module';
 import { AddCompaniesModalComponent } from './containers/add-companies-modal';
 import { AddJobsModalComponent } from './containers/add-jobs-modal';
 import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
+import {EditableTagCategoryDisplayNameComponent} from './containers/editable-tag-category-display-name';
 
 @NgModule({
   imports: [
@@ -108,6 +109,7 @@ import { DeleteCompanyModalComponent } from './containers/delete-company-modal';
     ToggleExchangeStatusConfirmationModalComponent,
     TagCategoriesListComponent,
     AddTagCategoriesModalComponent,
+    EditableTagCategoryDisplayNameComponent,
 
     // Pages
     ExchangeListPageComponent,

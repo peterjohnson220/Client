@@ -84,7 +84,9 @@ describe('Manage Exchange Filters', () => {
 
   it('should dispatch a PutFilter action when handleSwitchToggled is called', () => {
     const filter = generateMockExchangeSearchFilterAggregate();
-    const action = new fromExchangeFiltersActions.PutFilter(filter);
+    const action = new fromExchangeFiltersActions.PutFilter(
+      {...filter, IsDisabled: false}
+    );
 
     instance.handleSwitchToggled(filter);
 
