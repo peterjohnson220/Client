@@ -8,6 +8,7 @@ import * as fromCommunityPostReplyActions from '../../actions/community-post-rep
 
 import * as fromCommunityPostAddReplyViewReducer from '../../reducers';
 import * as fromCommunityPostAddReplyViewActions from '../../actions/community-post-add-reply-view.actions';
+import { CommunityPollTypeEnum } from 'libs/models/community/community-constants.model';
 
 @Component({
   selector: 'pf-community-post',
@@ -23,6 +24,8 @@ export class CommunityPostComponent implements OnInit {
 
   showAddReply: boolean;
   showReplies: boolean;
+
+  pollsType = CommunityPollTypeEnum.DiscussionPoll;
 
   constructor( public replyStore: Store<fromCommunityPostReplyReducer.State>,
     public addReplyViewStore: Store<fromCommunityPostAddReplyViewReducer.State>) {

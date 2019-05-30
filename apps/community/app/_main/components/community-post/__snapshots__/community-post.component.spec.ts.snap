@@ -4,6 +4,7 @@ exports[`CommunityPostComponent should show post 1`] = `
 <pf-community-post
   addReplyViewStore={[Function Store]}
   filtersModifiedEvent={[Function EventEmitter]}
+  pollsType={[Function Number]}
   post={[Function Object]}
   replyStore={[Function Store]}
 >
