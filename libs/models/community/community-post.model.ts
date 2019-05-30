@@ -58,7 +58,7 @@ export function generateMockCommunityPost(likeCount: number = 0, replyCount: num
     IsCurrentUserPost: false,
     UserPollRequest : { CommunityPollId: '123', Question: 'Question',
       DatePosted: new Date(), ResponseOptions: [], CreatedByUser: 1234, IsExpired: false, ExpirationDate: new Date() },
-    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [] },
+    UserPollResponse: {CommunityPollId: '123', ResponsePercents: [], ResponseVotes: [], UserHasVoted: false},
     FilterTag: '#TestTag',
     UserLikes: [],
     IsDeleted: false

@@ -50,7 +50,7 @@ export class CommunityPollsComponent implements OnInit, OnDestroy {
     this.communityPollResponsesSuccessSubscription = this.communityPollResponses$.subscribe(responses => {
       if (responses) {
           this.userSubmittedResponses = responses.map(o => {
-          return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, IsDismissed: false };
+          return { CommunityPollId: o.CommunityPollId, ResponsePercents: o.ResponsePercents, ResponseVotes: o.ResponseVotes, UserHasVoted: o.UserHasVoted,  IsDismissed: false };
         });
       }
     });
