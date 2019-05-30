@@ -1,5 +1,384 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`FieldMapperComponent Filename Pattern should display the filename pattern 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    <div
+      class="row mt-3 mb-4"
+    >
+      
+      
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+  </div><p>
+     Client filename for this entity must 
+    
+    <span>
+      begin with 
+    </span>
+    
+    <span
+      class="font-weight-bold text-underline"
+    >
+      this-is-my-filename-pattern
+    </span>
+  </p><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping 
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent Filename Pattern should read "begin with" if the pattern is start restricted 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    <div
+      class="row mt-3 mb-4"
+    >
+      
+      
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+  </div><p>
+     Client filename for this entity must 
+    
+    <span>
+      begin with 
+    </span>
+    
+    <span
+      class="font-weight-bold text-underline"
+    >
+      paymarkets_pf
+    </span>
+  </p><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping 
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
+exports[`FieldMapperComponent Filename Pattern should read "contain" if the pattern is not start restricted 1`] = `
+<pf-field-mapper
+  clientFields={[Function Array]}
+  dateFormats={[Function Array]}
+  dateFormatsFilteredData={[Function Array]}
+  fieldMappings$={[Function Observable]}
+  fileRestrictions={[Function Object]}
+  filenamePattern={[Function Object]}
+  loaderType={[Function String]}
+  mappedFields={[Function Array]}
+  mappingComplete={[Function EventEmitter]}
+  payfactorsDataFieldsForReset="undefined"
+  removeEventHandler={[Function Function]}
+  removeUrl={[Function String]}
+  successEventHandler={[Function Function]}
+  uploadEventHandler={[Function Function]}
+  uploadSaveUrl={[Function String]}
+>
+  <div
+    class="container-fluid"
+  >
+    <div
+      class="row mt-3 mb-4"
+    >
+      
+      
+    </div>
+    <div
+      class="row"
+    >
+      <div
+        class="col"
+      >
+        <kendo-upload>
+          <kendo-upload-messages
+            select="Select file..."
+          />
+        </kendo-upload>
+      </div>
+    </div>
+  </div><p>
+     Client filename for this entity must 
+    
+    contain 
+    
+    <span
+      class="font-weight-bold text-underline"
+    >
+      employees_123
+    </span>
+  </p><div
+    class="field-mappings-container"
+  >
+    <table>
+      <tbody>
+        <tr
+          class="header"
+        >
+          <td>
+            Payfactors fields
+          </td>
+          <td>
+            Client fields
+          </td>
+          <td />
+          <td>
+            Mapping
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              class="list-box"
+              name="payfactors_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <select
+              class="list-box"
+              name="client_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+          <td>
+            <div
+              class="mapping-btn-container"
+              role="group"
+            >
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                Map &gt; 
+              </button>
+              <button
+                class="btn btn-primary"
+                disabled=""
+                type="button"
+              >
+                &lt; Remove Mapping 
+              </button>
+            </div>
+          </td>
+          <td>
+            <select
+              class="list-box mapped-fields"
+              name="mapped_fields"
+              size="20"
+            >
+              
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</pf-field-mapper>
+`;
+
 exports[`FieldMapperComponent should disable the Map button when a payfactors field OR client field have not been selected 1`] = `
 <pf-field-mapper
   clientFields={[Function Array]}
@@ -41,14 +420,7 @@ exports[`FieldMapperComponent should disable the Map button when a payfactors fi
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      structures
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -163,14 +535,7 @@ exports[`FieldMapperComponent should disable the Remove Mapping button when a ma
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      structures
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -286,14 +651,7 @@ exports[`FieldMapperComponent should enable the Map button when a payfactors fie
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      structures
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -407,14 +765,7 @@ exports[`FieldMapperComponent should enable the Remove Mapping button when a map
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      structures
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -583,14 +934,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      employees
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -740,14 +1084,7 @@ exports[`FieldMapperComponent should show a add/full replace toggle when the loa
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      structuremapping
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
@@ -917,14 +1254,7 @@ exports[`FieldMapperComponent should show a date format selector when the loader
         </kendo-upload>
       </div>
     </div>
-  </div><p>
-    Client file name for this entity must begin with 
-    <span
-      class="font-weight-bold text-underline"
-    >
-      employees
-    </span>
-  </p><div
+  </div><div
     class="field-mappings-container"
   >
     <table>
