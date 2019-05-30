@@ -50,6 +50,12 @@ button.clear-selections:disabled {
   color: black;
 }
 
+input[type=text] {  
+  &::-ms-clear {
+    display: none;
+  }
+}
+
 .checkbox-container {
   height: 200px;
   overflow: auto;
