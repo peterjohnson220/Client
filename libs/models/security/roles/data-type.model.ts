@@ -12,6 +12,7 @@ export function getMockDataTypes(): DataType[] {
       Id: 1,
       Name: 'Test Field',
       DataType: undefined,
+      DataTypeId: 1,
       FieldType: 'text',
       DisplayName: 'Test Field'
     }]
